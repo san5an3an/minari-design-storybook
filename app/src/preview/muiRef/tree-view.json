@@ -1,0 +1,183 @@
+{
+ "slug": "tree-view",
+ "title": "Tree View",
+ "group": "MUI X",
+ "folder": "tree-view/overview",
+ "description": "The Tree View components let users navigate hierarchical lists of data with nested levels that can be expanded and collapsed.",
+ "components": [],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# MUI X Tree View"
+    }
+   ]
+  },
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Tree View - Quickstart"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Installation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Install the Tree View package that best suits your needs—Community or Pro:"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Peer dependencies",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "#### Material UI\n\nThe Tree View packages have a peer dependency on `@mui/material`.\nIf you're not already using it, install it now:\n\n<codeblock storageKey=\"package-manager\">\n\n```bash npm\nnpm install @mui/material @emotion/react @emotion/styled"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "\n```bash pnpm\npnpm add @mui/material @emotion/react @emotion/styled\n"
+    },
+    {
+     "kind": "prose",
+     "text": "```bash yarn\nyarn add @mui/material @emotion/react @emotion/styled"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "\n</codeblock>\n\n#### React\n\n<!-- #react-peer-version -->\n\n[`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) are also peer dependencies:\n\n```json\n\"peerDependencies\": {\n  \"react\": \"^17.0.0 || ^18.0.0 || ^19.0.0\",\n  \"react-dom\": \"^17.0.0 || ^18.0.0 || ^19.0.0\"\n},\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Rendering a Tree View",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The package exposes two different versions of this component: `SimpleTreeView` and `RichTreeView`.\nThe [Simple version](#simple-tree-view) is recommended for hardcoded items, while the [Rich version](#rich-tree-view) is preferred for dynamically rendered items, larger trees, and more complex use cases that require features like editing and virtualization.\n\n:::info\nCurrently, `SimpleTreeView` and `RichTreeView` share many of the same features.\nAs this package continues to mature, more advanced features and functionality will be prioritized for `RichTreeView`.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Simple Tree View",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "`SimpleTreeView` receives its items as JSX children.\nThis is the recommended version for hardcoded items."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicSimpleTreeView",
+     "file": "BasicSimpleTreeView.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';\nimport { TreeItem } from '@mui/x-tree-view/TreeItem';\n\nexport default function BasicSimpleTreeView() {\n  return (\n    <Box sx={{ minHeight: 352, minWidth: 250 }}>\n      <SimpleTreeView>\n        <TreeItem itemId=\"grid\" label=\"Data Grid\">\n          <TreeItem itemId=\"grid-community\" label=\"@mui/x-data-grid\" />\n          <TreeItem itemId=\"grid-pro\" label=\"@mui/x-data-grid-pro\" />\n          <TreeItem itemId=\"grid-premium\" label=\"@mui/x-data-grid-premium\" />\n        </TreeItem>\n        <TreeItem itemId=\"pickers\" label=\"Date and Time Pickers\">\n          <TreeItem itemId=\"pickers-community\" label=\"@mui/x-date-pickers\" />\n          <TreeItem itemId=\"pickers-pro\" label=\"@mui/x-date-pickers-pro\" />\n        </TreeItem>\n        <TreeItem itemId=\"charts\" label=\"Charts\">\n          <TreeItem itemId=\"charts-community\" label=\"@mui/x-charts\" />\n          <TreeItem itemId=\"charts-pro\" label=\"@mui/x-charts-pro\" />\n        </TreeItem>\n        <TreeItem itemId=\"tree-view\" label=\"Tree View\">\n          <TreeItem itemId=\"tree-view-community\" label=\"@mui/x-tree-view\" />\n          <TreeItem itemId=\"tree-view-pro\" label=\"@mui/x-tree-view-pro\" />\n        </TreeItem>\n      </SimpleTreeView>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Rich Tree View",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { RichTreeView } from '@mui/x-tree-view/RichTreeView';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "`RichTreeView` receives its items dynamically from an external data source.\nThis is the recommended version for larger trees, as well as those that require more advanced features like editing."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicRichTreeView",
+     "file": "BasicRichTreeView.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport { TreeViewDefaultItemModelProperties } from '@mui/x-tree-view/models';\nimport { RichTreeView } from '@mui/x-tree-view/RichTreeView';\n\nconst MUI_X_PRODUCTS: TreeViewDefaultItemModelProperties[] = [\n  {\n    id: 'grid',\n    label: 'Data Grid',\n    children: [\n      { id: 'grid-community', label: '@mui/x-data-grid' },\n      { id: 'grid-pro', label: '@mui/x-data-grid-pro' },\n      { id: 'grid-premium', label: '@mui/x-data-grid-premium' },\n    ],\n  },\n  {\n    id: 'pickers',\n    label: 'Date and Time Pickers',\n    children: [\n      { id: 'pickers-community', label: '@mui/x-date-pickers' },\n      { id: 'pickers-pro', label: '@mui/x-date-pickers-pro' },\n    ],\n  },\n  {\n    id: 'charts',\n    label: 'Charts',\n    children: [\n      { id: 'charts-community', label: '@mui/x-charts' },\n      { id: 'charts-pro', label: '@mui/x-charts-pro' },\n    ],\n  },\n  {\n    id: 'tree-view',\n    label: 'Tree View',\n    children: [\n      { id: 'tree-view-community', label: '@mui/x-tree-view' },\n      { id: 'tree-view-pro', label: '@mui/x-tree-view-pro' },\n    ],\n  },\n];\n\nexport default function BasicRichTreeView() {\n  return (\n    <Box sx={{ minHeight: 352, minWidth: 250 }}>\n      <RichTreeView items={MUI_X_PRODUCTS} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Rich Tree View Pro [<span class=\"plan-pro\"></span>](/x/introduction/licensing/#pro-plan 'Pro plan')",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { RichTreeViewPro } from '@mui/x-tree-view-pro/RichTreeViewPro';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "`RichTreeViewPro` receives its items dynamically from an external data source.\nThis is the commercial version of the `RichTreeView` component that adds advanced features like virtualization or lazy-loading."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicRichTreeViewPro",
+     "file": "BasicRichTreeViewPro.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport { TreeViewDefaultItemModelProperties } from '@mui/x-tree-view/models';\nimport { RichTreeViewPro } from '@mui/x-tree-view-pro/RichTreeViewPro';\n\nconst MUI_X_PRODUCTS: TreeViewDefaultItemModelProperties[] = [\n  {\n    id: 'grid',\n    label: 'Data Grid',\n    children: [\n      { id: 'grid-community', label: '@mui/x-data-grid' },\n      { id: 'grid-pro', label: '@mui/x-data-grid-pro' },\n      { id: 'grid-premium', label: '@mui/x-data-grid-premium' },\n    ],\n  },\n  {\n    id: 'pickers',\n    label: 'Date and Time Pickers',\n    children: [\n      { id: 'pickers-community', label: '@mui/x-date-pickers' },\n      { id: 'pickers-pro', label: '@mui/x-date-pickers-pro' },\n    ],\n  },\n  {\n    id: 'charts',\n    label: 'Charts',\n    children: [\n      { id: 'charts-community', label: '@mui/x-charts' },\n      { id: 'charts-pro', label: '@mui/x-charts-pro' },\n    ],\n  },\n  {\n    id: 'tree-view',\n    label: 'Tree View',\n    children: [\n      { id: 'tree-view-community', label: '@mui/x-tree-view' },\n      { id: 'tree-view-pro', label: '@mui/x-tree-view-pro' },\n    ],\n  },\n];\n\nexport default function BasicRichTreeViewPro() {\n  return (\n    <Box sx={{ minHeight: 352, minWidth: 250 }}>\n      <RichTreeViewPro items={MUI_X_PRODUCTS} />\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nYou must set [intrinsic dimensions](/x/react-tree-view/rich-tree-view/virtualization/#layout) on the `RichTreeViewPro`'s parent container.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Tree View components follow the [WAI-ARIA authoring practices for a tree view](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/).\nThe components include many built-in [accessibility features](/x/react-tree-view/accessibility/), but it's the developer's responsibility to provide the components with a descriptive `aria-labelledby` or `aria-label` tag—otherwise, screen readers will announce them only as \"tree,\" making it difficult for the end user to understand the purpose of the tree items."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "TypeScript",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Theme augmentation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To benefit from [CSS overrides](/material-ui/customization/theme-components/#theme-style-overrides) and [default prop customization](/material-ui/customization/theme-components/#theme-default-props) with the theme, TypeScript users must import the following types.\nThese types use module augmentation to extend the default theme structure."
+    },
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "// Pro users: add `-pro` suffix to package name\nimport type {} from '@mui/x-tree-view/themeAugmentation';\n\nconst theme = createTheme({\n  components: {\n    MuiRichTreeView: {\n      styleOverrides: {\n        root: {\n          backgroundColor: 'red',\n        },\n      },\n    },\n  },\n});\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Using this documentation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Although `SimpleTreeView` and `RichTreeView` share many of the same features, each version's implementation of those features differs enough that they warrant their own separate docs in most cases.\nOther features, such as accessibility, work the same in both versions and are documented in the main features section of the navigation bar."
+    }
+   ]
+  }
+ ],
+ "api": [],
+ "docHref": "https://mui.com/x/react-tree-view/"
+}

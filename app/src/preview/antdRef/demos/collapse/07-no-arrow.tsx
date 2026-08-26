@@ -1,0 +1,29 @@
+import React from 'react';
+import type { CollapseProps } from 'antd';
+import { Collapse } from 'antd';
+
+const text = `개는 사람과 함께 살아온 동물이에요. 충직하고 한결같아서 세계 곳곳의 집에서 반가운 식구로 지내요.`;
+
+const items: CollapseProps['items'] = [
+  {
+    key: '1',
+    label: '화살표 아이콘이 있는 판 머리예요',
+    children: <p>{text}</p>,
+  },
+  {
+    key: '2',
+    label: '화살표 아이콘이 없는 판 머리예요',
+    children: <p>{text}</p>,
+    showArrow: false,
+  },
+];
+
+const App: React.FC = () => {
+  const onChange = (key: string | string[]) => {
+    console.log(key);
+  };
+
+  return <Collapse defaultActiveKey={['1']} onChange={onChange} items={items} />;
+};
+
+export default App;

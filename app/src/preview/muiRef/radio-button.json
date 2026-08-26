@@ -1,0 +1,887 @@
+{
+ "slug": "radio-button",
+ "title": "Radio Group",
+ "group": "Inputs",
+ "folder": "radio-buttons",
+ "description": "The Radio Group allows the user to select one option from a set.",
+ "components": [
+  "Radio",
+  "RadioGroup",
+  "FormControl",
+  "FormLabel",
+  "FormControlLabel"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use radio buttons when the user needs to see all available options.\nIf available options can be collapsed, consider using a [Select component](/material-ui/react-select/) because it uses less space.\n\nRadio buttons should have the most commonly used option selected by default."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Radio group",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`RadioGroup` is a helpful wrapper used to group `Radio` components that provides an easier API, and proper keyboard accessibility to the group."
+    },
+    {
+     "kind": "demo",
+     "name": "RadioButtonsGroup",
+     "file": "RadioButtonsGroup.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nexport default function RadioButtonsGroup() {\n  const id = React.useId();\n  return (\n    <FormControl>\n      <FormLabel id={`${id}-label`}>Gender</FormLabel>\n      <RadioGroup\n        aria-labelledby={`${id}-label`}\n        defaultValue=\"female\"\n        name=\"radio-buttons-group\"\n      >\n        <FormControlLabel value=\"female\" control={<Radio />} label=\"Female\" />\n        <FormControlLabel value=\"male\" control={<Radio />} label=\"Male\" />\n        <FormControlLabel value=\"other\" control={<Radio />} label=\"Other\" />\n      </RadioGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Direction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To lay out the buttons horizontally, set the `row` prop:"
+    },
+    {
+     "kind": "demo",
+     "name": "RowRadioButtonsGroup",
+     "file": "RowRadioButtonsGroup.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nexport default function RowRadioButtonsGroup() {\n  const id = React.useId();\n  return (\n    <FormControl>\n      <FormLabel id={`${id}-label`}>Gender</FormLabel>\n      <RadioGroup row aria-labelledby={`${id}-label`} name=\"row-radio-buttons-group\">\n        <FormControlLabel value=\"female\" control={<Radio />} label=\"Female\" />\n        <FormControlLabel value=\"male\" control={<Radio />} label=\"Male\" />\n        <FormControlLabel value=\"other\" control={<Radio />} label=\"Other\" />\n        <FormControlLabel\n          value=\"disabled\"\n          disabled\n          control={<Radio />}\n          label=\"other\"\n        />\n      </RadioGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Controlled",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can control the radio with the `value` and `onChange` props:"
+    },
+    {
+     "kind": "demo",
+     "name": "ControlledRadioButtonsGroup",
+     "file": "ControlledRadioButtonsGroup.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nexport default function ControlledRadioButtonsGroup() {\n  const id = React.useId();\n  const [value, setValue] = React.useState('female');\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setValue((event.target as HTMLInputElement).value);\n  };\n\n  return (\n    <FormControl>\n      <FormLabel id={`${id}-label`}>Gender</FormLabel>\n      <RadioGroup\n        aria-labelledby={`${id}-label`}\n        name=\"controlled-radio-buttons-group\"\n        value={value}\n        onChange={handleChange}\n      >\n        <FormControlLabel value=\"female\" control={<Radio />} label=\"Female\" />\n        <FormControlLabel value=\"male\" control={<Radio />} label=\"Male\" />\n      </RadioGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Standalone radio buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`Radio` can also be used standalone, without the RadioGroup wrapper."
+    },
+    {
+     "kind": "demo",
+     "name": "RadioButtons",
+     "file": "RadioButtons.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\n\nexport default function RadioButtons() {\n  const [selectedValue, setSelectedValue] = React.useState('a');\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setSelectedValue(event.target.value);\n  };\n\n  return (\n    <div>\n      <Radio\n        checked={selectedValue === 'a'}\n        onChange={handleChange}\n        value=\"a\"\n        name=\"radio-buttons\"\n        slotProps={{ input: { 'aria-label': 'A' } }}\n      />\n      <Radio\n        checked={selectedValue === 'b'}\n        onChange={handleChange}\n        value=\"b\"\n        name=\"radio-buttons\"\n        slotProps={{ input: { 'aria-label': 'B' } }}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Size",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `size` prop or customize the font size of the svg icons to change the size of the radios."
+    },
+    {
+     "kind": "demo",
+     "name": "SizeRadioButtons",
+     "file": "SizeRadioButtons.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\n\nexport default function SizeRadioButtons() {\n  const [selectedValue, setSelectedValue] = React.useState('a');\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setSelectedValue(event.target.value);\n  };\n\n  const controlProps = (item: string) => ({\n    checked: selectedValue === item,\n    onChange: handleChange,\n    value: item,\n    name: 'size-radio-button-demo',\n    inputProps: { 'aria-label': item },\n  });\n\n  return (\n    <div>\n      <Radio {...controlProps('a')} size=\"small\" />\n      <Radio {...controlProps('b')} />\n      <Radio\n        {...controlProps('c')}\n        sx={{\n          '& .MuiSvgIcon-root': {\n            fontSize: 28,\n          },\n        }}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ColorRadioButtons",
+     "file": "ColorRadioButtons.tsx",
+     "code": "import * as React from 'react';\nimport { pink } from '@mui/material/colors';\nimport Radio from '@mui/material/Radio';\n\nexport default function ColorRadioButtons() {\n  const [selectedValue, setSelectedValue] = React.useState('a');\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setSelectedValue(event.target.value);\n  };\n\n  const controlProps = (item: string) => ({\n    checked: selectedValue === item,\n    onChange: handleChange,\n    value: item,\n    name: 'color-radio-button-demo',\n    inputProps: { 'aria-label': item },\n  });\n\n  return (\n    <div>\n      <Radio {...controlProps('a')} />\n      <Radio {...controlProps('b')} color=\"secondary\" />\n      <Radio {...controlProps('c')} color=\"success\" />\n      <Radio {...controlProps('d')} color=\"default\" />\n      <Radio\n        {...controlProps('e')}\n        sx={{\n          color: pink[800],\n          '&.Mui-checked': {\n            color: pink[600],\n          },\n        }}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Label placement",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can change the placement of the label with the `FormControlLabel` component's `labelPlacement` prop:"
+    },
+    {
+     "kind": "demo",
+     "name": "FormControlLabelPlacement",
+     "file": "FormControlLabelPlacement.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nexport default function FormControlLabelPlacement() {\n  const id = React.useId();\n  return (\n    <FormControl>\n      <FormLabel id={`${id}-label`}>Label placement</FormLabel>\n      <RadioGroup\n        row\n        aria-labelledby={`${id}-label`}\n        name=\"position\"\n        defaultValue=\"top\"\n      >\n        <FormControlLabel\n          value=\"bottom\"\n          control={<Radio />}\n          label=\"Bottom\"\n          labelPlacement=\"bottom\"\n        />\n        <FormControlLabel value=\"end\" control={<Radio />} label=\"End\" />\n      </RadioGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Show error",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In general, radio buttons should have a value selected by default. If this is not the case, you can display an error if no value is selected when the form is submitted:"
+    },
+    {
+     "kind": "demo",
+     "name": "ErrorRadios",
+     "file": "ErrorRadios.tsx",
+     "code": "import * as React from 'react';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormHelperText from '@mui/material/FormHelperText';\nimport FormLabel from '@mui/material/FormLabel';\nimport Button from '@mui/material/Button';\n\nexport default function ErrorRadios() {\n  const id = React.useId();\n  const [value, setValue] = React.useState('');\n  const [error, setError] = React.useState(false);\n  const [helperText, setHelperText] = React.useState('Choose wisely');\n\n  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setValue(event.target.value);\n    setError(false);\n    setHelperText('Choose wisely');\n  };\n\n  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {\n    event.preventDefault();\n\n    if (value === 'best') {\n      setHelperText('You got it!');\n      setError(false);\n    } else if (value === 'worst') {\n      setHelperText('Sorry, wrong answer!');\n      setError(true);\n    } else {\n      setHelperText('Please select an option.');\n      setError(true);\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <FormControl sx={{ m: 3 }} error={error} variant=\"standard\">\n        <FormLabel id={`${id}-label`}>Pop quiz: MUI is…</FormLabel>\n        <RadioGroup\n          aria-labelledby={`${id}-label`}\n          name=\"quiz\"\n          value={value}\n          onChange={handleRadioChange}\n        >\n          <FormControlLabel value=\"best\" control={<Radio />} label=\"The best!\" />\n          <FormControlLabel value=\"worst\" control={<Radio />} label=\"The worst.\" />\n        </RadioGroup>\n        <FormHelperText>{helperText}</FormHelperText>\n        <Button sx={{ mt: 1, mr: 1 }} type=\"submit\" variant=\"outlined\">\n          Check Answer\n        </Button>\n      </FormControl>\n    </form>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedRadios",
+     "file": "CustomizedRadios.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Radio, { RadioProps } from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nconst BpIcon = styled('span')(({ theme }) => ({\n  borderRadius: '50%',\n  width: 16,\n  height: 16,\n  boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',\n  backgroundColor: '#f5f8fa',\n  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',\n  '.Mui-focusVisible &': {\n    outline: '2px auto rgba(19,124,189,.6)',\n    outlineOffset: 2,\n  },\n  'input:hover ~ &': {\n    backgroundColor: '#ebf1f5',\n    ...theme.applyStyles('dark', {\n      backgroundColor: '#30404d',\n    }),\n  },\n  'input:disabled ~ &': {\n    boxShadow: 'none',\n    background: 'rgba(206,217,224,.5)',\n    ...theme.applyStyles('dark', {\n      background: 'rgba(57,75,89,.5)',\n    }),\n    '@media (forced-colors: active)': {\n      outline: '1px solid GrayText',\n    },\n  },\n  '@media (forced-colors: active)': {\n    outline: '1px solid ButtonText',\n  },\n  ...theme.applyStyles('dark', {\n    boxShadow: '0 0 0 1px rgb(16 22 26 / 40%)',\n    backgroundColor: '#394b59',\n    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))',\n  }),\n}));\n\nconst BpCheckedIcon = styled(BpIcon)({\n  backgroundColor: '#137cbd',\n  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',\n  '&::before': {\n    display: 'block',\n    width: 16,\n    height: 16,\n    backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',\n    content: '\"\"',\n    '@media (forced-colors: active)': {\n      backgroundImage: 'none',\n      backgroundColor: 'ButtonText',\n      borderRadius: '50%',\n      width: 8,\n      height: 8,\n      margin: 4,\n    },\n  },\n  'input:hover ~ &': {\n    backgroundColor: '#106ba3',\n  },\n  '@media (forced-colors: active)': {\n    outline: '2px solid ButtonText',\n  },\n});\n\n// Inspired by blueprintjs\nfunction BpRadio(props: RadioProps) {\n  return (\n    <Radio\n      disableRipple\n      color=\"default\"\n      checkedIcon={<BpCheckedIcon />}\n      icon={<BpIcon />}\n      {...props}\n    />\n  );\n}\n\nexport default function CustomizedRadios() {\n  const id = React.useId();\n  return (\n    <FormControl>\n      <FormLabel id={`${id}-label`}>Gender</FormLabel>\n      <RadioGroup\n        defaultValue=\"female\"\n        aria-labelledby={`${id}-label`}\n        name=\"customized-radios\"\n      >\n        <FormControlLabel value=\"female\" control={<BpRadio />} label=\"Female\" />\n        <FormControlLabel value=\"male\" control={<BpRadio />} label=\"Male\" />\n        <FormControlLabel value=\"other\" control={<BpRadio />} label=\"Other\" />\n        <FormControlLabel\n          value=\"disabled\"\n          disabled\n          control={<BpRadio />}\n          label=\"(Disabled option)\"\n        />\n      </RadioGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "`useRadioGroup`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For advanced customization use cases, a `useRadioGroup()` hook is exposed.\nIt returns the context value of the parent radio group.\nThe Radio component uses this hook internally."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "API",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { useRadioGroup } from '@mui/material/RadioGroup';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "#### Returns\n\n`value` (_object_):\n\n- `value.name` (_string_ [optional]): The name used to reference the value of the control.\n- `value.onChange` (_func_ [optional]): Callback fired when a radio button is selected.\n- `value.value` (_any_ [optional]): Value of the selected radio button.\n\n#### Example"
+    },
+    {
+     "kind": "demo",
+     "name": "UseRadioGroup",
+     "file": "UseRadioGroup.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';\nimport FormControlLabel, {\n  FormControlLabelProps,\n} from '@mui/material/FormControlLabel';\nimport Radio from '@mui/material/Radio';\n\ninterface StyledFormControlLabelProps extends FormControlLabelProps {\n  checked: boolean;\n}\n\nconst StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (\n  <FormControlLabel {...props} />\n))(({ theme }) => ({\n  variants: [\n    {\n      props: { checked: true },\n      style: {\n        '.MuiFormControlLabel-label': {\n          color: theme.palette.primary.main,\n        },\n      },\n    },\n  ],\n}));\n\nfunction MyFormControlLabel(props: FormControlLabelProps) {\n  const radioGroup = useRadioGroup();\n\n  let checked = false;\n\n  if (radioGroup) {\n    checked = radioGroup.value === props.value;\n  }\n\n  return <StyledFormControlLabel checked={checked} {...props} />;\n}\n\nexport default function UseRadioGroup() {\n  return (\n    <RadioGroup name=\"use-radio-group\" defaultValue=\"first\">\n      <MyFormControlLabel value=\"first\" label=\"First\" control={<Radio />} />\n      <MyFormControlLabel value=\"second\" label=\"Second\" control={<Radio />} />\n    </RadioGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "When to use",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- [Checkboxes vs. Radio Buttons](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/radio/)\n\n- All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element ([FormControlLabel](/material-ui/api/form-control-label/)).\n\n- When a label can't be used, it's necessary to add an attribute directly to the input component.\n  In this case, you can apply the additional attribute (for example `aria-label`, `aria-labelledby`, `title`) via the `slotProps.input` property."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Radio\n  value=\"radioA\"\n  slotProps={{\n    input: { 'aria-label': 'Radio A' },\n  }}\n/>\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Radio",
+   "description": "",
+   "props": [
+    {
+     "prop": "checked",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is checked."
+    },
+    {
+     "prop": "checkedIcon",
+     "type": "node",
+     "default": "<RadioButtonIcon checked />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when the component is checked."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": "<RadioButtonIcon />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when the component is unchecked."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the state is changed."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense radio styling."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the component. The DOM API casts this to a string."
+    }
+   ],
+   "classes": [
+    {
+     "key": "checked",
+     "className": "Mui-checked",
+     "description": "State class applied to the root element if `checked={true}`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiRadio-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiRadio-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiRadio-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    }
+   ]
+  },
+  {
+   "name": "RadioGroup",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The name used to reference the value of the control. If you don&#39;t provide this prop, it falls back to a randomly generated name."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when a radio button is selected."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Value of the selected radio button. The DOM API casts this to a string."
+    }
+   ],
+   "classes": [
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiRadioGroup-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "row",
+     "className": "MuiRadioGroup-row",
+     "description": "Styles applied to the root element if `row={true}`."
+    }
+   ]
+  },
+  {
+   "name": "FormControl",
+   "description": "Provides context such as filled/focused/error/required for form inputs.\nRelying on the context provides high flexibility and ensures that the state always stays\nconsistent across the children of the `FormControl`.\nThis context is used by the following components:\n\n - FormLabel\n - FormHelperText\n - Input\n - InputLabel\n\nYou can find one composition example below and more going to [the demos](/material-ui/react-text-field/#components).\n\n```jsx\n<FormControl>\n  <InputLabel htmlFor=\"my-input\">Email address</InputLabel>\n  <Input id=\"my-input\" aria-describedby=\"my-helper-text\" />\n  <FormHelperText id=\"my-helper-text\">We'll never share your email.</FormHelperText>\n</FormControl>\n```\n\n⚠️ Only one `InputBase` can be used within a FormControl because it creates visual inconsistencies.\nFor instance, only one input can be focused at the same time, the state shouldn't be shared.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label, input and helper text should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is displayed in focused state."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will take up the full width of its container."
+    },
+    {
+     "prop": "hiddenLabel",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is hidden. This is used to increase density for a <code>FilledInput</code>. Be sure to add <code>aria-label</code> to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'<br>&#124;&nbsp;'normal'",
+     "default": "'none'",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code> or <code>normal</code>, will adjust vertical spacing of this and contained components."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": "'outlined'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "fullWidth",
+     "className": "MuiFormControl-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "marginDense",
+     "className": "MuiFormControl-marginDense",
+     "description": "Styles applied to the root element if `margin=\"dense\"`."
+    },
+    {
+     "key": "marginNormal",
+     "className": "MuiFormControl-marginNormal",
+     "description": "Styles applied to the root element if `margin=\"normal\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormControl-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "FormLabel",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "filled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label should use filled classes key."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the input of this label is focused (used by <code>FormGroup</code> components)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "asterisk",
+     "className": "MuiFormLabel-asterisk",
+     "description": "Styles applied to the asterisk element."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiFormLabel-colorSecondary",
+     "description": "Styles applied to the root element if the color is secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "filled",
+     "className": "MuiFormLabel-filled",
+     "description": "State class applied to the root element if `filled={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "State class applied to the root element if `focused={true}`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormLabel-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "FormControlLabel",
+   "description": "Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component.\nUse this component if you want to display an extra label.",
+   "props": [
+    {
+     "prop": "control",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A control element. For instance, it can be a <code>Radio</code>, a <code>Switch</code> or a <code>Checkbox</code>."
+    },
+    {
+     "prop": "checked",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component appears selected."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the control is disabled."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is rendered as it is passed without an additional typography node."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A text or an element to be used in an enclosing label element."
+    },
+    {
+     "prop": "labelPlacement",
+     "type": "'bottom'<br>&#124;&nbsp;'end'<br>&#124;&nbsp;'start'<br>&#124;&nbsp;'top'",
+     "default": "'end'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The position of the label."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the state is changed."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ typography?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ typography?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "asterisk",
+     "className": "MuiFormControlLabel-asterisk",
+     "description": "Styles applied to the asterisk element."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "label",
+     "className": "MuiFormControlLabel-label",
+     "description": "Styles applied to the label's Typography component."
+    },
+    {
+     "key": "labelPlacementBottom",
+     "className": "MuiFormControlLabel-labelPlacementBottom",
+     "description": "Styles applied to the root element if `labelPlacement=\"bottom\"`."
+    },
+    {
+     "key": "labelPlacementEnd",
+     "className": "MuiFormControlLabel-labelPlacementEnd",
+     "description": "Styles applied to the root element if `labelPlacement=\"end\"`."
+    },
+    {
+     "key": "labelPlacementStart",
+     "className": "MuiFormControlLabel-labelPlacementStart",
+     "description": "Styles applied to the root element if `labelPlacement=\"start\"`."
+    },
+    {
+     "key": "labelPlacementTop",
+     "className": "MuiFormControlLabel-labelPlacementTop",
+     "description": "Styles applied to the root element if `labelPlacement=\"top\"`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormControlLabel-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-radio-button/"
+}

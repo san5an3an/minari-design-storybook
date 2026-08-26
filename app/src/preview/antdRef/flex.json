@@ -1,0 +1,255 @@
+{
+ "slug": "flex",
+ "title": "Flex",
+ "description": "A flex layout container for alignment.",
+ "group": "Layout",
+ "whenToUse": "- Good for setting spacing between elements.\n- Suitable for setting various horizontal and vertical alignments.\n\n### Difference with Space component\n\n- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.\n- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The basic usage.",
+   "code": "/* eslint-disable react/no-array-index-key */\nimport React from 'react';\nimport { Flex, Radio } from 'antd';\n\nconst baseStyle: React.CSSProperties = {\n  width: '25%',\n  height: 54,\n};\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState<string>('horizontal');\n  return (\n    <Flex gap=\"medium\" vertical>\n      <Radio.Group value={value} onChange={(e) => setValue(e.target.value)}>\n        <Radio value=\"horizontal\">horizontal</Radio>\n        <Radio value=\"vertical\">vertical</Radio>\n      </Radio.Group>\n      <Flex vertical={value === 'vertical'}>\n        {Array.from({ length: 4 }).map((_, i) => (\n          <div key={i} style={{ ...baseStyle, backgroundColor: i % 2 ? '#1677ff' : '#1677ffbf' }} />\n        ))}\n      </Flex>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "align",
+   "description": "Set align.",
+   "code": "import React from 'react';\nimport { Button, Flex, Segmented } from 'antd';\nimport type { FlexProps } from 'antd';\n\nconst boxStyle: React.CSSProperties = {\n  width: '100%',\n  height: 120,\n  borderRadius: 6,\n  border: '1px solid #40a9ff',\n};\n\nconst justifyOptions = [\n  'flex-start',\n  'center',\n  'flex-end',\n  'space-between',\n  'space-around',\n  'space-evenly',\n];\n\nconst alignOptions = ['flex-start', 'center', 'flex-end'];\n\nconst App: React.FC = () => {\n  const [justify, setJustify] = React.useState<FlexProps['justify']>(justifyOptions[0]);\n  const [alignItems, setAlignItems] = React.useState<FlexProps['align']>(alignOptions[0]);\n  return (\n    <Flex gap=\"medium\" align=\"start\" vertical>\n      <p>Select justify :</p>\n      <Segmented options={justifyOptions} onChange={setJustify} />\n      <p>Select align :</p>\n      <Segmented options={alignOptions} onChange={setAlignItems} />\n      <Flex style={boxStyle} justify={justify} align={alignItems}>\n        <Button type=\"primary\">Primary</Button>\n        <Button type=\"primary\">Primary</Button>\n        <Button type=\"primary\">Primary</Button>\n        <Button type=\"primary\">Primary</Button>\n      </Flex>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "align"
+  },
+  {
+   "name": "gap",
+   "description": "Set the `gap` between elements, which has three preset sizes: `small`, `medium`, and `large`. You can also customize the gap size.",
+   "code": "import React from 'react';\nimport { Button, Flex, Radio, Slider } from 'antd';\nimport type { FlexProps } from 'antd';\n\nconst App: React.FC = () => {\n  const [gapSize, setGapSize] = React.useState<FlexProps['gap']>('small');\n  const [customGapSize, setCustomGapSize] = React.useState<number>(0);\n  return (\n    <Flex gap=\"medium\" vertical>\n      <Radio.Group value={gapSize} onChange={(e) => setGapSize(e.target.value)}>\n        {['small', 'medium', 'large', 'customize'].map((size) => (\n          <Radio key={size} value={size}>\n            {size}\n          </Radio>\n        ))}\n      </Radio.Group>\n      {gapSize === 'customize' && <Slider value={customGapSize} onChange={setCustomGapSize} />}\n      <Flex gap={gapSize !== 'customize' ? gapSize : customGapSize}>\n        <Button type=\"primary\">Primary</Button>\n        <Button>Default</Button>\n        <Button type=\"dashed\">Dashed</Button>\n        <Button type=\"link\">Link</Button>\n      </Flex>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "gap"
+  },
+  {
+   "name": "Wrap",
+   "description": "Auto wrap line.",
+   "code": "import React from 'react';\nimport { Button, Flex } from 'antd';\n\nconst Demo: React.FC = () => (\n  <Flex wrap gap=\"small\">\n    {Array.from({ length: 24 }, (_, i) => (\n      <Button key={i} type=\"primary\">\n        Button\n      </Button>\n    ))}\n  </Flex>\n);\n\nexport default Demo;",
+   "demoId": "wrap"
+  },
+  {
+   "name": "combination",
+   "description": "Nesting can achieve more complex layouts.",
+   "code": "import React from 'react';\nimport { Button, Card, Flex, Typography } from 'antd';\n\nconst cardStyle: React.CSSProperties = {\n  width: 620,\n};\n\nconst imgStyle: React.CSSProperties = {\n  display: 'block',\n  width: 273,\n};\n\nconst App: React.FC = () => (\n  <Card hoverable style={cardStyle} styles={{ body: { padding: 0, overflow: 'hidden' } }}>\n    <Flex justify=\"space-between\">\n      <img\n        draggable={false}\n        alt=\"avatar\"\n        src=\"https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png\"\n        style={imgStyle}\n      />\n      <Flex vertical align=\"flex-end\" justify=\"space-between\" style={{ padding: 32 }}>\n        <Typography.Title level={3}>\n          “antd is an enterprise-class UI design language and React UI library.”\n        </Typography.Title>\n        <Button type=\"primary\" href=\"https://ant.design\" target=\"_blank\">\n          Get Started\n        </Button>\n      </Flex>\n    </Flex>\n  </Card>\n);\n\nexport default App;",
+   "demoId": "combination"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "vertical",
+     "Is direction of the flex vertical, use `flex-direction: column`",
+     "boolean",
+     "false",
+     "5.10.0",
+     "5.10.0"
+    ],
+    [
+     "wrap",
+     "Set whether the element is displayed in a single line or in multiple lines",
+     "flex-wrap | boolean",
+     "nowrap",
+     "boolean: 5.17.0",
+     "×"
+    ],
+    [
+     "justify",
+     "Sets the alignment of elements in the direction of the main axis",
+     "justify-content",
+     "normal",
+     "—",
+     "×"
+    ],
+    [
+     "align",
+     "Sets the alignment of elements in the direction of the cross axis",
+     "align-items",
+     "normal",
+     "—",
+     "×"
+    ],
+    [
+     "flex",
+     "flex CSS shorthand properties",
+     "flex",
+     "normal",
+     "—",
+     "×"
+    ],
+    [
+     "gap",
+     "Sets the gap between grids",
+     "`small` | `medium` | `large` | string | number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "component",
+     "custom element type",
+     "React.ComponentType",
+     "div",
+     "—",
+     "×"
+    ],
+    [
+     "orientation",
+     "direction of the flex",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "-",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "vertical",
+    "Is direction of the flex vertical, use `flex-direction: column`",
+    "boolean",
+    "false",
+    "5.10.0",
+    "5.10.0"
+   ],
+   [
+    "wrap",
+    "Set whether the element is displayed in a single line or in multiple lines",
+    "flex-wrap | boolean",
+    "nowrap",
+    "boolean: 5.17.0",
+    "×"
+   ],
+   [
+    "justify",
+    "Sets the alignment of elements in the direction of the main axis",
+    "justify-content",
+    "normal",
+    "—",
+    "×"
+   ],
+   [
+    "align",
+    "Sets the alignment of elements in the direction of the cross axis",
+    "align-items",
+    "normal",
+    "—",
+    "×"
+   ],
+   [
+    "flex",
+    "flex CSS shorthand properties",
+    "flex",
+    "normal",
+    "—",
+    "×"
+   ],
+   [
+    "gap",
+    "Sets the gap between grids",
+    "`small` | `medium` | `large` | string | number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "component",
+    "custom element type",
+    "React.ComponentType",
+    "div",
+    "—",
+    "×"
+   ],
+   [
+    "orientation",
+    "direction of the flex",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "-",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "gap",
+   "values": [
+    "small",
+    "medium",
+    "large",
+    "string",
+    "number"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": null,
+ "designToken": "",
+ "componentToken": null,
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

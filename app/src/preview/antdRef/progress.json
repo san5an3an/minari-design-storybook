@@ -1,0 +1,671 @@
+{
+ "slug": "progress",
+ "title": "Progress",
+ "description": "Display the current progress of the operation.",
+ "group": "Feedback",
+ "whenToUse": "If it will take a long time to complete an operation, you can use `Progress` to show the current progress and status.\n\n- When an operation will interrupt the current interface, or it needs to run in the background for more than 2 seconds.\n- When you need to display the completion percentage of an operation.",
+ "examples": [
+  {
+   "name": "Progress bar",
+   "description": "A standard progress bar.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" vertical>\n    <Progress percent={30} />\n    <Progress percent={50} status=\"active\" />\n    <Progress percent={70} status=\"exception\" />\n    <Progress percent={100} />\n    <Progress percent={50} showInfo={false} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "line"
+  },
+  {
+   "name": "Circular progress bar",
+   "description": "A circular progress bar.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" wrap>\n    <Progress type=\"circle\" percent={75} />\n    <Progress type=\"circle\" percent={70} status=\"exception\" />\n    <Progress type=\"circle\" percent={100} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "circle"
+  },
+  {
+   "name": "Mini size progress bar",
+   "description": "Appropriate for a narrow area.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"small\" style={{ width: 180 }}>\n    <Progress percent={30} size=\"small\" />\n    <Progress percent={50} size=\"small\" status=\"active\" />\n    <Progress percent={70} size=\"small\" status=\"exception\" />\n    <Progress percent={100} size=\"small\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "line-mini"
+  },
+  {
+   "name": "Responsive circular progress bar",
+   "description": "Responsive circular progress bar. When `width` is smaller than 20, progress information will be displayed in Tooltip.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex align=\"center\" gap=\"small\">\n    <Progress\n      type=\"circle\"\n      railColor=\"#e6f4ff\"\n      percent={60}\n      strokeWidth={20}\n      size={14}\n      format={(number) => `In progress, ${number}% complete`}\n    />\n    <span>Code release</span>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "circle-micro"
+  },
+  {
+   "name": "Mini size circular progress bar",
+   "description": "A smaller circular progress bar.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex wrap gap=\"small\">\n    <Progress type=\"circle\" percent={30} size={80} />\n    <Progress type=\"circle\" percent={70} size={80} status=\"exception\" />\n    <Progress type=\"circle\" percent={100} size={80} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "circle-mini"
+  },
+  {
+   "name": "Dynamic",
+   "description": "A dynamic progress bar is better.",
+   "code": "import React, { useState } from 'react';\nimport { MinusOutlined, PlusOutlined } from '@ant-design/icons';\nimport { Button, Flex, Progress, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [percent, setPercent] = useState<number>(0);\n\n  const increase = () => {\n    setPercent((prevPercent) => {\n      const newPercent = prevPercent + 10;\n      if (newPercent > 100) {\n        return 100;\n      }\n      return newPercent;\n    });\n  };\n\n  const decline = () => {\n    setPercent((prevPercent) => {\n      const newPercent = prevPercent - 10;\n      if (newPercent < 0) {\n        return 0;\n      }\n      return newPercent;\n    });\n  };\n\n  return (\n    <Flex vertical gap=\"small\">\n      <Flex vertical gap=\"small\">\n        <Progress percent={percent} type=\"line\" />\n        <Progress percent={percent} type=\"circle\" />\n      </Flex>\n      <Space.Compact>\n        <Button onClick={decline} icon={<MinusOutlined />} />\n        <Button onClick={increase} icon={<PlusOutlined />} />\n      </Space.Compact>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "dynamic"
+  },
+  {
+   "name": "Custom text format",
+   "description": "You can set a custom text by setting the `format` prop.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" wrap>\n    <Progress type=\"circle\" percent={75} format={(percent) => `${percent} Days`} />\n    <Progress type=\"circle\" percent={100} format={() => 'Done'} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "format"
+  },
+  {
+   "name": "Dashboard",
+   "description": "By setting `type=dashboard`, you can get a dashboard style of progress easily.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Progress, Segmented } from 'antd';\nimport type { ProgressProps } from 'antd';\n\ntype GapPlacement = NonNullable<ProgressProps['gapPlacement']>;\n\nconst App: React.FC = () => {\n  const [gapPlacement, setGapPlacement] = useState<GapPlacement>('bottom');\n  const [gapDegree, setGapDegree] = useState<number>(50);\n  return (\n    <Flex vertical gap=\"large\">\n      <div>\n        gapDegree:\n        <Segmented\n          options={[\n            { label: 50, value: 50 },\n\n            { label: 100, value: 100 },\n          ]}\n          defaultValue={50}\n          onChange={(value: number) => {\n            setGapDegree(value);\n          }}\n        />\n      </div>\n      <div>\n        gapPlacement:\n        <Segmented\n          options={[\n            { label: 'start', value: 'start' },\n            { label: 'end', value: 'end' },\n            { label: 'top', value: 'top' },\n            { label: 'bottom', value: 'bottom' },\n          ]}\n          defaultValue=\"bottom\"\n          onChange={(value: GapPlacement) => {\n            setGapPlacement(value);\n          }}\n        />\n      </div>\n      <Progress type=\"dashboard\" gapDegree={gapDegree} percent={30} gapPlacement={gapPlacement} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "dashboard"
+  },
+  {
+   "name": "Progress bar with success segment",
+   "description": "Show several parts of progress with different status.",
+   "code": "import React from 'react';\nimport { Flex, Progress, Tooltip } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" vertical>\n    <Tooltip title=\"3 done / 3 in progress / 4 to do\">\n      <Progress percent={60} success={{ percent: 30 }} />\n    </Tooltip>\n    <Flex gap=\"small\" wrap>\n      <Tooltip title=\"3 done / 3 in progress / 4 to do\">\n        <Progress percent={60} success={{ percent: 30 }} type=\"circle\" />\n      </Tooltip>\n      <Tooltip title=\"3 done / 3 in progress / 4 to do\">\n        <Progress percent={60} success={{ percent: 30 }} type=\"dashboard\" />\n      </Tooltip>\n    </Flex>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "segment"
+  },
+  {
+   "name": "Stroke Linecap",
+   "description": "By setting `strokeLinecap=\"butt\"`, you can change the linecaps from `round` to `butt`, see stroke-linecap for more information.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"small\">\n    <Progress strokeLinecap=\"butt\" percent={75} />\n    <Flex wrap gap=\"small\">\n      <Progress strokeLinecap=\"butt\" type=\"circle\" percent={75} />\n      <Progress strokeLinecap=\"butt\" type=\"dashboard\" percent={75} />\n    </Flex>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "linecap"
+  },
+  {
+   "name": "Custom line gradient",
+   "description": "Gradient encapsulation, `circle` and `dashboard` will ignore `strokeLinecap` when setting gradient.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\nimport type { ProgressProps } from 'antd';\n\nconst twoColors: ProgressProps['strokeColor'] = {\n  '0%': '#108ee9',\n  '100%': '#87d068',\n};\n\nconst conicColors: ProgressProps['strokeColor'] = {\n  '0%': '#87d068',\n  '50%': '#ffe58f',\n  '100%': '#ffccc7',\n};\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Progress percent={99.9} strokeColor={twoColors} />\n    <Progress percent={50} status=\"active\" strokeColor={{ from: '#108ee9', to: '#87d068' }} />\n    <Flex gap=\"small\" wrap>\n      <Progress type=\"circle\" percent={90} strokeColor={twoColors} />\n      <Progress type=\"circle\" percent={100} strokeColor={twoColors} />\n      <Progress type=\"circle\" percent={93} strokeColor={conicColors} />\n    </Flex>\n    <Flex gap=\"small\" wrap>\n      <Progress type=\"dashboard\" percent={90} strokeColor={twoColors} />\n      <Progress type=\"dashboard\" percent={100} strokeColor={twoColors} />\n      <Progress type=\"dashboard\" percent={93} strokeColor={conicColors} />\n    </Flex>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "gradient-line"
+  },
+  {
+   "name": "Progress bar with steps",
+   "description": "A progress bar with steps.",
+   "code": "import React from 'react';\nimport { green, red } from '@ant-design/colors';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" vertical>\n    <Progress percent={50} steps={3} />\n    <Progress percent={30} steps={5} />\n    <Progress percent={100} steps={5} size=\"small\" strokeColor={green[6]} />\n    <Progress percent={60} steps={5} strokeColor={[green[6], green[6], red[5]]} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "steps"
+  },
+  {
+   "name": "Circular progress bar with steps",
+   "description": "A circular progress bar that support steps and color segments, default gap is 2px.",
+   "code": "import React from 'react';\nimport { Flex, Progress, Slider, Typography } from 'antd';\n\nconst App: React.FC = () => {\n  const [stepsCount, setStepsCount] = React.useState<number>(5);\n  const [stepsGap, setStepsGap] = React.useState<number>(7);\n  return (\n    <>\n      <Typography.Title level={5}>Custom count:</Typography.Title>\n      <Slider min={2} max={10} value={stepsCount} onChange={setStepsCount} />\n      <Typography.Title level={5}>Custom gap:</Typography.Title>\n      <Slider step={4} min={0} max={40} value={stepsGap} onChange={setStepsGap} />\n      <Flex wrap gap=\"medium\" style={{ marginTop: 16 }}>\n        <Progress\n          type=\"dashboard\"\n          steps={8}\n          percent={50}\n          railColor=\"rgba(0, 0, 0, 0.06)\"\n          strokeWidth={20}\n        />\n        <Progress\n          type=\"circle\"\n          percent={100}\n          steps={{ count: stepsCount, gap: stepsGap }}\n          railColor=\"rgba(0, 0, 0, 0.06)\"\n          strokeWidth={20}\n        />\n      </Flex>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "circle-steps"
+  },
+  {
+   "name": "Progress size",
+   "description": "The size of progress.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Flex vertical gap=\"small\" style={{ width: 300 }}>\n      <Progress percent={50} />\n      <Progress percent={50} size=\"small\" />\n      <Progress percent={50} size={[300, 20]} />\n    </Flex>\n    <Flex align=\"center\" wrap gap={30}>\n      <Progress type=\"circle\" percent={50} />\n      <Progress type=\"circle\" percent={50} size=\"small\" />\n      <Progress type=\"circle\" percent={50} size={20} />\n    </Flex>\n    <Flex align=\"center\" wrap gap={30}>\n      <Progress type=\"dashboard\" percent={50} />\n      <Progress type=\"dashboard\" percent={50} size=\"small\" />\n      <Progress type=\"dashboard\" percent={50} size={20} />\n    </Flex>\n    <Flex align=\"center\" wrap gap={30}>\n      <Progress steps={3} percent={50} />\n      <Progress steps={3} percent={50} size=\"small\" />\n      <Progress steps={3} percent={50} size={20} />\n      <Progress steps={3} percent={50} size={[20, 30]} />\n    </Flex>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Change progress value position",
+   "description": "Change the position of the progress value, you can use `percentPosition` to adjust it so that the progress bar value is inside, outside or at the bottom of the progress bar.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"small\" vertical>\n    <Progress\n      percent={0}\n      percentPosition={{ align: 'center', type: 'inner' }}\n      size={[200, 20]}\n      strokeColor=\"#E6F4FF\"\n    />\n    <Progress percent={10} percentPosition={{ align: 'center', type: 'inner' }} size={[300, 20]} />\n    <Progress\n      percent={50}\n      percentPosition={{ align: 'start', type: 'inner' }}\n      size={[300, 20]}\n      strokeColor=\"#B7EB8F\"\n    />\n    <Progress\n      percent={60}\n      percentPosition={{ align: 'end', type: 'inner' }}\n      size={[300, 20]}\n      strokeColor=\"#001342\"\n    />\n    <Progress percent={100} percentPosition={{ align: 'center', type: 'inner' }} size={[400, 20]} />\n    <Progress percent={60} percentPosition={{ align: 'start', type: 'outer' }} />\n    <Progress percent={100} percentPosition={{ align: 'start', type: 'outer' }} />\n    <Progress percent={60} percentPosition={{ align: 'center', type: 'outer' }} size=\"small\" />\n    <Progress percent={100} percentPosition={{ align: 'center', type: 'outer' }} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "info-position"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Progress by passing objects or functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Progress } from 'antd';\nimport type { GetProp, ProgressProps } from 'antd';\n\nconst classNames: ProgressProps['classNames'] = {\n  root: 'demo-progress-root',\n  rail: 'demo-progress-rail',\n  track: 'demo-progress-track',\n};\n\nconst stylesFn: ProgressProps['styles'] = (info): GetProp<ProgressProps, 'styles', 'Return'> => {\n  const percent = info?.props?.percent ?? 0;\n  const hue = 200 - (200 * percent) / 100;\n  return {\n    track: {\n      backgroundImage: `\n        linear-gradient(\n          to right,\n          hsla(${hue}, 85%, 65%, 1),\n          hsla(${hue + 30}, 90%, 55%, 0.95)\n        )`,\n      borderRadius: 8,\n      transition: 'all 0.3s ease',\n    },\n    rail: {\n      backgroundColor: 'rgba(0, 0, 0, 0.1)',\n      borderRadius: 8,\n    },\n  };\n};\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"large\">\n    <Progress classNames={classNames} styles={stylesFn} percent={10} />\n    <Progress classNames={classNames} styles={stylesFn} percent={20} />\n    <Progress classNames={classNames} styles={stylesFn} percent={40} />\n    <Progress classNames={classNames} styles={stylesFn} percent={60} />\n    <Progress classNames={classNames} styles={stylesFn} percent={80} />\n    <Progress classNames={classNames} styles={stylesFn} percent={99} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "format",
+     "The template function of the content",
+     "function(percent, successPercent)",
+     "(percent) => percent + `%`",
+     "-",
+     "×"
+    ],
+    [
+     "percent",
+     "To set the completion percentage",
+     "number",
+     "0",
+     "-",
+     "×"
+    ],
+    [
+     "railColor",
+     "The color of unfilled part",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "showInfo",
+     "Whether to display the progress value and the status icon",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "status",
+     "To set the status of the Progress, options: `success` `exception` `normal` `active`(line only)",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "strokeColor",
+     "The color of progress bar",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "strokeLinecap",
+     "To set the style of the progress linecap",
+     "`round` | `butt` | `square`, see stroke-linecap",
+     "round",
+     "-",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "success",
+     "Configs of successfully progress bar",
+     "{ percent: number, strokeColor: string }",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~trailColor~~",
+     "The color of unfilled part. Please use `railColor` instead",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "type",
+     "To set the type, options: `line` `circle` `dashboard`",
+     "string",
+     "line",
+     "-",
+     "×"
+    ],
+    [
+     "size",
+     "Progress size",
+     "number | \\[number | string, number] | { width: number, height: number } | \"small\" | \"medium\"",
+     "\"medium\"",
+     "5.3.0, Object: 5.18.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "steps",
+     "The total step count",
+     "number",
+     "-",
+     "-"
+    ],
+    [
+     "rounding",
+     "The function to round the value",
+     "(step: number) => number",
+     "Math.round",
+     "5.24.0"
+    ],
+    [
+     "strokeColor",
+     "The color of progress bar, render `linear-gradient` when passing an object, could accept `string[]` when has `steps`.",
+     "string | string[] | { from: string; to: string; direction: string }",
+     "-",
+     "4.21.0: `string[]`"
+    ],
+    [
+     "percentPosition",
+     "Progress value position, passed in object, `align` indicates the horizontal position of the value, `type` indicates whether the value is inside or outside the progress bar",
+     "{ align: string; type: string }",
+     "{ align: \\\"end\\\", type: \\\"outer\\\" }",
+     "5.18.0"
+    ]
+   ],
+   "name": "`type=\"line\"`"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "steps",
+     "The total step count. When passing an object, `count` refers to the number of steps, and `gap` refers to the distance between them. When passing a number, the default value for `gap` is 2.",
+     "number | { count: number, gap: number }",
+     "-",
+     "5.16.0"
+    ],
+    [
+     "strokeColor",
+     "The color of circular progress, render gradient when passing an object",
+     "string | { number%: string }",
+     "-",
+     "-"
+    ],
+    [
+     "strokeWidth",
+     "To set the width of the circular progress, unit: percentage of the canvas width",
+     "number",
+     "6",
+     "-"
+    ]
+   ],
+   "name": "`type=\"circle\"`"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "steps",
+     "The total step count. When passing an object, `count` refers to the number of steps, and `gap` refers to the distance between them. When passing a number, the default value for `gap` is 2.",
+     "number | { count: number, gap: number }",
+     "-",
+     "5.16.0"
+    ],
+    [
+     "gapDegree",
+     "The gap degree of half circle, 0 ~ 295",
+     "number",
+     "75",
+     "-"
+    ],
+    [
+     "gapPlacement",
+     "The gap placement, options: `top` `bottom` `start` `end`",
+     "string",
+     "bottom",
+     "-"
+    ],
+    [
+     "~~gapPosition~~",
+     "The gap position, options: `top` `bottom` `left` `right`, please use `gapPlacement` instead",
+     "string",
+     "bottom",
+     "-"
+    ],
+    [
+     "strokeWidth",
+     "To set the width of the dashboard progress, unit: percentage of the canvas width",
+     "number",
+     "6",
+     "-"
+    ]
+   ],
+   "name": "`type=\"dashboard\"`"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "format",
+    "The template function of the content",
+    "function(percent, successPercent)",
+    "(percent) => percent + `%`",
+    "-",
+    "×"
+   ],
+   [
+    "percent",
+    "To set the completion percentage",
+    "number",
+    "0",
+    "-",
+    "×"
+   ],
+   [
+    "railColor",
+    "The color of unfilled part",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "showInfo",
+    "Whether to display the progress value and the status icon",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "status",
+    "To set the status of the Progress, options: `success` `exception` `normal` `active`(line only)",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "strokeColor",
+    "The color of progress bar",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "strokeLinecap",
+    "To set the style of the progress linecap",
+    "`round` | `butt` | `square`, see stroke-linecap",
+    "round",
+    "-",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "success",
+    "Configs of successfully progress bar",
+    "{ percent: number, strokeColor: string }",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~trailColor~~",
+    "The color of unfilled part. Please use `railColor` instead",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "type",
+    "To set the type, options: `line` `circle` `dashboard`",
+    "string",
+    "line",
+    "-",
+    "×"
+   ],
+   [
+    "size",
+    "Progress size",
+    "number | \\[number | string, number] | { width: number, height: number } | \"small\" | \"medium\"",
+    "\"medium\"",
+    "5.3.0, Object: 5.18.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "strokeLinecap",
+   "values": [
+    "round",
+    "butt",
+    "square`, see stroke-linecap"
+   ],
+   "default": "round",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "number",
+    "\\[number",
+    "string, number]",
+    "{ width: number, height: number }",
+    "small",
+    "medium"
+   ],
+   "default": "\"medium\"",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, set relative positioning and basic container styles"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element, set progress bar layout and size styles"
+   },
+   {
+    "name": "rail",
+    "mark": "semantic-mark-rail",
+    "description": "Rail element, set background track color and border radius styles. Not exist in steps mode"
+   },
+   {
+    "name": "track",
+    "mark": "semantic-mark-track",
+    "description": "Track element, set progress fill color and transition animation styles"
+   },
+   {
+    "name": "indicator",
+    "mark": "semantic-mark-indicator",
+    "description": "Indicator element, set percentage text or icon position and font styles"
+   }
+  ],
+  "dom": "<div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-medium ant-flex-vertical\" style=\"width: 100%;\">\n        <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-medium\">\n          <div aria-label=\"segmented control\" aria-orientation=\"horizontal\" class=\"ant-segmented css-var-test-id\" role=\"radiogroup\" tabindex=\"0\">\n            <div class=\"ant-segmented-group\">\n              <label class=\"ant-segmented-item ant-segmented-item-selected\">\n                <input checked=\"\" class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n                <div class=\"ant-segmented-item-label\" title=\"line\">\n                  line\n                </div>\n              </label>\n              <label class=\"ant-segmented-item\">\n                <input class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n                <div class=\"ant-segmented-item-label\" title=\"steps\">\n                  steps\n                </div>\n              </label>\n              <label class=\"ant-segmented-item\">\n                <input class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n                <div class=\"ant-segmented-item-label\" title=\"circle\">\n                  circle\n                </div>\n              </label>\n              <label class=\"ant-segmented-item\">\n                <input class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n                <div class=\"ant-segmented-item-label\" title=\"dashboard\">\n                  dashboard\n                </div>\n              </label>\n            </div>\n          </div>\n          <button aria-checked=\"false\" class=\"ant-switch css-var-test-id\" role=\"switch\" type=\"button\">\n            <div class=\"ant-switch-handle\">\n            <span class=\"ant-switch-inner\">\n              <span class=\"ant-switch-inner-checked\">\n                Gradient\n              </span>\n              <span class=\"ant-switch-inner-unchecked\">\n                Gradient\n              </span>\n            </span>\n          </div></button>\n        </div>\n        <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-vertical\" style=\"height: 200px; width: 100%;\">\n          <div aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"80\" class=\"ant-progress ant-progress-status-normal ant-progress-line ant-progress-line-align-end ant-progress-line-position-outer ant-progress-show-info semantic-mark-root css-var-test-id\" role=\"progressbar\">\n            <div class=\"ant-progress-body semantic-mark-body\" style=\"width: 100%;\">\n              <div class=\"ant-progress-rail semantic-mark-rail\" style=\"height: 8px;\">\n                <div class=\"ant-progress-track semantic-mark-track\" style=\"width: 80%; height: 8px;\">\n              </div>\n              <span class=\"ant-progress-indicator ant-progress-indicator-end ant-progress-indicator-outer semantic-mark-indicator\" title=\"80%\">\n                80%\n              </span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "circleIconFontSize",
+     "Icon size of circular progress bar",
+     "string",
+     "1.1666666666666667em"
+    ],
+    [
+     "circleTextColor",
+     "Text color of circular progress bar",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "circleTextFontSize",
+     "Text size of circular progress bar",
+     "string",
+     "1em"
+    ],
+    [
+     "defaultColor",
+     "Default color of progress bar",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "lineBorderRadius",
+     "Border radius of line progress bar",
+     "number",
+     "100"
+    ],
+    [
+     "remainingColor",
+     "Color of remaining part of progress bar",
+     "string",
+     "rgba(0,0,0,0.06)"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccess",
+     "Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeSM",
+     "Small font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutQuint",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

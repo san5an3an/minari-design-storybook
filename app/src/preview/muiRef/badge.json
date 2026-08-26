@@ -1,0 +1,429 @@
+{
+ "slug": "badge",
+ "title": "Badge",
+ "group": "Data display",
+ "folder": "badges",
+ "description": "Badge generates a small badge to the top-right of its child(ren).",
+ "components": [
+  "Badge"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Badge"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Usage guidelines",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- **Use badges for supplemental status**: Use badges for short counts or compact states\n  that update an existing control or item, such as unread messages on an inbox button. If\n  the status is important on its own, show it in the UI instead of relying only on the badge.\n- **Label the element that owns the badge**: A badge is a visual cue tied to another\n  element, so its meaning should be part of that element's accessible name. For example,\n  use `aria-label=\"Inbox, 4 unread messages\"` instead of `aria-label=\"Inbox\"` on the\n  target element.\n- **Use dot badges for simple states**: A dot badge does not show text or a number, so use\n  it only when the surrounding UI makes the state clear, such as `Online` or `Unread`."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeIntro",
+     "file": "BadgeIntro.tsx",
+     "code": "import IconButton from '@mui/material/IconButton';\nimport Badge from '@mui/material/Badge';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst maxVisibleNotifications = 99;\nconst unreadNotificationsCount = 100;\n\nfunction getUnreadNotificationsLabel(count: number) {\n  if (count === 0) {\n    return 'show no unread notifications';\n  }\n  if (count > maxVisibleNotifications) {\n    return `show more than ${maxVisibleNotifications} unread notifications`;\n  }\n  return `show ${count} unread notification${count === 1 ? '' : 's'}`;\n}\n\nexport default function BadgeIntro() {\n  const label = getUnreadNotificationsLabel(unreadNotificationsCount);\n\n  return (\n    <IconButton aria-label={label}>\n      <Badge\n        badgeContent={unreadNotificationsCount}\n        color=\"secondary\"\n        max={maxVisibleNotifications}\n      >\n        <MailIcon />\n      </Badge>\n    </IconButton>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "This demo applies the same pattern to a `ListItemButton` with a `Badge`: the visible\ncount is included in the item's accessible name so it's announced in the context of the\nsurrounding UI."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeListItem",
+     "file": "BadgeListItem.tsx",
+     "code": "import Badge from '@mui/material/Badge';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Paper from '@mui/material/Paper';\nimport DraftsIcon from '@mui/icons-material/Drafts';\nimport InboxIcon from '@mui/icons-material/Inbox';\nimport SendIcon from '@mui/icons-material/Send';\n\nconst unreadMessagesCount = 4;\n\nexport default function BadgeListItem() {\n  return (\n    <Paper variant=\"outlined\" sx={{ width: 320, maxWidth: '100%' }}>\n      <List component=\"nav\" aria-label=\"mail folders\" sx={{ py: 0 }}>\n        <ListItemButton\n          selected\n          aria-current=\"page\"\n          aria-label={`Inbox, ${unreadMessagesCount} unread messages`}\n        >\n          <ListItemIcon>\n            <Badge badgeContent={unreadMessagesCount} color=\"primary\">\n              <InboxIcon />\n            </Badge>\n          </ListItemIcon>\n          <ListItemText primary=\"Inbox\" />\n        </ListItemButton>\n        <ListItemButton>\n          <ListItemIcon>\n            <SendIcon />\n          </ListItemIcon>\n          <ListItemText primary=\"Sent\" />\n        </ListItemButton>\n        <ListItemButton>\n          <ListItemIcon>\n            <DraftsIcon />\n          </ListItemIcon>\n          <ListItemText primary=\"Drafts\" />\n        </ListItemButton>\n      </List>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Badge content",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `badgeContent` to add a short count or label to the wrapped element."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleBadge",
+     "file": "SimpleBadge.tsx",
+     "code": "import Badge from '@mui/material/Badge';\nimport IconButton from '@mui/material/IconButton';\nimport MailIcon from '@mui/icons-material/Mail';\n\nexport default function SimpleBadge() {\n  return (\n    <IconButton aria-label=\"show 4 unread messages\">\n      <Badge badgeContent={4} color=\"primary\">\n        <MailIcon />\n      </Badge>\n    </IconButton>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Dot badge",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `variant=\"dot\"` for a compact status indicator without a count."
+    },
+    {
+     "kind": "demo",
+     "name": "DotBadge",
+     "file": "DotBadge.tsx",
+     "code": "import IconButton from '@mui/material/IconButton';\nimport Badge from '@mui/material/Badge';\nimport NotificationsIcon from '@mui/icons-material/Notifications';\n\nexport default function DotBadge() {\n  return (\n    <IconButton aria-label=\"show new notifications\">\n      <Badge color=\"secondary\" variant=\"dot\">\n        <NotificationsIcon />\n      </Badge>\n    </IconButton>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Visibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Control badge visibility with the `invisible` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeVisibility",
+     "file": "BadgeVisibility.tsx",
+     "code": "import * as React from 'react';\nimport Stack from '@mui/material/Stack';\nimport Badge from '@mui/material/Badge';\nimport IconButton from '@mui/material/IconButton';\nimport Switch from '@mui/material/Switch';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst unreadMessagesCount = 4;\n\nexport default function BadgeVisibility() {\n  const [invisible, setInvisible] = React.useState(false);\n\n  const handleBadgeVisibility = () => {\n    setInvisible((previousInvisible) => !previousInvisible);\n  };\n\n  return (\n    <Stack direction=\"row\" spacing={3} sx={{ alignItems: 'center' }}>\n      <IconButton\n        aria-label={\n          invisible\n            ? 'open inbox'\n            : `open inbox, ${unreadMessagesCount} unread messages`\n        }\n      >\n        <Badge\n          color=\"secondary\"\n          badgeContent={unreadMessagesCount}\n          invisible={invisible}\n        >\n          <MailIcon />\n        </Badge>\n      </IconButton>\n      <FormControlLabel\n        control={<Switch checked={!invisible} onChange={handleBadgeVisibility} />}\n        label=\"Show unread count\"\n      />\n    </Stack>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The badge hides automatically when `badgeContent` is zero. Override this with the `showZero`\nprop when zero is meaningful to the interface."
+    },
+    {
+     "kind": "demo",
+     "name": "ShowZeroBadge",
+     "file": "ShowZeroBadge.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport Badge from '@mui/material/Badge';\nimport IconButton from '@mui/material/IconButton';\nimport MailIcon from '@mui/icons-material/Mail';\n\nexport default function ShowZeroBadge() {\n  return (\n    <Stack spacing={2} direction=\"row\">\n      <IconButton aria-label=\"show no unread messages\">\n        <Badge color=\"secondary\" badgeContent={0}>\n          <MailIcon />\n        </Badge>\n      </IconButton>\n      <IconButton aria-label=\"show 0 unread messages\">\n        <Badge color=\"secondary\" badgeContent={0} showZero>\n          <MailIcon />\n        </Badge>\n      </IconButton>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Maximum value",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `max` prop to cap large numeric values."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeMax",
+     "file": "BadgeMax.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport Badge from '@mui/material/Badge';\nimport IconButton from '@mui/material/IconButton';\nimport MailIcon from '@mui/icons-material/Mail';\n\nexport default function BadgeMax() {\n  return (\n    <Stack spacing={2} direction=\"row\">\n      <IconButton aria-label=\"show 99 unread messages\">\n        <Badge color=\"secondary\" badgeContent={99}>\n          <MailIcon />\n        </Badge>\n      </IconButton>\n      <IconButton aria-label=\"show more than 99 unread messages\">\n        <Badge color=\"secondary\" badgeContent={100}>\n          <MailIcon />\n        </Badge>\n      </IconButton>\n      <IconButton aria-label=\"show more than 999 unread messages\">\n        <Badge color=\"secondary\" badgeContent={1000} max={999}>\n          <MailIcon />\n        </Badge>\n      </IconButton>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `color` prop to apply theme palette colors to the badge."
+    },
+    {
+     "kind": "demo",
+     "name": "ColorBadge",
+     "file": "ColorBadge.tsx",
+     "code": "import Badge from '@mui/material/Badge';\nimport Stack from '@mui/material/Stack';\nimport IconButton from '@mui/material/IconButton';\nimport CalendarMonthIcon from '@mui/icons-material/CalendarMonth';\nimport FolderOpenIcon from '@mui/icons-material/FolderOpen';\nimport ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';\n\nexport default function ColorBadge() {\n  return (\n    <Stack spacing={2} direction=\"row\">\n      <IconButton aria-label=\"show 8 shared files\">\n        <Badge badgeContent={8} color=\"primary\">\n          <FolderOpenIcon />\n        </Badge>\n      </IconButton>\n      <IconButton aria-label=\"show 2 confirmed events\">\n        <Badge badgeContent={2} color=\"success\">\n          <CalendarMonthIcon />\n        </Badge>\n      </IconButton>\n      <IconButton aria-label=\"show 1 critical alert\">\n        <Badge badgeContent={1} color=\"error\">\n          <ReportProblemOutlinedIcon />\n        </Badge>\n      </IconButton>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Badge alignment",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `anchorOrigin` prop to move the badge to any corner of the wrapped element."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeAlignment",
+     "file": "BadgeAlignment.tsx",
+     "code": "import * as React from 'react';\nimport Badge from '@mui/material/Badge';\nimport FormControl from '@mui/material/FormControl';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormLabel from '@mui/material/FormLabel';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport Box from '@mui/material/Box';\nimport IconButton from '@mui/material/IconButton';\nimport MailIcon from '@mui/icons-material/Mail';\nimport { HighlightedCode } from '@mui/internal-core-docs/HighlightedCode';\n\ntype BadgeVerticalOrigin = 'top' | 'bottom';\ntype BadgeHorizontalOrigin = 'right' | 'left';\n\nexport default function BadgeAlignment() {\n  const [horizontal, setHorizontal] = React.useState<BadgeHorizontalOrigin>('right');\n  const [vertical, setVertical] = React.useState<BadgeVerticalOrigin>('top');\n\n  const handleHorizontalChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setHorizontal(event.target.value as BadgeHorizontalOrigin);\n  };\n\n  const handleVerticalChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setVertical(event.target.value as BadgeVerticalOrigin);\n  };\n\n  const jsx = `\n<IconButton aria-label=\"show 12 unread messages\">\n  <Badge\n    badgeContent={12}\n    color=\"secondary\"\n    anchorOrigin={{\n      vertical: '${vertical}',\n      horizontal: '${horizontal}',\n    }}\n  >\n    <MailIcon />\n  </Badge>\n</IconButton>\n`;\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Box\n        sx={{\n          display: 'flex',\n          justifyContent: 'center',\n          '& fieldset': {\n            margin: 3,\n          },\n        }}\n      >\n        <FormControl component=\"fieldset\">\n          <FormLabel component=\"legend\">Vertical</FormLabel>\n          <RadioGroup\n            name=\"vertical\"\n            value={vertical}\n            onChange={handleVerticalChange}\n          >\n            <FormControlLabel value=\"top\" control={<Radio />} label=\"Top\" />\n            <FormControlLabel value=\"bottom\" control={<Radio />} label=\"Bottom\" />\n          </RadioGroup>\n        </FormControl>\n        <FormControl component=\"fieldset\">\n          <FormLabel component=\"legend\">Horizontal</FormLabel>\n          <RadioGroup\n            name=\"horizontal\"\n            value={horizontal}\n            onChange={handleHorizontalChange}\n          >\n            <FormControlLabel value=\"right\" control={<Radio />} label=\"Right\" />\n            <FormControlLabel value=\"left\" control={<Radio />} label=\"Left\" />\n          </RadioGroup>\n        </FormControl>\n      </Box>\n      <Box\n        sx={{\n          display: 'flex',\n          justifyContent: 'center',\n          color: 'action.active',\n          '& > *': {\n            margin: 2,\n          },\n        }}\n      >\n        <IconButton aria-label=\"show unread messages\">\n          <Badge\n            color=\"secondary\"\n            variant=\"dot\"\n            anchorOrigin={{\n              horizontal,\n              vertical,\n            }}\n          >\n            <MailIcon />\n          </Badge>\n        </IconButton>\n        <IconButton aria-label=\"show 1 unread message\">\n          <Badge\n            color=\"secondary\"\n            badgeContent={1}\n            anchorOrigin={{\n              horizontal,\n              vertical,\n            }}\n          >\n            <MailIcon />\n          </Badge>\n        </IconButton>\n        <IconButton aria-label=\"show 12 unread messages\">\n          <Badge\n            color=\"secondary\"\n            badgeContent={12}\n            anchorOrigin={{\n              horizontal,\n              vertical,\n            }}\n          >\n            <MailIcon />\n          </Badge>\n        </IconButton>\n        <IconButton aria-label=\"show more than 99 unread messages\">\n          <Badge\n            color=\"secondary\"\n            badgeContent={123}\n            anchorOrigin={{\n              horizontal,\n              vertical,\n            }}\n          >\n            <MailIcon />\n          </Badge>\n        </IconButton>\n        <IconButton aria-label=\"show more than 999 unread messages\">\n          <Badge\n            color=\"secondary\"\n            max={999}\n            badgeContent={1337}\n            anchorOrigin={{\n              horizontal,\n              vertical,\n            }}\n          >\n            <MailIcon />\n          </Badge>\n        </IconButton>\n      </Box>\n      <HighlightedCode code={jsx} language=\"jsx\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Badge overlap",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `overlap` prop when the wrapped element is circular."
+    },
+    {
+     "kind": "demo",
+     "name": "BadgeOverlap",
+     "file": "BadgeOverlap.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Stack from '@mui/material/Stack';\nimport Badge from '@mui/material/Badge';\n\nconst shapeSize = 32;\n\nexport default function BadgeOverlap() {\n  return (\n    <Stack spacing={3} direction=\"row\">\n      <Badge color=\"secondary\" badgeContent={1}>\n        <Rectangle />\n      </Badge>\n      <Badge color=\"secondary\" variant=\"dot\">\n        <Rectangle />\n      </Badge>\n      <Badge color=\"secondary\" overlap=\"circular\" badgeContent={1}>\n        <Circle />\n      </Badge>\n      <Badge color=\"secondary\" overlap=\"circular\" variant=\"dot\">\n        <Circle />\n      </Badge>\n    </Stack>\n  );\n}\n\nfunction Rectangle() {\n  return (\n    <Box\n      component=\"span\"\n      sx={{ bgcolor: 'primary.main', width: shapeSize, height: shapeSize }}\n    />\n  );\n}\n\nfunction Circle() {\n  return (\n    <Box\n      component=\"span\"\n      sx={{\n        bgcolor: 'primary.main',\n        width: shapeSize,\n        height: shapeSize,\n        borderRadius: '50%',\n      }}\n    />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Custom styles",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use theme style overrides, the `sx` prop, or `styled()` to customize the badge.\nLearn more in the [customization guide](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedBadges",
+     "file": "CustomizedBadges.tsx",
+     "code": "import Badge from '@mui/material/Badge';\nimport Avatar from '@mui/material/Avatar';\nimport List from '@mui/material/List';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemText from '@mui/material/ListItemText';\nimport Paper from '@mui/material/Paper';\nimport { styled } from '@mui/material/styles';\n\ntype ContactStatus = 'online' | 'offline';\n\nconst statusLabels: Record<ContactStatus, string> = {\n  online: 'Online',\n  offline: 'Offline',\n};\n\nconst contacts = [\n  { name: 'Remy Sharp', initials: 'R', status: 'online' },\n  { name: 'Travis Howard', initials: 'T', status: 'offline' },\n  { name: 'Cindy Baker', initials: 'C', status: 'online' },\n] as const;\n\nconst ContactStatusBadge = styled(Badge, {\n  shouldForwardProp: (prop) => prop !== 'status',\n})<{ status: ContactStatus }>(({ theme, status }) => {\n  const themePalette = (theme.vars ?? theme).palette;\n  const offlineBadgeColor = theme.vars\n    ? theme.vars.palette.Avatar.defaultBg\n    : theme.palette.grey[400];\n\n  return {\n    '& .MuiBadge-badge': {\n      height: 10,\n      minWidth: 10,\n      border: `1px solid ${themePalette.grey[300]}`,\n      boxShadow: `0 0 0 2px ${themePalette.background.paper}`,\n      ...(status === 'offline' && {\n        backgroundColor: offlineBadgeColor,\n        ...(theme.vars\n          ? {}\n          : theme.applyStyles('dark', {\n              backgroundColor: theme.palette.grey[600],\n            })),\n      }),\n    },\n  };\n});\n\nexport default function CustomizedBadges() {\n  return (\n    <Paper variant=\"outlined\" sx={{ width: 320, maxWidth: '100%' }}>\n      <List component=\"nav\" aria-label=\"contacts\" sx={{ py: 0 }}>\n        {contacts.map((contact) => {\n          const statusLabel = statusLabels[contact.status];\n\n          return (\n            <ListItemButton\n              key={contact.name}\n              aria-label={`${contact.name}, ${contact.status}`}\n            >\n              <ListItemAvatar>\n                <ContactStatusBadge\n                  status={contact.status}\n                  color={contact.status === 'online' ? 'success' : 'default'}\n                  variant=\"dot\"\n                  overlap=\"circular\"\n                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}\n                >\n                  <Avatar>{contact.initials}</Avatar>\n                </ContactStatusBadge>\n              </ListItemAvatar>\n              <ListItemText primary={contact.name} secondary={statusLabel} />\n            </ListItemButton>\n          );\n        })}\n      </List>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Badge",
+   "description": "",
+   "props": [
+    {
+     "prop": "anchorOrigin",
+     "type": "{ horizontal?: 'left'<br>&#124;&nbsp;'right', vertical?: 'bottom'<br>&#124;&nbsp;'top' }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'right',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The anchor of the badge."
+    },
+    {
+     "prop": "badgeContent",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content rendered within the badge."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The badge will be added relative to this node."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'default'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "invisible",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the badge is invisible."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "99",
+     "required": false,
+     "deprecated": false,
+     "desc": "Max count to show."
+    },
+    {
+     "prop": "overlap",
+     "type": "'circular'<br>&#124;&nbsp;'rectangular'",
+     "default": "'rectangular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Wrapped shape the badge should overlap."
+    },
+    {
+     "prop": "showZero",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Controls whether the badge is hidden when <code>badgeContent</code> is zero."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ badge?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ badge?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'dot'<br>&#124;&nbsp;'standard'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "anchorOriginBottomLeft",
+     "className": "MuiBadge-anchorOriginBottomLeft",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginBottomLeftCircular",
+     "className": "MuiBadge-anchorOriginBottomLeftCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginBottomLeftRectangular",
+     "className": "MuiBadge-anchorOriginBottomLeftRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginBottomRight",
+     "className": "MuiBadge-anchorOriginBottomRight",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }}`."
+    },
+    {
+     "key": "anchorOriginBottomRightCircular",
+     "className": "MuiBadge-anchorOriginBottomRightCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginBottomRightRectangular",
+     "className": "MuiBadge-anchorOriginBottomRightRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginTopLeft",
+     "className": "MuiBadge-anchorOriginTopLeft",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginTopLeftCircular",
+     "className": "MuiBadge-anchorOriginTopLeftCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginTopLeftRectangular",
+     "className": "MuiBadge-anchorOriginTopLeftRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginTopRight",
+     "className": "MuiBadge-anchorOriginTopRight",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }}`."
+    },
+    {
+     "key": "anchorOriginTopRightCircular",
+     "className": "MuiBadge-anchorOriginTopRightCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginTopRightRectangular",
+     "className": "MuiBadge-anchorOriginTopRightRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "colorError",
+     "className": "MuiBadge-colorError",
+     "description": "Styles applied to the badge `span` element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiBadge-colorInfo",
+     "description": "Styles applied to the badge `span` element if `color=\"info\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiBadge-colorPrimary",
+     "description": "Styles applied to the badge `span` element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiBadge-colorSecondary",
+     "description": "Styles applied to the badge `span` element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiBadge-colorSuccess",
+     "description": "Styles applied to the badge `span` element if `color=\"success\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiBadge-colorWarning",
+     "description": "Styles applied to the badge `span` element if `color=\"warning\"`."
+    },
+    {
+     "key": "dot",
+     "className": "MuiBadge-dot",
+     "description": "Styles applied to the badge `span` element if `variant=\"dot\"`."
+    },
+    {
+     "key": "invisible",
+     "className": "MuiBadge-invisible",
+     "description": "State class applied to the badge `span` element if `invisible={true}`."
+    },
+    {
+     "key": "overlapCircular",
+     "className": "MuiBadge-overlapCircular",
+     "description": "Styles applied to the badge `span` element if `overlap=\"circular\"`."
+    },
+    {
+     "key": "overlapRectangular",
+     "className": "MuiBadge-overlapRectangular",
+     "description": "Styles applied to the badge `span` element if `overlap=\"rectangular\"`."
+    },
+    {
+     "key": "standard",
+     "className": "MuiBadge-standard",
+     "description": "Styles applied to the badge `span` element if `variant=\"standard\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-badge/"
+}

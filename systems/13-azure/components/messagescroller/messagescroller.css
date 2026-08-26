@@ -1,0 +1,67 @@
+
+.ods-messagescroller {
+  /* "relative flex size-full min-h-0 flex-col overflow-hidden" */
+  position: relative;
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%; min-height: 0;
+  overflow: hidden;
+  font-family: var(--base-font-family-sans);
+}
+.ods-messagescroller-viewport {
+  /* "size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain contain-content" */
+  width: 100%; height: 100%; min-height: 0; min-width: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  contain: content;
+}
+.ods-messagescroller-content {
+  /* "flex h-max min-h-full flex-col gap-8" */
+  display: flex; flex-direction: column;
+  height: max-content; min-height: 100%;
+  gap: var(--component-messagescroller-gap);
+}
+.ods-messagescroller-item {
+  /* 화면 밖 행 렌더링 생략. 없으면 대화 길어질수록 느려지는 문제 있음 */
+  min-width: 0; flex-shrink: 0;
+  contain-intrinsic-size: auto 10rem;
+  content-visibility: auto;
+}
+.ods-messagescroller-button {
+  /* 가로 중앙 정렬 */
+  position: absolute; z-index: 1;
+  inset-inline-start: 50%;
+  width: var(--component-messagescroller-button-size);
+  height: var(--component-messagescroller-button-size);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--component-messagescroller-button-bg);
+  color: var(--component-messagescroller-button-fg);
+  border: var(--semantic-border-width-default) solid
+          var(--component-messagescroller-button-border);
+  border-radius: var(--component-messagescroller-button-radius);
+  cursor: pointer;
+  transition: translate 200ms ease, scale 200ms ease, opacity 200ms ease;
+}
+/* "hover:bg-muted hover:text-foreground" */
+.ods-messagescroller-button:hover {
+  background: var(--component-messagescroller-button-bg-hover);
+}
+.ods-messagescroller-button svg { width: 1em; height: 1em; stroke: currentColor; fill: none;
+  stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+/* "data-[direction=end]:bottom-4" · "data-[direction=start]:top-4" */
+.ods-messagescroller-button[data-direction="end"] {
+  inset-block-end: var(--component-messagescroller-button-inset);
+  translate: -50% 0;
+}
+.ods-messagescroller-button[data-direction="start"] {
+  inset-block-start: var(--component-messagescroller-button-inset);
+  translate: -50% 0;
+}
+/* 방향 start일 때 화살표 아이콘 180도 회전하기 */
+.ods-messagescroller-button[data-direction="start"] svg { rotate: 180deg; }
+/* 트랜지션 클래스 삭제 금지. display:none 쓰면 튀어나오는 문제 있음 */
+.ods-messagescroller-button[data-active="false"] {
+  pointer-events: none; scale: 0.95; opacity: 0;
+}
+.ods-messagescroller-button[data-direction="end"][data-active="false"] { translate: -50% 100%; }
+.ods-messagescroller-button[data-direction="start"][data-active="false"] { translate: -50% -100%; }
+/* "data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100" */
+.ods-messagescroller-button[data-active="true"] { scale: 1; opacity: 1; }

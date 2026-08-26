@@ -1,0 +1,215 @@
+{
+ "slug": "css-baseline",
+ "title": "CSS Baseline",
+ "group": "Utils",
+ "folder": "css-baseline",
+ "description": "The CssBaseline component helps to kickstart an elegant, consistent, and simple baseline to build upon.",
+ "components": [
+  "CssBaseline",
+  "ScopedCssBaseline"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# CSS Baseline"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Global reset",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You might be familiar with [normalize.css](https://github.com/necolas/normalize.css), a collection of HTML element and attribute style-normalizations."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import * as React from 'react';\nimport CssBaseline from '@mui/material/CssBaseline';\n\nexport default function MyApp() {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      {/* The rest of your application */}\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Scoping on children",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "However, you might be progressively migrating a website to Material UI, using a global reset might not be an option.\nIt's possible to apply the baseline only to the children by using the `ScopedCssBaseline` component."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import * as React from 'react';\nimport ScopedCssBaseline from '@mui/material/ScopedCssBaseline';\nimport MyApp from './MyApp';\n\nexport default function MyApp() {\n  return (\n    <ScopedCssBaseline>\n      {/* The rest of your application */}\n      <MyApp />\n    </ScopedCssBaseline>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "⚠️ Make sure you import `ScopedCssBaseline` first to avoid box-sizing conflicts as in the above example."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Approach",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Page",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `<html>` and `<body>` elements are updated to provide better page-wide defaults. More specifically:\n\n- The margin in all browsers is removed.\n- The default Material Design background color is applied.\n  It's using [`theme.palette.background.default`](/material-ui/customization/default-theme/?expand-path=$.palette.background) for standard devices and a white background for print devices.\n- If `enableColorScheme` is provided to `CssBaseline`, native components color will be set by applying [`color-scheme`](https://web.dev/articles/color-scheme) on `<html>`.\n  The value used is provided by the theme property `theme.palette.mode`."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Layout",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- `box-sizing` is set globally on the `<html>` element to `border-box`.\n  Every element—including `*::before` and `*::after` are declared to inherit this property,\n  which ensures that the declared width of the element is never exceeded due to padding or border."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Scrollbars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": ":::error\nThis API is deprecated.\nConsider using [color-scheme](#color-scheme) instead.\n:::\n\nThe colors of the scrollbars can be customized to improve the contrast (especially on Windows). Add this code to your theme (for dark mode)."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import darkScrollbar from '@mui/material/darkScrollbar';\n\nconst theme = createTheme({\n  components: {\n    MuiCssBaseline: {\n      styleOverrides: (themeParam) => ({\n        body: themeParam.palette.mode === 'dark' ? darkScrollbar() : null,\n      }),\n    },\n  },\n});\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Be aware, however, that using this utility (and customizing `-webkit-scrollbar`) forces macOS to always show the scrollbar."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Color scheme",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "This API is introduced in @mui/material (v5.1.0) for switching between `\"light\"` and `\"dark\"` modes of native components such as scrollbar, using the `color-scheme` CSS property.\nTo enable it, you can set `enableColorScheme=true` as follows:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<CssBaseline enableColorScheme />\n\n// or\n\n<ScopedCssBaseline enableColorScheme >\n  {/* The rest of your application using color-scheme*/}\n</ScopedCssBaseline>\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Typography",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- No base font-size is declared on the `<html>`, but 16px is assumed (the browser default).\n  You can learn more about the implications of changing the `<html>` default font size in [the theme documentation](/material-ui/customization/typography/#html-font-size) page.\n- Set the `theme.typography.body1` style on the `<body>` element.\n- Set the font-weight to `theme.typography.fontWeightBold` for the `<b>` and `<strong>` elements.\n- Custom font-smoothing is enabled for better display of the Roboto font."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Head to the [global customization](/material-ui/customization/how-to-customize/#4-global-css-override) section of the documentation to change the output of these components."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "CssBaseline",
+   "description": "Kickstart an elegant, consistent, and simple baseline to build upon.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "You can wrap a node."
+    },
+    {
+     "prop": "enableColorScheme",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Enable <code>color-scheme</code> CSS property to use <code>theme.palette.mode</code>. For more details, check out <a href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme\">https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme</a> For browser support, check out <a href=\"https://caniuse.com/?search=color-scheme\">https://caniuse.com/?search=color-scheme</a>"
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "ScopedCssBaseline",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "enableColorScheme",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Enable <code>color-scheme</code> CSS property to use <code>theme.palette.mode</code>. For more details, check out <a href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme\">https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme</a> For browser support, check out <a href=\"https://caniuse.com/?search=color-scheme\">https://caniuse.com/?search=color-scheme</a>"
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiScopedCssBaseline-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-css-baseline/"
+}

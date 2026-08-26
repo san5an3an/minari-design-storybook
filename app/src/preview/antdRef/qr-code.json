@@ -1,0 +1,459 @@
+{
+ "slug": "qr-code",
+ "title": "QRCode",
+ "description": "Components that can convert text into QR codes, and support custom color and logo.",
+ "group": "Data Display",
+ "whenToUse": "Used when the text needs to be converted into a QR Code.",
+ "examples": [
+  {
+   "name": "base",
+   "description": "Basic Usage.",
+   "code": "import React from 'react';\nimport { Input, QRCode, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [text, setText] = React.useState('https://ant.design/');\n\n  return (\n    <Space vertical align=\"center\">\n      <QRCode value={text || '-'} />\n      <Input\n        placeholder=\"-\"\n        maxLength={60}\n        value={text}\n        onChange={(e) => setText(e.target.value)}\n      />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "base"
+  },
+  {
+   "name": "With Icon",
+   "description": "QRCode with Icon.",
+   "code": "import React from 'react';\nimport { QRCode } from 'antd';\n\nconst App: React.FC = () => (\n  <QRCode\n    errorLevel=\"H\"\n    value=\"https://ant.design/\"\n    icon=\"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg\"\n  />\n);\n\nexport default App;",
+   "demoId": "icon"
+  },
+  {
+   "name": "other status",
+   "description": "The status can be controlled by the value `status`, four values ​​of `active`, `expired`, `loading`, `scanned` are provided.",
+   "code": "import React from 'react';\nimport { Flex, QRCode } from 'antd';\n\nconst value = 'https://ant.design';\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" wrap>\n    <QRCode value={value} status=\"loading\" />\n    <QRCode value={value} status=\"expired\" onRefresh={() => console.log('refresh')} />\n    <QRCode value={value} status=\"scanned\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "custom status render",
+   "description": "You can control the rendering logic of the QR code in different states through the value of `statusRender`.",
+   "code": "import React from 'react';\nimport { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@ant-design/icons';\nimport type { QRCodeProps } from 'antd';\nimport { Button, Flex, QRCode, Space, Spin } from 'antd';\n\nconst value = 'https://ant.design';\n\nconst customStatusRender: QRCodeProps['statusRender'] = (info) => {\n  switch (info.status) {\n    case 'expired':\n      return (\n        <div>\n          <CloseCircleFilled style={{ color: 'red' }} /> {info.locale?.expired}\n          <p>\n            <Button type=\"link\" onClick={info.onRefresh}>\n              <ReloadOutlined /> {info.locale?.refresh}\n            </Button>\n          </p>\n        </div>\n      );\n    case 'loading':\n      return (\n        <Space vertical>\n          <Spin />\n          <p>Loading...</p>\n        </Space>\n      );\n    case 'scanned':\n      return (\n        <div>\n          <CheckCircleFilled style={{ color: 'green' }} /> {info.locale?.scanned}\n        </div>\n      );\n    default:\n      return null;\n  }\n};\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" wrap>\n    <QRCode value={value} status=\"loading\" statusRender={customStatusRender} />\n    <QRCode\n      value={value}\n      status=\"expired\"\n      onRefresh={() => console.log('refresh')}\n      statusRender={customStatusRender}\n    />\n    <QRCode value={value} status=\"scanned\" statusRender={customStatusRender} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "customstatusrender"
+  },
+  {
+   "name": "Custom Render Type",
+   "description": "Customize the rendering results by `type`, provide options `canvas` and `svg`.",
+   "code": "import React from 'react';\nimport { QRCode, Space } from 'antd';\n\nconst App: React.FC = () => (\n  <Space>\n    <QRCode type=\"canvas\" value=\"https://ant.design/\" />\n    <QRCode type=\"svg\" value=\"https://ant.design/\" />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "type"
+  },
+  {
+   "name": "Custom Size",
+   "description": "Custom Size.",
+   "code": "import React, { useState } from 'react';\nimport { MinusOutlined, PlusOutlined } from '@ant-design/icons';\nimport { Button, QRCode, Space } from 'antd';\n\nconst MIN_SIZE = 48;\nconst MAX_SIZE = 300;\n\nconst App: React.FC = () => {\n  const [size, setSize] = useState<number>(160);\n\n  const increase = () => {\n    setSize((prevSize) => {\n      const newSize = prevSize + 10;\n      if (newSize >= MAX_SIZE) {\n        return MAX_SIZE;\n      }\n      return newSize;\n    });\n  };\n\n  const decline = () => {\n    setSize((prevSize) => {\n      const newSize = prevSize - 10;\n      if (newSize <= MIN_SIZE) {\n        return MIN_SIZE;\n      }\n      return newSize;\n    });\n  };\n\n  return (\n    <>\n      <Space.Compact style={{ marginBottom: 16 }}>\n        <Button onClick={decline} disabled={size <= MIN_SIZE} icon={<MinusOutlined />}>\n          Smaller\n        </Button>\n        <Button onClick={increase} disabled={size >= MAX_SIZE} icon={<PlusOutlined />}>\n          Larger\n        </Button>\n      </Space.Compact>\n      <QRCode\n        errorLevel=\"H\"\n        size={size}\n        iconSize={size / 4}\n        value=\"https://ant.design/\"\n        icon=\"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg\"\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "customsize"
+  },
+  {
+   "name": "Custom Color",
+   "description": "Custom Color.",
+   "code": "import React from 'react';\nimport { QRCode, Space, theme } from 'antd';\n\nconst { useToken } = theme;\n\nconst App: React.FC = () => {\n  const { token } = useToken();\n  return (\n    <Space>\n      <QRCode value=\"https://ant.design/\" color={token.colorSuccessText} />\n      <QRCode\n        value=\"https://ant.design/\"\n        color={token.colorInfoText}\n        bgColor={token.colorBgLayout}\n      />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "customcolor"
+  },
+  {
+   "name": "Download QRCode",
+   "description": "A way to download QRCode.",
+   "code": "import React from 'react';\nimport { Button, QRCode, Segmented, Space } from 'antd';\nimport type { QRCodeProps } from 'antd';\n\nfunction doDownload(url: string, fileName: string) {\n  const a = document.createElement('a');\n  a.download = fileName;\n  a.href = url;\n  document.body.appendChild(a);\n  a.click();\n  document.body.removeChild(a);\n}\n\nconst downloadCanvasQRCode = () => {\n  const canvas = document.getElementById('myqrcode')?.querySelector<HTMLCanvasElement>('canvas');\n  if (canvas) {\n    const url = canvas.toDataURL();\n    doDownload(url, 'QRCode.png');\n  }\n};\n\nconst downloadSvgQRCode = () => {\n  const svg = document.getElementById('myqrcode')?.querySelector<SVGElement>('svg');\n  const svgData = new XMLSerializer().serializeToString(svg!);\n  const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });\n  const url = URL.createObjectURL(blob);\n\n  doDownload(url, 'QRCode.svg');\n};\n\nconst App: React.FC = () => {\n  const [renderType, setRenderType] = React.useState<QRCodeProps['type']>('canvas');\n  return (\n    <Space id=\"myqrcode\" vertical>\n      <Segmented options={['canvas', 'svg']} value={renderType} onChange={setRenderType} />\n      <div>\n        <QRCode\n          type={renderType}\n          value=\"https://ant.design/\"\n          bgColor=\"rgba(255,255,255,0.5)\"\n          style={{ marginBottom: 16 }}\n          icon=\"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg\"\n        />\n        <Button\n          type=\"primary\"\n          onClick={renderType === 'canvas' ? downloadCanvasQRCode : downloadSvgQRCode}\n        >\n          Download\n        </Button>\n      </div>\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "download"
+  },
+  {
+   "name": "Error Level",
+   "description": "set Error Level.",
+   "code": "import React, { useState } from 'react';\nimport type { QRCodeProps } from 'antd';\nimport { QRCode, Segmented } from 'antd';\n\nconst App: React.FC = () => {\n  const [level, setLevel] = useState<QRCodeProps['errorLevel']>('L');\n  return (\n    <>\n      <QRCode\n        style={{ marginBottom: 16 }}\n        errorLevel={level}\n        value=\"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg\"\n      />\n      <Segmented options={['L', 'M', 'Q', 'H']} value={level} onChange={setLevel} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "errorlevel"
+  },
+  {
+   "name": "Advanced Usage",
+   "description": "With Popover.",
+   "code": "import React from 'react';\nimport { Button, Popover, QRCode } from 'antd';\n\nconst App: React.FC = () => (\n  <Popover content={<QRCode value=\"https://ant.design\" bordered={false} />}>\n    <Button type=\"primary\">Hover me</Button>\n  </Popover>\n);\n\nexport default App;",
+   "demoId": "popover"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of QRCode by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, QRCode } from 'antd';\nimport type { GetProp, QRCodeProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border: 1px solid #ccc;\n    border-radius: 8px;\n    padding: 16px;\n  `,\n}));\n\nconst stylesObject: QRCodeProps['styles'] = {\n  root: {\n    border: '2px solid #1890ff',\n    borderRadius: 8,\n    padding: 16,\n    backgroundColor: 'rgb(24, 144, 255, 0.1)',\n  },\n};\n\nconst stylesFunction: QRCodeProps['styles'] = (info): GetProp<QRCodeProps, 'styles', 'Return'> => {\n  if (info.props.type === 'canvas') {\n    return {\n      root: {\n        border: '2px solid #ff4d4f',\n        borderRadius: 8,\n        padding: 16,\n        backgroundColor: 'rgba(255, 77, 79, 0.1)',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const sharedProps: QRCodeProps = {\n    value: 'https://ant.design/',\n    size: 160,\n    classNames,\n  };\n\n  return (\n    <Flex gap=\"medium\">\n      <QRCode {...sharedProps} styles={stylesObject} />\n      <QRCode\n        {...sharedProps}\n        type=\"canvas\"\n        icon=\"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg\"\n        styles={stylesFunction}\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "value",
+     "scanned text",
+     "string | string[]",
+     "-",
+     "`string[]`: 5.28.0",
+     "×"
+    ],
+    [
+     "type",
+     "render type",
+     "canvas | svg",
+     "canvas",
+     "5.6.0",
+     "×"
+    ],
+    [
+     "icon",
+     "include image url (only image link are supported)",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "size",
+     "QRCode size",
+     "number",
+     "160",
+     "-",
+     "×"
+    ],
+    [
+     "iconSize",
+     "include image size",
+     "number | { width: number; height: number }",
+     "40",
+     "5.19.0",
+     "×"
+    ],
+    [
+     "color",
+     "QRCode Color",
+     "string",
+     "#000",
+     "-",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "bgColor",
+     "QRCode Background Color",
+     "string",
+     "transparent",
+     "5.5.0",
+     "×"
+    ],
+    [
+     "marginSize",
+     "Quiet zone size (in modules). `0` means no margin",
+     "number",
+     "0",
+     "6.2.0",
+     "×"
+    ],
+    [
+     "bordered",
+     "Whether has border style",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "errorLevel",
+     "Error Code Level",
+     "'L' | 'M' | 'Q' | 'H'",
+     "M",
+     "-",
+     "×"
+    ],
+    [
+     "boostLevel",
+     "If enabled, the Error Correction Level of the result may be higher than the specified Error Correction Level",
+     "boolean",
+     "true",
+     "5.28.0",
+     "×"
+    ],
+    [
+     "status",
+     "QRCode status",
+     "active | expired | loading | scanned",
+     "active",
+     "scanned: 5.13.0",
+     "×"
+    ],
+    [
+     "statusRender",
+     "custom status render",
+     "(info: StatusRenderInfo) => React.ReactNode",
+     "-",
+     "5.20.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "value",
+    "scanned text",
+    "string | string[]",
+    "-",
+    "`string[]`: 5.28.0",
+    "×"
+   ],
+   [
+    "type",
+    "render type",
+    "canvas | svg",
+    "canvas",
+    "5.6.0",
+    "×"
+   ],
+   [
+    "icon",
+    "include image url (only image link are supported)",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "size",
+    "QRCode size",
+    "number",
+    "160",
+    "-",
+    "×"
+   ],
+   [
+    "iconSize",
+    "include image size",
+    "number | { width: number; height: number }",
+    "40",
+    "5.19.0",
+    "×"
+   ],
+   [
+    "color",
+    "QRCode Color",
+    "string",
+    "#000",
+    "-",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "bgColor",
+    "QRCode Background Color",
+    "string",
+    "transparent",
+    "5.5.0",
+    "×"
+   ],
+   [
+    "marginSize",
+    "Quiet zone size (in modules). `0` means no margin",
+    "number",
+    "0",
+    "6.2.0",
+    "×"
+   ],
+   [
+    "bordered",
+    "Whether has border style",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "errorLevel",
+    "Error Code Level",
+    "'L' | 'M' | 'Q' | 'H'",
+    "M",
+    "-",
+    "×"
+   ],
+   [
+    "boostLevel",
+    "If enabled, the Error Correction Level of the result may be higher than the specified Error Correction Level",
+    "boolean",
+    "true",
+    "5.28.0",
+    "×"
+   ],
+   [
+    "status",
+    "QRCode status",
+    "active | expired | loading | scanned",
+    "active",
+    "scanned: 5.13.0",
+    "×"
+   ],
+   [
+    "statusRender",
+    "custom status render",
+    "(info: StatusRenderInfo) => React.ReactNode",
+    "-",
+    "5.20.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "errorLevel",
+   "values": [
+    "L",
+    "M",
+    "Q",
+    "H"
+   ],
+   "default": "M",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, set flex layout, padding, background color, border, border radius and relative positioning styles"
+   },
+   {
+    "name": "cover",
+    "mark": "semantic-mark-cover",
+    "description": "Cover element, set absolute positioning, z-index, background color and loading state overlay styles"
+   }
+  ],
+  "dom": "<div class=\"ant-qrcode css-var-test-id semantic-mark-root\" style=\"background-color: transparent; width: 160px; height: 160px;\">\n        <div class=\"ant-qrcode-cover semantic-mark-cover\">\n          <div aria-busy=\"true\" aria-live=\"polite\" class=\"ant-spin ant-spin-spinning ant-spin-section css-var-test-id\">\n            <span class=\"ant-spin-dot-holder\">\n              <span class=\"ant-spin-dot ant-spin-dot-spin\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n              </i></i></i></i></span><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n            </i></i></i></span><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n          </i></i></i></div><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n        </i></i></i></div><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n        <canvas height=\"160\" role=\"img\" width=\"160\">\n      </canvas></i></i></i></div>"
+ },
+ "designToken": "",
+ "componentToken": null,
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

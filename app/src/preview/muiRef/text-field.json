@@ -1,0 +1,2632 @@
+{
+ "slug": "text-field",
+ "title": "Text Field",
+ "group": "Inputs",
+ "folder": "text-fields",
+ "description": "Text Fields let users enter and edit text.",
+ "components": [
+  "FilledInput",
+  "FormControl",
+  "FormHelperText",
+  "Input",
+  "InputAdornment",
+  "InputBase",
+  "InputLabel",
+  "OutlinedInput",
+  "TextField"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Text fields allow users to enter text into a UI. They typically appear in forms and dialogs."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic TextField",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `TextField` wrapper component is a complete form control including a label, input, and help text.\nIt comes with three variants: outlined (default), filled, and standard."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicTextFields",
+     "file": "BasicTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function BasicTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <TextField id=\"outlined-basic\" label=\"Outlined\" variant=\"outlined\" />\n      <TextField id=\"filled-basic\" label=\"Filled\" variant=\"filled\" />\n      <TextField id=\"standard-basic\" label=\"Standard\" variant=\"standard\" />\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::info\nThe standard variant of the Text Field is no longer documented in the [Material Design guidelines](https://m2.material.io/)\n([this article explains why](https://medium.com/google-design/the-evolution-of-material-designs-text-fields-603688b3fe03)),\nbut Material UI will continue to support it.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Form props",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Standard form attributes are supported, for example `required`, `disabled`, `type`, etc. as well as a `helperText` which is used to give context about a field's input, such as how the input will be used."
+    },
+    {
+     "kind": "demo",
+     "name": "FormPropsTextFields",
+     "file": "FormPropsTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function FormPropsTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <div>\n        <TextField\n          required\n          id=\"outlined-required\"\n          label=\"Required\"\n          defaultValue=\"Hello World\"\n        />\n        <TextField\n          disabled\n          id=\"outlined-disabled\"\n          label=\"Disabled\"\n          defaultValue=\"Hello World\"\n        />\n        <TextField\n          id=\"outlined-password-input\"\n          label=\"Password\"\n          type=\"password\"\n          autoComplete=\"current-password\"\n        />\n        <TextField\n          id=\"outlined-read-only-input\"\n          label=\"Read Only\"\n          defaultValue=\"Hello World\"\n          slotProps={{\n            input: {\n              readOnly: true,\n            },\n          }}\n        />\n        <TextField id=\"outlined-search\" label=\"Search field\" type=\"search\" />\n        <TextField\n          id=\"outlined-helperText\"\n          label=\"Helper text\"\n          defaultValue=\"Default Value\"\n          helperText=\"Some important text\"\n        />\n      </div>\n      <div>\n        <TextField\n          required\n          id=\"filled-required\"\n          label=\"Required\"\n          defaultValue=\"Hello World\"\n          variant=\"filled\"\n        />\n        <TextField\n          disabled\n          id=\"filled-disabled\"\n          label=\"Disabled\"\n          defaultValue=\"Hello World\"\n          variant=\"filled\"\n        />\n        <TextField\n          id=\"filled-password-input\"\n          label=\"Password\"\n          type=\"password\"\n          autoComplete=\"current-password\"\n          variant=\"filled\"\n        />\n        <TextField\n          id=\"filled-read-only-input\"\n          label=\"Read Only\"\n          defaultValue=\"Hello World\"\n          variant=\"filled\"\n          slotProps={{\n            input: {\n              readOnly: true,\n            },\n          }}\n        />\n        <TextField\n          id=\"filled-search\"\n          label=\"Search field\"\n          type=\"search\"\n          variant=\"filled\"\n        />\n        <TextField\n          id=\"filled-helperText\"\n          label=\"Helper text\"\n          defaultValue=\"Default Value\"\n          helperText=\"Some important text\"\n          variant=\"filled\"\n        />\n      </div>\n      <div>\n        <TextField\n          required\n          id=\"standard-required\"\n          label=\"Required\"\n          defaultValue=\"Hello World\"\n          variant=\"standard\"\n        />\n        <TextField\n          disabled\n          id=\"standard-disabled\"\n          label=\"Disabled\"\n          defaultValue=\"Hello World\"\n          variant=\"standard\"\n        />\n        <TextField\n          id=\"standard-password-input\"\n          label=\"Password\"\n          type=\"password\"\n          autoComplete=\"current-password\"\n          variant=\"standard\"\n        />\n        <TextField\n          id=\"standard-read-only-input\"\n          label=\"Read Only\"\n          defaultValue=\"Hello World\"\n          variant=\"standard\"\n          slotProps={{\n            input: {\n              readOnly: true,\n            },\n          }}\n        />\n        <TextField\n          id=\"standard-search\"\n          label=\"Search field\"\n          type=\"search\"\n          variant=\"standard\"\n        />\n        <TextField\n          id=\"standard-helperText\"\n          label=\"Helper text\"\n          defaultValue=\"Default Value\"\n          helperText=\"Some important text\"\n          variant=\"standard\"\n        />\n      </div>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Controlling the HTML input",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `slotProps.htmlInput` to pass attributes to the underlying `<input>` element."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<TextField slotProps={{ htmlInput: { 'data-testid': '…' } }} />\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The rendered HTML input will look like this:"
+    },
+    {
+     "kind": "code",
+     "lang": "html",
+     "text": "<input\n  aria-invalid=\"false\"\n  class=\"MuiInputBase-input MuiOutlinedInput-input\"\n  type=\"text\"\n  data-testid=\"…\"\n/>\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\n`slotProps.htmlInput` is not the same as `slotProps.input`.\n`slotProps.input` refers to the React `<Input />` component that's rendered based on the specified variant prop.\n`slotProps.htmlInput` refers to the HTML `<input>` element rendered within that Input component, regardless of the variant.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Validation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `error` prop toggles the error state.\nThe `helperText` prop can then be used to provide feedback to the user about the error."
+    },
+    {
+     "kind": "demo",
+     "name": "ValidationTextFields",
+     "file": "ValidationTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function ValidationTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <div>\n        <TextField\n          error\n          id=\"outlined-error\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n        />\n        <TextField\n          error\n          id=\"outlined-error-helper-text\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n          helperText=\"Incorrect entry.\"\n        />\n      </div>\n      <div>\n        <TextField\n          error\n          id=\"filled-error\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n          variant=\"filled\"\n        />\n        <TextField\n          error\n          id=\"filled-error-helper-text\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n          helperText=\"Incorrect entry.\"\n          variant=\"filled\"\n        />\n      </div>\n      <div>\n        <TextField\n          error\n          id=\"standard-error\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n          variant=\"standard\"\n        />\n        <TextField\n          error\n          id=\"standard-error-helper-text\"\n          label=\"Error\"\n          defaultValue=\"Hello World\"\n          helperText=\"Incorrect entry.\"\n          variant=\"standard\"\n        />\n      </div>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Multiline",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `multiline` prop transforms the Text Field into a [Textarea Autosize](/material-ui/react-textarea-autosize/) element.\nUnless the `rows` prop is set, the height of the text field dynamically matches its content.\nYou can use the `minRows` and `maxRows` props to bound it."
+    },
+    {
+     "kind": "demo",
+     "name": "MultilineTextFields",
+     "file": "MultilineTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function MultilineTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <div>\n        <TextField\n          id=\"outlined-multiline-flexible\"\n          label=\"Multiline\"\n          multiline\n          maxRows={4}\n        />\n        <TextField\n          id=\"outlined-textarea\"\n          label=\"Multiline Placeholder\"\n          placeholder=\"Placeholder\"\n          multiline\n        />\n        <TextField\n          id=\"outlined-multiline-static\"\n          label=\"Multiline\"\n          multiline\n          rows={4}\n          defaultValue=\"Default Value\"\n        />\n      </div>\n      <div>\n        <TextField\n          id=\"filled-multiline-flexible\"\n          label=\"Multiline\"\n          multiline\n          maxRows={4}\n          variant=\"filled\"\n        />\n        <TextField\n          id=\"filled-textarea\"\n          label=\"Multiline Placeholder\"\n          placeholder=\"Placeholder\"\n          multiline\n          variant=\"filled\"\n        />\n        <TextField\n          id=\"filled-multiline-static\"\n          label=\"Multiline\"\n          multiline\n          rows={4}\n          defaultValue=\"Default Value\"\n          variant=\"filled\"\n        />\n      </div>\n      <div>\n        <TextField\n          id=\"standard-multiline-flexible\"\n          label=\"Multiline\"\n          multiline\n          maxRows={4}\n          variant=\"standard\"\n        />\n        <TextField\n          id=\"standard-textarea\"\n          label=\"Multiline Placeholder\"\n          placeholder=\"Placeholder\"\n          multiline\n          variant=\"standard\"\n        />\n        <TextField\n          id=\"standard-multiline-static\"\n          label=\"Multiline\"\n          multiline\n          rows={4}\n          defaultValue=\"Default Value\"\n          variant=\"standard\"\n        />\n      </div>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Select",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `select` prop makes the text field use the [Select](/material-ui/react-select/) component internally."
+    },
+    {
+     "kind": "demo",
+     "name": "SelectTextFields",
+     "file": "SelectTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\nimport MenuItem from '@mui/material/MenuItem';\n\nconst currencies = [\n  {\n    value: 'USD',\n    label: '$',\n  },\n  {\n    value: 'EUR',\n    label: '€',\n  },\n  {\n    value: 'BTC',\n    label: '฿',\n  },\n  {\n    value: 'JPY',\n    label: '¥',\n  },\n];\n\nexport default function SelectTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <div>\n        <TextField\n          id=\"outlined-select-currency\"\n          select\n          label=\"Select\"\n          defaultValue=\"EUR\"\n          helperText=\"Please select your currency\"\n        >\n          {currencies.map((option) => (\n            <MenuItem key={option.value} value={option.value}>\n              {option.label}\n            </MenuItem>\n          ))}\n        </TextField>\n        <TextField\n          id=\"outlined-select-currency-native\"\n          select\n          label=\"Native select\"\n          defaultValue=\"EUR\"\n          slotProps={{\n            select: {\n              native: true,\n            },\n          }}\n          helperText=\"Please select your currency\"\n        >\n          {currencies.map((option) => (\n            <option key={option.value} value={option.value}>\n              {option.label}\n            </option>\n          ))}\n        </TextField>\n      </div>\n      <div>\n        <TextField\n          id=\"filled-select-currency\"\n          select\n          label=\"Select\"\n          defaultValue=\"EUR\"\n          helperText=\"Please select your currency\"\n          variant=\"filled\"\n        >\n          {currencies.map((option) => (\n            <MenuItem key={option.value} value={option.value}>\n              {option.label}\n            </MenuItem>\n          ))}\n        </TextField>\n        <TextField\n          id=\"filled-select-currency-native\"\n          select\n          label=\"Native select\"\n          defaultValue=\"EUR\"\n          slotProps={{\n            select: {\n              native: true,\n            },\n          }}\n          helperText=\"Please select your currency\"\n          variant=\"filled\"\n        >\n          {currencies.map((option) => (\n            <option key={option.value} value={option.value}>\n              {option.label}\n            </option>\n          ))}\n        </TextField>\n      </div>\n      <div>\n        <TextField\n          id=\"standard-select-currency\"\n          select\n          label=\"Select\"\n          defaultValue=\"EUR\"\n          helperText=\"Please select your currency\"\n          variant=\"standard\"\n        >\n          {currencies.map((option) => (\n            <MenuItem key={option.value} value={option.value}>\n              {option.label}\n            </MenuItem>\n          ))}\n        </TextField>\n        <TextField\n          id=\"standard-select-currency-native\"\n          select\n          label=\"Native select\"\n          defaultValue=\"EUR\"\n          slotProps={{\n            select: {\n              native: true,\n            },\n          }}\n          helperText=\"Please select your currency\"\n          variant=\"standard\"\n        >\n          {currencies.map((option) => (\n            <option key={option.value} value={option.value}>\n              {option.label}\n            </option>\n          ))}\n        </TextField>\n      </div>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "There are multiple ways to display an icon with a text field."
+    },
+    {
+     "kind": "demo",
+     "name": "InputWithIcon",
+     "file": "InputWithIcon.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Input from '@mui/material/Input';\nimport InputLabel from '@mui/material/InputLabel';\nimport InputAdornment from '@mui/material/InputAdornment';\nimport FormControl from '@mui/material/FormControl';\nimport TextField from '@mui/material/TextField';\nimport AccountCircle from '@mui/icons-material/AccountCircle';\n\nexport default function InputWithIcon() {\n  const adornmentId = React.useId();\n  const textFieldId = React.useId();\n  const sxId = React.useId();\n  return (\n    <Box sx={{ '& > :not(style)': { m: 1 } }}>\n      <FormControl variant=\"standard\">\n        <InputLabel htmlFor={`${adornmentId}-input`}>\n          With a start adornment\n        </InputLabel>\n        <Input\n          id={`${adornmentId}-input`}\n          startAdornment={\n            <InputAdornment position=\"start\">\n              <AccountCircle />\n            </InputAdornment>\n          }\n        />\n      </FormControl>\n      <TextField\n        id={`${textFieldId}-input`}\n        label=\"TextField\"\n        slotProps={{\n          input: {\n            startAdornment: (\n              <InputAdornment position=\"start\">\n                <AccountCircle />\n              </InputAdornment>\n            ),\n          },\n        }}\n        variant=\"standard\"\n      />\n      <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>\n        <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />\n        <TextField id={`${sxId}-input`} label=\"With sx\" variant=\"standard\" />\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Input Adornments",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The main way is with an `InputAdornment`.\nThis can be used to add a prefix, a suffix, or an action to an input.\nFor instance, you can use an icon button to hide or reveal the password."
+    },
+    {
+     "kind": "demo",
+     "name": "InputAdornments",
+     "file": "InputAdornments.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport IconButton from '@mui/material/IconButton';\nimport Input from '@mui/material/Input';\nimport FilledInput from '@mui/material/FilledInput';\nimport OutlinedInput from '@mui/material/OutlinedInput';\nimport InputLabel from '@mui/material/InputLabel';\nimport InputAdornment from '@mui/material/InputAdornment';\nimport FormHelperText from '@mui/material/FormHelperText';\nimport FormControl from '@mui/material/FormControl';\nimport TextField from '@mui/material/TextField';\nimport MenuItem from '@mui/material/MenuItem';\nimport Visibility from '@mui/icons-material/Visibility';\nimport VisibilityOff from '@mui/icons-material/VisibilityOff';\nimport InfoOutlined from '@mui/icons-material/InfoOutlined';\n\nexport default function InputAdornments() {\n  const outlinedStartId = React.useId();\n  const outlinedWeightId = React.useId();\n  const outlinedPasswordId = React.useId();\n  const outlinedAmountId = React.useId();\n  const filledStartId = React.useId();\n  const filledWeightId = React.useId();\n  const filledPasswordId = React.useId();\n  const filledAmountId = React.useId();\n  const standardStartId = React.useId();\n  const standardWeightId = React.useId();\n  const standardPasswordId = React.useId();\n  const standardAmountId = React.useId();\n  const [showPassword, setShowPassword] = React.useState(false);\n\n  const handleClickShowPassword = () => setShowPassword((show) => !show);\n\n  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {\n    event.preventDefault();\n  };\n\n  const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {\n    event.preventDefault();\n  };\n\n  // An endAdornment coexists with the Select's chevron without overlapping it.\n  const infoEndAdornment = (\n    <InputAdornment position=\"end\">\n      <InfoOutlined />\n    </InputAdornment>\n  );\n  const infoStartAdornment = (\n    <InputAdornment position=\"start\">\n      <InfoOutlined />\n    </InputAdornment>\n  );\n\n  return (\n    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>\n      <div>\n        <TextField\n          label=\"With normal TextField\"\n          id={`${outlinedStartId}-input`}\n          sx={{ m: 1, width: '25ch' }}\n          slotProps={{\n            input: {\n              startAdornment: <InputAdornment position=\"start\">kg</InputAdornment>,\n            },\n          }}\n        />\n        <FormControl sx={{ m: 1, width: '25ch' }} variant=\"outlined\">\n          <OutlinedInput\n            id={`${outlinedWeightId}-input`}\n            endAdornment={<InputAdornment position=\"end\">kg</InputAdornment>}\n            aria-describedby={`${outlinedWeightId}-helper-text`}\n            inputProps={{\n              'aria-label': 'weight',\n            }}\n          />\n          <FormHelperText id={`${outlinedWeightId}-helper-text`}>\n            Weight\n          </FormHelperText>\n        </FormControl>\n        <FormControl sx={{ m: 1, width: '25ch' }} variant=\"outlined\">\n          <InputLabel htmlFor={`${outlinedPasswordId}-input`}>Password</InputLabel>\n          <OutlinedInput\n            id={`${outlinedPasswordId}-input`}\n            type={showPassword ? 'text' : 'password'}\n            endAdornment={\n              <InputAdornment position=\"end\">\n                <IconButton\n                  aria-label={\n                    showPassword ? 'hide the password' : 'display the password'\n                  }\n                  onClick={handleClickShowPassword}\n                  onMouseDown={handleMouseDownPassword}\n                  onMouseUp={handleMouseUpPassword}\n                  edge=\"end\"\n                >\n                  {showPassword ? <VisibilityOff /> : <Visibility />}\n                </IconButton>\n              </InputAdornment>\n            }\n            label=\"Password\"\n          />\n        </FormControl>\n        <div>\n          <FormControl sx={{ m: 1, width: '25ch' }}>\n            <InputLabel htmlFor={`${outlinedAmountId}-input`}>Amount</InputLabel>\n            <OutlinedInput\n              id={`${outlinedAmountId}-input`}\n              startAdornment={<InputAdornment position=\"start\">$</InputAdornment>}\n              label=\"Amount\"\n            />\n          </FormControl>\n          <TextField\n            select\n            label=\"Select\"\n            defaultValue={20}\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{ select: { endAdornment: infoEndAdornment } }}\n          >\n            <MenuItem value={10}>Ten</MenuItem>\n            <MenuItem value={20}>Twenty</MenuItem>\n            <MenuItem value={30}>Thirty</MenuItem>\n          </TextField>\n          <TextField\n            select\n            label=\"Native\"\n            defaultValue={20}\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{\n              select: { native: true, startAdornment: infoStartAdornment },\n            }}\n          >\n            <option value={10}>Ten</option>\n            <option value={20}>Twenty</option>\n            <option value={30}>Thirty</option>\n          </TextField>\n        </div>\n      </div>\n      <div>\n        <TextField\n          label=\"With normal TextField\"\n          id={`${filledStartId}-input`}\n          sx={{ m: 1, width: '25ch' }}\n          slotProps={{\n            input: {\n              startAdornment: <InputAdornment position=\"start\">kg</InputAdornment>,\n            },\n          }}\n          variant=\"filled\"\n        />\n        <FormControl sx={{ m: 1, width: '25ch' }} variant=\"filled\">\n          <FilledInput\n            id={`${filledWeightId}-input`}\n            endAdornment={<InputAdornment position=\"end\">kg</InputAdornment>}\n            aria-describedby={`${filledWeightId}-helper-text`}\n            inputProps={{\n              'aria-label': 'weight',\n            }}\n          />\n          <FormHelperText id={`${filledWeightId}-helper-text`}>\n            Weight\n          </FormHelperText>\n        </FormControl>\n        <FormControl sx={{ m: 1, width: '25ch' }} variant=\"filled\">\n          <InputLabel htmlFor={`${filledPasswordId}-input`}>Password</InputLabel>\n          <FilledInput\n            id={`${filledPasswordId}-input`}\n            type={showPassword ? 'text' : 'password'}\n            endAdornment={\n              <InputAdornment position=\"end\">\n                <IconButton\n                  aria-label={\n                    showPassword ? 'hide the password' : 'display the password'\n                  }\n                  onClick={handleClickShowPassword}\n                  onMouseDown={handleMouseDownPassword}\n                  onMouseUp={handleMouseUpPassword}\n                  edge=\"end\"\n                >\n                  {showPassword ? <VisibilityOff /> : <Visibility />}\n                </IconButton>\n              </InputAdornment>\n            }\n          />\n        </FormControl>\n        <div>\n          <FormControl sx={{ m: 1, width: '25ch' }} variant=\"filled\">\n            <InputLabel htmlFor={`${filledAmountId}-input`}>Amount</InputLabel>\n            <FilledInput\n              id={`${filledAmountId}-input`}\n              startAdornment={<InputAdornment position=\"start\">$</InputAdornment>}\n            />\n          </FormControl>\n          <TextField\n            select\n            label=\"Select\"\n            defaultValue={20}\n            variant=\"filled\"\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{ select: { endAdornment: infoEndAdornment } }}\n          >\n            <MenuItem value={10}>Ten</MenuItem>\n            <MenuItem value={20}>Twenty</MenuItem>\n            <MenuItem value={30}>Thirty</MenuItem>\n          </TextField>\n          <TextField\n            select\n            label=\"Native\"\n            defaultValue={20}\n            variant=\"filled\"\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{\n              select: { native: true, startAdornment: infoStartAdornment },\n            }}\n          >\n            <option value={10}>Ten</option>\n            <option value={20}>Twenty</option>\n            <option value={30}>Thirty</option>\n          </TextField>\n        </div>\n      </div>\n      <div>\n        <TextField\n          label=\"With normal TextField\"\n          id={`${standardStartId}-input`}\n          sx={{ m: 1, width: '25ch' }}\n          slotProps={{\n            input: {\n              startAdornment: <InputAdornment position=\"start\">kg</InputAdornment>,\n            },\n          }}\n          variant=\"standard\"\n        />\n        <FormControl variant=\"standard\" sx={{ m: 1, mt: 3, width: '25ch' }}>\n          <Input\n            id={`${standardWeightId}-input`}\n            endAdornment={<InputAdornment position=\"end\">kg</InputAdornment>}\n            aria-describedby={`${standardWeightId}-helper-text`}\n            inputProps={{\n              'aria-label': 'weight',\n            }}\n          />\n          <FormHelperText id={`${standardWeightId}-helper-text`}>\n            Weight\n          </FormHelperText>\n        </FormControl>\n        <FormControl sx={{ m: 1, width: '25ch' }} variant=\"standard\">\n          <InputLabel htmlFor={`${standardPasswordId}-input`}>Password</InputLabel>\n          <Input\n            id={`${standardPasswordId}-input`}\n            type={showPassword ? 'text' : 'password'}\n            endAdornment={\n              <InputAdornment position=\"end\">\n                <IconButton\n                  aria-label={\n                    showPassword ? 'hide the password' : 'display the password'\n                  }\n                  onClick={handleClickShowPassword}\n                  onMouseDown={handleMouseDownPassword}\n                  onMouseUp={handleMouseUpPassword}\n                >\n                  {showPassword ? <VisibilityOff /> : <Visibility />}\n                </IconButton>\n              </InputAdornment>\n            }\n          />\n        </FormControl>\n        <div>\n          <FormControl sx={{ m: 1, width: '25ch' }} variant=\"standard\">\n            <InputLabel htmlFor={`${standardAmountId}-input`}>Amount</InputLabel>\n            <Input\n              id={`${standardAmountId}-input`}\n              startAdornment={<InputAdornment position=\"start\">$</InputAdornment>}\n            />\n          </FormControl>\n          <TextField\n            select\n            label=\"Select\"\n            defaultValue={20}\n            variant=\"standard\"\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{ select: { endAdornment: infoEndAdornment } }}\n          >\n            <MenuItem value={10}>Ten</MenuItem>\n            <MenuItem value={20}>Twenty</MenuItem>\n            <MenuItem value={30}>Thirty</MenuItem>\n          </TextField>\n          <TextField\n            select\n            label=\"Native\"\n            defaultValue={20}\n            variant=\"standard\"\n            sx={{ m: 1, width: '25ch' }}\n            slotProps={{\n              select: { native: true, startAdornment: infoStartAdornment },\n            }}\n          >\n            <option value={10}>Ten</option>\n            <option value={20}>Twenty</option>\n            <option value={30}>Thirty</option>\n          </TextField>\n        </div>\n      </div>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "#### Customizing adornments\n\nYou can apply custom styles to adornments, and trigger changes to one based on attributes from another.\nFor example, the demo below uses the label's `[data-shrink=true]` attribute to make the suffix visible (via opacity) when the label is in its shrunken state."
+    },
+    {
+     "kind": "demo",
+     "name": "InputSuffixShrink",
+     "file": "InputSuffixShrink.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport { filledInputClasses } from '@mui/material/FilledInput';\nimport { inputBaseClasses } from '@mui/material/InputBase';\nimport TextField from '@mui/material/TextField';\nimport InputAdornment from '@mui/material/InputAdornment';\n\nexport default function InputSuffixShrink() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <TextField\n        id=\"outlined-suffix-shrink\"\n        label=\"Outlined\"\n        variant=\"outlined\"\n        slotProps={{\n          input: {\n            endAdornment: (\n              <InputAdornment\n                position=\"end\"\n                sx={{\n                  opacity: 0,\n                  pointerEvents: 'none',\n                  [`[data-shrink=true] ~ .${inputBaseClasses.root} > &`]: {\n                    opacity: 1,\n                  },\n                }}\n              >\n                lbs\n              </InputAdornment>\n            ),\n          },\n        }}\n      />\n      <TextField\n        id=\"filled-suffix-shrink\"\n        label=\"Filled\"\n        variant=\"filled\"\n        slotProps={{\n          input: {\n            endAdornment: (\n              <InputAdornment\n                position=\"end\"\n                sx={{\n                  alignSelf: 'flex-end',\n                  opacity: 0,\n                  pointerEvents: 'none',\n                  [`.${filledInputClasses.root} &`]: {\n                    marginBottom: '7.5px',\n                  },\n                  [`[data-shrink=true] ~ .${inputBaseClasses.root} > &`]: {\n                    opacity: 1,\n                  },\n                }}\n              >\n                days\n              </InputAdornment>\n            ),\n          },\n        }}\n      />\n      <TextField\n        id=\"standard-suffix-shrink\"\n        label=\"Standard\"\n        variant=\"standard\"\n        slotProps={{\n          htmlInput: {\n            sx: { textAlign: 'right' },\n          },\n          input: {\n            endAdornment: (\n              <InputAdornment\n                position=\"end\"\n                sx={{\n                  alignSelf: 'flex-end',\n                  margin: 0,\n                  marginBottom: '5px',\n                  opacity: 0,\n                  pointerEvents: 'none',\n                  [`[data-shrink=true] ~ .${inputBaseClasses.root} > &`]: {\n                    opacity: 1,\n                  },\n                }}\n              >\n                @gmail.com\n              </InputAdornment>\n            ),\n          },\n        }}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sizes",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Fancy smaller inputs? Use the `size` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "TextFieldSizes",
+     "file": "TextFieldSizes.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function TextFieldSizes() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <div>\n        <TextField\n          label=\"Size\"\n          id=\"outlined-size-small\"\n          defaultValue=\"Small\"\n          size=\"small\"\n        />\n        <TextField label=\"Size\" id=\"outlined-size-normal\" defaultValue=\"Normal\" />\n      </div>\n      <div>\n        <TextField\n          label=\"Size\"\n          id=\"filled-size-small\"\n          defaultValue=\"Small\"\n          variant=\"filled\"\n          size=\"small\"\n        />\n        <TextField\n          label=\"Size\"\n          id=\"filled-size-normal\"\n          defaultValue=\"Normal\"\n          variant=\"filled\"\n        />\n      </div>\n      <div>\n        <TextField\n          label=\"Size\"\n          id=\"standard-size-small\"\n          defaultValue=\"Small\"\n          size=\"small\"\n          variant=\"standard\"\n        />\n        <TextField\n          label=\"Size\"\n          id=\"standard-size-normal\"\n          defaultValue=\"Normal\"\n          variant=\"standard\"\n        />\n      </div>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The `filled` variant input height can be further reduced by rendering the label outside of it."
+    },
+    {
+     "kind": "demo",
+     "name": "TextFieldHiddenLabel",
+     "file": "TextFieldHiddenLabel.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport TextField from '@mui/material/TextField';\n\nexport default function TextFieldHiddenLabel() {\n  return (\n    <Stack\n      component=\"form\"\n      sx={{ width: '25ch' }}\n      spacing={2}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <TextField\n        hiddenLabel\n        id=\"filled-hidden-label-small\"\n        defaultValue=\"Small\"\n        variant=\"filled\"\n        size=\"small\"\n      />\n      <TextField\n        hiddenLabel\n        id=\"filled-hidden-label-normal\"\n        defaultValue=\"Normal\"\n        variant=\"filled\"\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Margin",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `margin` prop can be used to alter the vertical spacing of the text field.\nUsing `none` (default) doesn't apply margins to the `FormControl` whereas `dense` and `normal` do."
+    },
+    {
+     "kind": "demo",
+     "name": "LayoutTextFields",
+     "file": "LayoutTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nfunction RedBar() {\n  return (\n    <Box\n      sx={(theme) => ({\n        height: 20,\n        backgroundColor: 'rgba(255, 0, 0, 0.1)',\n        ...theme.applyStyles('dark', {\n          backgroundColor: 'rgb(255 132 132 / 25%)',\n        }),\n      })}\n    />\n  );\n}\n\nexport default function LayoutTextFields() {\n  return (\n    <Box\n      sx={{\n        display: 'flex',\n        flexDirection: 'column',\n        '& .MuiTextField-root': { width: '25ch' },\n      }}\n    >\n      <RedBar />\n      <TextField label={'margin=\"none\"'} id=\"margin-none\" />\n      <RedBar />\n      <TextField label={'margin=\"dense\"'} id=\"margin-dense\" margin=\"dense\" />\n      <RedBar />\n      <TextField label={'margin=\"normal\"'} id=\"margin-normal\" margin=\"normal\" />\n      <RedBar />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Full width",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`fullWidth` can be used to make the input take up the full width of its container."
+    },
+    {
+     "kind": "demo",
+     "name": "FullWidthTextField",
+     "file": "FullWidthTextField.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function FullWidthTextField() {\n  return (\n    <Box sx={{ width: 500, maxWidth: '100%' }}>\n      <TextField fullWidth label=\"fullWidth\" id=\"fullWidth\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Uncontrolled vs. Controlled",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The component can be controlled or uncontrolled.\n\n:::info\n\n- A component is **controlled** when it's managed by its parent using props.\n- A component is **uncontrolled** when it's managed by its own local state.\n\nLearn more about controlled and uncontrolled components in the [React documentation](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components).\n:::"
+    },
+    {
+     "kind": "demo",
+     "name": "StateTextFields",
+     "file": "StateTextFields.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function StateTextFields() {\n  const [name, setName] = React.useState('Cat in the Hat');\n\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <TextField\n        id=\"outlined-controlled\"\n        label=\"Controlled\"\n        value={name}\n        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {\n          setName(event.target.value);\n        }}\n      />\n      <TextField\n        id=\"outlined-uncontrolled\"\n        label=\"Uncontrolled\"\n        defaultValue=\"foo\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Components",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`TextField` is composed of smaller components (\n[`FormControl`](/material-ui/api/form-control/),\n[`Input`](/material-ui/api/input/),\n[`FilledInput`](/material-ui/api/filled-input/),\n[`InputLabel`](/material-ui/api/input-label/),\n[`OutlinedInput`](/material-ui/api/outlined-input/),\nand [`FormHelperText`](/material-ui/api/form-helper-text/)\n) that you can leverage directly to significantly customize your form inputs.\n\nYou might also have noticed that some native HTML input properties are missing from the `TextField` component.\nThis is on purpose.\nThe component takes care of the most used properties.\nThen, it's up to the user to use the underlying component shown in the following demo. Still, you can use `slotProps.htmlInput` (and `slotProps.input`, `slotProps.inputLabel` properties) if you want to avoid some boilerplate."
+    },
+    {
+     "kind": "demo",
+     "name": "ComposedTextField",
+     "file": "ComposedTextField.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport FilledInput from '@mui/material/FilledInput';\nimport FormControl from '@mui/material/FormControl';\nimport FormHelperText from '@mui/material/FormHelperText';\nimport Input from '@mui/material/Input';\nimport InputLabel from '@mui/material/InputLabel';\nimport OutlinedInput from '@mui/material/OutlinedInput';\n\nexport default function ComposedTextField() {\n  const simpleId = React.useId();\n  const helperId = React.useId();\n  const disabledId = React.useId();\n  const errorId = React.useId();\n  const outlinedId = React.useId();\n  const filledId = React.useId();\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1 } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <FormControl variant=\"standard\">\n        <InputLabel htmlFor={`${simpleId}-input`}>Name</InputLabel>\n        <Input id={`${simpleId}-input`} defaultValue=\"Composed TextField\" />\n      </FormControl>\n      <FormControl variant=\"standard\">\n        <InputLabel htmlFor={`${helperId}-input`}>Name</InputLabel>\n        <Input\n          id={`${helperId}-input`}\n          defaultValue=\"Composed TextField\"\n          aria-describedby={`${helperId}-helper-text`}\n        />\n        <FormHelperText id={`${helperId}-helper-text`}>\n          Some important helper text\n        </FormHelperText>\n      </FormControl>\n      <FormControl disabled variant=\"standard\">\n        <InputLabel htmlFor={`${disabledId}-input`}>Name</InputLabel>\n        <Input id={`${disabledId}-input`} defaultValue=\"Composed TextField\" />\n        <FormHelperText>Disabled</FormHelperText>\n      </FormControl>\n      <FormControl error variant=\"standard\">\n        <InputLabel htmlFor={`${errorId}-input`}>Name</InputLabel>\n        <Input\n          id={`${errorId}-input`}\n          defaultValue=\"Composed TextField\"\n          aria-describedby={`${errorId}-error-text`}\n        />\n        <FormHelperText id={`${errorId}-error-text`}>Error</FormHelperText>\n      </FormControl>\n      <FormControl>\n        <InputLabel htmlFor={`${outlinedId}-input`}>Name</InputLabel>\n        <OutlinedInput\n          id={`${outlinedId}-input`}\n          defaultValue=\"Composed TextField\"\n          label=\"Name\"\n        />\n      </FormControl>\n      <FormControl variant=\"filled\">\n        <InputLabel htmlFor={`${filledId}-input`}>Name</InputLabel>\n        <FilledInput id={`${filledId}-input`} defaultValue=\"Composed TextField\" />\n      </FormControl>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Inputs",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "Inputs",
+     "file": "Inputs.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Input from '@mui/material/Input';\n\nconst ariaLabel = { 'aria-label': 'description' };\n\nexport default function Inputs() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1 } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <Input defaultValue=\"Hello world\" inputProps={ariaLabel} />\n      <Input placeholder=\"Placeholder\" inputProps={ariaLabel} />\n      <Input disabled defaultValue=\"Disabled\" inputProps={ariaLabel} />\n      <Input defaultValue=\"Error\" error inputProps={ariaLabel} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `color` prop changes the highlight color of the text field when focused."
+    },
+    {
+     "kind": "demo",
+     "name": "ColorTextFields",
+     "file": "ColorTextFields.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function ColorTextFields() {\n  return (\n    <Box\n      component=\"form\"\n      sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}\n      noValidate\n      autoComplete=\"off\"\n    >\n      <TextField label=\"Outlined secondary\" color=\"secondary\" focused />\n      <TextField label=\"Filled success\" variant=\"filled\" color=\"success\" focused />\n      <TextField\n        label=\"Standard warning\"\n        variant=\"standard\"\n        color=\"warning\"\n        focused\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Using the styled API",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "CustomizedInputsStyled",
+     "file": "CustomizedInputsStyled.tsx",
+     "code": "import * as React from 'react';\nimport { alpha, styled } from '@mui/material/styles';\nimport InputBase from '@mui/material/InputBase';\nimport Box from '@mui/material/Box';\nimport InputLabel from '@mui/material/InputLabel';\nimport TextField, { TextFieldProps } from '@mui/material/TextField';\nimport FormControl from '@mui/material/FormControl';\nimport { OutlinedInputProps } from '@mui/material/OutlinedInput';\n\nconst CssTextField = styled(TextField)({\n  '& label.Mui-focused': {\n    color: '#A0AAB4',\n  },\n  '& .MuiInput-underline:after': {\n    borderBottomColor: '#B2BAC2',\n  },\n  '& .MuiOutlinedInput-root': {\n    '& fieldset': {\n      borderColor: '#E0E3E7',\n    },\n    '&:hover fieldset': {\n      borderColor: '#B2BAC2',\n    },\n    '&.Mui-focused fieldset': {\n      borderColor: '#6F7E8C',\n    },\n  },\n});\n\nconst BootstrapInput = styled(InputBase)(({ theme }) => ({\n  'label + &': {\n    marginTop: theme.spacing(3),\n  },\n  '& .MuiInputBase-input': {\n    borderRadius: 4,\n    position: 'relative',\n    backgroundColor: '#F3F6F9',\n    border: '1px solid',\n    borderColor: '#E0E3E7',\n    fontSize: 16,\n    width: 'auto',\n    padding: '10px 12px',\n    transition: theme.transitions.create([\n      'border-color',\n      'background-color',\n      'box-shadow',\n    ]),\n    // Use the system font instead of the default Roboto font.\n    fontFamily: [\n      '-apple-system',\n      'BlinkMacSystemFont',\n      '\"Segoe UI\"',\n      'Roboto',\n      '\"Helvetica Neue\"',\n      'Arial',\n      'sans-serif',\n      '\"Apple Color Emoji\"',\n      '\"Segoe UI Emoji\"',\n      '\"Segoe UI Symbol\"',\n    ].join(','),\n    '&:focus': {\n      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,\n      borderColor: theme.palette.primary.main,\n    },\n    ...theme.applyStyles('dark', {\n      backgroundColor: '#1A2027',\n      borderColor: '#2D3843',\n    }),\n  },\n}));\n\nconst RedditTextField = styled((props: TextFieldProps) => (\n  <TextField\n    slotProps={{\n      input: { disableUnderline: true } as Partial<OutlinedInputProps>,\n    }}\n    {...props}\n  />\n))(({ theme }) => ({\n  '& .MuiFilledInput-root': {\n    overflow: 'hidden',\n    borderRadius: 4,\n    border: '1px solid',\n    backgroundColor: '#F3F6F9',\n    borderColor: '#E0E3E7',\n    transition: theme.transitions.create([\n      'border-color',\n      'background-color',\n      'box-shadow',\n    ]),\n    '&:hover': {\n      backgroundColor: 'transparent',\n    },\n    '&.Mui-focused': {\n      backgroundColor: 'transparent',\n      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,\n      borderColor: theme.palette.primary.main,\n    },\n    ...theme.applyStyles('dark', {\n      backgroundColor: '#1A2027',\n      borderColor: '#2D3843',\n    }),\n  },\n}));\n\nconst ValidationTextField = styled(TextField)({\n  '& input:valid + fieldset': {\n    borderColor: '#E0E3E7',\n    borderWidth: 1,\n  },\n  '& input:invalid + fieldset': {\n    borderColor: 'red',\n    borderWidth: 1,\n  },\n  '& input:valid:focus + fieldset': {\n    borderLeftWidth: 4,\n    padding: '4px !important', // override inline-style\n  },\n});\n\nexport default function CustomizedInputsStyled() {\n  const bootstrapId = React.useId();\n  const redditId = React.useId();\n  const cssId = React.useId();\n  const validationId = React.useId();\n  return (\n    <Box\n      component=\"form\"\n      noValidate\n      sx={{ display: 'grid', gridTemplateColumns: { sm: '1fr 1fr' }, gap: 2 }}\n    >\n      <FormControl variant=\"standard\">\n        <InputLabel shrink htmlFor={`${bootstrapId}-input`}>\n          Bootstrap\n        </InputLabel>\n        <BootstrapInput defaultValue=\"react-bootstrap\" id={`${bootstrapId}-input`} />\n      </FormControl>\n      <RedditTextField\n        label=\"Reddit\"\n        defaultValue=\"react-reddit\"\n        id={`${redditId}-input`}\n        variant=\"filled\"\n        style={{ marginTop: 11 }}\n      />\n      <CssTextField label=\"Custom CSS\" id={`${cssId}-input`} />\n      <ValidationTextField\n        label=\"CSS validation style\"\n        required\n        variant=\"outlined\"\n        defaultValue=\"Success\"\n        id={`${validationId}-input`}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Using the theme style overrides API",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `styleOverrides` key to change any style injected by Material UI into the DOM.\nSee the [theme style overrides](/material-ui/customization/theme-components/#theme-style-overrides) documentation for further details."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedInputsStyleOverrides",
+     "file": "CustomizedInputsStyleOverrides.tsx",
+     "code": "import TextField from '@mui/material/TextField';\nimport { outlinedInputClasses } from '@mui/material/OutlinedInput';\nimport Box from '@mui/material/Box';\nimport { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles';\n\nconst customTheme = (outerTheme: Theme) =>\n  createTheme({\n    palette: {\n      mode: outerTheme.palette.mode,\n    },\n    components: {\n      MuiTextField: {\n        styleOverrides: {\n          root: {\n            '--TextField-brandBorderColor': '#E0E3E7',\n            '--TextField-brandBorderHoverColor': '#B2BAC2',\n            '--TextField-brandBorderFocusedColor': '#6F7E8C',\n            '& label.Mui-focused': {\n              color: 'var(--TextField-brandBorderFocusedColor)',\n            },\n          },\n        },\n      },\n      MuiOutlinedInput: {\n        styleOverrides: {\n          notchedOutline: {\n            borderColor: 'var(--TextField-brandBorderColor)',\n          },\n          root: {\n            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {\n              borderColor: 'var(--TextField-brandBorderHoverColor)',\n            },\n            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {\n              borderColor: 'var(--TextField-brandBorderFocusedColor)',\n            },\n          },\n        },\n      },\n      MuiFilledInput: {\n        styleOverrides: {\n          root: {\n            '&::before, &::after': {\n              borderBottom: '2px solid var(--TextField-brandBorderColor)',\n            },\n            '&:hover:not(.Mui-disabled, .Mui-error):before': {\n              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',\n            },\n            '&.Mui-focused:after': {\n              borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',\n            },\n          },\n        },\n      },\n      MuiInput: {\n        styleOverrides: {\n          root: {\n            '&::before': {\n              borderBottom: '2px solid var(--TextField-brandBorderColor)',\n            },\n            '&:hover:not(.Mui-disabled, .Mui-error):before': {\n              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',\n            },\n            '&.Mui-focused:after': {\n              borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',\n            },\n          },\n        },\n      },\n    },\n  });\n\nexport default function CustomizedInputsStyleOverrides() {\n  const outerTheme = useTheme();\n\n  return (\n    <Box\n      sx={{ display: 'grid', gridTemplateColumns: { sm: '1fr 1fr 1fr' }, gap: 2 }}\n    >\n      <ThemeProvider theme={customTheme(outerTheme)}>\n        <TextField label=\"Outlined\" />\n        <TextField label=\"Filled\" variant=\"filled\" />\n        <TextField label=\"Standard\" variant=\"standard\" />\n      </ThemeProvider>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Customization does not stop at CSS.\nYou can use composition to build custom components and give your app a unique feel.\nBelow is an example using the [`InputBase`](/material-ui/api/input-base/) component, inspired by Google Maps."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedInputBase",
+     "file": "CustomizedInputBase.tsx",
+     "code": "import Paper from '@mui/material/Paper';\nimport InputBase from '@mui/material/InputBase';\nimport Divider from '@mui/material/Divider';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport SearchIcon from '@mui/icons-material/Search';\nimport DirectionsIcon from '@mui/icons-material/Directions';\n\nexport default function CustomizedInputBase() {\n  return (\n    <Paper\n      component=\"form\"\n      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}\n    >\n      <IconButton sx={{ p: '10px' }} aria-label=\"menu\">\n        <MenuIcon />\n      </IconButton>\n      <InputBase\n        sx={{ ml: 1, flex: 1 }}\n        placeholder=\"Search Google Maps\"\n        inputProps={{ 'aria-label': 'search google maps' }}\n      />\n      <IconButton type=\"button\" sx={{ p: '10px' }} aria-label=\"search\">\n        <SearchIcon />\n      </IconButton>\n      <Divider sx={{ height: 28, m: 0.5 }} orientation=\"vertical\" />\n      <IconButton color=\"primary\" sx={{ p: '10px' }} aria-label=\"directions\">\n        <DirectionsIcon />\n      </IconButton>\n    </Paper>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "🎨 If you are looking for inspiration, you can check [MUI Treasury's customization examples](https://mui-treasury.com/primitive/text-field)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "`useFormControl`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For advanced customization use cases, a `useFormControl()` hook is exposed.\nThis hook returns the context value of the parent `FormControl` component.\n\n**API**"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { useFormControl } from '@mui/material/FormControl';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "**Returns**\n\n`value` (_object_):\n\n- `value.adornedStart` (_bool_): Indicate whether the child `Input` or `Select` component has a start adornment.\n- `value.setAdornedStart` (_func_): Setter function for `adornedStart` state value.\n- `value.color` (_string_): The theme color is being used, inherited from `FormControl` `color` prop .\n- `value.disabled` (_bool_): Indicate whether the component is being displayed in a disabled state, inherited from `FormControl` `disabled` prop.\n- `value.error` (_bool_): Indicate whether the component is being displayed in an error state, inherited from `FormControl` `error` prop\n- `value.filled` (_bool_): Indicate whether input is filled\n- `value.focused` (_bool_): Indicate whether the component and its children are being displayed in a focused state\n- `value.fullWidth` (_bool_): Indicate whether the component is taking up the full width of its container, inherited from `FormControl` `fullWidth` prop\n- `value.hiddenLabel` (_bool_): Indicate whether the label is being hidden, inherited from `FormControl` `hiddenLabel` prop\n- `value.required` (_bool_): Indicate whether the label is indicating that the input is required input, inherited from the `FormControl` `required` prop\n- `value.size` (_string_): The size of the component, inherited from the `FormControl` `size` prop\n- `value.variant` (_string_): The variant is being used by the `FormControl` component and its children, inherited from `FormControl` `variant` prop\n- `value.onBlur` (_func_): Should be called when the input is blurred\n- `value.onFocus` (_func_): Should be called when the input is focused\n- `value.onEmpty` (_func_): Should be called when the input is emptied\n- `value.onFilled` (_func_): Should be called when the input is filled\n\n**Example**"
+    },
+    {
+     "kind": "demo",
+     "name": "UseFormControl",
+     "file": "UseFormControl.tsx",
+     "code": "import * as React from 'react';\nimport FormControl, { useFormControl } from '@mui/material/FormControl';\nimport OutlinedInput from '@mui/material/OutlinedInput';\nimport FormHelperText from '@mui/material/FormHelperText';\n\nfunction MyFormHelperText() {\n  const { focused } = useFormControl() || {};\n\n  const helperText = React.useMemo(() => {\n    if (focused) {\n      return 'This field is being focused';\n    }\n\n    return 'Helper text';\n  }, [focused]);\n\n  return <FormHelperText>{helperText}</FormHelperText>;\n}\n\nexport default function UseFormControl() {\n  return (\n    <form noValidate autoComplete=\"off\">\n      <FormControl sx={{ width: '25ch' }}>\n        <OutlinedInput placeholder=\"Please enter text\" />\n        <MyFormHelperText />\n      </FormControl>\n    </form>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Performance",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Global styles for the auto-fill keyframes are injected and removed on each mount and unmount, respectively.\nIf you are loading a large number of Text Field components at once, it might be a good idea to change this default behavior by enabling [`disableInjectingGlobalStyles`](/material-ui/api/input-base/#input-base-prop-disableInjectingGlobalStyles) in `MuiInputBase`.\nMake sure to inject `GlobalStyles` for the auto-fill keyframes at the top of your application."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { GlobalStyles, createTheme, ThemeProvider } from '@mui/material';\n\nconst theme = createTheme({\n  components: {\n    MuiInputBase: {\n      defaultProps: {\n        disableInjectingGlobalStyles: true,\n      },\n    },\n  },\n});\n\nexport default function App() {\n  return (\n    <ThemeProvider theme={theme}>\n      <GlobalStyles\n        styles={{\n          '@keyframes mui-auto-fill': { from: { animationName: 'mui-auto-fill' } },\n          '@keyframes mui-auto-fill-cancel': {\n            from: { animationName: 'mui-auto-fill-cancel' },\n          },\n        }}\n      />\n      ...\n    </ThemeProvider>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Limitations",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Shrink",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The input label \"shrink\" state isn't always correct.\nThe input label is supposed to shrink as soon as the input is displaying something.\nIn some circumstances, we can't determine the \"shrink\" state (datetime input, Stripe input). You might notice an overlap.\n\n![shrink](/static/images/text-fields/shrink.png)\n\nTo workaround the issue, you can force the \"shrink\" state of the label."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<TextField slotProps={{ inputLabel: { shrink: true } }} />\n"
+    },
+    {
+     "kind": "prose",
+     "text": "or"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<InputLabel shrink>Count</InputLabel>\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Floating label",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The floating label is absolutely positioned.\nIt won't impact the layout of the page.\nMake sure that the input is larger than the label to display correctly."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "type=\"number\"",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": ":::warning\nWe do not recommend using `type=\"number\"` with a Text Field due to potential usability issues:\n\n- it allows certain non-numeric characters ('e', '+', '-', '.') and silently discards others\n- the functionality of scrolling to increment/decrement the number can cause accidental and hard-to-notice changes\n- and more—see [Why the GOV.UK Design System team changed the input type for numbers](https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/) for a more detailed explanation of the limitations of `<input type=\"number\">`\n\n  :::\n\nIf you need a text field with number validation, you can use [Number Field](/material-ui/react-number-field/) instead."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Helper text",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The helper text prop affects the height of the text field. If two text fields are placed side by side, one with a helper text and one without, they will have different heights. For example:"
+    },
+    {
+     "kind": "demo",
+     "name": "HelperTextMisaligned",
+     "file": "HelperTextMisaligned.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function HelperTextMisaligned() {\n  return (\n    <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>\n      <TextField\n        helperText=\"Please enter your name\"\n        id=\"demo-helper-text-misaligned\"\n        label=\"Name\"\n      />\n      <TextField id=\"demo-helper-text-misaligned-no-helper\" label=\"Name\" />\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "This can be fixed by passing a space character to the `helperText` prop:"
+    },
+    {
+     "kind": "demo",
+     "name": "HelperTextAligned",
+     "file": "HelperTextAligned.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport TextField from '@mui/material/TextField';\n\nexport default function HelperTextAligned() {\n  return (\n    <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>\n      <TextField\n        helperText=\"Please enter your name\"\n        id=\"demo-helper-text-aligned\"\n        label=\"Name\"\n      />\n      <TextField\n        helperText=\" \"\n        id=\"demo-helper-text-aligned-no-helper\"\n        label=\"Name\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Integration with 3rd party input libraries",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use third-party libraries to format an input.\nYou have to provide a custom implementation of the `<input>` element with the `inputComponent` property.\n\nThe following demo uses the [react-imask](https://github.com/uNmAnNeR/imaskjs) and [react-number-format](https://github.com/s-yadav/react-number-format) libraries. The same concept could be applied to, for example [react-stripe-element](https://github.com/mui/material-ui/issues/16037)."
+    },
+    {
+     "kind": "demo",
+     "name": "FormattedInputs",
+     "file": "FormattedInputs.tsx",
+     "code": "import * as React from 'react';\nimport { IMaskInput } from 'react-imask';\nimport { NumericFormat } from 'react-number-format';\nimport Stack from '@mui/material/Stack';\nimport Input from '@mui/material/Input';\nimport InputLabel from '@mui/material/InputLabel';\nimport TextField from '@mui/material/TextField';\nimport FormControl from '@mui/material/FormControl';\n\ninterface CustomProps {\n  onChange: (event: { target: { name: string; value: string } }) => void;\n  name: string;\n}\n\nconst TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(\n  function TextMaskCustom(props, ref) {\n    const { onChange, ...other } = props;\n    return (\n      <IMaskInput\n        {...other}\n        mask=\"(#00) 000-0000\"\n        definitions={{\n          '#': /[1-9]/,\n        }}\n        inputRef={ref}\n        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}\n        overwrite\n      />\n    );\n  },\n);\n\nexport default function FormattedInputs() {\n  const id = React.useId();\n  const [values, setValues] = React.useState({\n    textmask: '(100) 000-0000',\n    numberformat: '1320',\n  });\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setValues({\n      ...values,\n      [event.target.name]: event.target.value,\n    });\n  };\n\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <FormControl variant=\"standard\">\n        <InputLabel htmlFor={`${id}-input`}>react-imask</InputLabel>\n        <Input\n          value={values.textmask}\n          onChange={handleChange}\n          name=\"textmask\"\n          id={`${id}-input`}\n          inputComponent={TextMaskCustom as any}\n        />\n      </FormControl>\n      <NumericFormat\n        value={values.numberformat}\n        onChange={handleChange}\n        customInput={TextField}\n        thousandSeparator\n        valueIsNumericString\n        prefix=\"$\"\n        variant=\"standard\"\n        label=\"react-number-format\"\n      />\n    </Stack>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The provided input component should expose a ref with a value that implements the following interface:"
+    },
+    {
+     "kind": "code",
+     "lang": "ts",
+     "text": "interface InputElement {\n  focus(): void;\n  value?: string;\n}\n"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "const MyInputComponent = React.forwardRef((props, ref) => {\n  const { component: Component, ...other } = props;\n\n  // implement `InputElement` interface\n  React.useImperativeHandle(ref, () => ({\n    focus: () => {\n      // logic to focus the rendered component from 3rd party belongs here\n    },\n    // hiding the value e.g. react-stripe-elements\n  }));\n\n  // `Component` will be your `SomeThirdPartyComponent` from below\n  return <Component {...other} />;\n});\n\n// usage\n<TextField\n  slotProps={{\n    input: {\n      inputComponent: MyInputComponent,\n      inputProps: {\n        component: SomeThirdPartyComponent,\n      },\n    },\n  }}\n/>;\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In order for the text field to be accessible, **the input should be linked to the label and the helper text**. The underlying DOM nodes should have this structure:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<div class=\"form-control\">\n  <label for=\"my-input\">Email address</label>\n  <input id=\"my-input\" aria-describedby=\"my-helper-text\" />\n  <span id=\"my-helper-text\">We'll never share your email.</span>\n</div>\n"
+    },
+    {
+     "kind": "prose",
+     "text": "- If you are using the `TextField` component, you just have to provide a unique `id` unless you're using the `TextField` only client-side.\n  Until the UI is hydrated `TextField` without an explicit `id` will not have associated labels.\n- If you are composing the component:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<FormControl>\n  <InputLabel htmlFor=\"my-input\">Email address</InputLabel>\n  <Input id=\"my-input\" aria-describedby=\"my-helper-text\" />\n  <FormHelperText id=\"my-helper-text\">We'll never share your email.</FormHelperText>\n</FormControl>\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supplementary projects",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "<!-- To sync with related-projects.md -->\n\nFor more advanced use cases, you might be able to take advantage of:\n\n- [react-hook-form-mui](https://github.com/dohomi/react-hook-form-mui): Material UI and [react-hook-form](https://react-hook-form.com/) combined.\n- [formik-material-ui](https://github.com/stackworx/formik-mui): Bindings for using Material UI with [formik](https://formik.org/).\n- [mui-rff](https://github.com/lookfirst/mui-rff): Bindings for using Material UI with [React Final Form](https://final-form.org/react).\n- [@ui-schema/ds-material](https://www.npmjs.com/package/@ui-schema/ds-material) Bindings for using Material UI with [UI Schema](https://github.com/ui-schema/ui-schema). JSON Schema compatible."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "FilledInput",
+   "description": "",
+   "props": [
+    {
+     "prop": "autoComplete",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it&#39;s more like an autofill. You can learn more about it <a href=\"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill\">following the specification</a>."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is focused during the first mount."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>. The prop defaults to the value (<code>&#39;primary&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "disableUnderline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the input will not have an underline."
+    },
+    {
+     "prop": "endAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "End <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will indicate an error. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will take up the full width of its container."
+    },
+    {
+     "prop": "hiddenLabel",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is hidden. This is used to increase density for a <code>FilledInput</code>. Be sure to add <code>aria-label</code> to the <code>input</code> element."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "inputComponent",
+     "type": "elementType",
+     "default": "'input'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the <code>input</code> element. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "inputProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "<a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#attributes\">Attributes</a> applied to the <code>input</code> element."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl. The prop defaults to the value (<code>&#39;none&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "maxRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "minRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Minimum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "multiline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a <a href=\"https://mui.com/material-ui/react-textarea-autosize/\">TextareaAutosize</a> element is rendered."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value is changed."
+    },
+    {
+     "prop": "placeholder",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The short hint displayed in the <code>input</code> before the user enters a value."
+    },
+    {
+     "prop": "readOnly",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "It prevents the user from changing the value of the field (not from interacting with the field)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "rows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: object, root?: object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The extra props for the slot components. You can override the existing props or add new ones."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "startAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Start <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Type of the <code>input</code> element. It should be <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types\">a valid HTML5 input type</a>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the <code>input</code> element, required for a controlled component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "adornedEnd",
+     "className": "MuiFilledInput-adornedEnd",
+     "description": "Styles applied to the root element if `endAdornment` is provided."
+    },
+    {
+     "key": "adornedStart",
+     "className": "MuiFilledInput-adornedStart",
+     "description": "Styles applied to the root element if `startAdornment` is provided."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiFilledInput-colorSecondary",
+     "description": "Styles applied to the root element if color secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "State class applied to the root element if the component is focused."
+    },
+    {
+     "key": "hiddenLabel",
+     "className": "MuiFilledInput-hiddenLabel",
+     "description": "Styles applied to the root element if `hiddenLabel={true}`."
+    },
+    {
+     "key": "input",
+     "className": "MuiFilledInput-input",
+     "description": "Styles applied to the input element."
+    },
+    {
+     "key": "multiline",
+     "className": "MuiFilledInput-multiline",
+     "description": "Styles applied to the root element if `multiline={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFilledInput-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiFilledInput-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "underline",
+     "className": "MuiFilledInput-underline",
+     "description": "Styles applied to the root element unless `disableUnderline={true}`."
+    }
+   ]
+  },
+  {
+   "name": "FormControl",
+   "description": "Provides context such as filled/focused/error/required for form inputs.\nRelying on the context provides high flexibility and ensures that the state always stays\nconsistent across the children of the `FormControl`.\nThis context is used by the following components:\n\n - FormLabel\n - FormHelperText\n - Input\n - InputLabel\n\nYou can find one composition example below and more going to [the demos](/material-ui/react-text-field/#components).\n\n```jsx\n<FormControl>\n  <InputLabel htmlFor=\"my-input\">Email address</InputLabel>\n  <Input id=\"my-input\" aria-describedby=\"my-helper-text\" />\n  <FormHelperText id=\"my-helper-text\">We'll never share your email.</FormHelperText>\n</FormControl>\n```\n\n⚠️ Only one `InputBase` can be used within a FormControl because it creates visual inconsistencies.\nFor instance, only one input can be focused at the same time, the state shouldn't be shared.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label, input and helper text should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is displayed in focused state."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will take up the full width of its container."
+    },
+    {
+     "prop": "hiddenLabel",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is hidden. This is used to increase density for a <code>FilledInput</code>. Be sure to add <code>aria-label</code> to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'<br>&#124;&nbsp;'normal'",
+     "default": "'none'",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code> or <code>normal</code>, will adjust vertical spacing of this and contained components."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": "'outlined'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "fullWidth",
+     "className": "MuiFormControl-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "marginDense",
+     "className": "MuiFormControl-marginDense",
+     "description": "Styles applied to the root element if `margin=\"dense\"`."
+    },
+    {
+     "key": "marginNormal",
+     "className": "MuiFormControl-marginNormal",
+     "description": "Styles applied to the root element if `margin=\"normal\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormControl-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "FormHelperText",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component.<br>If <code>&#39; &#39;</code> is provided, the component reserves one line height for displaying a future message."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the helper text should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, helper text should be displayed in an error state."
+    },
+    {
+     "prop": "filled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the helper text should use filled classes key."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the helper text should use focused classes key."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the helper text should use required classes key."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "contained",
+     "className": "MuiFormHelperText-contained",
+     "description": "Styles applied to the root element if `variant=\"filled\"` or `variant=\"outlined\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "filled",
+     "className": "MuiFormHelperText-filled",
+     "description": "State class applied to the root element if `filled={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "State class applied to the root element if `focused={true}`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormHelperText-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiFormHelperText-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    }
+   ]
+  },
+  {
+   "name": "Input",
+   "description": "",
+   "props": [
+    {
+     "prop": "autoComplete",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it&#39;s more like an autofill. You can learn more about it <a href=\"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill\">following the specification</a>."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is focused during the first mount."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>. The prop defaults to the value (<code>&#39;primary&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "disableUnderline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will not have an underline."
+    },
+    {
+     "prop": "endAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "End <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will indicate an error. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will take up the full width of its container."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "inputComponent",
+     "type": "elementType",
+     "default": "'input'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the <code>input</code> element. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "inputProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "<a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#attributes\">Attributes</a> applied to the <code>input</code> element."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl. The prop defaults to the value (<code>&#39;none&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "maxRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "minRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Minimum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "multiline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a <a href=\"https://mui.com/material-ui/react-textarea-autosize/\">TextareaAutosize</a> element is rendered."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value is changed."
+    },
+    {
+     "prop": "placeholder",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The short hint displayed in the <code>input</code> before the user enters a value."
+    },
+    {
+     "prop": "readOnly",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "It prevents the user from changing the value of the field (not from interacting with the field)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "rows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: object, root?: object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The extra props for the slot components. You can override the existing props or add new ones."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "startAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Start <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Type of the <code>input</code> element. It should be <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types\">a valid HTML5 input type</a>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the <code>input</code> element, required for a controlled component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorSecondary",
+     "className": "MuiInput-colorSecondary",
+     "description": "Styles applied to the root element if color secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "Styles applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "Styles applied to the root element if the component is focused."
+    },
+    {
+     "key": "formControl",
+     "className": "MuiInput-formControl",
+     "description": "Styles applied to the root element if the component is a descendant of `FormControl`."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiInput-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "input",
+     "className": "MuiInput-input",
+     "description": "Styles applied to the input element."
+    },
+    {
+     "key": "inputTypeSearch",
+     "className": "MuiInput-inputTypeSearch",
+     "description": "Styles applied to the input element if `type=\"search\"`."
+    },
+    {
+     "key": "multiline",
+     "className": "MuiInput-multiline",
+     "description": "Styles applied to the root element if `multiline={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiInput-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiInput-sizeSmall",
+     "description": "Styles applied to the input element if `size=\"small\"`."
+    },
+    {
+     "key": "underline",
+     "className": "MuiInput-underline",
+     "description": "Styles applied to the root element unless `disableUnderline={true}`."
+    }
+   ]
+  },
+  {
+   "name": "InputAdornment",
+   "description": "",
+   "props": [
+    {
+     "prop": "position",
+     "type": "'end'<br>&#124;&nbsp;'start'",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The position this adornment should appear relative to the <code>Input</code>."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component, normally an <code>IconButton</code> or string."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disablePointerEvents",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Disable pointer events on the root. This allows for the content of the adornment to focus the <code>input</code> on click."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If children is a string then disable wrapping in a Typography component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Note: If you are using the <code>TextField</code> component or the <code>FormControl</code> component you do not have to set this manually."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disablePointerEvents",
+     "className": "MuiInputAdornment-disablePointerEvents",
+     "description": "Styles applied to the root element if `disablePointerEvents={true}`."
+    },
+    {
+     "key": "filled",
+     "className": "MuiInputAdornment-filled",
+     "description": "Styles applied to the root element if `variant=\"filled\"`."
+    },
+    {
+     "key": "hiddenLabel",
+     "className": "MuiInputAdornment-hiddenLabel",
+     "description": "Styles applied if the adornment is used inside `<FormControl hiddenLabel />`."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiInputAdornment-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "positionEnd",
+     "className": "MuiInputAdornment-positionEnd",
+     "description": "Styles applied to the root element if `position=\"end\"`."
+    },
+    {
+     "key": "positionStart",
+     "className": "MuiInputAdornment-positionStart",
+     "description": "Styles applied to the root element if `position=\"start\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiInputAdornment-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiInputAdornment-sizeSmall",
+     "description": "Styles applied if the adornment is used inside `<FormControl size=\"small\" />`."
+    },
+    {
+     "key": "standard",
+     "className": "MuiInputAdornment-standard",
+     "description": "Styles applied to the root element if `variant=\"standard\"`."
+    }
+   ]
+  },
+  {
+   "name": "InputBase",
+   "description": "`InputBase` contains as few styles as possible.\nIt aims to be a simple building block for creating an input.\nIt contains a load of style reset and some state logic.",
+   "props": [
+    {
+     "prop": "autoComplete",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it&#39;s more like an autofill. You can learn more about it <a href=\"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill\">following the specification</a>."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is focused during the first mount."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>. The prop defaults to the value (<code>&#39;primary&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "disableInjectingGlobalStyles",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, GlobalStyles for the auto-fill keyframes will not be injected/removed on mount/unmount. Make sure to inject them at the top of your application. This option is intended to help with boosting the initial rendering performance if you are loading a big amount of Input components at once."
+    },
+    {
+     "prop": "endAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "End <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will indicate an error. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will take up the full width of its container."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "inputComponent",
+     "type": "element type",
+     "default": "'input'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the <code>input</code> element. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "inputProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "<a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#attributes\">Attributes</a> applied to the <code>input</code> element."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl. The prop defaults to the value (<code>&#39;none&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "maxRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "minRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Minimum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "multiline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a <a href=\"https://mui.com/material-ui/react-textarea-autosize/\">TextareaAutosize</a> element is rendered."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "onBlur",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the <code>input</code> is blurred.<br>Notice that the first argument (event) might be undefined."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value is changed."
+    },
+    {
+     "prop": "onInvalid",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the <code>input</code> doesn&#39;t satisfy its constraints."
+    },
+    {
+     "prop": "placeholder",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The short hint displayed in the <code>input</code> before the user enters a value."
+    },
+    {
+     "prop": "readOnly",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "It prevents the user from changing the value of the field (not from interacting with the field)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "rows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: object, root?: object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The extra props for the slot components. You can override the existing props or add new ones."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "startAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Start <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Type of the <code>input</code> element. It should be <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types\">a valid HTML5 input type</a>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the <code>input</code> element, required for a controlled component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "adornedEnd",
+     "className": "MuiInputBase-adornedEnd",
+     "description": "Styles applied to the root element if `endAdornment` is provided."
+    },
+    {
+     "key": "adornedStart",
+     "className": "MuiInputBase-adornedStart",
+     "description": "Styles applied to the root element if `startAdornment` is provided."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiInputBase-colorSecondary",
+     "description": "Styles applied to the root element if the color is secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "Styles applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "Styles applied to the root element if the component is focused."
+    },
+    {
+     "key": "formControl",
+     "className": "MuiInputBase-formControl",
+     "description": "Styles applied to the root element if the component is a descendant of `FormControl`."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiInputBase-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "hiddenLabel",
+     "className": "MuiInputBase-hiddenLabel",
+     "description": "Styles applied to the root element if `hiddenLabel={true}`."
+    },
+    {
+     "key": "input",
+     "className": "MuiInputBase-input",
+     "description": "Styles applied to the input element."
+    },
+    {
+     "key": "inputTypeSearch",
+     "className": "MuiInputBase-inputTypeSearch",
+     "description": ""
+    },
+    {
+     "key": "multiline",
+     "className": "MuiInputBase-multiline",
+     "description": "Styles applied to the root element if `multiline={true}`."
+    },
+    {
+     "key": "readOnly",
+     "className": "Mui-readOnly",
+     "description": "State class applied to the root element if `readOnly={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiInputBase-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiInputBase-sizeSmall",
+     "description": "Styles applied to the input element if `size=\"small\"`."
+    }
+   ]
+  },
+  {
+   "name": "InputLabel",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "disableAnimation",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition animation is disabled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> of this label is focused."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "if <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "shrink",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is shrunk."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "animated",
+     "className": "MuiInputLabel-animated",
+     "description": "Styles applied to the input element unless `disableAnimation={true}`."
+    },
+    {
+     "key": "asterisk",
+     "className": "MuiInputLabel-asterisk",
+     "description": "State class applied to the asterisk element."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "filled",
+     "className": "MuiInputLabel-filled",
+     "description": "Styles applied to the root element if `variant=\"filled\"`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "State class applied to the root element if `focused={true}`."
+    },
+    {
+     "key": "formControl",
+     "className": "MuiInputLabel-formControl",
+     "description": "Styles applied to the root element if the component is a descendant of `FormControl`."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiInputLabel-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiInputLabel-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "shrink",
+     "className": "MuiInputLabel-shrink",
+     "description": "Styles applied to the input element if `shrink={true}`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiInputLabel-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "standard",
+     "className": "MuiInputLabel-standard",
+     "description": "Styles applied to the root element if `variant=\"standard\"`."
+    }
+   ]
+  },
+  {
+   "name": "OutlinedInput",
+   "description": "",
+   "props": [
+    {
+     "prop": "autoComplete",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it&#39;s more like an autofill. You can learn more about it <a href=\"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill\">following the specification</a>."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is focused during the first mount."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>. The prop defaults to the value (<code>&#39;primary&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "endAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "End <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will indicate an error. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> will take up the full width of its container."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "inputComponent",
+     "type": "elementType",
+     "default": "'input'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the <code>input</code> element. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "inputProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "<a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#attributes\">Attributes</a> applied to the <code>input</code> element."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label of the <code>input</code>. It is only used for layout. The actual labelling is handled by <code>InputLabel</code>."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code>, will adjust vertical spacing. This is normally obtained via context from FormControl. The prop defaults to the value (<code>&#39;none&#39;</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "maxRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "minRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Minimum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "multiline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a <a href=\"https://mui.com/material-ui/react-textarea-autosize/\">TextareaAutosize</a> element is rendered."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "notched",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the outline is notched to accommodate the label."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value is changed."
+    },
+    {
+     "prop": "placeholder",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The short hint displayed in the <code>input</code> before the user enters a value."
+    },
+    {
+     "prop": "readOnly",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "It prevents the user from changing the value of the field (not from interacting with the field)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required. The prop defaults to the value (<code>false</code>) inherited from the parent FormControl component."
+    },
+    {
+     "prop": "rows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: object, notchedOutline?: func<br>&#124;&nbsp;object, root?: object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, notchedOutline?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "startAdornment",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Start <code>InputAdornment</code> for this component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Type of the <code>input</code> element. It should be <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types\">a valid HTML5 input type</a>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the <code>input</code> element, required for a controlled component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "adornedEnd",
+     "className": "MuiOutlinedInput-adornedEnd",
+     "description": "Styles applied to the root element if `endAdornment` is provided."
+    },
+    {
+     "key": "adornedStart",
+     "className": "MuiOutlinedInput-adornedStart",
+     "description": "Styles applied to the root element if `startAdornment` is provided."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiOutlinedInput-colorSecondary",
+     "description": "Styles applied to the root element if the color is secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "Styles applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "Styles applied to the root element if the component is focused."
+    },
+    {
+     "key": "input",
+     "className": "MuiOutlinedInput-input",
+     "description": "Styles applied to the input element."
+    },
+    {
+     "key": "inputTypeSearch",
+     "className": "MuiOutlinedInput-inputTypeSearch",
+     "description": "Styles applied to the input element if `type=\"search\"`."
+    },
+    {
+     "key": "multiline",
+     "className": "MuiOutlinedInput-multiline",
+     "description": "Styles applied to the root element if `multiline={true}`."
+    },
+    {
+     "key": "notchedOutline",
+     "className": "MuiOutlinedInput-notchedOutline",
+     "description": "Styles applied to the NotchedOutline element."
+    },
+    {
+     "key": "root",
+     "className": "MuiOutlinedInput-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiOutlinedInput-sizeSmall",
+     "description": "Styles applied to the input element if `size=\"small\"`."
+    }
+   ]
+  },
+  {
+   "name": "TextField",
+   "description": "The `TextField` is a convenience wrapper for the most common cases (80%).\nIt cannot be all things to all people, otherwise the API would grow out of control.\n\n## Advanced Configuration\n\nIt's important to understand that the text field is a simple abstraction\non top of the following components:\n\n- [FormControl](/material-ui/api/form-control/)\n- [InputLabel](/material-ui/api/input-label/)\n- [FilledInput](/material-ui/api/filled-input/)\n- [OutlinedInput](/material-ui/api/outlined-input/)\n- [Input](/material-ui/api/input/)\n- [FormHelperText](/material-ui/api/form-helper-text/)\n\nIf you wish to alter the props applied to the `input` element, you can do so as follows:\n\n```jsx\nconst slotProps = {\n  htmlInput: {\n     step: 300\n  }\n};\n\nreturn <TextField id=\"time\" type=\"time\" slotProps={slotProps} />;\n```\n\nFor advanced cases, please look at the source of TextField by clicking on the\n\"Edit this page\" button above. Consider either:\n\n- using the `slotProps` prop for passing values directly to the components\n- using the underlying components directly as shown in the demos",
+   "props": [
+    {
+     "prop": "autoComplete",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop helps users to fill forms faster, especially on mobile devices. The name can be confusing, as it&#39;s more like an autofill. You can learn more about it <a href=\"https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill\">following the specification</a>."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is focused during the first mount."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the input will take up the full width of its container."
+    },
+    {
+     "prop": "helperText",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The helper text content."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element. Use this prop to make <code>label</code> and <code>helperText</code> accessible for screen readers."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label content."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'<br>&#124;&nbsp;'normal'",
+     "default": "'none'",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code> or <code>normal</code>, will adjust vertical spacing of this and contained components."
+    },
+    {
+     "prop": "maxRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "minRows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Minimum number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "multiline",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a <code>textarea</code> element is rendered instead of an input."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the <code>input</code> element."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value is changed."
+    },
+    {
+     "prop": "placeholder",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The short hint displayed in the <code>input</code> before the user enters a value."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed as required and the <code>input</code> element is required."
+    },
+    {
+     "prop": "rows",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of rows to display when multiline option is set to true."
+    },
+    {
+     "prop": "select",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Render a <a href=\"https://mui.com/material-ui/api/select/\"><code>Select</code></a> element while passing the Input element to <code>Select</code> as <code>input</code> parameter. If this option is set you must pass the options of the select as children."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ formHelperText?: func<br>&#124;&nbsp;object, htmlInput?: func<br>&#124;&nbsp;object, input?: func<br>&#124;&nbsp;object, inputLabel?: func<br>&#124;&nbsp;object, select?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ formHelperText?: elementType, htmlInput?: elementType, input?: elementType, inputLabel?: elementType, root?: elementType, select?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Type of the <code>input</code> element. It should be <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types\">a valid HTML5 input type</a>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the <code>input</code> element, required for a controlled component."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": "'outlined'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-text-field/"
+}

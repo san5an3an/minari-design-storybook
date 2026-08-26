@@ -1,0 +1,617 @@
+{
+ "slug": "button-group",
+ "title": "Button Group",
+ "group": "Inputs",
+ "folder": "button-group",
+ "description": "The ButtonGroup component can be used to group related buttons.",
+ "components": [
+  "Button",
+  "ButtonGroup"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Button Group"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic button group",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The buttons can be grouped by wrapping them with the `ButtonGroup` component.\nThey need to be immediate children."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicButtonGroup",
+     "file": "BasicButtonGroup.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport ButtonGroup from '@mui/material/ButtonGroup';\n\nexport default function BasicButtonGroup() {\n  return (\n    <ButtonGroup variant=\"contained\" aria-label=\"Basic button group\">\n      <Button>One</Button>\n      <Button>Two</Button>\n      <Button>Three</Button>\n    </ButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Button variants",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "All the standard button variants are supported."
+    },
+    {
+     "kind": "demo",
+     "name": "VariantButtonGroup",
+     "file": "VariantButtonGroup.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport ButtonGroup from '@mui/material/ButtonGroup';\nimport Box from '@mui/material/Box';\n\nexport default function VariantButtonGroup() {\n  return (\n    <Box\n      sx={{\n        display: 'flex',\n        flexDirection: 'column',\n        alignItems: 'center',\n        '& > *': {\n          m: 1,\n        },\n      }}\n    >\n      <ButtonGroup variant=\"outlined\" aria-label=\"Basic button group\">\n        <Button>One</Button>\n        <Button>Two</Button>\n        <Button>Three</Button>\n      </ButtonGroup>\n      <ButtonGroup variant=\"text\" aria-label=\"Basic button group\">\n        <Button>One</Button>\n        <Button>Two</Button>\n        <Button>Three</Button>\n      </ButtonGroup>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sizes and colors",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `size` and `color` props can be used to control the appearance of the button group."
+    },
+    {
+     "kind": "demo",
+     "name": "GroupSizesColors",
+     "file": "GroupSizesColors.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Box from '@mui/material/Box';\nimport ButtonGroup from '@mui/material/ButtonGroup';\n\nconst buttons = [\n  <Button key=\"one\">One</Button>,\n  <Button key=\"two\">Two</Button>,\n  <Button key=\"three\">Three</Button>,\n];\n\nexport default function GroupSizesColors() {\n  return (\n    <Box\n      sx={{\n        display: 'flex',\n        flexDirection: 'column',\n        alignItems: 'center',\n        '& > *': {\n          m: 1,\n        },\n      }}\n    >\n      <ButtonGroup size=\"small\" aria-label=\"Small button group\">\n        {buttons}\n      </ButtonGroup>\n      <ButtonGroup color=\"secondary\" aria-label=\"Medium-sized button group\">\n        {buttons}\n      </ButtonGroup>\n      <ButtonGroup size=\"large\" aria-label=\"Large button group\">\n        {buttons}\n      </ButtonGroup>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Vertical group",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The button group can be displayed vertically using the `orientation` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "GroupOrientation",
+     "file": "GroupOrientation.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport ButtonGroup from '@mui/material/ButtonGroup';\nimport Box from '@mui/material/Box';\n\nconst buttons = [\n  <Button key=\"one\">One</Button>,\n  <Button key=\"two\">Two</Button>,\n  <Button key=\"three\">Three</Button>,\n];\n\nexport default function GroupOrientation() {\n  return (\n    <Box\n      sx={{\n        display: 'flex',\n        '& > *': {\n          m: 1,\n        },\n      }}\n    >\n      <ButtonGroup orientation=\"vertical\" aria-label=\"Vertical button group\">\n        {buttons}\n      </ButtonGroup>\n      <ButtonGroup\n        orientation=\"vertical\"\n        aria-label=\"Vertical button group\"\n        variant=\"contained\"\n      >\n        {buttons}\n      </ButtonGroup>\n      <ButtonGroup\n        orientation=\"vertical\"\n        aria-label=\"Vertical button group\"\n        variant=\"text\"\n      >\n        {buttons}\n      </ButtonGroup>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Split button",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`ButtonGroup` can also be used to create a split button. The dropdown can change the button action (as in this example) or be used to immediately trigger a related action."
+    },
+    {
+     "kind": "demo",
+     "name": "SplitButton",
+     "file": "SplitButton.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport ButtonGroup from '@mui/material/ButtonGroup';\nimport ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';\nimport ClickAwayListener from '@mui/material/ClickAwayListener';\nimport Grow from '@mui/material/Grow';\nimport Paper from '@mui/material/Paper';\nimport Popper from '@mui/material/Popper';\nimport MenuItem from '@mui/material/MenuItem';\nimport MenuList from '@mui/material/MenuList';\n\nconst options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];\n\nexport default function SplitButton() {\n  const [open, setOpen] = React.useState(false);\n  const anchorRef = React.useRef<HTMLDivElement>(null);\n  const [selectedIndex, setSelectedIndex] = React.useState(1);\n\n  const handleClick = () => {\n    console.info(`You clicked ${options[selectedIndex]}`);\n  };\n\n  const handleMenuItemClick = (\n    event: React.MouseEvent<HTMLLIElement, MouseEvent>,\n    index: number,\n  ) => {\n    setSelectedIndex(index);\n    setOpen(false);\n  };\n\n  const handleToggle = () => {\n    setOpen((prevOpen) => !prevOpen);\n  };\n\n  const handleClose = (event: Event) => {\n    if (\n      anchorRef.current &&\n      anchorRef.current.contains(event.target as HTMLElement)\n    ) {\n      return;\n    }\n\n    setOpen(false);\n  };\n\n  return (\n    <React.Fragment>\n      <ButtonGroup\n        variant=\"contained\"\n        ref={anchorRef}\n        aria-label=\"Button group with a nested menu\"\n      >\n        <Button onClick={handleClick}>{options[selectedIndex]}</Button>\n        <Button\n          size=\"small\"\n          aria-controls={open ? 'split-button-menu' : undefined}\n          aria-expanded={open ? 'true' : undefined}\n          aria-label=\"select merge strategy\"\n          aria-haspopup=\"menu\"\n          onClick={handleToggle}\n        >\n          <ArrowDropDownIcon />\n        </Button>\n      </ButtonGroup>\n      <Popper\n        sx={{ zIndex: 1 }}\n        open={open}\n        anchorEl={anchorRef.current}\n        role={undefined}\n        transition\n        disablePortal\n      >\n        {({ TransitionProps, placement }) => (\n          <Grow\n            {...TransitionProps}\n            style={{\n              transformOrigin:\n                placement === 'bottom' ? 'center top' : 'center bottom',\n            }}\n          >\n            <Paper>\n              <ClickAwayListener onClickAway={handleClose}>\n                <MenuList id=\"split-button-menu\" autoFocusItem>\n                  {options.map((option, index) => (\n                    <MenuItem\n                      key={option}\n                      disabled={index === 2}\n                      selected={index === selectedIndex}\n                      onClick={(event) => handleMenuItemClick(event, index)}\n                    >\n                      {option}\n                    </MenuItem>\n                  ))}\n                </MenuList>\n              </ClickAwayListener>\n            </Paper>\n          </Grow>\n        )}\n      </Popper>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Disabled elevation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can remove the elevation with the `disableElevation` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "DisableElevation",
+     "file": "DisableElevation.tsx",
+     "code": "import ButtonGroup from '@mui/material/ButtonGroup';\nimport Button from '@mui/material/Button';\n\nexport default function DisableElevation() {\n  return (\n    <ButtonGroup\n      disableElevation\n      variant=\"contained\"\n      aria-label=\"Disabled button group\"\n    >\n      <Button>One</Button>\n      <Button>Two</Button>\n    </ButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Loading",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `loading` prop from `Button` to set buttons in a loading state and disable interactions."
+    },
+    {
+     "kind": "demo",
+     "name": "LoadingButtonGroup",
+     "file": "LoadingButtonGroup.tsx",
+     "code": "import ButtonGroup from '@mui/material/ButtonGroup';\nimport Button from '@mui/material/Button';\nimport SaveIcon from '@mui/icons-material/Save';\n\nexport default function LoadingButtonGroup() {\n  return (\n    <ButtonGroup variant=\"outlined\" aria-label=\"Loading button group\">\n      <Button>Submit</Button>\n      <Button>Fetch data</Button>\n      <Button loading loadingPosition=\"start\" startIcon={<SaveIcon />}>\n        Save\n      </Button>\n    </ButtonGroup>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Button",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableElevation",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, no elevation is used."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the  keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled.<br>⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the <code>.Mui-focusVisible</code> class."
+    },
+    {
+     "prop": "endIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed after the children."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button will take up the full width of its container."
+    },
+    {
+     "prop": "href",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The URL to link to when the button is clicked. If defined, an <code>a</code> element will be used as the root node."
+    },
+    {
+     "prop": "loading",
+     "type": "bool",
+     "default": "null",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the loading indicator is visible and the button is disabled. If <code>true | false</code>, the loading wrapper is always rendered before the children to prevent <a href=\"https://github.com/mui/material-ui/issues/27853\">Google Translation Crash</a>."
+    },
+    {
+     "prop": "loadingIndicator",
+     "type": "node",
+     "default": "<CircularProgress color=\"inherit\" size={16} />",
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed before the children if the button is in loading state. The node should contain an element with <code>role=&quot;progressbar&quot;</code> with an accessible name. By default, it renders a <code>CircularProgress</code> that is labeled by the button itself."
+    },
+    {
+     "prop": "loadingPosition",
+     "type": "'center'<br>&#124;&nbsp;'end'<br>&#124;&nbsp;'start'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The loading indicator can be positioned on the start, end, or the center of the button."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense button styling."
+    },
+    {
+     "prop": "startIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed before the children."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'contained'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorError",
+     "className": "MuiButton-colorError",
+     "description": "Styles applied to the root element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiButton-colorInfo",
+     "description": "Styles applied to the root element if `color=\"info\"`."
+    },
+    {
+     "key": "colorInherit",
+     "className": "MuiButton-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiButton-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiButton-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiButton-colorSuccess",
+     "description": "Styles applied to the root element if `color=\"success\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiButton-colorWarning",
+     "description": "Styles applied to the root element if `color=\"warning\"`."
+    },
+    {
+     "key": "contained",
+     "className": "MuiButton-contained",
+     "description": "Styles applied to the root element if `variant=\"contained\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "disableElevation",
+     "className": "MuiButton-disableElevation",
+     "description": "Styles applied to the root element if `disableElevation={true}`."
+    },
+    {
+     "key": "endIcon",
+     "className": "MuiButton-endIcon",
+     "description": "Styles applied to the endIcon element if supplied."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the ButtonBase root element if the button is keyboard focused."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiButton-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "icon",
+     "className": "MuiButton-icon",
+     "description": "Styles applied to the icon element if supplied"
+    },
+    {
+     "key": "loading",
+     "className": "MuiButton-loading",
+     "description": "Styles applied to the root element if `loading={true}`."
+    },
+    {
+     "key": "loadingIconPlaceholder",
+     "className": "MuiButton-loadingIconPlaceholder",
+     "description": "Styles applied to the loadingIconPlaceholder element."
+    },
+    {
+     "key": "loadingIndicator",
+     "className": "MuiButton-loadingIndicator",
+     "description": "Styles applied to the loadingIndicator element."
+    },
+    {
+     "key": "loadingPositionCenter",
+     "className": "MuiButton-loadingPositionCenter",
+     "description": "Styles applied to the root element if `loadingPosition=\"center\"`."
+    },
+    {
+     "key": "loadingPositionEnd",
+     "className": "MuiButton-loadingPositionEnd",
+     "description": "Styles applied to the root element if `loadingPosition=\"end\"`."
+    },
+    {
+     "key": "loadingPositionStart",
+     "className": "MuiButton-loadingPositionStart",
+     "description": "Styles applied to the root element if `loadingPosition=\"start\"`."
+    },
+    {
+     "key": "loadingWrapper",
+     "className": "MuiButton-loadingWrapper",
+     "description": "Styles applied to the loadingWrapper element."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiButton-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeLarge",
+     "className": "MuiButton-sizeLarge",
+     "description": "Styles applied to the root element if `size=\"large\"`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiButton-sizeMedium",
+     "description": "Styles applied to the root element if `size=\"medium\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiButton-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "startIcon",
+     "className": "MuiButton-startIcon",
+     "description": "Styles applied to the startIcon element if supplied."
+    },
+    {
+     "key": "text",
+     "className": "MuiButton-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    }
+   ]
+  },
+  {
+   "name": "ButtonGroup",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableElevation",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, no elevation is used."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button ripple effect is disabled."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the buttons will take up the full width of its container."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation (layout flow direction)."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense button styling."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'contained'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'outlined'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorPrimary",
+     "className": "MuiButtonGroup-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`"
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiButtonGroup-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`"
+    },
+    {
+     "key": "contained",
+     "className": "MuiButtonGroup-contained",
+     "description": "Styles applied to the root element if `variant=\"contained\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the child elements if `disabled={true}`."
+    },
+    {
+     "key": "disableElevation",
+     "className": "MuiButtonGroup-disableElevation",
+     "description": "Styles applied to the root element if `disableElevation={true}`."
+    },
+    {
+     "key": "firstButton",
+     "className": "MuiButtonGroup-firstButton",
+     "description": "Styles applied to the first button in the button group."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiButtonGroup-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "grouped",
+     "className": "MuiButtonGroup-grouped",
+     "description": "Styles applied to the children."
+    },
+    {
+     "key": "horizontal",
+     "className": "MuiButtonGroup-horizontal",
+     "description": "Styles applied to the root element if `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "lastButton",
+     "className": "MuiButtonGroup-lastButton",
+     "description": "Styles applied to the last button in the button group."
+    },
+    {
+     "key": "middleButton",
+     "className": "MuiButtonGroup-middleButton",
+     "description": "Styles applied to buttons in the middle of the button group."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiButtonGroup-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiButtonGroup-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "text",
+     "className": "MuiButtonGroup-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiButtonGroup-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-button-group/"
+}

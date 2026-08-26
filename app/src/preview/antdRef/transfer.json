@@ -1,0 +1,999 @@
+{
+ "slug": "transfer",
+ "title": "Transfer",
+ "description": "Double column transfer choice box.",
+ "group": "Data Entry",
+ "whenToUse": "- It is a select control essentially which can be used for selecting multiple items.\n- Transfer can display more information for items and take up more space.\n\nTransfer the elements between two columns in an intuitive and efficient way.\n\nOne or more elements can be selected from either column, one click on the proper `direction` button, and the transfer is done. The left column is considered the `source` and the right column is considered the `target`. As you can see, these names are reflected in the API.\n\n> notice: Transfer is a controlled component, uncontrolled mode is not supported.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The most basic usage of `Transfer` involves providing the source data and target keys arrays, plus the rendering and some callback functions.",
+   "code": "import React, { useState } from 'react';\nimport { Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n}\n\nconst mockData = Array.from({ length: 20 }).map<RecordType>((_, i) => ({\n  key: i.toString(),\n  title: `content${i + 1}`,\n  description: `description of content${i + 1}`,\n}));\n\nconst initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);\n\nconst App: React.FC = () => {\n  const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>(initialTargetKeys);\n  const [selectedKeys, setSelectedKeys] = useState<TransferProps['targetKeys']>([]);\n\n  const onChange: TransferProps['onChange'] = (nextTargetKeys, direction, moveKeys) => {\n    console.log('targetKeys:', nextTargetKeys);\n    console.log('direction:', direction);\n    console.log('moveKeys:', moveKeys);\n    setTargetKeys(nextTargetKeys);\n  };\n\n  const onSelectChange: TransferProps['onSelectChange'] = (\n    sourceSelectedKeys,\n    targetSelectedKeys,\n  ) => {\n    console.log('sourceSelectedKeys:', sourceSelectedKeys);\n    console.log('targetSelectedKeys:', targetSelectedKeys);\n    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);\n  };\n\n  const onScroll: TransferProps['onScroll'] = (direction, e) => {\n    console.log('direction:', direction);\n    console.log('target:', e.target);\n  };\n\n  return (\n    <Transfer\n      dataSource={mockData}\n      titles={['Source', 'Target']}\n      targetKeys={targetKeys}\n      selectedKeys={selectedKeys}\n      onChange={onChange}\n      onSelectChange={onSelectChange}\n      onScroll={onScroll}\n      render={(item) => item.title}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "One Way",
+   "description": "Use `oneWay` to make Transfer the one way style.",
+   "code": "import React, { useState } from 'react';\nimport { Switch, Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n  disabled: boolean;\n}\n\nconst mockData = Array.from({ length: 20 }).map<RecordType>((_, i) => ({\n  key: i.toString(),\n  title: `content${i + 1}`,\n  description: `description of content${i + 1}`,\n  disabled: i % 3 < 1,\n}));\n\nconst oriTargetKeys = mockData.filter((item) => Number(item.key) % 3 > 1).map((item) => item.key);\n\nconst App: React.FC = () => {\n  const [targetKeys, setTargetKeys] = useState<React.Key[]>(oriTargetKeys);\n  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);\n  const [disabled, setDisabled] = useState(false);\n\n  const handleChange: TransferProps['onChange'] = (newTargetKeys, direction, moveKeys) => {\n    setTargetKeys(newTargetKeys);\n\n    console.log('targetKeys: ', newTargetKeys);\n    console.log('direction: ', direction);\n    console.log('moveKeys: ', moveKeys);\n  };\n\n  const handleSelectChange: TransferProps['onSelectChange'] = (\n    sourceSelectedKeys,\n    targetSelectedKeys,\n  ) => {\n    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);\n\n    console.log('sourceSelectedKeys: ', sourceSelectedKeys);\n    console.log('targetSelectedKeys: ', targetSelectedKeys);\n  };\n\n  const handleScroll: TransferProps['onScroll'] = (direction, e) => {\n    console.log('direction:', direction);\n    console.log('target:', e.target);\n  };\n\n  const handleDisable = (checked: boolean) => {\n    setDisabled(checked);\n  };\n\n  return (\n    <>\n      <Transfer\n        dataSource={mockData}\n        titles={['Source', 'Target']}\n        targetKeys={targetKeys}\n        selectedKeys={selectedKeys}\n        onChange={handleChange}\n        onSelectChange={handleSelectChange}\n        onScroll={handleScroll}\n        render={(item) => item.title}\n        disabled={disabled}\n        oneWay\n        style={{ marginBottom: 16 }}\n      />\n      <Switch\n        unCheckedChildren=\"disabled\"\n        checkedChildren=\"disabled\"\n        checked={disabled}\n        onChange={handleDisable}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "oneway"
+  },
+  {
+   "name": "Search",
+   "description": "Transfer with a search box.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n  chosen: boolean;\n}\n\nconst App: React.FC = () => {\n  const [mockData, setMockData] = useState<RecordType[]>([]);\n  const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>([]);\n\n  const getMock = () => {\n    const tempTargetKeys: React.Key[] = [];\n    const tempMockData: RecordType[] = [];\n    for (let i = 0; i < 20; i++) {\n      const data = {\n        key: i.toString(),\n        title: `content${i + 1}`,\n        description: `description of content${i + 1}`,\n        chosen: i % 2 === 0,\n      };\n      if (data.chosen) {\n        tempTargetKeys.push(data.key);\n      }\n      tempMockData.push(data);\n    }\n    setMockData(tempMockData);\n    setTargetKeys(tempTargetKeys);\n  };\n\n  useEffect(() => {\n    getMock();\n  }, []);\n\n  const filterOption = (inputValue: string, option: RecordType) =>\n    option.description.includes(inputValue);\n\n  const handleChange: TransferProps['onChange'] = (newTargetKeys) => {\n    setTargetKeys(newTargetKeys);\n  };\n\n  const handleSearch: TransferProps['onSearch'] = (dir, value) => {\n    console.log('search:', dir, value);\n  };\n\n  return (\n    <Transfer\n      dataSource={mockData}\n      showSearch\n      filterOption={filterOption}\n      targetKeys={targetKeys}\n      onChange={handleChange}\n      onSearch={handleSearch}\n      render={(item) => item.title}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "search"
+  },
+  {
+   "name": "Advanced",
+   "description": "Advanced Usage of Transfer.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Button, Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n  chosen: boolean;\n}\n\nconst App: React.FC = () => {\n  const [mockData, setMockData] = useState<RecordType[]>([]);\n  const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>([]);\n\n  const getMock = () => {\n    const tempTargetKeys: React.Key[] = [];\n    const tempMockData: RecordType[] = [];\n    for (let i = 0; i < 20; i++) {\n      const data = {\n        key: i.toString(),\n        title: `content${i + 1}`,\n        description: `description of content${i + 1}`,\n        chosen: i % 2 === 0,\n      };\n      if (data.chosen) {\n        tempTargetKeys.push(data.key);\n      }\n      tempMockData.push(data);\n    }\n    setMockData(tempMockData);\n    setTargetKeys(tempTargetKeys);\n  };\n\n  useEffect(() => {\n    getMock();\n  }, []);\n\n  const handleChange: TransferProps['onChange'] = (newTargetKeys) => {\n    setTargetKeys(newTargetKeys);\n  };\n\n  const renderFooter: TransferProps['footer'] = (_, info) => {\n    if (info?.direction === 'left') {\n      return (\n        <Button\n          size=\"small\"\n          style={{ display: 'flex', margin: 8, marginInlineEnd: 'auto' }}\n          onClick={getMock}\n        >\n          Left button reload\n        </Button>\n      );\n    }\n    return (\n      <Button\n        size=\"small\"\n        style={{ display: 'flex', margin: 8, marginInlineStart: 'auto' }}\n        onClick={getMock}\n      >\n        Right button reload\n      </Button>\n    );\n  };\n\n  return (\n    <Transfer\n      dataSource={mockData}\n      showSearch\n      styles={{\n        section: {\n          width: 250,\n          height: 300,\n        },\n      }}\n      actions={['to right', 'to left']}\n      targetKeys={targetKeys}\n      onChange={handleChange}\n      render={(item) => `${item.title}-${item.description}`}\n      footer={renderFooter}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "advanced"
+  },
+  {
+   "name": "Custom datasource",
+   "description": "Customize each Transfer Item, allowing you to render a complex datasource.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n  chosen: boolean;\n}\n\nconst App: React.FC = () => {\n  const [mockData, setMockData] = useState<RecordType[]>([]);\n  const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);\n\n  const getMock = () => {\n    const tempTargetKeys: React.Key[] = [];\n    const tempMockData: RecordType[] = [];\n    for (let i = 0; i < 20; i++) {\n      const data = {\n        key: i.toString(),\n        title: `content${i + 1}`,\n        description: `description of content${i + 1}`,\n        chosen: i % 2 === 0,\n      };\n      if (data.chosen) {\n        tempTargetKeys.push(data.key);\n      }\n      tempMockData.push(data);\n    }\n    setMockData(tempMockData);\n    setTargetKeys(tempTargetKeys);\n  };\n\n  useEffect(() => {\n    getMock();\n  }, []);\n\n  const handleChange: TransferProps['onChange'] = (newTargetKeys, direction, moveKeys) => {\n    console.log(newTargetKeys, direction, moveKeys);\n    setTargetKeys(newTargetKeys);\n  };\n\n  const renderItem = (item: RecordType) => {\n    const customLabel = (\n      <span className=\"custom-item\">\n        {item.title} - {item.description}\n      </span>\n    );\n\n    return {\n      label: customLabel, // for displayed item\n      value: item.title, // for title and filter matching\n    };\n  };\n\n  return (\n    <Transfer\n      dataSource={mockData}\n      styles={{\n        section: {\n          width: 300,\n          height: 300,\n        },\n      }}\n      targetKeys={targetKeys}\n      onChange={handleChange}\n      render={renderItem}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "custom-item"
+  },
+  {
+   "name": "Custom Actions",
+   "description": "You can customize operations with the `actions` prop. This example demonstrates how to customize actions, including handling disabled and loading states.",
+   "code": "import React, { useState } from 'react';\nimport { Button, message, Transfer } from 'antd';\nimport { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n}\n\nconst mockData: RecordType[] = Array.from({ length: 20 }).map((_, i) => ({\n  key: i.toString(),\n  title: `Content ${i + 1}`,\n  description: `Description ${i + 1}`,\n}));\n\nconst initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);\n\nconst App: React.FC = () => {\n  const [messageApi, contextHolder] = message.useMessage();\n  const [targetKeys, setTargetKeys] = useState<string[]>(initialTargetKeys);\n  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);\n  const [loadingRight, setLoadingRight] = useState<boolean>(false);\n  const [loadingLeft, setLoadingLeft] = useState<boolean>(false);\n\n  // Handle data transfer\n  const handleChange: TransferProps['onChange'] = (newTargetKeys, direction, moveKeys) => {\n    setTargetKeys(newTargetKeys as string[]);\n\n    // Simulate async action\n    if (direction === 'right') {\n      setLoadingRight(true);\n      setTimeout(() => {\n        setLoadingRight(false);\n        messageApi.success(`Successfully added ${moveKeys.length} items to the right`);\n      }, 1000);\n    } else {\n      setLoadingLeft(true);\n      setTimeout(() => {\n        setLoadingLeft(false);\n        messageApi.success(`Successfully added ${moveKeys.length} items to the left`);\n      }, 1000);\n    }\n  };\n\n  // Handle selection change\n  const handleSelectChange: TransferProps['onSelectChange'] = (\n    sourceSelectedKeys,\n    targetSelectedKeys,\n  ) => {\n    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys] as string[]);\n  };\n\n  // Right button is disabled (no selected items on the left or all selected items are already in the right list)\n  const rightButtonDisabled =\n    selectedKeys.length === 0 || selectedKeys.every((key) => targetKeys.includes(key));\n\n  // Left button is disabled (no selected items on the right)\n  const leftButtonDisabled =\n    selectedKeys.length === 0 || selectedKeys.every((key) => !targetKeys.includes(key));\n\n  // Custom right button click handler\n  const handleRightButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    // You can add custom logic here, such as showing a confirmation dialog\n    console.log('Right button clicked', event);\n    // The Transfer component will automatically handle data transfer\n  };\n\n  // Custom left button click handler\n  const handleLeftButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    // You can add custom logic here, such as showing a confirmation dialog\n    console.log('Left button clicked', event);\n    // The Transfer component will automatically handle data transfer\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Transfer\n        dataSource={mockData}\n        targetKeys={targetKeys}\n        selectedKeys={selectedKeys}\n        onChange={handleChange}\n        onSelectChange={handleSelectChange}\n        render={(item) => item.title}\n        actions={[\n          // Custom right button (transfer data to the right)\n          <Button\n            key=\"to-right\"\n            type=\"primary\"\n            icon={<DoubleRightOutlined />}\n            loading={loadingRight}\n            disabled={rightButtonDisabled}\n            onClick={handleRightButtonClick}\n          >\n            Move To Right\n          </Button>,\n          // Custom left button (transfer data to the left)\n          <Button\n            key=\"to-left\"\n            type=\"primary\"\n            icon={<DoubleLeftOutlined />}\n            loading={loadingLeft}\n            disabled={leftButtonDisabled}\n            onClick={handleLeftButtonClick}\n          >\n            Move To Left\n          </Button>,\n        ]}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "actions"
+  },
+  {
+   "name": "Pagination",
+   "description": "Store a large amount of items with pagination.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Switch, Transfer } from 'antd';\nimport type { TransferProps } from 'antd';\n\ninterface RecordType {\n  key: string;\n  title: string;\n  description: string;\n  chosen: boolean;\n}\n\nconst App: React.FC = () => {\n  const [oneWay, setOneWay] = useState(false);\n  const [mockData, setMockData] = useState<RecordType[]>([]);\n  const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);\n\n  useEffect(() => {\n    const newTargetKeys: React.Key[] = [];\n    const newMockData: RecordType[] = [];\n    for (let i = 0; i < 2000; i++) {\n      const data = {\n        key: i.toString(),\n        title: `content${i + 1}`,\n        description: `description of content${i + 1}`,\n        chosen: i % 2 === 0,\n      };\n      if (data.chosen) {\n        newTargetKeys.push(data.key);\n      }\n      newMockData.push(data);\n    }\n\n    setTargetKeys(newTargetKeys);\n    setMockData(newMockData);\n  }, []);\n\n  const onChange: TransferProps['onChange'] = (newTargetKeys, direction, moveKeys) => {\n    console.log(newTargetKeys, direction, moveKeys);\n    setTargetKeys(newTargetKeys);\n  };\n\n  return (\n    <>\n      <Transfer\n        dataSource={mockData}\n        targetKeys={targetKeys}\n        onChange={onChange}\n        render={(item) => item.title}\n        oneWay={oneWay}\n        pagination\n      />\n      <br />\n      <Switch\n        unCheckedChildren=\"one way\"\n        checkedChildren=\"one way\"\n        checked={oneWay}\n        onChange={setOneWay}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "large-data"
+  },
+  {
+   "name": "Table Transfer",
+   "description": "Customize the render list with a Table component.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Switch, Table, Tag, Transfer } from 'antd';\nimport type { GetProp, TableColumnsType, TableProps, TransferProps } from 'antd';\n\ntype TransferItem = GetProp<TransferProps, 'dataSource'>[number];\n\ntype TableRowSelection<T extends object> = TableProps<T>['rowSelection'];\n\ninterface DataType {\n  key: string;\n  title: string;\n  description: string;\n  tag: string;\n  disabled?: boolean;\n}\n\ninterface TableTransferProps extends TransferProps<TransferItem> {\n  dataSource: DataType[];\n  leftColumns: TableColumnsType<DataType>;\n  rightColumns: TableColumnsType<DataType>;\n}\n\n// Customize Table Transfer\nconst TableTransfer: React.FC<TableTransferProps> = (props) => {\n  const { leftColumns, rightColumns, ...restProps } = props;\n  return (\n    <Transfer style={{ width: '100%' }} {...restProps}>\n      {({\n        direction,\n        filteredItems,\n        onItemSelect,\n        onItemSelectAll,\n        selectedKeys: listSelectedKeys,\n        disabled: listDisabled,\n      }) => {\n        const columns = direction === 'left' ? leftColumns : rightColumns;\n        const rowSelection: TableRowSelection<TransferItem> = {\n          getCheckboxProps: () => ({ disabled: listDisabled }),\n          onChange(selectedRowKeys) {\n            onItemSelectAll(selectedRowKeys, 'replace');\n          },\n          selectedRowKeys: listSelectedKeys,\n          selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT, Table.SELECTION_NONE],\n        };\n\n        return (\n          <Table<DataType>\n            rowSelection={rowSelection}\n            columns={columns}\n            dataSource={filteredItems}\n            size=\"small\"\n            style={{ pointerEvents: listDisabled ? 'none' : undefined }}\n            onRow={({ key, disabled: itemDisabled }) => ({\n              onClick: () => {\n                if (itemDisabled || listDisabled) {\n                  return;\n                }\n                onItemSelect(key, !listSelectedKeys.includes(key));\n              },\n            })}\n          />\n        );\n      }}\n    </Transfer>\n  );\n};\n\nconst mockTags = ['cat', 'dog', 'bird'];\n\nconst mockData = Array.from({ length: 20 }).map<DataType>((_, i) => ({\n  key: i.toString(),\n  title: `content${i + 1}`,\n  description: `description of content${i + 1}`,\n  tag: mockTags[i % 3],\n}));\n\nconst columns: TableColumnsType<DataType> = [\n  {\n    dataIndex: 'title',\n    title: 'Name',\n  },\n  {\n    dataIndex: 'tag',\n    title: 'Tag',\n    render: (tag: string) => (\n      <Tag style={{ marginInlineEnd: 0 }} color=\"cyan\">\n        {tag.toUpperCase()}\n      </Tag>\n    ),\n  },\n  {\n    dataIndex: 'description',\n    title: 'Description',\n  },\n];\n\nconst filterOption = (input: string, item: DataType) =>\n  item.title?.includes(input) || item.tag?.includes(input);\n\nconst App: React.FC = () => {\n  const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>([]);\n  const [disabled, setDisabled] = useState(false);\n\n  const onChange: TableTransferProps['onChange'] = (nextTargetKeys) => {\n    setTargetKeys(nextTargetKeys);\n  };\n\n  const toggleDisabled = (checked: boolean) => {\n    setDisabled(checked);\n  };\n\n  return (\n    <Flex align=\"start\" gap=\"medium\" vertical>\n      <TableTransfer\n        dataSource={mockData}\n        targetKeys={targetKeys}\n        disabled={disabled}\n        showSearch\n        showSelectAll={false}\n        onChange={onChange}\n        filterOption={filterOption}\n        leftColumns={columns}\n        rightColumns={columns}\n      />\n      <Switch\n        unCheckedChildren=\"disabled\"\n        checkedChildren=\"disabled\"\n        checked={disabled}\n        onChange={toggleDisabled}\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "table-transfer"
+  },
+  {
+   "name": "Tree Transfer",
+   "description": "Customize the render list with a Tree component.",
+   "code": "import React, { useState } from 'react';\nimport { theme, Transfer, Tree } from 'antd';\nimport type { GetProp, TransferProps, TreeDataNode } from 'antd';\n\ntype TransferItem = GetProp<TransferProps, 'dataSource'>[number];\n\ninterface TreeTransferProps {\n  dataSource: TreeDataNode[];\n  targetKeys: TransferProps['targetKeys'];\n  onChange: TransferProps['onChange'];\n}\n\n// Customize Table Transfer\nconst isChecked = (selectedKeys: React.Key[], eventKey: React.Key) =>\n  selectedKeys.includes(eventKey);\n\nconst generateTree = (\n  treeNodes: TreeDataNode[] = [],\n  checkedKeys: TreeTransferProps['targetKeys'] = [],\n): TreeDataNode[] =>\n  treeNodes.map(({ children, ...props }) => ({\n    ...props,\n    disabled: checkedKeys.includes(props.key as string),\n    children: generateTree(children, checkedKeys),\n  }));\n\nconst TreeTransfer: React.FC<TreeTransferProps> = (props) => {\n  const { token } = theme.useToken();\n\n  const { dataSource, targetKeys = [], ...restProps } = props;\n\n  const transferDataSource: TransferItem[] = [];\n  function flatten(list: TreeDataNode[] = []) {\n    list.forEach((item) => {\n      transferDataSource.push(item as TransferItem);\n      flatten(item.children);\n    });\n  }\n  flatten(dataSource);\n\n  return (\n    <Transfer\n      {...restProps}\n      targetKeys={targetKeys}\n      dataSource={transferDataSource}\n      render={(item) => item.title}\n      showSelectAll={false}\n    >\n      {({ direction, onItemSelect, selectedKeys }) => {\n        if (direction === 'left') {\n          const checkedKeys = [...selectedKeys, ...targetKeys];\n          return (\n            <div style={{ padding: token.paddingXS }}>\n              <Tree\n                blockNode\n                checkable\n                checkStrictly\n                defaultExpandAll\n                checkedKeys={checkedKeys}\n                treeData={generateTree(dataSource, targetKeys)}\n                onCheck={(_, { node: { key } }) => {\n                  onItemSelect(key as string, !isChecked(checkedKeys, key));\n                }}\n                onSelect={(_, { node: { key } }) => {\n                  onItemSelect(key as string, !isChecked(checkedKeys, key));\n                }}\n              />\n            </div>\n          );\n        }\n      }}\n    </Transfer>\n  );\n};\n\nconst treeData: TreeDataNode[] = [\n  { key: '0-0', title: '0-0' },\n  {\n    key: '0-1',\n    title: '0-1',\n    children: [\n      { key: '0-1-0', title: '0-1-0' },\n      { key: '0-1-1', title: '0-1-1' },\n    ],\n  },\n  { key: '0-2', title: '0-2' },\n  { key: '0-3', title: '0-3' },\n  { key: '0-4', title: '0-4' },\n];\n\nconst App: React.FC = () => {\n  const [targetKeys, setTargetKeys] = useState<TreeTransferProps['targetKeys']>([]);\n  const onChange: TreeTransferProps['onChange'] = (keys) => {\n    setTargetKeys(keys);\n  };\n  return <TreeTransfer dataSource={treeData} targetKeys={targetKeys} onChange={onChange} />;\n};\n\nexport default App;",
+   "demoId": "tree-transfer"
+  },
+  {
+   "name": "Status",
+   "description": "Add status to Transfer with `status`, which could be `error` or `warning`.",
+   "code": "import React from 'react';\nimport { Flex, Transfer } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" vertical>\n    <Transfer status=\"error\" />\n    <Transfer status=\"warning\" showSearch />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Transfers by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Transfer } from 'antd';\nimport type { GetProp, TransferProps } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token, css }) => ({\n  section: { backgroundColor: 'rgba(250,250,250, 0.5)' },\n  header: { color: token.colorPrimary },\n  actions: css`\n    & button {\n      background-color: rgba(255, 242, 232, 0.6);\n    }\n  `,\n}));\n\nconst mockData = Array.from({ length: 20 }).map<any>((_, i) => ({\n  key: i.toString(),\n  title: `content${i + 1}`,\n  description: `description of content${i + 1}`,\n}));\n\nconst initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);\n\nconst stylesObject: TransferProps['styles'] = {\n  header: { fontWeight: 'bold' },\n};\n\nconst stylesFn: TransferProps['styles'] = (info): GetProp<TransferProps, 'styles', 'Return'> => {\n  if (info.props.status === 'warning') {\n    return {\n      section: { backgroundColor: 'rgba(246,255,237, 0.6)', borderColor: '#b7eb8f' },\n      header: { color: '#8DBCC7', fontWeight: 'normal' },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n  const sharedProps: TransferProps = {\n    dataSource: mockData,\n    targetKeys: initialTargetKeys,\n    render: (item) => item.title,\n    classNames,\n  };\n  return (\n    <Flex vertical gap=\"large\" style={{ width: '100%' }}>\n      <Transfer {...sharedProps} status=\"error\" styles={stylesObject} />\n      <Transfer {...sharedProps} status=\"warning\" styles={stylesFn} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "actions",
+     "A set of operations that are sorted from top to bottom. When an array of strings is provided, default buttons will be used; when an array of ReactNode is provided, custom elements will be used",
+     "ReactNode\\[]",
+     "\\[`>`, `<`]",
+     "6.0.0",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "dataSource",
+     "Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop",
+     "RecordType extends TransferItem = TransferItem\\[]",
+     "\\[]",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "Whether disabled transfer",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "selectionsIcon",
+     "custom dropdown icon",
+     "React.ReactNode",
+     "—",
+     "5.8.0",
+     "5.14.0"
+    ],
+    [
+     "filterOption",
+     "A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+)",
+     "(inputValue, option, direction: `left` | `right`): boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "footer",
+     "A function used for rendering the footer",
+     "(props, { direction }) => ReactNode",
+     "-",
+     "direction: 4.17.0",
+     "×"
+    ],
+    [
+     "~~listStyle~~",
+     "A custom CSS style used for rendering the transfer columns. Use `styles.section` instead",
+     "object | ({direction: `left` | `right`}) => object",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "locale",
+     "The i18n text including filter, empty text, item unit, etc",
+     "{ itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode | ReactNode[]; }",
+     "{ itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` }",
+     "—",
+     "×"
+    ],
+    [
+     "oneWay",
+     "Display as single direction style",
+     "boolean",
+     "false",
+     "4.3.0",
+     "×"
+    ],
+    [
+     "~~operations~~",
+     "A set of operations that are sorted from top to bottom. Use `actions` instead.",
+     "string\\[]",
+     "\\[`>`, `<`]",
+     "—",
+     "×"
+    ],
+    [
+     "~~operationStyle~~",
+     "A custom CSS style used for rendering the operations column. Use `styles.actions` instead.",
+     "object",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "pagination",
+     "Use pagination. Not work in render props",
+     "boolean | { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean }",
+     "false",
+     "4.3.0",
+     "×"
+    ],
+    [
+     "render",
+     "The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. Also, it can return a plain object with `value` and `label`, `label` is a React element and `value` is for title",
+     "(record) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "selectAllLabels",
+     "A set of customized labels for select all checkboxes on the header",
+     "(ReactNode | (info: { selectedCount: number, totalCount: number }) => ReactNode)\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "selectedKeys",
+     "A set of keys of selected items",
+     "string\\[] | number\\[]",
+     "\\[]",
+     "—",
+     "×"
+    ],
+    [
+     "showSearch",
+     "If included, a search box is shown on each column",
+     "boolean | { placeholder:string,defaultValue:string }",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "showSelectAll",
+     "Show select all checkbox on the header",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "status",
+     "Set validation status",
+     "'error' | 'warning'",
+     "-",
+     "4.19.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "targetKeys",
+     "A set of keys of elements that are listed on the right column",
+     "string\\[] | number\\[]",
+     "\\[]",
+     "—",
+     "×"
+    ],
+    [
+     "titles",
+     "A set of titles that are sorted from left to right",
+     "ReactNode\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "A callback function that is executed when the transfer between columns is complete",
+     "(targetKeys, direction, moveKeys): void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onScroll",
+     "A callback function which is executed when scroll options list",
+     "(direction, event): void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSearch",
+     "A callback function which is executed when search field are changed",
+     "(direction: `left` | `right`, value: string): void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSelectChange",
+     "A callback function which is executed when selected items are changed",
+     "(sourceSelectedKeys, targetSelectedKeys): void",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "Transfer"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Version"
+   ],
+   "rows": [
+    [
+     "direction",
+     "List render direction",
+     "`left` | `right`",
+     "—"
+    ],
+    [
+     "disabled",
+     "Disable list or not",
+     "boolean",
+     "—"
+    ],
+    [
+     "filteredItems",
+     "Filtered items",
+     "RecordType\\[]",
+     "—"
+    ],
+    [
+     "selectedKeys",
+     "Selected items",
+     "string\\[] | number\\[]",
+     "—"
+    ],
+    [
+     "onItemSelect",
+     "Select item",
+     "(key: string | number, selected: boolean)",
+     "—"
+    ],
+    [
+     "onItemSelectAll",
+     "Select a group of items",
+     "(keys: string\\[] | number\\[], selected: boolean)",
+     "—"
+    ]
+   ],
+   "name": "Render Props"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "actions",
+    "A set of operations that are sorted from top to bottom. When an array of strings is provided, default buttons will be used; when an array of ReactNode is provided, custom elements will be used",
+    "ReactNode\\[]",
+    "\\[`>`, `<`]",
+    "6.0.0",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "dataSource",
+    "Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop",
+    "RecordType extends TransferItem = TransferItem\\[]",
+    "\\[]",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "Whether disabled transfer",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "selectionsIcon",
+    "custom dropdown icon",
+    "React.ReactNode",
+    "—",
+    "5.8.0",
+    "5.14.0"
+   ],
+   [
+    "filterOption",
+    "A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+)",
+    "(inputValue, option, direction: `left` | `right`): boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "footer",
+    "A function used for rendering the footer",
+    "(props, { direction }) => ReactNode",
+    "-",
+    "direction: 4.17.0",
+    "×"
+   ],
+   [
+    "~~listStyle~~",
+    "A custom CSS style used for rendering the transfer columns. Use `styles.section` instead",
+    "object | ({direction: `left` | `right`}) => object",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "locale",
+    "The i18n text including filter, empty text, item unit, etc",
+    "{ itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode | ReactNode[]; }",
+    "{ itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` }",
+    "—",
+    "×"
+   ],
+   [
+    "oneWay",
+    "Display as single direction style",
+    "boolean",
+    "false",
+    "4.3.0",
+    "×"
+   ],
+   [
+    "~~operations~~",
+    "A set of operations that are sorted from top to bottom. Use `actions` instead.",
+    "string\\[]",
+    "\\[`>`, `<`]",
+    "—",
+    "×"
+   ],
+   [
+    "~~operationStyle~~",
+    "A custom CSS style used for rendering the operations column. Use `styles.actions` instead.",
+    "object",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "pagination",
+    "Use pagination. Not work in render props",
+    "boolean | { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean }",
+    "false",
+    "4.3.0",
+    "×"
+   ],
+   [
+    "render",
+    "The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. Also, it can return a plain object with `value` and `label`, `label` is a React element and `value` is for title",
+    "(record) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "selectAllLabels",
+    "A set of customized labels for select all checkboxes on the header",
+    "(ReactNode | (info: { selectedCount: number, totalCount: number }) => ReactNode)\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "selectedKeys",
+    "A set of keys of selected items",
+    "string\\[] | number\\[]",
+    "\\[]",
+    "—",
+    "×"
+   ],
+   [
+    "showSearch",
+    "If included, a search box is shown on each column",
+    "boolean | { placeholder:string,defaultValue:string }",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "showSelectAll",
+    "Show select all checkbox on the header",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "status",
+    "Set validation status",
+    "'error' | 'warning'",
+    "-",
+    "4.19.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "targetKeys",
+    "A set of keys of elements that are listed on the right column",
+    "string\\[] | number\\[]",
+    "\\[]",
+    "—",
+    "×"
+   ],
+   [
+    "titles",
+    "A set of titles that are sorted from left to right",
+    "ReactNode\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "A callback function that is executed when the transfer between columns is complete",
+    "(targetKeys, direction, moveKeys): void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onScroll",
+    "A callback function which is executed when scroll options list",
+    "(direction, event): void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSearch",
+    "A callback function which is executed when search field are changed",
+    "(direction: `left` | `right`, value: string): void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSelectChange",
+    "A callback function which is executed when selected items are changed",
+    "(sourceSelectedKeys, targetSelectedKeys): void",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "Transfer"
+ },
+ "variants": [
+  {
+   "prop": "status",
+   "values": [
+    "error",
+    "warning"
+   ],
+   "default": "-",
+   "owner": "Transfer",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "direction",
+   "values": [
+    "left",
+    "right"
+   ],
+   "default": "—",
+   "owner": "Render Props",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with flex layout, transfer container base styles and layout control"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "Section element with flex layout, width, height, min height, border, border radius and other single-side transfer container styles"
+   },
+   {
+    "name": "source.section",
+    "mark": "semantic-mark-source-section",
+    "description": "Source section element, only applies to left transfer section container styles"
+   },
+   {
+    "name": "target.section",
+    "mark": "semantic-mark-target-section",
+    "description": "Target section element, only applies to right transfer section container styles"
+   },
+   {
+    "name": "source.header",
+    "mark": "semantic-mark-source-header",
+    "description": "Source header element, only applies to left header area styles"
+   },
+   {
+    "name": "target.header",
+    "mark": "semantic-mark-target-header",
+    "description": "Target header element, only applies to right header area styles"
+   },
+   {
+    "name": "source.title",
+    "mark": "semantic-mark-source-title",
+    "description": "Source title element, only applies to left title text styles"
+   },
+   {
+    "name": "target.title",
+    "mark": "semantic-mark-target-title",
+    "description": "Target title element, only applies to right title text styles"
+   },
+   {
+    "name": "source.body",
+    "mark": "semantic-mark-source-body",
+    "description": "Source body element, only applies to left list body styles"
+   },
+   {
+    "name": "target.body",
+    "mark": "semantic-mark-target-body",
+    "description": "Target body element, only applies to right list body styles"
+   },
+   {
+    "name": "source.list",
+    "mark": "semantic-mark-source-list",
+    "description": "Source list element, only applies to left list content styles"
+   },
+   {
+    "name": "target.list",
+    "mark": "semantic-mark-target-list",
+    "description": "Target list element, only applies to right list content styles"
+   },
+   {
+    "name": "source.item",
+    "mark": "semantic-mark-source-item",
+    "description": "Source item element, only applies to left list item styles"
+   },
+   {
+    "name": "target.item",
+    "mark": "semantic-mark-target-item",
+    "description": "Target item element, only applies to right list item styles"
+   },
+   {
+    "name": "source.itemIcon",
+    "mark": "semantic-mark-source-itemIcon",
+    "description": "Source item icon element, only applies to left icon styles"
+   },
+   {
+    "name": "target.itemIcon",
+    "mark": "semantic-mark-target-itemIcon",
+    "description": "Target item icon element, only applies to right icon styles"
+   },
+   {
+    "name": "source.itemContent",
+    "mark": "semantic-mark-source-itemContent",
+    "description": "Source item content element, only applies to left text content styles"
+   },
+   {
+    "name": "target.itemContent",
+    "mark": "semantic-mark-target-itemContent",
+    "description": "Target item content element, only applies to right text content styles"
+   },
+   {
+    "name": "source.footer",
+    "mark": "semantic-mark-source-footer",
+    "description": "Source footer element, only applies to left footer area styles"
+   },
+   {
+    "name": "target.footer",
+    "mark": "semantic-mark-target-footer",
+    "description": "Target footer element, only applies to right footer area styles"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with flex layout, alignment, height, padding, color, background color, bottom border, border radius and other header area styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with text ellipsis, flex ratio, text alignment, auto left margin and other title text layout and styles"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element with list main area container styles and layout control"
+   },
+   {
+    "name": "list",
+    "mark": "semantic-mark-list",
+    "description": "List element with list content styles, layout and scroll control"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "List item element with relative positioning, padding, border, hover state, selected state, disabled state and other list item interaction styles"
+   },
+   {
+    "name": "itemIcon",
+    "mark": "semantic-mark-itemIcon",
+    "description": "List item icon element with checkbox and other icon styles and interaction states"
+   },
+   {
+    "name": "itemContent",
+    "mark": "semantic-mark-itemContent",
+    "description": "List item content element with text ellipsis, padding and other list item text content display styles"
+   },
+   {
+    "name": "footer",
+    "mark": "semantic-mark-footer",
+    "description": "Footer element with bottom operation area styles and layout"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "Actions element with transfer button group styles, layout and interaction states"
+   }
+  ],
+  "dom": "<div class=\"ant-transfer css-var-test-id semantic-mark-root\">\n        <div class=\"ant-transfer-section semantic-mark-section semantic-mark-source-section ant-transfer-section-with-footer\" style=\"height: 250px; width: 200px; background-color: rgb(255, 247, 230);\">\n          <div class=\"ant-transfer-list-header semantic-mark-header semantic-mark-source-header\">\n            <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var\">\n              <span class=\"ant-checkbox ant-wave-target\">\n                <input class=\"ant-checkbox-input\" type=\"checkbox\">\n              </span>\n            </label>\n            <span aria-label=\"down\" class=\"anticon anticon-down ant-dropdown-trigger\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n              </svg>\n            </span>\n            <span class=\"ant-transfer-list-header-selected\">\n              18 items\n            </span>\n            <span class=\"ant-transfer-list-header-title semantic-mark-title semantic-mark-source-title\">\n              Source\n            </span>\n          </div>\n          <div class=\"ant-transfer-list-body ant-transfer-list-body-with-search semantic-mark-body semantic-mark-source-body\">\n            <div class=\"ant-transfer-list-body-search-wrapper\">\n              <span class=\"ant-input-affix-wrapper ant-input-outlined ant-transfer-list-search css-var-test-id ant-input-css-var\">\n                <span class=\"ant-input-prefix\">\n                  <span aria-label=\"search\" class=\"anticon anticon-search\" role=\"img\">\n                    <svg aria-hidden=\"true\" data-icon=\"search\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                      <path d=\"M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z\"></path>\n                    </svg>\n                  </span>\n                </span>\n                <input class=\"ant-input\" placeholder=\"Search here\" type=\"text\" value=\"\">\n                <span class=\"ant-input-suffix\">\n                  <button class=\"ant-input-clear-icon ant-input-clear-icon-hidden\" type=\"button\">\n                    <span aria-label=\"close-circle\" class=\"anticon anticon-close-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"close-circle\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n              </span>\n            </div>\n            <ul class=\"ant-transfer-list-content semantic-mark-list semantic-mark-source-list\">\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 1\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 1\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 2\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 2\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 3\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 3\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 5\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 5\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 6\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 6\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 7\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 7\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 8\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 8\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 9\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 9\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 11\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 11\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 12\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 12\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 13\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 13\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 14\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 14\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 15\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 15\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 16\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 16\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 17\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 17\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 18\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 18\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 19\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 19\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-source-item\" title=\"content 20\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-source-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-source-itemContent\">\n                  content 20\n                </span>\n              </li>\n            </ul>\n          </div>\n          <div class=\"ant-transfer-list-footer semantic-mark-footer semantic-mark-source-footer\">\n            <div style=\"padding: 8px;\">\n              Custom Footer\n            </div>\n          </div>\n        </div>\n        <div class=\"ant-transfer-actions semantic-mark-actions\">\n          <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-btn-icon-only\" disabled=\"\" type=\"button\">\n            <span class=\"ant-btn-icon\">\n              <span aria-label=\"right\" class=\"anticon anticon-right\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"right\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z\"></path>\n                </svg>\n              </span>\n            </span>\n          </button>\n          <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-btn-icon-only\" disabled=\"\" type=\"button\">\n            <span class=\"ant-btn-icon\">\n              <span aria-label=\"left\" class=\"anticon anticon-left\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"left\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z\"></path>\n                </svg>\n              </span>\n            </span>\n          </button>\n        </div>\n        <div class=\"ant-transfer-section semantic-mark-section semantic-mark-target-section ant-transfer-section-with-footer\" style=\"height: 250px; width: 200px; background-color: rgb(230, 247, 255);\">\n          <div class=\"ant-transfer-list-header semantic-mark-header semantic-mark-target-header\">\n            <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var\">\n              <span class=\"ant-checkbox ant-wave-target\">\n                <input class=\"ant-checkbox-input\" type=\"checkbox\">\n              </span>\n            </label>\n            <span aria-label=\"down\" class=\"anticon anticon-down ant-dropdown-trigger\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n              </svg>\n            </span>\n            <span class=\"ant-transfer-list-header-selected\">\n              2 items\n            </span>\n            <span class=\"ant-transfer-list-header-title semantic-mark-title semantic-mark-target-title\">\n              Target\n            </span>\n          </div>\n          <div class=\"ant-transfer-list-body ant-transfer-list-body-with-search semantic-mark-body semantic-mark-target-body\">\n            <div class=\"ant-transfer-list-body-search-wrapper\">\n              <span class=\"ant-input-affix-wrapper ant-input-outlined ant-transfer-list-search css-var-test-id ant-input-css-var\">\n                <span class=\"ant-input-prefix\">\n                  <span aria-label=\"search\" class=\"anticon anticon-search\" role=\"img\">\n                    <svg aria-hidden=\"true\" data-icon=\"search\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                      <path d=\"M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z\"></path>\n                    </svg>\n                  </span>\n                </span>\n                <input class=\"ant-input\" placeholder=\"Search here\" type=\"text\" value=\"\">\n                <span class=\"ant-input-suffix\">\n                  <button class=\"ant-input-clear-icon ant-input-clear-icon-hidden\" type=\"button\">\n                    <span aria-label=\"close-circle\" class=\"anticon anticon-close-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"close-circle\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n              </span>\n            </div>\n            <ul class=\"ant-transfer-list-content semantic-mark-list semantic-mark-target-list\">\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-target-item\" title=\"content 4\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-target-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-target-itemContent\">\n                  content 4\n                </span>\n              </li>\n              <li class=\"ant-transfer-list-content-item semantic-mark-item semantic-mark-target-item\" title=\"content 10\">\n                <label class=\"ant-checkbox-wrapper ant-transfer-list-checkbox semantic-mark-itemIcon semantic-mark-target-itemIcon css-var-test-id ant-checkbox-css-var\">\n                  <span class=\"ant-checkbox ant-wave-target\">\n                    <input class=\"ant-checkbox-input\" type=\"checkbox\">\n                  </span>\n                </label>\n                <span class=\"ant-transfer-list-content-item-text semantic-mark-itemContent semantic-mark-target-itemContent\">\n                  content 10\n                </span>\n              </li>\n            </ul>\n          </div>\n          <div class=\"ant-transfer-list-footer semantic-mark-footer semantic-mark-target-footer\">\n            <div style=\"padding: 8px;\">\n              Custom Footer\n            </div>\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "headerHeight",
+     "Height of header",
+     "string | number",
+     "40"
+    ],
+    [
+     "itemHeight",
+     "Height of list item",
+     "string | number",
+     "32"
+    ],
+    [
+     "itemPaddingBlock",
+     "Vertical padding of list item",
+     "string | number",
+     "5"
+    ],
+    [
+     "listHeight",
+     "Height of list",
+     "string | number",
+     "200"
+    ],
+    [
+     "listWidth",
+     "Width of list",
+     "string | number",
+     "180"
+    ],
+    [
+     "listWidthLG",
+     "Width of large list",
+     "string | number",
+     "250"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorLink",
+     "Control the color of hyperlink.",
+     "string",
+     "—"
+    ],
+    [
+     "colorLinkActive",
+     "Control the color of hyperlink when clicked.",
+     "string",
+     "—"
+    ],
+    [
+     "colorLinkHover",
+     "Control the color of hyperlink when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextSecondary",
+     "The second level of text color is generally used in scenarios where text color is not emphasized, such as label text, menu text selection state, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlItemBgActive",
+     "Control the background color of control component item when active.",
+     "string",
+     "—"
+    ],
+    [
+     "controlItemBgActiveHover",
+     "Control the background color of control component item when hovering and active.",
+     "string",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "linkDecoration",
+     "Control the text decoration style of a link.",
+     "TextDecoration<string | number> | undefined",
+     "—"
+    ],
+    [
+     "linkFocusDecoration",
+     "Control the text decoration style of a link on focus.",
+     "TextDecoration<string | number> | undefined",
+     "—"
+    ],
+    [
+     "linkHoverDecoration",
+     "Control the text decoration style of a link on mouse hover.",
+     "TextDecoration<string | number> | undefined",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

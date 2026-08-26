@@ -1,0 +1,701 @@
+{
+ "slug": "color-picker",
+ "title": "ColorPicker",
+ "description": "Used for color selection.",
+ "group": "Data Entry",
+ "whenToUse": "Used when the user needs to make a customized color selection.",
+ "examples": [
+  {
+   "name": "Basic Usage",
+   "description": "Basic Usage.",
+   "code": "import React from 'react';\nimport { ColorPicker } from 'antd';\n\nconst Demo = () => <ColorPicker defaultValue=\"#1677ff\" />;\n\nexport default Demo;",
+   "demoId": "base"
+  },
+  {
+   "name": "Trigger size",
+   "description": "Ant Design supports three trigger sizes: small, default and large.",
+   "code": "import React from 'react';\nimport { ColorPicker, Space } from 'antd';\n\nconst Demo = () => (\n  <Space>\n    <Space vertical>\n      <ColorPicker defaultValue=\"#1677ff\" size=\"small\" />\n      <ColorPicker defaultValue=\"#1677ff\" />\n      <ColorPicker defaultValue=\"#1677ff\" size=\"large\" />\n    </Space>\n    <Space vertical>\n      <ColorPicker defaultValue=\"#1677ff\" size=\"small\" showText />\n      <ColorPicker defaultValue=\"#1677ff\" showText />\n      <ColorPicker defaultValue=\"#1677ff\" size=\"large\" showText />\n    </Space>\n  </Space>\n);\n\nexport default Demo;",
+   "demoId": "size"
+  },
+  {
+   "name": "controlled mode",
+   "description": "Set the component to controlled mode. Will lock the display color if controlled by `onChangeComplete`.",
+   "code": "import React, { useState } from 'react';\nimport { ColorPicker, Space } from 'antd';\nimport type { ColorPickerProps, GetProp } from 'antd';\n\ntype Color = GetProp<ColorPickerProps, 'value'>;\n\nconst Demo: React.FC = () => {\n  const [color, setColor] = useState<Color>('#1677ff');\n\n  return (\n    <Space>\n      <ColorPicker value={color} onChange={setColor} />\n      <ColorPicker value={color} onChangeComplete={setColor} />\n    </Space>\n  );\n};\n\nexport default Demo;",
+   "demoId": "controlled"
+  },
+  {
+   "name": "Line Gradient",
+   "description": "Set the color to a single or a gradient color via `mode`.",
+   "code": "import React from 'react';\nimport { ColorPicker, Space } from 'antd';\n\nconst DEFAULT_COLOR = [\n  {\n    color: 'rgb(16, 142, 233)',\n    percent: 0,\n  },\n  {\n    color: 'rgb(135, 208, 104)',\n    percent: 100,\n  },\n];\n\nconst Demo = () => (\n  <Space vertical>\n    <ColorPicker\n      defaultValue={DEFAULT_COLOR}\n      allowClear\n      showText\n      mode={['single', 'gradient']}\n      onChangeComplete={(color) => {\n        console.log(color.toCssString());\n      }}\n    />\n    <ColorPicker\n      defaultValue={DEFAULT_COLOR}\n      allowClear\n      showText\n      mode=\"gradient\"\n      onChangeComplete={(color) => {\n        console.log(color.toCssString());\n      }}\n    />\n  </Space>\n);\n\nexport default Demo;",
+   "demoId": "line-gradient"
+  },
+  {
+   "name": "Rendering Trigger Text",
+   "description": "Renders the default text of the trigger, effective when `showText` is `true`. When customizing text, you can use `showText` as a function to return custom text.",
+   "code": "import React, { useState } from 'react';\nimport { DownOutlined } from '@ant-design/icons';\nimport { ColorPicker, Space } from 'antd';\n\nconst Demo = () => {\n  const [open, setOpen] = useState(false);\n  return (\n    <Space vertical>\n      <ColorPicker defaultValue=\"#1677ff\" showText allowClear />\n      <ColorPicker\n        defaultValue=\"#1677ff\"\n        showText={(color) => <span>Custom Text ({color.toHexString()})</span>}\n      />\n      <ColorPicker\n        defaultValue=\"#1677ff\"\n        open={open}\n        onOpenChange={setOpen}\n        showText={() => (\n          <DownOutlined\n            rotate={open ? 180 : 0}\n            style={{\n              color: 'rgba(0, 0, 0, 0.25)',\n            }}\n          />\n        )}\n      />\n    </Space>\n  );\n};\n\nexport default Demo;",
+   "demoId": "text-render"
+  },
+  {
+   "name": "Disable",
+   "description": "Set to disabled state.",
+   "code": "import React from 'react';\nimport { ColorPicker } from 'antd';\n\nexport default () => <ColorPicker defaultValue=\"#1677ff\" showText disabled />;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "Disabled Alpha",
+   "description": "Disabled color alpha.",
+   "code": "import React from 'react';\nimport { ColorPicker } from 'antd';\n\nconst Demo = () => <ColorPicker defaultValue=\"#1677ff\" disabledAlpha />;\n\nexport default Demo;",
+   "demoId": "disabled-alpha"
+  },
+  {
+   "name": "Clear Color",
+   "description": "Clear Color.",
+   "code": "import React from 'react';\nimport { ColorPicker } from 'antd';\n\nexport default () => {\n  const [color, setColor] = React.useState<string>('#1677ff');\n  return (\n    <ColorPicker\n      value={color}\n      allowClear\n      onChange={(c) => {\n        setColor(c.toHexString());\n      }}\n    />\n  );\n};",
+   "demoId": "allowclear"
+  },
+  {
+   "name": "Custom Trigger",
+   "description": "Triggers for customizing color panels.",
+   "code": "import React, { useMemo, useState } from 'react';\nimport { Button, ColorPicker } from 'antd';\nimport type { ColorPickerProps, GetProp } from 'antd';\n\ntype Color = Extract<GetProp<ColorPickerProps, 'value'>, string | { cleared: any }>;\n\nconst Demo: React.FC = () => {\n  const [color, setColor] = useState<Color>('#1677ff');\n\n  const bgColor = useMemo<string>(\n    () => (typeof color === 'string' ? color : color!.toHexString()),\n    [color],\n  );\n\n  const btnStyle: React.CSSProperties = {\n    backgroundColor: bgColor,\n  };\n\n  return (\n    <ColorPicker value={color} onChange={setColor}>\n      <Button type=\"primary\" style={btnStyle}>\n        open\n      </Button>\n    </ColorPicker>\n  );\n};\n\nexport default Demo;",
+   "demoId": "trigger"
+  },
+  {
+   "name": "Custom Trigger Event",
+   "description": "Triggers event for customizing color panels, provide options `click` and `hover`.",
+   "code": "import React from 'react';\nimport { ColorPicker } from 'antd';\n\nconst Demo = () => <ColorPicker defaultValue=\"#1677ff\" trigger=\"hover\" />;\n\nexport default Demo;",
+   "demoId": "trigger-event"
+  },
+  {
+   "name": "Color Format",
+   "description": "Encoding formats, support `HEX`, `HSB`, `RGB`.",
+   "code": "import React, { useState } from 'react';\nimport { ColorPicker, Space } from 'antd';\nimport type { ColorPickerProps, GetProp } from 'antd';\n\ntype Color = Extract<GetProp<ColorPickerProps, 'value'>, string | { cleared: any }>;\ntype Format = GetProp<ColorPickerProps, 'format'>;\n\nconst HexCase: React.FC = () => {\n  const [colorHex, setColorHex] = useState<Color>('#1677ff');\n  const [formatHex, setFormatHex] = useState<Format | undefined>('hex');\n\n  const hexString = React.useMemo<string>(\n    () => (typeof colorHex === 'string' ? colorHex : colorHex?.toHexString()),\n    [colorHex],\n  );\n\n  return (\n    <Space>\n      <ColorPicker\n        format={formatHex}\n        value={colorHex}\n        onChange={setColorHex}\n        onFormatChange={setFormatHex}\n      />\n      <span>HEX: {hexString}</span>\n    </Space>\n  );\n};\n\nconst HsbCase: React.FC = () => {\n  const [colorHsb, setColorHsb] = useState<Color>('hsb(215, 91%, 100%)');\n  const [formatHsb, setFormatHsb] = useState<ColorPickerProps['format']>('hsb');\n\n  const hsbString = React.useMemo(\n    () => (typeof colorHsb === 'string' ? colorHsb : colorHsb?.toHsbString()),\n    [colorHsb],\n  );\n\n  return (\n    <Space>\n      <ColorPicker\n        format={formatHsb}\n        value={colorHsb}\n        onChange={setColorHsb}\n        onFormatChange={setFormatHsb}\n      />\n      <span>HSB: {hsbString}</span>\n    </Space>\n  );\n};\n\nconst RgbCase: React.FC = () => {\n  const [colorRgb, setColorRgb] = useState<Color>('rgb(22, 119, 255)');\n  const [formatRgb, setFormatRgb] = useState<ColorPickerProps['format']>('rgb');\n\n  const rgbString = React.useMemo(\n    () => (typeof colorRgb === 'string' ? colorRgb : colorRgb?.toRgbString()),\n    [colorRgb],\n  );\n\n  return (\n    <Space>\n      <ColorPicker\n        format={formatRgb}\n        value={colorRgb}\n        onChange={setColorRgb}\n        onFormatChange={setFormatRgb}\n      />\n      <span>RGB: {rgbString}</span>\n    </Space>\n  );\n};\n\nconst Demo: React.FC = () => (\n  <Space vertical size=\"medium\" style={{ display: 'flex' }}>\n    <HexCase />\n    <HsbCase />\n    <RgbCase />\n  </Space>\n);\n\nexport default Demo;",
+   "demoId": "format"
+  },
+  {
+   "name": "Preset Colors",
+   "description": "Set the presets color of the color picker.",
+   "code": "import React from 'react';\nimport { generate, green, presetPalettes, red } from '@ant-design/colors';\nimport { ColorPicker, theme } from 'antd';\nimport type { ColorPickerProps } from 'antd';\n\ntype Presets = Required<ColorPickerProps>['presets'][number];\n\nfunction genPresets(presets = presetPalettes) {\n  return Object.entries(presets).map<Presets>(([label, colors]) => ({ label, colors, key: label }));\n}\n\nconst Demo: React.FC = () => {\n  const { token } = theme.useToken();\n  const presets = genPresets({ primary: generate(token.colorPrimary), red, green });\n  return <ColorPicker presets={presets} defaultValue=\"#1677ff\" />;\n};\n\nexport default Demo;",
+   "demoId": "presets"
+  },
+  {
+   "name": "Custom Render Panel",
+   "description": "Rendering of the free control panel via `panelRender`.",
+   "code": "import React from 'react';\nimport { cyan, generate, green, presetPalettes, red } from '@ant-design/colors';\nimport { Col, ColorPicker, Divider, Row, Space, theme } from 'antd';\nimport type { ColorPickerProps } from 'antd';\n\ntype Presets = Required<ColorPickerProps>['presets'][number];\n\nfunction genPresets(presets = presetPalettes) {\n  return Object.entries(presets).map<Presets>(([label, colors]) => ({ label, colors, key: label }));\n}\n\nconst HorizontalLayoutDemo = () => {\n  const { token } = theme.useToken();\n\n  const presets = genPresets({\n    primary: generate(token.colorPrimary),\n    red,\n    green,\n    cyan,\n  });\n\n  const customPanelRender: ColorPickerProps['panelRender'] = (\n    _,\n    { components: { Picker, Presets } },\n  ) => (\n    <Row justify=\"space-between\" wrap={false}>\n      <Col span={12}>\n        <Presets />\n      </Col>\n      <Divider vertical style={{ height: 'auto' }} />\n      <Col flex=\"auto\">\n        <Picker />\n      </Col>\n    </Row>\n  );\n\n  return (\n    <ColorPicker\n      defaultValue={token.colorPrimary}\n      styles={{ popupOverlayInner: { width: 480 } }}\n      presets={presets}\n      panelRender={customPanelRender}\n    />\n  );\n};\n\nconst BasicDemo = () => (\n  <ColorPicker\n    defaultValue=\"#1677ff\"\n    panelRender={(panel) => (\n      <div className=\"custom-panel\">\n        <div\n          style={{\n            fontSize: 12,\n            color: 'rgba(0, 0, 0, 0.88)',\n            lineHeight: '20px',\n            marginBottom: 8,\n          }}\n        >\n          Color Picker\n        </div>\n        {panel}\n      </div>\n    )}\n  />\n);\n\nexport default () => (\n  <Space vertical>\n    <Space>\n      <span>Add title:</span>\n      <BasicDemo />\n    </Space>\n    <Space>\n      <span>Horizontal layout:</span>\n      <HorizontalLayoutDemo />\n    </Space>\n  </Space>\n);",
+   "demoId": "panel-render"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of ColorPicker by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { ColorPicker, Flex, Space } from 'antd';\nimport type { ColorPickerProps, GetProp } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => ({\n  root: {\n    borderRadius: token.borderRadius,\n  },\n}));\n\nconst stylesObject: ColorPickerProps['styles'] = {\n  popup: {\n    root: {\n      border: '1px solid #fff',\n    },\n  },\n};\n\nconst stylesFn: ColorPickerProps['styles'] = (\n  info,\n): GetProp<ColorPickerProps, 'styles', 'Return'> => {\n  if (info.props.size === 'large') {\n    return {\n      popup: {\n        root: {\n          border: '1px solid #722ed1',\n        },\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n  return (\n    <Space size={[8, 16]} wrap>\n      <Flex gap=\"small\">\n        <ColorPicker\n          defaultValue=\"#1677ff\"\n          arrow={false}\n          styles={stylesObject}\n          classNames={classNames}\n        />\n      </Flex>\n      <Flex gap=\"small\">\n        <ColorPicker\n          defaultValue=\"#722ed1\"\n          size=\"large\"\n          styles={stylesFn}\n          arrow={false}\n          classNames={classNames}\n        />\n      </Flex>\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "allowClear",
+     "Allow clearing color selected",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "arrow",
+     "Configuration for popup arrow",
+     "boolean | { pointAtCenter: boolean }",
+     "true",
+     "—",
+     "6.3.0"
+    ],
+    [
+     "children",
+     "Trigger of ColorPicker",
+     "React.ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "defaultValue",
+     "Default value of color",
+     "ColorType",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "defaultFormat",
+     "Default format of color",
+     "`rgb` | `hex` | `hsb`",
+     "hex",
+     "5.9.0",
+     "×"
+    ],
+    [
+     "disabled",
+     "Disable ColorPicker",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "disabledAlpha",
+     "Disable Alpha",
+     "boolean",
+     "-",
+     "5.8.0",
+     "×"
+    ],
+    [
+     "disabledFormat",
+     "Disable format of color",
+     "boolean",
+     "-",
+     "5.22.0",
+     "×"
+    ],
+    [
+     "~~destroyTooltipOnHide~~",
+     "Whether destroy dom when close",
+     "boolean",
+     "false",
+     "5.7.0",
+     "×"
+    ],
+    [
+     "destroyOnHidden",
+     "Whether destroy dom when close",
+     "boolean",
+     "false",
+     "5.25.0",
+     "×"
+    ],
+    [
+     "format",
+     "Format of color",
+     "`rgb` | `hex` | `hsb`",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "mode",
+     "Configure single or gradient color",
+     "'single' | 'gradient' | ('single' | 'gradient')[]",
+     "single",
+     "5.20.0",
+     "×"
+    ],
+    [
+     "open",
+     "Whether to show popup",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "presets",
+     "Preset colors",
+     "PresetColorType",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "Placement of popup",
+     "The design of the placement parameter is the same as the `Tooltips` component.",
+     "bottomLeft",
+     "—",
+     "×"
+    ],
+    [
+     "panelRender",
+     "Custom Render Panel",
+     "(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode",
+     "-",
+     "5.7.0",
+     "×"
+    ],
+    [
+     "showText",
+     "Show color text",
+     "boolean | `(color: Color) => React.ReactNode`",
+     "-",
+     "5.7.0",
+     "×"
+    ],
+    [
+     "size",
+     "Setting the trigger size",
+     "`large` | `medium` | `small`",
+     "medium",
+     "5.7.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "trigger",
+     "ColorPicker trigger mode",
+     "`hover` | `click`",
+     "click",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "Value of color",
+     "ColorType",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Callback when `value` is changed",
+     "(value: Color, css: string) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChangeComplete",
+     "Called when color pick ends. Will not change the display color when `value` controlled by `onChangeComplete`",
+     "(value: Color) => void",
+     "-",
+     "5.7.0",
+     "×"
+    ],
+    [
+     "onFormatChange",
+     "Callback when `format` is changed",
+     "(format: 'hex' | 'rgb' | 'hsb') => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onOpenChange",
+     "Callback when `open` is changed",
+     "(open: boolean) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onClear",
+     "Called when clear",
+     "() => void",
+     "-",
+     "5.6.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Version"
+   ],
+   "rows": [
+    [
+     "toCssString",
+     "Convert to CSS support format",
+     "() => string",
+     "5.20.0"
+    ],
+    [
+     "toHex",
+     "Convert to `hex` format characters, the return type like: `1677ff`",
+     "() => string",
+     "-"
+    ],
+    [
+     "toHexString",
+     "Convert to `hex` format color string, the return type like: `#1677ff`",
+     "() => string",
+     "-"
+    ],
+    [
+     "toHsb",
+     "Convert to `hsb` object",
+     "() => ({ h: number, s: number, b: number, a: number })",
+     "-"
+    ],
+    [
+     "toHsbString",
+     "Convert to `hsb` format color string, the return type like: `hsb(215, 91%, 100%)`",
+     "() => string",
+     "-"
+    ],
+    [
+     "toRgb",
+     "Convert to `rgb` object",
+     "() => ({ r: number, g: number, b: number, a: number })",
+     "-"
+    ],
+    [
+     "toRgbString",
+     "Convert to `rgb` format color string, the return type like: `rgb(22, 119, 255)`",
+     "() => string",
+     "-"
+    ]
+   ],
+   "name": "Color"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "allowClear",
+    "Allow clearing color selected",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "arrow",
+    "Configuration for popup arrow",
+    "boolean | { pointAtCenter: boolean }",
+    "true",
+    "—",
+    "6.3.0"
+   ],
+   [
+    "children",
+    "Trigger of ColorPicker",
+    "React.ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "defaultValue",
+    "Default value of color",
+    "ColorType",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "defaultFormat",
+    "Default format of color",
+    "`rgb` | `hex` | `hsb`",
+    "hex",
+    "5.9.0",
+    "×"
+   ],
+   [
+    "disabled",
+    "Disable ColorPicker",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "disabledAlpha",
+    "Disable Alpha",
+    "boolean",
+    "-",
+    "5.8.0",
+    "×"
+   ],
+   [
+    "disabledFormat",
+    "Disable format of color",
+    "boolean",
+    "-",
+    "5.22.0",
+    "×"
+   ],
+   [
+    "~~destroyTooltipOnHide~~",
+    "Whether destroy dom when close",
+    "boolean",
+    "false",
+    "5.7.0",
+    "×"
+   ],
+   [
+    "destroyOnHidden",
+    "Whether destroy dom when close",
+    "boolean",
+    "false",
+    "5.25.0",
+    "×"
+   ],
+   [
+    "format",
+    "Format of color",
+    "`rgb` | `hex` | `hsb`",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "mode",
+    "Configure single or gradient color",
+    "'single' | 'gradient' | ('single' | 'gradient')[]",
+    "single",
+    "5.20.0",
+    "×"
+   ],
+   [
+    "open",
+    "Whether to show popup",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "presets",
+    "Preset colors",
+    "PresetColorType",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "placement",
+    "Placement of popup",
+    "The design of the placement parameter is the same as the `Tooltips` component.",
+    "bottomLeft",
+    "—",
+    "×"
+   ],
+   [
+    "panelRender",
+    "Custom Render Panel",
+    "(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode",
+    "-",
+    "5.7.0",
+    "×"
+   ],
+   [
+    "showText",
+    "Show color text",
+    "boolean | `(color: Color) => React.ReactNode`",
+    "-",
+    "5.7.0",
+    "×"
+   ],
+   [
+    "size",
+    "Setting the trigger size",
+    "`large` | `medium` | `small`",
+    "medium",
+    "5.7.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "trigger",
+    "ColorPicker trigger mode",
+    "`hover` | `click`",
+    "click",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "Value of color",
+    "ColorType",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Callback when `value` is changed",
+    "(value: Color, css: string) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChangeComplete",
+    "Called when color pick ends. Will not change the display color when `value` controlled by `onChangeComplete`",
+    "(value: Color) => void",
+    "-",
+    "5.7.0",
+    "×"
+   ],
+   [
+    "onFormatChange",
+    "Callback when `format` is changed",
+    "(format: 'hex' | 'rgb' | 'hsb') => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onOpenChange",
+    "Callback when `open` is changed",
+    "(open: boolean) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onClear",
+    "Called when clear",
+    "() => void",
+    "-",
+    "5.6.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "defaultFormat",
+   "values": [
+    "rgb",
+    "hex",
+    "hsb"
+   ],
+   "default": "hex",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "format",
+   "values": [
+    "rgb",
+    "hex",
+    "hsb"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "mode",
+   "values": [
+    "single",
+    "gradient",
+    "('single",
+    "gradient')[]"
+   ],
+   "default": "single",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "medium",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "trigger",
+   "values": [
+    "hover",
+    "click"
+   ],
+   "default": "click",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Trigger container with border styles, transition animations, size controls, displaying color block and text content"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Color block container with background color, border styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Color block element with actual selected color styles"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "Description text content with font styles and color"
+   },
+   {
+    "name": "popup.root",
+    "mark": "semantic-mark-popup-root",
+    "description": "Popup panel root container with background color, shadow effects, color selection panel, slider controls and preset colors"
+   }
+  ],
+  "dom": "<div class=\"ant-flex css-var-test-id ant-flex-align-flex-start ant-flex-gap-small\" style=\"height: 300px;\">\n        <div aria-describedby=\"test-id\" class=\"ant-color-picker-trigger css-var-test-id ant-color-picker-css-var ant-popover-open semantic-mark-root ant-color-picker-trigger-active\">\n          <div class=\"ant-color-picker-color-block semantic-mark-body\">\n            <div class=\"ant-color-picker-color-block-inner semantic-mark-content\" style=\"background: rgb(22, 119, 255);\">\n          </div>\n          <div class=\"ant-color-picker-trigger-text semantic-mark-description\">\n            #1677FF\n          </div>\n        </div>\n        <div class=\"ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-popover-css-var css-var-test-id css-var-test-id ant-color-picker css-var-test-id ant-color-picker-css-var semantic-mark-popup-root ant-popover-placement-bottomLeft\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box; z-index: 1;\">\n          <div class=\"ant-popover-arrow\" style=\"position: absolute;\">\n            <span class=\"ant-popover-arrow-content\">\n          </span></div>\n          <div class=\"ant-popover-container\" id=\"test-id\" role=\"tooltip\">\n            <div class=\"ant-popover-content\">\n              <div class=\"ant-color-picker-inner\">\n                <div class=\"ant-color-picker-inner-content\">\n                  <div class=\"ant-color-picker-panel\">\n                    <div class=\"ant-color-picker-select\">\n                      <div class=\"ant-color-picker-palette\" style=\"position: relative;\">\n                        <div style=\"position: absolute; left: 91.37254901960785%; top: 0%; z-index: 1; transform: translate(-50%, -50%);\">\n                          <div class=\"ant-color-picker-handler\" style=\"background-color: rgb(22, 119, 255);\">\n                        </div>\n                        <div class=\"ant-color-picker-saturation\" style=\"background-color: rgb(0, 106, 255); background-image: linear-gradient(0deg, #000, transparent), linear-gradient(90deg, #fff, hsla(0, 0%, 100%, 0));\">\n                      </div>\n                    </div>\n                    <div class=\"ant-color-picker-slider-container\">\n                      <div class=\"ant-color-picker-slider-group\">\n                        <div class=\"ant-slider ant-color-picker-slider css-var-test-id ant-slider-horizontal\">\n                          <div class=\"ant-slider-rail ant-color-picker-slider-rail\" style=\"background: linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%);\">\n                          <div class=\"ant-slider-step\">\n                          <div aria-disabled=\"false\" aria-orientation=\"horizontal\" aria-valuemax=\"359\" aria-valuemin=\"0\" aria-valuenow=\"215\" class=\"ant-slider-handle ant-slider-handle-1 ant-color-picker-slider-handle\" role=\"slider\" style=\"left: 59.888579387186624%; transform: translateX(-50%); background: rgb(0, 106, 255);\" tabindex=\"0\">\n                        </div>\n                        <div class=\"ant-slider ant-color-picker-slider css-var-test-id ant-slider-horizontal\">\n                          <div class=\"ant-slider-rail ant-color-picker-slider-rail\" style=\"background: linear-gradient(90deg, rgba(255, 0, 4, 0) 0%, rgb(22,119,255) 100%);\">\n                          <div class=\"ant-slider-step\">\n                          <div aria-disabled=\"false\" aria-orientation=\"horizontal\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"100\" class=\"ant-slider-handle ant-slider-handle-1 ant-color-picker-slider-handle\" role=\"slider\" style=\"left: 100%; transform: translateX(-50%); background: rgb(22, 119, 255);\" tabindex=\"0\">\n                        </div>\n                      </div>\n                      <div class=\"ant-color-picker-color-block\">\n                        <div class=\"ant-color-picker-color-block-inner\" style=\"background: rgb(22, 119, 255);\">\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"ant-color-picker-input-container\">\n                    <div class=\"ant-select ant-select-sm ant-select-borderless ant-color-picker-format-select css-var-test-id ant-select-css-var ant-select-single ant-select-show-arrow\">\n                      <div class=\"ant-select-content ant-select-content-has-value\" title=\"HEX\">\n                        HEX\n                        <input aria-autocomplete=\"list\" aria-expanded=\"false\" aria-haspopup=\"listbox\" autocomplete=\"new-password\" class=\"ant-select-input\" id=\"test-id\" readonly=\"\" role=\"combobox\" type=\"text\" value=\"\">\n                      </div>\n                      <div class=\"ant-select-suffix\">\n                        <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n                          <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                            <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n                          </svg>\n                        </span>\n                      </div>\n                    </div>\n                    <div class=\"ant-color-picker-input\">\n                      <span class=\"ant-input-affix-wrapper ant-input-affix-wrapper-sm ant-input-outlined ant-color-picker-hex-input css-var-test-id ant-input-css-var\">\n                        <span class=\"ant-input-prefix\">\n                          #\n                        </span>\n                        <input class=\"ant-input ant-input-sm\" type=\"text\" value=\"1677ff\">\n                      </span>\n                    </div>\n                    <div class=\"ant-input-number ant-input-number-mode-input css-var-test-id ant-input-number-css-var ant-color-picker-steppers ant-color-picker-alpha-input ant-input-number-outlined ant-input-number-sm\">\n                      <input aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"100\" autocomplete=\"off\" class=\"ant-input-number-input\" role=\"spinbutton\" step=\"1\" value=\"100%\">\n                      <div class=\"ant-input-number-actions\">\n                        <span aria-disabled=\"true\" aria-label=\"Increase Value\" class=\"ant-input-number-action ant-input-number-action-up ant-input-number-action-up-disabled\" role=\"button\" unselectable=\"on\">\n                          <span aria-label=\"up\" class=\"anticon anticon-up\" role=\"img\">\n                            <svg aria-hidden=\"true\" data-icon=\"up\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                              <path d=\"M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z\"></path>\n                            </svg>\n                          </span>\n                        </span>\n                        <span aria-disabled=\"false\" aria-label=\"Decrease Value\" class=\"ant-input-number-action ant-input-number-action-down\" role=\"button\" unselectable=\"on\">\n                          <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n                            <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                              <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n                            </svg>\n                          </span>\n                        </span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"ant-color-picker-trigger css-var-test-id ant-color-picker-css-var semantic-mark-root\">\n          <div aria-label=\"Clear color\" class=\"ant-color-picker-clear semantic-mark-body\" role=\"button\" tabindex=\"0\">\n        </div>\n      </div>\n    </div>\n    <div class=\"ant-col ant-col-8 css-var-test-id\">\n      <ul class=\"acss-11b5qta\">\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  root\n                </h5>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              触发器容器，包含边框样式、过渡动画、尺寸控制等样式，显示颜色块和文本内容\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  body\n                </h5>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              色块容器，包含底色、边框等样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  content\n                </h5>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              色块颜色元素，包含实际选择的颜色样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  description\n                </h5>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              描述文本内容，包含字体样式、颜色等样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  popup.root\n                </h5>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              弹出面板根容器，包含背景色、阴影效果、色彩选择面板、滑块控制和预设颜色等样式\n            </div>\n          </div>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div></div></div></div></div></div></div></div></div>"
+ },
+ "designToken": null,
+ "componentToken": null,
+ "globalToken": null
+}

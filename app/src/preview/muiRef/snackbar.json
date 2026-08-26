@@ -1,0 +1,486 @@
+{
+ "slug": "snackbar",
+ "title": "Snackbar",
+ "group": "Feedback",
+ "folder": "snackbars",
+ "description": "Snackbars (also known as toasts) are used for brief notifications of processes that have been or will be performed.",
+ "components": [
+  "Snackbar",
+  "SnackbarContent"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Snackbar"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Snackbar component appears temporarily and floats above the UI to provide users with (non-critical) updates on an app's processes.\nThe demo below, inspired by Google Keep, shows a basic Snackbar with a text element and two actions:"
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleSnackbar",
+     "file": "SimpleSnackbar.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';\nimport IconButton from '@mui/material/IconButton';\nimport CloseIcon from '@mui/icons-material/Close';\n\nexport default function SimpleSnackbar() {\n  const [open, setOpen] = React.useState(false);\n\n  const handleClick = () => {\n    setOpen(true);\n  };\n\n  const handleClose = (\n    event: React.SyntheticEvent | Event,\n    reason?: SnackbarCloseReason,\n  ) => {\n    if (reason === 'clickaway') {\n      return;\n    }\n\n    setOpen(false);\n  };\n\n  const action = (\n    <React.Fragment>\n      <Button color=\"secondary\" size=\"small\" onClick={handleClose}>\n        UNDO\n      </Button>\n      <IconButton\n        size=\"small\"\n        aria-label=\"close\"\n        color=\"inherit\"\n        onClick={handleClose}\n      >\n        <CloseIcon fontSize=\"small\" />\n      </IconButton>\n    </React.Fragment>\n  );\n\n  return (\n    <div>\n      <Button onClick={handleClick}>Open Snackbar</Button>\n      <Snackbar\n        open={open}\n        autoHideDuration={6000}\n        onClose={handleClose}\n        message=\"Note archived\"\n        action={action}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Usage",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Snackbars differ from [Alerts](/material-ui/react-alert/) in that Snackbars have a fixed position and a high z-index, so they're intended to break out of the document flow; Alerts, on the other hand, are usually part of the flow—except when they're [used as children of a Snackbar](#use-with-alerts).\n\nSnackbars also differ from [Dialogs](/material-ui/react-dialog/) in that Snackbars are not intended to convey _critical_ information or block the user from interacting with the rest of the app; Dialogs, by contrast, require input from the user in order to be dismissed."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Import",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import Snackbar from '@mui/material/Snackbar';\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Position",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `anchorOrigin` prop to control the Snackbar's position on the screen."
+    },
+    {
+     "kind": "demo",
+     "name": "PositionedSnackbar",
+     "file": "PositionedSnackbar.tsx",
+     "code": "import * as React from 'react';\nimport Grid from '@mui/material/Grid';\nimport Box from '@mui/material/Box';\nimport Button from '@mui/material/Button';\nimport Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';\n\ninterface State extends SnackbarOrigin {\n  open: boolean;\n}\n\nexport default function PositionedSnackbar() {\n  const [state, setState] = React.useState<State>({\n    open: false,\n    vertical: 'top',\n    horizontal: 'center',\n  });\n  const { vertical, horizontal, open } = state;\n\n  const handleClick = (newState: SnackbarOrigin) => () => {\n    setState({ ...newState, open: true });\n  };\n\n  const handleClose = () => {\n    setState({ ...state, open: false });\n  };\n\n  const buttons = (\n    <React.Fragment>\n      <Box sx={{ display: 'flex', justifyContent: 'center' }}>\n        <Button onClick={handleClick({ vertical: 'top', horizontal: 'center' })}>\n          Top-Center\n        </Button>\n      </Box>\n      <Grid container sx={{ justifyContent: 'center' }}>\n        <Grid size={6}>\n          <Button onClick={handleClick({ vertical: 'top', horizontal: 'left' })}>\n            Top-Left\n          </Button>\n        </Grid>\n        <Grid sx={{ textAlign: 'right' }} size={6}>\n          <Button onClick={handleClick({ vertical: 'top', horizontal: 'right' })}>\n            Top-Right\n          </Button>\n        </Grid>\n        <Grid size={6}>\n          <Button onClick={handleClick({ vertical: 'bottom', horizontal: 'left' })}>\n            Bottom-Left\n          </Button>\n        </Grid>\n        <Grid sx={{ textAlign: 'right' }} size={6}>\n          <Button onClick={handleClick({ vertical: 'bottom', horizontal: 'right' })}>\n            Bottom-Right\n          </Button>\n        </Grid>\n      </Grid>\n      <Box sx={{ display: 'flex', justifyContent: 'center' }}>\n        <Button onClick={handleClick({ vertical: 'bottom', horizontal: 'center' })}>\n          Bottom-Center\n        </Button>\n      </Box>\n    </React.Fragment>\n  );\n\n  return (\n    <Box sx={{ width: 500 }}>\n      {buttons}\n      <Snackbar\n        anchorOrigin={{ vertical, horizontal }}\n        open={open}\n        onClose={handleClose}\n        message=\"I love snacks\"\n        key={vertical + horizontal}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Content",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import SnackbarContent from '@mui/material/SnackbarContent';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Use the Snackbar Content component to add text and actions to the Snackbar."
+    },
+    {
+     "kind": "demo",
+     "name": "LongTextSnackbar",
+     "file": "LongTextSnackbar.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Stack from '@mui/material/Stack';\nimport SnackbarContent from '@mui/material/SnackbarContent';\n\nconst action = (\n  <Button color=\"secondary\" size=\"small\">\n    lorem ipsum dolorem\n  </Button>\n);\n\nexport default function LongTextSnackbar() {\n  return (\n    <Stack spacing={2} sx={{ maxWidth: 600 }}>\n      <SnackbarContent message=\"I love snacks.\" action={action} />\n      <SnackbarContent\n        message={\n          'I love candy. I love cookies. I love cupcakes. \\\n          I love cheesecake. I love chocolate.'\n        }\n      />\n      <SnackbarContent\n        message=\"I love candy. I love cookies. I love cupcakes.\"\n        action={action}\n      />\n      <SnackbarContent\n        message={\n          'I love candy. I love cookies. I love cupcakes. \\\n          I love cheesecake. I love chocolate.'\n        }\n        action={action}\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Automatic dismiss",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `autoHideDuration` prop to automatically trigger the Snackbar's `onClose` function after a set period of time (in milliseconds).\n\nMake sure to [provide sufficient time](https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html) for the user to process the information displayed on it."
+    },
+    {
+     "kind": "demo",
+     "name": "AutohideSnackbar",
+     "file": "AutohideSnackbar.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';\n\nexport default function AutohideSnackbar() {\n  const [open, setOpen] = React.useState(false);\n\n  const handleClick = () => {\n    setOpen(true);\n  };\n\n  const handleClose = (\n    event: React.SyntheticEvent | Event,\n    reason?: SnackbarCloseReason,\n  ) => {\n    if (reason === 'clickaway') {\n      return;\n    }\n\n    setOpen(false);\n  };\n\n  return (\n    <div>\n      <Button onClick={handleClick}>Open Snackbar</Button>\n      <Snackbar\n        open={open}\n        autoHideDuration={5000}\n        onClose={handleClose}\n        message=\"This Snackbar will be dismissed in 5 seconds.\"\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `slots.transition` and `slotProps.transition` to change the transition of the Snackbar from [Grow](/material-ui/transitions/#grow) (the default) to others such as [Slide](/material-ui/transitions/#slide)."
+    },
+    {
+     "kind": "demo",
+     "name": "TransitionsSnackbar",
+     "file": "TransitionsSnackbar.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Snackbar from '@mui/material/Snackbar';\nimport Fade from '@mui/material/Fade';\nimport Slide, { SlideProps } from '@mui/material/Slide';\nimport Grow, { GrowProps } from '@mui/material/Grow';\nimport { TransitionProps } from '@mui/material/transitions';\n\nfunction SlideTransition(props: SlideProps) {\n  return <Slide {...props} direction=\"up\" />;\n}\n\nfunction GrowTransition(props: GrowProps) {\n  return <Grow {...props} />;\n}\n\nexport default function TransitionsSnackbar() {\n  const [state, setState] = React.useState<{\n    open: boolean;\n    Transition: React.ComponentType<\n      TransitionProps & {\n        children: React.ReactElement<any, any>;\n      }\n    >;\n  }>({\n    open: false,\n    Transition: Fade,\n  });\n\n  const handleClick =\n    (\n      Transition: React.ComponentType<\n        TransitionProps & {\n          children: React.ReactElement<any, any>;\n        }\n      >,\n    ) =>\n    () => {\n      setState({\n        open: true,\n        Transition,\n      });\n    };\n\n  const handleClose = () => {\n    setState({\n      ...state,\n      open: false,\n    });\n  };\n\n  return (\n    <div>\n      <Button onClick={handleClick(GrowTransition)}>Grow Transition</Button>\n      <Button onClick={handleClick(Fade)}>Fade Transition</Button>\n      <Button onClick={handleClick(SlideTransition)}>Slide Transition</Button>\n      <Snackbar\n        open={state.open}\n        onClose={handleClose}\n        slots={{ transition: state.Transition }}\n        message=\"I love snacks\"\n        key={state.Transition.name}\n        autoHideDuration={1200}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Preventing default click away event",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If you would like to prevent the default onClickAway behavior, you can set the event's `defaultMuiPrevented` property to `true`:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Snackbar\n  slotProps={{\n    clickAwayListener: {\n      onClickAway: (event) => {\n        // Prevent's default 'onClickAway' behavior.\n        event.defaultMuiPrevented = true;\n      },\n    },\n  }}\n/>\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Use with Alerts",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use an Alert inside a Snackbar for messages that communicate a certain severity."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedSnackbars",
+     "file": "CustomizedSnackbars.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';\nimport Alert from '@mui/material/Alert';\n\nexport default function CustomizedSnackbars() {\n  const [open, setOpen] = React.useState(false);\n\n  const handleClick = () => {\n    setOpen(true);\n  };\n\n  const handleClose = (\n    event?: React.SyntheticEvent | Event,\n    reason?: SnackbarCloseReason,\n  ) => {\n    if (reason === 'clickaway') {\n      return;\n    }\n\n    setOpen(false);\n  };\n\n  return (\n    <div>\n      <Button onClick={handleClick}>Open Snackbar</Button>\n      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>\n        <Alert\n          onClose={handleClose}\n          severity=\"success\"\n          variant=\"filled\"\n          sx={{ width: '100%' }}\n        >\n          This is a success Alert inside a Snackbar!\n        </Alert>\n      </Snackbar>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Use with Floating Action Buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If you're using a [Floating Action Button](/material-ui/react-floating-action-button/) on mobile, Material Design recommends positioning snackbars directly above it, as shown in the demo below:"
+    },
+    {
+     "kind": "demo",
+     "name": "FabIntegrationSnackbar",
+     "file": "FabIntegrationSnackbar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport GlobalStyles from '@mui/material/GlobalStyles';\nimport Toolbar from '@mui/material/Toolbar';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\nimport Fab from '@mui/material/Fab';\nimport AddIcon from '@mui/icons-material/Add';\nimport Snackbar from '@mui/material/Snackbar';\n\nexport default function FabIntegrationSnackbar() {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      <GlobalStyles\n        styles={(theme) => ({\n          body: { backgroundColor: theme.palette.background.paper },\n        })}\n      />\n      <div>\n        <AppBar position=\"static\" color=\"primary\">\n          <Toolbar>\n            <IconButton\n              edge=\"start\"\n              sx={{ mr: 2 }}\n              color=\"inherit\"\n              aria-label=\"menu\"\n            >\n              <MenuIcon />\n            </IconButton>\n            <Typography\n              variant=\"h6\"\n              component=\"div\"\n              sx={{\n                color: 'inherit',\n              }}\n            >\n              App bar\n            </Typography>\n          </Toolbar>\n        </AppBar>\n        <Fab\n          color=\"secondary\"\n          sx={(theme) => ({\n            position: 'absolute',\n            bottom: theme.spacing(2),\n            right: theme.spacing(2),\n          })}\n        >\n          <AddIcon />\n        </Fab>\n        <Snackbar\n          open\n          autoHideDuration={6000}\n          message=\"Archived\"\n          action={\n            <Button color=\"inherit\" size=\"small\">\n              Undo\n            </Button>\n          }\n          sx={{ bottom: { xs: 90, sm: 0 } }}\n        />\n      </div>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Common examples",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Consecutive Snackbars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "This demo shows how to display multiple Snackbars without stacking them by using a consecutive animation."
+    },
+    {
+     "kind": "demo",
+     "name": "ConsecutiveSnackbars",
+     "file": "ConsecutiveSnackbars.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';\nimport IconButton from '@mui/material/IconButton';\nimport CloseIcon from '@mui/icons-material/Close';\n\nexport interface SnackbarMessage {\n  message: string;\n  key: number;\n}\n\nexport default function ConsecutiveSnackbars() {\n  const [snackPack, setSnackPack] = React.useState<readonly SnackbarMessage[]>([]);\n  const [open, setOpen] = React.useState(false);\n  const [messageInfo, setMessageInfo] = React.useState<SnackbarMessage | undefined>(\n    undefined,\n  );\n\n  React.useEffect(() => {\n    if (snackPack.length && !messageInfo) {\n      // Set a new snack when we don't have an active one\n      setMessageInfo({ ...snackPack[0] });\n      setSnackPack((prev) => prev.slice(1));\n      setOpen(true);\n    } else if (snackPack.length && messageInfo && open) {\n      // Close an active snack when a new one is added\n      setOpen(false);\n    }\n  }, [snackPack, messageInfo, open]);\n\n  const handleClick = (message: string) => () => {\n    setSnackPack((prev) => [...prev, { message, key: new Date().getTime() }]);\n  };\n\n  const handleClose = (\n    event: React.SyntheticEvent | Event,\n    reason?: SnackbarCloseReason,\n  ) => {\n    if (reason === 'clickaway') {\n      return;\n    }\n    setOpen(false);\n  };\n\n  const handleExited = () => {\n    setMessageInfo(undefined);\n  };\n\n  return (\n    <div>\n      <Button onClick={handleClick('Message A')}>Show message A</Button>\n      <Button onClick={handleClick('Message B')}>Show message B</Button>\n      <Snackbar\n        key={messageInfo ? messageInfo.key : undefined}\n        open={open}\n        autoHideDuration={6000}\n        onClose={handleClose}\n        slotProps={{ transition: { onExited: handleExited } }}\n        message={messageInfo ? messageInfo.message : undefined}\n        action={\n          <React.Fragment>\n            <Button color=\"secondary\" size=\"small\" onClick={handleClose}>\n              UNDO\n            </Button>\n            <IconButton\n              aria-label=\"close\"\n              color=\"inherit\"\n              sx={{ p: 0.5 }}\n              onClick={handleClose}\n            >\n              <CloseIcon />\n            </IconButton>\n          </React.Fragment>\n        }\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supplementary components",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "notistack",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "![stars](https://img.shields.io/github/stars/iamhosseindhv/notistack.svg?style=social&label=Star)\n![npm downloads](https://img.shields.io/npm/dm/notistack.svg)\n\nWith an imperative API, [notistack](https://github.com/iamhosseindhv/notistack) lets you vertically stack multiple Snackbars without having to handle their open and close states.\nEven though this is discouraged in the Material Design guidelines, it is still a common pattern."
+    },
+    {
+     "kind": "demo",
+     "name": "IntegrationNotistack",
+     "file": "IntegrationNotistack.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport { SnackbarProvider, VariantType, useSnackbar } from 'notistack';\n\nfunction MyApp() {\n  const { enqueueSnackbar } = useSnackbar();\n\n  const handleClick = () => {\n    enqueueSnackbar('I love snacks.');\n  };\n\n  const handleClickVariant = (variant: VariantType) => () => {\n    // variant could be success, error, warning, info, or default\n    enqueueSnackbar('This is a success message!', { variant });\n  };\n\n  return (\n    <React.Fragment>\n      <Button onClick={handleClick}>Show snackbar</Button>\n      <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>\n    </React.Fragment>\n  );\n}\n\nexport default function IntegrationNotistack() {\n  return (\n    <SnackbarProvider maxSnack={3}>\n      <MyApp />\n    </SnackbarProvider>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nNote that notistack prevents Snackbars from being [closed by pressing <kbd class=\"key\">Escape</kbd>](#accessibility).\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The user should be able to dismiss Snackbars by pressing <kbd class=\"key\">Escape</kbd>. If there are multiple instances appearing at the same time and you want <kbd class=\"key\">Escape</kbd> to dismiss only the oldest one that's currently open, call `event.preventDefault` in the `onClose` prop."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "export default function MyComponent() {\n  const [open, setOpen] = React.useState(true);\n\n  return (\n    <React.Fragment>\n      <Snackbar\n        open={open}\n        onClose={(event, reason) => {\n          // `reason === 'escapeKeyDown'` if `Escape` was pressed\n          setOpen(false);\n          // call `event.preventDefault` to only close one Snackbar at a time.\n        }}\n      />\n      <Snackbar open={open} onClose={() => setOpen(false)} />\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Anatomy",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Snackbar component is composed of a root `<div>` that houses interior elements like the Snackbar Content and other optional components (such as buttons or decorators)."
+    },
+    {
+     "kind": "code",
+     "lang": "html",
+     "text": "<div role=\"presentation\" class=\"MuiSnackbar-root\">\n  <div class=\"MuiPaper-root MuiSnackbarContent-root\" role=\"alert\">\n    <div class=\"MuiSnackbarContent-message\">\n      <!-- Snackbar content goes here -->\n    </div>\n  </div>\n</div>\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Snackbar",
+   "description": "",
+   "props": [
+    {
+     "prop": "action",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The action to display. It renders after the message, at the end of the snackbar."
+    },
+    {
+     "prop": "anchorOrigin",
+     "type": "{ horizontal: 'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right', vertical: 'bottom'<br>&#124;&nbsp;'top' }",
+     "default": "{ vertical: 'bottom', horizontal: 'left' }",
+     "required": false,
+     "deprecated": false,
+     "desc": "The anchor of the <code>Snackbar</code>. On smaller screens, the component grows to occupy all the available width, the horizontal alignment is ignored."
+    },
+    {
+     "prop": "autoHideDuration",
+     "type": "number",
+     "default": "null",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds to wait before automatically calling the <code>onClose</code> function. <code>onClose</code> should then set the state of the <code>open</code> prop to hide the Snackbar. This behavior is disabled by default with the <code>null</code> value."
+    },
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Replace the <code>SnackbarContent</code> component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableWindowBlurListener",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>autoHideDuration</code> timer will expire even if the window is not focused."
+    },
+    {
+     "prop": "key",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "When displaying multiple consecutive snackbars using a single parent-rendered <code>&lt;Snackbar/&gt;</code>, add the <code>key</code> prop to ensure independent treatment of each message. For instance, use <code>&lt;Snackbar key={message} /&gt;</code>. Otherwise, messages might update in place, and features like <code>autoHideDuration</code> could be affected."
+    },
+    {
+     "prop": "message",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The message to display."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed. Typically <code>onClose</code> is used to set state in the parent component, which is used to control the <code>Snackbar</code> <code>open</code> prop. The <code>reason</code> parameter can optionally be used to control the response to <code>onClose</code>, for example ignoring <code>clickaway</code>."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "resumeHideDuration",
+     "type": "number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds to wait before dismissing after user interaction. If <code>autoHideDuration</code> prop isn&#39;t specified, it does nothing. If <code>autoHideDuration</code> prop is specified but <code>resumeHideDuration</code> isn&#39;t, we default to <code>autoHideDuration / 2</code> ms."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ clickAwayListener?: func<br>&#124;&nbsp;object, content?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ clickAwayListener?: elementType, content?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": [
+    {
+     "key": "anchorOriginBottomCenter",
+     "className": "MuiSnackbar-anchorOriginBottomCenter",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'bottom', 'center' }}`."
+    },
+    {
+     "key": "anchorOriginBottomLeft",
+     "className": "MuiSnackbar-anchorOriginBottomLeft",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginBottomRight",
+     "className": "MuiSnackbar-anchorOriginBottomRight",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }}`."
+    },
+    {
+     "key": "anchorOriginTopCenter",
+     "className": "MuiSnackbar-anchorOriginTopCenter",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'top', 'center' }}`."
+    },
+    {
+     "key": "anchorOriginTopLeft",
+     "className": "MuiSnackbar-anchorOriginTopLeft",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginTopRight",
+     "className": "MuiSnackbar-anchorOriginTopRight",
+     "description": "Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }}`."
+    }
+   ]
+  },
+  {
+   "name": "SnackbarContent",
+   "description": "",
+   "props": [
+    {
+     "prop": "action",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The action to display. It renders after the message, at the end of the snackbar."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "message",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The message to display."
+    },
+    {
+     "prop": "role",
+     "type": "string",
+     "default": "'alert'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The ARIA role attribute of the element."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "action",
+     "className": "MuiSnackbarContent-action",
+     "description": "Styles applied to the action wrapper element if `action` is provided."
+    },
+    {
+     "key": "message",
+     "className": "MuiSnackbarContent-message",
+     "description": "Styles applied to the message wrapper element."
+    },
+    {
+     "key": "root",
+     "className": "MuiSnackbarContent-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-snackbar/"
+}

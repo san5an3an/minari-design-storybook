@@ -1,0 +1,40 @@
+
+.ods-tooltip-wrap { position: relative; display: inline-flex; }
+.ods-tooltip {
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translate(-50%, calc(-1 * var(--component-tooltip-offset)));
+  z-index: 20;
+  width: max-content;
+  max-width: var(--component-tooltip-max-width);
+  padding-inline: var(--component-tooltip-padding-inline);
+  padding-block: var(--component-tooltip-padding-block);
+  background: var(--component-tooltip-bg);
+  color: var(--component-tooltip-fg);
+  border-radius: var(--component-tooltip-radius);
+  box-shadow: var(--component-tooltip-shadow);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-tooltip-font-size);
+  letter-spacing: var(--component-tooltip-letter-spacing);
+  line-height: var(--base-font-line-height-snug);
+  /* 말풍선 자체는 상호작용 불가. 마우스 올리면 가리킨 대상 벗어난 것으로 처리 */
+  pointer-events: none;
+  opacity: 0; visibility: hidden;
+  transition: opacity 120ms ease, visibility 120ms;
+}
+.ods-tooltip-wrap:hover > .ods-tooltip,
+.ods-tooltip-wrap:focus-within > .ods-tooltip {
+  opacity: 1; visibility: visible;
+}
+/* 문서용 고정 표시 */
+.ods-tooltip[data-always="true"] { opacity: 1; visibility: visible; position: static;
+  transform: none; }
+/* 방향 4종 각각 별도 규칙 적용 */
+.ods-tooltip--top { bottom: 100%; top: auto; left: 50%; right: auto;
+  transform: translate(-50%, calc(-1 * var(--component-tooltip-offset))); }
+.ods-tooltip--bottom { bottom: auto; top: 100%;
+  transform: translate(-50%, var(--component-tooltip-offset)); }
+.ods-tooltip--right { bottom: auto; top: 50%; left: 100%;
+  transform: translate(var(--component-tooltip-offset), -50%); }
+.ods-tooltip--left { bottom: auto; top: 50%; left: auto; right: 100%;
+  transform: translate(calc(-1 * var(--component-tooltip-offset)), -50%); }
+@media (prefers-reduced-motion: reduce) { .ods-tooltip { transition: none; } }

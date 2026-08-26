@@ -1,0 +1,510 @@
+{
+ "slug": "toggle-button",
+ "title": "Toggle Button",
+ "group": "Inputs",
+ "folder": "toggle-button",
+ "description": "A Toggle Button can be used to group related options.",
+ "components": [
+  "ToggleButton",
+  "ToggleButtonGroup"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To emphasize groups of related Toggle buttons,\na group should share a common container.\nThe `ToggleButtonGroup` controls the selected state of its child buttons when given its own `value` prop."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Exclusive selection",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "With exclusive selection, selecting one option deselects any other.\n\nIn this example, text justification toggle buttons present options for left, center, right, and fully justified text (disabled), with only one item available for selection at a time.\n\n**Note**: Exclusive selection does not enforce that a button must be active. For that effect see [enforce value set](#enforce-value-set)."
+    },
+    {
+     "kind": "demo",
+     "name": "ToggleButtons",
+     "file": "ToggleButtons.tsx",
+     "code": "import * as React from 'react';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function ToggleButtons() {\n  const [alignment, setAlignment] = React.useState<string | null>('left');\n\n  const handleAlignment = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string | null,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  return (\n    <ToggleButtonGroup\n      value={alignment}\n      exclusive\n      onChange={handleAlignment}\n      aria-label=\"text alignment\"\n    >\n      <ToggleButton value=\"left\" aria-label=\"left aligned\">\n        <FormatAlignLeftIcon />\n      </ToggleButton>\n      <ToggleButton value=\"center\" aria-label=\"centered\">\n        <FormatAlignCenterIcon />\n      </ToggleButton>\n      <ToggleButton value=\"right\" aria-label=\"right aligned\">\n        <FormatAlignRightIcon />\n      </ToggleButton>\n      <ToggleButton value=\"justify\" aria-label=\"justified\" disabled>\n        <FormatAlignJustifyIcon />\n      </ToggleButton>\n    </ToggleButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Multiple selection",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Multiple selection allows for logically-grouped options, like bold, italic, and underline, to have multiple options selected."
+    },
+    {
+     "kind": "demo",
+     "name": "ToggleButtonsMultiple",
+     "file": "ToggleButtonsMultiple.tsx",
+     "code": "import * as React from 'react';\nimport FormatBoldIcon from '@mui/icons-material/FormatBold';\nimport FormatItalicIcon from '@mui/icons-material/FormatItalic';\nimport FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';\nimport FormatColorFillIcon from '@mui/icons-material/FormatColorFill';\nimport ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function ToggleButtonsMultiple() {\n  const [formats, setFormats] = React.useState(() => ['bold', 'italic']);\n\n  const handleFormat = (\n    event: React.MouseEvent<HTMLElement>,\n    newFormats: string[],\n  ) => {\n    setFormats(newFormats);\n  };\n\n  return (\n    <ToggleButtonGroup\n      value={formats}\n      onChange={handleFormat}\n      aria-label=\"text formatting\"\n    >\n      <ToggleButton value=\"bold\" aria-label=\"bold\">\n        <FormatBoldIcon />\n      </ToggleButton>\n      <ToggleButton value=\"italic\" aria-label=\"italic\">\n        <FormatItalicIcon />\n      </ToggleButton>\n      <ToggleButton value=\"underlined\" aria-label=\"underlined\">\n        <FormatUnderlinedIcon />\n      </ToggleButton>\n      <ToggleButton value=\"color\" aria-label=\"color\" disabled>\n        <FormatColorFillIcon />\n        <ArrowDropDownIcon />\n      </ToggleButton>\n    </ToggleButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Size",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For larger or smaller buttons, use the `size` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "ToggleButtonSizes",
+     "file": "ToggleButtonSizes.tsx",
+     "code": "import * as React from 'react';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';\nimport Stack from '@mui/material/Stack';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function ToggleButtonSizes() {\n  const [alignment, setAlignment] = React.useState('left');\n\n  const handleChange = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  const children = [\n    <ToggleButton value=\"left\" key=\"left\">\n      <FormatAlignLeftIcon />\n    </ToggleButton>,\n    <ToggleButton value=\"center\" key=\"center\">\n      <FormatAlignCenterIcon />\n    </ToggleButton>,\n    <ToggleButton value=\"right\" key=\"right\">\n      <FormatAlignRightIcon />\n    </ToggleButton>,\n    <ToggleButton value=\"justify\" key=\"justify\">\n      <FormatAlignJustifyIcon />\n    </ToggleButton>,\n  ];\n\n  const control = {\n    value: alignment,\n    onChange: handleChange,\n    exclusive: true,\n  };\n\n  return (\n    <Stack spacing={2} sx={{ alignItems: 'center' }}>\n      <ToggleButtonGroup size=\"small\" {...control} aria-label=\"Small sizes\">\n        {children}\n      </ToggleButtonGroup>\n      <ToggleButtonGroup {...control} aria-label=\"Medium sizes\">\n        {children}\n      </ToggleButtonGroup>\n      <ToggleButtonGroup size=\"large\" {...control} aria-label=\"Large sizes\">\n        {children}\n      </ToggleButtonGroup>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ColorToggleButton",
+     "file": "ColorToggleButton.tsx",
+     "code": "import * as React from 'react';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function ColorToggleButton() {\n  const [alignment, setAlignment] = React.useState('web');\n\n  const handleChange = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  return (\n    <ToggleButtonGroup\n      color=\"primary\"\n      value={alignment}\n      exclusive\n      onChange={handleChange}\n      aria-label=\"Platform\"\n    >\n      <ToggleButton value=\"web\">Web</ToggleButton>\n      <ToggleButton value=\"android\">Android</ToggleButton>\n      <ToggleButton value=\"ios\">iOS</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Vertical buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The buttons can be stacked vertically with the `orientation` prop set to \"vertical\"."
+    },
+    {
+     "kind": "demo",
+     "name": "VerticalToggleButtons",
+     "file": "VerticalToggleButtons.tsx",
+     "code": "import * as React from 'react';\nimport ViewListIcon from '@mui/icons-material/ViewList';\nimport ViewModuleIcon from '@mui/icons-material/ViewModule';\nimport ViewQuiltIcon from '@mui/icons-material/ViewQuilt';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function VerticalToggleButtons() {\n  const [view, setView] = React.useState('list');\n\n  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {\n    setView(nextView);\n  };\n\n  return (\n    <ToggleButtonGroup\n      orientation=\"vertical\"\n      value={view}\n      exclusive\n      onChange={handleChange}\n    >\n      <ToggleButton value=\"list\" aria-label=\"list\">\n        <ViewListIcon />\n      </ToggleButton>\n      <ToggleButton value=\"module\" aria-label=\"module\">\n        <ViewModuleIcon />\n      </ToggleButton>\n      <ToggleButton value=\"quilt\" aria-label=\"quilt\">\n        <ViewQuiltIcon />\n      </ToggleButton>\n    </ToggleButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Enforce value set",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If you want to enforce that at least one button must be active, you can adapt your handleChange function."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "const handleAlignment = (event, newAlignment) => {\n  if (newAlignment !== null) {\n    setAlignment(newAlignment);\n  }\n};\n\nconst handleDevices = (event, newDevices) => {\n  if (newDevices.length) {\n    setDevices(newDevices);\n  }\n};\n"
+    },
+    {
+     "kind": "demo",
+     "name": "ToggleButtonNotEmpty",
+     "file": "ToggleButtonNotEmpty.tsx",
+     "code": "import * as React from 'react';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport LaptopIcon from '@mui/icons-material/Laptop';\nimport TvIcon from '@mui/icons-material/Tv';\nimport PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';\nimport Stack from '@mui/material/Stack';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup from '@mui/material/ToggleButtonGroup';\n\nexport default function ToggleButtonNotEmpty() {\n  const [alignment, setAlignment] = React.useState('left');\n  const [devices, setDevices] = React.useState(() => ['phone']);\n\n  const handleAlignment = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string | null,\n  ) => {\n    if (newAlignment !== null) {\n      setAlignment(newAlignment);\n    }\n  };\n\n  const handleDevices = (\n    event: React.MouseEvent<HTMLElement>,\n    newDevices: string[],\n  ) => {\n    if (newDevices.length) {\n      setDevices(newDevices);\n    }\n  };\n\n  return (\n    <Stack direction=\"row\" spacing={4}>\n      <ToggleButtonGroup\n        value={alignment}\n        exclusive\n        onChange={handleAlignment}\n        aria-label=\"text alignment\"\n      >\n        <ToggleButton value=\"left\" aria-label=\"left aligned\">\n          <FormatAlignLeftIcon />\n        </ToggleButton>\n        <ToggleButton value=\"center\" aria-label=\"centered\">\n          <FormatAlignCenterIcon />\n        </ToggleButton>\n        <ToggleButton value=\"right\" aria-label=\"right aligned\">\n          <FormatAlignRightIcon />\n        </ToggleButton>\n      </ToggleButtonGroup>\n\n      <ToggleButtonGroup\n        value={devices}\n        onChange={handleDevices}\n        aria-label=\"device\"\n      >\n        <ToggleButton value=\"laptop\" aria-label=\"laptop\">\n          <LaptopIcon />\n        </ToggleButton>\n        <ToggleButton value=\"tv\" aria-label=\"tv\">\n          <TvIcon />\n        </ToggleButton>\n        <ToggleButton value=\"phone\" aria-label=\"phone\">\n          <PhoneAndroidIcon />\n        </ToggleButton>\n      </ToggleButtonGroup>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Standalone toggle button",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "StandaloneToggleButton",
+     "file": "StandaloneToggleButton.tsx",
+     "code": "import * as React from 'react';\nimport CheckIcon from '@mui/icons-material/Check';\nimport ToggleButton from '@mui/material/ToggleButton';\n\nexport default function StandaloneToggleButton() {\n  const [selected, setSelected] = React.useState(false);\n\n  return (\n    <ToggleButton\n      value=\"check\"\n      selected={selected}\n      onChange={() => setSelected((prevSelected) => !prevSelected)}\n    >\n      <CheckIcon />\n    </ToggleButton>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedDividers",
+     "file": "CustomizedDividers.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';\nimport FormatBoldIcon from '@mui/icons-material/FormatBold';\nimport FormatItalicIcon from '@mui/icons-material/FormatItalic';\nimport FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';\nimport FormatColorFillIcon from '@mui/icons-material/FormatColorFill';\nimport ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';\nimport Divider from '@mui/material/Divider';\nimport Paper from '@mui/material/Paper';\nimport ToggleButton from '@mui/material/ToggleButton';\nimport ToggleButtonGroup, {\n  toggleButtonGroupClasses,\n} from '@mui/material/ToggleButtonGroup';\n\nconst StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({\n  [`& .${toggleButtonGroupClasses.grouped}`]: {\n    margin: theme.spacing(0.5),\n    border: 0,\n    borderRadius: theme.shape.borderRadius,\n    [`&.${toggleButtonGroupClasses.disabled}`]: {\n      border: 0,\n    },\n  },\n  [`& .${toggleButtonGroupClasses.middleButton},& .${toggleButtonGroupClasses.lastButton}`]:\n    {\n      marginLeft: -1,\n      borderLeft: '1px solid transparent',\n    },\n}));\n\nexport default function CustomizedDividers() {\n  const [alignment, setAlignment] = React.useState('left');\n  const [formats, setFormats] = React.useState(() => ['italic']);\n\n  const handleFormat = (\n    event: React.MouseEvent<HTMLElement>,\n    newFormats: string[],\n  ) => {\n    setFormats(newFormats);\n  };\n\n  const handleAlignment = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  return (\n    <div>\n      <Paper\n        elevation={0}\n        sx={(theme) => ({\n          display: 'flex',\n          border: `1px solid ${theme.palette.divider}`,\n          flexWrap: 'wrap',\n        })}\n      >\n        <StyledToggleButtonGroup\n          size=\"small\"\n          value={alignment}\n          exclusive\n          onChange={handleAlignment}\n          aria-label=\"text alignment\"\n        >\n          <ToggleButton value=\"left\" aria-label=\"left aligned\">\n            <FormatAlignLeftIcon />\n          </ToggleButton>\n          <ToggleButton value=\"center\" aria-label=\"centered\">\n            <FormatAlignCenterIcon />\n          </ToggleButton>\n          <ToggleButton value=\"right\" aria-label=\"right aligned\">\n            <FormatAlignRightIcon />\n          </ToggleButton>\n          <ToggleButton value=\"justify\" aria-label=\"justified\" disabled>\n            <FormatAlignJustifyIcon />\n          </ToggleButton>\n        </StyledToggleButtonGroup>\n        <Divider flexItem orientation=\"vertical\" sx={{ mx: 0.5, my: 1 }} />\n        <StyledToggleButtonGroup\n          size=\"small\"\n          value={formats}\n          onChange={handleFormat}\n          aria-label=\"text formatting\"\n        >\n          <ToggleButton value=\"bold\" aria-label=\"bold\">\n            <FormatBoldIcon />\n          </ToggleButton>\n          <ToggleButton value=\"italic\" aria-label=\"italic\">\n            <FormatItalicIcon />\n          </ToggleButton>\n          <ToggleButton value=\"underlined\" aria-label=\"underlined\">\n            <FormatUnderlinedIcon />\n          </ToggleButton>\n          <ToggleButton value=\"color\" aria-label=\"color\" disabled>\n            <FormatColorFillIcon />\n            <ArrowDropDownIcon />\n          </ToggleButton>\n        </StyledToggleButtonGroup>\n      </Paper>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Spacing",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The demos below show how to adjust spacing between toggle buttons in horizontal and vertical orientations.\n\n#### Horizontal Spacing"
+    },
+    {
+     "kind": "demo",
+     "name": "HorizontalSpacingToggleButton",
+     "file": "HorizontalSpacingToggleButton.tsx",
+     "code": "import * as React from 'react';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';\nimport ToggleButton, { toggleButtonClasses } from '@mui/material/ToggleButton';\nimport ToggleButtonGroup, {\n  toggleButtonGroupClasses,\n} from '@mui/material/ToggleButtonGroup';\nimport { styled } from '@mui/material/styles';\n\nconst StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({\n  gap: '2rem',\n  [`& .${toggleButtonGroupClasses.firstButton}, & .${toggleButtonGroupClasses.middleButton}`]:\n    {\n      borderTopRightRadius: (theme.vars || theme).shape.borderRadius,\n      borderBottomRightRadius: (theme.vars || theme).shape.borderRadius,\n    },\n  [`& .${toggleButtonGroupClasses.lastButton}, & .${toggleButtonGroupClasses.middleButton}`]:\n    {\n      borderTopLeftRadius: (theme.vars || theme).shape.borderRadius,\n      borderBottomLeftRadius: (theme.vars || theme).shape.borderRadius,\n      borderLeft: `1px solid ${(theme.vars || theme).palette.divider}`,\n    },\n  [`& .${toggleButtonGroupClasses.lastButton}.${toggleButtonClasses.disabled}, & .${toggleButtonGroupClasses.middleButton}.${toggleButtonClasses.disabled}`]:\n    {\n      borderLeft: `1px solid ${(theme.vars || theme).palette.action.disabledBackground}`,\n    },\n}));\n\nexport default function HorizontalSpacingToggleButton() {\n  const [alignment, setAlignment] = React.useState<string | null>('left');\n\n  const handleAlignment = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string | null,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  return (\n    <StyledToggleButtonGroup\n      value={alignment}\n      exclusive\n      onChange={handleAlignment}\n      aria-label=\"text alignment\"\n    >\n      <ToggleButton value=\"left\" aria-label=\"left aligned\">\n        <FormatAlignLeftIcon />\n      </ToggleButton>\n      <ToggleButton value=\"center\" aria-label=\"centered\">\n        <FormatAlignCenterIcon />\n      </ToggleButton>\n      <ToggleButton value=\"right\" aria-label=\"right aligned\">\n        <FormatAlignRightIcon />\n      </ToggleButton>\n      <ToggleButton value=\"justify\" aria-label=\"justified\" disabled>\n        <FormatAlignJustifyIcon />\n      </ToggleButton>\n    </StyledToggleButtonGroup>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "#### Vertical Spacing"
+    },
+    {
+     "kind": "demo",
+     "name": "VerticalSpacingToggleButton",
+     "file": "VerticalSpacingToggleButton.tsx",
+     "code": "import * as React from 'react';\nimport FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';\nimport FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';\nimport FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';\nimport FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';\nimport ToggleButton, { toggleButtonClasses } from '@mui/material/ToggleButton';\nimport ToggleButtonGroup, {\n  toggleButtonGroupClasses,\n} from '@mui/material/ToggleButtonGroup';\nimport { styled } from '@mui/material/styles';\n\nconst StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({\n  gap: '2rem',\n  [`& .${toggleButtonGroupClasses.firstButton}, & .${toggleButtonGroupClasses.middleButton}`]:\n    {\n      borderBottomRightRadius: (theme.vars || theme).shape.borderRadius,\n      borderBottomLeftRadius: (theme.vars || theme).shape.borderRadius,\n    },\n  [`& .${toggleButtonGroupClasses.lastButton}, & .${toggleButtonGroupClasses.middleButton}`]:\n    {\n      borderTopRightRadius: (theme.vars || theme).shape.borderRadius,\n      borderTopLeftRadius: (theme.vars || theme).shape.borderRadius,\n      borderTop: `1px solid ${(theme.vars || theme).palette.divider}`,\n    },\n  [`& .${toggleButtonGroupClasses.lastButton}.${toggleButtonClasses.disabled}, & .${toggleButtonGroupClasses.middleButton}.${toggleButtonClasses.disabled}`]:\n    {\n      borderTop: `1px solid ${(theme.vars || theme).palette.action.disabledBackground}`,\n    },\n}));\n\nexport default function VerticalSpacingToggleButton() {\n  const [alignment, setAlignment] = React.useState<string | null>('left');\n\n  const handleAlignment = (\n    event: React.MouseEvent<HTMLElement>,\n    newAlignment: string | null,\n  ) => {\n    setAlignment(newAlignment);\n  };\n\n  return (\n    <StyledToggleButtonGroup\n      value={alignment}\n      exclusive\n      onChange={handleAlignment}\n      aria-label=\"text alignment\"\n      orientation=\"vertical\"\n    >\n      <ToggleButton value=\"left\" aria-label=\"left aligned\">\n        <FormatAlignLeftIcon />\n      </ToggleButton>\n      <ToggleButton value=\"center\" aria-label=\"centered\">\n        <FormatAlignCenterIcon />\n      </ToggleButton>\n      <ToggleButton value=\"right\" aria-label=\"right aligned\">\n        <FormatAlignRightIcon />\n      </ToggleButton>\n      <ToggleButton value=\"justify\" aria-label=\"justified\" disabled>\n        <FormatAlignJustifyIcon />\n      </ToggleButton>\n    </StyledToggleButtonGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "ARIA",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- ToggleButtonGroup has `role=\"group\"`. You should provide an accessible label with `aria-label=\"label\"`, `aria-labelledby=\"id\"` or `<label>`.\n- ToggleButton sets `aria-pressed=\"<bool>\"` according to the button state. You should label each button with `aria-label`."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The group uses a single tab stop.\nUse the left and right arrow keys to move focus in a horizontal group, or the up and down arrow keys in a vertical group.\nThe <kbd>Home</kbd> and <kbd>End</kbd> keys move focus to the first and last enabled buttons.\nFocus movement wraps, skips disabled buttons, and does not change the selected value.\nPress <kbd>Space</kbd> or <kbd>Enter</kbd> to toggle the focused button."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "ToggleButton",
+   "description": "",
+   "props": [
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The value to associate with the button when selected in a ToggleButtonGroup."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'standard'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the button when it is in an active state. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the  keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled.<br>⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the <code>.Mui-focusVisible</code> class."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button will take up the full width of its container."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the state changes."
+    },
+    {
+     "prop": "onClick",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the button is clicked."
+    },
+    {
+     "prop": "selected",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button is rendered in an active state."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. The prop defaults to the value inherited from the parent ToggleButtonGroup component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiToggleButton-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "primary",
+     "className": "MuiToggleButton-primary",
+     "description": "State class applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiToggleButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "secondary",
+     "className": "MuiToggleButton-secondary",
+     "description": "State class applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    },
+    {
+     "key": "sizeLarge",
+     "className": "MuiToggleButton-sizeLarge",
+     "description": "Styles applied to the root element if `size=\"large\"`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiToggleButton-sizeMedium",
+     "description": "Styles applied to the root element if `size=\"medium\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiToggleButton-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "standard",
+     "className": "MuiToggleButton-standard",
+     "description": "State class applied to the root element if `color=\"standard\"`."
+    }
+   ]
+  },
+  {
+   "name": "ToggleButtonGroup",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'standard'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the button when it is selected. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled. This implies that all ToggleButton children will be disabled."
+    },
+    {
+     "prop": "exclusive",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, only allow one of the child ToggleButton values to be selected."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button group will take up the full width of its container."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value changes."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation (layout flow direction)."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The currently selected value within the group or an array of selected values when <code>exclusive</code> is false.<br>The value must have reference equality with the option in order to be selected."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "firstButton",
+     "className": "MuiToggleButtonGroup-firstButton",
+     "description": "Styles applied to the first button in the toggle button group."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiToggleButtonGroup-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "grouped",
+     "className": "MuiToggleButtonGroup-grouped",
+     "description": "Styles applied to the children."
+    },
+    {
+     "key": "horizontal",
+     "className": "MuiToggleButtonGroup-horizontal",
+     "description": "Styles applied to the root element if `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "lastButton",
+     "className": "MuiToggleButtonGroup-lastButton",
+     "description": "Styles applied to the last button in the toggle button group."
+    },
+    {
+     "key": "middleButton",
+     "className": "MuiToggleButtonGroup-middleButton",
+     "description": "Styles applied to buttons in the middle of the toggle button group."
+    },
+    {
+     "key": "root",
+     "className": "MuiToggleButtonGroup-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiToggleButtonGroup-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-toggle-button/"
+}

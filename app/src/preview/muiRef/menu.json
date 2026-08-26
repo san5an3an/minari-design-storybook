@@ -1,0 +1,953 @@
+{
+ "slug": "menu",
+ "title": "Menu",
+ "group": "Navigation",
+ "folder": "menus",
+ "description": "Menus display a list of choices on temporary surfaces.",
+ "components": [
+  "Menu",
+  "MenuItem",
+  "MenuList",
+  "ClickAwayListener",
+  "Popover",
+  "Popper"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A menu displays a list of choices on a temporary surface. It appears when the user interacts with a button, or other control."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Menus are implemented using a collection of related components:\n\n- Menu: The container/surface of the menu.\n- Menu Item: An option for users to select from the menu.\n- Menu List (optional): Alternative composable container for Menu Items—see [Composition with Menu List](#composition-with-menu-list) for details."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A basic menu opens over the anchor element by default (this option can be [changed](#positioned-menu) via props). When close to a screen edge, a basic menu vertically realigns to make sure that all menu items are completely visible.\n\nYou should configure the component so that selecting an option immediately confirms it and closes the menu, as shown in the demo below."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicMenu",
+     "file": "BasicMenu.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\n\nexport default function BasicMenu() {\n  const id = React.useId();\n  const buttonId = `${id}-button`;\n  const menuId = `${id}-menu`;\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <Button\n        id={buttonId}\n        aria-controls={open ? menuId : undefined}\n        aria-haspopup=\"true\"\n        aria-expanded={open}\n        onClick={handleClick}\n      >\n        Dashboard\n      </Button>\n      <Menu\n        id={menuId}\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        slotProps={{\n          list: {\n            'aria-labelledby': buttonId,\n          },\n        }}\n      >\n        <MenuItem onClick={handleClose}>Profile</MenuItem>\n        <MenuItem onClick={handleClose}>My account</MenuItem>\n        <MenuItem onClick={handleClose}>Logout</MenuItem>\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In desktop viewport, padding is increased to give more space to the menu."
+    },
+    {
+     "kind": "demo",
+     "name": "IconMenu",
+     "file": "IconMenu.tsx",
+     "code": "import Divider from '@mui/material/Divider';\nimport Paper from '@mui/material/Paper';\nimport MenuList from '@mui/material/MenuList';\nimport MenuItem from '@mui/material/MenuItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport Typography from '@mui/material/Typography';\nimport ContentCut from '@mui/icons-material/ContentCut';\nimport ContentCopy from '@mui/icons-material/ContentCopy';\nimport ContentPaste from '@mui/icons-material/ContentPaste';\nimport Cloud from '@mui/icons-material/Cloud';\n\nexport default function IconMenu() {\n  return (\n    <Paper sx={{ width: 320, maxWidth: '100%' }}>\n      <MenuList>\n        <MenuItem>\n          <ListItemIcon>\n            <ContentCut fontSize=\"small\" />\n          </ListItemIcon>\n          <ListItemText>Cut</ListItemText>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            ⌘X\n          </Typography>\n        </MenuItem>\n        <MenuItem>\n          <ListItemIcon>\n            <ContentCopy fontSize=\"small\" />\n          </ListItemIcon>\n          <ListItemText>Copy</ListItemText>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            ⌘C\n          </Typography>\n        </MenuItem>\n        <MenuItem>\n          <ListItemIcon>\n            <ContentPaste fontSize=\"small\" />\n          </ListItemIcon>\n          <ListItemText>Paste</ListItemText>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            ⌘V\n          </Typography>\n        </MenuItem>\n        <Divider />\n        <MenuItem>\n          <ListItemIcon>\n            <Cloud fontSize=\"small\" />\n          </ListItemIcon>\n          <ListItemText>Web Clipboard</ListItemText>\n        </MenuItem>\n      </MenuList>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Dense menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For the menu that has long list and long text, you can use the `dense` prop to reduce the padding and text size."
+    },
+    {
+     "kind": "demo",
+     "name": "DenseMenu",
+     "file": "DenseMenu.tsx",
+     "code": "import Paper from '@mui/material/Paper';\nimport Divider from '@mui/material/Divider';\nimport MenuList from '@mui/material/MenuList';\nimport MenuItem from '@mui/material/MenuItem';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Check from '@mui/icons-material/Check';\n\nexport default function DenseMenu() {\n  return (\n    <Paper sx={{ width: 320 }}>\n      <MenuList dense>\n        <MenuItem>\n          <ListItemText inset>Single</ListItemText>\n        </MenuItem>\n        <MenuItem>\n          <ListItemText inset>1.15</ListItemText>\n        </MenuItem>\n        <MenuItem>\n          <ListItemText inset>Double</ListItemText>\n        </MenuItem>\n        <MenuItem>\n          <ListItemIcon>\n            <Check />\n          </ListItemIcon>\n          Custom: 1.2\n        </MenuItem>\n        <Divider />\n        <MenuItem>\n          <ListItemText>Add space before paragraph</ListItemText>\n        </MenuItem>\n        <MenuItem>\n          <ListItemText>Add space after paragraph</ListItemText>\n        </MenuItem>\n        <Divider />\n        <MenuItem>\n          <ListItemText>Custom spacing…</ListItemText>\n        </MenuItem>\n      </MenuList>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Selected menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If used for item selection, when opened, simple menus place the initial focus on the selected menu item.\nThe currently selected menu item is set using the `selected` prop available on `MenuItem`.\nTo use a selected menu item without impacting the initial focus, set the `variant` prop to \"menu\"."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleListMenu",
+     "file": "SimpleListMenu.tsx",
+     "code": "import * as React from 'react';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemText from '@mui/material/ListItemText';\nimport MenuItem from '@mui/material/MenuItem';\nimport Menu from '@mui/material/Menu';\n\nconst options = [\n  'Show some love to MUI',\n  'Show all notification content',\n  'Hide sensitive notification content',\n  'Hide all notification content',\n];\n\nexport default function SimpleListMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const [selectedIndex, setSelectedIndex] = React.useState(1);\n  const open = Boolean(anchorEl);\n  const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n\n  const handleMenuItemClick = (\n    event: React.MouseEvent<HTMLElement>,\n    index: number,\n  ) => {\n    setSelectedIndex(index);\n    setAnchorEl(null);\n  };\n\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <List\n        component=\"nav\"\n        aria-label=\"Device settings\"\n        sx={{ bgcolor: 'background.paper' }}\n      >\n        <ListItemButton\n          id=\"lock-button\"\n          aria-haspopup=\"listbox\"\n          aria-controls=\"lock-menu\"\n          aria-label=\"when device is locked\"\n          aria-expanded={open}\n          onClick={handleClickListItem}\n        >\n          <ListItemText\n            primary=\"When device is locked\"\n            secondary={options[selectedIndex]}\n          />\n        </ListItemButton>\n      </List>\n      <Menu\n        id=\"lock-menu\"\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        slotProps={{\n          list: {\n            'aria-labelledby': 'lock-button',\n            role: 'listbox',\n          },\n        }}\n      >\n        {options.map((option, index) => (\n          <MenuItem\n            key={option}\n            disabled={index === 0}\n            selected={index === selectedIndex}\n            onClick={(event) => handleMenuItemClick(event, index)}\n          >\n            {option}\n          </MenuItem>\n        ))}\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Checkbox and radio menu items",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To build a menu of toggleable options, set each item's `role` to `menuitemcheckbox` for independent toggles, or `menuitemradio` for a single choice within a group.\nFor these roles, the `selected` prop drives `aria-checked`, so assistive technologies announce the checked state."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxMenu",
+     "file": "CheckboxMenu.tsx",
+     "code": "import * as React from 'react';\nimport Paper from '@mui/material/Paper';\nimport MenuList from '@mui/material/MenuList';\nimport MenuItem from '@mui/material/MenuItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport Check from '@mui/icons-material/Check';\n\nconst options = ['Show toolbar', 'Show sidebar', 'Show status bar'];\n\nexport default function CheckboxMenu() {\n  const [checked, setChecked] = React.useState<Record<string, boolean>>({\n    'Show toolbar': true,\n  });\n\n  const handleToggle = (option: string) => () => {\n    setChecked((prev) => ({ ...prev, [option]: !prev[option] }));\n  };\n\n  return (\n    <Paper sx={{ width: 320, maxWidth: '100%' }}>\n      <MenuList>\n        {options.map((option) => (\n          <MenuItem\n            key={option}\n            role=\"menuitemcheckbox\"\n            selected={Boolean(checked[option])}\n            onClick={handleToggle(option)}\n          >\n            <ListItemIcon>\n              {checked[option] ? <Check fontSize=\"small\" /> : null}\n            </ListItemIcon>\n            <ListItemText>{option}</ListItemText>\n          </MenuItem>\n        ))}\n      </MenuList>\n    </Paper>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "For a single choice within a group, use `menuitemradio`:"
+    },
+    {
+     "kind": "demo",
+     "name": "RadioMenu",
+     "file": "RadioMenu.tsx",
+     "code": "import * as React from 'react';\nimport Paper from '@mui/material/Paper';\nimport MenuList from '@mui/material/MenuList';\nimport MenuItem from '@mui/material/MenuItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport RadioButtonChecked from '@mui/icons-material/RadioButtonChecked';\nimport RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';\n\nconst options = ['Name', 'Date modified', 'Size'];\n\nexport default function RadioMenu() {\n  const [selected, setSelected] = React.useState('Name');\n\n  return (\n    <Paper sx={{ width: 320, maxWidth: '100%' }}>\n      <MenuList>\n        {options.map((option) => (\n          <MenuItem\n            key={option}\n            role=\"menuitemradio\"\n            selected={selected === option}\n            onClick={() => setSelected(option)}\n          >\n            <ListItemIcon>\n              {selected === option ? (\n                <RadioButtonChecked fontSize=\"small\" />\n              ) : (\n                <RadioButtonUnchecked fontSize=\"small\" />\n              )}\n            </ListItemIcon>\n            <ListItemText>{option}</ListItemText>\n          </MenuItem>\n        ))}\n      </MenuList>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Positioned menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Because the `Menu` component uses the `Popover` component to position itself, you can use the same [positioning props](/material-ui/react-popover/#anchor-playground) to position it.\nFor instance, you can display the menu on top of the anchor:"
+    },
+    {
+     "kind": "demo",
+     "name": "PositionedMenu",
+     "file": "PositionedMenu.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\n\nexport default function PositionedMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <Button\n        id=\"demo-positioned-button\"\n        aria-controls={open ? 'demo-positioned-menu' : undefined}\n        aria-haspopup=\"true\"\n        aria-expanded={open}\n        onClick={handleClick}\n      >\n        Dashboard\n      </Button>\n      <Menu\n        id=\"demo-positioned-menu\"\n        aria-labelledby=\"demo-positioned-button\"\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        anchorOrigin={{\n          vertical: 'top',\n          horizontal: 'left',\n        }}\n        transformOrigin={{\n          vertical: 'top',\n          horizontal: 'left',\n        }}\n      >\n        <MenuItem onClick={handleClose}>Profile</MenuItem>\n        <MenuItem onClick={handleClose}>My account</MenuItem>\n        <MenuItem onClick={handleClose}>Logout</MenuItem>\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Composition with Menu List",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Menu component uses the Popover component internally.\nBut you might want to use a different positioning strategy, or prefer not to block scrolling, for example.\n\nThe Menu List component lets you compose your own menu for these kinds of use cases—its primary purpose is to handle focus.\nSee the demo below for an example of composition that uses Menu List and replaces the Menu's default Popover with a Popper component instead:"
+    },
+    {
+     "kind": "demo",
+     "name": "MenuListComposition",
+     "file": "MenuListComposition.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport ClickAwayListener from '@mui/material/ClickAwayListener';\nimport Grow from '@mui/material/Grow';\nimport Paper from '@mui/material/Paper';\nimport Popper from '@mui/material/Popper';\nimport MenuItem from '@mui/material/MenuItem';\nimport MenuList from '@mui/material/MenuList';\nimport Stack from '@mui/material/Stack';\n\nexport default function MenuListComposition() {\n  const [open, setOpen] = React.useState(false);\n  const anchorRef = React.useRef<HTMLButtonElement>(null);\n\n  const handleToggle = () => {\n    setOpen((prevOpen) => !prevOpen);\n  };\n\n  const handleClose = (event: Event | React.SyntheticEvent) => {\n    if (\n      anchorRef.current &&\n      anchorRef.current.contains(event.target as HTMLElement)\n    ) {\n      return;\n    }\n\n    setOpen(false);\n  };\n\n  function handleListKeyDown(event: React.KeyboardEvent) {\n    if (event.key === 'Tab') {\n      event.preventDefault();\n      setOpen(false);\n    } else if (event.key === 'Escape') {\n      setOpen(false);\n    }\n  }\n\n  // return focus to the button when we transitioned from !open -> open\n  const prevOpen = React.useRef(open);\n  React.useEffect(() => {\n    if (prevOpen.current === true && open === false) {\n      anchorRef.current!.focus();\n    }\n\n    prevOpen.current = open;\n  }, [open]);\n\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Paper>\n        <MenuList>\n          <MenuItem>Profile</MenuItem>\n          <MenuItem>My account</MenuItem>\n          <MenuItem>Logout</MenuItem>\n        </MenuList>\n      </Paper>\n      <div>\n        <Button\n          ref={anchorRef}\n          id=\"composition-button\"\n          aria-controls={open ? 'composition-menu' : undefined}\n          aria-expanded={open}\n          aria-haspopup=\"true\"\n          onClick={handleToggle}\n        >\n          Dashboard\n        </Button>\n        <Popper\n          open={open}\n          anchorEl={anchorRef.current}\n          role={undefined}\n          placement=\"bottom-start\"\n          transition\n          disablePortal\n        >\n          {({ TransitionProps, placement }) => (\n            <Grow\n              {...TransitionProps}\n              style={{\n                transformOrigin:\n                  placement === 'bottom-start' ? 'left top' : 'left bottom',\n              }}\n            >\n              <Paper>\n                <ClickAwayListener onClickAway={handleClose}>\n                  <MenuList\n                    autoFocusItem={open}\n                    id=\"composition-menu\"\n                    aria-labelledby=\"composition-button\"\n                    onKeyDown={handleListKeyDown}\n                  >\n                    <MenuItem onClick={handleClose}>Profile</MenuItem>\n                    <MenuItem onClick={handleClose}>My account</MenuItem>\n                    <MenuItem onClick={handleClose}>Logout</MenuItem>\n                  </MenuList>\n                </ClickAwayListener>\n              </Paper>\n            </Grow>\n          )}\n        </Popper>\n      </div>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Account menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`Menu` content can be mixed with other components like `Avatar`."
+    },
+    {
+     "kind": "demo",
+     "name": "AccountMenu",
+     "file": "AccountMenu.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Avatar from '@mui/material/Avatar';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport Divider from '@mui/material/Divider';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport Tooltip from '@mui/material/Tooltip';\nimport PersonAdd from '@mui/icons-material/PersonAdd';\nimport Settings from '@mui/icons-material/Settings';\nimport Logout from '@mui/icons-material/Logout';\n\nexport default function AccountMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n  return (\n    <React.Fragment>\n      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>\n        <Typography sx={{ minWidth: 100 }}>Contact</Typography>\n        <Typography sx={{ minWidth: 100 }}>Profile</Typography>\n        <Tooltip title=\"Account settings\">\n          <IconButton\n            onClick={handleClick}\n            size=\"small\"\n            sx={{ ml: 2 }}\n            aria-controls={open ? 'account-menu' : undefined}\n            aria-haspopup=\"true\"\n            aria-expanded={open}\n          >\n            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>\n          </IconButton>\n        </Tooltip>\n      </Box>\n      <Menu\n        anchorEl={anchorEl}\n        id=\"account-menu\"\n        open={open}\n        onClose={handleClose}\n        onClick={handleClose}\n        slotProps={{\n          paper: {\n            elevation: 0,\n            sx: {\n              overflow: 'visible',\n              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',\n              mt: 1.5,\n              '& .MuiAvatar-root': {\n                width: 32,\n                height: 32,\n                ml: -0.5,\n                mr: 1,\n              },\n              '&::before': {\n                content: '\"\"',\n                display: 'block',\n                position: 'absolute',\n                top: 0,\n                right: 14,\n                width: 10,\n                height: 10,\n                bgcolor: 'background.paper',\n                transform: 'translateY(-50%) rotate(45deg)',\n                zIndex: 0,\n              },\n            },\n          },\n        }}\n        transformOrigin={{ horizontal: 'right', vertical: 'top' }}\n        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}\n      >\n        <MenuItem onClick={handleClose}>\n          <Avatar /> Profile\n        </MenuItem>\n        <MenuItem onClick={handleClose}>\n          <Avatar /> My account\n        </MenuItem>\n        <Divider />\n        <MenuItem onClick={handleClose}>\n          <ListItemIcon>\n            <PersonAdd fontSize=\"small\" />\n          </ListItemIcon>\n          Add another account\n        </MenuItem>\n        <MenuItem onClick={handleClose}>\n          <ListItemIcon>\n            <Settings fontSize=\"small\" />\n          </ListItemIcon>\n          Settings\n        </MenuItem>\n        <MenuItem onClick={handleClose}>\n          <ListItemIcon>\n            <Logout fontSize=\"small\" />\n          </ListItemIcon>\n          Logout\n        </MenuItem>\n      </Menu>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedMenus",
+     "file": "CustomizedMenus.tsx",
+     "code": "import * as React from 'react';\nimport { styled, alpha } from '@mui/material/styles';\nimport Button from '@mui/material/Button';\nimport Menu, { MenuProps } from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport EditIcon from '@mui/icons-material/Edit';\nimport Divider from '@mui/material/Divider';\nimport ArchiveIcon from '@mui/icons-material/Archive';\nimport FileCopyIcon from '@mui/icons-material/FileCopy';\nimport MoreHorizIcon from '@mui/icons-material/MoreHoriz';\nimport KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';\n\nconst StyledMenu = styled((props: MenuProps) => (\n  <Menu\n    elevation={0}\n    anchorOrigin={{\n      vertical: 'bottom',\n      horizontal: 'right',\n    }}\n    transformOrigin={{\n      vertical: 'top',\n      horizontal: 'right',\n    }}\n    {...props}\n  />\n))(({ theme }) => ({\n  '& .MuiPaper-root': {\n    borderRadius: 6,\n    marginTop: theme.spacing(1),\n    minWidth: 180,\n    color: 'rgb(55, 65, 81)',\n    boxShadow:\n      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',\n    '& .MuiMenu-list': {\n      padding: '4px 0',\n    },\n    '& .MuiMenuItem-root': {\n      '& .MuiSvgIcon-root': {\n        fontSize: 18,\n        color: theme.palette.text.secondary,\n        marginRight: theme.spacing(1.5),\n        ...theme.applyStyles('dark', {\n          color: 'inherit',\n        }),\n      },\n      '&:active': {\n        backgroundColor: alpha(\n          theme.palette.primary.main,\n          theme.palette.action.selectedOpacity,\n        ),\n      },\n    },\n    ...theme.applyStyles('dark', {\n      color: theme.palette.grey[300],\n    }),\n  },\n}));\n\nexport default function CustomizedMenus() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <Button\n        id=\"demo-customized-button\"\n        aria-controls={open ? 'demo-customized-menu' : undefined}\n        aria-haspopup=\"true\"\n        aria-expanded={open}\n        variant=\"contained\"\n        disableElevation\n        onClick={handleClick}\n        endIcon={<KeyboardArrowDownIcon />}\n      >\n        Options\n      </Button>\n      <StyledMenu\n        id=\"demo-customized-menu\"\n        slotProps={{\n          list: {\n            'aria-labelledby': 'demo-customized-button',\n          },\n        }}\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n      >\n        <MenuItem onClick={handleClose} disableRipple>\n          <EditIcon />\n          Edit\n        </MenuItem>\n        <MenuItem onClick={handleClose} disableRipple>\n          <FileCopyIcon />\n          Duplicate\n        </MenuItem>\n        <Divider sx={{ my: 0.5 }} />\n        <MenuItem onClick={handleClose} disableRipple>\n          <ArchiveIcon />\n          Archive\n        </MenuItem>\n        <MenuItem onClick={handleClose} disableRipple>\n          <MoreHorizIcon />\n          More\n        </MenuItem>\n      </StyledMenu>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The `MenuItem` is a wrapper around `ListItem` with some additional styles.\nYou can use the same list composition features with the `MenuItem` component:\n\n🎨 If you are looking for inspiration, you can check [MUI Treasury's customization examples](https://mui-treasury.com/primitive/menu)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Max height menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If the height of a menu prevents all menu items from being displayed, the menu can scroll internally."
+    },
+    {
+     "kind": "demo",
+     "name": "LongMenu",
+     "file": "LongMenu.tsx",
+     "code": "import * as React from 'react';\nimport IconButton from '@mui/material/IconButton';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport MoreVertIcon from '@mui/icons-material/MoreVert';\n\nconst options = [\n  'None',\n  'Atria',\n  'Callisto',\n  'Dione',\n  'Ganymede',\n  'Hangouts Call',\n  'Luna',\n  'Oberon',\n  'Phobos',\n  'Pyxis',\n  'Sedna',\n  'Titania',\n  'Triton',\n  'Umbriel',\n];\n\nconst ITEM_HEIGHT = 48;\n\nexport default function LongMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <IconButton\n        aria-label=\"more\"\n        id=\"long-button\"\n        aria-controls={open ? 'long-menu' : undefined}\n        aria-expanded={open}\n        aria-haspopup=\"true\"\n        onClick={handleClick}\n      >\n        <MoreVertIcon />\n      </IconButton>\n      <Menu\n        id=\"long-menu\"\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        slotProps={{\n          paper: {\n            style: {\n              maxHeight: ITEM_HEIGHT * 4.5,\n              width: '20ch',\n            },\n          },\n          list: {\n            'aria-labelledby': 'long-button',\n          },\n        }}\n      >\n        {options.map((option) => (\n          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>\n            {option}\n          </MenuItem>\n        ))}\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Limitations",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "There is [a flexbox bug](https://issues.chromium.org/issues/40344463) that prevents `text-overflow: ellipsis` from working in a flexbox layout.\nYou can use the `Typography` component with `noWrap` to workaround this issue:"
+    },
+    {
+     "kind": "demo",
+     "name": "TypographyMenu",
+     "file": "TypographyMenu.tsx",
+     "code": "import MenuList from '@mui/material/MenuList';\nimport MenuItem from '@mui/material/MenuItem';\nimport Paper from '@mui/material/Paper';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport Typography from '@mui/material/Typography';\nimport DraftsIcon from '@mui/icons-material/Drafts';\nimport SendIcon from '@mui/icons-material/Send';\nimport PriorityHighIcon from '@mui/icons-material/PriorityHigh';\n\nexport default function TypographyMenu() {\n  return (\n    <Paper sx={{ width: 230 }}>\n      <MenuList>\n        <MenuItem>\n          <ListItemIcon>\n            <SendIcon fontSize=\"small\" />\n          </ListItemIcon>\n          <Typography variant=\"inherit\">A short message</Typography>\n        </MenuItem>\n        <MenuItem>\n          <ListItemIcon>\n            <PriorityHighIcon fontSize=\"small\" />\n          </ListItemIcon>\n          <Typography variant=\"inherit\">A very long text that overflows</Typography>\n        </MenuItem>\n        <MenuItem>\n          <ListItemIcon>\n            <DraftsIcon fontSize=\"small\" />\n          </ListItemIcon>\n          <Typography variant=\"inherit\" noWrap>\n            A very long text that overflows\n          </Typography>\n        </MenuItem>\n      </MenuList>\n    </Paper>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Change transition",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `slots.transition` and `slotProps.transition` to use a different transition."
+    },
+    {
+     "kind": "demo",
+     "name": "FadeMenu",
+     "file": "FadeMenu.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport Fade from '@mui/material/Fade';\n\nexport default function FadeMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <Button\n        id=\"fade-button\"\n        aria-controls={open ? 'fade-menu' : undefined}\n        aria-haspopup=\"true\"\n        aria-expanded={open}\n        onClick={handleClick}\n      >\n        Dashboard\n      </Button>\n      <Menu\n        id=\"fade-menu\"\n        slotProps={{\n          list: {\n            'aria-labelledby': 'fade-button',\n          },\n        }}\n        slots={{ transition: Fade }}\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n      >\n        <MenuItem onClick={handleClose}>Profile</MenuItem>\n        <MenuItem onClick={handleClose}>My account</MenuItem>\n        <MenuItem onClick={handleClose}>Logout</MenuItem>\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Context menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of a context menu. (Right click to open.)"
+    },
+    {
+     "kind": "demo",
+     "name": "ContextMenu",
+     "file": "ContextMenu.tsx",
+     "code": "import * as React from 'react';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport Typography from '@mui/material/Typography';\n\nexport default function ContextMenu() {\n  const [contextMenu, setContextMenu] = React.useState<{\n    mouseX: number;\n    mouseY: number;\n  } | null>(null);\n\n  const handleContextMenu = (event: React.MouseEvent) => {\n    event.preventDefault();\n\n    setContextMenu(\n      contextMenu === null\n        ? {\n            mouseX: event.clientX + 2,\n            mouseY: event.clientY - 6,\n          }\n        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu\n          // Other native context menus might behave different.\n          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.\n          null,\n    );\n\n    // Prevent text selection lost after opening the context menu on Safari and Firefox\n    const selection = document.getSelection();\n    if (selection && selection.rangeCount > 0) {\n      const range = selection.getRangeAt(0);\n\n      setTimeout(() => {\n        selection.addRange(range);\n      });\n    }\n  };\n\n  const handleClose = () => {\n    setContextMenu(null);\n  };\n\n  return (\n    <div onContextMenu={handleContextMenu} style={{ cursor: 'context-menu' }}>\n      <Typography>\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum purus,\n        bibendum sit amet vulputate eget, porta semper ligula. Donec bibendum\n        vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed dolor\n        porttitor blandit vel vel purus. Fusce vel malesuada ligula. Nam quis\n        vehicula ante, eu finibus est. Proin ullamcorper fermentum orci, quis finibus\n        massa. Nunc lobortis, massa ut rutrum ultrices, metus metus finibus ex, sit\n        amet facilisis neque enim sed neque. Quisque accumsan metus vel maximus\n        consequat. Suspendisse lacinia tellus a libero volutpat maximus.\n      </Typography>\n      <Menu\n        open={contextMenu !== null}\n        onClose={handleClose}\n        anchorReference=\"anchorPosition\"\n        anchorPosition={\n          contextMenu !== null\n            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }\n            : undefined\n        }\n      >\n        <MenuItem onClick={handleClose}>Copy</MenuItem>\n        <MenuItem onClick={handleClose}>Print</MenuItem>\n        <MenuItem onClick={handleClose}>Highlight</MenuItem>\n        <MenuItem onClick={handleClose}>Email</MenuItem>\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Grouped Menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Display categories with the `ListSubheader` component."
+    },
+    {
+     "kind": "demo",
+     "name": "GroupedMenu",
+     "file": "GroupedMenu.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport ListSubheader from '@mui/material/ListSubheader';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport { styled } from '@mui/material/styles';\n\nconst StyledListHeader = styled(ListSubheader)({\n  backgroundImage: 'var(--Paper-overlay)',\n});\n\nexport default function GroupedMenu() {\n  const id = React.useId();\n  const buttonId = `${id}-button`;\n  const menuId = `${id}-menu`;\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const open = Boolean(anchorEl);\n  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <div>\n      <Button\n        id={buttonId}\n        aria-controls={open ? menuId : undefined}\n        aria-haspopup=\"true\"\n        aria-expanded={open}\n        onClick={handleClick}\n      >\n        Dashboard\n      </Button>\n      <Menu\n        id={menuId}\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        slotProps={{\n          list: {\n            'aria-labelledby': buttonId,\n            sx: {\n              py: 0,\n            },\n          },\n        }}\n      >\n        <StyledListHeader>Category 1</StyledListHeader>\n        <MenuItem onClick={handleClose}>Option 1</MenuItem>\n        <MenuItem onClick={handleClose}>Option 2</MenuItem>\n        <StyledListHeader>Category 2</StyledListHeader>\n        <MenuItem onClick={handleClose}>Option 3</MenuItem>\n        <MenuItem onClick={handleClose}>Option 4</MenuItem>\n      </Menu>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supplementary projects",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For more advanced use cases you might be able to take advantage of:"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "material-ui-popup-state",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "![stars](https://img.shields.io/github/stars/jcoreio/material-ui-popup-state?style=social&label=Star)\n![npm downloads](https://img.shields.io/npm/dm/material-ui-popup-state.svg)\n\nThe package [`material-ui-popup-state`](https://github.com/jcoreio/material-ui-popup-state) that takes care of menu state for you in most cases."
+    },
+    {
+     "kind": "demo",
+     "name": "MenuPopupState",
+     "file": "MenuPopupState.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';\n\nexport default function MenuPopupState() {\n  return (\n    <PopupState variant=\"popover\" popupId=\"demo-popup-menu\">\n      {(popupState) => (\n        <React.Fragment>\n          <Button variant=\"contained\" {...bindTrigger(popupState)}>\n            Dashboard\n          </Button>\n          <Menu {...bindMenu(popupState)}>\n            <MenuItem onClick={popupState.close}>Profile</MenuItem>\n            <MenuItem onClick={popupState.close}>My account</MenuItem>\n            <MenuItem onClick={popupState.close}>Logout</MenuItem>\n          </Menu>\n        </React.Fragment>\n      )}\n    </PopupState>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Menu",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, or a function that returns one. It&#39;s used to set the position of the menu."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code> (Default) will focus the <code>[role=&quot;menu&quot;]</code> if no focusable child is found. Disabled children are not focusable. If you set this prop to <code>false</code> focus will be placed on the parent modal container. This has severe accessibility implications and should only be considered if you manage focus otherwise."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Menu contents, normally <code>MenuItem</code>s."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableAutoFocusItem",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "When opening the menu will not focus the active item but the <code>[role=&quot;menu&quot;]</code> unless <code>autoFocus</code> is also set to <code>false</code>. Not using the default means not following WAI-ARIA authoring practices. Please be considerate about possible accessibility implications."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed."
+    },
+    {
+     "prop": "PopoverClasses",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "<code>classes</code> prop applied to the <a href=\"https://mui.com/material-ui/api/popover/\"><code>Popover</code></a> element."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, list?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, list?: elementType, paper?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The length of the transition in <code>ms</code>, or &#39;auto&#39;"
+    },
+    {
+     "prop": "variant",
+     "type": "'menu'<br>&#124;&nbsp;'selectedMenu'",
+     "default": "'selectedMenu'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Use <code>menu</code> to prevent selected items from impacting the initial focus."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "MenuItem",
+   "description": "",
+   "props": [
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the list item is focused during the first mount. Focus will also be triggered if the value changes from false to true."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used. The prop defaults to the value inherited from the parent Menu component."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the left and right padding is removed."
+    },
+    {
+     "prop": "divider",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a 1px light border is added to the bottom of the menu item."
+    },
+    {
+     "prop": "focusVisibleClassName",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop can help identify which element has keyboard focus. The class name will be applied when the element gains the focus through keyboard interaction. It&#39;s a polyfill for the <a href=\"https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo\">CSS :focus-visible selector</a>. The rationale for using this feature <a href=\"https://github.com/WICG/focus-visible/blob/HEAD/explainer.md\">is explained here</a>. A <a href=\"https://github.com/WICG/focus-visible\">polyfill can be used</a> to apply a <code>focus-visible</code> class to other components if needed."
+    },
+    {
+     "prop": "selected",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is selected. For <code>menuitemcheckbox</code> and <code>menuitemradio</code> roles, this also drives <code>aria-checked</code>."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiMenuItem-dense",
+     "description": "Styles applied to the root element if dense."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "divider",
+     "className": "MuiMenuItem-divider",
+     "description": "Styles applied to the root element if `divider={true}`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the root element if keyboard focused."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiMenuItem-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiMenuItem-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    }
+   ]
+  },
+  {
+   "name": "MenuList",
+   "description": "A permanently displayed menu following https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/.\nIt's exposed to help customization of the [`Menu`](/material-ui/api/menu/) component if you\nuse it separately you need to move focus into the component manually. Once\nthe focus is placed inside the component it is fully keyboard accessible.",
+   "props": [
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, will focus the <code>[role=&quot;menu&quot;]</code> container and move into tab order."
+    },
+    {
+     "prop": "autoFocusItem",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, will focus the first menuitem if <code>variant=&quot;menu&quot;</code> or selected item if <code>variant=&quot;selectedMenu&quot;</code>."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "MenuList contents, normally <code>MenuItem</code>s."
+    },
+    {
+     "prop": "disabledItemsFocusable",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, will allow focus on disabled items."
+    },
+    {
+     "prop": "disableListWrap",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the menu items will not wrap focus."
+    },
+    {
+     "prop": "variant",
+     "type": "'menu'<br>&#124;&nbsp;'selectedMenu'",
+     "default": "'selectedMenu'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Use <code>menu</code> to prevent selected items from impacting the initial focus and the vertical alignment relative to the anchor element."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiMenuList-dense",
+     "description": "Styles applied to the root element if dense."
+    },
+    {
+     "key": "padding",
+     "className": "MuiMenuList-padding",
+     "description": "Styles applied to the root element unless `disablePadding={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiMenuList-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "subheader",
+     "className": "MuiMenuList-subheader",
+     "description": "Styles applied to the root element if a `subheader` is provided."
+    }
+   ]
+  },
+  {
+   "name": "ClickAwayListener",
+   "description": "Listen for click events that occur somewhere in the document, outside of the element itself.\nFor instance, if you need to hide a menu when people click anywhere else on your page.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The wrapped element."
+    },
+    {
+     "prop": "onClickAway",
+     "type": "func",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Callback fired when a &quot;click away&quot; event is detected."
+    },
+    {
+     "prop": "disableReactTree",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the React tree is ignored and only the DOM tree is considered. This prop changes how portaled elements are handled."
+    },
+    {
+     "prop": "mouseEvent",
+     "type": "'onClick'<br>&#124;&nbsp;'onMouseDown'<br>&#124;&nbsp;'onMouseUp'<br>&#124;&nbsp;'onPointerDown'<br>&#124;&nbsp;'onPointerUp'<br>&#124;&nbsp;false",
+     "default": "'onClick'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The mouse event to listen to. You can disable the listener by providing <code>false</code>."
+    },
+    {
+     "prop": "touchEvent",
+     "type": "'onTouchEnd'<br>&#124;&nbsp;'onTouchStart'<br>&#124;&nbsp;false",
+     "default": "'onTouchEnd'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The touch event to listen to. You can disable the listener by providing <code>false</code>."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Popover",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "action",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A ref for imperative actions. It currently only supports updatePosition() action."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, <a href=\"https://mui.com/material-ui/react-popover/#virtual-element\">PopoverVirtualElement</a>, or a function that returns either. It&#39;s used to set the position of the popover."
+    },
+    {
+     "prop": "anchorOrigin",
+     "type": "{ horizontal: 'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;number, vertical: 'bottom'<br>&#124;&nbsp;'center'<br>&#124;&nbsp;'top'<br>&#124;&nbsp;number }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'left',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the point on the anchor where the popover&#39;s <code>anchorEl</code> will attach to. This is not used when the anchorReference is &#39;anchorPosition&#39;.<br>Options: vertical: [top, center, bottom]; horizontal: [left, center, right]."
+    },
+    {
+     "prop": "anchorPosition",
+     "type": "{ left: number, top: number }",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the position that may be used to set the position of the popover. The coordinates are relative to the application&#39;s client area."
+    },
+    {
+     "prop": "anchorReference",
+     "type": "'anchorEl'<br>&#124;&nbsp;'anchorPosition'<br>&#124;&nbsp;'none'",
+     "default": "'anchorEl'",
+     "required": false,
+     "deprecated": false,
+     "desc": "This determines which anchor prop to refer to when setting the position of the popover."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, component instance, or function that returns either. The <code>container</code> will passed to the Modal component.<br>By default, it uses the body of the anchorEl&#39;s top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disableAutoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the modal will not automatically shift focus to itself when it opens, and replace it to the last focused element when it closes. This also works correctly with any modal children that have the <code>disableAutoFocus</code> prop.<br>Generally this should never be set to <code>true</code> as it makes the modal less accessible to assistive technologies, like screen readers."
+    },
+    {
+     "prop": "disableScrollLock",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Disable the scroll lock behavior."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "8",
+     "required": false,
+     "deprecated": false,
+     "desc": "The elevation of the popover."
+    },
+    {
+     "prop": "marginThreshold",
+     "type": "number",
+     "default": "16",
+     "required": false,
+     "deprecated": false,
+     "desc": "Specifies how close to the edge of the window the popover can appear. If null, the popover will not be constrained by the window."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed. The <code>reason</code> parameter can optionally be used to control the response to <code>onClose</code>."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, paper?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transformOrigin",
+     "type": "{ horizontal: 'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;number, vertical: 'bottom'<br>&#124;&nbsp;'center'<br>&#124;&nbsp;'top'<br>&#124;&nbsp;number }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'left',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the point on the popover which will attach to the anchor&#39;s origin.<br>Options: vertical: [top, center, bottom, x(px)]; horizontal: [left, center, right, x(px)]."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Popper",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;object<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, <a href=\"https://popper.js.org/docs/v2/virtual-elements/\">virtualElement</a>, or a function that returns either. It&#39;s used to set the position of the popper. The return value will passed as the reference object of the Popper instance."
+    },
+    {
+     "prop": "children",
+     "type": "node<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper render function or node."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element or function that returns one. The <code>container</code> will have the portal children appended to it.<br>You can also provide a callback, which is called in a React layout effect. This lets you set the container from a ref, and also makes server-side rendering possible.<br>By default, it uses the body of the top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disablePortal",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>children</code> will be under the DOM hierarchy of the parent component."
+    },
+    {
+     "prop": "keepMounted",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Always keep the children in the DOM. This prop can be useful in SEO situation or when you want to maximize the responsiveness of the Popper."
+    },
+    {
+     "prop": "modifiers",
+     "type": "Array&lt;{ data?: object, effect?: func, enabled?: bool, fn?: func, name?: any, options?: object, phase?: 'afterMain'<br>&#124;&nbsp;'afterRead'<br>&#124;&nbsp;'afterWrite'<br>&#124;&nbsp;'beforeMain'<br>&#124;&nbsp;'beforeRead'<br>&#124;&nbsp;'beforeWrite'<br>&#124;&nbsp;'main'<br>&#124;&nbsp;'read'<br>&#124;&nbsp;'write', requires?: Array&lt;string&gt;, requiresIfExists?: Array&lt;string&gt; }&gt;",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper.js is based on a &quot;plugin-like&quot; architecture, most of its features are fully encapsulated &quot;modifiers&quot;.<br>A modifier is a function that is called each time Popper.js needs to compute the position of the popper. For this reason, modifiers should be very performant to avoid bottlenecks. To learn how to create a modifier, <a href=\"https://popper.js.org/docs/v2/modifiers/\">read the modifiers documentation</a>."
+    },
+    {
+     "prop": "placement",
+     "type": "'auto-end'<br>&#124;&nbsp;'auto-start'<br>&#124;&nbsp;'auto'<br>&#124;&nbsp;'bottom-end'<br>&#124;&nbsp;'bottom-start'<br>&#124;&nbsp;'bottom'<br>&#124;&nbsp;'left-end'<br>&#124;&nbsp;'left-start'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right-end'<br>&#124;&nbsp;'right-start'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top-end'<br>&#124;&nbsp;'top-start'<br>&#124;&nbsp;'top'",
+     "default": "'bottom'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper placement."
+    },
+    {
+     "prop": "popperOptions",
+     "type": "{ modifiers?: array, onFirstUpdate?: func, placement?: 'auto-end'<br>&#124;&nbsp;'auto-start'<br>&#124;&nbsp;'auto'<br>&#124;&nbsp;'bottom-end'<br>&#124;&nbsp;'bottom-start'<br>&#124;&nbsp;'bottom'<br>&#124;&nbsp;'left-end'<br>&#124;&nbsp;'left-start'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right-end'<br>&#124;&nbsp;'right-start'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top-end'<br>&#124;&nbsp;'top-start'<br>&#124;&nbsp;'top', strategy?: 'absolute'<br>&#124;&nbsp;'fixed' }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Options provided to the <a href=\"https://popper.js.org/docs/v2/constructors/#options\"><code>Popper.js</code></a> instance."
+    },
+    {
+     "prop": "popperRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A ref that points to the used popper instance."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside the Popper."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside the Popper. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transition",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Help supporting a react-transition-group/Transition component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiPopper-root",
+     "description": "Class name applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-menu/"
+}

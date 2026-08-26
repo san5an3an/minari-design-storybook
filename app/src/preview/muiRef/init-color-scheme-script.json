@@ -1,0 +1,239 @@
+{
+ "slug": "init-color-scheme-script",
+ "title": "InitColorSchemeScript",
+ "group": "Utils",
+ "folder": "init-color-scheme-script",
+ "description": "The InitColorSchemeScript component eliminates dark mode flickering in server-side-rendered applications.",
+ "components": [
+  "InitColorSchemeScript"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# InitColorSchemeScript"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `InitColorSchemeScript` component is used to remove the dark mode flicker that can occur in server-side-rendered (SSR) applications.\nThis script runs before React to attach an attribute based on the user preference so that the correct color mode is applied on first render.\n\nFor the best user experience, you should implement this component in any server-rendered Material UI app that supports both light and dark modes."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "First, enable CSS variables with `colorSchemeSelector: 'data'` in your theme."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "import { ThemeProvider, createTheme } from '@mui/material/styles';\n\nconst theme = createTheme({\n  cssVariables: {\n    colorSchemeSelector: 'data',\n  },\n});\n\nfunction App() {\n  return <ThemeProvider theme={theme}>{/* Your app */}</ThemeProvider>;\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Then, render the `InitColorSchemeScript` component as the first child of the `<body>` tag.\n\nThe sections below detail where to render the `InitColorSchemeScript` component when working with Next.js."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Next.js App Router",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Place the `InitColorSchemeScript` component in the root `layout` file:\n\n```js title=\"src/app/layout.tsx\"\nimport InitColorSchemeScript from '@mui/material/InitColorSchemeScript';\n\nexport default function RootLayout(props: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\" suppressHydrationWarning>\n      <body>\n        <InitColorSchemeScript attribute=\"data\" />\n        {props.children}\n      </body>\n    </html>\n  );\n}\n```"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Next.js Pages Router",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Place the `InitColorSchemeScript` component in a custom `_document` file:\n\n```js title=\"pages/_document.tsx\"\nimport { Html, Head, Main, NextScript } from 'next/document';\nimport InitColorSchemeScript from '@mui/material/InitColorSchemeScript';\n\nexport default function MyDocument(props) {\n  return (\n    <Html lang=\"en\">\n      <Head>{/* tags */}</Head>\n      <body>\n        <InitColorSchemeScript attribute=\"data\" />\n        <Main />\n        <NextScript />\n      </body>\n    </Html>\n  );\n}\n```"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Class attribute",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To attach classes to DOM elements, set the `attribute` prop to `\"class\"`."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "<InitColorSchemeScript attribute=\"class\" />\n"
+    },
+    {
+     "kind": "prose",
+     "text": "This sets the class name on the color scheme node (which defaults to `<html>`) according to the user's system preference."
+    },
+    {
+     "kind": "code",
+     "lang": "html",
+     "text": "<html class=\"dark\"></html>\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Arbitrary attribute",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To attach arbitrary attributes to DOM elements, use `%s` as a placeholder on the `attribute` prop."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "<InitColorSchemeScript attribute=\"[data-theme='%s']\" /> // <html data-theme=\"dark\">\n<InitColorSchemeScript attribute=\".mode-%s\" /> // <html class=\"mode-dark\">\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Default mode",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Set the `defaultMode` prop to specify the default mode when the user first visits the page.\n\nFor example, if you want users to see the dark mode on their first visit, set the `defaultMode` prop to `\"dark\"`."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "<InitColorSchemeScript defaultMode=\"dark\" />\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Caveats",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Attribute",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When customizing the `attribute` prop, make sure to set the `colorSchemeSelector` in the theme to match the attribute you are using."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "const theme = createTheme({\n  cssVariables: {\n    colorSchemeSelector: 'same value as the `attribute` prop',\n  },\n});\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Default mode",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When customizing the `defaultMode` prop, make sure to do the same with the `ThemeProvider` component:"
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "<ThemeProvider theme={theme} defaultMode=\"dark\">\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "InitColorSchemeScript",
+   "description": "",
+   "props": [
+    {
+     "prop": "attribute",
+     "type": "string",
+     "default": "'data-mui-color-scheme'",
+     "required": false,
+     "deprecated": false,
+     "desc": "DOM attribute for applying a color scheme."
+    },
+    {
+     "prop": "colorSchemeNode",
+     "type": "string",
+     "default": "'document.documentElement'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The node (provided as string) used to attach the color-scheme attribute."
+    },
+    {
+     "prop": "colorSchemeStorageKey",
+     "type": "string",
+     "default": "'mui-color-scheme'",
+     "required": false,
+     "deprecated": false,
+     "desc": "localStorage key used to store <code>colorScheme</code>."
+    },
+    {
+     "prop": "defaultDarkColorScheme",
+     "type": "string",
+     "default": "'dark'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The default color scheme to be used in dark mode."
+    },
+    {
+     "prop": "defaultLightColorScheme",
+     "type": "string",
+     "default": "'light'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The default color scheme to be used in light mode."
+    },
+    {
+     "prop": "defaultMode",
+     "type": "'dark'<br>&#124;&nbsp;'light'<br>&#124;&nbsp;'system'",
+     "default": "'system'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The default mode when the storage is empty (user&#39;s first visit)."
+    },
+    {
+     "prop": "modeStorageKey",
+     "type": "string",
+     "default": "'mui-mode'",
+     "required": false,
+     "deprecated": false,
+     "desc": "localStorage key used to store <code>mode</code>."
+    },
+    {
+     "prop": "nonce",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Nonce string to pass to the inline script for CSP headers."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-init-color-scheme-script/"
+}

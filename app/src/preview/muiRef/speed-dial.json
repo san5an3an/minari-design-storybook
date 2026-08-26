@@ -1,0 +1,463 @@
+{
+ "slug": "speed-dial",
+ "title": "Speed Dial",
+ "group": "Navigation",
+ "folder": "speed-dial",
+ "description": "When pressed, a floating action button can display three to six related actions in the form of a Speed Dial.",
+ "components": [
+  "SpeedDial",
+  "SpeedDialAction",
+  "SpeedDialIcon"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If more than six actions are needed, something other than a FAB should be used to present them."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic speed dial",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The floating action button can display related actions."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicSpeedDial",
+     "file": "BasicSpeedDial.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport SpeedDial from '@mui/material/SpeedDial';\nimport SpeedDialIcon from '@mui/material/SpeedDialIcon';\nimport SpeedDialAction from '@mui/material/SpeedDialAction';\nimport FileCopyIcon from '@mui/icons-material/FileCopyOutlined';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport ShareIcon from '@mui/icons-material/Share';\n\nconst actions = [\n  { icon: <FileCopyIcon />, name: 'Copy' },\n  { icon: <SaveIcon />, name: 'Save' },\n  { icon: <PrintIcon />, name: 'Print' },\n  { icon: <ShareIcon />, name: 'Share' },\n];\n\nexport default function BasicSpeedDial() {\n  return (\n    <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>\n      <SpeedDial\n        ariaLabel=\"SpeedDial basic example\"\n        sx={{ position: 'absolute', bottom: 16, right: 16 }}\n        icon={<SpeedDialIcon />}\n      >\n        {actions.map((action) => (\n          <SpeedDialAction\n            key={action.name}\n            icon={action.icon}\n            slotProps={{\n              tooltip: {\n                title: action.name,\n              },\n            }}\n          />\n        ))}\n      </SpeedDial>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Playground",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PlaygroundSpeedDial",
+     "file": "PlaygroundSpeedDial.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport FormControl from '@mui/material/FormControl';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormLabel from '@mui/material/FormLabel';\nimport Radio from '@mui/material/Radio';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport Switch from '@mui/material/Switch';\nimport SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';\nimport SpeedDialIcon from '@mui/material/SpeedDialIcon';\nimport SpeedDialAction from '@mui/material/SpeedDialAction';\nimport FileCopyIcon from '@mui/icons-material/FileCopyOutlined';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport ShareIcon from '@mui/icons-material/Share';\n\nconst StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({\n  position: 'absolute',\n  '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {\n    bottom: theme.spacing(2),\n    right: theme.spacing(2),\n  },\n  '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {\n    top: theme.spacing(2),\n    left: theme.spacing(2),\n  },\n}));\n\nconst actions = [\n  { icon: <FileCopyIcon />, name: 'Copy' },\n  { icon: <SaveIcon />, name: 'Save' },\n  { icon: <PrintIcon />, name: 'Print' },\n  { icon: <ShareIcon />, name: 'Share' },\n];\n\nexport default function PlaygroundSpeedDial() {\n  const [direction, setDirection] =\n    React.useState<SpeedDialProps['direction']>('up');\n  const [hidden, setHidden] = React.useState(false);\n\n  const handleDirectionChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setDirection(\n      (event.target as HTMLInputElement).value as SpeedDialProps['direction'],\n    );\n  };\n\n  const handleHiddenChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setHidden(event.target.checked);\n  };\n\n  return (\n    <Box sx={{ transform: 'translateZ(0px)', flexGrow: 1 }}>\n      <FormControlLabel\n        control={\n          <Switch checked={hidden} onChange={handleHiddenChange} color=\"primary\" />\n        }\n        label=\"Hidden\"\n      />\n      <FormControl component=\"fieldset\" sx={{ mt: 1, display: 'flex' }}>\n        <FormLabel component=\"legend\">Direction</FormLabel>\n        <RadioGroup\n          aria-label=\"direction\"\n          name=\"direction\"\n          value={direction}\n          onChange={handleDirectionChange}\n          row\n        >\n          <FormControlLabel value=\"up\" control={<Radio />} label=\"Up\" />\n          <FormControlLabel value=\"right\" control={<Radio />} label=\"Right\" />\n          <FormControlLabel value=\"down\" control={<Radio />} label=\"Down\" />\n          <FormControlLabel value=\"left\" control={<Radio />} label=\"Left\" />\n        </RadioGroup>\n      </FormControl>\n      <Box sx={{ position: 'relative', mt: 3, height: 320 }}>\n        <StyledSpeedDial\n          ariaLabel=\"SpeedDial playground example\"\n          hidden={hidden}\n          icon={<SpeedDialIcon />}\n          direction={direction}\n        >\n          {actions.map((action) => (\n            <SpeedDialAction\n              key={action.name}\n              icon={action.icon}\n              slotProps={{\n                tooltip: {\n                  title: action.name,\n                },\n              }}\n            />\n          ))}\n        </StyledSpeedDial>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Controlled speed dial",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The open state of the component can be controlled with the `open`/`onOpen`/`onClose` props."
+    },
+    {
+     "kind": "demo",
+     "name": "ControlledOpenSpeedDial",
+     "file": "ControlledOpenSpeedDial.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport SpeedDial from '@mui/material/SpeedDial';\nimport SpeedDialIcon from '@mui/material/SpeedDialIcon';\nimport SpeedDialAction from '@mui/material/SpeedDialAction';\nimport FileCopyIcon from '@mui/icons-material/FileCopyOutlined';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport ShareIcon from '@mui/icons-material/Share';\n\nconst actions = [\n  { icon: <FileCopyIcon />, name: 'Copy' },\n  { icon: <SaveIcon />, name: 'Save' },\n  { icon: <PrintIcon />, name: 'Print' },\n  { icon: <ShareIcon />, name: 'Share' },\n];\n\nexport default function ControlledOpenSpeedDial() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>\n      <SpeedDial\n        ariaLabel=\"SpeedDial controlled open example\"\n        sx={{ position: 'absolute', bottom: 16, right: 16 }}\n        icon={<SpeedDialIcon />}\n        onClose={handleClose}\n        onOpen={handleOpen}\n        open={open}\n      >\n        {actions.map((action) => (\n          <SpeedDialAction\n            key={action.name}\n            icon={action.icon}\n            slotProps={{\n              tooltip: {\n                title: action.name,\n              },\n            }}\n            onClick={handleClose}\n          />\n        ))}\n      </SpeedDial>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Custom close icon",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can provide an alternate icon for the closed and open states using the `icon` and `openIcon` props\nof the `SpeedDialIcon` component."
+    },
+    {
+     "kind": "demo",
+     "name": "OpenIconSpeedDial",
+     "file": "OpenIconSpeedDial.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport SpeedDial from '@mui/material/SpeedDial';\nimport SpeedDialIcon from '@mui/material/SpeedDialIcon';\nimport SpeedDialAction from '@mui/material/SpeedDialAction';\nimport FileCopyIcon from '@mui/icons-material/FileCopyOutlined';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport ShareIcon from '@mui/icons-material/Share';\nimport EditIcon from '@mui/icons-material/Edit';\n\nconst actions = [\n  { icon: <FileCopyIcon />, name: 'Copy' },\n  { icon: <SaveIcon />, name: 'Save' },\n  { icon: <PrintIcon />, name: 'Print' },\n  { icon: <ShareIcon />, name: 'Share' },\n];\n\nexport default function OpenIconSpeedDial() {\n  return (\n    <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>\n      <SpeedDial\n        ariaLabel=\"SpeedDial openIcon example\"\n        sx={{ position: 'absolute', bottom: 16, right: 16 }}\n        icon={<SpeedDialIcon openIcon={<EditIcon />} />}\n      >\n        {actions.map((action) => (\n          <SpeedDialAction\n            key={action.name}\n            icon={action.icon}\n            slotProps={{\n              tooltip: {\n                title: action.name,\n              },\n            }}\n          />\n        ))}\n      </SpeedDial>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Persistent action tooltips",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The SpeedDialActions tooltips can be displayed persistently so that users don't have to long-press to see the tooltip on touch devices.\n\nIt is enabled here across all devices for demo purposes, but in production it could use the `isTouch` logic to conditionally set the prop."
+    },
+    {
+     "kind": "demo",
+     "name": "SpeedDialTooltipOpen",
+     "file": "SpeedDialTooltipOpen.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Backdrop from '@mui/material/Backdrop';\nimport SpeedDial from '@mui/material/SpeedDial';\nimport SpeedDialIcon from '@mui/material/SpeedDialIcon';\nimport SpeedDialAction from '@mui/material/SpeedDialAction';\nimport FileCopyIcon from '@mui/icons-material/FileCopyOutlined';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport ShareIcon from '@mui/icons-material/Share';\n\nconst actions = [\n  { icon: <FileCopyIcon />, name: 'Copy' },\n  { icon: <SaveIcon />, name: 'Save' },\n  { icon: <PrintIcon />, name: 'Print' },\n  { icon: <ShareIcon />, name: 'Share' },\n];\n\nexport default function SpeedDialTooltipOpen() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <Box sx={{ height: 330, transform: 'translateZ(0px)', flexGrow: 1 }}>\n      <Backdrop open={open} />\n      <SpeedDial\n        ariaLabel=\"SpeedDial tooltip example\"\n        sx={{ position: 'absolute', bottom: 16, right: 16 }}\n        icon={<SpeedDialIcon />}\n        onClose={handleClose}\n        onOpen={handleOpen}\n        open={open}\n      >\n        {actions.map((action) => (\n          <SpeedDialAction\n            key={action.name}\n            icon={action.icon}\n            slotProps={{\n              tooltip: {\n                open: true,\n                title: action.name,\n              },\n            }}\n            onClick={handleClose}\n          />\n        ))}\n      </SpeedDial>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Speed Dial uses [Zoom](/material-ui/transitions/#zoom) by default.\nUse `slots.transition` and `slotProps.transition` to replace it with another transition or to pass transition props.\nUse `transitionDuration` to control the timing."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "ARIA",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "#### Required\n\n- You should provide an `ariaLabel` for the speed dial component.\n- You should provide a tooltip title using `slotProps.tooltip.title` for each speed dial action.\n\n#### Provided\n\n- The Fab has `aria-haspopup`, `aria-expanded` and `aria-controls` attributes.\n- The speed dial actions container has `role=\"menu\"` and `aria-orientation` set according to the direction.\n- The speed dial actions have `role=\"menuitem\"`, and an `aria-describedby` attribute that references the associated tooltip."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- The speed dial opens on focus.\n- The Space and Enter keys trigger the selected speed dial action, and toggle the speed dial open state.\n- The cursor keys move focus to the next or previous speed dial action. (Note that any cursor direction can be used initially to open the speed dial. This enables the expected behavior for the actual or perceived orientation of the speed dial, for example for a screen reader user who perceives the speed dial as a drop-down menu.)\n- The Escape key closes the speed dial and, if a speed dial action was focused, returns focus to the Fab."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "SpeedDial",
+   "description": "",
+   "props": [
+    {
+     "prop": "ariaLabel",
+     "type": "string",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The aria-label of the button element. Also used to provide the <code>id</code> for the <code>SpeedDial</code> element and its children."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "SpeedDialActions to display when the SpeedDial is <code>open</code>."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "direction",
+     "type": "'down'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'up'",
+     "default": "'up'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The direction the actions open relative to the floating action button."
+    },
+    {
+     "prop": "FabProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Props applied to the <a href=\"https://mui.com/material-ui/api/fab/\"><code>Fab</code></a> element."
+    },
+    {
+     "prop": "hidden",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the SpeedDial is hidden."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display in the SpeedDial Fab. The <code>SpeedDialIcon</code> component provides a default Icon with animation."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed."
+    },
+    {
+     "prop": "onOpen",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be open."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "openIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display in the SpeedDial Fab when the SpeedDial is open."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": [
+    {
+     "key": "actions",
+     "className": "MuiSpeedDial-actions",
+     "description": "Styles applied to the actions (`children` wrapper) element."
+    },
+    {
+     "key": "actionsClosed",
+     "className": "MuiSpeedDial-actionsClosed",
+     "description": "Styles applied to the actions (`children` wrapper) element if `open={false}`."
+    },
+    {
+     "key": "directionDown",
+     "className": "MuiSpeedDial-directionDown",
+     "description": "Styles applied to the root element if direction=\"down\""
+    },
+    {
+     "key": "directionLeft",
+     "className": "MuiSpeedDial-directionLeft",
+     "description": "Styles applied to the root element if direction=\"left\""
+    },
+    {
+     "key": "directionRight",
+     "className": "MuiSpeedDial-directionRight",
+     "description": "Styles applied to the root element if direction=\"right\""
+    },
+    {
+     "key": "directionUp",
+     "className": "MuiSpeedDial-directionUp",
+     "description": "Styles applied to the root element if direction=\"up\""
+    },
+    {
+     "key": "fab",
+     "className": "MuiSpeedDial-fab",
+     "description": "Styles applied to the Fab component."
+    }
+   ]
+  },
+  {
+   "name": "SpeedDialAction",
+   "description": "",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "delay",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "Adds a transition delay, to allow a series of SpeedDialActions to be animated."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display in the SpeedDial Fab."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop is used to help implement the accessibility logic. If you don&#39;t provide this prop. It falls back to a randomly generated id."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ fab?: func<br>&#124;&nbsp;object, staticTooltip?: func<br>&#124;&nbsp;object, staticTooltipLabel?: func<br>&#124;&nbsp;object, tooltip?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ fab?: elementType, staticTooltip?: elementType, staticTooltipLabel?: elementType, tooltip?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "fabClosed",
+     "className": "MuiSpeedDialAction-fabClosed",
+     "description": "Styles applied to the Fab component if `open={false}`."
+    },
+    {
+     "key": "staticTooltipClosed",
+     "className": "MuiSpeedDialAction-staticTooltipClosed",
+     "description": "Styles applied to the root element if `tooltipOpen={true}` and `open={false}`."
+    },
+    {
+     "key": "tooltipPlacementLeft",
+     "className": "MuiSpeedDialAction-tooltipPlacementLeft",
+     "description": "Styles applied to the root element if `tooltipOpen={true}` and `tooltipPlacement=\"left\"``"
+    },
+    {
+     "key": "tooltipPlacementRight",
+     "className": "MuiSpeedDialAction-tooltipPlacementRight",
+     "description": "Styles applied to the root element if `tooltipOpen={true}` and `tooltipPlacement=\"right\"``"
+    }
+   ]
+  },
+  {
+   "name": "SpeedDialIcon",
+   "description": "",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display."
+    },
+    {
+     "prop": "openIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display in the SpeedDial Floating Action Button when the SpeedDial is open."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "icon",
+     "className": "MuiSpeedDialIcon-icon",
+     "description": "Styles applied to the icon component."
+    },
+    {
+     "key": "iconOpen",
+     "className": "MuiSpeedDialIcon-iconOpen",
+     "description": "Styles applied to the icon component if `open={true}`."
+    },
+    {
+     "key": "iconWithOpenIconOpen",
+     "className": "MuiSpeedDialIcon-iconWithOpenIconOpen",
+     "description": "Styles applied to the icon when an `openIcon` is provided and if `open={true}`."
+    },
+    {
+     "key": "openIcon",
+     "className": "MuiSpeedDialIcon-openIcon",
+     "description": "Styles applied to the `openIcon` if provided."
+    },
+    {
+     "key": "openIconOpen",
+     "className": "MuiSpeedDialIcon-openIconOpen",
+     "description": "Styles applied to the `openIcon` if provided and if `open={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiSpeedDialIcon-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-speed-dial/"
+}

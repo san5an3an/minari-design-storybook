@@ -1,0 +1,711 @@
+{
+ "slug": "calendar",
+ "title": "Calendar",
+ "description": "A container that displays data in calendar form.",
+ "group": "Data Display",
+ "whenToUse": "When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "A basic calendar component with Year/Month switch.",
+   "code": "import React from 'react';\nimport { Calendar } from 'antd';\nimport type { CalendarProps } from 'antd';\nimport type { Dayjs } from 'dayjs';\n\nconst App: React.FC = () => {\n  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {\n    console.log(value.format('YYYY-MM-DD'), mode);\n  };\n\n  return <Calendar onPanelChange={onPanelChange} />;\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Notice Calendar",
+   "description": "This component can be rendered by using `dateCellRender` and `monthCellRender` with the data you need.",
+   "code": "import React from 'react';\nimport type { BadgeProps, CalendarProps } from 'antd';\nimport { Badge, Calendar } from 'antd';\nimport { createStyles } from 'antd-style';\nimport type { Dayjs } from 'dayjs';\n\nconst useStyles = createStyles((props) => {\n  const { prefixCls, css } = props;\n  return {\n    events: css`\n      margin: 0;\n      padding: 0;\n      list-style: none;\n      .${prefixCls}-badge-status {\n        width: 100%;\n        overflow: hidden;\n        font-size: 12px;\n        white-space: nowrap;\n        text-overflow: ellipsis;\n      }\n    `,\n    notesMonth: css`\n      font-size: 28px;\n      text-align: center;\n      section {\n        font-size: 28px;\n      }\n    `,\n  };\n});\n\nconst getListData = (value: Dayjs) => {\n  let listData: { type: string; content: string }[] = []; // Specify the type of listData\n  switch (value.date()) {\n    case 8:\n      listData = [\n        { type: 'warning', content: 'This is warning event.' },\n        { type: 'success', content: 'This is usual event.' },\n      ];\n      break;\n    case 10:\n      listData = [\n        { type: 'warning', content: 'This is warning event.' },\n        { type: 'success', content: 'This is usual event.' },\n        { type: 'error', content: 'This is error event.' },\n      ];\n      break;\n    case 15:\n      listData = [\n        { type: 'warning', content: 'This is warning event' },\n        { type: 'success', content: 'This is very long usual event......' },\n        { type: 'error', content: 'This is error event 1.' },\n        { type: 'error', content: 'This is error event 2.' },\n        { type: 'error', content: 'This is error event 3.' },\n        { type: 'error', content: 'This is error event 4.' },\n      ];\n      break;\n    default:\n      break;\n  }\n  return listData || [];\n};\n\nconst getMonthData = (value: Dayjs) => {\n  if (value.month() === 8) {\n    return 1394;\n  }\n  return undefined;\n};\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n\n  const monthCellRender = (value: Dayjs) => {\n    const num = getMonthData(value);\n    return num ? (\n      <div className={styles.notesMonth}>\n        <section>{num}</section>\n        <span>Backlog number</span>\n      </div>\n    ) : null;\n  };\n\n  const dateCellRender = (value: Dayjs) => {\n    const listData = getListData(value);\n    return (\n      <ul className={styles.events}>\n        {listData.map((item) => (\n          <li key={item.content}>\n            <Badge status={item.type as BadgeProps['status']} text={item.content} />\n          </li>\n        ))}\n      </ul>\n    );\n  };\n\n  const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {\n    if (info.type === 'date') {\n      return dateCellRender(current);\n    }\n    if (info.type === 'month') {\n      return monthCellRender(current);\n    }\n    return info.originNode;\n  };\n\n  return <Calendar cellRender={cellRender} />;\n};\n\nexport default App;",
+   "demoId": "notice-calendar"
+  },
+  {
+   "name": "Event Range",
+   "description": "Render event ranges across days with `cellRender`. The example calculates whether each date is the start, middle, end, or a single-day event and draws compact range bars.",
+   "code": "import React from 'react';\nimport { Calendar, theme } from 'antd';\nimport type { CalendarProps } from 'antd';\nimport { createStyles } from 'antd-style';\nimport { clsx } from 'clsx';\nimport dayjs from 'dayjs';\nimport type { Dayjs } from 'dayjs';\n\nconst useStyle = createStyles(({ cssVar, css }) => {\n  const barRadius = 999;\n\n  const {\n    controlHeight,\n    marginXXS,\n    controlHeightSM,\n    colorTextLightSolid,\n    fontSizeSM,\n    paddingXS,\n    marginXS,\n    paddingXXS,\n  } = cssVar;\n\n  return {\n    itemContent: css`\n      overflow: visible;\n    `,\n    cell: css`\n      min-height: ${controlHeight};\n    `,\n    list: css`\n      display: flex;\n      flex-direction: column;\n      gap: ${marginXXS};\n      margin-top: ${marginXXS};\n    `,\n    bar: css`\n      display: block;\n      height: calc(${controlHeightSM} - ${marginXXS});\n      overflow: hidden;\n      color: ${colorTextLightSolid};\n      font-size: ${fontSizeSM};\n      white-space: nowrap;\n      text-overflow: ellipsis;\n    `,\n    barStart: css`\n      margin-inline-end: calc(-1 * (${paddingXS} + ${marginXS} / 2));\n      padding-inline-start: calc(${paddingXXS} + ${paddingXXS});\n      border-start-start-radius: ${barRadius}px;\n      border-end-start-radius: ${barRadius}px;\n    `,\n    barMiddle: css`\n      margin-inline: calc(-1 * (${paddingXS} + ${marginXS} / 2));\n    `,\n    barEnd: css`\n      margin-inline-start: calc(-1 * (${paddingXS} + ${marginXS} / 2));\n      border-start-end-radius: ${barRadius}px;\n      border-end-end-radius: ${barRadius}px;\n    `,\n    barSingle: css`\n      padding-inline-start: calc(${paddingXXS} + ${paddingXXS});\n      border-radius: ${barRadius}px;\n    `,\n  };\n});\n\nexport interface CalendarEvent {\n  key: string;\n  title: string;\n  start: Dayjs;\n  end: Dayjs;\n  color: string;\n}\n\nconst getEvents = (token: ReturnType<typeof theme.useToken>['token']): CalendarEvent[] => [\n  {\n    key: 'release',\n    title: 'Release window',\n    start: dayjs('2026-01-08'),\n    end: dayjs('2026-01-10'),\n    color: token.colorPrimary,\n  },\n  {\n    key: 'design-review',\n    title: 'Design review',\n    start: dayjs('2026-01-14'),\n    end: dayjs('2026-01-14'),\n    color: token.colorSuccess,\n  },\n  {\n    key: 'maintenance',\n    title: 'Maintenance',\n    start: dayjs('2026-01-21'),\n    end: dayjs('2026-01-24'),\n    color: token.colorWarning,\n  },\n  {\n    key: 'bug-fix',\n    title: 'Bug fix',\n    start: dayjs('2026-01-30'),\n    end: dayjs('2026-01-31'),\n    color: token.colorError,\n  },\n];\n\nconst isInRange = (current: Dayjs, event: CalendarEvent) => {\n  return !current.isBefore(event.start, 'day') && !current.isAfter(event.end, 'day');\n};\n\nconst getRangePosition = (current: Dayjs, event: CalendarEvent) => {\n  const starts = current.isSame(event.start, 'day');\n  const ends = current.isSame(event.end, 'day');\n\n  if (starts && ends) {\n    return 'single';\n  }\n\n  if (starts) {\n    return 'start';\n  }\n\n  if (ends) {\n    return 'end';\n  }\n\n  return 'middle';\n};\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n  const { styles } = useStyle();\n  const events = React.useMemo(() => getEvents(token), [token]);\n\n  const cellRender = React.useCallback<NonNullable<CalendarProps<Dayjs>['cellRender']>>(\n    (current, info) => {\n      if (info.type !== 'date') {\n        return null;\n      }\n\n      const currentEvents = events.filter((event) => isInRange(current, event));\n\n      return (\n        <div className={styles.cell}>\n          <div className={styles.list}>\n            {currentEvents.map((event) => {\n              const position = getRangePosition(current, event);\n              const rangeClassName = {\n                start: styles.barStart,\n                middle: styles.barMiddle,\n                end: styles.barEnd,\n                single: styles.barSingle,\n              }[position];\n              return (\n                <span\n                  key={event.key}\n                  className={clsx(styles.bar, rangeClassName)}\n                  style={{ backgroundColor: event.color }}\n                >\n                  {position === 'start' || position === 'single' ? event.title : null}\n                </span>\n              );\n            })}\n          </div>\n        </div>\n      );\n    },\n    [events, styles],\n  );\n\n  return (\n    <Calendar\n      classNames={{ itemContent: styles.itemContent }}\n      defaultValue={dayjs('2026-01-01')}\n      cellRender={cellRender}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "event-range"
+  },
+  {
+   "name": "Card",
+   "description": "Nested inside a container element for rendering in limited space.",
+   "code": "import React from 'react';\nimport { Calendar, theme } from 'antd';\nimport type { CalendarProps } from 'antd';\nimport type { Dayjs } from 'dayjs';\n\nconst onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {\n  console.log(value.format('YYYY-MM-DD'), mode);\n};\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n\n  const wrapperStyle: React.CSSProperties = {\n    width: 300,\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,\n    borderRadius: token.borderRadiusLG,\n  };\n\n  return (\n    <div style={wrapperStyle}>\n      <Calendar fullscreen={false} onPanelChange={onPanelChange} />\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "card"
+  },
+  {
+   "name": "Selectable Calendar",
+   "description": "A basic calendar component with Year/Month switch.",
+   "code": "import React, { useState } from 'react';\nimport { Alert, Calendar } from 'antd';\nimport type { Dayjs } from 'dayjs';\nimport dayjs from 'dayjs';\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState(() => dayjs('2017-01-25'));\n  const [selectedValue, setSelectedValue] = useState(() => dayjs('2017-01-25'));\n\n  const onSelect = (newValue: Dayjs) => {\n    setValue(newValue);\n    setSelectedValue(newValue);\n  };\n\n  const onPanelChange = (newValue: Dayjs) => {\n    setValue(newValue);\n  };\n\n  return (\n    <>\n      <Alert title={`You selected date: ${selectedValue?.format('YYYY-MM-DD')}`} />\n      <Calendar value={value} onSelect={onSelect} onPanelChange={onPanelChange} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "select"
+  },
+  {
+   "name": "Lunar Calendar",
+   "description": "Display lunar calendar, solar terms and other information.",
+   "code": "import React from 'react';\nimport { Calendar, Col, Radio, Row, Select } from 'antd';\nimport type { CalendarProps } from 'antd';\nimport { createStyles } from 'antd-style';\nimport type { DefaultOptionType } from 'antd/es/select';\nimport { clsx } from 'clsx';\nimport dayjs from 'dayjs';\nimport type { Dayjs } from 'dayjs';\nimport { HolidayUtil, Lunar } from 'lunar-typescript';\n\nconst useStyle = createStyles(({ cssVar, token, css, cx }) => {\n  const lunar = css`\n    color: ${token.colorTextTertiary};\n    font-size: ${token.fontSizeSM}px;\n  `;\n  const weekend = css`\n    color: ${token.colorError};\n    &.gray {\n      opacity: 0.4;\n    }\n  `;\n  return {\n    wrapper: css`\n      width: 450px;\n      border: ${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary};\n      border-radius: ${token.borderRadiusOuter};\n      padding: 5px;\n    `,\n    dateCell: css`\n      position: relative;\n      &:before {\n        content: '';\n        position: absolute;\n        inset-inline-start: 0;\n        inset-inline-end: 0;\n        top: 0;\n        bottom: 0;\n        margin: auto;\n        max-width: 40px;\n        max-height: 40px;\n        background: transparent;\n        transition: background-color ${cssVar.motionDurationSlow};\n        border-radius: ${token.borderRadiusOuter}px;\n        border: ${token.lineWidth}px ${token.lineType} transparent;\n        box-sizing: border-box;\n      }\n      &:hover:before {\n        background: ${token.controlItemBgHover};\n      }\n    `,\n    today: css`\n      &:before {\n        border: ${token.lineWidth}px ${token.lineType} ${token.colorPrimary};\n      }\n    `,\n    text: css`\n      position: relative;\n      z-index: 1;\n    `,\n    lunar,\n    current: css`\n      color: ${token.colorTextLightSolid};\n      &:before {\n        background: ${token.colorPrimary};\n      }\n      &:hover:before {\n        background: ${token.colorPrimary};\n        opacity: 0.8;\n      }\n      .${cx(lunar)} {\n        color: ${token.colorTextLightSolid};\n        opacity: 0.9;\n      }\n      .${cx(weekend)} {\n        color: ${token.colorTextLightSolid};\n      }\n    `,\n    monthCell: css`\n      width: 120px;\n      color: ${token.colorTextBase};\n      border-radius: ${token.borderRadiusOuter}px;\n      padding: 5px 0;\n      &:hover {\n        background: ${token.controlItemBgHover};\n      }\n    `,\n    monthCellCurrent: css`\n      color: ${token.colorTextLightSolid};\n      background: ${token.colorPrimary};\n      &:hover {\n        background: ${token.colorPrimary};\n        opacity: 0.8;\n      }\n    `,\n    weekend,\n  };\n});\n\nconst App: React.FC = () => {\n  const { styles } = useStyle({ test: true });\n\n  const [selectDate, setSelectDate] = React.useState<Dayjs>(() => dayjs());\n  const [panelDate, setPanelDate] = React.useState<Dayjs>(() => dayjs());\n\n  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {\n    console.log(value.format('YYYY-MM-DD'), mode);\n    setPanelDate(value);\n  };\n\n  const onDateChange: CalendarProps<Dayjs>['onSelect'] = (value) => {\n    setSelectDate(value);\n  };\n\n  const cellRender: CalendarProps<Dayjs>['fullCellRender'] = (date, info) => {\n    const d = Lunar.fromDate(date.toDate());\n    const lunar = d.getDayInChinese();\n    const solarTerm = d.getJieQi();\n    const isWeekend = date.day() === 6 || date.day() === 0;\n    const h = HolidayUtil.getHoliday(date.get('year'), date.get('month') + 1, date.get('date'));\n    const displayHoliday = h?.getTarget() === h?.getDay() ? h?.getName() : undefined;\n    if (info.type === 'date') {\n      return React.cloneElement(info.originNode, {\n        ...(info.originNode as React.ReactElement<any>).props,\n        className: clsx(styles.dateCell, {\n          [styles.current]: selectDate.isSame(date, 'date'),\n          [styles.today]: date.isSame(dayjs(), 'date'),\n        }),\n        children: (\n          <div className={styles.text}>\n            <span\n              className={clsx({\n                [styles.weekend]: isWeekend,\n                gray: !panelDate.isSame(date, 'month'),\n              })}\n            >\n              {date.get('date')}\n            </span>\n            {info.type === 'date' && (\n              <div className={styles.lunar}>{displayHoliday || solarTerm || lunar}</div>\n            )}\n          </div>\n        ),\n      });\n    }\n\n    if (info.type === 'month') {\n      // Due to the fact that a solar month is part of the lunar month X and part of the lunar month X+1,\n      // when rendering a month, always take X as the lunar month of the month\n      const d2 = Lunar.fromDate(new Date(date.get('year'), date.get('month')));\n      const month = d2.getMonthInChinese();\n      return (\n        <div\n          className={clsx(styles.monthCell, {\n            [styles.monthCellCurrent]: selectDate.isSame(date, 'month'),\n          })}\n        >\n          {date.get('month') + 1}月（{month}月）\n        </div>\n      );\n    }\n  };\n\n  const getYearLabel = (year: number) => {\n    const d = Lunar.fromDate(new Date(year + 1, 0));\n    return `${d.getYearInChinese()}年（${d.getYearInGanZhi()}${d.getYearShengXiao()}年）`;\n  };\n\n  const getMonthLabel = (month: number, value: Dayjs) => {\n    const d = Lunar.fromDate(new Date(value.year(), month));\n    const lunar = d.getMonthInChinese();\n    return `${month + 1}月（${lunar}月）`;\n  };\n\n  return (\n    <div className={styles.wrapper}>\n      <Calendar\n        fullCellRender={cellRender}\n        fullscreen={false}\n        onPanelChange={onPanelChange}\n        onSelect={onDateChange}\n        headerRender={({ value, type, onChange, onTypeChange }) => {\n          const start = 0;\n          const end = 12;\n          const monthOptions: DefaultOptionType[] = [];\n\n          let current = value.clone();\n          const localeData = value.localeData();\n          const months: dayjs.MonthNames[] = [];\n          for (let i = 0; i < 12; i++) {\n            current = current.month(i);\n            months.push(localeData.monthsShort(current));\n          }\n\n          for (let i = start; i < end; i++) {\n            monthOptions.push({\n              label: getMonthLabel(i, value),\n              value: i,\n            });\n          }\n\n          const year = value.year();\n          const month = value.month();\n          const options: DefaultOptionType[] = [];\n          for (let i = year - 10; i < year + 10; i += 1) {\n            options.push({\n              label: getYearLabel(i),\n              value: i,\n            });\n          }\n          return (\n            <Row justify=\"end\" gutter={8} style={{ padding: 8 }}>\n              <Col>\n                <Select\n                  size=\"small\"\n                  popupMatchSelectWidth={false}\n                  className=\"my-year-select\"\n                  value={year}\n                  options={options}\n                  onChange={(newYear) => {\n                    const now = value.clone().year(newYear);\n                    onChange(now);\n                  }}\n                />\n              </Col>\n              <Col>\n                <Select\n                  size=\"small\"\n                  popupMatchSelectWidth={false}\n                  value={month}\n                  options={monthOptions}\n                  onChange={(newMonth) => {\n                    const now = value.clone().month(newMonth);\n                    onChange(now);\n                  }}\n                />\n              </Col>\n              <Col>\n                <Radio.Group\n                  size=\"small\"\n                  onChange={(e) => onTypeChange(e.target.value)}\n                  value={type}\n                >\n                  <Radio.Button value=\"month\">月</Radio.Button>\n                  <Radio.Button value=\"year\">年</Radio.Button>\n                </Radio.Group>\n              </Col>\n            </Row>\n          );\n        }}\n      />\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "lunar"
+  },
+  {
+   "name": "Show Week",
+   "description": "Show week number in fullscreen calendar by setting `showWeek` prop to `true`.",
+   "code": "import React from 'react';\nimport { Calendar } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Calendar fullscreen showWeek />\n    <br />\n    <Calendar fullscreen={false} showWeek />\n  </>\n);\n\nexport default App;",
+   "demoId": "week"
+  },
+  {
+   "name": "Customize Header",
+   "description": "Customize Calendar header content.",
+   "code": "import React from 'react';\nimport dayjs from 'dayjs';\n\nimport 'dayjs/locale/zh-cn';\n\nimport { Calendar, Flex, Radio, Select, theme, Typography } from 'antd';\nimport type { CalendarProps } from 'antd';\nimport type { Dayjs } from 'dayjs';\nimport dayLocaleData from 'dayjs/plugin/localeData';\n\ndayjs.extend(dayLocaleData);\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n\n  const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {\n    console.log(value.format('YYYY-MM-DD'), mode);\n  };\n\n  const wrapperStyle: React.CSSProperties = {\n    width: 300,\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,\n    borderRadius: token.borderRadiusLG,\n  };\n\n  return (\n    <div style={wrapperStyle}>\n      <Calendar\n        fullscreen={false}\n        headerRender={({ value, type, onChange, onTypeChange }) => {\n          const year = value.year();\n          const month = value.month();\n\n          const yearOptions = Array.from({ length: 20 }, (_, i) => {\n            const label = year - 10 + i;\n            return { label, value: label };\n          });\n\n          const monthOptions = value\n            .localeData()\n            .monthsShort()\n            .map((label, index) => ({\n              label,\n              value: index,\n            }));\n\n          return (\n            <div style={{ padding: 8 }}>\n              <Typography.Title level={4}>Custom header</Typography.Title>\n              <Flex gap={8}>\n                <Radio.Group\n                  size=\"small\"\n                  onChange={(e) => onTypeChange(e.target.value)}\n                  value={type}\n                >\n                  <Radio.Button value=\"month\">Month</Radio.Button>\n                  <Radio.Button value=\"year\">Year</Radio.Button>\n                </Radio.Group>\n                <Select\n                  size=\"small\"\n                  popupMatchSelectWidth={false}\n                  value={year}\n                  options={yearOptions}\n                  onChange={(newYear) => {\n                    const now = value.clone().year(newYear);\n                    onChange(now);\n                  }}\n                />\n                <Select\n                  size=\"small\"\n                  popupMatchSelectWidth={false}\n                  value={month}\n                  options={monthOptions}\n                  onChange={(newMonth) => {\n                    const now = value.clone().month(newMonth);\n                    onChange(now);\n                  }}\n                />\n              </Flex>\n            </div>\n          );\n        }}\n        onPanelChange={onPanelChange}\n      />\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "customize-header"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Calendar by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Calendar, Flex } from 'antd';\nimport type { CalendarProps, GetProp } from 'antd';\nimport { createStyles } from 'antd-style';\nimport type { Dayjs } from 'dayjs';\n\nconst useStyles = createStyles(({ token }) => ({\n  root: {\n    padding: 10,\n    backgroundColor: token.colorPrimaryBg,\n  },\n}));\n\nconst stylesObject: CalendarProps<Dayjs>['styles'] = {\n  root: {\n    borderRadius: 8,\n    width: 600,\n  },\n};\n\nconst stylesFunction: CalendarProps<Dayjs>['styles'] = (\n  info,\n): GetProp<CalendarProps<Dayjs>, 'styles', 'Return'> => {\n  if (info.props.fullscreen) {\n    return {\n      root: {\n        border: '2px solid #BDE3C3',\n        borderRadius: 10,\n        backgroundColor: 'rgba(189,227,195, 0.3)',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n  return (\n    <Flex vertical gap=\"medium\">\n      <Calendar fullscreen={false} classNames={classNames} styles={stylesObject} />\n      <Calendar classNames={classNames} styles={stylesFunction} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "cellRender",
+     "Customize cell content",
+     "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => React.ReactNode",
+     "-",
+     "5.4.0",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "~~dateFullCellRender~~",
+     "Customize the display of the date cell, the returned content will override the cell. Please use `fullCellRender` instead in 5.4.0 and later",
+     "function(date: Dayjs): ReactNode",
+     "-",
+     "< 5.4.0",
+     "×"
+    ],
+    [
+     "fullCellRender",
+     "Customize cell content",
+     "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => React.ReactNode",
+     "-",
+     "5.4.0",
+     "×"
+    ],
+    [
+     "defaultValue",
+     "The date selected by default",
+     "dayjs",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "disabledDate",
+     "Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it (https://github.com/ant-design/ant-design/issues/30987)",
+     "(currentDate: Dayjs) => boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "fullscreen",
+     "Whether to display in full-screen",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "showWeek",
+     "Whether to display week number",
+     "boolean",
+     "false",
+     "5.23.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "headerRender",
+     "Render custom header in panel",
+     "function(object:{value: Dayjs, type: 'year' | 'month', onChange: f(), onTypeChange: f()})",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "locale",
+     "The calendar's locale",
+     "object",
+     "(default)",
+     "—",
+     "×"
+    ],
+    [
+     "mode",
+     "The display mode of the calendar",
+     "`month` | `year`",
+     "month",
+     "—",
+     "×"
+    ],
+    [
+     "validRange",
+     "To set valid range",
+     "\\[dayjs, dayjs]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "The current selected date",
+     "dayjs",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Callback for when date changes",
+     "function(date: Dayjs)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onPanelChange",
+     "Callback for when panel changes",
+     "function(date: Dayjs, mode: string)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSelect",
+     "Callback for when a date is selected, include source info",
+     "function(date: Dayjs, info: { source: 'year' | 'month' | 'date' | 'customize' })",
+     "-",
+     "`info`: 5.6.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "cellRender",
+    "Customize cell content",
+    "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => React.ReactNode",
+    "-",
+    "5.4.0",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "~~dateFullCellRender~~",
+    "Customize the display of the date cell, the returned content will override the cell. Please use `fullCellRender` instead in 5.4.0 and later",
+    "function(date: Dayjs): ReactNode",
+    "-",
+    "< 5.4.0",
+    "×"
+   ],
+   [
+    "fullCellRender",
+    "Customize cell content",
+    "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => React.ReactNode",
+    "-",
+    "5.4.0",
+    "×"
+   ],
+   [
+    "defaultValue",
+    "The date selected by default",
+    "dayjs",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "disabledDate",
+    "Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it (https://github.com/ant-design/ant-design/issues/30987)",
+    "(currentDate: Dayjs) => boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "fullscreen",
+    "Whether to display in full-screen",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "showWeek",
+    "Whether to display week number",
+    "boolean",
+    "false",
+    "5.23.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "headerRender",
+    "Render custom header in panel",
+    "function(object:{value: Dayjs, type: 'year' | 'month', onChange: f(), onTypeChange: f()})",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "locale",
+    "The calendar's locale",
+    "object",
+    "(default)",
+    "—",
+    "×"
+   ],
+   [
+    "mode",
+    "The display mode of the calendar",
+    "`month` | `year`",
+    "month",
+    "—",
+    "×"
+   ],
+   [
+    "validRange",
+    "To set valid range",
+    "\\[dayjs, dayjs]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "The current selected date",
+    "dayjs",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Callback for when date changes",
+    "function(date: Dayjs)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onPanelChange",
+    "Callback for when panel changes",
+    "function(date: Dayjs, mode: string)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSelect",
+    "Callback for when a date is selected, include source info",
+    "function(date: Dayjs, info: { source: 'year' | 'month' | 'date' | 'customize' })",
+    "-",
+    "`info`: 5.6.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "cellRender",
+   "values": [
+    "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start",
+    "end', type: PanelMode, locale?: Locale, subType?: 'hour",
+    "minute",
+    "second",
+    "meridiem' }) => React.ReactNode"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "fullCellRender",
+   "values": [
+    "function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start",
+    "end', type: PanelMode, locale?: Locale, subType?: 'hour",
+    "minute",
+    "second",
+    "meridiem' }) => React.ReactNode"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "mode",
+   "values": [
+    "month",
+    "year"
+   ],
+   "default": "month",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "onSelect",
+   "values": [
+    "function(date: Dayjs, info: { source: 'year",
+    "month",
+    "date",
+    "customize' })"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element containing background, border, border-radius and overall layout structure of the calendar component"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with layout and style control for year selector, month selector and mode switcher"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element with padding and layout control for the calendar table that contains the calendar grid"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Content element with width, height and table styling control for the calendar table"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Item element with background, border, hover state, selected state and other interactive styles for calendar cells"
+   },
+   {
+    "name": "itemContent",
+    "mark": "semantic-mark-itemContent",
+    "description": "Item content element with height, overflow and other style control for custom content area inside calendar cells"
+   }
+  ],
+  "dom": "<div class=\"ant-picker-calendar ant-picker-calendar-full semantic-mark-root css-var-test-id\">\n        <div class=\"ant-picker-calendar-header semantic-mark-header\">\n          <div class=\"ant-select ant-select-outlined ant-picker-calendar-year-select css-var-test-id ant-select-css-var ant-select-single ant-select-show-arrow\">\n            <div class=\"ant-select-content ant-select-content-has-value\" title=\"2016\">\n              2016\n              <input aria-autocomplete=\"list\" aria-expanded=\"false\" aria-haspopup=\"listbox\" autocomplete=\"new-password\" class=\"ant-select-input\" id=\"test-id\" readonly=\"\" role=\"combobox\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"ant-select-suffix\">\n              <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n                </svg>\n              </span>\n            </div>\n          </div>\n          <div class=\"ant-select ant-select-outlined ant-picker-calendar-month-select css-var-test-id ant-select-css-var ant-select-single ant-select-show-arrow\">\n            <div class=\"ant-select-content ant-select-content-has-value\" title=\"Nov\">\n              Nov\n              <input aria-autocomplete=\"list\" aria-expanded=\"false\" aria-haspopup=\"listbox\" autocomplete=\"new-password\" class=\"ant-select-input\" id=\"test-id\" readonly=\"\" role=\"combobox\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"ant-select-suffix\">\n              <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n                </svg>\n              </span>\n            </div>\n          </div>\n          <div class=\"ant-radio-group ant-radio-group-outline ant-picker-calendar-mode-switch css-var-test-id ant-radio-css-var\" role=\"radiogroup\">\n            <label class=\"ant-radio-button-wrapper ant-radio-button-wrapper-checked css-var-test-id ant-radio-css-var\">\n              <span class=\"ant-radio-button ant-radio-button-checked\">\n                <input checked=\"\" class=\"ant-radio-button-input\" name=\"test-id\" type=\"radio\" value=\"month\">\n              </span>\n              <span class=\"ant-radio-button-label\">\n                Month\n              </span>\n            </label>\n            <label class=\"ant-radio-button-wrapper css-var-test-id ant-radio-css-var\">\n              <span class=\"ant-radio-button\">\n                <input class=\"ant-radio-button-input\" name=\"test-id\" type=\"radio\" value=\"year\">\n              </span>\n              <span class=\"ant-radio-button-label\">\n                Year\n              </span>\n            </label>\n          </div>\n        </div>\n        <div class=\"ant-picker-panel\" tabindex=\"0\">\n          <div class=\"ant-picker-date-panel\">\n            <div class=\"ant-picker-body semantic-mark-body\">\n              <table class=\"ant-picker-content semantic-mark-content\">\n                <thead>\n                  <tr>\n                    <th>\n                      Su\n                    </th>\n                    <th>\n                      Mo\n                    </th>\n                    <th>\n                      Tu\n                    </th>\n                    <th>\n                      We\n                    </th>\n                    <th>\n                      Th\n                    </th>\n                    <th>\n                      Fr\n                    </th>\n                    <th>\n                      Sa\n                    </th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-10-30\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          30\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-10-31\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          31\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-01\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          01\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-02\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          02\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-03\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          03\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-04\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          04\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-05\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          05\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-06\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          06\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-07\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          07\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-08\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          08\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-09\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          09\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-10\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          10\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-11\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          11\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-12\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          12\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-13\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          13\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-14\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          14\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-15\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          15\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-16\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          16\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-17\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          17\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-18\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          18\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-19\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          19\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-20\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          20\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-21\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          21\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-selected ant-picker-cell-in-view ant-picker-cell-today\" title=\"2016-11-22\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date ant-picker-calendar-date-today\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          22\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-23\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          23\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-24\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          24\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-25\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          25\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-26\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          26\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-27\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          27\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-28\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          28\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-29\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          29\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item ant-picker-cell-in-view\" title=\"2016-11-30\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          30\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-01\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          01\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-02\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          02\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-03\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          03\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                  <tr>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-04\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          04\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-05\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          05\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-06\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          06\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-07\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          07\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-08\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          08\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-09\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          09\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                    <td class=\"ant-picker-cell semantic-mark-item\" title=\"2016-12-10\">\n                      <div class=\"ant-picker-cell-inner ant-picker-calendar-date\">\n                        <div class=\"ant-picker-calendar-date-value\">\n                          10\n                        </div>\n                        <div class=\"ant-picker-calendar-date-content semantic-mark-itemContent\">\n                      </div>\n                    </div></td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "fullBg",
+     "Background color of full calendar",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "fullPanelBg",
+     "Background color of full calendar panel",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "itemActiveBg",
+     "Background color of selected date item",
+     "string",
+     "#e6f4ff"
+    ],
+    [
+     "miniContentHeight",
+     "Height of mini calendar content",
+     "string | number",
+     "256"
+    ],
+    [
+     "monthControlWidth",
+     "Width of month select",
+     "string | number",
+     "70"
+    ],
+    [
+     "yearControlWidth",
+     "Width of year select",
+     "string | number",
+     "80"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillSecondary",
+     "The second level of fill color can outline the shape of the element more clearly, such as Rate, Skeleton, etc. It can also be used as the Hover state of the third level of fill color, such as Table, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextLightSolid",
+     "Control the highlight color of text with background color, such as the text in Primary Button components.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextTertiary",
+     "The third level of text color is generally used for descriptive text, such as form supplementary explanation text, list descriptive text, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightSM",
+     "SM component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlItemBgActive",
+     "Control the background color of control component item when active.",
+     "string",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthBold",
+     "The default line width of the outline class components, such as Button, Input, Select, etc.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "screenXS",
+     "Control the screen width of extra small screens.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

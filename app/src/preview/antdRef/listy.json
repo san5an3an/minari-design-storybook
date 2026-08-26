@@ -1,0 +1,453 @@
+{
+ "slug": "listy",
+ "title": "Listy",
+ "description": "A high-performance list that supports grouping and can virtualize long data sets.",
+ "group": "Data Display",
+ "whenToUse": "- When you need to render a long list without paying the cost of mounting every row — enable `virtual` to render only the rows in view.\n- When the list needs grouped sections with sticky headers.\n- When you need imperative control over scroll position (jump to an item, a group, or a pixel offset).",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic example.",
+   "code": "import React from 'react';\nimport { Listy } from 'antd';\n\ninterface Item {\n  id: number;\n  content: string;\n}\n\nconst items = Array.from<any, Item>({ length: 20 }, (_, index) => ({\n  id: index,\n  content: `Item ${index}`,\n}));\n\nconst App: React.FC = () => {\n  return <Listy<Item> items={items} height={400} rowKey=\"id\" itemRender={(item) => item.content} />;\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Virtual scrolling",
+   "description": "A long list of 10,000 rows. Set `virtual` and `height` to enable virtual scrolling, so only the rows in view are rendered.",
+   "code": "import React from 'react';\nimport { Listy } from 'antd';\n\ninterface Item {\n  id: number;\n  content: string;\n}\n\nconst items = Array.from<any, Item>({ length: 10000 }, (_, index) => ({\n  id: index,\n  content: `Item ${index}`,\n}));\n\nconst App: React.FC = () => {\n  return (\n    <Listy<Item>\n      virtual\n      items={items}\n      height={400}\n      rowKey=\"id\"\n      itemRender={(item) => item.content}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "virtual"
+  },
+  {
+   "name": "Grouping and sticky headers",
+   "description": "Use `group` to derive a group key from each item and render group headers. With `sticky` enabled, the current group header sticks to the top while scrolling.",
+   "code": "import React from 'react';\nimport { Avatar, Flex, Listy } from 'antd';\n\ninterface Contact {\n  id: number;\n  name: string;\n}\n\nconst names = [\n  'Aaron Baker',\n  'Alice Adams',\n  'Bella Carter',\n  'Brian Diaz',\n  'Chloe Evans',\n  'Colin Foster',\n  'Daisy Garcia',\n  'David Hayes',\n  'Elena Ingram',\n  'Eric Jensen',\n  'Fiona Kim',\n  'Frank Lopez',\n  'Grace Miller',\n  'Gavin Nguyen',\n  'Hannah Ortiz',\n  'Henry Parker',\n  'Iris Quincy',\n  'Ivan Reed',\n  'Jack Smith',\n  'Julia Turner',\n];\n\nconst contacts = names.map<Contact>((name, id) => ({ id, name }));\n\nconst colors = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae', '#87d068'];\n\nconst colorOf = (letter: string) => colors[(letter.charCodeAt(0) - 65) % colors.length];\n\nconst App: React.FC = () => (\n  <Listy<Contact>\n    items={contacts}\n    rowKey=\"id\"\n    height={400}\n    sticky\n    group={{\n      key: (contact) => contact.name[0],\n      title: (letter) => letter,\n    }}\n    itemRender={(contact) => (\n      <Flex align=\"center\" gap=\"small\">\n        <Avatar size=\"small\" style={{ backgroundColor: colorOf(contact.name[0]) }}>\n          {contact.name[0]}\n        </Avatar>\n        {contact.name}\n      </Flex>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "group"
+  },
+  {
+   "name": "Rich content",
+   "description": "`itemRender` can render arbitrarily rich content, and rows do not need the same height.",
+   "code": "import React from 'react';\nimport { Avatar, Flex, Listy, Typography } from 'antd';\n\ninterface Notification {\n  id: number;\n  user: string;\n  message: string;\n  time: string;\n}\n\nconst users = ['Olivia', 'Liam', 'Emma', 'Noah', 'Ava', 'Ethan', 'Sophia', 'Lucas'];\n\nconst messages = [\n  'commented on your merge request',\n  'invited you to the quarterly planning review. Please confirm your availability before Friday so the agenda can be finalized in time.',\n  'mentioned you in the design review thread',\n  'assigned you a task that is due next Monday. It covers the remaining accessibility issues found in the latest audit.',\n  'starred the report you shared yesterday',\n  'requested changes on your pull request. Most of the comments are about naming and the test coverage of the new cache layer.',\n];\n\nconst colors = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];\n\nconst colorOf = (user: string) => colors[users.indexOf(user) % colors.length];\n\nconst pad = (value: number) => String(value).padStart(2, '0');\n\nconst notifications = Array.from<any, Notification>({ length: 12 }, (_, index) => ({\n  id: index,\n  user: users[index % users.length],\n  message: messages[index % messages.length],\n  time: `${pad((8 + index) % 24)}:${pad((index * 17) % 60)}`,\n}));\n\nconst App: React.FC = () => (\n  <Listy<Notification>\n    items={notifications}\n    rowKey=\"id\"\n    height={400}\n    itemRender={(item) => (\n      <Flex gap=\"middle\" align=\"flex-start\">\n        <Avatar style={{ backgroundColor: colorOf(item.user), flex: 'none' }}>\n          {item.user[0]}\n        </Avatar>\n        <Flex vertical flex=\"auto\" style={{ minWidth: 0 }}>\n          <Flex justify=\"space-between\" gap=\"small\">\n            <Typography.Text strong>{item.user}</Typography.Text>\n            <Typography.Text type=\"secondary\">{item.time}</Typography.Text>\n          </Flex>\n          <Typography.Text type=\"secondary\">{item.message}</Typography.Text>\n        </Flex>\n      </Flex>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "rich"
+  },
+  {
+   "name": "Drag sorting",
+   "description": "Implement drag sorting for list items by integrating the third-party library dnd-kit.",
+   "code": "import React, { useState } from 'react';\nimport { HolderOutlined } from '@ant-design/icons';\nimport type { DragEndEvent } from '@dnd-kit/core';\nimport { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';\nimport { restrictToVerticalAxis } from '@dnd-kit/modifiers';\nimport {\n  arrayMove,\n  SortableContext,\n  sortableKeyboardCoordinates,\n  useSortable,\n  verticalListSortingStrategy,\n} from '@dnd-kit/sortable';\nimport { CSS } from '@dnd-kit/utilities';\nimport { Button, Flex, Listy } from 'antd';\n\ninterface Item {\n  id: number;\n  content: string;\n}\n\nconst items = Array.from<any, Item>({ length: 20 }, (_, index) => ({\n  id: index,\n  content: `Item ${index}`,\n}));\n\nconst SortableItem: React.FC<Readonly<Item>> = (props) => {\n  const { id, content } = props;\n\n  const {\n    attributes,\n    listeners,\n    setNodeRef,\n    setActivatorNodeRef,\n    transform,\n    transition,\n    isDragging,\n  } = useSortable({ id });\n\n  const style: React.CSSProperties = {\n    transform: CSS.Translate.toString(transform),\n    transition,\n    ...(isDragging ? { position: 'relative', zIndex: 1 } : {}),\n  };\n\n  return (\n    <Flex ref={setNodeRef} style={style} align=\"center\" gap=\"small\">\n      <Button\n        type=\"text\"\n        size=\"small\"\n        icon={<HolderOutlined />}\n        style={{ cursor: 'move' }}\n        ref={setActivatorNodeRef}\n        {...attributes}\n        {...listeners}\n      />\n      {content}\n    </Flex>\n  );\n};\n\nconst Demo: React.FC = () => {\n  const [data, setData] = useState<Item[]>(items);\n\n  const sensors = useSensors(\n    useSensor(PointerSensor, {\n      activationConstraint: { distance: 1 },\n    }),\n    useSensor(KeyboardSensor, {\n      coordinateGetter: sortableKeyboardCoordinates,\n    }),\n  );\n\n  const onDragEnd = ({ active, over }: DragEndEvent) => {\n    if (!over || active.id === over.id) {\n      return;\n    }\n    setData((prev) => {\n      const activeIndex = prev.findIndex((item) => item.id === active.id);\n      const overIndex = prev.findIndex((item) => item.id === over.id);\n      return arrayMove(prev, activeIndex, overIndex);\n    });\n  };\n\n  return (\n    <DndContext\n      id=\"listy-drag-sorting\"\n      sensors={sensors}\n      modifiers={[restrictToVerticalAxis]}\n      onDragEnd={onDragEnd}\n    >\n      <SortableContext items={data.map((item) => item.id)} strategy={verticalListSortingStrategy}>\n        <Listy<Item>\n          items={data}\n          height={400}\n          rowKey=\"id\"\n          itemRender={(item) => <SortableItem {...item} />}\n        />\n      </SortableContext>\n    </DndContext>\n  );\n};\n\nexport default Demo;",
+   "demoId": "drag-sorting"
+  },
+  {
+   "name": "Infinite loading",
+   "description": "Detect in `onScroll` that the list is about to reach the bottom, then load the next page on demand for endless scrolling. Combined with `virtual`, only the rows in view are rendered no matter how much data piles up.",
+   "code": "import React from 'react';\nimport { Flex, Listy, Spin, Typography } from 'antd';\n\ninterface Item {\n  id: number;\n  content: string;\n}\n\nconst PAGE_SIZE = 50;\n\nconst makePage = (offset: number) =>\n  Array.from<any, Item>({ length: PAGE_SIZE }, (_, index) => ({\n    id: offset + index,\n    content: `Item ${offset + index}`,\n  }));\n\nconst App: React.FC = () => {\n  const [items, setItems] = React.useState<Item[]>(() => makePage(0));\n  const [loading, setLoading] = React.useState(false);\n  const loadingRef = React.useRef(false);\n\n  const onScroll: React.UIEventHandler<HTMLElement> = (event) => {\n    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;\n    if (scrollHeight - scrollTop - clientHeight > 200 || loadingRef.current) {\n      return;\n    }\n    loadingRef.current = true;\n    setLoading(true);\n    setTimeout(() => {\n      setItems((prev) => [...prev, ...makePage(prev.length)]);\n      loadingRef.current = false;\n      setLoading(false);\n    }, 600);\n  };\n\n  return (\n    <Flex vertical gap=\"small\">\n      <Listy<Item>\n        virtual\n        items={items}\n        rowKey=\"id\"\n        height={400}\n        itemRender={(item) => item.content}\n        onScroll={onScroll}\n      />\n      <Flex justify=\"center\" align=\"center\" style={{ height: 24 }}>\n        {loading ? (\n          <Spin size=\"small\" />\n        ) : (\n          <Typography.Text type=\"secondary\">{items.length} items loaded</Typography.Text>\n        )}\n      </Flex>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "infinite"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "Customize the semantic DOM styles of Listy with `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Listy } from 'antd';\nimport type { ListyProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\ninterface User {\n  id: number;\n  name: string;\n  team: string;\n}\n\nconst users: User[] = [\n  { id: 0, name: 'Olivia', team: 'Design' },\n  { id: 1, name: 'Liam', team: 'Design' },\n  { id: 2, name: 'Emma', team: 'Design' },\n  { id: 3, name: 'Noah', team: 'Engineering' },\n  { id: 4, name: 'Ava', team: 'Engineering' },\n  { id: 5, name: 'Ethan', team: 'Engineering' },\n  { id: 6, name: 'Sophia', team: 'Marketing' },\n  { id: 7, name: 'Lucas', team: 'Marketing' },\n];\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border: 1px solid #91caff;\n    border-radius: 8px;\n    overflow: hidden;\n  `,\n  groupHeader: css`\n    color: #1677ff;\n    background: #e6f4ff;\n  `,\n}));\n\nconst styles: ListyProps['styles'] = {\n  item: { fontStyle: 'italic' },\n};\n\nconst App: React.FC = () => (\n  <Listy<User, string>\n    items={users}\n    rowKey=\"id\"\n    height={260}\n    sticky\n    group={{ key: (user) => user.team, title: (team) => team }}\n    itemRender={(user) => user.name}\n    classNames={classNames}\n    styles={styles}\n  />\n);\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Semantic class names",
+     "{ root?, item?, groupHeader? }",
+     "-",
+     "6.6.0",
+     "6.6.0"
+    ],
+    [
+     "group",
+     "Grouping config, see Group below",
+     "Group<T, K>",
+     "-",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "height",
+     "Height of the scroll container; content scrolls when it overflows",
+     "number",
+     "-",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "itemRender",
+     "Render a single row",
+     "(item: T, index: number) => ReactNode",
+     "-",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "items",
+     "Data source of the list",
+     "T[]",
+     "[]",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "rowKey",
+     "Unique key of an item, a field name or a getter",
+     "keyof T | (item: T) => Key",
+     "-",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "sticky",
+     "Whether group headers stick to the top",
+     "boolean",
+     "false",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Semantic inline styles",
+     "{ root?, item?, groupHeader? }",
+     "-",
+     "6.6.0",
+     "6.6.0"
+    ],
+    [
+     "virtual",
+     "Whether to enable virtual scrolling, rendering only rows in view, requires `height`",
+     "boolean",
+     "false",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "onScroll",
+     "Native scroll event handler",
+     "React.UIEventHandler<HTMLElement>",
+     "-",
+     "6.6.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type"
+   ],
+   "rows": [
+    [
+     "key",
+     "Compute the group key an item belongs to; items with the same key are grouped together",
+     "(item: T) => K"
+    ],
+    [
+     "title",
+     "Render the group header; receives the group key and its items",
+     "(groupKey: K, items: T[]) => ReactNode"
+    ]
+   ],
+   "name": "Group"
+  },
+  {
+   "columns": [
+    "Name",
+    "Description",
+    "Type"
+   ],
+   "rows": [
+    [
+     "scrollTo",
+     "Scroll to a position, an item, or a group",
+     "(config?: ListyScrollToConfig) => void"
+    ]
+   ],
+   "name": "Ref"
+  },
+  {
+   "columns": [
+    "Shape",
+    "Description"
+   ],
+   "rows": [
+    [
+     "number",
+     "Scroll to a pixel offset (scrollTop)"
+    ],
+    [
+     "{ top?, left? }",
+     "Scroll to an absolute pixel position"
+    ],
+    [
+     "{ key, align?, offset? }",
+     "Scroll to the item whose `rowKey` matches `key`"
+    ],
+    [
+     "{ groupKey, align?, offset? }",
+     "Scroll to a group header"
+    ]
+   ],
+   "name": "Ref"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Semantic class names",
+    "{ root?, item?, groupHeader? }",
+    "-",
+    "6.6.0",
+    "6.6.0"
+   ],
+   [
+    "group",
+    "Grouping config, see Group below",
+    "Group<T, K>",
+    "-",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "height",
+    "Height of the scroll container; content scrolls when it overflows",
+    "number",
+    "-",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "itemRender",
+    "Render a single row",
+    "(item: T, index: number) => ReactNode",
+    "-",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "items",
+    "Data source of the list",
+    "T[]",
+    "[]",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "rowKey",
+    "Unique key of an item, a field name or a getter",
+    "keyof T | (item: T) => Key",
+    "-",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "sticky",
+    "Whether group headers stick to the top",
+    "boolean",
+    "false",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Semantic inline styles",
+    "{ root?, item?, groupHeader? }",
+    "-",
+    "6.6.0",
+    "6.6.0"
+   ],
+   [
+    "virtual",
+    "Whether to enable virtual scrolling, rendering only rows in view, requires `height`",
+    "boolean",
+    "false",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "onScroll",
+    "Native scroll event handler",
+    "React.UIEventHandler<HTMLElement>",
+    "-",
+    "6.6.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, the scroll container, with font and relative positioning"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Item element, with padding, split line and hover background"
+   },
+   {
+    "name": "groupHeader",
+    "mark": "semantic-mark-groupHeader",
+    "description": "Group header element, with sticky positioning and background color"
+   }
+  ],
+  "dom": "<div class=\"ant-listy semantic-mark-root css-var-test-id ant-listy-css-var\" style=\"overflow-anchor: none; width: 100%;\">\n        <div class=\"ant-listy-group-section\" data-key=\"group:Design\">\n          <div class=\"ant-listy-group-header semantic-mark-groupHeader\">\n            Design\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:0\">\n            Olivia\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:1\">\n            Liam\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:2\">\n            Emma\n          </div>\n        </div>\n        <div class=\"ant-listy-group-section\" data-key=\"group:Engineering\">\n          <div class=\"ant-listy-group-header semantic-mark-groupHeader\">\n            Engineering\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:3\">\n            Noah\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:4\">\n            Ava\n          </div>\n          <div class=\"ant-listy-item semantic-mark-item\" data-key=\"item:5\">\n            Ethan\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "itemPaddingBlock",
+     "Vertical padding of a list item.",
+     "number",
+     "12"
+    ],
+    [
+     "itemPaddingInline",
+     "Horizontal padding of a list item.",
+     "number",
+     "16"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillAlter",
+     "Control the alternative background color of element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillQuaternary",
+     "The weakest level of fill color is suitable for color blocks that are not easy to attract attention, such as zebra stripes, color blocks that distinguish boundaries, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOut",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

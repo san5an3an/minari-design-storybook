@@ -1,0 +1,1086 @@
+{
+ "slug": "mentions",
+ "title": "Mentions",
+ "description": "Used to mention someone or something in an input.",
+ "group": "Data Entry",
+ "whenToUse": "When you need to mention someone or something.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic usage.",
+   "code": "import React from 'react';\nimport { Mentions } from 'antd';\nimport type { GetProp, MentionProps } from 'antd';\n\ntype MentionsOptionProps = GetProp<MentionProps, 'options'>[number];\n\nconst onChange = (value: string) => {\n  console.log('Change:', value);\n};\n\nconst onSelect = (option: MentionsOptionProps) => {\n  console.log('select', option);\n};\n\nconst App: React.FC = () => (\n  <Mentions\n    style={{ width: '100%' }}\n    onChange={onChange}\n    onSelect={onSelect}\n    defaultValue=\"@afc163\"\n    options={[\n      {\n        value: 'afc163',\n        label: 'afc163',\n      },\n      {\n        value: 'zombieJ',\n        label: 'zombieJ',\n      },\n      {\n        value: 'yesmeck',\n        label: 'yesmeck',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Size",
+   "description": "Configure size via `size` property.",
+   "code": "import React from 'react';\nimport { Flex, Mentions } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Mentions size=\"large\" placeholder=\"large size\" />\n    <Mentions placeholder=\"default size\" />\n    <Mentions size=\"small\" placeholder=\"small size\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Variants",
+   "description": "Variants of Mentions, there are four variants: `outlined` `filled` `borderless` and `underlined`.",
+   "code": "import React from 'react';\nimport { Flex, Mentions } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap={12}>\n    <Mentions placeholder=\"Outlined\" />\n    <Mentions placeholder=\"Filled\" variant=\"filled\" />\n    <Mentions placeholder=\"Borderless\" variant=\"borderless\" />\n    <Mentions placeholder=\"Underlined\" variant=\"underlined\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "variant"
+  },
+  {
+   "name": "Asynchronous loading",
+   "description": "async.",
+   "code": "import React, { useCallback, useRef, useState } from 'react';\nimport { Mentions } from 'antd';\nimport { createStyles } from 'antd-style';\nimport debounce from 'lodash/debounce';\n\nconst useStyles = createStyles((props) => {\n  const { css, cssVar } = props;\n  return {\n    optionItem: css`\n      position: relative;\n    `,\n    avatarImage: css`\n      width: 20px;\n      height: 20px;\n      margin-inline-end: ${cssVar.marginXS};\n    `,\n  };\n});\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n\n  const [loading, setLoading] = useState(false);\n  const [users, setUsers] = useState<{ login: string; avatar_url: string }[]>([]);\n  const ref = useRef<string>(null);\n\n  const loadGithubUsers = (key: string) => {\n    if (!key) {\n      setUsers([]);\n      return;\n    }\n\n    fetch(`https://api.github.com/search/users?q=${key}`)\n      .then((res) => res.json())\n      .then(({ items = [] }) => {\n        if (ref.current !== key) {\n          return;\n        }\n        setLoading(false);\n        setUsers(items.slice(0, 10));\n      });\n  };\n\n  const debounceLoadGithubUsers = useCallback(debounce(loadGithubUsers, 800), []);\n\n  const onSearch = (search: string) => {\n    console.log('Search:', search);\n    ref.current = search;\n    setLoading(!!search);\n    setUsers([]);\n\n    debounceLoadGithubUsers(search);\n  };\n\n  return (\n    <Mentions\n      style={{ width: '100%' }}\n      loading={loading}\n      onSearch={onSearch}\n      options={users.map(({ login, avatar_url: avatar }) => ({\n        key: login,\n        value: login,\n        className: styles.optionItem,\n        label: (\n          <>\n            <img\n              className={styles.avatarImage}\n              draggable={false}\n              src={avatar}\n              title={login}\n              alt={login}\n            />\n            <span>{login}</span>\n          </>\n        ),\n      }))}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "async"
+  },
+  {
+   "name": "With Form",
+   "description": "Controlled mode, for example, to work with `Form`.",
+   "code": "import React from 'react';\nimport { Button, Form, Mentions, Space } from 'antd';\n\nconst { getMentions } = Mentions;\n\nconst formItemLayout = {\n  labelCol: { span: 6 },\n  wrapperCol: { span: 16 },\n};\n\nconst App: React.FC = () => {\n  const [form] = Form.useForm();\n\n  const onReset = () => {\n    form.resetFields();\n  };\n\n  const onFinish = async () => {\n    try {\n      const values = await form.validateFields();\n      console.log('Submit:', values);\n    } catch (errInfo) {\n      console.log('Error:', errInfo);\n    }\n  };\n\n  const checkMention = async (_: any, value: string) => {\n    const mentions = getMentions(value);\n\n    if (mentions.length < 2) {\n      throw new Error('More than one must be selected!');\n    }\n  };\n\n  return (\n    <Form form={form} layout=\"horizontal\" onFinish={onFinish} {...formItemLayout}>\n      <Form.Item name=\"coders\" label=\"Top coders\" rules={[{ validator: checkMention }]}>\n        <Mentions\n          rows={1}\n          options={[\n            {\n              value: 'afc163',\n              label: 'afc163',\n            },\n            {\n              value: 'zombieJ',\n              label: 'zombieJ',\n            },\n            {\n              value: 'yesmeck',\n              label: 'yesmeck',\n            },\n          ]}\n        />\n      </Form.Item>\n      <Form.Item name=\"bio\" label=\"Bio\" rules={[{ required: true }]}>\n        <Mentions\n          rows={3}\n          placeholder=\"You can use @ to ref user here\"\n          options={[\n            {\n              value: 'afc163',\n              label: 'afc163',\n            },\n            {\n              value: 'zombieJ',\n              label: 'zombieJ',\n            },\n            {\n              value: 'yesmeck',\n              label: 'yesmeck',\n            },\n          ]}\n        />\n      </Form.Item>\n      <Form.Item label={null}>\n        <Space wrap>\n          <Button htmlType=\"submit\" type=\"primary\">\n            Submit\n          </Button>\n          <Button htmlType=\"button\" onClick={onReset}>\n            Reset\n          </Button>\n        </Space>\n      </Form.Item>\n    </Form>\n  );\n};\n\nexport default App;",
+   "demoId": "form"
+  },
+  {
+   "name": "Customize Trigger Token",
+   "description": "Customize Trigger Token by `prefix` props. Default to `@`, `Array<string>` also supported.",
+   "code": "import React, { useState } from 'react';\nimport { Mentions } from 'antd';\nimport type { MentionsProps } from 'antd';\n\nconst MOCK_DATA = {\n  '@': ['afc163', 'zombiej', 'yesmeck'],\n  '#': ['1.0', '2.0', '3.0'],\n};\n\ntype PrefixType = keyof typeof MOCK_DATA;\n\nconst App: React.FC = () => {\n  const [prefix, setPrefix] = useState<PrefixType>('@');\n\n  const onSearch: MentionsProps['onSearch'] = (_, newPrefix) => {\n    setPrefix(newPrefix as PrefixType);\n  };\n\n  return (\n    <Mentions\n      style={{ width: '100%' }}\n      placeholder=\"input @ to mention people, # to mention tag\"\n      prefix={['@', '#']}\n      onSearch={onSearch}\n      options={(MOCK_DATA[prefix] || []).map((value) => ({\n        key: value,\n        value,\n        label: value,\n      }))}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "prefix"
+  },
+  {
+   "name": "disabled or readOnly",
+   "description": "Configure `disabled` and `readOnly`.",
+   "code": "import React from 'react';\nimport { Mentions } from 'antd';\n\nconst options = ['afc163', 'zombiej', 'yesmeck'].map((value) => ({\n  value,\n  key: value,\n  label: value,\n}));\n\nconst App: React.FC = () => (\n  <>\n    <div style={{ marginBottom: 10 }}>\n      <Mentions\n        style={{ width: '100%' }}\n        placeholder=\"this is disabled Mentions\"\n        disabled\n        options={options}\n      />\n    </div>\n    <Mentions\n      style={{ width: '100%' }}\n      placeholder=\"this is readOnly Mentions\"\n      readOnly\n      options={options}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "readonly"
+  },
+  {
+   "name": "Placement",
+   "description": "Change the suggestions placement.",
+   "code": "import React from 'react';\nimport { Mentions } from 'antd';\n\nconst App: React.FC = () => (\n  <Mentions\n    style={{ width: '100%' }}\n    placement=\"top\"\n    options={[\n      {\n        value: 'afc163',\n        label: 'afc163',\n      },\n      {\n        value: 'zombieJ',\n        label: 'zombieJ',\n      },\n      {\n        value: 'yesmeck',\n        label: 'yesmeck',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Customize Popup",
+   "description": "Customize the dropdown menu rendering via `popupRender`.",
+   "code": "import React from 'react';\nimport { Divider, Mentions, theme } from 'antd';\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n  return (\n    <Mentions\n      style={{ width: '100%' }}\n      popupRender={(menu) => (\n        <>\n          <div\n            style={{\n              padding: `${token.paddingXS}px ${token.paddingSM}px`,\n              fontWeight: token.fontWeightStrong,\n              color: token.colorTextDescription,\n            }}\n          >\n            Custom Header\n          </div>\n          <Divider style={{ margin: `${token.marginXXS}px 0` }} />\n          {menu}\n        </>\n      )}\n      options={[\n        {\n          value: 'afc163',\n          label: 'afc163',\n        },\n        {\n          value: 'zombieJ',\n          label: 'zombieJ',\n        },\n        {\n          value: 'yesmeck',\n          label: 'yesmeck',\n        },\n      ]}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "popuprender"
+  },
+  {
+   "name": "With clear icon",
+   "description": "Customize clear button.",
+   "code": "import React, { useState } from 'react';\nimport { CloseSquareFilled } from '@ant-design/icons';\nimport { Mentions } from 'antd';\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState('hello world');\n  return (\n    <>\n      <Mentions value={value} onChange={setValue} allowClear />\n      <br />\n      <br />\n      <Mentions\n        value={value}\n        onChange={setValue}\n        allowClear={{ clearIcon: <CloseSquareFilled /> }}\n      />\n      <br />\n      <br />\n      <Mentions value={value} onChange={setValue} allowClear rows={3} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "allowclear"
+  },
+  {
+   "name": "autoSize",
+   "description": "Height autoSize.",
+   "code": "import React from 'react';\nimport { Mentions } from 'antd';\n\nconst App: React.FC = () => (\n  <Mentions\n    autoSize\n    style={{ width: '100%' }}\n    options={[\n      {\n        value: 'afc163',\n        label: 'afc163',\n      },\n      {\n        value: 'zombieJ',\n        label: 'zombieJ',\n      },\n      {\n        value: 'yesmeck',\n        label: 'yesmeck',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "autosize"
+  },
+  {
+   "name": "Status",
+   "description": "Add status to Mentions with `status`, which could be `error` or `warning`.",
+   "code": "import React from 'react';\nimport { Mentions, Space } from 'antd';\nimport type { GetProp, MentionProps } from 'antd';\n\ntype MentionsOptionProps = GetProp<MentionProps, 'options'>[number];\n\nconst onChange = (value: string) => {\n  console.log('Change:', value);\n};\n\nconst onSelect = (option: MentionsOptionProps) => {\n  console.log('select', option);\n};\n\nconst App: React.FC = () => {\n  const options = [\n    {\n      value: 'afc163',\n      label: 'afc163',\n    },\n    {\n      value: 'zombieJ',\n      label: 'zombieJ',\n    },\n    {\n      value: 'yesmeck',\n      label: 'yesmeck',\n    },\n  ];\n\n  return (\n    <Space vertical>\n      <Mentions\n        onChange={onChange}\n        onSelect={onSelect}\n        defaultValue=\"@afc163\"\n        status=\"error\"\n        options={options}\n      />\n      <Mentions\n        onChange={onChange}\n        onSelect={onSelect}\n        defaultValue=\"@afc163\"\n        status=\"warning\"\n        options={options}\n      />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Mentions by passing objects/functions through `classNames` and `styles`. For example, set the textarea to be resizable.",
+   "code": "import React from 'react';\nimport { Flex, Mentions } from 'antd';\nimport type { GetProp, MentionsProps } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => ({\n  root: {\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorPrimary}`,\n    borderRadius: token.borderRadiusLG,\n    width: 300,\n  },\n}));\n\nconst options: MentionsProps['options'] = [\n  { value: 'afc163', label: 'afc163' },\n  { value: 'zombieJ', label: 'zombieJ' },\n  { value: 'meet-student', label: 'meet-student' },\n  { value: 'thinkasany', label: 'thinkasany' },\n];\n\nconst stylesObject: MentionsProps['styles'] = {\n  textarea: {\n    fontSize: 14,\n    resize: 'vertical',\n    fontWeight: 200,\n  },\n};\n\nconst stylesFunction: MentionsProps['styles'] = (\n  info,\n): GetProp<MentionsProps, 'styles', 'Return'> => {\n  if (info.props.variant === 'filled') {\n    return {\n      root: {\n        border: '1px solid #722ed1',\n      },\n      popup: {\n        border: '1px solid #722ed1',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n\n  const sharedProps: MentionsProps = {\n    options,\n    classNames,\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Mentions {...sharedProps} styles={stylesObject} placeholder=\"Object\" rows={2} />\n      <Mentions {...sharedProps} styles={stylesFunction} variant=\"filled\" placeholder=\"Function\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "allowClear",
+     "Whether to show a clear icon to remove mentions content",
+     "boolean | { clearIcon?: ReactNode, disabled?: boolean }",
+     "false",
+     "5.13.0, disabled: 6.4.0",
+     "6.4.0"
+    ],
+    [
+     "autoSize",
+     "Textarea height autosize feature, can be set to true | false or an object { minRows: 2, maxRows: 6 }",
+     "boolean | object",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "defaultValue",
+     "Default value",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "filterOption",
+     "Customize filter option logic",
+     "false | (input: string, option: OptionProps) => boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "getPopupContainer",
+     "Set the mount HTML node for suggestions",
+     "() => HTMLElement",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "notFoundContent",
+     "Set mentions content when not match",
+     "ReactNode",
+     "Not Found",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "Set popup placement",
+     "`top` | `bottom`",
+     "bottom",
+     "—",
+     "×"
+    ],
+    [
+     "popupRender",
+     "Customize the dropdown menu rendering",
+     "(menu: React.ReactElement) => ReactNode",
+     "-",
+     "6.6.0",
+     "×"
+    ],
+    [
+     "prefix",
+     "Set trigger prefix keyword",
+     "string | string\\[]",
+     "@",
+     "—",
+     "×"
+    ],
+    [
+     "split",
+     "Set split string before and after selected mention",
+     "string",
+     "—",
+     "—",
+     "×"
+    ],
+    [
+     "size",
+     "The size of the input box",
+     "`large` | `medium` | `small`",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "status",
+     "Set validation status",
+     "'error' | 'warning' | 'success' | 'validating'",
+     "-",
+     "4.19.0",
+     "×"
+    ],
+    [
+     "validateSearch",
+     "Customize trigger search logic",
+     "(text: string, props: MentionsProps) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "Set value of mentions",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "variant",
+     "Variants of Input",
+     "`outlined` | `borderless` | `filled` | `underlined`",
+     "outlined",
+     "5.13.0 | `underlined`: 5.24.0",
+     "5.19.0"
+    ],
+    [
+     "onBlur",
+     "Trigger when mentions lose focus",
+     "() => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Trigger when value changed",
+     "(text: string) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onClear",
+     "Callback when click the clear button",
+     "() => void",
+     "-",
+     "5.20.0",
+     "×"
+    ],
+    [
+     "onFocus",
+     "Trigger when mentions get focus",
+     "() => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onResize",
+     "The callback function that is triggered when textarea resize",
+     "function({ width, height })",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSearch",
+     "Trigger when prefix hit",
+     "(text: string, prefix: string) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSelect",
+     "Trigger when user select the option",
+     "(option: OptionProps, prefix: string) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onPopupScroll",
+     "Trigger when mentions scroll",
+     "(e: Event) => void",
+     "-",
+     "5.23.0",
+     "×"
+    ],
+    [
+     "options",
+     "Option Configuration",
+     "Options",
+     "\\[]",
+     "5.1.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ]
+   ],
+   "name": "Mention"
+  },
+  {
+   "columns": [
+    "Name",
+    "Description"
+   ],
+   "rows": [
+    [
+     "blur()",
+     "Remove focus"
+    ],
+    [
+     "focus()",
+     "Get focus"
+    ]
+   ],
+   "name": "Mention methods"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default"
+   ],
+   "rows": [
+    [
+     "value",
+     "Value inserted when selected",
+     "string",
+     "-"
+    ],
+    [
+     "label",
+     "Title of the option",
+     "React.ReactNode",
+     "-"
+    ],
+    [
+     "key",
+     "The key value of the option",
+     "string",
+     "-"
+    ],
+    [
+     "disabled",
+     "Optional",
+     "boolean",
+     "-"
+    ],
+    [
+     "className",
+     "className",
+     "string",
+     "-"
+    ],
+    [
+     "style",
+     "The style of the option",
+     "React.CSSProperties",
+     "-"
+    ]
+   ],
+   "name": "Option"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "allowClear",
+    "Whether to show a clear icon to remove mentions content",
+    "boolean | { clearIcon?: ReactNode, disabled?: boolean }",
+    "false",
+    "5.13.0, disabled: 6.4.0",
+    "6.4.0"
+   ],
+   [
+    "autoSize",
+    "Textarea height autosize feature, can be set to true | false or an object { minRows: 2, maxRows: 6 }",
+    "boolean | object",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "defaultValue",
+    "Default value",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "filterOption",
+    "Customize filter option logic",
+    "false | (input: string, option: OptionProps) => boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "getPopupContainer",
+    "Set the mount HTML node for suggestions",
+    "() => HTMLElement",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "notFoundContent",
+    "Set mentions content when not match",
+    "ReactNode",
+    "Not Found",
+    "—",
+    "×"
+   ],
+   [
+    "placement",
+    "Set popup placement",
+    "`top` | `bottom`",
+    "bottom",
+    "—",
+    "×"
+   ],
+   [
+    "popupRender",
+    "Customize the dropdown menu rendering",
+    "(menu: React.ReactElement) => ReactNode",
+    "-",
+    "6.6.0",
+    "×"
+   ],
+   [
+    "prefix",
+    "Set trigger prefix keyword",
+    "string | string\\[]",
+    "@",
+    "—",
+    "×"
+   ],
+   [
+    "split",
+    "Set split string before and after selected mention",
+    "string",
+    "—",
+    "—",
+    "×"
+   ],
+   [
+    "size",
+    "The size of the input box",
+    "`large` | `medium` | `small`",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "status",
+    "Set validation status",
+    "'error' | 'warning' | 'success' | 'validating'",
+    "-",
+    "4.19.0",
+    "×"
+   ],
+   [
+    "validateSearch",
+    "Customize trigger search logic",
+    "(text: string, props: MentionsProps) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "Set value of mentions",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "variant",
+    "Variants of Input",
+    "`outlined` | `borderless` | `filled` | `underlined`",
+    "outlined",
+    "5.13.0 | `underlined`: 5.24.0",
+    "5.19.0"
+   ],
+   [
+    "onBlur",
+    "Trigger when mentions lose focus",
+    "() => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Trigger when value changed",
+    "(text: string) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onClear",
+    "Callback when click the clear button",
+    "() => void",
+    "-",
+    "5.20.0",
+    "×"
+   ],
+   [
+    "onFocus",
+    "Trigger when mentions get focus",
+    "() => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onResize",
+    "The callback function that is triggered when textarea resize",
+    "function({ width, height })",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSearch",
+    "Trigger when prefix hit",
+    "(text: string, prefix: string) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSelect",
+    "Trigger when user select the option",
+    "(option: OptionProps, prefix: string) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onPopupScroll",
+    "Trigger when mentions scroll",
+    "(e: Event) => void",
+    "-",
+    "5.23.0",
+    "×"
+   ],
+   [
+    "options",
+    "Option Configuration",
+    "Options",
+    "\\[]",
+    "5.1.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ]
+  ],
+  "name": "Mention"
+ },
+ "variants": [
+  {
+   "prop": "placement",
+   "values": [
+    "top",
+    "bottom"
+   ],
+   "default": "bottom",
+   "owner": "Mention",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "-",
+   "owner": "Mention",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "status",
+   "values": [
+    "error",
+    "warning",
+    "success",
+    "validating"
+   ],
+   "default": "-",
+   "owner": "Mention",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "variant",
+   "values": [
+    "outlined",
+    "borderless",
+    "filled",
+    "underlined"
+   ],
+   "default": "outlined",
+   "owner": "Mention",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, set inline flex layout, relative positioning, padding and border styles"
+   },
+   {
+    "name": "textarea",
+    "mark": "semantic-mark-textarea",
+    "description": "Textarea element, set font, line height, text input and background styles"
+   },
+   {
+    "name": "popup",
+    "mark": "semantic-mark-popup",
+    "description": "Popup element, set absolute positioning, z-index, background color, border radius, shadow and dropdown options styles"
+   },
+   {
+    "name": "suffix",
+    "mark": "semantic-mark-suffix",
+    "description": "Suffix element with layout and styling for suffix content like clear button, etc."
+   }
+  ],
+  "dom": "<div style=\"position: absolute; height: 200px; overflow: hidden;\">\n        <span class=\"ant-mentions-affix-wrapper ant-mentions-outlined ant-mentions css-var-test-id ant-mentions-css-var semantic-mark-root ant-mentions-has-suffix\">\n          <textarea class=\"rc-textarea semantic-mark-textarea\" rows=\"1\">            Hi, @\n          </textarea>\n          <div class=\"ant-mentions-measure\">\n            Hi, \n            <span>\n              @\n            </span>\n            <div class=\"ant-mentions-dropdown semantic-mark-popup css-var-test-id ant-mentions-css-var ant-mentions-dropdown-placement-bottomRight\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box; z-index: 1;\">\n              <ul class=\"ant-mentions-dropdown-menu ant-mentions-dropdown-menu-root ant-mentions-dropdown-menu-vertical\" data-menu-list=\"true\" role=\"menu\" tabindex=\"0\">\n                <li class=\"ant-mentions-dropdown-menu-item ant-mentions-dropdown-menu-item-active\" data-menu-id=\"rc-menu-uuid-afc163-test-id\" role=\"menuitem\" tabindex=\"-1\">\n                  afc163\n                </li>\n                <li class=\"ant-mentions-dropdown-menu-item\" data-menu-id=\"rc-menu-uuid-zombieJ-test-id\" role=\"menuitem\" tabindex=\"-1\">\n                  zombieJ\n                </li>\n                <li class=\"ant-mentions-dropdown-menu-item\" data-menu-id=\"rc-menu-uuid-thinkasany-test-id\" role=\"menuitem\" tabindex=\"-1\">\n                  thinkasany\n                </li>\n                <li class=\"ant-mentions-dropdown-menu-item\" data-menu-id=\"rc-menu-uuid-meet-student-test-id\" role=\"menuitem\" tabindex=\"-1\">\n                  meet-student\n                </li>\n              </ul>\n              <div aria-hidden=\"true\" style=\"display: none;\">\n            </div>\n          </div>\n          <span class=\"ant-mentions-suffix semantic-mark-suffix\">\n            <button class=\"ant-mentions-clear-icon\" type=\"button\">\n              <span aria-label=\"close-circle\" class=\"anticon anticon-close-circle\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"close-circle\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z\"></path>\n                </svg>\n              </span>\n            </button>\n          </span>\n        \n      </div>\n    </span></div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "activeBg",
+     "Background color when the input box is activated",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "activeBorderColor",
+     "Active border color",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "activeShadow",
+     "Box-shadow when active",
+     "string",
+     "0 0 0 2px rgba(5,145,255,0.1)"
+    ],
+    [
+     "addonBg",
+     "Background color of addon",
+     "string",
+     "rgba(0,0,0,0.02)"
+    ],
+    [
+     "controlItemWidth",
+     "Height of menu item",
+     "string | number",
+     "100"
+    ],
+    [
+     "dropdownHeight",
+     "Height of popup",
+     "string | number",
+     "250"
+    ],
+    [
+     "errorActiveShadow",
+     "Box-shadow when active in error status",
+     "string",
+     "0 0 0 2px rgba(255,38,5,0.06)"
+    ],
+    [
+     "hoverBg",
+     "Background color when the input box hovers",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "hoverBorderColor",
+     "Hover border color",
+     "string",
+     "#4096ff"
+    ],
+    [
+     "inputFontSize",
+     "Font size",
+     "number",
+     "14"
+    ],
+    [
+     "inputFontSizeLG",
+     "Font size of large",
+     "number",
+     "16"
+    ],
+    [
+     "inputFontSizeSM",
+     "Font size of small",
+     "number",
+     "14"
+    ],
+    [
+     "paddingBlock",
+     "Vertical padding of input",
+     "number",
+     "4"
+    ],
+    [
+     "paddingBlockLG",
+     "Vertical padding of large input",
+     "number",
+     "7"
+    ],
+    [
+     "paddingBlockSM",
+     "Vertical padding of small input",
+     "number",
+     "0"
+    ],
+    [
+     "paddingInline",
+     "Horizontal padding of input",
+     "number",
+     "11"
+    ],
+    [
+     "paddingInlineLG",
+     "Horizontal padding of large input",
+     "number",
+     "11"
+    ],
+    [
+     "paddingInlineSM",
+     "Horizontal padding of small input",
+     "number",
+     "7"
+    ],
+    [
+     "warningActiveShadow",
+     "Box-shadow when active in warning status",
+     "string",
+     "0 0 0 2px rgba(255,215,5,0.1)"
+    ],
+    [
+     "zIndexPopup",
+     "z-index of popup",
+     "number",
+     "1050"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "boxShadowSecondary",
+     "Control the secondary box shadow style of an element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorderDisabled",
+     "Control the border color of the element in the disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorAffix",
+     "Control the color of form control prefix/suffix in error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBg",
+     "The background color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBgHover",
+     "The hover state background color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBorderHover",
+     "The hover state border color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorText",
+     "The default state of the text in the error color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillSecondary",
+     "The second level of fill color can outline the shape of the element more clearly, such as Rate, Skeleton, etc. It can also be used as the Hover state of the third level of fill color, such as Table, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillTertiary",
+     "The third level of fill color is used to outline the shape of the element, such as Slider, Segmented, etc. If there is no emphasis requirement, it is recommended to use the third level of fill color as the default fill color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextPlaceholder",
+     "Control the color of placeholder text.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextQuaternary",
+     "The fourth level of text color is the lightest text color, such as form input prompt text, disabled color text, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningAffix",
+     "Control the color of form control prefix/suffix in warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBg",
+     "The background color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBgHover",
+     "The hover state background color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBorderHover",
+     "The hover state border color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningText",
+     "The default state of the text in the warning color.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightSM",
+     "SM component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "controlPaddingHorizontal",
+     "Control the horizontal padding of an element.",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

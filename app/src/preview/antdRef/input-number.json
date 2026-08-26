@@ -1,0 +1,1080 @@
+{
+ "slug": "input-number",
+ "title": "InputNumber",
+ "description": "Enter a number within certain range with the mouse or keyboard.",
+ "group": "Data Entry",
+ "whenToUse": "When a numeric value needs to be provided.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Numeric-only input box.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { InputNumber } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst App: React.FC = () => <InputNumber min={1} max={10} defaultValue={3} onChange={onChange} />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Sizes",
+   "description": "There are three sizes available to a numeric input box. By default, the size is `32px`. The two additional sizes are `large` and `small` which means `40px` and `24px`, respectively.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { InputNumber, Space } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst App: React.FC = () => (\n  <Space wrap>\n    <InputNumber size=\"large\" min={1} max={100000} defaultValue={3} onChange={onChange} />\n    <InputNumber min={1} max={100000} defaultValue={3} onChange={onChange} />\n    <InputNumber size=\"small\" min={1} max={100000} defaultValue={3} onChange={onChange} />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Disabled",
+   "description": "Click the button to toggle between available and disabled states.",
+   "code": "import React, { useState } from 'react';\nimport { Button, InputNumber } from 'antd';\n\nconst App: React.FC = () => {\n  const [disabled, setDisabled] = useState(true);\n\n  const toggle = () => {\n    setDisabled(!disabled);\n  };\n\n  return (\n    <>\n      <InputNumber min={1} max={10} disabled={disabled} defaultValue={3} />\n      <div style={{ marginTop: 20 }}>\n        <Button onClick={toggle} type=\"primary\">\n          Toggle disabled\n        </Button>\n      </div>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "High precision decimals",
+   "description": "Use `stringMode` to support high precision decimals support. `onChange` will return string value instead. You need polyfill of BigInt if browser not support.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { InputNumber } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst App: React.FC = () => (\n  <InputNumber<string>\n    style={{ width: 200 }}\n    defaultValue=\"1\"\n    min=\"0\"\n    max=\"10\"\n    step=\"0.00000000000001\"\n    onChange={onChange}\n    stringMode\n  />\n);\n\nexport default App;",
+   "demoId": "digit"
+  },
+  {
+   "name": "Formatter",
+   "description": "Display value within it's situation with `formatter`, and we usually use `parser` at the same time.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { InputNumber, Space } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst formatter: InputNumberProps<number>['formatter'] = (value) => {\n  const [start, end] = `${value}`.split('.') || [];\n  const v = `${start}`.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n  return `$ ${end ? `${v}.${end}` : `${v}`}`;\n};\n\nconst App: React.FC = () => (\n  <Space>\n    <InputNumber<number>\n      defaultValue={1000}\n      formatter={formatter}\n      parser={(value) => value?.replace(/\\$\\s?|(,*)/g, '') as unknown as number}\n      onChange={onChange}\n    />\n    <InputNumber<number>\n      defaultValue={100}\n      min={0}\n      max={100}\n      formatter={(value) => `${value}%`}\n      parser={(value) => value?.replace('%', '') as unknown as number}\n      onChange={onChange}\n    />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "formatter"
+  },
+  {
+   "name": "Keyboard",
+   "description": "Control keyboard behavior by `keyboard`.",
+   "code": "import React, { useState } from 'react';\nimport { Checkbox, InputNumber, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [keyboard, setKeyboard] = useState(true);\n\n  return (\n    <Space>\n      <InputNumber min={1} max={10} keyboard={keyboard} defaultValue={3} />\n      <Checkbox\n        onChange={() => {\n          setKeyboard(!keyboard);\n        }}\n        checked={keyboard}\n      >\n        Toggle keyboard\n      </Checkbox>\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "keyboard"
+  },
+  {
+   "name": "Wheel",
+   "description": "Control with mouse wheel.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { InputNumber } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst onStep: InputNumberProps['onStep'] = (value, info) => {\n  console.log('onStep', value, info);\n};\n\nconst App: React.FC = () => (\n  <InputNumber\n    min={1}\n    max={10}\n    defaultValue={3}\n    onChange={onChange}\n    onStep={onStep}\n    changeOnWheel\n  />\n);\n\nexport default App;",
+   "demoId": "change-on-wheel"
+  },
+  {
+   "name": "Variants",
+   "description": "Variants of InputNumber, there are four variants: `outlined` `filled` `borderless` and `underlined`.",
+   "code": "import React from 'react';\nimport { Flex, InputNumber } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap={12}>\n    <InputNumber placeholder=\"Outlined\" style={{ width: 200 }} />\n    <InputNumber placeholder=\"Filled\" variant=\"filled\" style={{ width: 200 }} />\n    <InputNumber placeholder=\"Borderless\" variant=\"borderless\" style={{ width: 200 }} />\n    <InputNumber placeholder=\"Underlined\" variant=\"underlined\" style={{ width: 200 }} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "variant"
+  },
+  {
+   "name": "Spinner",
+   "description": "Digit spinner.",
+   "code": "import React from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { Flex, InputNumber } from 'antd';\n\nconst onChange: InputNumberProps['onChange'] = (value) => {\n  console.log('changed', value);\n};\n\nconst sharedProps = {\n  mode: 'spinner' as const,\n  min: 1,\n  max: 10,\n  defaultValue: 3,\n  onChange,\n  style: { width: 150 },\n};\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <InputNumber {...sharedProps} placeholder=\"Outlined\" />\n    <InputNumber {...sharedProps} variant=\"filled\" placeholder=\"Filled\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "spinner"
+  },
+  {
+   "name": "Out of range",
+   "description": "Show warning style when `value` is out of range by control.",
+   "code": "import React, { useState } from 'react';\nimport { Button, InputNumber, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string | number | null>('99');\n\n  return (\n    <Space>\n      <InputNumber min={1} max={10} value={value} onChange={setValue} />\n      <Button\n        type=\"primary\"\n        onClick={() => {\n          setValue(99);\n        }}\n      >\n        Reset\n      </Button>\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "out-of-range"
+  },
+  {
+   "name": "Prefix / Suffix",
+   "description": "Add a prefix or suffix inside input.",
+   "code": "import React from 'react';\nimport { UserOutlined } from '@ant-design/icons';\nimport { Flex, InputNumber, Space } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <InputNumber prefix=\"￥\" style={{ width: '100%' }} />\n\n    <Space.Compact block>\n      <Space.Addon>\n        <UserOutlined />\n      </Space.Addon>\n      <InputNumber prefix=\"￥\" style={{ width: '100%' }} />\n    </Space.Compact>\n\n    <InputNumber prefix=\"￥\" disabled style={{ width: '100%' }} />\n\n    <InputNumber suffix=\"RMB\" style={{ width: '100%' }} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "presuffix"
+  },
+  {
+   "name": "Status",
+   "description": "Add status to InputNumber with `status`, which could be `error` or `warning`.",
+   "code": "import React from 'react';\nimport ClockCircleOutlined from '@ant-design/icons/ClockCircleOutlined';\nimport { InputNumber, Space } from 'antd';\n\nconst App: React.FC = () => (\n  <Space vertical style={{ width: '100%' }}>\n    <InputNumber status=\"error\" style={{ width: '100%' }} />\n    <InputNumber status=\"warning\" style={{ width: '100%' }} />\n    <InputNumber status=\"error\" style={{ width: '100%' }} prefix={<ClockCircleOutlined />} />\n    <InputNumber status=\"warning\" style={{ width: '100%' }} prefix={<ClockCircleOutlined />} />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "Focus",
+   "description": "Focus with additional option.",
+   "code": "import React, { useRef } from 'react';\nimport type { GetRef } from 'antd';\nimport { Button, InputNumber, Space } from 'antd';\n\ntype InputNumberRef = GetRef<typeof InputNumber>;\n\nconst App: React.FC = () => {\n  const inputRef = useRef<InputNumberRef>(null);\n  return (\n    <Space vertical style={{ width: '100%' }}>\n      <Space wrap>\n        <Button\n          onClick={() => {\n            inputRef.current?.focus({ cursor: 'start' });\n          }}\n        >\n          Focus at first\n        </Button>\n        <Button\n          onClick={() => {\n            inputRef.current?.focus({ cursor: 'end' });\n          }}\n        >\n          Focus at last\n        </Button>\n        <Button\n          onClick={() => {\n            inputRef.current?.focus({ cursor: 'all' });\n          }}\n        >\n          Focus to select all\n        </Button>\n        <Button\n          onClick={() => {\n            inputRef.current?.focus({ preventScroll: true });\n          }}\n        >\n          Focus prevent scroll\n        </Button>\n      </Space>\n      <InputNumber style={{ width: '100%' }} defaultValue={999} ref={inputRef} />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "focus"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of the InputNumber by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, InputNumber } from 'antd';\nimport type { GetProp, InputNumberProps } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyle = createStyles(({ token }) => ({\n  root: {\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorPrimary}`,\n    borderRadius: token.borderRadiusLG,\n    width: 200,\n  },\n}));\n\nconst stylesObject: InputNumberProps['styles'] = {\n  input: {\n    fontSize: 14,\n  },\n};\n\nconst stylesFn: InputNumberProps['styles'] = ({\n  props,\n}): GetProp<InputNumberProps, 'styles', 'Return'> => {\n  if (props.size === 'large') {\n    return {\n      root: {\n        backgroundColor: 'rgba(250,250,250, 0.5)',\n        borderColor: '#722ed1',\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyle();\n  const sharedProps: InputNumberProps = {\n    classNames,\n  };\n  return (\n    <Flex vertical gap=\"medium\">\n      <InputNumber {...sharedProps} styles={stylesObject} placeholder=\"Object\" />\n      <InputNumber {...sharedProps} styles={stylesFn} placeholder=\"Function\" size=\"large\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "~~addonAfter~~",
+     "The label text displayed after (on the right side of) the input field, please use Space.Compact instead",
+     "ReactNode",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "~~addonBefore~~",
+     "The label text displayed before (on the left side of) the input field, please use Space.Compact instead",
+     "ReactNode",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "changeOnBlur",
+     "Trigger `onChange` when blur. e.g. reset value in range by blur",
+     "boolean",
+     "true",
+     "5.11.0",
+     "×"
+    ],
+    [
+     "changeOnWheel",
+     "Allows control with mouse wheel",
+     "boolean",
+     "-",
+     "5.14.0",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "controls",
+     "Whether to show `+-` controls, or set custom arrow icons",
+     "boolean | { upIcon?: React.ReactNode; downIcon?: React.ReactNode; }",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "decimalSeparator",
+     "Decimal separator",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "placeholder",
+     "Placeholder",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "defaultValue",
+     "The initial value",
+     "number",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "disabled",
+     "If the input is disabled",
+     "boolean",
+     "false",
+     "-",
+     "×"
+    ],
+    [
+     "formatter",
+     "Specifies the format of the value presented",
+     "function(value: number | string, info: { userTyping: boolean, input: string }): string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "keyboard",
+     "If keyboard behavior is enabled",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "max",
+     "The max value",
+     "number",
+     "Number.MAX_SAFE_INTEGER",
+     "-",
+     "×"
+    ],
+    [
+     "min",
+     "The min value",
+     "number",
+     "Number.MIN_SAFE_INTEGER",
+     "-",
+     "×"
+    ],
+    [
+     "parser",
+     "Specifies the value extracted from formatter",
+     "function(string): number",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "precision",
+     "The precision of input value. Will use `formatter` when config of `formatter`",
+     "number",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "readOnly",
+     "If the input is readonly",
+     "boolean",
+     "false",
+     "-",
+     "×"
+    ],
+    [
+     "status",
+     "Set validation status",
+     "'error' | 'warning'",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "prefix",
+     "The prefix icon for the Input",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "suffix",
+     "The suffix icon for the Input",
+     "ReactNode",
+     "-",
+     "5.20.0",
+     "×"
+    ],
+    [
+     "size",
+     "The height of input box",
+     "`large` | `medium` | `small`",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "step",
+     "The number to which the current value is increased or decreased. It can be an integer or decimal",
+     "number | string",
+     "1",
+     "-",
+     "×"
+    ],
+    [
+     "stringMode",
+     "Set value as string to support high precision decimals. Will return string value by `onChange`",
+     "boolean",
+     "false",
+     "4.13.0",
+     "×"
+    ],
+    [
+     "mode",
+     "Show input or spinner",
+     "'input' | 'spinner'",
+     "'input'",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "The current value of the component",
+     "number",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "variant",
+     "Variants of Input",
+     "`outlined` | `borderless` | `filled` | `underlined`",
+     "outlined",
+     "5.13.0 | `underlined`: 5.24.0",
+     "5.19.0"
+    ],
+    [
+     "onChange",
+     "The callback triggered when the value is changed",
+     "function(value: number | string | null)",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "onPressEnter",
+     "The callback function that is triggered when Enter key is pressed",
+     "function(e)",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "onStep",
+     "The callback function that is triggered when click up or down buttons / Keyboard / Wheel",
+     "(value: number, info: { offset: number, type: 'up' | 'down', emitter: 'handler' | 'keydown' | 'wheel' }) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~bordered~~",
+     "Whether has border style, please use `variant` instead",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "~~addonAfter~~",
+    "The label text displayed after (on the right side of) the input field, please use Space.Compact instead",
+    "ReactNode",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "~~addonBefore~~",
+    "The label text displayed before (on the left side of) the input field, please use Space.Compact instead",
+    "ReactNode",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "changeOnBlur",
+    "Trigger `onChange` when blur. e.g. reset value in range by blur",
+    "boolean",
+    "true",
+    "5.11.0",
+    "×"
+   ],
+   [
+    "changeOnWheel",
+    "Allows control with mouse wheel",
+    "boolean",
+    "-",
+    "5.14.0",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "controls",
+    "Whether to show `+-` controls, or set custom arrow icons",
+    "boolean | { upIcon?: React.ReactNode; downIcon?: React.ReactNode; }",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "decimalSeparator",
+    "Decimal separator",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "placeholder",
+    "Placeholder",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "defaultValue",
+    "The initial value",
+    "number",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "disabled",
+    "If the input is disabled",
+    "boolean",
+    "false",
+    "-",
+    "×"
+   ],
+   [
+    "formatter",
+    "Specifies the format of the value presented",
+    "function(value: number | string, info: { userTyping: boolean, input: string }): string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "keyboard",
+    "If keyboard behavior is enabled",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "max",
+    "The max value",
+    "number",
+    "Number.MAX_SAFE_INTEGER",
+    "-",
+    "×"
+   ],
+   [
+    "min",
+    "The min value",
+    "number",
+    "Number.MIN_SAFE_INTEGER",
+    "-",
+    "×"
+   ],
+   [
+    "parser",
+    "Specifies the value extracted from formatter",
+    "function(string): number",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "precision",
+    "The precision of input value. Will use `formatter` when config of `formatter`",
+    "number",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "readOnly",
+    "If the input is readonly",
+    "boolean",
+    "false",
+    "-",
+    "×"
+   ],
+   [
+    "status",
+    "Set validation status",
+    "'error' | 'warning'",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "prefix",
+    "The prefix icon for the Input",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "suffix",
+    "The suffix icon for the Input",
+    "ReactNode",
+    "-",
+    "5.20.0",
+    "×"
+   ],
+   [
+    "size",
+    "The height of input box",
+    "`large` | `medium` | `small`",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "step",
+    "The number to which the current value is increased or decreased. It can be an integer or decimal",
+    "number | string",
+    "1",
+    "-",
+    "×"
+   ],
+   [
+    "stringMode",
+    "Set value as string to support high precision decimals. Will return string value by `onChange`",
+    "boolean",
+    "false",
+    "4.13.0",
+    "×"
+   ],
+   [
+    "mode",
+    "Show input or spinner",
+    "'input' | 'spinner'",
+    "'input'",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "The current value of the component",
+    "number",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "variant",
+    "Variants of Input",
+    "`outlined` | `borderless` | `filled` | `underlined`",
+    "outlined",
+    "5.13.0 | `underlined`: 5.24.0",
+    "5.19.0"
+   ],
+   [
+    "onChange",
+    "The callback triggered when the value is changed",
+    "function(value: number | string | null)",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "onPressEnter",
+    "The callback function that is triggered when Enter key is pressed",
+    "function(e)",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "onStep",
+    "The callback function that is triggered when click up or down buttons / Keyboard / Wheel",
+    "(value: number, info: { offset: number, type: 'up' | 'down', emitter: 'handler' | 'keydown' | 'wheel' }) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~bordered~~",
+    "Whether has border style, please use `variant` instead",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "status",
+   "values": [
+    "error",
+    "warning"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "mode",
+   "values": [
+    "input",
+    "spinner"
+   ],
+   "default": "'input'",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "variant",
+   "values": [
+    "outlined",
+    "borderless",
+    "filled",
+    "underlined"
+   ],
+   "default": "outlined",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, sets inline-block layout, width, border radius and reset styles"
+   },
+   {
+    "name": "input",
+    "mark": "semantic-mark-input",
+    "description": "Input element, sets font, line height, text input and interaction styles"
+   },
+   {
+    "name": "prefix",
+    "mark": "semantic-mark-prefix",
+    "description": "Prefix wrapper element, sets flex layout, alignment and right margin styles"
+   },
+   {
+    "name": "suffix",
+    "mark": "semantic-mark-suffix",
+    "description": "Suffix wrapper element, sets flex layout, margin and transition animation styles"
+   },
+   {
+    "name": "action",
+    "mark": "semantic-mark-action",
+    "description": "Single action button element, sets button styling, hover effects and click interactions"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "Actions element, sets absolute positioning, width, flex layout and number adjustment button styles"
+   }
+  ],
+  "dom": "<div style=\"display: flex; flex-direction: column; gap: 16px;\">\n        <div class=\"ant-input-number ant-input-number-mode-input css-var-test-id ant-input-number-css-var semantic-mark-root ant-input-number-outlined semantic-mark-root\" style=\"width: 200px;\">\n          <div class=\"ant-input-number-prefix semantic-mark-prefix\">\n            ￥\n          </div>\n          <input aria-valuenow=\"100\" autocomplete=\"off\" class=\"ant-input-number-input semantic-mark-input\" role=\"spinbutton\" step=\"1\" value=\"100\">\n          <div class=\"ant-input-number-suffix semantic-mark-suffix\" style=\"margin-inline-end: 28px;\">\n            RMB\n          </div>\n          <div class=\"ant-input-number-actions semantic-mark-actions\" style=\"opacity: 1; width: 24px;\">\n            <span aria-disabled=\"false\" aria-label=\"Increase Value\" class=\"ant-input-number-action ant-input-number-action-up semantic-mark-action\" role=\"button\" unselectable=\"on\">\n              <span aria-label=\"up\" class=\"anticon anticon-up\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"up\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z\"></path>\n                </svg>\n              </span>\n            </span>\n            <span aria-disabled=\"false\" aria-label=\"Decrease Value\" class=\"ant-input-number-action ant-input-number-action-down semantic-mark-action\" role=\"button\" unselectable=\"on\">\n              <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n                </svg>\n              </span>\n            </span>\n          </div>\n        </div>\n        <div class=\"ant-input-number ant-input-number-mode-spinner css-var-test-id ant-input-number-css-var semantic-mark-root ant-input-number-outlined semantic-mark-root\" style=\"width: 200px;\">\n          <span aria-disabled=\"false\" aria-label=\"Decrease Value\" class=\"ant-input-number-action ant-input-number-action-down semantic-mark-action\" role=\"button\" unselectable=\"on\">\n            <span aria-label=\"minus\" class=\"anticon anticon-minus\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"minus\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M872 474H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h720c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z\"></path>\n              </svg>\n            </span>\n          </span>\n          <input aria-valuenow=\"100\" autocomplete=\"off\" class=\"ant-input-number-input semantic-mark-input\" role=\"spinbutton\" step=\"1\" value=\"100\">\n          <span aria-disabled=\"false\" aria-label=\"Increase Value\" class=\"ant-input-number-action ant-input-number-action-up semantic-mark-action\" role=\"button\" unselectable=\"on\">\n            <span aria-label=\"plus\" class=\"anticon anticon-plus\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"plus\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z\"></path>\n                <path d=\"M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z\"></path>\n              </svg>\n            </span>\n          </span>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "activeBg",
+     "Background color when the input box is activated",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "activeBorderColor",
+     "Active border color",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "activeShadow",
+     "Box-shadow when active",
+     "string",
+     "0 0 0 2px rgba(5,145,255,0.1)"
+    ],
+    [
+     "addonBg",
+     "Background color of addon",
+     "string",
+     "rgba(0,0,0,0.02)"
+    ],
+    [
+     "controlWidth",
+     "Width of input",
+     "number",
+     "90"
+    ],
+    [
+     "errorActiveShadow",
+     "Box-shadow when active in error status",
+     "string",
+     "0 0 0 2px rgba(255,38,5,0.06)"
+    ],
+    [
+     "filledHandleBg",
+     "Background color of handle in filled variant",
+     "string",
+     "#f0f0f0"
+    ],
+    [
+     "handleActiveBg",
+     "Active background color of handle",
+     "string",
+     "rgba(0,0,0,0.02)"
+    ],
+    [
+     "handleBg",
+     "Background color of handle",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "handleBorderColor",
+     "Border color of handle",
+     "string",
+     "#d9d9d9"
+    ],
+    [
+     "handleFontSize",
+     "Icon size of control button",
+     "number",
+     "7"
+    ],
+    [
+     "handleHoverColor",
+     "Hover color of handle",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "handleVisible",
+     "Handle visible",
+     "true | \"auto\"",
+     "auto"
+    ],
+    [
+     "handleWidth",
+     "Width of control button",
+     "number",
+     "22"
+    ],
+    [
+     "hoverBg",
+     "Background color when the input box hovers",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "hoverBorderColor",
+     "Hover border color",
+     "string",
+     "#4096ff"
+    ],
+    [
+     "inputFontSize",
+     "Font size",
+     "number",
+     "14"
+    ],
+    [
+     "inputFontSizeLG",
+     "Font size of large",
+     "number",
+     "16"
+    ],
+    [
+     "inputFontSizeSM",
+     "Font size of small",
+     "number",
+     "14"
+    ],
+    [
+     "paddingBlock",
+     "Vertical padding of input",
+     "number",
+     "4"
+    ],
+    [
+     "paddingBlockLG",
+     "Vertical padding of large input",
+     "number",
+     "7"
+    ],
+    [
+     "paddingBlockSM",
+     "Vertical padding of small input",
+     "number",
+     "0"
+    ],
+    [
+     "paddingInline",
+     "Horizontal padding of input",
+     "number",
+     "11"
+    ],
+    [
+     "paddingInlineLG",
+     "Horizontal padding of large input",
+     "number",
+     "11"
+    ],
+    [
+     "paddingInlineSM",
+     "Horizontal padding of small input",
+     "number",
+     "7"
+    ],
+    [
+     "warningActiveShadow",
+     "Box-shadow when active in warning status",
+     "string",
+     "0 0 0 2px rgba(255,215,5,0.1)"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorderDisabled",
+     "Control the border color of the element in the disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorAffix",
+     "Control the color of form control prefix/suffix in error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBg",
+     "The background color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBgHover",
+     "The hover state background color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBorderHover",
+     "The hover state border color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorText",
+     "The default state of the text in the error color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillSecondary",
+     "The second level of fill color can outline the shape of the element more clearly, such as Rate, Skeleton, etc. It can also be used as the Hover state of the third level of fill color, such as Table, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillTertiary",
+     "The third level of fill color is used to outline the shape of the element, such as Slider, Segmented, etc. If there is no emphasis requirement, it is recommended to use the third level of fill color as the default fill color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextPlaceholder",
+     "Control the color of placeholder text.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningAffix",
+     "Control the color of form control prefix/suffix in warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBg",
+     "The background color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBgHover",
+     "The hover state background color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBorderHover",
+     "The hover state border color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningText",
+     "The default state of the text in the warning color.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

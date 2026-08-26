@@ -1,0 +1,594 @@
+{
+ "slug": "app-bar",
+ "title": "App Bar",
+ "group": "Surfaces",
+ "folder": "app-bar",
+ "description": "The App Bar displays information and actions relating to the current screen.",
+ "components": [
+  "AppBar",
+  "Toolbar",
+  "Menu"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The top App bar provides content and actions related to the current screen. It's used for branding, screen titles, navigation, and actions.\n\nIt can transform into a contextual action bar or be used as a navbar."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic App bar",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ButtonAppBar",
+     "file": "ButtonAppBar.tsx",
+     "code": "import AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\n\nexport default function ButtonAppBar() {\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <AppBar position=\"static\">\n        <Toolbar>\n          <IconButton\n            size=\"large\"\n            edge=\"start\"\n            color=\"inherit\"\n            aria-label=\"menu\"\n            sx={{ mr: 2 }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography variant=\"h6\" component=\"div\" sx={{ flexGrow: 1 }}>\n            News\n          </Typography>\n          <Button color=\"inherit\">Login</Button>\n        </Toolbar>\n      </AppBar>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "App bar with menu",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "MenuAppBar",
+     "file": "MenuAppBar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport AccountCircle from '@mui/icons-material/AccountCircle';\nimport Switch from '@mui/material/Switch';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormGroup from '@mui/material/FormGroup';\nimport MenuItem from '@mui/material/MenuItem';\nimport Menu from '@mui/material/Menu';\n\nexport default function MenuAppBar() {\n  const [auth, setAuth] = React.useState(true);\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setAuth(event.target.checked);\n  };\n\n  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <FormGroup>\n        <FormControlLabel\n          control={\n            <Switch\n              checked={auth}\n              onChange={handleChange}\n              aria-label=\"login switch\"\n            />\n          }\n          label={auth ? 'Logout' : 'Login'}\n        />\n      </FormGroup>\n      <AppBar position=\"static\">\n        <Toolbar>\n          <IconButton\n            size=\"large\"\n            edge=\"start\"\n            color=\"inherit\"\n            aria-label=\"menu\"\n            sx={{ mr: 2 }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography variant=\"h6\" component=\"div\" sx={{ flexGrow: 1 }}>\n            Photos\n          </Typography>\n          {auth && (\n            <div>\n              <IconButton\n                size=\"large\"\n                aria-label=\"account of current user\"\n                aria-controls=\"menu-appbar\"\n                aria-haspopup=\"true\"\n                onClick={handleMenu}\n                color=\"inherit\"\n              >\n                <AccountCircle />\n              </IconButton>\n              <Menu\n                id=\"menu-appbar\"\n                anchorEl={anchorEl}\n                anchorOrigin={{\n                  vertical: 'top',\n                  horizontal: 'right',\n                }}\n                keepMounted\n                transformOrigin={{\n                  vertical: 'top',\n                  horizontal: 'right',\n                }}\n                open={Boolean(anchorEl)}\n                onClose={handleClose}\n              >\n                <MenuItem onClick={handleClose}>Profile</MenuItem>\n                <MenuItem onClick={handleClose}>My account</MenuItem>\n              </Menu>\n            </div>\n          )}\n        </Toolbar>\n      </AppBar>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "App bar with responsive menu",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ResponsiveAppBar",
+     "file": "ResponsiveAppBar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport Menu from '@mui/material/Menu';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport Container from '@mui/material/Container';\nimport Avatar from '@mui/material/Avatar';\nimport Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\nimport MenuItem from '@mui/material/MenuItem';\nimport AdbIcon from '@mui/icons-material/Adb';\n\nconst pages = ['Products', 'Pricing', 'Blog'];\nconst settings = ['Profile', 'Account', 'Dashboard', 'Logout'];\n\nfunction ResponsiveAppBar() {\n  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);\n  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);\n\n  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorElNav(event.currentTarget);\n  };\n  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorElUser(event.currentTarget);\n  };\n\n  const handleCloseNavMenu = () => {\n    setAnchorElNav(null);\n  };\n\n  const handleCloseUserMenu = () => {\n    setAnchorElUser(null);\n  };\n\n  return (\n    <AppBar position=\"static\">\n      <Container maxWidth=\"xl\">\n        <Toolbar disableGutters>\n          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />\n          <Typography\n            variant=\"h6\"\n            noWrap\n            component=\"a\"\n            href=\"#app-bar-with-responsive-menu\"\n            sx={{\n              mr: 2,\n              display: { xs: 'none', md: 'flex' },\n              fontFamily: 'monospace',\n              fontWeight: 700,\n              letterSpacing: '.3rem',\n              color: 'inherit',\n              textDecoration: 'none',\n            }}\n          >\n            LOGO\n          </Typography>\n\n          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>\n            <IconButton\n              size=\"large\"\n              aria-label=\"account of current user\"\n              aria-controls=\"menu-appbar\"\n              aria-haspopup=\"true\"\n              onClick={handleOpenNavMenu}\n              color=\"inherit\"\n            >\n              <MenuIcon />\n            </IconButton>\n            <Menu\n              id=\"menu-appbar\"\n              anchorEl={anchorElNav}\n              anchorOrigin={{\n                vertical: 'bottom',\n                horizontal: 'left',\n              }}\n              keepMounted\n              transformOrigin={{\n                vertical: 'top',\n                horizontal: 'left',\n              }}\n              open={Boolean(anchorElNav)}\n              onClose={handleCloseNavMenu}\n              sx={{ display: { xs: 'block', md: 'none' } }}\n            >\n              {pages.map((page) => (\n                <MenuItem key={page} onClick={handleCloseNavMenu}>\n                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>\n                </MenuItem>\n              ))}\n            </Menu>\n          </Box>\n          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />\n          <Typography\n            variant=\"h5\"\n            noWrap\n            component=\"a\"\n            href=\"#app-bar-with-responsive-menu\"\n            sx={{\n              mr: 2,\n              display: { xs: 'flex', md: 'none' },\n              flexGrow: 1,\n              fontFamily: 'monospace',\n              fontWeight: 700,\n              letterSpacing: '.3rem',\n              color: 'inherit',\n              textDecoration: 'none',\n            }}\n          >\n            LOGO\n          </Typography>\n          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>\n            {pages.map((page) => (\n              <Button\n                key={page}\n                onClick={handleCloseNavMenu}\n                sx={{ my: 2, color: 'white', display: 'block' }}\n              >\n                {page}\n              </Button>\n            ))}\n          </Box>\n          <Box sx={{ flexGrow: 0 }}>\n            <Tooltip title=\"Open settings\">\n              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>\n                <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/2.jpg\" />\n              </IconButton>\n            </Tooltip>\n            <Menu\n              sx={{ mt: '45px' }}\n              id=\"menu-appbar\"\n              anchorEl={anchorElUser}\n              anchorOrigin={{\n                vertical: 'top',\n                horizontal: 'right',\n              }}\n              keepMounted\n              transformOrigin={{\n                vertical: 'top',\n                horizontal: 'right',\n              }}\n              open={Boolean(anchorElUser)}\n              onClose={handleCloseUserMenu}\n            >\n              {settings.map((setting) => (\n                <MenuItem key={setting} onClick={handleCloseUserMenu}>\n                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>\n                </MenuItem>\n              ))}\n            </Menu>\n          </Box>\n        </Toolbar>\n      </Container>\n    </AppBar>\n  );\n}\nexport default ResponsiveAppBar;\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "App bar with search field",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A side searchbar."
+    },
+    {
+     "kind": "demo",
+     "name": "SearchAppBar",
+     "file": "SearchAppBar.tsx",
+     "code": "import { styled, alpha } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport InputBase from '@mui/material/InputBase';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport SearchIcon from '@mui/icons-material/Search';\n\nconst Search = styled('div')(({ theme }) => ({\n  position: 'relative',\n  borderRadius: theme.shape.borderRadius,\n  backgroundColor: alpha(theme.palette.common.white, 0.15),\n  '&:hover': {\n    backgroundColor: alpha(theme.palette.common.white, 0.25),\n  },\n  marginLeft: 0,\n  width: '100%',\n  [theme.breakpoints.up('sm')]: {\n    marginLeft: theme.spacing(1),\n    width: 'auto',\n  },\n}));\n\nconst SearchIconWrapper = styled('div')(({ theme }) => ({\n  padding: theme.spacing(0, 2),\n  height: '100%',\n  position: 'absolute',\n  pointerEvents: 'none',\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'center',\n}));\n\nconst StyledInputBase = styled(InputBase)(({ theme }) => ({\n  color: 'inherit',\n  width: '100%',\n  '& .MuiInputBase-input': {\n    padding: theme.spacing(1, 1, 1, 0),\n    // vertical padding + font size from searchIcon\n    paddingLeft: `calc(1em + ${theme.spacing(4)})`,\n    transition: theme.transitions.create('width'),\n    [theme.breakpoints.up('sm')]: {\n      width: '12ch',\n      '&:focus': {\n        width: '20ch',\n      },\n    },\n  },\n}));\n\nexport default function SearchAppBar() {\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <AppBar position=\"static\">\n        <Toolbar>\n          <IconButton\n            size=\"large\"\n            edge=\"start\"\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            sx={{ mr: 2 }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography\n            variant=\"h6\"\n            noWrap\n            component=\"div\"\n            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}\n          >\n            MUI\n          </Typography>\n          <Search>\n            <SearchIconWrapper>\n              <SearchIcon />\n            </SearchIconWrapper>\n            <StyledInputBase\n              placeholder=\"Search…\"\n              inputProps={{ 'aria-label': 'search' }}\n            />\n          </Search>\n        </Toolbar>\n      </AppBar>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Responsive App bar with Drawer",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "DrawerAppBar",
+     "file": "DrawerAppBar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport Divider from '@mui/material/Divider';\nimport Drawer from '@mui/material/Drawer';\nimport IconButton from '@mui/material/IconButton';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemText from '@mui/material/ListItemText';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * You won't need it on your project.\n   */\n  window?: () => Window;\n}\n\nconst drawerWidth = 240;\nconst navItems = ['Home', 'About', 'Contact'];\n\nexport default function DrawerAppBar(props: Props) {\n  const { window } = props;\n  const [mobileOpen, setMobileOpen] = React.useState(false);\n\n  const handleDrawerToggle = () => {\n    setMobileOpen((prevState) => !prevState);\n  };\n\n  const drawer = (\n    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>\n      <Typography variant=\"h6\" sx={{ my: 2 }}>\n        MUI\n      </Typography>\n      <Divider />\n      <List>\n        {navItems.map((item) => (\n          <ListItem key={item} disablePadding>\n            <ListItemButton sx={{ textAlign: 'center' }}>\n              <ListItemText primary={item} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n    </Box>\n  );\n\n  const container = window !== undefined ? () => window().document.body : undefined;\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar component=\"nav\">\n        <Toolbar>\n          <IconButton\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            edge=\"start\"\n            onClick={handleDrawerToggle}\n            sx={{ mr: 2, display: { sm: 'none' } }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography\n            variant=\"h6\"\n            component=\"div\"\n            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}\n          >\n            MUI\n          </Typography>\n          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>\n            {navItems.map((item) => (\n              <Button key={item} sx={{ color: '#fff' }}>\n                {item}\n              </Button>\n            ))}\n          </Box>\n        </Toolbar>\n      </AppBar>\n      <nav>\n        <Drawer\n          container={container}\n          variant=\"temporary\"\n          open={mobileOpen}\n          onClose={handleDrawerToggle}\n          ModalProps={{\n            keepMounted: true, // Better open performance on mobile.\n          }}\n          sx={{\n            display: { xs: 'block', sm: 'none' },\n            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },\n          }}\n        >\n          {drawer}\n        </Drawer>\n      </nav>\n      <Box component=\"main\" sx={{ p: 3 }}>\n        <Toolbar />\n        <Typography>\n          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde\n          fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,\n          aliquam dolore excepturi quae. Distinctio enim at eligendi perferendis in\n          cum quibusdam sed quae, accusantium et aperiam? Quod itaque exercitationem,\n          at ab sequi qui modi delectus quia corrupti alias distinctio nostrum.\n          Minima ex dolor modi inventore sapiente necessitatibus aliquam fuga et. Sed\n          numquam quibusdam at officia sapiente porro maxime corrupti perspiciatis\n          asperiores, exercitationem eius nostrum consequuntur iure aliquam itaque,\n          assumenda et! Quibusdam temporibus beatae doloremque voluptatum doloribus\n          soluta accusamus porro reprehenderit eos inventore facere, fugit, molestiae\n          ab officiis illo voluptates recusandae. Vel dolor nobis eius, ratione atque\n          soluta, aliquam fugit qui iste architecto perspiciatis. Nobis, voluptatem!\n          Cumque, eligendi unde aliquid minus quis sit debitis obcaecati error,\n          delectus quo eius exercitationem tempore. Delectus sapiente, provident\n          corporis dolorum quibusdam aut beatae repellendus est labore quisquam\n          praesentium repudiandae non vel laboriosam quo ab perferendis velit ipsa\n          deleniti modi! Ipsam, illo quod. Nesciunt commodi nihil corrupti cum non\n          fugiat praesentium doloremque architecto laborum aliquid. Quae, maxime\n          recusandae? Eveniet dolore molestiae dicta blanditiis est expedita eius\n          debitis cupiditate porro sed aspernatur quidem, repellat nihil quasi\n          praesentium quia eos, quibusdam provident. Incidunt tempore vel placeat\n          voluptate iure labore, repellendus beatae quia unde est aliquid dolor\n          molestias libero. Reiciendis similique exercitationem consequatur, nobis\n          placeat illo laudantium! Enim perferendis nulla soluta magni error,\n          provident repellat similique cupiditate ipsam, et tempore cumque quod! Qui,\n          iure suscipit tempora unde rerum autem saepe nisi vel cupiditate iusto.\n          Illum, corrupti? Fugiat quidem accusantium nulla. Aliquid inventore commodi\n          reprehenderit rerum reiciendis! Quidem alias repudiandae eaque eveniet\n          cumque nihil aliquam in expedita, impedit quas ipsum nesciunt ipsa ullam\n          consequuntur dignissimos numquam at nisi porro a, quaerat rem repellendus.\n          Voluptates perspiciatis, in pariatur impedit, nam facilis libero dolorem\n          dolores sunt inventore perferendis, aut sapiente modi nesciunt.\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "App bar with a primary search field",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A primary searchbar."
+    },
+    {
+     "kind": "demo",
+     "name": "PrimarySearchAppBar",
+     "file": "PrimarySearchAppBar.tsx",
+     "code": "import * as React from 'react';\nimport { styled, alpha } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport InputBase from '@mui/material/InputBase';\nimport Badge from '@mui/material/Badge';\nimport MenuItem from '@mui/material/MenuItem';\nimport Menu from '@mui/material/Menu';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport SearchIcon from '@mui/icons-material/Search';\nimport AccountCircle from '@mui/icons-material/AccountCircle';\nimport MailIcon from '@mui/icons-material/Mail';\nimport NotificationsIcon from '@mui/icons-material/Notifications';\nimport MoreIcon from '@mui/icons-material/MoreVert';\n\nconst Search = styled('div')(({ theme }) => ({\n  position: 'relative',\n  borderRadius: theme.shape.borderRadius,\n  backgroundColor: alpha(theme.palette.common.white, 0.15),\n  '&:hover': {\n    backgroundColor: alpha(theme.palette.common.white, 0.25),\n  },\n  marginRight: theme.spacing(2),\n  marginLeft: 0,\n  width: '100%',\n  [theme.breakpoints.up('sm')]: {\n    marginLeft: theme.spacing(3),\n    width: 'auto',\n  },\n}));\n\nconst SearchIconWrapper = styled('div')(({ theme }) => ({\n  padding: theme.spacing(0, 2),\n  height: '100%',\n  position: 'absolute',\n  pointerEvents: 'none',\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'center',\n}));\n\nconst StyledInputBase = styled(InputBase)(({ theme }) => ({\n  color: 'inherit',\n  '& .MuiInputBase-input': {\n    padding: theme.spacing(1, 1, 1, 0),\n    // vertical padding + font size from searchIcon\n    paddingLeft: `calc(1em + ${theme.spacing(4)})`,\n    transition: theme.transitions.create('width'),\n    width: '100%',\n    [theme.breakpoints.up('md')]: {\n      width: '20ch',\n    },\n  },\n}));\n\nexport default function PrimarySearchAppBar() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =\n    React.useState<null | HTMLElement>(null);\n\n  const isMenuOpen = Boolean(anchorEl);\n  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);\n\n  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n\n  const handleMobileMenuClose = () => {\n    setMobileMoreAnchorEl(null);\n  };\n\n  const handleMenuClose = () => {\n    setAnchorEl(null);\n    handleMobileMenuClose();\n  };\n\n  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {\n    setMobileMoreAnchorEl(event.currentTarget);\n  };\n\n  const menuId = 'primary-search-account-menu';\n  const renderMenu = (\n    <Menu\n      anchorEl={anchorEl}\n      anchorOrigin={{\n        vertical: 'top',\n        horizontal: 'right',\n      }}\n      id={menuId}\n      keepMounted\n      transformOrigin={{\n        vertical: 'top',\n        horizontal: 'right',\n      }}\n      open={isMenuOpen}\n      onClose={handleMenuClose}\n    >\n      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>\n      <MenuItem onClick={handleMenuClose}>My account</MenuItem>\n    </Menu>\n  );\n\n  const mobileMenuId = 'primary-search-account-menu-mobile';\n  const renderMobileMenu = (\n    <Menu\n      anchorEl={mobileMoreAnchorEl}\n      anchorOrigin={{\n        vertical: 'top',\n        horizontal: 'right',\n      }}\n      id={mobileMenuId}\n      keepMounted\n      transformOrigin={{\n        vertical: 'top',\n        horizontal: 'right',\n      }}\n      open={isMobileMenuOpen}\n      onClose={handleMobileMenuClose}\n    >\n      <MenuItem>\n        <IconButton size=\"large\" aria-label=\"show 4 new mails\" color=\"inherit\">\n          <Badge badgeContent={4} color=\"error\">\n            <MailIcon />\n          </Badge>\n        </IconButton>\n        <p>Messages</p>\n      </MenuItem>\n      <MenuItem>\n        <IconButton\n          size=\"large\"\n          aria-label=\"show 17 new notifications\"\n          color=\"inherit\"\n        >\n          <Badge badgeContent={17} color=\"error\">\n            <NotificationsIcon />\n          </Badge>\n        </IconButton>\n        <p>Notifications</p>\n      </MenuItem>\n      <MenuItem onClick={handleProfileMenuOpen}>\n        <IconButton\n          size=\"large\"\n          aria-label=\"account of current user\"\n          aria-controls=\"primary-search-account-menu\"\n          aria-haspopup=\"true\"\n          color=\"inherit\"\n        >\n          <AccountCircle />\n        </IconButton>\n        <p>Profile</p>\n      </MenuItem>\n    </Menu>\n  );\n\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <AppBar position=\"static\">\n        <Toolbar>\n          <IconButton\n            size=\"large\"\n            edge=\"start\"\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            sx={{ mr: 2 }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography\n            variant=\"h6\"\n            noWrap\n            component=\"div\"\n            sx={{ display: { xs: 'none', sm: 'block' } }}\n          >\n            MUI\n          </Typography>\n          <Search>\n            <SearchIconWrapper>\n              <SearchIcon />\n            </SearchIconWrapper>\n            <StyledInputBase\n              placeholder=\"Search…\"\n              inputProps={{ 'aria-label': 'search' }}\n            />\n          </Search>\n          <Box sx={{ flexGrow: 1 }} />\n          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>\n            <IconButton size=\"large\" aria-label=\"show 4 new mails\" color=\"inherit\">\n              <Badge badgeContent={4} color=\"error\">\n                <MailIcon />\n              </Badge>\n            </IconButton>\n            <IconButton\n              size=\"large\"\n              aria-label=\"show 17 new notifications\"\n              color=\"inherit\"\n            >\n              <Badge badgeContent={17} color=\"error\">\n                <NotificationsIcon />\n              </Badge>\n            </IconButton>\n            <IconButton\n              size=\"large\"\n              edge=\"end\"\n              aria-label=\"account of current user\"\n              aria-controls={menuId}\n              aria-haspopup=\"true\"\n              onClick={handleProfileMenuOpen}\n              color=\"inherit\"\n            >\n              <AccountCircle />\n            </IconButton>\n          </Box>\n          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>\n            <IconButton\n              size=\"large\"\n              aria-label=\"show more\"\n              aria-controls={mobileMenuId}\n              aria-haspopup=\"true\"\n              onClick={handleMobileMenuOpen}\n              color=\"inherit\"\n            >\n              <MoreIcon />\n            </IconButton>\n          </Box>\n        </Toolbar>\n      </AppBar>\n      {renderMobileMenu}\n      {renderMenu}\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Dense (desktop only)",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "DenseAppBar",
+     "file": "DenseAppBar.tsx",
+     "code": "import AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\n\nexport default function DenseAppBar() {\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <AppBar position=\"static\">\n        <Toolbar variant=\"dense\">\n          <IconButton edge=\"start\" color=\"inherit\" aria-label=\"menu\" sx={{ mr: 2 }}>\n            <MenuIcon />\n          </IconButton>\n          <Typography\n            variant=\"h6\"\n            component=\"div\"\n            sx={{\n              color: 'inherit',\n            }}\n          >\n            Photos\n          </Typography>\n        </Toolbar>\n      </AppBar>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Prominent",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A prominent app bar."
+    },
+    {
+     "kind": "demo",
+     "name": "ProminentAppBar",
+     "file": "ProminentAppBar.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport Toolbar from '@mui/material/Toolbar';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport SearchIcon from '@mui/icons-material/Search';\nimport MoreIcon from '@mui/icons-material/MoreVert';\n\nconst StyledToolbar = styled(Toolbar)(({ theme }) => ({\n  alignItems: 'flex-start',\n  paddingTop: theme.spacing(1),\n  paddingBottom: theme.spacing(2),\n  // Override media queries injected by theme.mixins.toolbar\n  '@media all': {\n    minHeight: 128,\n  },\n}));\n\nexport default function ProminentAppBar() {\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <AppBar position=\"static\">\n        <StyledToolbar>\n          <IconButton\n            size=\"large\"\n            edge=\"start\"\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            sx={{ mr: 2 }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography\n            variant=\"h5\"\n            noWrap\n            component=\"div\"\n            sx={{ flexGrow: 1, alignSelf: 'flex-end' }}\n          >\n            MUI\n          </Typography>\n          <IconButton size=\"large\" aria-label=\"search\" color=\"inherit\">\n            <SearchIcon />\n          </IconButton>\n          <IconButton\n            size=\"large\"\n            aria-label=\"display more actions\"\n            edge=\"end\"\n            color=\"inherit\"\n          >\n            <MoreIcon />\n          </IconButton>\n        </StyledToolbar>\n      </AppBar>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Bottom App bar",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BottomAppBar",
+     "file": "BottomAppBar.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport IconButton from '@mui/material/IconButton';\nimport Paper from '@mui/material/Paper';\nimport Fab from '@mui/material/Fab';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListSubheader from '@mui/material/ListSubheader';\nimport Avatar from '@mui/material/Avatar';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport AddIcon from '@mui/icons-material/Add';\nimport SearchIcon from '@mui/icons-material/Search';\nimport MoreIcon from '@mui/icons-material/MoreVert';\n\nconst messages = [\n  {\n    id: 1,\n    primary: 'Brunch this week?',\n    secondary: \"I'll be in the neighbourhood this week. Let's grab a bite to eat\",\n    person: '/static/images/avatar/5.jpg',\n  },\n  {\n    id: 2,\n    primary: 'Birthday Gift',\n    secondary: `Do you have a suggestion for a good present for John on his work\n      anniversary. I am really confused & would love your thoughts on it.`,\n    person: '/static/images/avatar/1.jpg',\n  },\n  {\n    id: 3,\n    primary: 'Recipe to try',\n    secondary: 'I am try out this new BBQ recipe, I think this might be amazing',\n    person: '/static/images/avatar/2.jpg',\n  },\n  {\n    id: 4,\n    primary: 'Yes!',\n    secondary: 'I have the tickets to the ReactConf for this year.',\n    person: '/static/images/avatar/3.jpg',\n  },\n  {\n    id: 5,\n    primary: \"Doctor's Appointment\",\n    secondary: 'My appointment for the doctor was rescheduled for next Saturday.',\n    person: '/static/images/avatar/4.jpg',\n  },\n  {\n    id: 6,\n    primary: 'Discussion',\n    secondary: `Menus that are generated by the bottom app bar (such as a bottom\n      navigation drawer or overflow menu) open as bottom sheets at a higher elevation\n      than the bar.`,\n    person: '/static/images/avatar/5.jpg',\n  },\n  {\n    id: 7,\n    primary: 'Summer BBQ',\n    secondary: `Who wants to have a cookout this weekend? I just got some furniture\n      for my backyard and would love to fire up the grill.`,\n    person: '/static/images/avatar/1.jpg',\n  },\n];\n\nconst StyledFab = styled(Fab)({\n  position: 'absolute',\n  zIndex: 1,\n  top: -30,\n  left: 0,\n  right: 0,\n  margin: '0 auto',\n});\n\nexport default function BottomAppBar() {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      <Paper square sx={{ pb: '50px' }}>\n        <Typography variant=\"h5\" gutterBottom component=\"div\" sx={{ p: 2, pb: 0 }}>\n          Inbox\n        </Typography>\n        <List sx={{ mb: 2 }}>\n          {messages.map(({ id, primary, secondary, person }) => (\n            <React.Fragment key={id}>\n              {id === 1 && (\n                <ListSubheader sx={{ bgcolor: 'background.paper' }}>\n                  Today\n                </ListSubheader>\n              )}\n              {id === 3 && (\n                <ListSubheader sx={{ bgcolor: 'background.paper' }}>\n                  Yesterday\n                </ListSubheader>\n              )}\n              <ListItemButton>\n                <ListItemAvatar>\n                  <Avatar alt=\"Profile Picture\" src={person} />\n                </ListItemAvatar>\n                <ListItemText primary={primary} secondary={secondary} />\n              </ListItemButton>\n            </React.Fragment>\n          ))}\n        </List>\n      </Paper>\n      <AppBar position=\"fixed\" color=\"primary\" sx={{ top: 'auto', bottom: 0 }}>\n        <Toolbar>\n          <IconButton color=\"inherit\" aria-label=\"open drawer\">\n            <MenuIcon />\n          </IconButton>\n          <StyledFab color=\"secondary\" aria-label=\"add\">\n            <AddIcon />\n          </StyledFab>\n          <Box sx={{ flexGrow: 1 }} />\n          <IconButton color=\"inherit\">\n            <SearchIcon />\n          </IconButton>\n          <IconButton color=\"inherit\">\n            <MoreIcon />\n          </IconButton>\n        </Toolbar>\n      </AppBar>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Fixed placement",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When you render the app bar position fixed, the dimension of the element doesn't impact the rest of the page. This can cause some part of your content to be invisible, behind the app bar. Here are 3 possible solutions:\n\n1. You can use `position=\"sticky\"` instead of fixed.\n2. You can render a second `<Toolbar />` component:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "function App() {\n  return (\n    <React.Fragment>\n      <AppBar position=\"fixed\">\n        <Toolbar>{/* content */}</Toolbar>\n      </AppBar>\n      <Toolbar />\n    </React.Fragment>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "3. You can use `theme.mixins.toolbar` CSS:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);\n\nfunction App() {\n  return (\n    <React.Fragment>\n      <AppBar position=\"fixed\">\n        <Toolbar>{/* content */}</Toolbar>\n      </AppBar>\n      <Offset />\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Scrolling",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use the `useScrollTrigger()` hook to respond to user scroll actions."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Hide App bar",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The app bar hides on scroll down to leave more space for reading."
+    },
+    {
+     "kind": "demo",
+     "name": "HideAppBar",
+     "file": "HideAppBar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport useScrollTrigger from '@mui/material/useScrollTrigger';\nimport Box from '@mui/material/Box';\nimport Container from '@mui/material/Container';\nimport Slide from '@mui/material/Slide';\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * You won't need it on your project.\n   */\n  window?: () => Window;\n  children?: React.ReactElement<unknown>;\n}\n\nfunction HideOnScroll(props: Props) {\n  const { children, window } = props;\n  // Note that you normally won't need to set the window ref as useScrollTrigger\n  // will default to window.\n  // This is only being set here because the demo is in an iframe.\n  const trigger = useScrollTrigger({\n    target: window ? window() : undefined,\n  });\n\n  return (\n    <Slide appear={false} direction=\"down\" in={!trigger}>\n      {children ?? <div />}\n    </Slide>\n  );\n}\n\nexport default function HideAppBar(props: Props) {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      <HideOnScroll {...props}>\n        <AppBar>\n          <Toolbar>\n            <Typography variant=\"h6\" component=\"div\">\n              Scroll to hide App bar\n            </Typography>\n          </Toolbar>\n        </AppBar>\n      </HideOnScroll>\n      <Toolbar />\n      <Container>\n        <Box sx={{ my: 2 }}>\n          {[...new Array(12)]\n            .map(\n              () => `Cras mattis consectetur purus sit amet fermentum.\nCras justo odio, dapibus ac facilisis in, egestas eget quam.\nMorbi leo risus, porta ac consectetur ac, vestibulum at eros.\nPraesent commodo cursus magna, vel scelerisque nisl consectetur et.`,\n            )\n            .join('\\n')}\n        </Box>\n      </Container>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Elevate App bar",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The app bar elevates on scroll to communicate that the user is not at the top of the page."
+    },
+    {
+     "kind": "demo",
+     "name": "ElevateAppBar",
+     "file": "ElevateAppBar.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport useScrollTrigger from '@mui/material/useScrollTrigger';\nimport Box from '@mui/material/Box';\nimport Container from '@mui/material/Container';\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * You won't need it on your project.\n   */\n  window?: () => Window;\n  children?: React.ReactElement<{ elevation?: number }>;\n}\n\nfunction ElevationScroll(props: Props) {\n  const { children, window } = props;\n  // Note that you normally won't need to set the window ref as useScrollTrigger\n  // will default to window.\n  // This is only being set here because the demo is in an iframe.\n  const trigger = useScrollTrigger({\n    disableHysteresis: true,\n    threshold: 0,\n    target: window ? window() : undefined,\n  });\n\n  return children\n    ? React.cloneElement(children, {\n        elevation: trigger ? 4 : 0,\n      })\n    : null;\n}\n\nexport default function ElevateAppBar(props: Props) {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      <ElevationScroll {...props}>\n        <AppBar>\n          <Toolbar>\n            <Typography variant=\"h6\" component=\"div\">\n              Scroll to elevate App bar\n            </Typography>\n          </Toolbar>\n        </AppBar>\n      </ElevationScroll>\n      <Toolbar />\n      <Container>\n        <Box sx={{ my: 2 }}>\n          {[...new Array(12)]\n            .map(\n              () => `Cras mattis consectetur purus sit amet fermentum.\nCras justo odio, dapibus ac facilisis in, egestas eget quam.\nMorbi leo risus, porta ac consectetur ac, vestibulum at eros.\nPraesent commodo cursus magna, vel scelerisque nisl consectetur et.`,\n            )\n            .join('\\n')}\n        </Box>\n      </Container>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Back to top",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A floating action button appears on scroll to make it easy to get back to the top of the page."
+    },
+    {
+     "kind": "demo",
+     "name": "BackToTop",
+     "file": "BackToTop.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport useScrollTrigger from '@mui/material/useScrollTrigger';\nimport Box from '@mui/material/Box';\nimport Container from '@mui/material/Container';\nimport Fab from '@mui/material/Fab';\nimport KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';\nimport Fade from '@mui/material/Fade';\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * You won't need it on your project.\n   */\n  window?: () => Window;\n  children?: React.ReactElement<unknown>;\n}\n\nfunction ScrollTop(props: Props) {\n  const { children, window } = props;\n  // Note that you normally won't need to set the window ref as useScrollTrigger\n  // will default to window.\n  // This is only being set here because the demo is in an iframe.\n  const trigger = useScrollTrigger({\n    target: window ? window() : undefined,\n    disableHysteresis: true,\n    threshold: 100,\n  });\n\n  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {\n    const anchor = (\n      (event.target as HTMLDivElement).ownerDocument || document\n    ).querySelector('#back-to-top-anchor');\n\n    if (anchor) {\n      anchor.scrollIntoView({\n        block: 'center',\n      });\n    }\n  };\n\n  return (\n    <Fade in={trigger}>\n      <Box\n        onClick={handleClick}\n        role=\"presentation\"\n        sx={{ position: 'fixed', bottom: 16, right: 16 }}\n      >\n        {children}\n      </Box>\n    </Fade>\n  );\n}\n\nexport default function BackToTop(props: Props) {\n  return (\n    <React.Fragment>\n      <CssBaseline />\n      <AppBar>\n        <Toolbar>\n          <Typography variant=\"h6\" component=\"div\">\n            Scroll to see button\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Toolbar id=\"back-to-top-anchor\" />\n      <Container>\n        <Box sx={{ my: 2 }}>\n          {[...new Array(12)]\n            .map(\n              () => `Cras mattis consectetur purus sit amet fermentum.\nCras justo odio, dapibus ac facilisis in, egestas eget quam.\nMorbi leo risus, porta ac consectetur ac, vestibulum at eros.\nPraesent commodo cursus magna, vel scelerisque nisl consectetur et.`,\n            )\n            .join('\\n')}\n        </Box>\n      </Container>\n      <ScrollTop {...props}>\n        <Fab size=\"small\" aria-label=\"scroll back to top\">\n          <KeyboardArrowUpIcon />\n        </Fab>\n      </ScrollTop>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "`useScrollTrigger([options]) => trigger`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "#### Arguments\n\n1. `options` (_object_ [optional]):\n   - `options.disableHysteresis` (_bool_ [optional]): Defaults to `false`. Disable the hysteresis. Ignore the scroll direction when determining the `trigger` value.\n   - `options.target` (_Node_ [optional]): Defaults to `window`.\n   - `options.threshold` (_number_ [optional]): Defaults to `100`. Change the `trigger` value when the vertical scroll strictly crosses this threshold (exclusive).\n\n#### Returns\n\n`trigger`: Does the scroll position match the criteria?\n\n#### Examples"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import useScrollTrigger from '@mui/material/useScrollTrigger';\n\nfunction HideOnScroll(props) {\n  const trigger = useScrollTrigger();\n  return (\n    <Slide in={!trigger}>\n      <div>Hello</div>\n    </Slide>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Enable color on dark",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Following the [Material Design guidelines](https://m2.material.io/design/color/dark-theme.html), the `color` prop has no effect on the appearance of the app bar in dark mode.\nYou can override this behavior by setting the `enableColorOnDark` prop to `true`."
+    },
+    {
+     "kind": "demo",
+     "name": "EnableColorOnDarkAppBar",
+     "file": "EnableColorOnDarkAppBar.tsx",
+     "code": "import AppBar from '@mui/material/AppBar';\nimport Stack from '@mui/material/Stack';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport { ThemeProvider, createTheme } from '@mui/material/styles';\n\nfunction appBarLabel(label: string) {\n  return (\n    <Toolbar>\n      <IconButton edge=\"start\" color=\"inherit\" aria-label=\"menu\" sx={{ mr: 2 }}>\n        <MenuIcon />\n      </IconButton>\n      <Typography variant=\"h6\" noWrap component=\"div\" sx={{ flexGrow: 1 }}>\n        {label}\n      </Typography>\n    </Toolbar>\n  );\n}\n\nconst darkTheme = createTheme({\n  palette: {\n    mode: 'dark',\n    primary: {\n      main: '#1976d2',\n    },\n  },\n});\n\nexport default function EnableColorOnDarkAppBar() {\n  return (\n    <Stack spacing={2} sx={{ flexGrow: 1 }}>\n      <ThemeProvider theme={darkTheme}>\n        <AppBar position=\"static\" color=\"primary\" enableColorOnDark>\n          {appBarLabel('enableColorOnDark')}\n        </AppBar>\n        <AppBar position=\"static\" color=\"primary\">\n          {appBarLabel('default')}\n        </AppBar>\n      </ThemeProvider>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "AppBar",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'transparent'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "elevation",
+     "type": "number",
+     "default": "4",
+     "required": false,
+     "deprecated": false,
+     "desc": "Shadow depth, corresponds to <code>dp</code> in the spec. It accepts values between 0 and 24 inclusive."
+    },
+    {
+     "prop": "enableColorOnDark",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If true, the <code>color</code> prop is applied in dark mode."
+    },
+    {
+     "prop": "position",
+     "type": "'absolute'<br>&#124;&nbsp;'fixed'<br>&#124;&nbsp;'relative'<br>&#124;&nbsp;'static'<br>&#124;&nbsp;'sticky'",
+     "default": "'fixed'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The positioning type. The behavior of the different options is described <a href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position\">in the MDN web docs</a>. Note: <code>sticky</code> is not universally supported and will fall back to <code>static</code> when unavailable."
+    },
+    {
+     "prop": "square",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>false</code>, rounded corners are enabled."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorDefault",
+     "className": "MuiAppBar-colorDefault",
+     "description": "Styles applied to the root element if `color=\"default\"`."
+    },
+    {
+     "key": "colorError",
+     "className": "MuiAppBar-colorError",
+     "description": "Styles applied to the root element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiAppBar-colorInfo",
+     "description": "Styles applied to the root element if `color=\"info\"`."
+    },
+    {
+     "key": "colorInherit",
+     "className": "MuiAppBar-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiAppBar-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiAppBar-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiAppBar-colorSuccess",
+     "description": "Styles applied to the root element if `color=\"success\"`."
+    },
+    {
+     "key": "colorTransparent",
+     "className": "MuiAppBar-colorTransparent",
+     "description": "Styles applied to the root element if `color=\"transparent\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiAppBar-colorWarning",
+     "description": "Styles applied to the root element if `color=\"warning\"`."
+    },
+    {
+     "key": "positionAbsolute",
+     "className": "MuiAppBar-positionAbsolute",
+     "description": "Styles applied to the root element if `position=\"absolute\"`."
+    },
+    {
+     "key": "positionFixed",
+     "className": "MuiAppBar-positionFixed",
+     "description": "Styles applied to the root element if `position=\"fixed\"`."
+    },
+    {
+     "key": "positionRelative",
+     "className": "MuiAppBar-positionRelative",
+     "description": "Styles applied to the root element if `position=\"relative\"`."
+    },
+    {
+     "key": "positionStatic",
+     "className": "MuiAppBar-positionStatic",
+     "description": "Styles applied to the root element if `position=\"static\"`."
+    },
+    {
+     "key": "positionSticky",
+     "className": "MuiAppBar-positionSticky",
+     "description": "Styles applied to the root element if `position=\"sticky\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiAppBar-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "Toolbar",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The Toolbar children, usually a mixture of <code>IconButton</code>, <code>Button</code> and <code>Typography</code>. The Toolbar is a flex container, allowing flex item properties to be used to lay out the children."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, disables gutter padding."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'dense'<br>&#124;&nbsp;'regular'<br>&#124;&nbsp;string",
+     "default": "'regular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiToolbar-dense",
+     "description": "Styles applied to the root element if `variant=\"dense\"`."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiToolbar-gutters",
+     "description": "Styles applied to the root element unless `disableGutters={true}`."
+    },
+    {
+     "key": "regular",
+     "className": "MuiToolbar-regular",
+     "description": "Styles applied to the root element if `variant=\"regular\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiToolbar-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "Menu",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, or a function that returns one. It&#39;s used to set the position of the menu."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code> (Default) will focus the <code>[role=&quot;menu&quot;]</code> if no focusable child is found. Disabled children are not focusable. If you set this prop to <code>false</code> focus will be placed on the parent modal container. This has severe accessibility implications and should only be considered if you manage focus otherwise."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Menu contents, normally <code>MenuItem</code>s."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableAutoFocusItem",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "When opening the menu will not focus the active item but the <code>[role=&quot;menu&quot;]</code> unless <code>autoFocus</code> is also set to <code>false</code>. Not using the default means not following WAI-ARIA authoring practices. Please be considerate about possible accessibility implications."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed."
+    },
+    {
+     "prop": "PopoverClasses",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "<code>classes</code> prop applied to the <a href=\"https://mui.com/material-ui/api/popover/\"><code>Popover</code></a> element."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, list?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, list?: elementType, paper?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The length of the transition in <code>ms</code>, or &#39;auto&#39;"
+    },
+    {
+     "prop": "variant",
+     "type": "'menu'<br>&#124;&nbsp;'selectedMenu'",
+     "default": "'selectedMenu'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Use <code>menu</code> to prevent selected items from impacting the initial focus."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-app-bar/"
+}

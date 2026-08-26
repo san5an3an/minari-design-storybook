@@ -1,0 +1,523 @@
+{
+ "slug": "drawer",
+ "title": "Drawer",
+ "group": "Navigation",
+ "folder": "drawers",
+ "description": "The navigation drawers (or \"sidebars\") provide ergonomic access to destinations in a site or app functionality such as switching accounts.",
+ "components": [
+  "Drawer",
+  "SwipeableDrawer"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A navigation drawer can either be permanently on-screen or controlled by a navigation menu icon.\n\n[Side sheets](https://m2.material.io/components/sheets-side) are supplementary surfaces primarily used on tablet and desktop."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Temporary drawer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Temporary navigation drawers can toggle open or closed. Closed by default, the drawer opens temporarily above all other content until a section is selected.\n\nThe Drawer can be cancelled by clicking the overlay or pressing the Esc key.\nIt closes when an item is selected, handled by controlling the `open` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "TemporaryDrawer",
+     "file": "TemporaryDrawer.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport Button from '@mui/material/Button';\nimport List from '@mui/material/List';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nexport default function TemporaryDrawer() {\n  const [open, setOpen] = React.useState(false);\n\n  const toggleDrawer = (newOpen: boolean) => () => {\n    setOpen(newOpen);\n  };\n\n  const DrawerList = (\n    <Box sx={{ width: 250 }} role=\"presentation\" onClick={toggleDrawer(false)}>\n      <List>\n        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n      <Divider />\n      <List>\n        {['All mail', 'Trash', 'Spam'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n    </Box>\n  );\n\n  return (\n    <div>\n      <Button onClick={toggleDrawer(true)}>Open drawer</Button>\n      <Drawer open={open} onClose={toggleDrawer(false)}>\n        {DrawerList}\n      </Drawer>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Anchor",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `anchor` prop to specify which side of the screen the Drawer should originate from.\n\nThe default value is `left`."
+    },
+    {
+     "kind": "demo",
+     "name": "AnchorTemporaryDrawer",
+     "file": "AnchorTemporaryDrawer.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport Button from '@mui/material/Button';\nimport List from '@mui/material/List';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\ntype Anchor = 'top' | 'left' | 'bottom' | 'right';\n\nexport default function AnchorTemporaryDrawer() {\n  const [state, setState] = React.useState({\n    top: false,\n    left: false,\n    bottom: false,\n    right: false,\n  });\n\n  const toggleDrawer =\n    (anchor: Anchor, open: boolean) =>\n    (event: React.KeyboardEvent | React.MouseEvent) => {\n      if (\n        event.type === 'keydown' &&\n        ((event as React.KeyboardEvent).key === 'Tab' ||\n          (event as React.KeyboardEvent).key === 'Shift')\n      ) {\n        return;\n      }\n\n      setState({ ...state, [anchor]: open });\n    };\n\n  const list = (anchor: Anchor) => (\n    <Box\n      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}\n      role=\"presentation\"\n      onClick={toggleDrawer(anchor, false)}\n      onKeyDown={toggleDrawer(anchor, false)}\n    >\n      <List>\n        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n      <Divider />\n      <List>\n        {['All mail', 'Trash', 'Spam'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n    </Box>\n  );\n\n  return (\n    <div>\n      {(['left', 'right', 'top', 'bottom'] as const).map((anchor) => (\n        <React.Fragment key={anchor}>\n          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>\n          <Drawer\n            anchor={anchor}\n            open={state[anchor]}\n            onClose={toggleDrawer(anchor, false)}\n          >\n            {list(anchor)}\n          </Drawer>\n        </React.Fragment>\n      ))}\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Swipeable",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can make the drawer swipeable with the `SwipeableDrawer` component.\n\nThis component comes with a 2 kB gzipped payload overhead.\nSome low-end mobile devices won't be able to follow the fingers at 60 FPS.\nYou can use the `disableBackdropTransition` prop to help."
+    },
+    {
+     "kind": "demo",
+     "name": "SwipeableTemporaryDrawer",
+     "file": "SwipeableTemporaryDrawer.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport SwipeableDrawer from '@mui/material/SwipeableDrawer';\nimport Button from '@mui/material/Button';\nimport List from '@mui/material/List';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\ntype Anchor = 'top' | 'left' | 'bottom' | 'right';\n\nexport default function SwipeableTemporaryDrawer() {\n  const [state, setState] = React.useState({\n    top: false,\n    left: false,\n    bottom: false,\n    right: false,\n  });\n\n  const toggleDrawer =\n    (anchor: Anchor, open: boolean) =>\n    (event: React.KeyboardEvent | React.MouseEvent) => {\n      if (\n        event &&\n        event.type === 'keydown' &&\n        ((event as React.KeyboardEvent).key === 'Tab' ||\n          (event as React.KeyboardEvent).key === 'Shift')\n      ) {\n        return;\n      }\n\n      setState({ ...state, [anchor]: open });\n    };\n\n  const list = (anchor: Anchor) => (\n    <Box\n      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}\n      role=\"presentation\"\n      onClick={toggleDrawer(anchor, false)}\n      onKeyDown={toggleDrawer(anchor, false)}\n    >\n      <List>\n        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n      <Divider />\n      <List>\n        {['All mail', 'Trash', 'Spam'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n    </Box>\n  );\n\n  return (\n    <div>\n      {(['left', 'right', 'top', 'bottom'] as const).map((anchor) => (\n        <React.Fragment key={anchor}>\n          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>\n          <SwipeableDrawer\n            anchor={anchor}\n            open={state[anchor]}\n            onClose={toggleDrawer(anchor, false)}\n            onOpen={toggleDrawer(anchor, true)}\n          >\n            {list(anchor)}\n          </SwipeableDrawer>\n        </React.Fragment>\n      ))}\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The following properties are used in this documentation website for optimal usability of the component:\n\n- iOS is hosted on high-end devices.\n  The backdrop transition can be enabled without dropping frames.\n  The performance will be good enough.\n- iOS has a \"swipe to go back\" feature that interferes\n  with the discovery feature, so discovery has to be disabled."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "const iOS =\n  typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);\n\n<SwipeableDrawer disableBackdropTransition={!iOS} disableDiscovery={iOS} />;\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Swipeable edge",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can configure the `SwipeableDrawer` to have a visible edge when closed.\n\nIf you are on a desktop, you can toggle the drawer with the \"OPEN\" button.\nIf you are on mobile, you can open the demo in CodeSandbox (\"edit\" icon) and swipe."
+    },
+    {
+     "kind": "demo",
+     "name": "SwipeableEdgeDrawer",
+     "file": "SwipeableEdgeDrawer.tsx",
+     "code": "import * as React from 'react';\nimport { Global } from '@emotion/react';\nimport { styled } from '@mui/material/styles';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport { grey } from '@mui/material/colors';\nimport Button from '@mui/material/Button';\nimport Box from '@mui/material/Box';\nimport Skeleton from '@mui/material/Skeleton';\nimport Typography from '@mui/material/Typography';\nimport SwipeableDrawer from '@mui/material/SwipeableDrawer';\n\nconst drawerBleeding = 56;\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * You won't need it on your project.\n   */\n  window?: () => Window;\n}\n\nconst Root = styled('div')(({ theme }) => ({\n  height: '100%',\n  backgroundColor: grey[100],\n  ...theme.applyStyles('dark', {\n    backgroundColor: (theme.vars || theme).palette.background.default,\n  }),\n}));\n\nconst StyledBox = styled('div')(({ theme }) => ({\n  backgroundColor: '#fff',\n  ...theme.applyStyles('dark', {\n    backgroundColor: grey[800],\n  }),\n}));\n\nconst Puller = styled('div')(({ theme }) => ({\n  width: 30,\n  height: 6,\n  backgroundColor: grey[300],\n  borderRadius: 3,\n  position: 'absolute',\n  top: 8,\n  left: 'calc(50% - 15px)',\n  ...theme.applyStyles('dark', {\n    backgroundColor: grey[900],\n  }),\n}));\n\nexport default function SwipeableEdgeDrawer(props: Props) {\n  const { window } = props;\n  const [open, setOpen] = React.useState(false);\n\n  const toggleDrawer = (newOpen: boolean) => () => {\n    setOpen(newOpen);\n  };\n\n  // This is used only for the example\n  const container = window !== undefined ? () => window().document.body : undefined;\n\n  return (\n    <Root>\n      <CssBaseline />\n      <Global\n        styles={{\n          '.MuiDrawer-root > .MuiPaper-root': {\n            height: `calc(50% - ${drawerBleeding}px)`,\n            overflow: 'visible',\n          },\n        }}\n      />\n      <Box sx={{ textAlign: 'center', pt: 1 }}>\n        <Button onClick={toggleDrawer(true)}>Open</Button>\n      </Box>\n      <SwipeableDrawer\n        container={container}\n        anchor=\"bottom\"\n        open={open}\n        onClose={toggleDrawer(false)}\n        onOpen={toggleDrawer(true)}\n        swipeAreaWidth={drawerBleeding}\n        disableSwipeToOpen={false}\n        keepMounted\n      >\n        <StyledBox\n          sx={{\n            position: 'absolute',\n            top: -drawerBleeding,\n            borderTopLeftRadius: 8,\n            borderTopRightRadius: 8,\n            visibility: 'visible',\n            right: 0,\n            left: 0,\n          }}\n        >\n          <Puller />\n          <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography>\n        </StyledBox>\n        <StyledBox sx={{ px: 2, pb: 2, height: '100%', overflow: 'auto' }}>\n          <Skeleton variant=\"rectangular\" height=\"100%\" />\n        </StyledBox>\n      </SwipeableDrawer>\n    </Root>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keep mounted",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Modal used internally by the Swipeable Drawer has the `keepMounted` prop set by default.\nThis means that the contents of the drawer are always present in the DOM.\n\nYou can change this default behavior with the `ModalProps` prop, but you may encounter issues with `keepMounted: false` in React 18."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Drawer\n  variant=\"temporary\"\n  ModalProps={{\n    keepMounted: false,\n  }}\n/>\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Transition",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Temporary drawers use [Slide](/material-ui/transitions/#slide) by default.\nUse `slots.transition` and `slotProps.transition` to replace it with another transition or to pass transition props."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Responsive drawer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use the `temporary` variant to display a drawer for small screens and `permanent` for a drawer for wider screens."
+    },
+    {
+     "kind": "demo",
+     "name": "ResponsiveDrawer",
+     "file": "ResponsiveDrawer.tsx",
+     "code": "import * as React from 'react';\nimport AppBar from '@mui/material/AppBar';\nimport Box from '@mui/material/Box';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport Divider from '@mui/material/Divider';\nimport Drawer from '@mui/material/Drawer';\nimport IconButton from '@mui/material/IconButton';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport MailIcon from '@mui/icons-material/Mail';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport Toolbar from '@mui/material/Toolbar';\nimport Typography from '@mui/material/Typography';\n\nconst drawerWidth = 240;\n\ninterface Props {\n  /**\n   * Injected by the documentation to work in an iframe.\n   * Remove this when copying and pasting into your project.\n   */\n  window?: () => Window;\n}\n\nexport default function ResponsiveDrawer(props: Props) {\n  const { window } = props;\n  const [mobileOpen, setMobileOpen] = React.useState(false);\n  const [isClosing, setIsClosing] = React.useState(false);\n\n  const handleDrawerClose = () => {\n    setIsClosing(true);\n    setMobileOpen(false);\n  };\n\n  const handleDrawerTransitionEnd = () => {\n    setIsClosing(false);\n  };\n\n  const handleDrawerToggle = () => {\n    if (!isClosing) {\n      setMobileOpen(!mobileOpen);\n    }\n  };\n\n  const drawer = (\n    <div>\n      <Toolbar />\n      <Divider />\n      <List>\n        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n      <Divider />\n      <List>\n        {['All mail', 'Trash', 'Spam'].map((text, index) => (\n          <ListItem key={text} disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n              </ListItemIcon>\n              <ListItemText primary={text} />\n            </ListItemButton>\n          </ListItem>\n        ))}\n      </List>\n    </div>\n  );\n\n  // Remove this const when copying and pasting into your project.\n  const container = window !== undefined ? () => window().document.body : undefined;\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar\n        position=\"fixed\"\n        sx={{\n          width: { sm: `calc(100% - ${drawerWidth}px)` },\n          ml: { sm: `${drawerWidth}px` },\n        }}\n      >\n        <Toolbar>\n          <IconButton\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            edge=\"start\"\n            onClick={handleDrawerToggle}\n            sx={{ mr: 2, display: { sm: 'none' } }}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Responsive drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Box\n        component=\"nav\"\n        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}\n        aria-label=\"mailbox folders\"\n      >\n        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}\n        <Drawer\n          container={container}\n          variant=\"temporary\"\n          open={mobileOpen}\n          onTransitionEnd={handleDrawerTransitionEnd}\n          onClose={handleDrawerClose}\n          sx={{\n            display: { xs: 'block', sm: 'none' },\n            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },\n          }}\n          slotProps={{\n            root: {\n              keepMounted: true, // Better open performance on mobile.\n            },\n          }}\n        >\n          {drawer}\n        </Drawer>\n        <Drawer\n          variant=\"permanent\"\n          sx={{\n            display: { xs: 'none', sm: 'block' },\n            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },\n          }}\n          open\n        >\n          {drawer}\n        </Drawer>\n      </Box>\n      <Box\n        component=\"main\"\n        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}\n      >\n        <Toolbar />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Persistent drawer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Persistent navigation drawers can toggle open or closed.\nThe drawer sits on the same surface elevation as the content.\nIt is closed by default and opens by selecting the menu icon, and stays open until closed by the user.\nThe state of the drawer is remembered from action to action and session to session.\n\nWhen the drawer is outside of the page grid and opens, the drawer forces other content to change size and adapt to the smaller viewport.\n\nPersistent navigation drawers are acceptable for all sizes larger than mobile.\nThey are not recommended for apps with multiple levels of hierarchy that require using an up arrow for navigation."
+    },
+    {
+     "kind": "demo",
+     "name": "PersistentDrawerLeft",
+     "file": "PersistentDrawerLeft.tsx",
+     "code": "import * as React from 'react';\nimport { styled, useTheme } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport List from '@mui/material/List';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport ChevronLeftIcon from '@mui/icons-material/ChevronLeft';\nimport ChevronRightIcon from '@mui/icons-material/ChevronRight';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nconst Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{\n  open?: boolean;\n}>(({ theme }) => ({\n  flexGrow: 1,\n  padding: theme.spacing(3),\n  transition: theme.transitions.create('margin', {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  marginLeft: `-${drawerWidth}px`,\n  variants: [\n    {\n      props: ({ open }) => open,\n      style: {\n        transition: theme.transitions.create('margin', {\n          easing: theme.transitions.easing.easeOut,\n          duration: theme.transitions.duration.enteringScreen,\n        }),\n        marginLeft: 0,\n      },\n    },\n  ],\n}));\n\ninterface AppBarProps extends MuiAppBarProps {\n  open?: boolean;\n}\n\nconst AppBar = styled(MuiAppBar, {\n  shouldForwardProp: (prop) => prop !== 'open',\n})<AppBarProps>(({ theme }) => ({\n  transition: theme.transitions.create(['margin', 'width'], {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  variants: [\n    {\n      props: ({ open }) => open,\n      style: {\n        width: `calc(100% - ${drawerWidth}px)`,\n        marginLeft: `${drawerWidth}px`,\n        transition: theme.transitions.create(['margin', 'width'], {\n          easing: theme.transitions.easing.easeOut,\n          duration: theme.transitions.duration.enteringScreen,\n        }),\n      },\n    },\n  ],\n}));\n\nconst DrawerHeader = styled('div')(({ theme }) => ({\n  display: 'flex',\n  alignItems: 'center',\n  padding: theme.spacing(0, 1),\n  // necessary for content to be below app bar\n  ...theme.mixins.toolbar,\n  justifyContent: 'flex-end',\n}));\n\nexport default function PersistentDrawerLeft() {\n  const theme = useTheme();\n  const [open, setOpen] = React.useState(false);\n\n  const handleDrawerOpen = () => {\n    setOpen(true);\n  };\n\n  const handleDrawerClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar position=\"fixed\" open={open}>\n        <Toolbar>\n          <IconButton\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            onClick={handleDrawerOpen}\n            edge=\"start\"\n            sx={[\n              {\n                mr: 2,\n              },\n              open && { display: 'none' },\n            ]}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Persistent drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Drawer\n        sx={{\n          width: drawerWidth,\n          flexShrink: 0,\n          '& .MuiDrawer-paper': {\n            width: drawerWidth,\n            boxSizing: 'border-box',\n          },\n        }}\n        variant=\"persistent\"\n        anchor=\"left\"\n        open={open}\n      >\n        <DrawerHeader>\n          <IconButton onClick={handleDrawerClose}>\n            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}\n          </IconButton>\n        </DrawerHeader>\n        <Divider />\n        <List>\n          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n        <Divider />\n        <List>\n          {['All mail', 'Trash', 'Spam'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n      </Drawer>\n      <Main open={open}>\n        <DrawerHeader />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Main>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "PersistentDrawerRight",
+     "file": "PersistentDrawerRight.tsx",
+     "code": "import * as React from 'react';\nimport { styled, useTheme } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport List from '@mui/material/List';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport ChevronLeftIcon from '@mui/icons-material/ChevronLeft';\nimport ChevronRightIcon from '@mui/icons-material/ChevronRight';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nconst Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{\n  open?: boolean;\n}>(({ theme }) => ({\n  flexGrow: 1,\n  padding: theme.spacing(3),\n  transition: theme.transitions.create('margin', {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  marginRight: -drawerWidth,\n  /**\n   * This is necessary to enable the selection of content. In the DOM, the stacking order is determined\n   * by the order of appearance. Following this rule, elements appearing later in the markup will overlay\n   * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures\n   * proper interaction with the underlying content.\n   */\n  position: 'relative',\n  variants: [\n    {\n      props: ({ open }) => open,\n      style: {\n        transition: theme.transitions.create('margin', {\n          easing: theme.transitions.easing.easeOut,\n          duration: theme.transitions.duration.enteringScreen,\n        }),\n        marginRight: 0,\n      },\n    },\n  ],\n}));\n\ninterface AppBarProps extends MuiAppBarProps {\n  open?: boolean;\n}\n\nconst AppBar = styled(MuiAppBar, {\n  shouldForwardProp: (prop) => prop !== 'open',\n})<AppBarProps>(({ theme }) => ({\n  transition: theme.transitions.create(['margin', 'width'], {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  variants: [\n    {\n      props: ({ open }) => open,\n      style: {\n        width: `calc(100% - ${drawerWidth}px)`,\n        transition: theme.transitions.create(['margin', 'width'], {\n          easing: theme.transitions.easing.easeOut,\n          duration: theme.transitions.duration.enteringScreen,\n        }),\n        marginRight: drawerWidth,\n      },\n    },\n  ],\n}));\n\nconst DrawerHeader = styled('div')(({ theme }) => ({\n  display: 'flex',\n  alignItems: 'center',\n  padding: theme.spacing(0, 1),\n  // necessary for content to be below app bar\n  ...theme.mixins.toolbar,\n  justifyContent: 'flex-start',\n}));\n\nexport default function PersistentDrawerRight() {\n  const theme = useTheme();\n  const [open, setOpen] = React.useState(false);\n\n  const handleDrawerOpen = () => {\n    setOpen(true);\n  };\n\n  const handleDrawerClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar position=\"fixed\" open={open}>\n        <Toolbar>\n          <Typography variant=\"h6\" noWrap sx={{ flexGrow: 1 }} component=\"div\">\n            Persistent drawer\n          </Typography>\n          <IconButton\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            edge=\"end\"\n            onClick={handleDrawerOpen}\n            sx={[open && { display: 'none' }]}\n          >\n            <MenuIcon />\n          </IconButton>\n        </Toolbar>\n      </AppBar>\n      <Main open={open}>\n        <DrawerHeader />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Main>\n      <Drawer\n        sx={{\n          width: drawerWidth,\n          flexShrink: 0,\n          '& .MuiDrawer-paper': {\n            width: drawerWidth,\n          },\n        }}\n        variant=\"persistent\"\n        anchor=\"right\"\n        open={open}\n      >\n        <DrawerHeader>\n          <IconButton onClick={handleDrawerClose}>\n            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}\n          </IconButton>\n        </DrawerHeader>\n        <Divider />\n        <List>\n          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n        <Divider />\n        <List>\n          {['All mail', 'Trash', 'Spam'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n      </Drawer>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Mini variant drawer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In this variation, the persistent navigation drawer changes its width.\nIts resting state is as a mini-drawer at the same elevation as the content, clipped by the app bar.\nWhen expanded, it appears as the standard persistent navigation drawer.\n\nThe mini variant is recommended for apps sections that need quick selection access alongside content."
+    },
+    {
+     "kind": "demo",
+     "name": "MiniDrawer",
+     "file": "MiniDrawer.tsx",
+     "code": "import * as React from 'react';\nimport { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport MuiDrawer from '@mui/material/Drawer';\nimport MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport List from '@mui/material/List';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport IconButton from '@mui/material/IconButton';\nimport MenuIcon from '@mui/icons-material/Menu';\nimport ChevronLeftIcon from '@mui/icons-material/ChevronLeft';\nimport ChevronRightIcon from '@mui/icons-material/ChevronRight';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nconst openedMixin = (theme: Theme): CSSObject => ({\n  width: drawerWidth,\n  transition: theme.transitions.create('width', {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.enteringScreen,\n  }),\n  overflowX: 'hidden',\n});\n\nconst closedMixin = (theme: Theme): CSSObject => ({\n  transition: theme.transitions.create('width', {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  overflowX: 'hidden',\n  width: `calc(${theme.spacing(7)} + 1px)`,\n  [theme.breakpoints.up('sm')]: {\n    width: `calc(${theme.spacing(8)} + 1px)`,\n  },\n});\n\nconst DrawerHeader = styled('div')(({ theme }) => ({\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'flex-end',\n  padding: theme.spacing(0, 1),\n  // necessary for content to be below app bar\n  ...theme.mixins.toolbar,\n}));\n\ninterface AppBarProps extends MuiAppBarProps {\n  open?: boolean;\n}\n\nconst AppBar = styled(MuiAppBar, {\n  shouldForwardProp: (prop) => prop !== 'open',\n})<AppBarProps>(({ theme }) => ({\n  zIndex: theme.zIndex.drawer + 1,\n  transition: theme.transitions.create(['width', 'margin'], {\n    easing: theme.transitions.easing.sharp,\n    duration: theme.transitions.duration.leavingScreen,\n  }),\n  variants: [\n    {\n      props: ({ open }) => open,\n      style: {\n        marginLeft: drawerWidth,\n        width: `calc(100% - ${drawerWidth}px)`,\n        transition: theme.transitions.create(['width', 'margin'], {\n          easing: theme.transitions.easing.sharp,\n          duration: theme.transitions.duration.enteringScreen,\n        }),\n      },\n    },\n  ],\n}));\n\nconst Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(\n  ({ theme }) => ({\n    width: drawerWidth,\n    flexShrink: 0,\n    whiteSpace: 'nowrap',\n    boxSizing: 'border-box',\n    variants: [\n      {\n        props: ({ open }) => open,\n        style: {\n          ...openedMixin(theme),\n          '& .MuiDrawer-paper': openedMixin(theme),\n        },\n      },\n      {\n        props: ({ open }) => !open,\n        style: {\n          ...closedMixin(theme),\n          '& .MuiDrawer-paper': closedMixin(theme),\n        },\n      },\n    ],\n  }),\n);\n\nexport default function MiniDrawer() {\n  const theme = useTheme();\n  const [open, setOpen] = React.useState(false);\n\n  const handleDrawerOpen = () => {\n    setOpen(true);\n  };\n\n  const handleDrawerClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar position=\"fixed\" open={open}>\n        <Toolbar>\n          <IconButton\n            color=\"inherit\"\n            aria-label=\"open drawer\"\n            onClick={handleDrawerOpen}\n            edge=\"start\"\n            sx={[\n              {\n                marginRight: 5,\n              },\n              open && { display: 'none' },\n            ]}\n          >\n            <MenuIcon />\n          </IconButton>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Mini variant drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Drawer variant=\"permanent\" open={open}>\n        <DrawerHeader>\n          <IconButton onClick={handleDrawerClose}>\n            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}\n          </IconButton>\n        </DrawerHeader>\n        <Divider />\n        <List>\n          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n            <ListItem key={text} disablePadding sx={{ display: 'block' }}>\n              <ListItemButton\n                sx={[\n                  {\n                    minHeight: 48,\n                    px: 2.5,\n                  },\n                  open\n                    ? {\n                        justifyContent: 'initial',\n                      }\n                    : {\n                        justifyContent: 'center',\n                      },\n                ]}\n              >\n                <ListItemIcon\n                  sx={[\n                    {\n                      minWidth: 0,\n                      justifyContent: 'center',\n                    },\n                    open\n                      ? {\n                          mr: 3,\n                        }\n                      : {\n                          mr: 'auto',\n                        },\n                  ]}\n                >\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText\n                  primary={text}\n                  sx={[\n                    open\n                      ? {\n                          opacity: 1,\n                        }\n                      : {\n                          opacity: 0,\n                        },\n                  ]}\n                />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n        <Divider />\n        <List>\n          {['All mail', 'Trash', 'Spam'].map((text, index) => (\n            <ListItem key={text} disablePadding sx={{ display: 'block' }}>\n              <ListItemButton\n                sx={[\n                  {\n                    minHeight: 48,\n                    px: 2.5,\n                  },\n                  open\n                    ? {\n                        justifyContent: 'initial',\n                      }\n                    : {\n                        justifyContent: 'center',\n                      },\n                ]}\n              >\n                <ListItemIcon\n                  sx={[\n                    {\n                      minWidth: 0,\n                      justifyContent: 'center',\n                    },\n                    open\n                      ? {\n                          mr: 3,\n                        }\n                      : {\n                          mr: 'auto',\n                        },\n                  ]}\n                >\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText\n                  primary={text}\n                  sx={[\n                    open\n                      ? {\n                          opacity: 1,\n                        }\n                      : {\n                          opacity: 0,\n                        },\n                  ]}\n                />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n      </Drawer>\n      <Box component=\"main\" sx={{ flexGrow: 1, p: 3 }}>\n        <DrawerHeader />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Permanent drawer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Permanent navigation drawers are always visible and pinned to the left edge, at the same elevation as the content or background. They cannot be closed.\n\nPermanent navigation drawers are the **recommended default for desktop**."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Full-height navigation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Apps focused on information consumption that use a left-to-right hierarchy."
+    },
+    {
+     "kind": "demo",
+     "name": "PermanentDrawerLeft",
+     "file": "PermanentDrawerLeft.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport AppBar from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport List from '@mui/material/List';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nexport default function PermanentDrawerLeft() {\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar\n        position=\"fixed\"\n        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}\n      >\n        <Toolbar>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Permanent drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Drawer\n        sx={{\n          width: drawerWidth,\n          flexShrink: 0,\n          '& .MuiDrawer-paper': {\n            width: drawerWidth,\n            boxSizing: 'border-box',\n          },\n        }}\n        variant=\"permanent\"\n        anchor=\"left\"\n      >\n        <Toolbar />\n        <Divider />\n        <List>\n          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n        <Divider />\n        <List>\n          {['All mail', 'Trash', 'Spam'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n      </Drawer>\n      <Box\n        component=\"main\"\n        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}\n      >\n        <Toolbar />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "PermanentDrawerRight",
+     "file": "PermanentDrawerRight.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport AppBar from '@mui/material/AppBar';\nimport Toolbar from '@mui/material/Toolbar';\nimport List from '@mui/material/List';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nexport default function PermanentDrawerRight() {\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar\n        position=\"fixed\"\n        sx={{ width: `calc(100% - ${drawerWidth}px)`, mr: `${drawerWidth}px` }}\n      >\n        <Toolbar>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Permanent drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Box\n        component=\"main\"\n        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}\n      >\n        <Toolbar />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Box>\n      <Drawer\n        sx={{\n          width: drawerWidth,\n          flexShrink: 0,\n          '& .MuiDrawer-paper': {\n            width: drawerWidth,\n            boxSizing: 'border-box',\n          },\n        }}\n        variant=\"permanent\"\n        anchor=\"right\"\n      >\n        <Toolbar />\n        <Divider />\n        <List>\n          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n        <Divider />\n        <List>\n          {['All mail', 'Trash', 'Spam'].map((text, index) => (\n            <ListItem key={text} disablePadding>\n              <ListItemButton>\n                <ListItemIcon>\n                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                </ListItemIcon>\n                <ListItemText primary={text} />\n              </ListItemButton>\n            </ListItem>\n          ))}\n        </List>\n      </Drawer>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Clipped under the app bar",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Apps focused on productivity that require balance across the screen.\n\nThe demo keeps the Drawer below the fixed App Bar by rendering an empty `Toolbar` at the top of the Drawer content.\nThis spacer matches the App Bar height so navigation items are not covered by the App Bar."
+    },
+    {
+     "kind": "demo",
+     "name": "ClippedDrawer",
+     "file": "ClippedDrawer.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Drawer from '@mui/material/Drawer';\nimport AppBar from '@mui/material/AppBar';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport Toolbar from '@mui/material/Toolbar';\nimport List from '@mui/material/List';\nimport Typography from '@mui/material/Typography';\nimport Divider from '@mui/material/Divider';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport MailIcon from '@mui/icons-material/Mail';\n\nconst drawerWidth = 240;\n\nexport default function ClippedDrawer() {\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CssBaseline />\n      <AppBar position=\"fixed\" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>\n        <Toolbar>\n          <Typography variant=\"h6\" noWrap component=\"div\">\n            Clipped drawer\n          </Typography>\n        </Toolbar>\n      </AppBar>\n      <Drawer\n        variant=\"permanent\"\n        sx={{\n          width: drawerWidth,\n          flexShrink: 0,\n          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },\n        }}\n      >\n        <Toolbar />\n        <Box sx={{ overflow: 'auto' }}>\n          <List>\n            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (\n              <ListItem key={text} disablePadding>\n                <ListItemButton>\n                  <ListItemIcon>\n                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                  </ListItemIcon>\n                  <ListItemText primary={text} />\n                </ListItemButton>\n              </ListItem>\n            ))}\n          </List>\n          <Divider />\n          <List>\n            {['All mail', 'Trash', 'Spam'].map((text, index) => (\n              <ListItem key={text} disablePadding>\n                <ListItemButton>\n                  <ListItemIcon>\n                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}\n                  </ListItemIcon>\n                  <ListItemText primary={text} />\n                </ListItemButton>\n              </ListItem>\n            ))}\n          </List>\n        </Box>\n      </Drawer>\n      <Box component=\"main\" sx={{ flexGrow: 1, p: 3 }}>\n        <Toolbar />\n        <Typography sx={{ marginBottom: 2 }}>\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod\n          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non\n          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus\n          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.\n          Convallis convallis tellus id interdum velit laoreet id donec ultrices.\n          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit\n          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra\n          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum\n          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis\n          feugiat vivamus at augue. At augue eget arcu dictum varius duis at\n          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa\n          sapien faucibus et molestie ac.\n        </Typography>\n        <Typography sx={{ marginBottom: 2 }}>\n          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper\n          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim\n          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra\n          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis\n          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi\n          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit\n          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem\n          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis\n          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis\n          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla\n          posuere sollicitudin aliquam ultrices sagittis orci a.\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Drawer",
+   "description": "The props of the [Modal](/material-ui/api/modal/) component are available\nwhen `variant=\"temporary\"` is set.",
+   "props": [
+    {
+     "prop": "anchor",
+     "type": "'bottom'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top'",
+     "default": "'left'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Side from which the drawer will appear."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "16",
+     "required": false,
+     "deprecated": false,
+     "desc": "The elevation of the drawer."
+    },
+    {
+     "prop": "hideBackdrop",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the backdrop is not rendered."
+    },
+    {
+     "prop": "ModalProps",
+     "type": "object",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Props applied to the <a href=\"https://mui.com/material-ui/api/modal/\"><code>Modal</code></a> element."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed. The <code>reason</code> parameter can optionally be used to control the response to <code>onClose</code>."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, docked?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, docked?: elementType, paper?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    },
+    {
+     "prop": "variant",
+     "type": "'permanent'<br>&#124;&nbsp;'persistent'<br>&#124;&nbsp;'temporary'",
+     "default": "'temporary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "anchorBottom",
+     "className": "MuiDrawer-anchorBottom",
+     "description": "Styles applied to the root element if `anchor=\"bottom\"`."
+    },
+    {
+     "key": "anchorLeft",
+     "className": "MuiDrawer-anchorLeft",
+     "description": "Styles applied to the root element if `anchor=\"left\"`."
+    },
+    {
+     "key": "anchorRight",
+     "className": "MuiDrawer-anchorRight",
+     "description": "Styles applied to the root element if `anchor=\"right\"`."
+    },
+    {
+     "key": "anchorTop",
+     "className": "MuiDrawer-anchorTop",
+     "description": "Styles applied to the root element if `anchor=\"top\"`."
+    },
+    {
+     "key": "modal",
+     "className": "MuiDrawer-modal",
+     "description": "Styles applied to the Modal component."
+    }
+   ]
+  },
+  {
+   "name": "SwipeableDrawer",
+   "description": "",
+   "props": [
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed."
+    },
+    {
+     "prop": "onOpen",
+     "type": "func",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be opened."
+    },
+    {
+     "prop": "allowSwipeInChildren",
+     "type": "func<br>&#124;&nbsp;bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If set to true, the swipe event will open the drawer even if the user begins the swipe on one of the drawer&#39;s children. This can be useful in scenarios where the drawer is partially visible. You can customize it further with a callback that determines which children the user can drag over to open the drawer (for example, to ignore other elements that handle touch move events, like sliders)."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "disableBackdropTransition",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Disable the backdrop transition. This can improve the FPS on low-end devices."
+    },
+    {
+     "prop": "disableDiscovery",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, touching the screen near the edge of the drawer will not slide in the drawer a bit to promote accidental discovery of the swipe gesture."
+    },
+    {
+     "prop": "disableSwipeToOpen",
+     "type": "bool",
+     "default": "typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, swipe to open is disabled. This is useful in browsers where swiping triggers navigation actions. Swipe to open is disabled on iOS browsers by default."
+    },
+    {
+     "prop": "hysteresis",
+     "type": "number",
+     "default": "0.52",
+     "required": false,
+     "deprecated": false,
+     "desc": "Affects how far the drawer must be opened/closed to change its state. Specified as percent (0-1) of the width of the drawer"
+    },
+    {
+     "prop": "minFlingVelocity",
+     "type": "number",
+     "default": "450",
+     "required": false,
+     "deprecated": false,
+     "desc": "Defines, from which (average) velocity on, the swipe is defined as complete although hysteresis isn&#39;t reached. Good threshold is between 250 - 1000 px/s"
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, docked?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, swipeArea?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, docked?: elementType, paper?: elementType, root?: elementType, swipeArea?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "swipeAreaWidth",
+     "type": "number",
+     "default": "20",
+     "required": false,
+     "deprecated": false,
+     "desc": "The width of the left most (or right most) area in <code>px</code> that the drawer can be swiped open from."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": [
+    {
+     "key": "anchorBottom",
+     "className": "MuiDrawer-anchorBottom",
+     "description": "Styles applied to the root element if `anchor=\"bottom\"`."
+    },
+    {
+     "key": "anchorLeft",
+     "className": "MuiDrawer-anchorLeft",
+     "description": "Styles applied to the root element if `anchor=\"left\"`."
+    },
+    {
+     "key": "anchorRight",
+     "className": "MuiDrawer-anchorRight",
+     "description": "Styles applied to the root element if `anchor=\"right\"`."
+    },
+    {
+     "key": "anchorTop",
+     "className": "MuiDrawer-anchorTop",
+     "description": "Styles applied to the root element if `anchor=\"top\"`."
+    },
+    {
+     "key": "docked",
+     "className": "MuiDrawer-docked",
+     "description": "Styles applied to the root element if `variant=\"permanent or persistent\"`."
+    },
+    {
+     "key": "modal",
+     "className": "MuiDrawer-modal",
+     "description": "Styles applied to the Modal component."
+    },
+    {
+     "key": "paper",
+     "className": "MuiDrawer-paper",
+     "description": "Styles applied to the Paper component."
+    },
+    {
+     "key": "root",
+     "className": "MuiDrawer-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-drawer/"
+}

@@ -1,0 +1,885 @@
+{
+ "slug": "tour",
+ "title": "Tour",
+ "description": "A popup component for guiding users through a product.",
+ "group": "Data Display",
+ "whenToUse": "Use when you want to guide users through a product.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The most basic usage.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { EllipsisOutlined } from '@ant-design/icons';\nimport { Button, Divider, Space, Tour } from 'antd';\nimport type { TourProps } from 'antd';\n\nconst App: React.FC = () => {\n  const ref1 = useRef(null);\n  const ref2 = useRef(null);\n  const ref3 = useRef(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      cover: (\n        <img\n          draggable={false}\n          alt=\"tour.png\"\n          src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\"\n        />\n      ),\n      target: () => ref1.current,\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current,\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current,\n    },\n  ];\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin Tour\n      </Button>\n      <Divider />\n      <Space>\n        <Button ref={ref1}>Upload</Button>\n        <Button ref={ref2} type=\"primary\">\n          Save\n        </Button>\n        <Button ref={ref3} icon={<EllipsisOutlined />} />\n      </Space>\n      <Tour open={open} onClose={() => setOpen(false)} steps={steps} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Non-modal",
+   "description": "Use `mask={false}` to make Tour non-modal. At the meantime it is recommended to use with `type=\"primary\"` to emphasize the guide itself.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { EllipsisOutlined } from '@ant-design/icons';\nimport { Button, Divider, Space, Tour } from 'antd';\nimport type { TourProps } from 'antd';\n\nconst App: React.FC = () => {\n  const ref1 = useRef(null);\n  const ref2 = useRef(null);\n  const ref3 = useRef(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      cover: (\n        <img\n          draggable={false}\n          alt=\"tour.png\"\n          src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\"\n        />\n      ),\n      target: () => ref1.current,\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current,\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current,\n    },\n  ];\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin non-modal Tour\n      </Button>\n\n      <Divider />\n\n      <Space>\n        <Button ref={ref1}>Upload</Button>\n        <Button ref={ref2} type=\"primary\">\n          Save\n        </Button>\n        <Button ref={ref3} icon={<EllipsisOutlined />} />\n      </Space>\n\n      <Tour open={open} onClose={() => setOpen(false)} mask={false} type=\"primary\" steps={steps} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "non-modal"
+  },
+  {
+   "name": "Placement",
+   "description": "Change the placement of the guide relative to the target, there are 12 placements available. When `target={null}` the guide will show in the center.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { Button, Tour } from 'antd';\nimport type { TourProps } from 'antd';\n\nconst App: React.FC = () => {\n  const ref = useRef(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Center',\n      description: 'Displayed in the center of screen.',\n      target: null,\n    },\n    {\n      title: 'Right',\n      description: 'On the right of target.',\n      placement: 'right',\n      target: () => ref.current,\n    },\n    {\n      title: 'Top',\n      description: 'On the top of target.',\n      placement: 'top',\n      target: () => ref.current,\n    },\n  ];\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)} ref={ref}>\n        Begin Tour\n      </Button>\n\n      <Tour open={open} onClose={() => setOpen(false)} steps={steps} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Custom mask style",
+   "description": "Custom mask style.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { EllipsisOutlined } from '@ant-design/icons';\nimport { Button, Divider, Space, Tour } from 'antd';\nimport type { TourProps } from 'antd';\n\nconst App: React.FC = () => {\n  const ref1 = useRef(null);\n  const ref2 = useRef(null);\n  const ref3 = useRef(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      cover: (\n        <img\n          draggable={false}\n          alt=\"tour.png\"\n          src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\"\n        />\n      ),\n      target: () => ref1.current,\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current,\n      mask: {\n        style: {\n          boxShadow: 'inset 0 0 15px #fff',\n        },\n        color: 'rgba(40, 0, 255, .4)',\n      },\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current,\n      mask: false,\n    },\n  ];\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin Tour\n      </Button>\n\n      <Divider />\n\n      <Space>\n        <Button ref={ref1}>Upload</Button>\n        <Button ref={ref2} type=\"primary\">\n          Save\n        </Button>\n        <Button ref={ref3} icon={<EllipsisOutlined />} />\n      </Space>\n\n      <Tour\n        open={open}\n        onClose={() => setOpen(false)}\n        steps={steps}\n        mask={{\n          style: {\n            boxShadow: 'inset 0 0 15px #333',\n          },\n          color: 'rgba(80, 255, 255, .4)',\n        }}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "mask"
+  },
+  {
+   "name": "Custom indicator",
+   "description": "Custom indicator.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { EllipsisOutlined } from '@ant-design/icons';\nimport type { GetRef, TourProps } from 'antd';\nimport { Button, Divider, Space, Tour } from 'antd';\n\nconst App: React.FC = () => {\n  const ref1 = useRef<GetRef<typeof Button>>(null);\n  const ref2 = useRef<GetRef<typeof Button>>(null);\n  const ref3 = useRef<GetRef<typeof Button>>(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      target: () => ref1.current!,\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current!,\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current!,\n    },\n  ];\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin Tour\n      </Button>\n      <Divider />\n      <Space>\n        <Button ref={ref1}>Upload</Button>\n        <Button ref={ref2} type=\"primary\">\n          Save\n        </Button>\n        <Button ref={ref3} icon={<EllipsisOutlined />} />\n      </Space>\n      <Tour\n        open={open}\n        onClose={() => setOpen(false)}\n        steps={steps}\n        indicatorsRender={(current, total) => (\n          <span>\n            {current + 1} / {total}\n          </span>\n        )}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "indicator"
+  },
+  {
+   "name": "Custom action",
+   "description": "Custom action.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { EllipsisOutlined } from '@ant-design/icons';\nimport type { GetRef, TourProps } from 'antd';\nimport { Button, Divider, Space, Tour } from 'antd';\n\nconst App: React.FC = () => {\n  const ref1 = useRef<GetRef<typeof Button>>(null);\n  const ref2 = useRef<GetRef<typeof Button>>(null);\n  const ref3 = useRef<GetRef<typeof Button>>(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      target: () => ref1.current!,\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current!,\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current!,\n    },\n  ];\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin Tour\n      </Button>\n      <Divider />\n      <Space>\n        <Button ref={ref1}>Upload</Button>\n        <Button ref={ref2} type=\"primary\">\n          Save\n        </Button>\n        <Button ref={ref3} icon={<EllipsisOutlined />} />\n      </Space>\n      <Tour\n        open={open}\n        onClose={() => setOpen(false)}\n        steps={steps}\n        actionsRender={(originNode, { current, total }) => (\n          <>\n            {current !== total - 1 && (\n              <Button\n                size=\"small\"\n                onClick={() => {\n                  setOpen(false);\n                }}\n              >\n                Skip\n              </Button>\n            )}\n            {originNode}\n          </>\n        )}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "actions-render"
+  },
+  {
+   "name": "Custom highlighted area style",
+   "description": "Using `gap` to control the radius of highlight area and the offset between highlight area and the element.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { Button, Col, Row, Slider, Space, Tour, Typography } from 'antd';\nimport type { TourProps } from 'antd';\n\nconst { Text } = Typography;\n\nconst App: React.FC = () => {\n  const tourNodeRef = useRef(null);\n  const [radius, setRadius] = useState(8);\n  const [offsetX, setOffsetX] = useState(2);\n  const [offsetY, setOffsetY] = useState(2);\n  const [offset, setOffset] = useState(2);\n  const [open, setOpen] = useState(false);\n  const [offsetDirection, setOffsetDirection] = useState<'both' | 'individual'>('individual');\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      cover: (\n        <img\n          draggable={false}\n          alt=\"tour.png\"\n          src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\"\n        />\n      ),\n      target: () => tourNodeRef.current,\n    },\n  ];\n\n  const offsetGap =\n    offsetDirection === 'both'\n      ? { offset }\n      : {\n          offset: [offsetX, offsetY] as [number, number],\n        };\n  return (\n    <div ref={tourNodeRef}>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Begin Tour\n      </Button>\n      <Space style={{ display: 'flex', marginTop: 12 }} vertical>\n        <Row>\n          <Col span={6}>\n            <Text>Radius:</Text>\n          </Col>\n          <Col span={12}>\n            <Slider value={radius} onChange={(val) => val && setRadius(val)} />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={6}>\n            <Text> offset:</Text>\n          </Col>\n          <Col span={12}>\n            <Slider\n              value={offset}\n              max={50}\n              onChange={(val) => val && setOffset(val)}\n              onFocus={() => setOffsetDirection('both')}\n            />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={6}>\n            <Text>Horizontal offset:</Text>\n          </Col>\n          <Col span={12}>\n            <Slider\n              value={offsetX}\n              max={50}\n              onChange={(val) => val && setOffsetX(val)}\n              onFocus={() => setOffsetDirection('individual')}\n            />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={6}>\n            <Text>Vertical offset:</Text>\n          </Col>\n          <Col span={12}>\n            <Slider\n              value={offsetY}\n              max={50}\n              onChange={(val) => val && setOffsetY(val)}\n              onFocus={() => setOffsetDirection('individual')}\n            />\n          </Col>\n        </Row>\n      </Space>\n      <Tour\n        open={open}\n        onClose={() => setOpen(false)}\n        steps={steps}\n        gap={{ ...offsetGap, radius }}\n      />\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "gap"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Tour by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { Button, Divider, Flex, Space, Tour } from 'antd';\nimport type { GetProp, TourProps, TourStepProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst btnProps: {\n  nextButtonProps: TourStepProps['nextButtonProps'];\n  prevButtonProps: TourStepProps['prevButtonProps'];\n} = {\n  nextButtonProps: {\n    style: {\n      border: '1px solid #CDC1FF',\n      color: '#CDC1FF',\n    },\n  },\n  prevButtonProps: {\n    style: {\n      backgroundColor: '#CDC1FF',\n      color: '#fff',\n    },\n  },\n};\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border-radius: 4px;\n  `,\n  section: css`\n    border-radius: 8px;\n  `,\n}));\n\nconst stylesObject: TourProps['styles'] = {\n  mask: {\n    backgroundColor: 'rgba(0, 0, 0, 0.3)',\n  },\n  section: {\n    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',\n    border: '2px solid #4096ff',\n  },\n  cover: {\n    borderRadius: '12px 12px 0 0',\n  },\n};\n\nconst stylesFunction: TourProps['styles'] = (info): GetProp<TourProps, 'styles', 'Return'> => {\n  if (info.props.type === 'primary') {\n    return {\n      mask: {\n        backgroundColor: 'rgba(0, 0, 0, 0.3)',\n      },\n      section: {\n        backgroundColor: 'rgb(205,193,255, 0.8)',\n        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',\n      },\n      cover: {\n        borderRadius: '12px 12px 0 0',\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const ref1 = useRef<HTMLButtonElement | HTMLAnchorElement>(null);\n  const ref2 = useRef<HTMLButtonElement | HTMLAnchorElement>(null);\n  const ref3 = useRef<HTMLButtonElement | HTMLAnchorElement>(null);\n\n  const [open, setOpen] = useState<boolean>(false);\n  const [openFn, setOpenFn] = useState<boolean>(false);\n\n  const steps: TourProps['steps'] = [\n    {\n      title: 'Upload File',\n      description: 'Put your files here.',\n      cover: (\n        <img\n          alt=\"tour.png\"\n          src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\"\n        />\n      ),\n      target: () => ref1.current || document.body,\n      prevButtonProps: {},\n    },\n    {\n      title: 'Save',\n      description: 'Save your changes.',\n      target: () => ref2.current || document.body,\n    },\n    {\n      title: 'Other Actions',\n      description: 'Click to see other actions.',\n      target: () => ref3.current || document.body,\n    },\n  ];\n\n  const sharedProps: TourProps = {\n    steps,\n    classNames,\n    arrow: false,\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Flex gap=\"medium\">\n        <Button type=\"primary\" onClick={() => setOpen(true)}>\n          Begin Tour Object\n        </Button>\n        <Button type=\"primary\" onClick={() => setOpenFn(true)}>\n          Begin Tour Function\n        </Button>\n      </Flex>\n      <Divider />\n      <Tour {...sharedProps} open={open} onClose={() => setOpen(false)} styles={stylesObject} />\n      <Tour\n        {...sharedProps}\n        steps={steps.map((s) => ({ ...s, ...btnProps }))}\n        type=\"primary\"\n        open={openFn}\n        onClose={() => setOpenFn(false)}\n        styles={stylesFunction}\n      />\n      <Space>\n        <Button ref={ref1} type=\"primary\">\n          Upload\n        </Button>\n        <Button ref={ref2}>Save</Button>\n        <Button ref={ref3} type=\"dashed\">\n          Other Actions\n        </Button>\n      </Space>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "arrow",
+     "Whether to show the arrow, including the configuration whether to point to the center of the element",
+     "`boolean` | `{ pointAtCenter: boolean }`",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "closeIcon",
+     "Customize close icon",
+     "React.ReactNode",
+     "true",
+     "5.9.0",
+     "5.14.0"
+    ],
+    [
+     "disabledInteraction",
+     "Disable interaction on highlighted area.",
+     "boolean",
+     "false",
+     "5.13.0",
+     "×"
+    ],
+    [
+     "gap",
+     "Control the radius of the highlighted area and the offset between highlighted area and the element.",
+     "{ offset?: number | [number, number]; radius?: number }",
+     "{ offset?: 6 ; radius?: 2 }",
+     "5.0.0 (array type `offset`: 5.9.0)",
+     "×"
+    ],
+    [
+     "keyboard",
+     "Whether to enable keyboard shortcuts",
+     "boolean",
+     "true",
+     "6.2.0",
+     "×"
+    ],
+    [
+     "placement",
+     "Position of the guide card relative to the target element",
+     "`center` | `left` | `leftTop` | `leftBottom` | `right` | `rightTop` | `rightBottom` | `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+     "bottom",
+     "—",
+     "×"
+    ],
+    [
+     "onClose",
+     "Callback function on shutdown",
+     "Function",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onFinish",
+     "Callback when the tour is finished",
+     "Function",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "mask",
+     "Whether to enable masking, change mask style and fill color by pass custom props",
+     "boolean | { style?: React.CSSProperties; color?: string; }",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "type",
+     "Type, affects the background color and text color",
+     "`default` | `primary`",
+     "default",
+     "—",
+     "×"
+    ],
+    [
+     "open",
+     "Open tour",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Callback when the step changes. Current is the previous step",
+     "(current: number) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "current",
+     "What is the current step",
+     "number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "scrollIntoViewOptions",
+     "support pass custom scrollIntoView options",
+     "boolean | ScrollIntoViewOptions",
+     "true",
+     "5.2.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "indicatorsRender",
+     "custom indicator",
+     "(current: number, total: number) => ReactNode",
+     "-",
+     "5.2.0",
+     "×"
+    ],
+    [
+     "actionsRender",
+     "custom action",
+     "(originNode: ReactNode, info: { current: number, total: number }) => ReactNode",
+     "-",
+     "5.25.0",
+     "×"
+    ],
+    [
+     "zIndex",
+     "Tour's zIndex",
+     "number",
+     "1001",
+     "5.3.0",
+     "×"
+    ],
+    [
+     "getPopupContainer",
+     "Set the rendering node of Tour floating layer",
+     "(node: HTMLElement) => HTMLElement",
+     "body",
+     "5.12.0",
+     "×"
+    ]
+   ],
+   "name": "Tour"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "target",
+     "Get the element the guide card points to. Empty makes it show in center of screen",
+     "`() => HTMLElement` | `HTMLElement`",
+     "-",
+     "—"
+    ],
+    [
+     "arrow",
+     "Whether to show the arrow, including the configuration whether to point to the center of the element",
+     "`boolean` | `{ pointAtCenter: boolean}`",
+     "true",
+     "—"
+    ],
+    [
+     "closeIcon",
+     "Customize close icon",
+     "React.ReactNode",
+     "true",
+     "5.9.0"
+    ],
+    [
+     "cover",
+     "Displayed pictures or videos",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "title",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "description",
+     "description",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "placement",
+     "Position of the guide card relative to the target element",
+     "`center` | `left` | `leftTop` | `leftBottom` | `right` | `rightTop` | `rightBottom` | `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+     "bottom",
+     "—"
+    ],
+    [
+     "onClose",
+     "Callback function on shutdown",
+     "Function",
+     "-",
+     "—"
+    ],
+    [
+     "mask",
+     "Whether to enable masking, change mask style and fill color by pass custom props, the default follows the `mask` property of Tour",
+     "boolean | { style?: React.CSSProperties; color?: string; }",
+     "true",
+     "—"
+    ],
+    [
+     "type",
+     "Type, affects the background color and text color",
+     "`default` | `primary`",
+     "default",
+     "—"
+    ],
+    [
+     "nextButtonProps",
+     "Properties of the Next button",
+     "{ children: ReactNode; onClick: Function }",
+     "-",
+     "—"
+    ],
+    [
+     "prevButtonProps",
+     "Properties of the previous button",
+     "{ children: ReactNode; onClick: Function }",
+     "-",
+     "—"
+    ],
+    [
+     "scrollIntoViewOptions",
+     "support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour",
+     "boolean | ScrollIntoViewOptions",
+     "true",
+     "5.2.0"
+    ]
+   ],
+   "name": "TourStep"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "arrow",
+    "Whether to show the arrow, including the configuration whether to point to the center of the element",
+    "`boolean` | `{ pointAtCenter: boolean }`",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "closeIcon",
+    "Customize close icon",
+    "React.ReactNode",
+    "true",
+    "5.9.0",
+    "5.14.0"
+   ],
+   [
+    "disabledInteraction",
+    "Disable interaction on highlighted area.",
+    "boolean",
+    "false",
+    "5.13.0",
+    "×"
+   ],
+   [
+    "gap",
+    "Control the radius of the highlighted area and the offset between highlighted area and the element.",
+    "{ offset?: number | [number, number]; radius?: number }",
+    "{ offset?: 6 ; radius?: 2 }",
+    "5.0.0 (array type `offset`: 5.9.0)",
+    "×"
+   ],
+   [
+    "keyboard",
+    "Whether to enable keyboard shortcuts",
+    "boolean",
+    "true",
+    "6.2.0",
+    "×"
+   ],
+   [
+    "placement",
+    "Position of the guide card relative to the target element",
+    "`center` | `left` | `leftTop` | `leftBottom` | `right` | `rightTop` | `rightBottom` | `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+    "bottom",
+    "—",
+    "×"
+   ],
+   [
+    "onClose",
+    "Callback function on shutdown",
+    "Function",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onFinish",
+    "Callback when the tour is finished",
+    "Function",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "mask",
+    "Whether to enable masking, change mask style and fill color by pass custom props",
+    "boolean | { style?: React.CSSProperties; color?: string; }",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "type",
+    "Type, affects the background color and text color",
+    "`default` | `primary`",
+    "default",
+    "—",
+    "×"
+   ],
+   [
+    "open",
+    "Open tour",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Callback when the step changes. Current is the previous step",
+    "(current: number) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "current",
+    "What is the current step",
+    "number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "scrollIntoViewOptions",
+    "support pass custom scrollIntoView options",
+    "boolean | ScrollIntoViewOptions",
+    "true",
+    "5.2.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "indicatorsRender",
+    "custom indicator",
+    "(current: number, total: number) => ReactNode",
+    "-",
+    "5.2.0",
+    "×"
+   ],
+   [
+    "actionsRender",
+    "custom action",
+    "(originNode: ReactNode, info: { current: number, total: number }) => ReactNode",
+    "-",
+    "5.25.0",
+    "×"
+   ],
+   [
+    "zIndex",
+    "Tour's zIndex",
+    "number",
+    "1001",
+    "5.3.0",
+    "×"
+   ],
+   [
+    "getPopupContainer",
+    "Set the rendering node of Tour floating layer",
+    "(node: HTMLElement) => HTMLElement",
+    "body",
+    "5.12.0",
+    "×"
+   ]
+  ],
+  "name": "Tour"
+ },
+ "variants": [
+  {
+   "prop": "arrow",
+   "values": [
+    "boolean",
+    "{ pointAtCenter: boolean }"
+   ],
+   "default": "true",
+   "owner": "Tour",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "placement",
+   "values": [
+    "center",
+    "left",
+    "leftTop",
+    "leftBottom",
+    "right",
+    "rightTop",
+    "rightBottom",
+    "top",
+    "topLeft",
+    "topRight",
+    "bottom",
+    "bottomLeft",
+    "bottomRight"
+   ],
+   "default": "bottom",
+   "owner": "Tour",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "type",
+   "values": [
+    "default",
+    "primary"
+   ],
+   "default": "default",
+   "owner": "Tour",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "target",
+   "values": [
+    "() => HTMLElement",
+    "HTMLElement"
+   ],
+   "default": "-",
+   "owner": "TourStep",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "arrow",
+   "values": [
+    "boolean",
+    "{ pointAtCenter: boolean}"
+   ],
+   "default": "true",
+   "owner": "TourStep",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "placement",
+   "values": [
+    "center",
+    "left",
+    "leftTop",
+    "leftBottom",
+    "right",
+    "rightTop",
+    "rightBottom",
+    "top",
+    "topLeft",
+    "topRight",
+    "bottom",
+    "bottomLeft",
+    "bottomRight"
+   ],
+   "default": "bottom",
+   "owner": "TourStep",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "type",
+   "values": [
+    "default",
+    "primary"
+   ],
+   "default": "default",
+   "owner": "TourStep",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Tour root container with absolute positioning, z-index control, max width, visibility, arrow background color variable, theme styles and other container styles"
+   },
+   {
+    "name": "cover",
+    "mark": "semantic-mark-cover",
+    "description": "Card cover area with text center alignment, padding, image width and other image display styles"
+   },
+   {
+    "name": "close",
+    "mark": "semantic-mark-close",
+    "description": "Close button element with absolute positioning, size, color, hover state and other interactive feedback styles"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "Card main content area with text alignment, border radius, box shadow, relative positioning, background color, border, background clip and other card styles"
+   },
+   {
+    "name": "footer",
+    "mark": "semantic-mark-footer",
+    "description": "Card bottom action area with padding, text right alignment, border radius, flex layout and other bottom container styles"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "Action button group container with left auto margin, button spacing and other button group layout styles"
+   },
+   {
+    "name": "indicator",
+    "mark": "semantic-mark-indicator",
+    "description": "Single indicator element with width/height size, inline-block display, border radius, background color, right margin, active state and other dot styles"
+   },
+   {
+    "name": "indicators",
+    "mark": "semantic-mark-indicators",
+    "description": "Indicator group container with inline-block display and other indicator container styles"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Card header area with padding, width calculation, word break and other header container styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Guide title text with font weight and other title text styles"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "Guide description text with padding, word wrap and other description text styles"
+   },
+   {
+    "name": "mask",
+    "mark": "semantic-mark-mask",
+    "description": "Mask layer element with fixed positioning, full screen coverage, z-index, pointer events, transition animation and other mask styles"
+   }
+  ],
+  "dom": "<div style=\"width: 100%; height: 600px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;\">\n        <button class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-outlined\" type=\"button\">\n          <span>\n            Show\n          </span>\n        </button>\n        <div class=\"ant-tour css-var-test-id semantic-mark-root ant-tour-placement-bottom\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box; z-index: 1;\">\n          <div class=\"ant-tour-arrow\" style=\"position: absolute; top: 0px; left: 0px;\">\n          <div class=\"ant-tour-panel\">\n            <div class=\"ant-tour-section semantic-mark-section\">\n              <button aria-label=\"Close\" class=\"ant-tour-close semantic-mark-close\" type=\"button\">\n                <span aria-label=\"close\" class=\"anticon anticon-close ant-tour-close-icon\" role=\"img\">\n                  <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                    <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                  </svg>\n                </span>\n              </button>\n              <div class=\"ant-tour-cover semantic-mark-cover\">\n                <img alt=\"tour.png\" src=\"https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png\" style=\"width: 360px; max-width: 100%;\">\n              </div>\n              <div class=\"ant-tour-header semantic-mark-header\">\n                <div class=\"ant-tour-title semantic-mark-title\">\n                  Hello World!\n                </div>\n              </div>\n              <div class=\"ant-tour-description semantic-mark-description\">\n                Hello World?!\n              </div>\n              <div class=\"ant-tour-footer semantic-mark-footer\">\n                <div class=\"ant-tour-indicators semantic-mark-indicators\">\n                  <span class=\"ant-tour-indicator-active ant-tour-indicator semantic-mark-indicator\">\n                  <span class=\"ant-tour-indicator semantic-mark-indicator\">\n                </span></span></div>\n                <div class=\"ant-tour-actions semantic-mark-actions\">\n                  <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-tour-next-btn\" type=\"button\">\n                    <span>\n                      Next\n                    </span>\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "closeBtnSize",
+     "Close button size",
+     "number",
+     "22"
+    ],
+    [
+     "primaryNextBtnHoverBg",
+     "Hover background color of next button in primary type",
+     "string",
+     "rgb(240,240,240)"
+    ],
+    [
+     "primaryPrevBtnBg",
+     "Background color of previous button in primary type",
+     "string",
+     "rgba(255,255,255,0.15)"
+    ],
+    [
+     "zIndexPopup",
+     "Tour popup z-index",
+     "number",
+     "1070"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusXS",
+     "XS size border radius, used in some small border radius components, such as Segmented, Arrow and other components with small border radius.",
+     "number",
+     "—"
+    ],
+    [
+     "boxShadowTertiary",
+     "Control the tertiary box shadow style of an element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextActive",
+     "Control the background color of text in active state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFill",
+     "The darkest fill color is used to distinguish between the second and third level of fill color, and is currently only used in the hover effect of Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextLightSolid",
+     "Control the highlight color of text with background color, such as the text in Primary Button components.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "sizePopupArrow",
+     "The size of the component arrow",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

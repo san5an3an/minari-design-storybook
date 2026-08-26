@@ -1,0 +1,569 @@
+{
+ "slug": "timeline",
+ "title": "Timeline",
+ "description": "Vertical display timeline.",
+ "group": "Data Display",
+ "whenToUse": "- When a series of information needs to be ordered by time (ascending or descending).\n- When you need a timeline to make a visual connection.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic timeline.",
+   "code": "import React from 'react';\nimport { Timeline } from 'antd';\n\nconst App: React.FC = () => (\n  <Timeline\n    items={[\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        content: 'Solve initial network problems 2015-09-01',\n      },\n      {\n        content: 'Technical testing 2015-09-01',\n      },\n      {\n        content: 'Network problems being solved 2015-09-01',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Variant",
+   "description": "Use the `variant` to set the style of the timeline.",
+   "code": "import React from 'react';\nimport { Timeline } from 'antd';\n\nconst App: React.FC = () => (\n  <Timeline\n    variant=\"filled\"\n    items={[\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        content: 'Solve initial network problems 2015-09-01',\n      },\n      {\n        content: 'Technical testing 2015-09-01',\n      },\n      {\n        content: 'Network problems being solved 2015-09-01',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "variant"
+  },
+  {
+   "name": "Loading and Reversing",
+   "description": "Node supports `loading` to indicate loading, and `reverse` property to control the order of nodes.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Flex, Timeline } from 'antd';\n\nconst App: React.FC = () => {\n  const [reverse, setReverse] = useState(false);\n\n  const handleClick = () => {\n    setReverse(!reverse);\n  };\n\n  return (\n    <Flex vertical gap=\"medium\" align=\"flex-start\">\n      <Timeline\n        reverse={reverse}\n        items={[\n          {\n            content: 'Create a services site 2015-09-01',\n          },\n          {\n            content: 'Solve initial network problems 2015-09-01',\n          },\n          {\n            content: 'Technical testing 2015-09-01',\n          },\n          {\n            loading: true,\n            content: 'Recording...',\n          },\n        ]}\n      />\n      <Button type=\"primary\" onClick={handleClick}>\n        Toggle Reverse\n      </Button>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "pending"
+  },
+  {
+   "name": "Alternate",
+   "description": "Alternate timeline.",
+   "code": "import React from 'react';\nimport { ClockCircleOutlined } from '@ant-design/icons';\nimport { Timeline } from 'antd';\n\nconst App: React.FC = () => (\n  <Timeline\n    mode=\"alternate\"\n    items={[\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        content: 'Solve initial network problems 2015-09-01',\n        color: 'green',\n      },\n      {\n        icon: <ClockCircleOutlined style={{ fontSize: '16px' }} />,\n        content: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,\n      },\n      {\n        color: 'red',\n        content: 'Network problems being solved 2015-09-01',\n      },\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        icon: <ClockCircleOutlined style={{ fontSize: '16px' }} />,\n        content: 'Technical testing 2015-09-01',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "alternate"
+  },
+  {
+   "name": "Horizontal",
+   "description": "Horizontal layout.",
+   "code": "import React from 'react';\nimport { Divider, Flex, Timeline } from 'antd';\nimport type { TimelineProps } from 'antd';\n\nconst sharedProps: TimelineProps = {\n  orientation: 'horizontal',\n  items: [\n    {\n      content: 'Init',\n    },\n    {\n      content: 'Start',\n    },\n    {\n      content: 'Pending',\n    },\n    {\n      content: 'Complete',\n    },\n  ],\n};\n\nconst App: React.FC = () => (\n  <Flex vertical>\n    <Timeline {...sharedProps} mode=\"start\" />\n    <Divider />\n    <Timeline {...sharedProps} mode=\"end\" />\n    <Divider />\n    <Timeline {...sharedProps} mode=\"alternate\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "horizontal-debug"
+  },
+  {
+   "name": "Custom",
+   "description": "Set a node as an icon or other custom element.",
+   "code": "import React from 'react';\nimport { ClockCircleOutlined } from '@ant-design/icons';\nimport { theme, Timeline } from 'antd';\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n\n  return (\n    <Timeline\n      items={[\n        {\n          content: 'Create a services site 2015-09-01',\n        },\n        {\n          content: 'Solve initial network problems 2015-09-01',\n        },\n        {\n          icon: (\n            <ClockCircleOutlined\n              style={{\n                fontSize: 20,\n                // Only need to set when `fontSize` is customized\n                background: token.colorBgContainer,\n              }}\n            />\n          ),\n          color: 'red',\n          content: 'Technical testing 2015-09-01',\n        },\n        {\n          content: 'Network problems being solved 2015-09-01',\n        },\n      ]}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "custom"
+  },
+  {
+   "name": "End alternate",
+   "description": "End alternate timeline.",
+   "code": "import React from 'react';\nimport { ClockCircleOutlined } from '@ant-design/icons';\nimport { Timeline } from 'antd';\n\nconst App: React.FC = () => (\n  <Timeline\n    mode=\"end\"\n    items={[\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        content: 'Solve initial network problems 2015-09-01',\n      },\n      {\n        icon: <ClockCircleOutlined />,\n        color: 'red',\n        content: 'Technical testing 2015-09-01',\n      },\n      {\n        content: 'Network problems being solved 2015-09-01',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "end"
+  },
+  {
+   "name": "Title",
+   "description": "Use `title` show time alone.",
+   "code": "import React, { useState } from 'react';\nimport type { RadioChangeEvent } from 'antd';\nimport { Radio, Timeline } from 'antd';\n\nconst App: React.FC = () => {\n  const [mode, setMode] = useState<'start' | 'alternate' | 'end'>('start');\n\n  const onChange = (e: RadioChangeEvent) => {\n    setMode(e.target.value);\n  };\n\n  return (\n    <>\n      <Radio.Group\n        onChange={onChange}\n        value={mode}\n        style={{\n          marginBottom: 20,\n        }}\n      >\n        <Radio value=\"start\">Start</Radio>\n        <Radio value=\"end\">End</Radio>\n        <Radio value=\"alternate\">Alternate</Radio>\n      </Radio.Group>\n      <Timeline\n        mode={mode}\n        items={[\n          {\n            title: '2015-09-01',\n            content: 'Create a services',\n          },\n          {\n            title: '2015-09-01 09:12:11',\n            content: 'Solve initial network problems',\n          },\n          {\n            content: 'Technical testing',\n          },\n          {\n            title: '2015-09-01 09:12:11',\n            content: 'Network problems being solved',\n          },\n        ]}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "title"
+  },
+  {
+   "name": "Title Offset",
+   "description": "Use `titleSpan` to set the title span space.",
+   "code": "import React from 'react';\nimport { Flex, Timeline, Typography } from 'antd';\nimport type { TimelineProps } from 'antd';\n\nconst items: TimelineProps['items'] = [\n  { title: '05:10', content: 'Create a services' },\n  { title: '09:03', content: 'Solve initial network problems' },\n  { content: 'Technical testing' },\n  { title: '11:28', content: 'Network problems being solved' },\n];\n\nconst App: React.FC = () => {\n  return (\n    <Flex vertical gap=\"medium\">\n      <Typography.Title level={5} style={{ margin: 0 }}>\n        titleSpan = 100px\n      </Typography.Title>\n      <Timeline items={items} titleSpan=\"100px\" />\n      <Typography.Title level={5} style={{ margin: 0 }}>\n        titleSpan = 25%\n      </Typography.Title>\n      <Timeline items={items} titleSpan=\"25%\" />\n      <Typography.Title level={5} style={{ margin: 0 }}>\n        titleSpan = 18, mode = end\n      </Typography.Title>\n      <Timeline items={items} titleSpan={18} mode=\"end\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "title-span"
+  },
+  {
+   "name": "Semantic Sample",
+   "description": "Achieve richer custom styles by using semantic structure.",
+   "code": "import React from 'react';\nimport { Timeline } from 'antd';\n\nconst App: React.FC = () => (\n  <Timeline\n    items={[\n      {\n        content: 'Create a services site 2015-09-01',\n      },\n      {\n        content: 'Solve initial network problems 2015-09-01',\n        styles: {\n          root: {\n            height: 100,\n          },\n          rail: {\n            borderStyle: 'dashed',\n          },\n        },\n      },\n      {\n        content: '...for a long time...',\n        styles: {\n          root: {\n            height: 100,\n          },\n          rail: {\n            borderStyle: 'dashed',\n          },\n          content: {\n            opacity: 0.45,\n          },\n        },\n      },\n      {\n        content: 'Technical testing 2015-09-01',\n      },\n\n      {\n        content: 'Network problems being solved 2015-09-01',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "semantic"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Timeline by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Timeline } from 'antd';\nimport type { GetProp, TimelineProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    padding: 8px;\n    border-radius: 4px;\n  `,\n}));\n\nconst styles: TimelineProps['styles'] = {\n  itemIcon: {\n    borderColor: '#1890ff',\n  },\n};\n\nconst stylesFn: TimelineProps['styles'] = (info): GetProp<TimelineProps, 'styles', 'Return'> => {\n  if (info.props.orientation === 'vertical') {\n    return {\n      root: {\n        padding: '10px 6px',\n        border: '1px solid #A294F9',\n      },\n      itemIcon: {\n        borderColor: '#A294F9',\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const sharedProps: TimelineProps = {\n    classNames,\n    items: [\n      {\n        title: '2015-09-01',\n        content: 'Create a services site',\n      },\n      {\n        title: '2015-09-01 09:12:11',\n        content: 'Solve initial network problems',\n      },\n      {\n        content: 'Technical testing',\n      },\n    ],\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Timeline {...sharedProps} orientation=\"horizontal\" styles={styles} />\n      <Timeline {...sharedProps} orientation=\"vertical\" styles={stylesFn} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "items",
+     "Each node of timeline",
+     "Items[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "mode",
+     "By sending `alternate` the timeline will distribute the nodes to the left and right",
+     "`start` | `alternate` | `end`",
+     "start",
+     "—",
+     "×"
+    ],
+    [
+     "orientation",
+     "Set the direction of the timeline",
+     "`vertical` | `horizontal`",
+     "vertical",
+     "—",
+     "×"
+    ],
+    [
+     "~~pending~~",
+     "Set the last ghost node's existence or its content. Use `item.loading` instead",
+     "ReactNode",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "~~pendingDot~~",
+     "Set the dot of the last ghost node when pending is true. Use `item.icon` instead",
+     "ReactNode",
+     "&lt;LoadingOutlined /&gt;",
+     "—",
+     "×"
+    ],
+    [
+     "reverse",
+     "Whether reverse nodes or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "titleSpan",
+     "Set the title span space. It is the distance to the center of the dot <InlinePopover previewURL=\"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*1NJISa7bpqgAAAAAR5AAAAgAerJ8AQ/original\"></InlinePopover>",
+     "number | string",
+     "12",
+     "—",
+     "×"
+    ],
+    [
+     "variant",
+     "Config style variant",
+     "`filled` | `outlined`",
+     "outlined",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "Timeline"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default"
+   ],
+   "rows": [
+    [
+     "color",
+     "Set the circle's color to `blue`, `red`, `green`, `gray` or other custom colors",
+     "string",
+     "blue"
+    ],
+    [
+     "content",
+     "Set the content",
+     "ReactNode",
+     "-"
+    ],
+    [
+     "~~children~~",
+     "Set the content. Please use `content` instead",
+     "ReactNode",
+     "-"
+    ],
+    [
+     "~~dot~~",
+     "Customize timeline dot. Please use `icon` instead",
+     "ReactNode",
+     "-"
+    ],
+    [
+     "icon",
+     "Customize node icon",
+     "ReactNode",
+     "-"
+    ],
+    [
+     "~~label~~",
+     "Set the label. Please use `title` instead",
+     "ReactNode",
+     "-"
+    ],
+    [
+     "loading",
+     "Set loading state",
+     "boolean",
+     "false"
+    ],
+    [
+     "placement",
+     "Customize node placement",
+     "`start` | `end`",
+     "-"
+    ],
+    [
+     "~~position~~",
+     "Customize node position. Please use `placement` instead",
+     "`start` | `end`",
+     "-"
+    ],
+    [
+     "title",
+     "Set the title",
+     "ReactNode",
+     "-"
+    ]
+   ],
+   "name": "Items"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "items",
+    "Each node of timeline",
+    "Items[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "mode",
+    "By sending `alternate` the timeline will distribute the nodes to the left and right",
+    "`start` | `alternate` | `end`",
+    "start",
+    "—",
+    "×"
+   ],
+   [
+    "orientation",
+    "Set the direction of the timeline",
+    "`vertical` | `horizontal`",
+    "vertical",
+    "—",
+    "×"
+   ],
+   [
+    "~~pending~~",
+    "Set the last ghost node's existence or its content. Use `item.loading` instead",
+    "ReactNode",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "~~pendingDot~~",
+    "Set the dot of the last ghost node when pending is true. Use `item.icon` instead",
+    "ReactNode",
+    "&lt;LoadingOutlined /&gt;",
+    "—",
+    "×"
+   ],
+   [
+    "reverse",
+    "Whether reverse nodes or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "titleSpan",
+    "Set the title span space. It is the distance to the center of the dot <InlinePopover previewURL=\"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*1NJISa7bpqgAAAAAR5AAAAgAerJ8AQ/original\"></InlinePopover>",
+    "number | string",
+    "12",
+    "—",
+    "×"
+   ],
+   [
+    "variant",
+    "Config style variant",
+    "`filled` | `outlined`",
+    "outlined",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "Timeline"
+ },
+ "variants": [
+  {
+   "prop": "mode",
+   "values": [
+    "start",
+    "alternate",
+    "end"
+   ],
+   "default": "start",
+   "owner": "Timeline",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "orientation",
+   "values": [
+    "vertical",
+    "horizontal"
+   ],
+   "default": "vertical",
+   "owner": "Timeline",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "variant",
+   "values": [
+    "filled",
+    "outlined"
+   ],
+   "default": "outlined",
+   "owner": "Timeline",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "placement",
+   "values": [
+    "start",
+    "end"
+   ],
+   "default": "-",
+   "owner": "Items",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "position",
+   "values": [
+    "start",
+    "end"
+   ],
+   "default": "-",
+   "owner": "Items",
+   "source": "type",
+   "deprecated": true
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with timeline container list style reset, vertical layout, dot icon, outlined style, alternate layout and other basic container styles"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Item element with single timeline node relative positioning, margin, padding, font size, finish state, color theme, layout direction and other node basic styles"
+   },
+   {
+    "name": "itemWrapper",
+    "mark": "semantic-mark-itemWrapper",
+    "description": "Item wrapper element with timeline node content wrapping container styles"
+   },
+   {
+    "name": "itemIcon",
+    "mark": "semantic-mark-itemIcon",
+    "description": "Item icon element with node head icon absolute positioning, width/height size, background color, border, border radius, wave animation and other icon styles"
+   },
+   {
+    "name": "itemHeader",
+    "mark": "semantic-mark-itemHeader",
+    "description": "Item header element with header area layout containing title and rail, alignment, text direction and other styles"
+   },
+   {
+    "name": "itemTitle",
+    "mark": "semantic-mark-itemTitle",
+    "description": "Item title element with node title text font size, line height, color and other text styles"
+   },
+   {
+    "name": "itemSection",
+    "mark": "semantic-mark-itemSection",
+    "description": "Item section element with section container containing header and content flex layout, wrap, gap and other layout styles"
+   },
+   {
+    "name": "itemContent",
+    "mark": "semantic-mark-itemContent",
+    "description": "Item content element with node detail content relative positioning, top offset, left margin, text color, word break and other content styles"
+   },
+   {
+    "name": "itemRail",
+    "mark": "semantic-mark-itemRail",
+    "description": "Item rail element with timeline node connection track line absolute positioning, top offset, left offset, height, border color, width, style and other connection line styles"
+   }
+  ],
+  "dom": "<ol class=\"ant-steps ant-steps-vertical ant-steps-title-horizontal ant-steps-outlined ant-steps-dot ant-timeline css-var-test-id ant-timeline-layout-alternate css-var-test-id semantic-mark-root\" style=\"--ant-cmp-steps-items-offset: 0;\">\n        <li class=\"ant-steps-item ant-steps-item-finish ant-timeline-item-placement-start ant-timeline-item semantic-mark-item\">\n          <div class=\"ant-steps-item-wrapper ant-timeline-item-wrapper semantic-mark-itemWrapper\">\n            <div class=\"ant-steps-item-icon ant-wave-target ant-timeline-item-icon semantic-mark-itemIcon\">\n            <div class=\"ant-steps-item-section ant-timeline-item-section semantic-mark-itemSection\">\n              <div class=\"ant-steps-item-header ant-timeline-item-header semantic-mark-itemHeader\">\n                <div class=\"ant-steps-item-title ant-timeline-item-title semantic-mark-itemTitle\">\n                  2015-09-01\n                </div>\n                <div class=\"ant-steps-item-rail ant-steps-item-rail-finish ant-timeline-item-rail semantic-mark-itemRail\">\n              </div>\n              <div class=\"ant-steps-item-content ant-timeline-item-content semantic-mark-itemContent\">\n                Create a services\n              </div>\n            </div>\n          </div>\n        </div></div></li>\n        <li class=\"ant-steps-item ant-steps-item-finish ant-timeline-item-placement-start ant-timeline-item semantic-mark-item\">\n          <div class=\"ant-steps-item-wrapper ant-timeline-item-wrapper semantic-mark-itemWrapper\">\n            <div class=\"ant-steps-item-icon ant-wave-target ant-timeline-item-icon semantic-mark-itemIcon\">\n            <div class=\"ant-steps-item-section ant-timeline-item-section semantic-mark-itemSection\">\n              <div class=\"ant-steps-item-header ant-timeline-item-header semantic-mark-itemHeader\">\n                <div class=\"ant-steps-item-title ant-timeline-item-title semantic-mark-itemTitle\">\n                  2015-09-01 09:12:11\n                </div>\n                <div class=\"ant-steps-item-rail ant-steps-item-rail-finish ant-timeline-item-rail semantic-mark-itemRail\">\n              </div>\n              <div class=\"ant-steps-item-content ant-timeline-item-content semantic-mark-itemContent\">\n                Solve initial network problems\n              </div>\n            </div>\n          </div>\n        </div></div></li>\n        <li class=\"ant-steps-item ant-steps-item-finish ant-steps-item-empty-header ant-timeline-item-placement-start ant-timeline-item semantic-mark-item\">\n          <div class=\"ant-steps-item-wrapper ant-timeline-item-wrapper semantic-mark-itemWrapper\">\n            <div class=\"ant-steps-item-icon ant-wave-target ant-timeline-item-icon semantic-mark-itemIcon\">\n            <div class=\"ant-steps-item-section ant-timeline-item-section semantic-mark-itemSection\">\n              <div class=\"ant-steps-item-header ant-timeline-item-header semantic-mark-itemHeader\">\n                <div class=\"ant-steps-item-rail ant-steps-item-rail-finish ant-timeline-item-rail semantic-mark-itemRail\">\n              </div>\n              <div class=\"ant-steps-item-content ant-timeline-item-content semantic-mark-itemContent\">\n                Technical testing\n              </div>\n            </div>\n          </div>\n        </div></div></li>\n        <li class=\"ant-steps-item ant-steps-item-finish ant-steps-item-active ant-timeline-item-placement-start ant-timeline-item semantic-mark-item\">\n          <div class=\"ant-steps-item-wrapper ant-timeline-item-wrapper semantic-mark-itemWrapper\">\n            <div class=\"ant-steps-item-icon ant-wave-target ant-timeline-item-icon semantic-mark-itemIcon\">\n            <div class=\"ant-steps-item-section ant-timeline-item-section semantic-mark-itemSection\">\n              <div class=\"ant-steps-item-header ant-timeline-item-header semantic-mark-itemHeader\">\n                <div class=\"ant-steps-item-title ant-timeline-item-title semantic-mark-itemTitle\">\n                  2015-09-01 09:12:11\n                </div>\n              </div>\n              <div class=\"ant-steps-item-content ant-timeline-item-content semantic-mark-itemContent\">\n                Network problems being solved\n              </div>\n            </div>\n          </div>\n        </div></li>\n      </ol>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "dotBg",
+     "Background color of node",
+     "string",
+     "—"
+    ],
+    [
+     "dotBorderWidth",
+     "Border width of node",
+     "string | number",
+     "2"
+    ],
+    [
+     "dotSize",
+     "Node size",
+     "string | number",
+     "—"
+    ],
+    [
+     "itemPaddingBottom",
+     "Bottom padding of item",
+     "number",
+     "20"
+    ],
+    [
+     "tailColor",
+     "Line color",
+     "string",
+     "rgba(5,5,5,0.06)"
+    ],
+    [
+     "tailWidth",
+     "Line width",
+     "string | number",
+     "2"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccess",
+     "Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "margin",
+     "Control the margin of an element, with a medium size.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

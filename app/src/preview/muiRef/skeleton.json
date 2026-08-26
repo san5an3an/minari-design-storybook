@@ -1,0 +1,300 @@
+{
+ "slug": "skeleton",
+ "title": "Skeleton",
+ "group": "Feedback",
+ "folder": "skeleton",
+ "description": "Display a placeholder preview of your content before the data gets loaded to reduce load-time frustration.",
+ "components": [
+  "Skeleton"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The data for your components might not be immediately available. You can improve the perceived responsiveness of the page by using skeletons. It feels like things are happening immediately, then the information is incrementally displayed on the screen (Cf. [Avoid The Spinner](https://www.lukew.com/ff/entry.asp?1797))."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Usage",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The component is designed to be used **directly in your components**.\nFor instance:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "{\n  item ? (\n    <img\n      style={{\n        width: 210,\n        height: 118,\n      }}\n      alt={item.title}\n      src={item.src}\n    />\n  ) : (\n    <Skeleton variant=\"rectangular\" width={210} height={118} />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Variants",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The component supports 4 shape variants:\n\n- `text` (default): represents a single line of text (you can adjust the height via font size).\n- `circular`, `rectangular`, and `rounded`: come with different border radius to let you take control of the size."
+    },
+    {
+     "kind": "demo",
+     "name": "Variants",
+     "file": "Variants.tsx",
+     "code": "import Skeleton from '@mui/material/Skeleton';\nimport Stack from '@mui/material/Stack';\n\nexport default function Variants() {\n  return (\n    <Stack spacing={1}>\n      {/* For variant=\"text\", adjust the height via font-size */}\n      <Skeleton variant=\"text\" sx={{ fontSize: '1rem' }} />\n\n      {/* For other variants, adjust the size with `width` and `height` */}\n      <Skeleton variant=\"circular\" width={40} height={40} />\n      <Skeleton variant=\"rectangular\" width={210} height={60} />\n      <Skeleton variant=\"rounded\" width={210} height={60} />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Animations",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, the skeleton pulsates, but you can change the animation to a wave or disable it entirely."
+    },
+    {
+     "kind": "demo",
+     "name": "Animations",
+     "file": "Animations.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Skeleton from '@mui/material/Skeleton';\n\nexport default function Animations() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Skeleton />\n      <Skeleton animation=\"wave\" />\n      <Skeleton animation={false} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Pulsate example",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "YouTube",
+     "file": "YouTube.tsx",
+     "code": "import Grid from '@mui/material/Grid';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Skeleton from '@mui/material/Skeleton';\n\nconst data = [\n  {\n    src: 'https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ',\n    title: 'Don Diablo @ Tomorrowland Main Stage 2019 | Official…',\n    channel: 'Don Diablo',\n    views: '396k views',\n    createdAt: 'a week ago',\n  },\n  {\n    src: 'https://i.ytimg.com/vi/_Uu12zY01ts/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCpX6Jan2rxrCAZxJYDXppTP4MoQA',\n    title: 'Queen - Greatest Hits',\n    channel: 'Queen Official',\n    views: '40M views',\n    createdAt: '3 years ago',\n  },\n  {\n    src: 'https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw',\n    title: 'Calvin Harris, Sam Smith - Promises (Official Video)',\n    channel: 'Calvin Harris',\n    views: '130M views',\n    createdAt: '10 months ago',\n  },\n];\n\ninterface MediaProps {\n  loading?: boolean;\n}\n\nfunction Media(props: MediaProps) {\n  const { loading = false } = props;\n\n  return (\n    <Grid container wrap=\"nowrap\">\n      {(loading ? Array.from(new Array(3)) : data).map((item, index) => (\n        <Box key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }}>\n          {item ? (\n            <img\n              style={{ width: 210, height: 118 }}\n              alt={item.title}\n              src={item.src}\n            />\n          ) : (\n            <Skeleton variant=\"rectangular\" width={210} height={118} />\n          )}\n          {item ? (\n            <Box sx={{ pr: 2 }}>\n              <Typography gutterBottom variant=\"body2\">\n                {item.title}\n              </Typography>\n              <Typography\n                variant=\"caption\"\n                sx={{ display: 'block', color: 'text.secondary' }}\n              >\n                {item.channel}\n              </Typography>\n              <Typography variant=\"caption\" sx={{ color: 'text.secondary' }}>\n                {`${item.views} • ${item.createdAt}`}\n              </Typography>\n            </Box>\n          ) : (\n            <Box sx={{ pt: 0.5 }}>\n              <Skeleton />\n              <Skeleton width=\"60%\" />\n            </Box>\n          )}\n        </Box>\n      ))}\n    </Grid>\n  );\n}\n\nexport default function YouTube() {\n  return (\n    <Box sx={{ overflow: 'hidden' }}>\n      <Media loading />\n      <Media />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Wave example",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "Facebook",
+     "file": "Facebook.tsx",
+     "code": "import * as React from 'react';\nimport Card from '@mui/material/Card';\nimport CardHeader from '@mui/material/CardHeader';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport Avatar from '@mui/material/Avatar';\nimport Typography from '@mui/material/Typography';\nimport IconButton from '@mui/material/IconButton';\nimport MoreVertIcon from '@mui/icons-material/MoreVert';\nimport Skeleton from '@mui/material/Skeleton';\n\ninterface MediaProps {\n  loading?: boolean;\n}\n\nfunction Media(props: MediaProps) {\n  const { loading = false } = props;\n\n  return (\n    <Card sx={{ maxWidth: 345, m: 2 }}>\n      <CardHeader\n        avatar={\n          loading ? (\n            <Skeleton animation=\"wave\" variant=\"circular\" width={40} height={40} />\n          ) : (\n            <Avatar\n              alt=\"Ted talk\"\n              src=\"https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg\"\n            />\n          )\n        }\n        action={\n          loading ? null : (\n            <IconButton aria-label=\"settings\">\n              <MoreVertIcon />\n            </IconButton>\n          )\n        }\n        title={\n          loading ? (\n            <Skeleton\n              animation=\"wave\"\n              height={10}\n              width=\"80%\"\n              style={{ marginBottom: 6 }}\n            />\n          ) : (\n            'Ted'\n          )\n        }\n        subheader={\n          loading ? (\n            <Skeleton animation=\"wave\" height={10} width=\"40%\" />\n          ) : (\n            '5 hours ago'\n          )\n        }\n      />\n      {loading ? (\n        <Skeleton sx={{ height: 190 }} animation=\"wave\" variant=\"rectangular\" />\n      ) : (\n        <CardMedia\n          component=\"img\"\n          height=\"140\"\n          image=\"https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512\"\n          alt=\"Nicola Sturgeon on a TED talk stage\"\n        />\n      )}\n      <CardContent>\n        {loading ? (\n          <React.Fragment>\n            <Skeleton animation=\"wave\" height={10} style={{ marginBottom: 6 }} />\n            <Skeleton animation=\"wave\" height={10} width=\"80%\" />\n          </React.Fragment>\n        ) : (\n          <Typography variant=\"body2\" component=\"p\" sx={{ color: 'text.secondary' }}>\n            {\n              \"Why First Minister of Scotland Nicola Sturgeon thinks GDP is the wrong measure of a country's success:\"\n            }\n          </Typography>\n        )}\n      </CardContent>\n    </Card>\n  );\n}\n\nexport default function Facebook() {\n  return (\n    <div>\n      <Media loading />\n      <Media />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Inferring dimensions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In addition to accepting `width` and `height` props, the component can also infer the dimensions.\n\nIt works well when it comes to typography as its height is set using `em` units."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Typography variant=\"h1\">{loading ? <Skeleton /> : 'h1'}</Typography>\n"
+    },
+    {
+     "kind": "demo",
+     "name": "SkeletonTypography",
+     "file": "SkeletonTypography.tsx",
+     "code": "import Typography, { TypographyProps } from '@mui/material/Typography';\nimport Skeleton from '@mui/material/Skeleton';\nimport Grid from '@mui/material/Grid';\n\nconst variants = [\n  'h1',\n  'h3',\n  'body1',\n  'caption',\n] as readonly TypographyProps['variant'][];\n\nfunction TypographyDemo(props: { loading?: boolean }) {\n  const { loading = false } = props;\n\n  return (\n    <div>\n      {variants.map((variant) => (\n        <Typography component=\"div\" key={variant} variant={variant}>\n          {loading ? <Skeleton /> : variant}\n        </Typography>\n      ))}\n    </div>\n  );\n}\n\nexport default function SkeletonTypography() {\n  return (\n    <Grid container spacing={8}>\n      <Grid size=\"grow\">\n        <TypographyDemo loading />\n      </Grid>\n      <Grid size=\"grow\">\n        <TypographyDemo />\n      </Grid>\n    </Grid>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Use `variant=\"text\"` when inferring dimensions from typography, and customize the border radius with the `sx` prop if you need a different shape while preserving typography-based sizing.\n\nBut when it comes to other components, you may not want to repeat the width and\nheight. In these instances, you can pass `children` and it will\ninfer its width and height from them."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "loading ? (\n  <Skeleton variant=\"circular\">\n    <Avatar />\n  </Skeleton>\n) : (\n  <Avatar src={data.avatar} />\n);\n"
+    },
+    {
+     "kind": "demo",
+     "name": "SkeletonChildren",
+     "file": "SkeletonChildren.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Avatar from '@mui/material/Avatar';\nimport Grid from '@mui/material/Grid';\nimport Skeleton from '@mui/material/Skeleton';\n\nconst Image = styled('img')({\n  width: '100%',\n});\n\nfunction SkeletonChildrenDemo(props: { loading?: boolean }) {\n  const { loading = false } = props;\n\n  return (\n    <div>\n      <Box sx={{ display: 'flex', alignItems: 'center' }}>\n        <Box sx={{ margin: 1 }}>\n          {loading ? (\n            <Skeleton variant=\"circular\">\n              <Avatar />\n            </Skeleton>\n          ) : (\n            <Avatar src=\"https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg\" />\n          )}\n        </Box>\n        <Box sx={{ width: '100%' }}>\n          {loading ? (\n            <Skeleton width=\"100%\">\n              <Typography>.</Typography>\n            </Skeleton>\n          ) : (\n            <Typography>Ted</Typography>\n          )}\n        </Box>\n      </Box>\n      {loading ? (\n        <Skeleton variant=\"rectangular\" width=\"100%\">\n          <div style={{ paddingTop: '57%' }} />\n        </Skeleton>\n      ) : (\n        <Image\n          src=\"https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512\"\n          alt=\"\"\n        />\n      )}\n    </div>\n  );\n}\n\nexport default function SkeletonChildren() {\n  return (\n    <Grid container spacing={8}>\n      <Grid size=\"grow\">\n        <SkeletonChildrenDemo loading />\n      </Grid>\n      <Grid size=\"grow\">\n        <SkeletonChildrenDemo />\n      </Grid>\n    </Grid>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The color of the component can be customized by changing its `background-color` CSS property.\nThis is especially useful when on a black background (as the skeleton will otherwise be invisible)."
+    },
+    {
+     "kind": "demo",
+     "name": "SkeletonColor",
+     "file": "SkeletonColor.tsx",
+     "code": "import Skeleton from '@mui/material/Skeleton';\nimport Box from '@mui/material/Box';\n\nexport default function SkeletonColor() {\n  return (\n    <Box\n      sx={{\n        bgcolor: '#121212',\n        p: 8,\n        width: '100%',\n        display: 'flex',\n        justifyContent: 'center',\n      }}\n    >\n      <Skeleton\n        sx={{ bgcolor: 'grey.900' }}\n        variant=\"rectangular\"\n        width={210}\n        height={118}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Skeleton screens provide an alternative to the traditional spinner method.\nRather than showing an abstract widget, skeleton screens create anticipation of what is to come and reduce cognitive load.\n\nThe background color of the skeleton uses the least amount of luminance to be visible in good conditions (good ambient light, good screen, no visual impairments)."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "ARIA",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "None."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The skeleton is not focusable."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Skeleton",
+   "description": "",
+   "props": [
+    {
+     "prop": "animation",
+     "type": "'pulse'<br>&#124;&nbsp;'wave'<br>&#124;&nbsp;false",
+     "default": "'pulse'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The animation. If <code>false</code> the animation effect is disabled."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Optional children to infer width and height from."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "height",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Height of the skeleton. Useful when you don&#39;t want to adapt the skeleton to a text element but for instance a card."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'circular'<br>&#124;&nbsp;'rectangular'<br>&#124;&nbsp;'rounded'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The type of content that will be rendered."
+    },
+    {
+     "prop": "width",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Width of the skeleton. Useful when the skeleton is inside an inline element with no width of its own."
+    }
+   ],
+   "classes": [
+    {
+     "key": "circular",
+     "className": "MuiSkeleton-circular",
+     "description": "Styles applied to the root element if `variant=\"circular\"`."
+    },
+    {
+     "key": "fitContent",
+     "className": "MuiSkeleton-fitContent",
+     "description": "Styles applied when the component is passed children and no width."
+    },
+    {
+     "key": "heightAuto",
+     "className": "MuiSkeleton-heightAuto",
+     "description": "Styles applied when the component is passed children and no height."
+    },
+    {
+     "key": "pulse",
+     "className": "MuiSkeleton-pulse",
+     "description": "Styles applied to the root element if `animation=\"pulse\"`."
+    },
+    {
+     "key": "rectangular",
+     "className": "MuiSkeleton-rectangular",
+     "description": "Styles applied to the root element if `variant=\"rectangular\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiSkeleton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiSkeleton-rounded",
+     "description": "Styles applied to the root element if `variant=\"rounded\"`."
+    },
+    {
+     "key": "text",
+     "className": "MuiSkeleton-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    },
+    {
+     "key": "wave",
+     "className": "MuiSkeleton-wave",
+     "description": "Styles applied to the root element if `animation=\"wave\"`."
+    },
+    {
+     "key": "withChildren",
+     "className": "MuiSkeleton-withChildren",
+     "description": "Styles applied when the component is passed children."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-skeleton/"
+}

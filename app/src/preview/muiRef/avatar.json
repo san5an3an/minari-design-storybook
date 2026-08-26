@@ -1,0 +1,678 @@
+{
+ "slug": "avatar",
+ "title": "Avatar",
+ "group": "Data display",
+ "folder": "avatars",
+ "description": "Avatars are found throughout material design with uses in everything from tables to dialog menus.",
+ "components": [
+  "Avatar",
+  "AvatarGroup",
+  "Badge"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Avatar"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Image avatars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Image avatars can be created by passing standard `img` props `src` or `srcSet` to the component."
+    },
+    {
+     "kind": "demo",
+     "name": "ImageAvatars",
+     "file": "ImageAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\n\nexport default function ImageAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n      <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n      <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Letter avatars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Avatars containing simple characters can be created by passing a string as `children`."
+    },
+    {
+     "kind": "demo",
+     "name": "LetterAvatars",
+     "file": "LetterAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\nimport { deepOrange, deepPurple } from '@mui/material/colors';\n\nexport default function LetterAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar>H</Avatar>\n      <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>\n      <Avatar sx={{ bgcolor: deepPurple[500] }}>OP</Avatar>\n    </Stack>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "You can use different background colors for the avatar.\nThe following demo generates the color based on the name of the person."
+    },
+    {
+     "kind": "demo",
+     "name": "BackgroundLetterAvatars",
+     "file": "BackgroundLetterAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\n\nfunction stringToColor(string: string) {\n  let hash = 0;\n  let i;\n\n  /* eslint-disable no-bitwise */\n  for (i = 0; i < string.length; i += 1) {\n    hash = string.charCodeAt(i) + ((hash << 5) - hash);\n  }\n\n  let color = '#';\n\n  for (i = 0; i < 3; i += 1) {\n    const value = (hash >> (i * 8)) & 0xff;\n    color += `00${value.toString(16)}`.slice(-2);\n  }\n  /* eslint-enable no-bitwise */\n\n  return color;\n}\n\nfunction stringAvatar(name: string) {\n  return {\n    sx: {\n      bgcolor: stringToColor(name),\n    },\n    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,\n  };\n}\n\nexport default function BackgroundLetterAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar {...stringAvatar('Kent Dodds')} />\n      <Avatar {...stringAvatar('Jed Watson')} />\n      <Avatar {...stringAvatar('Tim Neutkens')} />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sizes",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can change the size of the avatar with the `height` and `width` CSS properties."
+    },
+    {
+     "kind": "demo",
+     "name": "SizeAvatars",
+     "file": "SizeAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\n\nexport default function SizeAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar\n        alt=\"Remy Sharp\"\n        src=\"/static/images/avatar/1.jpg\"\n        sx={{ width: 24, height: 24 }}\n      />\n      <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n      <Avatar\n        alt=\"Remy Sharp\"\n        src=\"/static/images/avatar/1.jpg\"\n        sx={{ width: 56, height: 56 }}\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon avatars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Icon avatars are created by passing an icon as `children`."
+    },
+    {
+     "kind": "demo",
+     "name": "IconAvatars",
+     "file": "IconAvatars.tsx",
+     "code": "import { green, pink } from '@mui/material/colors';\nimport Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\nimport FolderIcon from '@mui/icons-material/Folder';\nimport PageviewIcon from '@mui/icons-material/Pageview';\nimport AssignmentIcon from '@mui/icons-material/Assignment';\n\nexport default function IconAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar>\n        <FolderIcon />\n      </Avatar>\n      <Avatar sx={{ bgcolor: pink[500] }}>\n        <PageviewIcon />\n      </Avatar>\n      <Avatar sx={{ bgcolor: green[500] }}>\n        <AssignmentIcon />\n      </Avatar>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Variants",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If you need square or rounded avatars, use the `variant` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "VariantAvatars",
+     "file": "VariantAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\nimport { deepOrange, green } from '@mui/material/colors';\nimport AssignmentIcon from '@mui/icons-material/Assignment';\n\nexport default function VariantAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar sx={{ bgcolor: deepOrange[500] }} variant=\"square\">\n        N\n      </Avatar>\n      <Avatar sx={{ bgcolor: green[500] }} variant=\"rounded\">\n        <AssignmentIcon />\n      </Avatar>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Fallbacks",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If there is an error loading the avatar image, the component falls back to an alternative in the following order:\n\n- the provided children\n- the first letter of the `alt` text\n- a generic avatar icon"
+    },
+    {
+     "kind": "demo",
+     "name": "FallbackAvatars",
+     "file": "FallbackAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\nimport { deepOrange } from '@mui/material/colors';\n\nexport default function FallbackAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <Avatar\n        sx={{ bgcolor: deepOrange[500] }}\n        alt=\"Remy Sharp\"\n        src=\"/broken-image.jpg\"\n      >\n        B\n      </Avatar>\n      <Avatar\n        sx={{ bgcolor: deepOrange[500] }}\n        alt=\"Remy Sharp\"\n        src=\"/broken-image.jpg\"\n      />\n      <Avatar src=\"/broken-image.jpg\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Grouped",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`AvatarGroup` renders its children as a stack. Use the `max` prop to limit the number of avatars."
+    },
+    {
+     "kind": "demo",
+     "name": "GroupAvatars",
+     "file": "GroupAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport AvatarGroup from '@mui/material/AvatarGroup';\n\nexport default function GroupAvatars() {\n  return (\n    <AvatarGroup max={4}>\n      <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n      <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n      <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n      <Avatar alt=\"Agnes Walker\" src=\"/static/images/avatar/4.jpg\" />\n      <Avatar alt=\"Trevor Henderson\" src=\"/static/images/avatar/5.jpg\" />\n    </AvatarGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Total avatars",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If you need to control the total number of avatars not shown, you can use the `total` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "TotalAvatars",
+     "file": "TotalAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport AvatarGroup from '@mui/material/AvatarGroup';\n\nexport default function TotalAvatars() {\n  return (\n    <AvatarGroup total={24}>\n      <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n      <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n      <Avatar alt=\"Agnes Walker\" src=\"/static/images/avatar/4.jpg\" />\n      <Avatar alt=\"Trevor Henderson\" src=\"/static/images/avatar/5.jpg\" />\n    </AvatarGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Custom surplus",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Set the `renderSurplus` prop as a callback to customize the surplus avatar. The callback will receive the surplus number as an argument based on the children and the `max` prop, and should return a `React.ReactNode`.\n\nThe `renderSurplus` prop is useful when you need to render the surplus based on the data sent from the server."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomSurplusAvatars",
+     "file": "CustomSurplusAvatars.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport AvatarGroup from '@mui/material/AvatarGroup';\n\nexport default function CustomSurplusAvatars() {\n  return (\n    <AvatarGroup\n      renderSurplus={(surplus) => <span>+{surplus.toString()[0]}k</span>}\n      total={4251}\n    >\n      <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n      <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n      <Avatar alt=\"Agnes Walker\" src=\"/static/images/avatar/4.jpg\" />\n      <Avatar alt=\"Trevor Henderson\" src=\"/static/images/avatar/5.jpg\" />\n    </AvatarGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Spacing",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can change the spacing between avatars using the `spacing` prop. You can use one of the presets (`\"medium\"`, the default, or `\"small\"`) or set a custom numeric value."
+    },
+    {
+     "kind": "demo",
+     "name": "Spacing",
+     "file": "Spacing.tsx",
+     "code": "import Avatar from '@mui/material/Avatar';\nimport AvatarGroup from '@mui/material/AvatarGroup';\nimport Stack from '@mui/material/Stack';\n\nexport default function Spacing() {\n  return (\n    <Stack spacing={4}>\n      <AvatarGroup spacing=\"medium\">\n        <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n        <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n        <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n      </AvatarGroup>\n      <AvatarGroup spacing=\"small\">\n        <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n        <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n        <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n      </AvatarGroup>\n      <AvatarGroup spacing={24}>\n        <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n        <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n        <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n      </AvatarGroup>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "With badge",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BadgeAvatars",
+     "file": "BadgeAvatars.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Badge from '@mui/material/Badge';\nimport Avatar from '@mui/material/Avatar';\nimport Stack from '@mui/material/Stack';\nimport InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';\n\nconst StyledBadge = styled(Badge)(({ theme }) => ({\n  '& .MuiBadge-badge': {\n    backgroundColor: '#44b700',\n    color: '#44b700',\n    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,\n    '&::after': {\n      position: 'absolute',\n      top: 0,\n      left: 0,\n      width: '100%',\n      height: '100%',\n      borderRadius: '50%',\n      animation: 'ripple 1.2s infinite ease-in-out',\n      border: '1px solid currentColor',\n      content: '\"\"',\n    },\n  },\n  '@keyframes ripple': {\n    '0%': {\n      transform: 'scale(.8)',\n      opacity: 1,\n    },\n    '100%': {\n      transform: 'scale(2.4)',\n      opacity: 0,\n    },\n  },\n}));\n\nconst SmallAvatar = styled(Avatar)(({ theme }) => ({\n  width: 22,\n  height: 22,\n  border: `2px solid ${theme.palette.background.paper}`,\n}));\n\nexport default function BadgeAvatars() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <StyledBadge\n        overlap=\"circular\"\n        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}\n        variant=\"dot\"\n      >\n        <Avatar alt=\"Remy Sharp, online\" src=\"/static/images/avatar/1.jpg\" />\n      </StyledBadge>\n      <Badge\n        overlap=\"circular\"\n        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}\n        badgeContent={2}\n        color=\"primary\"\n      >\n        <Avatar\n          alt=\"Travis Howard, 2 unread messages\"\n          src=\"/static/images/avatar/2.jpg\"\n        />\n      </Badge>\n      <Badge\n        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}\n        badgeContent={<SmallAvatar alt=\"\" src=\"/static/images/avatar/1.jpg\" />}\n      >\n        <InsertDriveFileIcon\n          color=\"action\"\n          fontSize=\"large\"\n          titleAccess=\"Q4 budget spreadsheet, last edited by Remy Sharp\"\n        />\n      </Badge>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Avatar upload",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "UploadAvatars",
+     "file": "UploadAvatars.tsx",
+     "code": "import * as React from 'react';\nimport Avatar from '@mui/material/Avatar';\nimport ButtonBase from '@mui/material/ButtonBase';\n\nexport default function UploadAvatars() {\n  const [avatarSrc, setAvatarSrc] = React.useState<string | undefined>(undefined);\n\n  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    const file = event.target.files?.[0];\n    if (file) {\n      // Read the file as a data URL\n      const reader = new FileReader();\n      reader.onload = () => {\n        setAvatarSrc(reader.result as string);\n      };\n      reader.readAsDataURL(file);\n    }\n  };\n\n  return (\n    <ButtonBase\n      component=\"label\"\n      role={undefined}\n      tabIndex={-1} // prevent label from tab focus\n      aria-label=\"Avatar image\"\n      sx={{\n        borderRadius: '40px',\n        '&:has(:focus-visible)': {\n          outline: '2px solid',\n          outlineOffset: '2px',\n        },\n      }}\n    >\n      <Avatar alt=\"Upload new avatar\" src={avatarSrc} />\n      <input\n        type=\"file\"\n        accept=\"image/*\"\n        style={{\n          border: 0,\n          clip: 'rect(0 0 0 0)',\n          height: '1px',\n          margin: '-1px',\n          overflow: 'hidden',\n          padding: 0,\n          position: 'absolute',\n          whiteSpace: 'nowrap',\n          width: '1px',\n        }}\n        onChange={handleAvatarChange}\n      />\n    </ButtonBase>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Avatar",
+   "description": "",
+   "props": [
+    {
+     "prop": "alt",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Used in combination with <code>src</code> or <code>srcSet</code> to provide an alt attribute for the rendered <code>img</code> element."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Used to render icon or text elements inside the Avatar if <code>src</code> is not set. This can be an element, or just a string."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sizes",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>sizes</code> attribute for the <code>img</code> element."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ fallback?: func<br>&#124;&nbsp;object, img?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ fallback?: elementType, img?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "src",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>src</code> attribute for the <code>img</code> element."
+    },
+    {
+     "prop": "srcSet",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>srcSet</code> attribute for the <code>img</code> element. Use this attribute for responsive image display."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'circular'<br>&#124;&nbsp;'rounded'<br>&#124;&nbsp;'square'<br>&#124;&nbsp;string",
+     "default": "'circular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The shape of the avatar."
+    }
+   ],
+   "classes": [
+    {
+     "key": "circular",
+     "className": "MuiAvatar-circular",
+     "description": "Styles applied to the root element if `variant=\"circular\"`."
+    },
+    {
+     "key": "colorDefault",
+     "className": "MuiAvatar-colorDefault",
+     "description": "Styles applied to the root element if not `src` or `srcSet`."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiAvatar-rounded",
+     "description": "Styles applied to the root element if `variant=\"rounded\"`."
+    },
+    {
+     "key": "square",
+     "className": "MuiAvatar-square",
+     "description": "Styles applied to the root element if `variant=\"square\"`."
+    }
+   ]
+  },
+  {
+   "name": "AvatarGroup",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The avatars to stack."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "5",
+     "required": false,
+     "deprecated": false,
+     "desc": "Max avatars to show before +x."
+    },
+    {
+     "prop": "renderSurplus",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "custom renderer of extraAvatars"
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ surplus?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ surplus?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "spacing",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;number",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Spacing between avatars."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "total",
+     "type": "number",
+     "default": "children.length",
+     "required": false,
+     "deprecated": false,
+     "desc": "The total number of avatars. Used for calculating the number of extra avatars."
+    },
+    {
+     "prop": "variant",
+     "type": "'circular'<br>&#124;&nbsp;'rounded'<br>&#124;&nbsp;'square'<br>&#124;&nbsp;string",
+     "default": "'circular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "avatar",
+     "className": "MuiAvatarGroup-avatar",
+     "description": "Styles applied to the avatar elements."
+    },
+    {
+     "key": "root",
+     "className": "MuiAvatarGroup-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "Badge",
+   "description": "",
+   "props": [
+    {
+     "prop": "anchorOrigin",
+     "type": "{ horizontal?: 'left'<br>&#124;&nbsp;'right', vertical?: 'bottom'<br>&#124;&nbsp;'top' }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'right',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The anchor of the badge."
+    },
+    {
+     "prop": "badgeContent",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content rendered within the badge."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The badge will be added relative to this node."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'default'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "invisible",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the badge is invisible."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "99",
+     "required": false,
+     "deprecated": false,
+     "desc": "Max count to show."
+    },
+    {
+     "prop": "overlap",
+     "type": "'circular'<br>&#124;&nbsp;'rectangular'",
+     "default": "'rectangular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Wrapped shape the badge should overlap."
+    },
+    {
+     "prop": "showZero",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Controls whether the badge is hidden when <code>badgeContent</code> is zero."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ badge?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ badge?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'dot'<br>&#124;&nbsp;'standard'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "anchorOriginBottomLeft",
+     "className": "MuiBadge-anchorOriginBottomLeft",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginBottomLeftCircular",
+     "className": "MuiBadge-anchorOriginBottomLeftCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginBottomLeftRectangular",
+     "className": "MuiBadge-anchorOriginBottomLeftRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'left' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginBottomRight",
+     "className": "MuiBadge-anchorOriginBottomRight",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }}`."
+    },
+    {
+     "key": "anchorOriginBottomRightCircular",
+     "className": "MuiBadge-anchorOriginBottomRightCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginBottomRightRectangular",
+     "className": "MuiBadge-anchorOriginBottomRightRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'bottom', 'right' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginTopLeft",
+     "className": "MuiBadge-anchorOriginTopLeft",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }}`."
+    },
+    {
+     "key": "anchorOriginTopLeftCircular",
+     "className": "MuiBadge-anchorOriginTopLeftCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginTopLeftRectangular",
+     "className": "MuiBadge-anchorOriginTopLeftRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'left' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "anchorOriginTopRight",
+     "className": "MuiBadge-anchorOriginTopRight",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }}`."
+    },
+    {
+     "key": "anchorOriginTopRightCircular",
+     "className": "MuiBadge-anchorOriginTopRightCircular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }} overlap=\"circular\"`."
+    },
+    {
+     "key": "anchorOriginTopRightRectangular",
+     "className": "MuiBadge-anchorOriginTopRightRectangular",
+     "description": "Styles applied to the badge `span` element if `anchorOrigin={{ 'top', 'right' }} overlap=\"rectangular\"`."
+    },
+    {
+     "key": "colorError",
+     "className": "MuiBadge-colorError",
+     "description": "Styles applied to the badge `span` element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiBadge-colorInfo",
+     "description": "Styles applied to the badge `span` element if `color=\"info\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiBadge-colorPrimary",
+     "description": "Styles applied to the badge `span` element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiBadge-colorSecondary",
+     "description": "Styles applied to the badge `span` element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiBadge-colorSuccess",
+     "description": "Styles applied to the badge `span` element if `color=\"success\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiBadge-colorWarning",
+     "description": "Styles applied to the badge `span` element if `color=\"warning\"`."
+    },
+    {
+     "key": "dot",
+     "className": "MuiBadge-dot",
+     "description": "Styles applied to the badge `span` element if `variant=\"dot\"`."
+    },
+    {
+     "key": "invisible",
+     "className": "MuiBadge-invisible",
+     "description": "State class applied to the badge `span` element if `invisible={true}`."
+    },
+    {
+     "key": "overlapCircular",
+     "className": "MuiBadge-overlapCircular",
+     "description": "Styles applied to the badge `span` element if `overlap=\"circular\"`."
+    },
+    {
+     "key": "overlapRectangular",
+     "className": "MuiBadge-overlapRectangular",
+     "description": "Styles applied to the badge `span` element if `overlap=\"rectangular\"`."
+    },
+    {
+     "key": "standard",
+     "className": "MuiBadge-standard",
+     "description": "Styles applied to the badge `span` element if `variant=\"standard\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-avatar/"
+}

@@ -1,0 +1,1681 @@
+{
+ "slug": "tree-select",
+ "title": "TreeSelect",
+ "description": "Tree selection control.",
+ "group": "Data Entry",
+ "whenToUse": "`TreeSelect` is similar to `Select`, but the values are provided in a tree like structure. Any data whose entries are defined in a hierarchical manner is fit to use this control. Examples of such case may include a corporate hierarchy, a directory structure, and so on.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The most basic usage.",
+   "code": "import React, { useState } from 'react';\nimport { TreeSelect } from 'antd';\nimport type { TreeSelectProps } from 'antd';\n\nconst treeData = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        children: [\n          {\n            value: 'leaf1',\n            title: 'leaf1',\n          },\n          {\n            value: 'leaf2',\n            title: 'leaf2',\n          },\n          {\n            value: 'leaf3',\n            title: 'leaf3',\n          },\n          {\n            value: 'leaf4',\n            title: 'leaf4',\n          },\n          {\n            value: 'leaf5',\n            title: 'leaf5',\n          },\n          {\n            value: 'leaf6',\n            title: 'leaf6',\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        children: [\n          {\n            value: 'leaf11',\n            title: <b style={{ color: '#08c' }}>leaf11</b>,\n          },\n        ],\n      },\n    ],\n  },\n];\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string>();\n\n  const onChange = (newValue: string) => {\n    setValue(newValue);\n  };\n\n  const onPopupScroll: TreeSelectProps['onPopupScroll'] = (e) => {\n    console.log('onPopupScroll', e);\n  };\n\n  return (\n    <TreeSelect\n      showSearch\n      style={{ width: '100%' }}\n      value={value}\n      styles={{\n        popup: {\n          root: { maxHeight: 400, overflow: 'auto' },\n        },\n      }}\n      placeholder=\"Please select\"\n      allowClear\n      treeDefaultExpandAll\n      onChange={onChange}\n      treeData={treeData}\n      onPopupScroll={onPopupScroll}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Multiple Selection",
+   "description": "Multiple selection usage.",
+   "code": "import React, { useState } from 'react';\nimport { TreeSelect } from 'antd';\n\nconst treeData = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        children: [\n          {\n            value: 'leaf1',\n            title: 'my leaf',\n          },\n          {\n            value: 'leaf2',\n            title: 'your leaf',\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        children: [\n          {\n            value: 'sss',\n            title: <b style={{ color: '#08c' }}>sss</b>,\n          },\n        ],\n      },\n    ],\n  },\n];\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string>();\n\n  const onChange = (newValue: string) => {\n    console.log(newValue);\n    setValue(newValue);\n  };\n\n  return (\n    <TreeSelect\n      showSearch\n      style={{ width: '100%' }}\n      value={value}\n      styles={{\n        popup: {\n          root: { maxHeight: 400, overflow: 'auto' },\n        },\n      }}\n      placeholder=\"Please select\"\n      allowClear\n      multiple\n      treeDefaultExpandAll\n      onChange={onChange}\n      treeData={treeData}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "multiple"
+  },
+  {
+   "name": "Generate from tree data",
+   "description": "The tree structure can be populated using `treeData` property. This is a quick and easy way to provide the tree content.",
+   "code": "import React, { useState } from 'react';\nimport { TreeSelect } from 'antd';\n\nconst treeData = [\n  {\n    title: 'Node1',\n    value: '0-0',\n    children: [\n      {\n        title: 'Child Node1',\n        value: '0-0-1',\n      },\n      {\n        title: 'Child Node2',\n        value: '0-0-2',\n      },\n    ],\n  },\n  {\n    title: 'Node2',\n    value: '0-1',\n  },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string>();\n\n  const onChange = (newValue: string) => {\n    console.log(newValue);\n    setValue(newValue);\n  };\n\n  return (\n    <TreeSelect\n      style={{ width: '100%' }}\n      value={value}\n      styles={{\n        popup: {\n          root: { maxHeight: 400, overflow: 'auto' },\n        },\n      }}\n      treeData={treeData}\n      placeholder=\"Please select\"\n      treeDefaultExpandAll\n      onChange={onChange}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "treedata"
+  },
+  {
+   "name": "Checkable",
+   "description": "Multiple and checkable.",
+   "code": "import React, { useState } from 'react';\nimport { TreeSelect } from 'antd';\n\nconst { SHOW_PARENT } = TreeSelect;\n\nconst treeData = [\n  {\n    title: 'Node1',\n    value: '0-0',\n    key: '0-0',\n    children: [\n      {\n        title: 'Child Node1',\n        value: '0-0-0',\n        key: '0-0-0',\n      },\n    ],\n  },\n  {\n    title: 'Node2',\n    value: '0-1',\n    key: '0-1',\n    children: [\n      {\n        title: 'Child Node3',\n        value: '0-1-0',\n        key: '0-1-0',\n      },\n      {\n        title: 'Child Node4',\n        value: '0-1-1',\n        key: '0-1-1',\n      },\n      {\n        title: 'Child Node5',\n        value: '0-1-2',\n        key: '0-1-2',\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState(['0-0-0']);\n\n  const onChange = (newValue: string[]) => {\n    console.log('onChange ', newValue);\n    setValue(newValue);\n  };\n\n  const tProps = {\n    treeData,\n    value,\n    onChange,\n    treeCheckable: true,\n    showCheckedStrategy: SHOW_PARENT,\n    placeholder: 'Please select',\n    style: {\n      width: '100%',\n    },\n  };\n\n  return <TreeSelect {...tProps} />;\n};\n\nexport default App;",
+   "demoId": "checkable"
+  },
+  {
+   "name": "Asynchronous loading",
+   "description": "Asynchronous loading tree node.",
+   "code": "import React, { useState } from 'react';\nimport type { GetProp, TreeSelectProps } from 'antd';\nimport { TreeSelect } from 'antd';\n\ntype DefaultOptionType = GetProp<TreeSelectProps, 'treeData'>[number];\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string>();\n  const [treeData, setTreeData] = useState<Omit<DefaultOptionType, 'label'>[]>([\n    { id: 1, pId: 0, value: '1', title: 'Expand to load' },\n    { id: 2, pId: 0, value: '2', title: 'Expand to load' },\n    { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },\n  ]);\n\n  const genTreeNode = (parentId: number, isLeaf = false) => {\n    const random = Math.random().toString(36).substring(2, 6);\n    return {\n      id: random,\n      pId: parentId,\n      value: random,\n      title: isLeaf ? 'Tree Node' : 'Expand to load',\n      isLeaf,\n    };\n  };\n\n  const onLoadData: TreeSelectProps['loadData'] = ({ id }) =>\n    new Promise((resolve) => {\n      setTimeout(() => {\n        setTreeData(\n          treeData.concat([genTreeNode(id, false), genTreeNode(id, true), genTreeNode(id, true)]),\n        );\n        resolve(undefined);\n      }, 300);\n    });\n\n  const onChange = (newValue: string) => {\n    console.log(newValue);\n    setValue(newValue);\n  };\n\n  return (\n    <TreeSelect\n      treeDataSimpleMode\n      style={{ width: '100%' }}\n      value={value}\n      styles={{\n        popup: {\n          root: { maxHeight: 400, overflow: 'auto' },\n        },\n      }}\n      placeholder=\"Please select\"\n      onChange={onChange}\n      loadData={onLoadData}\n      treeData={treeData}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "async"
+  },
+  {
+   "name": "Show Tree Line",
+   "description": "Use `treeLine` to show the line style.",
+   "code": "import React, { useState } from 'react';\nimport { CarryOutOutlined } from '@ant-design/icons';\nimport { Space, Switch, TreeSelect } from 'antd';\n\nconst treeData = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    icon: <CarryOutOutlined />,\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        icon: <CarryOutOutlined />,\n        children: [\n          {\n            value: 'leaf1',\n            title: 'leaf1',\n            icon: <CarryOutOutlined />,\n          },\n          {\n            value: 'leaf2',\n            title: 'leaf2',\n            icon: <CarryOutOutlined />,\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        icon: <CarryOutOutlined />,\n        children: [\n          {\n            value: 'sss',\n            title: 'sss',\n            icon: <CarryOutOutlined />,\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [treeLine, setTreeLine] = useState(true);\n  const [showLeafIcon, setShowLeafIcon] = useState(false);\n  const [showIcon, setShowIcon] = useState<boolean>(false);\n\n  return (\n    <Space vertical>\n      <Switch\n        checkedChildren=\"showIcon\"\n        unCheckedChildren=\"showIcon\"\n        checked={showIcon}\n        onChange={() => setShowIcon(!showIcon)}\n      />\n      <Switch\n        checkedChildren=\"treeLine\"\n        unCheckedChildren=\"treeLine\"\n        checked={treeLine}\n        onChange={() => setTreeLine(!treeLine)}\n      />\n      <Switch\n        disabled={!treeLine}\n        checkedChildren=\"showLeafIcon\"\n        unCheckedChildren=\"showLeafIcon\"\n        checked={showLeafIcon}\n        onChange={() => setShowLeafIcon(!showLeafIcon)}\n      />\n      <TreeSelect\n        treeLine={treeLine && { showLeafIcon }}\n        style={{ width: 300 }}\n        treeData={treeData}\n        treeIcon={showIcon}\n      />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "treeline"
+  },
+  {
+   "name": "Placement",
+   "description": "You can manually specify the position of the popup via `placement`.",
+   "code": "import React, { useState } from 'react';\nimport type { GetProp, RadioChangeEvent, TreeSelectProps } from 'antd';\nimport { Radio, TreeSelect } from 'antd';\n\ntype SelectCommonPlacement = GetProp<TreeSelectProps, 'placement'>;\n\nconst treeData = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        children: [\n          {\n            value: 'leaf1',\n            title: 'leaf1',\n          },\n          {\n            value: 'leaf2',\n            title: 'leaf2',\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        children: [\n          {\n            value: 'leaf3',\n            title: <b style={{ color: '#08c' }}>leaf3</b>,\n          },\n        ],\n      },\n    ],\n  },\n];\nconst App: React.FC = () => {\n  const [placement, setPlacement] = useState<SelectCommonPlacement>('topLeft');\n\n  const placementChange = (e: RadioChangeEvent) => {\n    setPlacement(e.target.value);\n  };\n\n  return (\n    <>\n      <Radio.Group value={placement} onChange={placementChange}>\n        <Radio.Button value=\"topLeft\">topLeft</Radio.Button>\n        <Radio.Button value=\"topRight\">topRight</Radio.Button>\n        <Radio.Button value=\"bottomLeft\">bottomLeft</Radio.Button>\n        <Radio.Button value=\"bottomRight\">bottomRight</Radio.Button>\n      </Radio.Group>\n      <br />\n      <br />\n\n      <TreeSelect\n        showSearch\n        styles={{\n          popup: {\n            root: {\n              maxHeight: 400,\n              overflow: 'auto',\n              minWidth: 300,\n            },\n          },\n        }}\n        placeholder=\"Please select\"\n        popupMatchSelectWidth={false}\n        placement={placement}\n        allowClear\n        treeDefaultExpandAll\n        treeData={treeData}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Variants",
+   "description": "Variants of TreeSelect, there are four variants: `outlined` `filled` `borderless` and `underlined`.",
+   "code": "import React from 'react';\nimport { Flex, TreeSelect } from 'antd';\n\nconst style: React.CSSProperties = {\n  width: '100%',\n  maxWidth: '100%',\n};\n\nconst App: React.FC = () => {\n  return (\n    <Flex vertical gap=\"medium\">\n      <TreeSelect style={style} placeholder=\"Please select\" variant=\"borderless\" />\n      <TreeSelect style={style} placeholder=\"Please select\" variant=\"filled\" />\n      <TreeSelect style={style} placeholder=\"Please select\" variant=\"outlined\" />\n      <TreeSelect style={style} placeholder=\"Please select\" variant=\"underlined\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "variant"
+  },
+  {
+   "name": "Status",
+   "description": "Add status to TreeSelect with `status`, which could be `error` or `warning`.",
+   "code": "import React from 'react';\nimport { Space, TreeSelect } from 'antd';\n\nconst App: React.FC = () => (\n  <Space vertical style={{ width: '100%' }}>\n    <TreeSelect status=\"error\" style={{ width: '100%' }} placeholder=\"Error\" />\n    <TreeSelect\n      status=\"warning\"\n      style={{ width: '100%' }}\n      multiple\n      placeholder=\"Warning multiple\"\n    />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "Max Count",
+   "description": "You can set the `maxCount` prop to control the max number of items can be selected. When the limit is exceeded, the options will become disabled.",
+   "code": "import React from 'react';\nimport { DownOutlined } from '@ant-design/icons';\nimport { TreeSelect } from 'antd';\n\nconst MAX_COUNT = 3;\n\nconst treeData = [\n  {\n    title: 'Parent 1',\n    value: 'parent1',\n    children: [\n      {\n        title: 'Child 1-1',\n        value: 'child1-1',\n      },\n      {\n        title: 'Child 1-2',\n        value: 'child1-2',\n      },\n    ],\n  },\n  {\n    title: 'Parent 2',\n    value: 'parent2',\n    children: [\n      {\n        title: 'Child 2-1',\n        value: 'child2-1',\n      },\n      {\n        title: 'Child 2-2',\n        value: 'child2-2',\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState<string[]>(['child1-1']);\n\n  const onChange = (newValue: string[]) => {\n    setValue(newValue);\n  };\n\n  const suffix = (\n    <>\n      <span>\n        {value.length} / {MAX_COUNT}\n      </span>\n      <DownOutlined />\n    </>\n  );\n\n  return (\n    <TreeSelect\n      treeData={treeData}\n      value={value}\n      onChange={onChange}\n      multiple\n      maxCount={MAX_COUNT}\n      style={{ width: '100%' }}\n      suffixIcon={suffix}\n      treeCheckable\n      placeholder=\"Please select\"\n      showCheckedStrategy={TreeSelect.SHOW_CHILD}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "maxcount"
+  },
+  {
+   "name": "Prefix and Suffix",
+   "description": "Custom `prefix` and `suffixIcon`.",
+   "code": "import React, { useState } from 'react';\nimport { SmileOutlined } from '@ant-design/icons';\nimport { TreeSelect } from 'antd';\n\nconst icon = <SmileOutlined />;\nconst treeData = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        children: [\n          {\n            value: 'leaf1',\n            title: 'my leaf',\n          },\n          {\n            value: 'leaf2',\n            title: 'your leaf',\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        children: [\n          {\n            value: 'sss',\n            title: <b style={{ color: '#08c' }}>sss</b>,\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState<string>();\n\n  const onChange = (newValue: string) => {\n    console.log(newValue);\n    setValue(newValue);\n  };\n\n  return (\n    <>\n      <TreeSelect\n        showSearch\n        suffixIcon={icon}\n        style={{ width: '100%' }}\n        value={value}\n        styles={{\n          popup: {\n            root: { maxHeight: 400, overflow: 'auto' },\n          },\n        }}\n        placeholder=\"Please select\"\n        allowClear\n        treeDefaultExpandAll\n        onChange={onChange}\n        treeData={treeData}\n      />\n      <br />\n      <br />\n      <TreeSelect\n        showSearch\n        prefix=\"Prefix\"\n        style={{ width: '100%' }}\n        value={value}\n        styles={{\n          popup: {\n            root: { maxHeight: 400, overflow: 'auto' },\n          },\n        }}\n        placeholder=\"Please select\"\n        allowClear\n        treeDefaultExpandAll\n        onChange={onChange}\n        treeData={treeData}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "suffix"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of TreeSelect by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, TreeSelect } from 'antd';\nimport type { GetProp, TreeSelectProps } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => ({\n  root: {\n    width: 300,\n    borderRadius: token.borderRadius,\n  },\n}));\n\nconst styleObject: TreeSelectProps['styles'] = {\n  input: {\n    fontSize: 16,\n  },\n  suffix: {\n    color: '#1890ff',\n  },\n  popup: {\n    root: {\n      border: '1px solid #1890ff',\n    },\n  },\n};\n\nconst styleFunction: TreeSelectProps['styles'] = (\n  info,\n): GetProp<TreeSelectProps, 'styles', 'Return'> => {\n  if (info.props.size === 'medium') {\n    return {\n      suffix: {\n        color: '#722ed1',\n      },\n      popup: {\n        item: {\n          color: '#722ed1',\n        },\n      },\n    };\n  }\n  return {};\n};\n\nconst treeData: TreeSelectProps['treeData'] = [\n  {\n    value: 'parent 1',\n    title: 'parent 1',\n    children: [\n      {\n        value: 'parent 1-0',\n        title: 'parent 1-0',\n        children: [\n          {\n            value: 'leaf1',\n            title: 'leaf1',\n          },\n          {\n            value: 'leaf2',\n            title: 'leaf2',\n          },\n        ],\n      },\n      {\n        value: 'parent 1-1',\n        title: 'parent 1-1',\n        children: [\n          {\n            value: 'leaf3',\n            title: 'leaf3',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n\n  const sharedProps: TreeSelectProps = {\n    treeData,\n    classNames,\n  };\n\n  return (\n    <Flex vertical gap=\"large\">\n      <TreeSelect {...sharedProps} styles={styleObject} placeholder=\"Object\" />\n      <TreeSelect {...sharedProps} styles={styleFunction} placeholder=\"Function\" size=\"medium\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "allowClear",
+     "Customize clear icon",
+     "boolean | { clearIcon?: ReactNode }",
+     "false",
+     "5.8.0: Support object type",
+     "×"
+    ],
+    [
+     "~~autoClearSearchValue~~",
+     "If auto clear search input value when multiple select is selected/deselected",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "~~bordered~~",
+     "Whether has border style, please use `variant` instead",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.25.0"
+    ],
+    [
+     "defaultOpen",
+     "Initial open state of dropdown",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "defaultValue",
+     "To set the initial selected treeNode(s)",
+     "string | string\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "Disabled or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "~~dropdownClassName~~",
+     "The className of dropdown menu, please use `classNames.popup.root` instead",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~dropdownMatchSelectWidth~~",
+     "Determine whether the popup menu and the select input are the same width, please use `popupMatchSelectWidth` instead",
+     "boolean | number",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "~~popupClassName~~",
+     "The className of dropdown menu, use `classNames.popup.root` instead",
+     "string",
+     "-",
+     "4.23.0",
+     "×"
+    ],
+    [
+     "popupMatchSelectWidth",
+     "Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll",
+     "boolean | number",
+     "true",
+     "5.5.0",
+     "×"
+    ],
+    [
+     "~~dropdownRender~~",
+     "Customize dropdown content, use `popupRender` instead",
+     "(originNode: ReactNode, props) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "popupRender",
+     "Customize dropdown content",
+     "(originNode: ReactNode, props) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~dropdownStyle~~",
+     "To set the style of the dropdown menu, use `styles.popup.root` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "fieldNames",
+     "Customize node label, value, children field name",
+     "object",
+     "{ label: `label`, value: `value`, children: `children` }",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "~~filterTreeNode~~",
+     "Whether to filter treeNodes by input value. The value of `treeNodeFilterProp` is used for filtering by default",
+     "boolean | function(inputValue: string, treeNode: TreeNode) (should return boolean)",
+     "function",
+     "—",
+     "×"
+    ],
+    [
+     "getPopupContainer",
+     "To set the container of the dropdown menu. The default is to create a `div` element in `body`, you can reset it to the scrolling area and make a relative reposition. example",
+     "function(triggerNode)",
+     "() => document.body",
+     "—",
+     "×"
+    ],
+    [
+     "labelInValue",
+     "Whether to embed label in value, turn the format of value from `string` to {value: string, label: ReactNode, halfChecked: boolean (Is the option list in a semi selected state and not displayed in the values)}",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "listHeight",
+     "Config popup height",
+     "number",
+     "256",
+     "—",
+     "×"
+    ],
+    [
+     "loadData",
+     "Load data asynchronously. Will not load when filtering. Check FAQ for more info",
+     "function(node)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "maxCount",
+     "The maximum number of items that can be selected. Only takes effect when `multiple=true`. If (`showCheckedStrategy = 'SHOW_ALL'` and `treeCheckStrictly` is disabled) or `showCheckedStrategy = 'SHOW_PARENT'` is used, `maxCount` will not take effect.",
+     "number",
+     "-",
+     "5.23.0",
+     "×"
+    ],
+    [
+     "maxTagCount",
+     "Max tag count to show. `responsive` will cost render performance",
+     "number | `responsive`",
+     "-",
+     "responsive: 4.10",
+     "×"
+    ],
+    [
+     "maxTagPlaceholder",
+     "Placeholder for not showing tags",
+     "ReactNode | function(omittedValues)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "maxTagTextLength",
+     "Max tag text length to show",
+     "number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "multiple",
+     "Support multiple or not, will be `true` when enable `treeCheckable`",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "notFoundContent",
+     "Specify content to show when no result matches",
+     "ReactNode",
+     "Not Found",
+     "—",
+     "×"
+    ],
+    [
+     "open",
+     "Controlled open state of dropdown",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "placeholder",
+     "Placeholder of the select input",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "The position where the selection box pops up",
+     "`bottomLeft` `bottomRight` `topLeft` `topRight`",
+     "bottomLeft",
+     "—",
+     "×"
+    ],
+    [
+     "prefix",
+     "The custom prefix",
+     "ReactNode",
+     "-",
+     "5.22.0",
+     "×"
+    ],
+    [
+     "~~searchValue~~",
+     "Work with `onSearch` to make search value controlled",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~showArrow~~",
+     "Whether to show the arrow icon, please use `suffixIcon={null}` instead",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "showCheckedStrategy",
+     "The way show selected item in box when `treeCheckable` set. **Default:** just show child nodes. **`TreeSelect.SHOW_ALL`:** show all checked treeNodes (include parent treeNode). **`TreeSelect.SHOW_PARENT`:** show checked treeNodes (just show parent treeNode)",
+     "`TreeSelect.SHOW_ALL` | `TreeSelect.SHOW_PARENT` | `TreeSelect.SHOW_CHILD`",
+     "TreeSelect.SHOW_CHILD",
+     "—",
+     "×"
+    ],
+    [
+     "showSearch",
+     "Support search or not",
+     "boolean | Object",
+     "single: false | multiple: true",
+     "—",
+     "×"
+    ],
+    [
+     "size",
+     "To set the size of the select input",
+     "`large` | `medium` | `small`",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "status",
+     "Set validation status",
+     "'error' | 'warning'",
+     "-",
+     "4.19.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.25.0"
+    ],
+    [
+     "suffixIcon",
+     "The custom suffix icon",
+     "ReactNode",
+     "<DownOutlined />",
+     "—",
+     "×"
+    ],
+    [
+     "switcherIcon",
+     "Customize collapse/expand icon of tree node",
+     "ReactNode | ((props: AntTreeNodeProps) => ReactNode)",
+     "-",
+     "renderProps: 4.20.0",
+     "5.28.0"
+    ],
+    [
+     "tagRender",
+     "Customize tag render when `multiple`",
+     "(props) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "treeCheckable",
+     "Whether to show checkbox on the treeNodes",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "treeCheckStrictly",
+     "Whether to check nodes precisely (in the `checkable` mode), means parent and child nodes are not associated, and it will make `labelInValue` be true",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "treeData",
+     "Data of the treeNodes, manual construction work is no longer needed if this property has been set(ensure the Uniqueness of each value)",
+     "array&lt;{ value, title, children, \\[disabled, disableCheckbox, selectable, checkable] }>",
+     "\\[]",
+     "—",
+     "×"
+    ],
+    [
+     "treeDataSimpleMode",
+     "Enable simple mode of treeData. Changes the `treeData` schema to: \\[{id:1, pId:0, value:'1', title:\"test1\",...},...] where pId is parent node's id). It is possible to replace the default `id` and `pId` keys by providing object to `treeDataSimpleMode`",
+     "boolean | object&lt;{ id: string, pId: string, rootPId: string }>",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "treeDefaultExpandAll",
+     "Whether to expand all treeNodes by default",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "treeDefaultExpandedKeys",
+     "Default expanded treeNodes",
+     "string\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "treeExpandAction",
+     "Tree title open logic when click, optional: false | `click` | `doubleClick`",
+     "string | boolean",
+     "false",
+     "4.21.0",
+     "×"
+    ],
+    [
+     "treeExpandedKeys",
+     "Set expanded keys",
+     "string\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "treeIcon",
+     "Shows the icon before a TreeNode's title. There is no default style; you must set a custom style for it if set to `true`",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "treeLine",
+     "Show the line. Ref Tree - showLine",
+     "boolean | object",
+     "false",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "treeLoadedKeys",
+     "(Controlled) Set loaded tree nodes, work with `loadData` only",
+     "string[]",
+     "[]",
+     "—",
+     "×"
+    ],
+    [
+     "~~treeNodeFilterProp~~",
+     "Will be used for filtering if `filterTreeNode` returns true",
+     "string",
+     "value",
+     "—",
+     "×"
+    ],
+    [
+     "treeNodeLabelProp",
+     "Will render as content of select",
+     "string",
+     "title",
+     "—",
+     "×"
+    ],
+    [
+     "treeTitleRender",
+     "Customize tree node title render",
+     "(nodeData) => ReactNode",
+     "-",
+     "5.12.0",
+     "×"
+    ],
+    [
+     "value",
+     "To set the current selected treeNode(s)",
+     "string | string\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "variant",
+     "Variants of selector",
+     "`outlined` | `borderless` | `filled` | `underlined`",
+     "outlined",
+     "5.13.0 | `underlined`: 5.24.0",
+     "5.19.0"
+    ],
+    [
+     "virtual",
+     "Disable virtual scroll when set to false",
+     "boolean",
+     "true",
+     "4.1.0",
+     "×"
+    ],
+    [
+     "onChange",
+     "A callback function, can be executed when selected treeNodes or input value change",
+     "function(value, label, extra)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onClear",
+     "Called when clear",
+     "() => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~onDropdownVisibleChange~~",
+     "Called when dropdown open, use `onOpenChange` instead",
+     "function(open)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onOpenChange",
+     "Called when dropdown open",
+     "(open: boolean) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onPopupScroll",
+     "Called when dropdown scrolls",
+     "(event: UIEvent) => void",
+     "-",
+     "5.17.0",
+     "×"
+    ],
+    [
+     "~~onSearch~~",
+     "A callback function, can be executed when the search input changes",
+     "function(value: string)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onSelect",
+     "A callback function, can be executed when you select a treeNode",
+     "function(value, node, extra)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onTreeExpand",
+     "A callback function, can be executed when treeNode expanded",
+     "function(expandedKeys)",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "Tree props"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "autoClearSearchValue",
+     "If auto clear search input value when multiple select is selected/deselected",
+     "boolean",
+     "true",
+     "—"
+    ],
+    [
+     "filterTreeNode",
+     "Whether to filter treeNodes by input value. The value of `treeNodeFilterProp` is used for filtering by default",
+     "boolean | function(inputValue: string, treeNode: TreeNode) (should return boolean)",
+     "function",
+     "—"
+    ],
+    [
+     "searchValue",
+     "Work with `onSearch` to make search value controlled",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "treeNodeFilterProp",
+     "Will be used for filtering if `filterTreeNode` returns true",
+     "string",
+     "value",
+     "—"
+    ],
+    [
+     "onSearch",
+     "A callback function, can be executed when the search input changes",
+     "function(value: string)",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "showSearch"
+  },
+  {
+   "columns": [
+    "Name",
+    "Description",
+    "Version"
+   ],
+   "rows": [
+    [
+     "blur()",
+     "Remove focus",
+     "—"
+    ],
+    [
+     "focus()",
+     "Get focus",
+     "—"
+    ]
+   ],
+   "name": "Tree Methods"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "checkable",
+     "When Tree is checkable, set TreeNode display Checkbox or not",
+     "boolean",
+     "-",
+     "—"
+    ],
+    [
+     "disableCheckbox",
+     "Disables the checkbox of the treeNode",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "disabled",
+     "Disabled or not",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "isLeaf",
+     "Leaf node or not",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "key",
+     "Required property (unless using `treeDataSimpleMode`), should be unique in the tree",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "selectable",
+     "Whether can be selected",
+     "boolean",
+     "true",
+     "—"
+    ],
+    [
+     "title",
+     "Content showed on the treeNodes",
+     "ReactNode",
+     "---",
+     "—"
+    ],
+    [
+     "value",
+     "Will be treated as `treeNodeFilterProp` by default, should be unique in the tree",
+     "string",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "TreeNode props"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "allowClear",
+    "Customize clear icon",
+    "boolean | { clearIcon?: ReactNode }",
+    "false",
+    "5.8.0: Support object type",
+    "×"
+   ],
+   [
+    "~~autoClearSearchValue~~",
+    "If auto clear search input value when multiple select is selected/deselected",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "~~bordered~~",
+    "Whether has border style, please use `variant` instead",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.25.0"
+   ],
+   [
+    "defaultOpen",
+    "Initial open state of dropdown",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "defaultValue",
+    "To set the initial selected treeNode(s)",
+    "string | string\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "Disabled or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "~~dropdownClassName~~",
+    "The className of dropdown menu, please use `classNames.popup.root` instead",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~dropdownMatchSelectWidth~~",
+    "Determine whether the popup menu and the select input are the same width, please use `popupMatchSelectWidth` instead",
+    "boolean | number",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "~~popupClassName~~",
+    "The className of dropdown menu, use `classNames.popup.root` instead",
+    "string",
+    "-",
+    "4.23.0",
+    "×"
+   ],
+   [
+    "popupMatchSelectWidth",
+    "Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll",
+    "boolean | number",
+    "true",
+    "5.5.0",
+    "×"
+   ],
+   [
+    "~~dropdownRender~~",
+    "Customize dropdown content, use `popupRender` instead",
+    "(originNode: ReactNode, props) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "popupRender",
+    "Customize dropdown content",
+    "(originNode: ReactNode, props) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~dropdownStyle~~",
+    "To set the style of the dropdown menu, use `styles.popup.root` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "fieldNames",
+    "Customize node label, value, children field name",
+    "object",
+    "{ label: `label`, value: `value`, children: `children` }",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "~~filterTreeNode~~",
+    "Whether to filter treeNodes by input value. The value of `treeNodeFilterProp` is used for filtering by default",
+    "boolean | function(inputValue: string, treeNode: TreeNode) (should return boolean)",
+    "function",
+    "—",
+    "×"
+   ],
+   [
+    "getPopupContainer",
+    "To set the container of the dropdown menu. The default is to create a `div` element in `body`, you can reset it to the scrolling area and make a relative reposition. example",
+    "function(triggerNode)",
+    "() => document.body",
+    "—",
+    "×"
+   ],
+   [
+    "labelInValue",
+    "Whether to embed label in value, turn the format of value from `string` to {value: string, label: ReactNode, halfChecked: boolean (Is the option list in a semi selected state and not displayed in the values)}",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "listHeight",
+    "Config popup height",
+    "number",
+    "256",
+    "—",
+    "×"
+   ],
+   [
+    "loadData",
+    "Load data asynchronously. Will not load when filtering. Check FAQ for more info",
+    "function(node)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "maxCount",
+    "The maximum number of items that can be selected. Only takes effect when `multiple=true`. If (`showCheckedStrategy = 'SHOW_ALL'` and `treeCheckStrictly` is disabled) or `showCheckedStrategy = 'SHOW_PARENT'` is used, `maxCount` will not take effect.",
+    "number",
+    "-",
+    "5.23.0",
+    "×"
+   ],
+   [
+    "maxTagCount",
+    "Max tag count to show. `responsive` will cost render performance",
+    "number | `responsive`",
+    "-",
+    "responsive: 4.10",
+    "×"
+   ],
+   [
+    "maxTagPlaceholder",
+    "Placeholder for not showing tags",
+    "ReactNode | function(omittedValues)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "maxTagTextLength",
+    "Max tag text length to show",
+    "number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "multiple",
+    "Support multiple or not, will be `true` when enable `treeCheckable`",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "notFoundContent",
+    "Specify content to show when no result matches",
+    "ReactNode",
+    "Not Found",
+    "—",
+    "×"
+   ],
+   [
+    "open",
+    "Controlled open state of dropdown",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "placeholder",
+    "Placeholder of the select input",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "placement",
+    "The position where the selection box pops up",
+    "`bottomLeft` `bottomRight` `topLeft` `topRight`",
+    "bottomLeft",
+    "—",
+    "×"
+   ],
+   [
+    "prefix",
+    "The custom prefix",
+    "ReactNode",
+    "-",
+    "5.22.0",
+    "×"
+   ],
+   [
+    "~~searchValue~~",
+    "Work with `onSearch` to make search value controlled",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~showArrow~~",
+    "Whether to show the arrow icon, please use `suffixIcon={null}` instead",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "showCheckedStrategy",
+    "The way show selected item in box when `treeCheckable` set. **Default:** just show child nodes. **`TreeSelect.SHOW_ALL`:** show all checked treeNodes (include parent treeNode). **`TreeSelect.SHOW_PARENT`:** show checked treeNodes (just show parent treeNode)",
+    "`TreeSelect.SHOW_ALL` | `TreeSelect.SHOW_PARENT` | `TreeSelect.SHOW_CHILD`",
+    "TreeSelect.SHOW_CHILD",
+    "—",
+    "×"
+   ],
+   [
+    "showSearch",
+    "Support search or not",
+    "boolean | Object",
+    "single: false | multiple: true",
+    "—",
+    "×"
+   ],
+   [
+    "size",
+    "To set the size of the select input",
+    "`large` | `medium` | `small`",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "status",
+    "Set validation status",
+    "'error' | 'warning'",
+    "-",
+    "4.19.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.25.0"
+   ],
+   [
+    "suffixIcon",
+    "The custom suffix icon",
+    "ReactNode",
+    "<DownOutlined />",
+    "—",
+    "×"
+   ],
+   [
+    "switcherIcon",
+    "Customize collapse/expand icon of tree node",
+    "ReactNode | ((props: AntTreeNodeProps) => ReactNode)",
+    "-",
+    "renderProps: 4.20.0",
+    "5.28.0"
+   ],
+   [
+    "tagRender",
+    "Customize tag render when `multiple`",
+    "(props) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "treeCheckable",
+    "Whether to show checkbox on the treeNodes",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "treeCheckStrictly",
+    "Whether to check nodes precisely (in the `checkable` mode), means parent and child nodes are not associated, and it will make `labelInValue` be true",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "treeData",
+    "Data of the treeNodes, manual construction work is no longer needed if this property has been set(ensure the Uniqueness of each value)",
+    "array&lt;{ value, title, children, \\[disabled, disableCheckbox, selectable, checkable] }>",
+    "\\[]",
+    "—",
+    "×"
+   ],
+   [
+    "treeDataSimpleMode",
+    "Enable simple mode of treeData. Changes the `treeData` schema to: \\[{id:1, pId:0, value:'1', title:\"test1\",...},...] where pId is parent node's id). It is possible to replace the default `id` and `pId` keys by providing object to `treeDataSimpleMode`",
+    "boolean | object&lt;{ id: string, pId: string, rootPId: string }>",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "treeDefaultExpandAll",
+    "Whether to expand all treeNodes by default",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "treeDefaultExpandedKeys",
+    "Default expanded treeNodes",
+    "string\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "treeExpandAction",
+    "Tree title open logic when click, optional: false | `click` | `doubleClick`",
+    "string | boolean",
+    "false",
+    "4.21.0",
+    "×"
+   ],
+   [
+    "treeExpandedKeys",
+    "Set expanded keys",
+    "string\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "treeIcon",
+    "Shows the icon before a TreeNode's title. There is no default style; you must set a custom style for it if set to `true`",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "treeLine",
+    "Show the line. Ref Tree - showLine",
+    "boolean | object",
+    "false",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "treeLoadedKeys",
+    "(Controlled) Set loaded tree nodes, work with `loadData` only",
+    "string[]",
+    "[]",
+    "—",
+    "×"
+   ],
+   [
+    "~~treeNodeFilterProp~~",
+    "Will be used for filtering if `filterTreeNode` returns true",
+    "string",
+    "value",
+    "—",
+    "×"
+   ],
+   [
+    "treeNodeLabelProp",
+    "Will render as content of select",
+    "string",
+    "title",
+    "—",
+    "×"
+   ],
+   [
+    "treeTitleRender",
+    "Customize tree node title render",
+    "(nodeData) => ReactNode",
+    "-",
+    "5.12.0",
+    "×"
+   ],
+   [
+    "value",
+    "To set the current selected treeNode(s)",
+    "string | string\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "variant",
+    "Variants of selector",
+    "`outlined` | `borderless` | `filled` | `underlined`",
+    "outlined",
+    "5.13.0 | `underlined`: 5.24.0",
+    "5.19.0"
+   ],
+   [
+    "virtual",
+    "Disable virtual scroll when set to false",
+    "boolean",
+    "true",
+    "4.1.0",
+    "×"
+   ],
+   [
+    "onChange",
+    "A callback function, can be executed when selected treeNodes or input value change",
+    "function(value, label, extra)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onClear",
+    "Called when clear",
+    "() => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~onDropdownVisibleChange~~",
+    "Called when dropdown open, use `onOpenChange` instead",
+    "function(open)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onOpenChange",
+    "Called when dropdown open",
+    "(open: boolean) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onPopupScroll",
+    "Called when dropdown scrolls",
+    "(event: UIEvent) => void",
+    "-",
+    "5.17.0",
+    "×"
+   ],
+   [
+    "~~onSearch~~",
+    "A callback function, can be executed when the search input changes",
+    "function(value: string)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onSelect",
+    "A callback function, can be executed when you select a treeNode",
+    "function(value, node, extra)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onTreeExpand",
+    "A callback function, can be executed when treeNode expanded",
+    "function(expandedKeys)",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "Tree props"
+ },
+ "variants": [
+  {
+   "prop": "showCheckedStrategy",
+   "values": [
+    "TreeSelect.SHOW_ALL",
+    "TreeSelect.SHOW_PARENT",
+    "TreeSelect.SHOW_CHILD"
+   ],
+   "default": "TreeSelect.SHOW_CHILD",
+   "owner": "Tree props",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "-",
+   "owner": "Tree props",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "status",
+   "values": [
+    "error",
+    "warning"
+   ],
+   "default": "-",
+   "owner": "Tree props",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "variant",
+   "values": [
+    "outlined",
+    "borderless",
+    "filled",
+    "underlined"
+   ],
+   "default": "outlined",
+   "owner": "Tree props",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with tree selector base styles, border, border radius container styles"
+   },
+   {
+    "name": "prefix",
+    "mark": "semantic-mark-prefix",
+    "description": "Prefix element with prefix content layout and styles"
+   },
+   {
+    "name": "input",
+    "mark": "semantic-mark-input",
+    "description": "Input element with text input, search, selected value display and other input core interaction styles"
+   },
+   {
+    "name": "suffix",
+    "mark": "semantic-mark-suffix",
+    "description": "Suffix element with suffix content, clear button, dropdown arrow and other suffix area styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Multiple selection container with layout, spacing, and wrapping styles for selected items"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Multiple selection item element with border, background, padding, and margin styles"
+   },
+   {
+    "name": "itemContent",
+    "mark": "semantic-mark-itemContent",
+    "description": "Multiple selection item content area with text ellipsis styles"
+   },
+   {
+    "name": "itemRemove",
+    "mark": "semantic-mark-itemRemove",
+    "description": "Multiple selection item remove button with font-related styles"
+   },
+   {
+    "name": "placeholder",
+    "mark": "semantic-mark-placeholder",
+    "description": "Placeholder element with font styles and colors for placeholder text"
+   },
+   {
+    "name": "popup.root",
+    "mark": "semantic-mark-popup-root",
+    "description": "Popup element with dropdown tree selection panel positioning, z-index, background, border, shadow and other popup layer styles"
+   },
+   {
+    "name": "popup.item",
+    "mark": "semantic-mark-popup-item",
+    "description": "Popup item element with tree node option styles, hover state, selected state and other interaction states"
+   },
+   {
+    "name": "popup.itemTitle",
+    "mark": "semantic-mark-popup-itemTitle",
+    "description": "Popup title element with tree node title text display styles"
+   },
+   {
+    "name": "popup.itemSwitcher",
+    "mark": "semantic-mark-popup-itemSwitcher",
+    "description": "Popup switcher element with tree node expand/collapse button styles and background"
+   }
+  ],
+  "dom": "<div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-middle ant-flex-vertical\" style=\"position: absolute; margin-bottom: 80px;\">\n        <div aria-label=\"segmented control\" aria-orientation=\"horizontal\" class=\"ant-segmented css-var-test-id\" role=\"radiogroup\" tabindex=\"0\">\n          <div class=\"ant-segmented-group\">\n            <label class=\"ant-segmented-item\">\n              <input checked=\"\" class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n              <div class=\"ant-segmented-item-label\" title=\"Single\">\n                Single\n              </div>\n            </label>\n            <label class=\"ant-segmented-item ant-segmented-item-selected\">\n              <input class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n              <div class=\"ant-segmented-item-label\" title=\"Multiple\">\n                Multiple\n              </div>\n            </label>\n          </div>\n        </div>\n        <div class=\"ant-select ant-tree-select ant-select-outlined semantic-mark-root css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-open ant-select-show-search\" style=\"width: 300px;\">\n          <div class=\"ant-select-prefix semantic-mark-prefix\">\n            prefix\n          </div>\n          <div class=\"ant-select-content semantic-mark-content\">\n            <div class=\"ant-select-content-item\" style=\"opacity: 1;\">\n              <span class=\"ant-select-selection-item semantic-mark-item\" title=\"aojunhao123\">\n                <span class=\"ant-select-selection-item-content semantic-mark-itemContent\">\n                  aojunhao123\n                </span>\n                <span aria-hidden=\"true\" class=\"ant-select-selection-item-remove semantic-mark-itemRemove\" style=\"user-select: none;\" unselectable=\"on\">\n                  <span aria-label=\"close\" class=\"anticon anticon-close\" role=\"img\">\n                    <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                      <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                    </svg>\n                  </span>\n                </span>\n              </span>\n            </div>\n            <div class=\"ant-select-content-item ant-select-content-item-suffix\" style=\"opacity: 1;\">\n              <input aria-autocomplete=\"list\" aria-controls=\"test-id_list\" aria-expanded=\"true\" aria-haspopup=\"listbox\" aria-owns=\"test-id_list\" autocomplete=\"new-password\" class=\"ant-select-input semantic-mark-input\" id=\"test-id\" role=\"combobox\" style=\"--select-input-width: 0;\" type=\"text\" value=\"\">\n            </div>\n          </div>\n          <div class=\"ant-select-suffix semantic-mark-suffix\">\n            <span aria-label=\"search\" class=\"anticon anticon-search\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"search\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z\"></path>\n              </svg>\n            </span>\n          </div>\n          <button aria-label=\"Clear\" class=\"ant-select-clear\" type=\"button\">\n            <span aria-label=\"close-circle\" class=\"anticon anticon-close-circle\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"close-circle\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z\"></path>\n              </svg>\n            </span>\n          </button>\n        </div>\n        <div class=\"ant-select-dropdown ant-tree-select-dropdown semantic-mark-root semantic-mark-popup-root css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-dropdown-placement-bottomLeft\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box;\">\n          <div>\n            <div>\n              <span aria-live=\"assertive\" style=\"width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;\">\n                contributors\n              </span>\n              <div class=\"ant-select-tree\">\n                <div aria-hidden=\"true\" class=\"ant-select-tree-treenode\" style=\"position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden; border: 0px; padding: 0px;\">\n                  <div class=\"ant-select-tree-indent\">\n                    <div class=\"ant-select-tree-indent-unit\">\n                  </div>\n                </div>\n                <div aria-activedescendant=\"test-id-contributors\" class=\"ant-select-tree-list\" role=\"tree\" style=\"position: relative;\">\n                  <div class=\"ant-select-tree-list-holder\" style=\"max-height: 256px; overflow-y: auto; overflow-anchor: none;\">\n                    <div>\n                      <div class=\"ant-select-tree-list-holder-inner\" style=\"display: flex; flex-direction: column;\">\n                        <div aria-disabled=\"false\" aria-expanded=\"true\" aria-selected=\"false\" class=\"ant-select-tree-treenode semantic-mark-popup-item ant-select-tree-treenode-switcher-open ant-select-tree-treenode-active ant-select-tree-treenode-leaf-last\" draggable=\"false\" id=\"test-id-contributors\" role=\"treeitem\">\n                          <span aria-hidden=\"true\" class=\"ant-select-tree-indent\">\n                          <span class=\"ant-select-tree-switcher ant-select-tree-switcher_open semantic-mark-popup-itemSwitcher\">\n                            <span aria-label=\"caret-down\" class=\"anticon anticon-caret-down ant-select-tree-switcher-icon\" role=\"img\">\n                              <svg aria-hidden=\"true\" data-icon=\"caret-down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"0 0 1024 1024\" width=\"1em\">\n                                <path d=\"M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z\"></path>\n                              </svg>\n                            </span>\n                          </span>\n                          <span class=\"ant-select-tree-node-content-wrapper ant-select-tree-node-content-wrapper-open\" title=\"contributors\">\n                            <span class=\"ant-select-tree-title semantic-mark-popup-itemTitle\">\n                              contributors\n                            </span>\n                          </span>\n                        </span></div>\n                        <div aria-disabled=\"false\" aria-selected=\"true\" class=\"ant-select-tree-treenode semantic-mark-popup-item ant-select-tree-treenode-switcher-close ant-select-tree-treenode-selected ant-select-tree-treenode-leaf\" draggable=\"false\" id=\"test-id-aojunhao123\" role=\"treeitem\">\n                          <span aria-hidden=\"true\" class=\"ant-select-tree-indent\">\n                            <span class=\"ant-select-tree-indent-unit ant-select-tree-indent-unit-start ant-select-tree-indent-unit-end\">\n                          </span>\n                          <span class=\"ant-select-tree-switcher ant-select-tree-switcher-noop semantic-mark-popup-itemSwitcher\">\n                          <span class=\"ant-select-tree-node-content-wrapper ant-select-tree-node-content-wrapper-normal ant-select-tree-node-selected\" title=\"aojunhao123\">\n                            <span class=\"ant-select-tree-title semantic-mark-popup-itemTitle\">\n                              aojunhao123\n                            </span>\n                          </span>\n                        </span></span></div>\n                        <div aria-disabled=\"false\" aria-selected=\"false\" class=\"ant-select-tree-treenode semantic-mark-popup-item ant-select-tree-treenode-switcher-close ant-select-tree-treenode-leaf\" draggable=\"false\" id=\"test-id-thinkasany\" role=\"treeitem\">\n                          <span aria-hidden=\"true\" class=\"ant-select-tree-indent\">\n                            <span class=\"ant-select-tree-indent-unit ant-select-tree-indent-unit-start ant-select-tree-indent-unit-end\">\n                          </span>\n                          <span class=\"ant-select-tree-switcher ant-select-tree-switcher-noop semantic-mark-popup-itemSwitcher\">\n                          <span class=\"ant-select-tree-node-content-wrapper ant-select-tree-node-content-wrapper-normal\" title=\"thinkasany\">\n                            <span class=\"ant-select-tree-title semantic-mark-popup-itemTitle\">\n                              thinkasany\n                            </span>\n                          </span>\n                        </span></span></div>\n                        <div aria-disabled=\"false\" aria-selected=\"false\" class=\"ant-select-tree-treenode semantic-mark-popup-item ant-select-tree-treenode-switcher-close ant-select-tree-treenode-leaf-last ant-select-tree-treenode-leaf\" draggable=\"false\" id=\"test-id-meet-student\" role=\"treeitem\">\n                          <span aria-hidden=\"true\" class=\"ant-select-tree-indent\">\n                            <span class=\"ant-select-tree-indent-unit ant-select-tree-indent-unit-start ant-select-tree-indent-unit-end\">\n                          </span>\n                          <span class=\"ant-select-tree-switcher ant-select-tree-switcher-noop semantic-mark-popup-itemSwitcher\">\n                          <span class=\"ant-select-tree-node-content-wrapper ant-select-tree-node-content-wrapper-normal\" title=\"meet-student\">\n                            <span class=\"ant-select-tree-title semantic-mark-popup-itemTitle\">\n                              meet-student\n                            </span>\n                          </span>\n                        </span></span></div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "indentSize",
+     "Indent width of tree",
+     "number",
+     "24"
+    ],
+    [
+     "nodeHoverBg",
+     "Background color of hovered node",
+     "string",
+     "rgba(0,0,0,0.04)"
+    ],
+    [
+     "nodeHoverColor",
+     "Text color of hovered node",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "nodeSelectedBg",
+     "Background color of selected node",
+     "string",
+     "#e6f4ff"
+    ],
+    [
+     "nodeSelectedColor",
+     "Text color of selected node",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "switcherSize",
+     "Switcher width of tree",
+     "number",
+     "24"
+    ],
+    [
+     "titleHeight",
+     "Node title height",
+     "number",
+     "24"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillQuaternary",
+     "The weakest level of fill color is suitable for color blocks that are not easy to attract attention, such as zebra stripes, color blocks that distinguish boundaries, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryHover",
+     "Hover state under the main color gradient.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextQuaternary",
+     "The fourth level of text color is the lightest text color, such as form input prompt text, disabled color text, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "controlInteractiveSize",
+     "Control the interactive size of control component.",
+     "number",
+     "—"
+    ],
+    [
+     "controlItemBgActiveDisabled",
+     "Control the background color of control component item when active and disabled.",
+     "string",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthBold",
+     "The default line width of the outline class components, such as Button, Input, Select, etc.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationFast",
+     "Motion speed, fast speed. Used for small element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

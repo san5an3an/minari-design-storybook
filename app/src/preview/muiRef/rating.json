@@ -1,0 +1,401 @@
+{
+ "slug": "rating",
+ "title": "Rating",
+ "group": "Inputs",
+ "folder": "rating",
+ "description": "Ratings provide insight regarding others' opinions and experiences, and can allow the user to submit a rating of their own.",
+ "components": [
+  "Rating"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Rating"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic rating",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicRating",
+     "file": "BasicRating.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Rating from '@mui/material/Rating';\nimport Typography from '@mui/material/Typography';\n\nexport default function BasicRating() {\n  const [value, setValue] = React.useState<number | null>(2);\n\n  return (\n    <Box sx={{ '& > legend': { mt: 2 } }}>\n      <Typography component=\"legend\">Controlled</Typography>\n      <Rating\n        name=\"simple-controlled\"\n        value={value}\n        onChange={(event, newValue) => {\n          setValue(newValue);\n        }}\n      />\n      <Typography component=\"legend\">Uncontrolled</Typography>\n      <Rating\n        name=\"simple-uncontrolled\"\n        onChange={(event, newValue) => {\n          console.log(newValue);\n        }}\n        defaultValue={2}\n      />\n      <Typography component=\"legend\">Read only</Typography>\n      <Rating name=\"read-only\" value={value} readOnly />\n      <Typography component=\"legend\">Disabled</Typography>\n      <Rating name=\"disabled\" value={value} disabled />\n      <Typography component=\"legend\">No rating given</Typography>\n      <Rating name=\"no-value\" value={null} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Rating precision",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The rating can display any float number with the `value` prop.\nUse the `precision` prop to define the minimum increment value change allowed."
+    },
+    {
+     "kind": "demo",
+     "name": "HalfRating",
+     "file": "HalfRating.tsx",
+     "code": "import Rating from '@mui/material/Rating';\nimport Stack from '@mui/material/Stack';\n\nexport default function HalfRating() {\n  return (\n    <Stack spacing={1}>\n      <Rating name=\"half-rating\" defaultValue={2.5} precision={0.5} />\n      <Rating name=\"half-rating-read\" defaultValue={2.5} precision={0.5} readOnly />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Hover feedback",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can display a label on hover to help the user pick the correct rating value.\nThe demo uses the `onChangeActive` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "HoverRating",
+     "file": "HoverRating.tsx",
+     "code": "import * as React from 'react';\nimport Rating from '@mui/material/Rating';\nimport Box from '@mui/material/Box';\nimport StarIcon from '@mui/icons-material/Star';\n\nconst labels: { [index: string]: string } = {\n  0.5: 'Useless',\n  1: 'Useless+',\n  1.5: 'Poor',\n  2: 'Poor+',\n  2.5: 'Ok',\n  3: 'Ok+',\n  3.5: 'Good',\n  4: 'Good+',\n  4.5: 'Excellent',\n  5: 'Excellent+',\n};\n\nfunction getLabelText(value: number) {\n  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;\n}\n\nexport default function HoverRating() {\n  const [value, setValue] = React.useState<number | null>(2);\n  const [hover, setHover] = React.useState(-1);\n\n  return (\n    <Box sx={{ width: 200, display: 'flex', alignItems: 'center' }}>\n      <Rating\n        name=\"hover-feedback\"\n        value={value}\n        precision={0.5}\n        getLabelText={getLabelText}\n        onChange={(event, newValue) => {\n          setValue(newValue);\n        }}\n        onChangeActive={(event, newHover) => {\n          setHover(newHover);\n        }}\n        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize=\"inherit\" />}\n      />\n      {value !== null && (\n        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>\n      )}\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sizes",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For larger or smaller ratings use the `size` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "RatingSize",
+     "file": "RatingSize.tsx",
+     "code": "import Rating from '@mui/material/Rating';\nimport Stack from '@mui/material/Stack';\n\nexport default function RatingSize() {\n  return (\n    <Stack spacing={1}>\n      <Rating name=\"size-small\" defaultValue={2} size=\"small\" />\n      <Rating name=\"size-medium\" defaultValue={2} />\n      <Rating name=\"size-large\" defaultValue={2} size=\"large\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedRating",
+     "file": "CustomizedRating.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Rating from '@mui/material/Rating';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';\nimport Typography from '@mui/material/Typography';\n\nconst StyledRating = styled(Rating)({\n  '& .MuiRating-iconFilled': {\n    color: '#ff6d75',\n  },\n  '& .MuiRating-iconHover': {\n    color: '#ff3d47',\n  },\n});\n\nexport default function CustomizedRating() {\n  return (\n    <Box sx={{ '& > legend': { mt: 2 } }}>\n      <Typography component=\"legend\">Custom icon and color</Typography>\n      <StyledRating\n        name=\"customized-color\"\n        defaultValue={2}\n        getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}\n        precision={0.5}\n        icon={<FavoriteIcon fontSize=\"inherit\" />}\n        emptyIcon={<FavoriteBorderIcon fontSize=\"inherit\" />}\n      />\n      <Typography component=\"legend\">10 stars</Typography>\n      <Rating name=\"customized-10\" defaultValue={2} max={10} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Radio group",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The rating is implemented with a radio group, set `highlightSelectedOnly` to restore the natural behavior."
+    },
+    {
+     "kind": "demo",
+     "name": "RadioGroupRating",
+     "file": "RadioGroupRating.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Rating, { IconContainerProps } from '@mui/material/Rating';\nimport SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';\nimport SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';\nimport SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';\nimport SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';\nimport SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';\n\nconst StyledRating = styled(Rating)(({ theme }) => ({\n  '& .MuiRating-iconEmpty .MuiSvgIcon-root': {\n    color: (theme.vars || theme).palette.action.disabled,\n  },\n}));\n\nconst customIcons: {\n  [index: string]: {\n    icon: React.ReactElement<unknown>;\n    label: string;\n  };\n} = {\n  1: {\n    icon: <SentimentVeryDissatisfiedIcon color=\"error\" />,\n    label: 'Very Dissatisfied',\n  },\n  2: {\n    icon: <SentimentDissatisfiedIcon color=\"error\" />,\n    label: 'Dissatisfied',\n  },\n  3: {\n    icon: <SentimentSatisfiedIcon color=\"warning\" />,\n    label: 'Neutral',\n  },\n  4: {\n    icon: <SentimentSatisfiedAltIcon color=\"success\" />,\n    label: 'Satisfied',\n  },\n  5: {\n    icon: <SentimentVerySatisfiedIcon color=\"success\" />,\n    label: 'Very Satisfied',\n  },\n};\n\nfunction IconContainer(props: IconContainerProps) {\n  const { value, ...other } = props;\n  return <span {...other}>{customIcons[value].icon}</span>;\n}\n\nexport default function RadioGroupRating() {\n  return (\n    <StyledRating\n      name=\"highlight-selected-only\"\n      defaultValue={2}\n      getLabelText={(value: number) => customIcons[value].label}\n      slotProps={{ icon: { component: IconContainer } }}\n      highlightSelectedOnly\n    />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "([WAI tutorial](https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating))\n\nThe accessibility of this component relies on:\n\n- A radio group with its fields visually hidden.\n  It contains six radio buttons, one for each star, and another for 0 stars that is checked by default. Be sure to provide a value for the `name` prop that is unique to the parent form.\n- Labels for the radio buttons containing actual text (\"1 Star\", \"2 Stars\", …).\n  Be sure to provide a suitable function to the `getLabelText` prop when the page is in a language other than English. You can use the [included locales](/material-ui/guides/localization/), or provide your own.\n- A visually distinct appearance for the rating icons.\n  By default, the rating component uses both a difference of color and shape (filled and empty icons) to indicate the value. In the event that you are using color as the only means to indicate the value, the information should also be also displayed as text, as in this demo. This is important to meet [WCAG 2.2 Success Criterion 1.4.1](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)."
+    },
+    {
+     "kind": "demo",
+     "name": "TextRating",
+     "file": "TextRating.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Rating from '@mui/material/Rating';\nimport StarIcon from '@mui/icons-material/Star';\n\nconst labels: { [index: string]: string } = {\n  0.5: 'Useless',\n  1: 'Useless+',\n  1.5: 'Poor',\n  2: 'Poor+',\n  2.5: 'Ok',\n  3: 'Ok+',\n  3.5: 'Good',\n  4: 'Good+',\n  4.5: 'Excellent',\n  5: 'Excellent+',\n};\n\nexport default function TextRating() {\n  const value = 3.5;\n\n  return (\n    <Box sx={{ width: 200, display: 'flex', alignItems: 'center' }}>\n      <Rating\n        name=\"text-feedback\"\n        value={value}\n        readOnly\n        precision={0.5}\n        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize=\"inherit\" />}\n      />\n      <Box sx={{ ml: 2 }}>{labels[value]}</Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "ARIA",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The read only rating has a role of \"img\", and an aria-label that describes the displayed rating."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Because the rating component uses radio buttons, keyboard interaction follows the native browser behavior. Tab will focus the current rating, and cursor keys control the selected rating.\n\nThe read only rating is not focusable."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Testing",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When testing the Rating component in environments such as Jest with jsdom, certain user interactions—especially hover-based interactions—may not behave as expected.\nThis is because the component relies on `getBoundingClientRect()` to calculate the position of each icon and determine which icon is currently being hovered.\nIn jsdom, `getBoundingClientRect()` returns `0` values by default, which can lead to incorrect behavior such as `NaN` being passed to the `onChange` handler.\n\nTo avoid this issue in your test suite:\n\n- Prefer `fireEvent` over `userEvent` when simulating click events.\n- Avoid relying on hover behavior to trigger changes.\n- If needed, mock `getBoundingClientRect()` manually for more advanced interactions."
+    },
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "// @vitest-environment jsdom\n\nimport { Rating } from '@mui/material';\nimport { render, fireEvent, screen } from '@testing-library/react';\n\nimport { describe, test, vi } from 'vitest';\n\ndescribe('Rating', () => {\n  test('should update rating on click', () => {\n    const handleChange = vi.fn();\n    render(<Rating onChange={(_, newValue) => handleChange(newValue)} />);\n\n    fireEvent.click(screen.getByLabelText('2 Stars'));\n\n    expect(handleChange).toHaveBeenCalledWith(2);\n  });\n});\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Rating",
+   "description": "",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "number",
+     "default": "null",
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "emptyIcon",
+     "type": "node",
+     "default": "<StarBorder fontSize=\"inherit\" />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when empty."
+    },
+    {
+     "prop": "emptyLabelText",
+     "type": "node",
+     "default": "'Empty'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The label read when the rating input is empty."
+    },
+    {
+     "prop": "getLabelText",
+     "type": "func",
+     "default": "function defaultLabelText(value) {\n  return `${value || '0'} Star${value !== 1 ? 's' : ''}`;\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the current value of the rating. This is important for screen reader users.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "highlightSelectedOnly",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, only the selected icon will be highlighted."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": "<Star fontSize=\"inherit\" />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "5",
+     "required": false,
+     "deprecated": false,
+     "desc": "Maximum rating."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The name attribute of the radio <code>input</code> elements. This input <code>name</code> should be unique within the page. Being unique within a form is insufficient since the <code>name</code> is used to generate IDs."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value changes."
+    },
+    {
+     "prop": "onChangeActive",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback function that is fired when the hover state changes."
+    },
+    {
+     "prop": "precision",
+     "type": "number",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "The minimum increment value change allowed."
+    },
+    {
+     "prop": "readOnly",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Removes all hover effects and pointer events."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ decimal?: func<br>&#124;&nbsp;object, icon?: func<br>&#124;&nbsp;object, label?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ decimal?: elementType, icon?: elementType, label?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The rating value."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the root element if keyboard focused."
+    },
+    {
+     "key": "iconActive",
+     "className": "MuiRating-iconActive",
+     "description": "Styles applied to the icon wrapping elements when active."
+    },
+    {
+     "key": "iconEmpty",
+     "className": "MuiRating-iconEmpty",
+     "description": "Styles applied to the icon wrapping elements when empty."
+    },
+    {
+     "key": "iconFilled",
+     "className": "MuiRating-iconFilled",
+     "description": "Styles applied to the icon wrapping elements when filled."
+    },
+    {
+     "key": "iconFocus",
+     "className": "MuiRating-iconFocus",
+     "description": "Styles applied to the icon wrapping elements when focus."
+    },
+    {
+     "key": "iconHover",
+     "className": "MuiRating-iconHover",
+     "description": "Styles applied to the icon wrapping elements when hover."
+    },
+    {
+     "key": "labelEmptyValueActive",
+     "className": "MuiRating-labelEmptyValueActive",
+     "description": "Styles applied to the label of the \"no value\" input when it is active."
+    },
+    {
+     "key": "readOnly",
+     "className": "Mui-readOnly",
+     "description": "Styles applied to the root element if `readOnly={true}`."
+    },
+    {
+     "key": "sizeLarge",
+     "className": "MuiRating-sizeLarge",
+     "description": "Styles applied to the root element if `size=\"large\"`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiRating-sizeMedium",
+     "description": "Styles applied to the root element if `size=\"medium\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiRating-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "visuallyHidden",
+     "className": "MuiRating-visuallyHidden",
+     "description": "Visually hide an element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-rating/"
+}

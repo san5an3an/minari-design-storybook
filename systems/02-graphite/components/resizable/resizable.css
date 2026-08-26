@@ -1,0 +1,37 @@
+
+.ods-resizable {
+  display: flex;
+  border: var(--semantic-border-width-default) solid var(--component-resizable-border);
+  border-radius: var(--component-resizable-radius);
+  overflow: hidden;
+}
+.ods-resizable--horizontal { flex-direction: row; }
+.ods-resizable--vertical { flex-direction: column; }
+.ods-resizable-panel {
+  flex: 1 1 0; min-width: 0; min-height: 0;
+  padding: var(--component-resizable-panel-padding);
+  overflow: auto;
+}
+/* 핸들만 표시. 보이지 않는 4px 히트 영역은 정밀 조작에만 사용 */
+.ods-resizable-handle {
+  position: relative; flex: 0 0 0.375rem;
+  background: var(--component-resizable-handle);
+  cursor: col-resize;
+}
+.ods-resizable--vertical > .ods-resizable-handle {
+  flex-basis: 0.375rem; cursor: row-resize; }
+/* 중앙 눈금은 선택 사항, withHandle로 지정. 기본은 선만 표시 */
+.ods-resizable-handle--grip::after {
+  content: ""; position: absolute; inset-block: 50%; inset-inline: 0.0625rem;
+  height: 1.5rem; margin-block-start: -.75rem;
+  border-inline: 0.0625rem solid var(--component-resizable-handle-grip);
+}
+.ods-resizable--vertical > .ods-resizable-handle--grip::after {
+  inset-inline: 50%; inset-block: 0.0625rem;
+  width: 1.5rem; height: auto; margin: 0 0 0 -.75rem;
+  border-inline: 0;
+  border-block: 0.0625rem solid var(--component-resizable-handle-grip);
+}
+.ods-resizable-handle:hover { background: var(--component-resizable-handle-hover); }
+.ods-resizable-handle:focus-visible {
+  outline: 0.125rem solid var(--component-resizable-border-focus); outline-offset: -2px; }

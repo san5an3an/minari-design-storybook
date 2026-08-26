@@ -1,0 +1,196 @@
+{
+ "slug": "use-media-query",
+ "title": "useMediaQuery",
+ "group": "Utils",
+ "folder": "use-media-query",
+ "description": "This React hook listens for matches to a CSS media query. It allows the rendering of components based on whether the query matches or not.",
+ "components": [],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Some of the key features:\n\n- ⚛️ It has an idiomatic React API.\n- 🚀 It's performant, it observes the document to detect when its media queries change, instead of polling the values periodically.\n- 📦 [1.1 kB gzipped](https://bundlephobia.com/package/@mui/material).\n- 🤖 It supports server-side rendering."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic media query",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You should provide a media query to the first argument of the hook.\nThe media query string can be any valid CSS media query, for example [`'(prefers-color-scheme: dark)'`](/material-ui/customization/dark-mode/#system-preference)."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleMediaQuery",
+     "file": "SimpleMediaQuery.tsx",
+     "code": "import useMediaQuery from '@mui/material/useMediaQuery';\n\nexport default function SimpleMediaQuery() {\n  const matches = useMediaQuery('(min-width:600px)');\n\n  return <span>{`(min-width:600px) matches: ${matches}`}</span>;\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nUsing the query `'print'` to modify a document for printing is not supported, as changes made in re-rendering may not be accurately reflected.\nYou can use the `sx` prop's `displayPrint` field for this purpose instead.\nSee [MUI System—Display in print](/system/display/#display-in-print) for more details.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Using breakpoint helpers",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use Material UI's [breakpoint helpers](/material-ui/customization/breakpoints/) as follows:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import { useTheme } from '@mui/material/styles';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\nfunction MyComponent() {\n  const theme = useTheme();\n  const matches = useMediaQuery(theme.breakpoints.up('sm'));\n\n  return <span>{`theme.breakpoints.up('sm') matches: ${matches}`}</span>;\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "ThemeHelper",
+     "file": "ThemeHelper.tsx",
+     "code": "import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\nfunction MyComponent() {\n  const theme = useTheme();\n  const matches = useMediaQuery(theme.breakpoints.up('sm'));\n\n  return <span>{`theme.breakpoints.up('sm') matches: ${matches}`}</span>;\n}\n\nconst theme = createTheme();\n\nexport default function ThemeHelper() {\n  return (\n    <ThemeProvider theme={theme}>\n      <MyComponent />\n    </ThemeProvider>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Alternatively, you can use a callback function, accepting the theme as a first argument:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import useMediaQuery from '@mui/material/useMediaQuery';\n\nfunction MyComponent() {\n  const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));\n\n  return <span>{`theme.breakpoints.up('sm') matches: ${matches}`}</span>;\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "⚠️ There is **no default** theme support, you have to inject it in a parent theme provider."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Using JavaScript syntax",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use [json2mq](https://github.com/akiran/json2mq) to generate media query string from a JavaScript object."
+    },
+    {
+     "kind": "demo",
+     "name": "JavaScriptMedia",
+     "file": "JavaScriptMedia.tsx",
+     "code": "import json2mq from 'json2mq';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\nexport default function JavaScriptMedia() {\n  const matches = useMediaQuery(\n    json2mq({\n      minWidth: 600,\n    }),\n  );\n\n  return <span>{`{ minWidth: 600 } matches: ${matches}`}</span>;\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Testing",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You need an implementation of [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) in your test environment.\n\nFor instance, [jsdom doesn't support it yet](https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom). You should polyfill it.\nUsing [css-mediaquery](https://github.com/ericf/css-mediaquery) to emulate it is recommended."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "import mediaQuery from 'css-mediaquery';\n\nfunction createMatchMedia(width) {\n  return (query) => ({\n    matches: mediaQuery.match(query, {\n      width,\n    }),\n    addEventListener: () => {},\n    removeEventListener: () => {},\n  });\n}\n\ndescribe('MyTests', () => {\n  beforeAll(() => {\n    window.matchMedia = createMatchMedia(window.innerWidth);\n  });\n});\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Client-side only rendering",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To perform the server-side hydration, the hook needs to render twice.\nA first time with `defaultMatches`, the value of the server, and a second time with the resolved value.\nThis double pass rendering cycle comes with a drawback: it's slower.\nYou can set the `noSsr` option to `true` if you use the returned value **only** client-side."
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "const matches = useMediaQuery('(min-width:600px)', { noSsr: true });\n"
+    },
+    {
+     "kind": "prose",
+     "text": "or it can turn it on globally with the theme:"
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "const theme = createTheme({\n  components: {\n    MuiUseMediaQuery: {\n      defaultProps: {\n        noSsr: true,\n      },\n    },\n  },\n});\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::info\nNote that `noSsr` has no effects when using the `createRoot()` API (the client-side only API introduced in React 18).\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Server-side rendering",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": ":::warning\nServer-side rendering and client-side media queries are fundamentally at odds.\nBe aware of the tradeoff. The support can only be partial.\n:::\n\nTry relying on client-side CSS media queries first.\nFor instance, you could use:\n\n- [`<Box display>`](/system/display/#hiding-elements)\n- [`themes.breakpoints.up(x)`](/material-ui/customization/breakpoints/#css-media-queries)\n- or [`sx prop`](/system/getting-started/the-sx-prop/)\n\nIf none of the above alternatives are an option, you can proceed reading this section of the documentation.\n\nFirst, you need to guess the characteristics of the client request, from the server.\nYou have the choice between using:\n\n- **User agent**. Parse the user agent string of the client to extract information. Using [ua-parser-js](https://github.com/faisalman/ua-parser-js) to parse the user agent is recommended.\n- **Client hints**. Read the hints the client is sending to the server. Be aware that this feature is [not supported everywhere](https://caniuse.com/#search=client%20hint).\n\nFinally, you need to provide an implementation of [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) to the `useMediaQuery` with the previously guessed characteristics.\nUsing [css-mediaquery](https://github.com/ericf/css-mediaquery) to emulate matchMedia is recommended.\n\nFor instance on the server-side:"
+    },
+    {
+     "kind": "code",
+     "lang": "js",
+     "text": "import * as ReactDOMServer from 'react-dom/server';\nimport parser from 'ua-parser-js';\nimport mediaQuery from 'css-mediaquery';\nimport { createTheme, ThemeProvider } from '@mui/material/styles';\n\nfunction handleRender(req, res) {\n  const deviceType = parser(req.headers['user-agent']).device.type || 'desktop';\n  const ssrMatchMedia = (query) => ({\n    matches: mediaQuery.match(query, {\n      // The estimated CSS width of the browser.\n      width: deviceType === 'mobile' ? '0px' : '1024px',\n    }),\n  });\n\n  const theme = createTheme({\n    components: {\n      // Change the default options of useMediaQuery\n      MuiUseMediaQuery: {\n        defaultProps: {\n          ssrMatchMedia,\n        },\n      },\n    },\n  });\n\n  const html = ReactDOMServer.renderToString(\n    <ThemeProvider theme={theme}>\n      <App />\n    </ThemeProvider>,\n  );\n\n  // …\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "ServerSide",
+     "file": "ServerSide.tsx",
+     "code": "import mediaQuery from 'css-mediaquery';\nimport { ThemeProvider, Theme } from '@mui/material/styles';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\nfunction MyComponent() {\n  const matches = useMediaQuery('(min-width:600px)');\n\n  return <span>{`(min-width:600px) matches: ${matches}`}</span>;\n}\n\nexport default function ServerSide() {\n  const ssrMatchMedia = (query: string) => ({\n    matches: mediaQuery.match(query, {\n      // The estimated CSS width of the browser.\n      width: 800,\n    }),\n  });\n\n  return (\n    <ThemeProvider<Theme>\n      theme={{\n        components: {\n          MuiUseMediaQuery: {\n            // Change the default options of useMediaQuery\n            defaultProps: { ssrMatchMedia },\n          },\n        },\n      }}\n    >\n      <MyComponent />\n    </ThemeProvider>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Make sure you provide the same custom match media implementation to the client-side to guarantee a hydration match."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Migrating from `withWidth()`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `withWidth()` higher-order component injects the screen width of the page.\nYou can reproduce the same behavior with a `useWidth` hook:"
+    },
+    {
+     "kind": "demo",
+     "name": "UseWidth",
+     "file": "UseWidth.tsx",
+     "code": "import {\n  Breakpoint,\n  Theme,\n  ThemeProvider,\n  useTheme,\n  createTheme,\n} from '@mui/material/styles';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\ntype BreakpointOrNull = Breakpoint | null;\n\n/**\n * Be careful using this hook. It only works because the number of\n * breakpoints in theme is static. It will break once you change the number of\n * breakpoints. See https://legacy.reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level\n */\nfunction useWidth() {\n  const theme: Theme = useTheme();\n  const keys: readonly Breakpoint[] = [...theme.breakpoints.keys].reverse();\n  return (\n    keys.reduce((output: BreakpointOrNull, key: Breakpoint) => {\n      // TODO: uncomment once we enable eslint-plugin-react-compiler // eslint-disable-next-line react-compiler/react-compiler -- useMediaQuery is called inside callback\n      // eslint-disable-next-line react-hooks/rules-of-hooks\n      const matches = useMediaQuery(theme.breakpoints.up(key));\n      return !output && matches ? key : output;\n    }, null) || 'xs'\n  );\n}\n\nfunction MyComponent() {\n  const width = useWidth();\n  return <span>{`width: ${width}`}</span>;\n}\n\nconst theme = createTheme();\n\nexport default function UseWidth() {\n  return (\n    <ThemeProvider theme={theme}>\n      <MyComponent />\n    </ThemeProvider>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "API",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "`useMediaQuery(query, [options]) => matches`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "#### Arguments\n\n1. `query` (_string_ | _func_): A string representing the media query to handle or a callback function accepting the theme (in the context) that returns a string.\n2. `options` (_object_ [optional]):\n\n- `options.defaultMatches` (_bool_ [optional]):\n  As `window.matchMedia()` is unavailable on the server,\n  it returns a default matches during the first mount. The default value is `false`.\n- `options.matchMedia` (_func_ [optional]): You can provide your own implementation of _matchMedia_. This can be used for handling an iframe content window.\n- `options.noSsr` (_bool_ [optional]): Defaults to `false`.\n  To perform the server-side hydration, the hook needs to render twice.\n  A first time with `defaultMatches`, the value of the server, and a second time with the resolved value.\n  This double pass rendering cycle comes with a drawback: it's slower.\n  You can set this option to `true` if you use the returned value **only** client-side.\n- `options.ssrMatchMedia` (_func_ [optional]): You can provide your own implementation of _matchMedia_, it's used when rendering server-side.\n\nNote: You can change the default options using the [`default props`](/material-ui/customization/theme-components/#theme-default-props) feature of the theme with the `MuiUseMediaQuery` key.\n\n#### Returns\n\n`matches`: Matches is `true` if the document currently matches the media query and `false` when it does not.\n\n#### Examples"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import * as React from 'react';\nimport useMediaQuery from '@mui/material/useMediaQuery';\n\nexport default function SimpleMediaQuery() {\n  const matches = useMediaQuery('(min-width:600px)');\n\n  return <span>{`(min-width:600px) matches: ${matches}`}</span>;\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [],
+ "docHref": "https://mui.com/material-ui/react-use-media-query/"
+}

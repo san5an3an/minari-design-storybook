@@ -1,0 +1,746 @@
+{
+ "slug": "radio",
+ "title": "Radio",
+ "description": "Used to select a single state from multiple options.",
+ "group": "Data Entry",
+ "whenToUse": "- Used to select a single state from multiple options.\n- The difference from Select is that Radio is visible to the user and can facilitate the comparison of choice, which means there shouldn't be too many of them.\n\n```tsx\n// When use Radio.Group, recommended ✅\nreturn (\n  <Radio.Group\n    value={value}\n    options={[\n      { value: 1, label: 'A' },\n      { value: 2, label: 'B' },\n      { value: 3, label: 'C' },\n    ]}\n  />\n);\n\n// Not recommended 🙅🏼‍♀️\nreturn (\n  <Radio.Group value={value}>\n    <Radio value={1}>A</Radio>\n    <Radio value={2}>B</Radio>\n    <Radio value={3}>C</Radio>\n  </Radio.Group>\n);\n```",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The simplest use.",
+   "code": "import React from 'react';\nimport { Radio } from 'antd';\n\nconst App: React.FC = () => <Radio>Radio</Radio>;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "disabled",
+   "description": "Radio unavailable.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Radio } from 'antd';\n\nconst App: React.FC = () => {\n  const [disabled, setDisabled] = useState(true);\n\n  const toggleDisabled = () => {\n    setDisabled(!disabled);\n  };\n\n  return (\n    <>\n      <Radio defaultChecked={false} disabled={disabled}>\n        Disabled\n      </Radio>\n      <Radio defaultChecked disabled={disabled}>\n        Disabled\n      </Radio>\n      <br />\n      <Button type=\"primary\" onClick={toggleDisabled} style={{ marginTop: 16 }}>\n        Toggle disabled\n      </Button>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "Radio Group",
+   "description": "A group of radio components.",
+   "code": "import React, { useState } from 'react';\nimport {\n  BarChartOutlined,\n  DotChartOutlined,\n  LineChartOutlined,\n  PieChartOutlined,\n} from '@ant-design/icons';\nimport type { RadioChangeEvent } from 'antd';\nimport { Flex, Radio } from 'antd';\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState(1);\n\n  const onChange = (e: RadioChangeEvent) => {\n    setValue(e.target.value);\n  };\n\n  return (\n    <Radio.Group\n      onChange={onChange}\n      value={value}\n      options={[\n        {\n          value: 1,\n          className: 'option-1',\n          label: (\n            <Flex gap=\"small\" justify=\"center\" align=\"center\" vertical>\n              <LineChartOutlined style={{ fontSize: 18 }} />\n              LineChart\n            </Flex>\n          ),\n        },\n        {\n          value: 2,\n          className: 'option-2',\n          label: (\n            <Flex gap=\"small\" justify=\"center\" align=\"center\" vertical>\n              <DotChartOutlined style={{ fontSize: 18 }} />\n              DotChart\n            </Flex>\n          ),\n        },\n        {\n          value: 3,\n          className: 'option-3',\n          label: (\n            <Flex gap=\"small\" justify=\"center\" align=\"center\" vertical>\n              <BarChartOutlined style={{ fontSize: 18 }} />\n              BarChart\n            </Flex>\n          ),\n        },\n        {\n          value: 4,\n          className: 'option-4',\n          label: (\n            <Flex gap=\"small\" justify=\"center\" align=\"center\" vertical>\n              <PieChartOutlined style={{ fontSize: 18 }} />\n              PieChart\n            </Flex>\n          ),\n        },\n      ]}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "radiogroup"
+  },
+  {
+   "name": "Vertical Radio.Group",
+   "description": "Vertical Radio.Group, with more radios.",
+   "code": "import React, { useState } from 'react';\nimport type { RadioChangeEvent, RadioGroupProps } from 'antd';\nimport { Flex, Input, Radio } from 'antd';\n\nconst labelStyle: React.CSSProperties = {\n  height: 32,\n  lineHeight: '32px',\n};\n\nconst buttonOptions: RadioGroupProps['options'] = [\n  { label: 'Apple', value: 'Apple', className: 'label-1' },\n  { label: 'Pear', value: 'Pear', className: 'label-2' },\n  { label: 'Orange', value: 'Orange', title: 'Orange', className: 'label-3' },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState(1);\n\n  const onChange = (e: RadioChangeEvent) => {\n    setValue(e.target.value);\n  };\n\n  return (\n    <Flex align=\"start\" gap=\"large\">\n      <div style={{ flex: 1 }}>\n        <Radio.Group\n          vertical\n          onChange={onChange}\n          value={value}\n          options={[\n            { value: 1, style: labelStyle, label: 'Option A' },\n            { value: 2, style: labelStyle, label: 'Option B' },\n            { value: 3, style: labelStyle, label: 'Option C' },\n            {\n              value: 4,\n              style: labelStyle,\n              label: (\n                <>\n                  More...\n                  {value === 4 && (\n                    <Input\n                      variant=\"filled\"\n                      placeholder=\"please input\"\n                      style={{ width: 120, marginInlineStart: 12 }}\n                    />\n                  )}\n                </>\n              ),\n            },\n          ]}\n        />\n      </div>\n      <div style={{ flex: 1 }}>\n        <Radio.Group options={buttonOptions} optionType=\"button\" vertical />\n      </div>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "radiogroup-more"
+  },
+  {
+   "name": "Block Radio.Group",
+   "description": "The `block` property will make a Radio.Group fit to its parent width.",
+   "code": "import React from 'react';\nimport { Flex, Radio } from 'antd';\nimport type { CheckboxGroupProps } from 'antd/es/checkbox';\n\nconst options: CheckboxGroupProps<string>['options'] = [\n  { label: 'Apple', value: 'Apple' },\n  { label: 'Pear', value: 'Pear' },\n  { label: 'Orange', value: 'Orange' },\n];\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Radio.Group block options={options} defaultValue=\"Apple\" />\n    <Radio.Group\n      block\n      options={options}\n      defaultValue=\"Apple\"\n      optionType=\"button\"\n      buttonStyle=\"solid\"\n    />\n    <Radio.Group block options={options} defaultValue=\"Pear\" optionType=\"button\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "radiogroup-block"
+  },
+  {
+   "name": "Radio.Group group - optional",
+   "description": "Render radios by configuring `options`. Radio type can also be set through the `optionType` parameter.",
+   "code": "import React, { useState } from 'react';\nimport type { RadioChangeEvent } from 'antd';\nimport { Radio } from 'antd';\nimport type { CheckboxGroupProps } from 'antd/es/checkbox';\n\nconst plainOptions: CheckboxGroupProps<string>['options'] = ['Apple', 'Pear', 'Orange'];\n\nconst options: CheckboxGroupProps<string>['options'] = [\n  { label: 'Apple', value: 'Apple', className: 'label-1' },\n  { label: 'Pear', value: 'Pear', className: 'label-2' },\n  { label: 'Orange', value: 'Orange', title: 'Orange', className: 'label-3' },\n];\n\nconst optionsWithDisabled: CheckboxGroupProps<string>['options'] = [\n  { label: 'Apple', value: 'Apple', className: 'label-1' },\n  { label: 'Pear', value: 'Pear', className: 'label-2' },\n  { label: 'Orange', value: 'Orange', className: 'label-3', disabled: true },\n];\n\nconst App: React.FC = () => {\n  const [value1, setValue1] = useState('Apple');\n  const [value2, setValue2] = useState('Apple');\n  const [value3, setValue3] = useState('Apple');\n  const [value4, setValue4] = useState('Apple');\n\n  const onChange1 = ({ target: { value } }: RadioChangeEvent) => {\n    console.log('radio1 checked', value);\n    setValue1(value);\n  };\n\n  const onChange2 = ({ target: { value } }: RadioChangeEvent) => {\n    console.log('radio2 checked', value);\n    setValue2(value);\n  };\n\n  const onChange3 = ({ target: { value } }: RadioChangeEvent) => {\n    console.log('radio3 checked', value);\n    setValue3(value);\n  };\n\n  const onChange4 = ({ target: { value } }: RadioChangeEvent) => {\n    console.log('radio4 checked', value);\n    setValue4(value);\n  };\n\n  return (\n    <>\n      <Radio.Group options={plainOptions} onChange={onChange1} value={value1} />\n      <br />\n      <Radio.Group options={optionsWithDisabled} onChange={onChange2} value={value2} />\n      <br />\n      <br />\n      <Radio.Group options={options} onChange={onChange3} value={value3} optionType=\"button\" />\n      <br />\n      <br />\n      <Radio.Group\n        options={optionsWithDisabled}\n        onChange={onChange4}\n        value={value4}\n        optionType=\"button\"\n        buttonStyle=\"solid\"\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "radiogroup-options"
+  },
+  {
+   "name": "radio style",
+   "description": "The combination of radio button style.",
+   "code": "import React from 'react';\nimport type { RadioChangeEvent } from 'antd';\nimport { Flex, Radio } from 'antd';\n\nconst onChange = (e: RadioChangeEvent) => {\n  console.log(`radio checked:${e.target.value}`);\n};\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Radio.Group onChange={onChange} defaultValue=\"a\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n    <Radio.Group onChange={onChange} defaultValue=\"a\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\" disabled>\n        Shanghai\n      </Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n    <Radio.Group disabled onChange={onChange} defaultValue=\"a\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "radiobutton"
+  },
+  {
+   "name": "Radio.Group with name",
+   "description": "Passing the `name` property to all `input[type=\"radio\"]` that are in the same Radio.Group. It is usually used to let the browser see your Radio.Group as a real \"group\" and keep the default behavior. For example, using left/right keyboard arrow to change your selection that in the same Radio.Group.",
+   "code": "import React from 'react';\nimport { Radio } from 'antd';\n\nconst App: React.FC = () => (\n  <Radio.Group\n    name=\"radiogroup\"\n    defaultValue={1}\n    options={[\n      { value: 1, label: 'A' },\n      { value: 2, label: 'B' },\n      { value: 3, label: 'C' },\n      { value: 4, label: 'D' },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "radiogroup-with-name"
+  },
+  {
+   "name": "Size",
+   "description": "There are three sizes available: large, medium, and small. It can coordinate with input box.",
+   "code": "import React from 'react';\nimport { Flex, Radio } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Radio.Group defaultValue=\"a\" size=\"large\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n    <Radio.Group defaultValue=\"a\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n    <Radio.Group defaultValue=\"a\" size=\"small\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Solid radio button",
+   "description": "Solid radio button style.",
+   "code": "import React from 'react';\nimport { Flex, Radio } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Radio.Group defaultValue=\"a\" buttonStyle=\"solid\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\">Shanghai</Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n    <Radio.Group defaultValue=\"c\" buttonStyle=\"solid\">\n      <Radio.Button value=\"a\">Hangzhou</Radio.Button>\n      <Radio.Button value=\"b\" disabled>\n        Shanghai\n      </Radio.Button>\n      <Radio.Button value=\"c\">Beijing</Radio.Button>\n      <Radio.Button value=\"d\">Chengdu</Radio.Button>\n    </Radio.Group>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "radiobutton-solid"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of radio by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Radio } from 'antd';\nimport type { GetProp, RadioProps } from 'antd';\nimport { createStyles } from 'antd-style';\nimport { clsx } from 'clsx';\n\nconst useStyles = createStyles(({ token, css }) => ({\n  root: css`\n    border-radius: ${token.borderRadius}px;\n    background-color: ${token.colorBgContainer};\n  `,\n  icon: css`\n    border-color: ${token.colorWarning};\n  `,\n  label: css`\n    color: ${token.colorTextDisabled};\n    font-weight: bold;\n  `,\n\n  iconChecked: css`\n    background-color: ${token.colorWarning};\n  `,\n  labelChecked: css`\n    color: ${token.colorWarning};\n  `,\n}));\n\n// Object style\nconst styles: RadioProps['styles'] = {\n  icon: {\n    borderRadius: 6,\n  },\n  label: {\n    color: 'blue',\n  },\n};\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState<'styles' | 'classNames'>('styles');\n  const { styles: classNamesStyles } = useStyles();\n\n  // Function classNames - dynamically adjust based on checked state\n  const classNamesFn: RadioProps['classNames'] = (\n    info,\n  ): GetProp<RadioProps, 'classNames', 'Return'> => {\n    if (info.props.checked) {\n      return {\n        root: clsx(classNamesStyles.root),\n        icon: clsx(classNamesStyles.icon, classNamesStyles.iconChecked),\n        label: clsx(classNamesStyles.label, classNamesStyles.labelChecked),\n      };\n    }\n    return {\n      root: classNamesStyles.root,\n      icon: classNamesStyles.icon,\n      label: classNamesStyles.label,\n    };\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Radio\n        name=\"style-class\"\n        styles={styles}\n        checked={value === 'styles'}\n        onChange={() => setValue('styles')}\n      >\n        Object styles\n      </Radio>\n      <Radio\n        name=\"style-class\"\n        classNames={classNamesFn}\n        checked={value === 'classNames'}\n        onChange={() => setValue('classNames')}\n      >\n        Function classNames\n      </Radio>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "checked",
+     "Specifies whether the radio is selected",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "defaultChecked",
+     "Specifies the initial state: whether or not the radio is selected",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "Disable radio",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "value",
+     "According to value for comparison, to determine whether the selected",
+     "any",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "Radio/Radio.Button"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "block",
+     "Option to fit RadioGroup width to its parent width",
+     "boolean",
+     "false",
+     "5.21.0"
+    ],
+    [
+     "buttonStyle",
+     "The style type of radio button",
+     "`outline` | `solid`",
+     "outline",
+     "—"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0"
+    ],
+    [
+     "defaultValue",
+     "Default selected value",
+     "any",
+     "-",
+     "—"
+    ],
+    [
+     "disabled",
+     "Disable all radio buttons",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "name",
+     "The `name` property of all `input[type=\"radio\"]` children. If not set, it will fallback to a randomly generated name",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "options",
+     "Set children optional",
+     "string\\[] | number\\[] | Array&lt;CheckboxOptionType>",
+     "-",
+     "—"
+    ],
+    [
+     "optionType",
+     "Set Radio optionType",
+     "`default` | `button`",
+     "default",
+     "4.4.0"
+    ],
+    [
+     "orientation",
+     "Orientation",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "—"
+    ],
+    [
+     "size",
+     "The size of radio button style",
+     "`large` | `medium` | `small`",
+     "-",
+     "—"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0"
+    ],
+    [
+     "value",
+     "Used for setting the currently selected value",
+     "any",
+     "-",
+     "—"
+    ],
+    [
+     "vertical",
+     "If true, the Radio group will be vertical. Simultaneously existing with `orientation`, `orientation` takes priority",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "onChange",
+     "The callback function that is triggered when the state changes",
+     "function(e:Event)",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "Radio.Group"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "label",
+     "The text used to display as the Radio option",
+     "string",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "value",
+     "The value associated with the Radio option",
+     "`string` | `number` | `boolean`",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "style",
+     "The style to apply to the Radio option",
+     "React.CSSProperties",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "className",
+     "className of the Radio option",
+     "string",
+     "-",
+     "5.25.0"
+    ],
+    [
+     "disabled",
+     "Specifies whether the Radio option is disabled",
+     "boolean",
+     "false",
+     "4.4.0"
+    ],
+    [
+     "title",
+     "Adds the Title attribute value",
+     "string",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "id",
+     "Adds the Radio Id attribute value",
+     "string",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "onChange",
+     "Triggered when the value of the Radio Group changes",
+     "(e: CheckboxChangeEvent) => void;",
+     "-",
+     "4.4.0"
+    ],
+    [
+     "required",
+     "Specifies whether the Radio option is required",
+     "boolean",
+     "false",
+     "4.4.0"
+    ]
+   ],
+   "name": "CheckboxOptionType"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "checked",
+    "Specifies whether the radio is selected",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "defaultChecked",
+    "Specifies the initial state: whether or not the radio is selected",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "Disable radio",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "value",
+    "According to value for comparison, to determine whether the selected",
+    "any",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "Radio/Radio.Button"
+ },
+ "variants": [
+  {
+   "prop": "buttonStyle",
+   "values": [
+    "outline",
+    "solid"
+   ],
+   "default": "outline",
+   "owner": "Radio.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "optionType",
+   "values": [
+    "default",
+    "button"
+   ],
+   "default": "default",
+   "owner": "Radio.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "Radio.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "-",
+   "owner": "Radio.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "value",
+   "values": [
+    "string",
+    "number",
+    "boolean"
+   ],
+   "default": "-",
+   "owner": "CheckboxOptionType",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with layout styles, cursor styles, disabled text color and other basic container styles"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element with border radius, transition animations, border styles, hover states, focus states and other interactive styles"
+   },
+   {
+    "name": "label",
+    "mark": "semantic-mark-label",
+    "description": "Label element with padding, text color, disabled states, alignment and other text styles"
+   }
+  ],
+  "dom": "<label class=\"ant-radio-wrapper semantic-mark-root css-var-test-id ant-radio-css-var\">\n        <span class=\"ant-radio semantic-mark-icon ant-wave-target\">\n          <input class=\"ant-radio-input\" type=\"radio\">\n        </span>\n        <span class=\"ant-radio-label semantic-mark-label\">\n          Radio\n        </span>\n      </label>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "buttonBg",
+     "Background color of Radio button",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "buttonCheckedBg",
+     "Background color of checked Radio button",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "buttonCheckedBgDisabled",
+     "Background color of checked and disabled Radio button",
+     "string",
+     "rgba(0,0,0,0.15)"
+    ],
+    [
+     "buttonCheckedColorDisabled",
+     "Color of checked and disabled Radio button text",
+     "string",
+     "rgba(0,0,0,0.25)"
+    ],
+    [
+     "buttonColor",
+     "Color of Radio button text",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "buttonPaddingInline",
+     "Horizontal padding of Radio button",
+     "number",
+     "15"
+    ],
+    [
+     "buttonSolidCheckedActiveBg",
+     "Background color of checked solid Radio button text when active",
+     "string",
+     "#0958d9"
+    ],
+    [
+     "buttonSolidCheckedBg",
+     "Background color of checked solid Radio button text",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "buttonSolidCheckedColor",
+     "Color of checked solid Radio button text",
+     "string",
+     "#fff"
+    ],
+    [
+     "buttonSolidCheckedHoverBg",
+     "Background color of checked solid Radio button text when hover",
+     "string",
+     "#4096ff"
+    ],
+    [
+     "dotColorDisabled",
+     "Color of disabled Radio dot",
+     "string",
+     "rgba(0,0,0,0.25)"
+    ],
+    [
+     "dotSize",
+     "Size of Radio dot",
+     "number",
+     "8"
+    ],
+    [
+     "radioSize",
+     "Radio size",
+     "number",
+     "16"
+    ],
+    [
+     "wrapperMarginInlineEnd",
+     "Margin right of Radio button",
+     "number",
+     "8"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryActive",
+     "Dark active state under the main color gradient.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryHover",
+     "Hover state under the main color gradient.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightSM",
+     "SM component height",
+     "number",
+     "—"
+    ],
+    [
+     "controlOutline",
+     "Control the outline color of input component.",
+     "string",
+     "—"
+    ],
+    [
+     "controlOutlineWidth",
+     "Control the outline width of input component.",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1010 @@
+{
+ "slug": "drawer",
+ "title": "Drawer",
+ "description": "A panel that slides out from the edge of the screen.",
+ "group": "Feedback",
+ "whenToUse": "A Drawer is a panel that is typically overlaid on top of a page and slides in from the side. It contains a set of information or actions. Since the user can interact with the Drawer without leaving the current page, tasks can be achieved more efficiently within the same context.\n\n- Use a Form to create or edit a set of information.\n- Processing subtasks. When subtasks are too heavy for a Popover and we still want to keep the subtasks in the context of the main task, Drawer comes very handy.\n- When the same Form is needed in multiple places.\n\n> Notes for developers\n>\n> Since the `5.17.0`, we provided the `loading` prop by the Spin. However, since the `5.18.0` version, we have fixed this design error and replaced the Spin with the Skeleton, and also modified the type of `loading` prop, which can only accept `boolean` type.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic drawer.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showDrawer}>\n        Open\n      </Button>\n      <Drawer\n        title=\"Basic Drawer\"\n        closable={{ 'aria-label': 'Close Button' }}\n        onClose={onClose}\n        open={open}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "basic-right"
+  },
+  {
+   "name": "Custom Placement",
+   "description": "The Drawer can appear from any edge of the screen.",
+   "code": "import React, { useState } from 'react';\nimport type { DrawerProps, RadioChangeEvent } from 'antd';\nimport { Button, Drawer, Radio, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [placement, setPlacement] = useState<DrawerProps['placement']>('left');\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  const onChange = (e: RadioChangeEvent) => {\n    setPlacement(e.target.value);\n  };\n\n  return (\n    <>\n      <Space>\n        <Radio.Group value={placement} onChange={onChange}>\n          <Radio value=\"top\">top</Radio>\n          <Radio value=\"right\">right</Radio>\n          <Radio value=\"bottom\">bottom</Radio>\n          <Radio value=\"left\">left</Radio>\n        </Radio.Group>\n        <Button type=\"primary\" onClick={showDrawer}>\n          Open\n        </Button>\n      </Space>\n      <Drawer\n        title=\"Basic Drawer\"\n        placement={placement}\n        closable={false}\n        onClose={onClose}\n        open={open}\n        key={placement}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Resizable",
+   "description": "Resizable drawer that allows users to adjust the drawer's width or height by dragging the edge.",
+   "code": "import React, { useState } from 'react';\nimport type { DrawerProps, RadioChangeEvent } from 'antd';\nimport { Button, Drawer, Radio, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [placement, setPlacement] = useState<DrawerProps['placement']>('right');\n  const [size, setSize] = useState(256);\n\n  const onChange = (e: RadioChangeEvent) => {\n    setSize(256);\n    setPlacement(e.target.value);\n  };\n\n  return (\n    <>\n      <Space style={{ marginBottom: 16 }}>\n        <Radio.Group\n          value={placement}\n          onChange={onChange}\n          options={['top', 'right', 'bottom', 'left'].map((pos) => ({\n            label: pos,\n            value: pos,\n          }))}\n        />\n        <Button type=\"primary\" onClick={() => setOpen(true)}>\n          Open Drawer\n        </Button>\n      </Space>\n      <div>Current size: {size}px</div>\n      <Drawer\n        title=\"Resizable Drawer\"\n        placement={placement}\n        onClose={() => setOpen(false)}\n        open={open}\n        key={placement}\n        size={size}\n        resizable={{\n          onResize: (newSize) => setSize(newSize),\n        }}\n      >\n        <p>Drag the edge to resize the drawer</p>\n        <p>Current size: {size}px</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "resizable"
+  },
+  {
+   "name": "Loading",
+   "description": "Set the loading status of Drawer.",
+   "code": "import React from 'react';\nimport { Button, Drawer } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = React.useState<boolean>(false);\n  const [loading, setLoading] = React.useState<boolean>(true);\n\n  const showLoading = () => {\n    setOpen(true);\n    setLoading(true);\n\n    // Simple loading mock. You should add cleanup logic in real world.\n    setTimeout(() => {\n      setLoading(false);\n    }, 2000);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showLoading}>\n        Open Drawer\n      </Button>\n      <Drawer\n        closable\n        destroyOnHidden\n        title={<p>Loading Drawer</p>}\n        placement=\"right\"\n        open={open}\n        loading={loading}\n        onClose={() => setOpen(false)}\n      >\n        <Button type=\"primary\" style={{ marginBottom: 16 }} onClick={showLoading}>\n          Reload\n        </Button>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "loading"
+  },
+  {
+   "name": "Extra Actions",
+   "description": "Extra actions should be placed at corner of drawer in Ant Design, you can use `extra` prop for that.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer, Radio, Space } from 'antd';\nimport type { DrawerProps, RadioChangeEvent } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [placement, setPlacement] = useState<DrawerProps['placement']>('right');\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onChange = (e: RadioChangeEvent) => {\n    setPlacement(e.target.value);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Space>\n        <Radio.Group value={placement} onChange={onChange}>\n          <Radio value=\"top\">top</Radio>\n          <Radio value=\"right\">right</Radio>\n          <Radio value=\"bottom\">bottom</Radio>\n          <Radio value=\"left\">left</Radio>\n        </Radio.Group>\n        <Button type=\"primary\" onClick={showDrawer}>\n          Open\n        </Button>\n      </Space>\n      <Drawer\n        title=\"Drawer with extra actions\"\n        placement={placement}\n        size={500}\n        onClose={onClose}\n        open={open}\n        extra={\n          <Space>\n            <Button onClick={onClose}>Cancel</Button>\n            <Button type=\"primary\" onClick={onClose}>\n              OK\n            </Button>\n          </Space>\n        }\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "extra"
+  },
+  {
+   "name": "Render in current dom",
+   "description": "Render in current dom. custom container, check `getContainer`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer, theme } from 'antd';\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n  const [open, setOpen] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  const containerStyle: React.CSSProperties = {\n    position: 'relative',\n    height: 200,\n    padding: 48,\n    overflow: 'hidden',\n    background: token.colorFillAlter,\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,\n    borderRadius: token.borderRadiusLG,\n  };\n\n  return (\n    <div style={containerStyle}>\n      Render in this\n      <div style={{ marginTop: 16 }}>\n        <Button type=\"primary\" onClick={showDrawer}>\n          Open\n        </Button>\n      </div>\n      <Drawer\n        title=\"Basic Drawer\"\n        placement=\"right\"\n        closable={false}\n        onClose={onClose}\n        open={open}\n        getContainer={false}\n      >\n        <p>Some contents...</p>\n      </Drawer>\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "render-in-current"
+  },
+  {
+   "name": "Submit form in drawer",
+   "description": "Use a form in Drawer with a submit button.",
+   "code": "import React, { useState } from 'react';\nimport { PlusOutlined } from '@ant-design/icons';\nimport { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';\nimport type { InputProps } from 'antd';\n\nconst UrlInput: React.FC<InputProps> = (props) => {\n  return (\n    <Space.Compact>\n      <Space.Addon>http://</Space.Addon>\n      <Input style={{ width: '100%' }} {...props} />\n      <Space.Addon>.com</Space.Addon>\n    </Space.Compact>\n  );\n};\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showDrawer} icon={<PlusOutlined />}>\n        New account\n      </Button>\n      <Drawer\n        title=\"Create a new account\"\n        size={720}\n        onClose={onClose}\n        open={open}\n        styles={{\n          body: {\n            paddingBottom: 80,\n          },\n        }}\n        extra={\n          <Space>\n            <Button onClick={onClose}>Cancel</Button>\n            <Button onClick={onClose} type=\"primary\">\n              Submit\n            </Button>\n          </Space>\n        }\n      >\n        <Form layout=\"vertical\" requiredMark={false}>\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item\n                name=\"name\"\n                label=\"Name\"\n                rules={[{ required: true, message: 'Please enter user name' }]}\n              >\n                <Input placeholder=\"Please enter user name\" />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name=\"url\"\n                label=\"Url\"\n                rules={[{ required: true, message: 'Please enter url' }]}\n              >\n                <UrlInput placeholder=\"Please enter url\" />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item\n                name=\"owner\"\n                label=\"Owner\"\n                rules={[{ required: true, message: 'Please select an owner' }]}\n              >\n                <Select\n                  placeholder=\"Please select an owner\"\n                  options={[\n                    { label: 'Xiaoxiao Fu', value: 'xiao' },\n                    { label: 'Maomao Zhou', value: 'mao' },\n                  ]}\n                />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name=\"type\"\n                label=\"Type\"\n                rules={[{ required: true, message: 'Please choose the type' }]}\n              >\n                <Select\n                  placeholder=\"Please choose the type\"\n                  options={[\n                    { label: 'private', value: 'private' },\n                    { label: 'public', value: 'public' },\n                  ]}\n                />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item\n                name=\"approver\"\n                label=\"Approver\"\n                rules={[{ required: true, message: 'Please choose the approver' }]}\n              >\n                <Select\n                  placeholder=\"Please choose the approver\"\n                  options={[\n                    { label: 'Jack Ma', value: 'jack' },\n                    { label: 'Tom Liu', value: 'tom' },\n                  ]}\n                />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item\n                name=\"dateTime\"\n                label=\"DateTime\"\n                rules={[{ required: true, message: 'Please choose the dateTime' }]}\n              >\n                <DatePicker.RangePicker\n                  style={{ width: '100%' }}\n                  getPopupContainer={(trigger) => trigger.parentElement!}\n                />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Row gutter={16}>\n            <Col span={24}>\n              <Form.Item\n                name=\"description\"\n                label=\"Description\"\n                rules={[\n                  {\n                    required: true,\n                    message: 'please enter url description',\n                  },\n                ]}\n              >\n                <Input.TextArea rows={4} placeholder=\"please enter url description\" />\n              </Form.Item>\n            </Col>\n          </Row>\n        </Form>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "form-in-drawer"
+  },
+  {
+   "name": "Preview drawer",
+   "description": "Use Drawer to quickly preview details of an object, such as those in a list.",
+   "code": "import React, { useState } from 'react';\nimport { Avatar, Col, Divider, Drawer, List, Row } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles((props) => {\n  const { css, cssVar } = props;\n  return {\n    descriptionItem: css`\n      margin-bottom: ${cssVar.marginXS};\n      color: ${cssVar.colorTextLabel};\n      font-size: ${cssVar.fontSize};\n      line-height: ${cssVar.lineHeight};\n    `,\n    profileTitle: css`\n      display: block;\n      margin-bottom: ${cssVar.margin};\n      color: ${cssVar.colorTextHeading};\n      font-size: ${cssVar.fontSizeLG};\n      line-height: ${cssVar.lineHeight};\n    `,\n    label: css`\n      display: inline-block;\n      margin-inline-end: ${cssVar.marginXS};\n      color: ${cssVar.colorTextHeading};\n    `,\n  };\n});\n\ninterface DescriptionItemProps {\n  title: string;\n  content: React.ReactNode;\n}\n\nconst DescriptionItem: React.FC<DescriptionItemProps> = (props) => {\n  const { title, content } = props;\n  const { styles } = useStyles();\n  return (\n    <div className={styles.descriptionItem}>\n      <p className={styles.label}>{title}:</p>\n      {content}\n    </div>\n  );\n};\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n  const [open, setOpen] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <List\n        bordered\n        dataSource={[\n          { id: 1, name: 'Lily' },\n          { id: 2, name: 'Lily' },\n        ]}\n        renderItem={(item) => (\n          <List.Item\n            key={item.id}\n            actions={[\n              <a onClick={showDrawer} key={`a-${item.id}`}>\n                View Profile\n              </a>,\n            ]}\n          >\n            <List.Item.Meta\n              avatar={\n                <Avatar src=\"https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png\" />\n              }\n              title={<a href=\"https://ant.design/index-cn\">{item.name}</a>}\n              description=\"Progresser XTech\"\n            />\n          </List.Item>\n        )}\n      />\n      <Drawer size={640} placement=\"right\" closable={false} onClose={onClose} open={open}>\n        <p className={styles.profileTitle} style={{ marginBottom: 24 }}>\n          User Profile\n        </p>\n        <p className={styles.profileTitle}>Personal</p>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"Full Name\" content=\"Lily\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Account\" content=\"AntDesign@example.com\" />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"City\" content=\"HangZhou\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Country\" content=\"China🇨🇳\" />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"Birthday\" content=\"February 2,1900\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Website\" content=\"-\" />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={24}>\n            <DescriptionItem\n              title=\"Message\"\n              content=\"Make things as simple as possible but no simpler.\"\n            />\n          </Col>\n        </Row>\n        <Divider />\n        <p className={styles.profileTitle}>Company</p>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"Position\" content=\"Programmer\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Responsibilities\" content=\"Coding\" />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"Department\" content=\"XTech\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Supervisor\" content={<a>Lin</a>} />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={24}>\n            <DescriptionItem\n              title=\"Skills\"\n              content=\"C / C + +, data structures, software engineering, operating systems, computer networks, databases, compiler theory, computer architecture, Microcomputer Principle and Interface Technology, Computer English, Java, ASP, etc.\"\n            />\n          </Col>\n        </Row>\n        <Divider />\n        <p className={styles.profileTitle}>Contacts</p>\n        <Row>\n          <Col span={12}>\n            <DescriptionItem title=\"Email\" content=\"AntDesign@example.com\" />\n          </Col>\n          <Col span={12}>\n            <DescriptionItem title=\"Phone Number\" content=\"+86 181 0000 0000\" />\n          </Col>\n        </Row>\n        <Row>\n          <Col span={24}>\n            <DescriptionItem\n              title=\"GitHub\"\n              content={\n                <a\n                  href=\"https://github.com/ant-design/ant-design\"\n                  target=\"_blank\"\n                  rel=\"noopener noreferrer\"\n                >\n                  github.com/ant-design/ant-design\n                </a>\n              }\n            />\n          </Col>\n        </Row>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "user-profile"
+  },
+  {
+   "name": "Multi-level drawer",
+   "description": "Open a new drawer on top of an existing drawer to handle multi branch tasks.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [childrenDrawer, setChildrenDrawer] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  const showChildrenDrawer = () => {\n    setChildrenDrawer(true);\n  };\n\n  const onChildrenDrawerClose = () => {\n    setChildrenDrawer(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showDrawer}>\n        Open drawer\n      </Button>\n      <Drawer title=\"Multi-level drawer\" size={520} closable={false} onClose={onClose} open={open}>\n        <Button type=\"primary\" onClick={showChildrenDrawer}>\n          Two-level drawer\n        </Button>\n        <Drawer\n          title=\"Two-level Drawer\"\n          size={320}\n          closable={false}\n          onClose={onChildrenDrawerClose}\n          open={childrenDrawer}\n        >\n          This is two-level drawer\n        </Drawer>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "multi-level-drawer"
+  },
+  {
+   "name": "Preset size",
+   "description": "The default width (or height) of Drawer is `378px`, and there is a preset large size `736px`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer, Radio, Space } from 'antd';\nimport type { DrawerProps } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [size, setSize] = useState<DrawerProps['size']>();\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Space style={{ marginBottom: 16 }}>\n        <Radio.Group\n          value={size}\n          onChange={(e) => setSize(e.target.value)}\n          options={[\n            { label: 'Large Size (736px)', value: 'large' },\n            { label: 'Default Size (378px)', value: 'default' },\n            { label: 256, value: 256 },\n            { label: '500px', value: '500px' },\n            { label: '50%', value: '50%' },\n            { label: '20vw', value: '20vw' },\n          ]}\n        />\n      </Space>\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Open Drawer\n      </Button>\n      <Drawer\n        title={`${size} Drawer`}\n        placement=\"right\"\n        size={size}\n        onClose={onClose}\n        open={open}\n        extra={\n          <Space>\n            <Button onClick={onClose}>Cancel</Button>\n            <Button type=\"primary\" onClick={onClose}>\n              OK\n            </Button>\n          </Space>\n        }\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "mask",
+   "description": "mask effect.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer, Space } from 'antd';\n\ntype MaskType = 'blur' | 'dimmed' | 'none';\ntype DrawerConfig = {\n  type: MaskType;\n  mask: boolean | { blur: boolean };\n  title: string;\n};\n\nconst drawerList: DrawerConfig[] = [\n  { type: 'blur', mask: { blur: true }, title: 'blur' },\n  { type: 'dimmed', mask: true, title: 'Dimmed mask' },\n  { type: 'none', mask: false, title: 'No mask' },\n];\nconst App: React.FC = () => {\n  const [open, setOpen] = useState<false | MaskType>(false);\n\n  const showDrawer = (type: MaskType) => {\n    setOpen(type);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <Space wrap>\n      {drawerList.map((item) => (\n        <React.Fragment key={item.type}>\n          <Button\n            onClick={() => {\n              showDrawer(item.type);\n            }}\n          >\n            {item.title}\n          </Button>\n          <Drawer\n            title={item.title}\n            placement=\"right\"\n            mask={item.mask}\n            onClose={onClose}\n            open={open === item.type}\n          >\n            <p>Some contents...</p>\n            <p>Some contents...</p>\n            <p>Some contents...</p>\n          </Drawer>\n        </React.Fragment>\n      ))}\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "mask"
+  },
+  {
+   "name": "Closable placement",
+   "description": "Drawer with closable placement, customize the close placement to the `end`, defaults to `start`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n\n  const showDrawer = () => {\n    setOpen(true);\n  };\n\n  const onClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showDrawer}>\n        Open\n      </Button>\n      <Drawer\n        title=\"Drawer Closable Placement\"\n        closable={{ placement: 'end' }}\n        onClose={onClose}\n        open={open}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Take a look at the top-right corner...</p>\n      </Drawer>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "closable-placement"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Drawer by passing objects or functions through `classNames` and `styles`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Drawer, Flex } from 'antd';\nimport type { DrawerProps, GetProp } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst lineStyle: React.CSSProperties = {\n  lineHeight: '28px',\n};\n\nconst sharedContent = (\n  <>\n    <div style={lineStyle}>\n      Following the Ant Design specification, we developed a React UI library antd that contains a\n      set of high quality components and demos for building rich, interactive user interfaces.\n    </div>\n    <div style={lineStyle}>🌈 Enterprise-class UI designed for web applications.</div>\n    <div style={lineStyle}>📦 A set of high-quality React components out of the box.</div>\n    <div style={lineStyle}>🛡 Written in TypeScript with predictable static types.</div>\n    <div style={lineStyle}>⚙️ Whole package of design resources and development tools.</div>\n    <div style={lineStyle}>🌍 Internationalization support for dozens of languages.</div>\n    <div style={lineStyle}>🎨 Powerful theme customization in every detail.</div>\n  </>\n);\n\nconst classNames = createStaticStyles(\n  ({ css }): NonNullable<GetProp<DrawerProps, 'classNames', 'Return'>> => ({\n    root: css`\n      border-radius: 10px;\n      padding: 10px;\n    `,\n  }),\n);\n\nconst styles: DrawerProps['styles'] = {\n  mask: {\n    backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,\n  },\n};\n\nconst stylesFn: DrawerProps['styles'] = (info): GetProp<DrawerProps, 'styles', 'Return'> => {\n  if (info.props.footer) {\n    return {\n      header: {\n        padding: 16,\n      },\n      body: {\n        padding: 16,\n      },\n      footer: {\n        padding: '16px 10px',\n        backgroundColor: '#fafafa',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const [drawerOpen, setDrawerOpen] = useState(false);\n  const [drawerFnOpen, setDrawerFnOpen] = useState(false);\n\n  const sharedProps: DrawerProps = {\n    classNames,\n    size: 500,\n  };\n\n  const footer: React.ReactNode = (\n    <Flex gap=\"medium\" justify=\"flex-end\">\n      <Button\n        onClick={() => setDrawerFnOpen(false)}\n        styles={{ root: { borderColor: '#ccc', color: '#171717', backgroundColor: '#fff' } }}\n      >\n        Cancel\n      </Button>\n      <Button\n        type=\"primary\"\n        styles={{ root: { backgroundColor: '#171717' } }}\n        onClick={() => setDrawerOpen(true)}\n      >\n        Submit\n      </Button>\n    </Flex>\n  );\n\n  return (\n    <Flex gap=\"medium\">\n      <Button onClick={() => setDrawerOpen(true)}>Open Style Drawer</Button>\n      <Button type=\"primary\" onClick={() => setDrawerFnOpen(true)}>\n        Open Function Drawer\n      </Button>\n      <Drawer\n        {...sharedProps}\n        footer={null}\n        title=\"Custom Style Drawer\"\n        styles={styles}\n        open={drawerOpen}\n        onClose={() => setDrawerOpen(false)}\n      >\n        {sharedContent}\n      </Drawer>\n      <Drawer\n        {...sharedProps}\n        footer={footer}\n        title=\"Custom Function drawer\"\n        styles={stylesFn}\n        mask={{ enabled: true, blur: true }}\n        open={drawerFnOpen}\n        onClose={() => setDrawerFnOpen(false)}\n      >\n        {sharedContent}\n      </Drawer>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "afterOpenChange",
+     "Callback after the animation ends when switching drawers",
+     "function(open)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~bodyStyle~~",
+     "Style of the drawer body, please use `styles.body` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "className",
+     "Config Drawer Panel className. Use `rootClassName` if want to config top DOM style",
+     "string",
+     "-",
+     "—",
+     "5.7.0"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the Drawer component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.10.0"
+    ],
+    [
+     "closable",
+     "Whether to show a close button. The position can be configured with `placement`",
+     "boolean | { closeIcon?: React.ReactNode; disabled?: boolean; placement?: 'start' | 'end' }",
+     "true",
+     "placement: 5.28.0",
+     "5.15.0, placement: 6.1.1"
+    ],
+    [
+     "~~contentWrapperStyle~~",
+     "Style of the drawer wrapper, please use `styles.wrapper` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~destroyOnClose~~",
+     "Whether to unmount child components on closing drawer or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "~~destroyInactivePanel~~",
+     "Whether to unmount child components on closing drawer or not, please use `destroyOnHidden` instead",
+     "boolean",
+     "false",
+     "-",
+     "×"
+    ],
+    [
+     "destroyOnHidden",
+     "Whether to unmount child components on closing drawer or not",
+     "boolean",
+     "false",
+     "5.25.0",
+     "×"
+    ],
+    [
+     "~~drawerStyle~~",
+     "Style of the drawer panel, please use `styles.section` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "extra",
+     "Extra actions area at corner",
+     "ReactNode",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "footer",
+     "The footer for Drawer",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~footerStyle~~",
+     "Style of the drawer footer, please use `styles.footer` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "forceRender",
+     "Pre-render Drawer component forcibly",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "focusable",
+     "Configuration for focus management in the Drawer",
+     "{ trap?: boolean, focusTriggerAfterClose?: boolean }",
+     "-",
+     "6.2.0",
+     "6.4.0"
+    ],
+    [
+     "getContainer",
+     "mounted node and display window for Drawer",
+     "HTMLElement | () => HTMLElement | Selectors | false",
+     "body",
+     "—",
+     "×"
+    ],
+    [
+     "~~headerStyle~~",
+     "Style of the drawer header part, please use `styles.header` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~height~~",
+     "Placement is `top` or `bottom`, height of the Drawer dialog, please use `size` instead",
+     "string | number",
+     "378",
+     "—",
+     "×"
+    ],
+    [
+     "keyboard",
+     "Whether support press esc to close",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "loading",
+     "Show the Skeleton",
+     "boolean",
+     "false",
+     "5.17.0",
+     "×"
+    ],
+    [
+     "mask",
+     "Mask effect",
+     "boolean | `{ enabled?: boolean, blur?: boolean, closable?: boolean }`",
+     "true",
+     "mask.closable: 6.3.0",
+     "6.0.0, mask.closable: 6.3.0"
+    ],
+    [
+     "~~maskClosable~~",
+     "Clicking on the mask (area outside the Drawer) to close the Drawer or not",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "~~maskStyle~~",
+     "Style of the drawer mask, please use `styles.mask` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "maxSize",
+     "Maximum size (width or height depending on `placement`) when resizable",
+     "number",
+     "-",
+     "6.0.0",
+     "×"
+    ],
+    [
+     "open",
+     "Whether the Drawer dialog is visible or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "The placement of the Drawer",
+     "`top` | `right` | `bottom` | `left`",
+     "right",
+     "—",
+     "×"
+    ],
+    [
+     "push",
+     "Nested drawers push behavior",
+     "boolean | { distance: string | number }",
+     "{ distance: 180 }",
+     "4.5.0+",
+     "×"
+    ],
+    [
+     "resizable",
+     "Enable resizable by dragging",
+     "boolean | ResizableConfig",
+     "-",
+     "boolean: 6.1.0",
+     "×"
+    ],
+    [
+     "rootStyle",
+     "Style of wrapper element which **contains mask** compare to `style`",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "size",
+     "preset size of drawer, default `378px` and large `736px`, or a custom number",
+     "'default' | 'large' | number | string",
+     "'default'",
+     "4.17.0, string: 6.2.0",
+     "×"
+    ],
+    [
+     "style",
+     "Style of Drawer panel. Use `styles.body` if want to config body only",
+     "CSSProperties",
+     "-",
+     "—",
+     "5.7.0"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the Drawer component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.10.0"
+    ],
+    [
+     "title",
+     "The title for Drawer",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~width~~",
+     "Width of the Drawer dialog, please use `size` instead",
+     "string | number",
+     "378",
+     "—",
+     "×"
+    ],
+    [
+     "zIndex",
+     "The `z-index` of the Drawer",
+     "number",
+     "1000",
+     "—",
+     "×"
+    ],
+    [
+     "onClose",
+     "Specify a callback that will be called when a user clicks mask, close button or Cancel button",
+     "function(e)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "drawerRender",
+     "Custom drawer content render",
+     "(node: ReactNode) => ReactNode",
+     "-",
+     "5.18.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "onResizeStart",
+     "Callback when resize starts",
+     "() => void",
+     "-",
+     "6.0.0"
+    ],
+    [
+     "onResize",
+     "Callback during resizing",
+     "(size: number) => void",
+     "-",
+     "6.0.0"
+    ],
+    [
+     "onResizeEnd",
+     "Callback when resize ends",
+     "() => void",
+     "-",
+     "6.0.0"
+    ]
+   ],
+   "name": "ResizableConfig"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "afterOpenChange",
+    "Callback after the animation ends when switching drawers",
+    "function(open)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~bodyStyle~~",
+    "Style of the drawer body, please use `styles.body` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "className",
+    "Config Drawer Panel className. Use `rootClassName` if want to config top DOM style",
+    "string",
+    "-",
+    "—",
+    "5.7.0"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the Drawer component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.10.0"
+   ],
+   [
+    "closable",
+    "Whether to show a close button. The position can be configured with `placement`",
+    "boolean | { closeIcon?: React.ReactNode; disabled?: boolean; placement?: 'start' | 'end' }",
+    "true",
+    "placement: 5.28.0",
+    "5.15.0, placement: 6.1.1"
+   ],
+   [
+    "~~contentWrapperStyle~~",
+    "Style of the drawer wrapper, please use `styles.wrapper` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~destroyOnClose~~",
+    "Whether to unmount child components on closing drawer or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "~~destroyInactivePanel~~",
+    "Whether to unmount child components on closing drawer or not, please use `destroyOnHidden` instead",
+    "boolean",
+    "false",
+    "-",
+    "×"
+   ],
+   [
+    "destroyOnHidden",
+    "Whether to unmount child components on closing drawer or not",
+    "boolean",
+    "false",
+    "5.25.0",
+    "×"
+   ],
+   [
+    "~~drawerStyle~~",
+    "Style of the drawer panel, please use `styles.section` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "extra",
+    "Extra actions area at corner",
+    "ReactNode",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "footer",
+    "The footer for Drawer",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~footerStyle~~",
+    "Style of the drawer footer, please use `styles.footer` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "forceRender",
+    "Pre-render Drawer component forcibly",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "focusable",
+    "Configuration for focus management in the Drawer",
+    "{ trap?: boolean, focusTriggerAfterClose?: boolean }",
+    "-",
+    "6.2.0",
+    "6.4.0"
+   ],
+   [
+    "getContainer",
+    "mounted node and display window for Drawer",
+    "HTMLElement | () => HTMLElement | Selectors | false",
+    "body",
+    "—",
+    "×"
+   ],
+   [
+    "~~headerStyle~~",
+    "Style of the drawer header part, please use `styles.header` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~height~~",
+    "Placement is `top` or `bottom`, height of the Drawer dialog, please use `size` instead",
+    "string | number",
+    "378",
+    "—",
+    "×"
+   ],
+   [
+    "keyboard",
+    "Whether support press esc to close",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "loading",
+    "Show the Skeleton",
+    "boolean",
+    "false",
+    "5.17.0",
+    "×"
+   ],
+   [
+    "mask",
+    "Mask effect",
+    "boolean | `{ enabled?: boolean, blur?: boolean, closable?: boolean }`",
+    "true",
+    "mask.closable: 6.3.0",
+    "6.0.0, mask.closable: 6.3.0"
+   ],
+   [
+    "~~maskClosable~~",
+    "Clicking on the mask (area outside the Drawer) to close the Drawer or not",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "~~maskStyle~~",
+    "Style of the drawer mask, please use `styles.mask` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "maxSize",
+    "Maximum size (width or height depending on `placement`) when resizable",
+    "number",
+    "-",
+    "6.0.0",
+    "×"
+   ],
+   [
+    "open",
+    "Whether the Drawer dialog is visible or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "placement",
+    "The placement of the Drawer",
+    "`top` | `right` | `bottom` | `left`",
+    "right",
+    "—",
+    "×"
+   ],
+   [
+    "push",
+    "Nested drawers push behavior",
+    "boolean | { distance: string | number }",
+    "{ distance: 180 }",
+    "4.5.0+",
+    "×"
+   ],
+   [
+    "resizable",
+    "Enable resizable by dragging",
+    "boolean | ResizableConfig",
+    "-",
+    "boolean: 6.1.0",
+    "×"
+   ],
+   [
+    "rootStyle",
+    "Style of wrapper element which **contains mask** compare to `style`",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "size",
+    "preset size of drawer, default `378px` and large `736px`, or a custom number",
+    "'default' | 'large' | number | string",
+    "'default'",
+    "4.17.0, string: 6.2.0",
+    "×"
+   ],
+   [
+    "style",
+    "Style of Drawer panel. Use `styles.body` if want to config body only",
+    "CSSProperties",
+    "-",
+    "—",
+    "5.7.0"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the Drawer component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.10.0"
+   ],
+   [
+    "title",
+    "The title for Drawer",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~width~~",
+    "Width of the Drawer dialog, please use `size` instead",
+    "string | number",
+    "378",
+    "—",
+    "×"
+   ],
+   [
+    "zIndex",
+    "The `z-index` of the Drawer",
+    "number",
+    "1000",
+    "—",
+    "×"
+   ],
+   [
+    "onClose",
+    "Specify a callback that will be called when a user clicks mask, close button or Cancel button",
+    "function(e)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "drawerRender",
+    "Custom drawer content render",
+    "(node: ReactNode) => ReactNode",
+    "-",
+    "5.18.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "placement",
+   "values": [
+    "top",
+    "right",
+    "bottom",
+    "left"
+   ],
+   "default": "right",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "default",
+    "large",
+    "number",
+    "string"
+   ],
+   "default": "'default'",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with fixed positioning, z-index control, pointer events, color and other basic styles and layout control for drawer container"
+   },
+   {
+    "name": "mask",
+    "mark": "semantic-mark-mask",
+    "description": "Mask element with absolute positioning, z-index, background color, pointer events and other mask layer styles and interaction controls"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "Drawer container element with flex layout, width/height, overflow control, background color, pointer events and other drawer body styles"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with flex layout, alignment, padding, font size, line height, bottom border and other header area styles"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element with flex ratio, minimum size, padding, overflow scroll and other content area display and layout styles"
+   },
+   {
+    "name": "footer",
+    "mark": "semantic-mark-footer",
+    "description": "Footer element with flex shrink, padding, top border and other bottom operation area styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with flex ratio, margin, font weight, font size, line height and other title text styles"
+   },
+   {
+    "name": "extra",
+    "mark": "semantic-mark-extra",
+    "description": "Extra element with flex fixed layout and other additional operation content style controls"
+   },
+   {
+    "name": "dragger",
+    "mark": "semantic-mark-dragger",
+    "description": "Dragger element used to resize the drawer, with absolute positioning, transparent background, pointer events control, hover state styles, and dragging state styles"
+   },
+   {
+    "name": "close",
+    "mark": "semantic-mark-close",
+    "description": "Close button element with basic button styling"
+   }
+  ],
+  "dom": "<div class=\"ant-drawer ant-drawer-right css-var-test-id semantic-mark-root ant-drawer-open ant-drawer-inline\" tabindex=\"-1\">\n        <div class=\"ant-drawer-mask semantic-mark-mask\">\n        <div class=\"ant-drawer-content-wrapper\" style=\"width: 300px;\">\n          <div class=\"ant-drawer-resizable-dragger ant-drawer-resizable-dragger-right ant-drawer-resizable-dragger-horizontal semantic-mark-dragger\">\n          <div aria-labelledby=\"test-id\" aria-modal=\"true\" class=\"ant-drawer-section semantic-mark-section\" role=\"dialog\">\n            <div class=\"ant-drawer-header semantic-mark-header\">\n              <div class=\"ant-drawer-header-title\">\n                <button aria-label=\"Close\" class=\"ant-drawer-close semantic-mark-close\" type=\"button\">\n                  <span aria-label=\"close\" class=\"anticon anticon-close\" role=\"img\">\n                    <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                      <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                    </svg>\n                  </span>\n                </button>\n                <div class=\"ant-drawer-title semantic-mark-title\" id=\"test-id\">\n                  Title\n                </div>\n              </div>\n              <div class=\"ant-drawer-extra semantic-mark-extra\">\n                <button class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-outlined\" type=\"button\">\n                  <span>\n                    Cancel\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-drawer-body semantic-mark-body\">\n              <p>\n                Some contents...\n              </p>\n            </div>\n            <div class=\"ant-drawer-footer semantic-mark-footer\">\n              <a class=\"ant-typography ant-typography-link css-var-test-id\">\n                Footer\n              </a>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"ant-col ant-col-8 css-var-test-id\">\n      <ul class=\"acss-11b5qta\">\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  root\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.0.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              根元素，包含固定定位、层级控制、指针事件、颜色等抽屉容器的基础样式和布局控制\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  mask\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.13.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              遮罩层元素，包含绝对定位、层级、背景色、指针事件等遮罩层的样式和交互控制\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  section\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.0.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              Drawer 容器元素，包含flex布局、宽高、溢出控制、背景色、指针事件等抽屉主体的样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  header\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.13.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              头部元素，包含flex布局、对齐方式、内边距、字体大小、行高、下边框等头部区域的样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  title\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.0.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              标题元素，包含flex占比、外边距、字体权重、字体大小、行高等标题文字的样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  extra\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.0.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              额外元素，包含flex固定布局等额外操作内容的样式控制\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  body\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.13.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              内容元素，包含flex占比、最小尺寸、内边距、溢出滚动等内容区域的展示和布局样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  footer\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.13.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              底部元素，包含flex收缩、内边距、上边框等底部操作区域的样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  dragger\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.0.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              拖拽元素，用于调整抽屉大小的拖拽手柄，包含绝对定位、背景透明、指针事件控制、hover状态样式、拖拽状态样式等\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  close\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  6.1.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              关闭按钮元素，包含按钮的基础样式\n            </div>\n          </div>\n        </li>\n      </ul>\n    </div>\n  </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "draggerSize",
+     "Size of resize handle",
+     "number",
+     "4"
+    ],
+    [
+     "footerPaddingBlock",
+     "Vertical padding of footer",
+     "number",
+     "8"
+    ],
+    [
+     "footerPaddingInline",
+     "Horizontal padding of footer",
+     "number",
+     "16"
+    ],
+    [
+     "zIndexPopup",
+     "z-index of drawer",
+     "number",
+     "1000"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgMask",
+     "The background color of the mask, used to cover the content below the mask, Modal, Drawer, Image and other components use this token",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextActive",
+     "Control the background color of text in active state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

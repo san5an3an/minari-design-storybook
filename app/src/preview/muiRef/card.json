@@ -1,0 +1,870 @@
+{
+ "slug": "card",
+ "title": "Card",
+ "group": "Surfaces",
+ "folder": "cards",
+ "description": "Cards contain content and actions about a single subject.",
+ "components": [
+  "Card",
+  "CardActionArea",
+  "CardActions",
+  "CardContent",
+  "CardHeader",
+  "CardMedia",
+  "Collapse",
+  "Paper"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Card"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Cards are surfaces that display content and actions on a single topic.\nThe Material UI Card component includes several complementary utility components to handle various use cases:\n\n- Card: a surface-level container for grouping related components.\n- Card Content: the wrapper for the Card content.\n- Card Header: an optional wrapper for the Card header.\n- Card Media: an optional container for displaying images, videos, etc.\n- Card Actions: an optional wrapper that groups a set of buttons.\n- Card Action Area: an optional wrapper that allows users to interact with the specified area of the Card."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicCard",
+     "file": "BasicCard.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Card from '@mui/material/Card';\nimport CardActions from '@mui/material/CardActions';\nimport CardContent from '@mui/material/CardContent';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nconst bull = (\n  <Box\n    component=\"span\"\n    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}\n  >\n    •\n  </Box>\n);\n\nexport default function BasicCard() {\n  return (\n    <Card sx={{ minWidth: 275 }}>\n      <CardContent>\n        <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>\n          Word of the Day\n        </Typography>\n        <Typography variant=\"h5\" component=\"div\">\n          be{bull}nev{bull}o{bull}lent\n        </Typography>\n        <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>\n        <Typography variant=\"body2\">\n          well meaning and kindly.\n          <br />\n          {'\"a benevolent smile\"'}\n        </Typography>\n      </CardContent>\n      <CardActions>\n        <Button size=\"small\">Learn More</Button>\n      </CardActions>\n    </Card>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import Card from '@mui/material/Card';\nimport CardContent from '@mui/material/CardContent';\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::success\nAlthough cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are meant to be entry points to more complex and detailed information.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Outlined Card",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Set `variant=\"outlined\"` to render an outlined card."
+    },
+    {
+     "kind": "demo",
+     "name": "OutlinedCard",
+     "file": "OutlinedCard.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Card from '@mui/material/Card';\nimport CardActions from '@mui/material/CardActions';\nimport CardContent from '@mui/material/CardContent';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nconst bull = (\n  <Box\n    component=\"span\"\n    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}\n  >\n    •\n  </Box>\n);\n\nconst card = (\n  <React.Fragment>\n    <CardContent>\n      <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>\n        Word of the Day\n      </Typography>\n      <Typography variant=\"h5\" component=\"div\">\n        be{bull}nev{bull}o{bull}lent\n      </Typography>\n      <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>adjective</Typography>\n      <Typography variant=\"body2\">\n        well meaning and kindly.\n        <br />\n        {'\"a benevolent smile\"'}\n      </Typography>\n    </CardContent>\n    <CardActions>\n      <Button size=\"small\">Learn More</Button>\n    </CardActions>\n  </React.Fragment>\n);\n\nexport default function OutlinedCard() {\n  return (\n    <Box sx={{ minWidth: 275 }}>\n      <Card variant=\"outlined\">{card}</Card>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Complex Interaction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "On desktop, card content can expand. (Click the downward chevron to view the recipe.)"
+    },
+    {
+     "kind": "demo",
+     "name": "RecipeReviewCard",
+     "file": "RecipeReviewCard.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Card from '@mui/material/Card';\nimport CardHeader from '@mui/material/CardHeader';\nimport CardMedia from '@mui/material/CardMedia';\nimport CardContent from '@mui/material/CardContent';\nimport CardActions from '@mui/material/CardActions';\nimport Collapse from '@mui/material/Collapse';\nimport Avatar from '@mui/material/Avatar';\nimport IconButton, { IconButtonProps } from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport { red } from '@mui/material/colors';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport ShareIcon from '@mui/icons-material/Share';\nimport ExpandMoreIcon from '@mui/icons-material/ExpandMore';\nimport MoreVertIcon from '@mui/icons-material/MoreVert';\n\ninterface ExpandMoreProps extends IconButtonProps {\n  expand: boolean;\n}\n\nconst ExpandMore = styled((props: ExpandMoreProps) => {\n  const { expand, ...other } = props;\n  return <IconButton {...other} />;\n})(({ theme }) => ({\n  marginLeft: 'auto',\n  transition: theme.transitions.create('transform', {\n    duration: theme.transitions.duration.shortest,\n  }),\n  variants: [\n    {\n      props: ({ expand }) => !expand,\n      style: {\n        transform: 'rotate(0deg)',\n      },\n    },\n    {\n      props: ({ expand }) => !!expand,\n      style: {\n        transform: 'rotate(180deg)',\n      },\n    },\n  ],\n}));\n\nexport default function RecipeReviewCard() {\n  const [expanded, setExpanded] = React.useState(false);\n\n  const handleExpandClick = () => {\n    setExpanded(!expanded);\n  };\n\n  return (\n    <Card sx={{ maxWidth: 345 }}>\n      <CardHeader\n        avatar={\n          <Avatar sx={{ bgcolor: red[500] }} aria-label=\"recipe\">\n            R\n          </Avatar>\n        }\n        action={\n          <IconButton aria-label=\"settings\">\n            <MoreVertIcon />\n          </IconButton>\n        }\n        title=\"Shrimp and Chorizo Paella\"\n        subheader=\"September 14, 2016\"\n      />\n      <CardMedia\n        component=\"img\"\n        height=\"194\"\n        image=\"/static/images/cards/paella.jpg\"\n        alt=\"Paella dish\"\n      />\n      <CardContent>\n        <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n          This impressive paella is a perfect party dish and a fun meal to cook\n          together with your guests. Add 1 cup of frozen peas along with the mussels,\n          if you like.\n        </Typography>\n      </CardContent>\n      <CardActions disableSpacing>\n        <IconButton aria-label=\"add to favorites\">\n          <FavoriteIcon />\n        </IconButton>\n        <IconButton aria-label=\"share\">\n          <ShareIcon />\n        </IconButton>\n        <ExpandMore\n          expand={expanded}\n          onClick={handleExpandClick}\n          aria-expanded={expanded}\n          aria-label=\"show more\"\n        >\n          <ExpandMoreIcon />\n        </ExpandMore>\n      </CardActions>\n      <Collapse in={expanded} timeout=\"auto\" unmountOnExit>\n        <CardContent>\n          <Typography sx={{ marginBottom: 2 }}>Method:</Typography>\n          <Typography sx={{ marginBottom: 2 }}>\n            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set\n            aside for 10 minutes.\n          </Typography>\n          <Typography sx={{ marginBottom: 2 }}>\n            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over\n            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring\n            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a\n            large plate and set aside, leaving chicken and chorizo in the pan. Add\n            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,\n            stirring often until thickened and fragrant, about 10 minutes. Add\n            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.\n          </Typography>\n          <Typography sx={{ marginBottom: 2 }}>\n            Add rice and stir very gently to distribute. Top with artichokes and\n            peppers, and cook without stirring, until most of the liquid is absorbed,\n            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and\n            mussels, tucking them down into the rice, and cook again without\n            stirring, until mussels have opened and rice is just tender, 5 to 7\n            minutes more. (Discard any mussels that don&apos;t open.)\n          </Typography>\n          <Typography>\n            Set aside off of the heat to let rest for 10 minutes, and then serve.\n          </Typography>\n        </CardContent>\n      </Collapse>\n    </Card>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Media",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Example of a card using an image to reinforce the content."
+    },
+    {
+     "kind": "demo",
+     "name": "MediaCard",
+     "file": "MediaCard.tsx",
+     "code": "import Card from '@mui/material/Card';\nimport CardActions from '@mui/material/CardActions';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nexport default function MediaCard() {\n  return (\n    <Card sx={{ maxWidth: 345 }}>\n      <CardMedia\n        sx={{ height: 140 }}\n        image=\"/static/images/cards/contemplative-reptile.jpg\"\n        title=\"green iguana\"\n      />\n      <CardContent>\n        <Typography gutterBottom variant=\"h5\" component=\"div\">\n          Lizard\n        </Typography>\n        <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n          Lizards are a widespread group of squamate reptiles, with over 6,000\n          species, ranging across all continents except Antarctica\n        </Typography>\n      </CardContent>\n      <CardActions>\n        <Button size=\"small\">Share</Button>\n        <Button size=\"small\">Learn More</Button>\n      </CardActions>\n    </Card>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "By default, we use the combination of a `<div>` element and a _background image_ to display the media. It can be problematic in some situations, for example, you might want to display a video or a responsive image. Use the `component` prop for these use cases:"
+    },
+    {
+     "kind": "demo",
+     "name": "ImgMediaCard",
+     "file": "ImgMediaCard.tsx",
+     "code": "import Card from '@mui/material/Card';\nimport CardActions from '@mui/material/CardActions';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nexport default function ImgMediaCard() {\n  return (\n    <Card sx={{ maxWidth: 345 }}>\n      <CardMedia\n        component=\"img\"\n        alt=\"green iguana\"\n        height=\"140\"\n        image=\"/static/images/cards/contemplative-reptile.jpg\"\n      />\n      <CardContent>\n        <Typography gutterBottom variant=\"h5\" component=\"div\">\n          Lizard\n        </Typography>\n        <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n          Lizards are a widespread group of squamate reptiles, with over 6,000\n          species, ranging across all continents except Antarctica\n        </Typography>\n      </CardContent>\n      <CardActions>\n        <Button size=\"small\">Share</Button>\n        <Button size=\"small\">Learn More</Button>\n      </CardActions>\n    </Card>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Primary action",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Often a card allow users to interact with the entirety of its surface to trigger its main action, be it an expansion, a link to another screen or some other behavior. The action area of the card can be specified by wrapping its contents in a `CardActionArea` component."
+    },
+    {
+     "kind": "demo",
+     "name": "ActionAreaCard",
+     "file": "ActionAreaCard.tsx",
+     "code": "import Card from '@mui/material/Card';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport Typography from '@mui/material/Typography';\nimport CardActionArea from '@mui/material/CardActionArea';\n\nexport default function ActionAreaCard() {\n  return (\n    <Card sx={{ maxWidth: 345 }}>\n      <CardActionArea>\n        <CardMedia\n          component=\"img\"\n          height=\"140\"\n          image=\"/static/images/cards/contemplative-reptile.jpg\"\n          alt=\"green iguana\"\n        />\n        <CardContent>\n          <Typography gutterBottom variant=\"h5\" component=\"div\">\n            Lizard\n          </Typography>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            Lizards are a widespread group of squamate reptiles, with over 6,000\n            species, ranging across all continents except Antarctica\n          </Typography>\n        </CardContent>\n      </CardActionArea>\n    </Card>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "A card can also offer supplemental actions which should stand detached from the main action area in order to avoid event overlap."
+    },
+    {
+     "kind": "demo",
+     "name": "MultiActionAreaCard",
+     "file": "MultiActionAreaCard.tsx",
+     "code": "import Card from '@mui/material/Card';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\nimport CardActionArea from '@mui/material/CardActionArea';\nimport CardActions from '@mui/material/CardActions';\n\nexport default function MultiActionAreaCard() {\n  return (\n    <Card sx={{ maxWidth: 345 }}>\n      <CardActionArea>\n        <CardMedia\n          component=\"img\"\n          height=\"140\"\n          image=\"/static/images/cards/contemplative-reptile.jpg\"\n          alt=\"green iguana\"\n        />\n        <CardContent>\n          <Typography gutterBottom variant=\"h5\" component=\"div\">\n            Lizard\n          </Typography>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            Lizards are a widespread group of squamate reptiles, with over 6,000\n            species, ranging across all continents except Antarctica\n          </Typography>\n        </CardContent>\n      </CardActionArea>\n      <CardActions>\n        <Button size=\"small\" color=\"primary\">\n          Share\n        </Button>\n      </CardActions>\n    </Card>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "UI Controls",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Supplemental actions within the card are explicitly called out using icons, text, and UI controls, typically placed at the bottom of the card.\n\nHere's an example of a media control card."
+    },
+    {
+     "kind": "demo",
+     "name": "MediaControlCard",
+     "file": "MediaControlCard.tsx",
+     "code": "import { useTheme } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Card from '@mui/material/Card';\nimport CardContent from '@mui/material/CardContent';\nimport CardMedia from '@mui/material/CardMedia';\nimport IconButton from '@mui/material/IconButton';\nimport Typography from '@mui/material/Typography';\nimport SkipPreviousIcon from '@mui/icons-material/SkipPrevious';\nimport PlayArrowIcon from '@mui/icons-material/PlayArrow';\nimport SkipNextIcon from '@mui/icons-material/SkipNext';\n\nexport default function MediaControlCard() {\n  const theme = useTheme();\n\n  return (\n    <Card sx={{ display: 'flex' }}>\n      <Box sx={{ display: 'flex', flexDirection: 'column' }}>\n        <CardContent sx={{ flex: '1 0 auto' }}>\n          <Typography component=\"div\" variant=\"h5\">\n            Live From Space\n          </Typography>\n          <Typography\n            variant=\"subtitle1\"\n            component=\"div\"\n            sx={{ color: 'text.secondary' }}\n          >\n            Mac Miller\n          </Typography>\n        </CardContent>\n        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>\n          <IconButton aria-label=\"previous\">\n            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}\n          </IconButton>\n          <IconButton aria-label=\"play/pause\">\n            <PlayArrowIcon sx={{ height: 38, width: 38 }} />\n          </IconButton>\n          <IconButton aria-label=\"next\">\n            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}\n          </IconButton>\n        </Box>\n      </Box>\n      <CardMedia\n        component=\"img\"\n        sx={{ width: 151 }}\n        image=\"/static/images/cards/live-from-space.jpg\"\n        alt=\"Live from space album cover\"\n      />\n    </Card>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Active state styles",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To customize a Card's styles when it's in an active state, you can attach a `data-active` attribute to the Card Action Area component and apply styles with the `&[data-active]` selector, as shown below:"
+    },
+    {
+     "kind": "demo",
+     "name": "SelectActionCard",
+     "file": "SelectActionCard.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Card from '@mui/material/Card';\nimport CardContent from '@mui/material/CardContent';\nimport Typography from '@mui/material/Typography';\nimport CardActionArea from '@mui/material/CardActionArea';\n\nconst cards = [\n  {\n    id: 1,\n    title: 'Plants',\n    description: 'Plants are essential for all life.',\n  },\n  {\n    id: 2,\n    title: 'Animals',\n    description: 'Animals are a part of nature.',\n  },\n  {\n    id: 3,\n    title: 'Humans',\n    description: 'Humans depend on plants and animals for survival.',\n  },\n];\n\nfunction SelectActionCard() {\n  const [selectedCard, setSelectedCard] = React.useState(0);\n  return (\n    <Box\n      sx={{\n        width: '100%',\n        display: 'grid',\n        gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))',\n        gap: 2,\n      }}\n    >\n      {cards.map((card, index) => (\n        <Card key={card.id}>\n          <CardActionArea\n            onClick={() => setSelectedCard(index)}\n            data-active={selectedCard === index ? '' : undefined}\n            sx={{\n              height: '100%',\n              '&[data-active]': {\n                backgroundColor: 'action.selected',\n                '&:hover': {\n                  backgroundColor: 'action.selectedHover',\n                },\n              },\n            }}\n          >\n            <CardContent sx={{ height: '100%' }}>\n              <Typography variant=\"h5\" component=\"div\">\n                {card.title}\n              </Typography>\n              <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n                {card.description}\n              </Typography>\n            </CardContent>\n          </CardActionArea>\n        </Card>\n      ))}\n    </Box>\n  );\n}\n\nexport default SelectActionCard;\n"
+    },
+    {
+     "kind": "prose",
+     "text": "🎨 If you are looking for inspiration, you can check [MUI Treasury's customization examples](https://mui-treasury.com/primitive/card)."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Card",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "raised",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the card will use raised styling."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiCard-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "CardActionArea",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ focusHighlight?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ focusHighlight?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the ButtonBase root element if the action area is keyboard focused."
+    }
+   ]
+  },
+  {
+   "name": "CardActions",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableSpacing",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the actions do not have additional margin."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiCardActions-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "spacing",
+     "className": "MuiCardActions-spacing",
+     "description": "Styles applied to the root element unless `disableSpacing={true}`."
+    }
+   ]
+  },
+  {
+   "name": "CardContent",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiCardContent-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "CardHeader",
+   "description": "",
+   "props": [
+    {
+     "prop": "action",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The action to display in the card header."
+    },
+    {
+     "prop": "avatar",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The Avatar element to display."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, <code>subheader</code> and <code>title</code> won&#39;t be wrapped by a Typography component. This can be useful to render an alternative Typography variant by wrapping the <code>title</code> text, and optional <code>subheader</code> text with the Typography component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ action?: func<br>&#124;&nbsp;object, avatar?: func<br>&#124;&nbsp;object, content?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, subheader?: func<br>&#124;&nbsp;object, title?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ action?: elementType, avatar?: elementType, content?: elementType, root?: elementType, subheader?: elementType, title?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "subheader",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "title",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "CardMedia",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "image",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Image to be displayed as a background image. Either <code>image</code> or <code>src</code> prop must be specified. Note that caller must specify height otherwise the image will not be visible."
+    },
+    {
+     "prop": "src",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An alias for <code>image</code> property. Available only with media components. Media components: <code>video</code>, <code>audio</code>, <code>picture</code>, <code>iframe</code>, <code>img</code>."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "img",
+     "className": "MuiCardMedia-img",
+     "description": "Styles applied to the root element if `component=\"picture or img\"`."
+    },
+    {
+     "key": "media",
+     "className": "MuiCardMedia-media",
+     "description": "Styles applied to the root element if `component=\"video, audio, picture, iframe, or img\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiCardMedia-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "Collapse",
+   "description": "The Collapse transition is used by the\n[Vertical Stepper](/material-ui/react-stepper/#vertical-stepper) StepContent component.",
+   "props": [
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content node to be collapsed."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "collapsedSize",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": "'0px'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The width (horizontal) or height (vertical) of the container when collapsed."
+    },
+    {
+     "prop": "component",
+     "type": "element type",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'vertical'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition orientation."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object, wrapper?: func<br>&#124;&nbsp;object, wrapperInner?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType, wrapper?: elementType, wrapperInner?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "timeout",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "duration.standard",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object.<br>Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": [
+    {
+     "key": "entered",
+     "className": "MuiCollapse-entered",
+     "description": "Styles applied to the root element when the transition has entered."
+    },
+    {
+     "key": "hidden",
+     "className": "MuiCollapse-hidden",
+     "description": "Styles applied to the root element when the transition has exited and `collapsedSize` = 0px."
+    },
+    {
+     "key": "horizontal",
+     "className": "MuiCollapse-horizontal",
+     "description": "State class applied to the root element if `orientation=\"horizontal\"`."
+    }
+   ]
+  },
+  {
+   "name": "Paper",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "Shadow depth, corresponds to <code>dp</code> in the spec. It accepts values between 0 and 24 inclusive."
+    },
+    {
+     "prop": "square",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, rounded corners are disabled."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'elevation'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;string",
+     "default": "'elevation'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "elevation",
+     "className": "MuiPaper-elevation",
+     "description": "Styles applied to the root element if `variant=\"elevation\"`."
+    },
+    {
+     "key": "elevation0",
+     "className": "MuiPaper-elevation0",
+     "description": "Styles applied to the root element if `elevation={0}`."
+    },
+    {
+     "key": "elevation1",
+     "className": "MuiPaper-elevation1",
+     "description": "Styles applied to the root element if `elevation={1}`."
+    },
+    {
+     "key": "elevation10",
+     "className": "MuiPaper-elevation10",
+     "description": "Styles applied to the root element if `elevation={10}`."
+    },
+    {
+     "key": "elevation11",
+     "className": "MuiPaper-elevation11",
+     "description": "Styles applied to the root element if `elevation={11}`."
+    },
+    {
+     "key": "elevation12",
+     "className": "MuiPaper-elevation12",
+     "description": "Styles applied to the root element if `elevation={12}`."
+    },
+    {
+     "key": "elevation13",
+     "className": "MuiPaper-elevation13",
+     "description": "Styles applied to the root element if `elevation={13}`."
+    },
+    {
+     "key": "elevation14",
+     "className": "MuiPaper-elevation14",
+     "description": "Styles applied to the root element if `elevation={14}`."
+    },
+    {
+     "key": "elevation15",
+     "className": "MuiPaper-elevation15",
+     "description": "Styles applied to the root element if `elevation={15}`."
+    },
+    {
+     "key": "elevation16",
+     "className": "MuiPaper-elevation16",
+     "description": "Styles applied to the root element if `elevation={16}`."
+    },
+    {
+     "key": "elevation17",
+     "className": "MuiPaper-elevation17",
+     "description": "Styles applied to the root element if `elevation={17}`."
+    },
+    {
+     "key": "elevation18",
+     "className": "MuiPaper-elevation18",
+     "description": "Styles applied to the root element if `elevation={18}`."
+    },
+    {
+     "key": "elevation19",
+     "className": "MuiPaper-elevation19",
+     "description": "Styles applied to the root element if `elevation={19}`."
+    },
+    {
+     "key": "elevation2",
+     "className": "MuiPaper-elevation2",
+     "description": "Styles applied to the root element if `elevation={2}`."
+    },
+    {
+     "key": "elevation20",
+     "className": "MuiPaper-elevation20",
+     "description": "Styles applied to the root element if `elevation={20}`."
+    },
+    {
+     "key": "elevation21",
+     "className": "MuiPaper-elevation21",
+     "description": "Styles applied to the root element if `elevation={21}`."
+    },
+    {
+     "key": "elevation22",
+     "className": "MuiPaper-elevation22",
+     "description": "Styles applied to the root element if `elevation={22}`."
+    },
+    {
+     "key": "elevation23",
+     "className": "MuiPaper-elevation23",
+     "description": "Styles applied to the root element if `elevation={23}`."
+    },
+    {
+     "key": "elevation24",
+     "className": "MuiPaper-elevation24",
+     "description": "Styles applied to the root element if `elevation={24}`."
+    },
+    {
+     "key": "elevation3",
+     "className": "MuiPaper-elevation3",
+     "description": "Styles applied to the root element if `elevation={3}`."
+    },
+    {
+     "key": "elevation4",
+     "className": "MuiPaper-elevation4",
+     "description": "Styles applied to the root element if `elevation={4}`."
+    },
+    {
+     "key": "elevation5",
+     "className": "MuiPaper-elevation5",
+     "description": "Styles applied to the root element if `elevation={5}`."
+    },
+    {
+     "key": "elevation6",
+     "className": "MuiPaper-elevation6",
+     "description": "Styles applied to the root element if `elevation={6}`."
+    },
+    {
+     "key": "elevation7",
+     "className": "MuiPaper-elevation7",
+     "description": "Styles applied to the root element if `elevation={7}`."
+    },
+    {
+     "key": "elevation8",
+     "className": "MuiPaper-elevation8",
+     "description": "Styles applied to the root element if `elevation={8}`."
+    },
+    {
+     "key": "elevation9",
+     "className": "MuiPaper-elevation9",
+     "description": "Styles applied to the root element if `elevation={9}`."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiPaper-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiPaper-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiPaper-rounded",
+     "description": "Styles applied to the root element unless `square={true}`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-card/"
+}

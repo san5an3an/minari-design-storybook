@@ -1,0 +1,514 @@
+{
+ "slug": "checkbox",
+ "title": "Checkbox",
+ "description": "Collect user's choices.",
+ "group": "Data Entry",
+ "whenToUse": "- Used for selecting multiple values from several options.\n- If you use only one checkbox, it is the same as using Switch to toggle between two states. The difference is that Switch will trigger the state change directly, but Checkbox just marks the state as changed and this needs to be submitted.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic usage of checkbox.",
+   "code": "import React from 'react';\nimport { Checkbox } from 'antd';\nimport type { CheckboxProps } from 'antd';\n\nconst onChange: CheckboxProps['onChange'] = (e) => {\n  console.log(`checked = ${e.target.checked}`);\n};\n\nconst App: React.FC = () => <Checkbox onChange={onChange}>Checkbox</Checkbox>;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Disabled",
+   "description": "Disabled checkbox.",
+   "code": "import React from 'react';\nimport { Checkbox, Flex } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Checkbox defaultChecked={false} disabled />\n    <Checkbox indeterminate disabled />\n    <Checkbox defaultChecked disabled />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "Controlled Checkbox",
+   "description": "Communicated with other components.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Checkbox } from 'antd';\nimport type { CheckboxProps } from 'antd';\n\nconst App: React.FC = () => {\n  const [checked, setChecked] = useState(true);\n  const [disabled, setDisabled] = useState(false);\n\n  const toggleChecked = () => {\n    setChecked(!checked);\n  };\n\n  const toggleDisable = () => {\n    setDisabled(!disabled);\n  };\n\n  const onChange: CheckboxProps['onChange'] = (e) => {\n    console.log('checked = ', e.target.checked);\n    setChecked(e.target.checked);\n  };\n\n  const label = `${checked ? 'Checked' : 'Unchecked'}-${disabled ? 'Disabled' : 'Enabled'}`;\n\n  return (\n    <>\n      <p style={{ marginBottom: '20px' }}>\n        <Checkbox checked={checked} disabled={disabled} onChange={onChange}>\n          {label}\n        </Checkbox>\n      </p>\n      <p>\n        <Button type=\"primary\" size=\"small\" onClick={toggleChecked}>\n          {!checked ? 'Check' : 'Uncheck'}\n        </Button>\n        <Button style={{ margin: '0 10px' }} type=\"primary\" size=\"small\" onClick={toggleDisable}>\n          {!disabled ? 'Disable' : 'Enable'}\n        </Button>\n      </p>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "controller"
+  },
+  {
+   "name": "Checkbox Group",
+   "description": "Generate a group of checkboxes from an array.",
+   "code": "import React from 'react';\nimport { Checkbox } from 'antd';\nimport type { CheckboxOptionType, GetProp } from 'antd';\n\nconst onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {\n  console.log('checked = ', checkedValues);\n};\n\nconst plainOptions = ['Apple', 'Pear', 'Orange'];\n\nconst options: CheckboxOptionType<string>[] = [\n  { label: 'Apple', value: 'Apple', className: 'label-1' },\n  { label: 'Pear', value: 'Pear', className: 'label-2' },\n  { label: 'Orange', value: 'Orange', className: 'label-3' },\n];\n\nconst optionsWithDisabled: CheckboxOptionType<string>[] = [\n  { label: 'Apple', value: 'Apple', className: 'label-1' },\n  { label: 'Pear', value: 'Pear', className: 'label-2' },\n  { label: 'Orange', value: 'Orange', className: 'label-3', disabled: false },\n];\n\nconst App: React.FC = () => (\n  <>\n    <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />\n    <br />\n    <br />\n    <Checkbox.Group options={options} defaultValue={['Pear']} onChange={onChange} />\n    <br />\n    <br />\n    <Checkbox.Group\n      options={optionsWithDisabled}\n      disabled\n      defaultValue={['Apple']}\n      onChange={onChange}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "group"
+  },
+  {
+   "name": "Check all",
+   "description": "The `indeterminate` property can help you to achieve a 'check all' effect.",
+   "code": "import React, { useState } from 'react';\nimport { Checkbox, Divider } from 'antd';\nimport type { CheckboxProps } from 'antd';\n\nconst CheckboxGroup = Checkbox.Group;\n\nconst plainOptions = ['Apple', 'Pear', 'Orange'];\nconst defaultCheckedList = ['Apple', 'Orange'];\n\nconst App: React.FC = () => {\n  const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);\n\n  const checkAll = plainOptions.length === checkedList.length;\n  const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;\n\n  const onChange = (list: string[]) => {\n    setCheckedList(list);\n  };\n\n  const onCheckAllChange: CheckboxProps['onChange'] = (e) => {\n    setCheckedList(e.target.checked ? plainOptions : []);\n  };\n\n  return (\n    <>\n      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>\n        Check all\n      </Checkbox>\n      <Divider />\n      <CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "check-all"
+  },
+  {
+   "name": "Use with Grid",
+   "description": "We can use Checkbox and Grid in Checkbox.Group, to implement complex layout.",
+   "code": "import React from 'react';\nimport { Checkbox, Col, Row } from 'antd';\nimport type { GetProp } from 'antd';\n\nconst onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {\n  console.log('checked = ', checkedValues);\n};\n\nconst App: React.FC = () => (\n  <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>\n    <Row>\n      <Col span={8}>\n        <Checkbox value=\"A\">A</Checkbox>\n      </Col>\n      <Col span={8}>\n        <Checkbox value=\"B\">B</Checkbox>\n      </Col>\n      <Col span={8}>\n        <Checkbox value=\"C\">C</Checkbox>\n      </Col>\n      <Col span={8}>\n        <Checkbox value=\"D\">D</Checkbox>\n      </Col>\n      <Col span={8}>\n        <Checkbox value=\"E\">E</Checkbox>\n      </Col>\n    </Row>\n  </Checkbox.Group>\n);\n\nexport default App;",
+   "demoId": "layout"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Checkbox by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Checkbox, Flex } from 'antd';\nimport type { CheckboxProps, GetProp } from 'antd';\nimport { createStyles } from 'antd-style';\nimport { clsx } from 'clsx';\n\nconst useStyles = createStyles(({ token, css }) => ({\n  root: css`\n    border-radius: ${token.borderRadius}px;\n    background-color: ${token.colorBgContainer};\n  `,\n  icon: css`\n    border-color: ${token.colorWarning};\n  `,\n  label: css`\n    color: ${token.colorTextDisabled};\n    font-weight: bold;\n  `,\n\n  iconChecked: css`\n    background-color: ${token.colorWarning};\n  `,\n  labelChecked: css`\n    color: ${token.colorWarning};\n  `,\n}));\n\n// Object style\nconst styles: CheckboxProps['styles'] = {\n  icon: {\n    borderRadius: 6,\n  },\n  label: {\n    color: 'blue',\n  },\n};\n\nconst App: React.FC = () => {\n  const { styles: classNamesStyles } = useStyles();\n\n  // Function classNames - dynamically adjust based on checked state\n  const classNamesFn: CheckboxProps['classNames'] = (\n    info,\n  ): GetProp<CheckboxProps, 'classNames', 'Return'> => {\n    if (info.props.checked) {\n      return {\n        root: clsx(classNamesStyles.root),\n        icon: clsx(classNamesStyles.icon, classNamesStyles.iconChecked),\n        label: clsx(classNamesStyles.label, classNamesStyles.labelChecked),\n      };\n    }\n    return {\n      root: classNamesStyles.root,\n      icon: classNamesStyles.icon,\n      label: classNamesStyles.label,\n    };\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Checkbox styles={styles}>Object styles</Checkbox>\n      <Checkbox classNames={classNamesFn} defaultChecked>\n        Function styles\n      </Checkbox>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "checked",
+     "Specifies whether the checkbox is selected",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "defaultChecked",
+     "Specifies the initial state: whether or not the checkbox is selected",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "If disable checkbox",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "indeterminate",
+     "The indeterminate checked state of checkbox",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "The callback function that is triggered when the state changes",
+     "(e: CheckboxChangeEvent) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onBlur",
+     "Called when leaving the component",
+     "function()",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onFocus",
+     "Called when entering the component",
+     "function()",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "defaultValue",
+     "Default selected value",
+     "(string | number)\\[]",
+     "\\[]",
+     "—"
+    ],
+    [
+     "disabled",
+     "If disable all checkboxes",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "name",
+     "The `name` property of all `input[type=\"checkbox\"]` children",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "options",
+     "Specifies options",
+     "string\\[] | number\\[] | Option\\[]",
+     "\\[]",
+     "—"
+    ],
+    [
+     "value",
+     "Used for setting the currently selected value",
+     "(string | number | boolean)\\[]",
+     "\\[]",
+     "—"
+    ],
+    [
+     "title",
+     "title of the option",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "className",
+     "className of the option",
+     "string",
+     "-",
+     "5.25.0"
+    ],
+    [
+     "style",
+     "styles of the option",
+     "React.CSSProperties",
+     "-",
+     "—"
+    ],
+    [
+     "onChange",
+     "The callback function that is triggered when the state changes",
+     "(checkedValue: T[]) => void",
+     "-",
+     "—"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Name",
+    "Description",
+    "Version"
+   ],
+   "rows": [
+    [
+     "blur()",
+     "Remove focus",
+     "—"
+    ],
+    [
+     "focus()",
+     "Get focus",
+     "—"
+    ],
+    [
+     "nativeElement",
+     "Returns the DOM node of the Checkbox",
+     "5.17.3"
+    ]
+   ],
+   "name": "Methods"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "checked",
+    "Specifies whether the checkbox is selected",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "defaultChecked",
+    "Specifies the initial state: whether or not the checkbox is selected",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "If disable checkbox",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "indeterminate",
+    "The indeterminate checked state of checkbox",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "The callback function that is triggered when the state changes",
+    "(e: CheckboxChangeEvent) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onBlur",
+    "Called when leaving the component",
+    "function()",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onFocus",
+    "Called when entering the component",
+    "function()",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with inline-flex layout, baseline alignment, cursor style, reset styles and other basic checkbox container styles"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Checkbox icon element with size, direction, background, border, border-radius, transitions, and checked state checkmark styles"
+   },
+   {
+    "name": "label",
+    "mark": "semantic-mark-label",
+    "description": "Label text element with padding and spacing styles relative to the checkbox"
+   }
+  ],
+  "dom": "<label class=\"ant-checkbox-wrapper semantic-mark-root css-var-test-id ant-checkbox-css-var\">\n        <span class=\"ant-checkbox semantic-mark-icon ant-wave-target\">\n          <input class=\"ant-checkbox-input\" type=\"checkbox\">\n        </span>\n        <span class=\"ant-checkbox-label semantic-mark-label\">\n          Checkbox\n        </span>\n      </label>"
+ },
+ "designToken": "",
+ "componentToken": null,
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryHover",
+     "Hover state under the main color gradient.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "controlInteractiveSize",
+     "Control the interactive size of control component.",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthBold",
+     "The default line width of the outline class components, such as Button, Input, Select, etc.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationFast",
+     "Motion speed, fast speed. Used for small element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

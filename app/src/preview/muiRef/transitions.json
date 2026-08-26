@@ -1,0 +1,604 @@
+{
+ "slug": "transitions",
+ "title": "Transitions",
+ "group": "Utils",
+ "folder": "transitions",
+ "description": "Transitions help to make a UI expressive and easy to use.",
+ "components": [
+  "Collapse",
+  "Fade",
+  "Grow",
+  "Slide",
+  "Zoom"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Material UI provides transitions that can be used to introduce some basic [motion](https://m2.material.io/design/motion/) to your applications."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Collapse",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Expand from the start edge of the child element.\nUse the `orientation` prop if you need a horizontal collapse.\nThe `collapsedSize` prop can be used to set the minimum width/height when not expanded."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleCollapse",
+     "file": "SimpleCollapse.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Collapse from '@mui/material/Collapse';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SimpleCollapse() {\n  const [checked, setChecked] = React.useState(false);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box sx={{ height: 300 }}>\n      <FormControlLabel\n        control={<Switch checked={checked} onChange={handleChange} />}\n        label=\"Show\"\n      />\n      <Box\n        sx={{\n          '& > :not(style)': {\n            display: 'flex',\n            justifyContent: 'space-around',\n            height: 120,\n            width: 250,\n          },\n        }}\n      >\n        <div>\n          <Collapse in={checked}>{icon}</Collapse>\n          <Collapse in={checked} collapsedSize={40}>\n            {icon}\n          </Collapse>\n        </div>\n        <div>\n          <Box sx={{ width: '50%' }}>\n            <Collapse orientation=\"horizontal\" in={checked}>\n              {icon}\n            </Collapse>\n          </Box>\n          <Box sx={{ width: '50%' }}>\n            <Collapse orientation=\"horizontal\" in={checked} collapsedSize={40}>\n              {icon}\n            </Collapse>\n          </Box>\n        </div>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Fade",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Fade in from transparent to opaque."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleFade",
+     "file": "SimpleFade.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Fade from '@mui/material/Fade';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SimpleFade() {\n  const [checked, setChecked] = React.useState(false);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box sx={{ height: 180 }}>\n      <FormControlLabel\n        control={<Switch checked={checked} onChange={handleChange} />}\n        label=\"Show\"\n      />\n      <Box sx={{ display: 'flex' }}>\n        <Fade in={checked}>{icon}</Fade>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Grow",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Expands outwards from the center of the child element, while also fading in from transparent to opaque.\n\nThe second example demonstrates how to change the `transform-origin`, and conditionally applies\nthe `timeout` prop to change the entry speed."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleGrow",
+     "file": "SimpleGrow.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Grow from '@mui/material/Grow';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SimpleGrow() {\n  const [checked, setChecked] = React.useState(false);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box sx={{ height: 180 }}>\n      <FormControlLabel\n        control={<Switch checked={checked} onChange={handleChange} />}\n        label=\"Show\"\n      />\n      <Box sx={{ display: 'flex' }}>\n        <Grow in={checked}>{icon}</Grow>\n        {/* Conditionally applies the timeout prop to change the entry speed. */}\n        <Grow\n          in={checked}\n          style={{ transformOrigin: '0 0 0' }}\n          {...(checked ? { timeout: 1000 } : {})}\n        >\n          {icon}\n        </Grow>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Slide",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Slide in from the edge of the screen.\nThe `direction` prop controls which edge of the screen the transition starts from.\n\nThe `mountOnEnter` prop prevents the child component from being mounted\nuntil `in` is `true`.\nThis prevents the relatively positioned component from scrolling into view\nfrom its off-screen position.\nSimilarly, the `unmountOnExit` prop removes the component from the DOM after it has been transition off-screen."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleSlide",
+     "file": "SimpleSlide.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Slide from '@mui/material/Slide';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SimpleSlide() {\n  const [checked, setChecked] = React.useState(false);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box sx={{ height: 180, width: 130, position: 'relative', zIndex: 1 }}>\n      <FormControlLabel\n        control={<Switch checked={checked} onChange={handleChange} />}\n        label=\"Show\"\n      />\n      <Slide direction=\"up\" in={checked} mountOnEnter unmountOnExit>\n        {icon}\n      </Slide>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Slide relative to a container",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Slide component also accepts `container` prop, which is a reference to a DOM node.\nIf this prop is set, the Slide component will slide from the edge of that DOM node."
+    },
+    {
+     "kind": "demo",
+     "name": "SlideFromContainer",
+     "file": "SlideFromContainer.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Slide from '@mui/material/Slide';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SlideFromContainer() {\n  const [checked, setChecked] = React.useState(false);\n  const containerRef = React.useRef<HTMLElement>(null);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box\n      sx={{\n        width: 240,\n        borderRadius: 2,\n        border: '1px solid',\n        borderColor: 'divider',\n        backgroundColor: 'background.default',\n      }}\n    >\n      <Box sx={{ p: 2, height: 200, overflow: 'hidden' }} ref={containerRef}>\n        <FormControlLabel\n          control={<Switch checked={checked} onChange={handleChange} />}\n          label=\"Show from target\"\n        />\n        <Slide in={checked} container={containerRef.current}>\n          {icon}\n        </Slide>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Zoom",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Expand outwards from the center of the child element.\n\nThis example also demonstrates how to delay the enter transition."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleZoom",
+     "file": "SimpleZoom.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Switch from '@mui/material/Switch';\nimport Paper from '@mui/material/Paper';\nimport Zoom from '@mui/material/Zoom';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nconst icon = (\n  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>\n    <svg width=\"100\" height=\"100\">\n      <Box\n        component=\"polygon\"\n        points=\"0,100 50,00, 100,100\"\n        sx={(theme) => ({\n          fill: theme.palette.common.white,\n          stroke: theme.palette.divider,\n          strokeWidth: 1,\n        })}\n      />\n    </svg>\n  </Paper>\n);\n\nexport default function SimpleZoom() {\n  const [checked, setChecked] = React.useState(false);\n\n  const handleChange = () => {\n    setChecked((prev) => !prev);\n  };\n\n  return (\n    <Box sx={{ height: 180 }}>\n      <FormControlLabel\n        control={<Switch checked={checked} onChange={handleChange} />}\n        label=\"Show\"\n      />\n      <Box sx={{ display: 'flex' }}>\n        <Zoom in={checked}>{icon}</Zoom>\n        <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>\n          {icon}\n        </Zoom>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Reduced motion",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Transitions can opt in to reduced-motion support through the theme:"
+    },
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "const theme = createTheme({\n  motion: {\n    reducedMotion: 'system',\n  },\n});\n"
+    },
+    {
+     "kind": "prose",
+     "text": "When enabled, Material UI transition components preserve lifecycle callbacks and mount/unmount\nbehavior. When reduced motion is active, entering content appears in its final state and exiting\ncontent disappears without the normal animation. Components still run the same callbacks, so code\nthat waits for `onEntered` or `onExited` continues to work.\n\nUse `disablePrefersReducedMotion` only when a specific transition should intentionally keep its\nnormal motion:"
+    },
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "<Fade in disablePrefersReducedMotion>\n  <div />\n</Fade>\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Child requirement",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- **Forward the style**: To better support server rendering, Material UI provides a `style` prop to the children of some transition components (Fade, Grow, Zoom, Slide).\n  The `style` prop must be applied to the DOM for the animation to work as expected.\n- **Forward the ref**: The transition components require the first child element to forward its ref to the DOM node. For more details about ref, check out [Caveat with refs](/material-ui/guides/composition/#caveat-with-refs)\n- **Single element**: The transition components require only one child element (`React.Fragment` is not allowed)."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "// The `props` object contains a `style` prop.\n// You need to provide it to the `div` element as shown here.\nconst MyComponent = React.forwardRef(function (props, ref) {\n  return (\n    <div ref={ref} {...props}>\n      Fade\n    </div>\n  );\n});\n\nexport default function Main() {\n  return (\n    <Fade>\n      {/* MyComponent must be the only child */}\n      <MyComponent />\n    </Fade>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "TransitionGroup",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To animate a component when it is mounted or unmounted, you can use the [`TransitionGroup`](https://reactcommunity.org/react-transition-group/transition-group/) component from _react-transition-group_.\nAs components are added or removed, the `in` prop is toggled automatically by `TransitionGroup`."
+    },
+    {
+     "kind": "demo",
+     "name": "TransitionGroupExample",
+     "file": "TransitionGroupExample.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Collapse from '@mui/material/Collapse';\nimport IconButton from '@mui/material/IconButton';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport DeleteIcon from '@mui/icons-material/Delete';\nimport { TransitionGroup } from 'react-transition-group';\n\nconst FRUITS = [\n  '🍏 Apple',\n  '🍌 Banana',\n  '🍍 Pineapple',\n  '🥥 Coconut',\n  '🍉 Watermelon',\n];\n\ninterface RenderItemOptions {\n  item: string;\n  handleRemoveFruit: (item: string) => void;\n}\n\nfunction renderItem({ item, handleRemoveFruit }: RenderItemOptions) {\n  return (\n    <ListItem\n      secondaryAction={\n        <IconButton\n          edge=\"end\"\n          aria-label=\"delete\"\n          title=\"Delete\"\n          onClick={() => handleRemoveFruit(item)}\n        >\n          <DeleteIcon />\n        </IconButton>\n      }\n    >\n      <ListItemText primary={item} />\n    </ListItem>\n  );\n}\n\nexport default function TransitionGroupExample() {\n  const [fruitsInBasket, setFruitsInBasket] = React.useState(FRUITS.slice(0, 3));\n\n  const handleAddFruit = () => {\n    const nextHiddenItem = FRUITS.find((i) => !fruitsInBasket.includes(i));\n    if (nextHiddenItem) {\n      setFruitsInBasket((prev) => [nextHiddenItem, ...prev]);\n    }\n  };\n\n  const handleRemoveFruit = (item: string) => {\n    setFruitsInBasket((prev) => [...prev.filter((i) => i !== item)]);\n  };\n\n  const addFruitButton = (\n    <Button\n      variant=\"contained\"\n      disabled={fruitsInBasket.length >= FRUITS.length}\n      onClick={handleAddFruit}\n    >\n      Add fruit to basket\n    </Button>\n  );\n\n  return (\n    <div>\n      {addFruitButton}\n      <List sx={{ mt: 1 }}>\n        <TransitionGroup>\n          {fruitsInBasket.map((item) => (\n            <Collapse key={item}>{renderItem({ item, handleRemoveFruit })}</Collapse>\n          ))}\n        </TransitionGroup>\n      </List>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transition slots",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Many Material UI components use these transitions internally.\nUse `slots.transition` and `slotProps.transition` to customize the default transition.\nYou can use any of the above components or your own transition implementation.\nIt should respect the following conditions:\n\n- Accepts an `in` prop. This corresponds to the open/close state.\n- Call the `onEnter` callback prop when the enter transition starts.\n- Call the `onExited` callback prop when the exit transition is completed.\n  These two callbacks allow to unmount the children when in a closed state and fully transitioned.\n\nFor more information on creating a custom transition, visit the _react-transition-group_ [`Transition` documentation](https://reactcommunity.org/react-transition-group/transition/).\nYou can also visit the dedicated sections of some of the components:\n\n- [Modal](/material-ui/react-modal/#transitions)\n- [Dialog](/material-ui/react-dialog/#transitions)\n- [Popper](/material-ui/react-popper/#transitions)\n- [Snackbar](/material-ui/react-snackbar/#transitions)\n- [Tooltip](/material-ui/react-tooltip/#transitions)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Performance & SEO",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The content of transition component is mounted by default even if `in={false}`.\nThis default behavior has server-side rendering and SEO in mind.\nIf you render expensive component trees inside your transition it might be a good idea to change this default behavior by enabling the\n`unmountOnExit` prop:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Fade in={false} unmountOnExit />\n"
+    },
+    {
+     "kind": "prose",
+     "text": "As with any performance optimization this is not a silver bullet.\nBe sure to identify bottlenecks first and then try out these optimization strategies."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Collapse",
+   "description": "The Collapse transition is used by the\n[Vertical Stepper](/material-ui/react-stepper/#vertical-stepper) StepContent component.",
+   "props": [
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content node to be collapsed."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "collapsedSize",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": "'0px'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The width (horizontal) or height (vertical) of the container when collapsed."
+    },
+    {
+     "prop": "component",
+     "type": "element type",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'vertical'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition orientation."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object, wrapper?: func<br>&#124;&nbsp;object, wrapperInner?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType, wrapper?: elementType, wrapperInner?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "timeout",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "duration.standard",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object.<br>Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": [
+    {
+     "key": "entered",
+     "className": "MuiCollapse-entered",
+     "description": "Styles applied to the root element when the transition has entered."
+    },
+    {
+     "key": "hidden",
+     "className": "MuiCollapse-hidden",
+     "description": "Styles applied to the root element when the transition has exited and `collapsedSize` = 0px."
+    },
+    {
+     "key": "horizontal",
+     "className": "MuiCollapse-horizontal",
+     "description": "State class applied to the root element if `orientation=\"horizontal\"`."
+    }
+   ]
+  },
+  {
+   "name": "Fade",
+   "description": "The Fade transition is used by the [Modal](/material-ui/react-modal/) component.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "appear",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "Perform the enter transition when it first mounts if <code>in</code> is also <code>true</code>. Set this to <code>false</code> to disable this behavior."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "timeout",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Grow",
+   "description": "The Grow transition is used by the [Tooltip](/material-ui/react-tooltip/) and\n[Popover](/material-ui/react-popover/) components.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "appear",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "Perform the enter transition when it first mounts if <code>in</code> is also <code>true</code>. Set this to <code>false</code> to disable this behavior."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "timeout",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object.<br>Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Slide",
+   "description": "The Slide transition is used by the [Drawer](/material-ui/react-drawer/) component.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "appear",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "Perform the enter transition when it first mounts if <code>in</code> is also <code>true</code>. Set this to <code>false</code> to disable this behavior."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, or a function that returns one. It&#39;s used to set the container the Slide is transitioning from."
+    },
+    {
+     "prop": "direction",
+     "type": "'down'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'up'",
+     "default": "'down'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Direction the child node will enter from."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": "{\n  enter: theme.transitions.easing.easeOut,\n  exit: theme.transitions.easing.sharp,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "timeout",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Zoom",
+   "description": "The Zoom transition can be used for the floating variant of the\n[Button](/material-ui/react-floating-action-button/#animation) component.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "appear",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "Perform the enter transition when it first mounts if <code>in</code> is also <code>true</code>. Set this to <code>false</code> to disable this behavior."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "timeout",
+     "type": "number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "{\n  enter: theme.transitions.duration.enteringScreen,\n  exit: theme.transitions.duration.leavingScreen,\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-transitions/"
+}

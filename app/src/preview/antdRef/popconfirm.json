@@ -1,0 +1,409 @@
+{
+ "slug": "popconfirm",
+ "title": "Popconfirm",
+ "description": "Pop up a bubble confirmation box for an action.",
+ "group": "Feedback",
+ "whenToUse": "A simple and compact dialog used for asking for user confirmation.\n\nThe difference with the `confirm` modal dialog is that it's more lightweight than the static popped full-screen confirm modal.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The basic example supports the title and description props of confirmation.",
+   "code": "import React from 'react';\nimport type { PopconfirmProps } from 'antd';\nimport { Button, message, Popconfirm } from 'antd';\n\nconst App: React.FC = () => {\n  const [messageApi, holder] = message.useMessage();\n\n  const confirm: PopconfirmProps['onConfirm'] = (e) => {\n    console.log(e);\n    messageApi.success('Click on Yes');\n  };\n\n  const cancel: PopconfirmProps['onCancel'] = (e) => {\n    console.log(e);\n    messageApi.error('Click on No');\n  };\n\n  return (\n    <>\n      {holder}\n      <Popconfirm\n        title=\"Delete the task\"\n        description=\"Are you sure to delete this task?\"\n        onConfirm={confirm}\n        onCancel={cancel}\n        okText=\"Yes\"\n        cancelText=\"No\"\n      >\n        <Button danger>Delete</Button>\n      </Popconfirm>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Locale text",
+   "description": "Set `okText` and `cancelText` props to customize the button's labels.",
+   "code": "import React from 'react';\nimport { Button, Popconfirm } from 'antd';\n\nconst App: React.FC = () => (\n  <Popconfirm\n    title=\"Delete the task\"\n    description=\"Are you sure to delete this task?\"\n    okText=\"Yes\"\n    cancelText=\"No\"\n  >\n    <Button danger>Delete</Button>\n  </Popconfirm>\n);\n\nexport default App;",
+   "demoId": "locale"
+  },
+  {
+   "name": "Placement",
+   "description": "There are 12 `placement` options available. Use `arrow: { pointAtCenter: true }` if you want the arrow to point at the center of target.",
+   "code": "import React from 'react';\nimport { Button, ConfigProvider, Flex, Popconfirm } from 'antd';\n\nconst text = 'Are you sure to delete this task?';\nconst description = 'Delete the task';\nconst buttonWidth = 80;\n\nconst App: React.FC = () => (\n  <ConfigProvider button={{ style: { width: buttonWidth, margin: 4 } }}>\n    <Flex vertical justify=\"center\" align=\"center\" className=\"demo\">\n      <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n        <Popconfirm\n          placement=\"topLeft\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>TL</Button>\n        </Popconfirm>\n        <Popconfirm\n          placement=\"top\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>Top</Button>\n        </Popconfirm>\n        <Popconfirm\n          placement=\"topRight\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>TR</Button>\n        </Popconfirm>\n      </Flex>\n      <Flex style={{ width: buttonWidth * 5 + 32 }} justify=\"space-between\" align=\"center\">\n        <Flex align=\"center\" vertical>\n          <Popconfirm\n            placement=\"leftTop\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>LT</Button>\n          </Popconfirm>\n          <Popconfirm\n            placement=\"left\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>Left</Button>\n          </Popconfirm>\n          <Popconfirm\n            placement=\"leftBottom\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>LB</Button>\n          </Popconfirm>\n        </Flex>\n        <Flex align=\"center\" vertical>\n          <Popconfirm\n            placement=\"rightTop\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>RT</Button>\n          </Popconfirm>\n          <Popconfirm\n            placement=\"right\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>Right</Button>\n          </Popconfirm>\n          <Popconfirm\n            placement=\"rightBottom\"\n            title={text}\n            description={description}\n            okText=\"Yes\"\n            cancelText=\"No\"\n          >\n            <Button>RB</Button>\n          </Popconfirm>\n        </Flex>\n      </Flex>\n      <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n        <Popconfirm\n          placement=\"bottomLeft\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>BL</Button>\n        </Popconfirm>\n        <Popconfirm\n          placement=\"bottom\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>Bottom</Button>\n        </Popconfirm>\n        <Popconfirm\n          placement=\"bottomRight\"\n          title={text}\n          description={description}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button>BR</Button>\n        </Popconfirm>\n      </Flex>\n    </Flex>\n  </ConfigProvider>\n);\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Auto Shift",
+   "description": "Auto adjust Popup and arrow position when Popconfirm is close to the edge of the screen. Will be out of screen when exceed limitation.",
+   "code": "import React from 'react';\nimport { Button, Popconfirm } from 'antd';\n\nconst style: React.CSSProperties = {\n  width: '300vw',\n  height: '300vh',\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'center',\n};\n\nconst App: React.FC = () => {\n  React.useEffect(() => {\n    document.documentElement.scrollTop = document.documentElement.clientHeight;\n    document.documentElement.scrollLeft = document.documentElement.clientWidth;\n  }, []);\n  return (\n    <div style={style}>\n      <Popconfirm title=\"Thanks for using antd. Have a nice day !\" open>\n        <Button type=\"primary\">Scroll The Window</Button>\n      </Popconfirm>\n    </div>\n  );\n};\n\nexport default App;",
+   "iframe": 300,
+   "demoId": "shift"
+  },
+  {
+   "name": "Conditional trigger",
+   "description": "Make it pop up under some conditions.",
+   "code": "import React, { useState } from 'react';\nimport { Button, message, Popconfirm, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [messageApi, contextHolder] = message.useMessage();\n  const [open, setOpen] = useState(false);\n  const [condition, setCondition] = useState(true);\n\n  const changeCondition = (checked: boolean) => {\n    setCondition(checked);\n  };\n\n  const confirm = () => {\n    setOpen(false);\n    messageApi.success('Next step.');\n  };\n\n  const cancel = () => {\n    setOpen(false);\n    messageApi.error('Click on cancel.');\n  };\n\n  const handleOpenChange = (newOpen: boolean) => {\n    if (!newOpen) {\n      setOpen(newOpen);\n      return;\n    }\n    // Determining condition before show the popconfirm.\n    console.log(condition);\n    if (condition) {\n      confirm(); // next step\n    } else {\n      setOpen(newOpen);\n    }\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <div>\n        <Popconfirm\n          title=\"Delete the task\"\n          description=\"Are you sure to delete this task?\"\n          open={open}\n          onOpenChange={handleOpenChange}\n          onConfirm={confirm}\n          onCancel={cancel}\n          okText=\"Yes\"\n          cancelText=\"No\"\n        >\n          <Button danger>Delete a task</Button>\n        </Popconfirm>\n        <br />\n        <br />\n        Whether directly execute：\n        <Switch defaultChecked onChange={changeCondition} />\n      </div>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "dynamic-trigger"
+  },
+  {
+   "name": "Customize icon",
+   "description": "Set `icon` props to customize the icon.",
+   "code": "import React from 'react';\nimport { QuestionCircleOutlined } from '@ant-design/icons';\nimport { Button, Popconfirm } from 'antd';\n\nconst App: React.FC = () => (\n  <Popconfirm\n    title=\"Delete the task\"\n    description=\"Are you sure to delete this task?\"\n    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}\n  >\n    <Button danger>Delete</Button>\n  </Popconfirm>\n);\n\nexport default App;",
+   "demoId": "icon"
+  },
+  {
+   "name": "Asynchronously close",
+   "description": "Asynchronously close a popconfirm when a the OK button is pressed. For example, you can use this pattern when you submit a form.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Popconfirm } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [confirmLoading, setConfirmLoading] = useState(false);\n\n  const showPopconfirm = () => {\n    setOpen(true);\n  };\n\n  const handleOk = () => {\n    setConfirmLoading(true);\n\n    setTimeout(() => {\n      setOpen(false);\n      setConfirmLoading(false);\n    }, 2000);\n  };\n\n  const handleCancel = () => {\n    console.log('Clicked cancel button');\n    setOpen(false);\n  };\n\n  return (\n    <Popconfirm\n      title=\"Title\"\n      description=\"Open Popconfirm with async logic\"\n      open={open}\n      onConfirm={handleOk}\n      okButtonProps={{ loading: confirmLoading }}\n      onCancel={handleCancel}\n    >\n      <Button type=\"primary\" onClick={showPopconfirm}>\n        Open Popconfirm with async logic\n      </Button>\n    </Popconfirm>\n  );\n};\n\nexport default App;",
+   "demoId": "async"
+  },
+  {
+   "name": "Asynchronously close on Promise",
+   "description": "Asynchronously close a popconfirm when the OK button is pressed. For example, you can use this pattern when you submit a form.",
+   "code": "import React from 'react';\nimport { Button, Popconfirm } from 'antd';\n\nconst App: React.FC = () => {\n  const confirm = () =>\n    new Promise((resolve) => {\n      setTimeout(() => resolve(null), 3000);\n    });\n\n  return (\n    <Popconfirm\n      title=\"Title\"\n      description=\"Open Popconfirm with Promise\"\n      onConfirm={confirm}\n      onOpenChange={() => console.log('open change')}\n    >\n      <Button type=\"primary\">Open Popconfirm with Promise</Button>\n    </Popconfirm>\n  );\n};\n\nexport default App;",
+   "demoId": "promise"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Popconfirm by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Button, Flex, Popconfirm } from 'antd';\nimport type { GetProp, PopconfirmProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  container: css`\n    padding: 10px;\n  `,\n}));\n\nconst styles: PopconfirmProps['styles'] = {\n  container: {\n    backgroundColor: '#eee',\n    boxShadow: 'inset 5px 5px 3px #fff, inset -5px -5px 3px #ddd, 0 0 3px rgba(0,0,0,0.2)',\n  },\n  title: {\n    color: '#262626',\n  },\n  content: {\n    color: '#262626',\n  },\n};\n\nconst stylesFn: PopconfirmProps['styles'] = (\n  info,\n): GetProp<PopconfirmProps, 'styles', 'Return'> => {\n  if (!info.props.arrow) {\n    return {\n      container: {\n        backgroundColor: 'rgba(53, 71, 125, 0.8)',\n        padding: 12,\n        borderRadius: 4,\n      },\n      title: {\n        color: '#fff',\n      },\n      content: {\n        color: '#fff',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  return (\n    <Flex gap=\"medium\">\n      <Popconfirm\n        title=\"Object text\"\n        description=\"Object description\"\n        classNames={classNames}\n        styles={styles}\n        arrow={false}\n      >\n        <Button>Object Style</Button>\n      </Popconfirm>\n      <Popconfirm\n        title=\"Function text\"\n        description=\"Function description\"\n        classNames={classNames}\n        styles={stylesFn}\n        arrow={false}\n        okButtonProps={{\n          styles: { root: { backgroundColor: 'rgba(53, 71, 125, 0.6)', color: '#fff' } },\n        }}\n        cancelButtonProps={{\n          styles: {\n            root: {\n              borderColor: 'rgba(53, 71, 125, 0.6)',\n              backgroundColor: '#fff',\n              color: 'rgba(53, 71, 125, 0.8)',\n            },\n          },\n        }}\n      >\n        <Button type=\"primary\">Function Style</Button>\n      </Popconfirm>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "cancelButtonProps",
+     "The cancel button props",
+     "ButtonProps",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "cancelText",
+     "The text of the Cancel button",
+     "string",
+     "Cancel",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "Whether show popconfirm when click its childrenNode",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "icon",
+     "Customize icon of confirmation",
+     "ReactNode",
+     "&lt;ExclamationCircleFilled />",
+     "—",
+     "×"
+    ],
+    [
+     "okButtonProps",
+     "The ok button props",
+     "ButtonProps",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "okText",
+     "The text of the Confirm button",
+     "string",
+     "OK",
+     "—",
+     "×"
+    ],
+    [
+     "okType",
+     "Button `type` of the Confirm button",
+     "string",
+     "primary",
+     "—",
+     "×"
+    ],
+    [
+     "showCancel",
+     "Show cancel button",
+     "boolean",
+     "true",
+     "4.18.0",
+     "×"
+    ],
+    [
+     "title",
+     "The title of the confirmation box",
+     "ReactNode | () => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "description",
+     "The description of the confirmation box title",
+     "ReactNode | () => ReactNode",
+     "-",
+     "5.1.0",
+     "×"
+    ],
+    [
+     "onCancel",
+     "A callback of cancel",
+     "function(e)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onConfirm",
+     "A callback of confirmation",
+     "function(e)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onPopupClick",
+     "A callback of popup click",
+     "function(e)",
+     "-",
+     "5.5.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "cancelButtonProps",
+    "The cancel button props",
+    "ButtonProps",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "cancelText",
+    "The text of the Cancel button",
+    "string",
+    "Cancel",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "Whether show popconfirm when click its childrenNode",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "icon",
+    "Customize icon of confirmation",
+    "ReactNode",
+    "&lt;ExclamationCircleFilled />",
+    "—",
+    "×"
+   ],
+   [
+    "okButtonProps",
+    "The ok button props",
+    "ButtonProps",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "okText",
+    "The text of the Confirm button",
+    "string",
+    "OK",
+    "—",
+    "×"
+   ],
+   [
+    "okType",
+    "Button `type` of the Confirm button",
+    "string",
+    "primary",
+    "—",
+    "×"
+   ],
+   [
+    "showCancel",
+    "Show cancel button",
+    "boolean",
+    "true",
+    "4.18.0",
+    "×"
+   ],
+   [
+    "title",
+    "The title of the confirmation box",
+    "ReactNode | () => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "description",
+    "The description of the confirmation box title",
+    "ReactNode | () => ReactNode",
+    "-",
+    "5.1.0",
+    "×"
+   ],
+   [
+    "onCancel",
+    "A callback of cancel",
+    "function(e)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onConfirm",
+    "A callback of confirmation",
+    "function(e)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onPopupClick",
+    "A callback of popup click",
+    "function(e)",
+    "-",
+    "5.5.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, set absolute positioning, z-index, transform origin, arrow direction and popover container styles"
+   },
+   {
+    "name": "container",
+    "mark": "semantic-mark-container",
+    "description": "Container element, set background color, padding, border radius, shadow, border and content display styles"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element, set the confirmation icon size, color and layout styles"
+   },
+   {
+    "name": "arrow",
+    "mark": "semantic-mark-arrow",
+    "description": "Arrow element with width, height, position, color and border styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element, set title text styles and spacing"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Description element, set content text styles and layout"
+   }
+  ],
+  "dom": "<div style=\"position: absolute; margin-top: 60px;\">\n        <span aria-describedby=\"test-id\" class=\"ant-popover-open\">\n        <div class=\"ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-popover-css-var css-var-test-id css-var-test-id ant-popconfirm semantic-mark-root ant-popover-placement-top\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box;\">\n          <div class=\"ant-popover-arrow semantic-mark-arrow\" style=\"position: absolute; bottom: 0px; left: 0px;\">\n            <span class=\"ant-popover-arrow-content\">\n          </span></div>\n          <div class=\"ant-popover-container semantic-mark-container\" id=\"test-id\" role=\"tooltip\">\n            <div class=\"ant-popover-content\">\n              <div class=\"ant-popconfirm-inner-content\">\n                <div class=\"ant-popconfirm-message\">\n                  <span class=\"ant-popconfirm-message-icon semantic-mark-icon\">\n                    <span aria-label=\"exclamation-circle\" class=\"anticon anticon-exclamation-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"exclamation-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm-32 232c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v272c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V296zm32 440a48.01 48.01 0 010-96 48.01 48.01 0 010 96z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                  <div class=\"ant-popconfirm-message-text\">\n                    <div class=\"ant-popconfirm-title semantic-mark-title\">\n                      Confirm\n                    </div>\n                    <div class=\"ant-popconfirm-description semantic-mark-content\">\n                      Are you sure you want to perform this action?\n                    </div>\n                  </div>\n                </div>\n                <div class=\"ant-popconfirm-buttons\">\n                  <button class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm\" type=\"button\">\n                    <span>\n                      Cancel\n                    </span>\n                  </button>\n                  <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm\" type=\"button\">\n                    <span>\n                      OK\n                    </span>\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </span></div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "zIndexPopup",
+     "z-index of Popconfirm",
+     "number",
+     "1060"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

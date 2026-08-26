@@ -1,0 +1,262 @@
+{
+ "slug": "popper",
+ "title": "Popper",
+ "group": "Utils",
+ "folder": "popper",
+ "description": "A Popper can be used to display some content on top of another. It's an alternative to react-popper.",
+ "components": [
+  "Popper"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Some important features of the Popper component:\n\n- 🕷 Popper relies on the 3rd party library ([Popper.js](https://popper.js.org/docs/v2/)) for perfect positioning.\n- 💄 It's an alternative API to react-popper. It aims for simplicity.\n- Its child element is a [Portal](/material-ui/react-portal/) on the body of the document to avoid rendering problems.\n  You can disable this behavior with `disablePortal`.\n- The scroll isn't blocked like with the [Popover](/material-ui/react-popover/) component.\n  The placement of the popper updates with the available area in the viewport.\n- Clicking away does not hide the Popper component.\n  If you need this behavior, you can use the [Click-Away Listener](/material-ui/react-click-away-listener/) - see the example in the [menu documentation section](/material-ui/react-menu/#composition-with-menu-list).\n- The `anchorEl` is passed as the reference object to create a new `Popper.js` instance."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic Popper",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "SimplePopper",
+     "file": "SimplePopper.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Popper from '@mui/material/Popper';\n\nexport default function SimplePopper() {\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(anchorEl ? null : event.currentTarget);\n  };\n\n  const open = Boolean(anchorEl);\n  const id = open ? 'simple-popper' : undefined;\n\n  return (\n    <div>\n      <button aria-describedby={id} type=\"button\" onClick={handleClick}>\n        Toggle Popper\n      </button>\n      <Popper id={id} open={open} anchorEl={anchorEl}>\n        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>\n          The content of the Popper.\n        </Box>\n      </Popper>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The open/close state of the popper can be animated with a render prop child and a transition component.\nThis component should respect the following conditions:\n\n- Be a direct child descendent of the popper.\n- Call the `onEnter` callback prop when the enter transition starts.\n- Call the `onExited` callback prop when the exit transition is completed.\n  These two callbacks allow the popper to unmount the child content when closed and fully transitioned.\n\nPopper has built-in support for [react-transition-group](https://github.com/reactjs/react-transition-group)."
+    },
+    {
+     "kind": "demo",
+     "name": "TransitionsPopper",
+     "file": "TransitionsPopper.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Popper from '@mui/material/Popper';\nimport Fade from '@mui/material/Fade';\n\nexport default function TransitionsPopper() {\n  const [open, setOpen] = React.useState(false);\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n    setOpen((previousOpen) => !previousOpen);\n  };\n\n  const canBeOpen = open && Boolean(anchorEl);\n  const id = canBeOpen ? 'transition-popper' : undefined;\n\n  return (\n    <div>\n      <button aria-describedby={id} type=\"button\" onClick={handleClick}>\n        Toggle Popper\n      </button>\n      <Popper id={id} open={open} anchorEl={anchorEl} transition>\n        {({ TransitionProps }) => (\n          <Fade {...TransitionProps} timeout={350}>\n            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>\n              The content of the Popper.\n            </Box>\n          </Fade>\n        )}\n      </Popper>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Alternatively, you can use [react-spring](https://github.com/pmndrs/react-spring)."
+    },
+    {
+     "kind": "demo",
+     "name": "SpringPopper",
+     "file": "SpringPopper.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Popper from '@mui/material/Popper';\nimport { useSpring, animated } from '@react-spring/web';\n\ninterface FadeProps {\n  children?: React.ReactElement<unknown>;\n  in?: boolean;\n  onEnter?: () => void;\n  onExited?: () => void;\n}\n\nconst Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {\n  const { in: open, children, onEnter, onExited, ...other } = props;\n  const style = useSpring({\n    from: { opacity: 0 },\n    to: { opacity: open ? 1 : 0 },\n    onStart: () => {\n      if (open && onEnter) {\n        onEnter();\n      }\n    },\n    onRest: () => {\n      if (!open && onExited) {\n        onExited();\n      }\n    },\n  });\n\n  return (\n    <animated.div ref={ref} style={style} {...other}>\n      {children}\n    </animated.div>\n  );\n});\n\nexport default function SpringPopper() {\n  const [open, setOpen] = React.useState(false);\n  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);\n\n  const handleClick = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n    setOpen((previousOpen) => !previousOpen);\n  };\n\n  const canBeOpen = open && Boolean(anchorEl);\n  const id = canBeOpen ? 'spring-popper' : undefined;\n\n  return (\n    <div>\n      <button aria-describedby={id} type=\"button\" onClick={handleClick}>\n        Toggle Popper\n      </button>\n      <Popper id={id} open={open} anchorEl={anchorEl} transition>\n        {({ TransitionProps }) => (\n          <Fade {...TransitionProps}>\n            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>\n              The content of the Popper.\n            </Box>\n          </Fade>\n        )}\n      </Popper>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Positioned popper",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PositionedPopper",
+     "file": "PositionedPopper.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Popper, { PopperPlacementType } from '@mui/material/Popper';\nimport Typography from '@mui/material/Typography';\nimport Stack from '@mui/material/Stack';\nimport Button from '@mui/material/Button';\nimport Fade from '@mui/material/Fade';\nimport Paper from '@mui/material/Paper';\n\nexport default function PositionedPopper() {\n  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);\n  const [open, setOpen] = React.useState(false);\n  const [placement, setPlacement] = React.useState<PopperPlacementType>();\n\n  const handleClick =\n    (newPlacement: PopperPlacementType) =>\n    (event: React.MouseEvent<HTMLButtonElement>) => {\n      setAnchorEl(event.currentTarget);\n      setOpen((prev) => placement !== newPlacement || !prev);\n      setPlacement(newPlacement);\n    };\n\n  return (\n    <Box sx={{ width: 500 }}>\n      <Popper\n        // Note: The following zIndex style is specifically for documentation purposes and may not be necessary in your application.\n        sx={{ zIndex: 1200 }}\n        open={open}\n        anchorEl={anchorEl}\n        placement={placement}\n        transition\n      >\n        {({ TransitionProps }) => (\n          <Fade {...TransitionProps} timeout={350}>\n            <Paper>\n              <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>\n            </Paper>\n          </Fade>\n        )}\n      </Popper>\n      <Stack direction=\"row\" sx={{ justifyContent: 'center' }}>\n        <Button onClick={handleClick('top-start')}>top-start</Button>\n        <Button onClick={handleClick('top')}>top</Button>\n        <Button onClick={handleClick('top-end')}>top-end</Button>\n      </Stack>\n      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>\n        <Stack direction=\"column\" sx={{ alignItems: 'flex-start' }}>\n          <Button onClick={handleClick('left-start')}>left-start</Button>\n          <Button onClick={handleClick('left')}>left</Button>\n          <Button onClick={handleClick('left-end')}>left-end</Button>\n        </Stack>\n        <Stack direction=\"column\" sx={{ alignItems: 'flex-end' }}>\n          <Button onClick={handleClick('right-start')}>right-start</Button>\n          <Button onClick={handleClick('right')}>right</Button>\n          <Button onClick={handleClick('right-end')}>right-end</Button>\n        </Stack>\n      </Box>\n      <Stack direction=\"row\" sx={{ justifyContent: 'center' }}>\n        <Button onClick={handleClick('bottom-start')}>bottom-start</Button>\n        <Button onClick={handleClick('bottom')}>bottom</Button>\n        <Button onClick={handleClick('bottom-end')}>bottom-end</Button>\n      </Stack>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Scroll playground",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ScrollPlayground",
+     "file": "ScrollPlayground.js",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport Grid from '@mui/material/Grid';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\nimport Button from '@mui/material/Button';\nimport MuiPopper from '@mui/material/Popper';\nimport Paper from '@mui/material/Paper';\nimport DialogActions from '@mui/material/DialogActions';\nimport DialogContent from '@mui/material/DialogContent';\nimport DialogContentText from '@mui/material/DialogContentText';\nimport DialogTitle from '@mui/material/DialogTitle';\nimport Switch from '@mui/material/Switch';\nimport TextField from '@mui/material/TextField';\nimport FormGroup from '@mui/material/FormGroup';\nimport { HighlightedCode } from '@mui/internal-core-docs/HighlightedCode';\n\nconst Popper = styled(MuiPopper, {\n  shouldForwardProp: (prop) => prop !== 'arrow',\n})(({ theme }) => ({\n  zIndex: 1,\n  '& > div': {\n    position: 'relative',\n  },\n  '&[data-popper-placement*=\"bottom\"]': {\n    '& .MuiPopper-arrow': {\n      top: 0,\n      left: 0,\n      marginTop: '-0.9em',\n      width: '3em',\n      height: '1em',\n      '&::before': {\n        borderWidth: '0 1em 1em 1em',\n        borderColor: `transparent transparent ${theme.palette.background.paper} transparent`,\n      },\n    },\n  },\n  '&[data-popper-placement*=\"top\"]': {\n    '& .MuiPopper-arrow': {\n      bottom: 0,\n      left: 0,\n      marginBottom: '-0.9em',\n      width: '3em',\n      height: '1em',\n      '&::before': {\n        borderWidth: '1em 1em 0 1em',\n        borderColor: `${theme.palette.background.paper} transparent transparent transparent`,\n      },\n    },\n  },\n  '&[data-popper-placement*=\"right\"]': {\n    '& .MuiPopper-arrow': {\n      left: 0,\n      marginLeft: '-0.9em',\n      height: '3em',\n      width: '1em',\n      '&::before': {\n        borderWidth: '1em 1em 1em 0',\n        borderColor: `transparent ${theme.palette.background.paper} transparent transparent`,\n      },\n    },\n  },\n  '&[data-popper-placement*=\"left\"]': {\n    '& .MuiPopper-arrow': {\n      right: 0,\n      marginRight: '-0.9em',\n      height: '3em',\n      width: '1em',\n      '&::before': {\n        borderWidth: '1em 0 1em 1em',\n        borderColor: `transparent transparent transparent ${theme.palette.background.paper}`,\n      },\n    },\n  },\n  variants: [\n    {\n      props: ({ arrow }) => arrow,\n      style: {\n        '&[data-popper-placement*=\"bottom\"]': {\n          '& > div': {\n            marginTop: 2,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => !arrow,\n      style: {\n        '&[data-popper-placement*=\"bottom\"]': {\n          '& > div': {\n            marginTop: 0,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => arrow,\n      style: {\n        '&[data-popper-placement*=\"top\"]': {\n          '& > div': {\n            marginBottom: 2,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => !arrow,\n      style: {\n        '&[data-popper-placement*=\"top\"]': {\n          '& > div': {\n            marginBottom: 0,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => arrow,\n      style: {\n        '&[data-popper-placement*=\"right\"]': {\n          '& > div': {\n            marginLeft: 2,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => !arrow,\n      style: {\n        '&[data-popper-placement*=\"right\"]': {\n          '& > div': {\n            marginLeft: 0,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => arrow,\n      style: {\n        '&[data-popper-placement*=\"left\"]': {\n          '& > div': {\n            marginRight: 2,\n          },\n        },\n      },\n    },\n    {\n      props: ({ arrow }) => !arrow,\n      style: {\n        '&[data-popper-placement*=\"left\"]': {\n          '& > div': {\n            marginRight: 0,\n          },\n        },\n      },\n    },\n  ],\n}));\n\nconst Arrow = styled('div')({\n  position: 'absolute',\n  fontSize: 7,\n  width: '3em',\n  height: '3em',\n  '&::before': {\n    content: '\"\"',\n    margin: 'auto',\n    display: 'block',\n    width: 0,\n    height: 0,\n    borderStyle: 'solid',\n  },\n});\n\nexport default function ScrollPlayground() {\n  const anchorRef = React.useRef(null);\n  const [open, setOpen] = React.useState(false);\n\n  const [placement, setPlacement] = React.useState('bottom');\n  const [disablePortal, setDisablePortal] = React.useState(false);\n\n  const [flip, setFlip] = React.useState({\n    enabled: true,\n    altBoundary: true,\n    rootBoundary: 'document',\n  });\n  const [preventOverflow, setPreventOverflow] = React.useState({\n    enabled: true,\n    altAxis: true,\n    altBoundary: true,\n    tether: true,\n    rootBoundary: 'document',\n  });\n\n  const [arrow, setArrow] = React.useState(false);\n  const [arrowRef, setArrowRef] = React.useState(null);\n\n  const handleClickButton = () => {\n    setOpen((prevOpen) => !prevOpen);\n  };\n\n  const centerScroll = (element) => {\n    if (!element) {\n      return;\n    }\n\n    const container = element.parentElement;\n    container.scrollTop = element.clientHeight / 4;\n    container.scrollLeft = element.clientWidth / 4;\n  };\n\n  const jsx = `\n<Popper\n  placement=\"${placement}\"\n  disablePortal={${disablePortal}}\n  modifiers={[\n    {\n      name: 'flip',\n      enabled: ${flip.enabled},\n      options: {\n        altBoundary: ${flip.altBoundary},\n        rootBoundary: '${flip.rootBoundary}',\n        padding: 8,\n      },\n    },\n    {\n      name: 'preventOverflow',\n      enabled: ${preventOverflow.enabled},\n      options: {\n        altAxis: ${preventOverflow.altAxis},\n        altBoundary: ${preventOverflow.altBoundary},\n        tether: ${preventOverflow.tether},\n        rootBoundary: '${preventOverflow.rootBoundary}',\n        padding: 8,\n      },\n    },\n    {\n      name: 'arrow',\n      enabled: ${arrow},\n      options: {\n        element: arrowRef,\n      },\n    },\n  ]}\n>\n  `;\n  const id = open ? 'scroll-playground' : null;\n\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <Box sx={{ height: 400, overflow: 'auto', mb: 3 }}>\n        <Grid\n          container\n          ref={centerScroll}\n          sx={{\n            alignItems: 'center',\n            justifyContent: 'center',\n            position: 'relative',\n            width: '230%',\n            bgcolor: 'background.paper',\n            height: '230%',\n          }}\n        >\n          <div>\n            <Button\n              ref={anchorRef}\n              variant=\"contained\"\n              onClick={handleClickButton}\n              aria-describedby={id}\n            >\n              Toggle Popper\n            </Button>\n            <Typography sx={{ mt: 2, maxWidth: 300 }}>\n              Scroll around this container to experiment with flip and\n              preventOverflow modifiers.\n            </Typography>\n            <Popper\n              id={id}\n              open={open}\n              arrow={arrow}\n              anchorEl={anchorRef.current}\n              placement={placement}\n              disablePortal={disablePortal}\n              modifiers={[\n                {\n                  name: 'flip',\n                  enabled: flip.enabled,\n                  options: {\n                    altBoundary: flip.altBoundary,\n                    rootBoundary: flip.rootBoundary,\n                    padding: 8,\n                  },\n                },\n                {\n                  name: 'preventOverflow',\n                  enabled: preventOverflow.enabled,\n                  options: {\n                    altAxis: preventOverflow.altAxis,\n                    altBoundary: preventOverflow.altBoundary,\n                    tether: preventOverflow.tether,\n                    rootBoundary: preventOverflow.rootBoundary,\n                    padding: 8,\n                  },\n                },\n                {\n                  name: 'arrow',\n                  enabled: arrow,\n                  options: {\n                    element: arrowRef,\n                  },\n                },\n              ]}\n            >\n              <div>\n                {arrow ? (\n                  <Arrow ref={setArrowRef} className=\"MuiPopper-arrow\" />\n                ) : null}\n                <Paper sx={{ maxWidth: 400, overflow: 'auto' }}>\n                  <DialogTitle>{\"Use Google's location service?\"}</DialogTitle>\n                  <DialogContent>\n                    <DialogContentText>\n                      Let Google help apps determine location.\n                    </DialogContentText>\n                  </DialogContent>\n                  <DialogActions>\n                    <Button onClick={handleClickButton}>Disagree</Button>\n                    <Button onClick={handleClickButton}>Agree</Button>\n                  </DialogActions>\n                </Paper>\n              </div>\n            </Popper>\n          </div>\n        </Grid>\n      </Box>\n      <Grid container spacing={2}>\n        <Grid container size={12}>\n          <Grid size={12}>\n            <Typography variant=\"h6\" component=\"div\">\n              Appearance\n            </Typography>\n          </Grid>\n          <Grid size={6}>\n            <TextField\n              margin=\"dense\"\n              sx={{ width: 200 }}\n              label=\"Placement\"\n              select\n              value={placement}\n              onChange={(event) => {\n                setPlacement(event.target.value);\n              }}\n              variant=\"standard\"\n              slotProps={{\n                select: {\n                  native: true,\n                  inputProps: {\n                    'aria-labelledby': 'scroll-playground-placement-label',\n                  },\n                },\n\n                inputLabel: {\n                  id: 'scroll-playground-placement-label',\n                },\n              }}\n            >\n              <option value=\"top-start\">top-start</option>\n              <option value=\"top\">top</option>\n              <option value=\"top-end\">top-end</option>\n              <option value=\"left-start\">left-start</option>\n              <option value=\"left\">left</option>\n              <option value=\"left-end\">left-end</option>\n              <option value=\"right-start\">right-start</option>\n              <option value=\"right\">right</option>\n              <option value=\"right-end\">right-end</option>\n              <option value=\"bottom-start\">bottom-start</option>\n              <option value=\"bottom\">bottom</option>\n              <option value=\"bottom-end\">bottom-end</option>\n            </TextField>\n          </Grid>\n          <Grid size={6}>\n            <FormControlLabel\n              control={\n                <Switch\n                  checked={disablePortal}\n                  onChange={(event) => {\n                    setDisablePortal(event.target.checked);\n                  }}\n                  value=\"disablePortal\"\n                />\n              }\n              label=\"Disable portal\"\n            />\n            <Typography\n              variant=\"caption\"\n              sx={{ display: 'block', color: 'text.secondary' }}\n            >\n              (the children stay within their parent DOM hierarchy)\n            </Typography>\n          </Grid>\n        </Grid>\n        <Grid size={12}>\n          <Typography variant=\"h6\" component=\"div\">\n            Modifiers (options from Popper.js)\n          </Typography>\n        </Grid>\n        <Grid container spacing={1} size={12}>\n          <Grid size={6}>\n            <FormGroup>\n              <Typography variant=\"subtitle1\">Prevent Overflow</Typography>\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={preventOverflow.enabled}\n                    onChange={(event) => {\n                      setPreventOverflow((old) => ({\n                        ...old,\n                        enabled: event.target.checked,\n                      }));\n                    }}\n                    value=\"arrow\"\n                  />\n                }\n                label=\"Enable\"\n              />\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={preventOverflow.altAxis}\n                    onChange={(event) => {\n                      setPreventOverflow((old) => ({\n                        ...old,\n                        altAxis: event.target.checked,\n                      }));\n                    }}\n                    value=\"alt-axis\"\n                  />\n                }\n                label=\"Alt axis\"\n              />\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={preventOverflow.altBoundary}\n                    onChange={(event) => {\n                      setPreventOverflow((old) => ({\n                        ...old,\n                        altBoundary: event.target.checked,\n                      }));\n                    }}\n                    value=\"alt-boundary\"\n                  />\n                }\n                label=\"Alt Boundary\"\n              />\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={preventOverflow.tether}\n                    onChange={(event) => {\n                      setPreventOverflow((old) => ({\n                        ...old,\n                        tether: event.target.checked,\n                      }));\n                    }}\n                    value=\"tether\"\n                  />\n                }\n                label=\"Tether\"\n              />\n              <TextField\n                margin=\"dense\"\n                size=\"small\"\n                label=\"Root Boundary\"\n                select\n                value={preventOverflow.rootBoundary}\n                onChange={(event) => {\n                  setPreventOverflow((old) => ({\n                    ...old,\n                    rootBoundary: event.target.value,\n                  }));\n                }}\n                variant=\"standard\"\n                slotProps={{\n                  select: {\n                    native: true,\n                    inputProps: {\n                      'aria-labelledby':\n                        'scroll-playground-prevent-overflow-root-boundary',\n                    },\n                  },\n\n                  inputLabel: {\n                    id: 'scroll-playground-prevent-overflow-root-boundary',\n                  },\n                }}\n              >\n                <option value=\"document\">document</option>\n                <option value=\"viewport\">viewport</option>\n              </TextField>\n            </FormGroup>\n          </Grid>\n          <Grid size={6}>\n            <FormGroup>\n              <Typography variant=\"subtitle1\">Flip</Typography>\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={flip.enabled}\n                    onChange={(event) => {\n                      setFlip((old) => ({\n                        ...old,\n                        enabled: event.target.checked,\n                      }));\n                    }}\n                    value=\"enabled\"\n                  />\n                }\n                label=\"Enable\"\n              />\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={flip.altBoundary}\n                    onChange={(event) => {\n                      setFlip((old) => ({\n                        ...old,\n                        altBoundary: event.target.checked,\n                      }));\n                    }}\n                    value=\"alt-boundary\"\n                  />\n                }\n                label=\"Alt Boundary\"\n              />\n              <TextField\n                margin=\"dense\"\n                size=\"small\"\n                label=\"Root Boundary\"\n                select\n                value={flip.rootBoundary}\n                onChange={(event) => {\n                  setFlip((old) => ({\n                    ...old,\n                    rootBoundary: event.target.value,\n                  }));\n                }}\n                variant=\"standard\"\n                slotProps={{\n                  select: {\n                    native: true,\n                    inputProps: {\n                      'aria-labelledby': 'scroll-playground-flip-root-boundary',\n                    },\n                  },\n\n                  inputLabel: {\n                    id: 'scroll-playground-flip-root-boundary',\n                  },\n                }}\n              >\n                <option value=\"document\">document</option>\n                <option value=\"viewport\">viewport</option>\n              </TextField>\n            </FormGroup>\n            <FormGroup>\n              <Typography variant=\"subtitle1\">Arrow</Typography>\n              <FormControlLabel\n                control={\n                  <Switch\n                    checked={arrow}\n                    onChange={(event) => {\n                      setArrow(event.target.checked);\n                    }}\n                    value=\"arrow\"\n                  />\n                }\n                label=\"Enable\"\n              />\n            </FormGroup>\n          </Grid>\n        </Grid>\n      </Grid>\n      <HighlightedCode code={jsx} language=\"jsx\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Virtual element",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The value of the `anchorEl` prop can be a reference to a fake DOM element.\nYou need to create an object shaped like the [`VirtualElement`](https://popper.js.org/docs/v2/virtual-elements/).\n\nHighlight part of the text to see the popper:"
+    },
+    {
+     "kind": "demo",
+     "name": "VirtualElementPopper",
+     "file": "VirtualElementPopper.tsx",
+     "code": "import * as React from 'react';\nimport Popper, { PopperProps } from '@mui/material/Popper';\nimport Typography from '@mui/material/Typography';\nimport Fade from '@mui/material/Fade';\nimport Paper from '@mui/material/Paper';\n\nexport default function VirtualElementPopper() {\n  const [open, setOpen] = React.useState(false);\n  const [anchorEl, setAnchorEl] = React.useState<PopperProps['anchorEl']>(null);\n\n  const previousAnchorElPosition = React.useRef<DOMRect>(undefined);\n\n  React.useEffect(() => {\n    if (anchorEl) {\n      if (typeof anchorEl === 'object') {\n        previousAnchorElPosition.current = anchorEl.getBoundingClientRect();\n      } else {\n        previousAnchorElPosition.current = anchorEl().getBoundingClientRect();\n      }\n    }\n  }, [anchorEl]);\n\n  const handleClose = () => {\n    setOpen(false);\n  };\n\n  const handleMouseUp = () => {\n    const selection = window.getSelection();\n\n    // Resets when the selection has a length of 0\n    if (!selection || selection.anchorOffset === selection.focusOffset) {\n      handleClose();\n      return;\n    }\n\n    const getBoundingClientRect = () => {\n      if (selection.rangeCount === 0 && previousAnchorElPosition.current) {\n        setOpen(false);\n        return previousAnchorElPosition.current;\n      }\n      return selection.getRangeAt(0).getBoundingClientRect();\n    };\n\n    setOpen(true);\n\n    setAnchorEl({ getBoundingClientRect });\n  };\n\n  const id = open ? 'virtual-element-popper' : undefined;\n\n  return (\n    <div onMouseLeave={handleClose}>\n      <Typography aria-describedby={id} onMouseUp={handleMouseUp}>\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum purus,\n        bibendum sit amet vulputate eget, porta semper ligula. Donec bibendum\n        vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed dolor\n        porttitor blandit vel vel purus. Fusce vel malesuada ligula. Nam quis\n        vehicula ante, eu finibus est. Proin ullamcorper fermentum orci, quis finibus\n        massa. Nunc lobortis, massa ut rutrum ultrices, metus metus finibus ex, sit\n        amet facilisis neque enim sed neque. Quisque accumsan metus vel maximus\n        consequat. Suspendisse lacinia tellus a libero volutpat maximus.\n      </Typography>\n      <Popper\n        id={id}\n        open={open}\n        anchorEl={anchorEl}\n        transition\n        placement=\"bottom-start\"\n      >\n        {({ TransitionProps }) => (\n          <Fade {...TransitionProps} timeout={350}>\n            <Paper>\n              <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>\n            </Paper>\n          </Fade>\n        )}\n      </Popper>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supplementary projects",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For more advanced use cases you might be able to take advantage of:"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "material-ui-popup-state",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "![stars](https://img.shields.io/github/stars/jcoreio/material-ui-popup-state?style=social&label=Star)\n![npm downloads](https://img.shields.io/npm/dm/material-ui-popup-state.svg)\n\nThe package [`material-ui-popup-state`](https://github.com/jcoreio/material-ui-popup-state) that takes care of popper state for you in most cases."
+    },
+    {
+     "kind": "demo",
+     "name": "PopperPopupState",
+     "file": "PopperPopupState.tsx",
+     "code": "import Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\nimport Popper from '@mui/material/Popper';\nimport PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';\nimport Fade from '@mui/material/Fade';\nimport Paper from '@mui/material/Paper';\n\nexport default function PopperPopupState() {\n  return (\n    <PopupState variant=\"popper\" popupId=\"demo-popup-popper\">\n      {(popupState) => (\n        <div>\n          <Button variant=\"contained\" {...bindToggle(popupState)}>\n            Toggle Popper\n          </Button>\n          <Popper {...bindPopper(popupState)} transition>\n            {({ TransitionProps }) => (\n              <Fade {...TransitionProps} timeout={350}>\n                <Paper>\n                  <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>\n                </Paper>\n              </Fade>\n            )}\n          </Popper>\n        </div>\n      )}\n    </PopupState>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Popper",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;object<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, <a href=\"https://popper.js.org/docs/v2/virtual-elements/\">virtualElement</a>, or a function that returns either. It&#39;s used to set the position of the popper. The return value will passed as the reference object of the Popper instance."
+    },
+    {
+     "prop": "children",
+     "type": "node<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper render function or node."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element or function that returns one. The <code>container</code> will have the portal children appended to it.<br>You can also provide a callback, which is called in a React layout effect. This lets you set the container from a ref, and also makes server-side rendering possible.<br>By default, it uses the body of the top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disablePortal",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>children</code> will be under the DOM hierarchy of the parent component."
+    },
+    {
+     "prop": "keepMounted",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Always keep the children in the DOM. This prop can be useful in SEO situation or when you want to maximize the responsiveness of the Popper."
+    },
+    {
+     "prop": "modifiers",
+     "type": "Array&lt;{ data?: object, effect?: func, enabled?: bool, fn?: func, name?: any, options?: object, phase?: 'afterMain'<br>&#124;&nbsp;'afterRead'<br>&#124;&nbsp;'afterWrite'<br>&#124;&nbsp;'beforeMain'<br>&#124;&nbsp;'beforeRead'<br>&#124;&nbsp;'beforeWrite'<br>&#124;&nbsp;'main'<br>&#124;&nbsp;'read'<br>&#124;&nbsp;'write', requires?: Array&lt;string&gt;, requiresIfExists?: Array&lt;string&gt; }&gt;",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper.js is based on a &quot;plugin-like&quot; architecture, most of its features are fully encapsulated &quot;modifiers&quot;.<br>A modifier is a function that is called each time Popper.js needs to compute the position of the popper. For this reason, modifiers should be very performant to avoid bottlenecks. To learn how to create a modifier, <a href=\"https://popper.js.org/docs/v2/modifiers/\">read the modifiers documentation</a>."
+    },
+    {
+     "prop": "placement",
+     "type": "'auto-end'<br>&#124;&nbsp;'auto-start'<br>&#124;&nbsp;'auto'<br>&#124;&nbsp;'bottom-end'<br>&#124;&nbsp;'bottom-start'<br>&#124;&nbsp;'bottom'<br>&#124;&nbsp;'left-end'<br>&#124;&nbsp;'left-start'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right-end'<br>&#124;&nbsp;'right-start'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top-end'<br>&#124;&nbsp;'top-start'<br>&#124;&nbsp;'top'",
+     "default": "'bottom'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Popper placement."
+    },
+    {
+     "prop": "popperOptions",
+     "type": "{ modifiers?: array, onFirstUpdate?: func, placement?: 'auto-end'<br>&#124;&nbsp;'auto-start'<br>&#124;&nbsp;'auto'<br>&#124;&nbsp;'bottom-end'<br>&#124;&nbsp;'bottom-start'<br>&#124;&nbsp;'bottom'<br>&#124;&nbsp;'left-end'<br>&#124;&nbsp;'left-start'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right-end'<br>&#124;&nbsp;'right-start'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top-end'<br>&#124;&nbsp;'top-start'<br>&#124;&nbsp;'top', strategy?: 'absolute'<br>&#124;&nbsp;'fixed' }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Options provided to the <a href=\"https://popper.js.org/docs/v2/constructors/#options\"><code>Popper.js</code></a> instance."
+    },
+    {
+     "prop": "popperRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A ref that points to the used popper instance."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside the Popper."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside the Popper. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transition",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Help supporting a react-transition-group/Transition component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiPopper-root",
+     "description": "Class name applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-popper/"
+}

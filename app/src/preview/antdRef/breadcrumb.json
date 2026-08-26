@@ -1,0 +1,438 @@
+{
+ "slug": "breadcrumb",
+ "title": "Breadcrumb",
+ "description": "Display the current location within a hierarchy. And allow going back to states higher up in the hierarchy.",
+ "group": "Navigation",
+ "whenToUse": "- When the system has more than two layers in a hierarchy.\n- When you need to inform the user of where they are.\n- When the user may need to navigate back to a higher level.",
+ "examples": [
+  {
+   "name": "Basic Usage",
+   "description": "The simplest use.",
+   "code": "import React from 'react';\nimport { Breadcrumb } from 'antd';\n\nconst App: React.FC = () => {\n  return (\n    <Breadcrumb\n      items={[\n        {\n          title: 'Home',\n        },\n        {\n          title: <a href=\"\">Application Center</a>,\n        },\n        {\n          title: <a href=\"\">Application List</a>,\n        },\n        {\n          title: 'An Application',\n        },\n      ]}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "With an Icon",
+   "description": "The icon should be placed in front of the text. A bare `<svg>` from a third-party icon library (e.g. lucide, react-icons) stays vertically centred with, and spaced from, the text.",
+   "code": "import React from 'react';\nimport { HomeOutlined, UserOutlined } from '@ant-design/icons';\nimport { Breadcrumb } from 'antd';\n\n// Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`\n// rather than an `.anticon` wrapper. It stays centred with, and spaced from, the label.\nconst ChartIcon: React.FC = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    width=\"1em\"\n    height=\"1em\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth={2}\n    aria-hidden=\"true\"\n  >\n    <path d=\"M3 3v18h18\" />\n    <path d=\"M7 14l4-4 3 3 5-6\" />\n  </svg>\n);\n\nconst App: React.FC = () => (\n  <Breadcrumb\n    items={[\n      {\n        href: '',\n        title: <HomeOutlined />,\n      },\n      {\n        href: '',\n        title: (\n          <>\n            <UserOutlined />\n            <span>Application List</span>\n          </>\n        ),\n      },\n      {\n        href: '',\n        title: (\n          <>\n            <ChartIcon />\n            <span>Dashboard</span>\n          </>\n        ),\n      },\n      {\n        title: 'Application',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "withicon"
+  },
+  {
+   "name": "With Params",
+   "description": "With route params.",
+   "code": "import React from 'react';\nimport { Breadcrumb } from 'antd';\n\nconst App: React.FC = () => (\n  <Breadcrumb\n    items={[\n      {\n        title: 'Users',\n      },\n      {\n        title: ':id',\n        href: '',\n      },\n    ]}\n    params={{ id: 1 }}\n  />\n);\n\nexport default App;",
+   "demoId": "withparams"
+  },
+  {
+   "name": "Configuring the Separator",
+   "description": "The separator can be customized by setting the separator property: `separator=\">\"`.",
+   "code": "import React from 'react';\nimport { Breadcrumb } from 'antd';\n\nconst App: React.FC = () => (\n  <Breadcrumb\n    separator=\">\"\n    items={[\n      {\n        title: 'Home',\n      },\n      {\n        title: 'Application Center',\n        href: '',\n      },\n      {\n        title: 'Application List',\n        href: '',\n      },\n      {\n        title: 'An Application',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "separator"
+  },
+  {
+   "name": "Bread crumbs with drop down menu",
+   "description": "Breadcrumbs support drop down menu.",
+   "code": "import React from 'react';\nimport { Breadcrumb } from 'antd';\n\nconst menuItems = [\n  {\n    key: '1',\n    label: (\n      <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://www.alipay.com/\">\n        General\n      </a>\n    ),\n  },\n  {\n    key: '2',\n    label: (\n      <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://www.taobao.com/\">\n        Layout\n      </a>\n    ),\n  },\n  {\n    key: '3',\n    label: (\n      <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://www.tmall.com/\">\n        Navigation\n      </a>\n    ),\n  },\n];\n\nconst App: React.FC = () => (\n  <Breadcrumb\n    items={[\n      {\n        title: 'Ant Design',\n      },\n      {\n        title: <a href=\"\">Component</a>,\n      },\n      {\n        title: <a href=\"\">General</a>,\n        menu: { items: menuItems },\n      },\n      {\n        title: 'Button',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "overlay"
+  },
+  {
+   "name": "Configuring the Separator Independently",
+   "description": "Customize separator for each other.",
+   "code": "import React from 'react';\nimport { Breadcrumb } from 'antd';\n\nconst App: React.FC = () => (\n  <Breadcrumb\n    separator=\"\"\n    items={[\n      {\n        title: 'Location',\n      },\n      {\n        type: 'separator',\n        separator: ':',\n      },\n      {\n        href: '',\n        title: 'Application Center',\n      },\n      {\n        type: 'separator',\n      },\n      {\n        href: '',\n        title: 'Application List',\n      },\n      {\n        type: 'separator',\n      },\n      {\n        title: 'An Application',\n      },\n    ]}\n  />\n);\n\nexport default App;",
+   "demoId": "separator-component"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Breadcrumb by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Breadcrumb, Flex } from 'antd';\nimport type { BreadcrumbProps, GetProp } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    padding: 8px;\n    border-radius: 4px;\n  `,\n  item: css`\n    color: #1890ff;\n  `,\n  separator: css`\n    color: rgba(0, 0, 0, 0.45);\n  `,\n}));\n\nconst styles: BreadcrumbProps['styles'] = {\n  root: { border: '1px solid #f0f0f0', padding: 8, borderRadius: 4 },\n  item: { color: '#1890ff' },\n  separator: { color: 'rgba(0, 0, 0, 0.45)' },\n};\n\nconst stylesFn: BreadcrumbProps['styles'] = (\n  info,\n): GetProp<BreadcrumbProps, 'styles', 'Return'> => {\n  const items = info.props.items || [];\n  if (items.length > 2) {\n    return {\n      root: { border: '1px solid #F5EFFF', padding: 8, borderRadius: 4 },\n      item: { color: '#8F87F1' },\n    };\n  }\n  return {};\n};\n\nconst items = [\n  { title: 'Ant Design' },\n  { title: <a href=\"\">Component</a> },\n  { title: 'Breadcrumb' },\n];\n\nconst App: React.FC = () => {\n  return (\n    <Flex vertical gap=\"medium\">\n      <Breadcrumb\n        classNames={classNames}\n        items={items.slice(0, 2)}\n        styles={styles}\n        aria-label=\"Breadcrumb with Object\"\n      />\n      <Breadcrumb\n        classNames={classNames}\n        items={items}\n        styles={stylesFn}\n        aria-label=\"Breadcrumb with Function\"\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "dropdownIcon",
+     "Custom dropdown icon",
+     "ReactNode",
+     "<DownOutlined />",
+     "6.2.0",
+     "6.2.0"
+    ],
+    [
+     "items",
+     "The routing stack information of router (>=5.3.0 recommended, use `Breadcrumb.Item` children for older versions)",
+     "[ItemType\\[\\]](#itemtype)",
+     "-",
+     "5.3.0",
+     "×"
+    ],
+    [
+     "itemRender",
+     "Custom item renderer, work with react-router, see example",
+     "(route, params, routes, paths) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "params",
+     "Routing parameters",
+     "object",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "separator",
+     "Custom separator",
+     "ReactNode",
+     "/",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ]
+   ],
+   "name": "Breadcrumb"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "className",
+     "The additional css class",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "dropdownProps",
+     "The dropdown props",
+     "Dropdown",
+     "-",
+     "—"
+    ],
+    [
+     "href",
+     "Target of hyperlink. Can not work with `path`",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "path",
+     "Connected path. Each path will connect with prev one. Can not work with `href`",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "menu",
+     "The menu props",
+     "MenuProps",
+     "-",
+     "4.24.0"
+    ],
+    [
+     "onClick",
+     "Set the handler to handle click event",
+     "(e:MouseEvent) => void",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "item name",
+     "ReactNode",
+     "-",
+     "5.3.0"
+    ]
+   ],
+   "name": "RouteItemType"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "type",
+     "Mark as separator",
+     "separator",
+     "—",
+     "5.3.0"
+    ],
+    [
+     "separator",
+     "Custom separator",
+     "ReactNode",
+     "/",
+     "5.3.0"
+    ]
+   ],
+   "name": "SeparatorType"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "dropdownIcon",
+    "Custom dropdown icon",
+    "ReactNode",
+    "<DownOutlined />",
+    "6.2.0",
+    "6.2.0"
+   ],
+   [
+    "items",
+    "The routing stack information of router (>=5.3.0 recommended, use `Breadcrumb.Item` children for older versions)",
+    "[ItemType\\[\\]](#itemtype)",
+    "-",
+    "5.3.0",
+    "×"
+   ],
+   [
+    "itemRender",
+    "Custom item renderer, work with react-router, see example",
+    "(route, params, routes, paths) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "params",
+    "Routing parameters",
+    "object",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "separator",
+    "Custom separator",
+    "ReactNode",
+    "/",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ]
+  ],
+  "name": "Breadcrumb"
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with text color, font size, icon size and other basic styles, using flex layout with ordered list"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Item element with text color, link color transitions, hover effects, padding, border-radius, height, and margin styles"
+   },
+   {
+    "name": "separator",
+    "mark": "semantic-mark-separator",
+    "description": "Separator element with margin and color styles for the divider"
+   }
+  ],
+  "dom": "<nav class=\"ant-breadcrumb semantic-mark-root css-var-test-id\">\n        <ol>\n          <li class=\"ant-breadcrumb-item semantic-mark-item\">\n            <a class=\"ant-breadcrumb-link\" href=\"\">\n              <span aria-label=\"home\" class=\"anticon anticon-home\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"home\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\"></path>\n                </svg>\n              </span>\n            </a>\n          </li>\n          <li aria-hidden=\"true\" class=\"ant-breadcrumb-separator semantic-mark-separator\">\n            /\n          </li>\n          <li class=\"ant-breadcrumb-item semantic-mark-item\">\n            <a class=\"ant-breadcrumb-link\" href=\"\">\n              <span aria-label=\"user\" class=\"anticon anticon-user\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"user\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z\"></path>\n                </svg>\n              </span>\n              <span>\n                Application List\n              </span>\n            </a>\n          </li>\n          <li aria-hidden=\"true\" class=\"ant-breadcrumb-separator semantic-mark-separator\">\n            /\n          </li>\n          <li class=\"ant-breadcrumb-item semantic-mark-item\">\n            <span class=\"ant-breadcrumb-link\">\n              Application\n            </span>\n          </li>\n        </ol>\n      </nav>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "iconFontSize",
+     "Icon size",
+     "number",
+     "14"
+    ],
+    [
+     "itemColor",
+     "Text color of Breadcrumb item",
+     "string",
+     "rgba(0,0,0,0.45)"
+    ],
+    [
+     "lastItemColor",
+     "Text color of the last item",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "linkColor",
+     "Text color of link",
+     "string",
+     "rgba(0,0,0,0.45)"
+    ],
+    [
+     "linkHoverColor",
+     "Color of hovered link",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "separatorColor",
+     "Color of separator",
+     "string",
+     "rgba(0,0,0,0.45)"
+    ],
+    [
+     "separatorMargin",
+     "Margin of separator",
+     "number",
+     "8"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

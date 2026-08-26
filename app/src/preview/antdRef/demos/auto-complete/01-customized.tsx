@@ -1,0 +1,28 @@
+import React from 'react';
+import { AutoComplete } from 'antd';
+import type { AutoCompleteProps } from 'antd';
+
+const App: React.FC = () => {
+  const [options, setOptions] = React.useState<AutoCompleteProps['options']>([]);
+  const handleSearch = (value: string) => {
+    setOptions(() => {
+      if (!value || value.includes('@')) {
+        return [];
+      }
+      return ['gmail.com', '163.com', 'qq.com'].map((domain) => ({
+        label: `${value}@${domain}`,
+        value: `${value}@${domain}`,
+      }));
+    });
+  };
+  return (
+    <AutoComplete
+      style={{ width: 200 }}
+      showSearch={{ onSearch: handleSearch }}
+      placeholder="여기에 입력해 주세요"
+      options={options}
+    />
+  );
+};
+
+export default App;

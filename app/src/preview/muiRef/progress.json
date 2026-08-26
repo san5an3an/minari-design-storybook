@@ -1,0 +1,610 @@
+{
+ "slug": "progress",
+ "title": "Progress",
+ "group": "Feedback",
+ "folder": "progress",
+ "description": "Progress indicators commonly known as spinners, express an unspecified wait time or display the length of a process.",
+ "components": [
+  "CircularProgress",
+  "LinearProgress"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Progress indicators inform users about the status of ongoing processes, such as loading an app, submitting a form, or saving updates.\n\n- **Determinate** indicators display how long an operation will take.\n- **Indeterminate** indicators visualize an unspecified wait time.\n\nThe animations of the components rely on CSS as much as possible to work even before the JavaScript is loaded."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Circular",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Circular indeterminate",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The default version of CircularProgress renders an indeterminate spinner."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularIndeterminate",
+     "file": "CircularIndeterminate.tsx",
+     "code": "import CircularProgress from '@mui/material/CircularProgress';\nimport Box from '@mui/material/Box';\n\nexport default function CircularIndeterminate() {\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <CircularProgress aria-label=\"Loading…\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "CircularColor",
+     "file": "CircularColor.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularColor() {\n  return (\n    <Stack sx={{ color: 'grey.500' }} spacing={2} direction=\"row\">\n      <CircularProgress color=\"secondary\" aria-label=\"Loading…\" />\n      <CircularProgress color=\"success\" aria-label=\"Loading…\" />\n      <CircularProgress color=\"inherit\" aria-label=\"Loading…\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular size",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "CircularSize",
+     "file": "CircularSize.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularSize() {\n  return (\n    <Stack spacing={2} direction=\"row\" sx={{ alignItems: 'center' }}>\n      <CircularProgress size=\"30px\" aria-label=\"Loading…\" />\n      <CircularProgress size={40} aria-label=\"Loading…\" />\n      <CircularProgress size=\"3rem\" aria-label=\"Loading…\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular determinate",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To specify the loading progress of an operation, use the `determinate` value for the `variant` prop. To show the actual progress, use the `value` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularDeterminate",
+     "file": "CircularDeterminate.tsx",
+     "code": "import * as React from 'react';\nimport Stack from '@mui/material/Stack';\nimport CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularDeterminate() {\n  const [progress, setProgress] = React.useState(0);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));\n    }, 800);\n\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Stack spacing={2} direction=\"row\">\n      <CircularProgress variant=\"determinate\" value={25} aria-label=\"Export data\" />\n      <CircularProgress variant=\"determinate\" value={50} aria-label=\"Export data\" />\n      <CircularProgress variant=\"determinate\" value={75} aria-label=\"Export data\" />\n      <CircularProgress variant=\"determinate\" value={100} aria-label=\"Export data\" />\n      <CircularProgress\n        variant=\"determinate\"\n        value={progress}\n        aria-label=\"Export data\"\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular custom scale",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, progress values are expected in the 0–100 range. You can customize this range by using the `min` and `max` props."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularCustomScale",
+     "file": "CircularCustomScale.tsx",
+     "code": "import * as React from 'react';\nimport CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularCustomScale() {\n  const [progress, setProgress] = React.useState(10);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 20 ? 10 : prevProgress + 2));\n    }, 800);\n\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <CircularProgress\n      variant=\"determinate\"\n      min={10}\n      max={20}\n      value={progress}\n      aria-label=\"Loading\"\n    />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular track",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To have the circular track always visible, pass the `enableTrackSlot` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularEnableTrack",
+     "file": "CircularEnableTrack.tsx",
+     "code": "import * as React from 'react';\nimport Stack from '@mui/material/Stack';\nimport CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularEnableTrack() {\n  const [progress, setProgress] = React.useState(0);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));\n    }, 800);\n\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Stack spacing={2} direction=\"row\">\n      <CircularProgress enableTrackSlot size=\"30px\" aria-label=\"Loading…\" />\n      <CircularProgress enableTrackSlot size={40} aria-label=\"Loading…\" />\n      <CircularProgress enableTrackSlot size=\"3rem\" aria-label=\"Loading…\" />\n      <CircularProgress\n        enableTrackSlot\n        variant=\"determinate\"\n        value={70}\n        aria-label=\"Export data\"\n      />\n      <CircularProgress\n        enableTrackSlot\n        variant=\"determinate\"\n        color=\"secondary\"\n        value={progress}\n        aria-label=\"Upload photos\"\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Interactive integration",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The following examples show how to integrate the CircularProgress with the Button and FAB components, creating loading states that can be triggered by user actions."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularIntegration",
+     "file": "CircularIntegration.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport CircularProgress from '@mui/material/CircularProgress';\nimport { green } from '@mui/material/colors';\nimport Button from '@mui/material/Button';\nimport Fab from '@mui/material/Fab';\nimport CheckIcon from '@mui/icons-material/Check';\nimport SaveIcon from '@mui/icons-material/Save';\n\nexport default function CircularIntegration() {\n  const [loading, setLoading] = React.useState(false);\n  const [success, setSuccess] = React.useState(false);\n  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);\n\n  const buttonSx = {\n    ...(success && {\n      bgcolor: green[500],\n      '&:hover': {\n        bgcolor: green[700],\n      },\n    }),\n  };\n\n  React.useEffect(() => {\n    return () => {\n      clearTimeout(timer.current);\n    };\n  }, []);\n\n  const handleButtonClick = () => {\n    if (!loading) {\n      setSuccess(false);\n      setLoading(true);\n      timer.current = setTimeout(() => {\n        setSuccess(true);\n        setLoading(false);\n      }, 2000);\n    }\n  };\n\n  return (\n    <Box sx={{ display: 'flex', alignItems: 'center' }}>\n      <Box sx={{ m: 1, position: 'relative' }}>\n        <Fab\n          aria-label=\"save\"\n          color=\"primary\"\n          sx={buttonSx}\n          onClick={handleButtonClick}\n        >\n          {success ? <CheckIcon /> : <SaveIcon />}\n        </Fab>\n        {loading && (\n          <CircularProgress\n            aria-label=\"Loading…\"\n            size={68}\n            sx={{\n              color: green[500],\n              position: 'absolute',\n              top: -6,\n              left: -6,\n              zIndex: 1,\n            }}\n          />\n        )}\n      </Box>\n      <Box sx={{ m: 1, position: 'relative' }}>\n        <Button\n          variant=\"contained\"\n          sx={buttonSx}\n          disabled={loading}\n          onClick={handleButtonClick}\n        >\n          Accept terms\n        </Button>\n        {loading && (\n          <CircularProgress\n            aria-label=\"Loading…\"\n            size={24}\n            sx={{\n              color: green[500],\n              position: 'absolute',\n              top: '50%',\n              left: '50%',\n              marginTop: '-12px',\n              marginLeft: '-12px',\n            }}\n          />\n        )}\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Circular with label",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The example shows how to integrate the visual progress value with the CircularProgress component."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularWithValueLabel",
+     "file": "CircularWithValueLabel.tsx",
+     "code": "import * as React from 'react';\nimport CircularProgress, {\n  CircularProgressProps,\n} from '@mui/material/CircularProgress';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\nfunction CircularProgressWithLabel(\n  props: CircularProgressProps & { value: number },\n) {\n  return (\n    <Box sx={{ position: 'relative', display: 'inline-flex' }}>\n      <CircularProgress\n        variant=\"determinate\"\n        aria-label=\"Upload photos\"\n        {...props}\n      />\n      <Box\n        sx={{\n          top: 0,\n          left: 0,\n          bottom: 0,\n          right: 0,\n          position: 'absolute',\n          display: 'flex',\n          alignItems: 'center',\n          justifyContent: 'center',\n        }}\n      >\n        <Typography\n          variant=\"caption\"\n          component=\"div\"\n          sx={{ color: 'text.secondary' }}\n        >{`${Math.round(props.value)}%`}</Typography>\n      </Box>\n    </Box>\n  );\n}\n\nexport default function CircularWithValueLabel() {\n  const [progress, setProgress] = React.useState(10);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));\n    }, 800);\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return <CircularProgressWithLabel value={progress} />;\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Linear",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Linear indeterminate",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "LinearProgress shows an indeterminate progress bar by default."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearIndeterminate",
+     "file": "LinearIndeterminate.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport LinearProgress from '@mui/material/LinearProgress';\n\nexport default function LinearIndeterminate() {\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgress aria-label=\"Loading…\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear query",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To reverse the direction of the indeterminate animation, use the `query` value for the `variant` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearQuery",
+     "file": "LinearQuery.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport LinearProgress from '@mui/material/LinearProgress';\n\nexport default function LinearQuery() {\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgress aria-label=\"Loading…\" variant=\"query\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "LinearColor",
+     "file": "LinearColor.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport LinearProgress from '@mui/material/LinearProgress';\n\nexport default function LinearColor() {\n  return (\n    <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>\n      <LinearProgress color=\"secondary\" aria-label=\"Loading…\" />\n      <LinearProgress color=\"success\" aria-label=\"Loading…\" />\n      <LinearProgress color=\"inherit\" aria-label=\"Loading…\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear determinate",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To show the progress on the loading bar, use the `determinate` value for the `variant` prop, along with the `value` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearDeterminate",
+     "file": "LinearDeterminate.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport LinearProgress from '@mui/material/LinearProgress';\n\nexport default function LinearDeterminate() {\n  const [progress, setProgress] = React.useState(0);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((oldProgress) => {\n        if (oldProgress === 100) {\n          return 0;\n        }\n        const diff = Math.random() * 10;\n        return Math.min(oldProgress + diff, 100);\n      });\n    }, 500);\n\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgress\n        variant=\"determinate\"\n        value={progress}\n        aria-label=\"Export data\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear buffer",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `buffer` value for the `variant` prop to show a buffer progress alongside the actual progress value. The `valueBuffer` prop should be greater than the `value` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearBuffer",
+     "file": "LinearBuffer.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport LinearProgress from '@mui/material/LinearProgress';\n\nexport default function LinearBuffer() {\n  const [progress, setProgress] = React.useState(0);\n  const [buffer, setBuffer] = React.useState(10);\n\n  const progressRef = React.useRef(() => {});\n  React.useEffect(() => {\n    progressRef.current = () => {\n      if (progress === 100) {\n        setProgress(0);\n        setBuffer(10);\n      } else {\n        setProgress(progress + 1);\n        if (buffer < 100 && progress % 5 === 0) {\n          const newBuffer = buffer + 1 + Math.random() * 10;\n          setBuffer(newBuffer > 100 ? 100 : newBuffer);\n        }\n      }\n    };\n  });\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      progressRef.current();\n    }, 100);\n\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgress\n        variant=\"buffer\"\n        value={progress}\n        valueBuffer={buffer}\n        aria-label=\"Loading…\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear with label",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The progress `value` can also be displayed alongside the progress bar."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearWithValueLabel",
+     "file": "LinearWithValueLabel.tsx",
+     "code": "import * as React from 'react';\nimport LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\nfunction LinearProgressWithLabelAndValue(\n  props: LinearProgressProps & { value: number },\n) {\n  const progressId = React.useId();\n  return (\n    <div>\n      <Typography id={progressId} variant=\"body2\" color=\"text.secondary\">\n        Uploading photos…\n      </Typography>\n      <Box sx={{ display: 'flex', alignItems: 'center' }}>\n        <Box sx={{ width: '100%', mr: 1 }}>\n          <LinearProgress\n            variant=\"determinate\"\n            aria-labelledby={progressId}\n            {...props}\n          />\n        </Box>\n        <Box sx={{ minWidth: 35 }}>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            {`${Math.round(props.value)}%`}\n          </Typography>\n        </Box>\n      </Box>\n    </div>\n  );\n}\n\nexport default function LinearWithValueLabel() {\n  const [progress, setProgress] = React.useState(10);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));\n    }, 800);\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgressWithLabelAndValue value={progress} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Linear with custom value text",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, the progress value is read by assistive technology as percentages. Use `aria-valuetext` when the progress value does not involve percentages."
+    },
+    {
+     "kind": "demo",
+     "name": "LinearWithAriaValueText",
+     "file": "LinearWithAriaValueText.tsx",
+     "code": "import * as React from 'react';\nimport LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\ntype LinearProgressWithLabelAndValueProps = LinearProgressProps & {\n  min: number;\n  max: number;\n  value: number;\n};\n\nfunction LinearProgressWithLabelAndValue({\n  max,\n  min,\n  value,\n  ...rest\n}: LinearProgressWithLabelAndValueProps) {\n  const progressText = `Elevator at floor ${value} out of ${max}.`;\n  const progressId = React.useId();\n  return (\n    <div>\n      <Typography\n        id={progressId}\n        variant=\"body2\"\n        color=\"text.secondary\"\n        sx={{ mr: 1 }}\n      >\n        Elevator status\n      </Typography>\n      <Box sx={{ display: 'flex', alignItems: 'center' }}>\n        <Box sx={{ width: '100%', mr: 1 }}>\n          <LinearProgress\n            variant=\"determinate\"\n            aria-labelledby={progressId}\n            aria-valuetext={progressText}\n            min={min}\n            max={max}\n            value={value}\n            {...rest}\n          />\n        </Box>\n        <Box sx={{ whiteSpace: 'nowrap' }}>\n          <Typography variant=\"body2\" sx={{ color: 'text.secondary' }}>\n            {progressText}\n          </Typography>\n        </Box>\n      </Box>\n    </div>\n  );\n}\n\nexport default function LinearWithAriaValueText() {\n  const [progress, setProgress] = React.useState(1);\n\n  React.useEffect(() => {\n    const timer = setInterval(() => {\n      setProgress((prevProgress) => (prevProgress >= 10 ? 1 : prevProgress + 1));\n    }, 800);\n    return () => {\n      clearInterval(timer);\n    };\n  }, []);\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <LinearProgressWithLabelAndValue value={progress} min={1} max={10} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedProgressBars",
+     "file": "CustomizedProgressBars.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Stack from '@mui/material/Stack';\nimport CircularProgress, {\n  circularProgressClasses,\n  CircularProgressProps,\n} from '@mui/material/CircularProgress';\nimport LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';\n\nconst BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({\n  height: 10,\n  borderRadius: 5,\n  [`&.${linearProgressClasses.colorPrimary}`]: {\n    backgroundColor: theme.palette.grey[200],\n    ...theme.applyStyles('dark', {\n      backgroundColor: theme.palette.grey[800],\n    }),\n  },\n  [`& .${linearProgressClasses.bar}`]: {\n    borderRadius: 5,\n    backgroundColor: '#1a90ff',\n    ...theme.applyStyles('dark', {\n      backgroundColor: '#308fe8',\n    }),\n  },\n}));\n\n// Inspired by the former Facebook spinners.\nfunction FacebookCircularProgress(props: CircularProgressProps) {\n  return (\n    <CircularProgress\n      variant=\"indeterminate\"\n      disableShrink\n      enableTrackSlot\n      sx={(theme) => ({\n        color: '#1a90ff',\n        animationDuration: '550ms',\n        [`& .${circularProgressClasses.circle}`]: {\n          strokeLinecap: 'round',\n        },\n        [`& .${circularProgressClasses.track}`]: {\n          opacity: 1,\n          stroke: (theme.vars || theme).palette.grey[200],\n          ...theme.applyStyles('dark', {\n            stroke: (theme.vars || theme).palette.grey[800],\n          }),\n        },\n        ...theme.applyStyles('dark', {\n          color: '#308fe8',\n        }),\n      })}\n      size={40}\n      thickness={4}\n      aria-label=\"Loading…\"\n      {...props}\n    />\n  );\n}\n\n// From https://github.com/mui/material-ui/issues/9496#issuecomment-959408221\nfunction GradientCircularProgress() {\n  return (\n    <React.Fragment>\n      <svg width={0} height={0}>\n        <defs>\n          <linearGradient id=\"my_gradient\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n            <stop offset=\"0%\" stopColor=\"#e01cd5\" />\n            <stop offset=\"100%\" stopColor=\"#1CB5E0\" />\n          </linearGradient>\n        </defs>\n      </svg>\n      <CircularProgress\n        aria-label=\"Loading…\"\n        sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }}\n      />\n    </React.Fragment>\n  );\n}\nexport default function CustomizedProgressBars() {\n  return (\n    <Stack spacing={2} sx={{ flexGrow: 1 }}>\n      <FacebookCircularProgress />\n      <GradientCircularProgress />\n      <br />\n      <BorderLinearProgress\n        variant=\"determinate\"\n        value={50}\n        aria-label=\"Export data\"\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Delaying appearance",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "There are [3 important limits](https://www.nngroup.com/articles/response-times-3-important-limits/) to know around response time.\nThe ripple effect of the `ButtonBase` component ensures that the user feels that the UI is reacting instantaneously.\nNormally, no special feedback is necessary during delays of more than 0.1 but less than 1.0 second.\nAfter 1.0 second, you can display a loader to keep user's flow of thought uninterrupted."
+    },
+    {
+     "kind": "demo",
+     "name": "DelayingAppearance",
+     "file": "DelayingAppearance.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Fade from '@mui/material/Fade';\nimport Button from '@mui/material/Button';\nimport CircularProgress from '@mui/material/CircularProgress';\nimport Typography from '@mui/material/Typography';\n\nexport default function DelayingAppearance() {\n  const [loading, setLoading] = React.useState(false);\n  const [query, setQuery] = React.useState('idle');\n  const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);\n\n  React.useEffect(\n    () => () => {\n      clearTimeout(timerRef.current);\n    },\n    [],\n  );\n\n  const handleClickLoading = () => {\n    setLoading((prevLoading) => !prevLoading);\n  };\n\n  const handleClickQuery = () => {\n    if (timerRef.current) {\n      clearTimeout(timerRef.current);\n    }\n\n    if (query !== 'idle') {\n      setQuery('idle');\n      return;\n    }\n\n    setQuery('progress');\n    timerRef.current = setTimeout(() => {\n      setQuery('success');\n    }, 2000);\n  };\n\n  return (\n    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>\n      <Box sx={{ height: 40 }}>\n        <Fade\n          in={loading}\n          style={{\n            transitionDelay: loading ? '800ms' : '0ms',\n          }}\n          unmountOnExit\n        >\n          <CircularProgress aria-label=\"Loading…\" />\n        </Fade>\n      </Box>\n      <Button onClick={handleClickLoading} sx={{ m: 2 }}>\n        {loading ? 'Stop loading' : 'Loading'}\n      </Button>\n      <Box sx={{ height: 40 }}>\n        {query === 'success' ? (\n          <Typography>Success!</Typography>\n        ) : (\n          <Fade\n            in={query === 'progress'}\n            style={{\n              transitionDelay: query === 'progress' ? '800ms' : '0ms',\n            }}\n            unmountOnExit\n          >\n            <CircularProgress aria-label=\"Loading…\" />\n          </Fade>\n        )}\n      </Box>\n      <Button onClick={handleClickQuery} sx={{ m: 2 }}>\n        {query !== 'idle' ? 'Reset' : 'Simulate a load'}\n      </Button>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Progress bars must be given an accessible name by either setting `aria-labelledby` that points to the `id` of a visible text label, or using the `aria-label` attribute."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Limitations",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "High CPU load",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Under heavy load, you might lose the stroke dash animation or see random `CircularProgress` ring widths.\nYou should run processor intensive operations in a web worker or by batch in order not to block the main rendering thread.\n\n<video autoplay muted loop playsinline width=\"1082\" height=\"158\" style=\"width: 541px;\">\n  <source src=\"/static/material-ui/react-components/progress-heavy-load.mp4\" type=\"video/mp4\" />\n</video>\n\nWhen it's not possible, you can leverage the `disableShrink` prop to mitigate the issue.\nSee [this issue](https://github.com/mui/material-ui/issues/10327)."
+    },
+    {
+     "kind": "demo",
+     "name": "CircularUnderLoad",
+     "file": "CircularUnderLoad.tsx",
+     "code": "import CircularProgress from '@mui/material/CircularProgress';\n\nexport default function CircularUnderLoad() {\n  return <CircularProgress disableShrink aria-label=\"Loading…\" />;\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "High frequency updates",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `LinearProgress` uses a transition on the CSS transform property to provide a smooth update between different values.\nThe default transition duration is 200ms.\nIn the event a parent component updates the `value` prop too quickly, you will at least experience a 200ms delay between the re-render and the progress bar fully updated.\n\nIf you need to perform 30 re-renders per second or more, we recommend disabling the transition:"
+    },
+    {
+     "kind": "code",
+     "lang": "css",
+     "text": ".MuiLinearProgress-bar {\n  transition: none;\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "CircularProgress",
+   "description": "## ARIA\n\nIf the progress bar is describing the loading progress of a particular region of a page,\nyou should use `aria-describedby` to point to the progress bar, and set the `aria-busy`\nattribute to `true` on that region until it has finished loading.",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "disableShrink",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the shrink animation is disabled. This only works if variant is <code>indeterminate</code>."
+    },
+    {
+     "prop": "enableTrackSlot",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a track circle slot is mounted to show a subtle background for the progress. The <code>size</code> and <code>thickness</code> apply to the track slot to be consistent with the progress circle."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "100",
+     "required": false,
+     "deprecated": false,
+     "desc": "The maximum value for the progress indicator for the determinate variant."
+    },
+    {
+     "prop": "min",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The minimum value for the progress indicator for the determinate variant."
+    },
+    {
+     "prop": "size",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": "40",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. If using a number, the pixel unit is assumed. If using a string, you need to provide the CSS unit, for example &#39;3rem&#39;."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "thickness",
+     "type": "number",
+     "default": "3.6",
+     "required": false,
+     "deprecated": false,
+     "desc": "The thickness of the circle."
+    },
+    {
+     "prop": "value",
+     "type": "number",
+     "default": "props.min ?? 0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the progress indicator for the determinate variant. Value between <code>min</code> and <code>max</code>."
+    },
+    {
+     "prop": "variant",
+     "type": "'determinate'<br>&#124;&nbsp;'indeterminate'",
+     "default": "'indeterminate'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Use indeterminate when there is no progress value."
+    }
+   ],
+   "classes": [
+    {
+     "key": "circle",
+     "className": "MuiCircularProgress-circle",
+     "description": "Styles applied to the `circle` svg path."
+    },
+    {
+     "key": "circleDisableShrink",
+     "className": "MuiCircularProgress-circleDisableShrink",
+     "description": "Styles applied to the `circle` svg path if `disableShrink={true}`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiCircularProgress-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiCircularProgress-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "determinate",
+     "className": "MuiCircularProgress-determinate",
+     "description": "Styles applied to the root element if `variant=\"determinate\"`."
+    },
+    {
+     "key": "indeterminate",
+     "className": "MuiCircularProgress-indeterminate",
+     "description": "Styles applied to the root element if `variant=\"indeterminate\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiCircularProgress-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "svg",
+     "className": "MuiCircularProgress-svg",
+     "description": "Styles applied to the svg element."
+    },
+    {
+     "key": "track",
+     "className": "MuiCircularProgress-track",
+     "description": "Styles applied to the track slot if `enableTrackSlot={true}`."
+    }
+   ]
+  },
+  {
+   "name": "LinearProgress",
+   "description": "## ARIA\n\nIf the progress bar is describing the loading progress of a particular region of a page,\nyou should use `aria-describedby` to point to the progress bar, and set the `aria-busy`\nattribute to `true` on that region until it has finished loading.",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "100",
+     "required": false,
+     "deprecated": false,
+     "desc": "The maximum value for the progress indicator for the determinate and buffer variants."
+    },
+    {
+     "prop": "min",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The minimum value for the progress indicator for the determinate and buffer variants."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the progress indicator for the determinate and buffer variants. Value between <code>min</code> and <code>max</code>."
+    },
+    {
+     "prop": "valueBuffer",
+     "type": "number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value for the buffer variant. Value between <code>min</code> and <code>max</code>."
+    },
+    {
+     "prop": "variant",
+     "type": "'buffer'<br>&#124;&nbsp;'determinate'<br>&#124;&nbsp;'indeterminate'<br>&#124;&nbsp;'query'",
+     "default": "'indeterminate'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use. Use indeterminate or query when there is no progress value."
+    }
+   ],
+   "classes": [
+    {
+     "key": "bar",
+     "className": "MuiLinearProgress-bar",
+     "description": "Styles applied to the layered bar1 and bar2 elements."
+    },
+    {
+     "key": "bar1",
+     "className": "MuiLinearProgress-bar1",
+     "description": "Styles applied to the bar1 element."
+    },
+    {
+     "key": "bar2",
+     "className": "MuiLinearProgress-bar2",
+     "description": "Styles applied to the bar2 element."
+    },
+    {
+     "key": "buffer",
+     "className": "MuiLinearProgress-buffer",
+     "description": "Styles applied to the root element if `variant=\"buffer\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiLinearProgress-colorPrimary",
+     "description": "Styles applied to the root and bar2 element if `color=\"primary\"`; bar2 if `variant=\"buffer\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiLinearProgress-colorSecondary",
+     "description": "Styles applied to the root and bar2 elements if `color=\"secondary\"`; bar2 if `variant=\"buffer\"`."
+    },
+    {
+     "key": "dashed",
+     "className": "MuiLinearProgress-dashed",
+     "description": "Styles applied to the additional bar element if `variant=\"buffer\"`."
+    },
+    {
+     "key": "determinate",
+     "className": "MuiLinearProgress-determinate",
+     "description": "Styles applied to the root element if `variant=\"determinate\"`."
+    },
+    {
+     "key": "indeterminate",
+     "className": "MuiLinearProgress-indeterminate",
+     "description": "Styles applied to the root element if `variant=\"indeterminate\"`."
+    },
+    {
+     "key": "query",
+     "className": "MuiLinearProgress-query",
+     "description": "Styles applied to the root element if `variant=\"query\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiLinearProgress-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-progress/"
+}

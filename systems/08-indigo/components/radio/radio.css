@@ -1,0 +1,53 @@
+
+.ods-radio { display: inline-flex; align-items: center;
+  gap: var(--component-radio-gap); cursor: pointer;
+  color: var(--component-radio-label-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-radio-label-font-size);
+  letter-spacing: var(--component-radio-label-letter-spacing); }
+.ods-radio > input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ods-radio > .ods-radio-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-radio-size);
+  height: var(--component-radio-size);
+  background: var(--component-radio-bg);
+  border: var(--semantic-border-width-default) solid var(--component-radio-border);
+  /* 모양 옵션과 무관하게 원, 하나만 고를 수 있다는 신호임 */
+  border-radius: 50%;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.ods-radio > .ods-radio-mark::after {
+  content: ""; width: 38%; height: 38%; border-radius: 50%;
+  background: var(--component-radio-dot);
+  transform: scale(0); transition: transform 120ms ease;
+}
+.ods-radio > input:checked + .ods-radio-mark {
+  background: var(--component-radio-bg-checked);
+  border-color: var(--component-radio-border-checked);
+}
+.ods-radio > input:checked + .ods-radio-mark::after { transform: scale(1); }
+/* 비활성 요소 hover 제외. 빼면 hover가 우선 적용되는 문제가 있음 */
+/* hover 없음. 공식 컴포넌트에 hover 유틸리티가 전혀 없음 */
+.ods-radio > input:focus-visible + .ods-radio-mark {
+  outline: 0.125rem solid var(--component-radio-border-focus); outline-offset: 0.125rem; }
+.ods-radio > input:disabled + .ods-radio-mark {
+  background: var(--component-radio-disabled-bg);
+  border-color: var(--component-radio-disabled-fg);
+}
+.ods-radio > input:disabled:checked + .ods-radio-mark::after {
+  background: var(--component-radio-disabled-fg); }
+.ods-radio:has(input:disabled) { color: var(--component-radio-disabled-fg); cursor: not-allowed; }
+.ods-radio-group { display: flex; flex-direction: column;
+  gap: var(--component-radio-group-gap); border: 0; margin: 0; padding: 0; }
+.ods-radio-group > legend { padding: 0; margin-bottom: var(--component-radio-group-gap);
+  color: var(--component-radio-label-fg);
+  font-size: var(--component-radio-label-font-size);
+  letter-spacing: var(--component-radio-label-letter-spacing);
+  font-weight: var(--base-font-weight-medium); }
+.ods-radio > input[aria-invalid="true"] + .ods-radio-mark {
+  border-color: var(--component-radio-border-invalid); }
+.ods-radio:has(input[aria-invalid="true"]) {
+  color: var(--component-radio-label-fg-invalid); }
+.ods-radio-description { display: block; color: var(--component-radio-description-fg); font-size: var(--component-radio-description-font-size);
+ letter-spacing: var(--component-radio-description-letter-spacing); }

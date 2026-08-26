@@ -1,0 +1,36 @@
+import React from 'react';
+import { Divider } from 'antd';
+
+const App: React.FC = () => (
+  <>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+    <Divider>글자</Divider>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+    <Divider titlePlacement="start">왼쪽 글</Divider>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+    <Divider titlePlacement="end">오른쪽 글</Divider>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+    <Divider titlePlacement="start" styles={{ content: { margin: 0 } }}>
+      왼쪽 글 여백 0
+    </Divider>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+    <Divider titlePlacement="end" styles={{ content: { margin: '0 50px' } }}>
+      오른쪽 글 여백 50px
+    </Divider>
+    <p>
+      내용을 채우려고 넣은 예시 글이에요. 여기에 실제 문장이 들어가면 줄 길이와 줄 높이가 어떻게 보이는지 가늠할 수 있어요. 길이를 늘리려고 한 문장을 더 붙여 뒀어요.
+    </p>
+  </>
+);
+
+export default App;

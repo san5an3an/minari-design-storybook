@@ -1,0 +1,329 @@
+{
+ "slug": "paper",
+ "title": "Paper",
+ "group": "Surfaces",
+ "folder": "paper",
+ "description": "The Paper component is a container for displaying content on an elevated surface.",
+ "components": [
+  "Paper"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Paper"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In Material Design, surface components and shadow styles are heavily influenced by their real-world physical counterparts.\n\nMaterial UI implements this concept with the Paper component, a container-like surface that features the [`elevation`](#elevation) prop for pulling box-shadow values from the theme.\n\n:::success\nThe Paper component is ideally suited for designs that follow [Material Design's elevation system](https://m2.material.io/design/environment/elevation.html#elevation-in-material-design), which is meant to replicate how light casts shadows in the physical world.\n\nIf you just need a generic container, you may prefer to use the [Box](/material-ui/react-box/) or [Container](/material-ui/react-container/) components.\n:::"
+    },
+    {
+     "kind": "demo",
+     "name": "SimplePaper",
+     "file": "SimplePaper.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Paper from '@mui/material/Paper';\n\nexport default function SimplePaper() {\n  return (\n    <Box\n      sx={{\n        display: 'flex',\n        flexWrap: 'wrap',\n        '& > :not(style)': {\n          m: 1,\n          width: 128,\n          height: 128,\n        },\n      }}\n    >\n      <Paper elevation={0} />\n      <Paper />\n      <Paper elevation={3} />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Component",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import Paper from '@mui/material/Paper';\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Elevation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `elevation` prop to establish hierarchy through the use of shadows.\nThe Paper component's default elevation level is `1`.\nThe prop accepts values from `0` to `24`.\nThe higher the number, the further away the Paper appears to be from its background.\n\nIn dark mode, increasing the elevation also makes the background color lighter.\nThis is done by applying a semi-transparent gradient with the `background-image` CSS property.\n\n:::warning\nThe aforementioned dark mode behavior can lead to confusion when overriding the Paper component, because changing the `background-color` property won't affect the lighter shading.\nTo override it, you must either use a new background value, or customize the values for both `background-color` and `background-image`.\n:::"
+    },
+    {
+     "kind": "demo",
+     "name": "Elevation",
+     "file": "Elevation.tsx",
+     "code": "import Grid from '@mui/material/Grid';\nimport Paper from '@mui/material/Paper';\nimport Box from '@mui/material/Box';\nimport { createTheme, ThemeProvider, styled } from '@mui/material/styles';\n\nconst Item = styled(Paper)(({ theme }) => ({\n  ...theme.typography.body2,\n  textAlign: 'center',\n  color: theme.palette.text.secondary,\n  height: 60,\n  lineHeight: '60px',\n}));\n\nconst darkTheme = createTheme({ palette: { mode: 'dark' } });\nconst lightTheme = createTheme({ palette: { mode: 'light' } });\n\nexport default function Elevation() {\n  return (\n    <Box sx={{ flexGrow: 1 }}>\n      <Grid container spacing={2}>\n        {[lightTheme, darkTheme].map((theme, index) => (\n          <Grid key={index} size={6}>\n            <ThemeProvider theme={theme}>\n              <Box\n                sx={{\n                  p: 2,\n                  borderRadius: 2,\n                  bgcolor: 'background.default',\n                  display: 'grid',\n                  gridTemplateColumns: { md: '1fr 1fr' },\n                  gap: 2,\n                }}\n              >\n                {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (\n                  <Item key={elevation} elevation={elevation}>\n                    {`elevation=${elevation}`}\n                  </Item>\n                ))}\n              </Box>\n            </ThemeProvider>\n          </Grid>\n        ))}\n      </Grid>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Variants",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Set the `variant` prop to `\"outlined\"` for a flat, outlined Paper with no shadows:"
+    },
+    {
+     "kind": "demo",
+     "name": "Variants",
+     "file": "Variants.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport Paper from '@mui/material/Paper';\nimport { styled } from '@mui/material/styles';\n\nconst DemoPaper = styled(Paper)(({ theme }) => ({\n  width: 120,\n  height: 120,\n  padding: theme.spacing(2),\n  ...theme.typography.body2,\n  textAlign: 'center',\n}));\n\nexport default function Variants() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <DemoPaper variant=\"elevation\">default variant</DemoPaper>\n      <DemoPaper variant=\"outlined\">outlined variant</DemoPaper>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Corners",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Paper component features rounded corners by default.\nAdd the `square` prop for square corners:"
+    },
+    {
+     "kind": "demo",
+     "name": "SquareCorners",
+     "file": "SquareCorners.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport Paper from '@mui/material/Paper';\nimport { styled } from '@mui/material/styles';\n\nconst DemoPaper = styled(Paper)(({ theme }) => ({\n  width: 120,\n  height: 120,\n  padding: theme.spacing(2),\n  ...theme.typography.body2,\n  textAlign: 'center',\n}));\n\nexport default function SquareCorners() {\n  return (\n    <Stack direction=\"row\" spacing={2}>\n      <DemoPaper square={false}>rounded corners</DemoPaper>\n      <DemoPaper square>square corners</DemoPaper>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Anatomy",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The Paper component is composed of a single root `<div>` that wraps around its contents:"
+    },
+    {
+     "kind": "code",
+     "lang": "html",
+     "text": "<div class=\"MuiPaper-root\">\n  <!-- Paper contents -->\n</div>\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Paper",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "Shadow depth, corresponds to <code>dp</code> in the spec. It accepts values between 0 and 24 inclusive."
+    },
+    {
+     "prop": "square",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, rounded corners are disabled."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'elevation'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;string",
+     "default": "'elevation'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "elevation",
+     "className": "MuiPaper-elevation",
+     "description": "Styles applied to the root element if `variant=\"elevation\"`."
+    },
+    {
+     "key": "elevation0",
+     "className": "MuiPaper-elevation0",
+     "description": "Styles applied to the root element if `elevation={0}`."
+    },
+    {
+     "key": "elevation1",
+     "className": "MuiPaper-elevation1",
+     "description": "Styles applied to the root element if `elevation={1}`."
+    },
+    {
+     "key": "elevation10",
+     "className": "MuiPaper-elevation10",
+     "description": "Styles applied to the root element if `elevation={10}`."
+    },
+    {
+     "key": "elevation11",
+     "className": "MuiPaper-elevation11",
+     "description": "Styles applied to the root element if `elevation={11}`."
+    },
+    {
+     "key": "elevation12",
+     "className": "MuiPaper-elevation12",
+     "description": "Styles applied to the root element if `elevation={12}`."
+    },
+    {
+     "key": "elevation13",
+     "className": "MuiPaper-elevation13",
+     "description": "Styles applied to the root element if `elevation={13}`."
+    },
+    {
+     "key": "elevation14",
+     "className": "MuiPaper-elevation14",
+     "description": "Styles applied to the root element if `elevation={14}`."
+    },
+    {
+     "key": "elevation15",
+     "className": "MuiPaper-elevation15",
+     "description": "Styles applied to the root element if `elevation={15}`."
+    },
+    {
+     "key": "elevation16",
+     "className": "MuiPaper-elevation16",
+     "description": "Styles applied to the root element if `elevation={16}`."
+    },
+    {
+     "key": "elevation17",
+     "className": "MuiPaper-elevation17",
+     "description": "Styles applied to the root element if `elevation={17}`."
+    },
+    {
+     "key": "elevation18",
+     "className": "MuiPaper-elevation18",
+     "description": "Styles applied to the root element if `elevation={18}`."
+    },
+    {
+     "key": "elevation19",
+     "className": "MuiPaper-elevation19",
+     "description": "Styles applied to the root element if `elevation={19}`."
+    },
+    {
+     "key": "elevation2",
+     "className": "MuiPaper-elevation2",
+     "description": "Styles applied to the root element if `elevation={2}`."
+    },
+    {
+     "key": "elevation20",
+     "className": "MuiPaper-elevation20",
+     "description": "Styles applied to the root element if `elevation={20}`."
+    },
+    {
+     "key": "elevation21",
+     "className": "MuiPaper-elevation21",
+     "description": "Styles applied to the root element if `elevation={21}`."
+    },
+    {
+     "key": "elevation22",
+     "className": "MuiPaper-elevation22",
+     "description": "Styles applied to the root element if `elevation={22}`."
+    },
+    {
+     "key": "elevation23",
+     "className": "MuiPaper-elevation23",
+     "description": "Styles applied to the root element if `elevation={23}`."
+    },
+    {
+     "key": "elevation24",
+     "className": "MuiPaper-elevation24",
+     "description": "Styles applied to the root element if `elevation={24}`."
+    },
+    {
+     "key": "elevation3",
+     "className": "MuiPaper-elevation3",
+     "description": "Styles applied to the root element if `elevation={3}`."
+    },
+    {
+     "key": "elevation4",
+     "className": "MuiPaper-elevation4",
+     "description": "Styles applied to the root element if `elevation={4}`."
+    },
+    {
+     "key": "elevation5",
+     "className": "MuiPaper-elevation5",
+     "description": "Styles applied to the root element if `elevation={5}`."
+    },
+    {
+     "key": "elevation6",
+     "className": "MuiPaper-elevation6",
+     "description": "Styles applied to the root element if `elevation={6}`."
+    },
+    {
+     "key": "elevation7",
+     "className": "MuiPaper-elevation7",
+     "description": "Styles applied to the root element if `elevation={7}`."
+    },
+    {
+     "key": "elevation8",
+     "className": "MuiPaper-elevation8",
+     "description": "Styles applied to the root element if `elevation={8}`."
+    },
+    {
+     "key": "elevation9",
+     "className": "MuiPaper-elevation9",
+     "description": "Styles applied to the root element if `elevation={9}`."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiPaper-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiPaper-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiPaper-rounded",
+     "description": "Styles applied to the root element unless `square={true}`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-paper/"
+}

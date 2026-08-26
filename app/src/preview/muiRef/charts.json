@@ -1,0 +1,213 @@
+{
+ "slug": "charts",
+ "title": "Charts",
+ "group": "MUI X",
+ "folder": "charts/overview",
+ "description": "A collection of React chart components for data visualization.",
+ "components": [],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# MUI X Charts"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supported features",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Features such as axes and legends are shared across Chart components and are described in their corresponding documents."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "All MUI X Charts",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Planned charts",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "These charts are on our roadmap and are planned for future. If you'd like to see them sooner, give us your upvote — your feedback helps us decide what to build next."
+    }
+   ]
+  },
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Charts - Quickstart"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Installation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Install the Charts package that best suits your needs—Community or Pro:"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Peer dependencies",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "#### Material UI\n\nThe Charts packages have a peer dependency on `@mui/material`.\nIf you're not already using it, install it now:\n\n<codeblock storageKey=\"package-manager\">\n\n```bash npm\nnpm install @mui/material @emotion/react @emotion/styled"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "\n```bash pnpm\npnpm add @mui/material @emotion/react @emotion/styled\n"
+    },
+    {
+     "kind": "prose",
+     "text": "```bash yarn\nyarn add @mui/material @emotion/react @emotion/styled"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "\n</codeblock>\n\n#### React\n\n<!-- #react-peer-version -->\n\n[`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) are also peer dependencies:\n\n```json\n\"peerDependencies\": {\n  \"react\": \"^17.0.0 || ^18.0.0 || ^19.0.0\",\n  \"react-dom\": \"^17.0.0 || ^18.0.0 || ^19.0.0\"\n},\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Usage with D3",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For those using CommonJS, the MUI X Charts provide a vendored package to access D3 libraries.\nYou can import D3 functions from `@mui/x-charts-vendor/d3-scale`."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Rendering Charts",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "MUI X Charts can be rendered as _self-contained_ or _composable_ components.\n[Self-contained components](#self-contained-charts) are simpler to get started with and are recommended for most common use cases.\nMore complex visualization (such as combining Bar and Line Charts on a single plot) requires [custom composition](#composable-charts)."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Self-contained Charts",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "import { BarChart } from '@mui/x-charts/BarChart';\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Self-contained Chart components are imported and rendered as a single React component (such as `<BarChart />` or `<LineChart />`) which contains all of the necessary subcomponents.\n\nThese components require a `series` prop describing the data to render, as well as a numerical value (rendered in pixels) for the `height` prop.\nThe `width` prop is optional; if no value is provided, the Charts expand to fill the available space."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleCharts",
+     "file": "SimpleCharts.tsx",
+     "code": "import { BarChart } from '@mui/x-charts/BarChart';\n\nexport default function SimpleCharts() {\n  return (\n    <BarChart\n      xAxis={[\n        {\n          id: 'barCategories',\n          data: ['bar A', 'bar B', 'bar C'],\n          height: 28,\n        },\n      ]}\n      series={[\n        {\n          data: [2, 5, 3],\n        },\n      ]}\n      height={300}\n    />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Composable Charts",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "More complex use cases require composition of the necessary subcomponents inside of a Chart Container wrapper.\nSubcomponents include:\n\n- Axis components – to define the X and Y axes\n- Plot components – to create Bars, Lines, or any other Chart type\n- Auxiliary components – to add Tooltips, Highlights, and more\n- Utilities – such as classes and types\n\nSee the [Charts composition documentation](/x/react-charts/composition/) for complete details.\n\nThe demo below shows how to use composition to create a custom Chart that combines a Bar and a Line Chart on a single plot:"
+    },
+    {
+     "kind": "demo",
+     "name": "Combining",
+     "file": "Combining.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport { BarPlot } from '@mui/x-charts/BarChart';\nimport { LineHighlightPlot, LinePlot } from '@mui/x-charts/LineChart';\nimport { ChartsContainer } from '@mui/x-charts/ChartsContainer';\nimport { AllSeriesType } from '@mui/x-charts/models';\nimport { ChartsXAxis } from '@mui/x-charts/ChartsXAxis';\nimport { ChartsYAxis } from '@mui/x-charts/ChartsYAxis';\nimport { ChartsTooltip } from '@mui/x-charts/ChartsTooltip';\nimport { ChartsAxisHighlight } from '@mui/x-charts/ChartsAxisHighlight';\nimport alphabetStock from '../dataset/GOOGL.json';\n\nconst series = [\n  {\n    type: 'bar',\n    yAxisId: 'volume',\n    label: 'Volume',\n    color: 'lightgray',\n    data: alphabetStock.map((day) => day.volume),\n    highlightScope: { highlight: 'item' },\n  },\n  {\n    type: 'line',\n    yAxisId: 'price',\n    color: 'red',\n    label: 'Low',\n    data: alphabetStock.map((day) => day.low),\n    highlightScope: { highlight: 'item' },\n  },\n  {\n    type: 'line',\n    yAxisId: 'price',\n    color: 'green',\n    label: 'High',\n    data: alphabetStock.map((day) => day.high),\n  },\n] as AllSeriesType[];\n\nexport default function Combining() {\n  return (\n    <Box sx={{ width: '100%', height: 400 }}>\n      <ChartsContainer\n        series={series}\n        xAxis={[\n          {\n            id: 'date',\n            data: alphabetStock.map((day) => new Date(day.date)),\n            scaleType: 'band',\n            valueFormatter: (value) => value.toLocaleDateString(),\n            height: 48,\n          },\n        ]}\n        yAxis={[\n          { id: 'price', scaleType: 'linear', position: 'left', width: 50 },\n          {\n            id: 'volume',\n            scaleType: 'linear',\n            position: 'right',\n            valueFormatter: (value) => `${(value / 1000000).toLocaleString()}M`,\n            width: 55,\n          },\n        ]}\n      >\n        <ChartsAxisHighlight x=\"line\" />\n        <BarPlot />\n        <LinePlot />\n\n        <LineHighlightPlot />\n        <ChartsXAxis\n          label=\"Date\"\n          axisId=\"date\"\n          tickInterval={(value, index) => {\n            return index % 30 === 0;\n          }}\n          tickLabelStyle={{\n            fontSize: 10,\n          }}\n        />\n        <ChartsYAxis\n          label=\"Alphabet Stock Price (USD)\"\n          axisId=\"price\"\n          tickLabelStyle={{ fontSize: 10 }}\n        />\n        <ChartsYAxis\n          label=\"Volume\"\n          axisId=\"volume\"\n          tickLabelStyle={{ fontSize: 10 }}\n        />\n        <ChartsTooltip />\n      </ChartsContainer>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Chart layouts",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The layout of a Chart is defined by two main spaces: the plot area, and the outer margins.\n\nThe `width` and `height` props define the dimensions of the SVG which is the root of the chart.\nWithin this SVG, the plot area (or drawing area) serves as the canvas for data visualization, where the lines, bars, or other visual elements are rendered.\nThe size of the plot area is determined by the `margin = {top, bottom, left, right}` object which defines its outer margins inside the SVG.\nThe outer margin space is where information like axes, titles, and legends are displayed.\n\nSee the [Styling documentation](/x/react-charts/styling/#placement) for complete details."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Server-side rendering",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Charts support server-side rendering under two conditions:\n\n1. `width` and `height` props must be provided – it's not possible to compute the SVG dimensions on the server.\n2. Animations must be disabled with the `skipAnimation` prop – otherwise the animation will be in an empty state on first render."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Axis management",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "MUI X Charts take a flexible approach to axis management, with support for multiple axes and any combination of scales and ranges.\nSee the [Axis documentation](/x/react-charts/axis/) for complete details."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "TypeScript",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Theme augmentation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To benefit from [CSS overrides](/material-ui/customization/theme-components/#theme-style-overrides) and [default prop customization](/material-ui/customization/theme-components/#theme-default-props) with the theme, TypeScript users must import the following types.\nThese types use module augmentation to extend the default theme structure."
+    },
+    {
+     "kind": "code",
+     "lang": "tsx",
+     "text": "// Pro users: add `-pro` suffix to package name\nimport type {} from '@mui/x-charts/themeAugmentation';\n\nconst theme = createTheme({\n  components: {\n    MuiChartsAxis: {\n      styleOverrides: {\n        tick: {\n          stroke: '#006BD6',\n        },\n      },\n    },\n  },\n});\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Using this documentation",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Feature availability",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": ":::info\nMUI X is **open core**—Community components are MIT-licensed, while more advanced features require a Pro or Premium commercial license.\nSee [Licensing](/x/introduction/licensing/) for details.\n:::\n\nThroughout the documentation, Pro- and Premium-only features are denoted with the [<span class=\"plan-pro\"></span>](/x/introduction/licensing/#pro-plan 'Pro plan') and [<span class=\"plan-premium\"></span>](/x/introduction/licensing/#premium-plan 'Premium plan') icons, respectively.\n\nAll documentation for Community components and features also applies to their Pro and Premium counterparts."
+    }
+   ]
+  }
+ ],
+ "api": [],
+ "docHref": "https://mui.com/x/react-charts/"
+}

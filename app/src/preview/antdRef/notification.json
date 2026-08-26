@@ -1,0 +1,972 @@
+{
+ "slug": "notification",
+ "title": "Notification",
+ "description": "Prompt notification message globally.",
+ "group": "Feedback",
+ "whenToUse": "To display a notification message at any of the four corners of the viewport. Typically it can be used in the following cases:\n\n- A notification with complex content.\n- A notification providing a feedback based on the user interaction. Or it may show some details about upcoming steps the user may have to follow.\n- A notification that is pushed by the application.",
+ "examples": [
+  {
+   "name": "Hooks usage (recommended)",
+   "description": "Use `notification.useNotification` to get `contextHolder` with context accessible issue. Please note that, we recommend to use top level registration instead of `notification` static method, because static method cannot consume context, and ConfigProvider data will not work.",
+   "code": "import React, { useMemo } from 'react';\nimport {\n  RadiusBottomleftOutlined,\n  RadiusBottomrightOutlined,\n  RadiusUpleftOutlined,\n  RadiusUprightOutlined,\n} from '@ant-design/icons';\nimport { Button, Divider, notification, Space } from 'antd';\nimport type { NotificationArgsProps } from 'antd';\n\ntype NotificationPlacement = NotificationArgsProps['placement'];\n\nconst Context = React.createContext({ name: 'Default' });\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = (placement: NotificationPlacement) => {\n    api.info({\n      title: `Notification ${placement}`,\n      description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,\n      placement,\n    });\n  };\n\n  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);\n\n  return (\n    <Context.Provider value={contextValue}>\n      {contextHolder}\n      <Space>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('topLeft')}\n          icon={<RadiusUpleftOutlined />}\n        >\n          topLeft\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('topRight')}\n          icon={<RadiusUprightOutlined />}\n        >\n          topRight\n        </Button>\n      </Space>\n      <Divider />\n      <Space>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('bottomLeft')}\n          icon={<RadiusBottomleftOutlined />}\n        >\n          bottomLeft\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('bottomRight')}\n          icon={<RadiusBottomrightOutlined />}\n        >\n          bottomRight\n        </Button>\n      </Space>\n    </Context.Provider>\n  );\n};\n\nexport default App;",
+   "demoId": "hooks"
+  },
+  {
+   "name": "Duration after which the notification box is closed",
+   "description": "`Duration` can be used to specify how long the notification stays open. After the duration time elapses, the notification closes automatically. If not specified, default value is 4.5 seconds. If you set the value to 0, the notification box will never close automatically.",
+   "code": "import React from 'react';\nimport { Button, notification } from 'antd';\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = () => {\n    api.open({\n      title: 'Notification Title',\n      description:\n        'I will never close automatically. This is a purposely very very long description that has many many characters and words.',\n      duration: 0,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Button type=\"primary\" onClick={openNotification}>\n        Open the notification box\n      </Button>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "duration"
+  },
+  {
+   "name": "Notification with icon",
+   "description": "A notification box with a icon at the left side.",
+   "code": "import React from 'react';\nimport { Button, Flex, notification } from 'antd';\n\ntype NotificationType = 'success' | 'info' | 'warning' | 'error';\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotificationWithIcon = (type: NotificationType) => {\n    api[type]({\n      title: 'Notification Title',\n      description:\n        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Flex gap={8} wrap=\"wrap\">\n        <Button\n          color=\"green\"\n          variant=\"outlined\"\n          onClick={() => openNotificationWithIcon('success')}\n        >\n          Success\n        </Button>\n        <Button color=\"blue\" variant=\"outlined\" onClick={() => openNotificationWithIcon('info')}>\n          Info\n        </Button>\n        <Button\n          color=\"yellow\"\n          variant=\"outlined\"\n          onClick={() => openNotificationWithIcon('warning')}\n        >\n          Warning\n        </Button>\n        <Button color=\"red\" variant=\"outlined\" onClick={() => openNotificationWithIcon('error')}>\n          Error\n        </Button>\n      </Flex>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "with-icon"
+  },
+  {
+   "name": "Custom close button",
+   "description": "To customize the style or font of the close button.",
+   "code": "import React from 'react';\nimport { Button, notification, Space } from 'antd';\n\nconst close = () => {\n  console.log(\n    'Notification was closed. Either the close button was clicked or duration time elapsed.',\n  );\n};\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = () => {\n    const key = `open${Date.now()}`;\n    const btn = (\n      <Space>\n        <Button type=\"link\" size=\"small\" onClick={() => api.destroy()}>\n          Destroy All\n        </Button>\n        <Button type=\"primary\" size=\"small\" onClick={() => api.destroy(key)}>\n          Confirm\n        </Button>\n      </Space>\n    );\n    api.open({\n      title: 'Notification Title',\n      description:\n        'A function will be be called after the notification is closed (automatically after the \"duration\" time of manually).',\n      btn,\n      key,\n      onClose: close,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Button type=\"primary\" onClick={openNotification}>\n        Open the notification box\n      </Button>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "with-btn"
+  },
+  {
+   "name": "Customized Icon",
+   "description": "The icon can be customized to any react node.",
+   "code": "import React from 'react';\nimport { SmileOutlined } from '@ant-design/icons';\nimport { Button, notification } from 'antd';\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = () => {\n    api.open({\n      title: 'Notification Title',\n      description:\n        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',\n      icon: <SmileOutlined style={{ color: '#108ee9' }} />,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Button type=\"primary\" onClick={openNotification}>\n        Open the notification box\n      </Button>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "custom-icon"
+  },
+  {
+   "name": "Placement",
+   "description": "A notification box can appear from the `top` `bottom` `topLeft` `topRight` `bottomLeft` or `bottomRight` of the viewport via `placement`.",
+   "code": "import React from 'react';\nimport {\n  BorderBottomOutlined,\n  BorderTopOutlined,\n  RadiusBottomleftOutlined,\n  RadiusBottomrightOutlined,\n  RadiusUpleftOutlined,\n  RadiusUprightOutlined,\n} from '@ant-design/icons';\nimport { Button, Divider, notification, Space } from 'antd';\nimport type { NotificationArgsProps } from 'antd';\n\ntype NotificationPlacement = NotificationArgsProps['placement'];\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = (placement: NotificationPlacement) => {\n    api.info({\n      title: `Notification ${placement}`,\n      description:\n        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',\n      placement,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Space>\n        <Button type=\"primary\" onClick={() => openNotification('top')} icon={<BorderTopOutlined />}>\n          top\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('bottom')}\n          icon={<BorderBottomOutlined />}\n        >\n          bottom\n        </Button>\n      </Space>\n      <Divider />\n      <Space>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('topLeft')}\n          icon={<RadiusUpleftOutlined />}\n        >\n          topLeft\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('topRight')}\n          icon={<RadiusUprightOutlined />}\n        >\n          topRight\n        </Button>\n      </Space>\n      <Divider />\n      <Space>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('bottomLeft')}\n          icon={<RadiusBottomleftOutlined />}\n        >\n          bottomLeft\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => openNotification('bottomRight')}\n          icon={<RadiusBottomrightOutlined />}\n        >\n          bottomRight\n        </Button>\n      </Space>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Update Message Content",
+   "description": "Update content with unique key.",
+   "code": "import React from 'react';\nimport { Button, notification } from 'antd';\n\nconst key = 'updatable';\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n  const openNotification = () => {\n    api.open({\n      key,\n      title: 'Notification Title',\n      description: 'description.',\n    });\n\n    setTimeout(() => {\n      api.open({\n        key,\n        title: 'New Title',\n        description: 'New description.',\n      });\n    }, 1000);\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Button type=\"primary\" onClick={openNotification}>\n        Open the notification box\n      </Button>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "update"
+  },
+  {
+   "name": "Stack",
+   "description": "Stack configuration, enabled by default. Notifications will be stacked when the amount is over `threshold`. Up to 3 notifications are shown in the collapsed stack.",
+   "code": "import React, { useMemo } from 'react';\nimport { Button, Divider, InputNumber, notification, Space, Switch } from 'antd';\n\nconst Context = React.createContext({ name: 'Default' });\n\nconst App: React.FC = () => {\n  const [enabled, setEnabled] = React.useState(true);\n  const [threshold, setThreshold] = React.useState(3);\n  const [api, contextHolder] = notification.useNotification({\n    stack: enabled\n      ? {\n          threshold,\n        }\n      : false,\n  });\n\n  const openNotification = () => {\n    api.open({\n      title: 'Notification Title',\n      description: `${Array.from(\n        { length: Math.round(Math.random() * 5) + 1 },\n        () => 'This is the content of the notification.',\n      ).join('\\n')}`,\n      duration: false,\n    });\n  };\n\n  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);\n\n  return (\n    <Context.Provider value={contextValue}>\n      {contextHolder}\n      <div>\n        <Space size=\"large\">\n          <Space style={{ width: '100%' }}>\n            <span>Enabled: </span>\n            <Switch checked={enabled} onChange={(v) => setEnabled(v)} />\n          </Space>\n          <Space style={{ width: '100%' }}>\n            <span>Threshold: </span>\n            <InputNumber\n              disabled={!enabled}\n              value={threshold}\n              step={1}\n              min={1}\n              max={10}\n              onChange={(v) => setThreshold(v || 0)}\n            />\n          </Space>\n        </Space>\n        <Divider />\n        <Button type=\"primary\" onClick={openNotification}>\n          Open the notification box\n        </Button>\n      </div>\n    </Context.Provider>\n  );\n};\n\nexport default App;",
+   "demoId": "stack"
+  },
+  {
+   "name": "Show with progress",
+   "description": "Show progress bar for auto-closing notification.",
+   "code": "import React from 'react';\nimport { Button, notification, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = (pauseOnHover: boolean) => () => {\n    api.open({\n      title: 'Notification Title',\n      description:\n        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',\n      showProgress: true,\n      pauseOnHover,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Space>\n        <Button type=\"primary\" onClick={openNotification(true)}>\n          Pause on hover\n        </Button>\n        <Button type=\"primary\" onClick={openNotification(false)}>\n          Don&apos;t pause on hover\n        </Button>\n      </Space>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "show-with-progress"
+  },
+  {
+   "name": "Static Method (deprecated)",
+   "description": "Static methods cannot consume Context provided by `ConfigProvider`. When enable `layer`, they may also cause style errors. Please use hooks version or `App` provided instance first.",
+   "code": "import React from 'react';\nimport { Button, notification } from 'antd';\n\nconst openNotification = () => {\n  notification.open({\n    title: 'Notification Title',\n    description:\n      'This is the content of the notification. This is the content of the notification. This is the content of the notification.',\n    onClick: () => {\n      console.log('Notification Clicked!');\n    },\n  });\n};\nconst App: React.FC = () => (\n  <Button type=\"primary\" onClick={openNotification}>\n    Open the notification box\n  </Button>\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Customize progress bar color",
+   "description": "Customize the progress bar color by configuring the component token.",
+   "code": "import React from 'react';\nimport { Button, ConfigProvider, notification } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst COLOR_BG = 'linear-gradient(135deg,#6253e1, #04befe)';\n\nconst useStyle = createStyles(({ cssVar, prefixCls, css }) => ({\n  linearGradientButton: css`\n    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {\n      > span {\n        position: relative;\n      }\n\n      &::before {\n        content: '';\n        background: ${COLOR_BG};\n        position: absolute;\n        inset: -1px;\n        opacity: 1;\n        transition: all ${cssVar.motionDurationSlow};\n        border-radius: inherit;\n      }\n\n      &:hover::before {\n        opacity: 0;\n      }\n    }\n  `,\n}));\n\nconst App: React.FC = () => {\n  const { styles } = useStyle();\n  const [api, contextHolder] = notification.useNotification();\n\n  const openNotification = () => {\n    api.open({\n      title: 'Customize progress bar color',\n      description: 'You can use component token to customize the progress bar color',\n      showProgress: true,\n      duration: 20,\n    });\n  };\n\n  return (\n    <ConfigProvider\n      button={{\n        className: styles.linearGradientButton,\n      }}\n      theme={{\n        components: {\n          Notification: {\n            progressBg: COLOR_BG,\n          },\n        },\n      }}\n    >\n      {contextHolder}\n      <Button type=\"primary\" onClick={openNotification}>\n        Show custom progress color\n      </Button>\n    </ConfigProvider>\n  );\n};\n\nexport default App;",
+   "demoId": "progress-color"
+  },
+  {
+   "name": "Custom semantic styles",
+   "description": "You can customize the semantic dom style of Notification with `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Button, notification, Space } from 'antd';\nimport type { GetProp, NotificationArgsProps } from 'antd';\n\nconst defaultStyles: GetProp<NotificationArgsProps, 'styles', 'Return'> = {\n  root: {\n    backgroundColor: '#f6ffed',\n    border: '2px solid #95de64',\n    borderRadius: 16,\n    boxShadow: '4px 4px 0 #d9f7be',\n  },\n  icon: {\n    color: '#237804',\n  },\n  title: {\n    color: '#237804',\n    fontWeight: 600,\n  },\n  description: {\n    color: '#3f6600',\n  },\n};\n\nconst styleFn: NotificationArgsProps['styles'] = ({\n  props,\n}): GetProp<NotificationArgsProps, 'styles', 'Return'> => {\n  if (props.type === 'error') {\n    return {\n      ...defaultStyles,\n      root: {\n        ...defaultStyles.root,\n        backgroundColor: '#fff2f0',\n        borderColor: '#ffccc7',\n        boxShadow: '4px 4px 0 #ffccc7',\n      },\n      icon: {\n        color: '#cf1322',\n      },\n      title: {\n        color: '#cf1322',\n      },\n      description: {\n        color: '#5c0011',\n      },\n    };\n  }\n  return defaultStyles;\n};\n\nconst App: React.FC = () => {\n  const [api, contextHolder] = notification.useNotification();\n\n  const sharedProps: NotificationArgsProps = {\n    title: 'Notification Title',\n    description: 'This is a notification description.',\n    duration: false,\n  };\n\n  const openDefault = () => {\n    api.info({\n      ...sharedProps,\n      styles: defaultStyles,\n    });\n  };\n\n  const openError = () => {\n    api.error({\n      ...sharedProps,\n      type: 'error',\n      styles: styleFn,\n    });\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <Space>\n        <Button type=\"primary\" onClick={openDefault}>\n          Default Notification\n        </Button>\n        <Button onClick={openError}>Error Notification</Button>\n      </Space>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "actions",
+     "Customized button group",
+     "ReactNode",
+     "-",
+     "5.24.0",
+     "×"
+    ],
+    [
+     "~~btn~~",
+     "Customized close button group, please use `actions` instead",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "className",
+     "Customized CSS class",
+     "string",
+     "-",
+     "-",
+     "5.7.0"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "closable",
+     "Whether to show the close button",
+     "boolean | ClosableType",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "true",
+     "5.7.0: close button will be hidden when setting to null or false",
+     "5.14.0"
+    ],
+    [
+     "description",
+     "The content of notification box (required)",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "duration",
+     "Time in seconds before Notification is closed. When set to `0` or `false`, it will never be closed automatically",
+     "number | false",
+     "4.5",
+     "-",
+     "×"
+    ],
+    [
+     "showProgress",
+     "Show progress bar for auto-closing notification",
+     "boolean",
+     "—",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "pauseOnHover",
+     "keep the timer running or not on hover",
+     "boolean",
+     "true",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "icon",
+     "Customized icon",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "key",
+     "The unique identifier of the Notification",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "title",
+     "The title of notification box",
+     "ReactNode",
+     "-",
+     "6.0.0",
+     "×"
+    ],
+    [
+     "~~message~~",
+     "The title of notification box (deprecated), please use `title` instead",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "placement",
+     "Position of Notification, can be one of `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+     "string",
+     "topRight",
+     "-",
+     "×"
+    ],
+    [
+     "role",
+     "The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention.",
+     "alert | status",
+     "alert",
+     "5.6.0",
+     "×"
+    ],
+    [
+     "style",
+     "Customized inline style",
+     "CSSProperties",
+     "-",
+     "-",
+     "5.7.0"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "onClick",
+     "Specify a function that will be called when the notification is clicked",
+     "function",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "onClose",
+     "Trigger when notification closed",
+     "function",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "props",
+     "An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960.",
+     "Object",
+     "-",
+     "-",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "bottom",
+     "Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels)",
+     "number",
+     "24",
+     "—",
+     "×"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "true",
+     "5.7.0: close button will be hidden when setting to null or false",
+     "5.14.0"
+    ],
+    [
+     "getContainer",
+     "Return the mount node for Notification",
+     "() => HTMLNode",
+     "() => document.body",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "Position of Notification, can be one of `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+     "string",
+     "topRight",
+     "—",
+     "×"
+    ],
+    [
+     "showProgress",
+     "Show progress bar for auto-closing notification",
+     "boolean",
+     "—",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "pauseOnHover",
+     "keep the timer running or not on hover",
+     "boolean",
+     "true",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "rtl",
+     "Whether to enable RTL mode",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "stack",
+     "Notifications will be stacked when amount is over threshold",
+     "boolean | `{ threshold: number }`",
+     "{ threshold: 3 }",
+     "5.10.0",
+     "×"
+    ],
+    [
+     "top",
+     "Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels)",
+     "number",
+     "24",
+     "—",
+     "×"
+    ],
+    [
+     "maxCount",
+     "Max Notification show, drop oldest if exceed limit",
+     "number",
+     "-",
+     "4.17.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "undefined",
+     "-"
+    ],
+    [
+     "onClose",
+     "Trigger when notification close",
+     "Function",
+     "undefined",
+     "-"
+    ]
+   ],
+   "name": "ClosableType"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "bottom",
+     "Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels)",
+     "number",
+     "24",
+     "—"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "true",
+     "5.7.0: close button will be hidden when setting to null or false"
+    ],
+    [
+     "duration",
+     "Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically",
+     "number",
+     "4.5",
+     "—"
+    ],
+    [
+     "getContainer",
+     "Return the mount node for Notification, but still display at fullScreen",
+     "() => HTMLNode",
+     "() => document.body",
+     "—"
+    ],
+    [
+     "placement",
+     "Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight`",
+     "string",
+     "topRight",
+     "—"
+    ],
+    [
+     "showProgress",
+     "Show progress bar for auto-closing notification",
+     "boolean",
+     "—",
+     "5.18.0"
+    ],
+    [
+     "pauseOnHover",
+     "keep the timer running or not on hover",
+     "boolean",
+     "true",
+     "5.18.0"
+    ],
+    [
+     "rtl",
+     "Whether to enable RTL mode",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "top",
+     "Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels)",
+     "number",
+     "24",
+     "—"
+    ],
+    [
+     "maxCount",
+     "Max Notification show, drop oldest if exceed limit",
+     "number",
+     "-",
+     "4.17.0"
+    ]
+   ],
+   "name": "Global configuration"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "actions",
+    "Customized button group",
+    "ReactNode",
+    "-",
+    "5.24.0",
+    "×"
+   ],
+   [
+    "~~btn~~",
+    "Customized close button group, please use `actions` instead",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "className",
+    "Customized CSS class",
+    "string",
+    "-",
+    "-",
+    "5.7.0"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "closable",
+    "Whether to show the close button",
+    "boolean | ClosableType",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "closeIcon",
+    "Custom close icon",
+    "ReactNode",
+    "true",
+    "5.7.0: close button will be hidden when setting to null or false",
+    "5.14.0"
+   ],
+   [
+    "description",
+    "The content of notification box (required)",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "duration",
+    "Time in seconds before Notification is closed. When set to `0` or `false`, it will never be closed automatically",
+    "number | false",
+    "4.5",
+    "-",
+    "×"
+   ],
+   [
+    "showProgress",
+    "Show progress bar for auto-closing notification",
+    "boolean",
+    "—",
+    "5.18.0",
+    "×"
+   ],
+   [
+    "pauseOnHover",
+    "keep the timer running or not on hover",
+    "boolean",
+    "true",
+    "5.18.0",
+    "×"
+   ],
+   [
+    "icon",
+    "Customized icon",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "key",
+    "The unique identifier of the Notification",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "title",
+    "The title of notification box",
+    "ReactNode",
+    "-",
+    "6.0.0",
+    "×"
+   ],
+   [
+    "~~message~~",
+    "The title of notification box (deprecated), please use `title` instead",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "placement",
+    "Position of Notification, can be one of `top` | `topLeft` | `topRight` | `bottom` | `bottomLeft` | `bottomRight`",
+    "string",
+    "topRight",
+    "-",
+    "×"
+   ],
+   [
+    "role",
+    "The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention.",
+    "alert | status",
+    "alert",
+    "5.6.0",
+    "×"
+   ],
+   [
+    "style",
+    "Customized inline style",
+    "CSSProperties",
+    "-",
+    "-",
+    "5.7.0"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "onClick",
+    "Specify a function that will be called when the notification is clicked",
+    "function",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "onClose",
+    "Trigger when notification closed",
+    "function",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "props",
+    "An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960.",
+    "Object",
+    "-",
+    "-",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "list",
+    "mark": "semantic-mark-list",
+    "description": "Notification list root element, set positioning, z-index, width, scroll area and placement styles"
+   },
+   {
+    "name": "listContent",
+    "mark": "semantic-mark-listContent",
+    "description": "Notification list content element, set notice layout, gap and height transition styles"
+   },
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Notice root element, set background color, border radius, shadow, padding and animation styles"
+   },
+   {
+    "name": "wrapper",
+    "mark": "semantic-mark-wrapper",
+    "description": "Wrapper element for icon and content with content layout styles"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element, set absolute positioning, font size, line height and status color styles"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "Content section element that contains title and description"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element, set color, font size, line height and margin styles"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "Description element, set font size, color and margin styles"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "Actions element, set float right, top margin and action button layout styles"
+   },
+   {
+    "name": "close",
+    "mark": "semantic-mark-close",
+    "description": "Close button element, set position, size and interaction styles"
+   },
+   {
+    "name": "progress",
+    "mark": "semantic-mark-progress",
+    "description": "Progress element, set progress styles for auto-closing notifications"
+   }
+  ],
+  "dom": "<div class=\"ant-notification ant-notification-list ant-notification-topRight css-var-test-id ant-notification-css-var semantic-mark-list\" style=\"position: relative; inset: auto; width: 432px; max-width: 100%; height: auto; padding: 24px; transform: none;\">\n        <div class=\"ant-notification-list-content ant-notification-list-content-increase semantic-mark-listContent\" style=\"height: 0px; --top-notificiation-height: 0px; --top-notificiation-width: 0px;\">\n          <div class=\"ant-notification-notice ant-notification-notice-success semantic-mark-root ant-notification-notice-closable\" data-notification-index=\"1\" role=\"alert\" style=\"--notification-index: 1; --notification-y: 0px;\">\n            <div class=\"ant-notification-notice-wrapper semantic-mark-wrapper\">\n              <div class=\"ant-notification-notice-icon semantic-mark-icon ant-notification-notice-icon-success\">\n                <span aria-label=\"check-circle\" class=\"anticon anticon-check-circle\" role=\"img\">\n                  <svg aria-hidden=\"true\" data-icon=\"check-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                    <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm193.5 301.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z\"></path>\n                  </svg>\n                </span>\n              </div>\n              <div class=\"ant-notification-notice-section semantic-mark-section\">\n                <div class=\"ant-notification-notice-title semantic-mark-title\">\n                  Hello World!\n                </div>\n                <div class=\"ant-notification-notice-description semantic-mark-description\">\n                  Hello World?\n                </div>\n              </div>\n            </div>\n            <div class=\"ant-notification-notice-actions semantic-mark-actions\">\n              <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm\" type=\"button\">\n                <span>\n                  My Button\n                </span>\n              </button>\n            </div>\n            <button aria-label=\"Close\" class=\"ant-notification-notice-close semantic-mark-close\">\n              <span aria-label=\"close\" class=\"anticon anticon-close ant-notification-notice-close-icon\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                </svg>\n              </span>\n            </button>\n          </div>\n          <div class=\"ant-notification-notice ant-notification-notice-info semantic-mark-root ant-notification-notice-closable\" data-notification-index=\"0\" role=\"alert\" style=\"--notification-index: 0; --notification-y: 0px;\">\n            <div class=\"ant-notification-notice-wrapper semantic-mark-wrapper\">\n              <div class=\"ant-notification-notice-icon semantic-mark-icon ant-notification-notice-icon-info\">\n                <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                  <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                    <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm32 664c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V456c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v272zm-32-344a48.01 48.01 0 010-96 48.01 48.01 0 010 96z\"></path>\n                  </svg>\n                </span>\n              </div>\n              <div class=\"ant-notification-notice-section semantic-mark-section\">\n                <div class=\"ant-notification-notice-title semantic-mark-title\">\n                  Welcome back!\n                </div>\n                <div class=\"ant-notification-notice-description semantic-mark-description\">\n                  This is another notification.\n                </div>\n              </div>\n            </div>\n            <button aria-label=\"Close\" class=\"ant-notification-notice-close semantic-mark-close\">\n              <span aria-label=\"close\" class=\"anticon anticon-close ant-notification-notice-close-icon\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                </svg>\n              </span>\n            </button>\n            <progress class=\"ant-notification-notice-progress semantic-mark-progress\" max=\"100\" value=\"100\">\n          </progress></div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorErrorBg",
+     "Background color of error notification container",
+     "string",
+     "—"
+    ],
+    [
+     "colorInfoBg",
+     "Background color of info notification container",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccessBg",
+     "Background color of success notification container",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBg",
+     "Background color of warning notification container",
+     "string",
+     "—"
+    ],
+    [
+     "progressBg",
+     "Background color of Notification progress bar",
+     "string",
+     "linear-gradient(90deg, #69b1ff, #1677ff)"
+    ],
+    [
+     "width",
+     "Width of Notification",
+     "string | number",
+     "384"
+    ],
+    [
+     "zIndexPopup",
+     "z-index of Notification",
+     "number",
+     "2050"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "boxShadow",
+     "Control the box shadow style of an element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextActive",
+     "Control the background color of text in active state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorInfo",
+     "Used to represent the operation information of the Token sequence, such as Alert, Tag, Progress, and other components use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccess",
+     "Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "margin",
+     "Control the margin of an element, with a medium size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginLG",
+     "Control the margin of an element, with a large size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginSM",
+     "Control the margin of an element, with a medium-small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXL",
+     "Control the margin of an element, with the largest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOut",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingContentHorizontalLG",
+     "Control the horizontal padding of content element, suitable for large screen devices.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingMD",
+     "Control the medium padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}
