@@ -1,0 +1,1432 @@
+{
+ "slug": "cascader",
+ "title": "Cascader",
+ "description": "Cascade selection box.",
+ "group": "Data Entry",
+ "whenToUse": "- When you need to select from a set of associated data set. Such as province/city/district, company level, things classification.\n- When selecting from a large data set, with multi-stage classifications separated for easy selection.\n- Chooses cascade items in one float layer for better user experience.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Cascade selection box for selecting province/city/district.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\nimport type { HTMLAriaDataAttributes } from 'antd/es/_util/aria-data-attrs';\n\ntype Option = {\n  value: string;\n  label: string;\n  children?: Option[];\n} & HTMLAriaDataAttributes;\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    'aria-label': 'Zhejiang',\n    'data-title': 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        'aria-label': 'Hangzhou',\n        'data-title': 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n            'aria-label': 'West Lake',\n            'data-title': 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    'aria-label': 'Jiangsu',\n    'data-title': 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        'aria-label': 'Nanjing',\n        'data-title': 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n            'aria-label': 'Zhong Hua Men',\n            'data-title': 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <Cascader options={options} onChange={onChange} placeholder=\"Please select\" />\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Default value",
+   "description": "Specifies default value by an array.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <Cascader defaultValue={['zhejiang', 'hangzhou', 'xihu']} options={options} onChange={onChange} />\n);\n\nexport default App;",
+   "demoId": "default-value"
+  },
+  {
+   "name": "Custom trigger",
+   "description": "Separate trigger button and result.",
+   "code": "import React, { useState } from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [text, setText] = useState('Unselect');\n\n  const onChange: CascaderProps<Option>['onChange'] = (_, selectedOptions) => {\n    setText(selectedOptions.map((o) => o.label).join(', '));\n  };\n\n  return (\n    <span>\n      {text}\n      &nbsp;\n      <Cascader options={options} onChange={onChange}>\n        <a>Change city</a>\n      </Cascader>\n    </span>\n  );\n};\n\nexport default App;",
+   "demoId": "custom-trigger"
+  },
+  {
+   "name": "Hover",
+   "description": "Hover to expand sub menu, click to select option.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\n// Just show the latest item.\nconst displayRender = (labels: string[]) => labels[labels.length - 1];\n\nconst App: React.FC = () => (\n  <Cascader\n    options={options}\n    expandTrigger=\"hover\"\n    displayRender={displayRender}\n    onChange={onChange}\n  />\n);\n\nexport default App;",
+   "demoId": "hover"
+  },
+  {
+   "name": "Disabled option",
+   "description": "Disable option by specifying the `disabled` property in `options`.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  disabled?: boolean;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    disabled: true,\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => <Cascader options={options} onChange={onChange} />;\n\nexport default App;",
+   "demoId": "disabled-option"
+  },
+  {
+   "name": "Change on select",
+   "description": "Allows the selection of only parent options.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hanzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => <Cascader options={options} onChange={onChange} changeOnSelect />;\n\nexport default App;",
+   "demoId": "change-on-select"
+  },
+  {
+   "name": "Multiple",
+   "description": "Select multiple options. Disable the `checkbox` by adding the `disableCheckbox` property and selecting a specific item. The style of the disable can be modified by the className.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string | number;\n  label: string;\n  children?: Option[];\n  disableCheckbox?: boolean;\n}\n\nconst options: Option[] = [\n  {\n    label: 'Light',\n    value: 'light',\n    children: Array.from({ length: 20 }).map((_, index) => ({\n      label: `Number ${index}`,\n      value: index,\n    })),\n  },\n  {\n    label: 'Bamboo',\n    value: 'bamboo',\n    children: [\n      {\n        label: 'Little',\n        value: 'little',\n        children: [\n          {\n            label: 'Toy Fish',\n            value: 'fish',\n            disableCheckbox: true,\n          },\n          {\n            label: 'Toy Cards',\n            value: 'cards',\n          },\n          {\n            label: 'Toy Bird',\n            value: 'bird',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option, 'value', true>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <Cascader\n    style={{ width: '100%' }}\n    options={options}\n    onChange={onChange}\n    multiple\n    maxTagCount=\"responsive\"\n  />\n);\n\nexport default App;",
+   "demoId": "multiple"
+  },
+  {
+   "name": "ShowCheckedStrategy",
+   "description": "Shows a selected item in a box using `showCheckedStrategy`.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\nconst { SHOW_CHILD } = Cascader;\n\ninterface Option {\n  value: string | number;\n  label: string;\n  children?: Option[];\n}\nconst options: Option[] = [\n  {\n    label: 'Light',\n    value: 'light',\n    children: Array.from({ length: 20 }).map((_, index) => ({\n      label: `Number ${index}`,\n      value: index,\n    })),\n  },\n  {\n    label: 'Bamboo',\n    value: 'bamboo',\n    children: [\n      {\n        label: 'Little',\n        value: 'little',\n        children: [\n          {\n            label: 'Toy Fish',\n            value: 'fish',\n          },\n          {\n            label: 'Toy Cards',\n            value: 'cards',\n          },\n          {\n            label: 'Toy Bird',\n            value: 'bird',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const onChange: CascaderProps<Option, 'value', true>['onChange'] = (value) => {\n    console.log(value);\n  };\n  return (\n    <>\n      <Cascader\n        style={{ width: '100%' }}\n        options={options}\n        onChange={onChange}\n        multiple\n        maxTagCount=\"responsive\"\n        showCheckedStrategy={SHOW_CHILD}\n        defaultValue={[\n          ['bamboo', 'little', 'fish'],\n          ['bamboo', 'little', 'cards'],\n          ['bamboo', 'little', 'bird'],\n        ]}\n      />\n      <br />\n      <br />\n      <Cascader\n        style={{ width: '100%' }}\n        options={options}\n        onChange={onChange}\n        multiple\n        maxTagCount=\"responsive\"\n        defaultValue={[['bamboo']]}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "showcheckedstrategy"
+  },
+  {
+   "name": "Size",
+   "description": "Cascade selection box of different sizes.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <>\n    <Cascader size=\"large\" options={options} onChange={onChange} />\n    <br />\n    <br />\n    <Cascader options={options} onChange={onChange} />\n    <br />\n    <br />\n    <Cascader size=\"small\" options={options} onChange={onChange} />\n    <br />\n    <br />\n  </>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Custom render",
+   "description": "For instance, add an external link after the selected value.",
+   "code": "import React from 'react';\nimport { Cascader } from 'antd';\nimport type { CascaderProps, GetProp } from 'antd';\n\ntype DefaultOptionType = GetProp<CascaderProps, 'options'>[number];\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n  code?: number;\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n            code: 752100,\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n            code: 453400,\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst handleAreaClick = (\n  e: React.MouseEvent<HTMLAnchorElement>,\n  label: string,\n  option: DefaultOptionType,\n) => {\n  e.stopPropagation();\n  console.log('clicked', label, option);\n};\n\nconst displayRender: CascaderProps<Option>['displayRender'] = (labels, selectedOptions = []) =>\n  labels.map((label, i) => {\n    const option = selectedOptions[i];\n    if (i === labels.length - 1) {\n      return (\n        <span key={option.value}>\n          {label} (<a onClick={(e) => handleAreaClick(e, label, option)}>{option.code}</a>)\n        </span>\n      );\n    }\n    return <span key={option.value}>{label} / </span>;\n  });\n\nconst App: React.FC = () => (\n  <Cascader\n    options={options}\n    defaultValue={['zhejiang', 'hangzhou', 'xihu']}\n    displayRender={displayRender}\n    style={{ width: '100%' }}\n    // `optionRender` is supported since 5.16.0\n    optionRender={(option) => (\n      <>\n        {option.label} ({option.value})\n      </>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "custom-render"
+  },
+  {
+   "name": "Search",
+   "description": "Search and select options directly.",
+   "code": "import React from 'react';\nimport { Cascader } from 'antd';\nimport type { CascaderProps, GetProp } from 'antd';\n\ntype DefaultOptionType = GetProp<CascaderProps, 'options'>[number];\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n  disabled?: boolean;\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n          {\n            value: 'xiasha',\n            label: 'Xia Sha',\n            disabled: true,\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value, selectedOptions) => {\n  console.log(value, selectedOptions);\n};\n\nconst filter = (inputValue: string, path: DefaultOptionType[]) =>\n  path.some((option) => (option.label as string).toLowerCase().includes(inputValue.toLowerCase()));\n\nconst App: React.FC = () => (\n  <Cascader\n    options={options}\n    onChange={onChange}\n    placeholder=\"Please select\"\n    showSearch={{ filter, onSearch: (value) => console.log(value) }}\n  />\n);\n\nexport default App;",
+   "demoId": "search"
+  },
+  {
+   "name": "Load Options Lazily",
+   "description": "Load options lazily with `loadData`.",
+   "code": "import React, { useState } from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value?: string | number | null;\n  label: React.ReactNode;\n  children?: Option[];\n  isLeaf?: boolean;\n}\n\nconst optionLists: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    isLeaf: false,\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    isLeaf: false,\n  },\n];\n\nconst App: React.FC = () => {\n  const [options, setOptions] = useState<Option[]>(optionLists);\n\n  const onChange: CascaderProps<Option>['onChange'] = (value, selectedOptions) => {\n    console.log(value, selectedOptions);\n  };\n\n  const loadData = (selectedOptions: Option[]) => {\n    const targetOption = selectedOptions[selectedOptions.length - 1];\n\n    // load options lazily\n    setTimeout(() => {\n      targetOption.children = [\n        {\n          label: `${targetOption.label} Dynamic 1`,\n          value: 'dynamic1',\n        },\n        {\n          label: `${targetOption.label} Dynamic 2`,\n          value: 'dynamic2',\n        },\n      ];\n      setOptions([...options]);\n    }, 1000);\n  };\n\n  return <Cascader options={options} loadData={loadData} onChange={onChange} changeOnSelect />;\n};\n\nexport default App;",
+   "demoId": "lazy"
+  },
+  {
+   "name": "Custom Field Names",
+   "description": "Custom field names.",
+   "code": "import React from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  code: string;\n  name: string;\n  items?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    code: 'zhejiang',\n    name: 'Zhejiang',\n    items: [\n      {\n        code: 'hangzhou',\n        name: 'Hangzhou',\n        items: [\n          {\n            code: 'xihu',\n            name: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    code: 'jiangsu',\n    name: 'Jiangsu',\n    items: [\n      {\n        code: 'nanjing',\n        name: 'Nanjing',\n        items: [\n          {\n            code: 'zhonghuamen',\n            name: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <Cascader\n    fieldNames={{ label: 'name', value: 'code', children: 'items' }}\n    options={options}\n    onChange={onChange}\n    placeholder=\"Please select\"\n  />\n);\n\nexport default App;",
+   "demoId": "fields-name"
+  },
+  {
+   "name": "Prefix and Suffix",
+   "description": "Use `prefix` to customize the prefix content, use `suffixIcon` to customize the selection box suffix icon, and use `expandIcon` to customize the current item expand icon.",
+   "code": "import React from 'react';\nimport { SmileOutlined } from '@ant-design/icons';\nimport type { CascaderProps } from 'antd';\nimport { Cascader } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => (\n  <>\n    <Cascader\n      suffixIcon={<SmileOutlined />}\n      options={options}\n      onChange={onChange}\n      placeholder=\"Please select\"\n    />\n    <br />\n    <br />\n    <Cascader suffixIcon=\"ab\" options={options} onChange={onChange} placeholder=\"Please select\" />\n    <br />\n    <br />\n    <Cascader\n      expandIcon={<SmileOutlined />}\n      options={options}\n      onChange={onChange}\n      placeholder=\"Please select\"\n    />\n    <br />\n    <br />\n    <Cascader expandIcon=\"ab\" options={options} onChange={onChange} placeholder=\"Please select\" />\n    <br />\n    <br />\n    <Cascader\n      prefix={<SmileOutlined />}\n      options={options}\n      onChange={onChange}\n      placeholder=\"Please select\"\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "suffix"
+  },
+  {
+   "name": "Custom dropdown",
+   "description": "Customize the dropdown menu via `popupRender`.",
+   "code": "import React from 'react';\nimport { Cascader, Divider } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst popupRender = (menus: React.ReactNode) => (\n  <div>\n    {menus}\n    <Divider style={{ margin: 0 }} />\n    <div style={{ padding: 8 }}>The footer is not very short.</div>\n  </div>\n);\n\nconst App: React.FC = () => (\n  <Cascader options={options} popupRender={popupRender} placeholder=\"Please select\" />\n);\n\nexport default App;",
+   "demoId": "custom-dropdown"
+  },
+  {
+   "name": "Placement",
+   "description": "You can manually specify the position of the popup via `placement`.",
+   "code": "import React, { useState } from 'react';\nimport type { RadioChangeEvent } from 'antd';\nimport { Cascader, Radio } from 'antd';\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst App: React.FC = () => {\n  const [placement, setPlacement] = useState<'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'>(\n    'topLeft',\n  );\n\n  const placementChange = (e: RadioChangeEvent) => {\n    setPlacement(e.target.value);\n  };\n\n  return (\n    <>\n      <Radio.Group value={placement} onChange={placementChange}>\n        <Radio.Button value=\"topLeft\">topLeft</Radio.Button>\n        <Radio.Button value=\"topRight\">topRight</Radio.Button>\n        <Radio.Button value=\"bottomLeft\">bottomLeft</Radio.Button>\n        <Radio.Button value=\"bottomRight\">bottomRight</Radio.Button>\n      </Radio.Group>\n      <br />\n      <br />\n      <Cascader options={options} placeholder=\"Please select\" placement={placement} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Variants",
+   "description": "Variants of Cascader, there are four variants: `outlined` `filled` `borderless` and `underlined`.",
+   "code": "import React from 'react';\nimport { Cascader, Flex } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Cascader placeholder=\"Please select\" variant=\"borderless\" />\n    <Cascader placeholder=\"Please select\" variant=\"filled\" />\n    <Cascader placeholder=\"Please select\" variant=\"outlined\" />\n    <Cascader placeholder=\"Please select\" variant=\"underlined\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "variant"
+  },
+  {
+   "name": "Status",
+   "description": "Add status to Cascader with `status`, which could be `error` or `warning`.",
+   "code": "import React from 'react';\nimport { Cascader, Space } from 'antd';\n\nconst App: React.FC = () => (\n  <Space vertical>\n    <Cascader status=\"error\" placeholder=\"Error\" />\n    <Cascader status=\"warning\" multiple placeholder=\"Warning multiple\" />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "status"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Cascader by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Cascader, Flex } from 'antd';\nimport type { CascaderProps, GetProp } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => {\n  return {\n    root: {\n      borderRadius: token.borderRadiusLG,\n    },\n  };\n});\n\ninterface Option {\n  value: string;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'meet-student',\n    label: 'meet-student',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst stylesObject: CascaderProps['styles'] = {\n  prefix: {\n    color: '#ccc',\n  },\n  suffix: {\n    color: '#ccc',\n  },\n};\n\nconst stylesFn: CascaderProps['styles'] = (info): GetProp<CascaderProps, 'styles', 'Return'> => {\n  if (info.props.variant === 'filled') {\n    return {\n      prefix: {\n        color: '#1890ff',\n      },\n      suffix: {\n        color: '#1890ff',\n      },\n      popup: {\n        listItem: {\n          color: '#1890ff',\n        },\n      },\n    };\n  }\n  return {};\n};\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n  return (\n    <Flex vertical gap=\"medium\">\n      <Cascader\n        options={options}\n        onChange={onChange}\n        placeholder=\"Object styles\"\n        classNames={classNames}\n        styles={stylesObject}\n        prefix=\"🏠\"\n      />\n      <Cascader\n        options={options}\n        onChange={onChange}\n        placeholder=\"Function  styles\"\n        variant=\"filled\"\n        classNames={classNames}\n        styles={stylesFn}\n        prefix=\"✅\"\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  },
+  {
+   "name": "= 5.10.0\">Panel",
+   "description": "Used for inline view case.",
+   "code": "import React, { useState } from 'react';\nimport type { CascaderProps } from 'antd';\nimport { Cascader, Flex, Switch } from 'antd';\n\ninterface Option {\n  value: string | number;\n  label: string;\n  children?: Option[];\n}\n\nconst options: Option[] = [\n  {\n    value: 'zhejiang',\n    label: 'Zhejiang',\n    children: [\n      {\n        value: 'hangzhou',\n        label: 'Hangzhou',\n        children: [\n          {\n            value: 'xihu',\n            label: 'West Lake',\n          },\n        ],\n      },\n    ],\n  },\n  {\n    value: 'jiangsu',\n    label: 'Jiangsu',\n    children: [\n      {\n        value: 'nanjing',\n        label: 'Nanjing',\n        children: [\n          {\n            value: 'zhonghuamen',\n            label: 'Zhong Hua Men',\n          },\n        ],\n      },\n    ],\n  },\n];\n\nconst onChange: CascaderProps<Option>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst onMultipleChange: CascaderProps<Option, 'value', true>['onChange'] = (value) => {\n  console.log(value);\n};\n\nconst App: React.FC = () => {\n  const [disabled, setDisabled] = useState(false);\n\n  return (\n    <Flex vertical gap=\"small\" align=\"flex-start\">\n      <Switch\n        checked={disabled}\n        checkedChildren=\"Enabled\"\n        unCheckedChildren=\"Disabled\"\n        onChange={setDisabled}\n        aria-label=\"disabled switch\"\n      />\n      <Cascader.Panel options={options} onChange={onChange} disabled={disabled} />\n      <Cascader.Panel multiple options={options} onChange={onMultipleChange} disabled={disabled} />\n      <Cascader.Panel />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "panel"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "allowClear",
+     "Show clear button",
+     "boolean | { clearIcon?: ReactNode }",
+     "true",
+     "5.8.0: Support object type",
+     "`clearIcon`: 6.4.0"
+    ],
+    [
+     "~~autoClearSearchValue~~",
+     "Whether the current search will be cleared on selecting an item. Only applies when `multiple` is `true`",
+     "boolean",
+     "true",
+     "5.9.0",
+     "×"
+    ],
+    [
+     "~~bordered~~",
+     "Whether has border style, please use `variant` instead",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "changeOnSelect",
+     "Change value on each selection if set to true, see above demo for details",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.25.0"
+    ],
+    [
+     "defaultOpen",
+     "Initial visible of cascader popup",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "defaultValue",
+     "Initial selected value",
+     "string\\[] | number\\[]",
+     "\\[]",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "Whether disabled select",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "displayRender",
+     "The render function of displaying selected options",
+     "(label, selectedOptions) => ReactNode",
+     "label => label.join(`/`)",
+     "`multiple`: 4.18.0",
+     "×"
+    ],
+    [
+     "tagRender",
+     "Custom render function for tags in `multiple` mode",
+     "(label: string, onClose: function, value: string) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~popupClassName~~",
+     "The additional className of popup overlay, use `classNames.popup.root` instead",
+     "string",
+     "-",
+     "4.23.0",
+     "×"
+    ],
+    [
+     "~~dropdownClassName~~",
+     "The additional className of popup overlay, please use `classNames.popup.root` instead",
+     "string",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~dropdownRender~~",
+     "Customize dropdown content, use `popupRender` instead",
+     "(menus: ReactNode) => ReactNode",
+     "-",
+     "4.4.0",
+     "×"
+    ],
+    [
+     "popupRender",
+     "Customize dropdown content",
+     "(menus: ReactNode) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~dropdownStyle~~",
+     "The style of dropdown menu, use `styles.popup.root` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "expandIcon",
+     "Customize the current item expand icon",
+     "ReactNode",
+     "-",
+     "4.4.0",
+     "6.3.0"
+    ],
+    [
+     "expandTrigger",
+     "expand current item when click or hover, one of `click` `hover`",
+     "string",
+     "click",
+     "—",
+     "×"
+    ],
+    [
+     "fieldNames",
+     "Custom field name for label and value and children",
+     "object",
+     "{ label: `label`, value: `value`, children: `children` }",
+     "—",
+     "×"
+    ],
+    [
+     "getPopupContainer",
+     "Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. example",
+     "function(triggerNode)",
+     "() => document.body",
+     "—",
+     "×"
+    ],
+    [
+     "loadData",
+     "To load option lazily, and it cannot work with `showSearch`",
+     "(selectedOptions) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "loadingIcon",
+     "Customize the loading icon",
+     "ReactNode",
+     "-",
+     "—",
+     "6.3.0"
+    ],
+    [
+     "maxTagCount",
+     "Max tag count to show. `responsive` will cost render performance",
+     "number | `responsive`",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "maxTagPlaceholder",
+     "Placeholder for not showing tags",
+     "ReactNode | function(omittedValues)",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "maxTagTextLength",
+     "Max tag text length to show",
+     "number",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "notFoundContent",
+     "Specify content to show when no result matches",
+     "ReactNode",
+     "Not Found",
+     "—",
+     "×"
+    ],
+    [
+     "open",
+     "Set visible of cascader popup",
+     "boolean",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "options",
+     "The data options of cascade",
+     "Option\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "placeholder",
+     "The input placeholder",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "placement",
+     "Use preset popup align config from builtinPlacements",
+     "`bottomLeft` `bottomRight` `topLeft` `topRight`",
+     "bottomLeft",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "prefix",
+     "The custom prefix",
+     "ReactNode",
+     "-",
+     "5.22.0",
+     "×"
+    ],
+    [
+     "~~showArrow~~",
+     "Whether to show the arrow icon, please use `suffixIcon={null}` instead",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "showSearch",
+     "Whether show search input in single mode",
+     "boolean | Object",
+     "false",
+     "—",
+     "`searchIcon`: 6.4.0"
+    ],
+    [
+     "size",
+     "The input size",
+     "`large` | `medium` | `small`",
+     "medium",
+     "—",
+     "×"
+    ],
+    [
+     "status",
+     "Set validation status",
+     "'error' | 'warning'",
+     "-",
+     "4.19.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.25.0"
+    ],
+    [
+     "suffixIcon",
+     "The custom suffix icon",
+     "ReactNode",
+     "-",
+     "—",
+     "6.4.0"
+    ],
+    [
+     "value",
+     "The selected value",
+     "string\\[] | number\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "variant",
+     "Variants of selector",
+     "`outlined` | `borderless` | `filled` | `underlined`",
+     "outlined",
+     "5.13.0 | `underlined`: 5.24.0",
+     "5.19.0"
+    ],
+    [
+     "onChange",
+     "Callback when finishing cascader select",
+     "(value, selectedOptions) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onClear",
+     "Called when clear",
+     "() => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~onDropdownVisibleChange~~",
+     "Callback when popup shown or hidden, use `onOpenChange` instead",
+     "(value) => void",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "onOpenChange",
+     "Callback when popup shown or hidden",
+     "(value) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~onPopupVisibleChange~~",
+     "Callback when popup shown or hidden, please use `onOpenChange` instead",
+     "(value) => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "multiple",
+     "Support multiple or not",
+     "boolean",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "removeIcon",
+     "The custom remove icon",
+     "ReactNode",
+     "-",
+     "—",
+     "6.4.0"
+    ],
+    [
+     "showCheckedStrategy",
+     "The way to show selected items in the box (only effective when `multiple` is `true`). `Cascader.SHOW_CHILD`: just show child treeNode. `Cascader.SHOW_PARENT`: just show parent treeNode (when all child treeNode under the parent treeNode are checked)",
+     "`Cascader.SHOW_PARENT` | `Cascader.SHOW_CHILD`",
+     "Cascader.SHOW_PARENT",
+     "4.20.0",
+     "×"
+    ],
+    [
+     "~~searchValue~~",
+     "Set search value, Need work with `showSearch`",
+     "string",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "~~onSearch~~",
+     "The callback function triggered when input changed",
+     "(search: string) => void",
+     "-",
+     "4.17.0",
+     "×"
+    ],
+    [
+     "~~dropdownMenuColumnStyle~~",
+     "The style of the drop-down menu column, use `styles.popup.listItem` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~popupMenuColumnStyle~~",
+     "The style of the drop-down menu column, use `styles.popup.listItem` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "optionRender",
+     "Customize the rendering dropdown options",
+     "(option: Option) => React.ReactNode",
+     "-",
+     "5.16.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "autoClearSearchValue",
+     "Whether the current search will be cleared on selecting an item. Only applies when `multiple` is `true`",
+     "boolean",
+     "true",
+     "5.9.0"
+    ],
+    [
+     "filter",
+     "The function will receive two arguments, inputValue and option, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded",
+     "function(inputValue, path): boolean",
+     "-",
+     "—"
+    ],
+    [
+     "limit",
+     "Set the count of filtered items",
+     "number | false",
+     "50",
+     "—"
+    ],
+    [
+     "matchInputWidth",
+     "Whether the width of list matches input, (how it looks)",
+     "boolean",
+     "true",
+     "—"
+    ],
+    [
+     "render",
+     "Used to render filtered options",
+     "function(inputValue, path): ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "sort",
+     "Used to sort filtered options",
+     "function(a, b, inputValue)",
+     "-",
+     "—"
+    ],
+    [
+     "searchValue",
+     "Set search value, Need work with `showSearch`",
+     "string",
+     "-",
+     "4.17.0"
+    ],
+    [
+     "onSearch",
+     "The callback function triggered when input changed",
+     "(search: string) => void",
+     "-",
+     "4.17.0"
+    ],
+    [
+     "searchIcon",
+     "Customize the search icon",
+     "ReactNode",
+     "-",
+     "6.3.0"
+    ]
+   ],
+   "name": "showSearch"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "allowClear",
+    "Show clear button",
+    "boolean | { clearIcon?: ReactNode }",
+    "true",
+    "5.8.0: Support object type",
+    "`clearIcon`: 6.4.0"
+   ],
+   [
+    "~~autoClearSearchValue~~",
+    "Whether the current search will be cleared on selecting an item. Only applies when `multiple` is `true`",
+    "boolean",
+    "true",
+    "5.9.0",
+    "×"
+   ],
+   [
+    "~~bordered~~",
+    "Whether has border style, please use `variant` instead",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "changeOnSelect",
+    "Change value on each selection if set to true, see above demo for details",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.25.0"
+   ],
+   [
+    "defaultOpen",
+    "Initial visible of cascader popup",
+    "boolean",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "defaultValue",
+    "Initial selected value",
+    "string\\[] | number\\[]",
+    "\\[]",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "Whether disabled select",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "displayRender",
+    "The render function of displaying selected options",
+    "(label, selectedOptions) => ReactNode",
+    "label => label.join(`/`)",
+    "`multiple`: 4.18.0",
+    "×"
+   ],
+   [
+    "tagRender",
+    "Custom render function for tags in `multiple` mode",
+    "(label: string, onClose: function, value: string) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~popupClassName~~",
+    "The additional className of popup overlay, use `classNames.popup.root` instead",
+    "string",
+    "-",
+    "4.23.0",
+    "×"
+   ],
+   [
+    "~~dropdownClassName~~",
+    "The additional className of popup overlay, please use `classNames.popup.root` instead",
+    "string",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~dropdownRender~~",
+    "Customize dropdown content, use `popupRender` instead",
+    "(menus: ReactNode) => ReactNode",
+    "-",
+    "4.4.0",
+    "×"
+   ],
+   [
+    "popupRender",
+    "Customize dropdown content",
+    "(menus: ReactNode) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~dropdownStyle~~",
+    "The style of dropdown menu, use `styles.popup.root` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "expandIcon",
+    "Customize the current item expand icon",
+    "ReactNode",
+    "-",
+    "4.4.0",
+    "6.3.0"
+   ],
+   [
+    "expandTrigger",
+    "expand current item when click or hover, one of `click` `hover`",
+    "string",
+    "click",
+    "—",
+    "×"
+   ],
+   [
+    "fieldNames",
+    "Custom field name for label and value and children",
+    "object",
+    "{ label: `label`, value: `value`, children: `children` }",
+    "—",
+    "×"
+   ],
+   [
+    "getPopupContainer",
+    "Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. example",
+    "function(triggerNode)",
+    "() => document.body",
+    "—",
+    "×"
+   ],
+   [
+    "loadData",
+    "To load option lazily, and it cannot work with `showSearch`",
+    "(selectedOptions) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "loadingIcon",
+    "Customize the loading icon",
+    "ReactNode",
+    "-",
+    "—",
+    "6.3.0"
+   ],
+   [
+    "maxTagCount",
+    "Max tag count to show. `responsive` will cost render performance",
+    "number | `responsive`",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "maxTagPlaceholder",
+    "Placeholder for not showing tags",
+    "ReactNode | function(omittedValues)",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "maxTagTextLength",
+    "Max tag text length to show",
+    "number",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "notFoundContent",
+    "Specify content to show when no result matches",
+    "ReactNode",
+    "Not Found",
+    "—",
+    "×"
+   ],
+   [
+    "open",
+    "Set visible of cascader popup",
+    "boolean",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "options",
+    "The data options of cascade",
+    "Option\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "placeholder",
+    "The input placeholder",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "placement",
+    "Use preset popup align config from builtinPlacements",
+    "`bottomLeft` `bottomRight` `topLeft` `topRight`",
+    "bottomLeft",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "prefix",
+    "The custom prefix",
+    "ReactNode",
+    "-",
+    "5.22.0",
+    "×"
+   ],
+   [
+    "~~showArrow~~",
+    "Whether to show the arrow icon, please use `suffixIcon={null}` instead",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "showSearch",
+    "Whether show search input in single mode",
+    "boolean | Object",
+    "false",
+    "—",
+    "`searchIcon`: 6.4.0"
+   ],
+   [
+    "size",
+    "The input size",
+    "`large` | `medium` | `small`",
+    "medium",
+    "—",
+    "×"
+   ],
+   [
+    "status",
+    "Set validation status",
+    "'error' | 'warning'",
+    "-",
+    "4.19.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.25.0"
+   ],
+   [
+    "suffixIcon",
+    "The custom suffix icon",
+    "ReactNode",
+    "-",
+    "—",
+    "6.4.0"
+   ],
+   [
+    "value",
+    "The selected value",
+    "string\\[] | number\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "variant",
+    "Variants of selector",
+    "`outlined` | `borderless` | `filled` | `underlined`",
+    "outlined",
+    "5.13.0 | `underlined`: 5.24.0",
+    "5.19.0"
+   ],
+   [
+    "onChange",
+    "Callback when finishing cascader select",
+    "(value, selectedOptions) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onClear",
+    "Called when clear",
+    "() => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~onDropdownVisibleChange~~",
+    "Callback when popup shown or hidden, use `onOpenChange` instead",
+    "(value) => void",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "onOpenChange",
+    "Callback when popup shown or hidden",
+    "(value) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~onPopupVisibleChange~~",
+    "Callback when popup shown or hidden, please use `onOpenChange` instead",
+    "(value) => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "multiple",
+    "Support multiple or not",
+    "boolean",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "removeIcon",
+    "The custom remove icon",
+    "ReactNode",
+    "-",
+    "—",
+    "6.4.0"
+   ],
+   [
+    "showCheckedStrategy",
+    "The way to show selected items in the box (only effective when `multiple` is `true`). `Cascader.SHOW_CHILD`: just show child treeNode. `Cascader.SHOW_PARENT`: just show parent treeNode (when all child treeNode under the parent treeNode are checked)",
+    "`Cascader.SHOW_PARENT` | `Cascader.SHOW_CHILD`",
+    "Cascader.SHOW_PARENT",
+    "4.20.0",
+    "×"
+   ],
+   [
+    "~~searchValue~~",
+    "Set search value, Need work with `showSearch`",
+    "string",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "~~onSearch~~",
+    "The callback function triggered when input changed",
+    "(search: string) => void",
+    "-",
+    "4.17.0",
+    "×"
+   ],
+   [
+    "~~dropdownMenuColumnStyle~~",
+    "The style of the drop-down menu column, use `styles.popup.listItem` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~popupMenuColumnStyle~~",
+    "The style of the drop-down menu column, use `styles.popup.listItem` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "optionRender",
+    "Customize the rendering dropdown options",
+    "(option: Option) => React.ReactNode",
+    "-",
+    "5.16.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "medium",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "status",
+   "values": [
+    "error",
+    "warning"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "variant",
+   "values": [
+    "outlined",
+    "borderless",
+    "filled",
+    "underlined"
+   ],
+   "default": "outlined",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "showCheckedStrategy",
+   "values": [
+    "Cascader.SHOW_PARENT",
+    "Cascader.SHOW_CHILD"
+   ],
+   "default": "Cascader.SHOW_PARENT",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with relative positioning, inline-flex layout, cursor styles, transitions, border and other basic selector container styles"
+   },
+   {
+    "name": "prefix",
+    "mark": "semantic-mark-prefix",
+    "description": "Prefix element with layout and styling for prefix content"
+   },
+   {
+    "name": "suffix",
+    "mark": "semantic-mark-suffix",
+    "description": "Suffix element with layout and styling for suffix content like clear button, arrow icon, etc."
+   },
+   {
+    "name": "input",
+    "mark": "semantic-mark-input",
+    "description": "Input element with search input styling, cursor control, font inheritance and other search-related styles. Remove border styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Multiple selection container with layout, spacing, and wrapping styles for selected items"
+   },
+   {
+    "name": "clear",
+    "mark": "semantic-mark-clear",
+    "description": "Clear button element with layout, styling and interactive effects for clear button"
+   },
+   {
+    "name": "item",
+    "mark": "semantic-mark-item",
+    "description": "Multiple selection item element with border, background, padding, and margin styles"
+   },
+   {
+    "name": "itemContent",
+    "mark": "semantic-mark-itemContent",
+    "description": "Multiple selection item content area with text ellipsis styles"
+   },
+   {
+    "name": "itemRemove",
+    "mark": "semantic-mark-itemRemove",
+    "description": "Multiple selection item remove button with font-related styles"
+   },
+   {
+    "name": "placeholder",
+    "mark": "semantic-mark-placeholder",
+    "description": "Placeholder element with font styles and colors for placeholder text"
+   },
+   {
+    "name": "popup.root",
+    "mark": "semantic-mark-popup-root",
+    "description": "Popup element with popup layer positioning, z-index, background, border, box-shadow and other popup container styles"
+   },
+   {
+    "name": "popup.list",
+    "mark": "semantic-mark-popup-list",
+    "description": "Popup list element with option list layout, scrolling, max-height and other list container styles"
+   },
+   {
+    "name": "popup.listItem",
+    "mark": "semantic-mark-popup-listItem",
+    "description": "Popup item element with option item padding, hover effects, selected states, disabled states and other option interactive styles"
+   }
+  ],
+  "dom": "<div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-middle ant-flex-vertical\" style=\"position: absolute; margin-bottom: 80px;\">\n        <div aria-label=\"segmented control\" aria-orientation=\"horizontal\" class=\"ant-segmented css-var-test-id\" role=\"radiogroup\" tabindex=\"0\">\n          <div class=\"ant-segmented-group\">\n            <label class=\"ant-segmented-item\">\n              <input checked=\"\" class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n              <div class=\"ant-segmented-item-label\" title=\"Single\">\n                Single\n              </div>\n            </label>\n            <label class=\"ant-segmented-item ant-segmented-item-selected\">\n              <input class=\"ant-segmented-item-input\" name=\"test-id\" type=\"radio\">\n              <div class=\"ant-segmented-item-label\" title=\"Multiple\">\n                Multiple\n              </div>\n            </label>\n          </div>\n        </div>\n        <div class=\"ant-select ant-cascader ant-select-outlined semantic-mark-root ant-select-css-var ant-cascader-css-var css-var-test-id ant-select-multiple ant-select-allow-clear ant-select-show-arrow ant-select-open\" style=\"width: 200px;\">\n          <div class=\"ant-select-prefix semantic-mark-prefix\">\n            prefix\n          </div>\n          <div class=\"ant-select-content semantic-mark-content\">\n            <div class=\"ant-select-content-item\" style=\"opacity: 1;\">\n              <span class=\"ant-select-selection-item semantic-mark-item\" title=\"thinkasany\">\n                <span class=\"ant-select-selection-item-content semantic-mark-itemContent\">\n                  thinkasany\n                </span>\n                <span aria-hidden=\"true\" class=\"ant-select-selection-item-remove semantic-mark-itemRemove\" style=\"user-select: none;\" unselectable=\"on\">\n                  <span aria-label=\"close\" class=\"anticon anticon-close\" role=\"img\">\n                    <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                      <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                    </svg>\n                  </span>\n                </span>\n              </span>\n            </div>\n            <div class=\"ant-select-content-item ant-select-content-item-suffix\" style=\"opacity: 1;\">\n              <input aria-autocomplete=\"list\" aria-controls=\"test-id_list\" aria-expanded=\"true\" aria-haspopup=\"listbox\" aria-owns=\"test-id_list\" autocomplete=\"new-password\" class=\"ant-select-input semantic-mark-input\" id=\"test-id\" readonly=\"\" role=\"combobox\" style=\"--select-input-width: 0;\" type=\"text\" value=\"\">\n            </div>\n          </div>\n          <div class=\"ant-select-suffix semantic-mark-suffix\">\n            <span aria-label=\"down\" class=\"anticon anticon-down\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"down\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z\"></path>\n              </svg>\n            </span>\n          </div>\n          <button aria-label=\"Clear\" class=\"ant-select-clear semantic-mark-clear\" type=\"button\">\n            <span aria-label=\"close-circle\" class=\"anticon anticon-close-circle\" role=\"img\">\n              <svg aria-hidden=\"true\" data-icon=\"close-circle\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                <path d=\"M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z\"></path>\n              </svg>\n            </span>\n          </button>\n        </div>\n        <div class=\"ant-select-dropdown ant-cascader-dropdown ant-select-css-var semantic-mark-popup-root ant-cascader-css-var css-var-test-id ant-select-dropdown-placement-bottomLeft\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box; min-width: auto;\">\n          <div>\n            <div class=\"ant-cascader-menus\">\n              <ul class=\"ant-cascader-menu semantic-mark-popup-list\" role=\"menu\">\n                <li aria-checked=\"false\" class=\"ant-cascader-menu-item semantic-mark-popup-listItem ant-cascader-menu-item-expand ant-cascader-menu-item-active\" data-path-key=\"contributors\" role=\"menuitemcheckbox\" title=\"contributors\">\n                  <span class=\"ant-cascader-checkbox ant-cascader-checkbox-indeterminate\">\n                    <span class=\"ant-cascader-checkbox-inner\">\n                  </span>\n                  <div class=\"ant-cascader-menu-item-content\">\n                    contributors\n                  </div>\n                  <div class=\"ant-cascader-menu-item-expand-icon\">\n                    <span aria-label=\"right\" class=\"anticon anticon-right\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"right\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z\"></path>\n                      </svg>\n                    </span>\n                  </div>\n                </span></li>\n              </ul>\n              <ul class=\"ant-cascader-menu semantic-mark-popup-list\" role=\"menu\">\n                <li aria-checked=\"false\" class=\"ant-cascader-menu-item semantic-mark-popup-listItem\" data-path-key=\"contributors__RC_CASCADER_SPLIT__aojunhao123\" role=\"menuitemcheckbox\" title=\"aojunhao123\">\n                  <span class=\"ant-cascader-checkbox\">\n                    <span class=\"ant-cascader-checkbox-inner\">\n                  </span>\n                  <div class=\"ant-cascader-menu-item-content\">\n                    aojunhao123\n                  </div>\n                </span></li>\n                <li aria-checked=\"true\" class=\"ant-cascader-menu-item semantic-mark-popup-listItem ant-cascader-menu-item-active\" data-path-key=\"contributors__RC_CASCADER_SPLIT__thinkasany\" role=\"menuitemcheckbox\" title=\"thinkasany\">\n                  <span class=\"ant-cascader-checkbox ant-cascader-checkbox-checked\">\n                    <span class=\"ant-cascader-checkbox-inner\">\n                  </span>\n                  <div class=\"ant-cascader-menu-item-content\">\n                    thinkasany\n                  </div>\n                </span></li>\n                <li aria-checked=\"false\" class=\"ant-cascader-menu-item semantic-mark-popup-listItem\" data-path-key=\"contributors__RC_CASCADER_SPLIT__meet-student\" role=\"menuitemcheckbox\" title=\"meet-student\">\n                  <span class=\"ant-cascader-checkbox\">\n                    <span class=\"ant-cascader-checkbox-inner\">\n                  </span>\n                  <div class=\"ant-cascader-menu-item-content\">\n                    meet-student\n                  </div>\n                </span></li>\n              </ul>\n            </div>\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "controlItemWidth",
+     "Width of item",
+     "string | number",
+     "111"
+    ],
+    [
+     "controlWidth",
+     "Width of Cascader",
+     "string | number",
+     "184"
+    ],
+    [
+     "dropdownHeight",
+     "Height of dropdown",
+     "string | number",
+     "180"
+    ],
+    [
+     "menuPadding",
+     "Padding of menu item (single column)",
+     "Padding<string | number> | undefined",
+     "4"
+    ],
+    [
+     "optionPadding",
+     "Padding of menu item",
+     "Padding<string | number> | undefined",
+     "5px 12px"
+    ],
+    [
+     "optionSelectedBg",
+     "Background color of selected item",
+     "string",
+     "#e6f4ff"
+    ],
+    [
+     "optionSelectedColor",
+     "Text color when option is selected",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "optionSelectedFontWeight",
+     "Font weight of selected item",
+     "FontWeight | undefined",
+     "600"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgContainerDisabled",
+     "Control the background color of container in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorHighlight",
+     "Control the color of page element when highlighted.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryHover",
+     "Hover state under the main color gradient.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "controlInteractiveSize",
+     "Control the interactive size of control component.",
+     "number",
+     "—"
+    ],
+    [
+     "controlItemBgHover",
+     "Control the background color of control component item when hovering.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthBold",
+     "The default line width of the outline class components, such as Button, Input, Select, etc.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationFast",
+     "Motion speed, fast speed. Used for small element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutBack",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

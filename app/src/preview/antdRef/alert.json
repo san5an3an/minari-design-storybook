@@ -1,0 +1,813 @@
+{
+ "slug": "alert",
+ "title": "Alert",
+ "description": "Display warning messages that require attention.",
+ "group": "Feedback",
+ "whenToUse": "- When you need to show alert messages to users.\n- When you need a persistent static container which is closable by user actions.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The simplest usage for short messages.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => <Alert title=\"Success Text\" type=\"success\" />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "More types",
+   "description": "There are 4 types of Alert: `success`, `info`, `warning`, `error`.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Alert title=\"Success Text\" type=\"success\" />\n    <br />\n    <Alert title=\"Info Text\" type=\"info\" />\n    <br />\n    <Alert title=\"Warning Text\" type=\"warning\" />\n    <br />\n    <Alert title=\"Error Text\" type=\"error\" />\n  </>\n);\n\nexport default App;",
+   "demoId": "style"
+  },
+  {
+   "name": "Filled",
+   "description": "Hide the border with `variant=\"filled\"`.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => <Alert title=\"Info Text\" type=\"info\" variant=\"filled\" />;\n\nexport default App;",
+   "demoId": "filled"
+  },
+  {
+   "name": "Closable",
+   "description": "To show close button.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst onClose: React.MouseEventHandler<HTMLButtonElement> = (e) => {\n  console.log(e, 'I was closed.');\n};\n\nconst App: React.FC = () => (\n  <>\n    <Alert\n      title=\"Warning Title\"\n      type=\"warning\"\n      closable={{ closeIcon: true, onClose, 'aria-label': 'close' }}\n    />\n    <br />\n    <Alert\n      title=\"Success Title\"\n      type=\"success\"\n      closable={{ closeIcon: true, onClose, 'aria-label': 'close' }}\n    />\n    <br />\n    <Alert\n      title=\"Info Title\"\n      type=\"info\"\n      closable={{ closeIcon: true, onClose, 'aria-label': 'close' }}\n    />\n    <br />\n    <Alert\n      title=\"Error Title\"\n      type=\"error\"\n      closable={{ closeIcon: true, onClose, 'aria-label': 'close' }}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "closable"
+  },
+  {
+   "name": "Description",
+   "description": "Additional description for alert message.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Alert\n      title=\"Success Text\"\n      description=\"Success Description Success Description Success Description\"\n      type=\"success\"\n    />\n    <br />\n    <Alert\n      title=\"Info Text\"\n      description=\"Info Description Info Description Info Description Info Description\"\n      type=\"info\"\n    />\n    <br />\n    <Alert\n      title=\"Warning Text\"\n      description=\"Warning Description Warning Description Warning Description Warning Description\"\n      type=\"warning\"\n    />\n    <br />\n    <Alert\n      title=\"Error Text\"\n      description=\"Error Description Error Description Error Description Error Description\"\n      type=\"error\"\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "description"
+  },
+  {
+   "name": "Icon",
+   "description": "A relevant icon will make information clearer and more friendly.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Alert title=\"Success Tips\" type=\"success\" showIcon />\n    <br />\n    <Alert title=\"Informational Notes\" type=\"info\" showIcon />\n    <br />\n    <Alert title=\"Warning\" type=\"warning\" showIcon closable />\n    <br />\n    <Alert title=\"Error\" type=\"error\" showIcon />\n    <br />\n    <Alert\n      title=\"Success Tips\"\n      description=\"Detailed description and advice about successful copywriting.\"\n      type=\"success\"\n      showIcon\n    />\n    <br />\n    <Alert\n      title=\"Informational Notes\"\n      description=\"Additional description and information about copywriting.\"\n      type=\"info\"\n      showIcon\n    />\n    <br />\n    <Alert\n      title=\"Warning\"\n      description=\"This is a warning notice about copywriting.\"\n      type=\"warning\"\n      showIcon\n      closable\n    />\n    <br />\n    <Alert\n      title=\"Error\"\n      description=\"This is an error message about copywriting.\"\n      type=\"error\"\n      showIcon\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "icon"
+  },
+  {
+   "name": "Banner",
+   "description": "Display Alert as a banner at top of page.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Alert title=\"Warning text\" banner />\n    <br />\n    <Alert\n      title=\"Very long warning text warning text text text text text text text\"\n      banner\n      closable\n    />\n    <br />\n    <Alert showIcon={false} title=\"Warning text without icon\" banner />\n    <br />\n    <Alert type=\"error\" title=\"Error text\" banner />\n  </>\n);\n\nexport default App;",
+   "iframe": 250,
+   "demoId": "banner"
+  },
+  {
+   "name": "Loop Banner",
+   "description": "Show a loop banner by using with react-text-loop-next or react-fast-marquee.",
+   "code": "import React from 'react';\nimport { Alert } from 'antd';\nimport Marquee from 'react-fast-marquee';\n\nconst App: React.FC = () => (\n  <Alert\n    banner\n    title={\n      <Marquee pauseOnHover gradient={false}>\n        I can be a React component, multiple React components, or just some text.\n      </Marquee>\n    }\n  />\n);\n\nexport default App;",
+   "demoId": "loop-banner"
+  },
+  {
+   "name": "Smoothly Unmount",
+   "description": "Smoothly unmount Alert upon close.",
+   "code": "import React, { useState } from 'react';\nimport { Alert, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [visible, setVisible] = useState(true);\n\n  const handleClose = () => {\n    setVisible(false);\n  };\n\n  return (\n    <>\n      {visible && (\n        <Alert\n          title=\"Alert Message Text\"\n          type=\"success\"\n          closable={{ closeIcon: true, afterClose: handleClose }}\n        />\n      )}\n      <p>click the close button to see the effect</p>\n      <Switch\n        aria-label=\"Alert visibility\"\n        onChange={setVisible}\n        checked={visible}\n        disabled={visible}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "smooth-closed"
+  },
+  {
+   "name": "ErrorBoundary",
+   "description": "ErrorBoundary Component for making error handling easier in React.",
+   "code": "import React, { useState } from 'react';\nimport { Alert, Button } from 'antd';\n\nconst { ErrorBoundary } = Alert;\n\nconst ThrowError: React.FC = () => {\n  const [error, setError] = useState<Error>();\n  const onClick = () => {\n    setError(new Error('An Uncaught Error'));\n  };\n\n  if (error) {\n    throw error;\n  }\n  return (\n    <Button danger onClick={onClick}>\n      Click to throw an error\n    </Button>\n  );\n};\n\nconst App: React.FC = () => (\n  <ErrorBoundary>\n    <ThrowError />\n  </ErrorBoundary>\n);\n\nexport default App;",
+   "demoId": "error-boundary"
+  },
+  {
+   "name": "Custom action",
+   "description": "Custom action.",
+   "code": "import React from 'react';\nimport { Alert, Button, Flex } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <Alert\n      title=\"Success Tips\"\n      type=\"success\"\n      showIcon\n      action={\n        <Button size=\"small\" type=\"text\">\n          UNDO\n        </Button>\n      }\n      closable\n    />\n    <br />\n    <Alert\n      title=\"Error Text\"\n      showIcon\n      description=\"Error Description Error Description Error Description Error Description\"\n      type=\"error\"\n      action={\n        <Button size=\"small\" danger>\n          Detail\n        </Button>\n      }\n    />\n    <br />\n    <Alert\n      title=\"Warning Text\"\n      type=\"warning\"\n      action={\n        <Button type=\"text\" size=\"small\">\n          Done\n        </Button>\n      }\n      closable\n    />\n    <br />\n    <Alert\n      title=\"Info Text\"\n      description=\"Info Description Info Description Info Description Info Description\"\n      type=\"info\"\n      action={\n        <Flex vertical gap=\"small\" style={{ minWidth: 80 }}>\n          <Button size=\"small\" type=\"primary\" block>\n            Accept\n          </Button>\n          <Button size=\"small\" danger ghost block>\n            Decline\n          </Button>\n        </Flex>\n      }\n      closable\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "action"
+  },
+  {
+   "name": "Custom title alignment",
+   "description": "When `description` is not set, Alert vertically centers the icon, content, action, and close button as a group. Ant Design does not switch this default layout to `flex-start` with token-derived offsets because customized `styles` may change font size, line height, or action size, making those offsets no longer match the actual rendered styles. When a wrapping title should align those elements with the first line, adjust them with semantic `styles`.",
+   "code": "import React from 'react';\nimport { Alert, Button, Flex } from 'antd';\nimport type { AlertProps } from 'antd';\n\nconst wrapperStyle: React.CSSProperties = {\n  width: 360,\n};\n\nconst title = 'Long alert title wraps to multiple lines when the alert container is narrow enough.';\n\nconst titleLineHeight = 22;\nconst iconSize = 14;\nconst closeIconSize = 12;\nconst smallButtonHeight = 24;\n\nconst firstLineStyles: AlertProps['styles'] = {\n  root: {\n    alignItems: 'flex-start',\n  },\n  icon: {\n    marginBlockStart: (titleLineHeight - iconSize) / 2,\n  },\n  actions: {\n    marginBlockStart: (titleLineHeight - smallButtonHeight) / 2,\n  },\n  close: {\n    marginBlockStart: (titleLineHeight - closeIconSize) / 2,\n  },\n};\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"middle\" style={wrapperStyle}>\n    <Alert title={title} type=\"info\" showIcon closable styles={firstLineStyles} />\n    <Alert\n      title={title}\n      type=\"success\"\n      showIcon\n      closable\n      styles={firstLineStyles}\n      action={\n        <Button size=\"small\" type=\"text\">\n          Action\n        </Button>\n      }\n    />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "custom-title-alignment"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Alert by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Alert, Button, Flex } from 'antd';\nimport type { AlertProps, GetProp } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border: 2px dashed #ccc;\n    border-radius: 8px;\n    padding: 12px;\n  `,\n}));\n\nconst styleFn: AlertProps['styles'] = ({\n  props: { type },\n}): GetProp<AlertProps, 'styles', 'Return'> => {\n  if (type === 'success') {\n    return {\n      root: {\n        backgroundColor: 'rgba(82, 196, 26, 0.1)',\n        borderColor: '#b7eb8f',\n      },\n      icon: {\n        color: '#52c41a',\n      },\n    };\n  }\n\n  if (type === 'warning') {\n    return {\n      root: {\n        backgroundColor: 'rgba(250, 173, 20, 0.1)',\n        borderColor: '#ffe58f',\n      },\n      icon: {\n        color: '#faad14',\n      },\n    };\n  }\n\n  return {};\n};\n\nconst App: React.FC = () => {\n  const alertSharedProps: AlertProps = {\n    showIcon: true,\n    classNames: {\n      root: classNames.root,\n    },\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Alert\n        {...alertSharedProps}\n        title=\"Object styles\"\n        type=\"info\"\n        styles={{\n          icon: {\n            fontSize: 18,\n          },\n          section: {\n            fontWeight: 500,\n          },\n        }}\n        action={<Button size=\"small\">Action</Button>}\n      />\n      <Alert {...alertSharedProps} title=\"Function styles\" type=\"success\" styles={styleFn} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "action",
+     "The action of Alert",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~afterClose~~",
+     "Called when close animation is finished, please use `closable.afterClose` instead",
+     "() => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "banner",
+     "Whether to show as banner",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "variant",
+     "Variant of Alert style",
+     "`outlined` | `filled`",
+     "outlined",
+     "6.4.0",
+     "6.4.0"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function",
+     "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "closable",
+     "The config of closable",
+     "boolean | ClosableType & React.AriaAttributes",
+     "false",
+     "—",
+     "5.15.0"
+    ],
+    [
+     "closeIcon",
+     "(Only supports global configuration) Custom close icon",
+     "ReactNode",
+     "-",
+     "×",
+     "5.14.0"
+    ],
+    [
+     "description",
+     "Additional content of Alert",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "errorIcon",
+     "(Only supports global configuration) Custom error icon in Alert icon",
+     "ReactNode",
+     "-",
+     "×",
+     "6.2.0"
+    ],
+    [
+     "icon",
+     "Custom icon, effective when `showIcon` is true",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "infoIcon",
+     "(Only supports global configuration) Custom info icon in Alert icon",
+     "ReactNode",
+     "-",
+     "×",
+     "6.2.0"
+    ],
+    [
+     "~~message~~",
+     "Content of Alert, please use `title` instead",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~onClose~~",
+     "Callback when Alert is closed, please use `closable.onClose` instead",
+     "(e: MouseEvent) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~closeIcon~~",
+     "Custom close icon, please use `closable.closeIcon` instead",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~closeText~~",
+     "Close text to show, please use `closable.closeIcon` instead",
+     "ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "showIcon",
+     "Whether to show icon",
+     "boolean",
+     "false, in `banner` mode default is true",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function",
+     "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "successIcon",
+     "(Only supports global configuration) Custom success icon in Alert icon",
+     "ReactNode",
+     "-",
+     "×",
+     "6.2.0"
+    ],
+    [
+     "title",
+     "Content of Alert",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "type",
+     "Type of Alert styles, options: `success`, `info`, `warning`, `error`",
+     "string",
+     "`info`, in `banner` mode default is `warning`",
+     "—",
+     "×"
+    ],
+    [
+     "warningIcon",
+     "(Only supports global configuration) Custom warning icon in Alert icon",
+     "ReactNode",
+     "-",
+     "×",
+     "6.2.0"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "afterClose",
+     "Called when close animation is finished",
+     "function",
+     "-",
+     "-"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "-",
+     "-"
+    ],
+    [
+     "onClose",
+     "Callback when Alert is closed",
+     "(e: MouseEvent) => void",
+     "-",
+     "-"
+    ]
+   ],
+   "name": "ClosableType"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "description",
+     "Custom error description to show",
+     "ReactNode",
+     "{{ error stack }}",
+     "—"
+    ],
+    [
+     "~~message~~",
+     "Custom error message to show, please use `title` instead",
+     "ReactNode",
+     "{{ error }}",
+     "—"
+    ],
+    [
+     "title",
+     "Custom error title to show",
+     "ReactNode",
+     "{{ error }}",
+     "—"
+    ]
+   ],
+   "name": "Alert.ErrorBoundary"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "action",
+    "The action of Alert",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~afterClose~~",
+    "Called when close animation is finished, please use `closable.afterClose` instead",
+    "() => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "banner",
+    "Whether to show as banner",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "variant",
+    "Variant of Alert style",
+    "`outlined` | `filled`",
+    "outlined",
+    "6.4.0",
+    "6.4.0"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function",
+    "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "closable",
+    "The config of closable",
+    "boolean | ClosableType & React.AriaAttributes",
+    "false",
+    "—",
+    "5.15.0"
+   ],
+   [
+    "closeIcon",
+    "(Only supports global configuration) Custom close icon",
+    "ReactNode",
+    "-",
+    "×",
+    "5.14.0"
+   ],
+   [
+    "description",
+    "Additional content of Alert",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "errorIcon",
+    "(Only supports global configuration) Custom error icon in Alert icon",
+    "ReactNode",
+    "-",
+    "×",
+    "6.2.0"
+   ],
+   [
+    "icon",
+    "Custom icon, effective when `showIcon` is true",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "infoIcon",
+    "(Only supports global configuration) Custom info icon in Alert icon",
+    "ReactNode",
+    "-",
+    "×",
+    "6.2.0"
+   ],
+   [
+    "~~message~~",
+    "Content of Alert, please use `title` instead",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~onClose~~",
+    "Callback when Alert is closed, please use `closable.onClose` instead",
+    "(e: MouseEvent) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~closeIcon~~",
+    "Custom close icon, please use `closable.closeIcon` instead",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~closeText~~",
+    "Close text to show, please use `closable.closeIcon` instead",
+    "ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "showIcon",
+    "Whether to show icon",
+    "boolean",
+    "false, in `banner` mode default is true",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function",
+    "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "successIcon",
+    "(Only supports global configuration) Custom success icon in Alert icon",
+    "ReactNode",
+    "-",
+    "×",
+    "6.2.0"
+   ],
+   [
+    "title",
+    "Content of Alert",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "type",
+    "Type of Alert styles, options: `success`, `info`, `warning`, `error`",
+    "string",
+    "`info`, in `banner` mode default is `warning`",
+    "—",
+    "×"
+   ],
+   [
+    "warningIcon",
+    "(Only supports global configuration) Custom warning icon in Alert icon",
+    "ReactNode",
+    "-",
+    "×",
+    "6.2.0"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "variant",
+   "values": [
+    "outlined",
+    "filled"
+   ],
+   "default": "outlined",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "type",
+   "values": [
+    "success",
+    "info",
+    "warning",
+    "error"
+   ],
+   "default": "`info`, in `banner` mode default is `warning`",
+   "owner": "",
+   "source": "desc",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with border, background, padding, border-radius, and positioning styles for the alert container"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "Content element with flex layout controlling content area typography and minimum width"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element with color, line-height, and margin styles, supporting different status icon types"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with text color and font styling for the alert title"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "Description element with font-size and line-height styles for additional content"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "Actions element with layout and spacing styles for action buttons"
+   },
+   {
+    "name": "close",
+    "mark": "semantic-mark-close",
+    "description": "Close button element with basic button styling"
+   }
+  ],
+  "dom": "<div class=\"ant-alert ant-alert-info ant-alert-outlined ant-alert-with-description semantic-mark-root css-var-test-id\" data-show=\"true\" role=\"alert\">\n        <span class=\"ant-alert-icon semantic-mark-icon\">\n          <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n            <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n              <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm32 664c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V456c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v272zm-32-344a48.01 48.01 0 010-96 48.01 48.01 0 010 96z\"></path>\n            </svg>\n          </span>\n        </span>\n        <div class=\"ant-alert-section semantic-mark-section\">\n          <div class=\"ant-alert-title semantic-mark-title\">\n            Info Text\n          </div>\n          <div class=\"ant-alert-description semantic-mark-description\">\n            Info Description Info Description Info Description Info Description\n          </div>\n        </div>\n        <div class=\"ant-alert-actions semantic-mark-actions\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\" style=\"min-width: 80px;\">\n            <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-btn-block\" type=\"button\">\n              <span>\n                Accept\n              </span>\n            </button>\n            <button class=\"ant-btn css-var-test-id ant-btn-default ant-btn-dangerous ant-btn-color-dangerous ant-btn-variant-outlined ant-btn-sm ant-btn-background-ghost ant-btn-block\" type=\"button\">\n              <span>\n                Decline\n              </span>\n            </button>\n          </div>\n        </div>\n        <button class=\"ant-alert-close-icon semantic-mark-close\" tabindex=\"0\" type=\"button\">\n          <span aria-label=\"close\" class=\"anticon anticon-close\" role=\"img\">\n            <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n              <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n            </svg>\n          </span>\n        </button>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of alert",
+     "BorderRadius<string | number> | undefined",
+     "8"
+    ],
+    [
+     "defaultPadding",
+     "Default padding",
+     "Padding<string | number> | undefined",
+     "8px 12px"
+    ],
+    [
+     "withDescriptionIconSize",
+     "Icon size with description",
+     "string | number",
+     "24"
+    ],
+    [
+     "withDescriptionPadding",
+     "Padding with description",
+     "Padding<string | number> | undefined",
+     "20px 24px"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorError",
+     "Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBg",
+     "The background color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorErrorBorder",
+     "The border color of the error state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorInfo",
+     "Used to represent the operation information of the Token sequence, such as Alert, Tag, Progress, and other components use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorInfoBg",
+     "Light background color of information color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorInfoBorder",
+     "Border color of information color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccess",
+     "Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccessBg",
+     "Light background color of success color, used for Tag and Alert success state background color",
+     "string",
+     "—"
+    ],
+    [
+     "colorSuccessBorder",
+     "Border color of success color, used for Tag and Alert success state border color",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarning",
+     "Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBg",
+     "The background color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWarningBorder",
+     "The border color of the warning state.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginSM",
+     "Control the margin of an element, with a medium-small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,966 @@
+{
+ "slug": "tabs",
+ "title": "Tabs",
+ "group": "Navigation",
+ "folder": "tabs",
+ "description": "Tabs make it easy to explore and switch between different views.",
+ "components": [
+  "Tabs",
+  "Tab",
+  "TabScrollButton",
+  "TabContext",
+  "TabList",
+  "TabPanel"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Tabs organize and allow navigation between groups of content that are related and at the same level of hierarchy."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Tabs are implemented using a collection of related components:\n\n- `<Tab />` - the tab element itself. Clicking on a tab displays its corresponding panel.\n- `<Tabs />` - the container that houses the tabs. Responsible for handling focus and keyboard navigation between tabs."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicTabs",
+     "file": "BasicTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\ninterface TabPanelProps {\n  children?: React.ReactNode;\n  index: number;\n  value: number;\n}\n\nfunction CustomTabPanel(props: TabPanelProps) {\n  const { children, value, index, ...other } = props;\n\n  return (\n    <div\n      role=\"tabpanel\"\n      hidden={value !== index}\n      id={`simple-tabpanel-${index}`}\n      aria-labelledby={`simple-tab-${index}`}\n      {...other}\n    >\n      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}\n    </div>\n  );\n}\n\nfunction a11yProps(index: number) {\n  return {\n    id: `simple-tab-${index}`,\n    'aria-controls': `simple-tabpanel-${index}`,\n  };\n}\n\nexport default function BasicTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>\n        <Tabs value={value} onChange={handleChange} aria-label=\"basic tabs example\">\n          <Tab label=\"Item One\" {...a11yProps(0)} />\n          <Tab label=\"Item Two\" {...a11yProps(1)} />\n          <Tab label=\"Item Three\" {...a11yProps(2)} />\n        </Tabs>\n      </Box>\n      <CustomTabPanel value={value} index={0}>\n        Item One\n      </CustomTabPanel>\n      <CustomTabPanel value={value} index={1}>\n        Item Two\n      </CustomTabPanel>\n      <CustomTabPanel value={value} index={2}>\n        Item Three\n      </CustomTabPanel>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Experimental API",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`@mui/lab` offers utility components that inject props to implement accessible tabs\nfollowing [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/):\n\n- `<TabList />` - the container that houses the tabs. Responsible for handling focus and keyboard navigation between tabs.\n- `<TabPanel />` - the card that hosts the content associated with a tab.\n- `<TabContext />` - the top-level component that wraps the Tab List and Tab Panel components."
+    },
+    {
+     "kind": "demo",
+     "name": "LabTabs",
+     "file": "LabTabs.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Tab from '@mui/material/Tab';\nimport TabContext from '@mui/lab/TabContext';\nimport TabList from '@mui/lab/TabList';\nimport TabPanel from '@mui/lab/TabPanel';\n\nexport default function LabTabs() {\n  const [value, setValue] = React.useState('1');\n\n  const handleChange = (event: React.SyntheticEvent, newValue: string) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%', typography: 'body1' }}>\n      <TabContext value={value}>\n        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>\n          <TabList onChange={handleChange} aria-label=\"lab API tabs example\">\n            <Tab label=\"Item One\" value=\"1\" />\n            <Tab label=\"Item Two\" value=\"2\" />\n            <Tab label=\"Item Three\" value=\"3\" />\n          </TabList>\n        </Box>\n        <TabPanel value=\"1\">Item One</TabPanel>\n        <TabPanel value=\"2\">Item Two</TabPanel>\n        <TabPanel value=\"3\">Item Three</TabPanel>\n      </TabContext>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Wrapped labels",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Long labels will automatically wrap on tabs.\nIf the label is too long for the tab, it will overflow, and the text will not be visible."
+    },
+    {
+     "kind": "demo",
+     "name": "TabsWrappedLabel",
+     "file": "TabsWrappedLabel.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function TabsWrappedLabel() {\n  const [value, setValue] = React.useState('one');\n\n  const handleChange = (event: React.SyntheticEvent, newValue: string) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        aria-label=\"wrapped label tabs example\"\n      >\n        <Tab\n          value=\"one\"\n          label=\"New Arrivals in the Longest Text of Nonfiction that should appear in the next line\"\n          wrapped\n        />\n        <Tab value=\"two\" label=\"Item Two\" />\n        <Tab value=\"three\" label=\"Item Three\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Colored tab",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ColorTabs",
+     "file": "ColorTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function ColorTabs() {\n  const [value, setValue] = React.useState('one');\n\n  const handleChange = (event: React.SyntheticEvent, newValue: string) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        textColor=\"secondary\"\n        indicatorColor=\"secondary\"\n        aria-label=\"secondary tabs example\"\n      >\n        <Tab value=\"one\" label=\"Item One\" />\n        <Tab value=\"two\" label=\"Item Two\" />\n        <Tab value=\"three\" label=\"Item Three\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Disabled tab",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A tab can be disabled by setting the `disabled` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "DisabledTabs",
+     "file": "DisabledTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\n\nexport default function DisabledTabs() {\n  const [value, setValue] = React.useState(2);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Tabs value={value} onChange={handleChange} aria-label=\"disabled tabs example\">\n      <Tab label=\"Active\" />\n      <Tab label=\"Disabled\" disabled />\n      <Tab label=\"Active\" />\n    </Tabs>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Fixed tabs",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Fixed tabs should be used with a limited number of tabs, and when a consistent placement will aid muscle memory."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Full width",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `variant=\"fullWidth\"` prop should be used for smaller views."
+    },
+    {
+     "kind": "demo",
+     "name": "FullWidthTabs",
+     "file": "FullWidthTabs.tsx",
+     "code": "import * as React from 'react';\nimport { useTheme } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\ninterface TabPanelProps {\n  children?: React.ReactNode;\n  dir?: string;\n  index: number;\n  value: number;\n}\n\nfunction TabPanel(props: TabPanelProps) {\n  const { children, value, index, ...other } = props;\n\n  return (\n    <div\n      role=\"tabpanel\"\n      hidden={value !== index}\n      id={`full-width-tabpanel-${index}`}\n      aria-labelledby={`full-width-tab-${index}`}\n      {...other}\n    >\n      {value === index && (\n        <Box sx={{ p: 3 }}>\n          <Typography>{children}</Typography>\n        </Box>\n      )}\n    </div>\n  );\n}\n\nfunction a11yProps(index: number) {\n  return {\n    id: `full-width-tab-${index}`,\n    'aria-controls': `full-width-tabpanel-${index}`,\n  };\n}\n\nexport default function FullWidthTabs() {\n  const theme = useTheme();\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ bgcolor: 'background.paper', width: 500 }}>\n      <AppBar position=\"static\">\n        <Tabs\n          value={value}\n          onChange={handleChange}\n          indicatorColor=\"secondary\"\n          textColor=\"inherit\"\n          variant=\"fullWidth\"\n          aria-label=\"full width tabs example\"\n        >\n          <Tab label=\"Item One\" {...a11yProps(0)} />\n          <Tab label=\"Item Two\" {...a11yProps(1)} />\n          <Tab label=\"Item Three\" {...a11yProps(2)} />\n        </Tabs>\n      </AppBar>\n      <TabPanel value={value} index={0} dir={theme.direction}>\n        Item One\n      </TabPanel>\n      <TabPanel value={value} index={1} dir={theme.direction}>\n        Item Two\n      </TabPanel>\n      <TabPanel value={value} index={2} dir={theme.direction}>\n        Item Three\n      </TabPanel>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Centered",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `centered` prop should be used for larger views."
+    },
+    {
+     "kind": "demo",
+     "name": "CenteredTabs",
+     "file": "CenteredTabs.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\n\nexport default function CenteredTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>\n      <Tabs value={value} onChange={handleChange} centered>\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Scrollable tabs",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Automatic scroll buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `variant=\"scrollable\"` and `scrollButtons=\"auto\"` props to display left and right scroll buttons on desktop that are hidden on mobile:"
+    },
+    {
+     "kind": "demo",
+     "name": "ScrollableTabsButtonAuto",
+     "file": "ScrollableTabsButtonAuto.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function ScrollableTabsButtonAuto() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        variant=\"scrollable\"\n        scrollButtons=\"auto\"\n        aria-label=\"scrollable auto tabs example\"\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n        <Tab label=\"Item Four\" />\n        <Tab label=\"Item Five\" />\n        <Tab label=\"Item Six\" />\n        <Tab label=\"Item Seven\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Forced scroll buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Apply `scrollButtons={true}` and the `allowScrollButtonsMobile` prop to display the left and right scroll buttons on all viewports:"
+    },
+    {
+     "kind": "demo",
+     "name": "ScrollableTabsButtonForce",
+     "file": "ScrollableTabsButtonForce.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function ScrollableTabsButtonForce() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        variant=\"scrollable\"\n        scrollButtons\n        allowScrollButtonsMobile\n        aria-label=\"scrollable force tabs example\"\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n        <Tab label=\"Item Four\" />\n        <Tab label=\"Item Five\" />\n        <Tab label=\"Item Six\" />\n        <Tab label=\"Item Seven\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "If you want to make sure the buttons are always visible, you should customize the opacity."
+    },
+    {
+     "kind": "code",
+     "lang": "css",
+     "text": ".MuiTabs-scrollButtons.Mui-disabled {\n  opacity: 0.3;\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "ScrollableTabsButtonVisible",
+     "file": "ScrollableTabsButtonVisible.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Tabs, { tabsClasses } from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\n\nexport default function ScrollableTabsButtonVisible() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box\n      sx={{\n        flexGrow: 1,\n        maxWidth: { xs: 320, sm: 480 },\n        bgcolor: 'background.paper',\n      }}\n    >\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        variant=\"scrollable\"\n        scrollButtons\n        aria-label=\"visible arrows tabs example\"\n        sx={{\n          [`& .${tabsClasses.scrollButtons}`]: {\n            '&.Mui-disabled': { opacity: 0.3 },\n          },\n        }}\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n        <Tab label=\"Item Four\" />\n        <Tab label=\"Item Five\" />\n        <Tab label=\"Item Six\" />\n        <Tab label=\"Item Seven\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Prevent scroll buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Left and right scroll buttons are never be presented with `scrollButtons={false}`.\nAll scrolling must be initiated through user agent scrolling mechanisms (for example left/right swipe, shift mouse wheel, etc.)"
+    },
+    {
+     "kind": "demo",
+     "name": "ScrollableTabsButtonPrevent",
+     "file": "ScrollableTabsButtonPrevent.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function ScrollableTabsButtonPrevent() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        variant=\"scrollable\"\n        scrollButtons={false}\n        aria-label=\"scrollable prevent tabs example\"\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n        <Tab label=\"Item Four\" />\n        <Tab label=\"Item Five\" />\n        <Tab label=\"Item Six\" />\n        <Tab label=\"Item Seven\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedTabs",
+     "file": "CustomizedTabs.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nconst AntTabs = styled(Tabs)({\n  borderBottom: '1px solid #e8e8e8',\n  '& .MuiTabs-indicator': {\n    backgroundColor: '#1890ff',\n  },\n});\n\nconst AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} />)(\n  ({ theme }) => ({\n    textTransform: 'none',\n    minWidth: 0,\n    [theme.breakpoints.up('sm')]: {\n      minWidth: 0,\n    },\n    fontWeight: theme.typography.fontWeightRegular,\n    marginRight: theme.spacing(1),\n    color: 'rgba(0, 0, 0, 0.85)',\n    fontFamily: [\n      '-apple-system',\n      'BlinkMacSystemFont',\n      '\"Segoe UI\"',\n      'Roboto',\n      '\"Helvetica Neue\"',\n      'Arial',\n      'sans-serif',\n      '\"Apple Color Emoji\"',\n      '\"Segoe UI Emoji\"',\n      '\"Segoe UI Symbol\"',\n    ].join(','),\n    '&:hover': {\n      color: '#40a9ff',\n      opacity: 1,\n    },\n    '&.Mui-selected': {\n      color: '#1890ff',\n      fontWeight: theme.typography.fontWeightMedium,\n    },\n    '&.Mui-focusVisible': {\n      backgroundColor: '#d1eaff',\n    },\n  }),\n);\n\ninterface StyledTabsProps {\n  children?: React.ReactNode;\n  value: number;\n  onChange: (event: React.SyntheticEvent, newValue: number) => void;\n}\n\nconst StyledTabs = styled((props: StyledTabsProps) => (\n  <Tabs\n    {...props}\n    slotProps={{\n      indicator: { children: <span className=\"MuiTabs-indicatorSpan\" /> },\n    }}\n  />\n))({\n  '& .MuiTabs-indicator': {\n    display: 'flex',\n    justifyContent: 'center',\n    backgroundColor: 'transparent',\n  },\n  '& .MuiTabs-indicatorSpan': {\n    maxWidth: 40,\n    width: '100%',\n    backgroundColor: '#635ee7',\n  },\n});\n\ninterface StyledTabProps {\n  label: string;\n}\n\nconst StyledTab = styled((props: StyledTabProps) => (\n  <Tab disableRipple {...props} />\n))(({ theme }) => ({\n  textTransform: 'none',\n  fontWeight: theme.typography.fontWeightRegular,\n  fontSize: theme.typography.pxToRem(15),\n  marginRight: theme.spacing(1),\n  color: 'rgba(255, 255, 255, 0.7)',\n  '&.Mui-selected': {\n    color: '#fff',\n  },\n  '&.Mui-focusVisible': {\n    backgroundColor: 'rgba(100, 95, 228, 0.32)',\n  },\n}));\n\nexport default function CustomizedTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Box sx={{ bgcolor: '#fff' }}>\n        <AntTabs value={value} onChange={handleChange} aria-label=\"ant example\">\n          <AntTab label=\"Tab 1\" />\n          <AntTab label=\"Tab 2\" />\n          <AntTab label=\"Tab 3\" />\n        </AntTabs>\n        <Box sx={{ p: 3 }} />\n      </Box>\n      <Box sx={{ bgcolor: '#2e1534' }}>\n        <StyledTabs\n          value={value}\n          onChange={handleChange}\n          aria-label=\"styled tabs example\"\n        >\n          <StyledTab label=\"Workflows\" />\n          <StyledTab label=\"Datasets\" />\n          <StyledTab label=\"Connections\" />\n        </StyledTabs>\n        <Box sx={{ p: 3 }} />\n      </Box>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "🎨 If you are looking for inspiration, you can check [MUI Treasury's customization examples](https://mui-treasury.com/primitive/tabs)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Vertical tabs",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To make vertical tabs instead of default horizontal ones, there is `orientation=\"vertical\"`:"
+    },
+    {
+     "kind": "demo",
+     "name": "VerticalTabs",
+     "file": "VerticalTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\ninterface TabPanelProps {\n  children?: React.ReactNode;\n  index: number;\n  value: number;\n}\n\nfunction TabPanel(props: TabPanelProps) {\n  const { children, value, index, ...other } = props;\n\n  return (\n    <div\n      role=\"tabpanel\"\n      hidden={value !== index}\n      id={`vertical-tabpanel-${index}`}\n      aria-labelledby={`vertical-tab-${index}`}\n      {...other}\n    >\n      {value === index && (\n        <Box sx={{ p: 3 }}>\n          <Typography>{children}</Typography>\n        </Box>\n      )}\n    </div>\n  );\n}\n\nfunction a11yProps(index: number) {\n  return {\n    id: `vertical-tab-${index}`,\n    'aria-controls': `vertical-tabpanel-${index}`,\n  };\n}\n\nexport default function VerticalTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box\n      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}\n    >\n      <Tabs\n        orientation=\"vertical\"\n        variant=\"scrollable\"\n        value={value}\n        onChange={handleChange}\n        aria-label=\"Vertical tabs example\"\n        sx={{ borderRight: 1, borderColor: 'divider' }}\n      >\n        <Tab label=\"Item One\" {...a11yProps(0)} />\n        <Tab label=\"Item Two\" {...a11yProps(1)} />\n        <Tab label=\"Item Three\" {...a11yProps(2)} />\n        <Tab label=\"Item Four\" {...a11yProps(3)} />\n        <Tab label=\"Item Five\" {...a11yProps(4)} />\n        <Tab label=\"Item Six\" {...a11yProps(5)} />\n        <Tab label=\"Item Seven\" {...a11yProps(6)} />\n      </Tabs>\n      <TabPanel value={value} index={0}>\n        Item One\n      </TabPanel>\n      <TabPanel value={value} index={1}>\n        Item Two\n      </TabPanel>\n      <TabPanel value={value} index={2}>\n        Item Three\n      </TabPanel>\n      <TabPanel value={value} index={3}>\n        Item Four\n      </TabPanel>\n      <TabPanel value={value} index={4}>\n        Item Five\n      </TabPanel>\n      <TabPanel value={value} index={5}>\n        Item Six\n      </TabPanel>\n      <TabPanel value={value} index={6}>\n        Item Seven\n      </TabPanel>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Note that you can restore the scrollbar with `visibleScrollbar`."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Nav tabs",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, tabs use a `button` element, but you can provide your custom tag or component. Here's an example of implementing tabbed navigation:"
+    },
+    {
+     "kind": "demo",
+     "name": "NavTabs",
+     "file": "NavTabs.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\n\nfunction samePageLinkNavigation(\n  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,\n) {\n  if (\n    event.defaultPrevented ||\n    event.button !== 0 || // ignore everything but left-click\n    event.metaKey ||\n    event.ctrlKey ||\n    event.altKey ||\n    event.shiftKey\n  ) {\n    return false;\n  }\n  return true;\n}\n\ninterface LinkTabProps {\n  label?: string;\n  href?: string;\n  selected?: boolean;\n}\n\nfunction LinkTab(props: LinkTabProps) {\n  return (\n    <Tab\n      component=\"a\"\n      onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {\n        // Routing libraries handle this, you can remove the onClick handle when using them.\n        if (samePageLinkNavigation(event)) {\n          event.preventDefault();\n        }\n      }}\n      aria-current={props.selected && 'page'}\n      {...props}\n    />\n  );\n}\n\nexport default function NavTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    // event.type can be equal to focus with selectionFollowsFocus.\n    if (\n      event.type !== 'click' ||\n      (event.type === 'click' &&\n        samePageLinkNavigation(\n          event as React.MouseEvent<HTMLAnchorElement, MouseEvent>,\n        ))\n    ) {\n      setValue(newValue);\n    }\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Tabs\n        value={value}\n        onChange={handleChange}\n        aria-label=\"nav tabs example\"\n        role=\"navigation\"\n      >\n        <LinkTab label=\"Page One\" href=\"/drafts\" />\n        <LinkTab label=\"Page Two\" href=\"/trash\" />\n        <LinkTab label=\"Page Three\" href=\"/spam\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Third-party routing library",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "One frequent use case is to perform navigation on the client only, without an HTTP round-trip to the server.\nThe `Tab` component provides the `component` prop to handle this use case.\nHere is a [more detailed guide](/material-ui/integrations/routing/#tabs)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon tabs",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Tab labels may be either all icons or all text."
+    },
+    {
+     "kind": "demo",
+     "name": "IconTabs",
+     "file": "IconTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport PhoneIcon from '@mui/icons-material/Phone';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport PersonPinIcon from '@mui/icons-material/PersonPin';\n\nexport default function IconTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Tabs value={value} onChange={handleChange} aria-label=\"icon tabs example\">\n      <Tab icon={<PhoneIcon />} aria-label=\"phone\" />\n      <Tab icon={<FavoriteIcon />} aria-label=\"favorite\" />\n      <Tab icon={<PersonPinIcon />} aria-label=\"person\" />\n    </Tabs>\n  );\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "IconLabelTabs",
+     "file": "IconLabelTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport PhoneIcon from '@mui/icons-material/Phone';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport PersonPinIcon from '@mui/icons-material/PersonPin';\n\nexport default function IconLabelTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Tabs value={value} onChange={handleChange} aria-label=\"icon label tabs example\">\n      <Tab icon={<PhoneIcon />} label=\"RECENTS\" />\n      <Tab icon={<FavoriteIcon />} label=\"FAVORITES\" />\n      <Tab icon={<PersonPinIcon />} label=\"NEARBY\" />\n    </Tabs>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon position",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, the icon is positioned at the `top` of a tab. Other supported positions are `start`, `end`, `bottom`."
+    },
+    {
+     "kind": "demo",
+     "name": "IconPositionTabs",
+     "file": "IconPositionTabs.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport PhoneIcon from '@mui/icons-material/Phone';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport PersonPinIcon from '@mui/icons-material/PersonPin';\nimport PhoneMissedIcon from '@mui/icons-material/PhoneMissed';\n\nexport default function IconPositionTabs() {\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Tabs\n      value={value}\n      onChange={handleChange}\n      aria-label=\"icon position tabs example\"\n    >\n      <Tab icon={<PhoneIcon />} label=\"top\" />\n      <Tab icon={<PhoneMissedIcon />} iconPosition=\"start\" label=\"start\" />\n      <Tab icon={<FavoriteIcon />} iconPosition=\"end\" label=\"end\" />\n      <Tab icon={<PersonPinIcon />} iconPosition=\"bottom\" label=\"bottom\" />\n    </Tabs>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)\n\nThe following steps are needed in order to provide necessary information for assistive technologies:\n\n1. Label `Tabs` via `aria-label` or `aria-labelledby`.\n2. `Tab`s need to be connected to their\n   corresponding `[role=\"tabpanel\"]` by setting the correct `id`, `aria-controls` and `aria-labelledby`.\n\nAn example for the current implementation can be found in the demos on this page. We've also published [an experimental API](#experimental-api) in `@mui/lab` that does not require\nextra work."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard navigation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The components implement keyboard navigation using the \"manual activation\" behavior.\nIf you want to switch to the \"selection automatically follows focus\" behavior you have to pass `selectionFollowsFocus` to the `Tabs` component.\nThe WAI-ARIA authoring practices have a detailed guide on [how to decide when to make selection automatically follow focus](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#x6-4-deciding-when-to-make-selection-automatically-follow-focus).\n\n#### Demo\n\nThe following two demos only differ in their keyboard navigation behavior.\nFocus a tab and navigate with arrow keys to notice the difference, for example <kbd class=\"key\">Arrow Left</kbd>."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "/* Tabs where selection follows focus */\n<Tabs selectionFollowsFocus />\n"
+    },
+    {
+     "kind": "demo",
+     "name": "AccessibleTabs1",
+     "file": "AccessibleTabs1.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function AccessibleTabs1() {\n  const [value, setValue] = React.useState(0);\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Tabs\n        onChange={handleChange}\n        value={value}\n        aria-label=\"Tabs where selection follows focus\"\n        selectionFollowsFocus\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "/* Tabs where each tab needs to be selected manually */\n<Tabs />\n"
+    },
+    {
+     "kind": "demo",
+     "name": "AccessibleTabs2",
+     "file": "AccessibleTabs2.tsx",
+     "code": "import * as React from 'react';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Box from '@mui/material/Box';\n\nexport default function AccessibleTabs2() {\n  const [value, setValue] = React.useState(0);\n  const handleChange = (event: React.SyntheticEvent, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: '100%' }}>\n      <Tabs\n        onChange={handleChange}\n        value={value}\n        aria-label=\"Tabs where each tab needs to be selected manually\"\n      >\n        <Tab label=\"Item One\" />\n        <Tab label=\"Item Two\" />\n        <Tab label=\"Item Three\" />\n      </Tabs>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Tabs",
+   "description": "",
+   "props": [
+    {
+     "prop": "action",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component mounts. This is useful when you want to trigger an action programmatically. It supports two actions: <code>updateIndicator()</code> and <code>updateScrollButtons()</code>"
+    },
+    {
+     "prop": "allowScrollButtonsMobile",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the scroll buttons aren&#39;t forced hidden on mobile. By default the scroll buttons are hidden on mobile and takes precedence over <code>scrollButtons</code>."
+    },
+    {
+     "prop": "aria-label",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label for the Tabs as a string."
+    },
+    {
+     "prop": "aria-labelledby",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An id or list of ids separated by a space that label the Tabs."
+    },
+    {
+     "prop": "centered",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the tabs are centered. This prop is intended for large views."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "indicatorColor",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Determines the color of the indicator."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value changes."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation (layout flow direction)."
+    },
+    {
+     "prop": "scrollButtons",
+     "type": "'auto'<br>&#124;&nbsp;false<br>&#124;&nbsp;true",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "<p>Determine behavior of scroll buttons when tabs are set to scroll:</p>\n<ul>\n<li><code>auto</code> will only present them when not all the items are visible.</li>\n<li><code>true</code> will always present them.</li>\n<li><code>false</code> will never present them.</li>\n</ul>\n<p>By default the scroll buttons are hidden on mobile.\nThis behavior can be disabled with <code>allowScrollButtonsMobile</code>.</p>\n"
+    },
+    {
+     "prop": "selectionFollowsFocus",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code> the selected tab changes on focus. Otherwise it only changes on activation."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ endScrollButtonIcon?: func<br>&#124;&nbsp;object, indicator?: func<br>&#124;&nbsp;object, list?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, scrollbar?: func<br>&#124;&nbsp;object, scrollButtons?: func<br>&#124;&nbsp;object, scroller?: func<br>&#124;&nbsp;object, startScrollButtonIcon?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ endScrollButtonIcon?: elementType, indicator?: elementType, list?: elementType, root?: elementType, scrollbar?: elementType, scrollButtons?: elementType, scroller?: elementType, startScrollButtonIcon?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "textColor",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Determines the color of the <code>Tab</code>."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the currently selected <code>Tab</code>. If you don&#39;t want any selected <code>Tab</code>, you can set this prop to <code>false</code>."
+    },
+    {
+     "prop": "variant",
+     "type": "'fullWidth'<br>&#124;&nbsp;'scrollable'<br>&#124;&nbsp;'standard'",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "<p>Determines additional display behavior of the tabs:</p>\n<ul>\n<li><code>scrollable</code> will invoke scrolling properties and allow for horizontally\n scrolling (or swiping) of the tab bar.</li>\n<li><code>fullWidth</code> will make the tabs grow to use all the available space,\n which should be used for small views, like on mobile.</li>\n<li><code>standard</code> will render the default state.</li>\n</ul>\n"
+    },
+    {
+     "prop": "visibleScrollbar",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the scrollbar is visible. It can be useful when displaying a long vertical list of tabs."
+    }
+   ],
+   "classes": [
+    {
+     "key": "centered",
+     "className": "MuiTabs-centered",
+     "description": "Styles applied to the flex container element if `centered={true}` & `!variant=\"scrollable\"`."
+    },
+    {
+     "key": "fixed",
+     "className": "MuiTabs-fixed",
+     "description": "Styles applied to the tablist element if `!variant=\"scrollable\"`\b\b\b."
+    },
+    {
+     "key": "hideScrollbar",
+     "className": "MuiTabs-hideScrollbar",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `visibleScrollbar={false}`."
+    },
+    {
+     "key": "scrollableX",
+     "className": "MuiTabs-scrollableX",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "scrollableY",
+     "className": "MuiTabs-scrollableY",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `orientation=\"vertical\"`."
+    },
+    {
+     "key": "scrollButtonsHideMobile",
+     "className": "MuiTabs-scrollButtonsHideMobile",
+     "description": "Styles applied to the ScrollButtonComponent component if `allowScrollButtonsMobile={true}`."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiTabs-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  },
+  {
+   "name": "Tab",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "unsupportedProp",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop isn&#39;t supported. Use the <code>component</code> prop if you need to change the children structure."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the  keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled.<br>⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the <code>.Mui-focusVisible</code> class."
+    },
+    {
+     "prop": "icon",
+     "type": "element<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display."
+    },
+    {
+     "prop": "iconPosition",
+     "type": "'bottom'<br>&#124;&nbsp;'end'<br>&#124;&nbsp;'start'<br>&#124;&nbsp;'top'",
+     "default": "'top'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The position of the icon relative to the label."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label element."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "You can provide your own value. Otherwise, we fallback to the child position index."
+    },
+    {
+     "prop": "wrapped",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Tab labels appear in a single row. They can use a second line if needed."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}` (controlled by the Tabs component)."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiTab-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}` (controlled by the Tabs component)."
+    },
+    {
+     "key": "icon",
+     "className": "MuiTab-icon",
+     "description": "Styles applied to the `icon` HTML element if both `icon` and `label` are provided."
+    },
+    {
+     "key": "labelIcon",
+     "className": "MuiTab-labelIcon",
+     "description": "Styles applied to the root element if both `icon` and `label` are provided."
+    },
+    {
+     "key": "root",
+     "className": "MuiTab-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}` (controlled by the Tabs component)."
+    },
+    {
+     "key": "textColorInherit",
+     "className": "MuiTab-textColorInherit",
+     "description": "Styles applied to the root element if the parent [`Tabs`](/material-ui/api/tabs/) has `textColor=\"inherit\"`."
+    },
+    {
+     "key": "textColorPrimary",
+     "className": "MuiTab-textColorPrimary",
+     "description": "Styles applied to the root element if the parent [`Tabs`](/material-ui/api/tabs/) has `textColor=\"primary\"`."
+    },
+    {
+     "key": "textColorSecondary",
+     "className": "MuiTab-textColorSecondary",
+     "description": "Styles applied to the root element if the parent [`Tabs`](/material-ui/api/tabs/) has `textColor=\"secondary\"`."
+    },
+    {
+     "key": "wrapped",
+     "className": "MuiTab-wrapped",
+     "description": "Styles applied to the root element if `wrapped={true}`."
+    }
+   ]
+  },
+  {
+   "name": "TabScrollButton",
+   "description": "",
+   "props": [
+    {
+     "prop": "direction",
+     "type": "'left'<br>&#124;&nbsp;'right'",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The direction the button should indicate."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The component orientation (layout flow direction)."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ endScrollButtonIcon?: func<br>&#124;&nbsp;object, startScrollButtonIcon?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The extra props for the slot components. You can override the existing props or add new ones."
+    },
+    {
+     "prop": "slots",
+     "type": "{ EndScrollButtonIcon?: elementType, StartScrollButtonIcon?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiTabScrollButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiTabScrollButton-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  },
+  {
+   "name": "TabContext",
+   "description": "",
+   "props": [
+    {
+     "prop": "value",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The value of the currently selected <code>Tab</code>."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "TabList",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A list of <code>&lt;Tab /&gt;</code> elements."
+    }
+   ],
+   "classes": [
+    {
+     "key": "centered",
+     "className": "MuiTabList-centered",
+     "description": "Styles applied to the flex container element if `centered={true}` & `!variant=\"scrollable\"`."
+    },
+    {
+     "key": "fixed",
+     "className": "MuiTabList-fixed",
+     "description": "Styles applied to the tablist element if `!variant=\"scrollable\"`\b\b\b."
+    },
+    {
+     "key": "hideScrollbar",
+     "className": "MuiTabList-hideScrollbar",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `visibleScrollbar={false}`."
+    },
+    {
+     "key": "indicator",
+     "className": "MuiTabList-indicator",
+     "description": "Styles applied to the TabIndicator component."
+    },
+    {
+     "key": "list",
+     "className": "MuiTabList-list",
+     "description": "Styles applied to the list element."
+    },
+    {
+     "key": "root",
+     "className": "MuiTabList-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "scrollableX",
+     "className": "MuiTabList-scrollableX",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "scrollableY",
+     "className": "MuiTabList-scrollableY",
+     "description": "Styles applied to the tablist element if `variant=\"scrollable\"` and `orientation=\"vertical\"`."
+    },
+    {
+     "key": "scrollButtons",
+     "className": "MuiTabList-scrollButtons",
+     "description": "Styles applied to the ScrollButtonComponent component."
+    },
+    {
+     "key": "scrollButtonsHideMobile",
+     "className": "MuiTabList-scrollButtonsHideMobile",
+     "description": "Styles applied to the ScrollButtonComponent component if `allowScrollButtonsMobile={true}`."
+    },
+    {
+     "key": "scroller",
+     "className": "MuiTabList-scroller",
+     "description": "Styles applied to the tablist element."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiTabList-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  },
+  {
+   "name": "TabPanel",
+   "description": "",
+   "props": [
+    {
+     "prop": "value",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The <code>value</code> of the corresponding <code>Tab</code>. Must use the index of the <code>Tab</code> when no <code>value</code> was passed to <code>Tab</code>."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "keepMounted",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Always keep the children in the DOM."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "hidden",
+     "className": "MuiTabPanel-hidden",
+     "description": "State class applied to the root `div` element if `hidden={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiTabPanel-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-tabs/"
+}

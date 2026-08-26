@@ -1,0 +1,451 @@
+{
+ "slug": "splitter",
+ "title": "Splitter",
+ "description": "Resizable split panel layout",
+ "group": "Layout",
+ "whenToUse": "Can be used to separate areas horizontally or vertically. When you need to freely drag and adjust the size of each area. When you need to specify the maximum and minimum width and height of an area.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Initialize panel size, panel size limit.",
+   "code": "import React from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\n\nexport const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => (\n  <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n    <Splitter.Panel defaultSize=\"40%\" min=\"20%\" max=\"70%\">\n      <Desc text=\"First\" />\n    </Splitter.Panel>\n    <Splitter.Panel>\n      <Desc text=\"Second\" />\n    </Splitter.Panel>\n  </Splitter>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Control mode",
+   "description": "Control the size of the splitter. When one of the panels disables `resizable`, dragging will be disabled.",
+   "code": "import React from 'react';\nimport { Button, Flex, Splitter, Switch, Typography } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => {\n  const [sizes, setSizes] = React.useState<(number | string)[]>(['50%', '50%']);\n  const [enabled, setEnabled] = React.useState(true);\n  return (\n    <Flex vertical gap=\"medium\">\n      <Splitter\n        onResize={setSizes}\n        style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}\n      >\n        <Splitter.Panel size={sizes[0]} resizable={enabled}>\n          <Desc text=\"First\" />\n        </Splitter.Panel>\n        <Splitter.Panel size={sizes[1]}>\n          <Desc text=\"Second\" />\n        </Splitter.Panel>\n      </Splitter>\n      <Flex gap=\"medium\" justify=\"space-between\">\n        <Switch\n          value={enabled}\n          onChange={() => setEnabled(!enabled)}\n          checkedChildren=\"Enabled\"\n          unCheckedChildren=\"Disabled\"\n        />\n        <Button onClick={() => setSizes(['50%', '50%'])}>Reset</Button>\n      </Flex>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "control"
+  },
+  {
+   "name": "Vertical",
+   "description": "Use vertical layout.",
+   "code": "import React from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => (\n  <Splitter vertical style={{ height: 300, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n    <Splitter.Panel>\n      <Desc text=\"First\" />\n    </Splitter.Panel>\n    <Splitter.Panel>\n      <Desc text=\"Second\" />\n    </Splitter.Panel>\n  </Splitter>\n);\n\nexport default App;",
+   "demoId": "vertical"
+  },
+  {
+   "name": "Collapsible",
+   "description": "Set `collapsible` to enable collapse. Can through `min` to limit dragging to expand when collapsed.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Splitter, Switch, Typography } from 'antd';\nimport type { SplitterProps } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst CustomSplitter: React.FC<Readonly<SplitterProps>> = ({ style, ...restProps }) => (\n  <Splitter style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', ...style }} {...restProps}>\n    <Splitter.Panel collapsible min=\"20%\">\n      <Desc text=\"First\" />\n    </Splitter.Panel>\n    <Splitter.Panel collapsible>\n      <Desc text=\"Second\" />\n    </Splitter.Panel>\n  </Splitter>\n);\n\nconst App: React.FC = () => {\n  const [motion, setMotion] = useState(true);\n\n  return (\n    <Flex vertical gap=\"middle\">\n      <Flex gap=\"middle\">\n        <Switch\n          checked={motion}\n          onChange={setMotion}\n          checkedChildren=\"motion\"\n          unCheckedChildren=\"motion\"\n        />\n      </Flex>\n      <CustomSplitter style={{ height: 200 }} collapsible={{ motion }} />\n      <CustomSplitter style={{ height: 300 }} orientation=\"vertical\" collapsible={{ motion }} />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "collapsible"
+  },
+  {
+   "name": "Control collapsible icons",
+   "description": "Set `collapsible.showCollapsibleIcon` to control the display mode of collapsible icons.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Radio, Splitter, Typography } from 'antd';\nimport type { RadioChangeEvent } from 'antd';\nimport type { CheckboxGroupProps } from 'antd/es/checkbox';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst options: CheckboxGroupProps<'auto' | boolean>['options'] = [\n  { label: 'Auto', value: 'auto' },\n  { label: 'True', value: true },\n  { label: 'False', value: false },\n];\n\nconst App: React.FC = () => {\n  const [showIconMode, setShowIconMode] = useState<'auto' | boolean>(true);\n\n  const onChange = (e: RadioChangeEvent) => {\n    setShowIconMode(e.target.value);\n  };\n\n  return (\n    <Flex vertical gap={20}>\n      <Flex gap={5}>\n        <p>ShowCollapsibleIcon: </p>\n        <Radio.Group options={options} value={showIconMode} onChange={onChange} />\n      </Flex>\n      <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n        <Splitter.Panel\n          collapsible={{ start: true, end: true, showCollapsibleIcon: showIconMode }}\n          min=\"20%\"\n        >\n          <Desc text=\"First\" />\n        </Splitter.Panel>\n        <Splitter.Panel collapsible={{ start: true, end: true, showCollapsibleIcon: showIconMode }}>\n          <Desc text=\"Second\" />\n        </Splitter.Panel>\n        <Splitter.Panel collapsible={{ start: true, end: true, showCollapsibleIcon: showIconMode }}>\n          <Desc text=\"Third\" />\n        </Splitter.Panel>\n      </Splitter>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "collapsibleicon"
+  },
+  {
+   "name": "Multiple panels",
+   "description": "Multiple panels.",
+   "code": "import React from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      Panel {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => (\n  <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n    <Splitter.Panel collapsible>\n      <Desc text={1} />\n    </Splitter.Panel>\n    <Splitter.Panel collapsible={{ start: true }}>\n      <Desc text={2} />\n    </Splitter.Panel>\n    <Splitter.Panel>\n      <Desc text={3} />\n    </Splitter.Panel>\n  </Splitter>\n);\n\nexport default App;",
+   "demoId": "multiple"
+  },
+  {
+   "name": "Complex combination",
+   "description": "Complex combination panel, quick folding, prohibited from changing size",
+   "code": "import React from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => (\n  <Splitter style={{ height: 300, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n    <Splitter.Panel collapsible>\n      <Desc text=\"Left\" />\n    </Splitter.Panel>\n    <Splitter.Panel>\n      <Splitter orientation=\"vertical\">\n        <Splitter.Panel>\n          <Desc text=\"Top\" />\n        </Splitter.Panel>\n        <Splitter.Panel>\n          <Desc text=\"Bottom\" />\n        </Splitter.Panel>\n      </Splitter>\n    </Splitter.Panel>\n  </Splitter>\n);\n\nexport default App;",
+   "demoId": "group"
+  },
+  {
+   "name": "Lazy",
+   "description": "Lazy mode, dragging does not update the size immediately, but updates when released.",
+   "code": "import React from 'react';\nimport { Flex, Space, Splitter, Typography } from 'antd';\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => (\n  <Space vertical style={{ width: '100%' }}>\n    <Splitter lazy style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>\n      <Splitter.Panel defaultSize=\"40%\" min=\"20%\" max=\"70%\">\n        <Desc text=\"First\" />\n      </Splitter.Panel>\n      <Splitter.Panel>\n        <Desc text=\"Second\" />\n      </Splitter.Panel>\n    </Splitter>\n    <Splitter\n      lazy\n      orientation=\"vertical\"\n      style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}\n    >\n      <Splitter.Panel defaultSize=\"40%\" min=\"30%\" max=\"70%\">\n        <Desc text=\"First\" />\n      </Splitter.Panel>\n      <Splitter.Panel>\n        <Desc text=\"Second\" />\n      </Splitter.Panel>\n    </Splitter>\n  </Space>\n);\n\nexport default App;",
+   "demoId": "lazy"
+  },
+  {
+   "name": "Customize",
+   "description": "customize handle elements and style",
+   "code": "import React from 'react';\nimport {\n  CaretDownOutlined,\n  CaretLeftOutlined,\n  CaretRightOutlined,\n  CaretUpOutlined,\n  ColumnWidthOutlined,\n} from '@ant-design/icons';\nimport { ConfigProvider, Divider, Flex, Splitter, Typography } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => ({\n  dragger: {\n    '&::before': {\n      backgroundColor: 'transparent !important',\n      border: `${token.lineWidth}px dashed ${token.controlItemBgHover}`,\n    },\n    '&:hover::before': {\n      border: `${token.lineWidth}px dashed ${token.colorPrimary}`,\n    },\n  },\n  draggerActive: {\n    '&::before': {\n      border: `${token.lineWidth}px dashed ${token.colorPrimary}`,\n    },\n  },\n  draggerIcon: {\n    '&:hover': {\n      color: token.colorPrimary,\n    },\n  },\n  collapsibleIcon: {\n    fontSize: token.fontSizeLG,\n    color: token.colorTextDescription,\n\n    '&:hover': {\n      color: token.colorPrimary,\n    },\n  },\n}));\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n\n  return (\n    <ConfigProvider\n      theme={{\n        components: {\n          Splitter: { splitBarSize: 1, splitTriggerSize: 16 },\n        },\n      }}\n    >\n      <Splitter\n        style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}\n        draggerIcon={<ColumnWidthOutlined className={styles.draggerIcon} />}\n        collapsible={{\n          icon: {\n            start: <CaretLeftOutlined className={styles.collapsibleIcon} />,\n            end: <CaretRightOutlined className={styles.collapsibleIcon} />,\n          },\n        }}\n      >\n        <Splitter.Panel defaultSize=\"40%\" min=\"20%\" max=\"70%\" collapsible>\n          <Desc text=\"Panel 1\" />\n        </Splitter.Panel>\n\n        <Splitter.Panel collapsible>\n          <Desc text=\"Panel 2\" />\n        </Splitter.Panel>\n\n        <Splitter.Panel resizable={false}>\n          <Desc text=\"Panel 3\" />\n        </Splitter.Panel>\n      </Splitter>\n\n      <Divider />\n\n      <Splitter\n        orientation=\"vertical\"\n        classNames={{ dragger: { default: styles.dragger, active: styles.draggerActive } }}\n        style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}\n        draggerIcon={null}\n        collapsible={{\n          icon: {\n            start: <CaretUpOutlined className={styles.collapsibleIcon} />,\n            end: <CaretDownOutlined className={styles.collapsibleIcon} />,\n          },\n        }}\n      >\n        <Splitter.Panel defaultSize=\"40%\" min=\"30%\" max=\"70%\" collapsible>\n          <Desc text=\"First\" />\n        </Splitter.Panel>\n\n        <Splitter.Panel collapsible>\n          <Desc text=\"Second\" />\n        </Splitter.Panel>\n      </Splitter>\n    </ConfigProvider>\n  );\n};\n\nexport default App;",
+   "demoId": "customize"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Splitter by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\nimport type { GetProp, SplitterProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst Desc: React.FC<Readonly<{ text?: string | number; style?: React.CSSProperties }>> = (\n  props,\n) => {\n  return (\n    <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n      <Typography.Title type=\"secondary\" level={5} style={props.style}>\n        {props.text}\n      </Typography.Title>\n    </Flex>\n  );\n};\n\nconst styles = createStaticStyles(({ css, cssVar }) => ({\n  boxShadow: css`\n    box-shadow: ${cssVar.boxShadowSecondary};\n  `,\n}));\n\nconst stylesObject: SplitterProps['styles'] = {\n  root: { backgroundColor: '#fffbe6' },\n  // dragger: { backgroundColor: 'rgba(194,223,252,0.4)' },\n  dragger: { default: { backgroundColor: 'rgba(194,223,252,0.4)' } },\n};\n\nconst stylesFn: SplitterProps['styles'] = ({\n  props,\n}): GetProp<SplitterProps, 'styles', 'Return'> => {\n  if (props.orientation === 'horizontal') {\n    return {\n      root: {\n        borderWidth: 2,\n        borderStyle: 'dashed',\n        marginBottom: 10,\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const splitSharedProps: SplitterProps = {\n    style: { height: 200 },\n    classNames: { root: styles.boxShadow },\n  };\n\n  return (\n    <Flex vertical gap=\"large\">\n      <Splitter {...splitSharedProps} styles={stylesObject}>\n        <Splitter.Panel>\n          <Desc text=\"First\" style={{ color: '#000' }} />\n        </Splitter.Panel>\n        <Splitter.Panel>\n          <Desc text=\"Second\" style={{ color: '#000' }} />\n        </Splitter.Panel>\n      </Splitter>\n      <Splitter {...splitSharedProps} styles={stylesFn}>\n        <Splitter.Panel>\n          <Desc text=\"First\" />\n        </Splitter.Panel>\n        <Splitter.Panel>\n          <Desc text=\"Second\" />\n        </Splitter.Panel>\n      </Splitter>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  },
+  {
+   "name": "Double-clicked reset",
+   "description": "Double-click the dragger to reset the Splitter.Panel to its default size.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Splitter, Typography } from 'antd';\n\nconst defaultSizes = ['30%', '40%', '30%'];\n\nconst Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (\n  <Flex justify=\"center\" align=\"center\" style={{ height: '100%' }}>\n    <Typography.Title type=\"secondary\" level={5} style={{ whiteSpace: 'nowrap' }}>\n      Panel {props.text}\n    </Typography.Title>\n  </Flex>\n);\n\nconst App: React.FC = () => {\n  const [sizes, setSizes] = useState<(number | string)[]>(defaultSizes);\n\n  const handleDoubleClick = () => {\n    setSizes(defaultSizes);\n  };\n\n  return (\n    <Splitter\n      style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}\n      onResize={setSizes}\n      onDraggerDoubleClick={handleDoubleClick}\n    >\n      <Splitter.Panel size={sizes[0]}>\n        <Desc text={1} />\n      </Splitter.Panel>\n\n      <Splitter.Panel size={sizes[1]}>\n        <Desc text={2} />\n      </Splitter.Panel>\n\n      <Splitter.Panel size={sizes[2]}>\n        <Desc text={3} />\n      </Splitter.Panel>\n    </Splitter>\n  );\n};\n\nexport default App;",
+   "demoId": "reset"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "collapsible",
+     "`motion` to enable collapse animation, `icon` to customize collapse icons",
+     "{ motion?: boolean; icon?: { start?: ReactNode; end?: ReactNode } }",
+     "-",
+     "6.4.0",
+     "×"
+    ],
+    [
+     "~~collapsibleIcon~~",
+     "custom collapsible icon",
+     "{start?: ReactNode; end?: ReactNode}",
+     "-",
+     "6.0.0",
+     "×"
+    ],
+    [
+     "destroyOnHidden",
+     "Destroy panel content when collapsed (size is 0). Applies to all panels, can be overridden per panel",
+     "boolean",
+     "false",
+     "6.4.0",
+     "×"
+    ],
+    [
+     "draggerIcon",
+     "custom dragger icon",
+     "ReactNode",
+     "-",
+     "6.0.0",
+     "×"
+    ],
+    [
+     "~~layout~~",
+     "Layout direction",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "-",
+     "×"
+    ],
+    [
+     "lazy",
+     "Lazy mode",
+     "boolean",
+     "false",
+     "5.23.0",
+     "×"
+    ],
+    [
+     "onCollapse",
+     "Callback when expanding or collapsing",
+     "(collapsed: boolean[], sizes: number[]) => void",
+     "-",
+     "5.28.0",
+     "×"
+    ],
+    [
+     "orientation",
+     "Orientation direction",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "6.0.0",
+     "6.0.0"
+    ],
+    [
+     "vertical",
+     "Orientation. Simultaneously existing with `orientation`, `orientation` takes priority",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "onDraggerDoubleClick",
+     "Callback triggered when the dragger is double-clicked",
+     "(index: number) => void",
+     "-",
+     "6.3.0",
+     "×"
+    ],
+    [
+     "onResize",
+     "Panel size change callback",
+     "(sizes: number[]) => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "onResizeEnd",
+     "Drag end callback",
+     "(sizes: number[]) => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "onResizeStart",
+     "Callback before dragging starts",
+     "(sizes: number[]) => void",
+     "-",
+     "-",
+     "×"
+    ]
+   ],
+   "name": "Splitter"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "collapsible",
+     "Quick folding",
+     "boolean | { start?: boolean; end?: boolean; showCollapsibleIcon?: boolean | 'auto' }",
+     "false",
+     "showCollapsibleIcon: 5.27.0"
+    ],
+    [
+     "defaultSize",
+     "Initial panel size support number for px or 'percent%' usage",
+     "number | string",
+     "-",
+     "-"
+    ],
+    [
+     "destroyOnHidden",
+     "Destroy panel content when collapsed (size is 0). Overrides Splitter's `destroyOnHidden`",
+     "boolean",
+     "-",
+     "6.4.0"
+    ],
+    [
+     "max",
+     "Maximum threshold support number for px or 'percent%' usage",
+     "number | string",
+     "-",
+     "-"
+    ],
+    [
+     "min",
+     "Minimum threshold support number for px or 'percent%' usage",
+     "number | string",
+     "-",
+     "-"
+    ],
+    [
+     "resizable",
+     "Whether to enable drag and drop",
+     "boolean",
+     "true",
+     "-"
+    ],
+    [
+     "size",
+     "Controlled panel size support number for px or 'percent%' usage",
+     "number | string",
+     "-",
+     "-"
+    ]
+   ],
+   "name": "Panel"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "collapsible",
+    "`motion` to enable collapse animation, `icon` to customize collapse icons",
+    "{ motion?: boolean; icon?: { start?: ReactNode; end?: ReactNode } }",
+    "-",
+    "6.4.0",
+    "×"
+   ],
+   [
+    "~~collapsibleIcon~~",
+    "custom collapsible icon",
+    "{start?: ReactNode; end?: ReactNode}",
+    "-",
+    "6.0.0",
+    "×"
+   ],
+   [
+    "destroyOnHidden",
+    "Destroy panel content when collapsed (size is 0). Applies to all panels, can be overridden per panel",
+    "boolean",
+    "false",
+    "6.4.0",
+    "×"
+   ],
+   [
+    "draggerIcon",
+    "custom dragger icon",
+    "ReactNode",
+    "-",
+    "6.0.0",
+    "×"
+   ],
+   [
+    "~~layout~~",
+    "Layout direction",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "-",
+    "×"
+   ],
+   [
+    "lazy",
+    "Lazy mode",
+    "boolean",
+    "false",
+    "5.23.0",
+    "×"
+   ],
+   [
+    "onCollapse",
+    "Callback when expanding or collapsing",
+    "(collapsed: boolean[], sizes: number[]) => void",
+    "-",
+    "5.28.0",
+    "×"
+   ],
+   [
+    "orientation",
+    "Orientation direction",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "6.0.0",
+    "6.0.0"
+   ],
+   [
+    "vertical",
+    "Orientation. Simultaneously existing with `orientation`, `orientation` takes priority",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "onDraggerDoubleClick",
+    "Callback triggered when the dragger is double-clicked",
+    "(index: number) => void",
+    "-",
+    "6.3.0",
+    "×"
+   ],
+   [
+    "onResize",
+    "Panel size change callback",
+    "(sizes: number[]) => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "onResizeEnd",
+    "Drag end callback",
+    "(sizes: number[]) => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "onResizeStart",
+    "Callback before dragging starts",
+    "(sizes: number[]) => void",
+    "-",
+    "-",
+    "×"
+   ]
+  ],
+  "name": "Splitter"
+ },
+ "variants": [
+  {
+   "prop": "layout",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "Splitter",
+   "source": "type",
+   "deprecated": true
+  },
+  {
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "Splitter",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with flex layout, width and height, alignment and stretch styles"
+   },
+   {
+    "name": "panel",
+    "mark": "semantic-mark-panel",
+    "description": "Panel element with flex basis, grow ratio and panel container styles"
+   },
+   {
+    "name": "dragger",
+    "mark": "semantic-mark-dragger",
+    "description": "Drag control element with absolute positioning, user selection, z-index, center alignment, background color, hover and active states styles"
+   }
+  ],
+  "dom": "<div class=\"ant-splitter ant-splitter-horizontal semantic-mark-root css-var-test-id ant-splitter-css-var\" style=\"height: 200px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\">\n        <div class=\"ant-splitter-panel semantic-mark-panel\" style=\"flex-basis: auto; flex-grow: 1;\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-center\" style=\"height: 100%;\">\n            <h5 class=\"ant-typography ant-typography-secondary css-var-test-id\" style=\"white-space: nowrap;\">\n              First\n            </h5>\n          </div>\n        </div>\n        <div class=\"ant-splitter-bar\">\n          <div aria-disabled=\"false\" aria-orientation=\"vertical\" aria-valuemax=\"0\" aria-valuemin=\"0\" aria-valuenow=\"50\" class=\"ant-splitter-bar-dragger semantic-mark-dragger\" role=\"separator\">\n        </div>\n        <div class=\"ant-splitter-panel semantic-mark-panel\" style=\"flex-basis: auto; flex-grow: 1;\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-center\" style=\"height: 100%;\">\n            <h5 class=\"ant-typography ant-typography-secondary css-var-test-id\" style=\"white-space: nowrap;\">\n              Second\n            </h5>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "<ComponentTokenTable component='Splitter'></ComponentTokenTable>",
+ "componentToken": null,
+ "globalToken": null
+}

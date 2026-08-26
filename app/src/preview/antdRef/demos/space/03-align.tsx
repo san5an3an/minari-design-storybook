@@ -1,0 +1,69 @@
+/* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: app/src/preview/antdRef/space.json 의 examples[3] ("Align")
+ * 그 파일은 tools/fetch_antd_reference.py 가 공식 문서에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@ant-design/icons` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/antd_demo_ko.py` 의 사전).
+ *       사전에 없는 문자열은 손대지 않는다. API 값은 사전에 안 넣는다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import React from 'react';
+import { Button, Flex, Space } from 'antd';
+import { createStyles } from 'antd-style';
+
+const useStyles = createStyles((props) => {
+  const { css, cssVar } = props;
+  return {
+    spaceAlignBox: css`
+      flex: none;
+      margin: ${cssVar.marginXXS};
+      padding: ${cssVar.paddingXXS};
+      border: ${cssVar.lineWidth} ${cssVar.lineType} ${cssVar.blue};
+    `,
+    mockBox: css`
+      display: inline-block;
+      padding: ${cssVar.paddingXL} ${cssVar.padding};
+      background-color: rgba(150, 150, 150, 0.2);
+    `,
+  };
+});
+
+const App: React.FC = () => {
+  const { styles } = useStyles();
+  return (
+    <Flex wrap align="flex-start">
+      <div className={styles.spaceAlignBox}>
+        <Space align="center">
+          center
+          <Button type="primary">기본</Button>
+          <span className={styles.mockBox}>덩어리</span>
+        </Space>
+      </div>
+      <div className={styles.spaceAlignBox}>
+        <Space align="start">
+          start
+          <Button type="primary">기본</Button>
+          <span className={styles.mockBox}>덩어리</span>
+        </Space>
+      </div>
+      <div className={styles.spaceAlignBox}>
+        <Space align="end">
+          end
+          <Button type="primary">기본</Button>
+          <span className={styles.mockBox}>덩어리</span>
+        </Space>
+      </div>
+      <div className={styles.spaceAlignBox}>
+        <Space align="baseline">
+          baseline
+          <Button type="primary">기본</Button>
+          <span className={styles.mockBox}>덩어리</span>
+        </Space>
+      </div>
+    </Flex>
+  );
+};
+
+export default App;

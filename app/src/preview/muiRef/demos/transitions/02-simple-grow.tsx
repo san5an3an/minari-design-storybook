@@ -1,0 +1,59 @@
+/* 자동 생성 — tools/gen_mui_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: mui/material-ui 의 docs/data/material/components/transitions/SimpleGrow.tsx
+ *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
+ *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
+import Paper from '@mui/material/Paper';
+import Grow from '@mui/material/Grow';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+const icon = (
+  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
+    <svg width="100" height="100">
+      <Box
+        component="polygon"
+        points="0,100 50,00, 100,100"
+        sx={(theme) => ({
+          fill: theme.palette.common.white,
+          stroke: theme.palette.divider,
+          strokeWidth: 1,
+        })}
+      />
+    </svg>
+  </Paper>
+);
+
+export default function SimpleGrow() {
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
+
+  return (
+    <Box sx={{ height: 180 }}>
+      <FormControlLabel
+        control={<Switch checked={checked} onChange={handleChange} />}
+        label="Show"
+      />
+      <Box sx={{ display: 'flex' }}>
+        <Grow in={checked}>{icon}</Grow>
+        {/* Conditionally applies the timeout prop to change the entry speed. */}
+        <Grow
+          in={checked}
+          style={{ transformOrigin: '0 0 0' }}
+          {...(checked ? { timeout: 1000 } : {})}
+        >
+          {icon}
+        </Grow>
+      </Box>
+    </Box>
+  );
+}

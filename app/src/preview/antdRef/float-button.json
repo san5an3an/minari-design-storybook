@@ -1,0 +1,706 @@
+{
+ "slug": "float-button",
+ "title": "FloatButton",
+ "description": "A button that floats at the top of the page.",
+ "group": "General",
+ "whenToUse": "- For global functionality on the site.\n- Buttons that can be seen wherever you browse.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The most basic usage.",
+   "code": "import React from 'react';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => <FloatButton onClick={() => console.log('onClick')} />;\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "basic"
+  },
+  {
+   "name": "Type",
+   "description": "Change the type of the FloatButton with the `type` property.",
+   "code": "import React from 'react';\nimport { QuestionCircleOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton icon={<QuestionCircleOutlined />} type=\"primary\" style={{ insetInlineEnd: 24 }} />\n    <FloatButton icon={<QuestionCircleOutlined />} type=\"default\" style={{ insetInlineEnd: 94 }} />\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "type"
+  },
+  {
+   "name": "Shape",
+   "description": "Change the shape of the FloatButton with the `shape` property.",
+   "code": "import React from 'react';\nimport { CustomerServiceOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton\n      shape=\"circle\"\n      type=\"primary\"\n      style={{ insetInlineEnd: 94 }}\n      icon={<CustomerServiceOutlined />}\n    />\n    <FloatButton\n      shape=\"square\"\n      type=\"primary\"\n      style={{ insetInlineEnd: 24 }}\n      icon={<CustomerServiceOutlined />}\n    />\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "shape"
+  },
+  {
+   "name": "Content",
+   "description": "Setting the `content` property allows you to show a FloatButton with a description.",
+   "code": "import React from 'react';\nimport { FileTextOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton\n      icon={<FileTextOutlined />}\n      content=\"HELP INFO\"\n      shape=\"square\"\n      style={{ insetInlineEnd: 24 }}\n    />\n    <FloatButton content=\"HELP INFO\" shape=\"square\" style={{ insetInlineEnd: 94 }} />\n    <FloatButton\n      icon={<FileTextOutlined />}\n      content=\"HELP\"\n      shape=\"square\"\n      style={{ insetInlineEnd: 164 }}\n    />\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "content"
+  },
+  {
+   "name": "FloatButton with tooltip",
+   "description": "Setting the `tooltip` property shows the FloatButton with a tooltip.",
+   "code": "import React from 'react';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton\n      style={{ insetBlockEnd: 108 }}\n      tooltip={{\n        // tooltipProps is supported starting from version 5.25.0.\n        title: 'Since 5.25.0+',\n        color: 'blue',\n        placement: 'top',\n      }}\n    />\n    <FloatButton tooltip={<div>Documents</div>} />\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "tooltip"
+  },
+  {
+   "name": "FloatButton Group",
+   "description": "When multiple buttons are used together, `<FloatButton.Group />` is recommended. By setting the `shape` property of FloatButton.Group, you can change the shape of group. The `shape` of the FloatButton.Group will override the `shape` of FloatButtons inside.",
+   "code": "import React from 'react';\nimport { QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton.Group shape=\"circle\" style={{ insetInlineEnd: 24 }}>\n      <FloatButton icon={<QuestionCircleOutlined />} />\n      <FloatButton />\n      <FloatButton.BackTop visibilityHeight={0} />\n    </FloatButton.Group>\n    <FloatButton.Group shape=\"square\" style={{ insetInlineEnd: 94 }}>\n      <FloatButton icon={<QuestionCircleOutlined />} />\n      <FloatButton />\n      <FloatButton icon={<SyncOutlined />} />\n      <FloatButton.BackTop visibilityHeight={0} />\n    </FloatButton.Group>\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "group"
+  },
+  {
+   "name": "Menu mode",
+   "description": "Open menu mode with `trigger`, which could be `hover` or `click`.",
+   "code": "import React from 'react';\nimport { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton.Group\n      trigger=\"click\"\n      type=\"primary\"\n      style={{ insetInlineEnd: 24 }}\n      icon={<CustomerServiceOutlined />}\n    >\n      <FloatButton />\n      <FloatButton icon={<CommentOutlined />} />\n    </FloatButton.Group>\n    <FloatButton.Group\n      trigger=\"hover\"\n      type=\"primary\"\n      style={{ insetInlineEnd: 94 }}\n      icon={<CustomerServiceOutlined />}\n    >\n      <FloatButton />\n      <FloatButton icon={<CommentOutlined />} />\n    </FloatButton.Group>\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "group-menu"
+  },
+  {
+   "name": "Controlled mode",
+   "description": "Set the component to controlled mode through `open`, which need to be used together with `trigger`.",
+   "code": "import React, { useState } from 'react';\nimport { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';\nimport { FloatButton, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState<boolean>(true);\n  return (\n    <>\n      <Switch onChange={setOpen} checked={open} style={{ margin: 16 }} />\n      <FloatButton.Group\n        open={open}\n        trigger=\"click\"\n        style={{ insetInlineEnd: 24 }}\n        icon={<CustomerServiceOutlined />}\n      >\n        <FloatButton />\n        <FloatButton />\n        <FloatButton icon={<CommentOutlined />} />\n      </FloatButton.Group>\n      <FloatButton.Group\n        open={open}\n        shape=\"square\"\n        trigger=\"click\"\n        style={{ insetInlineEnd: 88 }}\n        icon={<CustomerServiceOutlined />}\n      >\n        <FloatButton />\n        <FloatButton />\n        <FloatButton icon={<CommentOutlined />} />\n      </FloatButton.Group>\n    </>\n  );\n};\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "controlled"
+  },
+  {
+   "name": "placement",
+   "description": "Customize animation placement, providing four preset placement: `top`, `right`, `bottom`, `left`, the `top` position by default.",
+   "code": "import React from 'react';\nimport {\n  CommentOutlined,\n  DownOutlined,\n  LeftOutlined,\n  RightOutlined,\n  UpOutlined,\n} from '@ant-design/icons';\nimport { Flex, FloatButton } from 'antd';\n\nconst BOX_SIZE = 100;\nconst BUTTON_SIZE = 40;\n\nconst wrapperStyle: React.CSSProperties = {\n  width: '100%',\n  height: '100vh',\n  overflow: 'hidden',\n  position: 'relative',\n};\n\nconst boxStyle: React.CSSProperties = {\n  width: BOX_SIZE,\n  height: BOX_SIZE,\n  position: 'relative',\n};\n\nconst insetInlineEnd: React.CSSProperties['insetInlineEnd'][] = [\n  (BOX_SIZE - BUTTON_SIZE) / 2,\n  -(BUTTON_SIZE / 2),\n  (BOX_SIZE - BUTTON_SIZE) / 2,\n  BOX_SIZE - BUTTON_SIZE / 2,\n];\n\nconst bottom: React.CSSProperties['bottom'][] = [\n  BOX_SIZE - BUTTON_SIZE / 2,\n  (BOX_SIZE - BUTTON_SIZE) / 2,\n  -BUTTON_SIZE / 2,\n  (BOX_SIZE - BUTTON_SIZE) / 2,\n];\n\nconst icons = [\n  <UpOutlined key=\"up\" />,\n  <RightOutlined key=\"right\" />,\n  <DownOutlined key=\"down\" />,\n  <LeftOutlined key=\"left\" />,\n];\n\nconst App: React.FC = () => (\n  <Flex justify=\"space-evenly\" align=\"center\" style={wrapperStyle}>\n    <div style={boxStyle}>\n      {(['top', 'right', 'bottom', 'left'] as const).map((placement, i) => {\n        const style: React.CSSProperties = {\n          position: 'absolute',\n          insetInlineEnd: insetInlineEnd[i],\n          bottom: bottom[i],\n        };\n        return (\n          <FloatButton.Group\n            key={placement}\n            trigger=\"click\"\n            placement={placement}\n            style={style}\n            icon={icons[i]}\n          >\n            <FloatButton />\n            <FloatButton icon={<CommentOutlined />} />\n          </FloatButton.Group>\n        );\n      })}\n    </div>\n  </Flex>\n);\n\nexport default App;",
+   "iframe": 380,
+   "demoId": "placement"
+  },
+  {
+   "name": "draggable",
+   "description": "Implement drag-and-drop functionality with third-party libraries.",
+   "code": "import React from 'react';\nimport type { DragEndEvent } from '@dnd-kit/core';\nimport { DndContext, PointerSensor, useDraggable, useSensor, useSensors } from '@dnd-kit/core';\nimport { CSS } from '@dnd-kit/utilities';\nimport { FloatButton } from 'antd';\n\ninterface Position {\n  x: number;\n  y: number;\n}\n\ninterface DraggableButtonProps {\n  position: Position;\n}\n\nconst DraggableButton: React.FC<DraggableButtonProps> = (props) => {\n  const { position } = props;\n\n  const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({\n    id: 'draggable-float-button',\n  });\n\n  const mergedTransform = CSS.Translate.toString({\n    x: position.x + (transform?.x ?? 0),\n    y: position.y + (transform?.y ?? 0),\n    scaleX: transform?.scaleX ?? 1,\n    scaleY: transform?.scaleY ?? 1,\n  });\n\n  return (\n    <FloatButton\n      ref={setNodeRef}\n      {...listeners}\n      {...attributes}\n      style={{\n        transform: mergedTransform,\n        cursor: isDragging ? 'grabbing' : 'grab',\n        transition: isDragging ? 'none' : undefined,\n        touchAction: 'none',\n      }}\n    />\n  );\n};\n\nconst Demo: React.FC = () => {\n  const [position, setPosition] = React.useState<Position>({ x: 0, y: 0 });\n\n  const sensor = useSensor(PointerSensor, {\n    activationConstraint: {\n      distance: 10,\n    },\n  });\n\n  const sensors = useSensors(sensor);\n\n  const onDragEnd = (event: DragEndEvent) => {\n    const { delta } = event;\n    setPosition(({ x, y }) => ({ x: x + delta.x, y: y + delta.y }));\n  };\n\n  return (\n    <DndContext sensors={sensors} onDragEnd={onDragEnd} id=\"float-button-draggable\">\n      <DraggableButton position={position} />\n    </DndContext>\n  );\n};\n\nexport default Demo;",
+   "iframe": 380,
+   "demoId": "draggable"
+  },
+  {
+   "name": "BackTop",
+   "description": "`BackTop` makes it easy to go back to the top of the page.",
+   "code": "import React from 'react';\nimport { FloatButton } from 'antd';\n\nconst Demo: React.FC = () => {\n  return (\n    <div style={{ height: '300vh', padding: 10 }}>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <FloatButton.BackTop style={{ insetInlineEnd: 24 }} shape=\"circle\" />\n      <FloatButton.BackTop style={{ insetInlineEnd: 88 }} shape=\"square\" />\n    </div>\n  );\n};\n\nexport default Demo;",
+   "iframe": 360,
+   "demoId": "back-top"
+  },
+  {
+   "name": "Progress ring",
+   "description": "Use `showProgress` to display the current scroll progress around the BackTop button edge.",
+   "code": "import React from 'react';\nimport { FloatButton } from 'antd';\n\nconst sharedProps: React.ComponentProps<typeof FloatButton.BackTop> = {\n  showProgress: true,\n  visibilityHeight: 0,\n};\n\nconst Demo: React.FC = () => {\n  return (\n    <div style={{ height: '300vh', padding: 10 }}>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <div>Scroll to bottom</div>\n      <FloatButton.BackTop {...sharedProps} style={{ insetInlineEnd: 24 }} shape=\"circle\" />\n      <FloatButton.BackTop {...sharedProps} style={{ insetInlineEnd: 88 }} shape=\"square\" />\n    </div>\n  );\n};\n\nexport default Demo;",
+   "iframe": 360,
+   "demoId": "progress-ring"
+  },
+  {
+   "name": "badge",
+   "description": "FloatButton with Badge.",
+   "code": "import React from 'react';\nimport { QuestionCircleOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\n\nconst App: React.FC = () => (\n  <>\n    <FloatButton shape=\"circle\" style={{ insetInlineEnd: 24 + 70 + 70 }} badge={{ dot: true }} />\n    <FloatButton.Group shape=\"circle\" style={{ insetInlineEnd: 24 + 70 }}>\n      <FloatButton tooltip={<div>custom badge color</div>} badge={{ count: 5, color: 'blue' }} />\n      <FloatButton badge={{ count: 5 }} />\n    </FloatButton.Group>\n    <FloatButton.Group shape=\"circle\">\n      <FloatButton badge={{ count: 12 }} icon={<QuestionCircleOutlined />} />\n      <FloatButton badge={{ count: 123, overflowCount: 999 }} />\n      <FloatButton.BackTop visibilityHeight={0} />\n    </FloatButton.Group>\n  </>\n);\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "badge"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of FloatButton by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { QuestionCircleOutlined } from '@ant-design/icons';\nimport { FloatButton } from 'antd';\nimport type { FloatButtonProps, GetProp } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles(({ token }) => ({\n  root: {\n    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,\n    borderRadius: token.borderRadius,\n    padding: `${token.paddingXS}px ${token.padding}px`,\n    height: 'auto',\n  },\n  content: {\n    color: token.colorText,\n  },\n}));\n\nconst stylesObject: FloatButtonProps['styles'] = {\n  root: {\n    boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',\n  },\n};\n\nconst stylesFn: FloatButtonProps['styles'] = (\n  info,\n): GetProp<FloatButtonProps, 'styles', 'Return'> => {\n  if (info.props.type === 'primary') {\n    return {\n      root: {\n        backgroundColor: '#171717',\n      },\n      content: {\n        color: '#fff',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const { styles: classNames } = useStyles();\n  return (\n    <FloatButton.Group shape=\"circle\" style={{ insetInlineEnd: 24 + 70 }}>\n      <FloatButton\n        type=\"primary\"\n        classNames={classNames}\n        styles={stylesFn}\n        tooltip={<div>custom style class</div>}\n      />\n      <FloatButton\n        type=\"default\"\n        classNames={classNames}\n        styles={stylesObject}\n        icon={<QuestionCircleOutlined />}\n      />\n    </FloatButton.Group>\n  );\n};\n\nexport default App;",
+   "iframe": 360,
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "icon",
+     "Set the icon component of button",
+     "ReactNode",
+     "-",
+     "—",
+     "FloatButton: ×, BackTop: 5.27.0"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "content",
+     "Text and other",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~description~~",
+     "Please use `content` instead",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "tooltip",
+     "The text shown in the tooltip",
+     "ReactNode | TooltipProps",
+     "-",
+     "TooltipProps: 5.25.0",
+     "×"
+    ],
+    [
+     "type",
+     "Setting button type",
+     "`default` | `primary`",
+     "default",
+     "—",
+     "×"
+    ],
+    [
+     "shape",
+     "Setting button shape",
+     "`circle` | `square`",
+     "circle",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "onClick",
+     "Set the handler to handle `click` event",
+     "(event) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "href",
+     "The target of hyperlink",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "target",
+     "Specifies where to display the linked URL",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "htmlType",
+     "Set the original html `type` of `button`, see: MDN",
+     "`submit` | `reset` | `button`",
+     "button",
+     "5.21.0",
+     "×"
+    ],
+    [
+     "badge",
+     "Attach Badge to FloatButton. `status` and other props related are not supported.",
+     "BadgeProps",
+     "-",
+     "5.4.0",
+     "×"
+    ],
+    [
+     "disabled",
+     "Whether the button is disabled",
+     "boolean",
+     "-",
+     "6.4.0",
+     "×"
+    ]
+   ],
+   "name": "common API"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "open",
+     "Whether the menu is visible or not, use it with trigger",
+     "boolean",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "closeIcon",
+     "Customize close button icon",
+     "React.ReactNode",
+     "<CloseOutlined />",
+     "—",
+     "5.16.0"
+    ],
+    [
+     "placement",
+     "Customize menu animation placement",
+     "`top` | `left` | `right` | `bottom`",
+     "top",
+     "5.21.0",
+     "×"
+    ],
+    [
+     "shape",
+     "Setting button shape of children",
+     "`circle` | `square`",
+     "circle",
+     "—",
+     "×"
+    ],
+    [
+     "trigger",
+     "Which action can trigger menu open/close",
+     "`click` | `hover`",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onOpenChange",
+     "Callback executed when active menu is changed, use it with trigger",
+     "(open: boolean) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onClick",
+     "Set the handler to handle `click` event (only work in `Menu mode`)",
+     "(event) => void",
+     "-",
+     "5.3.0",
+     "×"
+    ]
+   ],
+   "name": "FloatButton.Group"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "duration",
+     "Time to return to top (ms). This property is ignored when enables reduced motion (`prefers-reduced-motion: reduce`)",
+     "number",
+     "450",
+     "—"
+    ],
+    [
+     "showProgress",
+     "Show the current scroll progress ring around the BackTop button edge",
+     "boolean",
+     "false",
+     "6.6.0"
+    ],
+    [
+     "target",
+     "Specifies the scrollable area dom node",
+     "() => HTMLElement",
+     "() => window",
+     "—"
+    ],
+    [
+     "visibilityHeight",
+     "The BackTop button will not show until the scroll height reaches this value",
+     "number",
+     "400",
+     "—"
+    ],
+    [
+     "onClick",
+     "A callback function, which can be executed when you click the button",
+     "() => void",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "FloatButton.BackTop"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "icon",
+    "Set the icon component of button",
+    "ReactNode",
+    "-",
+    "—",
+    "FloatButton: ×, BackTop: 5.27.0"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "content",
+    "Text and other",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~description~~",
+    "Please use `content` instead",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "tooltip",
+    "The text shown in the tooltip",
+    "ReactNode | TooltipProps",
+    "-",
+    "TooltipProps: 5.25.0",
+    "×"
+   ],
+   [
+    "type",
+    "Setting button type",
+    "`default` | `primary`",
+    "default",
+    "—",
+    "×"
+   ],
+   [
+    "shape",
+    "Setting button shape",
+    "`circle` | `square`",
+    "circle",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "onClick",
+    "Set the handler to handle `click` event",
+    "(event) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "href",
+    "The target of hyperlink",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "target",
+    "Specifies where to display the linked URL",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "htmlType",
+    "Set the original html `type` of `button`, see: MDN",
+    "`submit` | `reset` | `button`",
+    "button",
+    "5.21.0",
+    "×"
+   ],
+   [
+    "badge",
+    "Attach Badge to FloatButton. `status` and other props related are not supported.",
+    "BadgeProps",
+    "-",
+    "5.4.0",
+    "×"
+   ],
+   [
+    "disabled",
+    "Whether the button is disabled",
+    "boolean",
+    "-",
+    "6.4.0",
+    "×"
+   ]
+  ],
+  "name": "common API"
+ },
+ "variants": [
+  {
+   "prop": "type",
+   "values": [
+    "default",
+    "primary"
+   ],
+   "default": "default",
+   "owner": "common API",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "shape",
+   "values": [
+    "circle",
+    "square"
+   ],
+   "default": "circle",
+   "owner": "common API",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "htmlType",
+   "values": [
+    "submit",
+    "reset",
+    "button"
+   ],
+   "default": "button",
+   "owner": "common API",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "placement",
+   "values": [
+    "top",
+    "left",
+    "right",
+    "bottom"
+   ],
+   "default": "top",
+   "owner": "FloatButton.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "shape",
+   "values": [
+    "circle",
+    "square"
+   ],
+   "default": "circle",
+   "owner": "FloatButton.Group",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "trigger",
+   "values": [
+    "click",
+    "hover"
+   ],
+   "default": "-",
+   "owner": "FloatButton.Group",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with float button base styles, shape size, type theme, fixed positioning, z-index, shadow, spacing and other container styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Content element with button text content font size, color, alignment, line wrap and other text display styles"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element with button icon size, color, line height, alignment and other icon display styles"
+   }
+  ],
+  "dom": "<button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-lg css-var-test-id ant-float-btn-css-var ant-float-btn ant-float-btn-pure ant-float-btn-primary ant-float-btn-square ant-float-btn-individual semantic-mark-root\" type=\"button\">\n        <span class=\"ant-btn-icon ant-float-btn-icon semantic-mark-icon\">\n          <span aria-label=\"question-circle\" class=\"anticon anticon-question-circle\" role=\"img\">\n            <svg aria-hidden=\"true\" data-icon=\"question-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n              <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n              <path d=\"M623.6 316.7C593.6 290.4 554 276 512 276s-81.6 14.5-111.6 40.7C369.2 344 352 380.7 352 420v7.6c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V420c0-44.1 43.1-80 96-80s96 35.9 96 80c0 31.1-22 59.6-56.1 72.7-21.2 8.1-39.2 22.3-52.1 40.9-13.1 19-19.9 41.8-19.9 64.9V620c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-22.7a48.3 48.3 0 0130.9-44.8c59-22.7 97.1-74.7 97.1-132.5.1-39.3-17.1-76-48.3-103.3zM472 732a40 40 0 1080 0 40 40 0 10-80 0z\"></path>\n            </svg>\n          </span>\n        </span>\n        <span class=\"ant-float-btn-content semantic-mark-content\">\n          HELP\n        </span>\n      </button>"
+ },
+ "designToken": "",
+ "componentToken": null,
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "boxShadowSecondary",
+     "Control the secondary box shadow style of an element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBorderSecondary",
+     "Slightly lighter than the default border color, this color is the same as `colorSplit`. Solid color is used.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeSM",
+     "Small font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthBold",
+     "The default line width of the outline class components, such as Button, Input, Select, etc.",
+     "number",
+     "—"
+    ],
+    [
+     "marginLG",
+     "Control the margin of an element, with a large size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXL",
+     "Control the margin of an element, with the largest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXXS",
+     "Control the extra extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "zIndexPopupBase",
+     "Base zIndex of component like FloatButton, Affix which can be cover by large popup",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

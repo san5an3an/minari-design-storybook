@@ -1,0 +1,792 @@
+{
+ "slug": "pagination",
+ "title": "Pagination",
+ "group": "Navigation",
+ "folder": "pagination",
+ "description": "The Pagination component enables the user to select a specific page from a range of pages.",
+ "components": [
+  "Pagination",
+  "PaginationItem",
+  "TablePagination",
+  "TablePaginationActions"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Pagination"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic pagination",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicPagination",
+     "file": "BasicPagination.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function BasicPagination() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={10} />\n      <Pagination count={10} color=\"primary\" />\n      <Pagination count={10} color=\"secondary\" />\n      <Pagination count={10} disabled />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Outlined pagination",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PaginationOutlined",
+     "file": "PaginationOutlined.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationOutlined() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={10} variant=\"outlined\" />\n      <Pagination count={10} variant=\"outlined\" color=\"primary\" />\n      <Pagination count={10} variant=\"outlined\" color=\"secondary\" />\n      <Pagination count={10} variant=\"outlined\" disabled />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Rounded pagination",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PaginationRounded",
+     "file": "PaginationRounded.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationRounded() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={10} shape=\"rounded\" />\n      <Pagination count={10} variant=\"outlined\" shape=\"rounded\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Pagination size",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PaginationSize",
+     "file": "PaginationSize.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationSize() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={10} size=\"small\" />\n      <Pagination count={10} />\n      <Pagination count={10} size=\"large\" />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Buttons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can optionally enable first-page and last-page buttons, or disable the previous-page and next-page buttons."
+    },
+    {
+     "kind": "demo",
+     "name": "PaginationButtons",
+     "file": "PaginationButtons.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationButtons() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={10} showFirstButton showLastButton />\n      <Pagination count={10} hidePrevButton hideNextButton />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Custom icons",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "It's possible to customize the control icons."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomIcons",
+     "file": "CustomIcons.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport PaginationItem from '@mui/material/PaginationItem';\nimport Stack from '@mui/material/Stack';\nimport ArrowBackIcon from '@mui/icons-material/ArrowBack';\nimport ArrowForwardIcon from '@mui/icons-material/ArrowForward';\n\nexport default function CustomIcons() {\n  return (\n    <Stack spacing={2}>\n      <Pagination\n        count={10}\n        renderItem={(item) => (\n          <PaginationItem\n            slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}\n            {...item}\n          />\n        )}\n      />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Pagination ranges",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can specify how many digits to display either side of current page with the `siblingCount` prop, and adjacent to the start and end page number with the `boundaryCount` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "PaginationRanges",
+     "file": "PaginationRanges.tsx",
+     "code": "import Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationRanges() {\n  return (\n    <Stack spacing={2}>\n      <Pagination count={11} defaultPage={6} siblingCount={0} />\n      <Pagination count={11} defaultPage={6} /> {/* Default ranges */}\n      <Pagination count={11} defaultPage={6} siblingCount={0} boundaryCount={2} />\n      <Pagination count={11} defaultPage={6} boundaryCount={2} />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Controlled pagination",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PaginationControlled",
+     "file": "PaginationControlled.tsx",
+     "code": "import * as React from 'react';\nimport Typography from '@mui/material/Typography';\nimport Pagination from '@mui/material/Pagination';\nimport Stack from '@mui/material/Stack';\n\nexport default function PaginationControlled() {\n  const [page, setPage] = React.useState(1);\n  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {\n    setPage(value);\n  };\n\n  return (\n    <Stack spacing={2}>\n      <Typography>Page: {page}</Typography>\n      <Pagination count={10} page={page} onChange={handleChange} />\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Router integration",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "PaginationLink",
+     "file": "PaginationLink.tsx",
+     "code": "import { Link, MemoryRouter, Route, Routes, useLocation } from 'react-router';\nimport Pagination from '@mui/material/Pagination';\nimport PaginationItem from '@mui/material/PaginationItem';\n\nfunction Content() {\n  const location = useLocation();\n  const query = new URLSearchParams(location.search);\n  const page = parseInt(query.get('page') || '1', 10);\n  return (\n    <Pagination\n      page={page}\n      count={10}\n      renderItem={(item) => (\n        <PaginationItem\n          component={Link}\n          to={`/inbox${item.page === 1 ? '' : `?page=${item.page}`}`}\n          {...item}\n        />\n      )}\n    />\n  );\n}\n\nexport default function PaginationLink() {\n  return (\n    <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>\n      <Routes>\n        <Route path=\"*\" element={<Content />} />\n      </Routes>\n    </MemoryRouter>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "`usePagination`",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For advanced customization use cases, a headless `usePagination()` hook is exposed.\nIt accepts almost the same options as the Pagination component minus all the props\nrelated to the rendering of JSX.\nThe Pagination component is built on this hook."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import usePagination from '@mui/material/usePagination';\n"
+    },
+    {
+     "kind": "demo",
+     "name": "UsePagination",
+     "file": "UsePagination.tsx",
+     "code": "import usePagination from '@mui/material/usePagination';\nimport { styled } from '@mui/material/styles';\n\nconst List = styled('ul')({\n  listStyle: 'none',\n  padding: 0,\n  margin: 0,\n  display: 'flex',\n});\n\nexport default function UsePagination() {\n  const { items } = usePagination({\n    count: 10,\n  });\n\n  return (\n    <nav>\n      <List>\n        {items.map(({ page, type, selected, ...item }, index) => {\n          let children = null;\n\n          if (type === 'start-ellipsis' || type === 'end-ellipsis') {\n            children = '…';\n          } else if (type === 'page') {\n            children = (\n              <button\n                type=\"button\"\n                style={{\n                  fontWeight: selected ? 'bold' : undefined,\n                }}\n                {...item}\n              >\n                {page}\n              </button>\n            );\n          } else {\n            children = (\n              <button type=\"button\" {...item}>\n                {type}\n              </button>\n            );\n          }\n\n          return <li key={index}>{children}</li>;\n        })}\n      </List>\n    </nav>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Table pagination",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `Pagination` component was designed to paginate a list of arbitrary items when infinite loading isn't used.\nIt's preferred in contexts where SEO is important, for instance, a blog.\n\nFor the pagination of a large set of tabular data, you should use the `TablePagination` component."
+    },
+    {
+     "kind": "demo",
+     "name": "TablePaginationDemo",
+     "file": "TablePaginationDemo.tsx",
+     "code": "import * as React from 'react';\nimport TablePagination from '@mui/material/TablePagination';\n\nexport default function TablePaginationDemo() {\n  const [page, setPage] = React.useState(2);\n  const [rowsPerPage, setRowsPerPage] = React.useState(10);\n\n  const handleChangePage = (\n    event: React.MouseEvent<HTMLButtonElement> | null,\n    newPage: number,\n  ) => {\n    setPage(newPage);\n  };\n\n  const handleChangeRowsPerPage = (\n    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,\n  ) => {\n    setRowsPerPage(parseInt(event.target.value, 10));\n    setPage(0);\n  };\n\n  return (\n    <TablePagination\n      component=\"div\"\n      count={100}\n      page={page}\n      onPageChange={handleChangePage}\n      rowsPerPage={rowsPerPage}\n      onRowsPerPageChange={handleChangeRowsPerPage}\n    />\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nNote that the `Pagination` page prop starts at 1 to match the requirement of including the value in the URL, while the `TablePagination` page prop starts at 0 to match the requirement of zero-based JavaScript arrays that come with rendering a lot of tabular data.\n:::\n\nYou can learn more about this use case in the [table section](/material-ui/react-table/#custom-pagination-options) of the documentation."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "ARIA",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The root node has a role of \"navigation\" and aria-label \"pagination navigation\" by default. The page items have an aria-label that identifies the purpose of the item (\"go to first page\", \"go to previous page\", \"go to page 1\" etc.).\nYou can override these using the `getItemAriaLabel` prop."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Keyboard",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The pagination items are in tab order, with a tabindex of \"0\"."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Pagination",
+   "description": "",
+   "props": [
+    {
+     "prop": "boundaryCount",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of always visible pages at the beginning and end."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'standard'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The active color. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "count",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "The total number of pages."
+    },
+    {
+     "prop": "defaultPage",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "The page selected by default when the component is uncontrolled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "getItemAriaLabel",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the current page. This is important for screen reader users.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "hideNextButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, hide the next-page button."
+    },
+    {
+     "prop": "hidePrevButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, hide the previous-page button."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the page is changed."
+    },
+    {
+     "prop": "page",
+     "type": "integer",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The current page. Unlike <code>TablePagination</code>, which starts numbering from <code>0</code>, this pagination starts from <code>1</code>."
+    },
+    {
+     "prop": "renderItem",
+     "type": "func",
+     "default": "(item) => <PaginationItem {...item} />",
+     "required": false,
+     "deprecated": false,
+     "desc": "Render the item."
+    },
+    {
+     "prop": "shape",
+     "type": "'circular'<br>&#124;&nbsp;'rounded'",
+     "default": "'circular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The shape of the pagination items."
+    },
+    {
+     "prop": "showFirstButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, show the first-page button."
+    },
+    {
+     "prop": "showLastButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, show the last-page button."
+    },
+    {
+     "prop": "siblingCount",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "Number of always visible pages before and after the current page."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'outlined'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "outlined",
+     "className": "MuiPagination-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiPagination-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "text",
+     "className": "MuiPagination-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    },
+    {
+     "key": "ul",
+     "className": "MuiPagination-ul",
+     "description": "Styles applied to the ul element."
+    }
+   ]
+  },
+  {
+   "name": "PaginationItem",
+   "description": "",
+   "props": [
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'standard'<br>&#124;&nbsp;string",
+     "default": "'standard'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The active color. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "nativeButton",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Whether the custom component should render a native <code>&lt;button&gt;</code> element when rendering a React component with the <code>component</code> or <code>slots</code> prop."
+    },
+    {
+     "prop": "page",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The current page number."
+    },
+    {
+     "prop": "selected",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code> the pagination item is selected."
+    },
+    {
+     "prop": "shape",
+     "type": "'circular'<br>&#124;&nbsp;'rounded'",
+     "default": "'circular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The shape of the pagination item."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ first?: func<br>&#124;&nbsp;object, last?: func<br>&#124;&nbsp;object, next?: func<br>&#124;&nbsp;object, previous?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ first?: elementType, last?: elementType, next?: elementType, previous?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "type",
+     "type": "'end-ellipsis'<br>&#124;&nbsp;'first'<br>&#124;&nbsp;'last'<br>&#124;&nbsp;'next'<br>&#124;&nbsp;'page'<br>&#124;&nbsp;'previous'<br>&#124;&nbsp;'start-ellipsis'",
+     "default": "'page'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The type of pagination item."
+    },
+    {
+     "prop": "variant",
+     "type": "'outlined'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorPrimary",
+     "className": "MuiPaginationItem-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiPaginationItem-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "ellipsis",
+     "className": "MuiPaginationItem-ellipsis",
+     "description": "Styles applied to the root element if `type=\"start-ellipsis\"` or `type=\"end-ellipsis\"`."
+    },
+    {
+     "key": "firstLast",
+     "className": "MuiPaginationItem-firstLast",
+     "description": "Styles applied to the root element if `type=\"first\"` or type=\"last\"."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the root element if keyboard focused."
+    },
+    {
+     "key": "icon",
+     "className": "MuiPaginationItem-icon",
+     "description": "Styles applied to the icon to display."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiPaginationItem-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "page",
+     "className": "MuiPaginationItem-page",
+     "description": "Styles applied to the root element if `type=\"page\"`."
+    },
+    {
+     "key": "previousNext",
+     "className": "MuiPaginationItem-previousNext",
+     "description": "Styles applied to the root element if `type=\"previous\"` or type=\"next\"."
+    },
+    {
+     "key": "root",
+     "className": "MuiPaginationItem-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiPaginationItem-rounded",
+     "description": "Styles applied to the root element if `rounded=\"true\"`."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    },
+    {
+     "key": "sizeLarge",
+     "className": "MuiPaginationItem-sizeLarge",
+     "description": "Styles applied to the root element if `size=\"large\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiPaginationItem-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "text",
+     "className": "MuiPaginationItem-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    }
+   ]
+  },
+  {
+   "name": "TablePagination",
+   "description": "A `TableCell` based component for placing inside `TableFooter` for pagination.",
+   "props": [
+    {
+     "prop": "count",
+     "type": "integer",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The total number of rows.<br>To enable server side pagination for an unknown number of items, provide -1."
+    },
+    {
+     "prop": "onPageChange",
+     "type": "func",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Callback fired when the page is changed."
+    },
+    {
+     "prop": "page",
+     "type": "integer",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The zero-based index of the current page."
+    },
+    {
+     "prop": "rowsPerPage",
+     "type": "integer",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "The number of rows per page.<br>Set -1 to display all the rows."
+    },
+    {
+     "prop": "ActionsComponent",
+     "type": "elementType",
+     "default": "TablePaginationActions",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for displaying the actions. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "getItemAriaLabel",
+     "type": "func",
+     "default": "function defaultGetAriaLabel(type) {\n  return `Go to ${type} page`;\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the current page. This is important for screen reader users.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "labelDisplayedRows",
+     "type": "func",
+     "default": "function defaultLabelDisplayedRows({ from, to, count }) {\n  return `${formatNumber(from)}–${formatNumber(to)} of ${count !== -1 ? formatNumber(count) : `more than ${formatNumber(to)}`}`;\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "Customize the displayed rows label. Invoked with a <code>{ from, to, count, page }</code> object.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "labelRowsPerPage",
+     "type": "node",
+     "default": "'Rows per page:'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Customize the rows per page label.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "onRowsPerPageChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the number of rows per page is changed."
+    },
+    {
+     "prop": "rowsPerPageOptions",
+     "type": "Array&lt;number<br>&#124;&nbsp;{ label: string, value: number }&gt;",
+     "default": "[10, 25, 50, 100]",
+     "required": false,
+     "deprecated": false,
+     "desc": "Customizes the options of the rows per page select field. If less than two options are available, no select field will be displayed. Use -1 for the value with a custom label to show all the rows."
+    },
+    {
+     "prop": "showFirstButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, show the first-page button."
+    },
+    {
+     "prop": "showLastButton",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, show the last-page button."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ actions?: { firstButton?: object, firstButtonIcon?: object, lastButton?: object, lastButtonIcon?: object, nextButton?: object, nextButtonIcon?: object, previousButton?: object, previousButtonIcon?: object }, displayedRows?: func<br>&#124;&nbsp;object, menuItem?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, select?: object, selectLabel?: func<br>&#124;&nbsp;object, spacer?: func<br>&#124;&nbsp;object, toolbar?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ actions?: { firstButton?: elementType, firstButtonIcon?: elementType, lastButton?: elementType, lastButtonIcon?: elementType, nextButton?: elementType, nextButtonIcon?: elementType, previousButton?: elementType, previousButtonIcon?: elementType }, displayedRows?: elementType, menuItem?: elementType, root?: elementType, select?: elementType, selectLabel?: elementType, spacer?: elementType, toolbar?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "input",
+     "className": "MuiTablePagination-input",
+     "description": "Styles applied to the Select component `root` element."
+    },
+    {
+     "key": "selectIcon",
+     "className": "MuiTablePagination-selectIcon",
+     "description": "Styles applied to the Select component `icon` class."
+    },
+    {
+     "key": "selectRoot",
+     "className": "MuiTablePagination-selectRoot",
+     "description": "Styles applied to the Select component `root` element."
+    }
+   ]
+  },
+  {
+   "name": "TablePaginationActions",
+   "description": "",
+   "props": [
+    {
+     "prop": "getItemAriaLabel",
+     "type": "func",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the current page. This is important for screen reader users.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-pagination/"
+}

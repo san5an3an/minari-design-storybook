@@ -1,0 +1,76 @@
+/* 자동 생성 — tools/gen_mui_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: mui/material-ui 의 docs/data/material/components/slider/InputSlider.tsx
+ *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
+ *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import MuiInput from '@mui/material/Input';
+import { VolumeUp } from '../_icons';
+
+const Input = styled(MuiInput)`
+  width: 42px;
+`;
+
+export default function InputSlider() {
+  const [value, setValue] = React.useState(30);
+
+  const handleSliderChange = (event: Event, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value === '' ? 0 : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
+  };
+
+  return (
+    <Box sx={{ width: 250 }}>
+      <Typography id="input-slider" gutterBottom>
+        Volume
+      </Typography>
+      <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+        <Grid>
+          <VolumeUp />
+        </Grid>
+        <Grid size="grow">
+          <Slider
+            value={typeof value === 'number' ? value : 0}
+            onChange={handleSliderChange}
+            aria-labelledby="input-slider"
+          />
+        </Grid>
+        <Grid>
+          <Input
+            value={value}
+            size="small"
+            onChange={handleInputChange}
+            onBlur={handleBlur}
+            inputProps={{
+              step: 10,
+              min: 0,
+              max: 100,
+              type: 'number',
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

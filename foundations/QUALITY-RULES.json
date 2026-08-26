@@ -1,0 +1,85 @@
+{
+  "$description": "minari-design-storybook 품질 규칙, 20종 각각의 최소 기준, 린터 설정에 가까움",
+  "$version": "1.0.0",
+
+  "$NON_GOAL": {
+    "$description": "이 파일은 20종을 서로 호환, 교체, 조합 가능하게 만들기 위한 것이 절대 아님",
+    "rejected": [
+      "20종의 토큰 어휘를 통일해 서로 swap 가능하게 만드는 것",
+      "한 시스템의 컴포넌트에 다른 시스템의 토큰을 끼워 넣는 것",
+      "20종을 조합해 새 디자인시스템을 파생하는 것"
+    ],
+    "history": "20종은 각각 다른 컬러 스키마와 컴포넌트 체계를 가진 완전히 독립된 디자인시스템임",
+    "why_rules_are_still_shared": "코딩 컨벤션 공유만으로 두 제품이 합쳐지진 않음. 여기 있는 것은 쓸 값이 아니라 막을 실수임"
+  },
+
+  "structural_rules": {
+    "$description": "각 시스템 내부에서 지켜야 하는 구조, 시스템끼리 같은 값을 쓰라는 뜻은 아님",
+    "tiers": {
+      "order": ["base", "semantic", "component"],
+      "reference_direction": "component 에서 semantic 거쳐 base로, 한 방향만",
+      "note": "계층 수, 이름은 공통이지만 팔레트 수, 단계 수, 어휘는 시스템마다 자유롭게 다름"
+    },
+    "line_height": "비율(number)만, 절대 px 금지",
+    "naming": {
+      "case": "kebab-case 소문자",
+      "separator": ".",
+      "whitespace": "금지"
+    }
+  },
+
+  "forbidden": {
+    "G1": "시맨틱/컴포넌트 토큰명에 도메인 어휘 금지",
+    "G2": "시맨틱 토큰명에 색조(hue) 금지, 모드 전환 시 이름이 실제와 어긋남",
+    "G3": "semantic 간 교차 참조 금지",
+    "G4": "타이포 토큰명에 수치 금지",
+    "G5": "케이싱, 공백 규칙 위반 금지",
+    "G6": "lineHeight 절대 px 금지",
+    "G8": "같은 부모 아래 같은 값에 이름 중복 금지",
+    "G9": "component 에서 base 직접 참조 금지"
+  },
+
+  "verification": {
+    "V1": "semantic은 반드시 base를 참조, 리터럴 값 금지",
+    "V2": "fg.on-{role}와 bg.{role} 쌍이 WCAG 또는 APCA 대비 중 하나 통과",
+    "V5": "컴포넌트 CSS의 var 참조가 전부 해소"
+  },
+
+  "gates": {
+    "contrast": {
+      "$description": "두 잣대를 함께 두고 판별은 OR, 둘 중 하나만 넘으면 통과",
+      "standard": "WCAG 2.2",
+      "level": "AA",
+      "min_ratio": 4.5,
+      "note": "정부 클러스터 조사 기준 AA가 업계 최저 표준선, 모든 모드에서 검사",
+      "perceptual": {
+        "standard": "APCA 0.1.9 (WCAG 3 후보)",
+        "min_lc": 60,
+        "min_lc_high_contrast": 75,
+        "note": "Lc 60 = 본문 최소선, 75 = 작은 글자선, 고대비 모드만 75 사용",
+        "why": "WCAG 2 공식은 채도를 반영하지 않아 진한 색 위 검정 글자를 실제보다 후하게 평가",
+        "why_or_not_and": "두 지표가 정반대를 가리키는 색도 있어 AND 대신 OR, 두 값 모두 기록",
+        "decision": "고정 브랜드색 6종(ember, jade, teal, azure, rust, berry), APCA 기준으로 전경을 흰색 반전. WCAG 2.65~4.58 하락은 의도된 이탈임",
+        "exceptions": "두 잣대 어느 쪽도 못 넘는 고정색은 예외 목록에 이름을 적어야 통과, 그 색 위에는 작은 글자를 얹지 않음"
+      }
+    },
+    "modes": {
+      "required": ["light", "dark"],
+      "optional": ["high-contrast"],
+      "constraint": "Figma Professional, 컬렉션당 4모드, 컬렉션 분리로 우회"
+    }
+  },
+
+  "per_system_freedom": {
+    "$description": "아래는 시스템마다 달라야 정상, 통일 금지",
+    "items": [
+      "팔레트 색상(hue), 채도, 명도 곡선",
+      "팔레트 개수와 역할 구성 (brand 하나일 수도, accent 여럿일 수도)",
+      "단계 수, 12단계가 강제는 아니며 단계별 용도 문서화로 대체 가능",
+      "타이포 스케일, 서체, weight 기준",
+      "radius, spacing 스케일",
+      "컴포넌트 목록과 variant 어휘",
+      "시각적 톤 (미니멀/표현적/고밀도 등)"
+    ]
+  }
+}

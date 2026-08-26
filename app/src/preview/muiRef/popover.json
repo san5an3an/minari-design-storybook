@@ -1,0 +1,357 @@
+{
+ "slug": "popover",
+ "title": "Popover",
+ "group": "Utils",
+ "folder": "popover",
+ "description": "A Popover can be used to display some content on top of another.",
+ "components": [
+  "Grow",
+  "Popover"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Things to know when using the `Popover` component:\n\n- The component is built on top of the [`Modal`](/material-ui/react-modal/) component.\n- `Popover` blocks scrolling and dismisses on click-away by default, unlike [`Popper`](/material-ui/react-popper/)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic Popover",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicPopover",
+     "file": "BasicPopover.tsx",
+     "code": "import * as React from 'react';\nimport Popover from '@mui/material/Popover';\nimport Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\n\nexport default function BasicPopover() {\n  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);\n\n  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  const open = Boolean(anchorEl);\n  const id = open ? 'simple-popover' : undefined;\n\n  return (\n    <div>\n      <Button aria-describedby={id} variant=\"contained\" onClick={handleClick}>\n        Open Popover\n      </Button>\n      <Popover\n        id={id}\n        open={open}\n        anchorEl={anchorEl}\n        onClose={handleClose}\n        anchorOrigin={{\n          vertical: 'bottom',\n          horizontal: 'left',\n        }}\n      >\n        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>\n      </Popover>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Anchor playground",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the radio buttons to adjust the `anchorOrigin` and `transformOrigin` positions.\nYou can also set the `anchorReference` to `anchorPosition` or `anchorEl`.\nWhen it is `anchorPosition`, the component will, instead of `anchorEl`,\nrefer to the `anchorPosition` prop which you can adjust to set\nthe position of the popover."
+    },
+    {
+     "kind": "demo",
+     "name": "AnchorPlayground",
+     "file": "AnchorPlayground.js",
+     "code": "import * as React from 'react';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport RadioGroup from '@mui/material/RadioGroup';\nimport Radio from '@mui/material/Radio';\nimport Grid from '@mui/material/Grid';\nimport { green } from '@mui/material/colors';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\nimport Button from '@mui/material/Button';\nimport Popover from '@mui/material/Popover';\nimport Input from '@mui/material/Input';\nimport InputLabel from '@mui/material/InputLabel';\nimport { HighlightedCode } from '@mui/internal-core-docs/HighlightedCode';\n\nconst inlineStyles = {\n  anchorVertical: {\n    top: {\n      top: -5,\n    },\n    center: {\n      top: 'calc(50% - 5px)',\n    },\n    bottom: {\n      bottom: -5,\n    },\n  },\n  anchorHorizontal: {\n    left: {\n      left: -5,\n    },\n    center: {\n      left: 'calc(50% - 5px)',\n    },\n    right: {\n      right: -5,\n    },\n  },\n};\n\nfunction AnchorPlayground() {\n  const anchorRef = React.useRef();\n\n  const [state, setState] = React.useState({\n    open: false,\n    anchorOriginVertical: 'top',\n    anchorOriginHorizontal: 'left',\n    transformOriginVertical: 'top',\n    transformOriginHorizontal: 'left',\n    positionTop: 200, // Just so the popover can be spotted more easily\n    positionLeft: 400, // Same as above\n    anchorReference: 'anchorEl',\n  });\n\n  const {\n    open,\n    anchorOriginVertical,\n    anchorOriginHorizontal,\n    transformOriginVertical,\n    transformOriginHorizontal,\n    positionTop,\n    positionLeft,\n    anchorReference,\n  } = state;\n\n  const handleChange = (event) => {\n    setState({\n      ...state,\n      [event.target.name]: event.target.value,\n    });\n  };\n\n  const handleNumberInputChange = (key) => (event) => {\n    setState({\n      ...state,\n      [key]: parseInt(event.target.value, 10),\n    });\n  };\n\n  const handleClickButton = () => {\n    setState({\n      ...state,\n      open: true,\n    });\n  };\n\n  const handleClose = () => {\n    setState({\n      ...state,\n      open: false,\n    });\n  };\n\n  let mode = '';\n\n  if (anchorReference === 'anchorPosition') {\n    mode = `\n  anchorReference=\"${anchorReference}\"\n  anchorPosition={{ top: ${positionTop}, left: ${positionLeft} }}`;\n  }\n\n  const jsx = `\n<Popover ${mode}\n  anchorOrigin={{\n    vertical: '${anchorOriginVertical}',\n    horizontal: '${anchorOriginHorizontal}',\n  }}\n  transformOrigin={{\n    vertical: '${transformOriginVertical}',\n    horizontal: '${transformOriginHorizontal}',\n  }}\n>\n  The content of the Popover.\n</Popover>\n`;\n\n  const radioAnchorClasses = {\n    color: green[600],\n    '&.Mui-checked': {\n      color: green[500],\n    },\n  };\n\n  return (\n    <div>\n      <Grid container sx={{ justifyContent: 'center' }}>\n        <Grid sx={{ position: 'relative', mb: 4 }}>\n          <Button ref={anchorRef} variant=\"contained\" onClick={handleClickButton}>\n            Open Popover\n          </Button>\n          {anchorReference === 'anchorEl' && (\n            <Box\n              sx={{\n                bgcolor: green[500],\n                width: 10,\n                height: 10,\n                borderRadius: '50%',\n                position: 'absolute',\n              }}\n              style={{\n                ...inlineStyles.anchorVertical[anchorOriginVertical],\n                ...inlineStyles.anchorHorizontal[anchorOriginHorizontal],\n              }}\n            />\n          )}\n        </Grid>\n      </Grid>\n      <Popover\n        open={open}\n        anchorEl={anchorRef.current}\n        anchorReference={anchorReference}\n        anchorPosition={{\n          top: positionTop,\n          left: positionLeft,\n        }}\n        onClose={handleClose}\n        anchorOrigin={{\n          vertical: anchorOriginVertical,\n          horizontal: anchorOriginHorizontal,\n        }}\n        transformOrigin={{\n          vertical: transformOriginVertical,\n          horizontal: transformOriginHorizontal,\n        }}\n      >\n        <Typography sx={{ m: 2 }}>The content of the Popover.</Typography>\n      </Popover>\n      <Grid container spacing={2}>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl component=\"fieldset\">\n            <FormLabel component=\"legend\">anchorReference</FormLabel>\n            <RadioGroup\n              row\n              aria-label=\"anchor reference\"\n              name=\"anchorReference\"\n              value={anchorReference}\n              onChange={handleChange}\n            >\n              <FormControlLabel\n                value=\"anchorEl\"\n                control={<Radio />}\n                label=\"anchorEl\"\n              />\n              <FormControlLabel\n                value=\"anchorPosition\"\n                control={<Radio />}\n                label=\"anchorPosition\"\n              />\n            </RadioGroup>\n          </FormControl>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl variant=\"standard\">\n            <InputLabel htmlFor=\"position-top\">anchorPosition.top</InputLabel>\n            <Input\n              id=\"position-top\"\n              type=\"number\"\n              value={positionTop}\n              onChange={handleNumberInputChange('positionTop')}\n            />\n          </FormControl>\n          &nbsp;\n          <FormControl variant=\"standard\">\n            <InputLabel htmlFor=\"position-left\">anchorPosition.left</InputLabel>\n            <Input\n              id=\"position-left\"\n              type=\"number\"\n              value={positionLeft}\n              onChange={handleNumberInputChange('positionLeft')}\n            />\n          </FormControl>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl component=\"fieldset\">\n            <FormLabel component=\"legend\">anchorOrigin.vertical</FormLabel>\n            <RadioGroup\n              aria-label=\"anchor origin vertical\"\n              name=\"anchorOriginVertical\"\n              value={anchorOriginVertical}\n              onChange={handleChange}\n            >\n              <FormControlLabel\n                value=\"top\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Top\"\n              />\n              <FormControlLabel\n                value=\"center\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Center\"\n              />\n              <FormControlLabel\n                value=\"bottom\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Bottom\"\n              />\n            </RadioGroup>\n          </FormControl>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl component=\"fieldset\">\n            <FormLabel component=\"legend\">transformOrigin.vertical</FormLabel>\n            <RadioGroup\n              aria-label=\"transform origin vertical\"\n              name=\"transformOriginVertical\"\n              value={transformOriginVertical}\n              onChange={handleChange}\n            >\n              <FormControlLabel value=\"top\" control={<Radio />} label=\"Top\" />\n              <FormControlLabel\n                value=\"center\"\n                control={<Radio color=\"primary\" />}\n                label=\"Center\"\n              />\n              <FormControlLabel\n                value=\"bottom\"\n                control={<Radio color=\"primary\" />}\n                label=\"Bottom\"\n              />\n            </RadioGroup>\n          </FormControl>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl component=\"fieldset\">\n            <FormLabel component=\"legend\">anchorOrigin.horizontal</FormLabel>\n            <RadioGroup\n              row\n              aria-label=\"anchor origin horizontal\"\n              name=\"anchorOriginHorizontal\"\n              value={anchorOriginHorizontal}\n              onChange={handleChange}\n            >\n              <FormControlLabel\n                value=\"left\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Left\"\n              />\n              <FormControlLabel\n                value=\"center\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Center\"\n              />\n              <FormControlLabel\n                value=\"right\"\n                control={<Radio sx={radioAnchorClasses} />}\n                label=\"Right\"\n              />\n            </RadioGroup>\n          </FormControl>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            sm: 6,\n          }}\n        >\n          <FormControl component=\"fieldset\">\n            <FormLabel component=\"legend\">transformOrigin.horizontal</FormLabel>\n            <RadioGroup\n              row\n              aria-label=\"transform origin horizontal\"\n              name=\"transformOriginHorizontal\"\n              value={transformOriginHorizontal}\n              onChange={handleChange}\n            >\n              <FormControlLabel\n                value=\"left\"\n                control={<Radio color=\"primary\" />}\n                label=\"Left\"\n              />\n              <FormControlLabel\n                value=\"center\"\n                control={<Radio color=\"primary\" />}\n                label=\"Center\"\n              />\n              <FormControlLabel\n                value=\"right\"\n                control={<Radio color=\"primary\" />}\n                label=\"Right\"\n              />\n            </RadioGroup>\n          </FormControl>\n        </Grid>\n      </Grid>\n      <HighlightedCode code={jsx} language=\"jsx\" />\n    </div>\n  );\n}\n\nexport default AnchorPlayground;\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Mouse hover interaction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "This demo demonstrates how to use the `Popover` component with `mouseenter` and `mouseleave` events to achieve popover behavior."
+    },
+    {
+     "kind": "demo",
+     "name": "MouseHoverPopover",
+     "file": "MouseHoverPopover.tsx",
+     "code": "import * as React from 'react';\nimport Popover from '@mui/material/Popover';\nimport Typography from '@mui/material/Typography';\n\nexport default function MouseHoverPopover() {\n  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);\n\n  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {\n    setAnchorEl(event.currentTarget);\n  };\n\n  const handlePopoverClose = () => {\n    setAnchorEl(null);\n  };\n\n  const open = Boolean(anchorEl);\n\n  return (\n    <div>\n      <Typography\n        aria-owns={open ? 'mouse-over-popover' : undefined}\n        aria-haspopup=\"true\"\n        onMouseEnter={handlePopoverOpen}\n        onMouseLeave={handlePopoverClose}\n      >\n        Hover with a Popover.\n      </Typography>\n      <Popover\n        id=\"mouse-over-popover\"\n        sx={{ pointerEvents: 'none' }}\n        open={open}\n        anchorEl={anchorEl}\n        anchorOrigin={{\n          vertical: 'bottom',\n          horizontal: 'left',\n        }}\n        transformOrigin={{\n          vertical: 'top',\n          horizontal: 'left',\n        }}\n        onClose={handlePopoverClose}\n        disableRestoreFocus\n      >\n        <Typography sx={{ p: 1 }}>I use Popover.</Typography>\n      </Popover>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Virtual element",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The value of the `anchorEl` prop can be a reference to a fake DOM element.\nYou need to provide an object with the following interface:"
+    },
+    {
+     "kind": "code",
+     "lang": "ts",
+     "text": "interface PopoverVirtualElement {\n  nodeType: 1;\n  getBoundingClientRect: () => DOMRect;\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Highlight part of the text to see the popover:"
+    },
+    {
+     "kind": "demo",
+     "name": "VirtualElementPopover",
+     "file": "VirtualElementPopover.tsx",
+     "code": "import * as React from 'react';\nimport Popover, { PopoverProps } from '@mui/material/Popover';\nimport Typography from '@mui/material/Typography';\nimport Paper from '@mui/material/Paper';\n\nexport default function VirtualElementPopover() {\n  const [open, setOpen] = React.useState(false);\n  const [anchorEl, setAnchorEl] = React.useState<PopoverProps['anchorEl']>(null);\n\n  const handleClose = () => {\n    setOpen(false);\n  };\n\n  const handleMouseUp = () => {\n    const selection = window.getSelection();\n\n    // Skip if selection has a length of 0\n    if (!selection || selection.anchorOffset === selection.focusOffset) {\n      return;\n    }\n\n    const getBoundingClientRect = () => {\n      return selection.getRangeAt(0).getBoundingClientRect();\n    };\n\n    setOpen(true);\n\n    setAnchorEl({ getBoundingClientRect, nodeType: 1 });\n  };\n\n  const id = open ? 'virtual-element-popover' : undefined;\n\n  return (\n    <div>\n      <Typography aria-describedby={id} onMouseUp={handleMouseUp}>\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum purus,\n        bibendum sit amet vulputate eget, porta semper ligula. Donec bibendum\n        vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed dolor\n        porttitor blandit vel vel purus. Fusce vel malesuada ligula. Nam quis\n        vehicula ante, eu finibus est. Proin ullamcorper fermentum orci, quis finibus\n        massa. Nunc lobortis, massa ut rutrum ultrices, metus metus finibus ex, sit\n        amet facilisis neque enim sed neque. Quisque accumsan metus vel maximus\n        consequat. Suspendisse lacinia tellus a libero volutpat maximus.\n      </Typography>\n      <Popover\n        id={id}\n        open={open}\n        anchorEl={anchorEl}\n        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}\n        onClose={handleClose}\n        disableAutoFocus\n      >\n        <Paper>\n          <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>\n        </Paper>\n      </Popover>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "For more information on the virtual element's properties, see the following resources:\n\n- [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)\n- [DOMRect](https://developer.mozilla.org/en-US/docs/Web/API/DOMRect)\n- [Node types](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType)\n\n:::warning\nThe usage of a virtual element for the Popover component requires the `nodeType` property.\nThis is different from virtual elements used for the [`Popper`](/material-ui/react-popper/#virtual-element) or [`Tooltip`](/material-ui/react-tooltip/#virtual-element) components, both of which don't require the property.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Popover uses [Grow](/material-ui/transitions/#grow) by default.\nUse `slots.transition` and `slotProps.transition` to replace it with another transition or to pass transition props."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Supplementary projects",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For more advanced use cases, you might be able to take advantage of:"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "material-ui-popup-state",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "![stars](https://img.shields.io/github/stars/jcoreio/material-ui-popup-state?style=social&label=Star)\n![npm downloads](https://img.shields.io/npm/dm/material-ui-popup-state.svg)\n\nThe package [`material-ui-popup-state`](https://github.com/jcoreio/material-ui-popup-state) that takes care of popover state for you in most cases."
+    },
+    {
+     "kind": "demo",
+     "name": "PopoverPopupState",
+     "file": "PopoverPopupState.tsx",
+     "code": "import Typography from '@mui/material/Typography';\nimport Button from '@mui/material/Button';\nimport Popover from '@mui/material/Popover';\nimport PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';\n\nexport default function PopoverPopupState() {\n  return (\n    <PopupState variant=\"popover\" popupId=\"demo-popup-popover\">\n      {(popupState) => (\n        <div>\n          <Button variant=\"contained\" {...bindTrigger(popupState)}>\n            Open Popover\n          </Button>\n          <Popover\n            {...bindPopover(popupState)}\n            anchorOrigin={{\n              vertical: 'bottom',\n              horizontal: 'center',\n            }}\n            transformOrigin={{\n              vertical: 'top',\n              horizontal: 'center',\n            }}\n          >\n            <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>\n          </Popover>\n        </div>\n      )}\n    </PopupState>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Grow",
+   "description": "The Grow transition is used by the [Tooltip](/material-ui/react-tooltip/) and\n[Popover](/material-ui/react-popover/) components.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "appear",
+     "type": "bool",
+     "default": "true",
+     "required": false,
+     "deprecated": false,
+     "desc": "Perform the enter transition when it first mounts if <code>in</code> is also <code>true</code>. Set this to <code>false</code> to disable this behavior."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "timeout",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object.<br>Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": []
+  },
+  {
+   "name": "Popover",
+   "description": "",
+   "props": [
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "action",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A ref for imperative actions. It currently only supports updatePosition() action."
+    },
+    {
+     "prop": "anchorEl",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, <a href=\"https://mui.com/material-ui/react-popover/#virtual-element\">PopoverVirtualElement</a>, or a function that returns either. It&#39;s used to set the position of the popover."
+    },
+    {
+     "prop": "anchorOrigin",
+     "type": "{ horizontal: 'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;number, vertical: 'bottom'<br>&#124;&nbsp;'center'<br>&#124;&nbsp;'top'<br>&#124;&nbsp;number }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'left',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the point on the anchor where the popover&#39;s <code>anchorEl</code> will attach to. This is not used when the anchorReference is &#39;anchorPosition&#39;.<br>Options: vertical: [top, center, bottom]; horizontal: [left, center, right]."
+    },
+    {
+     "prop": "anchorPosition",
+     "type": "{ left: number, top: number }",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the position that may be used to set the position of the popover. The coordinates are relative to the application&#39;s client area."
+    },
+    {
+     "prop": "anchorReference",
+     "type": "'anchorEl'<br>&#124;&nbsp;'anchorPosition'<br>&#124;&nbsp;'none'",
+     "default": "'anchorEl'",
+     "required": false,
+     "deprecated": false,
+     "desc": "This determines which anchor prop to refer to when setting the position of the popover."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element, component instance, or function that returns either. The <code>container</code> will passed to the Modal component.<br>By default, it uses the body of the anchorEl&#39;s top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disableAutoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the modal will not automatically shift focus to itself when it opens, and replace it to the last focused element when it closes. This also works correctly with any modal children that have the <code>disableAutoFocus</code> prop.<br>Generally this should never be set to <code>true</code> as it makes the modal less accessible to assistive technologies, like screen readers."
+    },
+    {
+     "prop": "disableScrollLock",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Disable the scroll lock behavior."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "8",
+     "required": false,
+     "deprecated": false,
+     "desc": "The elevation of the popover."
+    },
+    {
+     "prop": "marginThreshold",
+     "type": "number",
+     "default": "16",
+     "required": false,
+     "deprecated": false,
+     "desc": "Specifies how close to the edge of the window the popover can appear. If null, the popover will not be constrained by the window."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed. The <code>reason</code> parameter can optionally be used to control the response to <code>onClose</code>."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, paper?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, paper?: elementType, root?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "transformOrigin",
+     "type": "{ horizontal: 'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;number, vertical: 'bottom'<br>&#124;&nbsp;'center'<br>&#124;&nbsp;'top'<br>&#124;&nbsp;number }",
+     "default": "{\n  vertical: 'top',\n  horizontal: 'left',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "This is the point on the popover which will attach to the anchor&#39;s origin.<br>Options: vertical: [top, center, bottom, x(px)]; horizontal: [left, center, right, x(px)]."
+    },
+    {
+     "prop": "transitionDuration",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "'auto'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-popover/"
+}

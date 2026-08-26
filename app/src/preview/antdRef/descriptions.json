@@ -1,0 +1,558 @@
+{
+ "slug": "descriptions",
+ "title": "Descriptions",
+ "description": "Display multiple read-only fields in a group.",
+ "group": "Data Display",
+ "whenToUse": "Commonly displayed on the details page.\n\n```tsx | pure\n// works when >= 5.8.0, recommended ✅\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'UserName',\n    children: <p>Zhou Maomao</p>,\n  },\n  {\n    key: '2',\n    label: 'Telephone',\n    children: <p>1810000000</p>,\n  },\n  {\n    key: '3',\n    label: 'Live',\n    children: <p>Hangzhou, Zhejiang</p>,\n  },\n  {\n    key: '4',\n    label: 'Remark',\n    children: <p>empty</p>,\n  },\n  {\n    key: '5',\n    label: 'Address',\n    children: <p>No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China</p>,\n  },\n];\n\n<Descriptions title=\"User Info\" items={items} />;\n\n// works when <5.8.0 , deprecated when >=5.8.0 🙅🏻‍♀️\n\n<Descriptions title=\"User Info\">\n  <Descriptions.Item label=\"UserName\">Zhou Maomao</Descriptions.Item>\n  <Descriptions.Item label=\"Telephone\">1810000000</Descriptions.Item>\n  <Descriptions.Item label=\"Live\">Hangzhou, Zhejiang</Descriptions.Item>\n  <Descriptions.Item label=\"Remark\">empty</Descriptions.Item>\n  <Descriptions.Item label=\"Address\">\n    No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China\n  </Descriptions.Item>\n</Descriptions>;\n```",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Simplest Usage.",
+   "code": "import React from 'react';\nimport { Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'UserName',\n    children: 'Zhou Maomao',\n  },\n  {\n    key: '2',\n    label: 'Telephone',\n    children: '1810000000',\n  },\n  {\n    key: '3',\n    label: 'Live',\n    children: 'Hangzhou, Zhejiang',\n  },\n  {\n    key: '4',\n    label: 'Remark',\n    children: 'empty',\n  },\n  {\n    key: '5',\n    label: 'Address',\n    children: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',\n  },\n];\n\nconst App: React.FC = () => <Descriptions title=\"User Info\" items={items} />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "border",
+   "description": "Descriptions with border and background color.",
+   "code": "import React from 'react';\nimport { Badge, Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    key: '2',\n    label: 'Billing Mode',\n    children: 'Prepaid',\n  },\n  {\n    key: '3',\n    label: 'Automatic Renewal',\n    children: 'YES',\n  },\n  {\n    key: '4',\n    label: 'Order time',\n    children: '2018-04-24 18:00:00',\n  },\n  {\n    key: '5',\n    label: 'Usage Time',\n    children: '2019-04-24 18:00:00',\n    span: 2,\n  },\n  {\n    key: '6',\n    label: 'Status',\n    children: <Badge status=\"processing\" text=\"Running\" />,\n    span: 3,\n  },\n  {\n    key: '7',\n    label: 'Negotiated Amount',\n    children: '$80.00',\n  },\n  {\n    key: '8',\n    label: 'Discount',\n    children: '$20.00',\n  },\n  {\n    key: '9',\n    label: 'Official Receipts',\n    children: '$60.00',\n  },\n  {\n    key: '10',\n    label: 'Config Info',\n    children: (\n      <>\n        Data disk type: MongoDB\n        <br />\n        Database version: 3.4\n        <br />\n        Package: dds.mongo.mid\n        <br />\n        Storage space: 10 GB\n        <br />\n        Replication factor: 3\n        <br />\n        Region: East China 1\n        <br />\n      </>\n    ),\n  },\n];\n\nconst App: React.FC = () => <Descriptions title=\"User Info\" bordered items={items} />;\n\nexport default App;",
+   "demoId": "text"
+  },
+  {
+   "name": "Custom size",
+   "description": "Custom sizes to fit in a variety of containers.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Descriptions, Radio } from 'antd';\nimport type { DescriptionsProps, RadioChangeEvent } from 'antd';\n\nconst borderedItems: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    key: '2',\n    label: 'Billing',\n    children: 'Prepaid',\n  },\n  {\n    key: '3',\n    label: 'Time',\n    children: '18:00:00',\n  },\n  {\n    key: '4',\n    label: 'Amount',\n    children: '$80.00',\n  },\n  {\n    key: '5',\n    label: 'Discount',\n    children: '$20.00',\n  },\n  {\n    key: '6',\n    label: 'Official',\n    children: '$60.00',\n  },\n  {\n    key: '7',\n    label: 'Config Info',\n    children: (\n      <>\n        Data disk type: MongoDB\n        <br />\n        Database version: 3.4\n        <br />\n        Package: dds.mongo.mid\n        <br />\n        Storage space: 10 GB\n        <br />\n        Replication factor: 3\n        <br />\n        Region: East China 1\n        <br />\n      </>\n    ),\n  },\n];\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    key: '2',\n    label: 'Billing',\n    children: 'Prepaid',\n  },\n  {\n    key: '3',\n    label: 'Time',\n    children: '18:00:00',\n  },\n  {\n    key: '4',\n    label: 'Amount',\n    children: '$80.00',\n  },\n  {\n    key: '5',\n    label: 'Discount',\n    children: '$20.00',\n  },\n  {\n    key: '6',\n    label: 'Official',\n    children: '$60.00',\n  },\n];\n\nconst App: React.FC = () => {\n  const [size, setSize] = useState<'large' | 'medium' | 'small'>('large');\n\n  const onChange = (e: RadioChangeEvent) => {\n    console.log('size checked', e.target.value);\n    setSize(e.target.value);\n  };\n\n  return (\n    <div>\n      <Radio.Group onChange={onChange} value={size}>\n        <Radio value=\"large\">large</Radio>\n        <Radio value=\"medium\">medium</Radio>\n        <Radio value=\"small\">small</Radio>\n      </Radio.Group>\n      <br />\n      <br />\n      <Descriptions\n        bordered\n        title=\"Custom Size\"\n        size={size}\n        extra={<Button type=\"primary\">Edit</Button>}\n        items={borderedItems}\n      />\n      <br />\n      <br />\n      <Descriptions\n        title=\"Custom Size\"\n        size={size}\n        extra={<Button type=\"primary\">Edit</Button>}\n        items={items}\n      />\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "responsive",
+   "description": "Responsive configuration enables perfect presentation on small screen devices.",
+   "code": "import React from 'react';\nimport { Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    label: 'Billing',\n    children: 'Prepaid',\n  },\n  {\n    label: 'Time',\n    children: '18:00:00',\n  },\n  {\n    label: 'Amount',\n    children: '$80.00',\n  },\n  {\n    label: 'Discount',\n    span: { xl: 2, xxl: 2 },\n    children: '$20.00',\n  },\n  {\n    label: 'Official',\n    span: { xl: 2, xxl: 2 },\n    children: '$60.00',\n  },\n  {\n    label: 'Config Info',\n    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, xxl: 2 },\n    children: (\n      <>\n        Data disk type: MongoDB\n        <br />\n        Database version: 3.4\n        <br />\n        Package: dds.mongo.mid\n      </>\n    ),\n  },\n  {\n    label: 'Hardware Info',\n    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, xxl: 2 },\n    children: (\n      <>\n        CPU: 6 Core 3.5 GHz\n        <br />\n        Storage space: 10 GB\n        <br />\n        Replication factor: 3\n        <br />\n        Region: East China 1\n      </>\n    ),\n  },\n];\n\nconst App: React.FC = () => (\n  <Descriptions\n    title=\"Responsive Descriptions\"\n    bordered\n    column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}\n    items={items}\n  />\n);\n\nexport default App;",
+   "demoId": "responsive"
+  },
+  {
+   "name": "Vertical",
+   "description": "Simplest Usage.",
+   "code": "import React from 'react';\nimport { Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'UserName',\n    children: 'Zhou Maomao',\n  },\n  {\n    key: '2',\n    label: 'Telephone',\n    children: '1810000000',\n  },\n  {\n    key: '3',\n    label: 'Live',\n    children: 'Hangzhou, Zhejiang',\n  },\n  {\n    key: '4',\n    label: 'Address',\n    span: 2,\n    children: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',\n  },\n  {\n    key: '5',\n    label: 'Remark',\n    children: 'empty',\n  },\n];\n\nconst App: React.FC = () => <Descriptions title=\"User Info\" layout=\"vertical\" items={items} />;\n\nexport default App;",
+   "demoId": "vertical"
+  },
+  {
+   "name": "Vertical border",
+   "description": "Descriptions with border and background color.",
+   "code": "import React from 'react';\nimport { Badge, Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    key: '2',\n    label: 'Billing Mode',\n    children: 'Prepaid',\n  },\n  {\n    key: '3',\n    label: 'Automatic Renewal',\n    children: 'YES',\n  },\n  {\n    key: '4',\n    label: 'Order time',\n    children: '2018-04-24 18:00:00',\n  },\n  {\n    key: '5',\n    label: 'Usage Time',\n    span: 2,\n    children: '2019-04-24 18:00:00',\n  },\n  {\n    key: '6',\n    label: 'Status',\n    span: 3,\n    children: <Badge status=\"processing\" text=\"Running\" />,\n  },\n  {\n    key: '7',\n    label: 'Negotiated Amount',\n    children: '$80.00',\n  },\n  {\n    key: '8',\n    label: 'Discount',\n    children: '$20.00',\n  },\n  {\n    key: '9',\n    label: 'Official Receipts',\n    children: '$60.00',\n  },\n  {\n    key: '10',\n    label: 'Config Info',\n    children: (\n      <>\n        Data disk type: MongoDB\n        <br />\n        Database version: 3.4\n        <br />\n        Package: dds.mongo.mid\n        <br />\n        Storage space: 10 GB\n        <br />\n        Replication factor: 3\n        <br />\n        Region: East China 1\n        <br />\n      </>\n    ),\n  },\n];\n\nconst App: React.FC = () => (\n  <Descriptions title=\"User Info\" layout=\"vertical\" bordered items={items} />\n);\n\nexport default App;",
+   "demoId": "vertical-border"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Descriptions by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Descriptions, Flex } from 'antd';\nimport type { DescriptionsProps, GetProp } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    padding: 10px;\n  `,\n}));\n\nconst items: DescriptionsProps['items'] = [\n  {\n    key: '1',\n    label: 'Product',\n    children: 'Cloud Database',\n  },\n  {\n    key: '2',\n    label: 'Billing Mode',\n    children: 'Prepaid',\n  },\n  {\n    key: '3',\n    label: 'Automatic Renewal',\n    children: 'YES',\n  },\n];\n\nconst styles: DescriptionsProps['styles'] = {\n  label: {\n    color: '#000',\n  },\n};\n\nconst stylesFn: DescriptionsProps['styles'] = (\n  info,\n): GetProp<DescriptionsProps, 'styles', 'Return'> => {\n  if (info.props.size === 'large') {\n    return {\n      root: {\n        borderRadius: 8,\n        border: '1px solid #CDC1FF',\n      },\n      label: { color: '#A294F9' },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const descriptionsProps: DescriptionsProps = {\n    title: 'User Info',\n    items,\n    bordered: true,\n    classNames,\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Descriptions {...descriptionsProps} styles={styles} size=\"small\" />\n      <Descriptions {...descriptionsProps} styles={stylesFn} size=\"large\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  },
+  {
+   "name": "row",
+   "description": "Display of the entire line.",
+   "code": "import React from 'react';\nimport { Descriptions } from 'antd';\nimport type { DescriptionsProps } from 'antd';\n\nconst items: DescriptionsProps['items'] = [\n  {\n    label: 'UserName',\n    children: 'Zhou Maomao',\n  },\n  {\n    label: 'Live',\n    span: 'filled', // span = 2\n    children: 'Hangzhou, Zhejiang',\n  },\n  {\n    label: 'Remark',\n    span: 'filled', // span = 3\n    children: 'empty',\n  },\n  {\n    label: 'Address',\n    span: 1, // span will be 3 and warning for span is not align to the end\n    children: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',\n  },\n];\n\nconst App: React.FC = () => <Descriptions bordered title=\"User Info\" items={items} />;\n\nexport default App;",
+   "demoId": "block"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "bordered",
+     "Whether to display the border",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.23.0"
+    ],
+    [
+     "colon",
+     "Change default props `colon` value of Descriptions.Item. Indicates whether the colon after the label is displayed",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "column",
+     "The number of `DescriptionItems` in a row, could be an object (like `{ xs: 8, sm: 16, md: 24}`, but must have `bordered={true}`) or a number",
+     "number | Record<Breakpoint, number>",
+     "3",
+     "—",
+     "×"
+    ],
+    [
+     "~~contentStyle~~",
+     "Customize content style, Please use `styles.content` instead",
+     "CSSProperties",
+     "-",
+     "4.10.0",
+     "×"
+    ],
+    [
+     "extra",
+     "The action area of the description list, placed at the top-right",
+     "ReactNode",
+     "-",
+     "4.5.0",
+     "×"
+    ],
+    [
+     "items",
+     "Describe the contents of the list item",
+     "DescriptionsItem[]",
+     "-",
+     "5.8.0",
+     "×"
+    ],
+    [
+     "~~labelStyle~~",
+     "Customize label style, Please use `styles.label` instead",
+     "CSSProperties",
+     "-",
+     "4.10.0",
+     "×"
+    ],
+    [
+     "layout",
+     "Define description layout",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "—",
+     "×"
+    ],
+    [
+     "size",
+     "Set the size of the list. Can be set to `medium`,`small`, or not filled",
+     "`large` | `medium` | `small`",
+     "large",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.23.0"
+    ],
+    [
+     "title",
+     "The title of the description list, placed at the top",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "Descriptions"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "~~contentStyle~~",
+     "Customize content style, Please use `styles.content` instead",
+     "CSSProperties",
+     "-",
+     "4.9.0"
+    ],
+    [
+     "label",
+     "The description of the content",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "~~labelStyle~~",
+     "Customize label style, Please use `styles.label` instead",
+     "CSSProperties",
+     "-",
+     "4.9.0"
+    ],
+    [
+     "span",
+     "The number of columns included(`filled` Fill the remaining part of the current row)",
+     "number | `filled` | Screens",
+     "1",
+     "`screens: 5.9.0`, `filled: 5.22.0`"
+    ]
+   ],
+   "name": "DescriptionItem"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "bordered",
+    "Whether to display the border",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.23.0"
+   ],
+   [
+    "colon",
+    "Change default props `colon` value of Descriptions.Item. Indicates whether the colon after the label is displayed",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "column",
+    "The number of `DescriptionItems` in a row, could be an object (like `{ xs: 8, sm: 16, md: 24}`, but must have `bordered={true}`) or a number",
+    "number | Record<Breakpoint, number>",
+    "3",
+    "—",
+    "×"
+   ],
+   [
+    "~~contentStyle~~",
+    "Customize content style, Please use `styles.content` instead",
+    "CSSProperties",
+    "-",
+    "4.10.0",
+    "×"
+   ],
+   [
+    "extra",
+    "The action area of the description list, placed at the top-right",
+    "ReactNode",
+    "-",
+    "4.5.0",
+    "×"
+   ],
+   [
+    "items",
+    "Describe the contents of the list item",
+    "DescriptionsItem[]",
+    "-",
+    "5.8.0",
+    "×"
+   ],
+   [
+    "~~labelStyle~~",
+    "Customize label style, Please use `styles.label` instead",
+    "CSSProperties",
+    "-",
+    "4.10.0",
+    "×"
+   ],
+   [
+    "layout",
+    "Define description layout",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "—",
+    "×"
+   ],
+   [
+    "size",
+    "Set the size of the list. Can be set to `medium`,`small`, or not filled",
+    "`large` | `medium` | `small`",
+    "large",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.23.0"
+   ],
+   [
+    "title",
+    "The title of the description list, placed at the top",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "Descriptions"
+ },
+ "variants": [
+  {
+   "prop": "layout",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "Descriptions",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "large",
+   "owner": "Descriptions",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with basic styles, reset styles, border styles, layout direction and other overall styles for description list container"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with flex layout, alignment, bottom margin and other layout and style controls for header area"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with text ellipsis, flex ratio, color, font weight, font size, line height and other title text styles"
+   },
+   {
+    "name": "extra",
+    "mark": "semantic-mark-extra",
+    "description": "Extra content element with left margin, color, font size and other styles for additional operation area"
+   },
+   {
+    "name": "label",
+    "mark": "semantic-mark-label",
+    "description": "Label element with color, font weight, font size, line height, text align, colon styles and other label text styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Content element with table cell layout, color, font size, line height, word break and other content display styles"
+   }
+  ],
+  "dom": "<div style=\"width: 100%; height: 100%;\">\n        <button aria-checked=\"false\" class=\"ant-switch css-var-test-id\" role=\"switch\" type=\"button\">\n          <div class=\"ant-switch-handle\">\n          <span class=\"ant-switch-inner\">\n            <span class=\"ant-switch-inner-checked\">\n            <span class=\"ant-switch-inner-unchecked\">\n          </span>\n        </span></span></div></button>\n        Toggle Border\n        <div class=\"ant-divider css-var-test-id ant-divider-horizontal ant-divider-rail\" role=\"separator\">\n        <div class=\"ant-descriptions semantic-mark-root css-var-test-id\">\n          <div class=\"ant-descriptions-header semantic-mark-header\">\n            <div class=\"ant-descriptions-title semantic-mark-title\">\n              User Info\n            </div>\n            <div class=\"ant-descriptions-extra semantic-mark-extra\">\n              <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid\" type=\"button\">\n                <span>\n                  Edit\n                </span>\n              </button>\n            </div>\n          </div>\n          <div class=\"ant-descriptions-view\">\n            <table>\n              <tbody>\n                <tr class=\"ant-descriptions-row\">\n                  <td class=\"ant-descriptions-item\" colspan=\"1\">\n                    <div class=\"ant-descriptions-item-container\">\n                      <span class=\"ant-descriptions-item-label semantic-mark-label\">\n                        Telephone\n                      </span>\n                      <span class=\"ant-descriptions-item-content semantic-mark-content\">\n                        1810000000\n                      </span>\n                    </div>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colonMarginLeft",
+     "Left margin of colon",
+     "number",
+     "2"
+    ],
+    [
+     "colonMarginRight",
+     "Right margin of colon",
+     "number",
+     "8"
+    ],
+    [
+     "contentColor",
+     "Text color of content",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "extraColor",
+     "Text color of extra area",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "itemPaddingBottom",
+     "Bottom padding of item",
+     "number",
+     "16"
+    ],
+    [
+     "itemPaddingEnd",
+     "End padding of item",
+     "number",
+     "16"
+    ],
+    [
+     "labelBg",
+     "Background color of label",
+     "string",
+     "rgba(0,0,0,0.02)"
+    ],
+    [
+     "labelColor",
+     "Text color of label",
+     "string",
+     "rgba(0,0,0,0.45)"
+    ],
+    [
+     "titleColor",
+     "Text color of title",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "titleMarginBottom",
+     "Bottom margin of title",
+     "number",
+     "20"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextSecondary",
+     "The second level of text color is generally used in scenarios where text color is not emphasized, such as label text, menu text selection state, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

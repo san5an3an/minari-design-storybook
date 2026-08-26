@@ -1,0 +1,28 @@
+
+.ods-label {
+  display: inline-flex; align-items: baseline;
+  gap: var(--component-label-gap);
+  color: var(--component-label-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-label-font-size);
+  letter-spacing: var(--component-label-letter-spacing);
+  font-weight: var(--base-font-weight-medium);
+  line-height: var(--base-font-line-height-snug);
+  cursor: pointer;
+}
+/* 별표만으로는 필수 표시 불충분. 작은 글자와 스크린리더에서 인식 안 되는 문제가 있음 */
+.ods-label--required::after {
+  content: "*";
+  color: var(--component-label-required-fg);
+  margin-inline-start: .15em;
+}
+.ods-label[aria-invalid="true"] { color: var(--component-label-fg-invalid); }
+.ods-label-hint {
+  color: var(--component-label-hint-fg);
+  font-size: var(--component-label-hint-font-size);
+  letter-spacing: var(--component-label-hint-letter-spacing);
+  font-weight: var(--base-font-weight-regular);
+}
+/* 잠긴 셀은 이름도 흐리게 처리. 또렷하면 입력 가능한 셀로 오인할 수 있음 */
+.ods-label:has(+ :disabled), .ods-label--disabled {
+  color: var(--component-label-fg-disabled); cursor: not-allowed; }

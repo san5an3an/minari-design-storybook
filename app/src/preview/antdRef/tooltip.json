@@ -1,0 +1,316 @@
+{
+ "slug": "tooltip",
+ "title": "Tooltip",
+ "description": "Simple text popup box.",
+ "group": "Data Display",
+ "whenToUse": "- The tip is shown on mouse enter, and is hidden on mouse leave. The Tooltip doesn't support complex text or operations.\n- To provide an explanation of a `button/text/operation`. It's often used instead of the html `title` attribute.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The simplest usage.",
+   "code": "import React from 'react';\nimport { Tooltip } from 'antd';\n\nconst App: React.FC = () => (\n  <Tooltip title=\"prompt text\">\n    <span>Tooltip will show on mouse enter.</span>\n  </Tooltip>\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Smooth Transition",
+   "description": "Configure Tooltip unique display through ConfigProvider global configuration to achieve smooth transition effects with only one Tooltip displayed at a time.",
+   "code": "import React from 'react';\nimport { Button, ConfigProvider, Flex, Tooltip } from 'antd';\n\nconst SharedButton = ({ placement = 'top' }: { placement?: 'top' | 'bottom' }) => (\n  <Tooltip title=\"Hello, Ant Design!\" placement={placement}>\n    <Button type=\"primary\">Button</Button>\n  </Tooltip>\n);\n\nconst App: React.FC = () => {\n  return (\n    <ConfigProvider\n      tooltip={{\n        unique: true,\n      }}\n    >\n      <Flex vertical gap=\"small\">\n        <Flex gap=\"small\" justify=\"center\">\n          <SharedButton />\n          <SharedButton />\n        </Flex>\n        <Flex gap=\"small\" justify=\"center\">\n          <SharedButton placement=\"bottom\" />\n          <SharedButton placement=\"bottom\" />\n        </Flex>\n      </Flex>\n    </ConfigProvider>\n  );\n};\n\nexport default App;",
+   "demoId": "smooth-transition"
+  },
+  {
+   "name": "Placement",
+   "description": "There are 12 placement options available.",
+   "code": "import React from 'react';\nimport { Button, ConfigProvider, Flex, Tooltip } from 'antd';\n\nconst text = <span>prompt text</span>;\n\nconst buttonWidth = 80;\n\nconst App: React.FC = () => (\n  <ConfigProvider button={{ style: { width: buttonWidth, margin: 4 } }}>\n    <Flex vertical justify=\"center\" align=\"center\" className=\"demo\">\n      <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n        <Tooltip placement=\"topLeft\" title={text}>\n          <Button>TL</Button>\n        </Tooltip>\n        <Tooltip placement=\"top\" title={text}>\n          <Button>Top</Button>\n        </Tooltip>\n        <Tooltip placement=\"topRight\" title={text}>\n          <Button>TR</Button>\n        </Tooltip>\n      </Flex>\n      <Flex style={{ width: buttonWidth * 5 + 32 }} justify=\"space-between\" align=\"center\">\n        <Flex align=\"center\" vertical>\n          <Tooltip placement=\"leftTop\" title={text}>\n            <Button>LT</Button>\n          </Tooltip>\n          <Tooltip placement=\"left\" title={text}>\n            <Button>Left</Button>\n          </Tooltip>\n          <Tooltip placement=\"leftBottom\" title={text}>\n            <Button>LB</Button>\n          </Tooltip>\n        </Flex>\n        <Flex align=\"center\" vertical>\n          <Tooltip placement=\"rightTop\" title={text}>\n            <Button>RT</Button>\n          </Tooltip>\n          <Tooltip placement=\"right\" title={text}>\n            <Button>Right</Button>\n          </Tooltip>\n          <Tooltip placement=\"rightBottom\" title={text}>\n            <Button>RB</Button>\n          </Tooltip>\n        </Flex>\n      </Flex>\n      <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n        <Tooltip placement=\"bottomLeft\" title={text}>\n          <Button>BL</Button>\n        </Tooltip>\n        <Tooltip placement=\"bottom\" title={text}>\n          <Button>Bottom</Button>\n        </Tooltip>\n        <Tooltip placement=\"bottomRight\" title={text}>\n          <Button>BR</Button>\n        </Tooltip>\n      </Flex>\n    </Flex>\n  </ConfigProvider>\n);\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Arrow",
+   "description": "Support show, hide or keep arrow in the center.",
+   "code": "import React, { useMemo, useState } from 'react';\nimport { Button, ConfigProvider, Flex, Segmented, Tooltip } from 'antd';\nimport type { TooltipProps } from 'antd';\n\nconst text = <span>prompt text</span>;\n\nconst buttonWidth = 80;\n\nconst App: React.FC = () => {\n  const [arrow, setArrow] = useState<'Show' | 'Hide' | 'Center'>('Show');\n\n  const mergedArrow = useMemo<TooltipProps['arrow']>(() => {\n    if (arrow === 'Hide') {\n      return false;\n    }\n\n    if (arrow === 'Show') {\n      return true;\n    }\n\n    return {\n      pointAtCenter: true,\n    };\n  }, [arrow]);\n\n  return (\n    <ConfigProvider button={{ style: { width: buttonWidth, margin: 4 } }}>\n      <Segmented\n        value={arrow}\n        options={['Show', 'Hide', 'Center']}\n        onChange={setArrow}\n        style={{ marginBottom: 24 }}\n      />\n      <Flex vertical justify=\"center\" align=\"center\" className=\"demo\">\n        <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n          <Tooltip placement=\"topLeft\" title={text} arrow={mergedArrow}>\n            <Button>TL</Button>\n          </Tooltip>\n          <Tooltip placement=\"top\" title={text} arrow={mergedArrow}>\n            <Button>Top</Button>\n          </Tooltip>\n          <Tooltip placement=\"topRight\" title={text} arrow={mergedArrow}>\n            <Button>TR</Button>\n          </Tooltip>\n        </Flex>\n        <Flex style={{ width: buttonWidth * 5 + 32 }} justify=\"space-between\" align=\"center\">\n          <Flex align=\"center\" vertical>\n            <Tooltip placement=\"leftTop\" title={text} arrow={mergedArrow}>\n              <Button>LT</Button>\n            </Tooltip>\n            <Tooltip placement=\"left\" title={text} arrow={mergedArrow}>\n              <Button>Left</Button>\n            </Tooltip>\n            <Tooltip placement=\"leftBottom\" title={text} arrow={mergedArrow}>\n              <Button>LB</Button>\n            </Tooltip>\n          </Flex>\n          <Flex align=\"center\" vertical>\n            <Tooltip placement=\"rightTop\" title={text} arrow={mergedArrow}>\n              <Button>RT</Button>\n            </Tooltip>\n            <Tooltip placement=\"right\" title={text} arrow={mergedArrow}>\n              <Button>Right</Button>\n            </Tooltip>\n            <Tooltip placement=\"rightBottom\" title={text} arrow={mergedArrow}>\n              <Button>RB</Button>\n            </Tooltip>\n          </Flex>\n        </Flex>\n        <Flex justify=\"center\" align=\"center\" style={{ whiteSpace: 'nowrap' }}>\n          <Tooltip placement=\"bottomLeft\" title={text} arrow={mergedArrow}>\n            <Button>BL</Button>\n          </Tooltip>\n          <Tooltip placement=\"bottom\" title={text} arrow={mergedArrow}>\n            <Button>Bottom</Button>\n          </Tooltip>\n          <Tooltip placement=\"bottomRight\" title={text} arrow={mergedArrow}>\n            <Button>BR</Button>\n          </Tooltip>\n        </Flex>\n      </Flex>\n    </ConfigProvider>\n  );\n};\n\nexport default App;",
+   "demoId": "arrow"
+  },
+  {
+   "name": "Auto Shift",
+   "description": "Auto adjust Popup and arrow position when Tooltip is close to the edge of the screen. Will be out of screen when exceed limitation.",
+   "code": "import React from 'react';\nimport { Button, Tooltip } from 'antd';\n\nconst style: React.CSSProperties = {\n  width: '300vw',\n  height: '300vh',\n  display: 'flex',\n  alignItems: 'center',\n  justifyContent: 'center',\n};\n\nconst App: React.FC = () => {\n  React.useEffect(() => {\n    document.documentElement.scrollTop = document.documentElement.clientHeight;\n    document.documentElement.scrollLeft = document.documentElement.clientWidth;\n  }, []);\n  return (\n    <div style={style}>\n      <Tooltip title=\"Thanks for using antd. Have a nice day !\" open>\n        <Button type=\"primary\">Scroll The Window</Button>\n      </Tooltip>\n    </div>\n  );\n};\n\nexport default App;",
+   "iframe": 300,
+   "demoId": "shift"
+  },
+  {
+   "name": "Colorful Tooltip",
+   "description": "We preset a series of colorful Tooltip styles for use in different situations.",
+   "code": "import React from 'react';\nimport { Button, Divider, Space, Tooltip } from 'antd';\n\nconst colors = [\n  'pink',\n  'red',\n  'yellow',\n  'orange',\n  'cyan',\n  'green',\n  'blue',\n  'purple',\n  'geekblue',\n  'magenta',\n  'volcano',\n  'gold',\n  'lime',\n];\n\nconst customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9'];\n\nconst App: React.FC = () => (\n  <>\n    <Divider titlePlacement=\"start\">Presets</Divider>\n    <Space wrap>\n      {colors.map((color) => (\n        <Tooltip title=\"prompt text\" color={color} key={color}>\n          <Button>{color}</Button>\n        </Tooltip>\n      ))}\n    </Space>\n    <Divider titlePlacement=\"start\">Custom</Divider>\n    <Space wrap>\n      {customColors.map((color) => (\n        <Tooltip title=\"prompt text\" color={color} key={color}>\n          <Button>{color}</Button>\n        </Tooltip>\n      ))}\n    </Space>\n  </>\n);\n\nexport default App;",
+   "demoId": "colorful"
+  },
+  {
+   "name": "Disabled",
+   "description": "The Tooltip can be disabled by setting `title={null}` or `title=\"\"`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Tooltip } from 'antd';\n\nconst App: React.FC = () => {\n  const [disabled, setDisabled] = useState(true);\n\n  return (\n    <Tooltip title={disabled ? null : 'prompt text'}>\n      <Button onClick={() => setDisabled(!disabled)}>{disabled ? 'Enable' : 'Disable'}</Button>\n    </Tooltip>\n  );\n};\n\nexport default App;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "Wrap custom component",
+   "description": "Use with a custom component.",
+   "code": "import React from 'react';\nimport { Tooltip } from 'antd';\n\nconst ComponentWithEvents = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLElement>>(\n  (props, ref) => (\n    <span ref={ref} {...props}>\n      This text is inside a component with the necessary events exposed.\n    </span>\n  ),\n);\n\nconst App: React.FC = () => (\n  <Tooltip title=\"prompt text\">\n    <ComponentWithEvents />\n  </Tooltip>\n);\n\nexport default App;",
+   "demoId": "wrap-custom-component"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Tooltip by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Button, Flex, Tooltip } from 'antd';\nimport type { GetProp, TooltipProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  container: css`\n    padding: 10px;\n  `,\n}));\n\nconst styles: TooltipProps['styles'] = {\n  container: {\n    borderRadius: 12,\n    boxShadow: 'inset 0 0 8px #ccc',\n  },\n};\n\nconst stylesFn: TooltipProps['styles'] = (info): GetProp<TooltipProps, 'styles', 'Return'> => {\n  if (!info.props.arrow) {\n    return {\n      container: {\n        backgroundColor: 'rgba(53, 71, 125, 0.8)',\n        padding: 12,\n        color: '#fff',\n        borderRadius: 4,\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  return (\n    <Flex gap=\"medium\">\n      <Tooltip classNames={classNames} styles={styles} arrow={false} title=\"Object text\">\n        <Button>Object Style</Button>\n      </Tooltip>\n      <Tooltip classNames={classNames} styles={stylesFn} arrow={false} title=\"Function text\">\n        <Button type=\"primary\">Function Style</Button>\n      </Tooltip>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "title",
+     "The text shown in the tooltip",
+     "ReactNode | () => ReactNode",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "color",
+     "The background color. After using this attribute, the internal text color will adapt automatically",
+     "string",
+     "-",
+     "5.27.0",
+     "×"
+    ],
+    [
+     "classNames",
+     "Semantic DOM class",
+     "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+     "-",
+     "5.23.0",
+     "5.23.0"
+    ],
+    [
+     "styles",
+     "Semantic DOM style",
+     "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+     "-",
+     "5.23.0",
+     "5.23.0"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "title",
+    "The text shown in the tooltip",
+    "ReactNode | () => ReactNode",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "color",
+    "The background color. After using this attribute, the internal text color will adapt automatically",
+    "string",
+    "-",
+    "5.27.0",
+    "×"
+   ],
+   [
+    "classNames",
+    "Semantic DOM class",
+    "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+    "-",
+    "5.23.0",
+    "5.23.0"
+   ],
+   [
+    "styles",
+    "Semantic DOM style",
+    "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+    "-",
+    "5.23.0",
+    "5.23.0"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element (including arrows, content elements) with absolute positioning, z-index, block display, max width, visibility, transform origin and arrow background color"
+   },
+   {
+    "name": "container",
+    "mark": "semantic-mark-container",
+    "description": "Content element with min width and height, padding, color, text alignment, background color, border radius, shadow and border styles"
+   },
+   {
+    "name": "arrow",
+    "mark": "semantic-mark-arrow",
+    "description": "Arrow element with width, height, position, color and border styles"
+   }
+  ],
+  "dom": "<div style=\"position: absolute; margin-top: 60px;\">\n        <span aria-describedby=\"test-id\" class=\"ant-tooltip-open\">\n        <div class=\"ant-tooltip ant-zoom-big-fast-appear ant-zoom-big-fast-appear-prepare ant-zoom-big-fast ant-tooltip-css-var css-var-test-id semantic-mark-root ant-tooltip-placement-top\" style=\"--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; right: auto; bottom: auto; box-sizing: border-box;\">\n          <div class=\"ant-tooltip-arrow semantic-mark-arrow\" style=\"position: absolute; bottom: 0px; left: 0px;\">\n            <span class=\"ant-tooltip-arrow-content\">\n          </span></div>\n          <div class=\"ant-tooltip-container semantic-mark-container\" id=\"test-id\" role=\"tooltip\">\n            tooltip prompt text\n          </div>\n        </div>\n      </span></div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "maxWidth",
+     "Max width of tooltip",
+     "number",
+     "250"
+    ],
+    [
+     "zIndexPopup",
+     "z-index of tooltip",
+     "number",
+     "1070"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadius",
+     "Border radius of base components",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusXS",
+     "XS size border radius, used in some small border radius components, such as Segmented, Arrow and other components with small border radius.",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgSpotlight",
+     "This color is used to draw the user's strong attention to the background color, and is currently only used in the background color of Tooltip.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextLightSolid",
+     "Control the highlight color of text with background color, such as the text in Primary Button components.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationFast",
+     "Motion speed, fast speed. Used for small element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "sizePopupArrow",
+     "The size of the component arrow",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

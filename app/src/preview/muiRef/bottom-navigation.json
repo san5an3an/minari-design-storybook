@@ -1,0 +1,243 @@
+{
+ "slug": "bottom-navigation",
+ "title": "Bottom Navigation",
+ "group": "Navigation",
+ "folder": "bottom-navigation",
+ "description": "The Bottom Navigation bar allows movement between primary destinations in an app.",
+ "components": [
+  "BottomNavigation",
+  "BottomNavigationAction"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Bottom navigation bars display three to five destinations at the bottom of a screen. Each destination is represented by an icon and an optional text label. When a bottom navigation icon is tapped, the user is taken to the top-level navigation destination associated with that icon."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Bottom navigation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When there are only **three** actions, display both icons and text labels at all times."
+    },
+    {
+     "kind": "demo",
+     "name": "SimpleBottomNavigation",
+     "file": "SimpleBottomNavigation.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport BottomNavigation from '@mui/material/BottomNavigation';\nimport BottomNavigationAction from '@mui/material/BottomNavigationAction';\nimport RestoreIcon from '@mui/icons-material/Restore';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport LocationOnIcon from '@mui/icons-material/LocationOn';\n\nexport default function SimpleBottomNavigation() {\n  const [value, setValue] = React.useState(0);\n\n  return (\n    <Box sx={{ width: 500 }}>\n      <BottomNavigation\n        showLabels\n        value={value}\n        onChange={(event, newValue) => {\n          setValue(newValue);\n        }}\n      >\n        <BottomNavigationAction label=\"Recents\" icon={<RestoreIcon />} />\n        <BottomNavigationAction label=\"Favorites\" icon={<FavoriteIcon />} />\n        <BottomNavigationAction label=\"Nearby\" icon={<LocationOnIcon />} />\n      </BottomNavigation>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Bottom navigation with no label",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "If there are **four** or **five** actions, display inactive views as icons only."
+    },
+    {
+     "kind": "demo",
+     "name": "LabelBottomNavigation",
+     "file": "LabelBottomNavigation.tsx",
+     "code": "import * as React from 'react';\nimport BottomNavigation from '@mui/material/BottomNavigation';\nimport BottomNavigationAction from '@mui/material/BottomNavigationAction';\nimport FolderIcon from '@mui/icons-material/Folder';\nimport RestoreIcon from '@mui/icons-material/Restore';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport LocationOnIcon from '@mui/icons-material/LocationOn';\n\nexport default function LabelBottomNavigation() {\n  const [value, setValue] = React.useState('recents');\n\n  const handleChange = (event: React.SyntheticEvent, newValue: string) => {\n    setValue(newValue);\n  };\n\n  return (\n    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>\n      <BottomNavigationAction\n        label=\"Recents\"\n        value=\"recents\"\n        icon={<RestoreIcon />}\n      />\n      <BottomNavigationAction\n        label=\"Favorites\"\n        value=\"favorites\"\n        icon={<FavoriteIcon />}\n      />\n      <BottomNavigationAction\n        label=\"Nearby\"\n        value=\"nearby\"\n        icon={<LocationOnIcon />}\n      />\n      <BottomNavigationAction label=\"Folder\" value=\"folder\" icon={<FolderIcon />} />\n    </BottomNavigation>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Fixed positioning",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "This demo keeps bottom navigation fixed to the bottom, no matter the amount of content on-screen."
+    },
+    {
+     "kind": "demo",
+     "name": "FixedBottomNavigation",
+     "file": "FixedBottomNavigation.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport CssBaseline from '@mui/material/CssBaseline';\nimport BottomNavigation from '@mui/material/BottomNavigation';\nimport BottomNavigationAction from '@mui/material/BottomNavigationAction';\nimport RestoreIcon from '@mui/icons-material/Restore';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport ArchiveIcon from '@mui/icons-material/Archive';\nimport Paper from '@mui/material/Paper';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport ListItemText from '@mui/material/ListItemText';\nimport Avatar from '@mui/material/Avatar';\n\nfunction refreshMessages(): MessageExample[] {\n  const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));\n\n  return Array.from(new Array(50)).map(\n    () => messageExamples[getRandomInt(messageExamples.length)],\n  );\n}\n\nexport default function FixedBottomNavigation() {\n  const [value, setValue] = React.useState(0);\n  const ref = React.useRef<HTMLDivElement>(null);\n  const [messages, setMessages] = React.useState(() => refreshMessages());\n\n  React.useEffect(() => {\n    (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;\n    setMessages(refreshMessages());\n  }, [value, setMessages]);\n\n  return (\n    <Box sx={{ pb: 7 }} ref={ref}>\n      <CssBaseline />\n      <List>\n        {messages.map(({ primary, secondary, person }, index) => (\n          <ListItemButton key={index + person}>\n            <ListItemAvatar>\n              <Avatar alt=\"Profile Picture\" src={person} />\n            </ListItemAvatar>\n            <ListItemText primary={primary} secondary={secondary} />\n          </ListItemButton>\n        ))}\n      </List>\n      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>\n        <BottomNavigation\n          showLabels\n          value={value}\n          onChange={(event, newValue) => {\n            setValue(newValue);\n          }}\n        >\n          <BottomNavigationAction label=\"Recents\" icon={<RestoreIcon />} />\n          <BottomNavigationAction label=\"Favorites\" icon={<FavoriteIcon />} />\n          <BottomNavigationAction label=\"Archive\" icon={<ArchiveIcon />} />\n        </BottomNavigation>\n      </Paper>\n    </Box>\n  );\n}\n\ninterface MessageExample {\n  primary: string;\n  secondary: string;\n  person: string;\n}\n\nconst messageExamples: readonly MessageExample[] = [\n  {\n    primary: 'Brunch this week?',\n    secondary: \"I'll be in the neighbourhood this week. Let's grab a bite to eat\",\n    person: '/static/images/avatar/5.jpg',\n  },\n  {\n    primary: 'Birthday Gift',\n    secondary: `Do you have a suggestion for a good present for John on his work\n      anniversary. I am really confused & would love your thoughts on it.`,\n    person: '/static/images/avatar/1.jpg',\n  },\n  {\n    primary: 'Recipe to try',\n    secondary: 'I am try out this new BBQ recipe, I think this might be amazing',\n    person: '/static/images/avatar/2.jpg',\n  },\n  {\n    primary: 'Yes!',\n    secondary: 'I have the tickets to the ReactConf for this year.',\n    person: '/static/images/avatar/3.jpg',\n  },\n  {\n    primary: \"Doctor's Appointment\",\n    secondary: 'My appointment for the doctor was rescheduled for next Saturday.',\n    person: '/static/images/avatar/4.jpg',\n  },\n  {\n    primary: 'Discussion',\n    secondary: `Menus that are generated by the bottom app bar (such as a bottom\n      navigation drawer or overflow menu) open as bottom sheets at a higher elevation\n      than the bar.`,\n    person: '/static/images/avatar/5.jpg',\n  },\n  {\n    primary: 'Summer BBQ',\n    secondary: `Who wants to have a cookout this weekend? I just got some furniture\n      for my backyard and would love to fire up the grill.`,\n    person: '/static/images/avatar/1.jpg',\n  },\n];\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Third-party routing library",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "One frequent use case is to perform navigation on the client only, without an HTTP round-trip to the server.\nThe `BottomNavigationAction` component provides the `component` prop to handle this use case.\nHere is a [more detailed guide](/material-ui/integrations/routing/)."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "BottomNavigation",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the value changes."
+    },
+    {
+     "prop": "showLabels",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, all <code>BottomNavigationAction</code>s will show their labels. By default, only the selected <code>BottomNavigationAction</code> will show its label."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the currently selected <code>BottomNavigationAction</code>."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiBottomNavigation-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "BottomNavigationAction",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "unsupportedProp",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop isn&#39;t supported. Use the <code>component</code> prop if you need to change the children structure."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label element."
+    },
+    {
+     "prop": "showLabel",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>BottomNavigationAction</code> will show its label. By default, only the selected <code>BottomNavigationAction</code> inside <code>BottomNavigation</code> will show its label.<br>The prop defaults to the value (<code>false</code>) inherited from the parent BottomNavigation component."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ label?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ label?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "You can provide your own value. Otherwise, we fallback to the child position index."
+    }
+   ],
+   "classes": [
+    {
+     "key": "iconOnly",
+     "className": "MuiBottomNavigationAction-iconOnly",
+     "description": "State class applied to the root element if `showLabel={false}` and not selected."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if selected."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-bottom-navigation/"
+}

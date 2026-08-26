@@ -1,0 +1,819 @@
+{
+ "slug": "collapse",
+ "title": "Collapse",
+ "description": "A content area which can be collapsed and expanded.",
+ "group": "Data Display",
+ "whenToUse": "- Can be used to group or hide complex regions to keep the page clean.\n- `Accordion` is a special kind of `Collapse`, which allows only one panel to be expanded at a time.",
+ "examples": [
+  {
+   "name": "Collapse",
+   "description": "By default, any number of panels can be expanded at a time. The first panel is expanded in this example.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: <p>{text}</p>,\n  },\n];\n\nconst App: React.FC = () => {\n  const onChange = (key: string | string[]) => {\n    console.log(key);\n  };\n\n  return <Collapse items={items} defaultActiveKey={['1']} onChange={onChange} />;\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Size",
+   "description": "Ant Design supports a default collapse size as well as a large and small size.",
+   "code": "import React from 'react';\nimport { Collapse, Divider } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst App: React.FC = () => (\n  <>\n    <Divider titlePlacement=\"start\">Medium Size</Divider>\n    <Collapse\n      items={[{ key: '1', label: 'This is medium size panel header', children: <p>{text}</p> }]}\n    />\n    <Divider titlePlacement=\"start\">Small Size</Divider>\n    <Collapse\n      size=\"small\"\n      items={[{ key: '1', label: 'This is small size panel header', children: <p>{text}</p> }]}\n    />\n    <Divider titlePlacement=\"start\">Large Size</Divider>\n    <Collapse\n      size=\"large\"\n      items={[{ key: '1', label: 'This is large size panel header', children: <p>{text}</p> }]}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Accordion",
+   "description": "In accordion mode, only one panel can be expanded at a time.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: <p>{text}</p>,\n  },\n];\n\nconst App: React.FC = () => <Collapse accordion items={items} />;\n\nexport default App;",
+   "demoId": "accordion"
+  },
+  {
+   "name": "Nested panel",
+   "description": "`Collapse` is nested inside the `Collapse`.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst itemsNest: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel nest panel',\n    children: <p>{text}</p>,\n  },\n];\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: <Collapse defaultActiveKey=\"1\" items={itemsNest} />,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: <p>{text}</p>,\n  },\n];\n\nconst App: React.FC = () => {\n  const onChange = (key: string | string[]) => {\n    console.log(key);\n  };\n\n  return <Collapse onChange={onChange} items={items} />;\n};\n\nexport default App;",
+   "demoId": "mix"
+  },
+  {
+   "name": "Borderless",
+   "description": "A borderless style of Collapse.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = (\n  <p style={{ paddingInlineStart: 24 }}>\n    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found\n    as a welcome guest in many households across the world.\n  </p>\n);\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: text,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: text,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: text,\n  },\n];\n\nconst App: React.FC = () => <Collapse items={items} bordered={false} defaultActiveKey={['1']} />;\n\nexport default App;",
+   "demoId": "borderless"
+  },
+  {
+   "name": "Custom Panel",
+   "description": "Customize the background, border, margin styles and icon for each panel.",
+   "code": "import type { CSSProperties } from 'react';\nimport React from 'react';\nimport { CaretRightOutlined } from '@ant-design/icons';\nimport type { CollapseProps } from 'antd';\nimport { Collapse, theme } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: <p>{text}</p>,\n    style: panelStyle,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: <p>{text}</p>,\n    style: panelStyle,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: <p>{text}</p>,\n    style: panelStyle,\n  },\n];\n\nconst App: React.FC = () => {\n  const { token } = theme.useToken();\n\n  const panelStyle: React.CSSProperties = {\n    marginBottom: 24,\n    background: token.colorFillAlter,\n    borderRadius: token.borderRadiusLG,\n    border: 'none',\n  };\n\n  return (\n    <Collapse\n      bordered={false}\n      defaultActiveKey={['1']}\n      expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}\n      style={{ background: token.colorBgContainer }}\n      items={getItems(panelStyle)}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "custom"
+  },
+  {
+   "name": "Panel with icon",
+   "description": "Add an icon to the panel title. A bare `<svg>` from a third-party icon library (e.g. lucide, react-icons) stays vertically centred with the title text.",
+   "code": "import React from 'react';\nimport { SmileOutlined } from '@ant-design/icons';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\n// Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`\n// rather than an `.anticon` wrapper. It stays vertically centred with the title text.\nconst ChartIcon: React.FC = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    width=\"1em\"\n    height=\"1em\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth={2}\n    aria-hidden=\"true\"\n  >\n    <path d=\"M3 3v18h18\" />\n    <path d=\"M7 14l4-4 3 3 5-6\" />\n  </svg>\n);\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: (\n      <>\n        <SmileOutlined /> Panel with an Ant Design icon\n      </>\n    ),\n    children: <p>{text}</p>,\n  },\n  {\n    key: '2',\n    label: (\n      <>\n        <ChartIcon /> Panel with a third-party icon\n      </>\n    ),\n    children: <p>{text}</p>,\n  },\n];\n\nconst App: React.FC = () => <Collapse defaultActiveKey={['1']} items={items} />;\n\nexport default App;",
+   "demoId": "icon"
+  },
+  {
+   "name": "No arrow",
+   "description": "You can hide the arrow icon by passing `showArrow={false}` to `CollapsePanel` component.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header with arrow icon',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '2',\n    label: 'This is panel header with no arrow icon',\n    children: <p>{text}</p>,\n    showArrow: false,\n  },\n];\n\nconst App: React.FC = () => {\n  const onChange = (key: string | string[]) => {\n    console.log(key);\n  };\n\n  return <Collapse defaultActiveKey={['1']} onChange={onChange} items={items} />;\n};\n\nexport default App;",
+   "demoId": "noarrow"
+  },
+  {
+   "name": "Extra node",
+   "description": "Render extra element in the top-right corner of each panel.",
+   "code": "import React, { useState } from 'react';\nimport { SettingOutlined } from '@ant-design/icons';\nimport type { CollapseProps } from 'antd';\nimport { Collapse, Select } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst App: React.FC = () => {\n  const [expandIconPlacement, setExpandIconPlacement] =\n    useState<CollapseProps['expandIconPlacement']>('start');\n\n  const onPlacementChange = (newExpandIconPlacement: CollapseProps['expandIconPlacement']) => {\n    setExpandIconPlacement(newExpandIconPlacement);\n  };\n\n  const onChange = (key: string | string[]) => {\n    console.log(key);\n  };\n\n  const genExtra = () => (\n    <SettingOutlined\n      onClick={(event) => {\n        // If you don't want click extra trigger collapse, you can prevent this:\n        event.stopPropagation();\n      }}\n    />\n  );\n\n  const items: CollapseProps['items'] = [\n    {\n      key: '1',\n      label: 'This is panel header 1',\n      children: <div>{text}</div>,\n      extra: genExtra(),\n    },\n    {\n      key: '2',\n      label: 'This is panel header 2',\n      children: <div>{text}</div>,\n      extra: genExtra(),\n    },\n    {\n      key: '3',\n      label: 'This is panel header 3',\n      children: <div>{text}</div>,\n      extra: genExtra(),\n    },\n  ];\n\n  return (\n    <>\n      <Collapse\n        defaultActiveKey={['1']}\n        onChange={onChange}\n        expandIconPlacement={expandIconPlacement}\n        items={items}\n      />\n      <br />\n      <span>Expand Icon Placement: </span>\n      <Select\n        value={expandIconPlacement}\n        style={{ margin: '0 8px' }}\n        onChange={onPlacementChange}\n        options={[\n          { label: 'start', value: 'start' },\n          { label: 'end', value: 'end' },\n        ]}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "extra"
+  },
+  {
+   "name": "Ghost Collapse",
+   "description": "Making collapse's background to transparent.",
+   "code": "import React from 'react';\nimport type { CollapseProps } from 'antd';\nimport { Collapse } from 'antd';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: <p>{text}</p>,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: <p>{text}</p>,\n  },\n];\n\nconst App: React.FC = () => <Collapse defaultActiveKey={['1']} ghost items={items} />;\n\nexport default App;",
+   "demoId": "ghost"
+  },
+  {
+   "name": "Collapsible",
+   "description": "Specify the trigger area of collapsible by `collapsible`.",
+   "code": "import React from 'react';\nimport { Collapse, Space } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst text = `\n  A dog is a type of domesticated animal.\n  Known for its loyalty and faithfulness,\n  it can be found as a welcome guest in many households across the world.\n`;\n\nconst useStyles = createStyles((props) => {\n  const { css } = props;\n  return {\n    content: css`\n      width: 100%;\n    `,\n  };\n});\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n  return (\n    <Space className={styles.content} vertical>\n      <Collapse\n        collapsible=\"header\"\n        defaultActiveKey={['1']}\n        items={[\n          {\n            key: '1',\n            label: 'This panel can be collapsed by clicking text or icon',\n            children: <p>{text}</p>,\n          },\n        ]}\n      />\n      <Collapse\n        collapsible=\"icon\"\n        defaultActiveKey={['1']}\n        items={[\n          {\n            key: '1',\n            label: 'This panel can only be collapsed by clicking icon',\n            children: <p>{text}</p>,\n          },\n        ]}\n      />\n      <Collapse\n        collapsible=\"disabled\"\n        items={[\n          {\n            key: '1',\n            label: \"This panel can't be collapsed\",\n            children: <p>{text}</p>,\n          },\n        ]}\n      />\n    </Space>\n  );\n};\n\nexport default App;",
+   "demoId": "collapsible"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Collapse by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport type { CollapseProps, GetProp } from 'antd';\nimport { Collapse, Flex } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    background-color: #fafafa;\n    border: 1px solid #e0e0e0;\n    border-radius: 8px;\n  `,\n}));\n\nconst element = (\n  <p>\n    A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found\n    as a welcome guest in many households across the world.\n  </p>\n);\n\nconst items: CollapseProps['items'] = [\n  {\n    key: '1',\n    label: 'This is panel header 1',\n    children: element,\n  },\n  {\n    key: '2',\n    label: 'This is panel header 2',\n    children: element,\n  },\n  {\n    key: '3',\n    label: 'This is panel header 3',\n    children: element,\n  },\n];\n\nconst styles: CollapseProps['styles'] = {\n  root: {\n    backgroundColor: '#fafafa',\n    border: '1px solid #e0e0e0',\n    borderRadius: 8,\n  },\n  header: {\n    backgroundColor: '#f0f0f0',\n    padding: '12px 16px',\n    color: '#141414',\n  },\n};\n\nconst stylesFn: CollapseProps['styles'] = ({\n  props,\n}): GetProp<CollapseProps, 'styles', 'Return'> => {\n  if (props.size === 'large') {\n    return {\n      root: {\n        backgroundColor: '#fff',\n        border: '1px solid #696FC7',\n        borderRadius: 8,\n      },\n      header: {\n        backgroundColor: '#F5EFFF',\n        padding: '12px 16px',\n        color: '#141414',\n      },\n    };\n  }\n};\n\nconst App: React.FC = () => {\n  const sharedProps: CollapseProps = { classNames, items };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Collapse {...sharedProps} defaultActiveKey={['1']} styles={styles} />\n      <Collapse {...sharedProps} defaultActiveKey={['2']} styles={stylesFn} size=\"large\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "accordion",
+     "If true, Collapse renders as Accordion",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "activeKey",
+     "Key of the active panel",
+     "string\\[] | string <br/> number\\[] | number",
+     "No default value. In accordion mode, it's the key of the first panel",
+     "—",
+     "×"
+    ],
+    [
+     "bordered",
+     "Toggles rendering of the border around the collapse block",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "collapsible",
+     "Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself",
+     "`header` | `icon` | `disabled`",
+     "-",
+     "4.9.0",
+     "×"
+    ],
+    [
+     "defaultActiveKey",
+     "Key of the initial active panel",
+     "string\\[] | string <br/> number\\[] | number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~destroyInactivePanel~~",
+     "Destroy Inactive Panel",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "destroyOnHidden",
+     "Destroy Inactive Panel",
+     "boolean",
+     "false",
+     "5.25.0",
+     "×"
+    ],
+    [
+     "expandIcon",
+     "Customize the collapse expand icon",
+     "(panelProps) => ReactNode",
+     "-",
+     "—",
+     "5.15.0"
+    ],
+    [
+     "expandIconPlacement",
+     "Set expand icon placement",
+     "`start` | `end`",
+     "start",
+     "-",
+     "×"
+    ],
+    [
+     "~~expandIconPosition~~",
+     "Set expand icon position, Please use `expandIconPlacement` instead",
+     "`start` | `end`",
+     "-",
+     "4.21.0",
+     "×"
+    ],
+    [
+     "ghost",
+     "Make the collapse borderless and its background transparent",
+     "boolean",
+     "false",
+     "4.4.0",
+     "×"
+    ],
+    [
+     "size",
+     "Set the size of collapse",
+     "`large` | `medium` | `small`",
+     "medium",
+     "5.2.0",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "onChange",
+     "Callback function executed when active panel is changed",
+     "function",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "items",
+     "collapse items content",
+     "ItemType",
+     "-",
+     "5.6.0",
+     "×"
+    ]
+   ],
+   "name": "Collapse"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Semantic structure className",
+     "Record<header | body, string>",
+     "-",
+     "5.21.0"
+    ],
+    [
+     "collapsible",
+     "Specify whether the panel be collapsible or the trigger area of collapsible",
+     "`header` | `icon` | `disabled`",
+     "-",
+     "—"
+    ],
+    [
+     "children",
+     "Body area content",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "extra",
+     "The extra element in the corner",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "forceRender",
+     "Forced render of content on panel, instead of lazy rendering after clicking on header",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "key",
+     "Unique key identifying the panel from among its siblings",
+     "string | number",
+     "-",
+     "—"
+    ],
+    [
+     "label",
+     "Title of the panel",
+     "ReactNode",
+     "-",
+     "-"
+    ],
+    [
+     "showArrow",
+     "If false, panel will not show arrow icon. If false, collapsible can't be set as icon",
+     "boolean",
+     "true",
+     "—"
+    ],
+    [
+     "styles",
+     "Semantic DOM style",
+     "Record<header | body, CSSProperties>",
+     "-",
+     "5.21.0"
+    ]
+   ],
+   "name": "ItemType"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "collapsible",
+     "Specify whether the panel be collapsible or the trigger area of collapsible",
+     "`header` | `icon` | `disabled`",
+     "-",
+     "4.9.0 (icon: 4.24.0)"
+    ],
+    [
+     "extra",
+     "The extra element in the corner",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "forceRender",
+     "Forced render of content on panel, instead of lazy rendering after clicking on header",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "header",
+     "Title of the panel",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "key",
+     "Unique key identifying the panel from among its siblings",
+     "string | number",
+     "-",
+     "—"
+    ],
+    [
+     "showArrow",
+     "If false, panel will not show arrow icon. If false, collapsible can't be set as icon",
+     "boolean",
+     "true",
+     "—"
+    ]
+   ],
+   "name": "Collapse.Panel"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "accordion",
+    "If true, Collapse renders as Accordion",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "activeKey",
+    "Key of the active panel",
+    "string\\[] | string <br/> number\\[] | number",
+    "No default value. In accordion mode, it's the key of the first panel",
+    "—",
+    "×"
+   ],
+   [
+    "bordered",
+    "Toggles rendering of the border around the collapse block",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "collapsible",
+    "Specify how to trigger Collapse. Either by clicking icon or by clicking any area in header or disable collapse functionality itself",
+    "`header` | `icon` | `disabled`",
+    "-",
+    "4.9.0",
+    "×"
+   ],
+   [
+    "defaultActiveKey",
+    "Key of the initial active panel",
+    "string\\[] | string <br/> number\\[] | number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~destroyInactivePanel~~",
+    "Destroy Inactive Panel",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "destroyOnHidden",
+    "Destroy Inactive Panel",
+    "boolean",
+    "false",
+    "5.25.0",
+    "×"
+   ],
+   [
+    "expandIcon",
+    "Customize the collapse expand icon",
+    "(panelProps) => ReactNode",
+    "-",
+    "—",
+    "5.15.0"
+   ],
+   [
+    "expandIconPlacement",
+    "Set expand icon placement",
+    "`start` | `end`",
+    "start",
+    "-",
+    "×"
+   ],
+   [
+    "~~expandIconPosition~~",
+    "Set expand icon position, Please use `expandIconPlacement` instead",
+    "`start` | `end`",
+    "-",
+    "4.21.0",
+    "×"
+   ],
+   [
+    "ghost",
+    "Make the collapse borderless and its background transparent",
+    "boolean",
+    "false",
+    "4.4.0",
+    "×"
+   ],
+   [
+    "size",
+    "Set the size of collapse",
+    "`large` | `medium` | `small`",
+    "medium",
+    "5.2.0",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "onChange",
+    "Callback function executed when active panel is changed",
+    "function",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "items",
+    "collapse items content",
+    "ItemType",
+    "-",
+    "5.6.0",
+    "×"
+   ]
+  ],
+  "name": "Collapse"
+ },
+ "variants": [
+  {
+   "prop": "collapsible",
+   "values": [
+    "header",
+    "icon",
+    "disabled"
+   ],
+   "default": "-",
+   "owner": "Collapse",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "expandIconPlacement",
+   "values": [
+    "start",
+    "end"
+   ],
+   "default": "start",
+   "owner": "Collapse",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "expandIconPosition",
+   "values": [
+    "start",
+    "end"
+   ],
+   "default": "-",
+   "owner": "Collapse",
+   "source": "type",
+   "deprecated": true
+  },
+  {
+   "prop": "size",
+   "values": [
+    "large",
+    "medium",
+    "small"
+   ],
+   "default": "medium",
+   "owner": "Collapse",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "collapsible",
+   "values": [
+    "header",
+    "icon",
+    "disabled"
+   ],
+   "default": "-",
+   "owner": "ItemType",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "collapsible",
+   "values": [
+    "header",
+    "icon",
+    "disabled"
+   ],
+   "default": "-",
+   "owner": "Collapse.Panel",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with border, border-radius, background color and container styles that control the overall layout and appearance of collapse panels"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with flex layout, padding, color, line-height, cursor style, transition animations and other interactive styles for panel headers"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with flex auto layout and margin styles for title text layout and typography"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element with padding, color, background color and other styles for panel content area display"
+   },
+   {
+    "name": "icon",
+    "mark": "semantic-mark-icon",
+    "description": "Icon element with font size, transition animations, rotation transforms and other styles and animations for expand/collapse arrows"
+   }
+  ],
+  "dom": "<div style=\"position: absolute; inset: 0; margin: 32px;\">\n        <div class=\"ant-collapse ant-collapse-icon-placement-start css-var-test-id semantic-mark-root\">\n          <div class=\"ant-collapse-item ant-collapse-item-active\">\n            <div aria-disabled=\"false\" aria-expanded=\"true\" class=\"ant-collapse-header semantic-mark-header\" role=\"button\" tabindex=\"0\">\n              <div class=\"ant-collapse-expand-icon semantic-mark-icon\">\n                <span aria-hidden=\"true\" aria-label=\"right\" class=\"anticon anticon-right ant-collapse-arrow\" role=\"img\">\n                  <svg aria-hidden=\"true\" data-icon=\"right\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" style=\"transform: rotate(90deg);\" viewBox=\"64 64 896 896\" width=\"1em\">\n                    <path d=\"M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z\"></path>\n                  </svg>\n                </span>\n              </div>\n              <span class=\"ant-collapse-title semantic-mark-title\">\n                This is panel header\n              </span>\n            </div>\n            <div class=\"ant-collapse-panel ant-collapse-panel-active\">\n              <div class=\"ant-collapse-body semantic-mark-body\">\n                <p>\n                  This is panel body\n                </p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderlessContentBg",
+     "Background of content in borderless style",
+     "string",
+     "transparent"
+    ],
+    [
+     "borderlessContentPadding",
+     "Padding of content in borderless style",
+     "Padding<string | number> | undefined",
+     "4px 16px 16px"
+    ],
+    [
+     "contentBg",
+     "Background of content",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "contentPadding",
+     "Padding of content",
+     "Padding<string | number> | undefined",
+     "16px 16px"
+    ],
+    [
+     "contentPaddingLG",
+     "Padding of large content",
+     "Padding<string | number> | undefined",
+     "24"
+    ],
+    [
+     "contentPaddingSM",
+     "Padding of small content",
+     "Padding<string | number> | undefined",
+     "12"
+    ],
+    [
+     "headerBg",
+     "Background of header",
+     "string",
+     "rgba(0,0,0,0.02)"
+    ],
+    [
+     "headerPadding",
+     "Padding of header",
+     "Padding<string | number> | undefined",
+     "12px 16px"
+    ],
+    [
+     "headerPaddingLG",
+     "Padding of large header",
+     "Padding<string | number> | undefined",
+     "16px 24px 16px 16px"
+    ],
+    [
+     "headerPaddingSM",
+     "Padding of small header",
+     "Padding<string | number> | undefined",
+     "8px 12px 8px 8px"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeIcon",
+     "Control the font size of operation icon in Select, Cascader, etc. Normally same as fontSizeSM.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "marginSM",
+     "Control the margin of an element, with a medium-small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOut",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

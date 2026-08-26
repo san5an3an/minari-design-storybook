@@ -1,0 +1,84 @@
+
+.ods-alertdialog {
+  display: flex; flex-direction: column;
+  gap: var(--component-alertdialog-gap);
+  width: var(--component-alertdialog-width); max-width: 100%;
+  padding: var(--component-alertdialog-padding);
+  background: var(--component-alertdialog-bg);
+  color: var(--component-alertdialog-fg);
+  border: var(--semantic-border-width-default) solid var(--component-alertdialog-border);
+  border-radius: var(--component-alertdialog-radius);
+  box-shadow: var(--component-alertdialog-shadow);
+}
+/* 질문 하나만 묻는 창은 좁게 표시, 글자 크기는 유지 */
+.ods-alertdialog[data-size="sm"] { width: var(--component-alertdialog-width-sm); }
+.ods-alertdialog-title {
+  margin: 0;
+  font-size: var(--component-alertdialog-title-font-size);
+  letter-spacing: var(--component-alertdialog-title-letter-spacing);
+  line-height: var(--base-font-line-height-snug);
+  font-weight: var(--base-font-weight-medium);
+}
+.ods-alertdialog-description {
+  margin: 0;
+  color: var(--component-alertdialog-description-fg);
+  font-size: var(--component-alertdialog-description-font-size);
+  letter-spacing: var(--component-alertdialog-description-letter-spacing);
+  line-height: var(--base-font-line-height-normal);
+}
+/* 성격 표시 배지. 글자를 읽기 전에 창 종류 전달. 색상만으로 구분하면 인식에 한계가 있음 */
+.ods-alertdialog-media {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--component-alertdialog-media-size);
+  height: var(--component-alertdialog-media-size);
+  border-radius: var(--component-alertdialog-media-radius);
+  background: var(--component-alertdialog-media-bg);
+  color: var(--component-alertdialog-media-fg);
+  border: var(--semantic-border-width-default) solid var(--component-alertdialog-media-border);
+  flex-shrink: 0;
+}
+.ods-alertdialog-media > svg { width: 50%; height: 50%; stroke: currentColor; fill: none; }
+/* destructive 적용 시 확인 버튼과 배지 색 함께 변경 */
+.ods-alertdialog[data-variant="destructive"] > .ods-alertdialog-media {
+  background: var(--component-alertdialog-media-danger-bg);
+  color: var(--component-alertdialog-media-danger-fg);
+  border-color: var(--component-alertdialog-media-danger-border);
+}
+.ods-alertdialog:has(> .ods-alertdialog-media) {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+  column-gap: var(--component-alertdialog-media-gap);
+}
+.ods-alertdialog:has(> .ods-alertdialog-media) > .ods-alertdialog-footer {
+  justify-self: stretch;
+}
+@media (min-width: 30rem) {
+  .ods-alertdialog[data-size="default"]:has(> .ods-alertdialog-media) {
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    text-align: left;
+  }
+  .ods-alertdialog[data-size="default"]:has(> .ods-alertdialog-media)
+    > .ods-alertdialog-media { grid-row: span 2; }
+  .ods-alertdialog[data-size="default"]:has(> .ods-alertdialog-media)
+    > .ods-alertdialog-title,
+  .ods-alertdialog[data-size="default"]:has(> .ods-alertdialog-media)
+    > .ods-alertdialog-description { grid-column: 2; }
+  .ods-alertdialog[data-size="default"]:has(> .ods-alertdialog-media)
+    > .ods-alertdialog-footer { grid-column: 1 / -1; }
+}
+/* 하단 띠. 음수 마진으로 창 끝까지 확장, 하단 모서리 정렬 */
+.ods-alertdialog-footer {
+  display: flex; justify-content: flex-end;
+  gap: var(--semantic-space-sm);
+  margin: 0 calc(var(--component-alertdialog-padding) * -1)
+            calc(var(--component-alertdialog-padding) * -1);
+  padding: var(--component-alertdialog-padding);
+  background: var(--component-alertdialog-footer-bg);
+  border-top: var(--semantic-border-width-default) solid
+              var(--component-alertdialog-footer-border);
+  border-radius: 0 0 var(--component-alertdialog-radius)
+                       var(--component-alertdialog-radius);
+}

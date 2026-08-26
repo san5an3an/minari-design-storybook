@@ -1,0 +1,356 @@
+{
+ "slug": "watermark",
+ "title": "Watermark",
+ "description": "Add specific text or patterns to the page.",
+ "group": "Feedback",
+ "whenToUse": "- Use when the page needs to be watermarked to identify the copyright.\n- Suitable for preventing information theft.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The most basic usage.",
+   "code": "import React from 'react';\nimport { Watermark } from 'antd';\n\nconst App: React.FC = () => (\n  <Watermark content=\"Ant Design\">\n    <div style={{ height: 500 }} />\n  </Watermark>\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Multi-line watermark",
+   "description": "Use `content` to set an array of strings and `WatermarkText` to specify multi-line text watermark content with custom font styles per line.",
+   "code": "import React from 'react';\nimport { Watermark } from 'antd';\n\nconst App: React.FC = () => (\n  <Watermark content={['Ant Design', { text: 'Happy Working', font: { fontSize: 12 } }]}>\n    <div style={{ height: 500 }} />\n  </Watermark>\n);\n\nexport default App;",
+   "demoId": "multi-line"
+  },
+  {
+   "name": "Image watermark",
+   "description": "Specify the image address via `image`. To ensure that the image is high definition and not stretched, set the width and height, and upload at least twice the width and height of the logo image address.",
+   "code": "import React from 'react';\nimport { Watermark } from 'antd';\n\nconst App: React.FC = () => (\n  <Watermark\n    height={30}\n    width={130}\n    image=\"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*lkAoRbywo0oAAAAAAAAAAAAADrJ8AQ/original\"\n  >\n    <div style={{ height: 500 }} />\n  </Watermark>\n);\n\nexport default App;",
+   "demoId": "image"
+  },
+  {
+   "name": "Custom configuration",
+   "description": "Preview the watermark effect by configuring custom parameters.",
+   "code": "import React, { useState } from 'react';\nimport { ColorPicker, Flex, Form, Input, InputNumber, Slider, Typography, Watermark } from 'antd';\nimport type { ColorPickerProps, GetProp, WatermarkProps } from 'antd';\n\ntype Color = Extract<GetProp<ColorPickerProps, 'value'>, string | { cleared: any }>;\n\nconst { Paragraph } = Typography;\n\ninterface WatermarkConfig {\n  content: string;\n  color: string | Color;\n  fontSize: number;\n  zIndex: number;\n  rotate: number;\n  gap: [number, number];\n  offset?: [number, number];\n}\n\nconst App: React.FC = () => {\n  const [form] = Form.useForm();\n  const [config, setConfig] = useState<WatermarkConfig>({\n    content: 'Ant Design',\n    color: 'rgba(0, 0, 0, 0.15)',\n    fontSize: 16,\n    zIndex: 11,\n    rotate: -22,\n    gap: [100, 100],\n    offset: undefined,\n  });\n  const { content, color, fontSize, zIndex, rotate, gap, offset } = config;\n\n  const watermarkProps: WatermarkProps = {\n    content,\n    zIndex,\n    rotate,\n    gap,\n    offset,\n    font: { color: typeof color === 'string' ? color : color.toRgbString(), fontSize },\n  };\n\n  return (\n    <Flex gap=\"medium\">\n      <Watermark {...watermarkProps}>\n        <Typography>\n          <Paragraph>\n            The light-speed iteration of the digital world makes products more complex. However,\n            human consciousness and attention resources are limited. Facing this design\n            contradiction, the pursuit of natural interaction will be the consistent direction of\n            Ant Design.\n          </Paragraph>\n          <Paragraph>\n            Natural user cognition: According to cognitive psychology, about 80% of external\n            information is obtained through visual channels. The most important visual elements in\n            the interface design, including layout, colors, illustrations, icons, etc., should fully\n            absorb the laws of nature, thereby reducing the user&apos;s cognitive cost and bringing\n            authentic and smooth feelings. In some scenarios, opportunely adding other sensory\n            channels such as hearing, touch can create a richer and more natural product experience.\n          </Paragraph>\n          <Paragraph>\n            Natural user behavior: In the interaction with the system, the designer should fully\n            understand the relationship between users, system roles, and task objectives, and also\n            contextually organize system functions and services. At the same time, a series of\n            methods such as behavior analysis, artificial intelligence and sensors could be applied\n            to assist users to make effective decisions and reduce extra operations of users, to\n            save users&apos; mental and physical resources and make human-computer interaction more\n            natural.\n          </Paragraph>\n        </Typography>\n        <img\n          draggable={false}\n          style={{ zIndex: 10, width: '100%', maxWidth: 800, position: 'relative' }}\n          src=\"https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*zx7LTI_ECSAAAAAAAAAAAABkARQnAQ\"\n          alt=\"img\"\n        />\n      </Watermark>\n      <Form\n        style={{\n          width: 280,\n          flexShrink: 0,\n          borderInlineStart: '1px solid #eee',\n          paddingInlineStart: 16,\n        }}\n        form={form}\n        layout=\"vertical\"\n        initialValues={config}\n        onValuesChange={(_, values) => {\n          setConfig(values);\n        }}\n      >\n        <Form.Item name=\"content\" label=\"Content\">\n          <Input placeholder=\"Please enter\" />\n        </Form.Item>\n        <Form.Item name=\"color\" label=\"Color\">\n          <ColorPicker />\n        </Form.Item>\n        <Form.Item name=\"fontSize\" label=\"FontSize\">\n          <Slider step={1} min={1} max={100} />\n        </Form.Item>\n        <Form.Item name=\"zIndex\" label=\"zIndex\">\n          <Slider step={1} min={0} max={100} />\n        </Form.Item>\n        <Form.Item name=\"rotate\" label=\"Rotate\">\n          <Slider step={1} min={-180} max={180} />\n        </Form.Item>\n        <Form.Item label=\"Gap\" style={{ marginBottom: 0 }}>\n          <Flex gap=\"small\">\n            <Form.Item name={['gap', 0]}>\n              <InputNumber placeholder=\"gapX\" style={{ width: '100%' }} />\n            </Form.Item>\n            <Form.Item name={['gap', 1]}>\n              <InputNumber placeholder=\"gapY\" style={{ width: '100%' }} />\n            </Form.Item>\n          </Flex>\n        </Form.Item>\n        <Form.Item label=\"Offset\" style={{ marginBottom: 0 }}>\n          <Flex gap=\"small\">\n            <Form.Item name={['offset', 0]}>\n              <InputNumber placeholder=\"offsetLeft\" style={{ width: '100%' }} />\n            </Form.Item>\n            <Form.Item name={['offset', 1]}>\n              <InputNumber placeholder=\"offsetTop\" style={{ width: '100%' }} />\n            </Form.Item>\n          </Flex>\n        </Form.Item>\n      </Form>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "custom"
+  },
+  {
+   "name": "Modal or Drawer",
+   "description": "Use in Modal and Drawer.",
+   "code": "import React from 'react';\nimport { Button, Drawer, Flex, Modal, Watermark } from 'antd';\n\nconst style: React.CSSProperties = {\n  height: 300,\n  display: 'flex',\n  justifyContent: 'center',\n  alignItems: 'center',\n  backgroundColor: 'rgba(150, 150, 150, 0.2)',\n};\n\nconst placeholder = <div style={style}>A mock height</div>;\n\nconst App: React.FC = () => {\n  const [showModal, setShowModal] = React.useState(false);\n  const [showDrawer, setShowDrawer] = React.useState(false);\n  const [showDrawer2, setShowDrawer2] = React.useState(false);\n\n  const closeModal = () => setShowModal(false);\n  const closeDrawer = () => setShowDrawer(false);\n  const closeDrawer2 = () => setShowDrawer2(false);\n\n  return (\n    <>\n      <Flex gap=\"medium\">\n        <Button type=\"primary\" onClick={() => setShowModal(true)}>\n          Show in Modal\n        </Button>\n        <Button type=\"primary\" onClick={() => setShowDrawer(true)}>\n          Show in Drawer\n        </Button>\n        <Button type=\"primary\" onClick={() => setShowDrawer2(true)}>\n          Not Show in Drawer\n        </Button>\n      </Flex>\n      <Watermark content=\"Ant Design\">\n        <Modal\n          destroyOnHidden\n          open={showModal}\n          title=\"Modal\"\n          onCancel={closeModal}\n          onOk={closeModal}\n        >\n          {placeholder}\n        </Modal>\n        <Drawer destroyOnHidden open={showDrawer} title=\"Drawer\" onClose={closeDrawer}>\n          {placeholder}\n        </Drawer>\n      </Watermark>\n      <Watermark content=\"Ant Design\" inherit={false}>\n        <Drawer destroyOnHidden open={showDrawer2} title=\"Drawer\" onClose={closeDrawer2}>\n          {placeholder}\n        </Drawer>\n      </Watermark>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "portal"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "width",
+     "The width of the watermark, the default value of `content` is its own width",
+     "number",
+     "120",
+     "—",
+     "×"
+    ],
+    [
+     "height",
+     "The height of the watermark, the default value of `content` is its own height",
+     "number",
+     "64",
+     "—",
+     "×"
+    ],
+    [
+     "inherit",
+     "Pass the watermark to the pop-up component such as Modal, Drawer",
+     "boolean",
+     "true",
+     "5.11.0",
+     "×"
+    ],
+    [
+     "rotate",
+     "When the watermark is drawn, the rotation Angle, unit `°`",
+     "number",
+     "-22",
+     "—",
+     "×"
+    ],
+    [
+     "zIndex",
+     "The z-index of the appended watermark element",
+     "number",
+     "999",
+     "—",
+     "×"
+    ],
+    [
+     "image",
+     "Image source, it is recommended to export 2x or 3x image, high priority (support base64 format)",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "content",
+     "Watermark text content",
+     "string | WatermarkText | (string | WatermarkText)[]",
+     "-",
+     "WatermarkText: 6.5.0",
+     "×"
+    ],
+    [
+     "font",
+     "Text style",
+     "Font",
+     "Font",
+     "—",
+     "×"
+    ],
+    [
+     "gap",
+     "The spacing between watermarks",
+     "\\[number, number\\]",
+     "\\[100, 100\\]",
+     "—",
+     "×"
+    ],
+    [
+     "offset",
+     "The offset of the watermark from the upper left corner of the container. The default is `gap/2`",
+     "\\[number, number\\]",
+     "\\[gap\\[0\\]/2, gap\\[1\\]/2\\]",
+     "—",
+     "×"
+    ],
+    [
+     "onRemove",
+     "Callback when the watermark is removed by DOM mutation",
+     "() => void",
+     "-",
+     "6.0.0",
+     "×"
+    ]
+   ],
+   "name": "Watermark"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "font",
+     "Custom line text style",
+     "Font",
+     "-",
+     "6.5.0"
+    ],
+    [
+     "text",
+     "Line text",
+     "string",
+     "-",
+     "6.5.0"
+    ]
+   ],
+   "name": "WatermarkText"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "color",
+     "font color",
+     "CanvasFillStrokeStyles.fillStyle",
+     "rgba(0,0,0,.15)",
+     "—"
+    ],
+    [
+     "fontSize",
+     "font size",
+     "number",
+     "16",
+     "—"
+    ],
+    [
+     "fontWeight",
+     "font weight",
+     "`normal` | `lighter` | `bold` | `bolder` | number",
+     "normal",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "font family",
+     "string",
+     "sans-serif",
+     "—"
+    ],
+    [
+     "fontStyle",
+     "font style",
+     "`none` | `normal` | `italic` | `oblique`",
+     "normal",
+     "—"
+    ],
+    [
+     "textAlign",
+     "specify the text alignment direction",
+     "CanvasTextAlign",
+     "center",
+     "5.10.0"
+    ]
+   ],
+   "name": "Font"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "width",
+    "The width of the watermark, the default value of `content` is its own width",
+    "number",
+    "120",
+    "—",
+    "×"
+   ],
+   [
+    "height",
+    "The height of the watermark, the default value of `content` is its own height",
+    "number",
+    "64",
+    "—",
+    "×"
+   ],
+   [
+    "inherit",
+    "Pass the watermark to the pop-up component such as Modal, Drawer",
+    "boolean",
+    "true",
+    "5.11.0",
+    "×"
+   ],
+   [
+    "rotate",
+    "When the watermark is drawn, the rotation Angle, unit `°`",
+    "number",
+    "-22",
+    "—",
+    "×"
+   ],
+   [
+    "zIndex",
+    "The z-index of the appended watermark element",
+    "number",
+    "999",
+    "—",
+    "×"
+   ],
+   [
+    "image",
+    "Image source, it is recommended to export 2x or 3x image, high priority (support base64 format)",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "content",
+    "Watermark text content",
+    "string | WatermarkText | (string | WatermarkText)[]",
+    "-",
+    "WatermarkText: 6.5.0",
+    "×"
+   ],
+   [
+    "font",
+    "Text style",
+    "Font",
+    "Font",
+    "—",
+    "×"
+   ],
+   [
+    "gap",
+    "The spacing between watermarks",
+    "\\[number, number\\]",
+    "\\[100, 100\\]",
+    "—",
+    "×"
+   ],
+   [
+    "offset",
+    "The offset of the watermark from the upper left corner of the container. The default is `gap/2`",
+    "\\[number, number\\]",
+    "\\[gap\\[0\\]/2, gap\\[1\\]/2\\]",
+    "—",
+    "×"
+   ],
+   [
+    "onRemove",
+    "Callback when the watermark is removed by DOM mutation",
+    "() => void",
+    "-",
+    "6.0.0",
+    "×"
+   ]
+  ],
+  "name": "Watermark"
+ },
+ "variants": [
+  {
+   "prop": "fontWeight",
+   "values": [
+    "normal",
+    "lighter",
+    "bold",
+    "bolder",
+    "number"
+   ],
+   "default": "normal",
+   "owner": "Font",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "fontStyle",
+   "values": [
+    "none",
+    "normal",
+    "italic",
+    "oblique"
+   ],
+   "default": "normal",
+   "owner": "Font",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": null,
+ "designToken": "<ComponentTokenTable component=\"Watermark\"></ComponentTokenTable>",
+ "componentToken": null,
+ "globalToken": null
+}

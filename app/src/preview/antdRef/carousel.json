@@ -1,0 +1,452 @@
+{
+ "slug": "carousel",
+ "title": "Carousel",
+ "description": "A set of carousel areas.",
+ "group": "Data Display",
+ "whenToUse": "- When there is a group of content on the same level.\n- When there is insufficient content space, it can be used to save space in the form of a revolving door.\n- Commonly used for a group of pictures/cards.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic usage.",
+   "code": "import React from 'react';\nimport { Carousel } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => {\n  const onChange = (currentSlide: number) => {\n    console.log(currentSlide);\n  };\n\n  return (\n    <Carousel afterChange={onChange}>\n      <div>\n        <h3 style={contentStyle}>1</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>2</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>3</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>4</h3>\n      </div>\n    </Carousel>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Position",
+   "description": "There are 4 position options available.",
+   "code": "import React, { useState } from 'react';\nimport type { CarouselProps, RadioChangeEvent } from 'antd';\nimport { Carousel, Radio } from 'antd';\n\ntype DotPlacement = CarouselProps['dotPlacement'];\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => {\n  const [dotPlacement, setDotPlacement] = useState<DotPlacement>('top');\n\n  const handlePositionChange = ({ target: { value } }: RadioChangeEvent) => {\n    setDotPlacement(value);\n  };\n\n  return (\n    <>\n      <Radio.Group onChange={handlePositionChange} value={dotPlacement} style={{ marginBottom: 8 }}>\n        <Radio.Button value=\"top\">Top</Radio.Button>\n        <Radio.Button value=\"bottom\">Bottom</Radio.Button>\n        <Radio.Button value=\"start\">Start</Radio.Button>\n        <Radio.Button value=\"end\">End</Radio.Button>\n      </Radio.Group>\n      <Carousel dotPlacement={dotPlacement}>\n        <div>\n          <h3 style={contentStyle}>1</h3>\n        </div>\n        <div>\n          <h3 style={contentStyle}>2</h3>\n        </div>\n        <div>\n          <h3 style={contentStyle}>3</h3>\n        </div>\n        <div>\n          <h3 style={contentStyle}>4</h3>\n        </div>\n      </Carousel>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "placement"
+  },
+  {
+   "name": "Scroll automatically",
+   "description": "Timing of scrolling to the next card/picture.",
+   "code": "import React from 'react';\nimport { Carousel } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => (\n  <Carousel autoplay>\n    <div>\n      <h3 style={contentStyle}>1</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>2</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>3</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>4</h3>\n    </div>\n  </Carousel>\n);\n\nexport default App;",
+   "demoId": "autoplay"
+  },
+  {
+   "name": "Fade in",
+   "description": "Slides use fade for transition.",
+   "code": "import React from 'react';\nimport { Carousel } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => (\n  <Carousel effect=\"fade\">\n    <div>\n      <h3 style={contentStyle}>1</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>2</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>3</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>4</h3>\n    </div>\n  </Carousel>\n);\n\nexport default App;",
+   "demoId": "fade"
+  },
+  {
+   "name": "Arrows for switching",
+   "description": "Show the arrows for switching.",
+   "code": "import React from 'react';\nimport { Carousel } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => (\n  <>\n    <Carousel arrows infinite={false}>\n      <div>\n        <h3 style={contentStyle}>1</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>2</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>3</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>4</h3>\n      </div>\n    </Carousel>\n    <br />\n    <Carousel arrows dotPlacement=\"start\" infinite={false}>\n      <div>\n        <h3 style={contentStyle}>1</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>2</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>3</h3>\n      </div>\n      <div>\n        <h3 style={contentStyle}>4</h3>\n      </div>\n    </Carousel>\n  </>\n);\n\nexport default App;",
+   "demoId": "arrows"
+  },
+  {
+   "name": "Progress of dots",
+   "description": "Show progress of dots.",
+   "code": "import React from 'react';\nimport { Carousel } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  margin: 0,\n  height: '160px',\n  color: '#fff',\n  lineHeight: '160px',\n  textAlign: 'center',\n  background: '#364d79',\n};\n\nconst App: React.FC = () => (\n  <Carousel autoplay={{ dotDuration: true }} autoplaySpeed={5000}>\n    <div>\n      <h3 style={contentStyle}>1</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>2</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>3</h3>\n    </div>\n    <div>\n      <h3 style={contentStyle}>4</h3>\n    </div>\n  </Carousel>\n);\n\nexport default App;",
+   "demoId": "dot-duration"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "arrows",
+     "Whether to show switch arrows",
+     "boolean",
+     "false",
+     "5.17.0",
+     "×"
+    ],
+    [
+     "autoplay",
+     "Whether to scroll automatically, you can specify `autoplay={{ dotDuration: true }}` to display the progress bar",
+     "boolean | { dotDuration?: boolean }",
+     "false",
+     "dotDuration: 5.24.0",
+     "×"
+    ],
+    [
+     "autoplaySpeed",
+     "Delay between each auto scroll (in milliseconds)",
+     "number",
+     "3000",
+     "—",
+     "×"
+    ],
+    [
+     "adaptiveHeight",
+     "Adjust the slide's height automatically",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "dotPlacement",
+     "The position of the dots, which can be one of `top` `bottom` `start` `end`",
+     "string",
+     "bottom",
+     "—",
+     "×"
+    ],
+    [
+     "~~dotPosition~~",
+     "The position of the dots, which can be one of `top` `bottom` `left` `right` `start` `end`, Please use `dotPlacement` instead",
+     "string",
+     "bottom",
+     "—",
+     "×"
+    ],
+    [
+     "dots",
+     "Whether to show the dots at the bottom of the gallery, `object` for `dotsClass`",
+     "boolean | { className?: string }",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "draggable",
+     "Enable scrollable via dragging on desktop",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "fade",
+     "Whether to use fade transition",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "infinite",
+     "Infinitely wrap around contents",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "speed",
+     "Animation speed in milliseconds",
+     "number",
+     "500",
+     "—",
+     "×"
+    ],
+    [
+     "easing",
+     "Transition interpolation function name",
+     "string",
+     "linear",
+     "—",
+     "×"
+    ],
+    [
+     "effect",
+     "Transition effect",
+     "`scrollx` | `fade`",
+     "scrollx",
+     "—",
+     "×"
+    ],
+    [
+     "afterChange",
+     "Callback function called after the current index changes",
+     "(current: number) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "beforeChange",
+     "Callback function called before the current index changes",
+     "(current: number, next: number) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "waitForAnimate",
+     "Whether to wait for the animation when switching",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "arrows",
+    "Whether to show switch arrows",
+    "boolean",
+    "false",
+    "5.17.0",
+    "×"
+   ],
+   [
+    "autoplay",
+    "Whether to scroll automatically, you can specify `autoplay={{ dotDuration: true }}` to display the progress bar",
+    "boolean | { dotDuration?: boolean }",
+    "false",
+    "dotDuration: 5.24.0",
+    "×"
+   ],
+   [
+    "autoplaySpeed",
+    "Delay between each auto scroll (in milliseconds)",
+    "number",
+    "3000",
+    "—",
+    "×"
+   ],
+   [
+    "adaptiveHeight",
+    "Adjust the slide's height automatically",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "dotPlacement",
+    "The position of the dots, which can be one of `top` `bottom` `start` `end`",
+    "string",
+    "bottom",
+    "—",
+    "×"
+   ],
+   [
+    "~~dotPosition~~",
+    "The position of the dots, which can be one of `top` `bottom` `left` `right` `start` `end`, Please use `dotPlacement` instead",
+    "string",
+    "bottom",
+    "—",
+    "×"
+   ],
+   [
+    "dots",
+    "Whether to show the dots at the bottom of the gallery, `object` for `dotsClass`",
+    "boolean | { className?: string }",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "draggable",
+    "Enable scrollable via dragging on desktop",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "fade",
+    "Whether to use fade transition",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "infinite",
+    "Infinitely wrap around contents",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "speed",
+    "Animation speed in milliseconds",
+    "number",
+    "500",
+    "—",
+    "×"
+   ],
+   [
+    "easing",
+    "Transition interpolation function name",
+    "string",
+    "linear",
+    "—",
+    "×"
+   ],
+   [
+    "effect",
+    "Transition effect",
+    "`scrollx` | `fade`",
+    "scrollx",
+    "—",
+    "×"
+   ],
+   [
+    "afterChange",
+    "Callback function called after the current index changes",
+    "(current: number) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "beforeChange",
+    "Callback function called before the current index changes",
+    "(current: number, next: number) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "waitForAnimate",
+    "Whether to wait for the animation when switching",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "effect",
+   "values": [
+    "scrollx",
+    "fade"
+   ],
+   "default": "scrollx",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": null,
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "arrowOffset",
+     "arrows offset to Carousel edge",
+     "number",
+     "8"
+    ],
+    [
+     "arrowSize",
+     "Size of arrows",
+     "number",
+     "16"
+    ],
+    [
+     "dotActiveWidth",
+     "Width of active indicator",
+     "string | number",
+     "24"
+    ],
+    [
+     "dotGap",
+     "gap between indicator",
+     "number",
+     "4"
+    ],
+    [
+     "dotHeight",
+     "Height of indicator",
+     "string | number",
+     "3"
+    ],
+    [
+     "dotOffset",
+     "dot offset to Carousel edge",
+     "number",
+     "12"
+    ],
+    [
+     "dotWidth",
+     "Width of indicator",
+     "string | number",
+     "16"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,560 @@
+{
+ "slug": "breadcrumbs",
+ "title": "Breadcrumbs",
+ "group": "Navigation",
+ "folder": "breadcrumbs",
+ "description": "A breadcrumbs is a list of links that help visualize a page's location within a site's hierarchical structure, it allows navigation up to any of the ancestors.",
+ "components": [
+  "Breadcrumbs",
+  "Link",
+  "Typography"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Breadcrumbs"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic breadcrumbs",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicBreadcrumbs",
+     "file": "BasicBreadcrumbs.tsx",
+     "code": "import * as React from 'react';\nimport Typography from '@mui/material/Typography';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Link from '@mui/material/Link';\n\nfunction handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function BasicBreadcrumbs() {\n  return (\n    <div role=\"presentation\" onClick={handleClick}>\n      <Breadcrumbs aria-label=\"breadcrumb\">\n        <Link underline=\"hover\" color=\"inherit\" href=\"/\">\n          MUI\n        </Link>\n        <Link\n          underline=\"hover\"\n          color=\"inherit\"\n          href=\"/material-ui/getting-started/installation/\"\n        >\n          Core\n        </Link>\n        <Typography sx={{ color: 'text.primary' }}>Breadcrumbs</Typography>\n      </Breadcrumbs>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Active last breadcrumb",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Keep the last breadcrumb interactive."
+    },
+    {
+     "kind": "demo",
+     "name": "ActiveLastBreadcrumb",
+     "file": "ActiveLastBreadcrumb.tsx",
+     "code": "import * as React from 'react';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Link from '@mui/material/Link';\n\nfunction handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function ActiveLastBreadcrumb() {\n  return (\n    <div role=\"presentation\" onClick={handleClick}>\n      <Breadcrumbs aria-label=\"breadcrumb\">\n        <Link underline=\"hover\" color=\"inherit\" href=\"/\">\n          MUI\n        </Link>\n        <Link\n          underline=\"hover\"\n          color=\"inherit\"\n          href=\"/material-ui/getting-started/installation/\"\n        >\n          Core\n        </Link>\n        <Link\n          underline=\"hover\"\n          href=\"/material-ui/react-breadcrumbs/\"\n          aria-current=\"page\"\n          sx={{\n            color: 'text.primary',\n          }}\n        >\n          Breadcrumbs\n        </Link>\n      </Breadcrumbs>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Custom separator",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In the following examples, we are using two string separators and an SVG icon."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomSeparator",
+     "file": "CustomSeparator.tsx",
+     "code": "import * as React from 'react';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Typography from '@mui/material/Typography';\nimport Link from '@mui/material/Link';\nimport Stack from '@mui/material/Stack';\nimport NavigateNextIcon from '@mui/icons-material/NavigateNext';\n\nfunction handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function CustomSeparator() {\n  const breadcrumbs = [\n    <Link underline=\"hover\" key=\"1\" color=\"inherit\" href=\"/\" onClick={handleClick}>\n      MUI\n    </Link>,\n    <Link\n      underline=\"hover\"\n      key=\"2\"\n      color=\"inherit\"\n      href=\"/material-ui/getting-started/installation/\"\n      onClick={handleClick}\n    >\n      Core\n    </Link>,\n    <Typography key=\"3\" sx={{ color: 'text.primary' }}>\n      Breadcrumb\n    </Typography>,\n  ];\n\n  return (\n    <Stack spacing={2}>\n      <Breadcrumbs separator=\"›\" aria-label=\"breadcrumb\">\n        {breadcrumbs}\n      </Breadcrumbs>\n      <Breadcrumbs separator=\"-\" aria-label=\"breadcrumb\">\n        {breadcrumbs}\n      </Breadcrumbs>\n      <Breadcrumbs\n        separator={<NavigateNextIcon fontSize=\"small\" />}\n        aria-label=\"breadcrumb\"\n      >\n        {breadcrumbs}\n      </Breadcrumbs>\n    </Stack>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Breadcrumbs with icons",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "IconBreadcrumbs",
+     "file": "IconBreadcrumbs.tsx",
+     "code": "import * as React from 'react';\nimport Typography from '@mui/material/Typography';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Link from '@mui/material/Link';\nimport HomeIcon from '@mui/icons-material/Home';\nimport WhatshotIcon from '@mui/icons-material/Whatshot';\nimport GrainIcon from '@mui/icons-material/Grain';\n\nfunction handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function IconBreadcrumbs() {\n  return (\n    <div role=\"presentation\" onClick={handleClick}>\n      <Breadcrumbs aria-label=\"breadcrumb\">\n        <Link\n          underline=\"hover\"\n          sx={{ display: 'flex', alignItems: 'center' }}\n          color=\"inherit\"\n          href=\"/\"\n        >\n          <HomeIcon sx={{ mr: 0.5 }} fontSize=\"inherit\" />\n          MUI\n        </Link>\n        <Link\n          underline=\"hover\"\n          sx={{ display: 'flex', alignItems: 'center' }}\n          color=\"inherit\"\n          href=\"/material-ui/getting-started/installation/\"\n        >\n          <WhatshotIcon sx={{ mr: 0.5 }} fontSize=\"inherit\" />\n          Core\n        </Link>\n        <Typography\n          sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}\n        >\n          <GrainIcon sx={{ mr: 0.5 }} fontSize=\"inherit\" />\n          Breadcrumb\n        </Typography>\n      </Breadcrumbs>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Collapsed breadcrumbs",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "CollapsedBreadcrumbs",
+     "file": "CollapsedBreadcrumbs.tsx",
+     "code": "import * as React from 'react';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Typography from '@mui/material/Typography';\nimport Link from '@mui/material/Link';\n\nfunction handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function CollapsedBreadcrumbs() {\n  return (\n    <div role=\"presentation\" onClick={handleClick}>\n      <Breadcrumbs maxItems={2} aria-label=\"breadcrumb\">\n        <Link underline=\"hover\" color=\"inherit\" href=\"#\">\n          Home\n        </Link>\n        <Link underline=\"hover\" color=\"inherit\" href=\"#\">\n          Catalog\n        </Link>\n        <Link underline=\"hover\" color=\"inherit\" href=\"#\">\n          Accessories\n        </Link>\n        <Link underline=\"hover\" color=\"inherit\" href=\"#\">\n          New Collection\n        </Link>\n        <Typography sx={{ color: 'text.primary' }}>Belts</Typography>\n      </Breadcrumbs>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Condensed with menu",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "As an alternative, consider adding a Menu component to display the condensed links in a dropdown list:"
+    },
+    {
+     "kind": "demo",
+     "name": "CondensedWithMenu",
+     "file": "CondensedWithMenu.tsx",
+     "code": "import * as React from 'react';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Link from '@mui/material/Link';\nimport Menu from '@mui/material/Menu';\nimport MenuItem from '@mui/material/MenuItem';\nimport IconButton from '@mui/material/IconButton';\nimport MoreHorizIcon from '@mui/icons-material/MoreHoriz';\n\nexport default function CondensedWithMenu() {\n  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);\n  const open = Boolean(anchorEl);\n\n  const handleClick = (event: React.MouseEvent<HTMLButtonElement> | null) => {\n    if (event) {\n      setAnchorEl(event.currentTarget);\n    }\n  };\n\n  const handleClose = () => {\n    setAnchorEl(null);\n  };\n\n  return (\n    <React.Fragment>\n      <Menu\n        anchorEl={anchorEl}\n        open={open}\n        onClose={handleClose}\n        aria-labelledby=\"with-menu-demo-breadcrumbs\"\n      >\n        <MenuItem onClick={handleClose}>Breadcrumb 2</MenuItem>\n        <MenuItem onClick={handleClose}>Breadcrumb 3</MenuItem>\n        <MenuItem onClick={handleClose}>Breadcrumb 4</MenuItem>\n      </Menu>\n      <Breadcrumbs aria-label=\"breadcrumbs\">\n        <Link color=\"primary\" href=\"#condensed-with-menu\">\n          Breadcrumb 1\n        </Link>\n        <IconButton color=\"primary\" size=\"small\" onClick={handleClick}>\n          <MoreHorizIcon />\n        </IconButton>\n        <Link color=\"primary\" href=\"#condensed-with-menu\">\n          Breadcrumb 5\n        </Link>\n        <Link color=\"primary\" href=\"#condensed-with-menu\">\n          Breadcrumb 6\n        </Link>\n      </Breadcrumbs>\n    </React.Fragment>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedBreadcrumbs",
+     "file": "CustomizedBreadcrumbs.tsx",
+     "code": "import * as React from 'react';\nimport { emphasize, styled } from '@mui/material/styles';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport Chip from '@mui/material/Chip';\nimport HomeIcon from '@mui/icons-material/Home';\nimport ExpandMoreIcon from '@mui/icons-material/ExpandMore';\n\nconst StyledBreadcrumb = styled(Chip)(({ theme }) => {\n  return {\n    backgroundColor: theme.palette.grey[100],\n    height: theme.spacing(3),\n    color: (theme.vars || theme).palette.text.primary,\n    fontWeight: theme.typography.fontWeightRegular,\n    '&:hover, &:focus': {\n      backgroundColor: emphasize(theme.palette.grey[100], 0.06),\n      ...theme.applyStyles('dark', {\n        backgroundColor: emphasize(theme.palette.grey[800], 0.06),\n      }),\n    },\n    '&:active': {\n      boxShadow: theme.shadows[1],\n      backgroundColor: emphasize(theme.palette.grey[100], 0.12),\n      ...theme.applyStyles('dark', {\n        backgroundColor: emphasize(theme.palette.grey[800], 0.12),\n      }),\n    },\n    ...theme.applyStyles('dark', {\n      backgroundColor: theme.palette.grey[800],\n    }),\n  };\n}) as typeof Chip; // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591\n\nfunction handleClick(event: React.MouseEvent<Element, MouseEvent>) {\n  event.preventDefault();\n  console.info('You clicked a breadcrumb.');\n}\n\nexport default function CustomizedBreadcrumbs() {\n  return (\n    <div role=\"presentation\" onClick={handleClick}>\n      <Breadcrumbs aria-label=\"breadcrumb\">\n        <StyledBreadcrumb\n          component=\"a\"\n          href=\"#\"\n          label=\"Home\"\n          icon={<HomeIcon fontSize=\"small\" />}\n        />\n        <StyledBreadcrumb component=\"a\" href=\"#\" label=\"Catalog\" />\n        <StyledBreadcrumb\n          label=\"Accessories\"\n          deleteIcon={<ExpandMoreIcon />}\n          onDelete={handleClick}\n        />\n      </Breadcrumbs>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Integration with react-router",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "RouterBreadcrumbs",
+     "file": "RouterBreadcrumbs.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport List from '@mui/material/List';\nimport Link, { LinkProps } from '@mui/material/Link';\nimport { ListItemProps } from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport Collapse from '@mui/material/Collapse';\nimport ListItemText from '@mui/material/ListItemText';\nimport Typography from '@mui/material/Typography';\nimport ExpandLess from '@mui/icons-material/ExpandLess';\nimport ExpandMore from '@mui/icons-material/ExpandMore';\nimport Breadcrumbs from '@mui/material/Breadcrumbs';\nimport {\n  Link as RouterLink,\n  Route,\n  Routes,\n  MemoryRouter,\n  useLocation,\n} from 'react-router';\n\ninterface ListItemLinkProps extends ListItemProps {\n  to: string;\n  open?: boolean;\n}\n\nconst breadcrumbNameMap: { [key: string]: string } = {\n  '/inbox': 'Inbox',\n  '/inbox/important': 'Important',\n  '/trash': 'Trash',\n  '/spam': 'Spam',\n  '/drafts': 'Drafts',\n};\n\nfunction ListItemLink(props: ListItemLinkProps) {\n  const { to, open, ...other } = props;\n  const primary = breadcrumbNameMap[to];\n\n  let icon = null;\n  if (open != null) {\n    icon = open ? <ExpandLess /> : <ExpandMore />;\n  }\n\n  return (\n    <li>\n      <ListItemButton component={RouterLink as any} to={to} {...other}>\n        <ListItemText primary={primary} />\n        {icon}\n      </ListItemButton>\n    </li>\n  );\n}\n\ninterface LinkRouterProps extends LinkProps {\n  to: string;\n  replace?: boolean;\n}\n\nfunction LinkRouter(props: LinkRouterProps) {\n  return <Link {...props} component={RouterLink as any} />;\n}\n\nfunction Page() {\n  const location = useLocation();\n  const pathnames = location.pathname.split('/').filter((x) => x);\n\n  return (\n    <Breadcrumbs aria-label=\"breadcrumb\">\n      <LinkRouter underline=\"hover\" color=\"inherit\" to=\"/\">\n        Home\n      </LinkRouter>\n      {pathnames.map((value, index) => {\n        const last = index === pathnames.length - 1;\n        const to = `/${pathnames.slice(0, index + 1).join('/')}`;\n\n        return last ? (\n          <Typography key={to} sx={{ color: 'text.primary' }}>\n            {breadcrumbNameMap[to]}\n          </Typography>\n        ) : (\n          <LinkRouter underline=\"hover\" color=\"inherit\" to={to} key={to}>\n            {breadcrumbNameMap[to]}\n          </LinkRouter>\n        );\n      })}\n    </Breadcrumbs>\n  );\n}\n\nexport default function RouterBreadcrumbs() {\n  const [open, setOpen] = React.useState(true);\n\n  const handleClick = () => {\n    setOpen((prevOpen) => !prevOpen);\n  };\n\n  return (\n    <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>\n      <Box sx={{ display: 'flex', flexDirection: 'column', width: 360 }}>\n        <Routes>\n          <Route path=\"*\" element={<Page />} />\n        </Routes>\n        <Box\n          sx={{ bgcolor: 'background.paper', mt: 1 }}\n          component=\"nav\"\n          aria-label=\"mailbox folders\"\n        >\n          <List>\n            <ListItemLink to=\"/inbox\" open={open} onClick={handleClick} />\n            <Collapse component=\"li\" in={open} timeout=\"auto\" unmountOnExit>\n              <List disablePadding>\n                <ListItemLink sx={{ pl: 4 }} to=\"/inbox/important\" />\n              </List>\n            </Collapse>\n            <ListItemLink to=\"/trash\" />\n            <ListItemLink to=\"/spam\" />\n          </List>\n        </Box>\n      </Box>\n    </MemoryRouter>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/)\n\nBe sure to add a `aria-label` description on the `Breadcrumbs` component.\n\nThe accessibility of this component relies on:\n\n- The set of links is structured using an ordered list (`<ol>` element).\n- To prevent screen reader announcement of the visual separators between links, they are hidden with `aria-hidden`.\n- A nav element labeled with `aria-label` identifies the structure as a breadcrumb trail and makes it a navigation landmark so that it is easy to locate."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Breadcrumbs",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "expandText",
+     "type": "string",
+     "default": "'Show path'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Override the default label for the expand button.<br>For localization purposes, you can use the provided <a href=\"https://mui.com/material-ui/guides/localization/\">translations</a>."
+    },
+    {
+     "prop": "itemsAfterCollapse",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "If max items is exceeded, the number of items to show after the ellipsis."
+    },
+    {
+     "prop": "itemsBeforeCollapse",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "If max items is exceeded, the number of items to show before the ellipsis."
+    },
+    {
+     "prop": "maxItems",
+     "type": "integer",
+     "default": "8",
+     "required": false,
+     "deprecated": false,
+     "desc": "Specifies the maximum number of breadcrumbs to display. When there are more than the maximum number, only the first <code>itemsBeforeCollapse</code> and last <code>itemsAfterCollapse</code> will be shown, with an ellipsis in between."
+    },
+    {
+     "prop": "separator",
+     "type": "node",
+     "default": "'/'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Custom separator node."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ collapsedIcon?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside the Breadcumb."
+    },
+    {
+     "prop": "slots",
+     "type": "{ CollapsedIcon?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside the Breadcumb. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "li",
+     "className": "MuiBreadcrumbs-li",
+     "description": "Styles applied to the li element."
+    },
+    {
+     "key": "ol",
+     "className": "MuiBreadcrumbs-ol",
+     "description": "Styles applied to the ol element."
+    },
+    {
+     "key": "root",
+     "className": "MuiBreadcrumbs-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "separator",
+     "className": "MuiBreadcrumbs-separator",
+     "description": "Styles applied to the separator element."
+    }
+   ]
+  },
+  {
+   "name": "Link",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;'textPrimary'<br>&#124;&nbsp;'textSecondary'<br>&#124;&nbsp;'textDisabled'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the link."
+    },
+    {
+     "prop": "component",
+     "type": "element type",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "TypographyClasses",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "<code>classes</code> prop applied to the <a href=\"https://mui.com/material-ui/api/typography/\"><code>Typography</code></a> element."
+    },
+    {
+     "prop": "underline",
+     "type": "'always'<br>&#124;&nbsp;'hover'<br>&#124;&nbsp;'none'",
+     "default": "'always'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Controls when the link should have an underline."
+    },
+    {
+     "prop": "variant",
+     "type": "'body1'<br>&#124;&nbsp;'body2'<br>&#124;&nbsp;'button'<br>&#124;&nbsp;'caption'<br>&#124;&nbsp;'h1'<br>&#124;&nbsp;'h2'<br>&#124;&nbsp;'h3'<br>&#124;&nbsp;'h4'<br>&#124;&nbsp;'h5'<br>&#124;&nbsp;'h6'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'overline'<br>&#124;&nbsp;'subtitle1'<br>&#124;&nbsp;'subtitle2'<br>&#124;&nbsp;string",
+     "default": "'inherit'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Applies the theme typography styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "button",
+     "className": "MuiLink-button",
+     "description": "Styles applied to the root element if `component=\"button\"`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the root element if the link is keyboard focused."
+    },
+    {
+     "key": "root",
+     "className": "MuiLink-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "underlineAlways",
+     "className": "MuiLink-underlineAlways",
+     "description": "Styles applied to the root element if `underline=\"always\"`."
+    },
+    {
+     "key": "underlineHover",
+     "className": "MuiLink-underlineHover",
+     "description": "Styles applied to the root element if `underline=\"hover\"`."
+    },
+    {
+     "key": "underlineNone",
+     "className": "MuiLink-underlineNone",
+     "description": "Styles applied to the root element if `underline=\"none\"`."
+    }
+   ]
+  },
+  {
+   "name": "Typography",
+   "description": "",
+   "props": [
+    {
+     "prop": "align",
+     "type": "'center'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'justify'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'",
+     "default": "'inherit'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Set the text-align on the component."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;'textPrimary'<br>&#124;&nbsp;'textSecondary'<br>&#124;&nbsp;'textDisabled'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "gutterBottom",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the text will have a bottom margin."
+    },
+    {
+     "prop": "noWrap",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the text will not wrap, but instead will truncate with a text overflow ellipsis.<br>Note that text overflow can only happen with block or inline-block level elements (the element needs to have a width in order to overflow)."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'body1'<br>&#124;&nbsp;'body2'<br>&#124;&nbsp;'button'<br>&#124;&nbsp;'caption'<br>&#124;&nbsp;'h1'<br>&#124;&nbsp;'h2'<br>&#124;&nbsp;'h3'<br>&#124;&nbsp;'h4'<br>&#124;&nbsp;'h5'<br>&#124;&nbsp;'h6'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'overline'<br>&#124;&nbsp;'subtitle1'<br>&#124;&nbsp;'subtitle2'<br>&#124;&nbsp;string",
+     "default": "'body1'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Applies the theme typography styles."
+    },
+    {
+     "prop": "variantMapping",
+     "type": "object",
+     "default": "{\n  h1: 'h1',\n  h2: 'h2',\n  h3: 'h3',\n  h4: 'h4',\n  h5: 'h5',\n  h6: 'h6',\n  subtitle1: 'h6',\n  subtitle2: 'h6',\n  body1: 'p',\n  body2: 'p',\n  inherit: 'p',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component maps the variant prop to a range of different HTML element types. For instance, subtitle1 to <code>&lt;h6&gt;</code>. If you wish to change that mapping, you can provide your own. Alternatively, you can use the <code>component</code> prop."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignCenter",
+     "className": "MuiTypography-alignCenter",
+     "description": "Styles applied to the root element if `align=\"center\"`."
+    },
+    {
+     "key": "alignJustify",
+     "className": "MuiTypography-alignJustify",
+     "description": "Styles applied to the root element if `align=\"justify\"`."
+    },
+    {
+     "key": "alignLeft",
+     "className": "MuiTypography-alignLeft",
+     "description": "Styles applied to the root element if `align=\"left\"`."
+    },
+    {
+     "key": "alignRight",
+     "className": "MuiTypography-alignRight",
+     "description": "Styles applied to the root element if `align=\"right\"`."
+    },
+    {
+     "key": "body1",
+     "className": "MuiTypography-body1",
+     "description": "Styles applied to the root element if `variant=\"body1\"`."
+    },
+    {
+     "key": "body2",
+     "className": "MuiTypography-body2",
+     "description": "Styles applied to the root element if `variant=\"body2\"`."
+    },
+    {
+     "key": "button",
+     "className": "MuiTypography-button",
+     "description": "Styles applied to the root element if `variant=\"button\"`."
+    },
+    {
+     "key": "caption",
+     "className": "MuiTypography-caption",
+     "description": "Styles applied to the root element if `variant=\"caption\"`."
+    },
+    {
+     "key": "gutterBottom",
+     "className": "MuiTypography-gutterBottom",
+     "description": "Styles applied to the root element if `gutterBottom={true}`."
+    },
+    {
+     "key": "h1",
+     "className": "MuiTypography-h1",
+     "description": "Styles applied to the root element if `variant=\"h1\"`."
+    },
+    {
+     "key": "h2",
+     "className": "MuiTypography-h2",
+     "description": "Styles applied to the root element if `variant=\"h2\"`."
+    },
+    {
+     "key": "h3",
+     "className": "MuiTypography-h3",
+     "description": "Styles applied to the root element if `variant=\"h3\"`."
+    },
+    {
+     "key": "h4",
+     "className": "MuiTypography-h4",
+     "description": "Styles applied to the root element if `variant=\"h4\"`."
+    },
+    {
+     "key": "h5",
+     "className": "MuiTypography-h5",
+     "description": "Styles applied to the root element if `variant=\"h5\"`."
+    },
+    {
+     "key": "h6",
+     "className": "MuiTypography-h6",
+     "description": "Styles applied to the root element if `variant=\"h6\"`."
+    },
+    {
+     "key": "inherit",
+     "className": "MuiTypography-inherit",
+     "description": "Styles applied to the root element if `variant=\"inherit\"`."
+    },
+    {
+     "key": "noWrap",
+     "className": "MuiTypography-noWrap",
+     "description": "Styles applied to the root element if `nowrap={true}`."
+    },
+    {
+     "key": "overline",
+     "className": "MuiTypography-overline",
+     "description": "Styles applied to the root element if `variant=\"overline\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiTypography-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "subtitle1",
+     "className": "MuiTypography-subtitle1",
+     "description": "Styles applied to the root element if `variant=\"subtitle1\"`."
+    },
+    {
+     "key": "subtitle2",
+     "className": "MuiTypography-subtitle2",
+     "description": "Styles applied to the root element if `variant=\"subtitle2\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-breadcrumbs/"
+}

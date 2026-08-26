@@ -1,0 +1,1489 @@
+{
+ "slug": "menubar",
+ "title": "Menubar",
+ "group": "Navigation",
+ "folder": "menubar",
+ "description": "A React component for building accessible application menus.",
+ "components": [
+  "Box",
+  "Button",
+  "Divider",
+  "List",
+  "ListItemButton",
+  "ListItemIcon",
+  "ListItemText",
+  "ListSubheader",
+  "Paper",
+  "Typography"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The menu bar is a visually persistent menu similar to those found in desktop applications that provides a consistent set of frequently used commands.\n\nMaterial UI does not include a menu bar component out of the box, but this page provides components composed with the [Base UI `Menubar`](https://base-ui.com/react/components/menubar) and styled to align with Material Design (MD2) specifications, so they can be used with Material UI.\n\nAs such, you must install Base UI before proceeding.\nThe examples that follow can then be copied and pasted directly into your app.\nNote that Base UI is tree-shakeable, so the final bundle will only include the components used in your project.\n\n<!-- #npm-tag-reference -->\n\n<codeblock storageKey=\"package-manager\">\n\n```bash npm\nnpm install @base-ui/react"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "\n```bash pnpm\npnpm add @base-ui/react\n"
+    },
+    {
+     "kind": "prose",
+     "text": "```bash yarn\nyarn add @base-ui/react\n```\n\n</codeblock>"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Usage",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "1. Select one of the demos below that fits your visual design needs.\n2. Click **Expand code** in the toolbar.\n3. Select the file that starts with `./Menubar`.\n4. Copy the code and paste it into your project."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic menubar",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The basic menubar component displays a row of menu triggers with dropdowns containing menu items."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicMenubar",
+     "file": "BasicMenubar.tsx",
+     "code": "import * as React from 'react';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuItem,\n  MenuSeparator,\n  MenuSubmenuRoot,\n  MenuSubmenuTrigger,\n} from './components/Menubar';\n\nexport default function BasicMenubar() {\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>File</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem>New</MenuItem>\n              <MenuItem>Open…</MenuItem>\n              <MenuItem>Save</MenuItem>\n              <MenuItem>Save as…</MenuItem>\n              <MenuSeparator />\n              <MenuSubmenuRoot>\n                <MenuSubmenuTrigger>Share</MenuSubmenuTrigger>\n                <MenuPortal>\n                  <MenuPositioner alignOffset={-4}>\n                    <MenuPopup>\n                      <MenuItem>Email link</MenuItem>\n                      <MenuItem>Copy link</MenuItem>\n                    </MenuPopup>\n                  </MenuPositioner>\n                </MenuPortal>\n              </MenuSubmenuRoot>\n              <MenuSeparator />\n              <MenuItem>Close</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n\n      <MenuRoot>\n        <MenuTrigger>Help</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4}>\n            <MenuPopup>\n              <MenuItem>Documentation</MenuItem>\n              <MenuItem>Release notes</MenuItem>\n              <MenuSeparator />\n              <MenuItem>About</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Shortcut hints",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Display keyboard shortcuts alongside menu items using the `hint` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "ShortcutHintsMenubar",
+     "file": "ShortcutHintsMenubar.tsx",
+     "code": "import * as React from 'react';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuItem,\n  MenuSeparator,\n} from './components/Menubar';\n\nexport default function ShortcutHintsMenubar() {\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>File</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem hint=\"⌘N\">New</MenuItem>\n              <MenuItem hint=\"⌘O\">Open…</MenuItem>\n              <MenuItem hint=\"⌘S\">Save</MenuItem>\n              <MenuItem hint=\"⇧⌘S\">Save As…</MenuItem>\n              <MenuSeparator />\n              <MenuItem hint=\"⌘P\">Print…</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n\n      <MenuRoot>\n        <MenuTrigger>Edit</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem hint=\"⌘Z\">Undo</MenuItem>\n              <MenuItem hint=\"⇧⌘Z\">Redo</MenuItem>\n              <MenuSeparator />\n              <MenuItem hint=\"⌘X\">Cut</MenuItem>\n              <MenuItem hint=\"⌘C\">Copy</MenuItem>\n              <MenuItem hint=\"⌘V\">Paste</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Checkbox items",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For toggle options that can be independently enabled or disabled."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxItemsMenubar",
+     "file": "CheckboxItemsMenubar.tsx",
+     "code": "import * as React from 'react';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuItem,\n  MenuCheckboxItem,\n  MenuSeparator,\n} from './components/Menubar';\n\nexport default function CheckboxItemsMenubar() {\n  const [showSidebar, setShowSidebar] = React.useState(true);\n  const [showToolbar, setShowToolbar] = React.useState(true);\n  const [showStatusBar, setShowStatusBar] = React.useState(false);\n  const [googleTasks, setGoogleTasks] = React.useState(true);\n  const [mail, setMail] = React.useState(false);\n  const [messages, setMessages] = React.useState(false);\n\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>View</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuCheckboxItem\n                checked={showSidebar}\n                onCheckedChange={setShowSidebar}\n              >\n                Show Sidebar\n              </MenuCheckboxItem>\n              <MenuCheckboxItem\n                checked={showToolbar}\n                onCheckedChange={setShowToolbar}\n              >\n                Show Toolbar\n              </MenuCheckboxItem>\n              <MenuCheckboxItem\n                checked={showStatusBar}\n                onCheckedChange={setShowStatusBar}\n              >\n                Show Status Bar\n              </MenuCheckboxItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n\n      <MenuRoot>\n        <MenuTrigger>Window</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem hint=\"⌘M\">Minimize</MenuItem>\n              <MenuItem>Zoom</MenuItem>\n              <MenuItem hint=\"⌃⌥F\">Fill</MenuItem>\n              <MenuItem hint=\"⌃⌥C\">Center</MenuItem>\n              <MenuSeparator />\n              <MenuItem>Bring All to Front</MenuItem>\n              <MenuSeparator />\n              <MenuCheckboxItem\n                checked={googleTasks}\n                onCheckedChange={setGoogleTasks}\n              >\n                Google Tasks - Tasks\n              </MenuCheckboxItem>\n              <MenuCheckboxItem checked={mail} onCheckedChange={setMail}>\n                Mail\n              </MenuCheckboxItem>\n              <MenuCheckboxItem checked={messages} onCheckedChange={setMessages}>\n                Messages\n              </MenuCheckboxItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Radio group items",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For mutually exclusive options where only one can be selected at a time."
+    },
+    {
+     "kind": "demo",
+     "name": "RadioGroupItemsMenubar",
+     "file": "RadioGroupItemsMenubar.tsx",
+     "code": "import * as React from 'react';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuRadioGroup,\n  MenuRadioItem,\n  MenuSeparator,\n  MenuSubmenuRoot,\n  MenuSubmenuTrigger,\n} from './components/Menubar';\n\nexport default function RadioGroupItemsMenubar() {\n  const [theme, setTheme] = React.useState('system');\n  const [density, setDensity] = React.useState('compact');\n\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>Appearance</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuSubmenuRoot>\n                <MenuSubmenuTrigger>Theme</MenuSubmenuTrigger>\n                <MenuPortal>\n                  <MenuPositioner alignOffset={-4}>\n                    <MenuPopup>\n                      <MenuRadioGroup value={theme} onValueChange={setTheme}>\n                        <MenuRadioItem value=\"light\">Light</MenuRadioItem>\n                        <MenuRadioItem value=\"dark\">Dark</MenuRadioItem>\n                        <MenuRadioItem value=\"system\">System</MenuRadioItem>\n                      </MenuRadioGroup>\n                    </MenuPopup>\n                  </MenuPositioner>\n                </MenuPortal>\n              </MenuSubmenuRoot>\n              <MenuSeparator />\n              <MenuRadioGroup value={density} onValueChange={setDensity}>\n                <MenuRadioItem value=\"compact\">Compact</MenuRadioItem>\n                <MenuRadioItem value=\"comfortable\">Comfortable</MenuRadioItem>\n              </MenuRadioGroup>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon menu items",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Add icons to menu items using the `icon` prop for faster visual recognition."
+    },
+    {
+     "kind": "demo",
+     "name": "IconItemsMenubar",
+     "file": "IconItemsMenubar.tsx",
+     "code": "import * as React from 'react';\nimport AddIcon from '@mui/icons-material/Add';\nimport FolderOpenIcon from '@mui/icons-material/FolderOpen';\nimport SaveIcon from '@mui/icons-material/Save';\nimport PrintIcon from '@mui/icons-material/Print';\nimport UndoIcon from '@mui/icons-material/Undo';\nimport RedoIcon from '@mui/icons-material/Redo';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuItem,\n  MenuSeparator,\n} from './components/Menubar';\n\nexport default function IconItemsMenubar() {\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>File</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem icon={<AddIcon fontSize=\"small\" />}>New</MenuItem>\n              <MenuItem icon={<FolderOpenIcon fontSize=\"small\" />}>Open…</MenuItem>\n              <MenuItem icon={<SaveIcon fontSize=\"small\" />}>Save</MenuItem>\n              <MenuSeparator />\n              <MenuItem icon={<PrintIcon fontSize=\"small\" />}>Print…</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n\n      <MenuRoot>\n        <MenuTrigger>Edit</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuItem icon={<UndoIcon fontSize=\"small\" />}>Undo</MenuItem>\n              <MenuItem icon={<RedoIcon fontSize=\"small\" />}>Redo</MenuItem>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Group labels",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Organize menu items into logical sections with labeled groups."
+    },
+    {
+     "kind": "demo",
+     "name": "GroupLabelMenubar",
+     "file": "GroupLabelMenubar.tsx",
+     "code": "import * as React from 'react';\nimport InfoIcon from '@mui/icons-material/Info';\nimport SettingsIcon from '@mui/icons-material/Settings';\nimport BuildIcon from '@mui/icons-material/Build';\nimport MonitorHeartIcon from '@mui/icons-material/MonitorHeart';\nimport TimelineIcon from '@mui/icons-material/Timeline';\nimport InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';\nimport ToggleOnIcon from '@mui/icons-material/ToggleOn';\nimport TuneIcon from '@mui/icons-material/Tune';\nimport VisibilityOffIcon from '@mui/icons-material/VisibilityOff';\nimport VisibilityIcon from '@mui/icons-material/Visibility';\nimport UndoIcon from '@mui/icons-material/Undo';\nimport RedoIcon from '@mui/icons-material/Redo';\nimport ContentCutIcon from '@mui/icons-material/ContentCut';\nimport ContentCopyIcon from '@mui/icons-material/ContentCopy';\nimport ContentPasteIcon from '@mui/icons-material/ContentPaste';\nimport {\n  Menubar,\n  MenuRoot,\n  MenuTrigger,\n  MenuPortal,\n  MenuPositioner,\n  MenuPopup,\n  MenuItem,\n  MenuSeparator,\n  MenuSubmenuRoot,\n  MenuSubmenuTrigger,\n  MenuGroup,\n  MenuGroupLabel,\n} from './components/Menubar';\n\nexport default function GroupLabelMenubar() {\n  return (\n    <Menubar>\n      <MenuRoot>\n        <MenuTrigger>App</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4} alignOffset={-2}>\n            <MenuPopup>\n              <MenuGroup>\n                <MenuGroupLabel>General</MenuGroupLabel>\n                <MenuItem icon={<InfoIcon fontSize=\"small\" />}>About</MenuItem>\n                <MenuItem icon={<SettingsIcon fontSize=\"small\" />}>\n                  Settings...\n                </MenuItem>\n              </MenuGroup>\n              <MenuSeparator />\n              <MenuSubmenuRoot>\n                <MenuSubmenuTrigger icon={<BuildIcon fontSize=\"small\" />}>\n                  Services\n                </MenuSubmenuTrigger>\n                <MenuPortal>\n                  <MenuPositioner alignOffset={-4}>\n                    <MenuPopup>\n                      <MenuGroup>\n                        <MenuGroupLabel>Development</MenuGroupLabel>\n                        <MenuItem icon={<MonitorHeartIcon fontSize=\"small\" />}>\n                          Activity Monitor\n                        </MenuItem>\n                        <MenuItem icon={<TimelineIcon fontSize=\"small\" />}>\n                          System Trace\n                        </MenuItem>\n                        <MenuItem icon={<InsertDriveFileIcon fontSize=\"small\" />}>\n                          File Activity\n                        </MenuItem>\n                      </MenuGroup>\n                      <MenuSeparator />\n                      <MenuGroup>\n                        <MenuGroupLabel>Shortcuts</MenuGroupLabel>\n                        <MenuItem icon={<ToggleOnIcon fontSize=\"small\" />}>\n                          Toggle Gate\n                        </MenuItem>\n                        <MenuItem icon={<TuneIcon fontSize=\"small\" />}>\n                          Services Settings...\n                        </MenuItem>\n                      </MenuGroup>\n                    </MenuPopup>\n                  </MenuPositioner>\n                </MenuPortal>\n              </MenuSubmenuRoot>\n              <MenuSeparator />\n              <MenuGroup>\n                <MenuGroupLabel>Window</MenuGroupLabel>\n                <MenuItem icon={<VisibilityOffIcon fontSize=\"small\" />}>\n                  Hide App\n                </MenuItem>\n                <MenuItem icon={<VisibilityOffIcon fontSize=\"small\" />}>\n                  Hide Others\n                </MenuItem>\n                <MenuItem icon={<VisibilityIcon fontSize=\"small\" />}>\n                  Show All\n                </MenuItem>\n              </MenuGroup>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n\n      <MenuRoot>\n        <MenuTrigger>Edit</MenuTrigger>\n        <MenuPortal>\n          <MenuPositioner sideOffset={4}>\n            <MenuPopup>\n              <MenuGroup>\n                <MenuGroupLabel>History</MenuGroupLabel>\n                <MenuItem icon={<UndoIcon fontSize=\"small\" />}>Undo</MenuItem>\n                <MenuItem icon={<RedoIcon fontSize=\"small\" />}>Redo</MenuItem>\n              </MenuGroup>\n              <MenuSeparator />\n              <MenuGroup>\n                <MenuGroupLabel>Clipboard</MenuGroupLabel>\n                <MenuItem icon={<ContentCutIcon fontSize=\"small\" />}>Cut</MenuItem>\n                <MenuItem icon={<ContentCopyIcon fontSize=\"small\" />}>Copy</MenuItem>\n                <MenuItem icon={<ContentPasteIcon fontSize=\"small\" />}>\n                  Paste\n                </MenuItem>\n              </MenuGroup>\n            </MenuPopup>\n          </MenuPositioner>\n        </MenuPortal>\n      </MenuRoot>\n    </Menubar>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Base UI API",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "See the documentation below for a complete reference to all of the props.\n\n- [`Menubar`](https://base-ui.com/react/components/menubar#api-reference)\n- [`Menu`](https://base-ui.com/react/components/menu#api-reference)"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Box",
+   "description": "",
+   "props": [
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "root",
+     "className": "MuiBox-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "Button",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableElevation",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, no elevation is used."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the  keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled.<br>⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure to highlight the element by applying separate styles with the <code>.Mui-focusVisible</code> class."
+    },
+    {
+     "prop": "endIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed after the children."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the button will take up the full width of its container."
+    },
+    {
+     "prop": "href",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The URL to link to when the button is clicked. If defined, an <code>a</code> element will be used as the root node."
+    },
+    {
+     "prop": "loading",
+     "type": "bool",
+     "default": "null",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the loading indicator is visible and the button is disabled. If <code>true | false</code>, the loading wrapper is always rendered before the children to prevent <a href=\"https://github.com/mui/material-ui/issues/27853\">Google Translation Crash</a>."
+    },
+    {
+     "prop": "loadingIndicator",
+     "type": "node",
+     "default": "<CircularProgress color=\"inherit\" size={16} />",
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed before the children if the button is in loading state. The node should contain an element with <code>role=&quot;progressbar&quot;</code> with an accessible name. By default, it renders a <code>CircularProgress</code> that is labeled by the button itself."
+    },
+    {
+     "prop": "loadingPosition",
+     "type": "'center'<br>&#124;&nbsp;'end'<br>&#124;&nbsp;'start'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The loading indicator can be positioned on the start, end, or the center of the button."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense button styling."
+    },
+    {
+     "prop": "startIcon",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Element placed before the children."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'contained'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'text'<br>&#124;&nbsp;string",
+     "default": "'text'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorError",
+     "className": "MuiButton-colorError",
+     "description": "Styles applied to the root element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiButton-colorInfo",
+     "description": "Styles applied to the root element if `color=\"info\"`."
+    },
+    {
+     "key": "colorInherit",
+     "className": "MuiButton-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiButton-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiButton-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiButton-colorSuccess",
+     "description": "Styles applied to the root element if `color=\"success\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiButton-colorWarning",
+     "description": "Styles applied to the root element if `color=\"warning\"`."
+    },
+    {
+     "key": "contained",
+     "className": "MuiButton-contained",
+     "description": "Styles applied to the root element if `variant=\"contained\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "disableElevation",
+     "className": "MuiButton-disableElevation",
+     "description": "Styles applied to the root element if `disableElevation={true}`."
+    },
+    {
+     "key": "endIcon",
+     "className": "MuiButton-endIcon",
+     "description": "Styles applied to the endIcon element if supplied."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the ButtonBase root element if the button is keyboard focused."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiButton-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "icon",
+     "className": "MuiButton-icon",
+     "description": "Styles applied to the icon element if supplied"
+    },
+    {
+     "key": "loading",
+     "className": "MuiButton-loading",
+     "description": "Styles applied to the root element if `loading={true}`."
+    },
+    {
+     "key": "loadingIconPlaceholder",
+     "className": "MuiButton-loadingIconPlaceholder",
+     "description": "Styles applied to the loadingIconPlaceholder element."
+    },
+    {
+     "key": "loadingIndicator",
+     "className": "MuiButton-loadingIndicator",
+     "description": "Styles applied to the loadingIndicator element."
+    },
+    {
+     "key": "loadingPositionCenter",
+     "className": "MuiButton-loadingPositionCenter",
+     "description": "Styles applied to the root element if `loadingPosition=\"center\"`."
+    },
+    {
+     "key": "loadingPositionEnd",
+     "className": "MuiButton-loadingPositionEnd",
+     "description": "Styles applied to the root element if `loadingPosition=\"end\"`."
+    },
+    {
+     "key": "loadingPositionStart",
+     "className": "MuiButton-loadingPositionStart",
+     "description": "Styles applied to the root element if `loadingPosition=\"start\"`."
+    },
+    {
+     "key": "loadingWrapper",
+     "className": "MuiButton-loadingWrapper",
+     "description": "Styles applied to the loadingWrapper element."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiButton-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sizeLarge",
+     "className": "MuiButton-sizeLarge",
+     "description": "Styles applied to the root element if `size=\"large\"`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiButton-sizeMedium",
+     "description": "Styles applied to the root element if `size=\"medium\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiButton-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "startIcon",
+     "className": "MuiButton-startIcon",
+     "description": "Styles applied to the startIcon element if supplied."
+    },
+    {
+     "key": "text",
+     "className": "MuiButton-text",
+     "description": "Styles applied to the root element if `variant=\"text\"`."
+    }
+   ]
+  },
+  {
+   "name": "Divider",
+   "description": "",
+   "props": [
+    {
+     "prop": "absolute",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Absolutely position the element."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "flexItem",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a vertical divider will have the correct height when used in flex container. (By default, a vertical divider will have a calculated height of <code>0px</code> if it is the child of a flex container.)"
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "textAlign",
+     "type": "'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The text alignment."
+    },
+    {
+     "prop": "variant",
+     "type": "'fullWidth'<br>&#124;&nbsp;'inset'<br>&#124;&nbsp;'middle'<br>&#124;&nbsp;string",
+     "default": "'fullWidth'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "absolute",
+     "className": "MuiDivider-absolute",
+     "description": "Styles applied to the root element if `absolute={true}`."
+    },
+    {
+     "key": "flexItem",
+     "className": "MuiDivider-flexItem",
+     "description": "Styles applied to the root element if `flexItem={true}`."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiDivider-fullWidth",
+     "description": "Styles applied to the root element if `variant=\"fullWidth\"`."
+    },
+    {
+     "key": "inset",
+     "className": "MuiDivider-inset",
+     "description": "Styles applied to the root element if `variant=\"inset\"`."
+    },
+    {
+     "key": "middle",
+     "className": "MuiDivider-middle",
+     "description": "Styles applied to the root element if `variant=\"middle\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiDivider-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "textAlignLeft",
+     "className": "MuiDivider-textAlignLeft",
+     "description": "Styles applied to the root element if `textAlign=\"left\" orientation=\"horizontal\"`."
+    },
+    {
+     "key": "textAlignRight",
+     "className": "MuiDivider-textAlignRight",
+     "description": "Styles applied to the root element if `textAlign=\"right\" orientation=\"horizontal\"`."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiDivider-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    },
+    {
+     "key": "withChildren",
+     "className": "MuiDivider-withChildren",
+     "description": "Styles applied to the root element if divider have text."
+    },
+    {
+     "key": "wrapper",
+     "className": "MuiDivider-wrapper",
+     "description": "Styles applied to the span children element if `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "wrapperVertical",
+     "className": "MuiDivider-wrapperVertical",
+     "description": "Styles applied to the span children element if `orientation=\"vertical\"`."
+    }
+   ]
+  },
+  {
+   "name": "List",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used for the list and list items. The prop is available to descendant components as the <code>dense</code> context."
+    },
+    {
+     "prop": "disablePadding",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, vertical padding is removed from the list."
+    },
+    {
+     "prop": "subheader",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the subheader, normally <code>ListSubheader</code>."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiList-dense",
+     "description": "Styles applied to the root element if dense."
+    },
+    {
+     "key": "padding",
+     "className": "MuiList-padding",
+     "description": "Styles applied to the root element unless `disablePadding={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiList-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "subheader",
+     "className": "MuiList-subheader",
+     "description": "Styles applied to the root element if a `subheader` is provided."
+    }
+   ]
+  },
+  {
+   "name": "ListItemButton",
+   "description": "",
+   "props": [
+    {
+     "prop": "alignItems",
+     "type": "'center'<br>&#124;&nbsp;'flex-start'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Defines the <code>align-items</code> style property."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the list item is focused during the first mount. Focus will also be triggered if the value changes from false to true."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used. The prop defaults to the value inherited from the parent List component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the left and right padding is removed."
+    },
+    {
+     "prop": "divider",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a 1px light border is added to the bottom of the list item."
+    },
+    {
+     "prop": "focusVisibleClassName",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop can help identify which element has keyboard focus. The class name will be applied when the element gains the focus through keyboard interaction. It&#39;s a polyfill for the <a href=\"https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo\">CSS :focus-visible selector</a>. The rationale for using this feature <a href=\"https://github.com/WICG/focus-visible/blob/HEAD/explainer.md\">is explained here</a>. A <a href=\"https://github.com/WICG/focus-visible\">polyfill can be used</a> to apply a <code>focus-visible</code> class to other components if needed."
+    },
+    {
+     "prop": "selected",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Use to apply selected styling."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItemButton-alignItemsFlexStart",
+     "description": "Styles applied to the component element if `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "dense",
+     "className": "MuiListItemButton-dense",
+     "description": "Styles applied to the component element if dense."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the inner `component` element if `disabled={true}`."
+    },
+    {
+     "key": "divider",
+     "className": "MuiListItemButton-divider",
+     "description": "Styles applied to the inner `component` element if `divider={true}`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the `component`'s `focusVisibleClassName` prop."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiListItemButton-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    }
+   ]
+  },
+  {
+   "name": "ListItemIcon",
+   "description": "A simple wrapper to apply `List` styles to an `Icon` or `SvgIcon`.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component, normally <code>Icon</code>, <code>SvgIcon</code>, or a <code>@mui/icons-material</code> SVG icon element."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItemIcon-alignItemsFlexStart",
+     "description": "Styles applied to the root element when the parent `ListItem` uses `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemIcon-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "ListItemText",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Alias for the <code>primary</code> prop."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the children won&#39;t be wrapped by a Typography component. This can be useful to render an alternative Typography variant by wrapping the <code>children</code> (or <code>primary</code>) text, and optional <code>secondary</code> text with the Typography component."
+    },
+    {
+     "prop": "inset",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the children are indented. This should be used if there is no left avatar or left icon."
+    },
+    {
+     "prop": "primary",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The main content element."
+    },
+    {
+     "prop": "secondary",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The secondary content element."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ primary?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, secondary?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ primary?: elementType, root?: elementType, secondary?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiListItemText-dense",
+     "description": "Styles applied to the Typography component if dense."
+    },
+    {
+     "key": "inset",
+     "className": "MuiListItemText-inset",
+     "description": "Styles applied to the root element if `inset={true}`."
+    },
+    {
+     "key": "multiline",
+     "className": "MuiListItemText-multiline",
+     "description": "Styles applied to the Typography component if primary and secondary are set."
+    }
+   ]
+  },
+  {
+   "name": "ListSubheader",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'primary'",
+     "default": "'default'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports those theme colors that make sense for this component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader will not have gutters."
+    },
+    {
+     "prop": "disableSticky",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader will not stick to the top during scroll."
+    },
+    {
+     "prop": "inset",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader is indented."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorInherit",
+     "className": "MuiListSubheader-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiListSubheader-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiListSubheader-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "inset",
+     "className": "MuiListSubheader-inset",
+     "description": "Styles applied to the root element if `inset={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListSubheader-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sticky",
+     "className": "MuiListSubheader-sticky",
+     "description": "Styles applied to the root element unless `disableSticky={true}`."
+    }
+   ]
+  },
+  {
+   "name": "Paper",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "elevation",
+     "type": "integer",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "Shadow depth, corresponds to <code>dp</code> in the spec. It accepts values between 0 and 24 inclusive."
+    },
+    {
+     "prop": "square",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, rounded corners are disabled."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'elevation'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;string",
+     "default": "'elevation'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "elevation",
+     "className": "MuiPaper-elevation",
+     "description": "Styles applied to the root element if `variant=\"elevation\"`."
+    },
+    {
+     "key": "elevation0",
+     "className": "MuiPaper-elevation0",
+     "description": "Styles applied to the root element if `elevation={0}`."
+    },
+    {
+     "key": "elevation1",
+     "className": "MuiPaper-elevation1",
+     "description": "Styles applied to the root element if `elevation={1}`."
+    },
+    {
+     "key": "elevation10",
+     "className": "MuiPaper-elevation10",
+     "description": "Styles applied to the root element if `elevation={10}`."
+    },
+    {
+     "key": "elevation11",
+     "className": "MuiPaper-elevation11",
+     "description": "Styles applied to the root element if `elevation={11}`."
+    },
+    {
+     "key": "elevation12",
+     "className": "MuiPaper-elevation12",
+     "description": "Styles applied to the root element if `elevation={12}`."
+    },
+    {
+     "key": "elevation13",
+     "className": "MuiPaper-elevation13",
+     "description": "Styles applied to the root element if `elevation={13}`."
+    },
+    {
+     "key": "elevation14",
+     "className": "MuiPaper-elevation14",
+     "description": "Styles applied to the root element if `elevation={14}`."
+    },
+    {
+     "key": "elevation15",
+     "className": "MuiPaper-elevation15",
+     "description": "Styles applied to the root element if `elevation={15}`."
+    },
+    {
+     "key": "elevation16",
+     "className": "MuiPaper-elevation16",
+     "description": "Styles applied to the root element if `elevation={16}`."
+    },
+    {
+     "key": "elevation17",
+     "className": "MuiPaper-elevation17",
+     "description": "Styles applied to the root element if `elevation={17}`."
+    },
+    {
+     "key": "elevation18",
+     "className": "MuiPaper-elevation18",
+     "description": "Styles applied to the root element if `elevation={18}`."
+    },
+    {
+     "key": "elevation19",
+     "className": "MuiPaper-elevation19",
+     "description": "Styles applied to the root element if `elevation={19}`."
+    },
+    {
+     "key": "elevation2",
+     "className": "MuiPaper-elevation2",
+     "description": "Styles applied to the root element if `elevation={2}`."
+    },
+    {
+     "key": "elevation20",
+     "className": "MuiPaper-elevation20",
+     "description": "Styles applied to the root element if `elevation={20}`."
+    },
+    {
+     "key": "elevation21",
+     "className": "MuiPaper-elevation21",
+     "description": "Styles applied to the root element if `elevation={21}`."
+    },
+    {
+     "key": "elevation22",
+     "className": "MuiPaper-elevation22",
+     "description": "Styles applied to the root element if `elevation={22}`."
+    },
+    {
+     "key": "elevation23",
+     "className": "MuiPaper-elevation23",
+     "description": "Styles applied to the root element if `elevation={23}`."
+    },
+    {
+     "key": "elevation24",
+     "className": "MuiPaper-elevation24",
+     "description": "Styles applied to the root element if `elevation={24}`."
+    },
+    {
+     "key": "elevation3",
+     "className": "MuiPaper-elevation3",
+     "description": "Styles applied to the root element if `elevation={3}`."
+    },
+    {
+     "key": "elevation4",
+     "className": "MuiPaper-elevation4",
+     "description": "Styles applied to the root element if `elevation={4}`."
+    },
+    {
+     "key": "elevation5",
+     "className": "MuiPaper-elevation5",
+     "description": "Styles applied to the root element if `elevation={5}`."
+    },
+    {
+     "key": "elevation6",
+     "className": "MuiPaper-elevation6",
+     "description": "Styles applied to the root element if `elevation={6}`."
+    },
+    {
+     "key": "elevation7",
+     "className": "MuiPaper-elevation7",
+     "description": "Styles applied to the root element if `elevation={7}`."
+    },
+    {
+     "key": "elevation8",
+     "className": "MuiPaper-elevation8",
+     "description": "Styles applied to the root element if `elevation={8}`."
+    },
+    {
+     "key": "elevation9",
+     "className": "MuiPaper-elevation9",
+     "description": "Styles applied to the root element if `elevation={9}`."
+    },
+    {
+     "key": "outlined",
+     "className": "MuiPaper-outlined",
+     "description": "Styles applied to the root element if `variant=\"outlined\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiPaper-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "rounded",
+     "className": "MuiPaper-rounded",
+     "description": "Styles applied to the root element unless `square={true}`."
+    }
+   ]
+  },
+  {
+   "name": "Typography",
+   "description": "",
+   "props": [
+    {
+     "prop": "align",
+     "type": "'center'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'justify'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'",
+     "default": "'inherit'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Set the text-align on the component."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;'textPrimary'<br>&#124;&nbsp;'textSecondary'<br>&#124;&nbsp;'textDisabled'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "gutterBottom",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the text will have a bottom margin."
+    },
+    {
+     "prop": "noWrap",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the text will not wrap, but instead will truncate with a text overflow ellipsis.<br>Note that text overflow can only happen with block or inline-block level elements (the element needs to have a width in order to overflow)."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'body1'<br>&#124;&nbsp;'body2'<br>&#124;&nbsp;'button'<br>&#124;&nbsp;'caption'<br>&#124;&nbsp;'h1'<br>&#124;&nbsp;'h2'<br>&#124;&nbsp;'h3'<br>&#124;&nbsp;'h4'<br>&#124;&nbsp;'h5'<br>&#124;&nbsp;'h6'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'overline'<br>&#124;&nbsp;'subtitle1'<br>&#124;&nbsp;'subtitle2'<br>&#124;&nbsp;string",
+     "default": "'body1'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Applies the theme typography styles."
+    },
+    {
+     "prop": "variantMapping",
+     "type": "object",
+     "default": "{\n  h1: 'h1',\n  h2: 'h2',\n  h3: 'h3',\n  h4: 'h4',\n  h5: 'h5',\n  h6: 'h6',\n  subtitle1: 'h6',\n  subtitle2: 'h6',\n  body1: 'p',\n  body2: 'p',\n  inherit: 'p',\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component maps the variant prop to a range of different HTML element types. For instance, subtitle1 to <code>&lt;h6&gt;</code>. If you wish to change that mapping, you can provide your own. Alternatively, you can use the <code>component</code> prop."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignCenter",
+     "className": "MuiTypography-alignCenter",
+     "description": "Styles applied to the root element if `align=\"center\"`."
+    },
+    {
+     "key": "alignJustify",
+     "className": "MuiTypography-alignJustify",
+     "description": "Styles applied to the root element if `align=\"justify\"`."
+    },
+    {
+     "key": "alignLeft",
+     "className": "MuiTypography-alignLeft",
+     "description": "Styles applied to the root element if `align=\"left\"`."
+    },
+    {
+     "key": "alignRight",
+     "className": "MuiTypography-alignRight",
+     "description": "Styles applied to the root element if `align=\"right\"`."
+    },
+    {
+     "key": "body1",
+     "className": "MuiTypography-body1",
+     "description": "Styles applied to the root element if `variant=\"body1\"`."
+    },
+    {
+     "key": "body2",
+     "className": "MuiTypography-body2",
+     "description": "Styles applied to the root element if `variant=\"body2\"`."
+    },
+    {
+     "key": "button",
+     "className": "MuiTypography-button",
+     "description": "Styles applied to the root element if `variant=\"button\"`."
+    },
+    {
+     "key": "caption",
+     "className": "MuiTypography-caption",
+     "description": "Styles applied to the root element if `variant=\"caption\"`."
+    },
+    {
+     "key": "gutterBottom",
+     "className": "MuiTypography-gutterBottom",
+     "description": "Styles applied to the root element if `gutterBottom={true}`."
+    },
+    {
+     "key": "h1",
+     "className": "MuiTypography-h1",
+     "description": "Styles applied to the root element if `variant=\"h1\"`."
+    },
+    {
+     "key": "h2",
+     "className": "MuiTypography-h2",
+     "description": "Styles applied to the root element if `variant=\"h2\"`."
+    },
+    {
+     "key": "h3",
+     "className": "MuiTypography-h3",
+     "description": "Styles applied to the root element if `variant=\"h3\"`."
+    },
+    {
+     "key": "h4",
+     "className": "MuiTypography-h4",
+     "description": "Styles applied to the root element if `variant=\"h4\"`."
+    },
+    {
+     "key": "h5",
+     "className": "MuiTypography-h5",
+     "description": "Styles applied to the root element if `variant=\"h5\"`."
+    },
+    {
+     "key": "h6",
+     "className": "MuiTypography-h6",
+     "description": "Styles applied to the root element if `variant=\"h6\"`."
+    },
+    {
+     "key": "inherit",
+     "className": "MuiTypography-inherit",
+     "description": "Styles applied to the root element if `variant=\"inherit\"`."
+    },
+    {
+     "key": "noWrap",
+     "className": "MuiTypography-noWrap",
+     "description": "Styles applied to the root element if `nowrap={true}`."
+    },
+    {
+     "key": "overline",
+     "className": "MuiTypography-overline",
+     "description": "Styles applied to the root element if `variant=\"overline\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiTypography-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "subtitle1",
+     "className": "MuiTypography-subtitle1",
+     "description": "Styles applied to the root element if `variant=\"subtitle1\"`."
+    },
+    {
+     "key": "subtitle2",
+     "className": "MuiTypography-subtitle2",
+     "description": "Styles applied to the root element if `variant=\"subtitle2\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-menubar/"
+}

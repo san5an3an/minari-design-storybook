@@ -1,0 +1,1289 @@
+{
+ "slug": "modal",
+ "title": "Modal",
+ "description": "Display a modal dialog box, providing a title, content area, and action buttons.",
+ "group": "Feedback",
+ "whenToUse": "When requiring users to interact with the application, but without jumping to a new page and interrupting the user's workflow, you can use `Modal` to create a new floating layer over the current page to get user feedback or display information.\n\nAdditionally, if you need to show a simple confirmation dialog, you can use [`App.useApp`](/components/app/) hooks.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic modal.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [isModalOpen, setIsModalOpen] = useState(false);\n\n  const showModal = () => {\n    setIsModalOpen(true);\n  };\n\n  const handleOk = () => {\n    setIsModalOpen(false);\n  };\n\n  const handleCancel = () => {\n    setIsModalOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showModal}>\n        Open Modal\n      </Button>\n      <Modal\n        title=\"Basic Modal\"\n        closable={{ 'aria-label': 'Custom Close Button' }}\n        open={isModalOpen}\n        onOk={handleOk}\n        onCancel={handleCancel}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Asynchronously close",
+   "description": "Asynchronously close a modal dialog when the OK button is pressed. For example, you can use this pattern when you submit a form.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [confirmLoading, setConfirmLoading] = useState(false);\n  const [modalText, setModalText] = useState('Content of the modal');\n\n  const showModal = () => {\n    setOpen(true);\n  };\n\n  const handleOk = () => {\n    setModalText('The modal will be closed after two seconds');\n    setConfirmLoading(true);\n    setTimeout(() => {\n      setOpen(false);\n      setConfirmLoading(false);\n    }, 2000);\n  };\n\n  const handleCancel = () => {\n    console.log('Clicked cancel button');\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showModal}>\n        Open Modal with async logic\n      </Button>\n      <Modal\n        title=\"Title\"\n        open={open}\n        onOk={handleOk}\n        confirmLoading={confirmLoading}\n        onCancel={handleCancel}\n      >\n        <p>{modalText}</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "async"
+  },
+  {
+   "name": "Customized Footer",
+   "description": "A more complex example which define a customized footer button bar. The dialog will change to loading state after clicking the submit button, and when the loading is done, the modal dialog will be closed.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [loading, setLoading] = useState(false);\n  const [open, setOpen] = useState(false);\n\n  const showModal = () => {\n    setOpen(true);\n  };\n\n  const handleOk = () => {\n    setLoading(true);\n    setTimeout(() => {\n      setLoading(false);\n      setOpen(false);\n    }, 3000);\n  };\n\n  const handleCancel = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showModal}>\n        Open Modal with customized footer\n      </Button>\n      <Modal\n        open={open}\n        title=\"Title\"\n        onOk={handleOk}\n        onCancel={handleCancel}\n        footer={[\n          <Button key=\"back\" onClick={handleCancel}>\n            Return\n          </Button>,\n          <Button key=\"submit\" type=\"primary\" loading={loading} onClick={handleOk}>\n            Submit\n          </Button>,\n          <Button\n            key=\"link\"\n            href=\"https://google.com\"\n            target=\"_blank\"\n            type=\"primary\"\n            loading={loading}\n            onClick={handleOk}\n          >\n            Search on Google\n          </Button>,\n        ]}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "footer"
+  },
+  {
+   "name": "mask",
+   "description": "mask effect.",
+   "code": "import React from 'react';\nimport { Button, Modal, Space } from 'antd';\n\nconst modalConfig = {\n  title: 'Title',\n  content: 'Some contents...',\n};\n\nconst App: React.FC = () => {\n  const [modal, contextHolder] = Modal.useModal();\n\n  return (\n    <>\n      <Space>\n        <Button\n          onClick={() => {\n            modal.confirm({ ...modalConfig, mask: { blur: true } });\n          }}\n        >\n          blur\n        </Button>\n        <Button\n          onClick={() => {\n            modal.confirm(modalConfig);\n          }}\n        >\n          Dimmed mask\n        </Button>\n        <Button\n          onClick={() => {\n            modal.confirm({ ...modalConfig, mask: false });\n          }}\n        >\n          No mask\n        </Button>\n      </Space>\n\n      {contextHolder}\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "mask"
+  },
+  {
+   "name": "Loading",
+   "description": "Set the loading status of Modal.",
+   "code": "import React from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = React.useState<boolean>(false);\n  const [loading, setLoading] = React.useState<boolean>(true);\n\n  const showLoading = () => {\n    setOpen(true);\n    setLoading(true);\n\n    // Simple loading mock. You should add cleanup logic in real world.\n    setTimeout(() => {\n      setLoading(false);\n    }, 2000);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showLoading}>\n        Open Modal\n      </Button>\n      <Modal\n        title={<p>Loading Modal</p>}\n        footer={\n          <Button type=\"primary\" onClick={showLoading}>\n            Reload\n          </Button>\n        }\n        loading={loading}\n        open={open}\n        onCancel={() => setOpen(false)}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "loading"
+  },
+  {
+   "name": "Customized Footer render function",
+   "description": "Customize the footer rendering function to support extensions on top of the original.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal, Space } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n\n  const showModal = () => {\n    setOpen(true);\n  };\n  const handleOk = () => {\n    setOpen(false);\n  };\n\n  const handleCancel = () => {\n    setOpen(false);\n  };\n  return (\n    <>\n      <Space>\n        <Button type=\"primary\" onClick={showModal}>\n          Open Modal\n        </Button>\n        <Button\n          type=\"primary\"\n          onClick={() => {\n            Modal.confirm({\n              title: 'Confirm',\n              content: 'Bla bla ...',\n              footer: (_, { OkBtn, CancelBtn }) => (\n                <>\n                  <Button>Custom Button</Button>\n                  <CancelBtn />\n                  <OkBtn />\n                </>\n              ),\n            });\n          }}\n        >\n          Open Modal Confirm\n        </Button>\n      </Space>\n      <Modal\n        open={open}\n        title=\"Title\"\n        onOk={handleOk}\n        onCancel={handleCancel}\n        footer={(_, { OkBtn, CancelBtn }) => (\n          <>\n            <Button>Custom Button</Button>\n            <CancelBtn />\n            <OkBtn />\n          </>\n        )}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "footer-render"
+  },
+  {
+   "name": "Use hooks to get context",
+   "description": "Use `Modal.useModal` to get `contextHolder` with context accessible issue. Only hooks method support Promise `await` operation.",
+   "code": "import React, { createContext } from 'react';\nimport { Button, Modal, Space } from 'antd';\n\nconst ReachableContext = createContext<string | null>(null);\nconst UnreachableContext = createContext<string | null>(null);\n\nconst config = {\n  title: 'Use Hook!',\n  content: (\n    <>\n      <ReachableContext.Consumer>{(name) => `Reachable: ${name}!`}</ReachableContext.Consumer>\n      <br />\n      <UnreachableContext.Consumer>{(name) => `Unreachable: ${name}!`}</UnreachableContext.Consumer>\n    </>\n  ),\n};\n\nconst App: React.FC = () => {\n  const [modal, contextHolder] = Modal.useModal();\n\n  return (\n    <ReachableContext.Provider value=\"Light\">\n      <Space>\n        <Button\n          onClick={async () => {\n            const confirmed = await modal.confirm(config);\n            console.log('Confirmed: ', confirmed);\n          }}\n        >\n          Confirm\n        </Button>\n        <Button\n          onClick={() => {\n            modal.warning(config);\n          }}\n        >\n          Warning\n        </Button>\n        <Button\n          onClick={async () => {\n            modal.info(config);\n          }}\n        >\n          Info\n        </Button>\n        <Button\n          onClick={async () => {\n            modal.error(config);\n          }}\n        >\n          Error\n        </Button>\n      </Space>\n      {/* `contextHolder` should always be placed under the context you want to access */}\n      {contextHolder}\n\n      {/* Can not access this context since `contextHolder` is not in it */}\n      <UnreachableContext.Provider value=\"Bamboo\" />\n    </ReachableContext.Provider>\n  );\n};\n\nexport default App;",
+   "demoId": "hooks"
+  },
+  {
+   "name": "Internationalization",
+   "description": "To customize the text of the buttons, you need to set `okText` and `cancelText` props.",
+   "code": "import React, { useState } from 'react';\nimport { ExclamationCircleOutlined } from '@ant-design/icons';\nimport { Button, Modal, Space } from 'antd';\n\nconst LocalizedModal = () => {\n  const [open, setOpen] = useState(false);\n\n  const showModal = () => {\n    setOpen(true);\n  };\n\n  const hideModal = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showModal}>\n        Modal\n      </Button>\n      <Modal\n        title=\"Modal\"\n        open={open}\n        onOk={hideModal}\n        onCancel={hideModal}\n        okText=\"确认\"\n        cancelText=\"取消\"\n      >\n        <p>Bla bla ...</p>\n        <p>Bla bla ...</p>\n        <p>Bla bla ...</p>\n      </Modal>\n    </>\n  );\n};\n\nconst App: React.FC = () => {\n  const [modal, contextHolder] = Modal.useModal();\n\n  const confirm = () => {\n    modal.confirm({\n      title: 'Confirm',\n      icon: <ExclamationCircleOutlined />,\n      content: 'Bla bla ...',\n      okText: '确认',\n      cancelText: '取消',\n    });\n  };\n\n  return (\n    <>\n      <Space>\n        <LocalizedModal />\n        <Button onClick={confirm}>Confirm</Button>\n      </Space>\n      {contextHolder}\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "locale"
+  },
+  {
+   "name": "Manual to update destroy",
+   "description": "Manually updating and destroying a modal through instance.",
+   "code": "import React from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [modal, contextHolder] = Modal.useModal();\n\n  const countDown = () => {\n    let secondsToGo = 5;\n\n    const instance = modal.success({\n      title: 'This is a notification message',\n      content: `This modal will be destroyed after ${secondsToGo} second.`,\n    });\n\n    const timer = setInterval(() => {\n      secondsToGo -= 1;\n      instance.update({\n        content: `This modal will be destroyed after ${secondsToGo} second.`,\n      });\n    }, 1000);\n\n    setTimeout(() => {\n      clearInterval(timer);\n      instance.destroy();\n    }, secondsToGo * 1000);\n  };\n\n  return (\n    <>\n      <Button onClick={countDown}>Open modal to close in 5s</Button>\n      {contextHolder}\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "manual"
+  },
+  {
+   "name": "To customize the position of modal",
+   "description": "You can use `centered`,`style.top` or other styles to set position of modal dialog.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [modal1Open, setModal1Open] = useState(false);\n  const [modal2Open, setModal2Open] = useState(false);\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={() => setModal1Open(true)}>\n        Display a modal dialog at 20px to Top\n      </Button>\n      <Modal\n        title=\"20px to Top\"\n        style={{ top: 20 }}\n        open={modal1Open}\n        onOk={() => setModal1Open(false)}\n        onCancel={() => setModal1Open(false)}\n      >\n        <p>some contents...</p>\n        <p>some contents...</p>\n        <p>some contents...</p>\n      </Modal>\n      <br />\n      <br />\n      <Button type=\"primary\" onClick={() => setModal2Open(true)}>\n        Vertically centered modal dialog\n      </Button>\n      <Modal\n        title=\"Vertically centered modal dialog\"\n        centered\n        open={modal2Open}\n        onOk={() => setModal2Open(false)}\n        onCancel={() => setModal2Open(false)}\n      >\n        <p>some contents...</p>\n        <p>some contents...</p>\n        <p>some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "position"
+  },
+  {
+   "name": "Customize footer buttons props",
+   "description": "Passing `okButtonProps` and `cancelButtonProps` will customize the OK button and cancel button props.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n\n  const showModal = () => {\n    setOpen(true);\n  };\n\n  const handleOk = () => {\n    setOpen(false);\n  };\n\n  const handleCancel = () => {\n    setOpen(false);\n  };\n\n  return (\n    <>\n      <Button type=\"primary\" onClick={showModal}>\n        Open Modal with customized button props\n      </Button>\n      <Modal\n        title=\"Basic Modal\"\n        open={open}\n        onOk={handleOk}\n        onCancel={handleCancel}\n        okButtonProps={{ disabled: true }}\n        cancelButtonProps={{ disabled: true }}\n      >\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n        <p>Some contents...</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "button-props"
+  },
+  {
+   "name": "Custom modal content render",
+   "description": "Custom modal content render. use `react-draggable` implements draggable.",
+   "code": "import React, { useRef, useState } from 'react';\nimport { Button, Modal } from 'antd';\nimport type { DraggableData, DraggableEvent } from 'react-draggable';\nimport Draggable from 'react-draggable';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [disabled, setDisabled] = useState(true);\n  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });\n  const draggleRef = useRef<HTMLDivElement>(null!);\n\n  const showModal = () => {\n    setOpen(true);\n  };\n\n  const handleOk = () => {\n    setOpen(false);\n  };\n\n  const handleCancel = () => {\n    setOpen(false);\n  };\n\n  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {\n    const { clientWidth, clientHeight } = window.document.documentElement;\n    const targetRect = draggleRef.current?.getBoundingClientRect();\n    if (!targetRect) {\n      return;\n    }\n    setBounds({\n      left: -targetRect.left + uiData.x,\n      right: clientWidth - (targetRect.right - uiData.x),\n      top: -targetRect.top + uiData.y,\n      bottom: clientHeight - (targetRect.bottom - uiData.y),\n    });\n  };\n\n  return (\n    <>\n      <Button onClick={showModal}>Open Draggable Modal</Button>\n      <Modal\n        title={\n          <div\n            style={{ width: '100%', cursor: 'move' }}\n            onMouseOver={() => {\n              if (disabled) {\n                setDisabled(false);\n              }\n            }}\n            onMouseOut={() => {\n              setDisabled(true);\n            }}\n            // fix eslintjsx-a11y/mouse-events-have-key-events\n            // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md\n            onFocus={() => {}}\n            onBlur={() => {}}\n            // end\n          >\n            Draggable Modal\n          </div>\n        }\n        open={open}\n        onOk={handleOk}\n        onCancel={handleCancel}\n        modalRender={(modal) => (\n          <Draggable\n            disabled={disabled}\n            bounds={bounds}\n            nodeRef={draggleRef}\n            onStart={(event, uiData) => onStart(event, uiData)}\n          >\n            <div ref={draggleRef}>{modal}</div>\n          </Draggable>\n        )}\n      >\n        <p>\n          Just don&apos;t learn physics at school and your life will be full of magic and miracles.\n        </p>\n        <br />\n        <p>Day before yesterday I saw a rabbit, and yesterday a deer, and today, you.</p>\n      </Modal>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "modal-render"
+  },
+  {
+   "name": "To customize the width of modal",
+   "description": "Use `width` to set the width of the modal dialog.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Flex, Modal } from 'antd';\n\nconst App: React.FC = () => {\n  const [open, setOpen] = useState(false);\n  const [openResponsive, setOpenResponsive] = useState(false);\n\n  return (\n    <Flex vertical gap=\"medium\" align=\"flex-start\">\n      {/* Basic */}\n      <Button type=\"primary\" onClick={() => setOpen(true)}>\n        Open Modal of 1000px width\n      </Button>\n      <Modal\n        title=\"Modal 1000px width\"\n        centered\n        open={open}\n        onOk={() => setOpen(false)}\n        onCancel={() => setOpen(false)}\n        width={1000}\n      >\n        <p>some contents...</p>\n        <p>some contents...</p>\n        <p>some contents...</p>\n      </Modal>\n\n      {/* Responsive */}\n      <Button type=\"primary\" onClick={() => setOpenResponsive(true)}>\n        Open Modal of responsive width\n      </Button>\n      <Modal\n        title=\"Modal responsive width\"\n        centered\n        open={openResponsive}\n        onOk={() => setOpenResponsive(false)}\n        onCancel={() => setOpenResponsive(false)}\n        width={{\n          xs: '90%',\n          sm: '80%',\n          md: '70%',\n          lg: '60%',\n          xl: '50%',\n          xxl: '40%',\n        }}\n      >\n        <p>some contents...</p>\n        <p>some contents...</p>\n        <p>some contents...</p>\n      </Modal>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "width"
+  },
+  {
+   "name": "Static Method",
+   "description": "Static methods cannot consume Context provided by `ConfigProvider`. When enable `layer`, they may also cause style errors. Please use hooks version or `App` provided instance first.",
+   "code": "import React from 'react';\nimport { Button, Modal, Space } from 'antd';\n\nconst info = () => {\n  Modal.info({\n    title: 'This is a notification message',\n    content: (\n      <div>\n        <p>some messages...some messages...</p>\n        <p>some messages...some messages...</p>\n      </div>\n    ),\n    onOk() {},\n  });\n};\n\nconst success = () => {\n  Modal.success({\n    content: 'some messages...some messages...',\n  });\n};\n\nconst error = () => {\n  Modal.error({\n    title: 'This is an error message',\n    content: 'some messages...some messages...',\n  });\n};\n\nconst warning = () => {\n  Modal.warning({\n    title: 'This is a warning message',\n    content: 'some messages...some messages...',\n  });\n};\n\nconst App: React.FC = () => (\n  <Space wrap>\n    <Button onClick={info}>Info</Button>\n    <Button onClick={success}>Success</Button>\n    <Button onClick={error}>Error</Button>\n    <Button onClick={warning}>Warning</Button>\n  </Space>\n);\n\nexport default App;",
+   "demoId": "static-info"
+  },
+  {
+   "name": "Static confirmation",
+   "description": "Use `confirm()` to show a confirmation modal dialog. Let onCancel/onOk function return a promise object to delay closing the dialog.",
+   "code": "import React from 'react';\nimport { ExclamationCircleFilled } from '@ant-design/icons';\nimport { Button, Modal, Space } from 'antd';\n\nconst { confirm } = Modal;\n\nconst showConfirm = () => {\n  confirm({\n    title: 'Do you want to delete these items?',\n    icon: <ExclamationCircleFilled />,\n    content: 'Some descriptions',\n    onOk() {\n      console.log('OK');\n    },\n    onCancel() {\n      console.log('Cancel');\n    },\n  });\n};\n\nconst showPromiseConfirm = () => {\n  confirm({\n    title: 'Do you want to delete these items?',\n    icon: <ExclamationCircleFilled />,\n    content: 'When clicked the OK button, this dialog will be closed after 1 second',\n    onOk() {\n      return new Promise((resolve, reject) => {\n        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);\n      }).catch(() => console.log('Oops errors!'));\n    },\n    onCancel() {},\n  });\n};\n\nconst showDeleteConfirm = () => {\n  confirm({\n    title: 'Are you sure delete this task?',\n    icon: <ExclamationCircleFilled />,\n    content: 'Some descriptions',\n    okText: 'Yes',\n    okType: 'danger',\n    cancelText: 'No',\n    onOk() {\n      console.log('OK');\n    },\n    onCancel() {\n      console.log('Cancel');\n    },\n  });\n};\n\nconst showPropsConfirm = () => {\n  confirm({\n    title: 'Are you sure delete this task?',\n    icon: <ExclamationCircleFilled />,\n    content: 'Some descriptions',\n    okText: 'Yes',\n    okType: 'danger',\n    okButtonProps: {\n      disabled: true,\n    },\n    cancelText: 'No',\n    onOk() {\n      console.log('OK');\n    },\n    onCancel() {\n      console.log('Cancel');\n    },\n  });\n};\n\nconst App: React.FC = () => (\n  <Space wrap>\n    <Button onClick={showConfirm}>Confirm</Button>\n    <Button onClick={showPromiseConfirm}>With promise</Button>\n    <Button onClick={showDeleteConfirm} type=\"dashed\">\n      Delete\n    </Button>\n    <Button onClick={showPropsConfirm} type=\"dashed\">\n      With extra props\n    </Button>\n  </Space>\n);\n\nexport default App;",
+   "demoId": "confirm"
+  },
+  {
+   "name": "destroy confirmation modal dialog",
+   "description": "`Modal.destroyAll()` will destroy all confirmation modal dialogs. Usually, you can use it in router change event to destroy confirm modal dialog automatically.",
+   "code": "import React from 'react';\nimport { ExclamationCircleOutlined } from '@ant-design/icons';\nimport { Button, Modal } from 'antd';\n\nconst { confirm } = Modal;\n\nconst destroyAll = () => {\n  Modal.destroyAll();\n};\n\nconst showConfirm = () => {\n  for (let i = 0; i < 3; i += 1) {\n    setTimeout(() => {\n      confirm({\n        icon: <ExclamationCircleOutlined />,\n        content: <Button onClick={destroyAll}>Click to destroy all</Button>,\n        onOk() {\n          console.log('OK');\n        },\n        onCancel() {\n          console.log('Cancel');\n        },\n      });\n    }, i * 500);\n  }\n};\n\nconst App: React.FC = () => <Button onClick={showConfirm}>Confirm</Button>;\n\nexport default App;",
+   "demoId": "confirm-router"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Modal by passing objects or functions through `classNames` and `styles`.",
+   "code": "import React, { useState } from 'react';\nimport { Button, Flex, Modal } from 'antd';\nimport type { GetProp, ModalProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst lineStyle: React.CSSProperties = {\n  lineHeight: '28px',\n};\n\nconst sharedContent = (\n  <>\n    <div style={lineStyle}>\n      Following the Ant Design specification, we developed a React UI library antd that contains a\n      set of high quality components and demos for building rich, interactive user interfaces.\n    </div>\n    <div style={lineStyle}>🌈 Enterprise-class UI designed for web applications.</div>\n    <div style={lineStyle}>📦 A set of high-quality React components out of the box.</div>\n    <div style={lineStyle}>🛡 Written in TypeScript with predictable static types.</div>\n    <div style={lineStyle}>⚙️ Whole package of design resources and development tools.</div>\n    <div style={lineStyle}>🌍 Internationalization support for dozens of languages.</div>\n    <div style={lineStyle}>🎨 Powerful theme customization in every detail.</div>\n  </>\n);\n\nconst classNames = createStaticStyles(({ css }) => ({\n  container: css`\n    border-radius: 10px;\n    padding: 10px;\n  `,\n}));\n\nconst styles: ModalProps['styles'] = {\n  mask: {\n    backgroundImage: `linear-gradient(to top, #18181b 0, rgba(21, 21, 22, 0.2) 100%)`,\n  },\n};\n\nconst stylesFn: ModalProps['styles'] = (info): GetProp<ModalProps, 'styles', 'Return'> => {\n  if (info.props.footer) {\n    return {\n      container: {\n        borderRadius: 14,\n        border: '1px solid #ccc',\n        padding: 0,\n        overflow: 'hidden',\n      },\n      header: {\n        padding: 16,\n      },\n      body: {\n        padding: 16,\n      },\n      footer: {\n        padding: '16px 10px',\n        backgroundColor: '#fafafa',\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const [modalOpen, setModalOpen] = useState(false);\n  const [modalFnOpen, setModalFnOpen] = useState(false);\n\n  const sharedProps: ModalProps = {\n    centered: true,\n    classNames,\n  };\n\n  const footer: React.ReactNode = (\n    <>\n      <Button\n        onClick={() => setModalFnOpen(false)}\n        styles={{ root: { borderColor: '#ccc', color: '#171717', backgroundColor: '#fff' } }}\n      >\n        Cancel\n      </Button>\n      <Button\n        type=\"primary\"\n        styles={{ root: { backgroundColor: '#171717' } }}\n        onClick={() => setModalOpen(true)}\n      >\n        Submit\n      </Button>\n    </>\n  );\n\n  return (\n    <Flex gap=\"medium\">\n      <Button onClick={() => setModalOpen(true)}>Open Style Modal</Button>\n      <Button type=\"primary\" onClick={() => setModalFnOpen(true)}>\n        Open Function Modal\n      </Button>\n      <Modal\n        {...sharedProps}\n        footer={null}\n        title=\"Custom Style Modal\"\n        styles={styles}\n        open={modalOpen}\n        onOk={() => setModalOpen(false)}\n        onCancel={() => setModalOpen(false)}\n      >\n        {sharedContent}\n      </Modal>\n      <Modal\n        {...sharedProps}\n        footer={footer}\n        title=\"Custom Function Modal\"\n        styles={stylesFn}\n        mask={{ enabled: true, blur: true }}\n        open={modalFnOpen}\n        onOk={() => setModalFnOpen(false)}\n        onCancel={() => setModalFnOpen(false)}\n      >\n        {sharedContent}\n      </Modal>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "afterClose",
+     "Specify a function that will be called when modal is closed completely",
+     "function",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "cancelButtonProps",
+     "The cancel button props",
+     "ButtonProps",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "cancelText",
+     "Text of the Cancel button",
+     "ReactNode",
+     "Cancel",
+     "—",
+     "×"
+    ],
+    [
+     "centered",
+     "Centered Modal",
+     "boolean",
+     "false",
+     "—",
+     "5.24.0"
+    ],
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the Modal component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.10.0"
+    ],
+    [
+     "closable",
+     "Whether a close (x) button is visible on top right or not",
+     "boolean | ClosableType",
+     "true",
+     "-",
+     "5.16.0"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon. 5.7.0: close button will be hidden when setting to `null` or `false`",
+     "ReactNode",
+     "&lt;CloseOutlined />",
+     "—",
+     "5.14.0"
+    ],
+    [
+     "confirmLoading",
+     "Whether to apply loading visual effect for OK button or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "~~destroyOnClose~~",
+     "Whether to unmount child components on onClose",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "destroyOnHidden",
+     "Whether to unmount child components on onClose",
+     "boolean",
+     "false",
+     "5.25.0",
+     "×"
+    ],
+    [
+     "~~focusTriggerAfterClose~~",
+     "Whether need to focus trigger element after dialog is closed. Please use `focusable.focusTriggerAfterClose` instead",
+     "boolean",
+     "true",
+     "4.9.0",
+     "×"
+    ],
+    [
+     "footer",
+     "Footer content, set as `footer={null}` when you don't need default buttons",
+     "ReactNode | (originNode: ReactNode, extra: { OkBtn: React.FC, CancelBtn: React.FC }) => ReactNode",
+     "(OK and Cancel buttons)",
+     "renderFunction: 5.9.0",
+     "×"
+    ],
+    [
+     "forceRender",
+     "Force render Modal",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "focusable",
+     "Configuration for focus management in the Modal",
+     "{ trap?: boolean, focusTriggerAfterClose?: boolean }",
+     "-",
+     "6.2.0",
+     "6.4.0"
+    ],
+    [
+     "getContainer",
+     "The mounted node for Modal but still display at fullscreen",
+     "HTMLElement | () => HTMLElement | Selectors | false",
+     "document.body",
+     "—",
+     "×"
+    ],
+    [
+     "keyboard",
+     "Whether support press esc to close",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "mask",
+     "Mask effect",
+     "boolean | `{enabled?: boolean, blur?: boolean, closable?: boolean}`",
+     "true",
+     "mask.closable: 6.3.0",
+     "6.0.0, mask.closable: 6.3.0"
+    ],
+    [
+     "~~maskClosable~~",
+     "Whether to close the modal dialog when the mask (area outside the modal) is clicked. Please use `mask.closable` instead.",
+     "boolean",
+     "true",
+     "-",
+     "×"
+    ],
+    [
+     "modalRender",
+     "Custom modal content render",
+     "(node: ReactNode) => ReactNode",
+     "-",
+     "4.7.0",
+     "×"
+    ],
+    [
+     "okButtonProps",
+     "The ok button props",
+     "ButtonProps",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "okText",
+     "Text of the OK button",
+     "ReactNode",
+     "OK",
+     "—",
+     "×"
+    ],
+    [
+     "okType",
+     "Button `type` of the OK button",
+     "string",
+     "primary",
+     "—",
+     "×"
+    ],
+    [
+     "style",
+     "Style of floating layer, typically used at least for adjusting the position",
+     "CSSProperties",
+     "-",
+     "—",
+     "5.7.0"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the Modal component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.10.0"
+    ],
+    [
+     "loading",
+     "Show the skeleton",
+     "boolean",
+     "—",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "scrollLock",
+     "Whether to lock body scroll when modal opens",
+     "boolean",
+     "true",
+     "6.5.0",
+     "×"
+    ],
+    [
+     "title",
+     "The modal dialog's title",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "open",
+     "Whether the modal dialog is visible or not",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "width",
+     "Width of the modal dialog",
+     "string | number | Breakpoint",
+     "520",
+     "Breakpoint: 5.23.0",
+     "×"
+    ],
+    [
+     "wrapClassName",
+     "The class name of the container of the modal dialog",
+     "string",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "zIndex",
+     "The `z-index` of the Modal",
+     "number",
+     "1000",
+     "—",
+     "×"
+    ],
+    [
+     "onCancel",
+     "Specify a function that will be called when a user clicks mask, close button on top right or Cancel button",
+     "function(e)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onOk",
+     "Specify a function that will be called when a user clicks the OK button",
+     "function(e)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "afterOpenChange",
+     "Callback when the animation ends when Modal is turned on and off",
+     "(open: boolean) => void",
+     "-",
+     "5.4.0",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "afterClose",
+     "Specify a function that will be called when modal is closed completely",
+     "function",
+     "-",
+     "4.9.0"
+    ],
+    [
+     "~~autoFocusButton~~",
+     "Specify which button to autofocus. Please use `focusable.autoFocusButton` instead",
+     "null | `ok` | `cancel`",
+     "ok",
+     "—"
+    ],
+    [
+     "cancelButtonProps",
+     "The cancel button props",
+     "ButtonProps",
+     "-",
+     "—"
+    ],
+    [
+     "cancelText",
+     "Text of the Cancel button with Modal.confirm",
+     "string",
+     "Cancel",
+     "—"
+    ],
+    [
+     "centered",
+     "Centered Modal",
+     "boolean",
+     "false",
+     "—"
+    ],
+    [
+     "className",
+     "The className of container",
+     "string",
+     "-",
+     "—"
+    ],
+    [
+     "closable",
+     "Whether a close (x) button is visible on top right of the confirm dialog or not",
+     "boolean | ClosableType",
+     "false",
+     "-"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "undefined",
+     "4.9.0"
+    ],
+    [
+     "content",
+     "Content",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "focusable.autoFocusButton",
+     "Specify which button to autofocus",
+     "null | `ok` | `cancel`",
+     "ok",
+     "6.2.0"
+    ],
+    [
+     "footer",
+     "Footer content, set as `footer: null` when you don't need default buttons",
+     "ReactNode | (originNode: ReactNode, extra: { OkBtn: React.FC, CancelBtn: React.FC }) => ReactNode",
+     "-",
+     "renderFunction: 5.9.0"
+    ],
+    [
+     "getContainer",
+     "Return the mount node for Modal",
+     "HTMLElement | () => HTMLElement | Selectors | false",
+     "document.body",
+     "—"
+    ],
+    [
+     "icon",
+     "Custom icon",
+     "ReactNode",
+     "&lt;ExclamationCircleFilled />",
+     "—"
+    ],
+    [
+     "keyboard",
+     "Whether support press esc to close",
+     "boolean",
+     "true",
+     "—"
+    ],
+    [
+     "mask",
+     "Mask effect",
+     "boolean | `{enabled?: boolean, blur?: boolean, closable?: boolean}`",
+     "true",
+     "—"
+    ],
+    [
+     "~~maskClosable~~",
+     "Whether to close the modal dialog when the mask (area outside the modal) is clicked. Please use `mask.closable` instead.",
+     "boolean",
+     "false",
+     "-"
+    ],
+    [
+     "scrollLock",
+     "Whether to lock body scroll when modal opens",
+     "boolean",
+     "true",
+     "6.5.0"
+    ],
+    [
+     "okButtonProps",
+     "The ok button props",
+     "ButtonProps",
+     "-",
+     "—"
+    ],
+    [
+     "okText",
+     "Text of the OK button",
+     "string",
+     "OK",
+     "—"
+    ],
+    [
+     "okType",
+     "Button `type` of the OK button",
+     "string",
+     "primary",
+     "—"
+    ],
+    [
+     "style",
+     "Style of floating layer, typically used at least for adjusting the position",
+     "CSSProperties",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "Title",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "width",
+     "Width of the modal dialog",
+     "string | number",
+     "416",
+     "—"
+    ],
+    [
+     "wrapClassName",
+     "The class name of the container of the modal dialog",
+     "string",
+     "-",
+     "4.18.0"
+    ],
+    [
+     "zIndex",
+     "The `z-index` of the Modal",
+     "number",
+     "1000",
+     "—"
+    ],
+    [
+     "onCancel",
+     "Click to onCancel the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing",
+     "function(close)",
+     "-",
+     "—"
+    ],
+    [
+     "onOk",
+     "Click to onOk the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing",
+     "function(close)",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "Modal.method()"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "afterClose",
+     "Specify a function that will be called when modal is closed completely",
+     "function",
+     "-",
+     "-"
+    ],
+    [
+     "closeIcon",
+     "Custom close icon",
+     "ReactNode",
+     "undefined",
+     "-"
+    ],
+    [
+     "disabled",
+     "Whether disabled close icon",
+     "boolean",
+     "false",
+     "-"
+    ],
+    [
+     "onClose",
+     "Trigger when modal close",
+     "Function",
+     "undefined",
+     "-"
+    ]
+   ],
+   "name": "ClosableType"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "afterClose",
+    "Specify a function that will be called when modal is closed completely",
+    "function",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "cancelButtonProps",
+    "The cancel button props",
+    "ButtonProps",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "cancelText",
+    "Text of the Cancel button",
+    "ReactNode",
+    "Cancel",
+    "—",
+    "×"
+   ],
+   [
+    "centered",
+    "Centered Modal",
+    "boolean",
+    "false",
+    "—",
+    "5.24.0"
+   ],
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the Modal component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.10.0"
+   ],
+   [
+    "closable",
+    "Whether a close (x) button is visible on top right or not",
+    "boolean | ClosableType",
+    "true",
+    "-",
+    "5.16.0"
+   ],
+   [
+    "closeIcon",
+    "Custom close icon. 5.7.0: close button will be hidden when setting to `null` or `false`",
+    "ReactNode",
+    "&lt;CloseOutlined />",
+    "—",
+    "5.14.0"
+   ],
+   [
+    "confirmLoading",
+    "Whether to apply loading visual effect for OK button or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "~~destroyOnClose~~",
+    "Whether to unmount child components on onClose",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "destroyOnHidden",
+    "Whether to unmount child components on onClose",
+    "boolean",
+    "false",
+    "5.25.0",
+    "×"
+   ],
+   [
+    "~~focusTriggerAfterClose~~",
+    "Whether need to focus trigger element after dialog is closed. Please use `focusable.focusTriggerAfterClose` instead",
+    "boolean",
+    "true",
+    "4.9.0",
+    "×"
+   ],
+   [
+    "footer",
+    "Footer content, set as `footer={null}` when you don't need default buttons",
+    "ReactNode | (originNode: ReactNode, extra: { OkBtn: React.FC, CancelBtn: React.FC }) => ReactNode",
+    "(OK and Cancel buttons)",
+    "renderFunction: 5.9.0",
+    "×"
+   ],
+   [
+    "forceRender",
+    "Force render Modal",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "focusable",
+    "Configuration for focus management in the Modal",
+    "{ trap?: boolean, focusTriggerAfterClose?: boolean }",
+    "-",
+    "6.2.0",
+    "6.4.0"
+   ],
+   [
+    "getContainer",
+    "The mounted node for Modal but still display at fullscreen",
+    "HTMLElement | () => HTMLElement | Selectors | false",
+    "document.body",
+    "—",
+    "×"
+   ],
+   [
+    "keyboard",
+    "Whether support press esc to close",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "mask",
+    "Mask effect",
+    "boolean | `{enabled?: boolean, blur?: boolean, closable?: boolean}`",
+    "true",
+    "mask.closable: 6.3.0",
+    "6.0.0, mask.closable: 6.3.0"
+   ],
+   [
+    "~~maskClosable~~",
+    "Whether to close the modal dialog when the mask (area outside the modal) is clicked. Please use `mask.closable` instead.",
+    "boolean",
+    "true",
+    "-",
+    "×"
+   ],
+   [
+    "modalRender",
+    "Custom modal content render",
+    "(node: ReactNode) => ReactNode",
+    "-",
+    "4.7.0",
+    "×"
+   ],
+   [
+    "okButtonProps",
+    "The ok button props",
+    "ButtonProps",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "okText",
+    "Text of the OK button",
+    "ReactNode",
+    "OK",
+    "—",
+    "×"
+   ],
+   [
+    "okType",
+    "Button `type` of the OK button",
+    "string",
+    "primary",
+    "—",
+    "×"
+   ],
+   [
+    "style",
+    "Style of floating layer, typically used at least for adjusting the position",
+    "CSSProperties",
+    "-",
+    "—",
+    "5.7.0"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the Modal component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.10.0"
+   ],
+   [
+    "loading",
+    "Show the skeleton",
+    "boolean",
+    "—",
+    "5.18.0",
+    "×"
+   ],
+   [
+    "scrollLock",
+    "Whether to lock body scroll when modal opens",
+    "boolean",
+    "true",
+    "6.5.0",
+    "×"
+   ],
+   [
+    "title",
+    "The modal dialog's title",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "open",
+    "Whether the modal dialog is visible or not",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "width",
+    "Width of the modal dialog",
+    "string | number | Breakpoint",
+    "520",
+    "Breakpoint: 5.23.0",
+    "×"
+   ],
+   [
+    "wrapClassName",
+    "The class name of the container of the modal dialog",
+    "string",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "zIndex",
+    "The `z-index` of the Modal",
+    "number",
+    "1000",
+    "—",
+    "×"
+   ],
+   [
+    "onCancel",
+    "Specify a function that will be called when a user clicks mask, close button on top right or Cancel button",
+    "function(e)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onOk",
+    "Specify a function that will be called when a user clicks the OK button",
+    "function(e)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "afterOpenChange",
+    "Callback when the animation ends when Modal is turned on and off",
+    "(open: boolean) => void",
+    "-",
+    "5.4.0",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "autoFocusButton",
+   "values": [
+    "null",
+    "ok",
+    "cancel"
+   ],
+   "default": "ok",
+   "owner": "Modal.method()",
+   "source": "type",
+   "deprecated": true
+  },
+  {
+   "prop": "focusable.autoFocusButton",
+   "values": [
+    "null",
+    "ok",
+    "cancel"
+   ],
+   "default": "ok",
+   "owner": "Modal.method()",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with relative positioning, top position, width, max-width, margins, bottom padding and other basic layout styles for modal container"
+   },
+   {
+    "name": "mask",
+    "mark": "semantic-mark-mask",
+    "description": "Mask element with fixed positioning, z-index, background color, animation transitions and other mask layer styles"
+   },
+   {
+    "name": "wrapper",
+    "mark": "semantic-mark-wrapper",
+    "description": "Wrapper element used for motion container with animation and transition effect styles"
+   },
+   {
+    "name": "container",
+    "mark": "semantic-mark-container",
+    "description": "Modal container element with relative positioning, background, background-clip, border, border-radius, box-shadow, pointer-events, padding and other modal body styles"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with padding, bottom border and other header area styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with margin, color, font-weight, font-size, line-height, word-wrap and other title text styles"
+   },
+   {
+    "name": "body",
+    "mark": "semantic-mark-body",
+    "description": "Body element with content area background color, padding and other content display styles"
+   },
+   {
+    "name": "footer",
+    "mark": "semantic-mark-footer",
+    "description": "Footer element with footer background color, padding, top border, border-radius and other footer area styles"
+   },
+   {
+    "name": "close",
+    "mark": "semantic-mark-close",
+    "description": "Preview close button element, sets basic button styles"
+   }
+  ],
+  "dom": "<div style=\"position: absolute; inset: 0;\">\n        <div class=\"ant-modal-root css-var-test-id ant-modal-css-var semantic-mark-root\">\n          <div class=\"ant-modal-mask semantic-mark-mask\" style=\"z-index: 1; position: absolute;\">\n          <div class=\"ant-modal-wrap semantic-mark-wrapper\" style=\"z-index: 1; position: absolute;\">\n            <div aria-labelledby=\"test-id\" aria-modal=\"true\" class=\"ant-modal ant-zoom-appear ant-zoom-appear-prepare ant-zoom\" role=\"dialog\" style=\"top: 50%; transform: translateY(-50%); margin-bottom: 0px; padding-bottom: 0px; width: 400px;\" tabindex=\"-1\">\n              <div class=\"ant-modal-container semantic-mark-container\">\n                <button aria-label=\"Close\" class=\"ant-modal-close semantic-mark-close\" type=\"button\">\n                  <span aria-label=\"Close\" class=\"ant-modal-close-x\">\n                    <span aria-label=\"close\" class=\"anticon anticon-close ant-modal-close-icon\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"close\" fill=\"currentColor\" fill-rule=\"evenodd\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <div class=\"ant-modal-header semantic-mark-header\">\n                  <div class=\"ant-modal-title semantic-mark-title\" id=\"test-id\">\n                    Title\n                  </div>\n                </div>\n                <div class=\"ant-modal-body semantic-mark-body\">\n                  <p>\n                    Some contents...\n                  </p>\n                </div>\n                <div class=\"ant-modal-footer semantic-mark-footer\">\n                  <button class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-outlined\" type=\"button\">\n                    <span>\n                      Cancel\n                    </span>\n                  </button>\n                  <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid\" type=\"button\">\n                    <span>\n                      OK\n                    </span>\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "contentBg",
+     "Background color of content",
+     "string",
+     "#ffffff"
+    ],
+    [
+     "footerBg",
+     "Background color of footer",
+     "string",
+     "transparent"
+    ],
+    [
+     "headerBg",
+     "Background color of header",
+     "string",
+     "transparent"
+    ],
+    [
+     "titleColor",
+     "Font color of title",
+     "string",
+     "rgba(0,0,0,0.88)"
+    ],
+    [
+     "titleFontSize",
+     "Font size of title",
+     "string | number",
+     "16"
+    ],
+    [
+     "titleLineHeight",
+     "Line height of title",
+     "string | number",
+     "1.5"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "borderRadiusSM",
+     "SM size border radius, used in small size components, such as Button, Input, Select and other input components in small size",
+     "number",
+     "—"
+    ],
+    [
+     "boxShadow",
+     "Control the box shadow style of an element.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgMask",
+     "The background color of the mask, used to cover the content below the mask, Modal, Drawer, Image and other components use this token",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextActive",
+     "Control the background color of text in active state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgTextHover",
+     "Control the background color of text in hover state.",
+     "string",
+     "—"
+    ],
+    [
+     "colorIcon",
+     "Weak action. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorIconHover",
+     "Weak action hover color. Such as `allowClear` or Alert close button",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorder",
+     "The stroke color under the main color gradient, used on the stroke of components such as Slider.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeHeading5",
+     "Font size of h5 tag.",
+     "string | number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "fontWeightStrong",
+     "Control the font weight of heading components (such as h1, h2, h3) or selected item.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightHeading5",
+     "Line height of h5 tag.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "lineWidthFocus",
+     "Control the width of the line when the component is in focus state.",
+     "number",
+     "—"
+    ],
+    [
+     "margin",
+     "Control the margin of an element, with a medium size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseInOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "motionEaseOutCirc",
+     "Preset motion curve.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "screenLGMin",
+     "Control the minimum width of large screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenMDMin",
+     "Control the minimum width of medium screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenSMMax",
+     "Control the maximum width of small screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenSMMin",
+     "Control the minimum width of small screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenXLMin",
+     "Control the minimum width of extra large screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenXSMin",
+     "Control the minimum width of extra small screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenXXLMin",
+     "Control the minimum width of extra extra large screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenXXXLMin",
+     "Control the minimum width of XXXL screens.",
+     "number",
+     "—"
+    ],
+    [
+     "zIndexPopupBase",
+     "Base zIndex of component like FloatButton, Affix which can be cover by large popup",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

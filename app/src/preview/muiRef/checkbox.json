@@ -1,0 +1,890 @@
+{
+ "slug": "checkbox",
+ "title": "Checkbox",
+ "group": "Inputs",
+ "folder": "checkboxes",
+ "description": "Checkboxes allow the user to select one or more items from a set.",
+ "components": [
+  "Checkbox",
+  "FormControl",
+  "FormGroup",
+  "FormLabel",
+  "FormControlLabel"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Checkboxes can be used to turn an option on or off.\n\nIf you have multiple options appearing in a list,\nyou can preserve space by using checkboxes instead of on/off switches.\nIf you have a single option, avoid using a checkbox and use an on/off switch instead."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic checkboxes",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "Checkboxes",
+     "file": "Checkboxes.tsx",
+     "code": "import Checkbox from '@mui/material/Checkbox';\n\nconst label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };\n\nexport default function Checkboxes() {\n  return (\n    <div>\n      <Checkbox {...label} defaultChecked />\n      <Checkbox {...label} />\n      <Checkbox {...label} disabled />\n      <Checkbox {...label} disabled checked />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Label",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can provide a label to the `Checkbox` thanks to the `FormControlLabel` component."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxLabels",
+     "file": "CheckboxLabels.tsx",
+     "code": "import FormGroup from '@mui/material/FormGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport Checkbox from '@mui/material/Checkbox';\n\nexport default function CheckboxLabels() {\n  return (\n    <FormGroup>\n      <FormControlLabel control={<Checkbox defaultChecked />} label=\"Label\" />\n      <FormControlLabel required control={<Checkbox />} label=\"Required\" />\n      <FormControlLabel disabled control={<Checkbox />} label=\"Disabled\" />\n    </FormGroup>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Size",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use the `size` prop or customize the font size of the svg icons to change the size of the checkboxes."
+    },
+    {
+     "kind": "demo",
+     "name": "SizeCheckboxes",
+     "file": "SizeCheckboxes.tsx",
+     "code": "import Checkbox from '@mui/material/Checkbox';\n\nconst label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };\n\nexport default function SizeCheckboxes() {\n  return (\n    <div>\n      <Checkbox {...label} defaultChecked size=\"small\" />\n      <Checkbox {...label} defaultChecked />\n      <Checkbox\n        {...label}\n        defaultChecked\n        sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ColorCheckboxes",
+     "file": "ColorCheckboxes.tsx",
+     "code": "import { pink } from '@mui/material/colors';\nimport Checkbox from '@mui/material/Checkbox';\n\nconst label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };\n\nexport default function ColorCheckboxes() {\n  return (\n    <div>\n      <Checkbox {...label} defaultChecked />\n      <Checkbox {...label} defaultChecked color=\"secondary\" />\n      <Checkbox {...label} defaultChecked color=\"success\" />\n      <Checkbox {...label} defaultChecked color=\"default\" />\n      <Checkbox\n        {...label}\n        defaultChecked\n        sx={{\n          color: pink[800],\n          '&.Mui-checked': {\n            color: pink[600],\n          },\n        }}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Icon",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "IconCheckboxes",
+     "file": "IconCheckboxes.tsx",
+     "code": "import Checkbox from '@mui/material/Checkbox';\nimport FavoriteBorder from '@mui/icons-material/FavoriteBorder';\nimport Favorite from '@mui/icons-material/Favorite';\nimport BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';\nimport BookmarkIcon from '@mui/icons-material/Bookmark';\n\nconst label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };\n\nexport default function IconCheckboxes() {\n  return (\n    <div>\n      <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />\n      <Checkbox\n        {...label}\n        icon={<BookmarkBorderIcon />}\n        checkedIcon={<BookmarkIcon />}\n      />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Controlled",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can control the checkbox with the `checked` and `onChange` props:"
+    },
+    {
+     "kind": "demo",
+     "name": "ControlledCheckbox",
+     "file": "ControlledCheckbox.tsx",
+     "code": "import * as React from 'react';\nimport Checkbox from '@mui/material/Checkbox';\n\nexport default function ControlledCheckbox() {\n  const [checked, setChecked] = React.useState(true);\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setChecked(event.target.checked);\n  };\n\n  return (\n    <Checkbox\n      checked={checked}\n      onChange={handleChange}\n      slotProps={{\n        input: { 'aria-label': 'controlled' },\n      }}\n    />\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Indeterminate",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A checkbox input can only have two states in a form: checked or unchecked.\nIt either submits its value or doesn't.\nVisually, there are **three** states a checkbox can be in: checked, unchecked, or indeterminate.\n\nYou can change the indeterminate icon using the `indeterminateIcon` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "IndeterminateCheckbox",
+     "file": "IndeterminateCheckbox.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Checkbox from '@mui/material/Checkbox';\nimport FormControlLabel from '@mui/material/FormControlLabel';\n\nexport default function IndeterminateCheckbox() {\n  const [checked, setChecked] = React.useState([true, false]);\n\n  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setChecked([event.target.checked, event.target.checked]);\n  };\n\n  const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setChecked([event.target.checked, checked[1]]);\n  };\n\n  const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setChecked([checked[0], event.target.checked]);\n  };\n\n  const children = (\n    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>\n      <FormControlLabel\n        label=\"Child 1\"\n        control={<Checkbox checked={checked[0]} onChange={handleChange2} />}\n      />\n      <FormControlLabel\n        label=\"Child 2\"\n        control={<Checkbox checked={checked[1]} onChange={handleChange3} />}\n      />\n    </Box>\n  );\n\n  return (\n    <div>\n      <FormControlLabel\n        label=\"Parent\"\n        control={\n          <Checkbox\n            checked={checked[0] && checked[1]}\n            indeterminate={checked[0] !== checked[1]}\n            onChange={handleChange1}\n          />\n        }\n      />\n      {children}\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nWhen indeterminate is set, the value of the `checked` prop only impacts the form submitted values.\nIt has no accessibility or UX implications.\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "FormGroup",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "`FormGroup` is a helpful wrapper used to group selection control components."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxesGroup",
+     "file": "CheckboxesGroup.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport FormLabel from '@mui/material/FormLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormGroup from '@mui/material/FormGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormHelperText from '@mui/material/FormHelperText';\nimport Checkbox from '@mui/material/Checkbox';\n\nexport default function CheckboxesGroup() {\n  const [state, setState] = React.useState({\n    gilad: true,\n    jason: false,\n    antoine: false,\n  });\n\n  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setState({\n      ...state,\n      [event.target.name]: event.target.checked,\n    });\n  };\n\n  const { gilad, jason, antoine } = state;\n  const error = [gilad, jason, antoine].filter((v) => v).length !== 2;\n\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <FormControl sx={{ m: 3 }} component=\"fieldset\" variant=\"standard\">\n        <FormLabel component=\"legend\">Assign responsibility</FormLabel>\n        <FormGroup>\n          <FormControlLabel\n            control={\n              <Checkbox checked={gilad} onChange={handleChange} name=\"gilad\" />\n            }\n            label=\"Gilad Gray\"\n          />\n          <FormControlLabel\n            control={\n              <Checkbox checked={jason} onChange={handleChange} name=\"jason\" />\n            }\n            label=\"Jason Killian\"\n          />\n          <FormControlLabel\n            control={\n              <Checkbox checked={antoine} onChange={handleChange} name=\"antoine\" />\n            }\n            label=\"Antoine Llorca\"\n          />\n        </FormGroup>\n        <FormHelperText>Be careful</FormHelperText>\n      </FormControl>\n      <FormControl\n        required\n        error={error}\n        component=\"fieldset\"\n        sx={{ m: 3 }}\n        variant=\"standard\"\n      >\n        <FormLabel component=\"legend\">Pick two</FormLabel>\n        <FormGroup>\n          <FormControlLabel\n            control={\n              <Checkbox checked={gilad} onChange={handleChange} name=\"gilad\" />\n            }\n            label=\"Gilad Gray\"\n          />\n          <FormControlLabel\n            control={\n              <Checkbox checked={jason} onChange={handleChange} name=\"jason\" />\n            }\n            label=\"Jason Killian\"\n          />\n          <FormControlLabel\n            control={\n              <Checkbox checked={antoine} onChange={handleChange} name=\"antoine\" />\n            }\n            label=\"Antoine Llorca\"\n          />\n        </FormGroup>\n        <FormHelperText>You can display an error</FormHelperText>\n      </FormControl>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Label placement",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can change the placement of the label:"
+    },
+    {
+     "kind": "demo",
+     "name": "FormControlLabelPosition",
+     "file": "FormControlLabelPosition.tsx",
+     "code": "import Checkbox from '@mui/material/Checkbox';\nimport FormGroup from '@mui/material/FormGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport FormControl from '@mui/material/FormControl';\nimport FormLabel from '@mui/material/FormLabel';\n\nexport default function FormControlLabelPosition() {\n  return (\n    <FormControl component=\"fieldset\">\n      <FormLabel component=\"legend\">Label placement</FormLabel>\n      <FormGroup aria-label=\"position\" row>\n        <FormControlLabel\n          value=\"bottom\"\n          control={<Checkbox />}\n          label=\"Bottom\"\n          labelPlacement=\"bottom\"\n        />\n        <FormControlLabel\n          value=\"end\"\n          control={<Checkbox />}\n          label=\"End\"\n          labelPlacement=\"end\"\n        />\n      </FormGroup>\n    </FormControl>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here is an example of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedCheckbox",
+     "file": "CustomizedCheckbox.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Checkbox, { CheckboxProps } from '@mui/material/Checkbox';\n\nconst BpIcon = styled('span')(({ theme }) => ({\n  borderRadius: 3,\n  width: 16,\n  height: 16,\n  boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',\n  backgroundColor: '#f5f8fa',\n  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',\n  '.Mui-focusVisible &': {\n    outline: '2px auto rgba(19,124,189,.6)',\n    outlineOffset: 2,\n  },\n  'input:hover ~ &': {\n    backgroundColor: '#ebf1f5',\n    ...theme.applyStyles('dark', {\n      backgroundColor: '#30404d',\n    }),\n  },\n  'input:disabled ~ &': {\n    boxShadow: 'none',\n    background: 'rgba(206,217,224,.5)',\n    ...theme.applyStyles('dark', {\n      background: 'rgba(57,75,89,.5)',\n    }),\n  },\n  ...theme.applyStyles('dark', {\n    boxShadow: '0 0 0 1px rgb(16 22 26 / 40%)',\n    backgroundColor: '#394b59',\n    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))',\n  }),\n}));\n\nconst BpCheckedIcon = styled(BpIcon)({\n  backgroundColor: '#137cbd',\n  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',\n  '&::before': {\n    display: 'block',\n    width: 16,\n    height: 16,\n    backgroundImage:\n      \"url(\\\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath\" +\n      \" fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 \" +\n      \"1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\\\")\",\n    content: '\"\"',\n  },\n  'input:hover ~ &': {\n    backgroundColor: '#106ba3',\n  },\n});\n\n// Inspired by blueprintjs\nfunction BpCheckbox(props: CheckboxProps) {\n  return (\n    <Checkbox\n      sx={{ '&:hover': { bgcolor: 'transparent' } }}\n      disableRipple\n      color=\"default\"\n      checkedIcon={<BpCheckedIcon />}\n      icon={<BpIcon />}\n      slotProps={{ input: { 'aria-label': 'Checkbox demo' } }}\n      {...props}\n    />\n  );\n}\n\nexport default function CustomizedCheckbox() {\n  return (\n    <div>\n      <BpCheckbox />\n      <BpCheckbox defaultChecked />\n      <BpCheckbox disabled />\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "🎨 If you are looking for inspiration, you can check [MUI Treasury's customization examples](https://mui-treasury.com/primitive/checkbox)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "When to use",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "- [Checkboxes vs. Radio Buttons](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/)\n- [Checkboxes vs. Switches](https://uxplanet.org/checkbox-vs-toggle-switch-7fc6e83f10b8)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/)\n\n- All form controls should have labels, and this includes radio buttons, checkboxes, and switches. In most cases, this is done by using the `<label>` element ([FormControlLabel](/material-ui/api/form-control-label/)).\n- When a label can't be used, it's necessary to add an attribute directly to the input component.\n  In this case, you can apply the additional attribute (for example `aria-label`, `aria-labelledby`, `title`) via the `slotProps.input` prop."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Checkbox\n  value=\"checkedA\"\n  slotProps={{\n    input: { 'aria-label': 'Checkbox A' },\n  }}\n/>\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Checkbox",
+   "description": "",
+   "props": [
+    {
+     "prop": "checked",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is checked."
+    },
+    {
+     "prop": "checkedIcon",
+     "type": "node",
+     "default": "<CheckBoxIcon />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when the component is checked."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "defaultChecked",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default checked state. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled."
+    },
+    {
+     "prop": "icon",
+     "type": "node",
+     "default": "<CheckBoxOutlineBlankIcon />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when the component is unchecked."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the <code>input</code> element."
+    },
+    {
+     "prop": "indeterminate",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component appears indeterminate. This does not set the native input element to indeterminate due to inconsistent behavior across browsers. However, we set a <code>data-indeterminate</code> attribute on the <code>input</code>."
+    },
+    {
+     "prop": "indeterminateIcon",
+     "type": "node",
+     "default": "<IndeterminateCheckBoxIcon />",
+     "required": false,
+     "deprecated": false,
+     "desc": "The icon to display when the component is indeterminate."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the state is changed."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the <code>input</code> element is required."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense checkbox styling."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the component. The DOM API casts this to a string. The browser uses &quot;on&quot; as the default value."
+    }
+   ],
+   "classes": [
+    {
+     "key": "checked",
+     "className": "Mui-checked",
+     "description": "State class applied to the root element if `checked={true}`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiCheckbox-colorPrimary",
+     "description": "State class applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiCheckbox-colorSecondary",
+     "description": "State class applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "indeterminate",
+     "className": "MuiCheckbox-indeterminate",
+     "description": "State class applied to the root element if `indeterminate={true}`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiCheckbox-sizeMedium",
+     "description": "State class applied to the root element if `size=\"medium\"`."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiCheckbox-sizeSmall",
+     "description": "State class applied to the root element if `size=\"small\"`."
+    }
+   ]
+  },
+  {
+   "name": "FormControl",
+   "description": "Provides context such as filled/focused/error/required for form inputs.\nRelying on the context provides high flexibility and ensures that the state always stays\nconsistent across the children of the `FormControl`.\nThis context is used by the following components:\n\n - FormLabel\n - FormHelperText\n - Input\n - InputLabel\n\nYou can find one composition example below and more going to [the demos](/material-ui/react-text-field/#components).\n\n```jsx\n<FormControl>\n  <InputLabel htmlFor=\"my-input\">Email address</InputLabel>\n  <Input id=\"my-input\" aria-describedby=\"my-helper-text\" />\n  <FormHelperText id=\"my-helper-text\">We'll never share your email.</FormHelperText>\n</FormControl>\n```\n\n⚠️ Only one `InputBase` can be used within a FormControl because it creates visual inconsistencies.\nFor instance, only one input can be focused at the same time, the state shouldn't be shared.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label, input and helper text should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is displayed in focused state."
+    },
+    {
+     "prop": "fullWidth",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will take up the full width of its container."
+    },
+    {
+     "prop": "hiddenLabel",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is hidden. This is used to increase density for a <code>FilledInput</code>. Be sure to add <code>aria-label</code> to the <code>input</code> element."
+    },
+    {
+     "prop": "margin",
+     "type": "'dense'<br>&#124;&nbsp;'none'<br>&#124;&nbsp;'normal'",
+     "default": "'none'",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>dense</code> or <code>normal</code>, will adjust vertical spacing of this and contained components."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "size",
+     "type": "'medium'<br>&#124;&nbsp;'small'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'filled'<br>&#124;&nbsp;'outlined'<br>&#124;&nbsp;'standard'",
+     "default": "'outlined'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "fullWidth",
+     "className": "MuiFormControl-fullWidth",
+     "description": "Styles applied to the root element if `fullWidth={true}`."
+    },
+    {
+     "key": "marginDense",
+     "className": "MuiFormControl-marginDense",
+     "description": "Styles applied to the root element if `margin=\"dense\"`."
+    },
+    {
+     "key": "marginNormal",
+     "className": "MuiFormControl-marginNormal",
+     "description": "Styles applied to the root element if `margin=\"normal\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormControl-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "FormGroup",
+   "description": "`FormGroup` wraps controls such as `Checkbox` and `Switch`.\nIt provides compact row layout.\nFor the `Radio`, you should be using the `RadioGroup` component instead of this one.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "row",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Display group of elements in a compact row."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormGroup-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "row",
+     "className": "MuiFormGroup-row",
+     "description": "Styles applied to the root element if `row={true}`."
+    }
+   ]
+  },
+  {
+   "name": "FormLabel",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label should be displayed in a disabled state."
+    },
+    {
+     "prop": "error",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is displayed in an error state."
+    },
+    {
+     "prop": "filled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label should use filled classes key."
+    },
+    {
+     "prop": "focused",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the input of this label is focused (used by <code>FormGroup</code> components)."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "asterisk",
+     "className": "MuiFormLabel-asterisk",
+     "description": "Styles applied to the asterisk element."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiFormLabel-colorSecondary",
+     "description": "Styles applied to the root element if the color is secondary."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "filled",
+     "className": "MuiFormLabel-filled",
+     "description": "State class applied to the root element if `filled={true}`."
+    },
+    {
+     "key": "focused",
+     "className": "Mui-focused",
+     "description": "State class applied to the root element if `focused={true}`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormLabel-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "FormControlLabel",
+   "description": "Drop-in replacement of the `Radio`, `Switch` and `Checkbox` component.\nUse this component if you want to display an extra label.",
+   "props": [
+    {
+     "prop": "control",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A control element. For instance, it can be a <code>Radio</code>, a <code>Switch</code> or a <code>Checkbox</code>."
+    },
+    {
+     "prop": "checked",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component appears selected."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the control is disabled."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label is rendered as it is passed without an additional typography node."
+    },
+    {
+     "prop": "inputRef",
+     "type": "ref",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Pass a ref to the <code>input</code> element."
+    },
+    {
+     "prop": "label",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A text or an element to be used in an enclosing label element."
+    },
+    {
+     "prop": "labelPlacement",
+     "type": "'bottom'<br>&#124;&nbsp;'end'<br>&#124;&nbsp;'start'<br>&#124;&nbsp;'top'",
+     "default": "'end'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The position of the label."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the state is changed."
+    },
+    {
+     "prop": "required",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the label will indicate that the <code>input</code> is required."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ typography?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ typography?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "value",
+     "type": "any",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the component."
+    }
+   ],
+   "classes": [
+    {
+     "key": "asterisk",
+     "className": "MuiFormControlLabel-asterisk",
+     "description": "Styles applied to the asterisk element."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "error",
+     "className": "Mui-error",
+     "description": "State class applied to the root element if `error={true}`."
+    },
+    {
+     "key": "label",
+     "className": "MuiFormControlLabel-label",
+     "description": "Styles applied to the label's Typography component."
+    },
+    {
+     "key": "labelPlacementBottom",
+     "className": "MuiFormControlLabel-labelPlacementBottom",
+     "description": "Styles applied to the root element if `labelPlacement=\"bottom\"`."
+    },
+    {
+     "key": "labelPlacementEnd",
+     "className": "MuiFormControlLabel-labelPlacementEnd",
+     "description": "Styles applied to the root element if `labelPlacement=\"end\"`."
+    },
+    {
+     "key": "labelPlacementStart",
+     "className": "MuiFormControlLabel-labelPlacementStart",
+     "description": "Styles applied to the root element if `labelPlacement=\"start\"`."
+    },
+    {
+     "key": "labelPlacementTop",
+     "className": "MuiFormControlLabel-labelPlacementTop",
+     "description": "Styles applied to the root element if `labelPlacement=\"top\"`."
+    },
+    {
+     "key": "required",
+     "className": "Mui-required",
+     "description": "State class applied to the root element if `required={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFormControlLabel-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-checkbox/"
+}

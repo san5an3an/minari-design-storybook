@@ -1,0 +1,112 @@
+{
+ "slug": "portal",
+ "title": "Portal",
+ "group": "Utils",
+ "folder": "portal",
+ "description": "The Portal component lets you render its children into a DOM node that exists outside of the Portal's own DOM hierarchy.",
+ "components": [
+  "Portal"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "# Portal"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Portal is a utility component built around [React's `createPortal()` API](https://react.dev/reference/react-dom/createPortal).\nIt gives you the functionality of `createPortal()` in a convenient component form.\nIt's used internally by the [Modal](/material-ui/react-modal/) and [Popper](/material-ui/react-popper/) components.\n\n:::info\nAccording to [the React docs](https://react.dev/reference/react-dom/createPortal), portals are useful when \"you need the child element to visually 'break out' of its container\"—for instance, modals and tooltips, which need to exist outside of the normal flow of the document.\n:::\n\nNormally, children of a component are rendered within that component's DOM tree.\nBut sometimes it's necessary to mount a child at a different location in the DOM.\nThe Portal component accepts a `container` prop that passes a `ref` to the DOM node where its children will be mounted.\n\nThe following demo shows how a `<span>` nested within a Portal can be appended to a node outside of the Portal's DOM hierarchy—click **Mount children** to see how it behaves:"
+    },
+    {
+     "kind": "demo",
+     "name": "SimplePortal",
+     "file": "SimplePortal.tsx",
+     "code": "import * as React from 'react';\nimport Portal from '@mui/material/Portal';\nimport { Box } from '@mui/system';\n\nexport default function SimplePortal() {\n  const [show, setShow] = React.useState(false);\n  const container = React.useRef(null);\n\n  const handleClick = () => {\n    setShow(!show);\n  };\n\n  return (\n    <div>\n      <button type=\"button\" onClick={handleClick}>\n        {show ? 'Unmount children' : 'Mount children'}\n      </button>\n      <Box sx={{ p: 1, my: 1, border: '1px solid' }}>\n        It looks like I will render here.\n        {show ? (\n          <Portal container={() => container.current!}>\n            <span>But I actually render here!</span>\n          </Portal>\n        ) : null}\n      </Box>\n      <Box sx={{ p: 1, my: 1, border: '1px solid' }} ref={container} />\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Import",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import Portal from '@mui/material/Portal';\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Server-side Portals",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The DOM API isn't available on the server, so you need to use the `container` prop callback.\nThis callback is called during a React layout effect:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Portal container={() => document.getElementById('filter-panel')!}>\n  <Child />\n</Portal>\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::error\nThe Portal component cannot be used to render child elements on the server—client-side hydration is necessary.\nThis is because React doesn't support the [`createPortal()` API](https://react.dev/reference/react-dom/createPortal) on the server.\nSee [this GitHub issue](https://github.com/react/react/issues/13097) for details.\n:::"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Portal",
+   "description": "Portals provide a first-class way to render children into a DOM node\nthat exists outside the DOM hierarchy of the parent component.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The children to render into the <code>container</code>."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element or function that returns one. The <code>container</code> will have the portal children appended to it.<br>You can also provide a callback, which is called in a React layout effect. This lets you set the container from a ref, and also makes server-side rendering possible.<br>By default, it uses the body of the top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disablePortal",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>children</code> will be under the DOM hierarchy of the parent component."
+    }
+   ],
+   "classes": []
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-portal/"
+}

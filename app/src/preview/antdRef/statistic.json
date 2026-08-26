@@ -1,0 +1,546 @@
+{
+ "slug": "statistic",
+ "title": "Statistic",
+ "description": "Display statistic number.",
+ "group": "Data Display",
+ "whenToUse": "- When want to highlight some data.\n- When want to display statistic data with description.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Simplest Usage.",
+   "code": "import React from 'react';\nimport { Button, Col, Row, Statistic } from 'antd';\n\nconst App: React.FC = () => (\n  <Row gutter={16}>\n    <Col span={12}>\n      <Statistic title=\"Active Users\" value={112893} />\n    </Col>\n    <Col span={12}>\n      <Statistic title=\"Account Balance (CNY)\" value={112893} precision={2} />\n      <Button style={{ marginTop: 16 }} type=\"primary\">\n        Recharge\n      </Button>\n    </Col>\n    <Col span={12}>\n      <Statistic title=\"Active Users\" value={112893} loading />\n    </Col>\n  </Row>\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Unit",
+   "description": "Add unit through `prefix` and `suffix`.",
+   "code": "import React from 'react';\nimport { LikeOutlined } from '@ant-design/icons';\nimport { Col, Row, Statistic } from 'antd';\n\nconst App: React.FC = () => (\n  <Row gutter={16}>\n    <Col span={12}>\n      <Statistic title=\"Feedback\" value={1128} prefix={<LikeOutlined />} />\n    </Col>\n    <Col span={12}>\n      <Statistic title=\"Unmerged\" value={93} suffix=\"/ 100\" />\n    </Col>\n  </Row>\n);\n\nexport default App;",
+   "demoId": "unit"
+  },
+  {
+   "name": "Animated number",
+   "description": "Animated number with react-countup.",
+   "code": "import React from 'react';\nimport type { StatisticProps } from 'antd';\nimport { Col, Row, Statistic } from 'antd';\nimport { createStyles } from 'antd-style';\nimport CountUp from 'react-countup';\n\nconst useStyle = createStyles(({ css }) => {\n  return {\n    content: css`\n      font-variant-numeric: tabular-nums;\n    `,\n  };\n});\n\nconst formatter: StatisticProps['formatter'] = (value) => (\n  <CountUp end={value as number} separator=\",\" />\n);\n\nconst Demo: React.FC = () => {\n  const { styles } = useStyle();\n  return (\n    <Row gutter={16}>\n      <Col span={12}>\n        <Statistic\n          classNames={{ content: styles.content }}\n          title=\"Active Users\"\n          value={112893}\n          formatter={formatter}\n        />\n      </Col>\n      <Col span={12}>\n        <Statistic\n          classNames={{ content: styles.content }}\n          title=\"Account Balance (CNY)\"\n          value={112893}\n          precision={2}\n          formatter={formatter}\n        />\n      </Col>\n    </Row>\n  );\n};\n\nexport default Demo;",
+   "demoId": "animated"
+  },
+  {
+   "name": "In Card",
+   "description": "Display statistic data in Card.",
+   "code": "import React from 'react';\nimport { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';\nimport { Card, Col, Row, Statistic } from 'antd';\n\nconst App: React.FC = () => (\n  <Row gutter={16}>\n    <Col span={12}>\n      <Card variant=\"borderless\">\n        <Statistic\n          title=\"Active\"\n          value={11.28}\n          precision={2}\n          styles={{ content: { color: '#3f8600' } }}\n          prefix={<ArrowUpOutlined />}\n          suffix=\"%\"\n        />\n      </Card>\n    </Col>\n    <Col span={12}>\n      <Card variant=\"borderless\">\n        <Statistic\n          title=\"Idle\"\n          value={9.3}\n          precision={2}\n          styles={{ content: { color: '#cf1322' } }}\n          prefix={<ArrowDownOutlined />}\n          suffix=\"%\"\n        />\n      </Card>\n    </Col>\n  </Row>\n);\n\nexport default App;",
+   "demoId": "card"
+  },
+  {
+   "name": "Timer",
+   "description": "Timer component.",
+   "code": "import React from 'react';\nimport type { StatisticTimerProps } from 'antd';\nimport { Col, Row, Statistic } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst { Timer } = Statistic;\n\nconst useStyle = createStyles(({ css }) => {\n  return {\n    content: css`\n      font-variant-numeric: tabular-nums;\n    `,\n  };\n});\n\nconst deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30; // Dayjs is also OK\nconst before = Date.now() - 1000 * 60 * 60 * 24 * 2 + 1000 * 30;\nconst tenSecondsLater = Date.now() + 10 * 1000;\n\nconst onFinish: StatisticTimerProps['onFinish'] = () => {\n  console.log('finished!');\n};\n\nconst onChange: StatisticTimerProps['onChange'] = (val) => {\n  if (typeof val === 'number' && !Number.isNaN(val) && 4.95 * 1000 < val && val < 5 * 1000) {\n    console.log('changed!');\n  }\n};\n\nconst Demo: React.FC = () => {\n  const { styles } = useStyle();\n  return (\n    <Row gutter={16}>\n      <Col span={12}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countdown\"\n          value={deadline}\n          onFinish={onFinish}\n        />\n      </Col>\n      <Col span={12}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countdown\"\n          title=\"Million Seconds\"\n          value={deadline}\n          format=\"HH:mm:ss:SSS\"\n        />\n      </Col>\n      <Col span={12}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countdown\"\n          title=\"Countdown\"\n          value={tenSecondsLater}\n          onChange={onChange}\n        />\n      </Col>\n      <Col span={12}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countup\"\n          title=\"Countup\"\n          value={before}\n          onChange={onChange}\n        />\n      </Col>\n      <Col span={24} style={{ marginTop: 32 }}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countdown\"\n          title=\"Day Level (Countdown)\"\n          value={deadline}\n          format=\"D 天 H 时 m 分 s 秒\"\n        />\n      </Col>\n      <Col span={24} style={{ marginTop: 32 }}>\n        <Timer\n          classNames={{ content: styles.content }}\n          type=\"countup\"\n          title=\"Day Level (Countup)\"\n          value={before}\n          format=\"D 天 H 时 m 分 s 秒\"\n        />\n      </Col>\n    </Row>\n  );\n};\n\nexport default Demo;",
+   "demoId": "timer"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of the Statistic by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { ArrowUpOutlined } from '@ant-design/icons';\nimport { Flex, Statistic } from 'antd';\nimport type { GetProp, StatisticProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border: 2px dashed #ccc;\n    padding: 16px;\n    border-radius: 8px;\n  `,\n}));\n\nconst styleFn: StatisticProps['styles'] = ({\n  props,\n}): GetProp<StatisticProps, 'styles', 'Return'> => {\n  const numValue = Number(props.value ?? 0);\n  const isNegative = Number.isFinite(numValue) && numValue < 0;\n  if (isNegative) {\n    return {\n      title: {\n        color: '#ff4d4f',\n      },\n      content: {\n        color: '#ff7875',\n      },\n      value: {\n        backgroundColor: '#fff1f0',\n        borderRadius: 4,\n        paddingInline: 6,\n        userSelect: 'none',\n      },\n    };\n  }\n  return {};\n};\n\nconst Demo: React.FC = () => {\n  const statisticSharedProps: StatisticProps = {\n    classNames: { root: classNames.root },\n    prefix: <ArrowUpOutlined />,\n  };\n  return (\n    <Flex vertical gap=\"medium\">\n      <Statistic\n        {...statisticSharedProps}\n        title=\"Monthly Active Users\"\n        value={93241}\n        styles={{\n          title: { color: '#1890ff', fontWeight: 600 },\n          content: { fontSize: '24px' },\n          value: {\n            backgroundColor: '#e6f4ff',\n            borderRadius: 4,\n            color: '#0958d9',\n            paddingInline: 6,\n            userSelect: 'none',\n          },\n        }}\n        suffix=\"users\"\n      />\n      <Statistic\n        {...statisticSharedProps}\n        title=\"Yearly Loss\"\n        value={-18.7}\n        precision={1}\n        styles={styleFn}\n        suffix=\"%\"\n      />\n    </Flex>\n  );\n};\n\nexport default Demo;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the Statistic component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "decimalSeparator",
+     "The decimal separator",
+     "string",
+     ".",
+     "—",
+     "×"
+    ],
+    [
+     "formatter",
+     "Customize value display logic",
+     "(value) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "groupSeparator",
+     "Group separator",
+     "string",
+     ",",
+     "—",
+     "×"
+    ],
+    [
+     "loading",
+     "Loading status of Statistic",
+     "boolean",
+     "false",
+     "4.8.0",
+     "×"
+    ],
+    [
+     "precision",
+     "The precision of input value",
+     "number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "prefix",
+     "The prefix node of value",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the Statistic component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "suffix",
+     "The suffix node of value",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "title",
+     "Display title",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "Display value",
+     "string | number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~valueStyle~~",
+     "Set value section style, please use `styles.content` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "format",
+     "Format as dayjs",
+     "string",
+     "HH:mm:ss",
+     "—"
+    ],
+    [
+     "prefix",
+     "The prefix node of value",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "suffix",
+     "The suffix node of value",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "Display title",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "value",
+     "Set target countdown time",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "valueStyle",
+     "Set value section style",
+     "CSSProperties",
+     "-",
+     "—"
+    ],
+    [
+     "onFinish",
+     "Trigger when time's up",
+     "() => void",
+     "-",
+     "—"
+    ],
+    [
+     "onChange",
+     "Trigger when time's changing",
+     "(value: number) => void",
+     "-",
+     "4.16.0"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "type",
+     "Timer direction, count down or count up",
+     "`countdown` | `countup`",
+     "-",
+     "—"
+    ],
+    [
+     "format",
+     "Format as dayjs",
+     "string",
+     "HH:mm:ss",
+     "—"
+    ],
+    [
+     "prefix",
+     "The prefix node of value",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "suffix",
+     "The suffix node of value",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "Display title",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "value",
+     "Target time for `countdown`, or start time for `countup` (timestamp in ms)",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "valueStyle",
+     "Set value section style",
+     "CSSProperties",
+     "-",
+     "—"
+    ],
+    [
+     "onFinish",
+     "Trigger when time's up, only called when type is `countdown`",
+     "() => void",
+     "-",
+     "—"
+    ],
+    [
+     "onChange",
+     "Trigger when time's changing",
+     "(value: number) => void",
+     "-",
+     "—"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the Statistic component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "decimalSeparator",
+    "The decimal separator",
+    "string",
+    ".",
+    "—",
+    "×"
+   ],
+   [
+    "formatter",
+    "Customize value display logic",
+    "(value) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "groupSeparator",
+    "Group separator",
+    "string",
+    ",",
+    "—",
+    "×"
+   ],
+   [
+    "loading",
+    "Loading status of Statistic",
+    "boolean",
+    "false",
+    "4.8.0",
+    "×"
+   ],
+   [
+    "precision",
+    "The precision of input value",
+    "number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "prefix",
+    "The prefix node of value",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the Statistic component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "suffix",
+    "The suffix node of value",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "title",
+    "Display title",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "Display value",
+    "string | number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~valueStyle~~",
+    "Set value section style, please use `styles.content` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "type",
+   "values": [
+    "countdown",
+    "countup"
+   ],
+   "default": "-",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with reset styles and overall container styles for statistic component"
+   },
+   {
+    "name": "header",
+    "mark": "semantic-mark-header",
+    "description": "Header element with bottom padding and title area layout styles"
+   },
+   {
+    "name": "title",
+    "mark": "semantic-mark-title",
+    "description": "Title element with text color, font size and other title text display styles"
+   },
+   {
+    "name": "content",
+    "mark": "semantic-mark-content",
+    "description": "Content element with layout and alignment styles for the prefix, value and suffix area"
+   },
+   {
+    "name": "value",
+    "mark": "semantic-mark-value",
+    "description": "Value element with text color, font size, font family and other statistic number display styles"
+   },
+   {
+    "name": "prefix",
+    "mark": "semantic-mark-prefix",
+    "description": "Prefix element with inline-block display, right margin and other prefix content layout styles"
+   },
+   {
+    "name": "suffix",
+    "mark": "semantic-mark-suffix",
+    "description": "Suffix element with inline-block display, left margin and other suffix content layout styles"
+   }
+  ],
+  "dom": "<div style=\"position: absolute;\">\n        <div class=\"ant-statistic semantic-mark-root css-var-test-id\">\n          <div class=\"ant-statistic-header semantic-mark-header\">\n            <div class=\"ant-statistic-title semantic-mark-title\">\n              Active\n            </div>\n          </div>\n          <div class=\"ant-statistic-content semantic-mark-content\" style=\"color: rgb(63, 134, 0); font-size: 24px;\">\n            <span class=\"ant-statistic-content-prefix semantic-mark-prefix\">\n              <span aria-label=\"arrow-up\" class=\"anticon anticon-arrow-up\" role=\"img\">\n                <svg aria-hidden=\"true\" data-icon=\"arrow-up\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                  <path d=\"M868 545.5L536.1 163a31.96 31.96 0 00-48.3 0L156 545.5a7.97 7.97 0 006 13.2h81c4.6 0 9-2 12.1-5.5L474 300.9V864c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V300.9l218.9 252.3c3 3.5 7.4 5.5 12.1 5.5h81c6.8 0 10.5-8 6-13.2z\"></path>\n                </svg>\n              </span>\n            </span>\n            <span class=\"ant-statistic-content-value semantic-mark-value\" style=\"color: rgb(225, 27, 27); font-size: 32px; padding-inline: 8px;\">\n              <span class=\"ant-statistic-content-value-int\">\n                11\n              </span>\n              <span class=\"ant-statistic-content-value-decimal\">\n                .28\n              </span>\n            </span>\n            <span class=\"ant-statistic-content-suffix semantic-mark-suffix\">\n              %\n            </span>\n          </div>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "contentFontSize",
+     "Content font size",
+     "string | number",
+     "24"
+    ],
+    [
+     "titleFontSize",
+     "Title font size",
+     "number",
+     "14"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextHeading",
+     "Control the font color of heading.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

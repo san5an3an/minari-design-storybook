@@ -1,0 +1,38 @@
+/* 자동 생성 — tools/gen_mui_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: mui/material-ui 의 docs/data/material/components/grid/CenteredElementGrid.tsx
+ *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
+ *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+
+export default function CenteredElementGrid() {
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2} sx={{ minHeight: 160 }}>
+        <Grid
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          size="grow"
+        >
+          <Avatar src="https://mui.com/static/images/avatar/1.jpg" />
+        </Grid>
+        <Grid
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Avatar src="https://mui.com/static/images/avatar/2.jpg" />
+        </Grid>
+        <Grid
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          size="grow"
+        >
+          <Avatar src="https://mui.com/static/images/avatar/3.jpg" />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

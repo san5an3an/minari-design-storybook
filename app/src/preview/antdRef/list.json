@@ -1,0 +1,844 @@
+{
+ "slug": "list",
+ "title": "List",
+ "description": "Basic list display, which can carry text, lists, pictures, paragraphs.",
+ "group": "Data Display",
+ "whenToUse": "A list can be used to display content related to a single subject. The content can consist of multiple elements of varying type and size.\n\n:::warning{title=Deprecated Notice}\nList component has been deprecated. Will be removed in the next major version. Please use [Listy](/components/listy) instead. See [How do I migrate off List?](#faq-migrate-from-list).\n:::",
+ "examples": [
+  {
+   "name": "Simple list",
+   "description": "Ant Design supports a default list size as well as a large and small size.",
+   "code": "import React from 'react';\nimport { Divider, List, Typography } from 'antd';\n\nconst data = [\n  'Racing car sprays burning fuel into crowd.',\n  'Japanese princess to wed commoner.',\n  'Australian walks 100km after outback crash.',\n  'Man charged over missing wedding girl.',\n  'Los Angeles battles huge wildfires.',\n];\n\nconst App: React.FC = () => (\n  <>\n    <Divider titlePlacement=\"start\">Default Size</Divider>\n    <List\n      header={<div>Header</div>}\n      footer={<div>Footer</div>}\n      bordered\n      dataSource={data}\n      renderItem={(item) => (\n        <List.Item>\n          <Typography.Text mark>[ITEM]</Typography.Text> {item}\n        </List.Item>\n      )}\n    />\n    <Divider titlePlacement=\"start\">Small Size</Divider>\n    <List\n      size=\"small\"\n      header={<div>Header</div>}\n      footer={<div>Footer</div>}\n      bordered\n      dataSource={data}\n      renderItem={(item) => <List.Item>{item}</List.Item>}\n    />\n    <Divider titlePlacement=\"start\">Large Size</Divider>\n    <List\n      size=\"large\"\n      header={<div>Header</div>}\n      footer={<div>Footer</div>}\n      bordered\n      dataSource={data}\n      renderItem={(item) => <List.Item>{item}</List.Item>}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "simple"
+  },
+  {
+   "name": "Basic list",
+   "description": "Basic list.",
+   "code": "import React from 'react';\nimport { Avatar, List } from 'antd';\n\nconst data = [\n  {\n    title: 'Ant Design Title 1',\n  },\n  {\n    title: 'Ant Design Title 2',\n  },\n  {\n    title: 'Ant Design Title 3',\n  },\n  {\n    title: 'Ant Design Title 4',\n  },\n];\n\nconst App: React.FC = () => (\n  <List\n    itemLayout=\"horizontal\"\n    dataSource={data}\n    renderItem={(item, index) => (\n      <List.Item>\n        <List.Item.Meta\n          avatar={<Avatar src={`https://api.dicebear.com/10.x/lorelei/svg?seed=${index}`} />}\n          title={<a href=\"https://ant.design\">{item.title}</a>}\n          description=\"Ant Design, a design language for background applications, is refined by Ant UED Team\"\n        />\n      </List.Item>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Load more",
+   "description": "Load more list with `loadMore` property.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Avatar, Button, List, Skeleton } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useStyles = createStyles((props) => {\n  const { css } = props;\n  return {\n    loadmoreList: css`\n      min-height: 350px;\n    `,\n  };\n});\n\ninterface DataType {\n  gender?: string;\n  name?: string;\n  email?: string;\n  avatar?: string;\n  loading: boolean;\n}\n\nconst PAGE_SIZE = 3;\n\nconst App: React.FC = () => {\n  const { styles } = useStyles();\n\n  const [initLoading, setInitLoading] = useState(true);\n  const [loading, setLoading] = useState(false);\n  const [data, setData] = useState<DataType[]>([]);\n  const [list, setList] = useState<DataType[]>([]);\n  const [page, setPage] = useState(1);\n\n  const fetchData = (currentPage: number) => {\n    const fakeDataUrl = `https://660d2bd96ddfa2943b33731c.mockapi.io/api/users?page=${currentPage}&limit=${PAGE_SIZE}`;\n    return fetch(fakeDataUrl)\n      .then((res) => res.json())\n      .catch(() => {\n        console.log('fetch mock data failed');\n        return [];\n      });\n  };\n\n  useEffect(() => {\n    fetchData(page).then((res) => {\n      const results = Array.isArray(res) ? res : [];\n      setInitLoading(false);\n      setData(results);\n      setList(results);\n    });\n  }, []);\n\n  const onLoadMore: React.MouseEventHandler<HTMLElement> = () => {\n    setLoading(true);\n    setList(data.concat(Array.from({ length: PAGE_SIZE }).map(() => ({ loading: true }))));\n    const nextPage = page + 1;\n    setPage(nextPage);\n    fetchData(nextPage).then((res) => {\n      const results = Array.isArray(res) ? res : [];\n      const newData = data.concat(results);\n      setData(newData);\n      setList(newData);\n      setLoading(false);\n      // Resetting window's offsetTop so as to display react-virtualized demo underfloor.\n      // In real scene, you can using public method of react-virtualized:\n      // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized\n      window.dispatchEvent(new Event('resize'));\n    });\n  };\n\n  const loadMore =\n    !initLoading && !loading ? (\n      <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>\n        <Button onClick={onLoadMore}>loading more</Button>\n      </div>\n    ) : null;\n\n  return (\n    <List\n      className={styles.loadmoreList}\n      loading={initLoading}\n      itemLayout=\"horizontal\"\n      loadMore={loadMore}\n      dataSource={list}\n      renderItem={(item) => (\n        <List.Item actions={[<a key=\"loadmore-edit\">edit</a>, <a key=\"loadmore-more\">more</a>]}>\n          <Skeleton avatar title={false} loading={item.loading} active>\n            <List.Item.Meta\n              avatar={<Avatar src={item.avatar} />}\n              title={<a href=\"https://ant.design\">{item.name}</a>}\n              description=\"Ant Design, a design language for background applications, is refined by Ant UED Team\"\n            />\n            <div>content</div>\n          </Skeleton>\n        </List.Item>\n      )}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "loadmore"
+  },
+  {
+   "name": "Vertical",
+   "description": "Set the `itemLayout` property to `vertical` to create a vertical list.",
+   "code": "import React from 'react';\nimport { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';\nimport { Avatar, List, Space } from 'antd';\n\nconst data = Array.from({ length: 23 }).map((_, i) => ({\n  href: 'https://ant.design',\n  title: `ant design part ${i}`,\n  avatar: `https://api.dicebear.com/10.x/lorelei/svg?seed=${i}`,\n  description:\n    'Ant Design, a design language for background applications, is refined by Ant UED Team.',\n  content:\n    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',\n}));\n\nconst IconText = ({ icon, text }: { icon: React.FC; text: string }) => (\n  <Space>\n    {React.createElement(icon)}\n    {text}\n  </Space>\n);\n\nconst App: React.FC = () => (\n  <List\n    itemLayout=\"vertical\"\n    size=\"large\"\n    pagination={{\n      onChange: (page) => {\n        console.log(page);\n      },\n      pageSize: 3,\n    }}\n    dataSource={data}\n    footer={\n      <div>\n        <b>ant design</b> footer part\n      </div>\n    }\n    renderItem={(item) => (\n      <List.Item\n        key={item.title}\n        actions={[\n          <IconText icon={StarOutlined} text=\"156\" key=\"list-vertical-star-o\" />,\n          <IconText icon={LikeOutlined} text=\"156\" key=\"list-vertical-like-o\" />,\n          <IconText icon={MessageOutlined} text=\"2\" key=\"list-vertical-message\" />,\n        ]}\n        extra={\n          <img\n            draggable={false}\n            width={272}\n            alt=\"logo\"\n            src=\"https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png\"\n          />\n        }\n      >\n        <List.Item.Meta\n          avatar={<Avatar src={item.avatar} />}\n          title={<a href={item.href}>{item.title}</a>}\n          description={item.description}\n        />\n        {item.content}\n      </List.Item>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "vertical"
+  },
+  {
+   "name": "Pagination Settings",
+   "description": "List pagination can be used and set through the `pagination` property.",
+   "code": "import React, { useState } from 'react';\nimport { Avatar, List, Radio, Space } from 'antd';\n\ntype PaginationPosition = 'top' | 'bottom' | 'both';\n\ntype PaginationAlign = 'start' | 'center' | 'end';\n\nconst data = [\n  {\n    title: 'Ant Design Title 1',\n  },\n  {\n    title: 'Ant Design Title 2',\n  },\n  {\n    title: 'Ant Design Title 3',\n  },\n  {\n    title: 'Ant Design Title 4',\n  },\n];\n\nconst positionOptions = ['top', 'bottom', 'both'];\n\nconst alignOptions = ['start', 'center', 'end'];\n\nconst App: React.FC = () => {\n  const [position, setPosition] = useState<PaginationPosition>('bottom');\n  const [align, setAlign] = useState<PaginationAlign>('center');\n\n  return (\n    <>\n      <Space vertical style={{ marginBottom: '20px' }} size=\"medium\">\n        <Space>\n          <span>Pagination Position:</span>\n          <Radio.Group\n            optionType=\"button\"\n            value={position}\n            onChange={(e) => {\n              setPosition(e.target.value);\n            }}\n          >\n            {positionOptions.map((item) => (\n              <Radio.Button key={item} value={item}>\n                {item}\n              </Radio.Button>\n            ))}\n          </Radio.Group>\n        </Space>\n        <Space>\n          <span>Pagination Align:</span>\n          <Radio.Group\n            optionType=\"button\"\n            value={align}\n            onChange={(e) => {\n              setAlign(e.target.value);\n            }}\n          >\n            {alignOptions.map((item) => (\n              <Radio.Button key={item} value={item}>\n                {item}\n              </Radio.Button>\n            ))}\n          </Radio.Group>\n        </Space>\n      </Space>\n      <List\n        pagination={{ position, align }}\n        dataSource={data}\n        renderItem={(item, index) => (\n          <List.Item>\n            <List.Item.Meta\n              avatar={<Avatar src={`https://api.dicebear.com/10.x/lorelei/svg?seed=${index}`} />}\n              title={<a href=\"https://ant.design\">{item.title}</a>}\n              description=\"Ant Design, a design language for background applications, is refined by Ant UED Team\"\n            />\n          </List.Item>\n        )}\n      />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "pagination"
+  },
+  {
+   "name": "Grid",
+   "description": "Create a grid layout by setting the `grid` property of List.",
+   "code": "import React from 'react';\nimport { Card, List } from 'antd';\n\nconst data = [\n  {\n    title: 'Title 1',\n  },\n  {\n    title: 'Title 2',\n  },\n  {\n    title: 'Title 3',\n  },\n  {\n    title: 'Title 4',\n  },\n];\n\nconst App: React.FC = () => (\n  <List\n    grid={{ gutter: 16, column: 4 }}\n    dataSource={data}\n    renderItem={(item) => (\n      <List.Item>\n        <Card title={item.title}>Card content</Card>\n      </List.Item>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "grid"
+  },
+  {
+   "name": "Responsive grid list",
+   "description": "Responsive grid list. The size property the is as same as Layout Grid.",
+   "code": "import React from 'react';\nimport { Card, List } from 'antd';\n\nconst data = [\n  {\n    title: 'Title 1',\n  },\n  {\n    title: 'Title 2',\n  },\n  {\n    title: 'Title 3',\n  },\n  {\n    title: 'Title 4',\n  },\n  {\n    title: 'Title 5',\n  },\n  {\n    title: 'Title 6',\n  },\n];\n\nconst App: React.FC = () => (\n  <List\n    grid={{\n      gutter: 16,\n      xs: 1,\n      sm: 2,\n      md: 4,\n      lg: 4,\n      xl: 6,\n      xxl: 3,\n    }}\n    dataSource={data}\n    renderItem={(item) => (\n      <List.Item>\n        <Card title={item.title}>Card content</Card>\n      </List.Item>\n    )}\n  />\n);\n\nexport default App;",
+   "demoId": "responsive"
+  },
+  {
+   "name": "Scrolling loaded",
+   "description": "The example of infinite load with react-infinite-scroll-component.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport { Avatar, Divider, List, Skeleton } from 'antd';\nimport InfiniteScroll from 'react-infinite-scroll-component';\n\ninterface DataType {\n  gender?: string;\n  name?: string;\n  email?: string;\n  avatar?: string;\n  id?: string;\n}\n\nconst App: React.FC = () => {\n  const [loading, setLoading] = useState(false);\n  const [data, setData] = useState<DataType[]>([]);\n  const [page, setPage] = useState(1);\n\n  const loadMoreData = () => {\n    if (loading) {\n      return;\n    }\n    setLoading(true);\n    fetch(`https://660d2bd96ddfa2943b33731c.mockapi.io/api/users/?page=${page}&limit=10`)\n      .then((res) => res.json())\n      .then((res) => {\n        const results = Array.isArray(res) ? res : [];\n        setData([...data, ...results]);\n        setLoading(false);\n        setPage(page + 1);\n      })\n      .catch(() => {\n        setLoading(false);\n      });\n  };\n\n  useEffect(() => {\n    loadMoreData();\n  }, []);\n\n  return (\n    <div\n      id=\"scrollableDiv\"\n      style={{\n        height: 400,\n        overflow: 'auto',\n        padding: '0 16px',\n        border: '1px solid rgba(140, 140, 140, 0.35)',\n      }}\n    >\n      <InfiniteScroll\n        dataLength={data.length}\n        next={loadMoreData}\n        hasMore={data.length < 50}\n        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}\n        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}\n        scrollableTarget=\"scrollableDiv\"\n      >\n        <List\n          dataSource={data}\n          renderItem={(item) => (\n            <List.Item key={item.email}>\n              <List.Item.Meta\n                avatar={<Avatar src={item.avatar} />}\n                title={<a href=\"https://ant.design\">{item.name}</a>}\n                description={item.email}\n              />\n              <div>Content</div>\n            </List.Item>\n          )}\n        />\n      </InfiniteScroll>\n    </div>\n  );\n};\n\nexport default App;",
+   "demoId": "infinite-load"
+  },
+  {
+   "name": "Drag sorting",
+   "description": "By using `components`, we can integrate List with dnd-kit to implement drag sorting function.",
+   "code": "import React, { useState } from 'react';\nimport type { DragEndEvent } from '@dnd-kit/core';\nimport { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';\nimport { restrictToVerticalAxis } from '@dnd-kit/modifiers';\nimport {\n  arrayMove,\n  SortableContext,\n  useSortable,\n  verticalListSortingStrategy,\n} from '@dnd-kit/sortable';\nimport { CSS } from '@dnd-kit/utilities';\nimport { List } from 'antd';\nimport type { GetProps } from 'antd';\n\nconst SortableListItem: React.FC<GetProps<typeof List.Item> & { itemKey: number }> = (props) => {\n  const { itemKey, style, children, ...rest } = props;\n\n  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({\n    id: itemKey,\n  });\n\n  const listStyle: React.CSSProperties = {\n    ...style,\n    transform: CSS.Translate.toString(transform),\n    transition,\n    cursor: 'move',\n    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),\n  };\n\n  return (\n    <List.Item {...rest} ref={setNodeRef} style={listStyle}>\n      <div {...attributes} {...listeners}>\n        {children}\n      </div>\n    </List.Item>\n  );\n};\n\nconst App: React.FC = () => {\n  const [data, setData] = useState([\n    { key: 1, content: 'Racing car sprays burning fuel into crowd.' },\n    { key: 2, content: 'Japanese princess to wed commoner.' },\n    { key: 3, content: 'Australian walks 100km after outback crash.' },\n    { key: 4, content: 'Man charged over missing wedding girl.' },\n    { key: 5, content: 'Los Angeles battles huge wildfires.' },\n  ]);\n\n  const sensors = useSensors(\n    useSensor(PointerSensor, {\n      activationConstraint: {\n        // https://docs.dndkit.com/api-documentation/sensors/pointer#activation-constraints\n        distance: 1,\n      },\n    }),\n  );\n\n  const onDragEnd = ({ active, over }: DragEndEvent) => {\n    if (!active || !over) {\n      return;\n    }\n    if (active.id !== over.id) {\n      setData((prev) => {\n        const activeIndex = prev.findIndex((i) => i.key === active.id);\n        const overIndex = prev.findIndex((i) => i.key === over.id);\n        return arrayMove(prev, activeIndex, overIndex);\n      });\n    }\n  };\n\n  return (\n    <DndContext\n      sensors={sensors}\n      modifiers={[restrictToVerticalAxis]}\n      onDragEnd={onDragEnd}\n      id=\"list-drag-sorting\"\n    >\n      <SortableContext items={data.map((item) => item.key)} strategy={verticalListSortingStrategy}>\n        <List\n          dataSource={data}\n          renderItem={(item) => (\n            <SortableListItem key={item.key} itemKey={item.key}>\n              {item.key} {item.content}\n            </SortableListItem>\n          )}\n        />\n      </SortableContext>\n    </DndContext>\n  );\n};\n\nexport default App;",
+   "demoId": "drag-sorting"
+  },
+  {
+   "name": "Drag sorting with handler",
+   "description": "Alternatively you can implement drag sorting with handler using dnd-kit.",
+   "code": "import React, { createContext, useContext, useMemo, useState } from 'react';\nimport { HolderOutlined } from '@ant-design/icons';\nimport type { DragEndEvent, DraggableAttributes } from '@dnd-kit/core';\nimport { DndContext } from '@dnd-kit/core';\nimport type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';\nimport { restrictToVerticalAxis } from '@dnd-kit/modifiers';\nimport {\n  arrayMove,\n  SortableContext,\n  useSortable,\n  verticalListSortingStrategy,\n} from '@dnd-kit/sortable';\nimport { CSS } from '@dnd-kit/utilities';\nimport { Button, List } from 'antd';\nimport type { GetProps } from 'antd';\n\ninterface SortableListItemContextProps {\n  setActivatorNodeRef?: (element: HTMLElement | null) => void;\n  listeners?: SyntheticListenerMap;\n  attributes?: DraggableAttributes;\n}\n\nconst SortableListItemContext = createContext<SortableListItemContextProps>({});\n\nconst DragHandle: React.FC = () => {\n  const { setActivatorNodeRef, listeners, attributes } = useContext(SortableListItemContext);\n  return (\n    <Button\n      type=\"text\"\n      size=\"small\"\n      icon={<HolderOutlined />}\n      style={{ cursor: 'move' }}\n      ref={setActivatorNodeRef}\n      {...attributes}\n      {...listeners}\n    />\n  );\n};\n\nconst SortableListItem: React.FC<GetProps<typeof List.Item> & { itemKey: number }> = (props) => {\n  const { itemKey, style, ...rest } = props;\n\n  const {\n    attributes,\n    listeners,\n    setNodeRef,\n    setActivatorNodeRef,\n    transform,\n    transition,\n    isDragging,\n  } = useSortable({ id: itemKey });\n\n  const listStyle: React.CSSProperties = {\n    ...style,\n    transform: CSS.Translate.toString(transform),\n    transition,\n    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),\n  };\n\n  const memoizedValue = useMemo<SortableListItemContextProps>(\n    () => ({ setActivatorNodeRef, listeners, attributes }),\n    [setActivatorNodeRef, listeners, attributes],\n  );\n\n  return (\n    <SortableListItemContext.Provider value={memoizedValue}>\n      <List.Item {...rest} ref={setNodeRef} style={listStyle} />\n    </SortableListItemContext.Provider>\n  );\n};\n\nconst App: React.FC = () => {\n  const [data, setData] = useState([\n    { key: 1, content: 'Racing car sprays burning fuel into crowd.' },\n    { key: 2, content: 'Japanese princess to wed commoner.' },\n    { key: 3, content: 'Australian walks 100km after outback crash.' },\n    { key: 4, content: 'Man charged over missing wedding girl.' },\n    { key: 5, content: 'Los Angeles battles huge wildfires.' },\n  ]);\n\n  const onDragEnd = ({ active, over }: DragEndEvent) => {\n    if (!active || !over) {\n      return;\n    }\n    if (active.id !== over.id) {\n      setData((prevState) => {\n        const activeIndex = prevState.findIndex((i) => i.key === active.id);\n        const overIndex = prevState.findIndex((i) => i.key === over.id);\n        return arrayMove(prevState, activeIndex, overIndex);\n      });\n    }\n  };\n\n  return (\n    <DndContext\n      modifiers={[restrictToVerticalAxis]}\n      onDragEnd={onDragEnd}\n      id=\"list-drag-sorting-handler\"\n    >\n      <SortableContext items={data.map((item) => item.key)} strategy={verticalListSortingStrategy}>\n        <List\n          dataSource={data}\n          renderItem={(item) => (\n            <SortableListItem key={item.key} itemKey={item.key}>\n              <DragHandle /> {item.key} {item.content}\n            </SortableListItem>\n          )}\n        />\n      </SortableContext>\n    </DndContext>\n  );\n};\n\nexport default App;",
+   "demoId": "drag-sorting-handler"
+  },
+  {
+   "name": "Grid Drag sorting",
+   "description": "By using custom components, we can integrate List with dnd-kit to implement drag sorting function for grid layout.",
+   "code": "import React, { useState } from 'react';\nimport type { DragEndEvent } from '@dnd-kit/core';\nimport { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';\nimport { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable';\nimport { CSS } from '@dnd-kit/utilities';\nimport { Card, List } from 'antd';\nimport type { GetProps } from 'antd';\n\nconst SortableListItem: React.FC<GetProps<typeof List.Item> & { itemKey: number }> = (props) => {\n  const { itemKey, style, ...rest } = props;\n\n  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({\n    id: itemKey,\n  });\n\n  const listStyle: React.CSSProperties = {\n    ...style,\n    transform: CSS.Translate.toString(transform),\n    transition,\n    cursor: 'move',\n    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),\n  };\n\n  return <List.Item {...rest} ref={setNodeRef} style={listStyle} {...attributes} {...listeners} />;\n};\n\nconst App: React.FC = () => {\n  const [data, setData] = useState([\n    { key: 1, title: 'Title 1' },\n    { key: 2, title: 'Title 2' },\n    { key: 3, title: 'Title 3' },\n    { key: 4, title: 'Title 4' },\n    { key: 5, title: 'Title 5' },\n    { key: 6, title: 'Title 6' },\n  ]);\n\n  const sensors = useSensors(\n    useSensor(PointerSensor, {\n      activationConstraint: {\n        // https://docs.dndkit.com/api-documentation/sensors/pointer#activation-constraints\n        distance: 1,\n      },\n    }),\n  );\n\n  const onDragEnd = ({ active, over }: DragEndEvent) => {\n    if (!active || !over) {\n      return;\n    }\n    if (active.id !== over.id) {\n      setData((prev) => {\n        const activeIndex = prev.findIndex((i) => i.key === active.id);\n        const overIndex = prev.findIndex((i) => i.key === over.id);\n        return arrayMove(prev, activeIndex, overIndex);\n      });\n    }\n  };\n\n  return (\n    <DndContext sensors={sensors} onDragEnd={onDragEnd} id=\"list-grid-drag-sorting\">\n      <SortableContext items={data.map((item) => item.key)}>\n        <List\n          grid={{ gutter: 16, column: 4 }}\n          dataSource={data}\n          renderItem={(item) => (\n            <SortableListItem key={item.key} itemKey={item.key}>\n              <Card title={item.title}>Card content</Card>\n            </SortableListItem>\n          )}\n        />\n      </SortableContext>\n    </DndContext>\n  );\n};\n\nexport default App;",
+   "demoId": "grid-drag-sorting"
+  },
+  {
+   "name": "Grid Drag sorting with handler",
+   "description": "By using custom components and drag handles, we can integrate List with dnd-kit to implement drag sorting function for grid layout.",
+   "code": "import React, { createContext, useContext, useMemo, useState } from 'react';\nimport { HolderOutlined } from '@ant-design/icons';\nimport type { DragEndEvent, DraggableAttributes } from '@dnd-kit/core';\nimport { DndContext } from '@dnd-kit/core';\nimport type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';\nimport { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable';\nimport { CSS } from '@dnd-kit/utilities';\nimport { Button, Card, List } from 'antd';\nimport type { GetProps } from 'antd';\n\ninterface SortableListItemContextProps {\n  setActivatorNodeRef?: (element: HTMLElement | null) => void;\n  listeners?: SyntheticListenerMap;\n  attributes?: DraggableAttributes;\n}\n\nconst SortableListItemContext = createContext<SortableListItemContextProps>({});\n\nconst DragHandle: React.FC = () => {\n  const { setActivatorNodeRef, listeners, attributes } = useContext(SortableListItemContext);\n  return (\n    <Button\n      type=\"text\"\n      size=\"small\"\n      icon={<HolderOutlined />}\n      style={{ cursor: 'move' }}\n      ref={setActivatorNodeRef}\n      {...attributes}\n      {...listeners}\n    />\n  );\n};\n\nconst SortableListItem: React.FC<GetProps<typeof List.Item> & { itemKey: number }> = (props) => {\n  const { itemKey, style, ...rest } = props;\n\n  const {\n    attributes,\n    listeners,\n    setNodeRef,\n    setActivatorNodeRef,\n    transform,\n    transition,\n    isDragging,\n  } = useSortable({ id: itemKey });\n\n  const listStyle: React.CSSProperties = {\n    ...style,\n    transform: CSS.Translate.toString(transform),\n    transition,\n    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),\n  };\n\n  const memoizedValue = useMemo<SortableListItemContextProps>(\n    () => ({ setActivatorNodeRef, listeners, attributes }),\n    [setActivatorNodeRef, listeners, attributes],\n  );\n\n  return (\n    <SortableListItemContext.Provider value={memoizedValue}>\n      <List.Item {...rest} ref={setNodeRef} style={listStyle} />\n    </SortableListItemContext.Provider>\n  );\n};\n\nconst App: React.FC = () => {\n  const [data, setData] = useState([\n    { key: 1, title: 'Title 1' },\n    { key: 2, title: 'Title 2' },\n    { key: 3, title: 'Title 3' },\n    { key: 4, title: 'Title 4' },\n    { key: 5, title: 'Title 5' },\n    { key: 6, title: 'Title 6' },\n  ]);\n\n  const onDragEnd = ({ active, over }: DragEndEvent) => {\n    if (!active || !over) {\n      return;\n    }\n    if (active.id !== over.id) {\n      setData((prevState) => {\n        const activeIndex = prevState.findIndex((i) => i.key === active.id);\n        const overIndex = prevState.findIndex((i) => i.key === over.id);\n        return arrayMove(prevState, activeIndex, overIndex);\n      });\n    }\n  };\n\n  return (\n    <DndContext onDragEnd={onDragEnd} id=\"list-grid-drag-sorting-handler\">\n      <SortableContext items={data.map((i) => i.key)}>\n        <List\n          grid={{ gutter: 16, column: 4 }}\n          dataSource={data}\n          renderItem={(item) => (\n            <SortableListItem key={item.key} itemKey={item.key}>\n              <Card\n                title={\n                  <>\n                    <DragHandle />\n                    {item.title}\n                  </>\n                }\n              >\n                Card content\n              </Card>\n            </SortableListItem>\n          )}\n        />\n      </SortableContext>\n    </DndContext>\n  );\n};\n\nexport default App;",
+   "demoId": "grid-drag-sorting-handler"
+  },
+  {
+   "name": "virtual list",
+   "description": "An example of infinite & virtualized list via using @rc-component/virtual-list.",
+   "code": "import React, { useEffect, useState } from 'react';\nimport VirtualList from '@rc-component/virtual-list';\nimport { Avatar, List, message } from 'antd';\n\ninterface UserItem {\n  email: string;\n  gender: string;\n  name: string;\n  avatar: string;\n}\n\nconst CONTAINER_HEIGHT = 400;\nconst PAGE_SIZE = 20;\n\nconst App: React.FC = () => {\n  const [messageApi, contextHolder] = message.useMessage();\n  const [data, setData] = useState<UserItem[]>([]);\n  const [page, setPage] = useState(1);\n\n  const appendData = (showMessage = true) => {\n    const fakeDataUrl = `https://660d2bd96ddfa2943b33731c.mockapi.io/api/users/?page=${page}&limit=${PAGE_SIZE}`;\n    fetch(fakeDataUrl)\n      .then((res) => res.json())\n      .then((body) => {\n        const results = Array.isArray(body) ? body : [];\n        setData(data.concat(results));\n        setPage(page + 1);\n        showMessage && messageApi.success(`${results.length} more items loaded!`);\n      })\n      .catch(() => {\n        console.log('fetch mock data failed');\n      });\n  };\n\n  useEffect(() => {\n    appendData(false);\n  }, []);\n\n  const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {\n    // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#problems_and_solutions\n    if (\n      Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - CONTAINER_HEIGHT) <= 1\n    ) {\n      appendData();\n    }\n  };\n\n  return (\n    <>\n      {contextHolder}\n      <List>\n        <VirtualList\n          data={data}\n          height={CONTAINER_HEIGHT}\n          itemHeight={47}\n          itemKey=\"email\"\n          onScroll={onScroll}\n        >\n          {(item: UserItem) => (\n            <List.Item key={item.email}>\n              <List.Item.Meta\n                avatar={<Avatar src={item.avatar} />}\n                title={<a href=\"https://ant.design\">{item.name}</a>}\n                description={item.email}\n              />\n              <div>Content</div>\n            </List.Item>\n          )}\n        </VirtualList>\n      </List>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "virtual-list"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "bordered",
+     "Toggles rendering of the border around the list",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "dataSource",
+     "DataSource array for list",
+     "any\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "footer",
+     "List footer renderer",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "grid",
+     "The grid type of list. You can set grid to something like {gutter: 16, column: 4}",
+     "object",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "header",
+     "List header renderer",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "itemLayout",
+     "The layout of list",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "—",
+     "×"
+    ],
+    [
+     "loading",
+     "Shows a loading indicator while the contents of the list are being fetched",
+     "boolean | SpinProps (more)",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "loadMore",
+     "Shows a load more content",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "locale",
+     "The i18n text including empty text",
+     "object",
+     "{emptyText: `No Data`}",
+     "—",
+     "×"
+    ],
+    [
+     "pagination",
+     "Pagination config, hide it by setting it to false",
+     "boolean | object",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "renderItem",
+     "Customize list item when using `dataSource`",
+     "(item: T, index: number) => ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "rowKey",
+     "Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key`",
+     "`keyof` T | (item: T) => `React.Key`",
+     "\"key\"",
+     "—",
+     "×"
+    ],
+    [
+     "size",
+     "Size of list",
+     "`default` | `large` | `small`",
+     "default",
+     "—",
+     "×"
+    ],
+    [
+     "split",
+     "Toggles rendering of the split under the list item",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ]
+   ],
+   "name": "List"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default"
+   ],
+   "rows": [
+    [
+     "position",
+     "The specify the position of `Pagination`",
+     "`top` | `bottom` | `both`",
+     "bottom"
+    ],
+    [
+     "align",
+     "The specify the alignment of `Pagination`",
+     "`start` | `center` | `end`",
+     "end"
+    ]
+   ],
+   "name": "pagination"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "column",
+     "The column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "gutter",
+     "The spacing between grid",
+     "number",
+     "0",
+     "—"
+    ],
+    [
+     "xs",
+     "`<576px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "sm",
+     "`≥576px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "md",
+     "`≥768px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "lg",
+     "`≥992px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "xl",
+     "`≥1200px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "xxl",
+     "`≥1600px` column of grid",
+     "number",
+     "-",
+     "—"
+    ],
+    [
+     "xxxl",
+     "`≥1920px` column of grid",
+     "number",
+     "-",
+     "6.3.0"
+    ]
+   ],
+   "name": "List grid props"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "actions",
+     "The actions content of list item. If `itemLayout` is `vertical`, shows the content on bottom, otherwise shows content on the far right",
+     "Array&lt;ReactNode>",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "classNames",
+     "Semantic structure className",
+     "Record<actions | extra, string>",
+     "-",
+     "5.18.0",
+     "5.18.0"
+    ],
+    [
+     "extra",
+     "The extra content of list item. If `itemLayout` is `vertical`, shows the content on right, otherwise shows content on the far right",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Semantic DOM style",
+     "Record<actions | extra, CSSProperties>",
+     "-",
+     "5.18.0",
+     "5.18.0"
+    ]
+   ],
+   "name": "List.Item"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "avatar",
+     "The avatar of list item",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "description",
+     "The description of list item",
+     "ReactNode",
+     "-",
+     "—"
+    ],
+    [
+     "title",
+     "The title of list item",
+     "ReactNode",
+     "-",
+     "—"
+    ]
+   ],
+   "name": "List.Item.Meta"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "bordered",
+    "Toggles rendering of the border around the list",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "dataSource",
+    "DataSource array for list",
+    "any\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "footer",
+    "List footer renderer",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "grid",
+    "The grid type of list. You can set grid to something like {gutter: 16, column: 4}",
+    "object",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "header",
+    "List header renderer",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "itemLayout",
+    "The layout of list",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "—",
+    "×"
+   ],
+   [
+    "loading",
+    "Shows a loading indicator while the contents of the list are being fetched",
+    "boolean | SpinProps (more)",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "loadMore",
+    "Shows a load more content",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "locale",
+    "The i18n text including empty text",
+    "object",
+    "{emptyText: `No Data`}",
+    "—",
+    "×"
+   ],
+   [
+    "pagination",
+    "Pagination config, hide it by setting it to false",
+    "boolean | object",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "renderItem",
+    "Customize list item when using `dataSource`",
+    "(item: T, index: number) => ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "rowKey",
+    "Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key`",
+    "`keyof` T | (item: T) => `React.Key`",
+    "\"key\"",
+    "—",
+    "×"
+   ],
+   [
+    "size",
+    "Size of list",
+    "`default` | `large` | `small`",
+    "default",
+    "—",
+    "×"
+   ],
+   [
+    "split",
+    "Toggles rendering of the split under the list item",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ]
+  ],
+  "name": "List"
+ },
+ "variants": [
+  {
+   "prop": "itemLayout",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "List",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "size",
+   "values": [
+    "default",
+    "large",
+    "small"
+   ],
+   "default": "default",
+   "owner": "List",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "position",
+   "values": [
+    "top",
+    "bottom",
+    "both"
+   ],
+   "default": "bottom",
+   "owner": "pagination",
+   "source": "type",
+   "deprecated": false
+  },
+  {
+   "prop": "align",
+   "values": [
+    "start",
+    "center",
+    "end"
+   ],
+   "default": "end",
+   "owner": "pagination",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "extra",
+    "mark": "semantic-mark-extra",
+    "description": "set `extra` of List.Item"
+   },
+   {
+    "name": "actions",
+    "mark": "semantic-mark-actions",
+    "description": "set `actions` of List.Item"
+   }
+  ],
+  "dom": "<ul class=\"ant-list-item-action semantic-mark-actions\">\n                      <li>\n                        <div class=\"ant-space ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small css-var-test-id\">\n                          <div class=\"ant-space-item\">\n                            <span aria-label=\"star\" class=\"anticon anticon-star\" role=\"img\">\n                              <svg aria-hidden=\"true\" data-icon=\"star\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                                <path d=\"M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 00.6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0046.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3zM664.8 561.6l36.1 210.3L512 672.7 323.1 772l36.1-210.3-152.8-149L417.6 382 512 190.7 606.4 382l211.2 30.7-152.8 148.9z\"></path>\n                              </svg>\n                            </span>\n                          </div>\n                          <div class=\"ant-space-item\">\n                            156\n                          </div>\n                        </div>\n                        <em class=\"ant-list-item-action-split\">\n                      </em></li><em class=\"ant-list-item-action-split\">\n                      <li>\n                        <div class=\"ant-space ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small css-var-test-id\">\n                          <div class=\"ant-space-item\">\n                            <span aria-label=\"like\" class=\"anticon anticon-like\" role=\"img\">\n                              <svg aria-hidden=\"true\" data-icon=\"like\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                                <path d=\"M885.9 533.7c16.8-22.2 26.1-49.4 26.1-77.7 0-44.9-25.1-87.4-65.5-111.1a67.67 67.67 0 00-34.3-9.3H572.4l6-122.9c1.4-29.7-9.1-57.9-29.5-79.4A106.62 106.62 0 00471 99.9c-52 0-98 35-111.8 85.1l-85.9 311H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h601.3c9.2 0 18.2-1.8 26.5-5.4 47.6-20.3 78.3-66.8 78.3-118.4 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7-.2-12.6-2-25.1-5.6-37.1zM184 852V568h81v284h-81zm636.4-353l-21.9 19 13.9 25.4a56.2 56.2 0 016.9 27.3c0 16.5-7.2 32.2-19.6 43l-21.9 19 13.9 25.4a56.2 56.2 0 016.9 27.3c0 16.5-7.2 32.2-19.6 43l-21.9 19 13.9 25.4a56.2 56.2 0 016.9 27.3c0 22.4-13.2 42.6-33.6 51.8H329V564.8l99.5-360.5a44.1 44.1 0 0142.2-32.3c7.6 0 15.1 2.2 21.1 6.7 9.9 7.4 15.2 18.6 14.6 30.5l-9.6 198.4h314.4C829 418.5 840 436.9 840 456c0 16.5-7.2 32.1-19.6 43z\"></path>\n                              </svg>\n                            </span>\n                          </div>\n                          <div class=\"ant-space-item\">\n                            156\n                          </div>\n                        </div>\n                        <em class=\"ant-list-item-action-split\">\n                      </em></li><em class=\"ant-list-item-action-split\">\n                      <li>\n                        <div class=\"ant-space ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small css-var-test-id\">\n                          <div class=\"ant-space-item\">\n                            <span aria-label=\"message\" class=\"anticon anticon-message\" role=\"img\">\n                              <svg aria-hidden=\"true\" data-icon=\"message\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                                <path d=\"M464 512a48 48 0 1096 0 48 48 0 10-96 0zm200 0a48 48 0 1096 0 48 48 0 10-96 0zm-400 0a48 48 0 1096 0 48 48 0 10-96 0zm661.2-173.6c-22.6-53.7-55-101.9-96.3-143.3a444.35 444.35 0 00-143.3-96.3C630.6 75.7 572.2 64 512 64h-2c-60.6.3-119.3 12.3-174.5 35.9a445.35 445.35 0 00-142 96.5c-40.9 41.3-73 89.3-95.2 142.8-23 55.4-34.6 114.3-34.3 174.9A449.4 449.4 0 00112 714v152a46 46 0 0046 46h152.1A449.4 449.4 0 00510 960h2.1c59.9 0 118-11.6 172.7-34.3a444.48 444.48 0 00142.8-95.2c41.3-40.9 73.8-88.7 96.5-142 23.6-55.2 35.6-113.9 35.9-174.5.3-60.9-11.5-120-34.8-175.6zm-151.1 438C704 845.8 611 884 512 884h-1.7c-60.3-.3-120.2-15.3-173.1-43.5l-8.4-4.5H188V695.2l-4.5-8.4C155.3 633.9 140.3 574 140 513.7c-.4-99.7 37.7-193.3 107.6-263.8 69.8-70.5 163.1-109.5 262.8-109.9h1.7c50 0 98.5 9.7 144.2 28.9 44.6 18.7 84.6 45.6 119 80 34.3 34.3 61.3 74.4 80 119 19.4 46.2 29.1 95.2 28.9 145.8-.6 99.6-39.7 192.9-110.1 262.7z\"></path>\n                              </svg>\n                            </span>\n                          </div>\n                          <div class=\"ant-space-item\">\n                            2\n                          </div>\n                        </div>\n                      </li>\n                    </em></em></ul>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "avatarMarginRight",
+     "Right margin of avatar",
+     "MarginRight<string | number> | undefined",
+     "16"
+    ],
+    [
+     "contentWidth",
+     "Width of content",
+     "string | number",
+     "220"
+    ],
+    [
+     "descriptionFontSize",
+     "Font size of description",
+     "number",
+     "14"
+    ],
+    [
+     "emptyTextPadding",
+     "Padding of empty text",
+     "Padding<string | number> | undefined",
+     "16"
+    ],
+    [
+     "footerBg",
+     "Background color of footer",
+     "string",
+     "transparent"
+    ],
+    [
+     "headerBg",
+     "Background color of header",
+     "string",
+     "transparent"
+    ],
+    [
+     "itemPadding",
+     "Padding of item",
+     "string",
+     "12px 0"
+    ],
+    [
+     "itemPaddingLG",
+     "Padding of large item",
+     "string",
+     "16px 24px"
+    ],
+    [
+     "itemPaddingSM",
+     "Padding of small item",
+     "string",
+     "8px 16px"
+    ],
+    [
+     "metaMarginBottom",
+     "Margin bottom of meta",
+     "MarginBottom<string | number> | undefined",
+     "16"
+    ],
+    [
+     "titleMarginBottom",
+     "Margin bottom of title",
+     "MarginBottom<string | number> | undefined",
+     "12"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusLG",
+     "LG size border radius, used in some large border radius components, such as Card, Modal and other components.",
+     "number",
+     "—"
+    ],
+    [
+     "colorBorder",
+     "Default border color, used to separate different elements, such as: form separator, card separator, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorSplit",
+     "Used as the color of separator, this color is the same as colorBorderSecondary but with transparency.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDisabled",
+     "Control the color of text in disabled state.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeLG",
+     "Large font size",
+     "number",
+     "—"
+    ],
+    [
+     "fontSizeSM",
+     "Small font size",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeightLG",
+     "Line height of large text.",
+     "number",
+     "—"
+    ],
+    [
+     "lineType",
+     "Border style of base components",
+     "string",
+     "—"
+    ],
+    [
+     "lineWidth",
+     "Border width of base components",
+     "number",
+     "—"
+    ],
+    [
+     "margin",
+     "Control the margin of an element, with a medium size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginLG",
+     "Control the margin of an element, with a large size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginSM",
+     "Control the margin of an element, with a medium-small size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXL",
+     "Control the margin of an element, with the largest size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "padding",
+     "Control the padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingLG",
+     "Control the large padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "paddingXS",
+     "Control the extra small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "screenMD",
+     "Control the screen width of medium screens.",
+     "number",
+     "—"
+    ],
+    [
+     "screenSM",
+     "Control the screen width of small screens.",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

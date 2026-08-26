@@ -1,0 +1,221 @@
+{
+ "slug": "floating-action-button",
+ "title": "Floating Action Button",
+ "group": "Inputs",
+ "folder": "floating-action-button",
+ "description": "A Floating Action Button (FAB) performs the primary, or most common, action on a screen.",
+ "components": [
+  "Fab"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A floating action button appears in front of all screen content, typically as a circular shape with an icon in its center.\nFABs come in two types: regular, and extended.\n\nOnly use a FAB if it is the most suitable way to present a screen's primary action.\nOnly one component is recommended per screen to represent the most common action."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic FAB",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "FloatingActionButtons",
+     "file": "FloatingActionButtons.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Fab from '@mui/material/Fab';\nimport AddIcon from '@mui/icons-material/Add';\nimport EditIcon from '@mui/icons-material/Edit';\nimport FavoriteIcon from '@mui/icons-material/Favorite';\nimport NavigationIcon from '@mui/icons-material/Navigation';\n\nexport default function FloatingActionButtons() {\n  return (\n    <Box sx={{ '& > :not(style)': { m: 1 } }}>\n      <Fab color=\"primary\" aria-label=\"add\">\n        <AddIcon />\n      </Fab>\n      <Fab color=\"secondary\" aria-label=\"edit\">\n        <EditIcon />\n      </Fab>\n      <Fab variant=\"extended\">\n        <NavigationIcon sx={{ mr: 1 }} />\n        Navigate\n      </Fab>\n      <Fab disabled aria-label=\"like\">\n        <FavoriteIcon />\n      </Fab>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Size",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, the size is `large`. Use the `size` prop for smaller floating action buttons."
+    },
+    {
+     "kind": "demo",
+     "name": "FloatingActionButtonSize",
+     "file": "FloatingActionButtonSize.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Fab from '@mui/material/Fab';\nimport AddIcon from '@mui/icons-material/Add';\n\nexport default function FloatingActionButtonSize() {\n  return (\n    <Box sx={{ '& > :not(style)': { m: 1 } }}>\n      <Fab size=\"small\" color=\"secondary\" aria-label=\"add\">\n        <AddIcon />\n      </Fab>\n      <Fab size=\"medium\" color=\"secondary\" aria-label=\"add\">\n        <AddIcon />\n      </Fab>\n      <Fab color=\"secondary\" aria-label=\"add\">\n        <AddIcon />\n      </Fab>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "demo",
+     "name": "FloatingActionButtonExtendedSize",
+     "file": "FloatingActionButtonExtendedSize.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Fab from '@mui/material/Fab';\nimport NavigationIcon from '@mui/icons-material/Navigation';\n\nexport default function FloatingActionButtonExtendedSize() {\n  return (\n    <Box sx={{ '& > :not(style)': { m: 1 } }}>\n      <Fab variant=\"extended\" size=\"small\" color=\"primary\">\n        <NavigationIcon sx={{ mr: 1 }} />\n        Extended\n      </Fab>\n      <Fab variant=\"extended\" size=\"medium\" color=\"primary\">\n        <NavigationIcon sx={{ mr: 1 }} />\n        Extended\n      </Fab>\n      <Fab variant=\"extended\" color=\"primary\">\n        <NavigationIcon sx={{ mr: 1 }} />\n        Extended\n      </Fab>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Animation",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The floating action button animates onto the screen as an expanding piece of material, by default.\n\nA floating action button that spans multiple lateral screens (such as tabbed screens) should briefly disappear,\nthen reappear if its action changes.\n\nThe Zoom transition can be used to achieve this. Note that since both the exiting and entering\nanimations are triggered at the same time, we use `enterDelay` to allow the outgoing Floating Action Button's\nanimation to finish before the new one enters."
+    },
+    {
+     "kind": "demo",
+     "name": "FloatingActionButtonZoom",
+     "file": "FloatingActionButtonZoom.tsx",
+     "code": "import * as React from 'react';\nimport { useTheme } from '@mui/material/styles';\nimport AppBar from '@mui/material/AppBar';\nimport Tabs from '@mui/material/Tabs';\nimport Tab from '@mui/material/Tab';\nimport Typography from '@mui/material/Typography';\nimport Zoom from '@mui/material/Zoom';\nimport Fab from '@mui/material/Fab';\nimport AddIcon from '@mui/icons-material/Add';\nimport EditIcon from '@mui/icons-material/Edit';\nimport UpIcon from '@mui/icons-material/KeyboardArrowUp';\nimport { green } from '@mui/material/colors';\nimport Box from '@mui/material/Box';\nimport { SxProps } from '@mui/system';\n\ninterface TabPanelProps {\n  children?: React.ReactNode;\n  dir?: string;\n  index: number;\n  value: number;\n}\n\nfunction TabPanel(props: TabPanelProps) {\n  const { children, value, index, ...other } = props;\n\n  return (\n    <Typography\n      component=\"div\"\n      role=\"tabpanel\"\n      hidden={value !== index}\n      id={`action-tabpanel-${index}`}\n      aria-labelledby={`action-tab-${index}`}\n      {...other}\n    >\n      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}\n    </Typography>\n  );\n}\n\nfunction a11yProps(index: any) {\n  return {\n    id: `action-tab-${index}`,\n    'aria-controls': `action-tabpanel-${index}`,\n  };\n}\n\nconst fabStyle = {\n  position: 'absolute',\n  bottom: 16,\n  right: 16,\n};\n\nconst fabGreenStyle = {\n  color: 'common.white',\n  bgcolor: green[500],\n  '&:hover': {\n    bgcolor: green[600],\n  },\n};\n\nexport default function FloatingActionButtonZoom() {\n  const theme = useTheme();\n  const [value, setValue] = React.useState(0);\n\n  const handleChange = (event: unknown, newValue: number) => {\n    setValue(newValue);\n  };\n\n  const transitionDuration = {\n    enter: theme.transitions.duration.enteringScreen,\n    exit: theme.transitions.duration.leavingScreen,\n  };\n\n  const fabs = [\n    {\n      color: 'primary' as const,\n      sx: fabStyle as SxProps,\n      icon: <AddIcon />,\n      label: 'Add',\n    },\n    {\n      color: 'secondary' as const,\n      sx: fabStyle as SxProps,\n      icon: <EditIcon />,\n      label: 'Edit',\n    },\n    {\n      color: 'inherit' as const,\n      sx: { ...fabStyle, ...fabGreenStyle } as SxProps,\n      icon: <UpIcon />,\n      label: 'Expand',\n    },\n  ];\n\n  return (\n    <Box\n      sx={{\n        bgcolor: 'background.paper',\n        width: 500,\n        position: 'relative',\n        minHeight: 200,\n      }}\n    >\n      <AppBar position=\"static\" color=\"default\">\n        <Tabs\n          value={value}\n          onChange={handleChange}\n          indicatorColor=\"primary\"\n          textColor=\"primary\"\n          variant=\"fullWidth\"\n          aria-label=\"action tabs example\"\n        >\n          <Tab label=\"Item One\" {...a11yProps(0)} />\n          <Tab label=\"Item Two\" {...a11yProps(1)} />\n          <Tab label=\"Item Three\" {...a11yProps(2)} />\n        </Tabs>\n      </AppBar>\n      <TabPanel value={value} index={0} dir={theme.direction}>\n        Item One\n      </TabPanel>\n      <TabPanel value={value} index={1} dir={theme.direction}>\n        Item Two\n      </TabPanel>\n      <TabPanel value={value} index={2} dir={theme.direction}>\n        Item Three\n      </TabPanel>\n      {fabs.map((fab, index) => (\n        <Zoom\n          key={fab.color}\n          in={value === index}\n          timeout={transitionDuration}\n          style={{\n            transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,\n          }}\n          unmountOnExit\n        >\n          <Fab sx={fab.sx} aria-label={fab.label} color={fab.color}>\n            {fab.icon}\n          </Fab>\n        </Zoom>\n      ))}\n    </Box>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Fab",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'default'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableFocusRipple",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the  keyboard focus ripple is disabled."
+    },
+    {
+     "prop": "disableRipple",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the ripple effect is disabled."
+    },
+    {
+     "prop": "href",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The URL to link to when the button is clicked. If defined, an <code>a</code> element will be used as the root node."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;'large'<br>&#124;&nbsp;string",
+     "default": "'large'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the component. <code>small</code> is equivalent to the dense button styling."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "variant",
+     "type": "'circular'<br>&#124;&nbsp;'extended'<br>&#124;&nbsp;string",
+     "default": "'circular'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "circular",
+     "className": "MuiFab-circular",
+     "description": "Styles applied to the root element if `variant=\"circular\"`."
+    },
+    {
+     "key": "colorInherit",
+     "className": "MuiFab-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root element if `disabled={true}`."
+    },
+    {
+     "key": "extended",
+     "className": "MuiFab-extended",
+     "description": "Styles applied to the root element if `variant=\"extended\"`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the ButtonBase root element if the button is keyboard focused."
+    },
+    {
+     "key": "primary",
+     "className": "MuiFab-primary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiFab-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "secondary",
+     "className": "MuiFab-secondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "sizeMedium",
+     "className": "MuiFab-sizeMedium",
+     "description": "Styles applied to the root element if `size=\"medium\"``."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiFab-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"``."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-floating-action-button/"
+}

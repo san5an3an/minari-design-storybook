@@ -1,0 +1,241 @@
+{
+ "slug": "empty",
+ "title": "Empty",
+ "description": "Empty state placeholder.",
+ "group": "Data Display",
+ "whenToUse": "- When there is no data provided, display for friendly tips.\n- User tutorial to create something in fresh new situation.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Simplest Usage.",
+   "code": "import React from 'react';\nimport { Empty } from 'antd';\n\nconst App: React.FC = () => <Empty />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Choose image",
+   "description": "You can choose another style of `image` by setting image to `Empty.PRESENTED_IMAGE_SIMPLE`.",
+   "code": "import React from 'react';\nimport { Empty } from 'antd';\n\nconst App: React.FC = () => <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;\n\nexport default App;",
+   "demoId": "simple"
+  },
+  {
+   "name": "Customize",
+   "description": "Customize image source, image size, description and extra content.",
+   "code": "import React from 'react';\nimport { Button, Empty, Typography } from 'antd';\n\nconst App: React.FC = () => (\n  <Empty\n    image=\"https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg\"\n    styles={{ image: { height: 60 } }}\n    description={\n      <Typography.Text>\n        Customize <a href=\"#API\">Description</a>\n      </Typography.Text>\n    }\n  >\n    <Button type=\"primary\">Create Now</Button>\n  </Empty>\n);\n\nexport default App;",
+   "demoId": "customize"
+  },
+  {
+   "name": "ConfigProvider",
+   "description": "Use ConfigProvider set global Empty style.",
+   "code": "import React, { useState } from 'react';\nimport { SmileOutlined } from '@ant-design/icons';\nimport {\n  Cascader,\n  ConfigProvider,\n  Divider,\n  List,\n  Select,\n  Space,\n  Switch,\n  Table,\n  Transfer,\n  TreeSelect,\n} from 'antd';\n\nconst customizeRenderEmpty = () => (\n  <div style={{ textAlign: 'center' }}>\n    <SmileOutlined style={{ fontSize: 20 }} />\n    <p>Data Not Found</p>\n  </div>\n);\n\nconst style: React.CSSProperties = { width: 200 };\n\nconst App: React.FC = () => {\n  const [customize, setCustomize] = useState(true);\n  return (\n    <>\n      <Switch\n        unCheckedChildren=\"default\"\n        checkedChildren=\"customize\"\n        checked={customize}\n        onChange={setCustomize}\n      />\n      <Divider />\n      <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>\n        <Space vertical style={{ width: '100%' }}>\n          <h4>Select</h4>\n          <Select style={style} />\n          <h4>TreeSelect</h4>\n          <TreeSelect style={style} treeData={[]} />\n          <h4>Cascader</h4>\n          <Cascader style={style} options={[]} showSearch />\n          <h4>Transfer</h4>\n          <Transfer />\n          <h4>Table</h4>\n          <Table\n            style={{ marginTop: 8 }}\n            columns={[\n              { title: 'Name', dataIndex: 'name', key: 'name' },\n              { title: 'Age', dataIndex: 'age', key: 'age' },\n            ]}\n          />\n          <h4>List</h4>\n          <List />\n        </Space>\n      </ConfigProvider>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "config-provider"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Empty by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport type { EmptyProps, GetProp } from 'antd';\nimport { Button, Empty, Flex } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst emptySharedProps: EmptyProps = {\n  image: Empty.PRESENTED_IMAGE_SIMPLE,\n  children: <Button type=\"primary\">Create Now</Button>,\n};\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    border: 1px dashed #ccc;\n    padding: 16px;\n  `,\n}));\n\nconst stylesObject: EmptyProps['styles'] = {\n  root: { backgroundColor: '#f5f5f5', borderRadius: '8px' },\n  image: { filter: 'grayscale(100%)' },\n  description: { color: '#1890ff', fontWeight: 'bold' },\n  footer: { marginTop: '16px' },\n};\n\nconst stylesFn: EmptyProps['styles'] = ({ props }): GetProp<EmptyProps, 'styles', 'Return'> => {\n  if (props.description) {\n    return {\n      root: { backgroundColor: '#e6f7ff', border: '1px solid #91d5ff' },\n      description: { color: '#1890ff', fontWeight: 'bold' },\n      image: { filter: 'hue-rotate(180deg)' },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const emptyClassNames: EmptyProps['classNames'] = {\n    root: classNames.root,\n  };\n\n  return (\n    <Flex vertical gap=\"medium\">\n      <Empty\n        {...emptySharedProps}\n        description=\"Object styles\"\n        classNames={emptyClassNames}\n        styles={stylesObject}\n      />\n      <Empty\n        {...emptySharedProps}\n        description=\"Function styles\"\n        classNames={emptyClassNames}\n        styles={stylesFn}\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  },
+  {
+   "name": "No description",
+   "description": "Simplest Usage with no description.",
+   "code": "import React from 'react';\nimport { Empty } from 'antd';\n\nconst App: React.FC = () => <Empty description={false} />;\n\nexport default App;",
+   "demoId": "description"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.23.0"
+    ],
+    [
+     "description",
+     "Customize description",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "image",
+     "Customize image. Will treat as image url when string provided",
+     "ReactNode",
+     "Empty.PRESENTED_IMAGE_DEFAULT",
+     "—",
+     "5.27.0"
+    ],
+    [
+     "~~imageStyle~~",
+     "The style of image, please use `styles.image` instead",
+     "CSSProperties",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.23.0"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.23.0"
+   ],
+   [
+    "description",
+    "Customize description",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "image",
+    "Customize image. Will treat as image url when string provided",
+    "ReactNode",
+    "Empty.PRESENTED_IMAGE_DEFAULT",
+    "—",
+    "5.27.0"
+   ],
+   [
+    "~~imageStyle~~",
+    "The style of image, please use `styles.image` instead",
+    "CSSProperties",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.23.0"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element, sets text alignment, font and line height styles"
+   },
+   {
+    "name": "image",
+    "mark": "semantic-mark-image",
+    "description": "Image element, sets height, opacity, margin and image styles"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "Description element, sets text color styles"
+   },
+   {
+    "name": "footer",
+    "mark": "semantic-mark-footer",
+    "description": "Footer element, sets top margin and action button styles"
+   }
+  ],
+  "dom": "<div class=\"css-var-test-id ant-empty ant-empty-normal semantic-mark-root\">\n        <div class=\"ant-empty-image semantic-mark-image\" style=\"height: 60px;\">\n          <svg height=\"41\" viewBox=\"0 0 64 41\" width=\"64\" xmlns=\"http://www.w3.org/2000/svg\">\n            <title>\n              No data\n            </title>\n            <g fill=\"none\" fill-rule=\"evenodd\" transform=\"translate(0 1)\">\n              <ellipse cx=\"32\" cy=\"33\" fill=\"#f5f5f5\" rx=\"32\" ry=\"7\"></ellipse>\n              <g fill-rule=\"nonzero\" stroke=\"#d9d9d9\">\n                <path d=\"M55 12.8 44.9 1.3Q44 0 42.9 0H21.1q-1.2 0-2 1.3L9 12.8V22h46z\"></path>\n                <path d=\"M41.6 16c0-1.7 1-3 2.2-3H55v18.1c0 2.2-1.3 3.9-3 3.9H12c-1.7 0-3-1.7-3-3.9V13h11.2c1.2 0 2.2 1.3 2.2 3s1 2.9 2.2 2.9h14.8c1.2 0 2.2-1.4 2.2-3\" fill=\"#fafafa\"></path>\n              </g>\n            </g>\n          </svg>\n        </div>\n        <div class=\"ant-empty-description semantic-mark-description\">\n          <span class=\"ant-typography css-var-test-id\">\n            Customize \n            <a href=\"#API\">\n              Description\n            </a>\n          </span>\n        </div>\n        <div class=\"ant-empty-footer semantic-mark-footer\">\n          <button class=\"ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid\" type=\"button\">\n            <span>\n              Create Now\n            </span>\n          </button>\n        </div>\n      </div>"
+ },
+ "designToken": "",
+ "componentToken": null,
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "margin",
+     "Control the margin of an element, with a medium size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXL",
+     "Control the margin of an element, with an extra-large size.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "opacityImage",
+     "Control image opacity",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

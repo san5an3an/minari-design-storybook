@@ -1,0 +1,455 @@
+{
+ "slug": "spin",
+ "title": "Spin",
+ "description": "Used for the loading status of a page or a block.",
+ "group": "Feedback",
+ "whenToUse": "When part of the page is waiting for asynchronous data or during a rendering process, an appropriate loading animation can effectively alleviate users' inquietude.",
+ "examples": [
+  {
+   "name": "Basic Usage",
+   "description": "A simple loading status.",
+   "code": "import React from 'react';\nimport { Spin } from 'antd';\n\nconst App: React.FC = () => <Spin />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Size",
+   "description": "A small `Spin` is used for loading text, default sized `Spin` for loading a card-level block, and large `Spin` used for loading a **page**.",
+   "code": "import React from 'react';\nimport { Flex, Spin } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex align=\"center\" gap=\"medium\">\n    <Spin size=\"small\" />\n    <Spin />\n    <Spin size=\"large\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Embedded mode",
+   "description": "Embedding content into `Spin` will set it into loading state.",
+   "code": "import React from 'react';\nimport { Alert, Flex, Spin, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [loading, setLoading] = React.useState<boolean>(false);\n  return (\n    <Flex gap=\"medium\" vertical>\n      <Spin spinning={loading}>\n        <Alert\n          type=\"info\"\n          title=\"Alert message title\"\n          description=\"Further details about the context of this alert.\"\n        />\n      </Spin>\n      <p>\n        Loading state：\n        <Switch checked={loading} onChange={setLoading} />\n      </p>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "nested"
+  },
+  {
+   "name": "Customized description",
+   "description": "Customize the description text.",
+   "code": "import React from 'react';\nimport { Alert, Flex, Spin } from 'antd';\n\nconst contentStyle: React.CSSProperties = {\n  padding: 50,\n  background: 'rgba(0, 0, 0, 0.05)',\n  borderRadius: 4,\n};\n\nconst content = <div style={contentStyle} />;\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" vertical>\n    <Flex gap=\"medium\">\n      <Spin description=\"Loading\" size=\"small\">\n        {content}\n      </Spin>\n      <Spin description=\"Loading\">{content}</Spin>\n      <Spin description=\"Loading\" size=\"large\">\n        {content}\n      </Spin>\n    </Flex>\n    <Spin description=\"Loading...\">\n      <Alert\n        title=\"Alert message title\"\n        description=\"Further details about the context of this alert.\"\n        type=\"info\"\n      />\n    </Spin>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "tip"
+  },
+  {
+   "name": "Delay",
+   "description": "Specifies a delay for loading state. If `spinning` ends during delay, loading status won't appear.",
+   "code": "import React from 'react';\nimport { Alert, Flex, Spin, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [loading, setLoading] = React.useState<boolean>(false);\n  return (\n    <Flex gap=\"medium\" vertical>\n      <Spin spinning={loading} delay={500}>\n        <Alert\n          type=\"info\"\n          title=\"Alert message title\"\n          description=\"Further details about the context of this alert.\"\n        />\n      </Spin>\n      <p>\n        Loading state：\n        <Switch checked={loading} onChange={setLoading} />\n      </p>\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "delayanddebounce"
+  },
+  {
+   "name": "Custom spinning indicator",
+   "description": "Use custom loading indicator.",
+   "code": "import React from 'react';\nimport { LoadingOutlined } from '@ant-design/icons';\nimport { Flex, Spin } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex align=\"center\" gap=\"medium\">\n    <Spin indicator={<LoadingOutlined spin />} size=\"small\" />\n    <Spin indicator={<LoadingOutlined spin />} />\n    <Spin indicator={<LoadingOutlined spin />} size=\"large\" />\n    <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "custom-indicator"
+  },
+  {
+   "name": "Progress",
+   "description": "Show the progress. When `percent=\"auto\"` is set, an indeterminate progress will be displayed.",
+   "code": "import React from 'react';\nimport { Flex, Spin, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [auto, setAuto] = React.useState(false);\n  const [percent, setPercent] = React.useState(-50);\n  const timerRef = React.useRef<ReturnType<typeof setTimeout>>(null);\n\n  React.useEffect(() => {\n    timerRef.current = setTimeout(() => {\n      setPercent((v) => {\n        const nextPercent = v + 5;\n        return nextPercent > 150 ? -50 : nextPercent;\n      });\n    }, 100);\n    return () => {\n      if (timerRef.current) {\n        clearTimeout(timerRef.current);\n        timerRef.current = null;\n      }\n    };\n  }, [percent]);\n\n  const mergedPercent = auto ? 'auto' : percent;\n\n  return (\n    <Flex align=\"center\" gap=\"medium\">\n      <Switch\n        checkedChildren=\"Auto\"\n        unCheckedChildren=\"Auto\"\n        checked={auto}\n        onChange={() => {\n          setAuto(!auto);\n          setPercent(-50);\n        }}\n      />\n      <Spin percent={mergedPercent} size=\"small\" />\n      <Spin percent={mergedPercent} />\n      <Spin percent={mergedPercent} size=\"large\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "percent"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Spin by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Spin } from 'antd';\nimport type { GetProp, SpinProps } from 'antd';\nimport { createStaticStyles } from 'antd-style';\n\nconst classNames = createStaticStyles(({ css }) => ({\n  root: css`\n    padding: 8px;\n  `,\n}));\n\nconst stylesObject: SpinProps['styles'] = {\n  indicator: {\n    color: '#00d4ff',\n  },\n};\n\nconst stylesFn: SpinProps['styles'] = ({ props }): GetProp<SpinProps, 'styles', 'Return'> => {\n  if (props.size === 'small') {\n    return {\n      indicator: {\n        color: '#722ed1',\n      },\n    };\n  }\n  return {};\n};\n\nconst App: React.FC = () => {\n  const sharedProps: SpinProps = {\n    spinning: true,\n    percent: 0,\n    classNames: { root: classNames.root },\n  };\n\n  return (\n    <Flex align=\"center\" gap=\"medium\">\n      <Spin {...sharedProps} styles={stylesObject} />\n      <Spin {...sharedProps} styles={stylesFn} size=\"small\" />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  },
+  {
+   "name": "Fullscreen",
+   "description": "The `fullscreen` mode is perfect for creating page loaders. It adds a dimmed overlay with a centered spinner.",
+   "code": "import React from 'react';\nimport { Button, Spin } from 'antd';\n\nconst App: React.FC = () => {\n  const [spinning, setSpinning] = React.useState(false);\n  const [percent, setPercent] = React.useState(0);\n\n  const showLoader = () => {\n    setSpinning(true);\n    let ptg = -10;\n\n    const interval = setInterval(() => {\n      ptg += 5;\n      setPercent(ptg);\n\n      if (ptg > 120) {\n        clearInterval(interval);\n        setSpinning(false);\n        setPercent(0);\n      }\n    }, 100);\n  };\n\n  return (\n    <>\n      <Button onClick={showLoader}>Show fullscreen</Button>\n      <Spin spinning={spinning} percent={percent} fullscreen />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "fullscreen"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "delay",
+     "Specifies a delay in milliseconds for loading state (prevent flush)",
+     "number (milliseconds)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "description",
+     "Customize description content",
+     "ReactNode",
+     "-",
+     "6.3.0",
+     "×"
+    ],
+    [
+     "fullscreen",
+     "Display a backdrop with the `Spin` component",
+     "boolean",
+     "false",
+     "5.11.0",
+     "×"
+    ],
+    [
+     "indicator",
+     "React node of the spinning indicator",
+     "ReactNode",
+     "-",
+     "—",
+     "5.20.0"
+    ],
+    [
+     "percent",
+     "The progress percentage, when set to `auto`, it will be an indeterminate progress",
+     "number | 'auto'",
+     "-",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "size",
+     "The size of Spin, options: `small`, `medium` and `large`",
+     "string",
+     "medium",
+     "—",
+     "×"
+    ],
+    [
+     "spinning",
+     "Whether Spin is visible",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "6.0.0"
+    ],
+    [
+     "~~tip~~",
+     "Customize description content when Spin has children. Deprecated, use `description` instead",
+     "ReactNode",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~wrapperClassName~~",
+     "The className of wrapper when Spin has children. Deprecated, use `classNames.root` instead",
+     "string",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props }) => Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "delay",
+    "Specifies a delay in milliseconds for loading state (prevent flush)",
+    "number (milliseconds)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "description",
+    "Customize description content",
+    "ReactNode",
+    "-",
+    "6.3.0",
+    "×"
+   ],
+   [
+    "fullscreen",
+    "Display a backdrop with the `Spin` component",
+    "boolean",
+    "false",
+    "5.11.0",
+    "×"
+   ],
+   [
+    "indicator",
+    "React node of the spinning indicator",
+    "ReactNode",
+    "-",
+    "—",
+    "5.20.0"
+   ],
+   [
+    "percent",
+    "The progress percentage, when set to `auto`, it will be an indeterminate progress",
+    "number | 'auto'",
+    "-",
+    "5.18.0",
+    "×"
+   ],
+   [
+    "size",
+    "The size of Spin, options: `small`, `medium` and `large`",
+    "string",
+    "medium",
+    "—",
+    "×"
+   ],
+   [
+    "spinning",
+    "Whether Spin is visible",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props }) => Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "6.0.0"
+   ],
+   [
+    "~~tip~~",
+    "Customize description content when Spin has children. Deprecated, use `description` instead",
+    "ReactNode",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~wrapperClassName~~",
+    "The className of wrapper when Spin has children. Deprecated, use `classNames.root` instead",
+    "string",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "size",
+   "values": [
+    "small",
+    "medium"
+   ],
+   "default": "medium",
+   "owner": "",
+   "source": "desc",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "The root element, which sets absolute positioning, display control, color, font size, text alignment, vertical alignment, opacity, and transition animation (only effective when fullscreen is false)"
+   },
+   {
+    "name": "section",
+    "mark": "semantic-mark-section",
+    "description": "The loading element area, which sets relative positioning, flexbox layout, alignment, and color"
+   },
+   {
+    "name": "indicator",
+    "mark": "semantic-mark-indicator",
+    "description": "The indicator element, which sets width, height, font size, inline-block display, transition animation, transform origin, and line height"
+   },
+   {
+    "name": "description",
+    "mark": "semantic-mark-description",
+    "description": "The description element, which sets font size and line height"
+   },
+   {
+    "name": "container",
+    "mark": "semantic-mark-container",
+    "description": "The container element that holds the child elements wrapped by Spin, setting opacity and transition animation"
+   }
+  ],
+  "dom": "<div aria-busy=\"true\" aria-live=\"polite\" class=\"ant-spin ant-spin-spinning semantic-mark-root ant-spin-section semantic-mark-section css-var-test-id\">\n            <span class=\"ant-spin-dot-holder semantic-mark-indicator\">\n              <span class=\"ant-spin-dot ant-spin-dot-spin\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n                <i class=\"ant-spin-dot-item\">\n              </i></i></i></i></span><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n            </i></i></i></span><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\"><i class=\"ant-spin-dot-item\">\n          </i></i></i></div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "contentHeight",
+     "Height of content area",
+     "string | number",
+     "400"
+    ],
+    [
+     "dotSize",
+     "Loading icon size",
+     "number",
+     "20"
+    ],
+    [
+     "dotSizeLG",
+     "Large loading icon size",
+     "number",
+     "32"
+    ],
+    [
+     "dotSizeSM",
+     "Small loading icon size",
+     "number",
+     "14"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorBgContainer",
+     "Container background color, e.g: default button, input box, etc. Be sure not to confuse this with `colorBgElevated`.",
+     "string",
+     "—"
+    ],
+    [
+     "colorBgMask",
+     "The background color of the mask, used to cover the content below the mask, Modal, Drawer, Image and other components use this token",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillSecondary",
+     "The second level of fill color can outline the shape of the element more clearly, such as Rate, Skeleton, etc. It can also be used as the Hover state of the third level of fill color, such as Table, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimary",
+     "Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextLightSolid",
+     "Control the highlight color of text with background color, such as the text in Primary Button components.",
+     "string",
+     "—"
+    ],
+    [
+     "colorWhite",
+     "Pure white color don't changed by theme",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXXS",
+     "Control the margin of an element, with the smallest size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "paddingSM",
+     "Control the small padding of the element.",
+     "number",
+     "—"
+    ],
+    [
+     "zIndexPopupBase",
+     "Base zIndex of component like FloatButton, Affix which can be cover by large popup",
+     "number",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

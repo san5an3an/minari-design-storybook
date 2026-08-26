@@ -1,0 +1,437 @@
+{
+ "slug": "rate",
+ "title": "Rate",
+ "description": "Used for rating operation on something.",
+ "group": "Data Entry",
+ "whenToUse": "- Show evaluation.\n- A quick rating operation on something.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "The simplest usage.",
+   "code": "import React from 'react';\nimport { Rate } from 'antd';\n\nconst App: React.FC = () => <Rate />;\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Sizes",
+   "description": "Three sizes.",
+   "code": "import React from 'react';\nimport { Flex, Rate } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Rate size=\"large\" />\n    <Rate />\n    <Rate size=\"small\" />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "size"
+  },
+  {
+   "name": "Half star",
+   "description": "Support select half star.",
+   "code": "import React from 'react';\nimport { Rate } from 'antd';\n\nconst App: React.FC = () => <Rate allowHalf defaultValue={2.5} />;\n\nexport default App;",
+   "demoId": "half"
+  },
+  {
+   "name": "Show copywriting",
+   "description": "Add copywriting in rate components.",
+   "code": "import React, { useState } from 'react';\nimport { Flex, Rate } from 'antd';\nimport type { RateProps } from 'antd';\n\nconst desc: RateProps['tooltips'] = [\n  'terrible',\n  { placement: 'top', title: 'bad', trigger: 'hover' },\n  'normal',\n  'good',\n  'wonderful',\n];\n\nfunction getDescTitle(value: number, desc: RateProps['tooltips']) {\n  const item = desc?.[value - 1];\n  return item && typeof item === 'object' ? item.title : item;\n}\n\nconst App: React.FC = () => {\n  const [value, setValue] = useState(3);\n  return (\n    <Flex gap=\"medium\" vertical>\n      <Rate tooltips={desc} onChange={setValue} value={value} />\n      {value ? <span>{getDescTitle(value, desc) as React.ReactNode}</span> : null}\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "text"
+  },
+  {
+   "name": "Read only",
+   "description": "Read only, can't use mouse to interact.",
+   "code": "import React from 'react';\nimport { Rate } from 'antd';\n\nconst App: React.FC = () => <Rate disabled defaultValue={2} />;\n\nexport default App;",
+   "demoId": "disabled"
+  },
+  {
+   "name": "Clear star",
+   "description": "Allow clearing the rating when clicking the same star again.",
+   "code": "import React from 'react';\nimport { Flex, Rate } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" vertical>\n    <Flex gap=\"medium\">\n      <Rate defaultValue={3} />\n      <span>allowClear: true</span>\n    </Flex>\n    <Flex gap=\"medium\">\n      <Rate defaultValue={3} allowClear={false} />\n      <span>allowClear: false</span>\n    </Flex>\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "clear"
+  },
+  {
+   "name": "Other Character",
+   "description": "Replace the default star to other character like alphabet, digit, iconfont or even Chinese word.",
+   "code": "import React from 'react';\nimport { HeartOutlined } from '@ant-design/icons';\nimport { Flex, Rate } from 'antd';\n\nconst App: React.FC = () => (\n  <Flex vertical gap=\"medium\">\n    <Rate character={<HeartOutlined />} allowHalf />\n    <Rate character=\"A\" allowHalf style={{ fontSize: 36 }} />\n    <Rate character=\"好\" allowHalf />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "character"
+  },
+  {
+   "name": "Customize character",
+   "description": "Can customize each character using `(RateProps) => ReactNode`.",
+   "code": "import React from 'react';\nimport { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';\nimport { Flex, Rate } from 'antd';\n\nconst customIcons: Record<number, React.ReactNode> = {\n  1: <FrownOutlined />,\n  2: <FrownOutlined />,\n  3: <MehOutlined />,\n  4: <SmileOutlined />,\n  5: <SmileOutlined />,\n};\n\nconst App: React.FC = () => (\n  <Flex gap=\"medium\" vertical>\n    <Rate defaultValue={2} character={({ index = 0 }) => index + 1} />\n    <Rate defaultValue={3} character={({ index = 0 }) => customIcons[index + 1]} />\n  </Flex>\n);\n\nexport default App;",
+   "demoId": "character-function"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "allowClear",
+     "Whether to allow clear when click again",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "allowHalf",
+     "Whether to allow semi selection",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "character",
+     "The custom character of rate",
+     "ReactNode | (RateProps) => ReactNode",
+     "&lt;StarFilled />",
+     "function(): 4.4.0",
+     "×"
+    ],
+    [
+     "count",
+     "Star count",
+     "number",
+     "5",
+     "—",
+     "×"
+    ],
+    [
+     "defaultValue",
+     "The default value",
+     "number",
+     "0",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "If read only, unable to interact",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "keyboard",
+     "Support keyboard operation",
+     "boolean",
+     "true",
+     "5.18.0",
+     "×"
+    ],
+    [
+     "size",
+     "Star size",
+     "'small' | 'medium' | 'large'",
+     "'medium'",
+     "—",
+     "×"
+    ],
+    [
+     "tooltips",
+     "Customize tooltip by each character",
+     "TooltipProps[] | string\\[]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "value",
+     "The current value",
+     "number",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onBlur",
+     "Callback when component lose focus",
+     "function()",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Callback when select value",
+     "function(value: number)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onFocus",
+     "Callback when component get focus",
+     "function()",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onHoverChange",
+     "Callback when hover item",
+     "function(value: number)",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onKeyDown",
+     "Callback when keydown on component",
+     "function(event)",
+     "-",
+     "—",
+     "×"
+    ]
+   ],
+   "name": ""
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "allowClear",
+    "Whether to allow clear when click again",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "allowHalf",
+    "Whether to allow semi selection",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "character",
+    "The custom character of rate",
+    "ReactNode | (RateProps) => ReactNode",
+    "&lt;StarFilled />",
+    "function(): 4.4.0",
+    "×"
+   ],
+   [
+    "count",
+    "Star count",
+    "number",
+    "5",
+    "—",
+    "×"
+   ],
+   [
+    "defaultValue",
+    "The default value",
+    "number",
+    "0",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "If read only, unable to interact",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "keyboard",
+    "Support keyboard operation",
+    "boolean",
+    "true",
+    "5.18.0",
+    "×"
+   ],
+   [
+    "size",
+    "Star size",
+    "'small' | 'medium' | 'large'",
+    "'medium'",
+    "—",
+    "×"
+   ],
+   [
+    "tooltips",
+    "Customize tooltip by each character",
+    "TooltipProps[] | string\\[]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "value",
+    "The current value",
+    "number",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onBlur",
+    "Callback when component lose focus",
+    "function()",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Callback when select value",
+    "function(value: number)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onFocus",
+    "Callback when component get focus",
+    "function()",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onHoverChange",
+    "Callback when hover item",
+    "function(value: number)",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onKeyDown",
+    "Callback when keydown on component",
+    "function(event)",
+    "-",
+    "—",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "size",
+   "values": [
+    "small",
+    "medium",
+    "large"
+   ],
+   "default": "'medium'",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": null,
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "starBg",
+     "Star background color",
+     "string",
+     "rgba(0,0,0,0.06)"
+    ],
+    [
+     "starColor",
+     "Star color",
+     "string",
+     "#fadb14"
+    ],
+    [
+     "starHoverScale",
+     "Scale of star when hover",
+     "readonly string[] | Transform | readonly Transform[] | { _multi_value_?: boolean; _skip_check_?: boolean; value: readonly string[] | Transform | (readonly string[] | Transform | undefined)[] | undefined } | undefined",
+     "scale(1.1)"
+    ],
+    [
+     "starSize",
+     "Star size",
+     "number",
+     "20"
+    ],
+    [
+     "starSizeLG",
+     "Large star size",
+     "number",
+     "25"
+    ],
+    [
+     "starSizeSM",
+     "Small star size",
+     "number",
+     "15"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "marginXS",
+     "Control the margin of an element, with a small size.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

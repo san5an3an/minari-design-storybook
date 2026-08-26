@@ -1,0 +1,51 @@
+
+.ods-breadcrumb {
+  display: flex; align-items: center;
+  /* 단일 행 제공. 넘치면 줄바꿈 대신 가로 스크롤 적용 */
+  flex-wrap: nowrap;
+  overflow-x: auto; scrollbar-width: none;
+  list-style: none; margin: 0; padding: 0;
+  gap: var(--component-breadcrumb-gap);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-breadcrumb-font-size);
+  letter-spacing: var(--component-breadcrumb-letter-spacing);
+  line-height: var(--base-font-line-height-tight);
+}
+.ods-breadcrumb::-webkit-scrollbar { display: none; }
+/* nav로 현재 위치 표시, min-width:0 지정. flex 자식 기본값은 줄지 않음 */
+.ods-breadcrumb-nav { min-width: 0; }
+.ods-breadcrumb > li {
+  display: flex; align-items: center; flex-shrink: 0;
+  gap: var(--component-breadcrumb-gap);
+  white-space: nowrap;
+}
+.ods-breadcrumb a {
+  display: inline-flex; align-items: center;
+  /* 충분한 클릭 영역 확보. 글자 크기만으로는 영역이 좁음 */
+  padding-block: var(--component-breadcrumb-tap-padding-block);
+  padding-inline: var(--component-breadcrumb-tap-padding-inline);
+  color: var(--component-breadcrumb-fg);
+  text-decoration: none;
+}
+.ods-breadcrumb a:hover { color: var(--component-breadcrumb-fg-hover); text-decoration: underline; }
+.ods-breadcrumb a:focus-visible { outline: 0.125rem solid var(--semantic-border-focus-default);
+  outline-offset: 0.0625rem; border-radius: var(--semantic-radius-control); }
+.ods-breadcrumb [aria-current="page"] {
+  padding-inline: var(--component-breadcrumb-tap-padding-inline);
+  color: var(--component-breadcrumb-fg-current);
+  /* breadcrumb-page는 font-normal, 현재 위치는 색과 aria-current로 표시 */
+  font-weight: var(--base-font-weight-regular);
+}
+/* 구분자. li 앞에 붙고 aria-hidden이라 스크린리더는 읽지 않음 */
+.ods-breadcrumb > li + li > .ods-breadcrumb-sep {
+  display: inline-flex; flex-shrink: 0;
+  width: 1em; height: 1em;
+  color: var(--component-breadcrumb-separator);
+  stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.ods-breadcrumb-ellipsis { color: var(--component-breadcrumb-fg);
+  padding-inline: var(--component-breadcrumb-tap-padding-inline); }
+.ods-breadcrumb .ods-breadcrumb-home { width: 1em; height: 1em;
+  stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round; }

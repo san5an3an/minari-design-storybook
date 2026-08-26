@@ -1,0 +1,53 @@
+
+.ods-message {
+  /* align-items 미지정. 정렬은 아바타 self-end로 처리 */
+  position: relative; display: flex; width: 100%; min-width: 0;
+  gap: var(--component-message-gap);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-message-font-size);
+  letter-spacing: var(--component-message-letter-spacing);
+}
+/* 정렬 end일 때 가로 순서 반전. start는 기본 흐름 사용 */
+.ods-message--start { flex-direction: row; }
+.ods-message--end { flex-direction: row-reverse; }
+.ods-message-avatar {
+  /* "flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted" */
+  display: flex; width: fit-content; flex: 0 0 auto;
+  min-width: var(--component-message-avatar-size);
+  min-height: var(--component-message-avatar-size);
+  align-items: center; justify-content: center; align-self: flex-end;
+  overflow: hidden;
+  border-radius: var(--semantic-radius-pill);
+  background: var(--component-message-avatar-bg);
+  border: var(--semantic-border-width-default) solid
+          var(--component-message-avatar-border);  /* 이 시스템 레이어 */
+}
+.ods-message-avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* 푸터 있으면 아바타를 올려 말풍선 면에 정렬. 2rem 고정값 사용 */
+.ods-message:has(.ods-message-footer) .ods-message-avatar { transform: translateY(-2rem); }
+.ods-message-content {
+  /* "flex w-full min-w-0 flex-col gap-2.5 wrap-break-word" */
+  display: flex; flex-direction: column; width: 100%; min-width: 0;
+  gap: var(--component-message-stack-gap);
+  overflow-wrap: break-word;
+}
+/* 정렬 end일 때 헤더 포함 data-slot 자식 전체가 끝으로 이동하기 */
+.ods-message--end .ods-message-content > * { align-self: flex-end; }
+.ods-message-header,
+.ods-message-footer {
+  /* "flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground" */
+  display: flex; max-width: 100%; min-width: 0; align-items: center;
+  padding-inline: var(--component-message-meta-padding-inline);
+  color: var(--component-message-meta-fg);
+  font-size: var(--component-message-meta-font-size);
+  letter-spacing: var(--component-message-meta-letter-spacing);
+  font-weight: var(--base-font-weight-medium);
+}
+/* 정렬 end일 때 바닥 영역에 justify-end 적용 */
+.ods-message--end .ods-message-footer { justify-content: flex-end; }
+/* 상자 없는 말풍선 여백 제거. 속성으로 지정 */
+.ods-message:has([data-variant="ghost"]) .ods-message-header,
+.ods-message:has([data-variant="ghost"]) .ods-message-footer { padding-inline: 0; }
+/* "flex min-w-0 flex-col gap-2" */
+.ods-message-group { display: flex; flex-direction: column; min-width: 0;
+  gap: var(--component-message-group-gap); }

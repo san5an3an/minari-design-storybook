@@ -1,0 +1,632 @@
+
+@layer reset, tokens, theme, base, antd, mantine;
+
+/* @interop Tailwind/shadcn 프리플라이트로 box-sizing 리셋 채우기 */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root,
+.ods-chrome {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #e40016;
+  --destructive-foreground: #ffffff;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a1a1a1;
+  --radius: 0.625rem;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #a1a1a1;
+}
+
+.dark,
+.dark .ods-chrome {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #171717;
+  --card-foreground: #fafafa;
+  --popover: #171717;
+  --popover-foreground: #fafafa;
+  --primary: #e5e5e5;
+  --primary-foreground: #171717;
+  --secondary: #262626;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a1a1a1;
+  --accent: #262626;
+  --accent-foreground: #fafafa;
+  --destructive: #ff6568;
+  --destructive-foreground: #ffffff;
+  --border: #ffffff1a;
+  --input: #ffffff26;
+  --ring: #737373;
+  --sidebar: #171717;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #e5e5e5;
+  --sidebar-primary-foreground: #171717;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: #737373;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+}
+
+body {
+  font-family: var(--base-font-family-sans, Pretendard, system-ui, sans-serif);
+}
+
+/* 배경 자체 토큰 지정. bg-background 의존 시 나머지가 흰 배경으로 남음 */
+.doc-page { flex: 1; padding: 1.5rem 1.75rem 4rem;
+  background: var(--semantic-bg-neutral-subtlest, #fff);
+  color: var(--semantic-fg-neutral-default, #0a0a0a); }
+.doc-h2 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+.doc-h3 { margin: 1.75rem 0 .6rem; font-size: .9375rem; font-weight: 600; }
+.doc-head { margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  padding-bottom: .9rem; }
+.doc-head .doc-lead { margin: .4rem 0 0; }
+
+/* React 미구현 컴포넌트, 부재 사실 표시 */
+.doc-empty { margin: 0 0 1.75rem; padding: .9rem 1rem; border-radius: .5rem;
+  font-size: .8125rem; line-height: 1.7;
+  border: 1px dashed var(--semantic-border-neutral-default, #d4d4d8);
+  background: var(--semantic-bg-neutral-subtle, #f5f5f5);
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+/* 사이드바 표시라 앱 셸 색 사용. 시스템 색은 시스템마다 가독성이 달라지는 문제가 있음 */
+.doc-todo { margin-left: auto; font-size: .625rem; padding: .05rem .3rem;
+  border-radius: .25rem; background: var(--muted); color: var(--muted-foreground); }
+.doc-lead { margin: 0 0 1.5rem; color: var(--semantic-fg-neutral-subtle, #71717a);
+  line-height: 1.6; font-size: .875rem; }
+.doc-section { margin-bottom: 2rem; }
+.doc-section > h2 { font-size: 1rem; font-weight: 600; margin: 0 0 .75rem; padding-bottom: .35rem;
+  border-bottom: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+.doc-note { margin: .75rem 0 0; color: var(--semantic-fg-neutral-subtle, #71717a);
+  font-size: .8125rem; line-height: 1.6; }
+.doc-prose > :first-child { margin-top: 0; }
+.doc-prose > :last-child { margin-bottom: 0; }
+.doc-prose p { margin: .5rem 0; }
+/* 본문과 구분되는 antd 개발자 참고용 인용구 영역 */
+.doc-prose blockquote {
+  margin: .75rem 0; padding: .1rem 0 .1rem .75rem;
+  border-inline-start: 2px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  color: var(--semantic-fg-neutral-subtlest, #a1a1aa);
+}
+.doc-prose ul, .doc-prose ol { margin: .5rem 0; padding-inline-start: 1.25rem; }
+.doc-prose li { margin: .15rem 0; }
+/* 원문 소제목을 문서 레이아웃 h2 하위에 배치 */
+.doc-prose h1, .doc-prose h2, .doc-prose h3, .doc-prose h4 {
+  font-size: .8125rem; font-weight: 600; margin: .9rem 0 .3rem;
+  color: var(--semantic-fg-neutral-default, #18181b);
+}
+/* 백틱은 값 표시 용도. 표의 등폭 셀과 같은 스타일로 보이게 하는 표기임 */
+.doc-prose code {
+  font-size: .9em; padding: .05rem .25rem; border-radius: .25rem;
+  background: var(--semantic-bg-neutral-subtle, #f4f4f5);
+  overflow-wrap: anywhere;
+}
+/* 링크는 ant.design 외부로 연결. 앱 내부 경로 아님을 밑줄로 표시 */
+.doc-prose a { color: inherit; text-decoration: underline; text-underline-offset: .15em; }
+
+.doc-grid { display: grid; grid-template-columns: 6rem 1fr; gap: .6rem 1rem; align-items: center; }
+.doc-grid > b { font-weight: 500; color: var(--semantic-fg-neutral-subtle, #71717a);
+  font-size: .8125rem; }
+
+.doc-master { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+  padding: 1.25rem; border-radius: .5rem;
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  background: #fff; }
+.doc-axis { margin-left: .4rem; font-size: .6875rem; font-weight: 500;
+  padding: .1rem .35rem; border-radius: .25rem; vertical-align: middle;
+  background: var(--muted); color: var(--muted-foreground); }
+.doc-kids { display: grid; gap: 0;
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  border-radius: .5rem; overflow: hidden; }
+.doc-kid { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem;
+  padding: .75rem 1rem; align-items: center; }
+.doc-kid + .doc-kid { border-top: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-kid-label { font-size: .75rem; display: flex; flex-direction: column; gap: .15rem; }
+.doc-kid-label > i { font-style: normal; font-size: .625rem;
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+.doc-kid-body { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; min-width: 0; }
+
+.doc-props { width: 100%; border-collapse: collapse; font-size: .8125rem; }
+.doc-props th, .doc-props td { padding: .45rem .6rem; text-align: left; vertical-align: top;
+  border-bottom: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-props thead th { font-weight: 600; font-size: .75rem;
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+.doc-props tbody th { font-weight: 500; white-space: nowrap; }
+.doc-props code { font-size: .75rem; padding: .05rem .3rem; border-radius: .25rem;
+  background: var(--muted); }
+.doc-vals { display: inline-flex; flex-wrap: wrap; gap: .25rem; }
+/* 기본값을 표에서 바로 표시. 목록만 있으면 기본값 확인 불가 */
+.doc-vals code.is-default { font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--semantic-border-brand-default, #888); }
+.doc-dim { color: var(--semantic-fg-neutral-subtle, #71717a); }
+.doc-req-mark { margin-left: .3rem; font-style: normal; font-size: .625rem;
+  color: var(--semantic-fg-danger-default, #b91c1c); }
+/* 조건 행. 고르는 값이 아닌 지켜야 하는 조건이라 값 행과 다르게 표시되는 형식임 */
+.doc-props tr.doc-cond th { font-weight: 600; white-space: normal; }
+.doc-props tr.doc-cond > * { background: var(--semantic-bg-warning-subtlest,
+  var(--semantic-bg-neutral-subtle, #fafafa)); }
+
+/* 세 컬러 모드를 한 화면에 표시, 이 표만 현재 모드 색 미사용 */
+.doc-swatch { display: inline-block; width: 1.15rem; height: 1.15rem; flex-shrink: 0;
+  border-radius: .25rem; vertical-align: middle;
+  box-shadow: inset 0 0 0 1px #00000026, inset 0 0 0 2px #ffffff26; }
+.doc-swatch--none { background: repeating-linear-gradient(45deg,
+  #00000014 0 3px, transparent 3px 6px); }
+.doc-swatch--step { position: relative; width: 1.6rem; height: 1.6rem; border-radius: .2rem;
+  display: inline-flex; align-items: center; justify-content: center; }
+
+/* -default가 실제 사용 단계. 번호 지정과 테두리 적용 */
+.doc-swatch--step.is-default { box-shadow: inset 0 0 0 2px #ffffffcc, 0 0 0 2px #000000b3; }
+.doc-swatch--step > i { font-style: normal; font-size: .5625rem; font-weight: 700;
+  line-height: 1; padding: .1rem .2rem; border-radius: .2rem;
+  background: #000000b8; color: #fff; letter-spacing: -.02em; }
+
+/* 색상 칩 툴팁 CSS로 표시. 툴팁 컴포넌트 780개가 필요한 구조임 */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + .35rem); left: 50%; translate: -50% 0;
+  z-index: 30; pointer-events: none; opacity: 0; transition: opacity .1s;
+  white-space: pre; font-size: .6875rem; line-height: 1.45; font-weight: 400;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: .3rem .45rem; border-radius: .3rem;
+  background: #18181b; color: #fafafa; box-shadow: 0 2px 8px #00000040;
+}
+[data-tip]:hover::after { opacity: 1; }
+.doc-swatch--dot { width: .55rem; height: .55rem; border-radius: 999px;
+  box-shadow: inset 0 0 0 1px #00000033; }
+
+/* 타이포그래피 견본은 시스템 글꼴, 크기, 굵기로 렌더링. 숫자만 쓰면 계단 차이 안 보임 */
+.doc-scales { display: grid; gap: 1.25rem; }
+.doc-scale { padding-bottom: 1rem;
+  border-bottom: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-scale-meta { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap;
+  margin-bottom: .35rem; font-size: .75rem;
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+.doc-scale-meta > b { font-size: .8125rem; font-weight: 600;
+  color: var(--semantic-fg-neutral-default, #18181b); }
+.doc-scale-step { padding: .05rem .35rem; border-radius: .25rem; font-weight: 600;
+  background: var(--semantic-bg-brand-subtle, #eef2ff);
+  color: var(--semantic-fg-on-brand-subtle, #4338ca); }
+.doc-scale-var { margin-left: auto; }
+.doc-scale-sample { font-family: var(--base-font-family-sans, inherit);
+  color: var(--semantic-fg-neutral-default, #18181b);
+  overflow-wrap: anywhere; }
+
+/* 글꼴. 이름이 핵심 정보이고 스택은 보조 정보라 작게 표시 */
+.doc-fonts { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  margin-bottom: 1rem; }
+.doc-font { padding: 1rem 1.1rem; border-radius: .6rem;
+  border: 1px solid var(--semantic-border-neutral-default, #d4d4d8);
+  background: var(--semantic-bg-neutral-subtle, #f5f5f5); }
+.doc-font-name { font-size: 1.5rem; font-weight: 600; line-height: 1.2;
+  color: var(--semantic-fg-neutral-default, #18181b); }
+.doc-font-meta { display: grid; grid-template-columns: auto 1fr; gap: .2rem .75rem;
+  margin: .75rem 0; font-size: .75rem; }
+.doc-font-meta dt { color: var(--semantic-fg-neutral-subtle, #71717a); white-space: nowrap; }
+.doc-font-meta dd { margin: 0; overflow-wrap: anywhere;
+  color: var(--semantic-fg-neutral-default, #18181b); }
+.doc-font-warn { display: block; margin-top: .15rem; font-size: .6875rem;
+  color: var(--semantic-fg-on-danger-subtle, #b91c1c); }
+
+.doc-lh { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+.doc-lh-item p { margin: 0; font-size: .8125rem;
+  color: var(--semantic-fg-neutral-default, #18181b); }
+.doc-weights { display: grid; gap: 1rem; }
+
+/* Base 단계, 크기 값을 셀로 표시 */
+.doc-ramp-row--type { flex-wrap: wrap; gap: .35rem; align-items: flex-end; }
+.doc-typestep { position: relative; display: flex; flex-direction: column;
+  align-items: center; gap: .1rem; min-width: 2.75rem; padding: .3rem .35rem;
+  border-radius: .3rem; font-size: .6875rem; font-weight: 600;
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+.doc-typestep > i { font-style: normal; font-weight: 400; font-size: .625rem; }
+
+.doc-ramps { display: grid; gap: 1rem; }
+.doc-ramp > b { font-size: .8125rem; font-weight: 600; }
+.doc-ramp-row { display: flex; align-items: center; gap: .15rem; margin-top: .2rem; }
+.doc-ramp-label { width: 3.5rem; flex-shrink: 0; font-size: .75rem;
+  color: var(--semantic-fg-neutral-subtle, #71717a); }
+
+.doc-fold { margin: .4rem 0; border-radius: .5rem;
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-fold > summary { padding: .5rem .75rem; cursor: pointer; font-size: .8125rem;
+  font-weight: 500; }
+
+.doc-tokens { width: 100%; border-collapse: collapse; font-size: .75rem;
+  table-layout: fixed; }
+.doc-tokens th, .doc-tokens td { padding: .3rem .6rem; text-align: left;
+  border-top: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7); }
+.doc-tokens thead th { font-weight: 600; }
+.doc-tokens tbody th { font-weight: 400; overflow-wrap: anywhere; }
+.doc-tokens td { white-space: nowrap; }
+.doc-tokens td code { margin-left: .4rem; }
+/* 활성 모드 열 표시. 배경 명암만으로는 구분되지 않음 */
+.doc-tokens .on { background: #8080801f; font-weight: 600;
+  box-shadow: inset 1px 0 0 var(--semantic-border-brand-strong, #888),
+              inset -1px 0 0 var(--semantic-border-brand-strong, #888); }
+.doc-tokens thead .on { box-shadow: inset 1px 0 0 var(--semantic-border-brand-strong, #888),
+  inset -1px 0 0 var(--semantic-border-brand-strong, #888),
+  inset 0 2px 0 var(--semantic-border-brand-strong, #888); }
+
+.ods-dialog-host {
+  padding: 0; border: 0; background: transparent;
+  /* UA는 dialog margin:auto 중앙배치. Tailwind 가 리셋해 좌상단 붙음 */
+  margin: auto;
+  max-width: calc(100% - 2rem);
+  max-height: calc(100% - 2rem);
+}
+.ods-dialog-host::backdrop { background: var(--semantic-overlay-scrim, #0000008f); }
+
+[data-slot="tabs-list"] {
+  background: var(--component-tabs-track-bg);
+  gap: var(--component-tabs-gap);
+}
+[data-slot="tabs-list"][data-variant="line"] {
+  background: transparent;
+  border-bottom: var(--semantic-border-width-default) solid
+    var(--component-tabs-track-border);
+}
+[data-orientation="vertical"] > [data-slot="tabs-list"][data-variant="line"] {
+  border-bottom: 0;
+  border-inline-start: var(--semantic-border-width-default) solid
+    var(--component-tabs-track-border);
+}
+[data-slot="tabs-trigger"] {
+  color: var(--component-tabs-fg);
+  font-size: var(--component-tabs-font-size);
+  padding-inline: var(--component-tabs-padding-inline);
+  gap: var(--component-tabs-icon-gap);
+}
+[data-slot="tabs-trigger"][data-active] { color: var(--component-tabs-fg-active); }
+/* 칠하기 변형, 활성 셀 배경에 시스템 토큰 사용 */
+[data-variant="default"] > [data-slot="tabs-trigger"][data-active] {
+  background: var(--component-tabs-bg-active);
+}
+/* 밑줄 변형. ::after로 그리는 선 색상만 변경 */
+[data-variant="line"] > [data-slot="tabs-trigger"]::after {
+  background: var(--component-tabs-indicator);
+}
+/* hover 시 글자색만 적용 */
+[data-slot="tabs-trigger"]:hover:not([data-active]):not(:disabled) {
+  color: var(--component-tabs-fg-hover);
+}
+
+/* box-shadow 삭제 금지. shadow-xs, 초점 링이 실려 있음 */
+[data-slot="checkbox"],
+[data-slot="radio-group-item"] {
+  border-style: solid !important;
+  border-width: var(--semantic-border-width-default) !important;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+[data-slot="checkbox"] {
+  background: var(--component-checkbox-bg) !important;
+  border-color: var(--component-checkbox-border) !important;
+  color: var(--component-checkbox-mark) !important;
+  /* 지름 50% 원형, 상자 35%로 한 번 더 크기 조정 */
+  border-radius: min(var(--component-checkbox-radius), 35%) !important;
+}
+[data-slot="radio-group-item"] {
+  background: var(--component-radio-bg) !important;
+  border-color: var(--component-radio-border) !important;
+  /* 모양 옵션과 무관하게 원. radius 토큰 없는 유일한 컨트롤로, 의도된 설계임 */
+  border-radius: 50% !important;
+}
+
+/* 켜짐 상태, 부분 선택도 같은 색으로 표시 */
+[data-slot="checkbox"][data-checked],
+[data-slot="checkbox"][data-indeterminate] {
+  background: var(--component-checkbox-bg-checked) !important;
+  border-color: var(--component-checkbox-border-checked) !important;
+}
+[data-slot="radio-group-item"][data-checked] {
+  background: var(--component-radio-bg-checked) !important;
+  border-color: var(--component-radio-border-checked) !important;
+}
+
+/* 포커스 스타일 미지정. --ring이 시스템별로 다른 색으로 배선돼 있음 */
+
+/* 체크 표시 크기를 상자 크기에 맞춰 적용. 고정 14px이면 sm 넘치고 lg 작아 보임 */
+[data-slot="checkbox-indicator"] { color: var(--component-checkbox-mark) !important; }
+[data-slot="checkbox-indicator"] > svg {
+  width: calc(var(--ods-checkbox-size, 1rem) * 0.72) !important;
+  height: calc(var(--ods-checkbox-size, 1rem) * 0.72) !important;
+  stroke-width: 3;
+}
+
+[data-slot="checkbox"][data-indeterminate] [data-slot="checkbox-indicator"] > svg {
+  display: none !important;
+}
+[data-slot="checkbox"][data-indeterminate] [data-slot="checkbox-indicator"]::before {
+  content: "";
+  display: block;
+  width: calc(var(--ods-checkbox-size, 1rem) * 0.42);
+  height: max(2px, calc(var(--ods-checkbox-size, 1rem) * 0.09));
+  border-radius: 999px;
+  background: currentColor;
+}
+
+/* 라디오 가운데 점 크기는 전체의 38% */
+[data-slot="radio-group-indicator"] { width: 100% !important; height: 100% !important; }
+[data-slot="radio-group-indicator"] > span {
+  width: calc(var(--ods-radio-size, 1rem) * 0.38) !important;
+  height: calc(var(--ods-radio-size, 1rem) * 0.38) !important;
+  background: var(--component-radio-dot) !important;
+}
+
+[data-slot="checkbox"][data-disabled] {
+  background: var(--component-checkbox-disabled-bg) !important;
+  border-color: var(--component-checkbox-disabled-fg) !important;
+  color: var(--component-checkbox-disabled-fg) !important;
+}
+[data-slot="checkbox"][data-disabled] [data-slot="checkbox-indicator"] {
+  color: var(--component-checkbox-disabled-fg) !important;
+}
+[data-slot="radio-group-item"][data-disabled] {
+  background: var(--component-radio-disabled-bg) !important;
+  border-color: var(--component-radio-disabled-fg) !important;
+}
+[data-slot="radio-group-item"][data-disabled] [data-slot="radio-group-indicator"] > span {
+  background: var(--component-radio-disabled-fg) !important;
+}
+[data-slot="switch"][data-disabled] {
+  background: var(--component-switch-disabled-bg) !important;
+  border-color: var(--component-switch-disabled-fg) !important;
+}
+[data-slot="switch"][data-disabled] [data-slot="switch-thumb"] {
+  background: var(--component-switch-disabled-fg) !important;
+}
+
+[data-slot="checkbox"][aria-invalid="true"] {
+  border-color: var(--component-checkbox-border-invalid) !important;
+}
+[data-slot="radio-group-item"][aria-invalid="true"] {
+  border-color: var(--component-radio-border-invalid) !important;
+}
+
+[data-slot="switch"] {
+  border-style: solid !important;
+  border-width: var(--semantic-border-width-default) !important;
+  border-color: var(--component-switch-border-off) !important;
+  background: var(--component-switch-bg-off) !important;
+  border-radius: var(--semantic-radius-pill) !important;
+}
+[data-slot="switch"][data-checked] {
+  background: var(--component-switch-bg-on) !important;
+  border-color: var(--component-switch-bg-on) !important;
+}
+   /* 꺼짐 상태 트랙 테두리 추가. 배경만으로는 대비 3:1 미만임 */
+[data-slot="switch-thumb"] {
+  width: var(--ods-switch-thumb, 1rem) !important;
+  height: var(--ods-switch-thumb, 1rem) !important;
+  margin-inline-start: var(--ods-switch-inset, 2px);
+  background: var(--component-switch-thumb-off) !important;
+  border: var(--semantic-border-width-default) solid var(--component-switch-thumb-edge);
+  border-radius: var(--semantic-radius-pill) !important;
+}
+[data-slot="switch"][data-unchecked] [data-slot="switch-thumb"] {
+  translate: 0 !important;
+}
+[data-slot="switch"][data-checked] [data-slot="switch-thumb"] {
+  background: var(--component-switch-thumb-on) !important;
+  translate: calc(var(--ods-switch-w) - var(--ods-switch-h)) 0 !important;
+}
+[data-slot="switch-thumb"] { transition: translate 140ms ease, background-color 140ms ease; }
+/* 오류 상태는 테두리까지 포함. 활성 색을 덮어쓰려면 스타일 순서상 맨 뒤여야 하는 규칙임 */
+[data-slot="switch"][aria-invalid="true"] {
+  border-color: var(--component-switch-border-invalid) !important;
+}
+
+.ods-switch-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--component-switch-card-gap);
+  padding: var(--component-switch-card-padding);
+  background: var(--component-switch-card-bg);
+  border: var(--semantic-border-width-default) solid var(--component-switch-card-border);
+  border-radius: var(--component-switch-card-radius);
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.ods-switch-card:hover:not(:has([data-disabled])) {
+  background: var(--component-switch-card-bg-hover);
+}
+.ods-switch-card:has([data-checked]) {
+  border-color: var(--component-switch-card-border-checked);
+}
+.ods-switch-card:has([data-disabled]) { cursor: not-allowed; }
+
+.ods-prose {
+  max-width: 40rem;
+  color: var(--component-prose-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-prose-font-size);
+  line-height: var(--component-prose-line-height);
+  word-break: keep-all;
+}
+.ods-prose > * + * { margin-top: var(--component-prose-paragraph-gap); }
+.ods-prose h2 {
+  margin-top: var(--component-prose-heading-gap);
+  font-size: var(--component-prose-h2-font-size);
+  line-height: var(--base-font-line-height-snug);
+  font-weight: var(--base-font-weight-semibold);
+}
+.ods-prose h3 {
+  margin-top: var(--component-prose-heading-gap);
+  font-size: var(--component-prose-h3-font-size);
+  line-height: var(--base-font-line-height-snug);
+  font-weight: var(--base-font-weight-medium);
+}
+.ods-prose a {
+  color: var(--component-prose-link-fg);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.ods-prose blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--component-prose-quote-padding);
+  border-inline-start: 3px solid var(--component-prose-quote-border);
+  color: var(--component-prose-quote-fg);
+}
+.ods-prose ul, .ods-prose ol { padding-inline-start: 1.25em; }
+.ods-prose li + li { margin-top: calc(var(--component-prose-paragraph-gap) / 2); }
+.ods-prose code {
+  padding: .1em .35em;
+  border-radius: var(--semantic-radius-control);
+  background: var(--component-prose-code-bg);
+  /* 고대비에서 이 면은 배경과 거의 같아 구분 어려움. 내부 선으로 경계 표시 */
+  box-shadow: inset 0 0 0 1px var(--component-prose-code-border);
+  color: var(--component-prose-code-fg);
+  font-family: var(--base-font-family-mono);
+  font-size: .9em;
+}
+.ods-prose hr {
+  border: 0;
+  border-top: var(--semantic-border-width-default) solid var(--component-prose-rule-color);
+}
+
+[data-slot="toast"] {
+  background: var(--component-toast-bg);
+  color: var(--component-toast-fg);
+  border-color: var(--component-toast-border);
+  border-radius: var(--component-toast-radius);
+  box-shadow: var(--component-toast-shadow);
+  font-size: var(--component-toast-font-size);
+}
+[data-slot="toast"][data-type="success"] {
+  background: var(--component-toast-success-bg, var(--component-toast-bg));
+  color: var(--component-toast-success-fg, var(--component-toast-fg));
+  border-color: var(--component-toast-success-border, var(--component-toast-border));
+}
+[data-slot="toast"][data-type="info"] {
+  background: var(--component-toast-info-bg, var(--component-toast-bg));
+  color: var(--component-toast-info-fg, var(--component-toast-fg));
+  border-color: var(--component-toast-info-border, var(--component-toast-border));
+}
+[data-slot="toast"][data-type="warning"] {
+  background: var(--component-toast-warning-bg, var(--component-toast-bg));
+  color: var(--component-toast-warning-fg, var(--component-toast-fg));
+  border-color: var(--component-toast-warning-border, var(--component-toast-border));
+}
+/* danger 를 MUI error 토큰으로 변환 */
+[data-slot="toast"][data-type="error"] {
+  background: var(--component-toast-danger-bg, var(--component-toast-bg));
+  color: var(--component-toast-danger-fg, var(--component-toast-fg));
+  border-color: var(--component-toast-danger-border, var(--component-toast-border));
+}
+[data-slot="toast-description"] { color: var(--component-toast-description-fg, inherit); }
+/* 정지 화면용, 미리보기 시 쌓임 계산 끄기 */
+[data-slot="toast"][data-static] {
+  border-width: var(--semantic-border-width-default);
+  border-style: solid;
+}
+
+[data-sidebar-frame] [data-slot="sidebar-container"] { height: 100%; }
+[data-sidebar-frame] [data-slot="sidebar-inner"] { height: 100%; }
+/* 내용이 틀보다 길면 목록만 스크롤 처리, 헤더와 푸터는 고정 */
+[data-sidebar-frame] [data-slot="sidebar-content"] { overflow-y: auto; }
+
+.site-button-ghost-wrapper {
+  padding: 1rem;
+  background: #bec8c8;
+}
+
+.doc-demo { margin: 0 0 1.5rem; }
+.doc-demo > .doc-demo-title {
+  font-size: .875rem; font-weight: 600; margin: 0 0 .25rem;
+  color: var(--semantic-fg-neutral-default, #18181b);
+}
+.doc-demo-stage {
+  margin-top: .75rem; padding: 1.5rem;
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  border-radius: .5rem;
+  background: var(--semantic-bg-neutral-subtlest, #ffffff);
+}
+.doc-demo-stage--contain { contain: layout; }
+/* iframe 예제 내부 여백 제외. 내부 문서에 이미 자체 여백 있음 */
+.doc-demo-stage--frame { padding: 0; overflow: hidden; }
+
+/* 공식 문서 코드 조각 MuiReference 발췌, 화면 표시 제외 */
+.doc-code { margin: .75rem 0; padding: .7rem .85rem; border-radius: .5rem;
+  overflow-x: auto; font-size: .75rem; line-height: 1.5;
+  background: var(--semantic-bg-neutral-subtle, #f4f4f5);
+  border: 1px solid var(--semantic-border-neutral-subtle, #e4e4e7);
+  color: var(--semantic-fg-neutral-default, #18181b); }
+.doc-code code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.doc-ref-table { table-layout: auto; min-width: 44rem; }
+.doc-ref-table th,
+.doc-ref-table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: top;
+  padding: .5rem .7rem;
+  line-height: 1.55;
+}
+/* 긴 타입 유니온 줄바꿈 처리 */
+.doc-ref-table code { overflow-wrap: anywhere; }

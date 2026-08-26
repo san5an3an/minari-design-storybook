@@ -1,0 +1,47 @@
+/* 자동 생성 — tools/gen_mui_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: mui/material-ui 의 docs/data/material/components/progress/CircularEnableTrack.tsx
+ *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
+ *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+
+export default function CircularEnableTrack() {
+  const [progress, setProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return (
+    <Stack spacing={2} direction="row">
+      <CircularProgress enableTrackSlot size="30px" aria-label="Loading…" />
+      <CircularProgress enableTrackSlot size={40} aria-label="Loading…" />
+      <CircularProgress enableTrackSlot size="3rem" aria-label="Loading…" />
+      <CircularProgress
+        enableTrackSlot
+        variant="determinate"
+        value={70}
+        aria-label="Export data"
+      />
+      <CircularProgress
+        enableTrackSlot
+        variant="determinate"
+        color="secondary"
+        value={progress}
+        aria-label="Upload photos"
+      />
+    </Stack>
+  );
+}

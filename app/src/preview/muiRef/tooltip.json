@@ -1,0 +1,560 @@
+{
+ "slug": "tooltip",
+ "title": "Tooltip",
+ "group": "Data display",
+ "folder": "tooltips",
+ "description": "Tooltips display informative text when users hover over, focus on, or tap an element.",
+ "components": [
+  "Tooltip"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When activated, Tooltips display a text label identifying an element, such as a description of its function."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic tooltip",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicTooltip",
+     "file": "BasicTooltip.tsx",
+     "code": "import DeleteIcon from '@mui/icons-material/Delete';\nimport IconButton from '@mui/material/IconButton';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function BasicTooltip() {\n  return (\n    <Tooltip title=\"Delete\">\n      <IconButton>\n        <DeleteIcon />\n      </IconButton>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Labels and descriptions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default, the tooltip only labels its child element.\nThis is notably different from `title` which can either label or describe its child depending on whether the child already has a label.\nFor example, in the element below, the `title` acts as an accessible description:"
+    },
+    {
+     "kind": "code",
+     "lang": "html",
+     "text": "<button title=\"some more information\">A button</button>\n"
+    },
+    {
+     "kind": "prose",
+     "text": "If you want the tooltip to act as an accessible description, you can pass the `describeChild` prop.\nYou shouldn't use `describeChild` if the tooltip provides the only visual label.\nIn that case, the child would have no accessible name and the tooltip would violate [WCAG 2.2 Success Criterion 2.5.3](https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html).\nIf the trigger already has either visible text or an `aria-label`, use the tooltip as a description and pass the `describeChild` prop.\nOtherwise, you can use the default behavior and let the tooltip label the trigger."
+    },
+    {
+     "kind": "demo",
+     "name": "AccessibilityTooltips",
+     "file": "AccessibilityTooltips.tsx",
+     "code": "import DeleteIcon from '@mui/icons-material/Delete';\nimport Button from '@mui/material/Button';\nimport IconButton from '@mui/material/IconButton';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function AccessibilityTooltips() {\n  return (\n    <div>\n      <Tooltip title=\"Delete\">\n        <IconButton>\n          <DeleteIcon />\n        </IconButton>\n      </Tooltip>\n      <Tooltip describeChild title=\"Does not add if it already exists.\">\n        <Button>Add</Button>\n      </Tooltip>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Positioned tooltips",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `Tooltip` has 12 **placement** choices.\nThey don't have directional arrows; instead, they rely on motion emanating from the source to convey direction."
+    },
+    {
+     "kind": "demo",
+     "name": "PositionedTooltips",
+     "file": "PositionedTooltips.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Stack from '@mui/material/Stack';\nimport Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function PositionedTooltips() {\n  return (\n    <Box sx={{ width: 500 }}>\n      <Stack direction=\"row\" sx={{ justifyContent: 'center' }}>\n        <Tooltip describeChild title=\"Add\" placement=\"top-start\">\n          <Button>top-start</Button>\n        </Tooltip>\n        <Tooltip describeChild title=\"Add\" placement=\"top\">\n          <Button>top</Button>\n        </Tooltip>\n        <Tooltip describeChild title=\"Add\" placement=\"top-end\">\n          <Button>top-end</Button>\n        </Tooltip>\n      </Stack>\n      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>\n        <Stack direction=\"column\" sx={{ alignItems: 'flex-start' }}>\n          <Tooltip describeChild title=\"Add\" placement=\"left-start\">\n            <Button>left-start</Button>\n          </Tooltip>\n          <Tooltip describeChild title=\"Add\" placement=\"left\">\n            <Button>left</Button>\n          </Tooltip>\n          <Tooltip describeChild title=\"Add\" placement=\"left-end\">\n            <Button>left-end</Button>\n          </Tooltip>\n        </Stack>\n        <Stack direction=\"column\" sx={{ alignItems: 'flex-end' }}>\n          <Tooltip describeChild title=\"Add\" placement=\"right-start\">\n            <Button>right-start</Button>\n          </Tooltip>\n          <Tooltip describeChild title=\"Add\" placement=\"right\">\n            <Button>right</Button>\n          </Tooltip>\n          <Tooltip describeChild title=\"Add\" placement=\"right-end\">\n            <Button>right-end</Button>\n          </Tooltip>\n        </Stack>\n      </Box>\n      <Stack direction=\"row\" sx={{ justifyContent: 'center' }}>\n        <Tooltip title=\"Add\" placement=\"bottom-start\">\n          <Button>bottom-start</Button>\n        </Tooltip>\n        <Tooltip title=\"Add\" placement=\"bottom\">\n          <Button>bottom</Button>\n        </Tooltip>\n        <Tooltip title=\"Add\" placement=\"bottom-end\">\n          <Button>bottom-end</Button>\n        </Tooltip>\n      </Stack>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedTooltips",
+     "file": "CustomizedTooltips.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Button from '@mui/material/Button';\nimport Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';\nimport Typography from '@mui/material/Typography';\n\nconst LightTooltip = styled(({ className, ...props }: TooltipProps) => (\n  <Tooltip describeChild {...props} classes={{ popper: className }} />\n))(({ theme }) => ({\n  [`& .${tooltipClasses.tooltip}`]: {\n    backgroundColor: theme.palette.common.white,\n    color: 'rgba(0, 0, 0, 0.87)',\n    boxShadow: theme.shadows[1],\n    fontSize: 11,\n  },\n}));\n\nconst BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (\n  <Tooltip describeChild {...props} arrow classes={{ popper: className }} />\n))(({ theme }) => ({\n  [`& .${tooltipClasses.arrow}`]: {\n    color: theme.palette.common.black,\n  },\n  [`& .${tooltipClasses.tooltip}`]: {\n    backgroundColor: theme.palette.common.black,\n  },\n}));\n\nconst HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (\n  <Tooltip describeChild {...props} classes={{ popper: className }} />\n))(({ theme }) => ({\n  [`& .${tooltipClasses.tooltip}`]: {\n    backgroundColor: '#f5f5f9',\n    color: 'rgba(0, 0, 0, 0.87)',\n    maxWidth: 220,\n    fontSize: theme.typography.pxToRem(12),\n    border: '1px solid #dadde9',\n  },\n}));\n\nexport default function CustomizedTooltips() {\n  return (\n    <div>\n      <LightTooltip title=\"Add\">\n        <Button>Light</Button>\n      </LightTooltip>\n      <BootstrapTooltip title=\"Add\">\n        <Button>Bootstrap</Button>\n      </BootstrapTooltip>\n      <HtmlTooltip\n        title={\n          <React.Fragment>\n            <Typography\n              sx={{\n                color: 'inherit',\n              }}\n            >\n              Tooltip with HTML\n            </Typography>\n            <em>{\"And here's\"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}\n            {\"It's very engaging. Right?\"}\n          </React.Fragment>\n        }\n      >\n        <Button>HTML</Button>\n      </HtmlTooltip>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Arrow tooltips",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use the `arrow` prop to give your tooltip an arrow indicating which element it refers to."
+    },
+    {
+     "kind": "demo",
+     "name": "ArrowTooltips",
+     "file": "ArrowTooltips.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function ArrowTooltips() {\n  return (\n    <Tooltip describeChild title=\"Add\" arrow>\n      <Button>Arrow</Button>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Distance from anchor",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "To adjust the distance between the tooltip and its anchor, you can use the `slotProps` prop to modify the [offset](https://popper.js.org/docs/v2/modifiers/offset/) of the popper."
+    },
+    {
+     "kind": "demo",
+     "name": "TooltipOffset",
+     "file": "TooltipOffset.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function TooltipOffset() {\n  return (\n    <Tooltip\n      describeChild\n      title=\"Add\"\n      slotProps={{\n        popper: {\n          modifiers: [\n            {\n              name: 'offset',\n              options: {\n                offset: [0, -14],\n              },\n            },\n          ],\n        },\n      }}\n    >\n      <Button>Offset</Button>\n    </Tooltip>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Alternatively, you can use the `slotProps` prop to customize the margin of the popper."
+    },
+    {
+     "kind": "demo",
+     "name": "TooltipMargin",
+     "file": "TooltipMargin.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip, { tooltipClasses } from '@mui/material/Tooltip';\n\nexport default function TooltipMargin() {\n  return (\n    <Tooltip\n      title=\"Add\"\n      describeChild\n      slotProps={{\n        popper: {\n          sx: {\n            [`&.${tooltipClasses.popper}[data-popper-placement*=\"bottom\"] .${tooltipClasses.tooltip}`]:\n              {\n                marginTop: '0px',\n              },\n            [`&.${tooltipClasses.popper}[data-popper-placement*=\"top\"] .${tooltipClasses.tooltip}`]:\n              {\n                marginBottom: '0px',\n              },\n            [`&.${tooltipClasses.popper}[data-popper-placement*=\"right\"] .${tooltipClasses.tooltip}`]:\n              {\n                marginLeft: '0px',\n              },\n            [`&.${tooltipClasses.popper}[data-popper-placement*=\"left\"] .${tooltipClasses.tooltip}`]:\n              {\n                marginRight: '0px',\n              },\n          },\n        },\n      }}\n    >\n      <Button>Margin</Button>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Custom child element",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The tooltip needs to apply DOM event listeners to its child element.\nIf the child is a custom React element, you need to make sure that it spreads its props to the underlying DOM element."
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "const MyComponent = React.forwardRef(function MyComponent(props, ref) {\n  //  Spread the props to the underlying DOM element.\n  return (\n    <div {...props} ref={ref}>\n      Bin\n    </div>\n  );\n});\n\n// ...\n\n<Tooltip title=\"Delete\">\n  <MyComponent />\n</Tooltip>;\n"
+    },
+    {
+     "kind": "prose",
+     "text": "If using a class component as a child, you'll also need to ensure that the ref is forwarded to the underlying DOM element. (A ref to the class component itself will not work.)"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "class MyComponent extends React.Component {\n  render() {\n    const { innerRef, ...props } = this.props;\n    //  Spread the props to the underlying DOM element.\n    return (\n      <div {...props} ref={innerRef}>\n        Bin\n      </div>\n    );\n  }\n}\n\n// Wrap MyComponent to forward the ref as expected by Tooltip\nconst WrappedMyComponent = React.forwardRef(function WrappedMyComponent(props, ref) {\n  return <MyComponent {...props} innerRef={ref} />;\n});\n\n// ...\n\n<Tooltip title=\"Delete\">\n  <WrappedMyComponent />\n</Tooltip>;\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Triggers",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can define the types of events that cause a tooltip to show.\n\nThe touch action requires a long press due to the `enterTouchDelay` prop being set to `700`ms by default."
+    },
+    {
+     "kind": "demo",
+     "name": "TriggersTooltips",
+     "file": "TriggersTooltips.tsx",
+     "code": "import * as React from 'react';\nimport Grid from '@mui/material/Grid';\nimport Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\nimport ClickAwayListener from '@mui/material/ClickAwayListener';\n\nexport default function TriggersTooltips() {\n  const [open, setOpen] = React.useState(false);\n\n  const handleTooltipClose = () => {\n    setOpen(false);\n  };\n\n  const handleTooltipOpen = () => {\n    setOpen(true);\n  };\n\n  return (\n    <div>\n      <Grid container sx={{ justifyContent: 'center' }}>\n        <Grid>\n          <Tooltip describeChild disableFocusListener title=\"Add\">\n            <Button>Hover or touch</Button>\n          </Tooltip>\n        </Grid>\n        <Grid>\n          <Tooltip describeChild disableHoverListener title=\"Add\">\n            <Button>Focus or touch</Button>\n          </Tooltip>\n        </Grid>\n        <Grid>\n          <Tooltip\n            describeChild\n            disableFocusListener\n            disableTouchListener\n            title=\"Add\"\n          >\n            <Button>Hover</Button>\n          </Tooltip>\n        </Grid>\n        <Grid>\n          <ClickAwayListener onClickAway={handleTooltipClose}>\n            <div>\n              <Tooltip\n                describeChild\n                onClose={handleTooltipClose}\n                open={open}\n                disableFocusListener\n                disableHoverListener\n                disableTouchListener\n                title=\"Add\"\n                slotProps={{\n                  popper: {\n                    disablePortal: true,\n                  },\n                }}\n              >\n                <Button onClick={handleTooltipOpen}>Click</Button>\n              </Tooltip>\n            </div>\n          </ClickAwayListener>\n        </Grid>\n      </Grid>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Controlled tooltips",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use the `open`, `onOpen` and `onClose` props to control the behavior of the tooltip."
+    },
+    {
+     "kind": "demo",
+     "name": "ControlledTooltips",
+     "file": "ControlledTooltips.tsx",
+     "code": "import * as React from 'react';\nimport Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function ControlledTooltips() {\n  const [open, setOpen] = React.useState(false);\n\n  const handleClose = () => {\n    setOpen(false);\n  };\n\n  const handleOpen = () => {\n    setOpen(true);\n  };\n\n  return (\n    <Tooltip\n      describeChild\n      open={open}\n      onClose={handleClose}\n      onOpen={handleOpen}\n      title=\"Add\"\n    >\n      <Button>Controlled</Button>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Variable width",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `Tooltip` wraps long text by default to make it readable."
+    },
+    {
+     "kind": "demo",
+     "name": "VariableWidth",
+     "file": "VariableWidth.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Button from '@mui/material/Button';\nimport Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';\n\nconst CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (\n  <Tooltip describeChild {...props} classes={{ popper: className }} />\n))({\n  [`& .${tooltipClasses.tooltip}`]: {\n    maxWidth: 500,\n  },\n});\n\nconst NoMaxWidthTooltip = styled(({ className, ...props }: TooltipProps) => (\n  <Tooltip describeChild {...props} classes={{ popper: className }} />\n))({\n  [`& .${tooltipClasses.tooltip}`]: {\n    maxWidth: 'none',\n  },\n});\n\nconst longText = `\nAliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.\nPraesent non nunc mollis, fermentum neque at, semper arcu.\nNullam eget est sed sem iaculis gravida eget vitae justo.\n`;\n\nexport default function VariableWidth() {\n  return (\n    <div>\n      <Tooltip describeChild title={longText}>\n        <Button sx={{ m: 1 }}>Default Width [300px]</Button>\n      </Tooltip>\n      <CustomWidthTooltip title={longText}>\n        <Button sx={{ m: 1 }}>Custom Width [500px]</Button>\n      </CustomWidthTooltip>\n      <NoMaxWidthTooltip title={longText}>\n        <Button sx={{ m: 1 }}>No wrapping</Button>\n      </NoMaxWidthTooltip>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Interactive",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Tooltips are interactive by default (to pass [WCAG 2.2 Success Criterion 1.4.13](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html)).\nIt won't close when the user hovers over the tooltip before the `leaveDelay` is expired.\nYou can disable this behavior (thus failing the success criterion which is required to reach Level AA) by passing `disableInteractive`."
+    },
+    {
+     "kind": "demo",
+     "name": "NonInteractiveTooltips",
+     "file": "NonInteractiveTooltips.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function NonInteractiveTooltips() {\n  return (\n    <Tooltip describeChild title=\"Add\" disableInteractive>\n      <Button>Not interactive</Button>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Disabled elements",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "By default disabled elements like `<button>` do not trigger user interactions so a `Tooltip` will not activate on normal events like hover. To accommodate disabled elements, add a simple wrapper element, such as a `span`.\n\n:::warning\nIn order to work with Safari, you need at least one display block or flex item below the tooltip wrapper.\n:::"
+    },
+    {
+     "kind": "demo",
+     "name": "DisabledTooltips",
+     "file": "DisabledTooltips.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function DisabledTooltips() {\n  return (\n    <Tooltip describeChild title=\"You don't have permission to do this\">\n      <span>\n        <Button disabled>A Disabled Button</Button>\n      </span>\n    </Tooltip>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nIf you're not wrapping a Material UI component that inherits from `ButtonBase`, for instance, a native `<button>` element, you should also add the CSS property _pointer-events: none;_ to your element when disabled:\n:::"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Tooltip describeChild title=\"You don't have permission to do this\">\n  <span>\n    <button disabled={disabled} style={disabled ? { pointerEvents: 'none' } : {}}>\n      A disabled button\n    </button>\n  </span>\n</Tooltip>\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Use `slots.transition` and `slotProps.transition` to use a different transition."
+    },
+    {
+     "kind": "demo",
+     "name": "TransitionsTooltips",
+     "file": "TransitionsTooltips.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\nimport Fade from '@mui/material/Fade';\nimport Zoom from '@mui/material/Zoom';\n\nexport default function TransitionsTooltips() {\n  return (\n    <div>\n      <Tooltip describeChild title=\"Add\">\n        <Button>Grow</Button>\n      </Tooltip>\n      <Tooltip\n        describeChild\n        title=\"Add\"\n        slots={{\n          transition: Fade,\n        }}\n        slotProps={{\n          transition: { timeout: 600 },\n        }}\n      >\n        <Button>Fade</Button>\n      </Tooltip>\n      <Tooltip\n        describeChild\n        title=\"Add\"\n        slots={{\n          transition: Zoom,\n        }}\n      >\n        <Button>Zoom</Button>\n      </Tooltip>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Follow cursor",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can enable the tooltip to follow the cursor by setting `followCursor={true}`."
+    },
+    {
+     "kind": "demo",
+     "name": "FollowCursorTooltips",
+     "file": "FollowCursorTooltips.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function FollowCursorTooltips() {\n  return (\n    <Tooltip describeChild title=\"You don't have permission to do this\" followCursor>\n      <Box sx={{ bgcolor: 'text.disabled', color: 'background.paper', p: 2 }}>\n        Disabled Action\n      </Box>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Virtual element",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In the event you need to implement a custom placement, you can use the `anchorEl` prop:\nThe value of the `anchorEl` prop can be a reference to a fake DOM element.\nYou need to create an object shaped like the [`VirtualElement`](https://popper.js.org/docs/v2/virtual-elements/)."
+    },
+    {
+     "kind": "demo",
+     "name": "AnchorElTooltips",
+     "file": "AnchorElTooltips.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Tooltip from '@mui/material/Tooltip';\nimport { Instance } from '@popperjs/core';\n\nexport default function AnchorElTooltips() {\n  const positionRef = React.useRef<{ x: number; y: number }>({\n    x: 0,\n    y: 0,\n  });\n  const popperRef = React.useRef<Instance>(null);\n  const areaRef = React.useRef<HTMLDivElement>(null);\n\n  const handleMouseMove = (event: React.MouseEvent) => {\n    positionRef.current = { x: event.clientX, y: event.clientY };\n\n    if (popperRef.current != null) {\n      popperRef.current.update();\n    }\n  };\n\n  return (\n    <Tooltip\n      describeChild\n      title=\"Add\"\n      placement=\"top\"\n      arrow\n      slotProps={{\n        popper: {\n          popperRef,\n          anchorEl: {\n            getBoundingClientRect: () => {\n              return new DOMRect(\n                positionRef.current.x,\n                areaRef.current!.getBoundingClientRect().y,\n                0,\n                0,\n              );\n            },\n          },\n        },\n      }}\n    >\n      <Box\n        ref={areaRef}\n        onMouseMove={handleMouseMove}\n        sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', p: 2 }}\n      >\n        Hover\n      </Box>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Showing and hiding",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The tooltip is normally shown immediately when the user's mouse hovers over the element, and hides immediately when the user's mouse leaves. A delay in showing or hiding the tooltip can be added through the `enterDelay` and `leaveDelay` props.\n\nOn mobile, the tooltip is displayed when the user longpresses the element and hides after a delay of 1500ms. You can disable this feature with the `disableTouchListener` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "DelayTooltips",
+     "file": "DelayTooltips.tsx",
+     "code": "import Button from '@mui/material/Button';\nimport Tooltip from '@mui/material/Tooltip';\n\nexport default function DelayTooltips() {\n  return (\n    <Tooltip describeChild title=\"Add\" enterDelay={500} leaveDelay={200}>\n      <Button>[500ms, 200ms]</Button>\n    </Tooltip>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/)\n\nTooltips should wrap triggers that are focusable and hoverable (for example, buttons) so that all users can activate them. When tooltips are displayed, they are automatically linked to the trigger. The trigger element is either labeled or described by the tooltip content. However, tooltip content should not be used as a full text alternative for truncated content."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Tooltip",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "Tooltip reference element."
+    },
+    {
+     "prop": "arrow",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, adds an arrow to the tooltip."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "describeChild",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Set to <code>true</code> if the <code>title</code> acts as an accessible description. By default the <code>title</code> acts as an accessible label for the child."
+    },
+    {
+     "prop": "disableFocusListener",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Do not respond to focus-visible events."
+    },
+    {
+     "prop": "disableHoverListener",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Do not respond to hover events."
+    },
+    {
+     "prop": "disableInteractive",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Makes a tooltip not interactive, i.e. it will close when the user hovers over the tooltip before the <code>leaveDelay</code> is expired."
+    },
+    {
+     "prop": "disableTouchListener",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Do not respond to long press touch events."
+    },
+    {
+     "prop": "enterDelay",
+     "type": "number",
+     "default": "100",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds to wait before showing the tooltip. This prop won&#39;t impact the enter touch delay (<code>enterTouchDelay</code>)."
+    },
+    {
+     "prop": "enterNextDelay",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds to wait before showing the tooltip when one was already recently opened."
+    },
+    {
+     "prop": "enterTouchDelay",
+     "type": "number",
+     "default": "700",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds a user must touch the element before showing the tooltip."
+    },
+    {
+     "prop": "followCursor",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the tooltip follow the cursor over the wrapped element."
+    },
+    {
+     "prop": "id",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop is used to help implement the accessibility logic. If you don&#39;t provide this prop. It falls back to a randomly generated id."
+    },
+    {
+     "prop": "leaveDelay",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds to wait before hiding the tooltip. This prop won&#39;t impact the leave touch delay (<code>leaveTouchDelay</code>)."
+    },
+    {
+     "prop": "leaveTouchDelay",
+     "type": "number",
+     "default": "1500",
+     "required": false,
+     "deprecated": false,
+     "desc": "The number of milliseconds after the user stops touching an element before hiding the tooltip."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed."
+    },
+    {
+     "prop": "onOpen",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be open."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "placement",
+     "type": "'auto-end'<br>&#124;&nbsp;'auto-start'<br>&#124;&nbsp;'auto'<br>&#124;&nbsp;'bottom-end'<br>&#124;&nbsp;'bottom-start'<br>&#124;&nbsp;'bottom'<br>&#124;&nbsp;'left-end'<br>&#124;&nbsp;'left-start'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right-end'<br>&#124;&nbsp;'right-start'<br>&#124;&nbsp;'right'<br>&#124;&nbsp;'top-end'<br>&#124;&nbsp;'top-start'<br>&#124;&nbsp;'top'",
+     "default": "'bottom'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Tooltip placement."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ arrow?: func<br>&#124;&nbsp;object, popper?: func<br>&#124;&nbsp;object, tooltip?: func<br>&#124;&nbsp;object, transition?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ arrow?: elementType, popper?: elementType, tooltip?: elementType, transition?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "title",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Tooltip title. Zero-length titles string, undefined, null and false are never displayed."
+    }
+   ],
+   "classes": [
+    {
+     "key": "popperArrow",
+     "className": "MuiTooltip-popperArrow",
+     "description": "Styles applied to the Popper component if `arrow={true}`."
+    },
+    {
+     "key": "popperClose",
+     "className": "MuiTooltip-popperClose",
+     "description": "Styles applied to the Popper component unless the tooltip is open."
+    },
+    {
+     "key": "popperInteractive",
+     "className": "MuiTooltip-popperInteractive",
+     "description": "Styles applied to the Popper component unless `disableInteractive={true}`."
+    },
+    {
+     "key": "tooltipArrow",
+     "className": "MuiTooltip-tooltipArrow",
+     "description": "Styles applied to the tooltip (label wrapper) element if `arrow={true}`."
+    },
+    {
+     "key": "tooltipPlacementBottom",
+     "className": "MuiTooltip-tooltipPlacementBottom",
+     "description": "Styles applied to the tooltip (label wrapper) element if `placement` contains \"bottom\"."
+    },
+    {
+     "key": "tooltipPlacementLeft",
+     "className": "MuiTooltip-tooltipPlacementLeft",
+     "description": "Styles applied to the tooltip (label wrapper) element if `placement` contains \"left\"."
+    },
+    {
+     "key": "tooltipPlacementRight",
+     "className": "MuiTooltip-tooltipPlacementRight",
+     "description": "Styles applied to the tooltip (label wrapper) element if `placement` contains \"right\"."
+    },
+    {
+     "key": "tooltipPlacementTop",
+     "className": "MuiTooltip-tooltipPlacementTop",
+     "description": "Styles applied to the tooltip (label wrapper) element if `placement` contains \"top\"."
+    },
+    {
+     "key": "touch",
+     "className": "MuiTooltip-touch",
+     "description": "Styles applied to the tooltip (label wrapper) element if the tooltip is opened by touch."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-tooltip/"
+}

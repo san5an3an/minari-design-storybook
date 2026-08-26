@@ -1,0 +1,830 @@
+{
+ "slug": "slider",
+ "title": "Slider",
+ "description": "A Slider component for displaying current value and intervals in range.",
+ "group": "Data Entry",
+ "whenToUse": "Used to input a value within a specified range.",
+ "examples": [
+  {
+   "name": "Basic",
+   "description": "Basic slider. When `range` is `true`, display as dual thumb mode. When `disable` is `true`, the slider will not be interactable.",
+   "code": "import React, { useState } from 'react';\nimport { Slider, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [disabled, setDisabled] = useState(false);\n\n  const onChange = (checked: boolean) => {\n    setDisabled(checked);\n  };\n\n  return (\n    <>\n      <Slider defaultValue={30} disabled={disabled} />\n      <Slider range defaultValue={[20, 50]} disabled={disabled} />\n      Disabled: <Switch size=\"small\" checked={disabled} onChange={onChange} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "basic"
+  },
+  {
+   "name": "Slider with InputNumber",
+   "description": "Synchronize with InputNumber component.",
+   "code": "import React, { useState } from 'react';\nimport type { InputNumberProps } from 'antd';\nimport { Col, InputNumber, Row, Slider, Space } from 'antd';\n\nconst IntegerStep: React.FC = () => {\n  const [inputValue, setInputValue] = useState(1);\n\n  const onChange: InputNumberProps['onChange'] = (newValue) => {\n    setInputValue(newValue as number);\n  };\n\n  return (\n    <Row>\n      <Col span={12}>\n        <Slider\n          min={1}\n          max={20}\n          onChange={onChange}\n          value={typeof inputValue === 'number' ? inputValue : 0}\n        />\n      </Col>\n      <Col span={4}>\n        <InputNumber\n          min={1}\n          max={20}\n          style={{ margin: '0 16px' }}\n          value={inputValue}\n          onChange={onChange}\n        />\n      </Col>\n    </Row>\n  );\n};\n\nconst DecimalStep: React.FC = () => {\n  const [inputValue, setInputValue] = useState(0);\n\n  const onChange: InputNumberProps['onChange'] = (value) => {\n    if (Number.isNaN(value)) {\n      return;\n    }\n    setInputValue(value as number);\n  };\n\n  return (\n    <Row>\n      <Col span={12}>\n        <Slider\n          min={0}\n          max={1}\n          onChange={onChange}\n          value={typeof inputValue === 'number' ? inputValue : 0}\n          step={0.01}\n        />\n      </Col>\n      <Col span={4}>\n        <InputNumber\n          min={0}\n          max={1}\n          style={{ margin: '0 16px' }}\n          step={0.01}\n          value={inputValue}\n          onChange={onChange}\n        />\n      </Col>\n    </Row>\n  );\n};\n\nconst App: React.FC = () => (\n  <Space style={{ width: '100%' }} vertical>\n    <IntegerStep />\n    <DecimalStep />\n  </Space>\n);\n\nexport default App;",
+   "demoId": "input-number"
+  },
+  {
+   "name": "Slider with icon",
+   "description": "You can add an icon beside the slider to make it meaningful.",
+   "code": "import React, { useState } from 'react';\nimport { FrownOutlined, SmileOutlined } from '@ant-design/icons';\nimport { Flex, Slider } from 'antd';\nimport { createStyles } from 'antd-style';\nimport { clsx } from 'clsx';\n\nconst useStyles = createStyles((props) => {\n  const { css, iconPrefixCls, cssVar } = props;\n  return {\n    wrapper: css`\n      position: relative;\n      .${iconPrefixCls} {\n        color: ${cssVar.colorTextQuaternary};\n        font-size: ${cssVar.fontSizeLG};\n        transition: color ${cssVar.motionDurationFast} ${cssVar.motionEaseInOutCirc};\n        &.isActive {\n          color: ${cssVar.colorPrimary};\n        }\n      }\n    `,\n    slider: css`\n      flex: 1;\n      width: 100%;\n    `,\n  };\n});\n\ninterface IconSliderProps {\n  max: number;\n  min: number;\n}\n\nconst IconSlider: React.FC<IconSliderProps> = (props) => {\n  const { max, min } = props;\n\n  const { styles } = useStyles();\n\n  const [value, setValue] = useState(0);\n\n  const mid = Number(((max - min) / 2).toFixed(5));\n\n  return (\n    <Flex justify=\"space-between\" align=\"center\" gap=\"small\" className={styles.wrapper}>\n      <FrownOutlined className={clsx({ isActive: value < mid })} />\n      <Slider {...props} onChange={setValue} value={value} className={styles.slider} />\n      <SmileOutlined className={clsx({ isActive: value >= mid })} />\n    </Flex>\n  );\n};\n\nconst App: React.FC = () => <IconSlider min={0} max={20} />;\n\nexport default App;",
+   "demoId": "icon-slider"
+  },
+  {
+   "name": "Customize tooltip",
+   "description": "Use `tooltip.formatter` to format content of `Tooltip`. If `tooltip.formatter` is null, hide it.",
+   "code": "import React from 'react';\nimport type { SliderSingleProps } from 'antd';\nimport { Slider } from 'antd';\n\nconst formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => `${value}%`;\n\nconst App: React.FC = () => (\n  <>\n    <Slider tooltip={{ formatter }} />\n    <Slider tooltip={{ formatter: null }} />\n  </>\n);\n\nexport default App;",
+   "demoId": "tip-formatter"
+  },
+  {
+   "name": "Event",
+   "description": "The `onChange` callback function will fire when the user changes the slider's value. The `onChangeComplete` callback function will fire when `mouseup` or `keyup` fired.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\n\nconst onChange = (value: number | number[]) => {\n  console.log('onChange: ', value);\n};\n\nconst onChangeComplete = (value: number | number[]) => {\n  console.log('onChangeComplete: ', value);\n};\n\nconst App: React.FC = () => (\n  <>\n    <Slider defaultValue={30} onChange={onChange} onChangeComplete={onChangeComplete} />\n    <Slider\n      range\n      step={10}\n      defaultValue={[20, 50]}\n      onChange={onChange}\n      onChangeComplete={onChangeComplete}\n    />\n  </>\n);\n\nexport default App;",
+   "demoId": "event"
+  },
+  {
+   "name": "Graduated slider",
+   "description": "Using `marks` property to mark a graduated slider, use `value` or `defaultValue` to specify the position of thumb. When `included` is false, means that different thumbs are coordinative. when `step` is null, valid points will only be marks, `min` and `max`.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\nimport type { SliderSingleProps } from 'antd';\n\nconst style: React.CSSProperties = {\n  marginBottom: 16,\n};\n\nconst sliderStyle: React.CSSProperties = {\n  marginBottom: 48,\n};\n\nconst marks: SliderSingleProps['marks'] = {\n  0: '0°C',\n  26: '26°C',\n  37: '37°C',\n  100: {\n    style: { color: '#f50' },\n    label: <strong>100°C</strong>,\n  },\n};\n\nconst App: React.FC = () => (\n  <>\n    <h4 style={style}>included=true</h4>\n    <Slider style={sliderStyle} marks={marks} defaultValue={37} />\n    <Slider style={sliderStyle} range marks={marks} defaultValue={[26, 37]} />\n\n    <h4 style={style}>included=false</h4>\n    <Slider style={sliderStyle} marks={marks} included={false} defaultValue={37} />\n\n    <h4 style={style}>marks & step</h4>\n    <Slider style={sliderStyle} marks={marks} step={10} defaultValue={37} />\n\n    <h4 style={style}>step=null</h4>\n    <Slider style={sliderStyle} marks={marks} step={null} defaultValue={37} />\n  </>\n);\n\nexport default App;",
+   "demoId": "mark"
+  },
+  {
+   "name": "Vertical",
+   "description": "The vertical Slider.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\nimport type { SliderSingleProps } from 'antd';\n\nconst style: React.CSSProperties = {\n  display: 'inline-block',\n  height: 300,\n  marginInlineStart: 70,\n};\n\nconst marks: SliderSingleProps['marks'] = {\n  0: '0°C',\n  26: '26°C',\n  37: '37°C',\n  100: {\n    style: { color: '#f50' },\n    label: <strong>100°C</strong>,\n  },\n};\n\nconst App: React.FC = () => (\n  <>\n    <div style={style}>\n      <Slider vertical defaultValue={30} />\n    </div>\n    <div style={style}>\n      <Slider vertical range step={10} defaultValue={[20, 50]} />\n    </div>\n    <div style={style}>\n      <Slider vertical range marks={marks} defaultValue={[26, 37]} />\n    </div>\n  </>\n);\n\nexport default App;",
+   "demoId": "vertical"
+  },
+  {
+   "name": "Control visibility of Tooltip",
+   "description": "When `tooltip.open` is `true`, ToolTip will always show, if set to `false` the ToolTip will not show, even if dragging or hovering.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\n\nconst App: React.FC = () => <Slider defaultValue={30} tooltip={{ open: true }} />;\n\nexport default App;",
+   "demoId": "show-tooltip"
+  },
+  {
+   "name": "Reverse",
+   "description": "Using `reverse` to render slider reversely.",
+   "code": "import React, { useState } from 'react';\nimport { Slider, Switch } from 'antd';\n\nconst App: React.FC = () => {\n  const [reverse, setReverse] = useState(true);\n\n  return (\n    <>\n      <Slider defaultValue={30} reverse={reverse} />\n      <Slider range defaultValue={[20, 50]} reverse={reverse} />\n      Reversed: <Switch size=\"small\" checked={reverse} onChange={setReverse} />\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "reverse"
+  },
+  {
+   "name": "Draggable track",
+   "description": "Make range track draggable by setting `range.draggableTrack`.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\n\nconst App: React.FC = () => <Slider range={{ draggableTrack: true }} defaultValue={[20, 50]} />;\n\nexport default App;",
+   "demoId": "draggabletrack"
+  },
+  {
+   "name": "Multiple handles",
+   "description": "Multiple handles combination.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\n\nfunction getGradientColor(percentage: number) {\n  const startColor = [135, 208, 104];\n  const endColor = [255, 204, 199];\n\n  const midColor = startColor.map((start, i) => {\n    const end = endColor[i];\n    const delta = end - start;\n    return (start + delta * percentage).toFixed(0);\n  });\n\n  return `rgb(${midColor.join(',')})`;\n}\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState([0, 10, 20]);\n\n  const start = value[0] / 100;\n  const end = value[value.length - 1] / 100;\n\n  return (\n    <Slider\n      range\n      defaultValue={value}\n      onChange={setValue}\n      styles={{\n        track: {\n          background: 'transparent',\n        },\n        tracks: {\n          background: `linear-gradient(to right, ${getGradientColor(start)} 0%, ${getGradientColor(\n            end,\n          )} 100%)`,\n        },\n      }}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "multiple"
+  },
+  {
+   "name": "Dynamic edit nodes",
+   "description": "Click to add a node, drag out or press the key to delete the node.",
+   "code": "import React from 'react';\nimport { Slider } from 'antd';\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState([20, 80]);\n\n  return (\n    <Slider\n      range={{ editable: true, minCount: 1, maxCount: 5 }}\n      value={value}\n      onChange={setValue}\n    />\n  );\n};\n\nexport default App;",
+   "demoId": "editable"
+  },
+  {
+   "name": "Disabled per handle",
+   "description": "Set `disabled` to an array to individually disable specific handles in range mode. Disabled handles act as movement boundaries that other handles cannot cross.",
+   "code": "import React from 'react';\nimport { Checkbox, Flex, Slider } from 'antd';\n\nconst handleOptions = [\n  { key: 'start', label: 'Disabled Handle 1' },\n  { key: 'middle', label: 'Disabled Handle 2' },\n  { key: 'end', label: 'Disabled Handle 3' },\n];\n\nconst App: React.FC = () => {\n  const [value, setValue] = React.useState([20, 50, 80]);\n  const [disabled, setDisabled] = React.useState<boolean[]>([false, false, false]);\n\n  const handleDisabledChange = (index: number, checked: boolean) => {\n    const newDisabled = [...disabled];\n    newDisabled[index] = checked;\n    setDisabled(newDisabled);\n  };\n\n  return (\n    <>\n      <Slider\n        range={{ draggableTrack: true, minCount: 2, maxCount: 5 }}\n        value={value}\n        onChange={setValue}\n        disabled={disabled}\n      />\n      <Flex gap=\"small\" align=\"center\" justify=\"flex-start\" style={{ marginTop: 16 }}>\n        {handleOptions.map((handle, index) => {\n          return (\n            <Checkbox\n              key={`item-${handle.key}`}\n              checked={disabled[index]}\n              onChange={(e) => handleDisabledChange(index, e.target.checked)}\n            >\n              {handle.label}\n            </Checkbox>\n          );\n        })}\n      </Flex>\n    </>\n  );\n};\n\nexport default App;",
+   "demoId": "disabled-handle"
+  },
+  {
+   "name": "Custom semantic dom styling",
+   "description": "You can customize the semantic dom style of Sliders by passing objects/functions through `classNames` and `styles`.",
+   "code": "import React from 'react';\nimport { Flex, Slider } from 'antd';\nimport type { SliderSingleProps } from 'antd';\nimport { createStyles } from 'antd-style';\n\nconst useHorizontalStyles = createStyles(({ css }) => ({\n  root: css`\n    width: 300px;\n  `,\n}));\n\nconst useVerticalStyles = createStyles(({ css, prefixCls, cssVar }) => ({\n  root: css`\n    width: 100px;\n    &:hover {\n      .${prefixCls}-slider-handle:after {\n        box-shadow: 0 0 0 ${cssVar.lineWidthBold} #722ed1;\n      }\n    }\n  `,\n  handle: css`\n    &.${prefixCls}-slider-handle:hover::after,\n      &.${prefixCls}-slider-handle:active::after,\n      &.${prefixCls}-slider-handle:focus::after,\n      &.${prefixCls}-slider-handle::after {\n      box-shadow: 0 0 0 ${cssVar.lineWidthBold} #722ed1;\n    }\n  `,\n}));\n\nconst stylesObject: SliderSingleProps['styles'] = {\n  track: { backgroundImage: 'linear-gradient(180deg, #91caff, #1677ff)' },\n  handle: { borderColor: '#1677ff', boxShadow: '0 2px 8px #1677ff' },\n};\n\nconst stylesFn: SliderSingleProps['styles'] = (info) => {\n  if (info.props.orientation === 'vertical') {\n    return {\n      root: { height: 300 },\n      track: { backgroundImage: 'linear-gradient(180deg, #722cc0, #722ed1)' },\n      handle: { borderColor: '#722ed1', boxShadow: '0 2px 8px #722ed1' },\n    };\n  }\n  return {};\n};\n\nconst sharedProps: SliderSingleProps = {\n  defaultValue: 30,\n};\n\nconst App: React.FC = () => {\n  const { styles: horizontalClassNames } = useHorizontalStyles();\n  const { styles: verticalClassNames } = useVerticalStyles();\n  return (\n    <Flex vertical gap=\"medium\">\n      <Slider\n        {...sharedProps}\n        orientation=\"horizontal\"\n        classNames={horizontalClassNames}\n        styles={stylesObject}\n      />\n      <Slider\n        {...sharedProps}\n        classNames={verticalClassNames}\n        orientation=\"vertical\"\n        reverse\n        styles={stylesFn}\n      />\n    </Flex>\n  );\n};\n\nexport default App;",
+   "demoId": "style-class"
+  }
+ ],
+ "api": [
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version",
+    "Global Config"
+   ],
+   "rows": [
+    [
+     "classNames",
+     "Customize class for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+     "-",
+     "—",
+     "5.23.0"
+    ],
+    [
+     "defaultValue",
+     "The default value of the slider. When `range` is false, use number, otherwise, use \\[number, number]",
+     "number | \\[number, number]",
+     "0 | \\[0, 0]",
+     "—",
+     "×"
+    ],
+    [
+     "disabled",
+     "If true, the slider will not be interactive. This prop can also be an array to disable specific handles in range mode, e.g. `[true, false, true]` disables first and third handles. When any rendered handle is disabled, `editable` mode will be disabled",
+     "boolean | boolean[]",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "keyboard",
+     "Support using keyboard to move handlers",
+     "boolean",
+     "true",
+     "5.2.0+",
+     "×"
+    ],
+    [
+     "dots",
+     "Whether the thumb can only be dragged to tick marks",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "included",
+     "Takes effect when `marks` is not null. True means containment and false means coordinative",
+     "boolean",
+     "true",
+     "—",
+     "×"
+    ],
+    [
+     "marks",
+     "Tick marks of Slider. The type of key must be `number`, and must be in closed interval \\[min, max]. Each mark can declare its own style",
+     "object",
+     "{ number: ReactNode } | { number: { style: CSSProperties, label: ReactNode } }",
+     "—",
+     "×"
+    ],
+    [
+     "max",
+     "The maximum value the slider can slide to",
+     "number",
+     "100",
+     "—",
+     "×"
+    ],
+    [
+     "min",
+     "The minimum value the slider can slide to",
+     "number",
+     "0",
+     "—",
+     "×"
+    ],
+    [
+     "orientation",
+     "Orientation",
+     "`horizontal` | `vertical`",
+     "horizontal",
+     "—",
+     "×"
+    ],
+    [
+     "range",
+     "Enable dual thumb mode for range selection",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "reverse",
+     "Reverse the component",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "step",
+     "The granularity the slider can step through values. Must be greater than 0, and be divisible by (max - min). When `step` is `null` and `marks` exist, valid points will only be marks, `min` and `max`",
+     "number | null",
+     "1",
+     "—",
+     "×"
+    ],
+    [
+     "styles",
+     "Customize inline style for each semantic structure inside the component. Supports object or function.",
+     "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+     "-",
+     "—",
+     "5.23.0"
+    ],
+    [
+     "tooltip",
+     "The tooltip related props",
+     "tooltip",
+     "-",
+     "4.23.0",
+     "×"
+    ],
+    [
+     "value",
+     "The value of slider. When `range` is false, use number, otherwise, use \\[number, number]",
+     "number | \\[number, number]",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "vertical",
+     "If true, the slider will be vertical. Simultaneously existing with `orientation`, `orientation` takes priority",
+     "boolean",
+     "false",
+     "—",
+     "×"
+    ],
+    [
+     "onChangeComplete",
+     "Fire when `mouseup` or `keyup` is fired",
+     "(value) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "onChange",
+     "Callback function that is fired when the user changes the slider's value",
+     "(value) => void",
+     "-",
+     "—",
+     "×"
+    ],
+    [
+     "~~handleStyle~~",
+     "Style of the slider handle, please use `styles.handle` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~onAfterChange~~",
+     "Callback fired when `mouseup` or `keyup` is fired, please use `onChangeComplete` instead",
+     "(value) => void",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~railStyle~~",
+     "Style of the slider rail, please use `styles.rail` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ],
+    [
+     "~~trackStyle~~",
+     "Style of the slider track, please use `styles.track` instead",
+     "CSSProperties",
+     "-",
+     "-",
+     "×"
+    ]
+   ],
+   "name": ""
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "draggableTrack",
+     "Whether range track can be dragged",
+     "boolean",
+     "false",
+     "-"
+    ],
+    [
+     "editable",
+     "Dynamic edit nodes. Cannot be used with `draggableTrack`",
+     "boolean",
+     "false",
+     "5.20.0"
+    ],
+    [
+     "minCount",
+     "The minimum count of nodes",
+     "number",
+     "0",
+     "5.20.0"
+    ],
+    [
+     "maxCount",
+     "The maximum count of nodes",
+     "number",
+     "-",
+     "5.20.0"
+    ]
+   ],
+   "name": "range"
+  },
+  {
+   "columns": [
+    "Property",
+    "Description",
+    "Type",
+    "Default",
+    "Version"
+   ],
+   "rows": [
+    [
+     "autoAdjustOverflow",
+     "Whether to automatically adjust the popup position",
+     "boolean",
+     "true",
+     "5.8.0"
+    ],
+    [
+     "open",
+     "If true, Tooltip will always be visible; if false, it will never be visible, even when dragging or hovering",
+     "boolean",
+     "-",
+     "4.23.0"
+    ],
+    [
+     "placement",
+     "Set Tooltip display position. Ref Tooltip",
+     "string",
+     "-",
+     "4.23.0"
+    ],
+    [
+     "getPopupContainer",
+     "The DOM container of the Tooltip. The default behavior is to create a div element in the body",
+     "(triggerNode) => HTMLElement",
+     "() => document.body",
+     "4.23.0"
+    ],
+    [
+     "formatter",
+     "Slider will pass its value to `formatter`, display its value in Tooltip, and hide the Tooltip when the returned value is null",
+     "value => ReactNode | null",
+     "IDENTITY",
+     "4.23.0"
+    ]
+   ],
+   "name": "tooltip"
+  }
+ ],
+ "props": {
+  "columns": [
+   "Property",
+   "Description",
+   "Type",
+   "Default",
+   "Version",
+   "Global Config"
+  ],
+  "rows": [
+   [
+    "classNames",
+    "Customize class for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, string> | (info: { props })=> Record<SemanticDOM, string>",
+    "-",
+    "—",
+    "5.23.0"
+   ],
+   [
+    "defaultValue",
+    "The default value of the slider. When `range` is false, use number, otherwise, use \\[number, number]",
+    "number | \\[number, number]",
+    "0 | \\[0, 0]",
+    "—",
+    "×"
+   ],
+   [
+    "disabled",
+    "If true, the slider will not be interactive. This prop can also be an array to disable specific handles in range mode, e.g. `[true, false, true]` disables first and third handles. When any rendered handle is disabled, `editable` mode will be disabled",
+    "boolean | boolean[]",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "keyboard",
+    "Support using keyboard to move handlers",
+    "boolean",
+    "true",
+    "5.2.0+",
+    "×"
+   ],
+   [
+    "dots",
+    "Whether the thumb can only be dragged to tick marks",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "included",
+    "Takes effect when `marks` is not null. True means containment and false means coordinative",
+    "boolean",
+    "true",
+    "—",
+    "×"
+   ],
+   [
+    "marks",
+    "Tick marks of Slider. The type of key must be `number`, and must be in closed interval \\[min, max]. Each mark can declare its own style",
+    "object",
+    "{ number: ReactNode } | { number: { style: CSSProperties, label: ReactNode } }",
+    "—",
+    "×"
+   ],
+   [
+    "max",
+    "The maximum value the slider can slide to",
+    "number",
+    "100",
+    "—",
+    "×"
+   ],
+   [
+    "min",
+    "The minimum value the slider can slide to",
+    "number",
+    "0",
+    "—",
+    "×"
+   ],
+   [
+    "orientation",
+    "Orientation",
+    "`horizontal` | `vertical`",
+    "horizontal",
+    "—",
+    "×"
+   ],
+   [
+    "range",
+    "Enable dual thumb mode for range selection",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "reverse",
+    "Reverse the component",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "step",
+    "The granularity the slider can step through values. Must be greater than 0, and be divisible by (max - min). When `step` is `null` and `marks` exist, valid points will only be marks, `min` and `max`",
+    "number | null",
+    "1",
+    "—",
+    "×"
+   ],
+   [
+    "styles",
+    "Customize inline style for each semantic structure inside the component. Supports object or function.",
+    "Record<SemanticDOM, CSSProperties> | (info: { props })=> Record<SemanticDOM, CSSProperties>",
+    "-",
+    "—",
+    "5.23.0"
+   ],
+   [
+    "tooltip",
+    "The tooltip related props",
+    "tooltip",
+    "-",
+    "4.23.0",
+    "×"
+   ],
+   [
+    "value",
+    "The value of slider. When `range` is false, use number, otherwise, use \\[number, number]",
+    "number | \\[number, number]",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "vertical",
+    "If true, the slider will be vertical. Simultaneously existing with `orientation`, `orientation` takes priority",
+    "boolean",
+    "false",
+    "—",
+    "×"
+   ],
+   [
+    "onChangeComplete",
+    "Fire when `mouseup` or `keyup` is fired",
+    "(value) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "onChange",
+    "Callback function that is fired when the user changes the slider's value",
+    "(value) => void",
+    "-",
+    "—",
+    "×"
+   ],
+   [
+    "~~handleStyle~~",
+    "Style of the slider handle, please use `styles.handle` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~onAfterChange~~",
+    "Callback fired when `mouseup` or `keyup` is fired, please use `onChangeComplete` instead",
+    "(value) => void",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~railStyle~~",
+    "Style of the slider rail, please use `styles.rail` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ],
+   [
+    "~~trackStyle~~",
+    "Style of the slider track, please use `styles.track` instead",
+    "CSSProperties",
+    "-",
+    "-",
+    "×"
+   ]
+  ],
+  "name": ""
+ },
+ "variants": [
+  {
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "default": "horizontal",
+   "owner": "",
+   "source": "type",
+   "deprecated": false
+  }
+ ],
+ "semanticDom": {
+  "parts": [
+   {
+    "name": "root",
+    "mark": "semantic-mark-root",
+    "description": "Root element with relative positioning, height, margin, padding, cursor style and touch action control"
+   },
+   {
+    "name": "track",
+    "mark": "semantic-mark-track",
+    "description": "Track selection bar element with absolute positioning, background color, border radius and transition animation styles"
+   },
+   {
+    "name": "tracks",
+    "mark": "semantic-mark-tracks",
+    "description": "Multi-segment track container element with absolute positioning and transition animation styles"
+   },
+   {
+    "name": "rail",
+    "mark": "semantic-mark-rail",
+    "description": "Background rail element with absolute positioning, background color, border radius and transition animation styles"
+   },
+   {
+    "name": "handle",
+    "mark": "semantic-mark-handle",
+    "description": "Slider handle control element with absolute positioning, size, outline, user selection, background color, border shadow, border radius, cursor style and transition animation"
+   }
+  ],
+  "dom": "<div class=\"ant-slider semantic-mark-root css-var-test-id ant-slider-horizontal\" style=\"width: 100%;\">\n        <div class=\"ant-slider-rail semantic-mark-rail\">\n        <div class=\"semantic-mark-tracks ant-slider-tracks\" style=\"left: 20%; width: 30%;\">\n        <div class=\"ant-slider-track ant-slider-track-1 semantic-mark-track\" style=\"left: 20%; width: 10%;\">\n        <div class=\"ant-slider-track ant-slider-track-2 semantic-mark-track\" style=\"left: 30%; width: 20%;\">\n        <div class=\"ant-slider-step\">\n        <div aria-disabled=\"false\" aria-orientation=\"horizontal\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"20\" class=\"ant-slider-handle ant-slider-handle-1 semantic-mark-handle\" role=\"slider\" style=\"left: 20%; transform: translateX(-50%);\" tabindex=\"0\">\n        <div aria-disabled=\"false\" aria-orientation=\"horizontal\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"30\" class=\"ant-slider-handle ant-slider-handle-2 semantic-mark-handle\" role=\"slider\" style=\"left: 30%; transform: translateX(-50%);\" tabindex=\"0\">\n        <div aria-disabled=\"false\" aria-orientation=\"horizontal\" aria-valuemax=\"100\" aria-valuemin=\"0\" aria-valuenow=\"50\" class=\"ant-slider-handle ant-slider-handle-3 semantic-mark-handle\" role=\"slider\" style=\"left: 50%; transform: translateX(-50%);\" tabindex=\"0\">\n      </div>\n    </div>\n    <div class=\"ant-col ant-col-8 css-var-test-id\">\n      <ul class=\"acss-11b5qta\">\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  root\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.23.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              根元素，设置相对定位、高度、边距、内边距、光标样式和触摸事件控制\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  track\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.10.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              轨道选取条元素，设置绝对定位、背景色、圆角和过渡动画样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  tracks\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.10.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              多段轨道容器元素，设置绝对定位和过渡动画样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  rail\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.10.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              背景轨道元素，设置绝对定位、背景色、圆角和过渡动画样式\n            </div>\n          </div>\n        </li>\n        <li class=\"acss-1ehfz5v\">\n          <div class=\"ant-flex css-var-test-id ant-flex-align-stretch ant-flex-gap-small ant-flex-vertical\">\n            <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-justify-space-between ant-flex-gap-small\">\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <h5 class=\"ant-typography css-var-test-id\" style=\"margin: 0px;\">\n                  handle\n                </h5>\n                <span class=\"ant-tag ant-tag-filled ant-tag-blue css-var-test-id\">\n                  5.10.0\n                </span>\n              </div>\n              <div class=\"ant-flex css-var-test-id ant-flex-align-center ant-flex-gap-small\">\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-default ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"pushpin\" class=\"anticon anticon-pushpin\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"pushpin\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M878.3 392.1L631.9 145.7c-6.5-6.5-15-9.7-23.5-9.7s-17 3.2-23.5 9.7L423.8 306.9c-12.2-1.4-24.5-2-36.8-2-73.2 0-146.4 24.1-206.5 72.3a33.23 33.23 0 00-2.7 49.4l181.7 181.7-215.4 215.2a15.8 15.8 0 00-4.6 9.8l-3.4 37.2c-.9 9.4 6.6 17.4 15.9 17.4.5 0 1 0 1.5-.1l37.2-3.4c3.7-.3 7.2-2 9.8-4.6l215.4-215.4 181.7 181.7c6.5 6.5 15 9.7 23.5 9.7 9.7 0 19.3-4.2 25.9-12.4 56.3-70.3 79.7-158.3 70.2-243.4l161.1-161.1c12.9-12.8 12.9-33.8 0-46.8zM666.2 549.3l-24.5 24.5 3.8 34.4a259.92 259.92 0 01-30.4 153.9L262 408.8c12.9-7.1 26.3-13.1 40.3-17.9 27.2-9.4 55.7-14.1 84.7-14.1 9.6 0 19.3.5 28.9 1.6l34.4 3.8 24.5-24.5L608.5 224 800 415.5 666.2 549.3z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n                <button aria-hidden=\"true\" class=\"ant-btn css-var-test-id ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-sm ant-btn-icon-only\" type=\"button\">\n                  <span class=\"ant-btn-icon\">\n                    <span aria-label=\"info-circle\" class=\"anticon anticon-info-circle\" role=\"img\">\n                      <svg aria-hidden=\"true\" data-icon=\"info-circle\" fill=\"currentColor\" focusable=\"false\" height=\"1em\" viewBox=\"64 64 896 896\" width=\"1em\">\n                        <path d=\"M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z\"></path>\n                        <path d=\"M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z\"></path>\n                      </svg>\n                    </span>\n                  </span>\n                </button>\n              </div>\n            </div>\n            <div class=\"ant-typography css-var-test-id\" style=\"margin: 0px; font-size: 12px;\">\n              滑块控制点元素，设置绝对定位、尺寸、轮廓线、用户选择、背景色、边框阴影、圆角、光标样式和过渡动画\n            </div>\n          </div>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div></div></div></div></div></div>"
+ },
+ "designToken": "",
+ "componentToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "controlSize",
+     "Height of slider",
+     "number",
+     "10"
+    ],
+    [
+     "dotActiveBorderColor",
+     "Border color of dot when active",
+     "string",
+     "#91caff"
+    ],
+    [
+     "dotBorderColor",
+     "Border color of dot",
+     "string",
+     "#f0f0f0"
+    ],
+    [
+     "dotSize",
+     "Size of dot",
+     "number",
+     "8"
+    ],
+    [
+     "handleActiveColor",
+     "Border color of handle when active",
+     "string",
+     "#1677ff"
+    ],
+    [
+     "handleActiveOutlineColor",
+     "Outline color of handle when active",
+     "string",
+     "rgba(22,119,255,0.2)"
+    ],
+    [
+     "handleColor",
+     "Color of handle",
+     "string",
+     "#91caff"
+    ],
+    [
+     "handleColorDisabled",
+     "Color of handle when disabled",
+     "string",
+     "#bfbfbf"
+    ],
+    [
+     "handleLineWidth",
+     "Border width of handle",
+     "string | number",
+     "2"
+    ],
+    [
+     "handleLineWidthHover",
+     "Border width of handle when hover",
+     "string | number",
+     "2.5"
+    ],
+    [
+     "handleSize",
+     "Size of handle",
+     "number",
+     "10"
+    ],
+    [
+     "handleSizeHover",
+     "Size of handle when hover",
+     "number",
+     "12"
+    ],
+    [
+     "railBg",
+     "Background color of rail",
+     "string",
+     "rgba(0,0,0,0.04)"
+    ],
+    [
+     "railHoverBg",
+     "Background color of rail when hover",
+     "string",
+     "rgba(0,0,0,0.06)"
+    ],
+    [
+     "railSize",
+     "Height of rail",
+     "number",
+     "4"
+    ],
+    [
+     "trackBg",
+     "Background color of track",
+     "string",
+     "#91caff"
+    ],
+    [
+     "trackBgDisabled",
+     "Background color of track when disabled",
+     "string",
+     "rgba(0,0,0,0.04)"
+    ],
+    [
+     "trackHoverBg",
+     "Background color of track when hover",
+     "string",
+     "#69b1ff"
+    ]
+   ]
+  }
+ ],
+ "globalToken": [
+  {
+   "columns": [
+    "Token Name",
+    "Description",
+    "Type",
+    "Default Value"
+   ],
+   "rows": [
+    [
+     "borderRadiusXS",
+     "XS size border radius, used in some small border radius components, such as Segmented, Arrow and other components with small border radius.",
+     "number",
+     "—"
+    ],
+    [
+     "colorBgElevated",
+     "Container background color of the popup layer, in dark mode the color value of this token will be a little brighter than `colorBgContainer`. E.g: modal, pop-up, menu, etc.",
+     "string",
+     "—"
+    ],
+    [
+     "colorFillContentHover",
+     "Control the style of background color of content area when mouse hovers over it.",
+     "string",
+     "—"
+    ],
+    [
+     "colorPrimaryBorderHover",
+     "The hover state of the stroke color under the main color gradient, which will be used when the stroke Hover of components such as Slider and Button.",
+     "string",
+     "—"
+    ],
+    [
+     "colorText",
+     "Default text color which comply with W3C standards, and this color is also the darkest neutral color.",
+     "string",
+     "—"
+    ],
+    [
+     "colorTextDescription",
+     "Control the font color of text description.",
+     "string",
+     "—"
+    ],
+    [
+     "controlHeight",
+     "The height of the basic controls such as buttons and input boxes in Ant Design",
+     "number",
+     "—"
+    ],
+    [
+     "controlHeightLG",
+     "LG component height",
+     "number",
+     "—"
+    ],
+    [
+     "fontFamily",
+     "The font family of Ant Design prioritizes the default interface font of the system, and provides a set of alternative font libraries that are suitable for screen display to maintain the readability and readability of the font under different platforms and browsers, reflecting the friendly, stable and professional characteristics.",
+     "string",
+     "—"
+    ],
+    [
+     "fontSize",
+     "The most widely used font size in the design system, from which the text gradient will be derived.",
+     "number",
+     "—"
+    ],
+    [
+     "lineHeight",
+     "Line height of text.",
+     "number",
+     "—"
+    ],
+    [
+     "motionDurationMid",
+     "Motion speed, medium speed. Used for medium element animation interaction.",
+     "string",
+     "—"
+    ],
+    [
+     "motionDurationSlow",
+     "Motion speed, slow speed. Used for large element animation interaction.",
+     "string",
+     "—"
+    ]
+   ]
+  }
+ ]
+}

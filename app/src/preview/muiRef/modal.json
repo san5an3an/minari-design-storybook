@@ -1,0 +1,319 @@
+{
+ "slug": "modal",
+ "title": "Modal",
+ "group": "Utils",
+ "folder": "modal",
+ "description": "The modal component provides a solid foundation for creating dialogs, popovers, lightboxes, or whatever else.",
+ "components": [
+  "Modal"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The component renders its `children` node in front of a backdrop component.\nThe `Modal` offers important features:\n\n- 💄 Manages modal stacking when one-at-a-time just isn't enough.\n- 🔐 Creates a backdrop, for disabling interaction below the modal.\n- 🔐 It disables scrolling of the page content while open.\n- ♿️ It properly manages focus; moving to the modal content,\n  and keeping it there until the modal is closed.\n- ♿️ Adds the appropriate ARIA roles automatically.\n\n\n:::info\nThe term \"modal\" is sometimes used to mean \"dialog\", but this is a misnomer.\nA modal window describes parts of a UI.\nAn element is considered modal if [it blocks interaction with the rest of the application](https://en.wikipedia.org/wiki/Modal_window).\n:::\n\nIf you are creating a modal dialog, you probably want to use the [Dialog](/material-ui/react-dialog/) component rather than directly using Modal.\nModal is a lower-level construct that is leveraged by the following components:\n\n- [Dialog](/material-ui/react-dialog/)\n- [Drawer](/material-ui/react-drawer/)\n- [Menu](/material-ui/react-menu/)\n- [Popover](/material-ui/react-popover/)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basic modal",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "BasicModal",
+     "file": "BasicModal.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\nimport Modal from '@mui/material/Modal';\n\nconst style = {\n  position: 'absolute',\n  top: '50%',\n  left: '50%',\n  transform: 'translate(-50%, -50%)',\n  width: 400,\n  bgcolor: 'background.paper',\n  border: '2px solid #000',\n  boxShadow: 24,\n  p: 4,\n};\n\nexport default function BasicModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <div>\n      <Button onClick={handleOpen}>Open modal</Button>\n      <Modal\n        open={open}\n        onClose={handleClose}\n        aria-labelledby=\"modal-modal-title\"\n        aria-describedby=\"modal-modal-description\"\n      >\n        <Box sx={style}>\n          <Typography id=\"modal-modal-title\" variant=\"h6\" component=\"h2\">\n            Text in a modal\n          </Typography>\n          <Typography id=\"modal-modal-description\" sx={{ mt: 2 }}>\n            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\n          </Typography>\n        </Box>\n      </Modal>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Notice that you can disable the outline (often blue or gold) with the `outline: 0` CSS property."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Nested modal",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Modals can be nested, for example a select within a dialog, but stacking of more than two modals, or any two modals with a backdrop is discouraged.\n\nIf you need to nest modals, use the `hideBackdrop` prop on nested Modals to avoid stacking multiple backdrops, which can obscure the active modal or affect interactions."
+    },
+    {
+     "kind": "demo",
+     "name": "NestedModal",
+     "file": "NestedModal.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Modal from '@mui/material/Modal';\nimport Button from '@mui/material/Button';\n\nconst style = {\n  position: 'absolute',\n  top: '50%',\n  left: '50%',\n  transform: 'translate(-50%, -50%)',\n  width: 400,\n  bgcolor: 'background.paper',\n  border: '2px solid #000',\n  boxShadow: 24,\n  pt: 2,\n  px: 4,\n  pb: 3,\n};\n\nfunction ChildModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => {\n    setOpen(true);\n  };\n  const handleClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <React.Fragment>\n      <Button onClick={handleOpen}>Open Child Modal</Button>\n      <Modal\n        open={open}\n        onClose={handleClose}\n        aria-labelledby=\"child-modal-title\"\n        aria-describedby=\"child-modal-description\"\n      >\n        <Box sx={{ ...style, width: 200 }}>\n          <h2 id=\"child-modal-title\">Text in a child modal</h2>\n          <p id=\"child-modal-description\">\n            Lorem ipsum, dolor sit amet consectetur adipisicing elit.\n          </p>\n          <Button onClick={handleClose}>Close Child Modal</Button>\n        </Box>\n      </Modal>\n    </React.Fragment>\n  );\n}\n\nexport default function NestedModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => {\n    setOpen(true);\n  };\n  const handleClose = () => {\n    setOpen(false);\n  };\n\n  return (\n    <div>\n      <Button onClick={handleOpen}>Open modal</Button>\n      <Modal\n        open={open}\n        onClose={handleClose}\n        aria-labelledby=\"parent-modal-title\"\n        aria-describedby=\"parent-modal-description\"\n      >\n        <Box sx={{ ...style, width: 400 }}>\n          <h2 id=\"parent-modal-title\">Text in a modal</h2>\n          <p id=\"parent-modal-description\">\n            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\n          </p>\n          <ChildModal />\n        </Box>\n      </Modal>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Transitions",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The open/close state of the modal can be animated with a transition component.\nThis component should respect the following conditions:\n\n- Be a direct child descendent of the modal.\n- Have an `in` prop. This corresponds to the open/close state.\n- Call the `onEnter` callback prop when the enter transition starts.\n- Call the `onExited` callback prop when the exit transition is completed.\n  These two callbacks allow the modal to unmount the child content when closed and fully transitioned.\n\nModal has built-in support for [react-transition-group](https://github.com/reactjs/react-transition-group)."
+    },
+    {
+     "kind": "demo",
+     "name": "TransitionsModal",
+     "file": "TransitionsModal.tsx",
+     "code": "import * as React from 'react';\nimport Backdrop from '@mui/material/Backdrop';\nimport Box from '@mui/material/Box';\nimport Modal from '@mui/material/Modal';\nimport Fade from '@mui/material/Fade';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nconst style = {\n  position: 'absolute',\n  top: '50%',\n  left: '50%',\n  transform: 'translate(-50%, -50%)',\n  width: 400,\n  bgcolor: 'background.paper',\n  border: '2px solid #000',\n  boxShadow: 24,\n  p: 4,\n};\n\nexport default function TransitionsModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <div>\n      <Button onClick={handleOpen}>Open modal</Button>\n      <Modal\n        aria-labelledby=\"transition-modal-title\"\n        aria-describedby=\"transition-modal-description\"\n        open={open}\n        onClose={handleClose}\n        closeAfterTransition\n        slots={{ backdrop: Backdrop }}\n        slotProps={{\n          backdrop: {\n            timeout: 500,\n          },\n        }}\n      >\n        <Fade in={open}>\n          <Box sx={style}>\n            <Typography id=\"transition-modal-title\" variant=\"h6\" component=\"h2\">\n              Text in a modal\n            </Typography>\n            <Typography id=\"transition-modal-description\" sx={{ mt: 2 }}>\n              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\n            </Typography>\n          </Box>\n        </Fade>\n      </Modal>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "Alternatively, you can use [react-spring](https://github.com/pmndrs/react-spring)."
+    },
+    {
+     "kind": "demo",
+     "name": "SpringModal",
+     "file": "SpringModal.tsx",
+     "code": "import * as React from 'react';\nimport Backdrop from '@mui/material/Backdrop';\nimport Box from '@mui/material/Box';\nimport Modal from '@mui/material/Modal';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\nimport { useSpring, animated } from '@react-spring/web';\n\ninterface FadeProps {\n  children: React.ReactElement<any>;\n  in?: boolean;\n  onClick?: any;\n  onEnter?: (node: HTMLElement, isAppearing: boolean) => void;\n  onExited?: (node: HTMLElement, isAppearing: boolean) => void;\n  ownerState?: any;\n}\n\nconst Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(props, ref) {\n  const {\n    children,\n    in: open,\n    onClick,\n    onEnter,\n    onExited,\n    ownerState,\n    ...other\n  } = props;\n  const style = useSpring({\n    from: { opacity: 0 },\n    to: { opacity: open ? 1 : 0 },\n    onStart: () => {\n      if (open && onEnter) {\n        onEnter(null as any, true);\n      }\n    },\n    onRest: () => {\n      if (!open && onExited) {\n        onExited(null as any, true);\n      }\n    },\n  });\n\n  return (\n    <animated.div ref={ref} style={style} {...other}>\n      {React.cloneElement(children, { onClick })}\n    </animated.div>\n  );\n});\n\nconst style = {\n  position: 'absolute',\n  top: '50%',\n  left: '50%',\n  transform: 'translate(-50%, -50%)',\n  width: 400,\n  bgcolor: 'background.paper',\n  border: '2px solid #000',\n  boxShadow: 24,\n  p: 4,\n};\n\nexport default function SpringModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <div>\n      <Button onClick={handleOpen}>Open modal</Button>\n      <Modal\n        aria-labelledby=\"spring-modal-title\"\n        aria-describedby=\"spring-modal-description\"\n        open={open}\n        onClose={handleClose}\n        closeAfterTransition\n        slots={{ backdrop: Backdrop }}\n        slotProps={{\n          backdrop: { slots: { transition: Fade } },\n        }}\n      >\n        <Fade in={open}>\n          <Box sx={style}>\n            <Typography id=\"spring-modal-title\" variant=\"h6\" component=\"h2\">\n              Text in a modal\n            </Typography>\n            <Typography id=\"spring-modal-description\" sx={{ mt: 2 }}>\n              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\n            </Typography>\n          </Box>\n        </Fade>\n      </Modal>\n    </div>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Performance",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The content of modal is unmounted when closed.\nIf you need to make the content available to search engines or render expensive component trees inside your modal while optimizing for interaction responsiveness\nit might be a good idea to change this default behavior by enabling the `keepMounted` prop:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Modal keepMounted />\n"
+    },
+    {
+     "kind": "demo",
+     "name": "KeepMountedModal",
+     "file": "KeepMountedModal.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Modal from '@mui/material/Modal';\nimport Button from '@mui/material/Button';\nimport Typography from '@mui/material/Typography';\n\nconst style = {\n  position: 'absolute',\n  top: '50%',\n  left: '50%',\n  transform: 'translate(-50%, -50%)',\n  width: 400,\n  bgcolor: 'background.paper',\n  border: '2px solid #000',\n  boxShadow: 24,\n  p: 4,\n};\n\nexport default function KeepMountedModal() {\n  const [open, setOpen] = React.useState(false);\n  const handleOpen = () => setOpen(true);\n  const handleClose = () => setOpen(false);\n\n  return (\n    <div>\n      <Button onClick={handleOpen}>Open modal</Button>\n      <Modal\n        keepMounted\n        open={open}\n        onClose={handleClose}\n        aria-labelledby=\"keep-mounted-modal-title\"\n        aria-describedby=\"keep-mounted-modal-description\"\n      >\n        <Box sx={style}>\n          <Typography id=\"keep-mounted-modal-title\" variant=\"h6\" component=\"h2\">\n            Text in a modal\n          </Typography>\n          <Typography id=\"keep-mounted-modal-description\" sx={{ mt: 2 }}>\n            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.\n          </Typography>\n        </Box>\n      </Modal>\n    </div>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "As with any performance optimization, this is not a silver bullet.\nBe sure to identify bottlenecks first, and then try out these optimization strategies."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Server-side modal",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "React [doesn't support](https://github.com/react/react/issues/13097) the [`createPortal()`](https://react.dev/reference/react-dom/createPortal) API on the server.\nIn order to display the modal, you need to disable the portal feature with the `disablePortal` prop:"
+    },
+    {
+     "kind": "demo",
+     "name": "ServerModal",
+     "file": "ServerModal.tsx",
+     "code": "import * as React from 'react';\nimport Modal from '@mui/material/Modal';\nimport Typography from '@mui/material/Typography';\nimport Box from '@mui/material/Box';\n\nexport default function ServerModal() {\n  const rootRef = React.useRef<HTMLDivElement>(null);\n\n  return (\n    <Box\n      sx={{\n        height: 300,\n        flexGrow: 1,\n        minWidth: 300,\n        transform: 'translateZ(0)',\n      }}\n      ref={rootRef}\n    >\n      <Modal\n        disablePortal\n        disableEnforceFocus\n        disableAutoFocus\n        open\n        aria-labelledby=\"server-modal-title\"\n        aria-describedby=\"server-modal-description\"\n        sx={{\n          display: 'flex',\n          p: 1,\n          alignItems: 'center',\n          justifyContent: 'center',\n        }}\n        container={() => rootRef.current!}\n      >\n        <Box\n          sx={(theme) => ({\n            position: 'relative',\n            width: 400,\n            bgcolor: 'background.paper',\n            border: '2px solid #000',\n            boxShadow: theme.shadows[5],\n            p: 4,\n          })}\n        >\n          <Typography id=\"server-modal-title\" variant=\"h6\" component=\"h2\">\n            Server-side modal\n          </Typography>\n          <Typography id=\"server-modal-description\" sx={{ pt: 2 }}>\n            If you disable JavaScript, you will still see me.\n          </Typography>\n        </Box>\n      </Modal>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Limitations",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Focus trap",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The modal moves the focus back to the body of the component if the focus tries to escape it.\n\nThis is done for accessibility purposes. However, it might create issues.\nIn the event the users need to interact with another part of the page, for example with a chatbot window, you can disable the behavior:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<Modal disableEnforceFocus />\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)\n\n- Be sure to add `aria-labelledby=\"id...\"`, referencing the modal title, to the `Modal`.\n  Additionally, you may give a description of your modal with the `aria-describedby=\"id...\"` prop on the `Modal`.\n\n  ```jsx\n  <Modal aria-labelledby=\"modal-title\" aria-describedby=\"modal-description\">\n    <h2 id=\"modal-title\">My Title</h2>\n    <p id=\"modal-description\">My Description</p>\n  </Modal>\n  ```\n\n- The [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/) can help you set the initial focus on the most relevant element, based on your modal content.\n- Keep in mind that a \"modal window\" overlays on either the primary window or another modal window. Windows under a modal are **inert**. That is, users cannot interact with content outside an active modal window. This might create [conflicting behaviors](#focus-trap)."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Modal",
+   "description": "Modal is a lower-level construct that is leveraged by the following components:\n\n- [Dialog](/material-ui/api/dialog/)\n- [Drawer](/material-ui/api/drawer/)\n- [Menu](/material-ui/api/menu/)\n- [Popover](/material-ui/api/popover/)\n\nIf you are creating a modal dialog, you probably want to use the [Dialog](/material-ui/api/dialog/) component\nrather than directly using Modal.\n\nThis component shares many concepts with [react-overlays](https://react-bootstrap.github.io/react-overlays/#modals).",
+   "props": [
+    {
+     "prop": "children",
+     "type": "element",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "A single child content element."
+    },
+    {
+     "prop": "open",
+     "type": "bool",
+     "default": null,
+     "required": true,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is shown."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "closeAfterTransition",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "When set to true the Modal waits until a nested Transition is completed before closing."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "container",
+     "type": "HTML element<br>&#124;&nbsp;func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "An HTML element or function that returns one. The <code>container</code> will have the portal children appended to it.<br>You can also provide a callback, which is called in a React layout effect. This lets you set the container from a ref, and also makes server-side rendering possible.<br>By default, it uses the body of the top-level document object, so it&#39;s simply <code>document.body</code> most of the time."
+    },
+    {
+     "prop": "disableAutoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the modal will not automatically shift focus to itself when it opens, and replace it to the last focused element when it closes. This also works correctly with any modal children that have the <code>disableAutoFocus</code> prop.<br>Generally this should never be set to <code>true</code> as it makes the modal less accessible to assistive technologies, like screen readers."
+    },
+    {
+     "prop": "disableEnforceFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the modal will not prevent focus from leaving the modal while open.<br>Generally this should never be set to <code>true</code> as it makes the modal less accessible to assistive technologies, like screen readers."
+    },
+    {
+     "prop": "disablePortal",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "The <code>children</code> will be under the DOM hierarchy of the parent component."
+    },
+    {
+     "prop": "disableRestoreFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the modal will not restore focus to previously focused element once modal is hidden or unmounted."
+    },
+    {
+     "prop": "disableScrollLock",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Disable the scroll lock behavior."
+    },
+    {
+     "prop": "hideBackdrop",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the backdrop is not rendered."
+    },
+    {
+     "prop": "keepMounted",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Always keep the children in the DOM. This prop can be useful in SEO situation or when you want to maximize the responsiveness of the Modal."
+    },
+    {
+     "prop": "onClose",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback fired when the component requests to be closed. The <code>reason</code> parameter can optionally be used to control the response to <code>onClose</code>."
+    },
+    {
+     "prop": "onTransitionEnter",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A function called when a transition enters."
+    },
+    {
+     "prop": "onTransitionExited",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A function called when a transition has exited."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ backdrop?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside the Modal."
+    },
+    {
+     "prop": "slots",
+     "type": "{ backdrop?: elementType, root?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside the Modal. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "hidden",
+     "className": "MuiModal-hidden",
+     "description": "Class name applied to the root element if the `Modal` has exited."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-modal/"
+}

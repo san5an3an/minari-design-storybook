@@ -1,0 +1,42 @@
+/* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: app/src/preview/antdRef/checkbox.json 의 examples[5] ("Use with Grid")
+ * 그 파일은 tools/fetch_antd_reference.py 가 공식 문서에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@ant-design/icons` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/antd_demo_ko.py` 의 사전).
+ *       사전에 없는 문자열은 손대지 않는다. API 값은 사전에 안 넣는다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import React from 'react';
+import { Checkbox, Col, Row } from 'antd';
+import type { GetProp } from 'antd';
+
+const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
+  console.log('checked = ', checkedValues);
+};
+
+const App: React.FC = () => (
+  <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+    <Row>
+      <Col span={8}>
+        <Checkbox value="A">A</Checkbox>
+      </Col>
+      <Col span={8}>
+        <Checkbox value="B">B</Checkbox>
+      </Col>
+      <Col span={8}>
+        <Checkbox value="C">C</Checkbox>
+      </Col>
+      <Col span={8}>
+        <Checkbox value="D">D</Checkbox>
+      </Col>
+      <Col span={8}>
+        <Checkbox value="E">E</Checkbox>
+      </Col>
+    </Row>
+  </Checkbox.Group>
+);
+
+export default App;

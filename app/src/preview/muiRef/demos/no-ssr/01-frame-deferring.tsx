@@ -1,0 +1,64 @@
+/* 자동 생성 — tools/gen_mui_demos.py. 손으로 고치지 말 것.
+ *
+ * 출처: mui/material-ui 의 docs/data/material/components/no-ssr/FrameDeferring.tsx
+ *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
+ *
+ * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
+ *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
+ */
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import NoSsr from '@mui/material/NoSsr';
+
+function LargeTree(): any {
+  return Array.from(new Array(5000)).map((_, index) => <span key={index}>.</span>);
+}
+
+export default function FrameDeferring() {
+  const [state, setState] = React.useState({
+    open: false,
+    defer: false,
+  });
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() =>
+          setState({
+            open: !state.open,
+            defer: false,
+          })
+        }
+      >
+        {'Render NoSsr defer="false"'}
+      </button>
+      <br />
+      <button
+        type="button"
+        onClick={() =>
+          setState({
+            open: !state.open,
+            defer: true,
+          })
+        }
+      >
+        {'Render NoSsr defer="true"'}
+      </button>
+      <br />
+      <br />
+      <Box sx={{ width: 300, display: 'flex', flexWrap: 'wrap' }}>
+        {state.open ? (
+          <React.Fragment>
+            <div>Outside NoSsr</div>
+            <NoSsr defer={state.defer}>
+              .....Inside NoSsr
+              <LargeTree />
+            </NoSsr>
+          </React.Fragment>
+        ) : null}
+      </Box>
+    </div>
+  );
+}

@@ -1,0 +1,1238 @@
+{
+ "slug": "list",
+ "title": "List",
+ "group": "Data display",
+ "folder": "lists",
+ "description": "Lists are continuous, vertical indexes of text or images.",
+ "components": [
+  "Collapse",
+  "Divider",
+  "List",
+  "ListItem",
+  "ListItemButton",
+  "ListItemAvatar",
+  "ListItemIcon",
+  "ListItemSecondaryAction",
+  "ListItemText",
+  "ListSubheader"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Lists are a continuous group of text or images. They are composed of items containing primary and supplemental actions, which are represented by icons and text."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Introduction",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Lists present information in a concise, easy-to-follow format through a continuous, vertical index of text or images.\n\nMaterial UI Lists are implemented using a collection of related components:\n\n- List: a wrapper for list items. Renders as a `<ul>` by default.\n- List Item: a common list item. Renders as an `<li>` by default.\n- List Item Button: an action element to be used inside a list item.\n- List Item Icon: an icon to be used inside of a list item.\n- List Item Avatar: an avatar to be used inside of a list item.\n- List Item Text: a container inside a list item, used to display text content.\n- List Divider: a separator between list items.\n- List Subheader: a label for a nested list."
+    },
+    {
+     "kind": "demo",
+     "name": "BasicList",
+     "file": "BasicList.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Divider from '@mui/material/Divider';\nimport InboxIcon from '@mui/icons-material/Inbox';\nimport DraftsIcon from '@mui/icons-material/Drafts';\n\nexport default function BasicList() {\n  return (\n    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      <nav aria-label=\"main mailbox folders\">\n        <List>\n          <ListItem disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                <InboxIcon />\n              </ListItemIcon>\n              <ListItemText primary=\"Inbox\" />\n            </ListItemButton>\n          </ListItem>\n          <ListItem disablePadding>\n            <ListItemButton>\n              <ListItemIcon>\n                <DraftsIcon />\n              </ListItemIcon>\n              <ListItemText primary=\"Drafts\" />\n            </ListItemButton>\n          </ListItem>\n        </List>\n      </nav>\n      <Divider />\n      <nav aria-label=\"secondary mailbox folders\">\n        <List>\n          <ListItem disablePadding>\n            <ListItemButton>\n              <ListItemText primary=\"Trash\" />\n            </ListItemButton>\n          </ListItem>\n          <ListItem disablePadding>\n            <ListItemButton component=\"a\" href=\"#simple-list\">\n              <ListItemText primary=\"Spam\" />\n            </ListItemButton>\n          </ListItem>\n        </List>\n      </nav>\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The last item of the previous demo shows how you can render a link:"
+    },
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "<ListItemButton component=\"a\" href=\"#simple-list\">\n  <ListItemText primary=\"Spam\" />\n</ListItemButton>\n"
+    },
+    {
+     "kind": "prose",
+     "text": "You can find a [demo with React Router following this section](/material-ui/integrations/routing/#list) of the documentation."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Basics",
+   "blocks": [
+    {
+     "kind": "code",
+     "lang": "jsx",
+     "text": "import List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Nested List",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "NestedList",
+     "file": "NestedList.tsx",
+     "code": "import * as React from 'react';\nimport ListSubheader from '@mui/material/ListSubheader';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Collapse from '@mui/material/Collapse';\nimport InboxIcon from '@mui/icons-material/MoveToInbox';\nimport DraftsIcon from '@mui/icons-material/Drafts';\nimport SendIcon from '@mui/icons-material/Send';\nimport ExpandLess from '@mui/icons-material/ExpandLess';\nimport ExpandMore from '@mui/icons-material/ExpandMore';\nimport StarBorder from '@mui/icons-material/StarBorder';\n\nexport default function NestedList() {\n  const [open, setOpen] = React.useState(true);\n\n  const handleClick = () => {\n    setOpen(!open);\n  };\n\n  return (\n    <List\n      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}\n      component=\"nav\"\n      aria-labelledby=\"nested-list-subheader\"\n      subheader={\n        <ListSubheader component=\"div\" id=\"nested-list-subheader\">\n          Nested List Items\n        </ListSubheader>\n      }\n    >\n      <ListItemButton>\n        <ListItemIcon>\n          <SendIcon />\n        </ListItemIcon>\n        <ListItemText primary=\"Sent mail\" />\n      </ListItemButton>\n      <ListItemButton>\n        <ListItemIcon>\n          <DraftsIcon />\n        </ListItemIcon>\n        <ListItemText primary=\"Drafts\" />\n      </ListItemButton>\n      <ListItemButton onClick={handleClick}>\n        <ListItemIcon>\n          <InboxIcon />\n        </ListItemIcon>\n        <ListItemText primary=\"Inbox\" />\n        {open ? <ExpandLess /> : <ExpandMore />}\n      </ListItemButton>\n      <Collapse in={open} timeout=\"auto\" unmountOnExit>\n        <List component=\"div\" disablePadding>\n          <ListItemButton sx={{ pl: 4 }}>\n            <ListItemIcon>\n              <StarBorder />\n            </ListItemIcon>\n            <ListItemText primary=\"Starred\" />\n          </ListItemButton>\n        </List>\n      </Collapse>\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Folder List",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "FolderList",
+     "file": "FolderList.tsx",
+     "code": "import List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport Avatar from '@mui/material/Avatar';\nimport ImageIcon from '@mui/icons-material/Image';\nimport WorkIcon from '@mui/icons-material/Work';\nimport BeachAccessIcon from '@mui/icons-material/BeachAccess';\n\nexport default function FolderList() {\n  return (\n    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      <ListItem>\n        <ListItemAvatar>\n          <Avatar>\n            <ImageIcon />\n          </Avatar>\n        </ListItemAvatar>\n        <ListItemText primary=\"Photos\" secondary=\"Jan 9, 2014\" />\n      </ListItem>\n      <ListItem>\n        <ListItemAvatar>\n          <Avatar>\n            <WorkIcon />\n          </Avatar>\n        </ListItemAvatar>\n        <ListItemText primary=\"Work\" secondary=\"Jan 7, 2014\" />\n      </ListItem>\n      <ListItem>\n        <ListItemAvatar>\n          <Avatar>\n            <BeachAccessIcon />\n          </Avatar>\n        </ListItemAvatar>\n        <ListItemText primary=\"Vacation\" secondary=\"July 20, 2014\" />\n      </ListItem>\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Interactive",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Below is an interactive demo that lets you explore the visual results of the different settings:"
+    },
+    {
+     "kind": "demo",
+     "name": "InteractiveList",
+     "file": "InteractiveList.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Avatar from '@mui/material/Avatar';\nimport IconButton from '@mui/material/IconButton';\nimport FormGroup from '@mui/material/FormGroup';\nimport FormControlLabel from '@mui/material/FormControlLabel';\nimport Checkbox from '@mui/material/Checkbox';\nimport Grid from '@mui/material/Grid';\nimport Typography from '@mui/material/Typography';\nimport FolderIcon from '@mui/icons-material/Folder';\nimport DeleteIcon from '@mui/icons-material/Delete';\n\nfunction generate(element: React.ReactElement<unknown>) {\n  return [0, 1, 2].map((value) =>\n    React.cloneElement(element, {\n      key: value,\n    }),\n  );\n}\n\nconst Demo = styled('div')(({ theme }) => ({\n  backgroundColor: (theme.vars || theme).palette.background.paper,\n}));\n\nexport default function InteractiveList() {\n  const [dense, setDense] = React.useState(false);\n  const [secondary, setSecondary] = React.useState(false);\n\n  return (\n    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>\n      <FormGroup row>\n        <FormControlLabel\n          control={\n            <Checkbox\n              checked={dense}\n              onChange={(event) => setDense(event.target.checked)}\n            />\n          }\n          label=\"Enable dense\"\n        />\n        <FormControlLabel\n          control={\n            <Checkbox\n              checked={secondary}\n              onChange={(event) => setSecondary(event.target.checked)}\n            />\n          }\n          label=\"Enable secondary text\"\n        />\n      </FormGroup>\n      <Grid container spacing={2}>\n        <Grid\n          size={{\n            xs: 12,\n            md: 6,\n          }}\n        >\n          <Typography sx={{ mt: 4, mb: 2 }} variant=\"h6\" component=\"div\">\n            Text only\n          </Typography>\n          <Demo>\n            <List dense={dense}>\n              {generate(\n                <ListItem>\n                  <ListItemText\n                    primary=\"Single-line item\"\n                    secondary={secondary ? 'Secondary text' : null}\n                  />\n                </ListItem>,\n              )}\n            </List>\n          </Demo>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            md: 6,\n          }}\n        >\n          <Typography sx={{ mt: 4, mb: 2 }} variant=\"h6\" component=\"div\">\n            Icon with text\n          </Typography>\n          <Demo>\n            <List dense={dense}>\n              {generate(\n                <ListItem>\n                  <ListItemIcon>\n                    <FolderIcon />\n                  </ListItemIcon>\n                  <ListItemText\n                    primary=\"Single-line item\"\n                    secondary={secondary ? 'Secondary text' : null}\n                  />\n                </ListItem>,\n              )}\n            </List>\n          </Demo>\n        </Grid>\n      </Grid>\n      <Grid container spacing={2}>\n        <Grid\n          size={{\n            xs: 12,\n            md: 6,\n          }}\n        >\n          <Typography sx={{ mt: 4, mb: 2 }} variant=\"h6\" component=\"div\">\n            Avatar with text\n          </Typography>\n          <Demo>\n            <List dense={dense}>\n              {generate(\n                <ListItem>\n                  <ListItemAvatar>\n                    <Avatar>\n                      <FolderIcon />\n                    </Avatar>\n                  </ListItemAvatar>\n                  <ListItemText\n                    primary=\"Single-line item\"\n                    secondary={secondary ? 'Secondary text' : null}\n                  />\n                </ListItem>,\n              )}\n            </List>\n          </Demo>\n        </Grid>\n        <Grid\n          size={{\n            xs: 12,\n            md: 6,\n          }}\n        >\n          <Typography sx={{ mt: 4, mb: 2 }} variant=\"h6\" component=\"div\">\n            Avatar with text and icon\n          </Typography>\n          <Demo>\n            <List dense={dense}>\n              {generate(\n                <ListItem\n                  secondaryAction={\n                    <IconButton edge=\"end\" aria-label=\"delete\">\n                      <DeleteIcon />\n                    </IconButton>\n                  }\n                >\n                  <ListItemAvatar>\n                    <Avatar>\n                      <FolderIcon />\n                    </Avatar>\n                  </ListItemAvatar>\n                  <ListItemText\n                    primary=\"Single-line item\"\n                    secondary={secondary ? 'Secondary text' : null}\n                  />\n                </ListItem>,\n              )}\n            </List>\n          </Demo>\n        </Grid>\n      </Grid>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Selected ListItem",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "SelectedListItem",
+     "file": "SelectedListItem.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport List from '@mui/material/List';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Divider from '@mui/material/Divider';\nimport InboxIcon from '@mui/icons-material/Inbox';\nimport DraftsIcon from '@mui/icons-material/Drafts';\n\nexport default function SelectedListItem() {\n  const [selectedIndex, setSelectedIndex] = React.useState(1);\n\n  const handleListItemClick = (\n    event: React.MouseEvent<HTMLDivElement, MouseEvent>,\n    index: number,\n  ) => {\n    setSelectedIndex(index);\n  };\n\n  return (\n    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      <List component=\"nav\" aria-label=\"main mailbox folders\">\n        <ListItemButton\n          selected={selectedIndex === 0}\n          onClick={(event) => handleListItemClick(event, 0)}\n        >\n          <ListItemIcon>\n            <InboxIcon />\n          </ListItemIcon>\n          <ListItemText primary=\"Inbox\" />\n        </ListItemButton>\n        <ListItemButton\n          selected={selectedIndex === 1}\n          onClick={(event) => handleListItemClick(event, 1)}\n        >\n          <ListItemIcon>\n            <DraftsIcon />\n          </ListItemIcon>\n          <ListItemText primary=\"Drafts\" />\n        </ListItemButton>\n      </List>\n      <Divider />\n      <List component=\"nav\" aria-label=\"secondary mailbox folder\">\n        <ListItemButton\n          selected={selectedIndex === 2}\n          onClick={(event) => handleListItemClick(event, 2)}\n        >\n          <ListItemText primary=\"Trash\" />\n        </ListItemButton>\n        <ListItemButton\n          selected={selectedIndex === 3}\n          onClick={(event) => handleListItemClick(event, 3)}\n        >\n          <ListItemText primary=\"Spam\" />\n        </ListItemButton>\n      </List>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Align list items",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When displaying three lines or more, the avatar is not aligned at the top.\nYou should set the `alignItems=\"flex-start\"` prop to align the avatar at the top, following the Material Design guidelines:"
+    },
+    {
+     "kind": "demo",
+     "name": "AlignItemsList",
+     "file": "AlignItemsList.tsx",
+     "code": "import * as React from 'react';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport Divider from '@mui/material/Divider';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport Avatar from '@mui/material/Avatar';\nimport Typography from '@mui/material/Typography';\n\nexport default function AlignItemsList() {\n  return (\n    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      <ListItem alignItems=\"flex-start\">\n        <ListItemAvatar>\n          <Avatar alt=\"Remy Sharp\" src=\"/static/images/avatar/1.jpg\" />\n        </ListItemAvatar>\n        <ListItemText\n          primary=\"Brunch this weekend?\"\n          secondary={\n            <React.Fragment>\n              <Typography\n                component=\"span\"\n                variant=\"body2\"\n                sx={{ color: 'text.primary', display: 'inline' }}\n              >\n                Ali Connors\n              </Typography>\n              {\" — I'll be in your neighborhood doing errands this…\"}\n            </React.Fragment>\n          }\n        />\n      </ListItem>\n      <Divider variant=\"inset\" component=\"li\" />\n      <ListItem alignItems=\"flex-start\">\n        <ListItemAvatar>\n          <Avatar alt=\"Travis Howard\" src=\"/static/images/avatar/2.jpg\" />\n        </ListItemAvatar>\n        <ListItemText\n          primary=\"Summer BBQ\"\n          secondary={\n            <React.Fragment>\n              <Typography\n                component=\"span\"\n                variant=\"body2\"\n                sx={{ color: 'text.primary', display: 'inline' }}\n              >\n                to Scott, Alex, Jennifer\n              </Typography>\n              {\" — Wish I could come, but I'm out of town this…\"}\n            </React.Fragment>\n          }\n        />\n      </ListItem>\n      <Divider variant=\"inset\" component=\"li\" />\n      <ListItem alignItems=\"flex-start\">\n        <ListItemAvatar>\n          <Avatar alt=\"Cindy Baker\" src=\"/static/images/avatar/3.jpg\" />\n        </ListItemAvatar>\n        <ListItemText\n          primary=\"Oui Oui\"\n          secondary={\n            <React.Fragment>\n              <Typography\n                component=\"span\"\n                variant=\"body2\"\n                sx={{ color: 'text.primary', display: 'inline' }}\n              >\n                Sandra Adams\n              </Typography>\n              {' — Do you have Paris recommendations? Have you ever…'}\n            </React.Fragment>\n          }\n        />\n      </ListItem>\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "List Controls",
+   "blocks": []
+  },
+  {
+   "level": 3,
+   "title": "Checkbox",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "A checkbox can either be a primary action or a secondary action.\n\nThe checkbox is the primary action and the state indicator for the list item. The comment button is a secondary action and a separate target."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxList",
+     "file": "CheckboxList.tsx",
+     "code": "import * as React from 'react';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Checkbox from '@mui/material/Checkbox';\nimport IconButton from '@mui/material/IconButton';\nimport CommentIcon from '@mui/icons-material/Comment';\n\nexport default function CheckboxList() {\n  const [checked, setChecked] = React.useState([0]);\n\n  const handleToggle = (value: number) => () => {\n    const currentIndex = checked.indexOf(value);\n    const newChecked = [...checked];\n\n    if (currentIndex === -1) {\n      newChecked.push(value);\n    } else {\n      newChecked.splice(currentIndex, 1);\n    }\n\n    setChecked(newChecked);\n  };\n\n  return (\n    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      {[0, 1, 2, 3].map((value) => {\n        const labelId = `checkbox-list-label-${value}`;\n\n        return (\n          <ListItem\n            key={value}\n            secondaryAction={\n              <IconButton edge=\"end\" aria-label=\"comments\">\n                <CommentIcon />\n              </IconButton>\n            }\n            disablePadding\n          >\n            <ListItemButton role={undefined} onClick={handleToggle(value)} dense>\n              <ListItemIcon>\n                <Checkbox\n                  edge=\"start\"\n                  checked={checked.includes(value)}\n                  tabIndex={-1}\n                  disableRipple\n                  slotProps={{ input: { 'aria-labelledby': labelId } }}\n                />\n              </ListItemIcon>\n              <ListItemText id={labelId} primary={`Line item ${value + 1}`} />\n            </ListItemButton>\n          </ListItem>\n        );\n      })}\n    </List>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The checkbox is the secondary action for the list item and a separate target."
+    },
+    {
+     "kind": "demo",
+     "name": "CheckboxListSecondary",
+     "file": "CheckboxListSecondary.tsx",
+     "code": "import * as React from 'react';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListItemAvatar from '@mui/material/ListItemAvatar';\nimport Checkbox from '@mui/material/Checkbox';\nimport Avatar from '@mui/material/Avatar';\n\nexport default function CheckboxListSecondary() {\n  const [checked, setChecked] = React.useState([1]);\n\n  const handleToggle = (value: number) => () => {\n    const currentIndex = checked.indexOf(value);\n    const newChecked = [...checked];\n\n    if (currentIndex === -1) {\n      newChecked.push(value);\n    } else {\n      newChecked.splice(currentIndex, 1);\n    }\n\n    setChecked(newChecked);\n  };\n\n  return (\n    <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      {[0, 1, 2, 3].map((value) => {\n        const labelId = `checkbox-list-secondary-label-${value}`;\n        return (\n          <ListItem\n            key={value}\n            secondaryAction={\n              <Checkbox\n                edge=\"end\"\n                onChange={handleToggle(value)}\n                checked={checked.includes(value)}\n                slotProps={{ input: { 'aria-labelledby': labelId } }}\n              />\n            }\n            disablePadding\n          >\n            <ListItemButton>\n              <ListItemAvatar>\n                <Avatar\n                  alt={`Avatar n°${value + 1}`}\n                  src={`/static/images/avatar/${value + 1}.jpg`}\n                />\n              </ListItemAvatar>\n              <ListItemText id={labelId} primary={`Line item ${value + 1}`} />\n            </ListItemButton>\n          </ListItem>\n        );\n      })}\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Switch",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The switch is the secondary action and a separate target."
+    },
+    {
+     "kind": "demo",
+     "name": "SwitchListSecondary",
+     "file": "SwitchListSecondary.tsx",
+     "code": "import * as React from 'react';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListSubheader from '@mui/material/ListSubheader';\nimport Switch from '@mui/material/Switch';\nimport WifiIcon from '@mui/icons-material/Wifi';\nimport BluetoothIcon from '@mui/icons-material/Bluetooth';\n\nexport default function SwitchListSecondary() {\n  const [checked, setChecked] = React.useState(['wifi']);\n\n  const handleToggle = (value: string) => () => {\n    const currentIndex = checked.indexOf(value);\n    const newChecked = [...checked];\n\n    if (currentIndex === -1) {\n      newChecked.push(value);\n    } else {\n      newChecked.splice(currentIndex, 1);\n    }\n\n    setChecked(newChecked);\n  };\n\n  return (\n    <List\n      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}\n      subheader={<ListSubheader>Settings</ListSubheader>}\n    >\n      <ListItem>\n        <ListItemIcon>\n          <WifiIcon />\n        </ListItemIcon>\n        <ListItemText id=\"switch-list-label-wifi\" primary=\"Wi-Fi\" />\n        <Switch\n          edge=\"end\"\n          onChange={handleToggle('wifi')}\n          checked={checked.includes('wifi')}\n          slotProps={{\n            input: { 'aria-labelledby': 'switch-list-label-wifi' },\n          }}\n        />\n      </ListItem>\n      <ListItem>\n        <ListItemIcon>\n          <BluetoothIcon />\n        </ListItemIcon>\n        <ListItemText id=\"switch-list-label-bluetooth\" primary=\"Bluetooth\" />\n        <Switch\n          edge=\"end\"\n          onChange={handleToggle('bluetooth')}\n          checked={checked.includes('bluetooth')}\n          slotProps={{\n            input: { 'aria-labelledby': 'switch-list-label-bluetooth' },\n          }}\n        />\n      </ListItem>\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sticky subheader",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Upon scrolling, subheaders remain pinned to the top of the screen until pushed off screen by the next subheader.\nThis feature relies on CSS sticky positioning."
+    },
+    {
+     "kind": "demo",
+     "name": "PinnedSubheaderList",
+     "file": "PinnedSubheaderList.tsx",
+     "code": "import List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport ListSubheader from '@mui/material/ListSubheader';\n\nexport default function PinnedSubheaderList() {\n  return (\n    <List\n      sx={{\n        width: '100%',\n        maxWidth: 360,\n        bgcolor: 'background.paper',\n        position: 'relative',\n        overflow: 'auto',\n        maxHeight: 300,\n        '& ul': { padding: 0 },\n      }}\n      subheader={<li />}\n    >\n      {[0, 1, 2, 3, 4].map((sectionId) => (\n        <li key={`section-${sectionId}`}>\n          <ul>\n            <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>\n            {[0, 1, 2].map((item) => (\n              <ListItem key={`item-${sectionId}-${item}`}>\n                <ListItemText primary={`Item ${item}`} />\n              </ListItem>\n            ))}\n          </ul>\n        </li>\n      ))}\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Inset List Item",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The `inset` prop enables a list item that does not have a leading icon or avatar to align correctly with items that do."
+    },
+    {
+     "kind": "demo",
+     "name": "InsetList",
+     "file": "InsetList.tsx",
+     "code": "import List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport StarIcon from '@mui/icons-material/Star';\n\nexport default function InsetList() {\n  return (\n    <List\n      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}\n      aria-label=\"contacts\"\n    >\n      <ListItem disablePadding>\n        <ListItemButton>\n          <ListItemIcon>\n            <StarIcon />\n          </ListItemIcon>\n          <ListItemText primary=\"Chelsea Otakan\" />\n        </ListItemButton>\n      </ListItem>\n      <ListItem disablePadding>\n        <ListItemButton>\n          <ListItemText inset primary=\"Eric Hoffman\" />\n        </ListItemButton>\n      </ListItem>\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Gutterless list",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "When rendering a list within a component that defines its own gutters, `ListItem` gutters can be disabled with `disableGutters`."
+    },
+    {
+     "kind": "demo",
+     "name": "GutterlessList",
+     "file": "GutterlessList.tsx",
+     "code": "import List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemText from '@mui/material/ListItemText';\nimport CommentIcon from '@mui/icons-material/Comment';\nimport IconButton from '@mui/material/IconButton';\n\nexport default function GutterlessList() {\n  return (\n    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>\n      {[1, 2, 3].map((value) => (\n        <ListItem\n          key={value}\n          disableGutters\n          secondaryAction={\n            <IconButton aria-label=\"comment\">\n              <CommentIcon />\n            </IconButton>\n          }\n        >\n          <ListItemText primary={`Line item ${value}`} />\n        </ListItem>\n      ))}\n    </List>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Virtualized List",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In the following example, we demonstrate how to use [react-window](https://github.com/bvaughn/react-window) with the `List` component.\nIt renders 200 rows and can easily handle more.\nVirtualization helps with performance issues."
+    },
+    {
+     "kind": "demo",
+     "name": "VirtualizedList",
+     "file": "VirtualizedList.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemText from '@mui/material/ListItemText';\nimport { List, RowComponentProps } from 'react-window';\n\nfunction renderRow(props: RowComponentProps) {\n  const { index, style } = props;\n\n  return (\n    <ListItem style={style} key={index} component=\"div\" disablePadding>\n      <ListItemButton>\n        <ListItemText primary={`Item ${index + 1}`} />\n      </ListItemButton>\n    </ListItem>\n  );\n}\n\nexport default function VirtualizedList() {\n  return (\n    <Box\n      sx={{ width: '100%', height: 400, maxWidth: 360, bgcolor: 'background.paper' }}\n    >\n      <List\n        rowHeight={46}\n        rowCount={200}\n        style={{\n          height: 400,\n          width: 360,\n        }}\n        rowProps={{}}\n        overscanCount={5}\n        rowComponent={renderRow}\n      />\n    </Box>\n  );\n}\n"
+    },
+    {
+     "kind": "prose",
+     "text": "The use of [react-window](https://github.com/bvaughn/react-window) when possible is encouraged.\nIf this library doesn't cover your use case, you should consider using alternatives like [react-virtuoso](https://github.com/petyosi/react-virtuoso)."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the\n[overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedList",
+     "file": "CustomizedList.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport { styled, ThemeProvider, createTheme } from '@mui/material/styles';\nimport Divider from '@mui/material/Divider';\nimport List from '@mui/material/List';\nimport ListItem from '@mui/material/ListItem';\nimport ListItemButton from '@mui/material/ListItemButton';\nimport ListItemIcon from '@mui/material/ListItemIcon';\nimport ListItemText from '@mui/material/ListItemText';\nimport Paper from '@mui/material/Paper';\nimport IconButton from '@mui/material/IconButton';\nimport Tooltip from '@mui/material/Tooltip';\nimport ArrowRight from '@mui/icons-material/ArrowRight';\nimport KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';\nimport Home from '@mui/icons-material/Home';\nimport Settings from '@mui/icons-material/Settings';\nimport People from '@mui/icons-material/People';\nimport PermMedia from '@mui/icons-material/PermMedia';\nimport Dns from '@mui/icons-material/Dns';\nimport Public from '@mui/icons-material/Public';\n\nconst data = [\n  { icon: <People />, label: 'Authentication' },\n  { icon: <Dns />, label: 'Database' },\n  { icon: <PermMedia />, label: 'Storage' },\n  { icon: <Public />, label: 'Hosting' },\n];\n\nconst FireNav = styled(List)<{ component?: React.ElementType }>({\n  '& .MuiListItemButton-root': {\n    paddingLeft: 24,\n    paddingRight: 24,\n  },\n  '& .MuiListItemIcon-root': {\n    minWidth: 0,\n    marginRight: 16,\n  },\n  '& .MuiSvgIcon-root': {\n    fontSize: 20,\n  },\n});\n\nexport default function CustomizedList() {\n  const [open, setOpen] = React.useState(true);\n  return (\n    <Box sx={{ display: 'flex' }}>\n      <ThemeProvider\n        theme={createTheme({\n          components: {\n            MuiListItemButton: {\n              defaultProps: {\n                disableTouchRipple: true,\n              },\n            },\n          },\n          palette: {\n            mode: 'dark',\n            primary: { main: 'rgb(102, 157, 246)' },\n            background: { paper: 'rgb(5, 30, 52)' },\n          },\n        })}\n      >\n        <Paper elevation={0} sx={{ maxWidth: 256 }}>\n          <FireNav component=\"nav\" disablePadding>\n            <ListItemButton component=\"a\" href=\"#customized-list\">\n              <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>\n              <ListItemText\n                sx={{ my: 0 }}\n                primary=\"Firebash\"\n                slotProps={{\n                  primary: {\n                    sx: { fontSize: 20, fontWeight: 'medium', letterSpacing: 0 },\n                  },\n                }}\n              />\n            </ListItemButton>\n            <Divider />\n            <ListItem component=\"div\" disablePadding>\n              <ListItemButton sx={{ height: 56 }}>\n                <ListItemIcon>\n                  <Home color=\"primary\" />\n                </ListItemIcon>\n                <ListItemText\n                  primary=\"Project Overview\"\n                  slotProps={{\n                    primary: {\n                      color: 'primary',\n                      sx: { fontWeight: 'medium' },\n                      variant: 'body2',\n                    },\n                  }}\n                />\n              </ListItemButton>\n              <Tooltip title=\"Project Settings\">\n                <IconButton\n                  size=\"large\"\n                  sx={{\n                    '& svg': {\n                      color: 'rgba(255,255,255,0.8)',\n                      transition: '0.2s',\n                      transform: 'translateX(0) rotate(0)',\n                    },\n                    '&:hover, &:focus': {\n                      bgcolor: 'unset',\n                      '& svg:first-of-type': {\n                        transform: 'translateX(-4px) rotate(-20deg)',\n                      },\n                      '& svg:last-of-type': {\n                        right: 0,\n                        opacity: 1,\n                      },\n                    },\n                    '&::after': {\n                      content: '\"\"',\n                      position: 'absolute',\n                      height: '80%',\n                      display: 'block',\n                      left: 0,\n                      width: '1px',\n                      bgcolor: 'divider',\n                    },\n                  }}\n                >\n                  <Settings />\n                  <ArrowRight sx={{ position: 'absolute', right: 4, opacity: 0 }} />\n                </IconButton>\n              </Tooltip>\n            </ListItem>\n            <Divider />\n            <Box\n              sx={[\n                open\n                  ? {\n                      bgcolor: 'rgba(71, 98, 130, 0.2)',\n                    }\n                  : {\n                      bgcolor: null,\n                    },\n                open\n                  ? {\n                      pb: 2,\n                    }\n                  : {\n                      pb: 0,\n                    },\n              ]}\n            >\n              <ListItemButton\n                alignItems=\"flex-start\"\n                onClick={() => setOpen(!open)}\n                sx={[\n                  {\n                    px: 3,\n                    pt: 2.5,\n                  },\n                  open\n                    ? {\n                        pb: 0,\n                      }\n                    : {\n                        pb: 2.5,\n                      },\n                  open\n                    ? {\n                        '&:hover, &:focus': {\n                          '& svg': {\n                            opacity: 1,\n                          },\n                        },\n                      }\n                    : {\n                        '&:hover, &:focus': {\n                          '& svg': {\n                            opacity: 0,\n                          },\n                        },\n                      },\n                ]}\n              >\n                <ListItemText\n                  primary=\"Build\"\n                  secondary=\"Authentication, Firestore Database, Realtime Database, Storage, Hosting, Functions, and Machine Learning\"\n                  slotProps={{\n                    primary: {\n                      sx: {\n                        fontSize: 15,\n                        fontWeight: 'medium',\n                        lineHeight: '20px',\n                        mb: '2px',\n                      },\n                    },\n                    secondary: {\n                      noWrap: true,\n                      sx: {\n                        fontSize: 12,\n                        lineHeight: '16px',\n                        color: open ? 'rgba(0,0,0,0)' : 'rgba(255,255,255,0.5)',\n                      },\n                    },\n                  }}\n                  sx={{ my: 0 }}\n                />\n                <KeyboardArrowDown\n                  sx={[\n                    {\n                      mr: -1,\n                      opacity: 0,\n                      transition: '0.2s',\n                    },\n                    open\n                      ? {\n                          transform: 'rotate(-180deg)',\n                        }\n                      : {\n                          transform: 'rotate(0)',\n                        },\n                  ]}\n                />\n              </ListItemButton>\n              {open &&\n                data.map((item) => (\n                  <ListItemButton\n                    key={item.label}\n                    sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}\n                  >\n                    <ListItemIcon sx={{ color: 'inherit' }}>\n                      {item.icon}\n                    </ListItemIcon>\n                    <ListItemText\n                      primary={item.label}\n                      slotProps={{\n                        primary: { sx: { fontSize: 14, fontWeight: 'medium' } },\n                      }}\n                    />\n                  </ListItemButton>\n                ))}\n            </Box>\n          </FireNav>\n        </Paper>\n      </ThemeProvider>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Collapse",
+   "description": "The Collapse transition is used by the\n[Vertical Stepper](/material-ui/react-stepper/#vertical-stepper) StepContent component.",
+   "props": [
+    {
+     "prop": "addEndListener",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Add a custom transition end trigger. Use it when you need custom logic to decide when the transition has ended. Note: Timeouts are still used as a fallback if provided."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content node to be collapsed."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "collapsedSize",
+     "type": "number<br>&#124;&nbsp;string",
+     "default": "'0px'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The width (horizontal) or height (vertical) of the container when collapsed."
+    },
+    {
+     "prop": "component",
+     "type": "element type",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disablePrefersReducedMotion",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the transition ignores <code>theme.motion.reducedMotion</code> and keeps its normal timing."
+    },
+    {
+     "prop": "easing",
+     "type": "{ enter?: string, exit?: string }<br>&#124;&nbsp;string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition timing function. You may specify a single easing or a object containing enter and exit values."
+    },
+    {
+     "prop": "in",
+     "type": "bool",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component will transition in."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'vertical'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The transition orientation."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object, wrapper?: func<br>&#124;&nbsp;object, wrapperInner?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType, wrapper?: elementType, wrapperInner?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "timeout",
+     "type": "'auto'<br>&#124;&nbsp;number<br>&#124;&nbsp;{ appear?: number, enter?: number, exit?: number }",
+     "default": "duration.standard",
+     "required": false,
+     "deprecated": false,
+     "desc": "The duration for the transition, in milliseconds. You may specify a single timeout for all transitions, or individually with an object.<br>Set to &#39;auto&#39; to automatically calculate transition time based on height."
+    }
+   ],
+   "classes": [
+    {
+     "key": "entered",
+     "className": "MuiCollapse-entered",
+     "description": "Styles applied to the root element when the transition has entered."
+    },
+    {
+     "key": "hidden",
+     "className": "MuiCollapse-hidden",
+     "description": "Styles applied to the root element when the transition has exited and `collapsedSize` = 0px."
+    },
+    {
+     "key": "horizontal",
+     "className": "MuiCollapse-horizontal",
+     "description": "State class applied to the root element if `orientation=\"horizontal\"`."
+    }
+   ]
+  },
+  {
+   "name": "Divider",
+   "description": "",
+   "props": [
+    {
+     "prop": "absolute",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Absolutely position the element."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "flexItem",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a vertical divider will have the correct height when used in flex container. (By default, a vertical divider will have a calculated height of <code>0px</code> if it is the child of a flex container.)"
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "textAlign",
+     "type": "'center'<br>&#124;&nbsp;'left'<br>&#124;&nbsp;'right'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The text alignment."
+    },
+    {
+     "prop": "variant",
+     "type": "'fullWidth'<br>&#124;&nbsp;'inset'<br>&#124;&nbsp;'middle'<br>&#124;&nbsp;string",
+     "default": "'fullWidth'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The variant to use."
+    }
+   ],
+   "classes": [
+    {
+     "key": "absolute",
+     "className": "MuiDivider-absolute",
+     "description": "Styles applied to the root element if `absolute={true}`."
+    },
+    {
+     "key": "flexItem",
+     "className": "MuiDivider-flexItem",
+     "description": "Styles applied to the root element if `flexItem={true}`."
+    },
+    {
+     "key": "fullWidth",
+     "className": "MuiDivider-fullWidth",
+     "description": "Styles applied to the root element if `variant=\"fullWidth\"`."
+    },
+    {
+     "key": "inset",
+     "className": "MuiDivider-inset",
+     "description": "Styles applied to the root element if `variant=\"inset\"`."
+    },
+    {
+     "key": "middle",
+     "className": "MuiDivider-middle",
+     "description": "Styles applied to the root element if `variant=\"middle\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiDivider-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "textAlignLeft",
+     "className": "MuiDivider-textAlignLeft",
+     "description": "Styles applied to the root element if `textAlign=\"left\" orientation=\"horizontal\"`."
+    },
+    {
+     "key": "textAlignRight",
+     "className": "MuiDivider-textAlignRight",
+     "description": "Styles applied to the root element if `textAlign=\"right\" orientation=\"horizontal\"`."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiDivider-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    },
+    {
+     "key": "withChildren",
+     "className": "MuiDivider-withChildren",
+     "description": "Styles applied to the root element if divider have text."
+    },
+    {
+     "key": "wrapper",
+     "className": "MuiDivider-wrapper",
+     "description": "Styles applied to the span children element if `orientation=\"horizontal\"`."
+    },
+    {
+     "key": "wrapperVertical",
+     "className": "MuiDivider-wrapperVertical",
+     "description": "Styles applied to the span children element if `orientation=\"vertical\"`."
+    }
+   ]
+  },
+  {
+   "name": "List",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used for the list and list items. The prop is available to descendant components as the <code>dense</code> context."
+    },
+    {
+     "prop": "disablePadding",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, vertical padding is removed from the list."
+    },
+    {
+     "prop": "subheader",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the subheader, normally <code>ListSubheader</code>."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiList-dense",
+     "description": "Styles applied to the root element if dense."
+    },
+    {
+     "key": "padding",
+     "className": "MuiList-padding",
+     "description": "Styles applied to the root element unless `disablePadding={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiList-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "subheader",
+     "className": "MuiList-subheader",
+     "description": "Styles applied to the root element if a `subheader` is provided."
+    }
+   ]
+  },
+  {
+   "name": "ListItem",
+   "description": "",
+   "props": [
+    {
+     "prop": "alignItems",
+     "type": "'center'<br>&#124;&nbsp;'flex-start'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Defines the <code>align-items</code> style property."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used. The prop defaults to the value inherited from the parent List component."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the left and right padding is removed."
+    },
+    {
+     "prop": "disablePadding",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, all padding is removed."
+    },
+    {
+     "prop": "divider",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a 1px light border is added to the bottom of the list item."
+    },
+    {
+     "prop": "secondaryAction",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The element to display at the end of ListItem."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ root?: func<br>&#124;&nbsp;object, secondaryAction?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The extra props for the slot components. You can override the existing props or add new ones."
+    },
+    {
+     "prop": "slots",
+     "type": "{ root?: elementType, secondaryAction?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItem-alignItemsFlexStart",
+     "description": "Styles applied to the component element if `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "dense",
+     "className": "MuiListItem-dense",
+     "description": "Styles applied to the component element if dense."
+    },
+    {
+     "key": "divider",
+     "className": "MuiListItem-divider",
+     "description": "Styles applied to the inner `component` element if `divider={true}`."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiListItem-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "padding",
+     "className": "MuiListItem-padding",
+     "description": "Styles applied to the root element unless `disablePadding={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItem-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "secondaryAction",
+     "className": "MuiListItem-secondaryAction",
+     "description": "Styles applied to the secondary action element."
+    }
+   ]
+  },
+  {
+   "name": "ListItemButton",
+   "description": "",
+   "props": [
+    {
+     "prop": "alignItems",
+     "type": "'center'<br>&#124;&nbsp;'flex-start'",
+     "default": "'center'",
+     "required": false,
+     "deprecated": false,
+     "desc": "Defines the <code>align-items</code> style property."
+    },
+    {
+     "prop": "autoFocus",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the list item is focused during the first mount. Focus will also be triggered if the value changes from false to true."
+    },
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "dense",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, compact vertical padding designed for keyboard and mouse input is used. The prop defaults to the value inherited from the parent List component."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the left and right padding is removed."
+    },
+    {
+     "prop": "divider",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, a 1px light border is added to the bottom of the list item."
+    },
+    {
+     "prop": "focusVisibleClassName",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "This prop can help identify which element has keyboard focus. The class name will be applied when the element gains the focus through keyboard interaction. It&#39;s a polyfill for the <a href=\"https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo\">CSS :focus-visible selector</a>. The rationale for using this feature <a href=\"https://github.com/WICG/focus-visible/blob/HEAD/explainer.md\">is explained here</a>. A <a href=\"https://github.com/WICG/focus-visible\">polyfill can be used</a> to apply a <code>focus-visible</code> class to other components if needed."
+    },
+    {
+     "prop": "selected",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Use to apply selected styling."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItemButton-alignItemsFlexStart",
+     "description": "Styles applied to the component element if `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "dense",
+     "className": "MuiListItemButton-dense",
+     "description": "Styles applied to the component element if dense."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the inner `component` element if `disabled={true}`."
+    },
+    {
+     "key": "divider",
+     "className": "MuiListItemButton-divider",
+     "description": "Styles applied to the inner `component` element if `divider={true}`."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the `component`'s `focusVisibleClassName` prop."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiListItemButton-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemButton-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "selected",
+     "className": "Mui-selected",
+     "description": "State class applied to the root element if `selected={true}`."
+    }
+   ]
+  },
+  {
+   "name": "ListItemAvatar",
+   "description": "A simple wrapper to apply `List` styles to an `Avatar`.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component, normally an <code>Avatar</code>."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItemAvatar-alignItemsFlexStart",
+     "description": "Styles applied to the root element when the parent `ListItem` uses `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemAvatar-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "ListItemIcon",
+   "description": "A simple wrapper to apply `List` styles to an `Icon` or `SvgIcon`.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component, normally <code>Icon</code>, <code>SvgIcon</code>, or a <code>@mui/icons-material</code> SVG icon element."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "alignItemsFlexStart",
+     "className": "MuiListItemIcon-alignItemsFlexStart",
+     "description": "Styles applied to the root element when the parent `ListItem` uses `alignItems=\"flex-start\"`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemIcon-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "ListItemSecondaryAction",
+   "description": "Must be used as the last child of ListItem to function properly.",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component, normally an <code>IconButton</code> or selection control."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "disableGutters",
+     "className": "MuiListItemSecondaryAction-disableGutters",
+     "description": "Styles applied to the root element when the parent `ListItem` has `disableGutters={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListItemSecondaryAction-root",
+     "description": "Styles applied to the root element."
+    }
+   ]
+  },
+  {
+   "name": "ListItemText",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Alias for the <code>primary</code> prop."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "disableTypography",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the children won&#39;t be wrapped by a Typography component. This can be useful to render an alternative Typography variant by wrapping the <code>children</code> (or <code>primary</code>) text, and optional <code>secondary</code> text with the Typography component."
+    },
+    {
+     "prop": "inset",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the children are indented. This should be used if there is no left avatar or left icon."
+    },
+    {
+     "prop": "primary",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The main content element."
+    },
+    {
+     "prop": "secondary",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The secondary content element."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ primary?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, secondary?: func<br>&#124;&nbsp;object }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ primary?: elementType, root?: elementType, secondary?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "dense",
+     "className": "MuiListItemText-dense",
+     "description": "Styles applied to the Typography component if dense."
+    },
+    {
+     "key": "inset",
+     "className": "MuiListItemText-inset",
+     "description": "Styles applied to the root element if `inset={true}`."
+    },
+    {
+     "key": "multiline",
+     "className": "MuiListItemText-multiline",
+     "description": "Styles applied to the Typography component if primary and secondary are set."
+    }
+   ]
+  },
+  {
+   "name": "ListSubheader",
+   "description": "",
+   "props": [
+    {
+     "prop": "children",
+     "type": "node",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The content of the component."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'default'<br>&#124;&nbsp;'inherit'<br>&#124;&nbsp;'primary'",
+     "default": "'default'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports those theme colors that make sense for this component."
+    },
+    {
+     "prop": "component",
+     "type": "elementType",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The component used for the root node. Either a string to use a HTML element or a component."
+    },
+    {
+     "prop": "disableGutters",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader will not have gutters."
+    },
+    {
+     "prop": "disableSticky",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader will not stick to the top during scroll."
+    },
+    {
+     "prop": "inset",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the List Subheader is indented."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    }
+   ],
+   "classes": [
+    {
+     "key": "colorInherit",
+     "className": "MuiListSubheader-colorInherit",
+     "description": "Styles applied to the root element if `color=\"inherit\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiListSubheader-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "gutters",
+     "className": "MuiListSubheader-gutters",
+     "description": "Styles applied to the inner `component` element unless `disableGutters={true}`."
+    },
+    {
+     "key": "inset",
+     "className": "MuiListSubheader-inset",
+     "description": "Styles applied to the root element if `inset={true}`."
+    },
+    {
+     "key": "root",
+     "className": "MuiListSubheader-root",
+     "description": "Styles applied to the root element."
+    },
+    {
+     "key": "sticky",
+     "className": "MuiListSubheader-sticky",
+     "description": "Styles applied to the root element unless `disableSticky={true}`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-list/"
+}

@@ -1,0 +1,669 @@
+{
+ "slug": "slider",
+ "title": "Slider",
+ "group": "Inputs",
+ "folder": "slider",
+ "description": "Sliders allow users to make selections from a range of values.",
+ "components": [
+  "Slider"
+ ],
+ "sections": [
+  {
+   "level": 0,
+   "title": "",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Sliders reflect a range of values along a bar, from which users may select a single value. They are ideal for adjusting settings such as volume, brightness, or applying image filters."
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Continuous sliders",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Continuous sliders allow users to select a value along a subjective range."
+    },
+    {
+     "kind": "demo",
+     "name": "ContinuousSlider",
+     "file": "ContinuousSlider.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Stack from '@mui/material/Stack';\nimport Slider from '@mui/material/Slider';\nimport VolumeDown from '@mui/icons-material/VolumeDown';\nimport VolumeUp from '@mui/icons-material/VolumeUp';\n\nexport default function ContinuousSlider() {\n  const [value, setValue] = React.useState<number>(30);\n\n  const handleChange = (event: Event, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: 200 }}>\n      <Stack spacing={2} direction=\"row\" sx={{ alignItems: 'center', mb: 1 }}>\n        <VolumeDown />\n        <Slider aria-label=\"Volume\" value={value} onChange={handleChange} />\n        <VolumeUp />\n      </Stack>\n      <Slider disabled defaultValue={30} aria-label=\"Disabled slider\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Sizes",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "For smaller slider, use the prop `size=\"small\"`."
+    },
+    {
+     "kind": "demo",
+     "name": "SliderSizes",
+     "file": "SliderSizes.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nexport default function SliderSizes() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        size=\"small\"\n        defaultValue={70}\n        aria-label=\"Small\"\n        valueLabelDisplay=\"auto\"\n      />\n      <Slider defaultValue={50} aria-label=\"Default\" valueLabelDisplay=\"auto\" />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Discrete sliders",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Discrete sliders can be adjusted to a specific value by referencing its value indicator.\nYou can generate a mark for each step with `marks={true}`."
+    },
+    {
+     "kind": "demo",
+     "name": "DiscreteSlider",
+     "file": "DiscreteSlider.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function DiscreteSlider() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Temperature\"\n        defaultValue={30}\n        getAriaValueText={valuetext}\n        valueLabelDisplay=\"auto\"\n        shiftStep={30}\n        step={10}\n        marks\n        min={10}\n        max={110}\n      />\n      <Slider defaultValue={30} step={10} marks min={10} max={110} disabled />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Small steps",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can change the default step increment.\nMake sure to adjust the `shiftStep` prop (the granularity with which the slider can step when using Page Up/Down or Shift + Arrow Up/Down) to a value divisible by the `step`."
+    },
+    {
+     "kind": "demo",
+     "name": "DiscreteSliderSteps",
+     "file": "DiscreteSliderSteps.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function DiscreteSliderSteps() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Small steps\"\n        defaultValue={0.00000005}\n        getAriaValueText={valuetext}\n        step={0.00000001}\n        marks\n        min={-0.00000005}\n        max={0.0000001}\n        valueLabelDisplay=\"auto\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Custom marks",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can have custom marks by providing a rich array to the `marks` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "DiscreteSliderMarks",
+     "file": "DiscreteSliderMarks.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function DiscreteSliderMarks() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Custom marks\"\n        defaultValue={20}\n        getAriaValueText={valuetext}\n        step={10}\n        valueLabelDisplay=\"auto\"\n        marks={marks}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Restricted values",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can restrict the selectable values to those provided with the `marks` prop with `step={null}`."
+    },
+    {
+     "kind": "demo",
+     "name": "DiscreteSliderValues",
+     "file": "DiscreteSliderValues.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function DiscreteSliderValues() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Restricted values\"\n        defaultValue={20}\n        getAriaValueText={valuetext}\n        step={null}\n        valueLabelDisplay=\"auto\"\n        marks={marks}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Label always visible",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can force the thumb label to be always visible with `valueLabelDisplay=\"on\"`."
+    },
+    {
+     "kind": "demo",
+     "name": "DiscreteSliderLabel",
+     "file": "DiscreteSliderLabel.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function DiscreteSliderLabel() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Always visible\"\n        defaultValue={80}\n        getAriaValueText={valuetext}\n        step={10}\n        marks={marks}\n        valueLabelDisplay=\"on\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Range slider",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The slider can be used to set the start and end of a range by supplying an array of values to the `value` prop."
+    },
+    {
+     "kind": "demo",
+     "name": "RangeSlider",
+     "file": "RangeSlider.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function RangeSlider() {\n  const [value, setValue] = React.useState<number[]>([20, 37]);\n\n  const handleChange = (event: Event, newValue: number[]) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        getAriaLabel={() => 'Temperature range'}\n        value={value}\n        onChange={handleChange}\n        valueLabelDisplay=\"auto\"\n        getAriaValueText={valuetext}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Minimum distance",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can enforce a minimum distance between values in the `onChange` event handler.\nBy default, when you move the pointer over a thumb while dragging another thumb, the active thumb will swap to the hovered thumb. You can disable this behavior with the `disableSwap` prop.\nIf you want the range to shift when reaching minimum distance, you can utilize the `activeThumb` parameter in `onChange`."
+    },
+    {
+     "kind": "demo",
+     "name": "MinimumDistanceSlider",
+     "file": "MinimumDistanceSlider.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nconst minDistance = 10;\n\nexport default function MinimumDistanceSlider() {\n  const [value1, setValue1] = React.useState<number[]>([20, 37]);\n\n  const handleChange1 = (event: Event, newValue: number[], activeThumb: number) => {\n    if (activeThumb === 0) {\n      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);\n    } else {\n      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);\n    }\n  };\n\n  const [value2, setValue2] = React.useState<number[]>([20, 37]);\n\n  const handleChange2 = (event: Event, newValue: number[], activeThumb: number) => {\n    if (newValue[1] - newValue[0] < minDistance) {\n      if (activeThumb === 0) {\n        const clamped = Math.min(newValue[0], 100 - minDistance);\n        setValue2([clamped, clamped + minDistance]);\n      } else {\n        const clamped = Math.max(newValue[1], minDistance);\n        setValue2([clamped - minDistance, clamped]);\n      }\n    } else {\n      setValue2(newValue);\n    }\n  };\n\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        getAriaLabel={() => 'Minimum distance'}\n        value={value1}\n        onChange={handleChange1}\n        valueLabelDisplay=\"auto\"\n        getAriaValueText={valuetext}\n        disableSwap\n      />\n      <Slider\n        getAriaLabel={() => 'Minimum distance shift'}\n        value={value2}\n        onChange={handleChange2}\n        valueLabelDisplay=\"auto\"\n        getAriaValueText={valuetext}\n        disableSwap\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Slider with input field",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "In this example, an input allows a discrete value to be set."
+    },
+    {
+     "kind": "demo",
+     "name": "InputSlider",
+     "file": "InputSlider.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Grid from '@mui/material/Grid';\nimport Typography from '@mui/material/Typography';\nimport Slider from '@mui/material/Slider';\nimport MuiInput from '@mui/material/Input';\nimport VolumeUp from '@mui/icons-material/VolumeUp';\n\nconst Input = styled(MuiInput)`\n  width: 42px;\n`;\n\nexport default function InputSlider() {\n  const [value, setValue] = React.useState(30);\n\n  const handleSliderChange = (event: Event, newValue: number) => {\n    setValue(newValue);\n  };\n\n  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {\n    setValue(event.target.value === '' ? 0 : Number(event.target.value));\n  };\n\n  const handleBlur = () => {\n    if (value < 0) {\n      setValue(0);\n    } else if (value > 100) {\n      setValue(100);\n    }\n  };\n\n  return (\n    <Box sx={{ width: 250 }}>\n      <Typography id=\"input-slider\" gutterBottom>\n        Volume\n      </Typography>\n      <Grid container spacing={2} sx={{ alignItems: 'center' }}>\n        <Grid>\n          <VolumeUp />\n        </Grid>\n        <Grid size=\"grow\">\n          <Slider\n            value={typeof value === 'number' ? value : 0}\n            onChange={handleSliderChange}\n            aria-labelledby=\"input-slider\"\n          />\n        </Grid>\n        <Grid>\n          <Input\n            value={value}\n            size=\"small\"\n            onChange={handleInputChange}\n            onBlur={handleBlur}\n            inputProps={{\n              step: 10,\n              min: 0,\n              max: 100,\n              type: 'number',\n              'aria-labelledby': 'input-slider',\n            }}\n          />\n        </Grid>\n      </Grid>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Color",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "ColorSlider",
+     "file": "ColorSlider.tsx",
+     "code": "import Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function ColorSlider() {\n  return (\n    <Box sx={{ width: 300 }}>\n      <Slider\n        aria-label=\"Temperature\"\n        defaultValue={30}\n        getAriaValueText={valuetext}\n        color=\"secondary\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Customization",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Here are some examples of customizing the component.\nYou can learn more about this in the [overrides documentation page](/material-ui/customization/how-to-customize/)."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomizedSlider",
+     "file": "CustomizedSlider.tsx",
+     "code": "import * as React from 'react';\nimport Slider, { SliderThumb, SliderValueLabelProps } from '@mui/material/Slider';\nimport { styled } from '@mui/material/styles';\nimport Typography from '@mui/material/Typography';\nimport Tooltip from '@mui/material/Tooltip';\nimport Box from '@mui/material/Box';\n\nfunction ValueLabelComponent(props: SliderValueLabelProps) {\n  const { children, value } = props;\n\n  return (\n    <Tooltip enterTouchDelay={0} placement=\"top\" title={value}>\n      {children}\n    </Tooltip>\n  );\n}\n\nconst iOSBoxShadow =\n  '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';\n\nconst IOSSlider = styled(Slider)(({ theme }) => ({\n  color: '#007bff',\n  height: 5,\n  padding: '15px 0',\n  '& .MuiSlider-thumb': {\n    height: 20,\n    width: 20,\n    backgroundColor: '#fff',\n    boxShadow: '0 0 2px 0px rgba(0, 0, 0, 0.1)',\n    '&:focus, &:hover, &.Mui-active': {\n      boxShadow: '0px 0px 3px 1px rgba(0, 0, 0, 0.1)',\n      // Reset on touch devices, it doesn't add specificity\n      '@media (hover: none)': {\n        boxShadow: iOSBoxShadow,\n      },\n    },\n    '&:before': {\n      boxShadow:\n        '0px 0px 1px 0px rgba(0,0,0,0.2), 0px 0px 0px 0px rgba(0,0,0,0.14), 0px 0px 1px 0px rgba(0,0,0,0.12)',\n    },\n  },\n  '& .MuiSlider-valueLabel': {\n    fontSize: 12,\n    fontWeight: 'normal',\n    top: -6,\n    backgroundColor: 'unset',\n    color: theme.palette.text.primary,\n    '&::before': {\n      display: 'none',\n    },\n    '& *': {\n      background: 'transparent',\n      color: '#000',\n      ...theme.applyStyles('dark', {\n        color: '#fff',\n      }),\n    },\n  },\n  '& .MuiSlider-track': {\n    border: 'none',\n    height: 5,\n  },\n  '& .MuiSlider-rail': {\n    opacity: 0.5,\n    boxShadow: 'inset 0px 0px 4px -2px #000',\n    backgroundColor: '#d0d0d0',\n  },\n  ...theme.applyStyles('dark', {\n    color: '#0a84ff',\n  }),\n}));\n\nconst PrettoSlider = styled(Slider)({\n  color: '#52af77',\n  height: 8,\n  '& .MuiSlider-track': {\n    border: 'none',\n  },\n  '& .MuiSlider-thumb': {\n    height: 24,\n    width: 24,\n    backgroundColor: '#fff',\n    border: '2px solid currentColor',\n    '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {\n      boxShadow: 'inherit',\n    },\n    '&::before': {\n      display: 'none',\n    },\n  },\n  '& .MuiSlider-valueLabel': {\n    lineHeight: 1.2,\n    fontSize: 12,\n    background: 'unset',\n    padding: 0,\n    width: 32,\n    height: 32,\n    borderRadius: '50% 50% 50% 0',\n    backgroundColor: '#52af77',\n    transformOrigin: 'bottom left',\n    transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',\n    '&::before': { display: 'none' },\n    '&.MuiSlider-valueLabelOpen': {\n      transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',\n    },\n    '& > *': {\n      transform: 'rotate(45deg)',\n    },\n  },\n});\n\nconst AirbnbSlider = styled(Slider)(({ theme }) => ({\n  color: '#3a8589',\n  height: 3,\n  padding: '13px 0',\n  '& .MuiSlider-thumb': {\n    height: 27,\n    width: 27,\n    backgroundColor: '#fff',\n    border: '1px solid currentColor',\n    '&:hover': {\n      boxShadow: '0 0 0 8px rgba(58, 133, 137, 0.16)',\n    },\n    '& .airbnb-bar': {\n      height: 9,\n      width: 1,\n      backgroundColor: 'currentColor',\n      marginLeft: 1,\n      marginRight: 1,\n    },\n  },\n  '& .MuiSlider-track': {\n    height: 3,\n  },\n  '& .MuiSlider-rail': {\n    color: '#d8d8d8',\n    opacity: 1,\n    height: 3,\n    ...theme.applyStyles('dark', {\n      color: '#bfbfbf',\n      opacity: undefined,\n    }),\n  },\n}));\n\ninterface AirbnbThumbComponentProps extends React.HTMLAttributes<unknown> {}\n\nfunction AirbnbThumbComponent(props: AirbnbThumbComponentProps) {\n  const { children, ...other } = props;\n  return (\n    <SliderThumb {...other}>\n      {children}\n      <span className=\"airbnb-bar\" />\n      <span className=\"airbnb-bar\" />\n      <span className=\"airbnb-bar\" />\n    </SliderThumb>\n  );\n}\n\nexport default function CustomizedSlider() {\n  return (\n    <Box sx={{ width: 320 }}>\n      <Typography gutterBottom>iOS</Typography>\n      <IOSSlider aria-label=\"ios slider\" defaultValue={60} valueLabelDisplay=\"on\" />\n      <Box sx={{ m: 3 }} />\n      <Typography gutterBottom>pretto.fr</Typography>\n      <PrettoSlider\n        valueLabelDisplay=\"auto\"\n        aria-label=\"pretto slider\"\n        defaultValue={20}\n      />\n      <Box sx={{ m: 3 }} />\n      <Typography gutterBottom>Tooltip value label</Typography>\n      <Slider\n        valueLabelDisplay=\"auto\"\n        slots={{\n          valueLabel: ValueLabelComponent,\n        }}\n        aria-label=\"custom thumb label\"\n        defaultValue={20}\n      />\n      <Box sx={{ m: 3 }} />\n      <Typography gutterBottom>Airbnb</Typography>\n      <AirbnbSlider\n        slots={{ thumb: AirbnbThumbComponent }}\n        getAriaLabel={(index) => (index === 0 ? 'Minimum price' : 'Maximum price')}\n        defaultValue={[20, 40]}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Music player",
+   "blocks": [
+    {
+     "kind": "demo",
+     "name": "MusicPlayerSlider",
+     "file": "MusicPlayerSlider.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Slider from '@mui/material/Slider';\nimport IconButton from '@mui/material/IconButton';\nimport Stack from '@mui/material/Stack';\nimport PauseRounded from '@mui/icons-material/PauseRounded';\nimport PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';\nimport FastForwardRounded from '@mui/icons-material/FastForwardRounded';\nimport FastRewindRounded from '@mui/icons-material/FastRewindRounded';\nimport VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';\nimport VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';\n\nconst WallPaper = styled('div')({\n  position: 'absolute',\n  width: '100%',\n  height: '100%',\n  top: 0,\n  left: 0,\n  overflow: 'hidden',\n  background: 'linear-gradient(rgb(255, 38, 142) 0%, rgb(255, 105, 79) 100%)',\n  transition: 'all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s',\n  '&::before': {\n    content: '\"\"',\n    width: '140%',\n    height: '140%',\n    position: 'absolute',\n    top: '-40%',\n    right: '-50%',\n    background:\n      'radial-gradient(at center center, rgb(62, 79, 249) 0%, rgba(62, 79, 249, 0) 64%)',\n  },\n  '&::after': {\n    content: '\"\"',\n    width: '140%',\n    height: '140%',\n    position: 'absolute',\n    bottom: '-50%',\n    left: '-30%',\n    background:\n      'radial-gradient(at center center, rgb(247, 237, 225) 0%, rgba(247, 237, 225, 0) 70%)',\n    transform: 'rotate(30deg)',\n  },\n});\n\nconst Widget = styled('div')(({ theme }) => ({\n  padding: 16,\n  borderRadius: 16,\n  width: 343,\n  maxWidth: '100%',\n  margin: 'auto',\n  position: 'relative',\n  zIndex: 1,\n  backgroundColor: 'rgba(255,255,255,0.4)',\n  backdropFilter: 'blur(40px)',\n  ...theme.applyStyles('dark', {\n    backgroundColor: 'rgba(0,0,0,0.6)',\n  }),\n}));\n\nconst CoverImage = styled('div')({\n  width: 100,\n  height: 100,\n  objectFit: 'cover',\n  overflow: 'hidden',\n  flexShrink: 0,\n  borderRadius: 8,\n  backgroundColor: 'rgba(0,0,0,0.08)',\n  '& > img': {\n    width: '100%',\n  },\n});\n\nconst TinyText = styled(Typography)({\n  fontSize: '0.75rem',\n  opacity: 0.38,\n  fontWeight: 500,\n  letterSpacing: 0.2,\n});\n\nexport default function MusicPlayerSlider() {\n  const duration = 200; // seconds\n  const [position, setPosition] = React.useState(32);\n  const [paused, setPaused] = React.useState(false);\n  function formatDuration(value: number) {\n    const minute = Math.floor(value / 60);\n    const secondLeft = value - minute * 60;\n    return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;\n  }\n  return (\n    <Box sx={{ width: '100%', overflow: 'hidden', position: 'relative', p: 3 }}>\n      <Widget>\n        <Box sx={{ display: 'flex', alignItems: 'center' }}>\n          <CoverImage>\n            <img\n              alt=\"can't win - Chilling Sunday\"\n              src=\"/static/images/sliders/chilling-sunday.jpg\"\n            />\n          </CoverImage>\n          <Box sx={{ ml: 1.5, minWidth: 0 }}>\n            <Typography\n              variant=\"caption\"\n              sx={{ color: 'text.secondary', fontWeight: 500 }}\n            >\n              Jun Pulse\n            </Typography>\n            <Typography noWrap>\n              <b>คนเก่าเขาทำไว้ดี (Can&apos;t win)</b>\n            </Typography>\n            <Typography noWrap sx={{ letterSpacing: -0.25 }}>\n              Chilling Sunday &mdash; คนเก่าเขาทำไว้ดี\n            </Typography>\n          </Box>\n        </Box>\n        <Slider\n          aria-label=\"time-indicator\"\n          size=\"small\"\n          value={position}\n          min={0}\n          step={1}\n          max={duration}\n          onChange={(_, value) => setPosition(value)}\n          sx={(t) => ({\n            color: 'rgba(0,0,0,0.87)',\n            height: 4,\n            '& .MuiSlider-thumb': {\n              width: 8,\n              height: 8,\n              transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',\n              '&::before': {\n                boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',\n              },\n              '&:hover, &.Mui-focusVisible': {\n                boxShadow: `0px 0px 0px 8px ${'rgb(0 0 0 / 16%)'}`,\n                ...t.applyStyles('dark', {\n                  boxShadow: `0px 0px 0px 8px ${'rgb(255 255 255 / 16%)'}`,\n                }),\n              },\n              '&.Mui-active': {\n                width: 20,\n                height: 20,\n              },\n            },\n            '& .MuiSlider-rail': {\n              opacity: 0.28,\n            },\n            ...t.applyStyles('dark', {\n              color: '#fff',\n            }),\n          })}\n        />\n        <Box\n          sx={{\n            display: 'flex',\n            alignItems: 'center',\n            justifyContent: 'space-between',\n            mt: -2,\n          }}\n        >\n          <TinyText>{formatDuration(position)}</TinyText>\n          <TinyText>-{formatDuration(duration - position)}</TinyText>\n        </Box>\n        <Box\n          sx={(theme) => ({\n            display: 'flex',\n            alignItems: 'center',\n            justifyContent: 'center',\n            mt: -1,\n            '& svg': {\n              color: '#000',\n              ...theme.applyStyles('dark', {\n                color: '#fff',\n              }),\n            },\n          })}\n        >\n          <IconButton aria-label=\"previous song\">\n            <FastRewindRounded fontSize=\"large\" />\n          </IconButton>\n          <IconButton\n            aria-label={paused ? 'play' : 'pause'}\n            onClick={() => setPaused(!paused)}\n          >\n            {paused ? (\n              <PlayArrowRounded sx={{ fontSize: '3rem' }} />\n            ) : (\n              <PauseRounded sx={{ fontSize: '3rem' }} />\n            )}\n          </IconButton>\n          <IconButton aria-label=\"next song\">\n            <FastForwardRounded fontSize=\"large\" />\n          </IconButton>\n        </Box>\n        <Stack\n          spacing={2}\n          direction=\"row\"\n          sx={(theme) => ({\n            alignItems: 'center',\n            mb: 1,\n            px: 1,\n            '& > svg': {\n              color: 'rgba(0,0,0,0.4)',\n              ...theme.applyStyles('dark', {\n                color: 'rgba(255,255,255,0.4)',\n              }),\n            },\n          })}\n        >\n          <VolumeDownRounded />\n          <Slider\n            aria-label=\"Volume\"\n            defaultValue={30}\n            sx={(t) => ({\n              color: 'rgba(0,0,0,0.87)',\n              '& .MuiSlider-track': {\n                border: 'none',\n              },\n              '& .MuiSlider-thumb': {\n                width: 24,\n                height: 24,\n                backgroundColor: '#fff',\n                '&::before': {\n                  boxShadow: '0 4px 8px rgba(0,0,0,0.4)',\n                },\n                '&:hover, &.Mui-focusVisible, &.Mui-active': {\n                  boxShadow: 'none',\n                },\n              },\n              ...t.applyStyles('dark', {\n                color: '#fff',\n              }),\n            })}\n          />\n          <VolumeUpRounded />\n        </Stack>\n      </Widget>\n      <WallPaper />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Vertical sliders",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "Set the `orientation` prop to `\"vertical\"` to create vertical sliders. The thumb will track vertical movement instead of horizontal movement."
+    },
+    {
+     "kind": "demo",
+     "name": "VerticalSlider",
+     "file": "VerticalSlider.tsx",
+     "code": "import Stack from '@mui/material/Stack';\nimport Slider from '@mui/material/Slider';\n\nexport default function VerticalSlider() {\n  return (\n    <Stack sx={{ height: 300 }} spacing={1} direction=\"row\">\n      <Slider\n        aria-label=\"Temperature\"\n        orientation=\"vertical\"\n        getAriaValueText={getAriaValueText}\n        valueLabelDisplay=\"auto\"\n        defaultValue={30}\n      />\n      <Slider\n        aria-label=\"Temperature\"\n        orientation=\"vertical\"\n        defaultValue={30}\n        valueLabelDisplay=\"auto\"\n        disabled\n      />\n      <Slider\n        getAriaLabel={() => 'Temperature'}\n        orientation=\"vertical\"\n        getAriaValueText={getAriaValueText}\n        defaultValue={[20, 37]}\n        valueLabelDisplay=\"auto\"\n        marks={marks}\n      />\n    </Stack>\n  );\n}\n\nfunction getAriaValueText(value: number) {\n  return `${value}°C`;\n}\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n"
+    },
+    {
+     "kind": "prose",
+     "text": ":::warning\nChrome versions below 124 implement `aria-orientation` incorrectly for vertical sliders and expose them as `'horizontal'` in the accessibility tree. ([Chromium issue #40736841](https://issues.chromium.org/issues/40736841))\n\nThe `-webkit-appearance: slider-vertical` CSS property can be used to correct this for these older versions, with the trade-off of causing a console warning in newer Chrome versions:\n\n```css\n.MuiSlider-thumb input {\n  -webkit-appearance: slider-vertical;\n}\n```\n\n:::"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Marks placement",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can customize your slider by adding and repositioning marks for minimum and maximum values."
+    },
+    {
+     "kind": "demo",
+     "name": "CustomMarks",
+     "file": "CustomMarks.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Slider from '@mui/material/Slider';\nimport Typography from '@mui/material/Typography';\n\nconst MAX = 100;\nconst MIN = 0;\nconst marks = [\n  {\n    value: MIN,\n    label: '',\n  },\n  {\n    value: MAX,\n    label: '',\n  },\n];\n\nexport default function CustomMarks() {\n  const [val, setVal] = React.useState<number>(MIN);\n  const handleChange = (_: Event, newValue: number) => {\n    setVal(newValue);\n  };\n\n  return (\n    <Box sx={{ width: 250 }}>\n      <Slider\n        marks={marks}\n        step={10}\n        value={val}\n        valueLabelDisplay=\"auto\"\n        min={MIN}\n        max={MAX}\n        onChange={handleChange}\n      />\n      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>\n        <Typography\n          variant=\"body2\"\n          onClick={() => setVal(MIN)}\n          sx={{ cursor: 'pointer' }}\n        >\n          {MIN} min\n        </Typography>\n        <Typography\n          variant=\"body2\"\n          onClick={() => setVal(MAX)}\n          sx={{ cursor: 'pointer' }}\n        >\n          {MAX} max\n        </Typography>\n      </Box>\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Track",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The track shows the range available for user selection."
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Removed track",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The track can be turned off with `track={false}`."
+    },
+    {
+     "kind": "demo",
+     "name": "TrackFalseSlider",
+     "file": "TrackFalseSlider.tsx",
+     "code": "import * as React from 'react';\nimport { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Slider from '@mui/material/Slider';\n\nconst Separator = styled('div')(\n  ({ theme }) => `\n  height: ${theme.spacing(3)};\n`,\n);\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function TrackFalseSlider() {\n  const id = React.useId();\n  const rangeId = React.useId();\n  return (\n    <Box sx={{ width: 250 }}>\n      <Typography id={`${id}-label`} gutterBottom>\n        Removed track\n      </Typography>\n      <Slider\n        track={false}\n        aria-labelledby={`${id}-label`}\n        getAriaValueText={valuetext}\n        defaultValue={30}\n        marks={marks}\n      />\n      <Separator />\n      <Typography id={`${rangeId}-label`} gutterBottom>\n        Removed track range slider\n      </Typography>\n      <Slider\n        track={false}\n        aria-labelledby={`${rangeId}-label`}\n        getAriaValueText={valuetext}\n        defaultValue={[20, 37, 50]}\n        marks={marks}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "title": "Inverted track",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "The track can be inverted with `track=\"inverted\"`."
+    },
+    {
+     "kind": "demo",
+     "name": "TrackInvertedSlider",
+     "file": "TrackInvertedSlider.tsx",
+     "code": "import { styled } from '@mui/material/styles';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Slider from '@mui/material/Slider';\n\nconst Separator = styled('div')(\n  ({ theme }) => `\n  height: ${theme.spacing(3)};\n`,\n);\n\nconst marks = [\n  {\n    value: 0,\n    label: '0°C',\n  },\n  {\n    value: 20,\n    label: '20°C',\n  },\n  {\n    value: 37,\n    label: '37°C',\n  },\n  {\n    value: 100,\n    label: '100°C',\n  },\n];\n\nfunction valuetext(value: number) {\n  return `${value}°C`;\n}\n\nexport default function TrackInvertedSlider() {\n  return (\n    <Box sx={{ width: 250 }}>\n      <Typography id=\"track-inverted-slider\" gutterBottom>\n        Inverted track\n      </Typography>\n      <Slider\n        track=\"inverted\"\n        aria-labelledby=\"track-inverted-slider\"\n        getAriaValueText={valuetext}\n        defaultValue={30}\n        marks={marks}\n      />\n      <Separator />\n      <Typography id=\"track-inverted-range-slider\" gutterBottom>\n        Inverted track range\n      </Typography>\n      <Slider\n        track=\"inverted\"\n        aria-labelledby=\"track-inverted-range-slider\"\n        getAriaValueText={valuetext}\n        defaultValue={[20, 37]}\n        marks={marks}\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Non-linear scale",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "You can use the `scale` prop to represent the `value` on a different scale.\n\nIn the following demo, the value _x_ represents the value _2^x_.\nIncreasing _x_ by one increases the represented value by factor _2_."
+    },
+    {
+     "kind": "demo",
+     "name": "NonLinearSlider",
+     "file": "NonLinearSlider.tsx",
+     "code": "import * as React from 'react';\nimport Box from '@mui/material/Box';\nimport Typography from '@mui/material/Typography';\nimport Slider from '@mui/material/Slider';\n\nfunction valueLabelFormat(value: number) {\n  const units = ['KB', 'MB', 'GB', 'TB'];\n\n  let unitIndex = 0;\n  let scaledValue = value;\n\n  while (scaledValue >= 1024 && unitIndex < units.length - 1) {\n    unitIndex += 1;\n    scaledValue /= 1024;\n  }\n\n  return `${scaledValue} ${units[unitIndex]}`;\n}\n\nfunction calculateValue(value: number) {\n  return 2 ** value;\n}\n\nexport default function NonLinearSlider() {\n  const [value, setValue] = React.useState<number>(10);\n\n  const handleChange = (event: Event, newValue: number) => {\n    setValue(newValue);\n  };\n\n  return (\n    <Box sx={{ width: 250 }}>\n      <Typography id=\"non-linear-slider\" gutterBottom>\n        Storage: {valueLabelFormat(calculateValue(value))}\n      </Typography>\n      <Slider\n        value={value}\n        min={5}\n        step={1}\n        max={30}\n        scale={calculateValue}\n        getAriaValueText={valueLabelFormat}\n        valueLabelFormat={valueLabelFormat}\n        onChange={handleChange}\n        valueLabelDisplay=\"auto\"\n        aria-labelledby=\"non-linear-slider\"\n      />\n    </Box>\n  );\n}\n"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "title": "Accessibility",
+   "blocks": [
+    {
+     "kind": "prose",
+     "text": "(WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/)\n\nThe component handles most of the work necessary to make it accessible.\nHowever, you need to make sure that:\n\n- Each thumb has a user-friendly label (`aria-label`, `aria-labelledby` or `getAriaLabel` prop).\n- Each thumb has a user-friendly text for its current value.\n  This is not required if the value matches the semantics of the label.\n  You can change the name with the `getAriaValueText` or `aria-valuetext` prop."
+    }
+   ]
+  }
+ ],
+ "api": [
+  {
+   "name": "Slider",
+   "description": "",
+   "props": [
+    {
+     "prop": "aria-label",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The label of the slider."
+    },
+    {
+     "prop": "aria-labelledby",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The id of the element containing a label for the slider."
+    },
+    {
+     "prop": "aria-valuetext",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "A string value that provides a user-friendly name for the current value of the slider."
+    },
+    {
+     "prop": "classes",
+     "type": "object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Override or extend the styles applied to the component."
+    },
+    {
+     "prop": "color",
+     "type": "'primary'<br>&#124;&nbsp;'secondary'<br>&#124;&nbsp;'error'<br>&#124;&nbsp;'info'<br>&#124;&nbsp;'success'<br>&#124;&nbsp;'warning'<br>&#124;&nbsp;string",
+     "default": "'primary'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The color of the component. It supports both default and custom theme colors, which can be added as shown in the <a href=\"https://mui.com/material-ui/customization/palette/#custom-colors\">palette customization guide</a>."
+    },
+    {
+     "prop": "defaultValue",
+     "type": "Array&lt;number&gt;<br>&#124;&nbsp;number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The default value. Use when the component is not controlled."
+    },
+    {
+     "prop": "disabled",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the component is disabled."
+    },
+    {
+     "prop": "disableSwap",
+     "type": "bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "If <code>true</code>, the active thumb doesn&#39;t swap when moving pointer over a thumb while dragging another thumb."
+    },
+    {
+     "prop": "getAriaLabel",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the thumb labels of the slider. This is important for screen reader users."
+    },
+    {
+     "prop": "getAriaValueText",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. This is important for screen reader users."
+    },
+    {
+     "prop": "marks",
+     "type": "Array&lt;{ label?: node, value: number }&gt;<br>&#124;&nbsp;bool",
+     "default": "false",
+     "required": false,
+     "deprecated": false,
+     "desc": "Marks indicate predetermined values to which the user can move the slider. If <code>true</code> the marks are spaced according the value of the <code>step</code> prop. If an array, it should contain objects with <code>value</code> and an optional <code>label</code> keys."
+    },
+    {
+     "prop": "max",
+     "type": "number",
+     "default": "100",
+     "required": false,
+     "deprecated": false,
+     "desc": "The maximum allowed value of the slider. Should not be equal to min."
+    },
+    {
+     "prop": "min",
+     "type": "number",
+     "default": "0",
+     "required": false,
+     "deprecated": false,
+     "desc": "The minimum allowed value of the slider. Should not be equal to max."
+    },
+    {
+     "prop": "name",
+     "type": "string",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Name attribute of the hidden <code>input</code> element."
+    },
+    {
+     "prop": "onChange",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback function that is fired when the slider&#39;s value changed."
+    },
+    {
+     "prop": "onChangeCommitted",
+     "type": "func",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Callback function that is fired when the pointer or touch interaction ends."
+    },
+    {
+     "prop": "orientation",
+     "type": "'horizontal'<br>&#124;&nbsp;'vertical'",
+     "default": "'horizontal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The component orientation."
+    },
+    {
+     "prop": "scale",
+     "type": "func",
+     "default": "function Identity(x) {\n  return x;\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "A transformation function, to change the scale of the slider."
+    },
+    {
+     "prop": "shiftStep",
+     "type": "number",
+     "default": "10",
+     "required": false,
+     "deprecated": false,
+     "desc": "The granularity with which the slider can step through values when using Page Up/Page Down or Shift + Arrow Up/Arrow Down."
+    },
+    {
+     "prop": "size",
+     "type": "'small'<br>&#124;&nbsp;'medium'<br>&#124;&nbsp;string",
+     "default": "'medium'",
+     "required": false,
+     "deprecated": false,
+     "desc": "The size of the slider."
+    },
+    {
+     "prop": "slotProps",
+     "type": "{ input?: func<br>&#124;&nbsp;object, mark?: func<br>&#124;&nbsp;object, markLabel?: func<br>&#124;&nbsp;object, rail?: func<br>&#124;&nbsp;object, root?: func<br>&#124;&nbsp;object, thumb?: func<br>&#124;&nbsp;object, track?: func<br>&#124;&nbsp;object, valueLabel?: func<br>&#124;&nbsp;{ children?: element, className?: string, open?: bool, style?: object, value?: node, valueLabelDisplay?: 'auto'<br>&#124;&nbsp;'off'<br>&#124;&nbsp;'on' } }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The props used for each slot inside."
+    },
+    {
+     "prop": "slots",
+     "type": "{ input?: elementType, mark?: elementType, markLabel?: elementType, rail?: elementType, root?: elementType, thumb?: elementType, track?: elementType, valueLabel?: elementType }",
+     "default": "{}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The components used for each slot inside."
+    },
+    {
+     "prop": "step",
+     "type": "number",
+     "default": "1",
+     "required": false,
+     "deprecated": false,
+     "desc": "The granularity with which the slider can step through values. (A &quot;discrete&quot; slider.) The <code>min</code> prop serves as the origin for the valid values. We recommend (max - min) to be evenly divisible by the step.<br>When step is <code>null</code>, the thumb can only be slid onto marks provided with the <code>marks</code> prop."
+    },
+    {
+     "prop": "sx",
+     "type": "Array&lt;func<br>&#124;&nbsp;object<br>&#124;&nbsp;bool&gt;<br>&#124;&nbsp;func<br>&#124;&nbsp;object",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The system prop that allows defining system overrides as well as additional CSS styles."
+    },
+    {
+     "prop": "tabIndex",
+     "type": "number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "Tab index attribute of the hidden <code>input</code> element."
+    },
+    {
+     "prop": "track",
+     "type": "'inverted'<br>&#124;&nbsp;'normal'<br>&#124;&nbsp;false",
+     "default": "'normal'",
+     "required": false,
+     "deprecated": false,
+     "desc": "<p>The track presentation:</p>\n<ul>\n<li><code>normal</code> the track will render a bar representing the slider value.</li>\n<li><code>inverted</code> the track will render a bar representing the remaining slider value.</li>\n<li><code>false</code> the track will render without a bar.</li>\n</ul>\n"
+    },
+    {
+     "prop": "value",
+     "type": "Array&lt;number&gt;<br>&#124;&nbsp;number",
+     "default": null,
+     "required": false,
+     "deprecated": false,
+     "desc": "The value of the slider. For ranged sliders, provide an array with two values."
+    },
+    {
+     "prop": "valueLabelDisplay",
+     "type": "'auto'<br>&#124;&nbsp;'off'<br>&#124;&nbsp;'on'",
+     "default": "'off'",
+     "required": false,
+     "deprecated": false,
+     "desc": "<p>Controls when the value label is displayed:</p>\n<ul>\n<li><code>auto</code> the value label will display when the thumb is hovered or focused.</li>\n<li><code>on</code> will display persistently.</li>\n<li><code>off</code> will never display.</li>\n</ul>\n"
+    },
+    {
+     "prop": "valueLabelFormat",
+     "type": "func<br>&#124;&nbsp;string",
+     "default": "function Identity(x) {\n  return x;\n}",
+     "required": false,
+     "deprecated": false,
+     "desc": "The format function the value label&#39;s value.<br>When a function is provided, it should have the following signature:<br>- {number} value The value label&#39;s value to format - {number} index The value label&#39;s index to format"
+    }
+   ],
+   "classes": [
+    {
+     "key": "active",
+     "className": "Mui-active",
+     "description": "State class applied to the thumb element if it's active."
+    },
+    {
+     "key": "colorError",
+     "className": "MuiSlider-colorError",
+     "description": "Styles applied to the root element if `color=\"error\"`."
+    },
+    {
+     "key": "colorInfo",
+     "className": "MuiSlider-colorInfo",
+     "description": "Styles applied to the root element if `color=\"info\"`."
+    },
+    {
+     "key": "colorPrimary",
+     "className": "MuiSlider-colorPrimary",
+     "description": "Styles applied to the root element if `color=\"primary\"`."
+    },
+    {
+     "key": "colorSecondary",
+     "className": "MuiSlider-colorSecondary",
+     "description": "Styles applied to the root element if `color=\"secondary\"`."
+    },
+    {
+     "key": "colorSuccess",
+     "className": "MuiSlider-colorSuccess",
+     "description": "Styles applied to the root element if `color=\"success\"`."
+    },
+    {
+     "key": "colorWarning",
+     "className": "MuiSlider-colorWarning",
+     "description": "Styles applied to the root element if `color=\"warning\"`."
+    },
+    {
+     "key": "disabled",
+     "className": "Mui-disabled",
+     "description": "State class applied to the root and thumb element if `disabled={true}`."
+    },
+    {
+     "key": "dragging",
+     "className": "MuiSlider-dragging",
+     "description": "State class applied to the root if a thumb is being dragged."
+    },
+    {
+     "key": "focusVisible",
+     "className": "Mui-focusVisible",
+     "description": "State class applied to the thumb element if keyboard focused."
+    },
+    {
+     "key": "markActive",
+     "className": "MuiSlider-markActive",
+     "description": "Styles applied to the mark element if active (depending on the value)."
+    },
+    {
+     "key": "marked",
+     "className": "MuiSlider-marked",
+     "description": "Styles applied to the root element if `marks` is provided with at least one label."
+    },
+    {
+     "key": "markLabelActive",
+     "className": "MuiSlider-markLabelActive",
+     "description": "Styles applied to the mark label element if active (depending on the value)."
+    },
+    {
+     "key": "sizeSmall",
+     "className": "MuiSlider-sizeSmall",
+     "description": "Styles applied to the root element if `size=\"small\"`."
+    },
+    {
+     "key": "trackFalse",
+     "className": "MuiSlider-trackFalse",
+     "description": "Styles applied to the root element if `track={false}`."
+    },
+    {
+     "key": "trackInverted",
+     "className": "MuiSlider-trackInverted",
+     "description": "Styles applied to the root element if `track=\"inverted\"`."
+    },
+    {
+     "key": "valueLabelCircle",
+     "className": "MuiSlider-valueLabelCircle",
+     "description": "Styles applied to the thumb label's circle element."
+    },
+    {
+     "key": "valueLabelLabel",
+     "className": "MuiSlider-valueLabelLabel",
+     "description": "Styles applied to the thumb label's label element."
+    },
+    {
+     "key": "valueLabelOpen",
+     "className": "MuiSlider-valueLabelOpen",
+     "description": "Styles applied to the thumb label element if it's open."
+    },
+    {
+     "key": "vertical",
+     "className": "MuiSlider-vertical",
+     "description": "Styles applied to the root element if `orientation=\"vertical\"`."
+    }
+   ]
+  }
+ ],
+ "docHref": "https://mui.com/material-ui/react-slider/"
+}
