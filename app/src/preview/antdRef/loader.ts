@@ -8,7 +8,9 @@ export interface AntdExample {
 }
 export interface AntdVariant {
   prop: string;
+  // 실제 렌더링 가능한 리터럴 값, AntdLive 전용 사용
   values: string[];
+  other: string[];
   default: string;
   owner: string;
   // type은 Type 열의 리터럴 합집합, desc는 설명문 options 목록
