@@ -3,8 +3,10 @@
  * 출처: mui/material-ui 의 docs/data/material/components/timeline/CustomizedTimeline.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import Timeline from '@mui/lab/Timeline';
@@ -43,9 +45,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Eat
+            먹기
           </Typography>
-          <Typography>Because you need strength</Typography>
+          <Typography>힘이 필요하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -67,9 +69,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Code
+            코드
           </Typography>
-          <Typography>Because it&apos;s awesome!</Typography>
+          <Typography>멋지니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -82,9 +84,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Sleep
+            자기
           </Typography>
-          <Typography>Because you need rest</Typography>
+          <Typography>쉬어야 하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -97,9 +99,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Repeat
+            되풀이
           </Typography>
-          <Typography>Because this is the life you love!</Typography>
+          <Typography>이게 당신이 사랑하는 삶이니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
     </Timeline>

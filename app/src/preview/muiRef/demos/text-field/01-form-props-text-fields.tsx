@@ -3,8 +3,10 @@
  * 출처: mui/material-ui 의 docs/data/material/components/text-fields/FormPropsTextFields.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import Box from '@mui/material/Box';
@@ -22,18 +24,18 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="outlined-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
         />
         <TextField
           disabled
           id="outlined-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
         />
         <TextField
           id="outlined-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
         />
@@ -59,20 +61,20 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="filled-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
           variant="filled"
         />
         <TextField
           disabled
           id="filled-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
           variant="filled"
         />
         <TextField
           id="filled-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
           variant="filled"
@@ -106,20 +108,20 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="standard-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
           variant="standard"
         />
         <TextField
           disabled
           id="standard-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
           variant="standard"
         />
         <TextField
           id="standard-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
           variant="standard"

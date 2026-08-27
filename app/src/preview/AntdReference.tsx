@@ -53,11 +53,6 @@ const KO_COLUMN: Record<string, string> = {
   Shape: "모양",
 };
 
-// 값처럼 읽는 열만 등폭 처리. 설명문까지 코드로 감싸면 읽기 어려운 문제가 있음
-const CODE_COLUMNS = new Set([
-  "property", "prop", "name", "token name", "type", "default", "default value", "version",
-]);
-
 const STAGE_CONTAINS_FIXED: Record<string, string> = {
   "anchor::Set Anchor scroll offset":
     "공식 예제는 화면 위쪽 고정 띠(30vh) 높이를 `targetOffset` 으로 사용. " +
@@ -121,6 +116,37 @@ function Prose({ text, slug, inline }: { text: string; slug: string; inline?: bo
   return <Markdown components={components}>{md}</Markdown>;
 }
 
+const VALUE_TOKEN = /`([^`]+)`|~~([^~]+)~~|<(br|hr)\s*\/?>|\\([\\`*_{}[\]#+\-.!~|<>])/gi;
+
+const MONO = { fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" } as const;
+
+const CHIP = {
+  fontSize: ".9em",
+  padding: ".15em .35em",
+  margin: "0 .0625rem",
+  borderRadius: ".25rem",
+  background: "var(--semantic-bg-neutral-subtle, #f4f4f5)",
+  boxShadow: "inset 0 0 0 .0625rem var(--semantic-border-neutral-subtle, #e4e4e7)",
+} as const;
+
+function ValueText({ text }: { text: string }) {
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+  let k = 0;
+  VALUE_TOKEN.lastIndex = 0;
+  for (let m = VALUE_TOKEN.exec(text); m; m = VALUE_TOKEN.exec(text)) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    if (m[1] !== undefined) nodes.push(<code key={k++} style={CHIP}>{m[1]}</code>);
+    else if (m[2] !== undefined) nodes.push(<del key={k++}>{m[2]}</del>);
+    else if (m[3] !== undefined) {
+      nodes.push(m[3].toLowerCase === "br" ? <br key={k++} /> : <hr key={k++} />);
+    } else nodes.push(m[4]);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return <>{nodes}</>;
+}
+
 function Table({ table, ko, slug }: { table: AntdTable; ko: KoText | null; slug: string }) {
   const descAt = table.columns.findIndex((c) => c.toLowerCase === "description");
   return (
@@ -133,16 +159,15 @@ function Table({ table, ko, slug }: { table: AntdTable; ko: KoText | null; slug:
           {table.rows.map((row, ri) => (
             <tr key={`${row[0]}-${ri}`}>
               {row.map((cell, i) => {
-                const code = CODE_COLUMNS.has((table.columns[i] ?? "").toLowerCase);
-                const text = i === descAt ? pick(ko, cell) : cell;
-                // 마크다운은 Description 열만 적용, 다른 열은 기호 오인식 시 값 손상 위험임
+                const desc = i === descAt;
+                const text = desc ? pick(ko, cell) : cell;
                 const body = text === "—" ? "—"
-                  : code ? <code>{text}</code>
-                  : i === descAt ? <Prose inline slug={slug} text={text} />
-                  : text;
+                  : desc ? <Prose inline slug={slug} text={text} />
+                  : <ValueText text={text} />;
+                const style = desc ? undefined : MONO;
                 return i === 0
-                  ? <th key={i} scope="row">{body}</th>
-                  : <td key={i}>{body}</td>;
+                  ? <th key={i} scope="row" style={style}>{body}</th>
+                  : <td key={i} style={style}>{body}</td>;
               })}
             </tr>
           ))}

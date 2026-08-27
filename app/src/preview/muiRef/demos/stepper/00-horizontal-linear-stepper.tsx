@@ -3,8 +3,10 @@
  * 출처: mui/material-ui 의 docs/data/material/components/steppers/HorizontalLinearStepper.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -98,7 +100,7 @@ export default function HorizontalLinearStepper() {
           } = {};
           if (isStepOptional(index)) {
             labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+              <Typography variant="caption">선택</Typography>
             );
           }
           if (isStepSkipped(index)) {
@@ -114,7 +116,7 @@ export default function HorizontalLinearStepper() {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+            모든 단계를 마쳤어요 — 끝났어요
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />

@@ -3,8 +3,10 @@
  * 출처: mui/material-ui 의 docs/data/material/components/table/CustomizedTables.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import { styled } from '@mui/material/styles';
@@ -60,11 +62,11 @@ export default function CustomizedTables() {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>디저트 (100g 기준)</StyledTableCell>
+            <StyledTableCell align="right">열량</StyledTableCell>
+            <StyledTableCell align="right">지방&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">탄수화물&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">단백질&nbsp;(g)</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

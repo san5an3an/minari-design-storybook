@@ -32,6 +32,8 @@ const STYLE_ID = "ods-active-system";
 const COLORS = "__colors__";
 const TYPE = "__type__";
 
+const OURS = "ours-";
+
 const FOUNDATIONS: { key: string; label: string }[] = [
   { key: COLORS, label: "Color Scheme" },
   { key: TYPE, label: "Typography" },
@@ -222,6 +224,37 @@ function OfficialNav({ groups, title, section, onPick }: {
   );
 }
 
+function OursNav({ system, section, onPick }: {
+  system: SystemDefinition;
+  section: string;
+  onPick: (section: string) => void;
+}) {
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>
+        어댑터 {system.components.length}
+      </SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {/* 정렬 적용 */}
+          {[...system.components]
+            .sort((a, b) => a.title.localeCompare(b.title, "en"))
+            .map((c) => (
+              <SidebarMenuItem key={c.name}>
+                <SidebarMenuButton
+                  isActive={section === OURS + c.name}
+                  onClick={ => onPick(OURS + c.name)}
+                >
+                  <span>{c.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
+
 // 페이지 목록. 현재 선택한 테마의 것만 표시
 function PageNav({
   system, section, onPick,
@@ -252,12 +285,15 @@ function PageNav({
       </SidebarGroup>
 
       {/* antd, MUI 공식 목록 그대로 사용. 자체 목록 맞추면 고유 컴포넌트 소실되는 문제임 */}
-      {system.baseKey === "antd" ? (
-        <OfficialNav groups={ANTD_GROUPS} title={ANTD_TITLE}
-          section={section} onPick={onPick} />
-      ) : system.baseKey === "mui" ? (
-        <OfficialNav groups={MUI_GROUPS} title={MUI_TITLE}
-          section={section} onPick={onPick} />
+      {/* 공식 항목 아래 별도 값 보관, OURS 접두사 사용 */}
+      {system.baseKey === "antd" || system.baseKey === "mui" ? (
+        <>
+          <OfficialNav
+            groups={system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS}
+            title={system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE}
+            section={section} onPick={onPick} />
+          <OursNav system={system} section={section} onPick={onPick} />
+        </>
       ) : (
       <SidebarGroup>
         <SidebarGroupLabel>Components {system.components.length}</SidebarGroupLabel>
@@ -409,10 +445,12 @@ export function App {
   const official = system.baseKey === "antd" ? ANTD_TITLE
     : system.baseKey === "mui" ? MUI_TITLE
     : null;
+  // 접두사 벗겨서 찾기. 안 벗기면 상단바 ours-button이 사이드바와 어긋나 있음
+  const bare = section.startsWith(OURS) ? section.slice(OURS.length) : section;
   const here = FOUNDATIONS.find((f) => f.key === section)?.label
-    ?? official?.get(section)
-    ?? system.components.find((c) => c.name === section)?.title
-    ?? section;
+    ?? (section.startsWith(OURS) ? undefined : official?.get(section))
+    ?? system.components.find((c) => c.name === bare)?.title
+    ?? bare;
 
   return (
     <SidebarProvider>
@@ -478,7 +516,11 @@ export function App {
               font={fontByKey(font)}
             />
           ) : (
-            system.baseKey === "antd" && isAntdSlug(section) ? (
+            // 접두사 붙은 경로를 공식 경로보다 먼저 확인
+            section.startsWith(OURS) ? (
+              <ComponentPage system={system} name={section.slice(OURS.length)}
+                active={mode} />
+            ) : system.baseKey === "antd" && isAntdSlug(section) ? (
               <AntdReference slug={section} system={system} active={mode} />
             ) : system.baseKey === "mui" && isMuiSlug(section) ? (
               <MuiReference slug={section} system={system} active={mode} />

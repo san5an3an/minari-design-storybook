@@ -1,6 +1,7 @@
 import * as React from "react";
 import Markdown, { type Components } from "react-markdown";
 import { parseColorTokens } from "./tokens";
+import { loadKo, pick, type KoText } from "./muiRef/ko";
 import { loadMuiDoc, muiEntry, type MuiBlock, type MuiDoc } from "./muiRef/loader";
 import { loadDemos, type DemoModule, type ToneColor } from "./muiRef/demos";
 import type { Mode } from "../systems/types";
@@ -27,8 +28,25 @@ function undirective(text: string): string {
   });
 }
 
-function Prose({ text, slug }: { text: string; slug: string }) {
-  const md = React.useMemo( => undirective(text), [text]);
+const HTML_TO_MD: [RegExp, string][] = [
+  [/<\/?(?:ul|p)>/gi, "\n\n"],
+  [/<li>/gi, "\n- "],
+  [/<\/li>/gi, ""],
+  [/<br\s*\/?>/gi, "  \n"], // 마크다운의 강제 줄바꿈
+  [/<code>([\s\S]*?)<\/code>/gi, "`$1`"],
+  [/<strong>([\s\S]*?)<\/strong>/gi, "**$1**"],
+  [/<em>([\s\S]*?)<\/em>/gi, "*$1*"],
+  [/<a\s+[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)"],
+];
+
+function htmlToMarkdown(s: string): string {
+  return HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s);
+}
+
+// @param html HTML 원문 여부, md 본문에는 비적용
+function Prose({ text, slug, html }: { text: string; slug: string; html?: boolean }) {
+  const md = React.useMemo(
+     => undirective(html ? htmlToMarkdown(text) : text), [text, html]);
   const components = React.useMemo<Components>( => ({
     a: ({ href, children }) => (
       <a href={officialHref(href, slug)} target="_blank" rel="noreferrer">{children}</a>
@@ -82,15 +100,17 @@ function Section({ level, title, children }: {
   );
 }
 
-function Block({ block, doc, mod, Provider, active, tones }: {
+function Block({ block, doc, mod, Provider, active, tones, ko }: {
   block: MuiBlock;
   doc: MuiDoc;
   mod: DemoModule | null;
   Provider: SystemDefinition["Provider"];
   active: Mode;
   tones: ToneColor[];
+  ko: KoText | null;
 }) {
-  if (block.kind === "prose") return <Prose text={block.text} slug={doc.slug} />;
+  // 번역 우선 사용, 없으면 원문. 코드 블록은 공식 삽입 콘텐츠라 제외
+  if (block.kind === "prose") return <Prose text={pick(ko, block.text)} slug={doc.slug} />;
 
   if (block.kind === "code") {
     // 코드는 예제 아닌 본문임. 공식 글 속에 끼워진 부분이라 빼면 문장이 끊어지는 문제 있음
@@ -182,6 +202,13 @@ export function MuiReference({ slug, system, active }: {
     return  => { alive = false; };
   }, [slug]);
 
+  const [ko, setKo] = React.useState<KoText | null>(null);
+  React.useEffect( => {
+    let alive = true;
+    loadKo.then((k) => { if (alive) setKo(k); }).catch( => {});
+    return  => { alive = false; };
+  }, []);
+
   React.useEffect( => {
     let alive = true; // 빠른 전환 시 늦게 도착한 응답의 화면 덮어쓰기 방지
     setDoc(null); setErr(null);
@@ -204,7 +231,7 @@ export function MuiReference({ slug, system, active }: {
       <header className="doc-head">
         <h2 className="doc-h2">{doc.title}</h2>
         {doc.description ? (
-          <p className="doc-lead">{doc.description}</p>
+          <p className="doc-lead">{ko?.lead[doc.slug] || doc.description}</p>
         ) : null}
         <p className="doc-note" style={{ marginTop: ".25rem" }}>
           <b>{doc.group}</b> · 공식 문서를 절 순서까지 그대로 옮긴 참조예요.{" "}
@@ -226,6 +253,7 @@ export function MuiReference({ slug, system, active }: {
               Provider={Provider}
               active={active}
               tones={tones}
+              ko={ko}
             />
           ))}
         </Section>
@@ -233,7 +261,7 @@ export function MuiReference({ slug, system, active }: {
 
       {doc.api.map((api) => (
         <Section key={api.name} level={2} title={`${api.name} API`}>
-          {api.description ? <Prose text={api.description} slug={doc.slug} /> : null}
+          {api.description ? <Prose html text={pick(ko, api.description)} slug={doc.slug} /> : null}
           <div style={{ overflowX: "auto" }}>
             <table className="doc-props doc-ref-table">
               <thead>
@@ -253,7 +281,7 @@ export function MuiReference({ slug, system, active }: {
                       : <span className="doc-dim">—</span>}</td>
                     <td>
                       {p.deprecated ? <b>(deprecated) </b> : null}
-                      {p.desc ? <Prose text={p.desc} slug={doc.slug} />
+                      {p.desc ? <Prose html text={pick(ko, p.desc)} slug={doc.slug} />
                         : <span className="doc-dim">—</span>}
                     </td>
                   </tr>
