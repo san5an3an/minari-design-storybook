@@ -53,7 +53,7 @@ export default function LoadingButtonsTransition() {
           loadingPosition="end"
           variant="contained"
         >
-          Send
+          보내기
         </Button>
         <Button
           size="small"
@@ -86,7 +86,7 @@ export default function LoadingButtonsTransition() {
           loadingPosition="end"
           variant="contained"
         >
-          Send
+          보내기
         </Button>
         <Button
           color="secondary"

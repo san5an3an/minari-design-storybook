@@ -47,7 +47,7 @@ export default function CustomizedTimeline() {
             m: 'auto 0',
           }}
         >
-          10:00 am
+          오전 10:00
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector />

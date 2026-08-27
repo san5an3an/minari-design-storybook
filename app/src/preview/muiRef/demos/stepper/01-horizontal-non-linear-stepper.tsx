@@ -61,7 +61,6 @@ export default function HorizontalNonLinearStepper() {
     previousCompletedRef.current = completed;
 
     if (allStepsCompleted) {
-      // If the user has completed all steps and hits "Finish", focus the "Reset" button.
       resetButtonRef.current!.focus();
       return;
     }
@@ -70,7 +69,6 @@ export default function HorizontalNonLinearStepper() {
       Object.keys(completed).length === 0 &&
       Object.keys(previousCompleted).length !== 0
     ) {
-      // If the user has completed all steps and hits "Reset", focus the "Next" button.
       nextButtonRef.current!.focus();
     }
   }, [completed, allStepsCompleted]);
@@ -78,7 +76,6 @@ export default function HorizontalNonLinearStepper() {
   // Manage focus when the active step changes.
   React.useEffect(() => {
     if (activeStep === 0 && previousActiveStepRef.current === 1) {
-      // If the user navigated to first step via "Back" button, focus the "Next" button.
       nextButtonRef.current!.focus();
     }
 
@@ -109,7 +106,7 @@ export default function HorizontalNonLinearStepper() {
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleReset} ref={resetButtonRef}>
-                Reset
+                처음으로
               </Button>
             </Box>
           </React.Fragment>
@@ -125,11 +122,11 @@ export default function HorizontalNonLinearStepper() {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                뒤로
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleNext} sx={{ mr: 1 }} ref={nextButtonRef}>
-                Next
+                다음
               </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (

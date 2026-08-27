@@ -20,7 +20,7 @@ export default function BasicBreadcrumbs() {
           color="inherit"
           href="/material-ui/getting-started/installation/"
         >
-          Core
+          핵심
         </Link>
         <Typography sx={{ color: 'text.primary' }}>Breadcrumbs</Typography>
       </Breadcrumbs>
