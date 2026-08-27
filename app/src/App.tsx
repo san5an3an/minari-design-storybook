@@ -21,6 +21,7 @@ import { requestExport } from "@/export/client";
 import { sinkFor } from "@/export/sinks/registry";
 import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
+import { UsagePage } from "./usage/UsagePage";
 import { ComponentPage } from "./preview/ComponentPage";
 import { AntdReference } from "./preview/AntdReference";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
@@ -41,13 +42,19 @@ const TYPE = "__type__";
 
 const DOCS = "docs-";
 
+const USAGE = "__usage__";
+
+const MAIN: { key: string; label: string }[] = [
+  { key: USAGE, label: "Usage" },
+];
+
 const FOUNDATIONS: { key: string; label: string }[] = [
   { key: COLORS, label: "Color Scheme" },
   { key: TYPE, label: "Typography" },
 ];
 
-const ROUTE_ALIAS: Record<string, string> = { colors: COLORS, "type-scale": TYPE };
-const ROUTE_SLUG: Record<string, string> = { [COLORS]: "colors", [TYPE]: "type-scale" };
+const ROUTE_ALIAS: Record<string, string> = { colors: COLORS, "type-scale": TYPE, usage: USAGE };
+const ROUTE_SLUG: Record<string, string> = { [COLORS]: "colors", [TYPE]: "type-scale", [USAGE]: "usage" };
 
 type Route = { base: string; slug: string; section: string };
 
@@ -270,6 +277,25 @@ function PageNav({
 }) {
   return (
     <>
+      {/* 컴포넌트 조합 화면, 맨 위 배치. 아래 두 층은 재료 */}
+      <SidebarGroup>
+        <SidebarGroupLabel>Main</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {MAIN.map((m) => (
+              <SidebarMenuItem key={m.key}>
+                <SidebarMenuButton
+                  isActive={section === m.key}
+                  onClick={ => onPick(m.key)}
+                >
+                  <span>{m.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
       <SidebarGroup>
         {/* 재료 계층. 컴포넌트가 읽고 쓰며 상위 배치, 하위 계층이 사용 */}
         <SidebarGroupLabel>Foundations</SidebarGroupLabel>
@@ -476,7 +502,9 @@ export function App {
     : null;
   // 접두사 벗겨서 찾기. 안 벗기면 상단바 docs-button이 사이드바와 어긋나 있음
   const bare = section.startsWith(DOCS) ? section.slice(DOCS.length) : section;
-  const here = FOUNDATIONS.find((f) => f.key === section)?.label
+  // MAIN도 함께 확인. 누락되면 상단바에 __usage__ 내부 키가 그대로 남음
+  const here = MAIN.find((m) => m.key === section)?.label
+    ?? FOUNDATIONS.find((f) => f.key === section)?.label
     ?? (section.startsWith(DOCS) ? official?.get(bare) : undefined)
     ?? system.components.find((c) => c.name === bare)?.title
     ?? bare;
@@ -551,8 +579,11 @@ export function App {
         ) : null}
 
         {/* 미리보기 영역 */}
-        <main className="doc-page">
-          {section === COLORS ? (
+        <div className="doc-page">
+          {section === USAGE ? (
+            // 이 경우 최우선 배치. __usage__는 계약에 없는 이름이라 잘못 표시되는 문제임
+            <UsagePage system={system} active={mode} />
+          ) : section === COLORS ? (
             <>
               <p className="doc-lead">{system.tone}</p>
               <ColorScheme vars={system.vars} refs={system.refs} active={mode} />
@@ -577,7 +608,7 @@ export function App {
               <ComponentPage system={system} name={bare} active={mode} />
             )
           )}
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
