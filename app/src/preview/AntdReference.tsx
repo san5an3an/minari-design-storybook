@@ -458,10 +458,12 @@ export function AntdReference({ slug, system, active }: {
         {doc.variants.length === 0
           ? <p className="doc-note">열거할 수 있는 축이 없어요.</p>
           : <Table ko={ko} slug={doc.slug} table={{
-              columns: ["Prop", "Values", "Default", "소속", "출처"],
+              columns: ["Prop", "Values", "그 밖", "Default", "소속", "출처"],
               rows: doc.variants.map((v) => [
                 v.prop + (v.deprecated ? " (폐기됨)" : ""),
                 v.values.join(" | "),
+                // 열거 불가능한 객체 함수 배열 타입 항목도 노출. 값 목록에서 제외하되 유지
+                v.other.length ? v.other.join(" | ") : "—",
                 v.default,
                 v.owner || "주 표",
                 v.source === "type" ? "Type 열" : "설명문",
