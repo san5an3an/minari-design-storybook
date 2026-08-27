@@ -1,11 +1,12 @@
 import { Hammer } from "lucide-react";
 
-export function NotReady({ baseTitle, implemented, readyTitles }: {
+export function NotReady({ baseTitle, implemented, readyTitles, orphanKeys }: {
   // 사람이 읽는 베이스 이름, 예: Ant Design
   baseTitle: string;
   // 베이스 구현 컴포넌트 수
   implemented: number;
   readyTitles: string[];
+  orphanKeys?: string[];
 }) {
   return (
     <div className="ods-chrome flex min-h-[24rem] items-center justify-center px-6 py-16">
@@ -41,6 +42,14 @@ export function NotReady({ baseTitle, implemented, readyTitles }: {
             아직 어느 베이스에도 사용 예제가 없습니다. 만드는 중입니다.
           </p>
         )}
+
+        {orphanKeys && orphanKeys.length > 0 ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            <span className="font-medium text-foreground">등록만 되고 베이스가 없는 키</span>{" "}
+            <span className="font-mono">{orphanKeys.join(", ")}</span> . 두 레지스트리가
+            어긋나 있습니다.
+          </p>
+        ) : null}
       </div>
     </div>
   );

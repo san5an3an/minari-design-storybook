@@ -34,10 +34,9 @@ const SERIES = [
   { month: "6월", 신규: 314, 재구매: 240 },
 ];
 
-// 계열 색을 시스템 토큰으로 지정, Recharts가 --color-{키}로 해석해 연동
 const CHART_CONFIG = {
-  신규: { label: "신규", color: "var(--semantic-bg-brand-default)" },
-  재구매: { label: "재구매", color: "var(--semantic-bg-brand-subtle)" },
+  신규: { label: "신규", color: "var(--component-chart-series-1)" },
+  재구매: { label: "재구매", color: "var(--component-chart-series-2)" },
 };
 
 const FILES = [
@@ -145,7 +144,8 @@ export function Data {
         <Card title="불러오는 중" description="위치를 먼저 잡아 화면이 튀지 않게 함">
           <div className="mt-2 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <Skeleton style={{ height: "2.5rem", width: "2.5rem", borderRadius: "9999px" }} />
+              {/* 50%. 이 파일에서 유일한 단위 예외값 */}
+              <Skeleton style={{ height: "2.5rem", width: "2.5rem", borderRadius: "50%" }} />
               <div className="flex flex-1 flex-col gap-2">
                 <Skeleton style={{ height: "0.75rem", width: "60%" }} />
                 <Skeleton style={{ height: "0.75rem", width: "40%" }} />
