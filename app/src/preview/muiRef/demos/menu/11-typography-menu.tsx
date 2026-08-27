@@ -15,20 +15,20 @@ export default function TypographyMenu() {
           <ListItemIcon>
             <SendIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="inherit">A short message</Typography>
+          <Typography variant="inherit">짧은 메시지예요</Typography>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
             <PriorityHighIcon fontSize="small" />
           </ListItemIcon>
-          <Typography variant="inherit">A very long text that overflows</Typography>
+          <Typography variant="inherit">칸을 넘칠 만큼 아주 긴 글이에요</Typography>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
             <DraftsIcon fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
-            A very long text that overflows
+            칸을 넘칠 만큼 아주 긴 글이에요
           </Typography>
         </MenuItem>
       </MenuList>

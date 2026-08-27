@@ -61,10 +61,10 @@ export default function ContextMenu() {
             : undefined
         }
       >
-        <MenuItem onClick={handleClose}>Copy</MenuItem>
-        <MenuItem onClick={handleClose}>Print</MenuItem>
-        <MenuItem onClick={handleClose}>Highlight</MenuItem>
-        <MenuItem onClick={handleClose}>Email</MenuItem>
+        <MenuItem onClick={handleClose}>복사</MenuItem>
+        <MenuItem onClick={handleClose}>인쇄</MenuItem>
+        <MenuItem onClick={handleClose}>강조</MenuItem>
+        <MenuItem onClick={handleClose}>이메일</MenuItem>
       </Menu>
     </div>
   );

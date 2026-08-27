@@ -28,7 +28,7 @@ export default function MultiActionAreaCard() {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          공유
         </Button>
       </CardActions>
     </Card>

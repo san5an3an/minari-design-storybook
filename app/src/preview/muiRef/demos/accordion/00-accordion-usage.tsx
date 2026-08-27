@@ -43,15 +43,15 @@ export default function AccordionUsage() {
           aria-controls={`${id}-panel3-content`}
           id={`${id}-panel3-header`}
         >
-          <Typography component="span">Accordion Actions</Typography>
+          <Typography component="span">Accordion 동작</Typography>
         </AccordionSummary>
         <AccordionDetails>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>
         <AccordionActions>
-          <Button>Cancel</Button>
-          <Button>Agree</Button>
+          <Button>취소</Button>
+          <Button>동의</Button>
         </AccordionActions>
       </Accordion>
     </div>

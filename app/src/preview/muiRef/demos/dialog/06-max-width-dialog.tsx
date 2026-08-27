@@ -40,7 +40,7 @@ export default function MaxWidthDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
+        최대 너비 대화상자 열기
       </Button>
       <Dialog
         fullWidth={fullWidth}
@@ -51,7 +51,7 @@ export default function MaxWidthDialog() {
         <DialogTitle>Optional sizes</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            You can set my maximum width and whether to adapt or not.
+            최대 너비와, 화면에 맞출지 여부를 정할 수 있어요.
           </DialogContentText>
           <Box
             noValidate
@@ -88,12 +88,12 @@ export default function MaxWidthDialog() {
               control={
                 <Switch checked={fullWidth} onChange={handleFullWidthChange} />
               }
-              label="Full width"
+              label="가득 채우기"
             />
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose}>닫기</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

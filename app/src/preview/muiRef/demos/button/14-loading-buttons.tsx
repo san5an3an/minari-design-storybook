@@ -7,10 +7,10 @@ export default function LoadingButtons() {
     <Stack spacing={2}>
       <Stack direction="row" spacing={2}>
         <Button loading variant="outlined">
-          Submit
+          보내기
         </Button>
         <Button loading loadingIndicator="Loading…" variant="outlined">
-          Fetch data
+          데이터 가져오기
         </Button>
         <Button
           loading
@@ -18,7 +18,7 @@ export default function LoadingButtons() {
           startIcon={<SaveIcon />}
           variant="outlined"
         >
-          Save
+          저장
         </Button>
       </Stack>
       <Button
@@ -28,7 +28,7 @@ export default function LoadingButtons() {
         startIcon={<SaveIcon />}
         variant="outlined"
       >
-        Full width
+        가득 채우기
       </Button>
       <Button
         fullWidth
@@ -37,14 +37,14 @@ export default function LoadingButtons() {
         endIcon={<SaveIcon />}
         variant="outlined"
       >
-        Full width
+        가득 채우기
       </Button>
       <Stack direction="row" spacing={2}>
         <Button loading variant="outlined" loadingPosition="start">
-          Submit
+          보내기
         </Button>
         <Button loading variant="outlined" loadingPosition="end">
-          Submit
+          보내기
         </Button>
         <Button
           loading
@@ -52,7 +52,7 @@ export default function LoadingButtons() {
           loadingPosition="end"
           startIcon={<SaveIcon />}
         >
-          Save
+          저장
         </Button>
       </Stack>
     </Stack>

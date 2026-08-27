@@ -28,9 +28,9 @@ export default function CondensedWithMenu() {
         onClose={handleClose}
         aria-labelledby="with-menu-demo-breadcrumbs"
       >
-        <MenuItem onClick={handleClose}>Breadcrumb 2</MenuItem>
-        <MenuItem onClick={handleClose}>Breadcrumb 3</MenuItem>
-        <MenuItem onClick={handleClose}>Breadcrumb 4</MenuItem>
+        <MenuItem onClick={handleClose}>위치 2</MenuItem>
+        <MenuItem onClick={handleClose}>위치 3</MenuItem>
+        <MenuItem onClick={handleClose}>위치 4</MenuItem>
       </Menu>
       <Breadcrumbs aria-label="breadcrumbs">
         <Link color="primary" href="#condensed-with-menu">

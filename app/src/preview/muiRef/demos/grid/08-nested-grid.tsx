@@ -19,7 +19,7 @@ export default function NestedGrid() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 5, lg: 4 }}>
-          <Item>Email subscribe section</Item>
+          <Item>이메일 구독 자리</Item>
         </Grid>
         <Grid container spacing={4} size={{ xs: 12, md: 7, lg: 8 }}>
           <Grid size={{ xs: 6, lg: 3 }}>
@@ -98,13 +98,13 @@ export default function NestedGrid() {
           </Grid>
           <Grid container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
             <Grid>
-              <Item>Link A</Item>
+              <Item>링크 A</Item>
             </Grid>
             <Grid>
-              <Item>Link B</Item>
+              <Item>링크 B</Item>
             </Grid>
             <Grid>
-              <Item>Link C</Item>
+              <Item>링크 C</Item>
             </Grid>
           </Grid>
         </Grid>

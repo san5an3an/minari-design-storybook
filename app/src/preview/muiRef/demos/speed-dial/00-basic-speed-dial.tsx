@@ -8,10 +8,10 @@ import { Print as PrintIcon } from '../_icons';
 import { Share as ShareIcon } from '../_icons';
 
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
+  { icon: <FileCopyIcon />, name: '복사' },
+  { icon: <SaveIcon />, name: '저장' },
+  { icon: <PrintIcon />, name: '인쇄' },
+  { icon: <ShareIcon />, name: '공유' },
 ];
 
 export default function BasicSpeedDial() {

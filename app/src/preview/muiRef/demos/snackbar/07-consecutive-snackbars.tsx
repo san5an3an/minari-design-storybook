@@ -48,8 +48,8 @@ export default function ConsecutiveSnackbars() {
 
   return (
     <div>
-      <Button onClick={handleClick('Message A')}>Show message A</Button>
-      <Button onClick={handleClick('Message B')}>Show message B</Button>
+      <Button onClick={handleClick('Message A')}>메시지 A 보이기</Button>
+      <Button onClick={handleClick('Message B')}>메시지 B 보이기</Button>
       <Snackbar
         key={messageInfo ? messageInfo.key : undefined}
         open={open}

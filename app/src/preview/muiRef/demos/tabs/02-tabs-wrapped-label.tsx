@@ -22,8 +22,8 @@ export default function TabsWrappedLabel() {
           label="New Arrivals in the Longest Text of Nonfiction that should appear in the next line"
           wrapped
         />
-        <Tab value="two" label="Item Two" />
-        <Tab value="three" label="Item Three" />
+        <Tab value="two" label="항목 둘" />
+        <Tab value="three" label="항목 셋" />
       </Tabs>
     </Box>
   );

@@ -19,9 +19,9 @@ export default function ScrollableTabsButtonPrevent() {
         scrollButtons={false}
         aria-label="scrollable prevent tabs example"
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="항목 하나" />
+        <Tab label="항목 둘" />
+        <Tab label="항목 셋" />
         <Tab label="Item Four" />
         <Tab label="Item Five" />
         <Tab label="Item Six" />

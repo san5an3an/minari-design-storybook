@@ -5,10 +5,10 @@ import { Save as SaveIcon } from '../_icons';
 export default function LoadingButtonGroup() {
   return (
     <ButtonGroup variant="outlined" aria-label="Loading button group">
-      <Button>Submit</Button>
-      <Button>Fetch data</Button>
+      <Button>보내기</Button>
+      <Button>데이터 가져오기</Button>
       <Button loading loadingPosition="start" startIcon={<SaveIcon />}>
-        Save
+        저장
       </Button>
     </ButtonGroup>
   );

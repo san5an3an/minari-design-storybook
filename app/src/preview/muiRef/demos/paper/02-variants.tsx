@@ -13,8 +13,8 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 export default function Variants() {
   return (
     <Stack direction="row" spacing={2}>
-      <DemoPaper variant="elevation">default variant</DemoPaper>
-      <DemoPaper variant="outlined">outlined variant</DemoPaper>
+      <DemoPaper variant="elevation">기본 변형</DemoPaper>
+      <DemoPaper variant="outlined">테두리 변형</DemoPaper>
     </Stack>
   );
 }

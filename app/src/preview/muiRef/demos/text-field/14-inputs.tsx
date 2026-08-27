@@ -12,9 +12,9 @@ export default function Inputs() {
       autoComplete="off"
     >
       <Input defaultValue="Hello world" inputProps={ariaLabel} />
-      <Input placeholder="Placeholder" inputProps={ariaLabel} />
-      <Input disabled defaultValue="Disabled" inputProps={ariaLabel} />
-      <Input defaultValue="Error" error inputProps={ariaLabel} />
+      <Input placeholder="안내 문구" inputProps={ariaLabel} />
+      <Input disabled defaultValue="못 쓰는 상태" inputProps={ariaLabel} />
+      <Input defaultValue="오류" error inputProps={ariaLabel} />
     </Box>
   );
 }

@@ -34,9 +34,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Eat
+            먹기
           </Typography>
-          <Typography>Because you need strength</Typography>
+          <Typography>힘이 필요하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -58,9 +58,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Code
+            코드
           </Typography>
-          <Typography>Because it&apos;s awesome!</Typography>
+          <Typography>멋지니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -73,9 +73,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Sleep
+            자기
           </Typography>
-          <Typography>Because you need rest</Typography>
+          <Typography>쉬어야 하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -88,9 +88,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Repeat
+            되풀이
           </Typography>
-          <Typography>Because this is the life you love!</Typography>
+          <Typography>이게 당신이 사랑하는 삶이니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
     </Timeline>

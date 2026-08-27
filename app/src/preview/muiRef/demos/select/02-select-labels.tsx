@@ -17,21 +17,21 @@ export default function SelectLabels() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id={`${id}-label`}>Age</InputLabel>
+        <InputLabel id={`${id}-label`}>나이</InputLabel>
         <Select
           aria-describedby={`${id}-helper-text`}
           labelId={`${id}-label`}
           id={id}
           value={age}
-          label="Age"
+          label="나이"
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
         <FormHelperText id={`${id}-helper-text`}>
           Visible label and helper text
@@ -43,14 +43,14 @@ export default function SelectLabels() {
           value={age}
           onChange={handleChange}
           displayEmpty
-          inputProps={{ 'aria-label': 'Age' }}
+          inputProps={{ 'aria-label': '나이' }}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
         <FormHelperText id={`${noLabelId}-helper-text`}>
           aria-label and helper text

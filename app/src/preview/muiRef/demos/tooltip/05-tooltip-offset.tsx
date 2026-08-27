@@ -5,7 +5,7 @@ export default function TooltipOffset() {
   return (
     <Tooltip
       describeChild
-      title="Add"
+      title="더하기"
       slotProps={{
         popper: {
           modifiers: [
@@ -19,7 +19,7 @@ export default function TooltipOffset() {
         },
       }}
     >
-      <Button>Offset</Button>
+      <Button>밀기</Button>
     </Tooltip>
   );
 }

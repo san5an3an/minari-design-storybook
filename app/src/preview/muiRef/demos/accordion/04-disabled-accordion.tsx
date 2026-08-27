@@ -45,7 +45,7 @@ export default function DisabledAccordion() {
           aria-controls={`${id}-panel3-content`}
           id={`${id}-panel3-header`}
         >
-          <Typography component="span">Disabled Accordion</Typography>
+          <Typography component="span">못 쓰는 Accordion</Typography>
         </AccordionSummary>
       </Accordion>
     </div>

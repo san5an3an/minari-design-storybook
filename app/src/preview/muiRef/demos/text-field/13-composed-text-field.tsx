@@ -22,11 +22,11 @@ export default function ComposedTextField() {
       autoComplete="off"
     >
       <FormControl variant="standard">
-        <InputLabel htmlFor={`${simpleId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${simpleId}-input`}>이름</InputLabel>
         <Input id={`${simpleId}-input`} defaultValue="Composed TextField" />
       </FormControl>
       <FormControl variant="standard">
-        <InputLabel htmlFor={`${helperId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${helperId}-input`}>이름</InputLabel>
         <Input
           id={`${helperId}-input`}
           defaultValue="Composed TextField"
@@ -37,29 +37,29 @@ export default function ComposedTextField() {
         </FormHelperText>
       </FormControl>
       <FormControl disabled variant="standard">
-        <InputLabel htmlFor={`${disabledId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${disabledId}-input`}>이름</InputLabel>
         <Input id={`${disabledId}-input`} defaultValue="Composed TextField" />
-        <FormHelperText>Disabled</FormHelperText>
+        <FormHelperText>못 쓰는 상태</FormHelperText>
       </FormControl>
       <FormControl error variant="standard">
-        <InputLabel htmlFor={`${errorId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${errorId}-input`}>이름</InputLabel>
         <Input
           id={`${errorId}-input`}
           defaultValue="Composed TextField"
           aria-describedby={`${errorId}-error-text`}
         />
-        <FormHelperText id={`${errorId}-error-text`}>Error</FormHelperText>
+        <FormHelperText id={`${errorId}-error-text`}>오류</FormHelperText>
       </FormControl>
       <FormControl>
-        <InputLabel htmlFor={`${outlinedId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${outlinedId}-input`}>이름</InputLabel>
         <OutlinedInput
           id={`${outlinedId}-input`}
           defaultValue="Composed TextField"
-          label="Name"
+          label="이름"
         />
       </FormControl>
       <FormControl variant="filled">
-        <InputLabel htmlFor={`${filledId}-input`}>Name</InputLabel>
+        <InputLabel htmlFor={`${filledId}-input`}>이름</InputLabel>
         <FilledInput id={`${filledId}-input`} defaultValue="Composed TextField" />
       </FormControl>
     </Box>

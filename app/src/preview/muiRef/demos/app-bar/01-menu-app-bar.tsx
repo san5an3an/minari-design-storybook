@@ -39,7 +39,7 @@ export default function MenuAppBar() {
               aria-label="login switch"
             />
           }
-          label={auth ? 'Logout' : 'Login'}
+          label={auth ? '로그아웃' : '로그인'}
         />
       </FormGroup>
       <AppBar position="static">
@@ -83,8 +83,8 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>프로필</MenuItem>
+                <MenuItem onClick={handleClose}>내 계정</MenuItem>
               </Menu>
             </div>
           )}

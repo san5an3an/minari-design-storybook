@@ -40,7 +40,7 @@ export default function SimpleSnackbar() {
 
   return (
     <div>
-      <Button onClick={handleClick}>Open Snackbar</Button>
+      <Button onClick={handleClick}>스낵바 열기</Button>
       <Snackbar
         open={open}
         autoHideDuration={6000}

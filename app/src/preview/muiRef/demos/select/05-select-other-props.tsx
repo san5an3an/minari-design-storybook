@@ -15,63 +15,63 @@ export default function SelectOtherProps() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }} disabled>
-        <InputLabel id="demo-simple-select-disabled-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-disabled-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-disabled-label"
           id="demo-simple-select-disabled"
           value={age}
-          label="Age"
+          label="나이"
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
-        <FormHelperText>Disabled</FormHelperText>
+        <FormHelperText>못 쓰는 상태</FormHelperText>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 120 }} error>
-        <InputLabel id="demo-simple-select-error-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-error-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-error-label"
           id="demo-simple-select-error"
           value={age}
-          label="Age"
+          label="나이"
           onChange={handleChange}
           renderValue={(value) => `⚠️  - ${value}`}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
-        <FormHelperText>Error</FormHelperText>
+        <FormHelperText>오류</FormHelperText>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-readonly-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-readonly-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-readonly-label"
           id="demo-simple-select-readonly"
           value={age}
-          label="Age"
+          label="나이"
           onChange={handleChange}
           inputProps={{ readOnly: true }}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
-        <FormHelperText>Read only</FormHelperText>
+        <FormHelperText>읽기 전용</FormHelperText>
       </FormControl>
       <FormControl required sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-required-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-required-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"
@@ -80,13 +80,13 @@ export default function SelectOtherProps() {
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
-        <FormHelperText>Required</FormHelperText>
+        <FormHelperText>필수</FormHelperText>
       </FormControl>
     </div>
   );

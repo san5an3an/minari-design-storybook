@@ -27,7 +27,7 @@ export default function SwitchListSecondary() {
   return (
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      subheader={<ListSubheader>Settings</ListSubheader>}
+      subheader={<ListSubheader>설정</ListSubheader>}
     >
       <ListItem>
         <ListItemIcon>

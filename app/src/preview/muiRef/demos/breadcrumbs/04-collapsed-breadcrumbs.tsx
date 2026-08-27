@@ -24,7 +24,7 @@ export default function CollapsedBreadcrumbs() {
         <Link underline="hover" color="inherit" href="#">
           New Collection
         </Link>
-        <Typography sx={{ color: 'text.primary' }}>Belts</Typography>
+        <Typography sx={{ color: 'text.primary' }}>벨트</Typography>
       </Breadcrumbs>
     </div>
   );

@@ -13,20 +13,20 @@ export default function SelectSmall() {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small-label">Age</InputLabel>
+      <InputLabel id="demo-select-small-label">나이</InputLabel>
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
         value={age}
-        label="Age"
+        label="나이"
         onChange={handleChange}
       >
         <MenuItem value="">
-          <em>None</em>
+          <em>없음</em>
         </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        <MenuItem value={10}>열</MenuItem>
+        <MenuItem value={20}>스물</MenuItem>
+        <MenuItem value={30}>서른</MenuItem>
       </Select>
     </FormControl>
   );

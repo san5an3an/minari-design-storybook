@@ -13,9 +13,9 @@ export default function CenteredTabs() {
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="항목 하나" />
+        <Tab label="항목 둘" />
+        <Tab label="항목 셋" />
       </Tabs>
     </Box>
   );

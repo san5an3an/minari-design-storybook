@@ -13,7 +13,7 @@ export default function TextFieldSizes() {
         <TextField
           label="Size"
           id="outlined-size-small"
-          defaultValue="Small"
+          defaultValue="작게"
           size="small"
         />
         <TextField label="Size" id="outlined-size-normal" defaultValue="Normal" />
@@ -22,7 +22,7 @@ export default function TextFieldSizes() {
         <TextField
           label="Size"
           id="filled-size-small"
-          defaultValue="Small"
+          defaultValue="작게"
           variant="filled"
           size="small"
         />
@@ -37,7 +37,7 @@ export default function TextFieldSizes() {
         <TextField
           label="Size"
           id="standard-size-small"
-          defaultValue="Small"
+          defaultValue="작게"
           size="small"
           variant="standard"
         />

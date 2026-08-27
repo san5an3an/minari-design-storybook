@@ -28,7 +28,7 @@ export default function MasonryWithVariableHeightItems() {
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography component="span">Accordion {index + 1}</Typography>
               </AccordionSummary>
-              <AccordionDetails>Contents</AccordionDetails>
+              <AccordionDetails>내용</AccordionDetails>
             </StyledAccordion>
           </Paper>
         ))}

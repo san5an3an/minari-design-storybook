@@ -9,7 +9,7 @@ export default function FormControlLabelPlacement() {
   const id = React.useId();
   return (
     <FormControl>
-      <FormLabel id={`${id}-label`}>Label placement</FormLabel>
+      <FormLabel id={`${id}-label`}>이름표 자리</FormLabel>
       <RadioGroup
         row
         aria-labelledby={`${id}-label`}

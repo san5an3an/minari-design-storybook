@@ -25,7 +25,7 @@ export default function LeftAlignedTimeline() {
           <TimelineDot />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Eat</TimelineContent>
+        <TimelineContent>먹기</TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent color="textSecondary">
@@ -34,7 +34,7 @@ export default function LeftAlignedTimeline() {
         <TimelineSeparator>
           <TimelineDot />
         </TimelineSeparator>
-        <TimelineContent>Code</TimelineContent>
+        <TimelineContent>코드</TimelineContent>
       </TimelineItem>
     </Timeline>
   );

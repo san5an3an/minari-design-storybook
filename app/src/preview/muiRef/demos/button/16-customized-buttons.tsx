@@ -50,7 +50,7 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
 export default function CustomizedButtons() {
   return (
     <Stack spacing={2} direction="row">
-      <ColorButton variant="contained">Custom CSS</ColorButton>
+      <ColorButton variant="contained">직접 쓴 CSS</ColorButton>
       <BootstrapButton variant="contained" disableRipple>
         Bootstrap
       </BootstrapButton>

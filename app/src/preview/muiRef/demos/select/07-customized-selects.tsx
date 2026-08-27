@@ -51,11 +51,11 @@ export default function CustomizedSelects() {
   return (
     <div>
       <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel htmlFor={`${textboxId}-input`}>Age</InputLabel>
+        <InputLabel htmlFor={`${textboxId}-input`}>나이</InputLabel>
         <BootstrapInput id={`${textboxId}-input`} />
       </FormControl>
       <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel id={`${selectId}-label`}>Age</InputLabel>
+        <InputLabel id={`${selectId}-label`}>나이</InputLabel>
         <Select
           labelId={`${selectId}-label`}
           id={`${selectId}-select`}
@@ -64,25 +64,25 @@ export default function CustomizedSelects() {
           input={<BootstrapInput />}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel htmlFor={`${nativeId}-select`}>Age</InputLabel>
+        <InputLabel htmlFor={`${nativeId}-select`}>나이</InputLabel>
         <NativeSelect
           id={`${nativeId}-select`}
           value={age}
           onChange={handleChange}
           input={<BootstrapInput />}
         >
-          <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option aria-label="없음" value="" />
+          <option value={10}>열</option>
+          <option value={20}>스물</option>
+          <option value={30}>서른</option>
         </NativeSelect>
       </FormControl>
     </div>

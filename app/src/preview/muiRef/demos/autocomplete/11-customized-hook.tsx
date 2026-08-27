@@ -185,7 +185,7 @@ function CustomAutocomplete<Value>(
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>Customized hook</Label>
+        <Label {...getInputLabelProps()}>바꿔 쓴 훅</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option, index) => {
             const { key, ...itemProps } = getItemProps({ index });

@@ -24,8 +24,8 @@ export default function ImgMediaCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small">공유</Button>
+        <Button size="small">더 알아보기</Button>
       </CardActions>
     </Card>
   );

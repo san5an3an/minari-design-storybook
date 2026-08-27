@@ -18,7 +18,7 @@ export default function IconMenu() {
           <ListItemIcon>
             <ContentCut fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Cut</ListItemText>
+          <ListItemText>잘라내기</ListItemText>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             ⌘X
           </Typography>
@@ -27,7 +27,7 @@ export default function IconMenu() {
           <ListItemIcon>
             <ContentCopy fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Copy</ListItemText>
+          <ListItemText>복사</ListItemText>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             ⌘C
           </Typography>
@@ -36,7 +36,7 @@ export default function IconMenu() {
           <ListItemIcon>
             <ContentPaste fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Paste</ListItemText>
+          <ListItemText>붙여넣기</ListItemText>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             ⌘V
           </Typography>
@@ -46,7 +46,7 @@ export default function IconMenu() {
           <ListItemIcon>
             <Cloud fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Web Clipboard</ListItemText>
+          <ListItemText>웹 클립보드</ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>

@@ -56,22 +56,22 @@ export default function VerticalTabs() {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
+        <Tab label="항목 하나" {...a11yProps(0)} />
+        <Tab label="항목 둘" {...a11yProps(1)} />
+        <Tab label="항목 셋" {...a11yProps(2)} />
         <Tab label="Item Four" {...a11yProps(3)} />
         <Tab label="Item Five" {...a11yProps(4)} />
         <Tab label="Item Six" {...a11yProps(5)} />
         <Tab label="Item Seven" {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        항목 하나
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        항목 둘
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        항목 셋
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four

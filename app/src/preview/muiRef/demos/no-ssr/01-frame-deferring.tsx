@@ -42,7 +42,7 @@ export default function FrameDeferring() {
       <Box sx={{ width: 300, display: 'flex', flexWrap: 'wrap' }}>
         {state.open ? (
           <React.Fragment>
-            <div>Outside NoSsr</div>
+            <div>NoSsr 바깥</div>
             <NoSsr defer={state.defer}>
               .....Inside NoSsr
               <LargeTree />

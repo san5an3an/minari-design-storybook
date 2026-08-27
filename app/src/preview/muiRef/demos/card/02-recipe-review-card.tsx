@@ -97,7 +97,7 @@ export default function RecipeReviewCard() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2 }}>Method:</Typography>
+          <Typography sx={{ marginBottom: 2 }}>방식:</Typography>
           <Typography sx={{ marginBottom: 2 }}>
             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
             aside for 10 minutes.

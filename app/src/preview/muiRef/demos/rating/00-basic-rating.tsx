@@ -8,7 +8,7 @@ export default function BasicRating() {
 
   return (
     <Box sx={{ '& > legend': { mt: 2 } }}>
-      <Typography component="legend">Controlled</Typography>
+      <Typography component="legend">제어함</Typography>
       <Rating
         name="simple-controlled"
         value={value}
@@ -16,7 +16,7 @@ export default function BasicRating() {
           setValue(newValue);
         }}
       />
-      <Typography component="legend">Uncontrolled</Typography>
+      <Typography component="legend">제어 안 함</Typography>
       <Rating
         name="simple-uncontrolled"
         onChange={(event, newValue) => {
@@ -24,11 +24,11 @@ export default function BasicRating() {
         }}
         defaultValue={2}
       />
-      <Typography component="legend">Read only</Typography>
+      <Typography component="legend">읽기 전용</Typography>
       <Rating name="read-only" value={value} readOnly />
-      <Typography component="legend">Disabled</Typography>
+      <Typography component="legend">못 쓰는 상태</Typography>
       <Rating name="disabled" value={value} disabled />
-      <Typography component="legend">No rating given</Typography>
+      <Typography component="legend">아직 별점이 없어요</Typography>
       <Rating name="no-value" value={null} />
     </Box>
   );

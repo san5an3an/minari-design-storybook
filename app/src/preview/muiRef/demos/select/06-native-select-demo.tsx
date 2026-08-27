@@ -10,7 +10,7 @@ export default function NativeSelectDemo() {
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel variant="standard" htmlFor={`${id}-select`}>
-          Age
+          나이
         </InputLabel>
         <NativeSelect
           defaultValue={30}
@@ -19,9 +19,9 @@ export default function NativeSelectDemo() {
             id: `${id}-select`,
           }}
         >
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option value={10}>열</option>
+          <option value={20}>스물</option>
+          <option value={30}>서른</option>
         </NativeSelect>
       </FormControl>
     </Box>

@@ -19,7 +19,7 @@ export default function SimplePortal() {
         It looks like I will render here.
         {show ? (
           <Portal container={() => container.current!}>
-            <span>But I actually render here!</span>
+            <span>그런데 실제로는 여기에 그려져요!</span>
           </Portal>
         ) : null}
       </Box>

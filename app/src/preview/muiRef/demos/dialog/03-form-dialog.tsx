@@ -30,14 +30,13 @@ export default function FormDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+        양식 대화상자 열기
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>구독</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            이 사이트를 구독하려면 여기에 이메일 주소를 넣어 주세요. 가끔 새 소식을 보내 드려요.
           </DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
@@ -46,7 +45,7 @@ export default function FormDialog() {
               margin="dense"
               id="name"
               name="email"
-              label="Email Address"
+              label="이메일 주소"
               type="email"
               fullWidth
               variant="standard"
@@ -54,9 +53,9 @@ export default function FormDialog() {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>취소</Button>
           <Button type="submit" form="subscription-form">
-            Subscribe
+            구독
           </Button>
         </DialogActions>
       </Dialog>

@@ -7,9 +7,9 @@ export default function HelperTextMisaligned() {
       <TextField
         helperText="Please enter your name"
         id="demo-helper-text-misaligned"
-        label="Name"
+        label="이름"
       />
-      <TextField id="demo-helper-text-misaligned-no-helper" label="Name" />
+      <TextField id="demo-helper-text-misaligned-no-helper" label="이름" />
     </Box>
   );
 }

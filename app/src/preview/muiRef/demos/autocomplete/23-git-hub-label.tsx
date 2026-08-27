@@ -156,7 +156,7 @@ export default function GitHubLabel() {
     <React.Fragment>
       <Box sx={{ width: 221, fontSize: 13 }}>
         <Button disableRipple aria-describedby={id} onClick={handleClick}>
-          <span>Labels</span>
+          <span>이름표</span>
           <SettingsIcon />
         </Button>
         {value.map((label) => (
@@ -210,7 +210,7 @@ export default function GitHubLabel() {
                 if (
                   event.type === 'keydown' &&
                   ((event as React.KeyboardEvent).key === 'Backspace' ||
-                    (event as React.KeyboardEvent).key === 'Delete') &&
+                    (event as React.KeyboardEvent).key === '지우기') &&
                   reason === 'removeOption'
                 ) {
                   return;

@@ -17,9 +17,9 @@ export default function AccessibleTabs1() {
         aria-label="Tabs where selection follows focus"
         selectionFollowsFocus
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="항목 하나" />
+        <Tab label="항목 둘" />
+        <Tab label="항목 셋" />
       </Tabs>
     </Box>
   );

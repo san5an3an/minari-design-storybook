@@ -18,9 +18,9 @@ export default function BasicStack() {
   return (
     <Box sx={{ width: '100%' }}>
       <Stack spacing={2}>
-        <Item>Item 1</Item>
-        <Item>Item 2</Item>
-        <Item>Item 3</Item>
+        <Item>항목 1</Item>
+        <Item>항목 2</Item>
+        <Item>항목 3</Item>
       </Stack>
     </Box>
   );

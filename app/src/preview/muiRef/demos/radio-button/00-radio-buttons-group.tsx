@@ -9,7 +9,7 @@ export default function RadioButtonsGroup() {
   const id = React.useId();
   return (
     <FormControl>
-      <FormLabel id={`${id}-label`}>Gender</FormLabel>
+      <FormLabel id={`${id}-label`}>성별</FormLabel>
       <RadioGroup
         aria-labelledby={`${id}-label`}
         defaultValue="female"

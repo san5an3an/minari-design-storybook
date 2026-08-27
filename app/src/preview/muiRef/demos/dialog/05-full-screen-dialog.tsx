@@ -36,7 +36,7 @@ export default function FullScreenDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open full-screen dialog
+        전체 화면 대화상자 열기
       </Button>
       <Dialog
         fullScreen
@@ -57,7 +57,7 @@ export default function FullScreenDialog() {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              소리
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save

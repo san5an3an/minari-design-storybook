@@ -51,7 +51,7 @@ export default function AccordionTransition() {
           aria-controls={`${id}-panel1-content`}
           id={`${id}-panel1-header`}
         >
-          <Typography component="span">Custom transition using Fade</Typography>
+          <Typography component="span">Fade 로 만든 전환</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -66,7 +66,7 @@ export default function AccordionTransition() {
           aria-controls={`${id}-panel2-content`}
           id={`${id}-panel2-header`}
         >
-          <Typography component="span">Default transition using Collapse</Typography>
+          <Typography component="span">Collapse 를 쓰는 기본 전환</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>

@@ -7,7 +7,7 @@ export default function IconLabelButtons() {
   return (
     <Stack direction="row" spacing={2}>
       <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
+        지우기
       </Button>
       <Button variant="contained" endIcon={<SendIcon />}>
         Send

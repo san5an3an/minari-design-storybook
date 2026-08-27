@@ -41,10 +41,10 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 export default function CustomizedTooltips() {
   return (
     <div>
-      <LightTooltip title="Add">
+      <LightTooltip title="더하기">
         <Button>Light</Button>
       </LightTooltip>
-      <BootstrapTooltip title="Add">
+      <BootstrapTooltip title="더하기">
         <Button>Bootstrap</Button>
       </BootstrapTooltip>
       <HtmlTooltip

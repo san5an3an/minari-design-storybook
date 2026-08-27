@@ -14,24 +14,24 @@ export default function SelectVariants() {
   return (
     <div>
       <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-outlined-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           value={age}
           onChange={handleChange}
-          label="Age"
+          label="나이"
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
       </FormControl>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-standard-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
@@ -39,15 +39,15 @@ export default function SelectVariants() {
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
       </FormControl>
       <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-filled-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
@@ -55,11 +55,11 @@ export default function SelectVariants() {
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
       </FormControl>
     </div>

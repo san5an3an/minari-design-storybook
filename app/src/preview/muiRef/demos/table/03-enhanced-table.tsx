@@ -106,7 +106,7 @@ const headCells: readonly HeadCell[] = [
     id: 'calories',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: '열량',
   },
   {
     id: 'fat',
@@ -224,7 +224,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="지우기">
           <IconButton>
             <DeleteIcon />
           </IconButton>

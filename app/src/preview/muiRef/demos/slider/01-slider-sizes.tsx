@@ -7,7 +7,7 @@ export default function SliderSizes() {
       <Slider
         size="small"
         defaultValue={70}
-        aria-label="Small"
+        aria-label="작게"
         valueLabelDisplay="auto"
       />
       <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />

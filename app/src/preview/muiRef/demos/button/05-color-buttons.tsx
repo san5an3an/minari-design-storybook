@@ -4,12 +4,12 @@ import Button from '@mui/material/Button';
 export default function ColorButtons() {
   return (
     <Stack direction="row" spacing={2}>
-      <Button color="secondary">Secondary</Button>
+      <Button color="secondary">보조</Button>
       <Button variant="contained" color="success">
-        Success
+        성공
       </Button>
       <Button variant="outlined" color="error">
-        Error
+        오류
       </Button>
     </Stack>
   );

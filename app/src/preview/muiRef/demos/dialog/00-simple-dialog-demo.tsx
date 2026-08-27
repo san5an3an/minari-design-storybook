@@ -34,7 +34,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
+      <DialogTitle>예비 계정 정하기</DialogTitle>
       <List sx={{ pt: 0 }}>
         {emails.map((email) => (
           <ListItem disablePadding key={email}>
@@ -82,11 +82,11 @@ export default function SimpleDialogDemo() {
   return (
     <div>
       <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
+        고른 것: {selectedValue}
       </Typography>
       <br />
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open simple dialog
+        간단한 대화상자 열기
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}

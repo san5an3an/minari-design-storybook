@@ -15,7 +15,7 @@ export default function AccordionExpandDefault() {
           aria-controls={`${id}-panel1-content`}
           id={`${id}-panel1-header`}
         >
-          <Typography component="span">Expanded by default</Typography>
+          <Typography component="span">처음부터 펼쳐진 상태</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -30,7 +30,7 @@ export default function AccordionExpandDefault() {
           aria-controls={`${id}-panel2-content`}
           id={`${id}-panel2-header`}
         >
-          <Typography component="span">Header</Typography>
+          <Typography component="span">머리글</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>

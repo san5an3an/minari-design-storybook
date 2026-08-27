@@ -23,7 +23,7 @@ export default function KeepMountedModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>모달 열기</Button>
       <Modal
         keepMounted
         open={open}
@@ -33,7 +33,7 @@ export default function KeepMountedModal() {
       >
         <Box sx={style}>
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            Text in a modal
+            모달 안의 글
           </Typography>
           <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.

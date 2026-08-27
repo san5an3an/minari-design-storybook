@@ -15,7 +15,7 @@ export default function Links() {
       }}
       onClick={preventDefault}
     >
-      <Link href="#">Link</Link>
+      <Link href="#">링크</Link>
       <Link href="#" color="inherit">
         {'color="inherit"'}
       </Link>

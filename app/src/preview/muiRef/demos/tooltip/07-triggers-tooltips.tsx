@@ -19,13 +19,13 @@ export default function TriggersTooltips() {
     <div>
       <Grid container sx={{ justifyContent: 'center' }}>
         <Grid>
-          <Tooltip describeChild disableFocusListener title="Add">
-            <Button>Hover or touch</Button>
+          <Tooltip describeChild disableFocusListener title="더하기">
+            <Button>올리거나 눌러 보세요</Button>
           </Tooltip>
         </Grid>
         <Grid>
-          <Tooltip describeChild disableHoverListener title="Add">
-            <Button>Focus or touch</Button>
+          <Tooltip describeChild disableHoverListener title="더하기">
+            <Button>초점을 주거나 눌러 보세요</Button>
           </Tooltip>
         </Grid>
         <Grid>
@@ -33,9 +33,9 @@ export default function TriggersTooltips() {
             describeChild
             disableFocusListener
             disableTouchListener
-            title="Add"
+            title="더하기"
           >
-            <Button>Hover</Button>
+            <Button>올리기</Button>
           </Tooltip>
         </Grid>
         <Grid>
@@ -48,14 +48,14 @@ export default function TriggersTooltips() {
                 disableFocusListener
                 disableHoverListener
                 disableTouchListener
-                title="Add"
+                title="더하기"
                 slotProps={{
                   popper: {
                     disablePortal: true,
                   },
                 }}
               >
-                <Button onClick={handleTooltipOpen}>Click</Button>
+                <Button onClick={handleTooltipOpen}>누르기</Button>
               </Tooltip>
             </div>
           </ClickAwayListener>

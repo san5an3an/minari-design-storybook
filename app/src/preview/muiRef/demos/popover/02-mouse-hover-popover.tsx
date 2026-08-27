@@ -41,7 +41,7 @@ export default function MouseHoverPopover() {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography sx={{ p: 1 }}>I use Popover.</Typography>
+        <Typography sx={{ p: 1 }}>Popover 를 써요.</Typography>
       </Popover>
     </div>
   );

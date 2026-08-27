@@ -13,7 +13,7 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 const options = [
-  'None',
+  '없음',
   'Atria',
   'Callisto',
   'Dione',
@@ -78,7 +78,7 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
       open={open}
       {...other}
     >
-      <DialogTitle>Phone Ringtone</DialogTitle>
+      <DialogTitle>전화 벨소리</DialogTitle>
       <DialogContent dividers>
         <RadioGroup
           ref={radioGroupRef}
@@ -99,7 +99,7 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel}>
-          Cancel
+          취소
         </Button>
         <Button onClick={handleOk}>Ok</Button>
       </DialogActions>

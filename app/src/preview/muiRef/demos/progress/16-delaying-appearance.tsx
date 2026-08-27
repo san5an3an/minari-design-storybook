@@ -55,7 +55,7 @@ export default function DelayingAppearance() {
       </Button>
       <Box sx={{ height: 40 }}>
         {query === 'success' ? (
-          <Typography>Success!</Typography>
+          <Typography>성공했어요!</Typography>
         ) : (
           <Fade
             in={query === 'progress'}

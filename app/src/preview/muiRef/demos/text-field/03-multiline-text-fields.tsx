@@ -19,7 +19,7 @@ export default function MultilineTextFields() {
         <TextField
           id="outlined-textarea"
           label="Multiline Placeholder"
-          placeholder="Placeholder"
+          placeholder="안내 문구"
           multiline
         />
         <TextField
@@ -41,7 +41,7 @@ export default function MultilineTextFields() {
         <TextField
           id="filled-textarea"
           label="Multiline Placeholder"
-          placeholder="Placeholder"
+          placeholder="안내 문구"
           multiline
           variant="filled"
         />
@@ -65,7 +65,7 @@ export default function MultilineTextFields() {
         <TextField
           id="standard-textarea"
           label="Multiline Placeholder"
-          placeholder="Placeholder"
+          placeholder="안내 문구"
           multiline
           variant="standard"
         />

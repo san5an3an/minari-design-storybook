@@ -51,7 +51,7 @@ export default function VirtualElementPopover() {
         disableAutoFocus
       >
         <Paper>
-          <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+          <Typography sx={{ p: 2 }}>Popover 의 내용이에요.</Typography>
         </Paper>
       </Popover>
     </div>

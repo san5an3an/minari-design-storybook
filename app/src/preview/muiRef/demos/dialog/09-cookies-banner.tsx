@@ -33,16 +33,10 @@ export default function CookiesBanner() {
       <Container component="main" sx={{ pt: 3 }}>
         <Toolbar />
         <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet.
+          내용 자리를 채우는 표본 글이에요. 글이 길 때 화면이 어떻게 보이는지 가늠하려고 넣어 둔 거예요.
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet.
+          내용 자리를 채우는 표본 글이에요. 글이 길 때 화면이 어떻게 보이는지 가늠하려고 넣어 둔 거예요.
         </Typography>
       </Container>
       <TrapFocus open disableAutoFocus disableEnforceFocus>
@@ -50,7 +44,7 @@ export default function CookiesBanner() {
           <Paper
             role="dialog"
             aria-modal="false"
-            aria-label="Cookie banner"
+            aria-label="쿠키 안내 띠"
             square
             variant="outlined"
             tabIndex={-1}
@@ -73,10 +67,10 @@ export default function CookiesBanner() {
                 sx={{ flexShrink: 1, alignSelf: { xs: 'flex-start', sm: 'center' } }}
               >
                 <Typography sx={{ fontWeight: 'bold' }}>
-                  This website uses cookies
+                  이 사이트는 쿠키를 써요
                 </Typography>
                 <Typography variant="body2">
-                  example.com relies on cookies to improve your experience.
+                  example.com 은 더 나은 경험을 위해 쿠키를 써요.
                 </Typography>
               </Box>
               <Stack
@@ -91,10 +85,10 @@ export default function CookiesBanner() {
                 }}
               >
                 <Button size="small" onClick={closeBanner} variant="contained">
-                  Allow all
+                  모두 허용
                 </Button>
                 <Button size="small" onClick={closeBanner}>
-                  Reject all
+                  모두 거부
                 </Button>
               </Stack>
             </Stack>

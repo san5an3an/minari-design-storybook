@@ -45,7 +45,7 @@ function Media(props: MediaProps) {
               style={{ marginBottom: 6 }}
             />
           ) : (
-            'Ted'
+            '지훈'
           )
         }
         subheader={

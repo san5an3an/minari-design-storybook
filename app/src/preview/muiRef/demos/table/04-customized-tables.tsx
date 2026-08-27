@@ -51,11 +51,11 @@ export default function CustomizedTables() {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>디저트 (100g 기준)</StyledTableCell>
+            <StyledTableCell align="right">열량</StyledTableCell>
+            <StyledTableCell align="right">지방&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">탄수화물&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">단백질&nbsp;(g)</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

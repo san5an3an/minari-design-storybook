@@ -13,7 +13,7 @@ export default function TextFieldHiddenLabel() {
       <TextField
         hiddenLabel
         id="filled-hidden-label-small"
-        defaultValue="Small"
+        defaultValue="작게"
         variant="filled"
         size="small"
       />

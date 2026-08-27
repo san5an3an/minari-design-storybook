@@ -17,9 +17,9 @@ export default function DirectionStack() {
   return (
     <div>
       <Stack direction="row" spacing={2}>
-        <Item>Item 1</Item>
-        <Item>Item 2</Item>
-        <Item>Item 3</Item>
+        <Item>항목 1</Item>
+        <Item>항목 2</Item>
+        <Item>항목 3</Item>
       </Stack>
     </div>
   );

@@ -13,8 +13,8 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 export default function SquareCorners() {
   return (
     <Stack direction="row" spacing={2}>
-      <DemoPaper square={false}>rounded corners</DemoPaper>
-      <DemoPaper square>square corners</DemoPaper>
+      <DemoPaper square={false}>둥근 모서리</DemoPaper>
+      <DemoPaper square>각진 모서리</DemoPaper>
     </Stack>
   );
 }

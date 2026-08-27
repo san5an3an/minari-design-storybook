@@ -32,7 +32,7 @@ const card = (
       </Typography>
     </CardContent>
     <CardActions>
-      <Button size="small">Learn More</Button>
+      <Button size="small">더 알아보기</Button>
     </CardActions>
   </React.Fragment>
 );

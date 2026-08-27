@@ -17,7 +17,7 @@ const StyledRating = styled(Rating)({
 export default function CustomizedRating() {
   return (
     <Box sx={{ '& > legend': { mt: 2 } }}>
-      <Typography component="legend">Custom icon and color</Typography>
+      <Typography component="legend">아이콘과 색을 바꾼 것</Typography>
       <StyledRating
         name="customized-color"
         defaultValue={2}
@@ -26,7 +26,7 @@ export default function CustomizedRating() {
         icon={<FavoriteIcon fontSize="inherit" />}
         emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
       />
-      <Typography component="legend">10 stars</Typography>
+      <Typography component="legend">별 10개</Typography>
       <Rating name="customized-10" defaultValue={2} max={10} />
     </Box>
   );

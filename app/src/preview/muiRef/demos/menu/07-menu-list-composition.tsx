@@ -50,9 +50,9 @@ export default function MenuListComposition() {
     <Stack direction="row" spacing={2}>
       <Paper>
         <MenuList>
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>My account</MenuItem>
-          <MenuItem>Logout</MenuItem>
+          <MenuItem>프로필</MenuItem>
+          <MenuItem>내 계정</MenuItem>
+          <MenuItem>로그아웃</MenuItem>
         </MenuList>
       </Paper>
       <div>
@@ -90,9 +90,9 @@ export default function MenuListComposition() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleClose}>프로필</MenuItem>
+                    <MenuItem onClick={handleClose}>내 계정</MenuItem>
+                    <MenuItem onClick={handleClose}>로그아웃</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

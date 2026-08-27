@@ -22,7 +22,7 @@ export default function SwitchesGroup() {
 
   return (
     <FormControl component="fieldset" variant="standard">
-      <FormLabel component="legend">Assign responsibility</FormLabel>
+      <FormLabel component="legend">담당 정하기</FormLabel>
       <FormGroup>
         <FormControlLabel
           control={
@@ -43,7 +43,7 @@ export default function SwitchesGroup() {
           label="Antoine Llorca"
         />
       </FormGroup>
-      <FormHelperText>Be careful</FormHelperText>
+      <FormHelperText>조심하세요</FormHelperText>
     </FormControl>
   );
 }

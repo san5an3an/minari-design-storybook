@@ -64,7 +64,7 @@ export default function MultipleSelectPlaceholder() {
           input={<OutlinedInput />}
           renderValue={(selected) => {
             if (selected.length === 0) {
-              return <em>Placeholder</em>;
+              return <em>안내 문구</em>;
             }
 
             return selected.join(', ');
@@ -73,7 +73,7 @@ export default function MultipleSelectPlaceholder() {
           inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Placeholder</em>
+            <em>안내 문구</em>
           </MenuItem>
           {names.map((name) => (
             <MenuItem

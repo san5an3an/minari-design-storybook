@@ -11,13 +11,13 @@ export default function DenseMenu() {
     <Paper sx={{ width: 320 }}>
       <MenuList dense>
         <MenuItem>
-          <ListItemText inset>Single</ListItemText>
+          <ListItemText inset>하나</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemText inset>1.15</ListItemText>
         </MenuItem>
         <MenuItem>
-          <ListItemText inset>Double</ListItemText>
+          <ListItemText inset>둘</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
@@ -27,14 +27,14 @@ export default function DenseMenu() {
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemText>Add space before paragraph</ListItemText>
+          <ListItemText>문단 앞에 여백 넣기</ListItemText>
         </MenuItem>
         <MenuItem>
-          <ListItemText>Add space after paragraph</ListItemText>
+          <ListItemText>문단 뒤에 여백 넣기</ListItemText>
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemText>Custom spacing…</ListItemText>
+          <ListItemText>여백 직접 정하기…</ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>

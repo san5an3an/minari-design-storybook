@@ -32,7 +32,7 @@ export default function BasicCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">더 알아보기</Button>
       </CardActions>
     </Card>
   );

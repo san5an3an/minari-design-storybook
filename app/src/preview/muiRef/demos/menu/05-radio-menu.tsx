@@ -7,10 +7,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { RadioButtonChecked } from '../_icons';
 import { RadioButtonUnchecked } from '../_icons';
 
-const options = ['Name', 'Date modified', 'Size'];
+const options = ['이름', 'Date modified', 'Size'];
 
 export default function RadioMenu() {
-  const [selected, setSelected] = React.useState('Name');
+  const [selected, setSelected] = React.useState('이름');
 
   return (
     <Paper sx={{ width: 320, maxWidth: '100%' }}>

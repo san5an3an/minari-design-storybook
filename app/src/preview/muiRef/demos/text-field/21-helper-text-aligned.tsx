@@ -7,12 +7,12 @@ export default function HelperTextAligned() {
       <TextField
         helperText="Please enter your name"
         id="demo-helper-text-aligned"
-        label="Name"
+        label="이름"
       />
       <TextField
         helperText=" "
         id="demo-helper-text-aligned-no-helper"
-        label="Name"
+        label="이름"
       />
     </Box>
   );

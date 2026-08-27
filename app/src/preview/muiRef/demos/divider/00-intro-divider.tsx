@@ -32,7 +32,7 @@ export default function IntroDivider() {
         </Typography>
         <Stack direction="row" spacing={1}>
           <Chip color="primary" label="Soft" size="small" />
-          <Chip label="Medium" size="small" />
+          <Chip label="보통" size="small" />
           <Chip label="Hard" size="small" />
         </Stack>
       </Box>

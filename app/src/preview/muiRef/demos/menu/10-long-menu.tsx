@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { MoreVert as MoreVertIcon } from '../_icons';
 
 const options = [
-  'None',
+  '없음',
   'Atria',
   'Callisto',
   'Dione',

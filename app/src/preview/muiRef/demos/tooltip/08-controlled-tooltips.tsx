@@ -19,9 +19,9 @@ export default function ControlledTooltips() {
       open={open}
       onClose={handleClose}
       onOpen={handleOpen}
-      title="Add"
+      title="더하기"
     >
-      <Button>Controlled</Button>
+      <Button>제어함</Button>
     </Tooltip>
   );
 }

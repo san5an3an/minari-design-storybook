@@ -14,21 +14,21 @@ export default function SelectAutoWidth() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 80 }}>
-        <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-autowidth-label">나이</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"
           value={age}
           onChange={handleChange}
           autoWidth
-          label="Age"
+          label="나이"
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={21}>Twenty one</MenuItem>
-          <MenuItem value={22}>Twenty one and a half</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={21}>스물하나</MenuItem>
+          <MenuItem value={22}>스물하고 반</MenuItem>
         </Select>
       </FormControl>
     </div>

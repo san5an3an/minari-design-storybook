@@ -85,7 +85,7 @@ export default function VerticalLinearStepper() {
             <StepLabel
               optional={
                 index === steps.length - 1 ? (
-                  <Typography variant="caption">Last step</Typography>
+                  <Typography variant="caption">마지막 단계</Typography>
                 ) : null
               }
             >
@@ -118,7 +118,7 @@ export default function VerticalLinearStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>모든 단계를 마쳤어요 — 끝났어요</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }} ref={resetButtonRef}>
             Reset
           </Button>

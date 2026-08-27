@@ -70,7 +70,7 @@ export default function VirtualElementPopper() {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-              <Typography sx={{ p: 2 }}>The content of the Popper.</Typography>
+              <Typography sx={{ p: 2 }}>Popper 의 내용이에요.</Typography>
             </Paper>
           </Fade>
         )}

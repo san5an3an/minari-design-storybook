@@ -21,13 +21,13 @@ export default function ColumnLayoutInsideGrid() {
       <Grid container spacing={2}>
         <Grid size={4}>
           <Stack spacing={2}>
-            <Item>Column 1 - Row 1</Item>
-            <Item>Column 1 - Row 2</Item>
-            <Item>Column 1 - Row 3</Item>
+            <Item>1열 - 1행</Item>
+            <Item>1열 - 2행</Item>
+            <Item>1열 - 3행</Item>
           </Stack>
         </Grid>
         <Grid size={8}>
-          <Item sx={{ height: '100%', boxSizing: 'border-box' }}>Column 2</Item>
+          <Item sx={{ height: '100%', boxSizing: 'border-box' }}>2열</Item>
         </Grid>
       </Grid>
     </Box>
