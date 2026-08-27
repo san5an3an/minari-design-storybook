@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, ChevronsUpDown, Palette } from "lucide-react";
+import { Check, ChevronRight, ChevronsUpDown, Download, Palette } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -12,6 +12,13 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ExportDialog } from "@/components/ExportDialog";
+import { requestExport } from "@/export/client";
+import { sinkFor } from "@/export/sinks/registry";
 import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
 import { ComponentPage } from "./preview/ComponentPage";
@@ -401,6 +408,28 @@ function ModeSelect({ mode, onPick }: { mode: Mode; onPick: (m: Mode) => void })
   );
 }
 
+function ExportButton({ disabled, onOpen }: { disabled: boolean; onOpen:  => void }) {
+  const button = (
+    <Button variant="outline" size="sm" onClick={onOpen} disabled={disabled}>
+      {/* 크기 직접 지정 안 함. size-4 추가 시 svg 고정이 풀려 크기 달라지는 문제임 */}
+      <Download />
+      내보내기
+    </Button>
+  );
+  if (!disabled) return button;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={<span className="inline-flex" />}>{button}</TooltipTrigger>
+        {/* ods-chrome 클래스 지정. 툴팁도 없으면 시스템 색이 보임 */}
+        <TooltipContent className="ods-chrome" side="bottom">
+          컴포넌트를 고르면 내보낼 수 있어요
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 export function App {
   // 초기 상태 URL에서 지정. 링크로 연 사용자가 그 화면을 봐야 하는 제약임
   const [slug, setSlug] = React.useState( => parseHash?.slug ?? SYSTEMS[0].slug);
@@ -409,6 +438,8 @@ export function App {
   const [mode, setMode] = React.useState<Mode>(modeFromQuery);
   // 글꼴은 URL에 미포함. 모드와 마찬가지로 결과물이 아닌 보기 방식이기 때문임
   const [font, setFont] = React.useState<string>(DEFAULT_FONT);
+  // 내보내기 창은 URL 반영에서 제외
+  const [exportOpen, setExportOpen] = React.useState(false);
   // 색과 베이스를 병합. 명세와 일치하면 해당 모듈 그대로 반환
   const system = React.useMemo( => resolveSystem(slug, base), [slug, base]);
   const color = systemBySlug(slug);
@@ -451,6 +482,10 @@ export function App {
     ?? (section.startsWith(OURS) ? undefined : official?.get(section))
     ?? system.components.find((c) => c.name === bare)?.title
     ?? bare;
+
+  const exportable =
+    section !== COLORS && section !== TYPE &&
+    system.components.some((c) => c.name === bare);
 
   return (
     <SidebarProvider>
@@ -495,11 +530,27 @@ export function App {
             베이스 {system.baseTitle}
           </span>
           <div className="ml-auto flex items-center gap-2">
+            <ExportButton disabled={!exportable} onOpen={ => setExportOpen(true)} />
             <SystemSelect slug={slug} onPick={(next) => pick(next, section)} />
             <FontSelect font={font} onPick={setFont} />
             <ModeSelect mode={mode} onPick={setMode} />
           </div>
         </header>
+
+        {/* 내보낼 수 없는 화면은 생성 금지. parseHash로 직접 접근하는 경로가 있음 */}
+        {exportable ? (
+          <ExportDialog
+            open={exportOpen}
+            onOpenChange={setExportOpen}
+            system={system}
+            // 접두사 벗겨서 전달. 안 벗기면 계약에서 이름을 못 찾아 잘못 표시되는 문제 있음
+            section={bare}
+            title={here}
+            onExport={async (request) => {
+              await sinkFor("download")(await requestExport(request));
+            }}
+          />
+        ) : null}
 
         {/* 미리보기 영역 */}
         <main className="doc-page">
