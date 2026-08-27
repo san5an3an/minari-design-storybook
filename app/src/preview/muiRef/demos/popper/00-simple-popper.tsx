@@ -26,7 +26,7 @@ export default function SimplePopper() {
   return (
     <div>
       <button aria-describedby={id} type="button" onClick={handleClick}>
-        Toggle Popper
+        Popper 켜고 끄기
       </button>
       <Popper id={id} open={open} anchorEl={anchorEl}>
         <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>

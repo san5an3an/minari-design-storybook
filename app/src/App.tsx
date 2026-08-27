@@ -39,7 +39,7 @@ const STYLE_ID = "ods-active-system";
 const COLORS = "__colors__";
 const TYPE = "__type__";
 
-const OURS = "ours-";
+const DOCS = "docs-";
 
 const FOUNDATIONS: { key: string; label: string }[] = [
   { key: COLORS, label: "Color Scheme" },
@@ -58,10 +58,8 @@ function parseHash: Route | null {
   // 알 수 없는 베이스, 색이면 주소 무시. 없는 조합의 빈 화면 방지
   if (!(rawBase in BASES)) return null;
   if (!SYSTEMS.some((s) => s.slug === rawSlug)) return null;
-  const ownsTypography =
-    (rawBase === "antd" && isAntdSlug(rawSection)) ||
-    (rawBase === "mui" && isMuiSlug(rawSection));
-  const legacy = !ownsTypography && rawSection === "typography" ? TYPE : null;
+  const legacy = !rawSection.startsWith(DOCS) && rawSection === "typography"
+    ? TYPE : null;
   const section = legacy ?? (rawSection ? (ROUTE_ALIAS[rawSection] ?? rawSection) : COLORS);
   return { base: rawBase, slug: rawSlug, section };
 }
@@ -215,8 +213,8 @@ function OfficialNav({ groups, title, section, onPick }: {
               {slugs.map((slug) => (
                 <SidebarMenuItem key={slug}>
                   <SidebarMenuButton
-                    isActive={section === slug}
-                    onClick={ => onPick(slug)}
+                    isActive={section === DOCS + slug}
+                    onClick={ => onPick(DOCS + slug)}
                   >
                     {/* 공식 이름이 없으면 슬러그를 그대로 표시 */}
                     <span>{title.get(slug) ?? slug}</span>
@@ -249,8 +247,8 @@ function OursNav({ system, section, onPick }: {
             .map((c) => (
               <SidebarMenuItem key={c.name}>
                 <SidebarMenuButton
-                  isActive={section === OURS + c.name}
-                  onClick={ => onPick(OURS + c.name)}
+                  isActive={section === c.name}
+                  onClick={ => onPick(c.name)}
                 >
                   <span>{c.title}</span>
                 </SidebarMenuButton>
@@ -292,14 +290,14 @@ function PageNav({
       </SidebarGroup>
 
       {/* antd, MUI 공식 목록 그대로 사용. 자체 목록 맞추면 고유 컴포넌트 소실되는 문제임 */}
-      {/* 공식 항목 아래 별도 값 보관, OURS 접두사 사용 */}
+      {/* 커스텀 항목을 공식 항목보다 위에 정렬 */}
       {system.baseKey === "antd" || system.baseKey === "mui" ? (
         <>
+          <OursNav system={system} section={section} onPick={onPick} />
           <OfficialNav
             groups={system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS}
             title={system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE}
             section={section} onPick={onPick} />
-          <OursNav system={system} section={section} onPick={onPick} />
         </>
       ) : (
       <SidebarGroup>
@@ -476,15 +474,15 @@ export function App {
   const official = system.baseKey === "antd" ? ANTD_TITLE
     : system.baseKey === "mui" ? MUI_TITLE
     : null;
-  // 접두사 벗겨서 찾기. 안 벗기면 상단바 ours-button이 사이드바와 어긋나 있음
-  const bare = section.startsWith(OURS) ? section.slice(OURS.length) : section;
+  // 접두사 벗겨서 찾기. 안 벗기면 상단바 docs-button이 사이드바와 어긋나 있음
+  const bare = section.startsWith(DOCS) ? section.slice(DOCS.length) : section;
   const here = FOUNDATIONS.find((f) => f.key === section)?.label
-    ?? (section.startsWith(OURS) ? undefined : official?.get(section))
+    ?? (section.startsWith(DOCS) ? official?.get(bare) : undefined)
     ?? system.components.find((c) => c.name === bare)?.title
     ?? bare;
 
   const exportable =
-    section !== COLORS && section !== TYPE &&
+    section !== COLORS && section !== TYPE && !section.startsWith(DOCS) &&
     system.components.some((c) => c.name === bare);
 
   return (
@@ -567,16 +565,16 @@ export function App {
               font={fontByKey(font)}
             />
           ) : (
-            // 접두사 붙은 경로를 공식 경로보다 먼저 확인
-            section.startsWith(OURS) ? (
-              <ComponentPage system={system} name={section.slice(OURS.length)}
+            system.baseKey === "antd" && section.startsWith(DOCS)
+              && isAntdSlug(section.slice(DOCS.length)) ? (
+              <AntdReference slug={section.slice(DOCS.length)} system={system}
                 active={mode} />
-            ) : system.baseKey === "antd" && isAntdSlug(section) ? (
-              <AntdReference slug={section} system={system} active={mode} />
-            ) : system.baseKey === "mui" && isMuiSlug(section) ? (
-              <MuiReference slug={section} system={system} active={mode} />
+            ) : system.baseKey === "mui" && section.startsWith(DOCS)
+              && isMuiSlug(section.slice(DOCS.length)) ? (
+              <MuiReference slug={section.slice(DOCS.length)} system={system}
+                active={mode} />
             ) : (
-              <ComponentPage system={system} name={section} active={mode} />
+              <ComponentPage system={system} name={bare} active={mode} />
             )
           )}
         </main>

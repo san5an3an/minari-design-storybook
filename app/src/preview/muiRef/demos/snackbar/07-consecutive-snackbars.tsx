@@ -71,7 +71,7 @@ export default function ConsecutiveSnackbars() {
         action={
           <React.Fragment>
             <Button color="secondary" size="small" onClick={handleClose}>
-              UNDO
+              되돌리기
             </Button>
             <IconButton
               aria-label="close"

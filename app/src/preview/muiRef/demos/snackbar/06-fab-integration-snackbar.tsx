@@ -69,7 +69,7 @@ export default function FabIntegrationSnackbar() {
           message="Archived"
           action={
             <Button color="inherit" size="small">
-              Undo
+              되돌리기
             </Button>
           }
           sx={{ bottom: { xs: 90, sm: 0 } }}

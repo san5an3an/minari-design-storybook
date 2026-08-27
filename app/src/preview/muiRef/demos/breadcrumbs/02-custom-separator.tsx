@@ -33,7 +33,7 @@ export default function CustomSeparator() {
       href="/material-ui/getting-started/installation/"
       onClick={handleClick}
     >
-      Core
+      핵심
     </Link>,
     <Typography key="3" sx={{ color: 'text.primary' }}>
       Breadcrumb

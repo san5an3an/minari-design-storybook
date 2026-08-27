@@ -68,7 +68,7 @@ export default function VerticalLinearStepper() {
     // If the user is going forward.
     if (previousActiveStep < activeStep) {
       if (activeStep === steps.length) {
-        // If the user has completed all steps and hits "Finish", focus the "Reset" button.
+        // If the user has completed all steps and hits "Finish", focus the "처음으로" button.
         resetButtonRef.current!.focus();
       } else {
         // Focus the "Continue" button otherwise.
@@ -79,12 +79,12 @@ export default function VerticalLinearStepper() {
     // Otherwise, the user is going back.
 
     if (activeStep === 0) {
-      // If the user hit "Back" on the second step, or hit "Reset", focus the "Continue" button.
+      // If the user hit "뒤로" on the second step, or hit "처음으로", focus the "Continue" button.
       continueButtonRef.current!.focus();
       return;
     }
 
-    // Focus the "Back" button otherwise.
+    // Focus the "뒤로" button otherwise.
     backButtonRef.current!.focus();
   }, [activeStep]);
 
@@ -119,7 +119,7 @@ export default function VerticalLinearStepper() {
                     sx={{ mt: 1, mr: 1 }}
                     ref={backButtonRef}
                   >
-                    Back
+                    뒤로
                   </Button>
                 )}
               </Box>
@@ -131,7 +131,7 @@ export default function VerticalLinearStepper() {
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>모든 단계를 마쳤어요 — 끝났어요</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }} ref={resetButtonRef}>
-            Reset
+            처음으로
           </Button>
         </Paper>
       )}

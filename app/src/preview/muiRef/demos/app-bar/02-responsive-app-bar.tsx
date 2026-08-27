@@ -25,7 +25,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Adb as AdbIcon } from '../_icons';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['프로필', 'Account', 'Dashboard', '로그아웃'];
+const settings = ['프로필', 'Account', '대시보드', '로그아웃'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

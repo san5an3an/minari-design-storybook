@@ -93,7 +93,7 @@ export default function FloatingActionButtonZoom() {
       color: 'secondary' as const,
       sx: fabStyle as SxProps,
       icon: <EditIcon />,
-      label: 'Edit',
+      label: '고치기',
     },
     {
       color: 'inherit' as const,

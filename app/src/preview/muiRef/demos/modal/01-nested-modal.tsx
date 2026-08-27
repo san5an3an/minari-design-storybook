@@ -79,7 +79,7 @@ export default function NestedModal() {
         <Box sx={{ ...style, width: 400 }}>
           <h2 id="parent-modal-title">모달 안의 글</h2>
           <p id="parent-modal-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            짧은 표본 문장이에요. 한 줄이 안 넘칠 때의 모습을 보려고 넣었어요.
           </p>
           <ChildModal />
         </Box>

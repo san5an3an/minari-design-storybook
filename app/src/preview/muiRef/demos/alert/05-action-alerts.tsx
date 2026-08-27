@@ -23,7 +23,7 @@ export default function ActionAlerts() {
         severity="success"
         action={
           <Button color="inherit" size="small">
-            UNDO
+            되돌리기
           </Button>
         }
       >

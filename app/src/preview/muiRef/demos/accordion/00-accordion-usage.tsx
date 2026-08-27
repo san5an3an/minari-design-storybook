@@ -31,8 +31,7 @@ export default function AccordionUsage() {
           <Typography component="span">Accordion 1</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -44,8 +43,7 @@ export default function AccordionUsage() {
           <Typography component="span">Accordion 2</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded>
@@ -57,8 +55,7 @@ export default function AccordionUsage() {
           <Typography component="span">Accordion 동작</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
         </AccordionDetails>
         <AccordionActions>
           <Button>취소</Button>

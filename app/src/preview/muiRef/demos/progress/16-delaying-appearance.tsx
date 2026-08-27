@@ -80,7 +80,7 @@ export default function DelayingAppearance() {
         )}
       </Box>
       <Button onClick={handleClickQuery} sx={{ m: 2 }}>
-        {query !== 'idle' ? 'Reset' : 'Simulate a load'}
+        {query !== 'idle' ? '처음으로' : 'Simulate a load'}
       </Button>
     </Box>
   );

@@ -40,12 +40,12 @@ export default function DotsMobileStepper() {
     previousActiveStepRef.current = activeStep;
 
     if (activeStep === 0 && previousActiveStep === 1) {
-      // If the user is going back to the first step, focus the "Next" button.
+      // If the user is going back to the first step, focus the "다음" button.
       nextButtonRef.current!.focus();
       return;
     }
     if (activeStep === steps - 1 && previousActiveStep === steps - 2) {
-      // If the user is going to the last step, focus the "Back" button.
+      // If the user is going to the last step, focus the "뒤로" button.
       backButtonRef.current!.focus();
     }
   }, [activeStep]);
@@ -69,7 +69,7 @@ export default function DotsMobileStepper() {
           disabled={activeStep === 5}
           ref={nextButtonRef}
         >
-          Next
+          다음
           {theme.direction === 'rtl' ? (
             <KeyboardArrowLeft />
           ) : (
@@ -89,7 +89,7 @@ export default function DotsMobileStepper() {
           ) : (
             <KeyboardArrowLeft />
           )}
-          Back
+          뒤로
         </Button>
       }
     />

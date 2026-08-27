@@ -31,7 +31,7 @@ export default function BasicPopover() {
   return (
     <div>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Open Popover
+        Popover 열기
       </Button>
       <Popover
         id={id}

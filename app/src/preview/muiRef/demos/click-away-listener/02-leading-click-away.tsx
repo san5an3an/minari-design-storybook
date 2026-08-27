@@ -44,11 +44,11 @@ export default function LeadingClickAway() {
     >
       <Box sx={{ position: 'relative' }}>
         <button type="button" onClick={handleClick}>
-          Open menu dropdown
+          메뉴 펼치기
         </button>
         {open ? (
           <Box sx={styles}>
-            Click me, I will stay visible until you click outside.
+            눌러 보세요. 바깥을 누르기 전까지 그대로 있어요.
           </Box>
         ) : null}
       </Box>

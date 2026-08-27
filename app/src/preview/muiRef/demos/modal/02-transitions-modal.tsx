@@ -56,7 +56,7 @@ export default function TransitionsModal() {
               모달 안의 글
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              짧은 표본 문장이에요. 한 줄이 안 넘칠 때의 모습을 보려고 넣었어요.
             </Typography>
           </Box>
         </Fade>

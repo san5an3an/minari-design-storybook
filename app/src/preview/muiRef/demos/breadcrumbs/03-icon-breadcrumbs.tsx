@@ -42,7 +42,7 @@ export default function IconBreadcrumbs() {
           href="/material-ui/getting-started/installation/"
         >
           <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-          Core
+          핵심
         </Link>
         <Typography
           sx={{ color: 'text.primary', display: 'flex', alignItems: 'center' }}

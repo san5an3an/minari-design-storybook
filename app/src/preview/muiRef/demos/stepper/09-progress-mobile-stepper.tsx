@@ -37,10 +37,10 @@ export default function ProgressMobileStepper() {
     const previousActiveStep = previousActiveStepRef.current;
 
     if (activeStep === 0 && previousActiveStep === 1) {
-      // If the user is going back to the first step, focus the "Next" button.
+      // If the user is going back to the first step, focus the "다음" button.
       nextButtonRef.current!.focus();
     } else if (activeStep === 5 && previousActiveStep === 4) {
-      // If the user is going to the last step, focus the "Back" button.
+      // If the user is going to the last step, focus the "뒤로" button.
       backButtonRef.current!.focus();
     }
 
@@ -66,7 +66,7 @@ export default function ProgressMobileStepper() {
           disabled={activeStep === 5}
           ref={nextButtonRef}
         >
-          Next
+          다음
           {theme.direction === 'rtl' ? (
             <KeyboardArrowLeft />
           ) : (
@@ -86,7 +86,7 @@ export default function ProgressMobileStepper() {
           ) : (
             <KeyboardArrowLeft />
           )}
-          Back
+          뒤로
         </Button>
       }
     />

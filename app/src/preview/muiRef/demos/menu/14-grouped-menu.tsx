@@ -42,7 +42,7 @@ export default function GroupedMenu() {
         aria-expanded={open}
         onClick={handleClick}
       >
-        Dashboard
+        대시보드
       </Button>
       <Menu
         id={menuId}

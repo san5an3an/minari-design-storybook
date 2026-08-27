@@ -21,7 +21,7 @@ export default function IconLabelButtons() {
         지우기
       </Button>
       <Button variant="contained" endIcon={<SendIcon />}>
-        Send
+        보내기
       </Button>
     </Stack>
   );

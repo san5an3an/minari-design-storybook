@@ -75,7 +75,7 @@ export default function MenuListComposition() {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          Dashboard
+          대시보드
         </Button>
         <Popper
           open={open}
