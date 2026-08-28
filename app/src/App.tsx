@@ -40,8 +40,6 @@ const STYLE_ID = "ods-active-system";
 const COLORS = "__colors__";
 const TYPE = "__type__";
 
-const DOCS = "docs-";
-
 const USAGE = "__usage__";
 
 const MAIN: { key: string; label: string }[] = [
@@ -65,8 +63,10 @@ function parseHash: Route | null {
   // 알 수 없는 베이스, 색이면 주소 무시. 없는 조합의 빈 화면 방지
   if (!(rawBase in BASES)) return null;
   if (!SYSTEMS.some((s) => s.slug === rawSlug)) return null;
-  const legacy = !rawSection.startsWith(DOCS) && rawSection === "typography"
-    ? TYPE : null;
+  const officialHasType =
+    (rawBase === "antd" && isAntdSlug("typography")) ||
+    (rawBase === "mui" && isMuiSlug("typography"));
+  const legacy = rawSection === "typography" && !officialHasType ? TYPE : null;
   const section = legacy ?? (rawSection ? (ROUTE_ALIAS[rawSection] ?? rawSection) : COLORS);
   return { base: rawBase, slug: rawSlug, section };
 }
@@ -110,6 +110,12 @@ function useTheme(mode: Mode) {
   }, [mode]);
 }
 
+function drawnCount(baseKey: string, impl: Record<string, unknown>): number {
+  if (baseKey === "antd") return ANTD_INDEX.length;
+  if (baseKey === "mui") return MUI_INDEX.length;
+  return Object.keys(impl).length;
+}
+
 function BaseCard({
   baseKey, active, onPick,
 }: {
@@ -118,7 +124,7 @@ function BaseCard({
   onPick: (key: string) => void;
 }) {
   const base = BASES[baseKey];
-  const n = Object.keys(base.impl).length;
+  const n = drawnCount(base.key, base.impl);
   return (
     <button
       type="button"
@@ -164,7 +170,7 @@ function BasePicker({
             <span className="grid text-left leading-tight">
               <span className="text-sm font-medium">{current.title}</span>
               <span className="text-muted-foreground text-xs">
-                컴포넌트 {Object.keys(current.impl).length}종
+                컴포넌트 {drawnCount(current.key, current.impl)}종
               </span>
             </span>
             <ChevronsUpDown className="ml-auto size-4 shrink-0 opacity-50" />
@@ -220,8 +226,8 @@ function OfficialNav({ groups, title, section, onPick }: {
               {slugs.map((slug) => (
                 <SidebarMenuItem key={slug}>
                   <SidebarMenuButton
-                    isActive={section === DOCS + slug}
-                    onClick={ => onPick(DOCS + slug)}
+                    isActive={section === slug}
+                    onClick={ => onPick(slug)}
                   >
                     {/* 공식 이름이 없으면 슬러그를 그대로 표시 */}
                     <span>{title.get(slug) ?? slug}</span>
@@ -241,6 +247,8 @@ function OursNav({ system, section, onPick }: {
   section: string;
   onPick: (section: string) => void;
 }) {
+  if (system.components.length === 0) return null;
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>
@@ -500,17 +508,22 @@ export function App {
   const official = system.baseKey === "antd" ? ANTD_TITLE
     : system.baseKey === "mui" ? MUI_TITLE
     : null;
-  // 접두사 벗겨서 찾기. 안 벗기면 상단바 docs-button이 사이드바와 어긋나 있음
-  const bare = section.startsWith(DOCS) ? section.slice(DOCS.length) : section;
+  // 접두어 없어 벗길 것 없음, 이름 그대로 사용
+  const bare = section;
+
+  // 공식 문서 화면 여부 확인
+  const isOfficialSection =
+    (system.baseKey === "antd" && isAntdSlug(section)) ||
+    (system.baseKey === "mui" && isMuiSlug(section));
   // MAIN도 함께 확인. 누락되면 상단바에 __usage__ 내부 키가 그대로 남음
   const here = MAIN.find((m) => m.key === section)?.label
     ?? FOUNDATIONS.find((f) => f.key === section)?.label
-    ?? (section.startsWith(DOCS) ? official?.get(bare) : undefined)
+    ?? (isOfficialSection ? official?.get(bare) : undefined)
     ?? system.components.find((c) => c.name === bare)?.title
     ?? bare;
 
   const exportable =
-    section !== COLORS && section !== TYPE && !section.startsWith(DOCS) &&
+    section !== COLORS && section !== TYPE && !isOfficialSection &&
     system.components.some((c) => c.name === bare);
 
   return (
@@ -599,13 +612,12 @@ export function App {
               font={fontByKey(font)}
             />
           ) : (
-            system.baseKey === "antd" && section.startsWith(DOCS)
-              && isAntdSlug(section.slice(DOCS.length)) ? (
-              <AntdReference slug={section.slice(DOCS.length)} system={system}
+            // 접두사 없으면 슬러그 실제 보유 여부로 구분. 이름 충돌에도 안전
+            system.baseKey === "antd" && isAntdSlug(section) ? (
+              <AntdReference slug={section} system={system}
                 active={mode} />
-            ) : system.baseKey === "mui" && section.startsWith(DOCS)
-              && isMuiSlug(section.slice(DOCS.length)) ? (
-              <MuiReference slug={section.slice(DOCS.length)} system={system}
+            ) : system.baseKey === "mui" && isMuiSlug(section) ? (
+              <MuiReference slug={section} system={system}
                 active={mode} />
             ) : (
               <ComponentPage system={system} name={bare} active={mode} />
