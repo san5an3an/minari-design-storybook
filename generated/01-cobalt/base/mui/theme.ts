@@ -47,21 +47,27 @@ export const theme = createTheme({
           "letterSpacing": "var(--component-alert-letter-spacing)"
         },
         "standard": {
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
-            "color": "var(--component-alert-success-fg)"
+            "color": "var(--component-alert-success-fg)",
+            "borderColor": "var(--component-alert-success-border)"
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
-            "color": "var(--component-alert-brand-fg)"
+            "color": "var(--component-alert-brand-fg)",
+            "borderColor": "var(--component-alert-brand-border)"
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
-            "color": "var(--component-alert-warning-fg)"
+            "color": "var(--component-alert-warning-fg)",
+            "borderColor": "var(--component-alert-warning-border)"
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
-            "color": "var(--component-alert-danger-fg)"
+            "color": "var(--component-alert-danger-fg)",
+            "borderColor": "var(--component-alert-danger-border)"
           }
         }
       }
@@ -69,7 +75,13 @@ export const theme = createTheme({
     "MuiButton": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-button-radius)"
+          "borderRadius": "var(--component-button-radius)",
+          "&.MuiButton-text.MuiButton-colorPrimary": {
+            "color": "var(--component-button-plain-brand-fg)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorPrimary": {
+            "color": "var(--component-button-outline-brand-fg)"
+          }
         },
         "sizeSmall": {
           "fontSize": "var(--component-button-sm-font-size)",
@@ -90,7 +102,10 @@ export const theme = createTheme({
         "root": {
           "borderRadius": "var(--component-card-radius)",
           "backgroundColor": "var(--component-card-bg)",
-          "color": "var(--component-card-body-fg)"
+          "color": "var(--component-card-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-card-border)"
         }
       }
     },
@@ -99,7 +114,10 @@ export const theme = createTheme({
         "paper": {
           "borderRadius": "var(--component-dialog-radius)",
           "backgroundColor": "var(--component-dialog-bg)",
-          "color": "var(--component-dialog-body-fg)"
+          "color": "var(--component-dialog-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-dialog-border)"
         }
       }
     },
@@ -116,7 +134,10 @@ export const theme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-chip-radius)",
-          "fontSize": "var(--component-chip-font-size)"
+          "fontSize": "var(--component-chip-font-size)",
+          "&.MuiChip-outlined.MuiChip-colorPrimary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -133,21 +154,48 @@ export const theme = createTheme({
     "MuiMenu": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-menu-radius)"
+          "borderRadius": "var(--component-menu-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-menu-border)"
         }
       }
     },
     "MuiPopover": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-popover-radius)"
+          "borderRadius": "var(--component-popover-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-popover-border)"
         }
       }
     },
     "MuiAccordion": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-accordion-radius)"
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-accordion-border)",
+          "borderRadius": "0",
+          "&:not(:last-of-type)": {
+            "borderBottomWidth": "0"
+          },
+          "&.MuiPaper-rounded:first-of-type": {
+            "borderTopLeftRadius": "var(--component-accordion-radius)",
+            "borderTopRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.MuiPaper-rounded:last-of-type": {
+            "borderBottomLeftRadius": "var(--component-accordion-radius)",
+            "borderBottomRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.Mui-expanded": {
+            "marginTop": "0",
+            "marginBottom": "0"
+          },
+          "&:before": {
+            "display": "none"
+          }
         }
       }
     },
@@ -170,6 +218,11 @@ export const theme = createTheme({
         "root": {
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
+        },
+        "textColorPrimary": {
+          "&.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -313,7 +366,28 @@ export const theme = createTheme({
         "root": {
           "& .MuiDrawer-paper": {
             "backgroundColor": "var(--component-drawer-bg)",
-            "color": "var(--component-drawer-fg)"
+            "color": "var(--component-drawer-fg)",
+            "borderStyle": "solid",
+            "borderWidth": "var(--semantic-border-width-default)",
+            "borderColor": "var(--component-drawer-border)"
+          }
+        }
+      }
+    },
+    "MuiToggleButton": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-selected.MuiToggleButton-primary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiBottomNavigationAction": {
+      "styleOverrides": {
+        "root": {
+          "& .MuiBottomNavigationAction-label.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
           }
         }
       }
@@ -366,21 +440,27 @@ export const darkTheme = createTheme({
           "letterSpacing": "var(--component-alert-letter-spacing)"
         },
         "standard": {
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
-            "color": "var(--component-alert-success-fg)"
+            "color": "var(--component-alert-success-fg)",
+            "borderColor": "var(--component-alert-success-border)"
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
-            "color": "var(--component-alert-brand-fg)"
+            "color": "var(--component-alert-brand-fg)",
+            "borderColor": "var(--component-alert-brand-border)"
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
-            "color": "var(--component-alert-warning-fg)"
+            "color": "var(--component-alert-warning-fg)",
+            "borderColor": "var(--component-alert-warning-border)"
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
-            "color": "var(--component-alert-danger-fg)"
+            "color": "var(--component-alert-danger-fg)",
+            "borderColor": "var(--component-alert-danger-border)"
           }
         }
       }
@@ -388,7 +468,13 @@ export const darkTheme = createTheme({
     "MuiButton": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-button-radius)"
+          "borderRadius": "var(--component-button-radius)",
+          "&.MuiButton-text.MuiButton-colorPrimary": {
+            "color": "var(--component-button-plain-brand-fg)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorPrimary": {
+            "color": "var(--component-button-outline-brand-fg)"
+          }
         },
         "sizeSmall": {
           "fontSize": "var(--component-button-sm-font-size)",
@@ -409,7 +495,10 @@ export const darkTheme = createTheme({
         "root": {
           "borderRadius": "var(--component-card-radius)",
           "backgroundColor": "var(--component-card-bg)",
-          "color": "var(--component-card-body-fg)"
+          "color": "var(--component-card-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-card-border)"
         }
       }
     },
@@ -418,7 +507,10 @@ export const darkTheme = createTheme({
         "paper": {
           "borderRadius": "var(--component-dialog-radius)",
           "backgroundColor": "var(--component-dialog-bg)",
-          "color": "var(--component-dialog-body-fg)"
+          "color": "var(--component-dialog-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-dialog-border)"
         }
       }
     },
@@ -435,7 +527,10 @@ export const darkTheme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-chip-radius)",
-          "fontSize": "var(--component-chip-font-size)"
+          "fontSize": "var(--component-chip-font-size)",
+          "&.MuiChip-outlined.MuiChip-colorPrimary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -452,21 +547,48 @@ export const darkTheme = createTheme({
     "MuiMenu": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-menu-radius)"
+          "borderRadius": "var(--component-menu-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-menu-border)"
         }
       }
     },
     "MuiPopover": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-popover-radius)"
+          "borderRadius": "var(--component-popover-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-popover-border)"
         }
       }
     },
     "MuiAccordion": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-accordion-radius)"
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-accordion-border)",
+          "borderRadius": "0",
+          "&:not(:last-of-type)": {
+            "borderBottomWidth": "0"
+          },
+          "&.MuiPaper-rounded:first-of-type": {
+            "borderTopLeftRadius": "var(--component-accordion-radius)",
+            "borderTopRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.MuiPaper-rounded:last-of-type": {
+            "borderBottomLeftRadius": "var(--component-accordion-radius)",
+            "borderBottomRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.Mui-expanded": {
+            "marginTop": "0",
+            "marginBottom": "0"
+          },
+          "&:before": {
+            "display": "none"
+          }
         }
       }
     },
@@ -489,6 +611,11 @@ export const darkTheme = createTheme({
         "root": {
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
+        },
+        "textColorPrimary": {
+          "&.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -632,7 +759,28 @@ export const darkTheme = createTheme({
         "root": {
           "& .MuiDrawer-paper": {
             "backgroundColor": "var(--component-drawer-bg)",
-            "color": "var(--component-drawer-fg)"
+            "color": "var(--component-drawer-fg)",
+            "borderStyle": "solid",
+            "borderWidth": "var(--semantic-border-width-default)",
+            "borderColor": "var(--component-drawer-border)"
+          }
+        }
+      }
+    },
+    "MuiToggleButton": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-selected.MuiToggleButton-primary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiBottomNavigationAction": {
+      "styleOverrides": {
+        "root": {
+          "& .MuiBottomNavigationAction-label.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
           }
         }
       }
@@ -685,21 +833,27 @@ export const highContrastTheme = createTheme({
           "letterSpacing": "var(--component-alert-letter-spacing)"
         },
         "standard": {
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
-            "color": "var(--component-alert-success-fg)"
+            "color": "var(--component-alert-success-fg)",
+            "borderColor": "var(--component-alert-success-border)"
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
-            "color": "var(--component-alert-brand-fg)"
+            "color": "var(--component-alert-brand-fg)",
+            "borderColor": "var(--component-alert-brand-border)"
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
-            "color": "var(--component-alert-warning-fg)"
+            "color": "var(--component-alert-warning-fg)",
+            "borderColor": "var(--component-alert-warning-border)"
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
-            "color": "var(--component-alert-danger-fg)"
+            "color": "var(--component-alert-danger-fg)",
+            "borderColor": "var(--component-alert-danger-border)"
           }
         }
       }
@@ -707,7 +861,13 @@ export const highContrastTheme = createTheme({
     "MuiButton": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-button-radius)"
+          "borderRadius": "var(--component-button-radius)",
+          "&.MuiButton-text.MuiButton-colorPrimary": {
+            "color": "var(--component-button-plain-brand-fg)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorPrimary": {
+            "color": "var(--component-button-outline-brand-fg)"
+          }
         },
         "sizeSmall": {
           "fontSize": "var(--component-button-sm-font-size)",
@@ -728,7 +888,10 @@ export const highContrastTheme = createTheme({
         "root": {
           "borderRadius": "var(--component-card-radius)",
           "backgroundColor": "var(--component-card-bg)",
-          "color": "var(--component-card-body-fg)"
+          "color": "var(--component-card-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-card-border)"
         }
       }
     },
@@ -737,7 +900,10 @@ export const highContrastTheme = createTheme({
         "paper": {
           "borderRadius": "var(--component-dialog-radius)",
           "backgroundColor": "var(--component-dialog-bg)",
-          "color": "var(--component-dialog-body-fg)"
+          "color": "var(--component-dialog-body-fg)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-dialog-border)"
         }
       }
     },
@@ -754,7 +920,10 @@ export const highContrastTheme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-chip-radius)",
-          "fontSize": "var(--component-chip-font-size)"
+          "fontSize": "var(--component-chip-font-size)",
+          "&.MuiChip-outlined.MuiChip-colorPrimary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -771,21 +940,48 @@ export const highContrastTheme = createTheme({
     "MuiMenu": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-menu-radius)"
+          "borderRadius": "var(--component-menu-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-menu-border)"
         }
       }
     },
     "MuiPopover": {
       "styleOverrides": {
         "paper": {
-          "borderRadius": "var(--component-popover-radius)"
+          "borderRadius": "var(--component-popover-radius)",
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-popover-border)"
         }
       }
     },
     "MuiAccordion": {
       "styleOverrides": {
         "root": {
-          "borderRadius": "var(--component-accordion-radius)"
+          "borderStyle": "solid",
+          "borderWidth": "var(--semantic-border-width-default)",
+          "borderColor": "var(--component-accordion-border)",
+          "borderRadius": "0",
+          "&:not(:last-of-type)": {
+            "borderBottomWidth": "0"
+          },
+          "&.MuiPaper-rounded:first-of-type": {
+            "borderTopLeftRadius": "var(--component-accordion-radius)",
+            "borderTopRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.MuiPaper-rounded:last-of-type": {
+            "borderBottomLeftRadius": "var(--component-accordion-radius)",
+            "borderBottomRightRadius": "var(--component-accordion-radius)"
+          },
+          "&.Mui-expanded": {
+            "marginTop": "0",
+            "marginBottom": "0"
+          },
+          "&:before": {
+            "display": "none"
+          }
         }
       }
     },
@@ -808,6 +1004,11 @@ export const highContrastTheme = createTheme({
         "root": {
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
+        },
+        "textColorPrimary": {
+          "&.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
         }
       }
     },
@@ -951,7 +1152,28 @@ export const highContrastTheme = createTheme({
         "root": {
           "& .MuiDrawer-paper": {
             "backgroundColor": "var(--component-drawer-bg)",
-            "color": "var(--component-drawer-fg)"
+            "color": "var(--component-drawer-fg)",
+            "borderStyle": "solid",
+            "borderWidth": "var(--semantic-border-width-default)",
+            "borderColor": "var(--component-drawer-border)"
+          }
+        }
+      }
+    },
+    "MuiToggleButton": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-selected.MuiToggleButton-primary": {
+            "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiBottomNavigationAction": {
+      "styleOverrides": {
+        "root": {
+          "& .MuiBottomNavigationAction-label.Mui-selected": {
+            "color": "var(--semantic-fg-brand-default)"
           }
         }
       }
