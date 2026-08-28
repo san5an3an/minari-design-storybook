@@ -106,6 +106,8 @@ function renderOne(
     <P.Item
       key={key}
       variant={it.danger ? "destructive" : "default"}
+      // 클릭 시 실행할 동작. 없으면 메뉴가 보여주기만 하고 동작하지 않음
+      onClick={it.onSelect}
       style={it.danger ? { ...S.item, ...S.itemDanger } : S.item}
     >
       {it.label}

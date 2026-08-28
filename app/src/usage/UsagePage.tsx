@@ -28,5 +28,9 @@ export function UsagePage({ system, active }: {
     );
   }
 
-  return <Dashboard system={system} active={active} />;
+  return (
+    <system.Provider mode={active}>
+      <Dashboard system={system} active={active} />
+    </system.Provider>
+  );
 }
