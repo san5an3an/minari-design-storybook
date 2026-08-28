@@ -1,6 +1,7 @@
 import * as React from "react";
 import Markdown, { type Components } from "react-markdown";
-import { loadAntdDoc, type AntdDoc, type AntdTable } from "./antdRef/loader";
+import { loadAntdDoc, type AntdDoc, type AntdExample, type AntdTable } from "./antdRef/loader";
+import { Master, Kids, Kid } from "./Doc";
 import { AntdLive } from "./antdLive";
 import { theme as antdTheme } from "antd";
 import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
@@ -113,6 +114,7 @@ function Prose({ text, slug, inline }: { text: string; slug: string; inline?: bo
     a: ({ href, children }) => (
       <a href={officialHref(href, slug)} target="_blank" rel="noreferrer">{children}</a>
     ),
+    pre:  => null,
     ...(inline ? { p: ({ children }) => <>{children}</> } : null),
   }), [slug, inline]);
   return <Markdown components={components}>{md}</Markdown>;
@@ -130,6 +132,8 @@ const CHIP = {
   background: "var(--semantic-bg-neutral-subtle, #f4f4f5)",
   boxShadow: "inset 0 0 0 .0625rem var(--semantic-border-neutral-subtle, #e4e4e7)",
 } as const;
+
+const FILL = { flex: "1 1 100%", minWidth: 0 } as const;
 
 function ValueText({ text }: { text: string }) {
   const nodes: React.ReactNode[] = [];
@@ -287,6 +291,51 @@ export function AntdReference({ slug, system, active }: {
   const ourTokens = parseColorTokens(system.vars)
     .filter((t) => t.name.startsWith(`--component-${doc.slug}-`));
 
+  const stand = (ex: AntdExample) => {
+    const Demo = mod ? mod.demos[ex.name] : undefined;
+    const why = mod ? mod.skipped[ex.name] : undefined;
+    return (
+      <div id={ex.demoId ? `${doc.slug}-demo-${ex.demoId}` : undefined} style={FILL}>
+        {Demo ? (
+          <div
+            className={!ex.iframe && STAGE_CONTAINS_FIXED[`${doc.slug}::${ex.name}`]
+              ? "doc-demo-contain" : undefined}
+            style={{ lineHeight: ANTD_LINE_HEIGHT }}
+            // iframe 예제는 해시 라우팅 비활성. 내부가 별도 문서라 경로 충돌 위험 있음
+            onClickCapture={ex.iframe ? undefined : keepRouteOnStageAnchorClick}
+          >
+            <DemoBoundary name={ex.name}>
+              {/* 가두는 예제 그대로 렌더링. 내부 요소가 문서 것이 되어 방어 로직 비활성화 */}
+              {ex.iframe ? (
+                <DemoFrame
+                  height={ex.iframe}
+                  base={system.baseKey}
+                  system={system.slug}
+                  slug={doc.slug}
+                  example={ex.name}
+                  mode={active}
+                />
+              ) : (
+                <Provider mode={active}><Demo tones={tones} /></Provider>
+              )}
+            </DemoBoundary>
+          </div>
+        ) : why ? (
+          // 생성 실패 사유 기록. 없으면 빈 화면과 정상 상태가 구별 안 되는 문제 있음
+          <p className="doc-note" style={{ marginTop: 0 }}>{why}</p>
+        ) : mod ? (
+          // 표에도 목록에도 없으면 이름이 어긋난 것임
+          <p className="doc-note" style={{ marginTop: 0 }}>
+            이 예제는 <b>못 찾았어요.</b> 이름이 <code>{ex.name}</code> 인데
+            <code> antdRef/demos/{doc.slug}/</code> 의 키와 안 맞아요.
+          </p>
+        ) : (
+          <p className="doc-note" style={{ marginTop: 0 }}>예제를 불러오는 중…</p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       <header className="doc-head">
@@ -317,90 +366,32 @@ export function AntdReference({ slug, system, active }: {
         </Section>
       )}
 
-      {/* Master 와 Variants 렌더링 코드 공유, 기본값 차이만 목록으로 구분 유지 */}
-      {/* shadcn 명세서와 동일 구조. 예제마다 h2와 칩 이름으로 Variants 구분 표시 */}
-      {[{ t: "Master", list: [master], chip: undefined as React.ReactNode },
-        ...variants.map((v) => ({ t: "Variants", list: [v], chip: v.name as React.ReactNode }))]
-        .map(({ t: sectionTitle, list, chip }, secIdx) => (
-      <Section
-        key={`${sectionTitle}-${secIdx}`}
-        title={sectionTitle}
-        // Master 는 칩 없음. 공식 기본값 하나뿐이라 라벨이 의미를 전달하지 않음
-        count={chip}
-        // 섹션마다 고유 id 부여. 제목만 쓰면 Variants 섹션 모두 같은 id임
-        id={secIdx === 0 ? docId("master") : `${doc.slug}-variant-${docId(list[0].name)}`}
-        note={sectionTitle === "Master"
-          ? <>공식이 <b>기본</b>으로 두는 예제예요. antd 는 <code>Basic</code> 이 그 자리예요.
-              코드는 <b>공식 원본 그대로</b>예요. 아이콘도 <code>@ant-design/icons</code> 진짜를
-              불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>
-          : mod
-            ? <>같은 컴포넌트인데 <b>조금씩 다른</b> 공식 예제들이에요. 요소가 붙거나,
-                동작이 생기거나, 배치가 달라진 것들이요. <b>공식 문서에 있는 그대로</b>이고
-                이 프로젝트가 조합을 지어내지 않아요.</>
-            : <>공식 예제 목록이에요. 아직 <b>불러오는 중</b>이거나, 이 컴포넌트는
-                세울 수 있는 예제가 하나도 없어요.</>}
+      {/* Master 와 Variants 공용 stand 컴포넌트, 기본값만 차이 */}
+      <Master
+        note={<>공식이 <b>기본</b>으로 두는 예제예요. antd 는 <code>Basic</code> 이 그 자리예요.
+          코드는 <b>공식 원본 그대로</b>예요. 아이콘도 <code>@ant-design/icons</code> 진짜를
+          불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>}
       >
-        {list.map((ex, i) => {
-          const Demo = mod ? mod.demos[ex.name] : undefined;
-          const why = mod ? mod.skipped[ex.name] : undefined;
-          return (
-            // 예제 상자도 공식과 동일한 id 부여. demoId는 파일명 기반이라 임의 지정 금지임
-            <article
-              className="doc-demo"
-              id={ex.demoId ? `${doc.slug}-demo-${ex.demoId}` : undefined}
-              key={`${ex.name}-${i}`}
-            >
-              {/* 예제 섹션 제목은 영문 원문 유지. 공식 문서 제목과 동일해야 나란히 비교 가능한 구조임 */}
-              {/* 제목 중복되는 h3 제외 */}
-              {ex.description
-                ? <p className="doc-note doc-prose" style={{ marginTop: 0 }}>
-                    <Prose inline slug={doc.slug} text={pick(ko, ex.description)} />
-                  </p>
-                : null}
+        {master ? stand(master) : <Absent what="예제" />}
+      </Master>
 
-              {Demo ? (
-                <div
-                  className={
-                    "doc-demo-stage" +
-                    (!ex.iframe && STAGE_CONTAINS_FIXED[`${doc.slug}::${ex.name}`]
-                      ? " doc-demo-stage--contain" : "") +
-                    (ex.iframe ? " doc-demo-stage--frame" : "")
-                  }
-                  style={{ lineHeight: ANTD_LINE_HEIGHT }}
-                  // iframe 예제는 해시 라우팅 비활성. 내부가 별도 문서라 경로 충돌 위험 있음
-                  onClickCapture={ex.iframe ? undefined : keepRouteOnStageAnchorClick}
-                >
-                  <DemoBoundary name={ex.name}>
-                    {/* 가두는 예제 렌더링. 내부 요소가 문서 것이 되어 contain, 링크 방어 비활성화 */}
-                    {ex.iframe ? (
-                      <DemoFrame
-                        height={ex.iframe}
-                        base={system.baseKey}
-                        system={system.slug}
-                        slug={doc.slug}
-                        example={ex.name}
-                        mode={active}
-                      />
-                    ) : (
-                      <Provider mode={active}><Demo tones={tones} /></Provider>
-                    )}
-                  </DemoBoundary>
-                </div>
-              ) : why ? (
-                // 생성 실패 사유 기록. 없으면 빈 화면과 정상 상태가 구별 안 되는 문제 있음
-                <p className="doc-note">{why}</p>
-              ) : mod ? (
-                // 표에도 목록에도 없으면 이름이 어긋난 것임
-                <p className="doc-note">
-                  이 예제는 <b>못 찾았어요.</b> 이름이 <code>{ex.name}</code> 인데
-                  <code> antdRef/demos/{doc.slug}/</code> 의 키와 안 맞아요.
-                </p>
-              ) : null}
-            </article>
-          );
-        })}
-      </Section>
-      ))}
+      {/* shadcn 명세서와 동일 구조. 예제마다 h2와 칩 이름으로 Variants 구분 표시 */}
+      {variants.length === 0
+        ? <Section title="Variants"><Absent what="기본형 말고 다른 예제" /></Section>
+        : variants.map((ex, i) => (
+            <Kids
+              key={`${ex.name}-${i}`}
+              // 예제 이름은 영문 유지. 공식 문서 제목과 대응해야 하는 제약임
+              axis={ex.name}
+              note={ex.description
+                ? <span className="doc-prose">
+                    <Prose inline slug={doc.slug} text={pick(ko, ex.description)} />
+                  </span>
+                : undefined}
+            >
+              <Kid label={ex.name}>{stand(ex)}</Kid>
+            </Kids>
+          ))}
 
       {/* 이름을 Parts로 사용, 내용은 공식 Semantic DOM과 동일 */}
       <Section
