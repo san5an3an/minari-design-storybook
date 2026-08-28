@@ -13,20 +13,17 @@ export function hasToastIcon(tone?: string): boolean {
   return tone !== undefined && tone in ICON;
 }
 
-// @param tone 종류, 미지정 시 렌더링 제외
-export function ToastIcon({ tone }: { tone?: string }) {
+// @param tone 종류, 미지정 렌더링 제외 @param size 위임용, 기본값 토큰
+export function ToastIcon({ tone, size }: { tone?: string; size?: string }) {
   const Icon = ICON[tone as keyof typeof ICON];
   if (!Icon) return null;
+  const box = size ?? "var(--component-toast-icon-size)";
   return (
     <Icon
       aria-hidden
       // 클래스와 인라인 함께 지정. 일부 라이브러리가 커스텀 CSS를 안 불러오는 제약임
       className="ods-toast-icon"
-      style={{
-        width: "var(--component-toast-icon-size)",
-        height: "var(--component-toast-icon-size)",
-        flexShrink: 0,
-      }}
+      style={{ width: box, height: box, flexShrink: 0 }}
     />
   );
 }
