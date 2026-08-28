@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { SmileOutlined } from '../_icons';
+import { SmileOutlined } from '@ant-design/icons';
 import { TreeSelect } from 'antd';
 
 const icon = <SmileOutlined />;

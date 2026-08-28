@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CopyOutlined } from '../_icons';
+import { CopyOutlined } from '@ant-design/icons';
 import {
   AutoComplete,
   Button,

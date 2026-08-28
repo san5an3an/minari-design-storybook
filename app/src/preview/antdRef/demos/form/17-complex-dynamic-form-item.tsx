@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CloseOutlined } from '../_icons';
+import { CloseOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Space, Typography } from 'antd';
 
 const App: React.FC = () => {

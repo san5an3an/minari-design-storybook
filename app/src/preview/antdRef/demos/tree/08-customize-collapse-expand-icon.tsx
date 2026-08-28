@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { DownOutlined } from '../_icons';
+import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 

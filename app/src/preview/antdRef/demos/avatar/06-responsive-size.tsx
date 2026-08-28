@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { AntDesignOutlined } from '../_icons';
+import { AntDesignOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 
 const App: React.FC = () => (

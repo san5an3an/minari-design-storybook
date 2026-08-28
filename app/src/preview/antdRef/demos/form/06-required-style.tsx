@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { InfoCircleOutlined } from '../_icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Radio, Tag } from 'antd';
 import type { FormProps } from 'antd';
 

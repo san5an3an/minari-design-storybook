@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { HolderOutlined } from '../_icons';
+import { HolderOutlined } from '@ant-design/icons';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { QuestionCircleOutlined } from '../_icons';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 import type { FloatButtonProps, GetProp } from 'antd';
 import { createStyles } from 'antd-style';

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { LoadingOutlined } from '../_icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Flex, Spin } from 'antd';
 
 const App: React.FC = () => (

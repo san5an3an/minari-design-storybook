@@ -6,7 +6,7 @@ import {
   LinkOutlined,
   MailOutlined,
   SettingOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Divider, Menu, Switch } from 'antd';
 import type { GetProp, MenuProps } from 'antd';
 

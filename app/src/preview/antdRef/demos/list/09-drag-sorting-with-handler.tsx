@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { createContext, useContext, useMemo, useState } from 'react';
-import { HolderOutlined } from '../_icons';
+import { HolderOutlined } from '@ant-design/icons';
 import type { DragEndEvent, DraggableAttributes } from '@dnd-kit/core';
 import { DndContext } from '@dnd-kit/core';
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';

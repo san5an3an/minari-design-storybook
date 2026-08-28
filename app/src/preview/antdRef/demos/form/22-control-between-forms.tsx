@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
-import { SmileOutlined, UserOutlined } from '../_icons';
+import { SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Flex, Form, Input, InputNumber, Modal, Space, Typography } from 'antd';
 import type { GetRef } from 'antd';
 

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { ExclamationCircleOutlined } from '../_icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 
 const { confirm } = Modal;

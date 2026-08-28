@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { QuestionCircleOutlined } from '../_icons';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 
 const App: React.FC = () => (

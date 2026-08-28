@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { MailOutlined } from '../_icons';
+import { MailOutlined } from '@ant-design/icons';
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu, Switch } from 'antd';
 

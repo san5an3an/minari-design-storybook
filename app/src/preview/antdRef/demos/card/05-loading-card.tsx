@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '../_icons';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card, Flex, Switch } from 'antd';
 
 const actions: React.ReactNode[] = [

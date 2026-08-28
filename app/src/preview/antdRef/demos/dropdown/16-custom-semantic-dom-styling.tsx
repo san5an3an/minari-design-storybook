@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { DownOutlined, LogoutOutlined, SettingOutlined } from '../_icons';
+import { DownOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Flex, Space } from 'antd';
 import type { DropdownProps, GetProp, MenuProps } from 'antd';
 import { createStyles } from 'antd-style';

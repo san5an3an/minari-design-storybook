@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useRef, useState } from 'react';
-import { PlusOutlined } from '../_icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, Select, Space } from 'antd';
 import type { InputRef } from 'antd';
 

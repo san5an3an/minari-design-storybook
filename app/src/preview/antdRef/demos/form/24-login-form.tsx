@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { LockOutlined, UserOutlined } from '../_icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Flex, Form, Input } from 'antd';
 
 const App: React.FC = () => {

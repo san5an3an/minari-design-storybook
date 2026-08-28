@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { UploadOutlined } from '../_icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Flex, Upload } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import { createStyles } from 'antd-style';

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CommentOutlined, CustomerServiceOutlined } from '../_icons';
+import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
 const App: React.FC = () => (

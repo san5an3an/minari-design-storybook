@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { HeartOutlined } from '../_icons';
+import { HeartOutlined } from '@ant-design/icons';
 import { Flex, Rate } from 'antd';
 
 const App: React.FC = () => (

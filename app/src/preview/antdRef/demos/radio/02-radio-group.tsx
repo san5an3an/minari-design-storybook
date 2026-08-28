@@ -5,7 +5,7 @@ import {
   DotChartOutlined,
   LineChartOutlined,
   PieChartOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
 import { Flex, Radio } from 'antd';
 

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CloseCircleOutlined, DeleteOutlined } from '../_icons';
+import { CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Flex, Tag } from 'antd';
 
 const preventDefault = (e: React.MouseEvent<HTMLElement>) => {

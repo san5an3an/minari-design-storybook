@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { UserOutlined } from '../_icons';
+import { UserOutlined } from '@ant-design/icons';
 import { AutoComplete, Flex, Input } from 'antd';
 import { createStyles } from 'antd-style';
 

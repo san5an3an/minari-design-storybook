@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { AndroidOutlined, AppleOutlined } from '../_icons';
+import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 
 // Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`

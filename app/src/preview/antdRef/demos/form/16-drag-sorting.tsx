@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useContext, useMemo } from 'react';
-import { HolderOutlined, MinusCircleOutlined, PlusOutlined } from '../_icons';
+import { HolderOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type { DragEndEvent, DraggableAttributes, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';

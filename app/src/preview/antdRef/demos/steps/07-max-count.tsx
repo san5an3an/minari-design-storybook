@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { LeftOutlined, RightOutlined } from '../_icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { InputNumberProps } from 'antd';
 import { Button, Flex, InputNumber, Steps, Typography } from 'antd';
 

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { DownloadOutlined } from '../_icons';
+import { DownloadOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Radio } from 'antd';
 import type { ConfigProviderProps } from 'antd';
 

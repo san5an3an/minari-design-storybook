@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { FileTextOutlined } from '../_icons';
+import { FileTextOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
 const App: React.FC = () => (

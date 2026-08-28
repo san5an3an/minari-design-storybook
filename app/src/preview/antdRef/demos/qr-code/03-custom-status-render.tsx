@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '../_icons';
+import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@ant-design/icons';
 import type { QRCodeProps } from 'antd';
 import { Button, Flex, QRCode, Space, Spin } from 'antd';
 

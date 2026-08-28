@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { PlusOutlined } from '../_icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
 import type { InputProps } from 'antd';
 

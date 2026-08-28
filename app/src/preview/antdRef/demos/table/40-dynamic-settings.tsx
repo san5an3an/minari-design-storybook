@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { DownOutlined } from '../_icons';
+import { DownOutlined } from '@ant-design/icons';
 import type { GetProp, RadioChangeEvent, TableProps } from 'antd';
 import { Form, Radio, Space, Switch, Table } from 'antd';
 import { createStyles } from 'antd-style';

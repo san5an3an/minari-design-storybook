@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { LikeOutlined } from '../_icons';
+import { LikeOutlined } from '@ant-design/icons';
 import { Col, Row, Statistic } from 'antd';
 
 const App: React.FC = () => (

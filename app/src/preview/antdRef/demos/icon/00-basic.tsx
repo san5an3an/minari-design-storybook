@@ -6,7 +6,7 @@ import {
   SettingFilled,
   SmileOutlined,
   SyncOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Space } from 'antd';
 
 const App: React.FC = () => (

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { DotChartOutlined } from '../_icons';
+import { DotChartOutlined } from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
 import { Divider, Flex, Form, Radio, Skeleton, Space, Switch } from 'antd';
 

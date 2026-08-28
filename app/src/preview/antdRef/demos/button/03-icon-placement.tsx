@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { SearchOutlined } from '../_icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Radio, Space, Tooltip } from 'antd';
 
 const App: React.FC = () => {

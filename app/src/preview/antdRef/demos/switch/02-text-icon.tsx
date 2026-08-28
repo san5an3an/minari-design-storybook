@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CheckOutlined, CloseOutlined, FrownOutlined, SmileOutlined } from '../_icons';
+import { CheckOutlined, CloseOutlined, FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Flex, Switch } from 'antd';
 
 const Demo: React.FC = () => (

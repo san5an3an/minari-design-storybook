@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { DownOutlined } from '../_icons';
+import { DownOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 
 const MAX_COUNT = 3;

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { AppstoreOutlined, BarsOutlined } from '../_icons';
+import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 import { Segmented } from 'antd';
 
 // Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`

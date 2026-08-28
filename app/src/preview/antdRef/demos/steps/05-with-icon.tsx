@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '../_icons';
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
 import { Steps } from 'antd';
 
 const App: React.FC = () => (

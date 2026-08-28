@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { ExclamationCircleOutlined } from '../_icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Button, Modal, Space } from 'antd';
 
 const LocalizedModal = () => {

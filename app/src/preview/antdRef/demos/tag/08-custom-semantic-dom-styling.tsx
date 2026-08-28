@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { CheckCircleOutlined, CloseCircleOutlined } from '../_icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Flex, Space, Tag } from 'antd';
 import type { GetProp, GetProps, TagProps } from 'antd';
 import { createStaticStyles } from 'antd-style';

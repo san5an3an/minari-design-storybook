@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { EditOutlined, HeartOutlined, ShareAltOutlined } from '../_icons';
+import { EditOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Flex } from 'antd';
 import type { CardMetaProps, CardProps, GetProp } from 'antd';
 import { createStyles } from 'antd-style';
