@@ -4,6 +4,8 @@ import { loadAntdDoc, type AntdDoc, type AntdTable } from "./antdRef/loader";
 import { AntdLive } from "./antdLive";
 import { theme as antdTheme } from "antd";
 import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
+// shadcn 명세서와 같은 표 사용. 베이스마다 새로 그리면 토큰이 다르게 보임
+import { TokenTable } from "./TokenTable";
 import { loadKo, pick, type KoText } from "./antdRef/ko";
 import { parseColorTokens, type Mode } from "./tokens";
 import type { SystemDefinition } from "../systems/types";
@@ -181,11 +183,12 @@ function docId(title: string): string {
   return title.trim.toLowerCase.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-function Section({ title, count, note, children }: {
-  title: string; count?: number; note?: React.ReactNode; children?: React.ReactNode;
+function Section({ title, count, note, id, children }: {
+  title: string; count?: React.ReactNode; note?: React.ReactNode;
+  id?: string; children?: React.ReactNode;
 }) {
   return (
-    <section className="doc-section" id={docId(title)}>
+    <section className="doc-section" id={id ?? docId(title)}>
       <h2>{title}{count === undefined ? null : <span className="doc-axis">{count}</span>}</h2>
       {note ? <p className="doc-note" style={{ marginTop: 0 }}>{note}</p> : null}
       {children}
@@ -277,7 +280,12 @@ export function AntdReference({ slug, system, active }: {
   if (err) return <p className="doc-note">{err}</p>;
   if (!doc) return <p className="doc-note">불러오는 중…</p>;
 
-  const tokenRows = (doc.componentToken ?? []).reduce((n, t) => n + t.rows.length, 0);
+  const masterAt = Math.max(0, doc.examples.findIndex((ex) => ex.name === "Basic"));
+  const master = doc.examples[masterAt];
+  const variants = doc.examples.filter((_, i) => i !== masterAt);
+
+  const ourTokens = parseColorTokens(system.vars)
+    .filter((t) => t.name.startsWith(`--component-${doc.slug}-`));
 
   return (
     <>
@@ -309,21 +317,30 @@ export function AntdReference({ slug, system, active }: {
         </Section>
       )}
 
+      {/* Master 와 Variants 렌더링 코드 공유, 기본값 차이만 목록으로 구분 유지 */}
+      {/* shadcn 명세서와 동일 구조. 예제마다 h2와 칩 이름으로 Variants 구분 표시 */}
+      {[{ t: "Master", list: [master], chip: undefined as React.ReactNode },
+        ...variants.map((v) => ({ t: "Variants", list: [v], chip: v.name as React.ReactNode }))]
+        .map(({ t: sectionTitle, list, chip }, secIdx) => (
       <Section
-        title="Examples"
-        count={doc.examples.length}
-        note={mod
-          ? <>공식 예제를 <b>그대로 세운 거예요.</b> 코드는 공식 원본이고, 바꾼 건
-              <b> 아이콘을 부르는 위치 하나</b>뿐이에요. 이 프로젝트는 <b>Lucide 밖의
-              아이콘을 화면에 올리지 않아요.</b> <code>loading</code> 이 돌리는 아이콘까지
-              바꿔 뒀어요.
-              {" "}Button 은 높이·여백·글자 계단을 <b>antd 기본값</b>으로 되돌려 둬서, 이
-              시스템이 바꾸는 건 <b>모서리 하나</b>예요. 공식 화면과 나란히 놓고 대조할 수
-              있게요.</>
-          : <>공식 예제 목록이에요. 아직 <b>불러오는 중</b>이거나, 이 컴포넌트는
-              세울 수 있는 예제가 하나도 없어요.</>}
+        key={`${sectionTitle}-${secIdx}`}
+        title={sectionTitle}
+        // Master 는 칩 없음. 공식 기본값 하나뿐이라 라벨이 의미를 전달하지 않음
+        count={chip}
+        // 섹션마다 고유 id 부여. 제목만 쓰면 Variants 섹션 모두 같은 id임
+        id={secIdx === 0 ? docId("master") : `${doc.slug}-variant-${docId(list[0].name)}`}
+        note={sectionTitle === "Master"
+          ? <>공식이 <b>기본</b>으로 두는 예제예요. antd 는 <code>Basic</code> 이 그 자리예요.
+              코드는 <b>공식 원본 그대로</b>예요. 아이콘도 <code>@ant-design/icons</code> 진짜를
+              불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>
+          : mod
+            ? <>같은 컴포넌트인데 <b>조금씩 다른</b> 공식 예제들이에요. 요소가 붙거나,
+                동작이 생기거나, 배치가 달라진 것들이요. <b>공식 문서에 있는 그대로</b>이고
+                이 프로젝트가 조합을 지어내지 않아요.</>
+            : <>공식 예제 목록이에요. 아직 <b>불러오는 중</b>이거나, 이 컴포넌트는
+                세울 수 있는 예제가 하나도 없어요.</>}
       >
-        {doc.examples.map((ex, i) => {
+        {list.map((ex, i) => {
           const Demo = mod ? mod.demos[ex.name] : undefined;
           const why = mod ? mod.skipped[ex.name] : undefined;
           return (
@@ -334,7 +351,7 @@ export function AntdReference({ slug, system, active }: {
               key={`${ex.name}-${i}`}
             >
               {/* 예제 섹션 제목은 영문 원문 유지. 공식 문서 제목과 동일해야 나란히 비교 가능한 구조임 */}
-              <h3 className="doc-demo-title">{ex.name}</h3>
+              {/* 제목 중복되는 h3 제외 */}
               {ex.description
                 ? <p className="doc-note doc-prose" style={{ marginTop: 0 }}>
                     <Prose inline slug={doc.slug} text={pick(ko, ex.description)} />
@@ -383,11 +400,30 @@ export function AntdReference({ slug, system, active }: {
           );
         })}
       </Section>
+      ))}
+
+      {/* 이름을 Parts로 사용, 내용은 공식 Semantic DOM과 동일 */}
+      <Section
+        title="Parts"
+        count={doc.semanticDom ? doc.semanticDom.parts.length : undefined}
+        note={doc.semanticDom
+          ? <><b>여기가 antd 에서 손댈 수 있는 자리예요.</b> 클래스를 덮는 게 아니라 이 이름들에만
+              <code> classNames</code> · <code>styles</code> 로 값을 넣을 수 있어요.
+              공식 <b>Semantic DOM</b> 을 그대로 가져온 거예요.</>
+          : undefined}
+      >
+        {doc.semanticDom === null ? <Absent what="Semantic DOM" /> : (
+          <Table ko={ko} slug={doc.slug} table={{
+            columns: ["Part", "Mark", "Description"],
+            rows: doc.semanticDom.parts.map((p) => [p.name, p.mark, p.description]),
+          }} />
+        )}
+      </Section>
 
       <Section
-        title="API"
+        title="API Reference"
         count={doc.api.length}
-        note="하위 컴포넌트별로 받는 값이에요. 표가 여럿이면 각 표의 이름이 곧 그 하위 컴포넌트예요."
+        note="공식 API 절 그대로예요. 표가 여럿이면 각 표의 이름이 곧 그 하위 컴포넌트예요."
       >
         {doc.api.map((t, i) => (
           <div key={i} style={{ marginBottom: "1.25rem" }}>
@@ -401,74 +437,24 @@ export function AntdReference({ slug, system, active }: {
       </Section>
 
       <Section
-        title="Semantic DOM"
-        count={doc.semanticDom ? doc.semanticDom.parts.length : undefined}
-        note={doc.semanticDom
-          ? <><b>여기가 antd 에서 손댈 수 있는 자리예요.</b> 클래스를 덮는 게 아니라 이 이름들에만
-              <code> classNames</code> · <code>styles</code> 로 값을 넣을 수 있어요.</>
-          : undefined}
+        title="Tokens"
+        count={ourTokens.length || undefined}
+        note={<>
+          <code>--component-{doc.slug}-*</code> 는 이 컴포넌트만 쓰는 이름이에요.
+          값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.
+        </>}
       >
-        {doc.semanticDom === null ? <Absent what="Semantic DOM" /> : (
-          <>
-            <Table ko={ko} slug={doc.slug} table={{
-              columns: ["Part", "Mark", "Description"],
-              rows: doc.semanticDom.parts.map((p) => [p.name, p.mark, p.description]),
-            }} />
-          </>
-        )}
-      </Section>
-
-      <Section
-        title="Design Token"
-        count={tokenRows || undefined}
-        note={<><b>여기가 antd 에서 색·크기를 바꾸는 유일한 통로예요.</b> 이 시스템 20종 색을 얹으려면
-          이 이름들을 <code>ConfigProvider</code> 의 토큰으로 매핑해야 해요.</>}
-      >
-        {doc.componentToken === null ? <Absent what="Component Token" /> : (
-          doc.componentToken.map((t, i) => <Table key={i} table={t} ko={ko} slug={doc.slug} />)
-        )}
-        {doc.globalToken === null ? null : (
-          <details style={{ marginTop: ".75rem" }}>
-            <summary style={{ cursor: "pointer" }}>
-              Global Token <span className="doc-axis">
-                {doc.globalToken.reduce((n, t) => n + t.rows.length, 0)}
-              </span>
-            </summary>
-            {doc.globalToken.map((t, i) => <Table key={i} table={t} ko={ko} slug={doc.slug} />)}
-          </details>
-        )}
-      </Section>
-
-      <Section
-        title="Props"
-        count={doc.props ? doc.props.rows.length : undefined}
-        note={<>공식엔 <b>Props 라는 절이 따로 없어요.</b> 위 <b>API</b> 의 첫 표(주 컴포넌트가
-          받는 값)를 그대로 가져온 거예요.</>}
-      >
-        {doc.props ? <Table table={doc.props} ko={ko} slug={doc.slug} /> : <Absent what="API" />}
-      </Section>
-
-      <Section
-        title="Variants"
-        count={doc.variants.length}
-        note={<>공식엔 <b>Variants 라는 절도 없어요.</b> API 행 중 <b>값을 열거할 수 있는 축</b>만
-          골라낸 거예요. 이름이 아니라 모양으로 골라요. <code>Type</code> 이 리터럴의 합집합이거나,
-          설명문에 <code>options:</code> 목록이 있는 행이에요.</>}
-      >
-        {doc.variants.length === 0
-          ? <p className="doc-note">열거할 수 있는 축이 없어요.</p>
-          : <Table ko={ko} slug={doc.slug} table={{
-              columns: ["Prop", "Values", "그 밖", "Default", "소속", "출처"],
-              rows: doc.variants.map((v) => [
-                v.prop + (v.deprecated ? " (폐기됨)" : ""),
-                v.values.join(" | "),
-                // 열거 불가능한 객체 함수 배열 타입 항목도 노출. 값 목록에서 제외하되 유지
-                v.other.length ? v.other.join(" | ") : "—",
-                v.default,
-                v.owner || "주 표",
-                v.source === "type" ? "Type 열" : "설명문",
-              ]),
-            }} />}
+        {ourTokens.length === 0
+          ? (
+            // 빈 표 대신 사유 표시. 계약에 없는 FloatButton 등 컴포넌트가 해당
+            <p className="doc-note">
+              이 컴포넌트만 쓰는 토큰은 <b>없어요.</b> 이 시스템 계약에 같은 이름의 컴포넌트가
+              없거든요. 그래도 화면의 색·모서리·글자는 <b>이 시스템 것</b>이에요.
+              <code> ConfigProvider</code> 가 시스템 공통 토큰(<code>colorPrimary</code> ·
+              <code> borderRadius</code> · <code>fontSize</code> …)을 나르니까요.
+            </p>
+          )
+          : <TokenTable tokens={ourTokens} active={active} />}
       </Section>
     </>
   );
