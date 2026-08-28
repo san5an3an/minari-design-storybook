@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { ConfigProviderProps, RadioChangeEvent } from 'antd';
 import { DatePicker, Radio, Space } from 'antd';

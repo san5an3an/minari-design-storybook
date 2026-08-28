@@ -217,12 +217,12 @@ export default function CustomizedSwitches() {
         label="iOS style"
       />
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        <Typography>Off</Typography>
+        <Typography>꺼짐</Typography>
         <AntSwitch
           defaultChecked
           slotProps={{ input: { 'aria-label': 'ant design' } }}
         />
-        <Typography>On</Typography>
+        <Typography>켜짐</Typography>
       </Stack>
     </FormGroup>
   );

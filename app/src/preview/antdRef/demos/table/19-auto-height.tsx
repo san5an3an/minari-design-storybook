@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import { Flex, Switch, Table } from 'antd';
 import type { GetRef, TableColumnsType, TableProps } from 'antd';

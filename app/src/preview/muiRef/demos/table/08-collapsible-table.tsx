@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import { KeyboardArrowDown as KeyboardArrowDownIcon } from '../_icons';
-import { KeyboardArrowUp as KeyboardArrowUpIcon } from '../_icons';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function createData(
   name: string,
@@ -72,15 +72,15 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                기록
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>날짜</TableCell>
+                    <TableCell>고객</TableCell>
+                    <TableCell align="right">금액</TableCell>
+                    <TableCell align="right">총액 ($)</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -119,11 +119,11 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>디저트 (100g 기준)</TableCell>
+            <TableCell align="right">열량</TableCell>
+            <TableCell align="right">지방&nbsp;(g)</TableCell>
+            <TableCell align="right">탄수화물&nbsp;(g)</TableCell>
+            <TableCell align="right">단백질&nbsp;(g)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

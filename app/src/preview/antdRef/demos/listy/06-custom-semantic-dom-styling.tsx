@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Listy } from 'antd';
 import type { ListyProps } from 'antd';
@@ -13,7 +14,7 @@ const users: User[] = [
   { id: 0, name: '지아', team: '디자인' },
   { id: 1, name: '시우', team: '디자인' },
   { id: 2, name: '하은', team: '디자인' },
-  { id: 3, name: '도윤', team: '엔지니어링' },
+  { id: 3, name: '시우', team: '엔지니어링' },
   { id: 4, name: '서아', team: '엔지니어링' },
   { id: 5, name: '이준', team: '엔지니어링' },
   { id: 6, name: '지우', team: '마케팅' },

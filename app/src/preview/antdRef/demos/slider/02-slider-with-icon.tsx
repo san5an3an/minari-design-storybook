@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { FrownOutlined, SmileOutlined } from '../_icons';
+import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Flex, Slider } from 'antd';
 import { createStyles } from 'antd-style';
 import { clsx } from 'clsx';

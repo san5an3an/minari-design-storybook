@@ -14,7 +14,7 @@ export default function IntroDivider() {
           sx={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
           <Typography gutterBottom variant="h5" component="div">
-            Toothbrush
+            칫솔
           </Typography>
           <Typography gutterBottom variant="h6" component="div">
             $4.50
@@ -28,11 +28,11 @@ export default function IntroDivider() {
       <Divider />
       <Box sx={{ p: 2 }}>
         <Typography gutterBottom variant="body2">
-          Select type
+          종류 고르기
         </Typography>
         <Stack direction="row" spacing={1}>
           <Chip color="primary" label="Soft" size="small" />
-          <Chip label="Medium" size="small" />
+          <Chip label="보통" size="small" />
           <Chip label="Hard" size="small" />
         </Stack>
       </Box>

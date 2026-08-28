@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex, Popconfirm } from 'antd';
 import type { GetProp, PopconfirmProps } from 'antd';

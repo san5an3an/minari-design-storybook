@@ -4,7 +4,7 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Check } from '../_icons';
+import Check from '@mui/icons-material/Check';
 
 const options = ['Show toolbar', 'Show sidebar', 'Show status bar'];
 

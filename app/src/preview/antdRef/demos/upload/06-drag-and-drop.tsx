@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { InboxOutlined } from '../_icons';
+import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 

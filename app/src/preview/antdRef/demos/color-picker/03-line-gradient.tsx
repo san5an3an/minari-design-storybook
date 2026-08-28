@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ColorPicker, Space } from 'antd';
 

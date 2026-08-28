@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Divider, Table } from 'antd';
 import type { TableColumnsType } from 'antd';

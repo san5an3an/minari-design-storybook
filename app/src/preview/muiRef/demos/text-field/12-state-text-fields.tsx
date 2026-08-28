@@ -14,7 +14,7 @@ export default function StateTextFields() {
     >
       <TextField
         id="outlined-controlled"
-        label="Controlled"
+        label="제어함"
         value={name}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setName(event.target.value);
@@ -22,7 +22,7 @@ export default function StateTextFields() {
       />
       <TextField
         id="outlined-uncontrolled"
-        label="Uncontrolled"
+        label="제어 안 함"
         defaultValue="foo"
       />
     </Box>

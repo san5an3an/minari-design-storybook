@@ -5,30 +5,30 @@ export default function ButtonSizes() {
   return (
     <Box sx={{ '& button': { m: 1 } }}>
       <div>
-        <Button size="small">Small</Button>
-        <Button size="medium">Medium</Button>
-        <Button size="large">Large</Button>
+        <Button size="small">작게</Button>
+        <Button size="medium">보통</Button>
+        <Button size="large">크게</Button>
       </div>
       <div>
         <Button variant="outlined" size="small">
-          Small
+          작게
         </Button>
         <Button variant="outlined" size="medium">
-          Medium
+          보통
         </Button>
         <Button variant="outlined" size="large">
-          Large
+          크게
         </Button>
       </div>
       <div>
         <Button variant="contained" size="small">
-          Small
+          작게
         </Button>
         <Button variant="contained" size="medium">
-          Medium
+          보통
         </Button>
         <Button variant="contained" size="large">
-          Large
+          크게
         </Button>
       </div>
     </Box>

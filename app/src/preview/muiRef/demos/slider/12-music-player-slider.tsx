@@ -5,12 +5,12 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import { PauseRounded } from '../_icons';
-import { PlayArrowRounded } from '../_icons';
-import { FastForwardRounded } from '../_icons';
-import { FastRewindRounded } from '../_icons';
-import { VolumeUpRounded } from '../_icons';
-import { VolumeDownRounded } from '../_icons';
+import PauseRounded from '@mui/icons-material/PauseRounded';
+import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
+import FastForwardRounded from '@mui/icons-material/FastForwardRounded';
+import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
+import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
+import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
 
 const WallPaper = styled('div')({
   position: 'absolute',

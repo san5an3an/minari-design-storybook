@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-import { MoreHoriz as MoreHorizIcon } from '../_icons';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 export default function CondensedWithMenu() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -28,9 +28,9 @@ export default function CondensedWithMenu() {
         onClose={handleClose}
         aria-labelledby="with-menu-demo-breadcrumbs"
       >
-        <MenuItem onClick={handleClose}>Breadcrumb 2</MenuItem>
-        <MenuItem onClick={handleClose}>Breadcrumb 3</MenuItem>
-        <MenuItem onClick={handleClose}>Breadcrumb 4</MenuItem>
+        <MenuItem onClick={handleClose}>위치 2</MenuItem>
+        <MenuItem onClick={handleClose}>위치 3</MenuItem>
+        <MenuItem onClick={handleClose}>위치 4</MenuItem>
       </Menu>
       <Breadcrumbs aria-label="breadcrumbs">
         <Link color="primary" href="#condensed-with-menu">

@@ -23,7 +23,7 @@ export default function FadeMenu() {
         aria-expanded={open}
         onClick={handleClick}
       >
-        Dashboard
+        대시보드
       </Button>
       <Menu
         id="fade-menu"
@@ -37,9 +37,9 @@ export default function FadeMenu() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>프로필</MenuItem>
+        <MenuItem onClick={handleClose}>내 계정</MenuItem>
+        <MenuItem onClick={handleClose}>로그아웃</MenuItem>
       </Menu>
     </div>
   );

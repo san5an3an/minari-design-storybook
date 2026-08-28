@@ -7,7 +7,7 @@ const columns: GridColDef[] = [
   { field: 'lastName', headerName: 'Last name', width: 130 },
   {
     field: 'age',
-    headerName: 'Age',
+    headerName: '나이',
     type: 'number',
     width: 90,
   },

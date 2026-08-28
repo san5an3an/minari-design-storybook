@@ -70,7 +70,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
         }}
       />
       <Box sx={{ textAlign: 'center', pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>Open</Button>
+        <Button onClick={toggleDrawer(true)}>열기</Button>
       </Box>
       <SwipeableDrawer
         container={container}
@@ -94,7 +94,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}>결과 51개</Typography>
         </StyledBox>
         <StyledBox sx={{ px: 2, pb: 2, height: '100%', overflow: 'auto' }}>
           <Skeleton variant="rectangular" height="100%" />

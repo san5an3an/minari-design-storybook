@@ -7,7 +7,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Fab from '@mui/material/Fab';
-import { KeyboardArrowUp as KeyboardArrowUpIcon } from '../_icons';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Fade from '@mui/material/Fade';
 
 interface Props {
@@ -62,7 +62,7 @@ export default function BackToTop(props: Props) {
       <AppBar>
         <Toolbar>
           <Typography variant="h6" component="div">
-            Scroll to see button
+            스크롤하면 단추가 나와요
           </Typography>
         </Toolbar>
       </AppBar>

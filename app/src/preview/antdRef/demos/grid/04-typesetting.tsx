@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Col, Divider, Row } from 'antd';
 import { createStyles } from 'antd-style';

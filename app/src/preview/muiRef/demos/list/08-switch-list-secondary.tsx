@@ -5,8 +5,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
-import { Wifi as WifiIcon } from '../_icons';
-import { Bluetooth as BluetoothIcon } from '../_icons';
+import WifiIcon from '@mui/icons-material/Wifi';
+import BluetoothIcon from '@mui/icons-material/Bluetooth';
 
 export default function SwitchListSecondary() {
   const [checked, setChecked] = React.useState(['wifi']);
@@ -27,7 +27,7 @@ export default function SwitchListSecondary() {
   return (
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      subheader={<ListSubheader>Settings</ListSubheader>}
+      subheader={<ListSubheader>설정</ListSubheader>}
     >
       <ListItem>
         <ListItemIcon>

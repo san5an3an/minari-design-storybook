@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Tree } from 'antd';
 import type { GetProps, TreeDataNode } from 'antd';
@@ -27,7 +28,7 @@ const treeData: TreeDataNode[] = [
 
 const App: React.FC = () => {
   const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
-    console.log('고르기', keys, info);
+    console.log('골라서 열기', keys, info);
   };
 
   const onExpand: DirectoryTreeProps['onExpand'] = (keys, info) => {

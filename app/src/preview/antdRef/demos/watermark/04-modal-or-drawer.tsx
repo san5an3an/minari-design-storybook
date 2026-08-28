@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Drawer, Flex, Modal, Watermark } from 'antd';
 

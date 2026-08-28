@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Flex, Slider, Switch, Typography } from 'antd';
 

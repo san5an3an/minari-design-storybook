@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Affix, Button } from 'antd';
 

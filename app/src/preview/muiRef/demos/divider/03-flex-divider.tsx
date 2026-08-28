@@ -1,5 +1,5 @@
-import { FormatBold as FormatBoldIcon } from '../_icons';
-import { FormatItalic as FormatItalicIcon } from '../_icons';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 

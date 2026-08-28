@@ -49,15 +49,15 @@ export default function SpanningTable() {
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={3}>
-              Details
+              자세히
             </TableCell>
-            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">단가</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Desc</TableCell>
-            <TableCell align="right">Qty.</TableCell>
-            <TableCell align="right">Unit</TableCell>
-            <TableCell align="right">Sum</TableCell>
+            <TableCell>설명</TableCell>
+            <TableCell align="right">수량</TableCell>
+            <TableCell align="right">단위</TableCell>
+            <TableCell align="right">합계</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -71,16 +71,16 @@ export default function SpanningTable() {
           ))}
           <TableRow>
             <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>Subtotal</TableCell>
+            <TableCell colSpan={2}>소계</TableCell>
             <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Tax</TableCell>
+            <TableCell>세금</TableCell>
             <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
+            <TableCell colSpan={2}>총계</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
           </TableRow>
         </TableBody>

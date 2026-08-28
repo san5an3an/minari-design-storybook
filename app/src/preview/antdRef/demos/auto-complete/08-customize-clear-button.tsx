@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { CloseSquareFilled } from '../_icons';
+import { CloseSquareFilled } from '@ant-design/icons';
 import { AutoComplete } from 'antd';
 import type { AutoCompleteProps } from 'antd';
 

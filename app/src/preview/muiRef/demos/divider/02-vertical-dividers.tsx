@@ -1,7 +1,7 @@
-import { FormatAlignLeft as FormatAlignLeftIcon } from '../_icons';
-import { FormatAlignCenter as FormatAlignCenterIcon } from '../_icons';
-import { FormatAlignRight as FormatAlignRightIcon } from '../_icons';
-import { FormatBold as FormatBoldIcon } from '../_icons';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import Box from '@mui/material/Box';
 import Divider, { dividerClasses } from '@mui/material/Divider';
 

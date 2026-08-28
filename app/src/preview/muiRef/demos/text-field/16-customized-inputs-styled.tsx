@@ -142,12 +142,12 @@ export default function CustomizedInputsStyled() {
         variant="filled"
         style={{ marginTop: 11 }}
       />
-      <CssTextField label="Custom CSS" id={`${cssId}-input`} />
+      <CssTextField label="직접 쓴 CSS" id={`${cssId}-input`} />
       <ValidationTextField
         label="CSS validation style"
         required
         variant="outlined"
-        defaultValue="Success"
+        defaultValue="성공"
         id={`${validationId}-input`}
       />
     </Box>

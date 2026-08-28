@@ -1,6 +1,6 @@
 import Autocomplete from '@mui/material/Autocomplete';
 
-const options = ['Option 1', 'Option 2'];
+const options = ['선택지 1', '선택지 2'];
 
 export default function CustomInputAutocomplete() {
   return (

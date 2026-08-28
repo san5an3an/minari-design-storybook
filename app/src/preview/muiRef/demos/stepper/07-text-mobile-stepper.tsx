@@ -5,8 +5,8 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { KeyboardArrowLeft } from '../_icons';
-import { KeyboardArrowRight } from '../_icons';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const steps = [
   {
@@ -52,13 +52,11 @@ export default function TextMobileStepper() {
     previousActiveStepRef.current = activeStep;
 
     if (activeStep === 0 && previousActiveStep === 1) {
-      // If the user is going back to the first step, focus the "Next" button.
       nextButtonRef.current!.focus();
       return;
     }
 
     if (activeStep === maxSteps - 1 && previousActiveStep === maxSteps - 2) {
-      // If the user is going to the last step, focus the "Back" button.
       backButtonRef.current!.focus();
     }
   }, [activeStep, maxSteps]);
@@ -93,7 +91,7 @@ export default function TextMobileStepper() {
             disabled={activeStep === maxSteps - 1}
             ref={nextButtonRef}
           >
-            Next
+            다음
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
             ) : (
@@ -113,7 +111,7 @@ export default function TextMobileStepper() {
             ) : (
               <KeyboardArrowLeft />
             )}
-            Back
+            뒤로
           </Button>
         }
       />

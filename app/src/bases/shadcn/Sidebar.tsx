@@ -81,6 +81,8 @@ function renderItem(it: Item, i: number) {
         // 접히면 이름 숨김, 툴팁이 그때만 텍스트 표시
         tooltip={typeof it.label === "string" ? it.label : undefined}
         render={it.href ? <a href={it.href} /> : undefined}
+        // href 없이 사용. 링크와 버튼을 겸하면 클릭 동작이 불분명한 문제가 있음
+        onClick={it.onSelect}
         className={it.muted ? "text-sidebar-foreground/70" : undefined}
       >
         {it.icon}

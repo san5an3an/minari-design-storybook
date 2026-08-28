@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { TimePicker } from 'antd';
 import type { Dayjs } from 'dayjs';

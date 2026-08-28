@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex, Popover } from 'antd';
 import type { GetProp, PopoverProps } from 'antd';

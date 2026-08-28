@@ -13,13 +13,13 @@ export default function ValidationTextFields() {
         <TextField
           error
           id="outlined-error"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
         />
         <TextField
           error
           id="outlined-error-helper-text"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
           helperText="Incorrect entry."
         />
@@ -28,14 +28,14 @@ export default function ValidationTextFields() {
         <TextField
           error
           id="filled-error"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
           variant="filled"
         />
         <TextField
           error
           id="filled-error-helper-text"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
           helperText="Incorrect entry."
           variant="filled"
@@ -45,14 +45,14 @@ export default function ValidationTextFields() {
         <TextField
           error
           id="standard-error"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
           variant="standard"
         />
         <TextField
           error
           id="standard-error-helper-text"
-          label="Error"
+          label="오류"
           defaultValue="Hello World"
           helperText="Incorrect entry."
           variant="standard"

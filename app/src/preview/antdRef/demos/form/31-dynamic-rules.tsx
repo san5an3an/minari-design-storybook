@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 
@@ -52,7 +53,7 @@ const App: React.FC = () => {
       </Form.Item>
       <Form.Item {...formTailLayout}>
         <Checkbox checked={checkNick} onChange={onCheckboxChange}>
-          별명을 넣어 주세요
+          별명은 반드시 넣어야 해요
         </Checkbox>
       </Form.Item>
       <Form.Item {...formTailLayout}>

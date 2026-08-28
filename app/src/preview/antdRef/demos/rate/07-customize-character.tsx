@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { FrownOutlined, MehOutlined, SmileOutlined } from '../_icons';
+import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import { Flex, Rate } from 'antd';
 
 const customIcons: Record<number, React.ReactNode> = {

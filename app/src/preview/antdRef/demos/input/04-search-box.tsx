@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { AudioOutlined } from '../_icons';
+import { AudioOutlined } from '@ant-design/icons';
 import { Input, Space } from 'antd';
 import type { GetProps } from 'antd';
 

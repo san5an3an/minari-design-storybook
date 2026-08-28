@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import { InsertDriveFile as InsertDriveFileIcon } from '../_icons';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {

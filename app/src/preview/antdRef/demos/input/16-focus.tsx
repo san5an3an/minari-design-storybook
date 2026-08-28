@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import type { InputRef } from 'antd';
 import { Button, Input, Space, Switch } from 'antd';

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '../_icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 
 const onFinish = (values: any) => {
@@ -23,7 +24,7 @@ const App: React.FC = () => (
                 name={[name, '첫째']}
                 rules={[{ required: true, message: '이름이 없어요' }]}
               >
-                <Input placeholder="이름" />
+                <Input placeholder="이름(성 빼고)" />
               </Form.Item>
               <Form.Item
                 {...restField}

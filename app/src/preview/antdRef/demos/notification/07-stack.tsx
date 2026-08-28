@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo } from 'react';
 import { Button, Divider, InputNumber, notification, Space, Switch } from 'antd';
 

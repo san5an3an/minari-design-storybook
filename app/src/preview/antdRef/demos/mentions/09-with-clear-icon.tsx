@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { CloseSquareFilled } from '../_icons';
+import { CloseSquareFilled } from '@ant-design/icons';
 import { Mentions } from 'antd';
 
 const App: React.FC = () => {

@@ -3,16 +3,16 @@ import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import { FileCopyOutlined as FileCopyIcon } from '../_icons';
-import { Save as SaveIcon } from '../_icons';
-import { Print as PrintIcon } from '../_icons';
-import { Share as ShareIcon } from '../_icons';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
+  { icon: <FileCopyIcon />, name: '복사' },
+  { icon: <SaveIcon />, name: '저장' },
+  { icon: <PrintIcon />, name: '인쇄' },
+  { icon: <ShareIcon />, name: '공유' },
 ];
 
 export default function ControlledOpenSpeedDial() {

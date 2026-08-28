@@ -17,8 +17,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Delete as DeleteIcon } from '../_icons';
-import { FilterList as FilterListIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
 interface Data {
@@ -106,7 +106,7 @@ const headCells: readonly HeadCell[] = [
     id: 'calories',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: '열량',
   },
   {
     id: 'fat',
@@ -224,7 +224,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="지우기">
           <IconButton>
             <DeleteIcon />
           </IconButton>

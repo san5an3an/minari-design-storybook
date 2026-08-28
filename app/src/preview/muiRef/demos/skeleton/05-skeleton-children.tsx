@@ -30,7 +30,7 @@ function SkeletonChildrenDemo(props: { loading?: boolean }) {
               <Typography>.</Typography>
             </Skeleton>
           ) : (
-            <Typography>Ted</Typography>
+            <Typography>지훈</Typography>
           )}
         </Box>
       </Box>

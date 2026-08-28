@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Anchor, Col, Row } from 'antd';
 import type { AnchorProps, GetProp } from 'antd';

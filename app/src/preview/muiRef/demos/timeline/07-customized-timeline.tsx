@@ -5,10 +5,10 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { Fastfood as FastfoodIcon } from '../_icons';
-import { LaptopMac as LaptopMacIcon } from '../_icons';
-import { Hotel as HotelIcon } from '../_icons';
-import { Repeat as RepeatIcon } from '../_icons';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import HotelIcon from '@mui/icons-material/Hotel';
+import RepeatIcon from '@mui/icons-material/Repeat';
 import Typography from '@mui/material/Typography';
 
 export default function CustomizedTimeline() {
@@ -34,9 +34,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Eat
+            먹기
           </Typography>
-          <Typography>Because you need strength</Typography>
+          <Typography>힘이 필요하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -47,7 +47,7 @@ export default function CustomizedTimeline() {
             m: 'auto 0',
           }}
         >
-          10:00 am
+          오전 10:00
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector />
@@ -58,9 +58,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Code
+            코드
           </Typography>
-          <Typography>Because it&apos;s awesome!</Typography>
+          <Typography>멋지니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -73,9 +73,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Sleep
+            자기
           </Typography>
-          <Typography>Because you need rest</Typography>
+          <Typography>쉬어야 하니까요</Typography>
         </TimelineContent>
       </TimelineItem>
       <TimelineItem>
@@ -88,9 +88,9 @@ export default function CustomizedTimeline() {
         </TimelineSeparator>
         <TimelineContent sx={{ py: '12px', px: 2 }}>
           <Typography variant="h6" component="span">
-            Repeat
+            되풀이
           </Typography>
-          <Typography>Because this is the life you love!</Typography>
+          <Typography>이게 당신이 사랑하는 삶이니까요!</Typography>
         </TimelineContent>
       </TimelineItem>
     </Timeline>

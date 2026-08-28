@@ -28,7 +28,7 @@ function ChildModal() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Button onClick={handleOpen}>자식 모달 열기</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -36,11 +36,11 @@ function ChildModal() {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Text in a child modal</h2>
+          <h2 id="child-modal-title">자식 모달 안의 글</h2>
           <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            표본 글이에요, 자리를 대신 채우고 있어요.
           </p>
-          <Button onClick={handleClose}>Close Child Modal</Button>
+          <Button onClick={handleClose}>자식 모달 닫기</Button>
         </Box>
       </Modal>
     </React.Fragment>
@@ -58,7 +58,7 @@ export default function NestedModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>모달 열기</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -66,9 +66,9 @@ export default function NestedModal() {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: 400 }}>
-          <h2 id="parent-modal-title">Text in a modal</h2>
+          <h2 id="parent-modal-title">모달 안의 글</h2>
           <p id="parent-modal-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            짧은 표본 문장이에요. 한 줄이 안 넘칠 때의 모습을 보려고 넣었어요.
           </p>
           <ChildModal />
         </Box>

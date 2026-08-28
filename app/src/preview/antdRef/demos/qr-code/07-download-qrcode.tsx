@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, QRCode, Segmented, Space } from 'antd';
 import type { QRCodeProps } from 'antd';

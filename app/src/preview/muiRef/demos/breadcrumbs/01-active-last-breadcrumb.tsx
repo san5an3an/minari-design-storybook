@@ -19,7 +19,7 @@ export default function ActiveLastBreadcrumb() {
           color="inherit"
           href="/material-ui/getting-started/installation/"
         >
-          Core
+          핵심
         </Link>
         <Link
           underline="hover"

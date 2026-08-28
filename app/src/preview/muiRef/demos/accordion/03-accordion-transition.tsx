@@ -8,7 +8,7 @@ import AccordionDetails, {
   accordionDetailsClasses,
 } from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Fade from '@mui/material/Fade';
 
 export default function AccordionTransition() {
@@ -51,12 +51,11 @@ export default function AccordionTransition() {
           aria-controls={`${id}-panel1-content`}
           id={`${id}-panel1-header`}
         >
-          <Typography component="span">Custom transition using Fade</Typography>
+          <Typography component="span">Fade 로 만든 전환</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -66,12 +65,11 @@ export default function AccordionTransition() {
           aria-controls={`${id}-panel2-content`}
           id={`${id}-panel2-header`}
         >
-          <Typography component="span">Default transition using Collapse</Typography>
+          <Typography component="span">Collapse 를 쓰는 기본 전환</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>

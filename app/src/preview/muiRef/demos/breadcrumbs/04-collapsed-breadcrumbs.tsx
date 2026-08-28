@@ -13,18 +13,18 @@ export default function CollapsedBreadcrumbs() {
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs maxItems={2} aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="#">
-          Home
+          홈
         </Link>
         <Link underline="hover" color="inherit" href="#">
-          Catalog
+          카탈로그
         </Link>
         <Link underline="hover" color="inherit" href="#">
-          Accessories
+          액세서리
         </Link>
         <Link underline="hover" color="inherit" href="#">
-          New Collection
+          새 컬렉션
         </Link>
-        <Typography sx={{ color: 'text.primary' }}>Belts</Typography>
+        <Typography sx={{ color: 'text.primary' }}>벨트</Typography>
       </Breadcrumbs>
     </div>
   );

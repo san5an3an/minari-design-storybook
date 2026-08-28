@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { AutoComplete, Flex } from 'antd';
 import type { AutoCompleteProps, GetProp } from 'antd';

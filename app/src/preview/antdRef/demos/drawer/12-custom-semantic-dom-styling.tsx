@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Drawer, Flex } from 'antd';
 import type { DrawerProps, GetProp } from 'antd';

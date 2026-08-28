@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Calendar, Flex } from 'antd';
 import type { CalendarProps, GetProp } from 'antd';

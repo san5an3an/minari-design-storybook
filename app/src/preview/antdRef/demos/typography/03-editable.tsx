@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useMemo, useState } from 'react';
-import { CheckOutlined, HighlightOutlined } from '../_icons';
+import { CheckOutlined, HighlightOutlined } from '@ant-design/icons';
 import { Radio, Typography } from 'antd';
 
 const { Paragraph } = Typography;

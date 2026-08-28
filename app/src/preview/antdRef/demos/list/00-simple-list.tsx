@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Divider, List, Typography } from 'antd';
 

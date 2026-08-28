@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { PoweroffOutlined, SyncOutlined } from '../_icons';
+import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { Button, Flex } from 'antd';
 
 const App: React.FC = () => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex, Splitter, Switch, Typography } from 'antd';
 

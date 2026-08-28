@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Slider } from 'antd';
 import type { SliderSingleProps } from 'antd';

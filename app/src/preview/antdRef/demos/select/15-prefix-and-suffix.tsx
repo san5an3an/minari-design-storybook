@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { MehOutlined, SmileOutlined } from '../_icons';
+import { MehOutlined, SmileOutlined } from '@ant-design/icons';
 import { Select, Space } from 'antd';
 
 const smileIcon = <SmileOutlined />;

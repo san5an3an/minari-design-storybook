@@ -4,12 +4,12 @@ import Stack from '@mui/material/Stack';
 export default function OutlinedButtons() {
   return (
     <Stack direction="row" spacing={2}>
-      <Button variant="outlined">Primary</Button>
+      <Button variant="outlined">기본</Button>
       <Button variant="outlined" disabled>
-        Disabled
+        못 쓰는 상태
       </Button>
       <Button variant="outlined" href="#outlined-buttons">
-        Link
+        링크
       </Button>
     </Stack>
   );

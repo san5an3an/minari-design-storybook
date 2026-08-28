@@ -4,13 +4,13 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { RadioButtonChecked } from '../_icons';
-import { RadioButtonUnchecked } from '../_icons';
+import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
 
-const options = ['Name', 'Date modified', 'Size'];
+const options = ['이름', 'Date modified', 'Size'];
 
 export default function RadioMenu() {
-  const [selected, setSelected] = React.useState('Name');
+  const [selected, setSelected] = React.useState('이름');
 
   return (
     <Paper sx={{ width: 320, maxWidth: '100%' }}>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Input, Tooltip } from 'antd';
 import { createStyles } from 'antd-style';

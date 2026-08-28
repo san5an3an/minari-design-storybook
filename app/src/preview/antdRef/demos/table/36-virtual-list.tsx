@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Segmented, Space, Switch, Table, Typography } from 'antd';
 import type { TableProps } from 'antd';

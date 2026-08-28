@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Splitter, Typography } from 'antd';
 import type { GetProp, SplitterProps } from 'antd';

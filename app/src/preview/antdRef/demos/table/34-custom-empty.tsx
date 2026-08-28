@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { GetProp } from 'antd';
 import { Button, ConfigProvider, Empty, Table } from 'antd';

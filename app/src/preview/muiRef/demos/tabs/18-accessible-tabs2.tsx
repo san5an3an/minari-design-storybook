@@ -16,9 +16,9 @@ export default function AccessibleTabs2() {
         value={value}
         aria-label="Tabs where each tab needs to be selected manually"
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        <Tab label="항목 하나" />
+        <Tab label="항목 둘" />
+        <Tab label="항목 셋" />
       </Tabs>
     </Box>
   );

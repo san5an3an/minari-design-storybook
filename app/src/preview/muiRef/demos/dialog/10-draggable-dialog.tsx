@@ -35,7 +35,7 @@ export default function DraggableDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open draggable dialog
+        끌 수 있는 대화상자 열기
       </Button>
       <Dialog
         open={open}
@@ -44,19 +44,18 @@ export default function DraggableDialog() {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Subscribe
+          구독
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            이 사이트를 구독하려면 여기에 이메일 주소를 넣어 주세요. 가끔 새 소식을 보내 드려요.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Cancel
+            취소
           </Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handleClose}>구독</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

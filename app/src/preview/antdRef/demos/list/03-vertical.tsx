@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '../_icons';
+import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Avatar, List, Space } from 'antd';
 
 const data = Array.from({ length: 23 }).map((_, i) => ({

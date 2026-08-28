@@ -24,7 +24,7 @@ export default function ResponsiveDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open responsive dialog
+        반응형 대화상자 열기
       </Button>
       <Dialog
         fullScreen={fullScreen}
@@ -33,20 +33,19 @@ export default function ResponsiveDialog() {
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Use Google's location service?"}
+          {"Google 위치 서비스를 쓸까요?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            Google 이 앱의 위치 확인을 돕게 해요. 앱이 하나도 안 돌고 있을 때도 익명 위치 정보가 Google 로 보내져요.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Disagree
+            동의 안 함
           </Button>
           <Button onClick={handleClose} autoFocus>
-            Agree
+            동의
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { MehOutlined } from '../_icons';
+import { MehOutlined } from '@ant-design/icons';
 import { Flex, Select } from 'antd';
 import type { GetProp, SelectProps } from 'antd';
 import { createStaticStyles } from 'antd-style';

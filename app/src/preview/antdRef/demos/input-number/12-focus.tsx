@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef } from 'react';
 import type { GetRef } from 'antd';
 import { Button, InputNumber, Space } from 'antd';

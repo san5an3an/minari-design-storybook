@@ -64,17 +64,14 @@ export default function HorizontalLinearStepper() {
     previousActiveStepRef.current = activeStep;
 
     if (activeStep === steps.length) {
-      // If the user has completed all steps and hits "Finish", focus the "Reset" button.
       resetButtonRef.current!.focus();
       return;
     }
     if (activeStep === 0 && previousActiveStep === steps.length) {
-      // If the user has completed all steps and hits "Reset", focus the "Next" button.
       nextButtonRef.current!.focus();
       return;
     }
     if (isStepOptional(previousActiveStep) && !isStepOptional(activeStep)) {
-      // If the user hits "Skip" and the next step is not optional, focus the "Next" button.
       nextButtonRef.current!.focus();
     }
   }, [activeStep, isStepOptional]);
@@ -89,7 +86,7 @@ export default function HorizontalLinearStepper() {
           } = {};
           if (isStepOptional(index)) {
             labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+              <Typography variant="caption">선택</Typography>
             );
           }
           if (isStepSkipped(index)) {
@@ -105,18 +102,18 @@ export default function HorizontalLinearStepper() {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+            모든 단계를 마쳤어요 — 끝났어요
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleReset} ref={resetButtonRef}>
-              Reset
+              처음으로
             </Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Typography sx={{ mt: 2, mb: 1 }}>단계 {activeStep + 1}</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -124,7 +121,7 @@ export default function HorizontalLinearStepper() {
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
-              Back
+              뒤로
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {isStepOptional(activeStep) && (
@@ -133,7 +130,7 @@ export default function HorizontalLinearStepper() {
               </Button>
             )}
             <Button onClick={handleNext} ref={nextButtonRef}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Finish' : '다음'}
             </Button>
           </Box>
         </React.Fragment>

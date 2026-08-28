@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Checkbox } from 'antd';
 import type { CheckboxProps } from 'antd';

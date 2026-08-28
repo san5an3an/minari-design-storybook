@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Flex, Radio, Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';

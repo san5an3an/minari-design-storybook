@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
-import { KeyboardArrowLeft } from '../_icons';
-import { KeyboardArrowRight } from '../_icons';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 export default function ProgressMobileStepper() {
   const theme = useTheme();
@@ -26,10 +26,8 @@ export default function ProgressMobileStepper() {
     const previousActiveStep = previousActiveStepRef.current;
 
     if (activeStep === 0 && previousActiveStep === 1) {
-      // If the user is going back to the first step, focus the "Next" button.
       nextButtonRef.current!.focus();
     } else if (activeStep === 5 && previousActiveStep === 4) {
-      // If the user is going to the last step, focus the "Back" button.
       backButtonRef.current!.focus();
     }
 
@@ -55,7 +53,7 @@ export default function ProgressMobileStepper() {
           disabled={activeStep === 5}
           ref={nextButtonRef}
         >
-          Next
+          다음
           {theme.direction === 'rtl' ? (
             <KeyboardArrowLeft />
           ) : (
@@ -75,7 +73,7 @@ export default function ProgressMobileStepper() {
           ) : (
             <KeyboardArrowLeft />
           )}
-          Back
+          뒤로
         </Button>
       }
     />

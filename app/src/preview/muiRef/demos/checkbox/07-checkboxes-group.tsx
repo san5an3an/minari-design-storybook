@@ -27,7 +27,7 @@ export default function CheckboxesGroup() {
   return (
     <Box sx={{ display: 'flex' }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Assign responsibility</FormLabel>
+        <FormLabel component="legend">담당 정하기</FormLabel>
         <FormGroup>
           <FormControlLabel
             control={
@@ -48,7 +48,7 @@ export default function CheckboxesGroup() {
             label="Antoine Llorca"
           />
         </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
+        <FormHelperText>조심하세요</FormHelperText>
       </FormControl>
       <FormControl
         required
@@ -57,7 +57,7 @@ export default function CheckboxesGroup() {
         sx={{ m: 3 }}
         variant="standard"
       >
-        <FormLabel component="legend">Pick two</FormLabel>
+        <FormLabel component="legend">둘을 골라 주세요</FormLabel>
         <FormGroup>
           <FormControlLabel
             control={
@@ -78,7 +78,7 @@ export default function CheckboxesGroup() {
             label="Antoine Llorca"
           />
         </FormGroup>
-        <FormHelperText>You can display an error</FormHelperText>
+        <FormHelperText>오류를 보여 줄 수 있어요</FormHelperText>
       </FormControl>
     </Box>
   );

@@ -75,7 +75,8 @@ export function Card({
         {children}
       </CardContent>
       {footer !== undefined ? (
-        <CardFooter className="p-0 border-t-0">{footer}</CardFooter>
+        // bg-transparent 필요. bg-muted/50은 크롬 팔레트라 테마 미적용값임
+        <CardFooter className="p-0 border-t-0 bg-transparent">{footer}</CardFooter>
       ) : null}
     </ShadcnCard>
   );

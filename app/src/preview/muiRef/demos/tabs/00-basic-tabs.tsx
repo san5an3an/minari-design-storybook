@@ -43,19 +43,19 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="항목 하나" {...a11yProps(0)} />
+          <Tab label="항목 둘" {...a11yProps(1)} />
+          <Tab label="항목 셋" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        항목 하나
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        항목 둘
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        항목 셋
       </CustomTabPanel>
     </Box>
   );

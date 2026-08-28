@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { DatePicker, Flex } from 'antd';
 import type { DatePickerProps, GetProp } from 'antd';

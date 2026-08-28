@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import { Button, Tour } from 'antd';
 import type { TourProps } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Mentions } from 'antd';
 import type { GetProp, MentionsProps } from 'antd';

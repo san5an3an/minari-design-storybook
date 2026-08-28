@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { SmileFilled, SmileOutlined } from '../_icons';
+import { SmileFilled, SmileOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 
 const { Paragraph, Text } = Typography;

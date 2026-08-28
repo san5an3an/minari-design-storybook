@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FormatAlignLeft as FormatAlignLeftIcon } from '../_icons';
-import { FormatAlignCenter as FormatAlignCenterIcon } from '../_icons';
-import { FormatAlignRight as FormatAlignRightIcon } from '../_icons';
-import { FormatAlignJustify as FormatAlignJustifyIcon } from '../_icons';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';

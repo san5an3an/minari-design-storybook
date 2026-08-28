@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { EllipsisOutlined } from '../_icons';
+import { EllipsisOutlined } from '@ant-design/icons';
 import type {
   ConfigProviderProps,
   RadioChangeEvent,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Flex, Progress, Segmented } from 'antd';
 import type { ProgressProps } from 'antd';

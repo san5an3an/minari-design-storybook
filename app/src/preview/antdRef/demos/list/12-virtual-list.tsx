@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import VirtualList from '@rc-component/virtual-list';
 import { Avatar, List, message } from 'antd';

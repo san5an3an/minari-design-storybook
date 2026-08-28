@@ -3,7 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function AccordionExpandDefault() {
   const id = React.useId();
@@ -15,12 +15,11 @@ export default function AccordionExpandDefault() {
           aria-controls={`${id}-panel1-content`}
           id={`${id}-panel1-header`}
         >
-          <Typography component="span">Expanded by default</Typography>
+          <Typography component="span">처음부터 펼쳐진 상태</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -30,12 +29,11 @@ export default function AccordionExpandDefault() {
           aria-controls={`${id}-panel2-content`}
           id={`${id}-panel2-header`}
         >
-          <Typography component="span">Header</Typography>
+          <Typography component="span">머리글</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>

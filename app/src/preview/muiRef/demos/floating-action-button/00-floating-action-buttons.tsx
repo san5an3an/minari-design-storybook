@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
-import { Add as AddIcon } from '../_icons';
-import { Edit as EditIcon } from '../_icons';
-import { Favorite as FavoriteIcon } from '../_icons';
-import { Navigation as NavigationIcon } from '../_icons';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 export default function FloatingActionButtons() {
   return (

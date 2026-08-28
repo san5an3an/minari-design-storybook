@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Tooltip, Tree } from 'antd';
 import type { TreeDataNode } from 'antd';

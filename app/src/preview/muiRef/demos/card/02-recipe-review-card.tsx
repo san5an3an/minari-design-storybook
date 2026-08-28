@@ -10,10 +10,10 @@ import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import { Favorite as FavoriteIcon } from '../_icons';
-import { Share as ShareIcon } from '../_icons';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
-import { MoreVert as MoreVertIcon } from '../_icons';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -97,7 +97,7 @@ export default function RecipeReviewCard() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2 }}>Method:</Typography>
+          <Typography sx={{ marginBottom: 2 }}>방식:</Typography>
           <Typography sx={{ marginBottom: 2 }}>
             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
             aside for 10 minutes.

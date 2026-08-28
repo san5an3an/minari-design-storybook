@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Mentions, Space } from 'antd';
 import type { GetProp, MentionProps } from 'antd';

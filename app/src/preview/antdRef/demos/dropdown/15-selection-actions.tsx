@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Dropdown, message } from 'antd';

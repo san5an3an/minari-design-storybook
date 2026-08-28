@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '../_icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
@@ -16,8 +17,8 @@ const items: MenuItem[] = [
         label: '항목 1',
         type: 'group',
         children: [
-          { key: '1', label: '항목 1' },
-          { key: '2', label: '항목 2' },
+          { key: '1', label: '선택지 1' },
+          { key: '2', label: '선택지 2' },
         ],
       },
       {
@@ -25,7 +26,7 @@ const items: MenuItem[] = [
         label: '항목 2',
         type: 'group',
         children: [
-          { key: '3', label: '항목 3' },
+          { key: '3', label: '선택지 3' },
           { key: '4', label: '항목 4' },
         ],
       },

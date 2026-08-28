@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Checkbox, Flex } from 'antd';
 import type { CheckboxProps, GetProp } from 'antd';

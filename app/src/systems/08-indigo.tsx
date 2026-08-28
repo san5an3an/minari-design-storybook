@@ -1,34 +1,11 @@
 import { ShieldCheck } from "lucide-react";
-import { Button } from "../bases/mui/Button";
-import { Link } from "../bases/mui/Link";
-import { Input } from "../bases/mui/Input";
-import { Select } from "../bases/mui/Select";
-import { Checkbox } from "../bases/mui/Checkbox";
-import { Radio } from "../bases/mui/Radio";
-import { Switch } from "../bases/mui/Switch";
-import { Badge } from "../bases/mui/Badge";
-import { Card } from "../bases/mui/Card";
-import { Dialog } from "../bases/mui/Dialog";
-import { Alert } from "../bases/mui/Alert";
-import { Tooltip } from "../bases/mui/Tooltip";
-import { Spinner } from "../bases/mui/Spinner";
-import { Divider } from "../bases/mui/Divider";
-import { Accordion } from "../bases/mui/Accordion";
-import { Breadcrumb } from "../bases/mui/Breadcrumb";
-import { Progress } from "../bases/mui/Progress";
-import { Skeleton } from "../bases/mui/Skeleton";
-import { Slider } from "../bases/mui/Slider";
-import { Tabs } from "../bases/mui/Tabs";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/08-indigo/base/mui/theme";
-import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
+import type { ProviderProps, SystemDefinition } from "./types";
 import vars from "../../../generated/08-indigo/vars.css?raw";
 import refs from "../../../generated/08-indigo/mapping.json";
 import api from "../contract/08-indigo/api.json";
-
-// 베이스별 다른 props 한 곳에 보관
-type Impl = ComponentImpl;
 
 const Provider = ({ mode, children }: ProviderProps) => (
   <ThemeProvider theme={byMode[mode]}>
@@ -51,34 +28,34 @@ export const indigo: SystemDefinition = {
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, select: Select as Impl, checkbox: Checkbox as Impl, radio: Radio as Impl, switch: Switch as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, tooltip: Tooltip as Impl, spinner: Spinner as Impl, divider: Divider as Impl, accordion: Accordion as Impl, breadcrumb: Breadcrumb as Impl, progress: Progress as Impl, skeleton: Skeleton as Impl, slider: Slider as Impl, tabs: Tabs as Impl },
+  impl: {  },
   buttonVariants: ["solid", "outline", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
-    { name: "button", title: "Button", summary: "사용자가 눌러 동작을 일으키는 컨트롤. variant 구성이 이 시스템의 elevation 성격에서 유래.", ready: true },
-    { name: "link", title: "Link", summary: "이동하는 글자. 누르면 위치가 바뀌고, 뒤로 가기로 되돌아올 수 있음.", ready: true },
-    { name: "input", title: "Input", summary: "한 줄 또는 여러 줄의 텍스트를 받는 폼 컨트롤. 해부 구조가 control 옵션에서 유래.", ready: true },
+    { name: "button", title: "Button", summary: "사용자가 눌러 동작을 일으키는 컨트롤. variant 구성이 이 시스템의 elevation 성격에서 유래.", ready: false },
+    { name: "link", title: "Link", summary: "이동하는 글자. 누르면 위치가 바뀌고, 뒤로 가기로 되돌아올 수 있음.", ready: false },
+    { name: "input", title: "Input", summary: "한 줄 또는 여러 줄의 텍스트를 받는 폼 컨트롤. 해부 구조가 control 옵션에서 유래.", ready: false },
     { name: "label", title: "Label", summary: "컨트롤이 무엇을 받는 필드인지 알리는 이름. 자리표시자로 대신하지 않음.", ready: false },
     { name: "field", title: "Field", summary: "컨트롤 하나를 이름·설명·오류와 함께 묶는 컨테이너. 폼의 최소 단위임.", ready: false },
-    { name: "select", title: "Select", summary: "접힌 목록에서 값 하나를 고르는 폼 컨트롤. 선택지가 적으면 Radio 사용.", ready: true },
-    { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: true },
-    { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: true },
-    { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: true },
-    { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: true },
-    { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: true },
-    { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
-    { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: true },
+    { name: "select", title: "Select", summary: "접힌 목록에서 값 하나를 고르는 폼 컨트롤. 선택지가 적으면 Radio 사용.", ready: false },
+    { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: false },
+    { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: false },
+    { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: false },
+    { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: false },
+    { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: false },
+    { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: false },
+    { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
     { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: false },
-    { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: true },
-    { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: true },
-    { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: true },
-    { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: true },
+    { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
+    { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: false },
+    { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: false },
+    { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: false },
     { name: "alertdialog", title: "AlertDialog", summary: "되돌릴 수 없는 결정을 받는 창. 바깥을 눌러도 닫히지 않음.", ready: false },
     { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: false },
     { name: "attachment", title: "Attachment", summary: "대화에 딸려 온 파일 한 개. 아직 끝나지 않았을 수 있어 상태가 있음.", ready: false },
     { name: "avatar", title: "Avatar", summary: "사람이나 조직을 나타내는 작은 표시. 모서리가 이 시스템의 형태 기준에서 유래.", ready: false },
     { name: "banner", title: "Banner", summary: "화면에서 시선을 가장 먼저 끄는 큰 영역. 제목 크기가 이 시스템의 타이포 비율에서 유래.", ready: false },
-    { name: "breadcrumb", title: "Breadcrumb", summary: "탐색 계층에서 지금 어디에 있는지와 어떻게 위로 올라가는지를 보여주는 경로.", ready: true },
+    { name: "breadcrumb", title: "Breadcrumb", summary: "탐색 계층에서 지금 어디에 있는지와 어떻게 위로 올라가는지를 보여주는 경로.", ready: false },
     { name: "bubble", title: "Bubble", summary: "한 번에 한 말을 담는 컨테이너. 보내는 이·시각까지 필요하면 Message 임.", ready: false },
     { name: "calendar", title: "Calendar", summary: "날짜를 달력 모양으로 선택. 먼 날짜는 치는 편이 빠름.", ready: false },
     { name: "carousel", title: "Carousel", summary: "몇 개만 보이고 나머지는 밀어서 보는 줄. 다음 것이 있다는 사실을 버튼이 알림.", ready: false },
@@ -108,7 +85,7 @@ export const indigo: SystemDefinition = {
     { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: false },
     { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
     { name: "popover", title: "Popover", summary: "눌러서 뜨는 작은 창. 설명 한 줄이면 Tooltip, 고르면 닫히면 Menu 임.", ready: false },
-    { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: true },
+    { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: false },
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
@@ -116,13 +93,13 @@ export const indigo: SystemDefinition = {
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },
     { name: "sidebar", title: "Sidebar", summary: "옆에 늘 붙어 있는 길잡이. 접혀도 위치를 남기는 것이 시트와 다른 점임.", ready: false },
-    { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: true },
-    { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: true },
+    { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: false },
+    { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: false },
     { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: false },
     { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: false },
     { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: false },
     { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: false },
-    { name: "tabs", title: "Tabs", summary: "같은 층위의 화면을 오가는 컨트롤. 활성 표시 방식은 이 시스템의 형태 기준에서 유래", ready: true },
+    { name: "tabs", title: "Tabs", summary: "같은 층위의 화면을 오가는 컨트롤. 활성 표시 방식은 이 시스템의 형태 기준에서 유래", ready: false },
     { name: "toggle", title: "Toggle", summary: "눌린 채로 있는 버튼. 하나를 켜고 끄는 용도. 여럿 중 고르는 것은 Segmented 사용", ready: false },
     { name: "toolbar", title: "Toolbar", summary: "자주 쓰는 동작을 한 줄에 모아 두는 띠. 버튼은 이 시스템의 Button 을 그대로 사용", ready: false },
   ],

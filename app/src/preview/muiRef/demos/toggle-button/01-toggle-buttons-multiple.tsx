@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { FormatBold as FormatBoldIcon } from '../_icons';
-import { FormatItalic as FormatItalicIcon } from '../_icons';
-import { FormatUnderlined as FormatUnderlinedIcon } from '../_icons';
-import { FormatColorFill as FormatColorFillIcon } from '../_icons';
-import { ArrowDropDown as ArrowDropDownIcon } from '../_icons';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 

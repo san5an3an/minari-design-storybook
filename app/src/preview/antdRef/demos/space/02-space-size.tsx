@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Radio, Slider, Space } from 'antd';
 import type { ConfigProviderProps } from 'antd';

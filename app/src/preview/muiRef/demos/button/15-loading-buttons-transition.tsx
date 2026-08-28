@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Save as SaveIcon } from '../_icons';
-import { Send as SendIcon } from '../_icons';
+import SaveIcon from '@mui/icons-material/Save';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function LoadingButtonsTransition() {
   const [loading, setLoading] = React.useState(true);
@@ -34,7 +34,7 @@ export default function LoadingButtonsTransition() {
           variant="outlined"
           disabled
         >
-          Disabled
+          못 쓰는 상태
         </Button>
         <Button
           size="small"
@@ -43,7 +43,7 @@ export default function LoadingButtonsTransition() {
           loadingIndicator="Loading…"
           variant="outlined"
         >
-          Fetch data
+          데이터 가져오기
         </Button>
         <Button
           size="small"
@@ -53,7 +53,7 @@ export default function LoadingButtonsTransition() {
           loadingPosition="end"
           variant="contained"
         >
-          Send
+          보내기
         </Button>
         <Button
           size="small"
@@ -64,12 +64,12 @@ export default function LoadingButtonsTransition() {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          Save
+          저장
         </Button>
       </Box>
       <Box sx={{ '& > button': { m: 1 } }}>
         <Button onClick={handleClick} loading={loading} variant="outlined" disabled>
-          Disabled
+          못 쓰는 상태
         </Button>
         <Button
           onClick={handleClick}
@@ -77,7 +77,7 @@ export default function LoadingButtonsTransition() {
           loadingIndicator="Loading…"
           variant="outlined"
         >
-          Fetch data
+          데이터 가져오기
         </Button>
         <Button
           onClick={handleClick}
@@ -86,7 +86,7 @@ export default function LoadingButtonsTransition() {
           loadingPosition="end"
           variant="contained"
         >
-          Send
+          보내기
         </Button>
         <Button
           color="secondary"
@@ -96,7 +96,7 @@ export default function LoadingButtonsTransition() {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          Save
+          저장
         </Button>
       </Box>
     </div>

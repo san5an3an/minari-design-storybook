@@ -8,6 +8,7 @@ const RAW = /^\?raw$/;
 const nextConfig: NextConfig = {
   // Next 의 AGENTS.md 자동 생성 비활성화
   agentRules: false,
+  devIndicators: false,
   distDir: process.env.NODE_ENV === "production" ? ".next-build" : ".next",
   outputFileTracingRoot: ROOT,
   turbopack: {

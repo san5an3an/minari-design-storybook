@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useTheme, styled } from '@mui/material/styles';
 import Popper from '@mui/material/Popper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import { Settings as SettingsIcon } from '../_icons';
-import { Close as CloseIcon } from '../_icons';
-import { Done as DoneIcon } from '../_icons';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
 import Autocomplete, {
   AutocompleteCloseReason,
   autocompleteClasses,
@@ -156,7 +156,7 @@ export default function GitHubLabel() {
     <React.Fragment>
       <Box sx={{ width: 221, fontSize: 13 }}>
         <Button disableRipple aria-describedby={id} onClick={handleClick}>
-          <span>Labels</span>
+          <span>이름표</span>
           <SettingsIcon />
         </Button>
         {value.map((label) => (
@@ -192,7 +192,7 @@ export default function GitHubLabel() {
                 }),
               })}
             >
-              Apply labels to this pull request
+              이 pull request 에 라벨을 달아요
             </Box>
             <Autocomplete
               open
@@ -210,7 +210,7 @@ export default function GitHubLabel() {
                 if (
                   event.type === 'keydown' &&
                   ((event as React.KeyboardEvent).key === 'Backspace' ||
-                    (event as React.KeyboardEvent).key === 'Delete') &&
+                    (event as React.KeyboardEvent).key === '지우기') &&
                   reason === 'removeOption'
                 ) {
                   return;

@@ -5,7 +5,7 @@ export default function DisabledTooltips() {
   return (
     <Tooltip describeChild title="You don't have permission to do this">
       <span>
-        <Button disabled>A Disabled Button</Button>
+        <Button disabled>못 누르는 버튼</Button>
       </span>
     </Tooltip>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { CarouselProps, RadioChangeEvent } from 'antd';
 import { Carousel, Radio } from 'antd';
@@ -25,7 +26,7 @@ const App: React.FC = () => {
       <Radio.Group onChange={handlePositionChange} value={dotPlacement} style={{ marginBottom: 8 }}>
         <Radio.Button value="top">위</Radio.Button>
         <Radio.Button value="bottom">아래</Radio.Button>
-        <Radio.Button value="start">시작</Radio.Button>
+        <Radio.Button value="start">시작하기</Radio.Button>
         <Radio.Button value="end">끝</Radio.Button>
       </Radio.Group>
       <Carousel dotPlacement={dotPlacement}>

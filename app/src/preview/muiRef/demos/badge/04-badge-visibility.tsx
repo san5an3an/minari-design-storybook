@@ -4,7 +4,7 @@ import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Mail as MailIcon } from '../_icons';
+import MailIcon from '@mui/icons-material/Mail';
 
 const unreadMessagesCount = 4;
 

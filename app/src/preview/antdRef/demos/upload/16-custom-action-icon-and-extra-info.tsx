@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { StarOutlined, UploadOutlined } from '../_icons';
+import { StarOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, Upload } from 'antd';
 

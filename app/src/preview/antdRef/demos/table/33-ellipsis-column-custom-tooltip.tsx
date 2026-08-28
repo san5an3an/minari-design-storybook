@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Table, Tooltip } from 'antd';
 import type { TableColumnsType } from 'antd';

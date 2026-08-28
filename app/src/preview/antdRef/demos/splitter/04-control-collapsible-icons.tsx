@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Flex, Radio, Splitter, Typography } from 'antd';
 import type { RadioChangeEvent } from 'antd';

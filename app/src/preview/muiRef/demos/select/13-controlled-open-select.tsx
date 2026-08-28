@@ -27,7 +27,7 @@ export default function ControlledOpenSelect() {
         Open the select
       </Button>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-controlled-open-select-label">Age</InputLabel>
+        <InputLabel id="demo-controlled-open-select-label">나이</InputLabel>
         <Select
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
@@ -35,15 +35,15 @@ export default function ControlledOpenSelect() {
           onClose={handleClose}
           onOpen={handleOpen}
           value={age}
-          label="Age"
+          label="나이"
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>열</MenuItem>
+          <MenuItem value={20}>스물</MenuItem>
+          <MenuItem value={30}>서른</MenuItem>
         </Select>
       </FormControl>
     </div>

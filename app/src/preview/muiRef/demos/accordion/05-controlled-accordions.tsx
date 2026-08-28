@@ -3,7 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function ControlledAccordions() {
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -22,16 +22,15 @@ export default function ControlledAccordions() {
           id="panel1bh-header"
         >
           <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
-            General settings
+            일반 설정
           </Typography>
           <Typography component="span" sx={{ color: 'text.secondary' }}>
-            I am an accordion
+            저는 아코디언이에요
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
+            내용이 들어갈 자리를 대신하는 짧은 표본 글이에요. 짧은 문단이 그릇 안에서 어떻게 놓이는지 봐 주세요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -42,17 +41,15 @@ export default function ControlledAccordions() {
           id="panel2bh-header"
         >
           <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
-            Users
+            사용자
           </Typography>
           <Typography component="span" sx={{ color: 'text.secondary' }}>
-            You are currently not an owner
+            지금은 소유자가 아니에요
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-            varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-            laoreet.
+            내용이 들어갈 자리를 대신하는 짧은 표본 글이에요. 조금 더 긴 한 문장이 들어갈 때의 모습이에요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -63,16 +60,15 @@ export default function ControlledAccordions() {
           id="panel3bh-header"
         >
           <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
-            Advanced settings
+            고급 설정
           </Typography>
           <Typography component="span" sx={{ color: 'text.secondary' }}>
-            Filtering has been entirely disabled for whole web server
+            이 웹 서버 전체에서 거르기를 껐어요
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
+            내용이 들어갈 자리를 대신하는 짧은 표본 글이에요. 한두 줄이 넘지 않을 때의 모습을 보려고 넣었어요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -83,13 +79,12 @@ export default function ControlledAccordions() {
           id="panel4bh-header"
         >
           <Typography component="span" sx={{ width: '33%', flexShrink: 0 }}>
-            Personal data
+            개인 정보
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
+            내용이 들어갈 자리를 대신하는 짧은 표본 글이에요. 한두 줄이 넘지 않을 때의 모습을 보려고 넣었어요.
           </Typography>
         </AccordionDetails>
       </Accordion>

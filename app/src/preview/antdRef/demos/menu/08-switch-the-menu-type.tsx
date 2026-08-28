@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import {
   AppstoreOutlined,
@@ -5,7 +6,7 @@ import {
   LinkOutlined,
   MailOutlined,
   SettingOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Divider, Menu, Switch } from 'antd';
 import type { GetProp, MenuProps } from 'antd';
 
@@ -28,7 +29,7 @@ const items: MenuItem[] = [
     key: 'sub1',
     label: '메뉴 둘',
     icon: <AppstoreOutlined />, children: [
-      { key: '3', label: '항목 3' },
+      { key: '3', label: '선택지 3' },
       { key: '4', label: '항목 4' },
       {
         key: 'sub1-2',

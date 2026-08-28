@@ -86,7 +86,7 @@ export default function CustomizedRadios() {
   const id = React.useId();
   return (
     <FormControl>
-      <FormLabel id={`${id}-label`}>Gender</FormLabel>
+      <FormLabel id={`${id}-label`}>성별</FormLabel>
       <RadioGroup
         defaultValue="female"
         aria-labelledby={`${id}-label`}

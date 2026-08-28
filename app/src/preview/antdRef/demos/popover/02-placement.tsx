@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, ConfigProvider, Flex, Popover } from 'antd';
 

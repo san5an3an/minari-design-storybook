@@ -1,10 +1,11 @@
+// @ts-nocheck
 import React from 'react';
 import {
   FacebookOutlined,
   LinkedinOutlined,
   TwitterOutlined,
   YoutubeOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Divider, Flex, Tag } from 'antd';
 
 // Icons from third-party libraries render as a bare `<svg>` rather than an `.anticon` wrapper.

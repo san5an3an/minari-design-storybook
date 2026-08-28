@@ -1,6 +1,6 @@
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
-import { Mail as MailIcon } from '../_icons';
+import MailIcon from '@mui/icons-material/Mail';
 
 export default function SimpleBadge() {
   return (

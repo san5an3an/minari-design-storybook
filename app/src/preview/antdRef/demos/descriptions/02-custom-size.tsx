@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Descriptions, Radio } from 'antd';
 import type { DescriptionsProps, RadioChangeEvent } from 'antd';

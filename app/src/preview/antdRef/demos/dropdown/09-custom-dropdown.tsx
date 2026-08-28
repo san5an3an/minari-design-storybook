@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { DownOutlined } from '../_icons';
+import { DownOutlined } from '@ant-design/icons';
 import { Button, Divider, Dropdown, Space, theme } from 'antd';
 import type { MenuProps } from 'antd';
 

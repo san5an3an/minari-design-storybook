@@ -1,7 +1,7 @@
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { Done as DoneIcon } from '../_icons';
-import { Delete as DeleteIcon } from '../_icons';
+import DoneIcon from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CustomDeleteIconChips() {
   const handleClick = () => {

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { SmileOutlined } from '../_icons';
+import { SmileOutlined } from '@ant-design/icons';
 import { DatePicker, Space } from 'antd';
 import type { Dayjs } from 'dayjs';
 

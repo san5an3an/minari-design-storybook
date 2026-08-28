@@ -5,12 +5,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import { MoveToInbox as InboxIcon } from '../_icons';
-import { Drafts as DraftsIcon } from '../_icons';
-import { Send as SendIcon } from '../_icons';
-import { ExpandLess } from '../_icons';
-import { ExpandMore } from '../_icons';
-import { StarBorder } from '../_icons';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import StarBorder from '@mui/icons-material/StarBorder';
 
 export default function NestedList() {
   const [open, setOpen] = React.useState(true);
@@ -46,7 +46,7 @@ export default function NestedList() {
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Inbox" />
+        <ListItemText primary="받은 편지함" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>

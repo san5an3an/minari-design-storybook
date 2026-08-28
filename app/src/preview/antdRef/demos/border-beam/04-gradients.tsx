@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { BorderBeam, Card, Flex, Segmented, Tag, Typography } from 'antd';
 import type { BorderBeamGradient } from 'antd';

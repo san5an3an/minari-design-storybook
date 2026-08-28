@@ -6,8 +6,8 @@ export default function SwitchLabels() {
   return (
     <FormGroup>
       <FormControlLabel control={<Switch defaultChecked />} label="Label" />
-      <FormControlLabel required control={<Switch />} label="Required" />
-      <FormControlLabel disabled control={<Switch />} label="Disabled" />
+      <FormControlLabel required control={<Switch />} label="필수" />
+      <FormControlLabel disabled control={<Switch />} label="못 쓰는 상태" />
     </FormGroup>
   );
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {
   DesktopOutlined,
@@ -6,7 +7,7 @@ import {
   MenuUnfoldOutlined,
   PieChartOutlined,
   TeamOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 

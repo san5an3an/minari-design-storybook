@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { CopyOutlined } from '../_icons';
+import { CopyOutlined } from '@ant-design/icons';
 import {
   AutoComplete,
   Button,
@@ -49,7 +50,7 @@ const App: React.FC = () => (
           { label: 'Jiangsu', value: 'Jiangsu' },
         ]}
       />
-      <Input style={{ width: '50%' }} defaultValue="서울 강남구" />
+      <Input style={{ width: '50%' }} defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -62,7 +63,7 @@ const App: React.FC = () => (
           { label: 'Jiangsu', value: 'Jiangsu' },
         ]}
       />
-      <Input style={{ width: '50%' }} defaultValue="서울 강남구" />
+      <Input style={{ width: '50%' }} defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact block>
       <Input.Search style={{ width: '30%' }} defaultValue="0571" />

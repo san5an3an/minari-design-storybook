@@ -24,9 +24,9 @@ export default function FlexboxGapStack() {
         useFlexGap
         sx={{ flexWrap: 'wrap' }}
       >
-        <Item>Item 1</Item>
-        <Item>Item 2</Item>
-        <Item>Long content</Item>
+        <Item>항목 1</Item>
+        <Item>항목 2</Item>
+        <Item>긴 내용</Item>
       </Stack>
     </Box>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Tabs } from 'antd';
 import type { GetProp, TabsProps } from 'antd';

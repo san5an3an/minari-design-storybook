@@ -3,7 +3,7 @@ import Alert from '@mui/material/Alert';
 export default function ColorAlerts() {
   return (
     <Alert severity="success" color="warning">
-      This is a success Alert with warning colors.
+      warning 색을 쓴 success Alert 예요.
     </Alert>
   );
 }

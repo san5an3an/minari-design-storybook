@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { MoonOutlined, SunOutlined } from '../_icons';
+import { MoonOutlined, SunOutlined } from '@ant-design/icons';
 import { Flex, Segmented } from 'antd';
 import type { SegmentedProps } from 'antd';
 

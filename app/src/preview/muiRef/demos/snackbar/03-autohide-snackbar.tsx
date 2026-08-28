@@ -22,7 +22,7 @@ export default function AutohideSnackbar() {
 
   return (
     <div>
-      <Button onClick={handleClick}>Open Snackbar</Button>
+      <Button onClick={handleClick}>스낵바 열기</Button>
       <Snackbar
         open={open}
         autoHideDuration={5000}

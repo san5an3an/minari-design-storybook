@@ -8,8 +8,8 @@ export default function DisableElevation() {
       variant="contained"
       aria-label="Disabled button group"
     >
-      <Button>One</Button>
-      <Button>Two</Button>
+      <Button>하나</Button>
+      <Button>둘</Button>
     </ButtonGroup>
   );
 }

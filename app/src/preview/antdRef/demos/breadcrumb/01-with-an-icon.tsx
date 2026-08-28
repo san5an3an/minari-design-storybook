@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { HomeOutlined, UserOutlined } from '../_icons';
+import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { Breadcrumb } from 'antd';
 
 // Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`

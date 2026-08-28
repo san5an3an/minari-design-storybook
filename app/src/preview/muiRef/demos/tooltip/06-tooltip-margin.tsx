@@ -4,7 +4,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 export default function TooltipMargin() {
   return (
     <Tooltip
-      title="Add"
+      title="더하기"
       describeChild
       slotProps={{
         popper: {
@@ -29,7 +29,7 @@ export default function TooltipMargin() {
         },
       }}
     >
-      <Button>Margin</Button>
+      <Button>여백</Button>
     </Tooltip>
   );
 }

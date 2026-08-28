@@ -4,9 +4,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-import { Drafts as DraftsIcon } from '../_icons';
-import { Inbox as InboxIcon } from '../_icons';
-import { Send as SendIcon } from '../_icons';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import InboxIcon from '@mui/icons-material/Inbox';
+import SendIcon from '@mui/icons-material/Send';
 
 const unreadMessagesCount = 4;
 
@@ -24,7 +24,7 @@ export default function BadgeListItem() {
               <InboxIcon />
             </Badge>
           </ListItemIcon>
-          <ListItemText primary="Inbox" />
+          <ListItemText primary="받은 편지함" />
         </ListItemButton>
         <ListItemButton>
           <ListItemIcon>

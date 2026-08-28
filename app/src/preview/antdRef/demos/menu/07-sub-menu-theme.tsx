@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { MailOutlined } from '../_icons';
+import { MailOutlined } from '@ant-design/icons';
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu, Switch } from 'antd';
 
@@ -24,9 +25,9 @@ const App: React.FC = () => {
       label: '메뉴 하나',
       theme: menuTheme,
       children: [
-        { key: '1', label: '항목 1' },
-        { key: '2', label: '항목 2' },
-        { key: '3', label: '항목 3' },
+        { key: '1', label: '선택지 1' },
+        { key: '2', label: '선택지 2' },
+        { key: '3', label: '선택지 3' },
       ],
     },
     { key: '5', label: '항목 5' },

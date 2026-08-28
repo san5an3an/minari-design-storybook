@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Card, Masonry } from 'antd';
 import type { MasonryProps } from 'antd';

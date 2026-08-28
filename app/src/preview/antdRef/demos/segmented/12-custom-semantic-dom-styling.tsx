@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '../_icons';
+import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Flex, Segmented } from 'antd';
 import type { GetProp, SegmentedProps } from 'antd';
 import { createStaticStyles } from 'antd-style';

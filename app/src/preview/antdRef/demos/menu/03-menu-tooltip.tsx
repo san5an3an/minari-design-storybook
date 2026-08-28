@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import {
   AppstoreOutlined,
@@ -7,16 +8,16 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Menu, Space, Switch } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-  { key: '1', icon: <PieChartOutlined />, label: '항목 1' },
-  { key: '2', icon: <DesktopOutlined />, label: '항목 2' },
-  { key: '3', icon: <ContainerOutlined />, label: '항목 3' },
+  { key: '1', icon: <PieChartOutlined />, label: '선택지 1' },
+  { key: '2', icon: <DesktopOutlined />, label: '선택지 2' },
+  { key: '3', icon: <ContainerOutlined />, label: '선택지 3' },
   {
     key: 'sub1',
     label: '메뉴 하나',

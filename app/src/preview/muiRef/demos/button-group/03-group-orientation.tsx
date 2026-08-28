@@ -3,9 +3,9 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 
 const buttons = [
-  <Button key="one">One</Button>,
-  <Button key="two">Two</Button>,
-  <Button key="three">Three</Button>,
+  <Button key="one">하나</Button>,
+  <Button key="two">둘</Button>,
+  <Button key="three">셋</Button>,
 ];
 
 export default function GroupOrientation() {

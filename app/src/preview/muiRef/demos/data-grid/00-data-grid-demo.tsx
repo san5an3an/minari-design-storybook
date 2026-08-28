@@ -17,7 +17,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
   },
   {
     field: 'age',
-    headerName: 'Age',
+    headerName: '나이',
     type: 'number',
     width: 110,
     editable: true,

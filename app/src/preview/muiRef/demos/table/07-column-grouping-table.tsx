@@ -17,7 +17,7 @@ interface Column {
 }
 
 const columns: Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'name', label: '이름', minWidth: 170 },
   { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
   {
     id: 'population',
@@ -101,7 +101,7 @@ export default function ColumnGroupingTable() {
                 Country
               </TableCell>
               <TableCell align="center" colSpan={3}>
-                Details
+                자세히
               </TableCell>
             </TableRow>
             <TableRow>

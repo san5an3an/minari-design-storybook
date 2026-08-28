@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import { Notifications as NotificationsIcon } from '../_icons';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function DotBadge() {
   return (

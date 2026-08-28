@@ -1,4 +1,4 @@
-import { Delete as DeleteIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
@@ -6,13 +6,13 @@ import Tooltip from '@mui/material/Tooltip';
 export default function AccessibilityTooltips() {
   return (
     <div>
-      <Tooltip title="Delete">
+      <Tooltip title="지우기">
         <IconButton>
           <DeleteIcon />
         </IconButton>
       </Tooltip>
       <Tooltip describeChild title="Does not add if it already exists.">
-        <Button>Add</Button>
+        <Button>더하기</Button>
       </Tooltip>
     </div>
   );

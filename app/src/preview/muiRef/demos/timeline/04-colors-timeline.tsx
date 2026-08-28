@@ -13,13 +13,13 @@ export default function ColorsTimeline() {
           <TimelineDot color="secondary" />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Secondary</TimelineContent>
+        <TimelineContent>보조</TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineSeparator>
           <TimelineDot color="success" />
         </TimelineSeparator>
-        <TimelineContent>Success</TimelineContent>
+        <TimelineContent>성공</TimelineContent>
       </TimelineItem>
     </Timeline>
   );

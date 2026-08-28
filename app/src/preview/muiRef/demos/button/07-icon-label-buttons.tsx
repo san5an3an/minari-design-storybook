@@ -1,16 +1,16 @@
 import Button from '@mui/material/Button';
-import { Delete as DeleteIcon } from '../_icons';
-import { Send as SendIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 
 export default function IconLabelButtons() {
   return (
     <Stack direction="row" spacing={2}>
       <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
+        지우기
       </Button>
       <Button variant="contained" endIcon={<SendIcon />}>
-        Send
+        보내기
       </Button>
     </Stack>
   );

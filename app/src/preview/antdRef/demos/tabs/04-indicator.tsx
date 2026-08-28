@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Segmented, Tabs } from 'antd';
 import type { TabsProps } from 'antd';

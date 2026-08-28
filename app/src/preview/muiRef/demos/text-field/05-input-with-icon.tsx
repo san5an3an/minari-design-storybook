@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import { AccountCircle } from '../_icons';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 export default function InputWithIcon() {
   const adornmentId = React.useId();

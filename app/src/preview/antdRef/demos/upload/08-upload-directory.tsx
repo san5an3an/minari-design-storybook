@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { UploadOutlined } from '../_icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 
 const App: React.FC = () => (

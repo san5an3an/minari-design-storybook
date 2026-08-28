@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Space, Switch, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';

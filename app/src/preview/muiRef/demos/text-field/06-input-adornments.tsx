@@ -10,9 +10,9 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { Visibility } from '../_icons';
-import { VisibilityOff } from '../_icons';
-import { InfoOutlined } from '../_icons';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 
 export default function InputAdornments() {
   const outlinedStartId = React.useId();
@@ -74,11 +74,11 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${outlinedWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-          <InputLabel htmlFor={`${outlinedPasswordId}-input`}>Password</InputLabel>
+          <InputLabel htmlFor={`${outlinedPasswordId}-input`}>비밀번호</InputLabel>
           <OutlinedInput
             id={`${outlinedPasswordId}-input`}
             type={showPassword ? 'text' : 'password'}
@@ -97,16 +97,16 @@ export default function InputAdornments() {
                 </IconButton>
               </InputAdornment>
             }
-            label="Password"
+            label="비밀번호"
           />
         </FormControl>
         <div>
           <FormControl sx={{ m: 1, width: '25ch' }}>
-            <InputLabel htmlFor={`${outlinedAmountId}-input`}>Amount</InputLabel>
+            <InputLabel htmlFor={`${outlinedAmountId}-input`}>금액</InputLabel>
             <OutlinedInput
               id={`${outlinedAmountId}-input`}
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              label="Amount"
+              label="금액"
             />
           </FormControl>
           <TextField
@@ -116,9 +116,9 @@ export default function InputAdornments() {
             sx={{ m: 1, width: '25ch' }}
             slotProps={{ select: { endAdornment: infoEndAdornment } }}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={10}>열</MenuItem>
+            <MenuItem value={20}>스물</MenuItem>
+            <MenuItem value={30}>서른</MenuItem>
           </TextField>
           <TextField
             select
@@ -129,9 +129,9 @@ export default function InputAdornments() {
               select: { native: true, startAdornment: infoStartAdornment },
             }}
           >
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value={10}>열</option>
+            <option value={20}>스물</option>
+            <option value={30}>서른</option>
           </TextField>
         </div>
       </div>
@@ -157,11 +157,11 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${filledWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
-          <InputLabel htmlFor={`${filledPasswordId}-input`}>Password</InputLabel>
+          <InputLabel htmlFor={`${filledPasswordId}-input`}>비밀번호</InputLabel>
           <FilledInput
             id={`${filledPasswordId}-input`}
             type={showPassword ? 'text' : 'password'}
@@ -184,7 +184,7 @@ export default function InputAdornments() {
         </FormControl>
         <div>
           <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
-            <InputLabel htmlFor={`${filledAmountId}-input`}>Amount</InputLabel>
+            <InputLabel htmlFor={`${filledAmountId}-input`}>금액</InputLabel>
             <FilledInput
               id={`${filledAmountId}-input`}
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -198,9 +198,9 @@ export default function InputAdornments() {
             sx={{ m: 1, width: '25ch' }}
             slotProps={{ select: { endAdornment: infoEndAdornment } }}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={10}>열</MenuItem>
+            <MenuItem value={20}>스물</MenuItem>
+            <MenuItem value={30}>서른</MenuItem>
           </TextField>
           <TextField
             select
@@ -212,9 +212,9 @@ export default function InputAdornments() {
               select: { native: true, startAdornment: infoStartAdornment },
             }}
           >
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value={10}>열</option>
+            <option value={20}>스물</option>
+            <option value={30}>서른</option>
           </TextField>
         </div>
       </div>
@@ -240,11 +240,11 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${standardWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-          <InputLabel htmlFor={`${standardPasswordId}-input`}>Password</InputLabel>
+          <InputLabel htmlFor={`${standardPasswordId}-input`}>비밀번호</InputLabel>
           <Input
             id={`${standardPasswordId}-input`}
             type={showPassword ? 'text' : 'password'}
@@ -266,7 +266,7 @@ export default function InputAdornments() {
         </FormControl>
         <div>
           <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-            <InputLabel htmlFor={`${standardAmountId}-input`}>Amount</InputLabel>
+            <InputLabel htmlFor={`${standardAmountId}-input`}>금액</InputLabel>
             <Input
               id={`${standardAmountId}-input`}
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -280,9 +280,9 @@ export default function InputAdornments() {
             sx={{ m: 1, width: '25ch' }}
             slotProps={{ select: { endAdornment: infoEndAdornment } }}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={10}>열</MenuItem>
+            <MenuItem value={20}>스물</MenuItem>
+            <MenuItem value={30}>서른</MenuItem>
           </TextField>
           <TextField
             select
@@ -294,9 +294,9 @@ export default function InputAdornments() {
               select: { native: true, startAdornment: infoStartAdornment },
             }}
           >
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value={10}>열</option>
+            <option value={20}>스물</option>
+            <option value={30}>서른</option>
           </TextField>
         </div>
       </div>

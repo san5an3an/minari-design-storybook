@@ -3,7 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function DisabledAccordion() {
   const id = React.useId();
@@ -19,8 +19,7 @@ export default function DisabledAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -34,8 +33,7 @@ export default function DisabledAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            내용이 들어갈 자리를 대신하는 표본 글이에요. 길이가 어느 정도일 때 화면이 어떻게 보이는지 가늠하려고 넣어 뒀어요.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -45,7 +43,7 @@ export default function DisabledAccordion() {
           aria-controls={`${id}-panel3-content`}
           id={`${id}-panel3-header`}
         >
-          <Typography component="span">Disabled Accordion</Typography>
+          <Typography component="span">못 쓰는 Accordion</Typography>
         </AccordionSummary>
       </Accordion>
     </div>

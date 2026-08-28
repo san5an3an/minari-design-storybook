@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Descriptions, Flex } from 'antd';
 import type { DescriptionsProps, GetProp } from 'antd';

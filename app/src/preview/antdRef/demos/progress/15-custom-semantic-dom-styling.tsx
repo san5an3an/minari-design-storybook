@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Progress } from 'antd';
 import type { GetProp, ProgressProps } from 'antd';

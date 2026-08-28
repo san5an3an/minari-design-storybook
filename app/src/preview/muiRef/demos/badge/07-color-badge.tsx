@@ -1,9 +1,9 @@
 import Badge from '@mui/material/Badge';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import { CalendarMonth as CalendarMonthIcon } from '../_icons';
-import { FolderOpen as FolderOpenIcon } from '../_icons';
-import { ReportProblemOutlined as ReportProblemOutlinedIcon } from '../_icons';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 
 export default function ColorBadge() {
   return (

@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import { Delete as DeleteIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function IconButtonSizes() {
   return (

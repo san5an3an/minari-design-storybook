@@ -1,10 +1,10 @@
 import {
-  NavigationMenu as ShadcnNavigationMenu, NavigationMenuContent, NavigationMenuIndicator,
+  NavigationMenu as ShadcnNavigationMenu, NavigationMenuContent,
   NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import type { NavigationmenuProps } from "../../systems/props";
 
-export function Navigationmenu({ items, indicator, className }: NavigationmenuProps) {
+export function Navigationmenu({ items, className }: NavigationmenuProps) {
   return (
     <ShadcnNavigationMenu className={className}>
       <NavigationMenuList>
@@ -27,8 +27,7 @@ export function Navigationmenu({ items, indicator, className }: NavigationmenuPr
           </NavigationMenuItem>
         ))}
       </NavigationMenuList>
-      {/* 펼쳐지는 영역이 어느 항목에서 나왔는지 표시. 없으면 영역만 떠서 원인을 알 수 없음 */}
-      {indicator ? <NavigationMenuIndicator /> : null}
+      {/* NavigationMenuIndicator 조건부 렌더링 제거 */}
     </ShadcnNavigationMenu>
   );
 }

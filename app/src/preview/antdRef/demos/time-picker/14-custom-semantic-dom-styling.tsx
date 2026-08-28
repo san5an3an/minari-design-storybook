@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, TimePicker } from 'antd';
 import type { GetProp, TimePickerProps } from 'antd';

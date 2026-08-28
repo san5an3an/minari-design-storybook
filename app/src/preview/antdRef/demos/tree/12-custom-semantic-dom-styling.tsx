@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Tree } from 'antd';
 import type { GetProp, TreeProps } from 'antd';

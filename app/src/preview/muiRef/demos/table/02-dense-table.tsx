@@ -30,11 +30,11 @@ export default function DenseTable() {
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>디저트 (100g 기준)</TableCell>
+            <TableCell align="right">열량</TableCell>
+            <TableCell align="right">지방&nbsp;(g)</TableCell>
+            <TableCell align="right">탄수화물&nbsp;(g)</TableCell>
+            <TableCell align="right">단백질&nbsp;(g)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

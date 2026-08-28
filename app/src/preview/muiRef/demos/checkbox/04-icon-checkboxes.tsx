@@ -1,8 +1,8 @@
 import Checkbox from '@mui/material/Checkbox';
-import { FavoriteBorder } from '../_icons';
-import { Favorite } from '../_icons';
-import { BookmarkBorder as BookmarkBorderIcon } from '../_icons';
-import { Bookmark as BookmarkIcon } from '../_icons';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };
 

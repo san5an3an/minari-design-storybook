@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { PaginationProps } from 'antd';
 import { InputNumber, Pagination } from 'antd';

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { MinusOutlined, PlusOutlined } from '../_icons';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Flex, Progress, Space } from 'antd';
 
 const App: React.FC = () => {

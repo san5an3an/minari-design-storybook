@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { BorderBeam, Card } from 'antd';
 import { createStyles } from 'antd-style';

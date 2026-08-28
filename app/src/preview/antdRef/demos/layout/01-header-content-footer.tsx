@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 

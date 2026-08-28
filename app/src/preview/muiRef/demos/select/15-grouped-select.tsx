@@ -11,38 +11,38 @@ export default function GroupedSelect() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel htmlFor={`${nativeId}-select`}>Grouping</InputLabel>
-        <Select native defaultValue="" id={`${nativeId}-select`} label="Grouping">
-          <option aria-label="None" value="" />
-          <optgroup label="Category 1">
-            <option value={1}>Option 1</option>
-            <option value={2}>Option 2</option>
+        <InputLabel htmlFor={`${nativeId}-select`}>묶기</InputLabel>
+        <Select native defaultValue="" id={`${nativeId}-select`} label="묶기">
+          <option aria-label="없음" value="" />
+          <optgroup label="분류 1">
+            <option value={1}>선택지 1</option>
+            <option value={2}>선택지 2</option>
           </optgroup>
-          <optgroup label="Category 2">
-            <option value={3}>Option 3</option>
-            <option value={4}>Option 4</option>
+          <optgroup label="분류 2">
+            <option value={3}>선택지 3</option>
+            <option value={4}>선택지 4</option>
           </optgroup>
         </Select>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id={`${id}-label`}>Grouping</InputLabel>
+        <InputLabel id={`${id}-label`}>묶기</InputLabel>
         <Select
           defaultValue=""
           id={`${id}-select`}
-          label="Grouping"
+          label="묶기"
           SelectDisplayProps={{
             'aria-labelledby': `${id}-label`,
           }}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>없음</em>
           </MenuItem>
-          <ListSubheader>Category 1</ListSubheader>
-          <MenuItem value={1}>Option 1</MenuItem>
-          <MenuItem value={2}>Option 2</MenuItem>
-          <ListSubheader>Category 2</ListSubheader>
-          <MenuItem value={3}>Option 3</MenuItem>
-          <MenuItem value={4}>Option 4</MenuItem>
+          <ListSubheader>분류 1</ListSubheader>
+          <MenuItem value={1}>선택지 1</MenuItem>
+          <MenuItem value={2}>선택지 2</MenuItem>
+          <ListSubheader>분류 2</ListSubheader>
+          <MenuItem value={3}>선택지 3</MenuItem>
+          <MenuItem value={4}>선택지 4</MenuItem>
         </Select>
       </FormControl>
     </div>

@@ -13,8 +13,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Folder as FolderIcon } from '../_icons';
-import { Delete as DeleteIcon } from '../_icons';
+import FolderIcon from '@mui/icons-material/Folder';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function generate(element: React.ReactElement<unknown>) {
   return [0, 1, 2].map((value) =>

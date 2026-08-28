@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 export default function FormControlLabelPosition() {
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Label placement</FormLabel>
+      <FormLabel component="legend">이름표 자리</FormLabel>
       <FormGroup aria-label="position" row>
         <FormControlLabel
           value="bottom"

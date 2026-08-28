@@ -5,8 +5,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import { Inbox as InboxIcon } from '../_icons';
-import { Drafts as DraftsIcon } from '../_icons';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 export default function BasicList() {
   return (
@@ -18,7 +18,7 @@ export default function BasicList() {
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="받은 편지함" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

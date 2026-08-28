@@ -40,47 +40,47 @@ export default function DialogSelect() {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Open select dialog</Button>
+      <Button onClick={handleClickOpen}>고르기 대화상자 열기</Button>
       <Dialog open={open} onClose={handleDialogClose}>
-        <DialogTitle>Fill the form</DialogTitle>
+        <DialogTitle>양식을 채워 주세요</DialogTitle>
         <DialogContent>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel htmlFor={`${nativeId}-select`}>Age</InputLabel>
+              <InputLabel htmlFor={`${nativeId}-select`}>나이</InputLabel>
               <Select
                 native
                 value={age}
                 onChange={handleChange}
-                input={<OutlinedInput label="Age" id={`${nativeId}-select`} />}
+                input={<OutlinedInput label="나이" id={`${nativeId}-select`} />}
               >
-                <option aria-label="None" value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                <option aria-label="없음" value="" />
+                <option value={10}>열</option>
+                <option value={20}>스물</option>
+                <option value={30}>서른</option>
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id={`${selectId}-label`}>Age</InputLabel>
+              <InputLabel id={`${selectId}-label`}>나이</InputLabel>
               <Select
                 labelId={`${selectId}-label`}
                 id={`${selectId}-select`}
                 value={age}
                 onChange={handleChange}
-                input={<OutlinedInput label="Age" />}
+                input={<OutlinedInput label="나이" />}
               >
                 <MenuItem value="">
-                  <em>None</em>
+                  <em>없음</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10}>열</MenuItem>
+                <MenuItem value={20}>스물</MenuItem>
+                <MenuItem value={30}>서른</MenuItem>
               </Select>
             </FormControl>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleActionButtonClick}>Cancel</Button>
-          <Button onClick={handleActionButtonClick}>Ok</Button>
+          <Button onClick={handleActionButtonClick}>취소</Button>
+          <Button onClick={handleActionButtonClick}>보통</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -31,7 +31,7 @@ export default function GroupedMenu() {
         aria-expanded={open}
         onClick={handleClick}
       >
-        Dashboard
+        대시보드
       </Button>
       <Menu
         id={menuId}
@@ -47,12 +47,12 @@ export default function GroupedMenu() {
           },
         }}
       >
-        <StyledListHeader>Category 1</StyledListHeader>
-        <MenuItem onClick={handleClose}>Option 1</MenuItem>
-        <MenuItem onClick={handleClose}>Option 2</MenuItem>
-        <StyledListHeader>Category 2</StyledListHeader>
-        <MenuItem onClick={handleClose}>Option 3</MenuItem>
-        <MenuItem onClick={handleClose}>Option 4</MenuItem>
+        <StyledListHeader>분류 1</StyledListHeader>
+        <MenuItem onClick={handleClose}>선택지 1</MenuItem>
+        <MenuItem onClick={handleClose}>선택지 2</MenuItem>
+        <StyledListHeader>분류 2</StyledListHeader>
+        <MenuItem onClick={handleClose}>선택지 3</MenuItem>
+        <MenuItem onClick={handleClose}>선택지 4</MenuItem>
       </Menu>
     </div>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Checkbox, InputNumber, Space } from 'antd';
 

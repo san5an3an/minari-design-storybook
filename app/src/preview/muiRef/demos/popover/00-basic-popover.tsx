@@ -20,7 +20,7 @@ export default function BasicPopover() {
   return (
     <div>
       <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-        Open Popover
+        Popover 열기
       </Button>
       <Popover
         id={id}
@@ -32,7 +32,7 @@ export default function BasicPopover() {
           horizontal: 'left',
         }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+        <Typography sx={{ p: 2 }}>Popover 의 내용이에요.</Typography>
       </Popover>
     </div>
   );

@@ -17,7 +17,7 @@ export default function ListDividers() {
   return (
     <List sx={style} aria-label="mailbox folders">
       <ListItem>
-        <ListItemText primary="Inbox" />
+        <ListItemText primary="받은 편지함" />
       </ListItem>
       <Divider component="li" />
       <ListItem>

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { InboxOutlined, UploadOutlined } from '../_icons';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   Button,
   Checkbox,

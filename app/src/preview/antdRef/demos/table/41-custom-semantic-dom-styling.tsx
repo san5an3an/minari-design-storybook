@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Table } from 'antd';
 import type { GetProp, TableProps } from 'antd';

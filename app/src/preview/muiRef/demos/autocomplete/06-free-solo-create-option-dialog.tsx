@@ -102,10 +102,10 @@ export default function FreeSoloCreateOptionDialog() {
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Add a new film</DialogTitle>
+          <DialogTitle>영화 새로 넣기</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Did you miss any film in our list? Please, add it!
+              목록에 없는 영화가 있나요? 더해 주세요!
             </DialogContentText>
             <TextField
               autoFocus
@@ -138,8 +138,8 @@ export default function FreeSoloCreateOptionDialog() {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            <Button onClick={handleClose}>취소</Button>
+            <Button type="submit">더하기</Button>
           </DialogActions>
         </form>
       </Dialog>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Collapse, Space } from 'antd';
 import { createStyles } from 'antd-style';

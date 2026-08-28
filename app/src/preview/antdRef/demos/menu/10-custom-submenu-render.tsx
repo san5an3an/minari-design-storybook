@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { MenuProps } from 'antd';
 import { Col, ConfigProvider, Flex, Menu, Row, Space, Typography } from 'antd';

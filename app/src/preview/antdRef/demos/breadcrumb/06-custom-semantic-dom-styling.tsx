@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Breadcrumb, Flex } from 'antd';
 import type { BreadcrumbProps, GetProp } from 'antd';

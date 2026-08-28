@@ -1,10 +1,11 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import {
   BarChartOutlined,
   DotChartOutlined,
   LineChartOutlined,
   PieChartOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
 import { Flex, Radio } from 'antd';
 

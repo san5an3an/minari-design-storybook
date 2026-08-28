@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '../_icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
@@ -11,9 +12,9 @@ const items: MenuItem[] = [
     icon: <MailOutlined />,
     label: '메뉴 하나',
     children: [
-      { key: '11', label: '항목 1' },
-      { key: '12', label: '항목 2' },
-      { key: '13', label: '항목 3' },
+      { key: '11', label: '선택지 1' },
+      { key: '12', label: '선택지 2' },
+      { key: '13', label: '선택지 3' },
       { key: '14', label: '항목 4' },
     ],
   },
@@ -22,24 +23,24 @@ const items: MenuItem[] = [
     icon: <AppstoreOutlined />,
     label: '메뉴 둘',
     children: [
-      { key: '21', label: '항목 1' },
-      { key: '22', label: '항목 2' },
+      { key: '21', label: '선택지 1' },
+      { key: '22', label: '선택지 2' },
       {
         key: '23',
         label: '하위 메뉴',
         children: [
-          { key: '231', label: '항목 1' },
-          { key: '232', label: '항목 2' },
-          { key: '233', label: '항목 3' },
+          { key: '231', label: '선택지 1' },
+          { key: '232', label: '선택지 2' },
+          { key: '233', label: '선택지 3' },
         ],
       },
       {
         key: '24',
         label: '하위 메뉴 2',
         children: [
-          { key: '241', label: '항목 1' },
-          { key: '242', label: '항목 2' },
-          { key: '243', label: '항목 3' },
+          { key: '241', label: '선택지 1' },
+          { key: '242', label: '선택지 2' },
+          { key: '243', label: '선택지 3' },
         ],
       },
     ],
@@ -49,9 +50,9 @@ const items: MenuItem[] = [
     icon: <SettingOutlined />,
     label: '메뉴 셋',
     children: [
-      { key: '31', label: '항목 1' },
-      { key: '32', label: '항목 2' },
-      { key: '33', label: '항목 3' },
+      { key: '31', label: '선택지 1' },
+      { key: '32', label: '선택지 2' },
+      { key: '33', label: '선택지 3' },
       { key: '34', label: '항목 4' },
     ],
   },

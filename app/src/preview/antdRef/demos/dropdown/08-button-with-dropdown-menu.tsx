@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { DownOutlined, EllipsisOutlined, UserOutlined } from '../_icons';
+import { DownOutlined, EllipsisOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 

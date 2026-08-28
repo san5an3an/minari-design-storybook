@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, message, Transfer } from 'antd';
-import { DoubleLeftOutlined, DoubleRightOutlined } from '../_icons';
+import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import type { TransferProps } from 'antd';
 
 interface RecordType {

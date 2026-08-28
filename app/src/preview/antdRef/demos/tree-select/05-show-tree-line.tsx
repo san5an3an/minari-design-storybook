@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import { CarryOutOutlined } from '../_icons';
+import { CarryOutOutlined } from '@ant-design/icons';
 import { Space, Switch, TreeSelect } from 'antd';
 
 const treeData = [

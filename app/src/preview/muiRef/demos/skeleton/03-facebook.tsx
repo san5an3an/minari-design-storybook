@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { MoreVert as MoreVertIcon } from '../_icons';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Skeleton from '@mui/material/Skeleton';
 
 interface MediaProps {
@@ -45,7 +45,7 @@ function Media(props: MediaProps) {
               style={{ marginBottom: 6 }}
             />
           ) : (
-            'Ted'
+            '지훈'
           )
         }
         subheader={

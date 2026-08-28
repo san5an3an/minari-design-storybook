@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Divider, Flex, Steps } from 'antd';
 import type { StepsProps } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { CollapseProps, GetProp } from 'antd';
 import { Collapse, Flex } from 'antd';

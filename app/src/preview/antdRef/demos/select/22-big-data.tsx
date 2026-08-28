@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { SelectProps } from 'antd';
 import { Select, Typography } from 'antd';

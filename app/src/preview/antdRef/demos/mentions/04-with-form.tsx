@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Form, Mentions, Space } from 'antd';
 

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '../_icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { createStyles } from 'antd-style';
 

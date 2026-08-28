@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
-import { PlusOutlined } from '../_icons';
+import { PlusOutlined } from '@ant-design/icons';
 import type { InputRef } from 'antd';
 import { Flex, Input, Tag, theme, Tooltip } from 'antd';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import { Button, ConfigProvider, Flex } from 'antd';

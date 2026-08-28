@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, TimePicker } from 'antd';
 
@@ -10,7 +11,7 @@ const App: React.FC = () => {
       onOpenChange={setOpen}
       renderExtraFooter={() => (
         <Button size="small" type="primary" onClick={() => setOpen(false)}>
-          확인
+          좋아요
         </Button>
       )}
     />

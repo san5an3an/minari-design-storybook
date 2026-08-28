@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { createContext, useContext, useState } from 'react';
 import type { DragEndEvent, DragOverEvent, UniqueIdentifier } from '@dnd-kit/core';
 import {

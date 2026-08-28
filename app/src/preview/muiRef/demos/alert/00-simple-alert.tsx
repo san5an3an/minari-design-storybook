@@ -1,10 +1,10 @@
 import Alert from '@mui/material/Alert';
-import { Check as CheckIcon } from '../_icons';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function SimpleAlert() {
   return (
     <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-      Here is a gentle confirmation that your action was successful.
+      하신 일이 잘 끝났다고 조용히 알려 드려요.
     </Alert>
   );
 }

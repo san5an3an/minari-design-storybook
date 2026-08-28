@@ -6,12 +6,12 @@ import Zoom from '@mui/material/Zoom';
 export default function TransitionsTooltips() {
   return (
     <div>
-      <Tooltip describeChild title="Add">
+      <Tooltip describeChild title="더하기">
         <Button>Grow</Button>
       </Tooltip>
       <Tooltip
         describeChild
-        title="Add"
+        title="더하기"
         slots={{
           transition: Fade,
         }}
@@ -23,12 +23,12 @@ export default function TransitionsTooltips() {
       </Tooltip>
       <Tooltip
         describeChild
-        title="Add"
+        title="더하기"
         slots={{
           transition: Zoom,
         }}
       >
-        <Button>Zoom</Button>
+        <Button>확대/축소</Button>
       </Tooltip>
     </div>
   );

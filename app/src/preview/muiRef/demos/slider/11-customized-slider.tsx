@@ -170,7 +170,7 @@ export default function CustomizedSlider() {
         defaultValue={20}
       />
       <Box sx={{ m: 3 }} />
-      <Typography gutterBottom>Tooltip value label</Typography>
+      <Typography gutterBottom>값을 띄우는 이름표</Typography>
       <Slider
         valueLabelDisplay="auto"
         slots={{

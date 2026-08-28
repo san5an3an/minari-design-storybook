@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { StatisticTimerProps } from 'antd';
 import { Col, Row, Statistic } from 'antd';

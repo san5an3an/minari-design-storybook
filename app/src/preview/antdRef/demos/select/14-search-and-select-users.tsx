@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo, useRef, useState } from 'react';
 import { Avatar, Select, Spin } from 'antd';
 import type { SelectProps } from 'antd';

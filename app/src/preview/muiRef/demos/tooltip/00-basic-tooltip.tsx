@@ -1,10 +1,10 @@
-import { Delete as DeleteIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function BasicTooltip() {
   return (
-    <Tooltip title="Delete">
+    <Tooltip title="지우기">
       <IconButton>
         <DeleteIcon />
       </IconButton>

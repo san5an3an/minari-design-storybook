@@ -13,18 +13,18 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="outlined-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
         />
         <TextField
           disabled
           id="outlined-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
         />
         <TextField
           id="outlined-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
         />
@@ -50,20 +50,20 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="filled-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
           variant="filled"
         />
         <TextField
           disabled
           id="filled-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
           variant="filled"
         />
         <TextField
           id="filled-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
           variant="filled"
@@ -97,20 +97,20 @@ export default function FormPropsTextFields() {
         <TextField
           required
           id="standard-required"
-          label="Required"
+          label="필수"
           defaultValue="Hello World"
           variant="standard"
         />
         <TextField
           disabled
           id="standard-disabled"
-          label="Disabled"
+          label="못 쓰는 상태"
           defaultValue="Hello World"
           variant="standard"
         />
         <TextField
           id="standard-password-input"
-          label="Password"
+          label="비밀번호"
           type="password"
           autoComplete="current-password"
           variant="standard"

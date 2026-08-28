@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
-import { Close as CloseIcon } from '../_icons';
+import CloseIcon from '@mui/icons-material/Close';
 
 export interface SnackbarMessage {
   message: string;
@@ -48,8 +48,8 @@ export default function ConsecutiveSnackbars() {
 
   return (
     <div>
-      <Button onClick={handleClick('Message A')}>Show message A</Button>
-      <Button onClick={handleClick('Message B')}>Show message B</Button>
+      <Button onClick={handleClick('Message A')}>메시지 A 보이기</Button>
+      <Button onClick={handleClick('Message B')}>메시지 B 보이기</Button>
       <Snackbar
         key={messageInfo ? messageInfo.key : undefined}
         open={open}
@@ -60,7 +60,7 @@ export default function ConsecutiveSnackbars() {
         action={
           <React.Fragment>
             <Button color="secondary" size="small" onClick={handleClose}>
-              UNDO
+              되돌리기
             </Button>
             <IconButton
               aria-label="close"

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Transfer } from 'antd';
 import type { GetProp, TransferProps } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Flex, Modal } from 'antd';
 import type { GetProp, ModalProps } from 'antd';

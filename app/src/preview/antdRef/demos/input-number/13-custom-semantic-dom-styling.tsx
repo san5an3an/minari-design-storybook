@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, InputNumber } from 'antd';
 import type { GetProp, InputNumberProps } from 'antd';

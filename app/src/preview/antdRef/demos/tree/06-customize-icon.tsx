@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {
   DownOutlined,
@@ -5,7 +6,7 @@ import {
   FrownOutlined,
   MehOutlined,
   SmileOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeDataNode } from 'antd';
 

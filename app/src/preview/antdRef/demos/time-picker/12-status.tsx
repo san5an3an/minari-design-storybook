@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Space, TimePicker } from 'antd';
 

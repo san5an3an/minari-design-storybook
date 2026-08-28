@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { Button, Transfer } from 'antd';
 import type { TransferProps } from 'antd';

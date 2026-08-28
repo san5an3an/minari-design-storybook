@@ -9,7 +9,7 @@ export default function RowRadioButtonsGroup() {
   const id = React.useId();
   return (
     <FormControl>
-      <FormLabel id={`${id}-label`}>Gender</FormLabel>
+      <FormLabel id={`${id}-label`}>성별</FormLabel>
       <RadioGroup row aria-labelledby={`${id}-label`} name="row-radio-buttons-group">
         <FormControlLabel value="female" control={<Radio />} label="Female" />
         <FormControlLabel value="male" control={<Radio />} label="Male" />

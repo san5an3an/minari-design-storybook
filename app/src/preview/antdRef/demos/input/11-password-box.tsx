@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '../_icons';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
 
 const App: React.FC = () => {

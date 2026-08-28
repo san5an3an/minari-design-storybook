@@ -21,7 +21,7 @@ export default function OppositeContentTimeline() {
           <TimelineDot />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Eat</TimelineContent>
+        <TimelineContent>먹기</TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent
@@ -29,13 +29,13 @@ export default function OppositeContentTimeline() {
             color: 'text.secondary',
           }}
         >
-          10:00 am
+          오전 10:00
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineDot />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Code</TimelineContent>
+        <TimelineContent>코드</TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent
@@ -49,7 +49,7 @@ export default function OppositeContentTimeline() {
           <TimelineDot />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Sleep</TimelineContent>
+        <TimelineContent>자기</TimelineContent>
       </TimelineItem>
       <TimelineItem>
         <TimelineOppositeContent
@@ -63,7 +63,7 @@ export default function OppositeContentTimeline() {
           <TimelineDot />
           <TimelineConnector />
         </TimelineSeparator>
-        <TimelineContent>Repeat</TimelineContent>
+        <TimelineContent>되풀이</TimelineContent>
       </TimelineItem>
     </Timeline>
   );

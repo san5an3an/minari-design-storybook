@@ -28,13 +28,13 @@ export default function VariableWidth() {
   return (
     <div>
       <Tooltip describeChild title={longText}>
-        <Button sx={{ m: 1 }}>Default Width [300px]</Button>
+        <Button sx={{ m: 1 }}>기본 너비 [300px]</Button>
       </Tooltip>
       <CustomWidthTooltip title={longText}>
-        <Button sx={{ m: 1 }}>Custom Width [500px]</Button>
+        <Button sx={{ m: 1 }}>바꾼 너비 [500px]</Button>
       </CustomWidthTooltip>
       <NoMaxWidthTooltip title={longText}>
-        <Button sx={{ m: 1 }}>No wrapping</Button>
+        <Button sx={{ m: 1 }}>줄바꿈 없음</Button>
       </NoMaxWidthTooltip>
     </div>
   );

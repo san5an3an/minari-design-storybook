@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Phone as PhoneIcon } from '../_icons';
-import { Favorite as FavoriteIcon } from '../_icons';
-import { PersonPin as PersonPinIcon } from '../_icons';
+import PhoneIcon from '@mui/icons-material/Phone';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 export default function IconTabs() {
   const [value, setValue] = React.useState(0);
