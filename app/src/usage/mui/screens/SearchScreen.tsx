@@ -290,7 +290,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
               sx={{
                 alignItems: "center",
                 bgcolor: "action.hover",
-                color: "text.disabled",
+                color: "text.secondary",
                 display: "flex",
                 flexDirection: "column",
                 gap: 1,

@@ -151,9 +151,10 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
             {screen.label}
           </h3>
           {/* 보고 있는 대상과 출처 함께 표시. 감추면 원본과 판단 구분이 안 되는 문제가 있음 */}
+          {/* subtlest 대신 subtle 사용. caption(11px) 최소라 약함 중첩 문제임 */}
           <code
             style={{
-              color: "var(--semantic-fg-neutral-subtlest)",
+              color: "var(--semantic-fg-neutral-subtle)",
               fontSize: "var(--semantic-text-caption)",
             }}
           >
