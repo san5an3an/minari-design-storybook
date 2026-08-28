@@ -1,55 +1,54 @@
 import type { ComponentType } from "react";
-import { Data } from "./screens/Data";
-import { Content } from "./screens/Content";
-import { Feedback } from "./screens/Feedback";
-import { Form } from "./screens/Form";
-import { Navigation } from "./screens/Navigation";
-import { Overview } from "./screens/Overview";
+import { AuthenticationScreen } from "./screens/AuthenticationScreen";
+import { DashboardScreen } from "./screens/DashboardScreen";
+import { PlaygroundScreen } from "./screens/PlaygroundScreen";
+import { TasksScreen } from "./screens/TasksScreen";
 
 export interface ScreenDefinition {
   key: string;
-  // rail에 표시되는 이름
+  // 선택기 표시 이름
   label: string;
-  // 화면 설명을 화면 머리에 그대로 표시
+  // 화면 설명을 선택기 아래에 그대로 표시
   lede: string;
-  Screen: ComponentType;
+  // 원본 출처와 자체 판단 영역을 구분 표시
+  source: string;
+  // 앱 셸 없이 전체 렌더링 여부, 로그인 화면이 해당
+  fullBleed?: boolean;
+  Screen: ComponentType<ScreenProps>;
+}
+
+export interface ScreenProps {
+  onNavigate?: (key: string) => void;
 }
 
 export const SCREENS: ScreenDefinition[] = [
   {
-    key: "overview",
-    label: "Overview",
-    lede: "숫자와 표가 함께 렌더링되는 위치. 지표를 먼저 읽고 그 아래에서 근거를 확인.",
-    Screen: Overview,
+    key: "dashboard",
+    label: "대시보드",
+    lede: "지표 넷과 그림 하나, 그리고 표. 자기 사이드바를 가진 유일한 화면임.",
+    source: "examples/dashboard",
+    Screen: DashboardScreen,
   },
   {
-    key: "data",
-    label: "Data",
-    lede: "자료를 보는 위치. 열끼리 견주면 표, 줄이 하나의 대상이면 목록, 수를 모양으로 읽으면 그림.",
-    Screen: Data,
+    key: "tasks",
+    label: "할 일",
+    lede: "필터 두 개가 실제로 걸러내는 지점. 조건이 겹칠 때 어떻게 되는지를 보여주는 화면",
+    source: "examples/tasks",
+    Screen: TasksScreen,
   },
   {
-    key: "form",
-    label: "Form",
-    lede: "값을 받는 위치. 라벨과 설명이 필드에 붙는 방식, 그리고 켜짐이 늘 오른쪽이라는 것.",
-    Screen: Form,
+    key: "playground",
+    label: "플레이그라운드",
+    lede: "핸들이 값을 바꾸는 위치. 설정은 오른쪽, 만드는 곳은 왼쪽임.",
+    source: "examples/playground",
+    Screen: PlaygroundScreen,
   },
   {
-    key: "feedback",
-    label: "Feedback",
-    lede: "말을 거는 위치. 같은 '떠 있는 것'이라도 무엇이 멈추는가로 나뉨, 흐름·화면·손가락.",
-    Screen: Feedback,
-  },
-  {
-    key: "navigation",
-    label: "Navigation",
-    lede: "길을 찾는 위치. 고르면 위치가 바뀌는 것과 일이 일어나는 것은 다른 컴포넌트.",
-    Screen: Navigation,
-  },
-  {
-    key: "content",
-    label: "Content",
-    lede: "읽고 접고 나누는 위치. 하나를 접으면 Collapsible, 여러 종류는 Accordion 사용.",
-    Screen: Content,
+    key: "authentication",
+    label: "로그인",
+    lede: "들어오기 전의 화면. 그래서 이 하나만 셸이 없음.",
+    source: "examples/authentication",
+    fullBleed: true,
+    Screen: AuthenticationScreen,
   },
 ];

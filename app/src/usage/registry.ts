@@ -10,10 +10,13 @@ export interface UsageDashboardProps {
 
 export type UsageDashboard = ComponentType<UsageDashboardProps>;
 
+import { AntdUsage } from "./antd/Dashboard";
+import { MuiUsage } from "./mui/Dashboard";
 import { ShadcnUsage } from "./shadcn/Dashboard";
 
-// 베이스 키를 Usage 대시보드에 매핑. 없는 베이스는 UsagePage가 준비중 화면 표시
 export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
+  antd: AntdUsage,
+  mui: MuiUsage,
   shadcn: ShadcnUsage,
 };
 

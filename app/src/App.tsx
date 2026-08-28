@@ -539,9 +539,10 @@ export function App {
       {/* min-w-0 지정. 없으면 본문 열이 넓어져 사이드바 밖으로 삐져나올 수 있음 */}
       <SidebarInset className="min-w-0">
         {/* z-30 사용. 미리보기 컴포넌트가 z-10, z-20을 사용해 겹침 방지 */}
+        {/* flex-wrap으로 접힘, 높이는 고정 아닌 최소값임 */}
         <header
-          className="ods-chrome bg-background sticky top-0 z-30 flex h-14 shrink-0
-                     items-center gap-2 border-b px-4"
+          className="ods-chrome bg-background sticky top-0 z-30 flex min-h-14 shrink-0
+                     flex-wrap items-center gap-2 border-b px-4 py-2"
         >
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 !h-4" />
@@ -552,10 +553,12 @@ export function App {
           </span>
           <ChevronRight className="text-muted-foreground size-3.5 shrink-0" />
           <span className="shrink-0 text-sm">{here}</span>
-          <span className="text-muted-foreground shrink-0 text-xs">
+          {/* 좁은 화면에서 베이스 이름 숨김 처리 */}
+          <span className="text-muted-foreground hidden shrink-0 text-xs sm:inline">
             베이스 {system.baseTitle}
           </span>
-          <div className="ml-auto flex items-center gap-2">
+          {/* 그룹도 접힘. 넷이 한 행에 안 들어가면 둘씩 두 행 배치 */}
+          <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
             <ExportButton disabled={!exportable} onOpen={ => setExportOpen(true)} />
             <SystemSelect slug={slug} onPick={(next) => pick(next, section)} />
             <FontSelect font={font} onPick={setFont} />
