@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/layout.json 의 examples[4] ("Sider")
@@ -39,8 +40,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('항목 1', '1', <PieChartOutlined />),
-  getItem('항목 2', '2', <DesktopOutlined />),
+  getItem('선택지 1', '1', <PieChartOutlined />),
+  getItem('선택지 2', '2', <DesktopOutlined />),
   getItem('사용자', 'sub1', <UserOutlined />, [
     getItem('태현', '3'),
     getItem('빌', '4'),

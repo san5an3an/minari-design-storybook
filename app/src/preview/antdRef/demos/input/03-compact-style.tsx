@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/input.json 의 examples[3] ("Compact Style")
@@ -45,7 +46,7 @@ const App: React.FC = () => (
     </Space.Compact>
     <Space.Compact>
       <Select defaultValue="Zhejiang" options={options} />
-      <Input defaultValue="서울 강남구" />
+      <Input defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact size="large">
       <Space.Addon>

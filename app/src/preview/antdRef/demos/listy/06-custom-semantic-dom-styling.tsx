@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/listy.json 의 examples[6] ("Custom semantic dom styling")
@@ -24,7 +25,7 @@ const users: User[] = [
   { id: 0, name: '지아', team: '디자인' },
   { id: 1, name: '시우', team: '디자인' },
   { id: 2, name: '하은', team: '디자인' },
-  { id: 3, name: '도윤', team: '엔지니어링' },
+  { id: 3, name: '시우', team: '엔지니어링' },
   { id: 4, name: '서아', team: '엔지니어링' },
   { id: 5, name: '이준', team: '엔지니어링' },
   { id: 6, name: '지우', team: '마케팅' },

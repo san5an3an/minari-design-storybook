@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[15] ("Dynamic Form nest Items")
@@ -34,7 +35,7 @@ const App: React.FC = () => (
                 name={[name, '첫째']}
                 rules={[{ required: true, message: '이름이 없어요' }]}
               >
-                <Input placeholder="이름" />
+                <Input placeholder="이름(성 빼고)" />
               </Form.Item>
               <Form.Item
                 {...restField}

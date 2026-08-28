@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/modal.json 의 examples[15] ("destroy confirmation modal dialog")
@@ -24,7 +25,7 @@ const showConfirm = () => {
     setTimeout(() => {
       confirm({
         icon: <ExclamationCircleOutlined />, content: <Button onClick={destroyAll}>눌러서 모두 없애기</Button>, onOk() {
-          console.log('확인');
+          console.log('좋아요');
         },
         onCancel() {
           console.log('취소');

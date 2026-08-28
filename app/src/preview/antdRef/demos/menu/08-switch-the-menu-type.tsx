@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/menu.json 의 examples[8] ("Switch the menu type")
@@ -39,7 +40,7 @@ const items: MenuItem[] = [
     key: 'sub1',
     label: '메뉴 둘',
     icon: <AppstoreOutlined />, children: [
-      { key: '3', label: '항목 3' },
+      { key: '3', label: '선택지 3' },
       { key: '4', label: '항목 4' },
       {
         key: 'sub1-2',

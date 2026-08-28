@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/table.json 의 examples[27] ("Nested tables")
@@ -68,7 +69,7 @@ const expandColumns: TableColumnsType<ExpandedDataType> = [
     render: () => (
       <Space size="medium">
         <a>멈춤</a>
-        <a>멈춤</a>
+        <a>정지</a>
         <Dropdown menu={{ items }}>
           <a>
             더 보기 <DownOutlined />

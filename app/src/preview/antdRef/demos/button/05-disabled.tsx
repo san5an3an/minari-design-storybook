@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/button.json 의 examples[5] ("Disabled")
@@ -17,7 +18,7 @@ const App: React.FC = () => (
     <Flex gap="small">
       <Button type="primary">기본</Button>
       <Button type="primary" disabled>
-        기본(못 씀)
+        주요(못 씀)
       </Button>
     </Flex>
     <Flex gap="small">

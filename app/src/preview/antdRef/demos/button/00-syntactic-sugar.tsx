@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/button.json 의 examples[0] ("Syntactic sugar")
@@ -14,7 +15,7 @@ import { Button, Flex } from 'antd';
 
 const App: React.FC = () => (
   <Flex gap="small" wrap>
-    <Button type="primary">기본 버튼</Button>
+    <Button type="primary">주요 버튼</Button>
     <Button>기본 버튼</Button>
     <Button type="dashed">파선 버튼</Button>
     <Button type="text">글자 버튼</Button>
