@@ -102,13 +102,12 @@ export function DashboardScreen {
   const { token } = theme.useToken;
   const [span, setSpan] = React.useState("1Y");
 
-  // 상태 단어를 색으로 매핑. 프리셋 이름이 아닌 antd 토큰이라 테마 값 그대로 적용
   const stateColor = (s: string) =>
     s === "결제" || s === "도착" || s === "재고 있음"
-      ? token.colorSuccess
+      ? "var(--semantic-fg-success-default)"
       : s === "미결제" || s === "품절"
-        ? token.colorError
-        : token.colorWarning;
+        ? "var(--semantic-fg-danger-default)"
+        : "var(--semantic-fg-warning-default)";
 
   const series = REVENUE_SERIES.slice(-SPANS[span]);
 
@@ -181,7 +180,14 @@ export function DashboardScreen {
                     styles={{ content: { fontSize: token.fontSizeHeading3 } }}
                   />
                   <Flex align="center" gap={6} style={{ marginBlockStart: 8 }}>
-                    <Text style={{ color: h.up ? token.colorSuccess : token.colorError }}>
+                    {/* 텍스트 색 지정 */}
+                    <Text
+                      style={{
+                        color: h.up
+                          ? "var(--semantic-fg-success-default)"
+                          : "var(--semantic-fg-danger-default)",
+                      }}
+                    >
                       {h.up ? <ArrowUpOutlined /> : <ArrowDownOutlined />} {Math.abs(h.delta)}%
                     </Text>
                     <Text type="secondary">지난주 대비</Text>
@@ -257,7 +263,8 @@ export function DashboardScreen {
         <Flex align="center" justify="space-between" gap={16} wrap>
           <Flex vertical gap={2}>
             <Text strong>더 팔고 싶으세요?</Text>
-            <Text type="secondary">프로로 올리면 쓸 수 있는 것이 늘어납니다.</Text>
+            {/* type="secondary" 금지. 브랜드 틴트 배경과 안 맞고 대비 AA 미달임 */}
+            <Text>프로로 올리면 쓸 수 있는 것이 늘어납니다.</Text>
           </Flex>
           <Button type="primary">요금제 올리기</Button>
         </Flex>
