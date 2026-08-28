@@ -61,6 +61,7 @@ function Prose({ text, slug, html }: { text: string; slug: string; html?: boolea
         style={{ maxWidth: "100%", height: "auto", borderRadius: ".375rem" }}
       />
     ),
+    pre:  => null,
   }), [slug]);
   return <div className="doc-prose"><Markdown components={components}>{md}</Markdown></div>;
 }
@@ -86,8 +87,6 @@ class DemoBoundary extends React.Component<
     return this.props.children;
   }
 }
-
-const BREAKS_OUT = /position=["']fixed["']|position:\s*["']fixed["']|100vh/;
 
 function docId(title: string): string {
   return title.trim.toLowerCase.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -127,22 +126,14 @@ function Block({ block, doc, mod, Provider, active, tones, ko }: {
   // 번역 우선 사용, 없으면 원문. 코드 블록은 공식 삽입 콘텐츠라 제외
   if (block.kind === "prose") return <Prose text={pick(ko, block.text)} slug={doc.slug} />;
 
-  if (block.kind === "code") {
-    // 코드는 예제 아닌 본문임. 공식 글 속에 끼워진 부분이라 빼면 문장이 끊어지는 문제 있음
-    return (
-      <pre className="doc-code"><code>{block.text.replace(/\n+$/, "")}</code></pre>
-    );
-  }
+  if (block.kind === "code") return null;
 
   const Demo = mod ? mod.demos[block.name] : undefined;
   const why = mod ? mod.skipped[block.name] : undefined;
 
   if (Demo) {
     return (
-      <div
-        className={"doc-demo-stage"
-          + (BREAKS_OUT.test(block.code) ? " doc-demo-stage--contain" : "")}
-      >
+      <div className="doc-demo-contain">
         <DemoBoundary name={block.name}>
           <Provider mode={active}><Demo tones={tones} /></Provider>
         </DemoBoundary>
