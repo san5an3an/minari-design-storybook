@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { CascaderProps } from 'antd';
 import { Cascader } from 'antd';

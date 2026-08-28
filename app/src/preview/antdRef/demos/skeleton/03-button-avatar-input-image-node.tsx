@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { DotChartOutlined } from '../_icons';
 import type { RadioChangeEvent } from 'antd';

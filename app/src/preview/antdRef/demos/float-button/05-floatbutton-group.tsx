@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { QuestionCircleOutlined, SyncOutlined } from '../_icons';
 import { FloatButton } from 'antd';

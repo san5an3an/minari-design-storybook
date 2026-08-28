@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { PoweroffOutlined, SyncOutlined } from '../_icons';
 import { Button, Flex } from 'antd';

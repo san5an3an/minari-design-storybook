@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Form, Input, Select, Space } from 'antd';
 
@@ -16,13 +17,13 @@ const App: React.FC = () => {
   const onGenderChange = (value: string) => {
     switch (value) {
       case 'male':
-        form.setFieldsValue({ note: '안녕하세요, 여러분!' });
+        form.setFieldsValue({ note: '안녕하세요, 그대!' });
         break;
       case 'female':
         form.setFieldsValue({ note: '안녕하세요, 여러분!' });
         break;
       case 'other':
-        form.setFieldsValue({ note: '안녕하세요!' });
+        form.setFieldsValue({ note: '반가워요!' });
         break;
       default:
     }

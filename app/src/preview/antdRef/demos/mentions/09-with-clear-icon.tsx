@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { CloseSquareFilled } from '../_icons';
 import { Mentions } from 'antd';

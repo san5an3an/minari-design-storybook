@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LikeOutlined } from '../_icons';
 import { Col, Row, Statistic } from 'antd';

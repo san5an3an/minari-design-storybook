@@ -16,5 +16,5 @@ export const DEMOS: DemoSet = {
 };
 
 export const SKIPPED: Record<string, string> = {
-  "List": "이 예제는 antd 의 `Icon` 공장을 타입으로 부르는데, 우리 아이콘 층(Lucide)에는 그 공장이 없어요.",
+  "List": "이 예제는 antd 의 `Icon` 공장을 타입으로 부르는데, 우리 아이콘 층(Lucide)에는 그 공장이 없어요 — 같은 회사 규칙입니다.",
 };

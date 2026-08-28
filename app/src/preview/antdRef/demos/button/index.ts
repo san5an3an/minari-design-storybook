@@ -1,6 +1,6 @@
 import type { DemoSet } from "../types";
 import D0 from "./00-syntactic-sugar";
-import D1 from "../_overrides/button__color-variant";
+import D1 from "./01-color-variant";
 import D2 from "./02-icon";
 import D3 from "./03-icon-placement";
 import D4 from "./04-size";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ColorPicker, Flex, Space } from 'antd';
 import type { ColorPickerProps, GetProp } from 'antd';

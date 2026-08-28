@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LockOutlined, UserOutlined } from '../_icons';
 import { Button, Checkbox, Flex, Form, Input } from 'antd';

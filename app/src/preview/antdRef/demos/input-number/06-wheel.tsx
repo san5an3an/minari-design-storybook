@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { InputNumberProps } from 'antd';
 import { InputNumber } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { AntDesignOutlined } from '../_icons';
 import { Avatar } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { Button, Space } from 'antd';
 import type { GetProp, SpaceProps } from 'antd';

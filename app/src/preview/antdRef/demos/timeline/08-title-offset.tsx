@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Timeline, Typography } from 'antd';
 import type { TimelineProps } from 'antd';

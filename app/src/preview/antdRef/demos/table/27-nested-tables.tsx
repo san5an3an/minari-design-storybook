@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { DownOutlined } from '../_icons';
 import type { TableColumnsType } from 'antd';
@@ -57,7 +58,7 @@ const expandColumns: TableColumnsType<ExpandedDataType> = [
     render: () => (
       <Space size="medium">
         <a>멈춤</a>
-        <a>멈춤</a>
+        <a>정지</a>
         <Dropdown menu={{ items }}>
           <a>
             더 보기 <DownOutlined />

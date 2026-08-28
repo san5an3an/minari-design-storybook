@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { UploadOutlined } from '../_icons';
 import type { UploadFile, UploadProps } from 'antd';

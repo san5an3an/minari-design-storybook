@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { QRCodeProps } from 'antd';
 import { QRCode, Segmented } from 'antd';

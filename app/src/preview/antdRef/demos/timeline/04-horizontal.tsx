@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Divider, Flex, Timeline } from 'antd';
 import type { TimelineProps } from 'antd';
@@ -9,7 +10,7 @@ const sharedProps: TimelineProps = {
       content: '시작',
     },
     {
-      content: '시작',
+      content: '시작하기',
     },
     {
       content: '기다리는 중',

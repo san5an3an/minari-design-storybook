@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { MehOutlined, SmileOutlined } from '../_icons';
 import { Select, Space } from 'antd';

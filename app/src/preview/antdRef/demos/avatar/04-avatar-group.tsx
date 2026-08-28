@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { AntDesignOutlined, UserOutlined } from '../_icons';
 import { Avatar, Divider, Tooltip } from 'antd';

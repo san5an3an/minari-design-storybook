@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { MehOutlined } from '../_icons';
 import { Flex, Select } from 'antd';

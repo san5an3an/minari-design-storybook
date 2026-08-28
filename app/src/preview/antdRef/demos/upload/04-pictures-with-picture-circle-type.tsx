@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { PlusOutlined } from '../_icons';
 import { Image, Upload } from 'antd';

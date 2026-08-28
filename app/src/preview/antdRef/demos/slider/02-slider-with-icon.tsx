@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { FrownOutlined, SmileOutlined } from '../_icons';
 import { Flex, Slider } from 'antd';

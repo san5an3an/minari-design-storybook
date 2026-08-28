@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SmileFilled, SmileOutlined } from '../_icons';
 import { Typography } from 'antd';

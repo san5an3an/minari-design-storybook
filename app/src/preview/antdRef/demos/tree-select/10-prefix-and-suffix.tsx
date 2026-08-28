@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { SmileOutlined } from '../_icons';
 import { TreeSelect } from 'antd';

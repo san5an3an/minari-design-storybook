@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '../_icons';
 import { Layout, Menu, theme } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { LockOutlined, UserOutlined } from '../_icons';
 import { Button, Form, Input } from 'antd';

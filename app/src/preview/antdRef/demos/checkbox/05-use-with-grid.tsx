@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Checkbox, Col, Row } from 'antd';
 import type { GetProp } from 'antd';

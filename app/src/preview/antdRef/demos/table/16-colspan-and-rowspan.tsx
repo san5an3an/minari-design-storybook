@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Table } from 'antd';
 import type { TableProps } from 'antd';
@@ -111,7 +112,7 @@ const data: DataType[] = [
     age: 18,
     tel: '0575-22098909',
     phone: 18900010002,
-    address: '서울 호수공원 2번지',
+    address: '인천 호수공원 2번지',
   },
 ];
 

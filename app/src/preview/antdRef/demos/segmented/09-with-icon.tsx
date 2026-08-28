@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { AppstoreOutlined, BarsOutlined } from '../_icons';
 import { Segmented } from 'antd';

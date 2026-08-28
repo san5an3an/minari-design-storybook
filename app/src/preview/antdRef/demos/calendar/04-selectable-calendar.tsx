@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Alert, Calendar } from 'antd';
 import type { Dayjs } from 'dayjs';

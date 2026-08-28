@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '../_icons';
 import type { MenuProps } from 'antd';

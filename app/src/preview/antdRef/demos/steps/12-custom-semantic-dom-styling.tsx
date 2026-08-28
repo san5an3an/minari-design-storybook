@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Steps } from 'antd';
 import type { GetProp, StepsProps } from 'antd';

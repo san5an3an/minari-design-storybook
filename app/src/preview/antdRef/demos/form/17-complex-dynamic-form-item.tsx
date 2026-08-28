@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CloseOutlined } from '../_icons';
 import { Button, Card, Form, Input, Space, Typography } from 'antd';

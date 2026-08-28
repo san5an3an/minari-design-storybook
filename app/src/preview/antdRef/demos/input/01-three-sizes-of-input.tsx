@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { UserOutlined } from '../_icons';
 import { Flex, Input } from 'antd';

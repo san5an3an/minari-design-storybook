@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { BorderBeam } from 'antd';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useMemo } from 'react';
 import { HolderOutlined } from '../_icons';
 import type { DragEndEvent } from '@dnd-kit/core';

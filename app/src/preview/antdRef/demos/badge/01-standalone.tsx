@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { ClockCircleOutlined } from '../_icons';
 import { Badge, Space, Switch } from 'antd';

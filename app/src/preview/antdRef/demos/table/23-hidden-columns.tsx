@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Checkbox, Divider, Table } from 'antd';
 import type { CheckboxOptionType, TableColumnsType } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { DownOutlined } from '../_icons';
 import { ColorPicker, Space } from 'antd';

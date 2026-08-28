@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback, useRef, useState } from 'react';
 import { Mentions } from 'antd';
 import { createStyles } from 'antd-style';

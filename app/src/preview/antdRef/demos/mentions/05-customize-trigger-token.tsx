@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Mentions } from 'antd';
 import type { MentionsProps } from 'antd';

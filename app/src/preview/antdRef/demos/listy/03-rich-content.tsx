@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Avatar, Flex, Listy, Typography } from 'antd';
 
@@ -8,7 +9,7 @@ interface Notification {
   time: string;
 }
 
-const users = ['지아', '시우', '하은', '도윤', '서아', '이준', '지우', '도윤'];
+const users = ['지아', '시우', '하은', '시우', '서아', '이준', '지우', '도윤'];
 
 const messages = [
   '병합 요청에 댓글을 남겼어요',

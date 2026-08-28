@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { EyeInvisibleOutlined, EyeTwoTone } from '../_icons';
 import { Button, Input, Space } from 'antd';

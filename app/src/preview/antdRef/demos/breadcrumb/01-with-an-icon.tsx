@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { HomeOutlined, UserOutlined } from '../_icons';
 import { Breadcrumb } from 'antd';

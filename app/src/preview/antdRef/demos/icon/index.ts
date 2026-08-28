@@ -8,7 +8,7 @@ export const DEMOS: DemoSet = {
 };
 
 export const SKIPPED: Record<string, string> = {
-  "Custom Icon": "이 예제는 **직접 그린 SVG** 를 아이콘으로 씁니다 (antd 의 `Icon` 공장). 이 프로젝트는 Lucide 밖의 아이콘을 화면에 올리지 않아요.",
+  "Custom Icon": "이 예제는 **직접 그린 SVG** 를 아이콘으로 씁니다 (antd 의 `Icon` 공장). 이 프로젝트는 Lucide 밖의 아이콘을 화면에 올리지 않아요 — 회사 규칙이라 이 하나는 공식과 다릅니다.",
   "Use iconfont.cn": "이 예제는 `createFromIconfontCN` 으로 **바깥 아이콘 폰트**를 받아 와요. 이 프로젝트는 Lucide 밖의 아이콘을 화면에 올리지 않아요.",
   "Multiple resources from iconfont.cn": "이 예제는 `createFromIconfontCN` 으로 **바깥 아이콘 폰트**를 받아 와요. 이 프로젝트는 Lucide 밖의 아이콘을 화면에 올리지 않아요.",
 };

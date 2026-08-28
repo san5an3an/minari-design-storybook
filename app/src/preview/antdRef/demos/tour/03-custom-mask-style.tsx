@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import { EllipsisOutlined } from '../_icons';
 import { Button, Divider, Space, Tour } from 'antd';

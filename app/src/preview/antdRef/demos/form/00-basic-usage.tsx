@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';

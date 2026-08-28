@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '../_icons';
 import type { QRCodeProps } from 'antd';

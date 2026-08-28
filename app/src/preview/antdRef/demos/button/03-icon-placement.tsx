@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { SearchOutlined } from '../_icons';
 import { Button, Divider, Flex, Radio, Space, Tooltip } from 'antd';

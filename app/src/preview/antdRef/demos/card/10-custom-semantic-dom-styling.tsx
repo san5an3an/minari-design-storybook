@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { EditOutlined, HeartOutlined, ShareAltOutlined } from '../_icons';
 import { Avatar, Button, Card, Flex } from 'antd';

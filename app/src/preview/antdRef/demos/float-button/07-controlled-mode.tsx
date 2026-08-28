@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { CommentOutlined, CustomerServiceOutlined } from '../_icons';
 import { FloatButton, Switch } from 'antd';

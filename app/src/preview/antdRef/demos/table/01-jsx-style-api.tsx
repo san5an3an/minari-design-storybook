@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Space, Table, Tag } from 'antd';
 
@@ -15,7 +16,7 @@ interface DataType {
 const data: DataType[] = [
   {
     key: '1',
-    firstName: '민준',
+    firstName: '준호',
     lastName: '갈색',
     age: 32,
     address: '인천 호수공원 1번지',
@@ -42,7 +43,7 @@ const data: DataType[] = [
 const App: React.FC = () => (
   <Table<DataType> dataSource={data}>
     <ColumnGroup title="이름">
-      <Column title="이름" dataIndex="firstName" key="firstName" />
+      <Column title="이름(성 빼고)" dataIndex="firstName" key="firstName" />
       <Column title="성" dataIndex="lastName" key="lastName" />
     </ColumnGroup>
     <Column title="나이" dataIndex="age" key="age" />

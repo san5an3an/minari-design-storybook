@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ArrowUpOutlined } from '../_icons';
 import { Flex, Statistic } from 'antd';

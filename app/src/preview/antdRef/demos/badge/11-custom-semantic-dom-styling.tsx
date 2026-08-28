@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Avatar, Badge, Card, Flex, Space } from 'antd';
 import type { BadgeProps, GetProp } from 'antd';

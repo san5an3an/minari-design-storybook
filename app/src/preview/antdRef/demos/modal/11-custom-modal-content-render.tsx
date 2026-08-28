@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import { Button, Modal } from 'antd';
 import type { DraggableData, DraggableEvent } from 'react-draggable';

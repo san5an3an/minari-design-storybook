@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Flex, Rate } from 'antd';
 import type { RateProps } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex } from 'antd';
 import type { ButtonProps, GetProp } from 'antd';

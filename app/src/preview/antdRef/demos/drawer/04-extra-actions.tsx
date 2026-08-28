@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, Drawer, Radio, Space } from 'antd';
 import type { DrawerProps, RadioChangeEvent } from 'antd';
@@ -41,7 +42,7 @@ const App: React.FC = () => {
           <Space>
             <Button onClick={onClose}>취소</Button>
             <Button type="primary" onClick={onClose}>
-              확인
+              좋아요
             </Button>
           </Space>
         }

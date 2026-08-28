@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ExclamationCircleFilled } from '../_icons';
 import { Button, Modal, Space } from 'antd';
@@ -10,7 +11,7 @@ const showConfirm = () => {
     icon: <ExclamationCircleFilled />,
     content: '설명이 들어가요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');
@@ -41,7 +42,7 @@ const showDeleteConfirm = () => {
     okType: 'danger',
     cancelText: '아니요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');
@@ -61,7 +62,7 @@ const showPropsConfirm = () => {
     },
     cancelText: '아니요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');

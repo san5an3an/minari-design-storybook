@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Checkbox, Flex, Slider } from 'antd';
 

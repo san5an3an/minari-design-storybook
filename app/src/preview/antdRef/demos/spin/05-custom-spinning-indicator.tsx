@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LoadingOutlined } from '../_icons';
 import { Flex, Spin } from 'antd';

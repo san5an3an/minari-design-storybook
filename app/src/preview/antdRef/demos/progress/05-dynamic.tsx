@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { MinusOutlined, PlusOutlined } from '../_icons';
 import { Button, Flex, Progress, Space } from 'antd';

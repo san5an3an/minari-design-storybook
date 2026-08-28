@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { FormInstance } from 'antd';
 import { Button, Form, Input, Space } from 'antd';

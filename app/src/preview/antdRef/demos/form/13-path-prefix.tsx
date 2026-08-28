@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import type { FormItemProps } from 'antd';
@@ -38,7 +39,7 @@ const App: React.FC = () => {
     <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
       <MyFormItemGroup prefix={['user']}>
         <MyFormItemGroup prefix={['name']}>
-          <MyFormItem name="firstName" label="이름">
+          <MyFormItem name="firstName" label="이름(성 빼고)">
             <Input />
           </MyFormItem>
           <MyFormItem name="lastName" label="성">

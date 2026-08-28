@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { InfoCircleOutlined } from '../_icons';
 import { Button, Form, Input, Radio, Tag } from 'antd';

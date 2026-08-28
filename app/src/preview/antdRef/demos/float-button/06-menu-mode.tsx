@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CommentOutlined, CustomerServiceOutlined } from '../_icons';
 import { FloatButton } from 'antd';

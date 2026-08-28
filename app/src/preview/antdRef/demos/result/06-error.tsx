@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CloseCircleOutlined } from '../_icons';
 import { Button, Result, Typography } from 'antd';

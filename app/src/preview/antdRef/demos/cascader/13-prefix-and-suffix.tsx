@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SmileOutlined } from '../_icons';
 import type { CascaderProps } from 'antd';

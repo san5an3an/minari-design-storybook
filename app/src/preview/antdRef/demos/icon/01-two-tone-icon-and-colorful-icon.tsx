@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CheckCircleTwoTone, HeartTwoTone, SmileTwoTone } from '../_icons';
 import { Space } from 'antd';

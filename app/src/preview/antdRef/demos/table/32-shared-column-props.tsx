@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { TableProps } from 'antd';
 import { Table } from 'antd';

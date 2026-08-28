@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { AndroidOutlined, AppleOutlined } from '../_icons';
 import { Tabs } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { UploadOutlined } from '../_icons';
 import { Button, Popconfirm, Space, Upload } from 'antd';

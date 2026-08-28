@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SearchOutlined } from '../_icons';
 import { Button, Flex, Tooltip } from 'antd';

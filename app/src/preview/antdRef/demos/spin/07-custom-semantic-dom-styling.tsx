@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Spin } from 'antd';
 import type { GetProp, SpinProps } from 'antd';

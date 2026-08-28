@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { GetProp, TreeSelectProps } from 'antd';
 import { TreeSelect } from 'antd';

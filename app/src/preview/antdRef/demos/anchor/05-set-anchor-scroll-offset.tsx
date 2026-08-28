@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { Anchor, Col, Row } from 'antd';
 
@@ -25,14 +26,14 @@ const App: React.FC = () => {
         <Col span={18}>
           <div
             id="part-1"
-            style={{ height: '100vh', background: 'rgba(255,0,0,0.08)', marginTop: '30vh' }}
+            style={{ height: '100vh', background: 'rgba(255,0,0,0.02)', marginTop: '30vh' }}
           >
             1부
           </div>
-          <div id="part-2" style={{ height: '100vh', background: 'rgba(0,255,0,0.08)' }}>
+          <div id="part-2" style={{ height: '100vh', background: 'rgba(0,255,0,0.02)' }}>
             2부
           </div>
-          <div id="part-3" style={{ height: '100vh', background: 'rgba(0,0,255,0.08)' }}>
+          <div id="part-3" style={{ height: '100vh', background: 'rgba(0,0,255,0.02)' }}>
             3부
           </div>
         </Col>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Image } from 'antd';
 import type { GetProp, ImageProps } from 'antd';

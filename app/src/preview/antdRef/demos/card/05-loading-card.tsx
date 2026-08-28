@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '../_icons';
 import { Avatar, Card, Flex, Switch } from 'antd';

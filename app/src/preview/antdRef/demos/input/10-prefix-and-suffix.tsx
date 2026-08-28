@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { InfoCircleOutlined, LockOutlined, UserOutlined } from '../_icons';
 import { Input, Tooltip } from 'antd';

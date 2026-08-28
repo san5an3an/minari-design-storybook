@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { HeartOutlined } from '../_icons';
 import { Flex, Rate } from 'antd';

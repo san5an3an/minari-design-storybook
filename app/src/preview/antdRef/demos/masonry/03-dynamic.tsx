@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { CloseOutlined } from '../_icons';
 import { Button, Card, Flex, Masonry, theme } from 'antd';

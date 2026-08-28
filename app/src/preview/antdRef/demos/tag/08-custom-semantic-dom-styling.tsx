@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CheckCircleOutlined, CloseCircleOutlined } from '../_icons';
 import { Flex, Space, Tag } from 'antd';

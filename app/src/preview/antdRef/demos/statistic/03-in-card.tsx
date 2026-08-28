@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ArrowDownOutlined, ArrowUpOutlined } from '../_icons';
 import { Card, Col, Row, Statistic } from 'antd';

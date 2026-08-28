@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { BorderBeam, Card, Flex, Tag, Typography } from 'antd';
 

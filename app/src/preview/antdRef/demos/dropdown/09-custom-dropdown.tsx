@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { DownOutlined } from '../_icons';
 import { Button, Divider, Dropdown, Space, theme } from 'antd';

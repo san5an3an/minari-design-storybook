@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SearchOutlined } from '../_icons';
 import { Button, Input, Select, Space } from 'antd';
@@ -34,7 +35,7 @@ const App: React.FC = () => (
     </Space.Compact>
     <Space.Compact>
       <Select defaultValue="Zhejiang" options={options} />
-      <Input defaultValue="서울 강남구" />
+      <Input defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact size="large">
       <Space.Addon>

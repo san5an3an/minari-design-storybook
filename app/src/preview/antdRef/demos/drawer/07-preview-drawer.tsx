@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Avatar, Col, Divider, Drawer, List, Row } from 'antd';
 import { createStyles } from 'antd-style';

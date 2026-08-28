@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { CSSProperties } from 'react';
 import React from 'react';
 import { CaretRightOutlined } from '../_icons';

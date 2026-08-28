@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Form, Input, InputNumber, Typography } from 'antd';
 

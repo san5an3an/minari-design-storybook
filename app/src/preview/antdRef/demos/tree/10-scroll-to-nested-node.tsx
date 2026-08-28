@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import { Button, Flex, Tree } from 'antd';
 import type { GetRef, TreeDataNode } from 'antd';

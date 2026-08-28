@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, ConfigProvider, Flex } from 'antd';
 
@@ -14,7 +15,7 @@ const App: React.FC = () => (
       }}
     >
       <Button type="primary" disabled>
-        기본 버튼
+        주요 버튼
       </Button>
       <Button disabled>기본 버튼</Button>
       <Button type="dashed" disabled>

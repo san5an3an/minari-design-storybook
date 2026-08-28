@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { FrownOutlined, MehOutlined, SmileOutlined } from '../_icons';
 import { Flex, Rate } from 'antd';

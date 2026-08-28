@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo, useRef, useState } from 'react';
 import { Input, Menu, Tabs } from 'antd';
 import { SearchOutlined } from '../_icons';

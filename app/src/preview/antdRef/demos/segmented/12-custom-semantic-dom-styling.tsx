@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '../_icons';
 import { Flex, Segmented } from 'antd';

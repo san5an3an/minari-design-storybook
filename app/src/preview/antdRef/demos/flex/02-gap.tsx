@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex, Radio, Slider } from 'antd';
 import type { FlexProps } from 'antd';

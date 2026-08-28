@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useMemo } from 'react';
 import { HolderOutlined, MinusCircleOutlined, PlusOutlined } from '../_icons';
 import type { DragEndEvent, DraggableAttributes, DraggableSyntheticListeners } from '@dnd-kit/core';
@@ -111,7 +112,7 @@ const App: React.FC = () => {
                         name={[name, '첫째']}
                         rules={[{ required: true, message: '이름이 없어요' }]}
                       >
-                        <Input placeholder="이름" />
+                        <Input placeholder="이름(성 빼고)" />
                       </Form.Item>
                       <Form.Item
                         {...restField}

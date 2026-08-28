@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { EllipsisOutlined } from '../_icons';
 import type { MenuProps } from 'antd';

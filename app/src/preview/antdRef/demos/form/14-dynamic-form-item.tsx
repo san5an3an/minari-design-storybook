@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '../_icons';
 import { Button, Form, Input } from 'antd';

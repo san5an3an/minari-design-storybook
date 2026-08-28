@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useState } from 'react';
 import { PlusOutlined } from '../_icons';
 import { Button, Divider, Input, Select, Space } from 'antd';

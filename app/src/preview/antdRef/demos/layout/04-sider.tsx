@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import {
   DesktopOutlined,
@@ -28,8 +29,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('항목 1', '1', <PieChartOutlined />),
-  getItem('항목 2', '2', <DesktopOutlined />),
+  getItem('선택지 1', '1', <PieChartOutlined />),
+  getItem('선택지 2', '2', <DesktopOutlined />),
   getItem('사용자', 'sub1', <UserOutlined />, [
     getItem('태현', '3'),
     getItem('빌', '4'),

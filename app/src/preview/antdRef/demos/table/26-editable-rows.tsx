@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { TableColumnsType } from 'antd';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';

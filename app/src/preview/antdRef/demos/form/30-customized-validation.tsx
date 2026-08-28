@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SmileOutlined } from '../_icons';
 import {
@@ -81,9 +82,9 @@ const App: React.FC = () => (
         placeholder="저는 Select 예요"
         defaultValue={'1'}
         options={[
-          { label: '항목 1', value: '1' },
-          { label: '항목 2', value: '2' },
-          { label: '항목 3', value: '3' },
+          { label: '선택지 1', value: '1' },
+          { label: '선택지 2', value: '2' },
+          { label: '선택지 3', value: '3' },
         ]}
       />
     </Form.Item>

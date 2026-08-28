@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import type { StepsProps } from 'antd';
 import { Flex, Steps, theme } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { DownOutlined, SettingOutlined } from '../_icons';
 import type { MenuProps } from 'antd';

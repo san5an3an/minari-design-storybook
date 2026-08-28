@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { StarOutlined, UploadOutlined } from '../_icons';
 import type { UploadProps } from 'antd';

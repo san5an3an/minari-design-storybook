@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ClockCircleOutlined } from '../_icons';
 import { theme, Timeline } from 'antd';

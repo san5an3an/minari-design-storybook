@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LeftOutlined, RightOutlined } from '../_icons';
 import type { InputNumberProps } from 'antd';

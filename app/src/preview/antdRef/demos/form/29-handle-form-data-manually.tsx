@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { InputNumberProps } from 'antd';
 import { Form, InputNumber } from 'antd';

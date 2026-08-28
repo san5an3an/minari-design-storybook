@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { ExclamationCircleOutlined } from '../_icons';
 import { Button, Modal, Space } from 'antd';

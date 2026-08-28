@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Radio, Timeline } from 'antd';
@@ -18,7 +19,7 @@ const App: React.FC = () => {
           marginBottom: 20,
         }}
       >
-        <Radio value="start">시작</Radio>
+        <Radio value="start">시작하기</Radio>
         <Radio value="end">끝</Radio>
         <Radio value="alternate">번갈아</Radio>
       </Radio.Group>

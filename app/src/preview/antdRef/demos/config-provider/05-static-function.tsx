@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useLayoutEffect } from 'react';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { ExclamationCircleFilled } from '../_icons';

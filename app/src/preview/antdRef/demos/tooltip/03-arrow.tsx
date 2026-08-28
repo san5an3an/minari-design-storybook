@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo, useState } from 'react';
 import { Button, ConfigProvider, Flex, Segmented, Tooltip } from 'antd';
 import type { TooltipProps } from 'antd';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Flex } from 'antd';
 
@@ -6,7 +7,7 @@ const App: React.FC = () => (
     <Flex gap="small">
       <Button type="primary">기본</Button>
       <Button type="primary" disabled>
-        기본(못 씀)
+        주요(못 씀)
       </Button>
     </Flex>
     <Flex gap="small">

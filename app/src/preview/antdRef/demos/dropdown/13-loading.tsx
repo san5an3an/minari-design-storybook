@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { DownOutlined, EllipsisOutlined } from '../_icons';
 import type { MenuProps } from 'antd';

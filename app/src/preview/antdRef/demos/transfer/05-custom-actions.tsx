@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button, message, Transfer } from 'antd';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '../_icons';

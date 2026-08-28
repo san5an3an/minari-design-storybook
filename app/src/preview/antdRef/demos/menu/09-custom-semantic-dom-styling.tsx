@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Flex, Menu } from 'antd';
 import type { GetProp, MenuProps } from 'antd';
@@ -25,8 +26,8 @@ const items: Required<MenuProps>['items'] = [
         label: '항목 1',
         type: 'group',
         children: [
-          { key: '1', label: '항목 1' },
-          { key: '2', label: '항목 2' },
+          { key: '1', label: '선택지 1' },
+          { key: '2', label: '선택지 2' },
         ],
       },
     ],

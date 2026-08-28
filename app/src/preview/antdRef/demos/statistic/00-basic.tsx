@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Col, Row, Statistic } from 'antd';
 

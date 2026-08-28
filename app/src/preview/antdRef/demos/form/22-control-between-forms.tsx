@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import { SmileOutlined, UserOutlined } from '../_icons';
 import { Avatar, Button, Flex, Form, Input, InputNumber, Modal, Space, Typography } from 'antd';

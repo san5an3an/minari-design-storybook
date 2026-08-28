@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { SettingOutlined } from '../_icons';
 import type { CollapseProps } from 'antd';

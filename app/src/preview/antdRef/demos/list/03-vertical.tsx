@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { LikeOutlined, MessageOutlined, StarOutlined } from '../_icons';
 import { Avatar, List, Space } from 'antd';

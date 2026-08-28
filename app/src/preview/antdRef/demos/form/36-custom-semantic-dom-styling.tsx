@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button, Form, Input, Space } from 'antd';
 import type { FormProps, GetProp } from 'antd';

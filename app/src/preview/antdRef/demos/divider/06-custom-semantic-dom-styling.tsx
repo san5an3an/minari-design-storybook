@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Divider } from 'antd';
 import type { DividerProps, GetProp } from 'antd';

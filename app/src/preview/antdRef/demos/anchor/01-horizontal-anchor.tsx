@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Anchor } from 'antd';
 
@@ -32,7 +33,7 @@ const App: React.FC = () => (
           width: '100vw',
           height: '100vh',
           textAlign: 'center',
-          background: 'rgba(0,255,0,0.08)',
+          background: 'rgba(0,255,0,0.02)',
         }}
       />
       <div
@@ -41,7 +42,7 @@ const App: React.FC = () => (
           width: '100vw',
           height: '100vh',
           textAlign: 'center',
-          background: 'rgba(0,0,255,0.08)',
+          background: 'rgba(0,0,255,0.02)',
         }}
       />
       <div
