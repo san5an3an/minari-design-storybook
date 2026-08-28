@@ -4,9 +4,12 @@
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
  * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
- *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
- *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
  *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -20,7 +23,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Menu as MenuIcon } from '../_icons';
+import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -34,7 +37,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', '연락처'];
+const navItems = ['홈', '정보', '연락처'];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -114,38 +117,7 @@ export default function DrawerAppBar(props: Props) {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Typography>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
-          fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,
-          aliquam dolore excepturi quae. Distinctio enim at eligendi perferendis in
-          cum quibusdam sed quae, accusantium et aperiam? Quod itaque exercitationem,
-          at ab sequi qui modi delectus quia corrupti alias distinctio nostrum.
-          Minima ex dolor modi inventore sapiente necessitatibus aliquam fuga et. Sed
-          numquam quibusdam at officia sapiente porro maxime corrupti perspiciatis
-          asperiores, exercitationem eius nostrum consequuntur iure aliquam itaque,
-          assumenda et! Quibusdam temporibus beatae doloremque voluptatum doloribus
-          soluta accusamus porro reprehenderit eos inventore facere, fugit, molestiae
-          ab officiis illo voluptates recusandae. Vel dolor nobis eius, ratione atque
-          soluta, aliquam fugit qui iste architecto perspiciatis. Nobis, voluptatem!
-          Cumque, eligendi unde aliquid minus quis sit debitis obcaecati error,
-          delectus quo eius exercitationem tempore. Delectus sapiente, provident
-          corporis dolorum quibusdam aut beatae repellendus est labore quisquam
-          praesentium repudiandae non vel laboriosam quo ab perferendis velit ipsa
-          deleniti modi! Ipsam, illo quod. Nesciunt commodi nihil corrupti cum non
-          fugiat praesentium doloremque architecto laborum aliquid. Quae, maxime
-          recusandae? Eveniet dolore molestiae dicta blanditiis est expedita eius
-          debitis cupiditate porro sed aspernatur quidem, repellat nihil quasi
-          praesentium quia eos, quibusdam provident. Incidunt tempore vel placeat
-          voluptate iure labore, repellendus beatae quia unde est aliquid dolor
-          molestias libero. Reiciendis similique exercitationem consequatur, nobis
-          placeat illo laudantium! Enim perferendis nulla soluta magni error,
-          provident repellat similique cupiditate ipsam, et tempore cumque quod! Qui,
-          iure suscipit tempora unde rerum autem saepe nisi vel cupiditate iusto.
-          Illum, corrupti? Fugiat quidem accusantium nulla. Aliquid inventore commodi
-          reprehenderit rerum reiciendis! Quidem alias repudiandae eaque eveniet
-          cumque nihil aliquam in expedita, impedit quas ipsum nesciunt ipsa ullam
-          consequuntur dignissimos numquam at nisi porro a, quaerat rem repellendus.
-          Voluptates perspiciatis, in pariatur impedit, nam facilis libero dolorem
-          dolores sunt inventore perferendis, aut sapiente modi nesciunt.
+          내용이 들어갈 자리를 대신하는 표본 글이에요. 글이 길 때 줄이 어떻게 나뉘고 여백이 어떻게 잡히는지 가늠하려고 넣어 뒀어요. 문단이 길어지면 읽는 흐름이 어디서 끊기는지, 그릇의 높이가 얼마나 늘어나는지도 함께 볼 수 있어요. 실제 글이 들어갈 자리이니 여기 적힌 내용 자체에는 뜻이 없어요. 화면을 보며 길이와 짜임만 살펴 주세요. 같은 길이의 글이 여러 번 되풀이될 때 화면이 어떻게 보이는지도 이 표본으로 확인할 수 있어요. 글자 크기와 줄 간격이 바뀌면 이 문단이 차지하는 자리도 함께 달라지니, 설정을 바꿔 가며 견주어 보세요. 내용이 들어갈 자리를 대신하는 표본 글이에요. 글이 길 때 줄이 어떻게 나뉘고 여백이 어떻게 잡히는지 가늠하려고 넣어 뒀어요. 문단이 길어지면 읽는 흐름이 어디서 끊기는지, 그릇의 높이가 얼마나 늘어나는지도 함께 볼 수 있어요. 실제 글이 들어갈 자리이니 여기 적힌 내용 자체에는 뜻이 없어요. 화면을 보며 길이와 짜임만 살펴 주세요. 같은 길이의 글이 여러 번 되풀이될 때 화면이 어떻게 보이는지도 이 표본으로 확인할 수 있어요. 글자 크기와 줄 간격이 바뀌면 이 문단이 차지하는 자리도 함께 달라지니, 설정을 바꿔 가며 견주어 보세요.
         </Typography>
       </Box>
     </Box>

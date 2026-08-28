@@ -4,9 +4,12 @@
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
  * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
- *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
- *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
  *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -21,9 +24,9 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { Visibility } from '../_icons';
-import { VisibilityOff } from '../_icons';
-import { InfoOutlined } from '../_icons';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 
 export default function InputAdornments() {
   const outlinedStartId = React.useId();
@@ -85,7 +88,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${outlinedWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -168,7 +171,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${filledWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
@@ -251,7 +254,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${standardWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">

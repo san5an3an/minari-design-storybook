@@ -4,17 +4,20 @@
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
  * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
- *    ① 아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
- *    ② 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
  *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
 import { emphasize, styled } from '@mui/material/styles';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
-import { Home as HomeIcon } from '../_icons';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import HomeIcon from '@mui/icons-material/Home';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   return {
@@ -53,12 +56,12 @@ export default function CustomizedBreadcrumbs() {
         <StyledBreadcrumb
           component="a"
           href="#"
-          label="Home"
+          label="홈"
           icon={<HomeIcon fontSize="small" />}
         />
-        <StyledBreadcrumb component="a" href="#" label="Catalog" />
+        <StyledBreadcrumb component="a" href="#" label="카탈로그" />
         <StyledBreadcrumb
-          label="Accessories"
+          label="액세서리"
           deleteIcon={<ExpandMoreIcon />}
           onDelete={handleClick}
         />
