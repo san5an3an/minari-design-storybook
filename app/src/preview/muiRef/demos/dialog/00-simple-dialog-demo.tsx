@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/dialogs/SimpleDialogDemo.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -17,8 +22,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Person as PersonIcon } from '../_icons';
-import { Add as AddIcon } from '../_icons';
+import PersonIcon from '@mui/icons-material/Person';
+import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 
@@ -43,7 +48,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
+      <DialogTitle>예비 계정 정하기</DialogTitle>
       <List sx={{ pt: 0 }}>
         {emails.map((email) => (
           <ListItem disablePadding key={email}>
@@ -91,11 +96,11 @@ export default function SimpleDialogDemo() {
   return (
     <div>
       <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
+        고른 것: {selectedValue}
       </Typography>
       <br />
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open simple dialog
+        간단한 대화상자 열기
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}

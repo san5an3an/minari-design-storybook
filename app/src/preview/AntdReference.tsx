@@ -1,9 +1,12 @@
 import * as React from "react";
 import Markdown, { type Components } from "react-markdown";
-import { loadAntdDoc, type AntdDoc, type AntdTable } from "./antdRef/loader";
+import { loadAntdDoc, type AntdDoc, type AntdExample, type AntdTable } from "./antdRef/loader";
+import { Master, Kids, Kid } from "./Doc";
 import { AntdLive } from "./antdLive";
 import { theme as antdTheme } from "antd";
 import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
+// shadcn 명세서와 같은 표 사용. 베이스마다 새로 그리면 토큰이 다르게 보임
+import { TokenTable } from "./TokenTable";
 import { loadKo, pick, type KoText } from "./antdRef/ko";
 import { parseColorTokens, type Mode } from "./tokens";
 import type { SystemDefinition } from "../systems/types";
@@ -52,11 +55,6 @@ const KO_COLUMN: Record<string, string> = {
   Parameters: "받는 값",
   Shape: "모양",
 };
-
-// 값처럼 읽는 열만 등폭 처리. 설명문까지 코드로 감싸면 읽기 어려운 문제가 있음
-const CODE_COLUMNS = new Set([
-  "property", "prop", "name", "token name", "type", "default", "default value", "version",
-]);
 
 const STAGE_CONTAINS_FIXED: Record<string, string> = {
   "anchor::Set Anchor scroll offset":
@@ -116,9 +114,43 @@ function Prose({ text, slug, inline }: { text: string; slug: string; inline?: bo
     a: ({ href, children }) => (
       <a href={officialHref(href, slug)} target="_blank" rel="noreferrer">{children}</a>
     ),
+    pre:  => null,
     ...(inline ? { p: ({ children }) => <>{children}</> } : null),
   }), [slug, inline]);
   return <Markdown components={components}>{md}</Markdown>;
+}
+
+const VALUE_TOKEN = /`([^`]+)`|~~([^~]+)~~|<(br|hr)\s*\/?>|\\([\\`*_{}[\]#+\-.!~|<>])/gi;
+
+const MONO = { fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" } as const;
+
+const CHIP = {
+  fontSize: ".9em",
+  padding: ".15em .35em",
+  margin: "0 .0625rem",
+  borderRadius: ".25rem",
+  background: "var(--semantic-bg-neutral-subtle, #f4f4f5)",
+  boxShadow: "inset 0 0 0 .0625rem var(--semantic-border-neutral-subtle, #e4e4e7)",
+} as const;
+
+const FILL = { flex: "1 1 100%", minWidth: 0 } as const;
+
+function ValueText({ text }: { text: string }) {
+  const nodes: React.ReactNode[] = [];
+  let last = 0;
+  let k = 0;
+  VALUE_TOKEN.lastIndex = 0;
+  for (let m = VALUE_TOKEN.exec(text); m; m = VALUE_TOKEN.exec(text)) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    if (m[1] !== undefined) nodes.push(<code key={k++} style={CHIP}>{m[1]}</code>);
+    else if (m[2] !== undefined) nodes.push(<del key={k++}>{m[2]}</del>);
+    else if (m[3] !== undefined) {
+      nodes.push(m[3].toLowerCase === "br" ? <br key={k++} /> : <hr key={k++} />);
+    } else nodes.push(m[4]);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return <>{nodes}</>;
 }
 
 function Table({ table, ko, slug }: { table: AntdTable; ko: KoText | null; slug: string }) {
@@ -133,16 +165,15 @@ function Table({ table, ko, slug }: { table: AntdTable; ko: KoText | null; slug:
           {table.rows.map((row, ri) => (
             <tr key={`${row[0]}-${ri}`}>
               {row.map((cell, i) => {
-                const code = CODE_COLUMNS.has((table.columns[i] ?? "").toLowerCase);
-                const text = i === descAt ? pick(ko, cell) : cell;
-                // 마크다운은 Description 열만 적용, 다른 열은 기호 오인식 시 값 손상 위험임
+                const desc = i === descAt;
+                const text = desc ? pick(ko, cell) : cell;
                 const body = text === "—" ? "—"
-                  : code ? <code>{text}</code>
-                  : i === descAt ? <Prose inline slug={slug} text={text} />
-                  : text;
+                  : desc ? <Prose inline slug={slug} text={text} />
+                  : <ValueText text={text} />;
+                const style = desc ? undefined : MONO;
                 return i === 0
-                  ? <th key={i} scope="row">{body}</th>
-                  : <td key={i}>{body}</td>;
+                  ? <th key={i} scope="row" style={style}>{body}</th>
+                  : <td key={i} style={style}>{body}</td>;
               })}
             </tr>
           ))}
@@ -156,11 +187,12 @@ function docId(title: string): string {
   return title.trim.toLowerCase.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-function Section({ title, count, note, children }: {
-  title: string; count?: number; note?: React.ReactNode; children?: React.ReactNode;
+function Section({ title, count, note, id, children }: {
+  title: string; count?: React.ReactNode; note?: React.ReactNode;
+  id?: string; children?: React.ReactNode;
 }) {
   return (
-    <section className="doc-section" id={docId(title)}>
+    <section className="doc-section" id={id ?? docId(title)}>
       <h2>{title}{count === undefined ? null : <span className="doc-axis">{count}</span>}</h2>
       {note ? <p className="doc-note" style={{ marginTop: 0 }}>{note}</p> : null}
       {children}
@@ -252,7 +284,57 @@ export function AntdReference({ slug, system, active }: {
   if (err) return <p className="doc-note">{err}</p>;
   if (!doc) return <p className="doc-note">불러오는 중…</p>;
 
-  const tokenRows = (doc.componentToken ?? []).reduce((n, t) => n + t.rows.length, 0);
+  const masterAt = Math.max(0, doc.examples.findIndex((ex) => ex.name === "Basic"));
+  const master = doc.examples[masterAt];
+  const variants = doc.examples.filter((_, i) => i !== masterAt);
+
+  const ourTokens = parseColorTokens(system.vars)
+    .filter((t) => t.name.startsWith(`--component-${doc.slug}-`));
+
+  const stand = (ex: AntdExample) => {
+    const Demo = mod ? mod.demos[ex.name] : undefined;
+    const why = mod ? mod.skipped[ex.name] : undefined;
+    return (
+      <div id={ex.demoId ? `${doc.slug}-demo-${ex.demoId}` : undefined} style={FILL}>
+        {Demo ? (
+          <div
+            className={!ex.iframe && STAGE_CONTAINS_FIXED[`${doc.slug}::${ex.name}`]
+              ? "doc-demo-contain" : undefined}
+            style={{ lineHeight: ANTD_LINE_HEIGHT }}
+            // iframe 예제는 해시 라우팅 비활성. 내부가 별도 문서라 경로 충돌 위험 있음
+            onClickCapture={ex.iframe ? undefined : keepRouteOnStageAnchorClick}
+          >
+            <DemoBoundary name={ex.name}>
+              {/* 가두는 예제 그대로 렌더링. 내부 요소가 문서 것이 되어 방어 로직 비활성화 */}
+              {ex.iframe ? (
+                <DemoFrame
+                  height={ex.iframe}
+                  base={system.baseKey}
+                  system={system.slug}
+                  slug={doc.slug}
+                  example={ex.name}
+                  mode={active}
+                />
+              ) : (
+                <Provider mode={active}><Demo tones={tones} /></Provider>
+              )}
+            </DemoBoundary>
+          </div>
+        ) : why ? (
+          // 생성 실패 사유 기록. 없으면 빈 화면과 정상 상태가 구별 안 되는 문제 있음
+          <p className="doc-note" style={{ marginTop: 0 }}>{why}</p>
+        ) : mod ? (
+          // 표에도 목록에도 없으면 이름이 어긋난 것임
+          <p className="doc-note" style={{ marginTop: 0 }}>
+            이 예제는 <b>못 찾았어요.</b> 이름이 <code>{ex.name}</code> 인데
+            <code> antdRef/demos/{doc.slug}/</code> 의 키와 안 맞아요.
+          </p>
+        ) : (
+          <p className="doc-note" style={{ marginTop: 0 }}>예제를 불러오는 중…</p>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -284,85 +366,55 @@ export function AntdReference({ slug, system, active }: {
         </Section>
       )}
 
-      <Section
-        title="Examples"
-        count={doc.examples.length}
-        note={mod
-          ? <>공식 예제를 <b>그대로 세운 거예요.</b> 코드는 공식 원본이고, 바꾼 건
-              <b> 아이콘을 부르는 위치 하나</b>뿐이에요. 이 프로젝트는 <b>Lucide 밖의
-              아이콘을 화면에 올리지 않아요.</b> <code>loading</code> 이 돌리는 아이콘까지
-              바꿔 뒀어요.
-              {" "}Button 은 높이·여백·글자 계단을 <b>antd 기본값</b>으로 되돌려 둬서, 이
-              시스템이 바꾸는 건 <b>모서리 하나</b>예요. 공식 화면과 나란히 놓고 대조할 수
-              있게요.</>
-          : <>공식 예제 목록이에요. 아직 <b>불러오는 중</b>이거나, 이 컴포넌트는
-              세울 수 있는 예제가 하나도 없어요.</>}
+      {/* Master 와 Variants 공용 stand 컴포넌트, 기본값만 차이 */}
+      <Master
+        note={<>공식이 <b>기본</b>으로 두는 예제예요. antd 는 <code>Basic</code> 이 그 자리예요.
+          코드는 <b>공식 원본 그대로</b>예요. 아이콘도 <code>@ant-design/icons</code> 진짜를
+          불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>}
       >
-        {doc.examples.map((ex, i) => {
-          const Demo = mod ? mod.demos[ex.name] : undefined;
-          const why = mod ? mod.skipped[ex.name] : undefined;
-          return (
-            // 예제 상자도 공식과 동일한 id 부여. demoId는 파일명 기반이라 임의 지정 금지임
-            <article
-              className="doc-demo"
-              id={ex.demoId ? `${doc.slug}-demo-${ex.demoId}` : undefined}
-              key={`${ex.name}-${i}`}
-            >
-              {/* 예제 섹션 제목은 영문 원문 유지. 공식 문서 제목과 동일해야 나란히 비교 가능한 구조임 */}
-              <h3 className="doc-demo-title">{ex.name}</h3>
-              {ex.description
-                ? <p className="doc-note doc-prose" style={{ marginTop: 0 }}>
-                    <Prose inline slug={doc.slug} text={pick(ko, ex.description)} />
-                  </p>
-                : null}
+        {master ? stand(master) : <Absent what="예제" />}
+      </Master>
 
-              {Demo ? (
-                <div
-                  className={
-                    "doc-demo-stage" +
-                    (!ex.iframe && STAGE_CONTAINS_FIXED[`${doc.slug}::${ex.name}`]
-                      ? " doc-demo-stage--contain" : "") +
-                    (ex.iframe ? " doc-demo-stage--frame" : "")
-                  }
-                  style={{ lineHeight: ANTD_LINE_HEIGHT }}
-                  // iframe 예제는 해시 라우팅 비활성. 내부가 별도 문서라 경로 충돌 위험 있음
-                  onClickCapture={ex.iframe ? undefined : keepRouteOnStageAnchorClick}
-                >
-                  <DemoBoundary name={ex.name}>
-                    {/* 가두는 예제 렌더링. 내부 요소가 문서 것이 되어 contain, 링크 방어 비활성화 */}
-                    {ex.iframe ? (
-                      <DemoFrame
-                        height={ex.iframe}
-                        base={system.baseKey}
-                        system={system.slug}
-                        slug={doc.slug}
-                        example={ex.name}
-                        mode={active}
-                      />
-                    ) : (
-                      <Provider mode={active}><Demo tones={tones} /></Provider>
-                    )}
-                  </DemoBoundary>
-                </div>
-              ) : why ? (
-                // 생성 실패 사유 기록. 없으면 빈 화면과 정상 상태가 구별 안 되는 문제 있음
-                <p className="doc-note">{why}</p>
-              ) : mod ? (
-                // 표에도 목록에도 없으면 이름이 어긋난 것임
-                <p className="doc-note">
-                  이 예제는 <b>못 찾았어요.</b> 이름이 <code>{ex.name}</code> 인데
-                  <code> antdRef/demos/{doc.slug}/</code> 의 키와 안 맞아요.
-                </p>
-              ) : null}
-            </article>
-          );
-        })}
+      {/* shadcn 명세서와 동일 구조. 예제마다 h2와 칩 이름으로 Variants 구분 표시 */}
+      {variants.length === 0
+        ? <Section title="Variants"><Absent what="기본형 말고 다른 예제" /></Section>
+        : variants.map((ex, i) => (
+            <Kids
+              key={`${ex.name}-${i}`}
+              // 예제 이름은 영문 유지. 공식 문서 제목과 대응해야 하는 제약임
+              axis={ex.name}
+              note={ex.description
+                ? <span className="doc-prose">
+                    <Prose inline slug={doc.slug} text={pick(ko, ex.description)} />
+                  </span>
+                : undefined}
+            >
+              <Kid label={ex.name}>{stand(ex)}</Kid>
+            </Kids>
+          ))}
+
+      {/* 이름을 Parts로 사용, 내용은 공식 Semantic DOM과 동일 */}
+      <Section
+        title="Parts"
+        count={doc.semanticDom ? doc.semanticDom.parts.length : undefined}
+        note={doc.semanticDom
+          ? <><b>여기가 antd 에서 손댈 수 있는 자리예요.</b> 클래스를 덮는 게 아니라 이 이름들에만
+              <code> classNames</code> · <code>styles</code> 로 값을 넣을 수 있어요.
+              공식 <b>Semantic DOM</b> 을 그대로 가져온 거예요.</>
+          : undefined}
+      >
+        {doc.semanticDom === null ? <Absent what="Semantic DOM" /> : (
+          <Table ko={ko} slug={doc.slug} table={{
+            columns: ["Part", "Mark", "Description"],
+            rows: doc.semanticDom.parts.map((p) => [p.name, p.mark, p.description]),
+          }} />
+        )}
       </Section>
 
       <Section
-        title="API"
+        title="API Reference"
         count={doc.api.length}
-        note="하위 컴포넌트별로 받는 값이에요. 표가 여럿이면 각 표의 이름이 곧 그 하위 컴포넌트예요."
+        note="공식 API 절 그대로예요. 표가 여럿이면 각 표의 이름이 곧 그 하위 컴포넌트예요."
       >
         {doc.api.map((t, i) => (
           <div key={i} style={{ marginBottom: "1.25rem" }}>
@@ -376,72 +428,24 @@ export function AntdReference({ slug, system, active }: {
       </Section>
 
       <Section
-        title="Semantic DOM"
-        count={doc.semanticDom ? doc.semanticDom.parts.length : undefined}
-        note={doc.semanticDom
-          ? <><b>여기가 antd 에서 손댈 수 있는 자리예요.</b> 클래스를 덮는 게 아니라 이 이름들에만
-              <code> classNames</code> · <code>styles</code> 로 값을 넣을 수 있어요.</>
-          : undefined}
+        title="Tokens"
+        count={ourTokens.length || undefined}
+        note={<>
+          <code>--component-{doc.slug}-*</code> 는 이 컴포넌트만 쓰는 이름이에요.
+          값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.
+        </>}
       >
-        {doc.semanticDom === null ? <Absent what="Semantic DOM" /> : (
-          <>
-            <Table ko={ko} slug={doc.slug} table={{
-              columns: ["Part", "Mark", "Description"],
-              rows: doc.semanticDom.parts.map((p) => [p.name, p.mark, p.description]),
-            }} />
-          </>
-        )}
-      </Section>
-
-      <Section
-        title="Design Token"
-        count={tokenRows || undefined}
-        note={<><b>여기가 antd 에서 색·크기를 바꾸는 유일한 통로예요.</b> 이 시스템 20종 색을 얹으려면
-          이 이름들을 <code>ConfigProvider</code> 의 토큰으로 매핑해야 해요.</>}
-      >
-        {doc.componentToken === null ? <Absent what="Component Token" /> : (
-          doc.componentToken.map((t, i) => <Table key={i} table={t} ko={ko} slug={doc.slug} />)
-        )}
-        {doc.globalToken === null ? null : (
-          <details style={{ marginTop: ".75rem" }}>
-            <summary style={{ cursor: "pointer" }}>
-              Global Token <span className="doc-axis">
-                {doc.globalToken.reduce((n, t) => n + t.rows.length, 0)}
-              </span>
-            </summary>
-            {doc.globalToken.map((t, i) => <Table key={i} table={t} ko={ko} slug={doc.slug} />)}
-          </details>
-        )}
-      </Section>
-
-      <Section
-        title="Props"
-        count={doc.props ? doc.props.rows.length : undefined}
-        note={<>공식엔 <b>Props 라는 절이 따로 없어요.</b> 위 <b>API</b> 의 첫 표(주 컴포넌트가
-          받는 값)를 그대로 가져온 거예요.</>}
-      >
-        {doc.props ? <Table table={doc.props} ko={ko} slug={doc.slug} /> : <Absent what="API" />}
-      </Section>
-
-      <Section
-        title="Variants"
-        count={doc.variants.length}
-        note={<>공식엔 <b>Variants 라는 절도 없어요.</b> API 행 중 <b>값을 열거할 수 있는 축</b>만
-          골라낸 거예요. 이름이 아니라 모양으로 골라요. <code>Type</code> 이 리터럴의 합집합이거나,
-          설명문에 <code>options:</code> 목록이 있는 행이에요.</>}
-      >
-        {doc.variants.length === 0
-          ? <p className="doc-note">열거할 수 있는 축이 없어요.</p>
-          : <Table ko={ko} slug={doc.slug} table={{
-              columns: ["Prop", "Values", "Default", "소속", "출처"],
-              rows: doc.variants.map((v) => [
-                v.prop + (v.deprecated ? " (폐기됨)" : ""),
-                v.values.join(" | "),
-                v.default,
-                v.owner || "주 표",
-                v.source === "type" ? "Type 열" : "설명문",
-              ]),
-            }} />}
+        {ourTokens.length === 0
+          ? (
+            // 빈 표 대신 사유 표시. 계약에 없는 FloatButton 등 컴포넌트가 해당
+            <p className="doc-note">
+              이 컴포넌트만 쓰는 토큰은 <b>없어요.</b> 이 시스템 계약에 같은 이름의 컴포넌트가
+              없거든요. 그래도 화면의 색·모서리·글자는 <b>이 시스템 것</b>이에요.
+              <code> ConfigProvider</code> 가 시스템 공통 토큰(<code>colorPrimary</code> ·
+              <code> borderRadius</code> · <code>fontSize</code> …)을 나르니까요.
+            </p>
+          )
+          : <TokenTable tokens={ourTokens} active={active} />}
       </Section>
     </>
   );

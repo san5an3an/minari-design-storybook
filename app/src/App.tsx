@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronRight, ChevronsUpDown, Palette } from "lucide-react";
+import { Check, ChevronRight, ChevronsUpDown, Download, Palette } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -12,8 +12,16 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ExportDialog } from "@/components/ExportDialog";
+import { requestExport } from "@/export/client";
+import { sinkFor } from "@/export/sinks/registry";
 import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
+import { UsagePage } from "./usage/UsagePage";
 import { ComponentPage } from "./preview/ComponentPage";
 import { AntdReference } from "./preview/AntdReference";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
@@ -32,13 +40,19 @@ const STYLE_ID = "ods-active-system";
 const COLORS = "__colors__";
 const TYPE = "__type__";
 
+const USAGE = "__usage__";
+
+const MAIN: { key: string; label: string }[] = [
+  { key: USAGE, label: "Usage" },
+];
+
 const FOUNDATIONS: { key: string; label: string }[] = [
   { key: COLORS, label: "Color Scheme" },
   { key: TYPE, label: "Typography" },
 ];
 
-const ROUTE_ALIAS: Record<string, string> = { colors: COLORS, "type-scale": TYPE };
-const ROUTE_SLUG: Record<string, string> = { [COLORS]: "colors", [TYPE]: "type-scale" };
+const ROUTE_ALIAS: Record<string, string> = { colors: COLORS, "type-scale": TYPE, usage: USAGE };
+const ROUTE_SLUG: Record<string, string> = { [COLORS]: "colors", [TYPE]: "type-scale", [USAGE]: "usage" };
 
 type Route = { base: string; slug: string; section: string };
 
@@ -49,10 +63,10 @@ function parseHash: Route | null {
   // 알 수 없는 베이스, 색이면 주소 무시. 없는 조합의 빈 화면 방지
   if (!(rawBase in BASES)) return null;
   if (!SYSTEMS.some((s) => s.slug === rawSlug)) return null;
-  const ownsTypography =
-    (rawBase === "antd" && isAntdSlug(rawSection)) ||
-    (rawBase === "mui" && isMuiSlug(rawSection));
-  const legacy = !ownsTypography && rawSection === "typography" ? TYPE : null;
+  const officialHasType =
+    (rawBase === "antd" && isAntdSlug("typography")) ||
+    (rawBase === "mui" && isMuiSlug("typography"));
+  const legacy = rawSection === "typography" && !officialHasType ? TYPE : null;
   const section = legacy ?? (rawSection ? (ROUTE_ALIAS[rawSection] ?? rawSection) : COLORS);
   return { base: rawBase, slug: rawSlug, section };
 }
@@ -96,6 +110,12 @@ function useTheme(mode: Mode) {
   }, [mode]);
 }
 
+function drawnCount(baseKey: string, impl: Record<string, unknown>): number {
+  if (baseKey === "antd") return ANTD_INDEX.length;
+  if (baseKey === "mui") return MUI_INDEX.length;
+  return Object.keys(impl).length;
+}
+
 function BaseCard({
   baseKey, active, onPick,
 }: {
@@ -104,7 +124,7 @@ function BaseCard({
   onPick: (key: string) => void;
 }) {
   const base = BASES[baseKey];
-  const n = Object.keys(base.impl).length;
+  const n = drawnCount(base.key, base.impl);
   return (
     <button
       type="button"
@@ -150,7 +170,7 @@ function BasePicker({
             <span className="grid text-left leading-tight">
               <span className="text-sm font-medium">{current.title}</span>
               <span className="text-muted-foreground text-xs">
-                컴포넌트 {Object.keys(current.impl).length}종
+                컴포넌트 {drawnCount(current.key, current.impl)}종
               </span>
             </span>
             <ChevronsUpDown className="ml-auto size-4 shrink-0 opacity-50" />
@@ -222,6 +242,39 @@ function OfficialNav({ groups, title, section, onPick }: {
   );
 }
 
+function OursNav({ system, section, onPick }: {
+  system: SystemDefinition;
+  section: string;
+  onPick: (section: string) => void;
+}) {
+  if (system.components.length === 0) return null;
+
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>
+        어댑터 {system.components.length}
+      </SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {/* 정렬 적용 */}
+          {[...system.components]
+            .sort((a, b) => a.title.localeCompare(b.title, "en"))
+            .map((c) => (
+              <SidebarMenuItem key={c.name}>
+                <SidebarMenuButton
+                  isActive={section === c.name}
+                  onClick={ => onPick(c.name)}
+                >
+                  <span>{c.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
+
 // 페이지 목록. 현재 선택한 테마의 것만 표시
 function PageNav({
   system, section, onPick,
@@ -232,6 +285,25 @@ function PageNav({
 }) {
   return (
     <>
+      {/* 컴포넌트 조합 화면, 맨 위 배치. 아래 두 층은 재료 */}
+      <SidebarGroup>
+        <SidebarGroupLabel>Main</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {MAIN.map((m) => (
+              <SidebarMenuItem key={m.key}>
+                <SidebarMenuButton
+                  isActive={section === m.key}
+                  onClick={ => onPick(m.key)}
+                >
+                  <span>{m.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
       <SidebarGroup>
         {/* 재료 계층. 컴포넌트가 읽고 쓰며 상위 배치, 하위 계층이 사용 */}
         <SidebarGroupLabel>Foundations</SidebarGroupLabel>
@@ -252,12 +324,15 @@ function PageNav({
       </SidebarGroup>
 
       {/* antd, MUI 공식 목록 그대로 사용. 자체 목록 맞추면 고유 컴포넌트 소실되는 문제임 */}
-      {system.baseKey === "antd" ? (
-        <OfficialNav groups={ANTD_GROUPS} title={ANTD_TITLE}
-          section={section} onPick={onPick} />
-      ) : system.baseKey === "mui" ? (
-        <OfficialNav groups={MUI_GROUPS} title={MUI_TITLE}
-          section={section} onPick={onPick} />
+      {/* 커스텀 항목을 공식 항목보다 위에 정렬 */}
+      {system.baseKey === "antd" || system.baseKey === "mui" ? (
+        <>
+          <OursNav system={system} section={section} onPick={onPick} />
+          <OfficialNav
+            groups={system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS}
+            title={system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE}
+            section={section} onPick={onPick} />
+        </>
       ) : (
       <SidebarGroup>
         <SidebarGroupLabel>Components {system.components.length}</SidebarGroupLabel>
@@ -365,6 +440,28 @@ function ModeSelect({ mode, onPick }: { mode: Mode; onPick: (m: Mode) => void })
   );
 }
 
+function ExportButton({ disabled, onOpen }: { disabled: boolean; onOpen:  => void }) {
+  const button = (
+    <Button variant="outline" size="sm" onClick={onOpen} disabled={disabled}>
+      {/* 크기 직접 지정 안 함. size-4 추가 시 svg 고정이 풀려 크기 달라지는 문제임 */}
+      <Download />
+      내보내기
+    </Button>
+  );
+  if (!disabled) return button;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={<span className="inline-flex" />}>{button}</TooltipTrigger>
+        {/* ods-chrome 클래스 지정. 툴팁도 없으면 시스템 색이 보임 */}
+        <TooltipContent className="ods-chrome" side="bottom">
+          컴포넌트를 고르면 내보낼 수 있어요
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 export function App {
   // 초기 상태 URL에서 지정. 링크로 연 사용자가 그 화면을 봐야 하는 제약임
   const [slug, setSlug] = React.useState( => parseHash?.slug ?? SYSTEMS[0].slug);
@@ -373,6 +470,8 @@ export function App {
   const [mode, setMode] = React.useState<Mode>(modeFromQuery);
   // 글꼴은 URL에 미포함. 모드와 마찬가지로 결과물이 아닌 보기 방식이기 때문임
   const [font, setFont] = React.useState<string>(DEFAULT_FONT);
+  // 내보내기 창은 URL 반영에서 제외
+  const [exportOpen, setExportOpen] = React.useState(false);
   // 색과 베이스를 병합. 명세와 일치하면 해당 모듈 그대로 반환
   const system = React.useMemo( => resolveSystem(slug, base), [slug, base]);
   const color = systemBySlug(slug);
@@ -409,10 +508,23 @@ export function App {
   const official = system.baseKey === "antd" ? ANTD_TITLE
     : system.baseKey === "mui" ? MUI_TITLE
     : null;
-  const here = FOUNDATIONS.find((f) => f.key === section)?.label
-    ?? official?.get(section)
-    ?? system.components.find((c) => c.name === section)?.title
-    ?? section;
+  // 접두어 없어 벗길 것 없음, 이름 그대로 사용
+  const bare = section;
+
+  // 공식 문서 화면 여부 확인
+  const isOfficialSection =
+    (system.baseKey === "antd" && isAntdSlug(section)) ||
+    (system.baseKey === "mui" && isMuiSlug(section));
+  // MAIN도 함께 확인. 누락되면 상단바에 __usage__ 내부 키가 그대로 남음
+  const here = MAIN.find((m) => m.key === section)?.label
+    ?? FOUNDATIONS.find((f) => f.key === section)?.label
+    ?? (isOfficialSection ? official?.get(bare) : undefined)
+    ?? system.components.find((c) => c.name === bare)?.title
+    ?? bare;
+
+  const exportable =
+    section !== COLORS && section !== TYPE && !isOfficialSection &&
+    system.components.some((c) => c.name === bare);
 
   return (
     <SidebarProvider>
@@ -440,9 +552,10 @@ export function App {
       {/* min-w-0 지정. 없으면 본문 열이 넓어져 사이드바 밖으로 삐져나올 수 있음 */}
       <SidebarInset className="min-w-0">
         {/* z-30 사용. 미리보기 컴포넌트가 z-10, z-20을 사용해 겹침 방지 */}
+        {/* flex-wrap으로 접힘, 높이는 고정 아닌 최소값임 */}
         <header
-          className="ods-chrome bg-background sticky top-0 z-30 flex h-14 shrink-0
-                     items-center gap-2 border-b px-4"
+          className="ods-chrome bg-background sticky top-0 z-30 flex min-h-14 shrink-0
+                     flex-wrap items-center gap-2 border-b px-4 py-2"
         >
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 !h-4" />
@@ -453,19 +566,40 @@ export function App {
           </span>
           <ChevronRight className="text-muted-foreground size-3.5 shrink-0" />
           <span className="shrink-0 text-sm">{here}</span>
-          <span className="text-muted-foreground shrink-0 text-xs">
+          {/* 좁은 화면에서 베이스 이름 숨김 처리 */}
+          <span className="text-muted-foreground hidden shrink-0 text-xs sm:inline">
             베이스 {system.baseTitle}
           </span>
-          <div className="ml-auto flex items-center gap-2">
+          {/* 그룹도 접힘. 넷이 한 행에 안 들어가면 둘씩 두 행 배치 */}
+          <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
+            <ExportButton disabled={!exportable} onOpen={ => setExportOpen(true)} />
             <SystemSelect slug={slug} onPick={(next) => pick(next, section)} />
             <FontSelect font={font} onPick={setFont} />
             <ModeSelect mode={mode} onPick={setMode} />
           </div>
         </header>
 
+        {/* 내보낼 수 없는 화면은 생성 금지. parseHash로 직접 접근하는 경로가 있음 */}
+        {exportable ? (
+          <ExportDialog
+            open={exportOpen}
+            onOpenChange={setExportOpen}
+            system={system}
+            // 접두사 벗겨서 전달. 안 벗기면 계약에서 이름을 못 찾아 잘못 표시되는 문제 있음
+            section={bare}
+            title={here}
+            onExport={async (request) => {
+              await sinkFor("download")(await requestExport(request));
+            }}
+          />
+        ) : null}
+
         {/* 미리보기 영역 */}
-        <main className="doc-page">
-          {section === COLORS ? (
+        <div className="doc-page">
+          {section === USAGE ? (
+            // 이 경우 최우선 배치. __usage__는 계약에 없는 이름이라 잘못 표시되는 문제임
+            <UsagePage system={system} active={mode} />
+          ) : section === COLORS ? (
             <>
               <p className="doc-lead">{system.tone}</p>
               <ColorScheme vars={system.vars} refs={system.refs} active={mode} />
@@ -478,15 +612,18 @@ export function App {
               font={fontByKey(font)}
             />
           ) : (
+            // 접두사 없으면 슬러그 실제 보유 여부로 구분. 이름 충돌에도 안전
             system.baseKey === "antd" && isAntdSlug(section) ? (
-              <AntdReference slug={section} system={system} active={mode} />
+              <AntdReference slug={section} system={system}
+                active={mode} />
             ) : system.baseKey === "mui" && isMuiSlug(section) ? (
-              <MuiReference slug={section} system={system} active={mode} />
+              <MuiReference slug={section} system={system}
+                active={mode} />
             ) : (
-              <ComponentPage system={system} name={section} active={mode} />
+              <ComponentPage system={system} name={bare} active={mode} />
             )
           )}
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

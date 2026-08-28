@@ -106,6 +106,32 @@ export function Page({ system }: PageProps) {
         </Kid>
       </Kids>
 
+      <Kids
+        axis="closable"
+        title="Closable"
+        note={
+          <>
+            닫을 수 있다는 것은 <b>사라져도 괜찮다</b>는 뜻이에요. 놓치면 곤란한 알림에는 달지
+            않아요. 공식 문서도 같은 화면에서 닫기가 있는 것과 없는 것을 나란히 둬요.
+          </>
+        }
+      >
+        <Kid label="없음" hint="기본">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Alert tone="danger" title="결제에 실패했어요">
+              카드사에 문의해 주세요.
+            </Alert>
+          </div>
+        </Kid>
+        <Kid label="있음">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Alert tone="success" title="저장했어요" closable>
+              변경 사항이 반영됐어요.
+            </Alert>
+          </div>
+        </Kid>
+      </Kids>
+
     </>
   );
 }

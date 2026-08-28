@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/timeline.json 의 examples[7] ("Title")
@@ -29,7 +30,7 @@ const App: React.FC = () => {
           marginBottom: 20,
         }}
       >
-        <Radio value="start">시작</Radio>
+        <Radio value="start">시작하기</Radio>
         <Radio value="end">끝</Radio>
         <Radio value="alternate">번갈아</Radio>
       </Radio.Group>

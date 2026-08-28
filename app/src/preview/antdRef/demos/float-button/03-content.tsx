@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/float-button.json 의 examples[3] ("Content")
@@ -10,18 +11,18 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { FileTextOutlined } from '../_icons';
+import { FileTextOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
 
 const App: React.FC = () => (
   <>
     <FloatButton
       icon={<FileTextOutlined />}
-      content="도움말"
+      content="도움말 안내"
       shape="square"
       style={{ insetInlineEnd: 24 }}
     />
-    <FloatButton content="도움말" shape="square" style={{ insetInlineEnd: 94 }} />
+    <FloatButton content="도움말 안내" shape="square" style={{ insetInlineEnd: 94 }} />
     <FloatButton
       icon={<FileTextOutlined />}
       content="도움말"

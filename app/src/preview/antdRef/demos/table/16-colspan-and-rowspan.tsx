@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/table.json 의 examples[16] ("colSpan and rowSpan")
@@ -122,7 +123,7 @@ const data: DataType[] = [
     age: 18,
     tel: '0575-22098909',
     phone: 18900010002,
-    address: '서울 호수공원 2번지',
+    address: '인천 호수공원 2번지',
   },
 ];
 

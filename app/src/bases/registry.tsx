@@ -10,10 +10,6 @@ import "@mantine/core/styles.layer.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// antd 컴포넌트 2종
-import { Button as AntdButton } from "./antd/Button";
-import { Dialog as AntdDialog } from "./antd/Dialog";
-
 // chakra 컴포넌트 2종
 import { Button as ChakraButton } from "./chakra/Button";
 import { Dialog as ChakraDialog } from "./chakra/Dialog";
@@ -21,28 +17,6 @@ import { Dialog as ChakraDialog } from "./chakra/Dialog";
 // mantine 2종
 import { Button as MantineButton } from "./mantine/Button";
 import { Dialog as MantineDialog } from "./mantine/Dialog";
-
-// mui 20종
-import { Accordion as MuiAccordion } from "./mui/Accordion";
-import { Alert as MuiAlert } from "./mui/Alert";
-import { Badge as MuiBadge } from "./mui/Badge";
-import { Breadcrumb as MuiBreadcrumb } from "./mui/Breadcrumb";
-import { Button as MuiButton } from "./mui/Button";
-import { Card as MuiCard } from "./mui/Card";
-import { Checkbox as MuiCheckbox } from "./mui/Checkbox";
-import { Dialog as MuiDialog } from "./mui/Dialog";
-import { Divider as MuiDivider } from "./mui/Divider";
-import { Input as MuiInput } from "./mui/Input";
-import { Link as MuiLink } from "./mui/Link";
-import { Progress as MuiProgress } from "./mui/Progress";
-import { Radio as MuiRadio } from "./mui/Radio";
-import { Select as MuiSelect } from "./mui/Select";
-import { Skeleton as MuiSkeleton } from "./mui/Skeleton";
-import { Slider as MuiSlider } from "./mui/Slider";
-import { Spinner as MuiSpinner } from "./mui/Spinner";
-import { Switch as MuiSwitch } from "./mui/Switch";
-import { Tabs as MuiTabs } from "./mui/Tabs";
-import { Tooltip as MuiTooltip } from "./mui/Tooltip";
 
 // shadcn 67종
 import { Accordion as ShadcnAccordion } from "./shadcn/Accordion";
@@ -480,7 +454,7 @@ export const BASES: Record<string, BaseDefinition> = {
   antd: {
     key: "antd",
     title: "Ant Design",
-    impl: { button: AntdButton as ComponentImpl, dialog: AntdDialog as ComponentImpl },
+    impl: {  },
     Provider: antdProvider,
     css:  => "",
   },
@@ -501,7 +475,7 @@ export const BASES: Record<string, BaseDefinition> = {
   mui: {
     key: "mui",
     title: "MUI",
-    impl: { accordion: MuiAccordion as ComponentImpl, alert: MuiAlert as ComponentImpl, badge: MuiBadge as ComponentImpl, breadcrumb: MuiBreadcrumb as ComponentImpl, button: MuiButton as ComponentImpl, card: MuiCard as ComponentImpl, checkbox: MuiCheckbox as ComponentImpl, dialog: MuiDialog as ComponentImpl, divider: MuiDivider as ComponentImpl, input: MuiInput as ComponentImpl, link: MuiLink as ComponentImpl, progress: MuiProgress as ComponentImpl, radio: MuiRadio as ComponentImpl, select: MuiSelect as ComponentImpl, skeleton: MuiSkeleton as ComponentImpl, slider: MuiSlider as ComponentImpl, spinner: MuiSpinner as ComponentImpl, switch: MuiSwitch as ComponentImpl, tabs: MuiTabs as ComponentImpl, tooltip: MuiTooltip as ComponentImpl },
+    impl: {  },
     Provider: muiProvider,
     css:  => "",
   },
@@ -522,4 +496,4 @@ export const BASES: Record<string, BaseDefinition> = {
 };
 
 // 구현 많은 순서대로 화면 나열. 그 수가 프로젝트 범위
-export const BASE_ORDER: string[] = ["shadcn", "mui", "antd", "chakra", "mantine", "standalone"];
+export const BASE_ORDER: string[] = ["shadcn", "chakra", "mantine", "standalone", "antd", "mui"];

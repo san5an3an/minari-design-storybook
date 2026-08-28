@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/menu.json 의 examples[3] ("Menu tooltip")
@@ -18,16 +19,16 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Menu, Space, Switch } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-  { key: '1', icon: <PieChartOutlined />, label: '항목 1' },
-  { key: '2', icon: <DesktopOutlined />, label: '항목 2' },
-  { key: '3', icon: <ContainerOutlined />, label: '항목 3' },
+  { key: '1', icon: <PieChartOutlined />, label: '선택지 1' },
+  { key: '2', icon: <DesktopOutlined />, label: '선택지 2' },
+  { key: '3', icon: <ContainerOutlined />, label: '선택지 3' },
   {
     key: 'sub1',
     label: '메뉴 하나',

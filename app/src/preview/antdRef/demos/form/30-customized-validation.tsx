@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[30] ("Customized Validation")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { SmileOutlined } from '../_icons';
+import { SmileOutlined } from '@ant-design/icons';
 import {
   Cascader,
   DatePicker,
@@ -92,9 +93,9 @@ const App: React.FC = () => (
         placeholder="저는 Select 예요"
         defaultValue={'1'}
         options={[
-          { label: '항목 1', value: '1' },
-          { label: '항목 2', value: '2' },
-          { label: '항목 3', value: '3' },
+          { label: '선택지 1', value: '1' },
+          { label: '선택지 2', value: '2' },
+          { label: '선택지 3', value: '3' },
         ]}
       />
     </Form.Item>

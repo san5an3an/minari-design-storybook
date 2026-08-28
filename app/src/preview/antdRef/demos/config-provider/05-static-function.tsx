@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/config-provider.json 의 examples[5] ("Static function")
@@ -11,7 +12,7 @@
  */
 import React, { useContext, useLayoutEffect } from 'react';
 import { StyleProvider } from '@ant-design/cssinjs';
-import { ExclamationCircleFilled } from '../_icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { App, Button, ConfigProvider, message, Modal, notification, Space } from 'antd';
 
 const Demo: React.FC = () => {

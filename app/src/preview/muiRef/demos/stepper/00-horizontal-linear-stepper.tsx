@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/steppers/HorizontalLinearStepper.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -73,17 +78,17 @@ export default function HorizontalLinearStepper() {
     previousActiveStepRef.current = activeStep;
 
     if (activeStep === steps.length) {
-      // If the user has completed all steps and hits "Finish", focus the "Reset" button.
+      // If the user has completed all steps and hits "Finish", focus the "처음으로" button.
       resetButtonRef.current!.focus();
       return;
     }
     if (activeStep === 0 && previousActiveStep === steps.length) {
-      // If the user has completed all steps and hits "Reset", focus the "Next" button.
+      // If the user has completed all steps and hits "처음으로", focus the "다음" button.
       nextButtonRef.current!.focus();
       return;
     }
     if (isStepOptional(previousActiveStep) && !isStepOptional(activeStep)) {
-      // If the user hits "Skip" and the next step is not optional, focus the "Next" button.
+      // If the user hits "Skip" and the next step is not optional, focus the "다음" button.
       nextButtonRef.current!.focus();
     }
   }, [activeStep, isStepOptional]);
@@ -98,7 +103,7 @@ export default function HorizontalLinearStepper() {
           } = {};
           if (isStepOptional(index)) {
             labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+              <Typography variant="caption">선택</Typography>
             );
           }
           if (isStepSkipped(index)) {
@@ -114,18 +119,18 @@ export default function HorizontalLinearStepper() {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+            모든 단계를 마쳤어요 — 끝났어요
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleReset} ref={resetButtonRef}>
-              Reset
+              처음으로
             </Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Typography sx={{ mt: 2, mb: 1 }}>단계 {activeStep + 1}</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -133,7 +138,7 @@ export default function HorizontalLinearStepper() {
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
-              Back
+              뒤로
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {isStepOptional(activeStep) && (
@@ -142,7 +147,7 @@ export default function HorizontalLinearStepper() {
               </Button>
             )}
             <Button onClick={handleNext} ref={nextButtonRef}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Finish' : '다음'}
             </Button>
           </Box>
         </React.Fragment>

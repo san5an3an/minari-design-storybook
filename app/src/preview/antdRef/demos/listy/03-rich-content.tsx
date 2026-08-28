@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/listy.json 의 examples[3] ("Rich content")
@@ -19,7 +20,7 @@ interface Notification {
   time: string;
 }
 
-const users = ['지아', '시우', '하은', '도윤', '서아', '이준', '지우', '도윤'];
+const users = ['지아', '시우', '하은', '시우', '서아', '이준', '지우', '도윤'];
 
 const messages = [
   '병합 요청에 댓글을 남겼어요',

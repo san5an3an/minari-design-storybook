@@ -1,0 +1,144 @@
+import * as React from "react";
+import {
+  App, Button, Card, Flex, Popconfirm, Space, Table, Tag, theme, Tooltip, Typography,
+} from "antd";
+import {
+  CopyOutlined, DeleteOutlined, EyeInvisibleOutlined, EyeOutlined, PlusOutlined,
+} from "@ant-design/icons";
+
+const { Text, Paragraph } = Typography;
+
+interface KeyRow {
+  key: string;
+  name: string;
+  secret: string;
+  made: string;
+  used: string;
+  live: boolean;
+}
+
+const INITIAL: KeyRow[] = [
+  { key: "1", name: "운영 서버", secret: "sk_live_7Kq2mXd91BvR4t", made: "2026-05-02", used: "3분 전", live: true },
+  { key: "2", name: "스테이징", secret: "sk_test_A8fLp03QzYw6nE", made: "2026-06-18", used: "2시간 전", live: true },
+  { key: "3", name: "배치 작업", secret: "sk_live_Uj5RtN2xC7hMq0", made: "2026-07-01", used: "어제", live: true },
+  { key: "4", name: "옛 모바일", secret: "sk_live_Zb9WkO4vD1sPl3", made: "2025-11-24", used: "82일 전", live: false },
+];
+
+export function ApiKeyScreen {
+  const { token } = theme.useToken;
+  const { message } = App.useApp;
+  const [rows, setRows] = React.useState(INITIAL);
+  const [shown, setShown] = React.useState<readonly string[]>([]);
+
+  // 가려진 표시. 앞뒤만 남겨 키는 식별되나 값은 사용 불가
+  const mask = (s: string) => `${s.slice(0, 7)}${"•".repeat(10)}${s.slice(-4)}`;
+
+  const copy = async (row: KeyRow) => {
+    try {
+      await navigator.clipboard.writeText(row.secret);
+      message.success(`${row.name} 키를 복사했어요`);
+    } catch {
+      // 클립보드 접근 실패 시 예외 발생, 무시하면 클릭이 무반응처럼 보임
+      message.error("복사가 막혔어요. 키를 드러낸 뒤 직접 골라 복사하세요");
+    }
+  };
+
+  const columns = [
+    {
+      title: "이름",
+      dataIndex: "name",
+      render: (v: string, row: KeyRow) => (
+        <Flex align="center" gap={8}>
+          <Text strong>{v}</Text>
+          {!row.live ? (
+            <Tag style={{ color: token.colorTextTertiary, marginInlineEnd: 0 }}>정지</Tag>
+          ) : null}
+        </Flex>
+      ),
+    },
+    {
+      title: "키",
+      dataIndex: "secret",
+      render: (v: string, row: KeyRow) => {
+        const open = shown.includes(row.key);
+        return (
+          <Flex align="center" gap={8}>
+            {/* 등폭 글꼴 사용 */}
+            <Text code style={{ whiteSpace: "nowrap" }}>{open ? v : mask(v)}</Text>
+            <Tooltip title={open ? "가리기" : "드러내기"}>
+              <Button
+                type="text"
+                aria-label={`${row.name} 키 ${open ? "가리기" : "드러내기"}`}
+                icon={open ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                onClick={ =>
+                  setShown((prev) =>
+                    open ? prev.filter((k) => k !== row.key) : [...prev, row.key],
+                  )
+                }
+              />
+            </Tooltip>
+            <Tooltip title="복사">
+              <Button
+                type="text"
+                aria-label={`${row.name} 키 복사`}
+                icon={<CopyOutlined />}
+                onClick={ => void copy(row)}
+              />
+            </Tooltip>
+          </Flex>
+        );
+      },
+    },
+    { title: "만든 날", dataIndex: "made" },
+    { title: "마지막 사용", dataIndex: "used" },
+    {
+      title: "",
+      dataIndex: "actions",
+      render: (_: unknown, row: KeyRow) => (
+        <Popconfirm
+          title="이 키를 지울까요?"
+          description="지우면 이 키를 쓰던 것이 곧바로 멈춥니다. 되돌릴 수 없어요."
+          okText="지우기"
+          okButtonProps={{ danger: true }}
+          cancelText="그만두기"
+          onConfirm={ => {
+            setRows((prev) => prev.filter((r) => r.key !== row.key));
+            message.success(`${row.name} 키를 지웠어요`);
+          }}
+        >
+          <Button type="text" danger icon={<DeleteOutlined />}
+            aria-label={`${row.name} 키 지우기`} />
+        </Popconfirm>
+      ),
+    },
+  ];
+
+  return (
+    <Flex vertical gap={16}>
+      <Card size="small" style={{ background: token.colorFillQuaternary, borderColor: "transparent" }}>
+        <Paragraph style={{ marginBottom: 0 }}>
+          키는 <Text strong>만들 때 한 번만</Text> 온전히 보입니다. 잃어버리면 다시 볼 수 없고
+          새로 만들어야 합니다. 서버 밖(브라우저·앱)에는 두지 마세요.
+        </Paragraph>
+      </Card>
+
+      <Flex align="center" justify="space-between" gap={12} wrap>
+        <Space size={8} wrap>
+          <Text type="secondary">쓰는 키 {rows.filter((r) => r.live).length}개</Text>
+          <Text type="secondary">·</Text>
+          <Text type="secondary">정지 {rows.filter((r) => !r.live).length}개</Text>
+        </Space>
+        <Button type="primary" icon={<PlusOutlined />}>키 만들기</Button>
+      </Flex>
+
+      {/* scroll={{x:"max-content"}} 지정. 긴 키값 탓에 없으면 페이지 밀림 문제임 */}
+      <Table<KeyRow>
+        size="small"
+        columns={columns}
+        dataSource={rows}
+        pagination={false}
+        scroll={{ x: "max-content" }}
+      />
+    </Flex>
+  );
+}

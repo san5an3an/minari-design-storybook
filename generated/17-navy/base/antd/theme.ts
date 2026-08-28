@@ -2,6 +2,9 @@
 
 import { theme as antdTheme, type ThemeConfig } from "antd";
 
+type Rem<T> = { [K in keyof T]: T[K] | string };
+type Token = Rem<NonNullable<ThemeConfig["token"]>>;
+
 const antdDefault = antdTheme.getDesignToken;
 const button = {
   controlHeight: antdDefault.controlHeight,
@@ -14,36 +17,36 @@ const button = {
 
 const components = { ...{
   "Modal": {
-    "borderRadiusLG": 16
+    "borderRadiusLG": "1rem"
   },
   "Drawer": {
-    "borderRadiusLG": 16
+    "borderRadiusLG": "1rem"
   },
   "Notification": {
-    "borderRadiusLG": 16
+    "borderRadiusLG": "1rem"
   },
   "Message": {
-    "borderRadiusLG": 16
+    "borderRadiusLG": "1rem"
   },
   "Popover": {
-    "borderRadiusLG": 16
+    "borderRadiusLG": "1rem"
   },
   "Tooltip": {
-    "borderRadius": 4
+    "borderRadius": "0.25rem"
   },
   "Card": {
-    "borderRadiusLG": 12
+    "borderRadiusLG": "0.75rem"
   },
   "Collapse": {
-    "borderRadiusLG": 12
+    "borderRadiusLG": "0.75rem"
   },
   "Table": {
-    "borderRadiusLG": 12
+    "borderRadiusLG": "0.75rem"
   },
   "Alert": {
-    "borderRadiusLG": 12
+    "borderRadiusLG": "0.75rem"
   }
-}, Button: button } satisfies ThemeConfig["components"];
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
 // 모드별 값 하나. 색은 토큰이 보유, 알고리즘은 밝기만 구분
 const themeSeed = {
@@ -56,13 +59,13 @@ const themeSeed = {
   "colorTextBase": "#07080c",
   "colorBgBase": "#f7f8f9",
   "fontSize": 16,
-  "borderRadius": 8,
+  "borderRadius": "0.5rem",
   "lineWidth": 1,
   "sizeUnit": 4,
   "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 31
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const themeOverrides = {
   "colorBgContainer": "#f7f8f9",
   "colorBgElevated": "#f7f8f9",
@@ -72,6 +75,7 @@ const themeOverrides = {
   "colorText": "#07080c",
   "colorTextSecondary": "#595d63",
   "colorTextTertiary": "#595d63",
+  "colorTextLightSolid": "#ffffff",
   "colorBorder": "#c7cacf",
   "colorBorderSecondary": "#d4d7db",
   "colorPrimaryBg": "#c7d6f1",
@@ -82,26 +86,26 @@ const themeOverrides = {
   "colorErrorBorder": "#feb4ad",
   "colorSuccessBorder": "#a1dbac",
   "colorWarningBorder": "#e4c687",
-  "borderRadiusSM": 4,
-  "borderRadiusLG": 12,
+  "borderRadiusSM": "0.25rem",
+  "borderRadiusLG": "0.75rem",
   "controlInteractiveSize": 16,
   "fontSizeSM": 14,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 35,
-  "fontSizeHeading2": 28,
-  "fontSizeHeading3": 22,
-  "fontSizeHeading4": 20,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "2.1875rem",
+  "fontSizeHeading2": "1.75rem",
+  "fontSizeHeading3": "1.375rem",
+  "fontSizeHeading4": "1.25rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 27,
   "controlHeightLG": 37,
   "boxShadow": "0 0.0625rem 0.125rem 0 #0f1a2e1a, 0 0.0625rem 0.1875rem 0.0625rem #0f1a2e14",
   "boxShadowSecondary": "0 0.5rem 1.5rem -0.25rem #0f1a2e29, 0 0.125rem 0.375rem 0 #0f1a2e1a"
-} satisfies ThemeConfig["token"];
-export const theme: ThemeConfig = {
+} satisfies Token;
+export const theme = {
   algorithm: [antdTheme.defaultAlgorithm, antdTheme.compactAlgorithm],
   token: { ...themeSeed, ...themeOverrides },
   components,
-};
+} as unknown as ThemeConfig;
 
 const darkThemeSeed = {
   "colorPrimary": "#0055ff",
@@ -113,13 +117,13 @@ const darkThemeSeed = {
   "colorTextBase": "#f6faff",
   "colorBgBase": "#181919",
   "fontSize": 16,
-  "borderRadius": 8,
+  "borderRadius": "0.5rem",
   "lineWidth": 1,
   "sizeUnit": 4,
   "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 31
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const darkThemeOverrides = {
   "colorBgContainer": "#181919",
   "colorBgElevated": "#181919",
@@ -129,6 +133,7 @@ const darkThemeOverrides = {
   "colorText": "#f6faff",
   "colorTextSecondary": "#9599a1",
   "colorTextTertiary": "#9599a1",
+  "colorTextLightSolid": "#ffffff",
   "colorBorder": "#45474b",
   "colorBorderSecondary": "#383a3d",
   "colorPrimaryBg": "#182337",
@@ -139,26 +144,26 @@ const darkThemeOverrides = {
   "colorErrorBorder": "#6f322e",
   "colorSuccessBorder": "#1c542c",
   "colorWarningBorder": "#5b4300",
-  "borderRadiusSM": 4,
-  "borderRadiusLG": 12,
+  "borderRadiusSM": "0.25rem",
+  "borderRadiusLG": "0.75rem",
   "controlInteractiveSize": 16,
   "fontSizeSM": 14,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 35,
-  "fontSizeHeading2": 28,
-  "fontSizeHeading3": 22,
-  "fontSizeHeading4": 20,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "2.1875rem",
+  "fontSizeHeading2": "1.75rem",
+  "fontSizeHeading3": "1.375rem",
+  "fontSizeHeading4": "1.25rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 27,
   "controlHeightLG": 37,
   "boxShadow": "0 0.0625rem 0.125rem 0 #0f1a2e1a, 0 0.0625rem 0.1875rem 0.0625rem #0f1a2e14",
   "boxShadowSecondary": "0 0.5rem 1.5rem -0.25rem #0f1a2e29, 0 0.125rem 0.375rem 0 #0f1a2e1a"
-} satisfies ThemeConfig["token"];
-export const darkTheme: ThemeConfig = {
+} satisfies Token;
+export const darkTheme = {
   algorithm: [antdTheme.darkAlgorithm, antdTheme.compactAlgorithm],
   token: { ...darkThemeSeed, ...darkThemeOverrides },
   components,
-};
+} as unknown as ThemeConfig;
 
 const highContrastThemeSeed = {
   "colorPrimary": "#aecbff",
@@ -170,13 +175,13 @@ const highContrastThemeSeed = {
   "colorTextBase": "#eef1f5",
   "colorBgBase": "#020202",
   "fontSize": 16,
-  "borderRadius": 8,
+  "borderRadius": "0.5rem",
   "lineWidth": 2,
   "sizeUnit": 4,
   "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 33
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const highContrastThemeOverrides = {
   "colorBgContainer": "#020202",
   "colorBgElevated": "#020202",
@@ -186,6 +191,7 @@ const highContrastThemeOverrides = {
   "colorText": "#eef1f5",
   "colorTextSecondary": "#e1e5ec",
   "colorTextTertiary": "#e1e5ec",
+  "colorTextLightSolid": "#000000",
   "colorBorder": "#7f8185",
   "colorBorderSecondary": "#686a6d",
   "colorPrimaryBg": "#050811",
@@ -196,26 +202,26 @@ const highContrastThemeOverrides = {
   "colorErrorBorder": "#ae706b",
   "colorSuccessBorder": "#5c8d66",
   "colorWarningBorder": "#977e47",
-  "borderRadiusSM": 4,
-  "borderRadiusLG": 12,
+  "borderRadiusSM": "0.25rem",
+  "borderRadiusLG": "0.75rem",
   "controlInteractiveSize": 16,
   "fontSizeSM": 14,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 35,
-  "fontSizeHeading2": 28,
-  "fontSizeHeading3": 22,
-  "fontSizeHeading4": 20,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "2.1875rem",
+  "fontSizeHeading2": "1.75rem",
+  "fontSizeHeading3": "1.375rem",
+  "fontSizeHeading4": "1.25rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 29,
   "controlHeightLG": 39,
   "boxShadow": "0 0.0625rem 0.125rem 0 #0f1a2e1a, 0 0.0625rem 0.1875rem 0.0625rem #0f1a2e14",
   "boxShadowSecondary": "0 0.5rem 1.5rem -0.25rem #0f1a2e29, 0 0.125rem 0.375rem 0 #0f1a2e1a"
-} satisfies ThemeConfig["token"];
-export const highContrastTheme: ThemeConfig = {
+} satisfies Token;
+export const highContrastTheme = {
   algorithm: [antdTheme.darkAlgorithm, antdTheme.compactAlgorithm],
   token: { ...highContrastThemeSeed, ...highContrastThemeOverrides },
   components,
-};
+} as unknown as ThemeConfig;
 
 // 모드-테마 매핑 표. 화면은 이 표만 참조
 export const byMode = {

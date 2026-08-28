@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/splitter.json 의 examples[8] ("Customize")
@@ -16,7 +17,7 @@ import {
   CaretRightOutlined,
   CaretUpOutlined,
   ColumnWidthOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { ConfigProvider, Divider, Flex, Splitter, Typography } from 'antd';
 import { createStyles } from 'antd-style';
 

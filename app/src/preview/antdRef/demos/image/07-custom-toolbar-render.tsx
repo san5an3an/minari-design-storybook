@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/image.json 의 examples[7] ("Custom toolbar render")
@@ -20,7 +21,7 @@ import {
   UndoOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Image, Space } from 'antd';
 import { createStyles } from 'antd-style';
 

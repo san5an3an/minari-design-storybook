@@ -129,6 +129,7 @@ export interface AlertProps extends Common {
   // 종류 표시 여부
   icon?: boolean;
   action?: ReactNode;
+  closable?: boolean;
 }
 
 export interface ToastProps extends Common {
@@ -575,6 +576,7 @@ export interface DrawerProps extends Common {
 
 export interface ActionItemSpec {
   label?: ReactNode;
+  onSelect?:  => void;
   // 단축키 같은 보조 정보
   hint?: string;
   danger?: boolean;
@@ -696,6 +698,7 @@ export interface SidebarProps extends Common {
     icon?: ReactNode;
     active?: boolean;
     href?: string;
+    onSelect?:  => void;
     // 줄 오른쪽 SidebarMenuAction 영역
     action?: ReactNode;
     // 클릭 시 열리는 드롭다운 목록
