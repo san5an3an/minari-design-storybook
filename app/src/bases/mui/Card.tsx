@@ -18,10 +18,6 @@ export function Card({
         border: "var(--semantic-border-width-default) solid var(--component-card-border)",
         borderRadius: "var(--component-card-radius)",
         boxShadow: "var(--component-card-shadow)",
-        padding: "var(--component-card-padding)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--component-card-gap)",
         // 클릭 가능한 카드만 hover 반응. 비활성 카드 반응은 잘못된 신호임
         ...(interactive
           ? {
@@ -32,11 +28,14 @@ export function Card({
               },
             }
           : null),
-        // CardContent 자체 여백 보유. 제거하지 않으면 padding이 겹쳐 밀도 차이가 안 보임
+        // 여백은 CardContent CardActions 등 하위 요소별 지정
         "& .MuiCardHeader-root, & .MuiCardContent-root, & .MuiCardActions-root": {
-          padding: 0,
+          padding: "var(--component-card-padding)",
         },
-        "& .MuiCardContent-root:last-child": { paddingBottom: 0 },
+        // CardContent 마지막 여백 1배 유지, 1.5배 토큰 없음
+        "& .MuiCardContent-root:last-child": {
+          paddingBottom: "var(--component-card-padding)",
+        },
       }}
     >
       {hasHead ? (
@@ -78,9 +77,13 @@ export function Card({
           {children}
         </CardContent>
       )}
-      {/* disableSpacing 필요. false 기본값이 마진을 더해 gap과 겹칠 수 있음 */}
+      {/* 버튼 간격 disableSpacing 기본값으로 8px 적용 */}
       {footer === undefined ? null : (
-        <CardActions disableSpacing sx={{ gap: "var(--component-card-gap)" }}>
+        <CardActions
+          sx={{
+            "& > :not(style) ~ :not(style)": { marginLeft: "var(--component-card-gap)" },
+          }}
+        >
           {footer}
         </CardActions>
       )}

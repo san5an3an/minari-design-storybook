@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import ArrowOutwardRounded from "@mui/icons-material/ArrowOutwardRounded";
 import MuiLink from "@mui/material/Link";
 import type { LinkProps } from "../../systems/props";
 
@@ -21,7 +21,7 @@ export function Link({ href = "#", external, children, className }: LinkProps) {
       }}
     >
       {children}
-      {external ? <ArrowUpRight aria-hidden style={{ width: "1em", height: "1em" }} /> : null}
+      {external ? <ArrowOutwardRounded aria-hidden style={{ width: "1em", height: "1em" }} /> : null}
     </MuiLink>
   );
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown } from "lucide-react";
+import ExpandMoreRounded from "@mui/icons-material/ExpandMoreRounded";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -43,7 +43,7 @@ export function Select({
         )
       }
       IconComponent={(props) => (
-        <ChevronDown
+        <ExpandMoreRounded
           {...props}
           style={{
             width: "var(--component-select-marker-size)",

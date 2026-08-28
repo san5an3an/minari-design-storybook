@@ -1,4 +1,5 @@
 import * as React from "react";
+import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MuiRadio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -7,9 +8,10 @@ import type { RadioProps } from "../../systems/props";
 // 동그라미 하나. on이면 안에 점 표시
 function Circle({ on, invalid }: { on?: boolean; invalid?: boolean }) {
   return (
-    <span
+    <Box
+      component="span"
       aria-hidden
-      style={{
+      sx={{
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
@@ -31,8 +33,9 @@ function Circle({ on, invalid }: { on?: boolean; invalid?: boolean }) {
     >
       {on ? (
         // 점 크기는 원 비율로 결정. 고정값이면 밀도 축에서 넘치거나 남는 문제 있음
-        <span
-          style={{
+        <Box
+          component="span"
+          sx={{
             width: "45%",
             height: "45%",
             borderRadius: "50%",
@@ -40,7 +43,7 @@ function Circle({ on, invalid }: { on?: boolean; invalid?: boolean }) {
           }}
         />
       ) : null}
-    </span>
+    </Box>
   );
 }
 
@@ -102,8 +105,9 @@ function RadioRoot({
         ) : (
           <>
             {children}
-            <span
-              style={{
+            <Box
+              component="span"
+              sx={{
                 display: "block",
                 color: "var(--component-radio-description-fg)",
                 fontSize: "var(--component-radio-description-font-size)",
@@ -111,7 +115,7 @@ function RadioRoot({
               }}
             >
               {description}
-            </span>
+            </Box>
           </>
         )
       }

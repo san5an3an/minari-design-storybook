@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import ChevronRightRounded from "@mui/icons-material/ChevronRightRounded";
 import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,7 @@ export function Breadcrumb({ items, separator }: BreadcrumbProps) {
       aria-label="이동경로"
       separator={
         separator ?? (
-          <ChevronRight
+          <ChevronRightRounded
             aria-hidden
             style={{ width: "1em", height: "1em", color: "var(--component-breadcrumb-separator)" }}
           />

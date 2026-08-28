@@ -1,17 +1,20 @@
 import * as React from "react";
-import { Check, Minus } from "lucide-react";
+import CheckRounded from "@mui/icons-material/CheckRounded";
+import RemoveRounded from "@mui/icons-material/RemoveRounded";
+import Box from "@mui/material/Box";
 import MuiCheckbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import type { CheckboxProps } from "../../systems/props";
 
-// 사각형 하나, mark 있으면 내부에 표시 추가
-function Box({ mark, invalid }: { mark?: React.ReactNode; invalid?: boolean }) {
+function Square({ mark, invalid }: { mark?: React.ReactNode; invalid?: boolean }) {
   const on = mark !== undefined;
   return (
-    <span
+    <Box
+      component="span"
       // 시각적 표시용. 실제 상태는 내부 input이 유지
       aria-hidden
-      style={{
+      sx={{
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
@@ -34,12 +37,12 @@ function Box({ mark, invalid }: { mark?: React.ReactNode; invalid?: boolean }) {
       }}
     >
       {mark}
-    </span>
+    </Box>
   );
 }
 
 // 사각형 내부 표시, 크기는 사각형 비율에 연동
-const markStyle = { width: "70%", height: "70%" } as const;
+const markSx = { width: "70%", height: "70%" } as const;
 
 function CheckboxRoot({
   id, checked, defaultChecked, indeterminate, disabled, onCheckedChange,
@@ -54,9 +57,10 @@ function CheckboxRoot({
       indeterminate={indeterminate}
       disabled={disabled}
       onChange={(_, next) => onCheckedChange?.(next)}
-      icon={<Box invalid={invalid} />}
-      checkedIcon={<Box invalid={invalid} mark={<Check style={markStyle} strokeWidth={3} />} />}
-      indeterminateIcon={<Box invalid={invalid} mark={<Minus style={markStyle} strokeWidth={3} />} />}
+      // strokeWidth 지정 금지. MUI 아이콘은 채워진 글리프라 값이 적용되지 않음
+      icon={<Square invalid={invalid} />}
+      checkedIcon={<Square invalid={invalid} mark={<CheckRounded sx={markSx} />} />}
+      indeterminateIcon={<Square invalid={invalid} mark={<RemoveRounded sx={markSx} />} />}
       className={className}
       // aria-invalid를 DOM까지 전달. error prop 없어 색으로만 구분되는 문제임
       slotProps={{ input: { "aria-invalid": invalid || undefined } }}
@@ -104,8 +108,9 @@ function CheckboxRoot({
         ) : (
           <>
             {children}
-            <span
-              style={{
+            <Box
+              component="span"
+              sx={{
                 display: "block",
                 color: "var(--component-checkbox-description-fg)",
                 fontSize: "var(--component-checkbox-description-font-size)",
@@ -113,7 +118,7 @@ function CheckboxRoot({
               }}
             >
               {description}
-            </span>
+            </Box>
           </>
         )
       }
@@ -123,9 +128,9 @@ function CheckboxRoot({
 
 function Group({ children }: { children?: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--component-checkbox-gap)" }}>
+    <FormGroup sx={{ gap: "var(--component-checkbox-gap)" }}>
       {children}
-    </div>
+    </FormGroup>
   );
 }
 
