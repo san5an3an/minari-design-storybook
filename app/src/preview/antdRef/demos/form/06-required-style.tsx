@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useState } from 'react';
-import { InfoCircleOutlined } from '../_icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Radio, Tag } from 'antd';
 import type { FormProps } from 'antd';
 

@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { SearchOutlined } from '../_icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Select, Space } from 'antd';
 
 const { Search } = Input;

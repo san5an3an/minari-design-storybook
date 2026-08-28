@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CloseCircleOutlined, DeleteOutlined } from '../_icons';
+import { CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Flex, Tag } from 'antd';
 
 const preventDefault = (e: React.MouseEvent<HTMLElement>) => {

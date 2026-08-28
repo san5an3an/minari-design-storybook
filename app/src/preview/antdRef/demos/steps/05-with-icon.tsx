@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '../_icons';
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
 import { Steps } from 'antd';
 
 const App: React.FC = () => (

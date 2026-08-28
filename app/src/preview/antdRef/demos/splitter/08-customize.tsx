@@ -17,7 +17,7 @@ import {
   CaretRightOutlined,
   CaretUpOutlined,
   ColumnWidthOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { ConfigProvider, Divider, Flex, Splitter, Typography } from 'antd';
 import { createStyles } from 'antd-style';
 

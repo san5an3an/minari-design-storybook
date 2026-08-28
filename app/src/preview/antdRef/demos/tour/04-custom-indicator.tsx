@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useRef, useState } from 'react';
-import { EllipsisOutlined } from '../_icons';
+import { EllipsisOutlined } from '@ant-design/icons';
 import type { GetRef, TourProps } from 'antd';
 import { Button, Divider, Space, Tour } from 'antd';
 

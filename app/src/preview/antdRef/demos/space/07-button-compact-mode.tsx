@@ -22,7 +22,7 @@ import {
   ShareAltOutlined,
   StarOutlined,
   WarningOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Button, Dropdown, Space, Tooltip } from 'antd';
 
 const App: React.FC = () => (

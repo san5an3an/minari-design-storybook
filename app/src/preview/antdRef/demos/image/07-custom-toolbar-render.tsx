@@ -21,7 +21,7 @@ import {
   UndoOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Image, Space } from 'antd';
 import { createStyles } from 'antd-style';
 

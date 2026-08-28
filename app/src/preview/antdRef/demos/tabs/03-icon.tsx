@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { AndroidOutlined, AppleOutlined } from '../_icons';
+import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 
 // Icons from third-party libraries (e.g. lucide, react-icons) render as a bare `<svg>`

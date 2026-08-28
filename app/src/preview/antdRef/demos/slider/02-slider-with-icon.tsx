@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useState } from 'react';
-import { FrownOutlined, SmileOutlined } from '../_icons';
+import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Flex, Slider } from 'antd';
 import { createStyles } from 'antd-style';
 import { clsx } from 'clsx';

@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CloseCircleOutlined } from '../_icons';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, Result, Typography } from 'antd';
 import { createStyles } from 'antd-style';
 

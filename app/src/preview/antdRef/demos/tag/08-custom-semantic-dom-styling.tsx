@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CheckCircleOutlined, CloseCircleOutlined } from '../_icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Flex, Space, Tag } from 'antd';
 import type { GetProp, GetProps, TagProps } from 'antd';
 import { createStaticStyles } from 'antd-style';

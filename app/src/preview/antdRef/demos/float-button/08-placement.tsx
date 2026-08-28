@@ -17,7 +17,7 @@ import {
   LeftOutlined,
   RightOutlined,
   UpOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Flex, FloatButton } from 'antd';
 
 const BOX_SIZE = 100;

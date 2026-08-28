@@ -17,7 +17,7 @@ import {
   CloseCircleOutlined,
   ExclamationCircleOutlined,
   SyncOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Divider, Flex, Tag } from 'antd';
 
 const variants = ['filled', 'solid', 'outlined'] as const;

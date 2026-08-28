@@ -17,7 +17,7 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 
 const { Header, Sider, Content } = Layout;

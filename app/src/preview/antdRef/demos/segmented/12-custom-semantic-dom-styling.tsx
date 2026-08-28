@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '../_icons';
+import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Flex, Segmented } from 'antd';
 import type { GetProp, SegmentedProps } from 'antd';
 import { createStaticStyles } from 'antd-style';

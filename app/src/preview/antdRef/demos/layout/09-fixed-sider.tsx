@@ -20,7 +20,7 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 

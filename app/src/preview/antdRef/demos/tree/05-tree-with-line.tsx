@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useState } from 'react';
-import { CarryOutOutlined, CheckOutlined, FormOutlined } from '../_icons';
+import { CarryOutOutlined, CheckOutlined, FormOutlined } from '@ant-design/icons';
 import { Select, Switch, Tree } from 'antd';
 import type { TreeDataNode } from 'antd';
 

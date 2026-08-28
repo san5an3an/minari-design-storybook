@@ -12,7 +12,7 @@
  */
 import React, { useMemo, useRef, useState } from 'react';
 import { Input, Menu, Tabs } from 'antd';
-import { SearchOutlined } from '../_icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { TabsProps } from 'antd';
 

@@ -11,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '../_icons';
+import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@ant-design/icons';
 import type { QRCodeProps } from 'antd';
 import { Button, Flex, QRCode, Space, Spin } from 'antd';
 
