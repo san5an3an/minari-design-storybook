@@ -3,9 +3,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { Image as ImageIcon } from '../_icons';
-import { Work as WorkIcon } from '../_icons';
-import { BeachAccess as BeachAccessIcon } from '../_icons';
+import ImageIcon from '@mui/icons-material/Image';
+import WorkIcon from '@mui/icons-material/Work';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 
 export default function FolderList() {
   return (
@@ -16,7 +16,7 @@ export default function FolderList() {
             <ImageIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+        <ListItemText primary="사진" secondary="Jan 9, 2014" />
       </ListItem>
       <ListItem>
         <ListItemAvatar>

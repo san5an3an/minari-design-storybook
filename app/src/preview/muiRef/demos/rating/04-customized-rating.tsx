@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
-import { Favorite as FavoriteIcon } from '../_icons';
-import { FavoriteBorder as FavoriteBorderIcon } from '../_icons';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Typography from '@mui/material/Typography';
 
 const StyledRating = styled(Rating)({

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Rating, { IconContainerProps } from '@mui/material/Rating';
-import { SentimentVeryDissatisfied as SentimentVeryDissatisfiedIcon } from '../_icons';
-import { SentimentDissatisfied as SentimentDissatisfiedIcon } from '../_icons';
-import { SentimentSatisfied as SentimentSatisfiedIcon } from '../_icons';
-import { SentimentSatisfiedAltOutlined as SentimentSatisfiedAltIcon } from '../_icons';
-import { SentimentVerySatisfied as SentimentVerySatisfiedIcon } from '../_icons';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   '& .MuiRating-iconEmpty .MuiSvgIcon-root': {

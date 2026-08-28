@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { Menu as MenuIcon } from '../_icons';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function DenseAppBar() {
   return (
@@ -20,7 +20,7 @@ export default function DenseAppBar() {
               color: 'inherit',
             }}
           >
-            Photos
+            사진
           </Typography>
         </Toolbar>
       </AppBar>

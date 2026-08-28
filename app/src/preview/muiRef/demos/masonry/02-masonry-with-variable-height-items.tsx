@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Masonry from '@mui/lab/Masonry';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';

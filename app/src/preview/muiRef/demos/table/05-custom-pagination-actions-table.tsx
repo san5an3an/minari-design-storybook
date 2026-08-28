@@ -10,10 +10,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
-import { FirstPage as FirstPageIcon } from '../_icons';
-import { KeyboardArrowLeft } from '../_icons';
-import { KeyboardArrowRight } from '../_icons';
-import { LastPage as LastPageIcon } from '../_icons';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
 interface TablePaginationActionsProps {
   count: number;

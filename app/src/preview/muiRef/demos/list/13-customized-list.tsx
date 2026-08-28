@@ -10,14 +10,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { ArrowRight } from '../_icons';
-import { KeyboardArrowDown } from '../_icons';
-import { Home } from '../_icons';
-import { Settings } from '../_icons';
-import { People } from '../_icons';
-import { PermMedia } from '../_icons';
-import { Dns } from '../_icons';
-import { Public } from '../_icons';
+import ArrowRight from '@mui/icons-material/ArrowRight';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Home from '@mui/icons-material/Home';
+import Settings from '@mui/icons-material/Settings';
+import People from '@mui/icons-material/People';
+import PermMedia from '@mui/icons-material/PermMedia';
+import Dns from '@mui/icons-material/Dns';
+import Public from '@mui/icons-material/Public';
 
 const data = [
   { icon: <People />, label: 'Authentication' },

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
-import { TagFaces as TagFacesIcon } from '../_icons';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
 
 interface ChipData {
   key: number;

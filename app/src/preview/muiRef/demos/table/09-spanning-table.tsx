@@ -49,7 +49,7 @@ export default function SpanningTable() {
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={3}>
-              Details
+              자세히
             </TableCell>
             <TableCell align="right">단가</TableCell>
           </TableRow>
@@ -80,7 +80,7 @@ export default function SpanningTable() {
             <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2}>합계</TableCell>
+            <TableCell colSpan={2}>총계</TableCell>
             <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
           </TableRow>
         </TableBody>

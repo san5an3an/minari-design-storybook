@@ -8,7 +8,7 @@ import AccordionDetails, {
   accordionDetailsClasses,
 } from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Fade from '@mui/material/Fade';
 
 export default function AccordionTransition() {

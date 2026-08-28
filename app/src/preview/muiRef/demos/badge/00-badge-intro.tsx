@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import { Mail as MailIcon } from '../_icons';
+import MailIcon from '@mui/icons-material/Mail';
 
 const maxVisibleNotifications = 99;
 const unreadNotificationsCount = 100;

@@ -4,20 +4,20 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Check } from '../_icons';
+import Check from '@mui/icons-material/Check';
 
 export default function DenseMenu() {
   return (
     <Paper sx={{ width: 320 }}>
       <MenuList dense>
         <MenuItem>
-          <ListItemText inset>하나</ListItemText>
+          <ListItemText inset>단일</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemText inset>1.15</ListItemText>
         </MenuItem>
         <MenuItem>
-          <ListItemText inset>둘</ListItemText>
+          <ListItemText inset>이중</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>

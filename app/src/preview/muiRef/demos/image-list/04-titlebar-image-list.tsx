@@ -3,7 +3,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
-import { Info as InfoIcon } from '../_icons';
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function TitlebarImageList() {
   return (

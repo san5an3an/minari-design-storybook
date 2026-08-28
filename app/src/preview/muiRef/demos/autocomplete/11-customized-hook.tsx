@@ -2,8 +2,8 @@ import useAutocomplete, {
   AutocompleteGetItemProps,
   UseAutocompleteProps,
 } from '@mui/material/useAutocomplete';
-import { Check as CheckIcon } from '../_icons';
-import { Close as CloseIcon } from '../_icons';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 

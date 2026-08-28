@@ -10,10 +10,10 @@ import Switch from '@mui/material/Switch';
 import SpeedDial, { SpeedDialProps } from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import { FileCopyOutlined as FileCopyIcon } from '../_icons';
-import { Save as SaveIcon } from '../_icons';
-import { Print as PrintIcon } from '../_icons';
-import { Share as ShareIcon } from '../_icons';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
   position: 'absolute',

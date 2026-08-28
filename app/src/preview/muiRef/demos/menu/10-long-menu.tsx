@@ -2,7 +2,7 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { MoreVert as MoreVertIcon } from '../_icons';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const options = [
   '없음',

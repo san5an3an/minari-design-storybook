@@ -1,6 +1,6 @@
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import { Save as SaveIcon } from '../_icons';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function LoadingButtonGroup() {
   return (

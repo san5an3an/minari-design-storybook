@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
-import { Star as StarIcon } from '../_icons';
+import StarIcon from '@mui/icons-material/Star';
 
 const labels: { [index: string]: string } = {
   0.5: 'Useless',
   1: 'Useless+',
   1.5: 'Poor',
   2: 'Poor+',
-  2.5: 'Ok',
+  2.5: '보통',
   3: 'Ok+',
   3.5: 'Good',
   4: 'Good+',

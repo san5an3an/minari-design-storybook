@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import { KeyboardArrowDown as KeyboardArrowDownIcon } from '../_icons';
-import { KeyboardArrowUp as KeyboardArrowUpIcon } from '../_icons';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function createData(
   name: string,
@@ -72,7 +72,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                기록
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>

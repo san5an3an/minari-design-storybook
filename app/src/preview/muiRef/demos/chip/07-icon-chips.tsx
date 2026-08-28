@@ -1,6 +1,6 @@
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { Face as FaceIcon } from '../_icons';
+import FaceIcon from '@mui/icons-material/Face';
 
 export default function IconChips() {
   return (

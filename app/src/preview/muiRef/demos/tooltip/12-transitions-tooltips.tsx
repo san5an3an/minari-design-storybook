@@ -28,7 +28,7 @@ export default function TransitionsTooltips() {
           transition: Zoom,
         }}
       >
-        <Button>Zoom</Button>
+        <Button>확대/축소</Button>
       </Tooltip>
     </div>
   );

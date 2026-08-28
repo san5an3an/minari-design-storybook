@@ -4,7 +4,7 @@ import SnackbarContent from '@mui/material/SnackbarContent';
 
 const action = (
   <Button color="secondary" size="small">
-    lorem ipsum dolorem
+    표본 글자
   </Button>
 );
 

@@ -4,7 +4,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
-import { Close as CloseIcon } from '../_icons';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function TransitionAlerts() {
   const [open, setOpen] = React.useState(true);
@@ -27,7 +27,7 @@ export default function TransitionAlerts() {
           }
           sx={{ mb: 2 }}
         >
-          Click the close icon to see the Collapse transition in action!
+          닫기 아이콘을 눌러 Collapse 전환을 보세요!
         </Alert>
       </Collapse>
       <Button
@@ -37,7 +37,7 @@ export default function TransitionAlerts() {
           setOpen(true);
         }}
       >
-        Re-open
+        다시 열기
       </Button>
     </Box>
   );

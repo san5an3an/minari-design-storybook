@@ -5,16 +5,16 @@ export default function FilledAlerts() {
   return (
     <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert variant="filled" severity="success">
-        This is a filled success Alert.
+        filled 스타일의 success Alert 예요.
       </Alert>
       <Alert variant="filled" severity="info">
-        This is a filled info Alert.
+        filled 스타일의 info Alert 예요.
       </Alert>
       <Alert variant="filled" severity="warning">
-        This is a filled warning Alert.
+        filled 스타일의 warning Alert 예요.
       </Alert>
       <Alert variant="filled" severity="error">
-        This is a filled error Alert.
+        filled 스타일의 error Alert 예요.
       </Alert>
     </Stack>
   );

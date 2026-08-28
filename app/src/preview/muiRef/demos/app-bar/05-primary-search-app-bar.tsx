@@ -9,12 +9,12 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Menu as MenuIcon } from '../_icons';
-import { Search as SearchIcon } from '../_icons';
-import { AccountCircle } from '../_icons';
-import { Mail as MailIcon } from '../_icons';
-import { Notifications as NotificationsIcon } from '../_icons';
-import { MoreVert as MoreIcon } from '../_icons';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

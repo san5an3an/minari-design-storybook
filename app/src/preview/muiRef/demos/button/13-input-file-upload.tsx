@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import { CloudUpload as CloudUploadIcon } from '../_icons';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -23,7 +23,7 @@ export default function InputFileUpload() {
       tabIndex={-1}
       startIcon={<CloudUploadIcon />}
     >
-      Upload files
+      파일 올리기
       <VisuallyHiddenInput
         type="file"
         onChange={(event) => console.log(event.target.files)}

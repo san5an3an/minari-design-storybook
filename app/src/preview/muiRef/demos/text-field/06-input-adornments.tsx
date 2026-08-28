@@ -10,9 +10,9 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { Visibility } from '../_icons';
-import { VisibilityOff } from '../_icons';
-import { InfoOutlined } from '../_icons';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 
 export default function InputAdornments() {
   const outlinedStartId = React.useId();
@@ -74,7 +74,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${outlinedWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -157,7 +157,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${filledWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
@@ -240,7 +240,7 @@ export default function InputAdornments() {
             }}
           />
           <FormHelperText id={`${standardWeightId}-helper-text`}>
-            Weight
+            무게
           </FormHelperText>
         </FormControl>
         <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">

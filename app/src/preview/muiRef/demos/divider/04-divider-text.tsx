@@ -19,9 +19,9 @@ export default function DividerText() {
   return (
     <Root>
       {content}
-      <Divider>CENTER</Divider>
+      <Divider>가운데</Divider>
       {content}
-      <Divider textAlign="left">LEFT</Divider>
+      <Divider textAlign="left">왼쪽</Divider>
       {content}
       <Divider textAlign="right">RIGHT</Divider>
       {content}

@@ -38,7 +38,7 @@ function ChildModal() {
         <Box sx={{ ...style, width: 200 }}>
           <h2 id="child-modal-title">자식 모달 안의 글</h2>
           <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            표본 글이에요, 자리를 대신 채우고 있어요.
           </p>
           <Button onClick={handleClose}>자식 모달 닫기</Button>
         </Box>

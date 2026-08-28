@@ -5,9 +5,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { SkipPrevious as SkipPreviousIcon } from '../_icons';
-import { PlayArrow as PlayArrowIcon } from '../_icons';
-import { SkipNext as SkipNextIcon } from '../_icons';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export default function MediaControlCard() {
   const theme = useTheme();

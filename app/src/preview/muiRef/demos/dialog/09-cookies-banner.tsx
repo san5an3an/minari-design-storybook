@@ -6,7 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import { Menu as MenuIcon } from '../_icons';
+import MenuIcon from '@mui/icons-material/Menu';
 import Paper from '@mui/material/Paper';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';

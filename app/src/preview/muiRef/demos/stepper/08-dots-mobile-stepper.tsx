@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
-import { KeyboardArrowLeft } from '../_icons';
-import { KeyboardArrowRight } from '../_icons';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const steps = 6;
 

@@ -1,4 +1,4 @@
-import { Delete as DeleteIcon } from '../_icons';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';

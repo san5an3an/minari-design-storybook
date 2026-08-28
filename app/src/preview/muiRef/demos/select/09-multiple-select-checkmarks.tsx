@@ -5,8 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '../_icons';
-import { CheckBox as CheckBoxIcon } from '../_icons';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

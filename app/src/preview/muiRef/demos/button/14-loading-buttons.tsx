@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import { Save as SaveIcon } from '../_icons';
+import SaveIcon from '@mui/icons-material/Save';
 import Stack from '@mui/material/Stack';
 
 export default function LoadingButtons() {

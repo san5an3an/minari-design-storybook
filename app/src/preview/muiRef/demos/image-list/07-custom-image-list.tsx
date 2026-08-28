@@ -2,7 +2,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
-import { StarBorder as StarBorderIcon } from '../_icons';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
   return {

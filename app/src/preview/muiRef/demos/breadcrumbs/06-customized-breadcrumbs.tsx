@@ -2,8 +2,8 @@ import * as React from 'react';
 import { emphasize, styled } from '@mui/material/styles';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
-import { Home as HomeIcon } from '../_icons';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
+import HomeIcon from '@mui/icons-material/Home';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   return {
@@ -42,12 +42,12 @@ export default function CustomizedBreadcrumbs() {
         <StyledBreadcrumb
           component="a"
           href="#"
-          label="Home"
+          label="홈"
           icon={<HomeIcon fontSize="small" />}
         />
-        <StyledBreadcrumb component="a" href="#" label="Catalog" />
+        <StyledBreadcrumb component="a" href="#" label="카탈로그" />
         <StyledBreadcrumb
-          label="Accessories"
+          label="액세서리"
           deleteIcon={<ExpandMoreIcon />}
           onDelete={handleClick}
         />

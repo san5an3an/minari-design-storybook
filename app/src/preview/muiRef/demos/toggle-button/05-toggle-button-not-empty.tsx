@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { FormatAlignLeft as FormatAlignLeftIcon } from '../_icons';
-import { FormatAlignCenter as FormatAlignCenterIcon } from '../_icons';
-import { FormatAlignRight as FormatAlignRightIcon } from '../_icons';
-import { Laptop as LaptopIcon } from '../_icons';
-import { Tv as TvIcon } from '../_icons';
-import { PhoneAndroid as PhoneAndroidIcon } from '../_icons';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import TvIcon from '@mui/icons-material/Tv';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';

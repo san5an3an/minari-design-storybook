@@ -5,16 +5,16 @@ export default function OutlinedAlerts() {
   return (
     <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert variant="outlined" severity="success">
-        This is an outlined success Alert.
+        outlined 스타일의 success Alert 예요.
       </Alert>
       <Alert variant="outlined" severity="info">
-        This is an outlined info Alert.
+        outlined 스타일의 info Alert 예요.
       </Alert>
       <Alert variant="outlined" severity="warning">
-        This is an outlined warning Alert.
+        outlined 스타일의 warning Alert 예요.
       </Alert>
       <Alert variant="outlined" severity="error">
-        This is an outlined error Alert.
+        outlined 스타일의 error Alert 예요.
       </Alert>
     </Stack>
   );

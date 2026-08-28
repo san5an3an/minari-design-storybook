@@ -2,9 +2,9 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { Menu as MenuIcon } from '../_icons';
-import { Search as SearchIcon } from '../_icons';
-import { Directions as DirectionsIcon } from '../_icons';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 export default function CustomizedInputBase() {
   return (

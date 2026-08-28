@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ViewList as ViewListIcon } from '../_icons';
-import { ViewModule as ViewModuleIcon } from '../_icons';
-import { ViewQuilt as ViewQuiltIcon } from '../_icons';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import ViewQuiltIcon from '@mui/icons-material/ViewQuilt';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 

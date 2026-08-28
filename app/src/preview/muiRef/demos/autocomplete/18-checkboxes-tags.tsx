@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '../_icons';
-import { CheckBox as CheckBoxIcon } from '../_icons';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 export default function CheckboxesTags() {
   return (

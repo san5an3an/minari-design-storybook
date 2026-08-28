@@ -42,7 +42,7 @@ export default function ElevateAppBar(props: Props) {
         <AppBar>
           <Toolbar>
             <Typography variant="h6" component="div">
-              Scroll to elevate App bar
+              스크롤하면 App bar 가 떠올라요
             </Typography>
           </Toolbar>
         </AppBar>

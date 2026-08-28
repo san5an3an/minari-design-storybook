@@ -101,7 +101,7 @@ export default function ColumnGroupingTable() {
                 Country
               </TableCell>
               <TableCell align="center" colSpan={3}>
-                Details
+                자세히
               </TableCell>
             </TableRow>
             <TableRow>

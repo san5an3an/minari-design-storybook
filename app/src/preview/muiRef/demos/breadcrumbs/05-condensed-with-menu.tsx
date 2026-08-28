@@ -4,7 +4,7 @@ import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-import { MoreHoriz as MoreHorizIcon } from '../_icons';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 export default function CondensedWithMenu() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);

@@ -80,7 +80,7 @@ export default function DialogSelect() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleActionButtonClick}>취소</Button>
-          <Button onClick={handleActionButtonClick}>Ok</Button>
+          <Button onClick={handleActionButtonClick}>보통</Button>
         </DialogActions>
       </Dialog>
     </div>

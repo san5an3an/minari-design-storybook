@@ -3,9 +3,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
-import { Drafts as DraftsIcon } from '../_icons';
-import { Send as SendIcon } from '../_icons';
-import { PriorityHigh as PriorityHighIcon } from '../_icons';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 export default function TypographyMenu() {
   return (

@@ -1,9 +1,9 @@
 import Card from '@mui/material/Card';
 import Divider, { dividerClasses } from '@mui/material/Divider';
-import { FormatAlignLeft as FormatAlignLeftIcon } from '../_icons';
-import { FormatAlignCenter as FormatAlignCenterIcon } from '../_icons';
-import { FormatAlignRight as FormatAlignRightIcon } from '../_icons';
-import { FormatBold as FormatBoldIcon } from '../_icons';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
 
 export default function VerticalDividerMiddle() {
   return (

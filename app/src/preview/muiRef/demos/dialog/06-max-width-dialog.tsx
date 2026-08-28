@@ -48,7 +48,7 @@ export default function MaxWidthDialog() {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>Optional sizes</DialogTitle>
+        <DialogTitle>크기를 안 줘도 돼요</DialogTitle>
         <DialogContent>
           <DialogContentText>
             최대 너비와, 화면에 맞출지 여부를 정할 수 있어요.

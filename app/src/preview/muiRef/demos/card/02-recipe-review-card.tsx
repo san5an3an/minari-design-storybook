@@ -10,10 +10,10 @@ import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import { Favorite as FavoriteIcon } from '../_icons';
-import { Share as ShareIcon } from '../_icons';
-import { ExpandMore as ExpandMoreIcon } from '../_icons';
-import { MoreVert as MoreVertIcon } from '../_icons';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;

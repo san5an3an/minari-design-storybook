@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
-import { Navigation as NavigationIcon } from '../_icons';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 export default function FloatingActionButtonExtendedSize() {
   return (

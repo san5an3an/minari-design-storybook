@@ -105,7 +105,7 @@ export default function FreeSoloCreateOptionDialog() {
           <DialogTitle>영화 새로 넣기</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Did you miss any film in our list? Please, add it!
+              목록에 없는 영화가 있나요? 더해 주세요!
             </DialogContentText>
             <TextField
               autoFocus

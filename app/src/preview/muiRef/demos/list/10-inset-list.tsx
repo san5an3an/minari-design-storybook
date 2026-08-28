@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Star as StarIcon } from '../_icons';
+import StarIcon from '@mui/icons-material/Star';
 
 export default function InsetList() {
   return (

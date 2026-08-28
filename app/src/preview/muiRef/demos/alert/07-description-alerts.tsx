@@ -7,19 +7,19 @@ export default function DescriptionAlerts() {
     <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert severity="success">
         <AlertTitle>성공</AlertTitle>
-        This is a success Alert with an encouraging title.
+        제목이 힘을 북돋는 success Alert 예요.
       </Alert>
       <Alert severity="info">
         <AlertTitle>안내</AlertTitle>
-        This is an info Alert with an informative title.
+        제목이 알려 주는 info Alert 예요.
       </Alert>
       <Alert severity="warning">
         <AlertTitle>경고</AlertTitle>
-        This is a warning Alert with a cautious title.
+        제목이 조심하라고 이르는 warning Alert 예요.
       </Alert>
       <Alert severity="error">
         <AlertTitle>오류</AlertTitle>
-        This is an error Alert with a scary title.
+        제목이 겁을 주는 error Alert 예요.
       </Alert>
     </Stack>
   );

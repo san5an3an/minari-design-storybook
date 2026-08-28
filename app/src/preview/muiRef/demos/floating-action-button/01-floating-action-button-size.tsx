@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
-import { Add as AddIcon } from '../_icons';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function FloatingActionButtonSize() {
   return (

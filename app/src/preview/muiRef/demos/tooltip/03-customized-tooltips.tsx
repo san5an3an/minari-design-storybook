@@ -42,7 +42,7 @@ export default function CustomizedTooltips() {
   return (
     <div>
       <LightTooltip title="더하기">
-        <Button>Light</Button>
+        <Button>밝게</Button>
       </LightTooltip>
       <BootstrapTooltip title="더하기">
         <Button>Bootstrap</Button>
