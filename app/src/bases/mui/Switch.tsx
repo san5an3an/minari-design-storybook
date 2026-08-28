@@ -1,4 +1,5 @@
 import * as React from "react";
+import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MuiSwitch from "@mui/material/Switch";
 import type { SwitchProps } from "../../systems/props";
@@ -35,7 +36,7 @@ function SwitchRoot({
         "& .MuiSwitch-track": {
           width: "100%",
           height: "100%",
-          borderRadius: "999px",
+          borderRadius: "62.4375rem", // 999px 알약 모양 고정. pill 토큰 부재라 리터럴값 사용 중임
           opacity: 1,
           background: "var(--component-switch-bg-off)",
           border: `var(--semantic-border-width-default) solid ${
@@ -115,8 +116,9 @@ function SwitchRoot({
         ) : (
           <>
             {children}
-            <span
-              style={{
+            <Box
+              component="span"
+              sx={{
                 display: "block",
                 color: "var(--component-switch-description-fg)",
                 fontSize: "var(--component-switch-description-font-size)",
@@ -124,7 +126,7 @@ function SwitchRoot({
               }}
             >
               {description}
-            </span>
+            </Box>
           </>
         )
       }
@@ -139,8 +141,9 @@ function Card({
   // children 여기서 제거. SwitchRoot가 label 중첩시키는 문제임
   void children;
   return (
-    <label
-      style={{
+    <Box
+      component="label"
+      sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -152,30 +155,32 @@ function Card({
         cursor: "pointer",
       }}
     >
-      <span style={{ display: "flex", flexDirection: "column" }}>
-        <span
-          style={{
+      <Box component="span" sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+          component="span"
+          sx={{
             color: "var(--component-switch-label-fg)",
             fontSize: "var(--component-switch-label-font-size)",
             letterSpacing: "var(--component-switch-label-letter-spacing)",
           }}
         >
           {title}
-        </span>
+        </Box>
         {description === undefined ? null : (
-          <span
-            style={{
+          <Box
+            component="span"
+            sx={{
               color: "var(--component-switch-description-fg)",
               fontSize: "var(--component-switch-description-font-size)",
               letterSpacing: "var(--component-switch-description-letter-spacing)",
             }}
           >
             {description}
-          </span>
+          </Box>
         )}
-      </span>
+      </Box>
       <SwitchRoot {...rest} />
-    </label>
+    </Box>
   );
 }
 

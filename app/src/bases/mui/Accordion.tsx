@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown } from "lucide-react";
+import ExpandMoreRounded from "@mui/icons-material/ExpandMoreRounded";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -39,7 +39,7 @@ export function Accordion({ items, multiple, defaultValue = [] }: AccordionProps
         >
           <AccordionSummary
             expandIcon={
-              <ChevronDown
+              <ExpandMoreRounded
                 style={{
                   width: "var(--component-accordion-marker-size)",
                   height: "var(--component-accordion-marker-size)",
@@ -49,15 +49,17 @@ export function Accordion({ items, multiple, defaultValue = [] }: AccordionProps
             }
             sx={{
               paddingInline: "var(--component-accordion-head-padding-inline)",
-              paddingBlock: "var(--component-accordion-head-padding-block)",
               color: "var(--component-accordion-head-fg)",
               fontSize: "var(--component-accordion-head-font-size)",
               letterSpacing: "var(--component-accordion-head-letter-spacing)",
               gap: "var(--component-accordion-head-gap)",
+              // 높이 하한만 적용. 고정값 사용 시 밀도 구분이 사라지는 문제 있음
               minHeight: 0,
               "&:hover": { background: "var(--component-accordion-head-bg-hover)" },
-              // 펼침 상태에 별도 최소 높이 지정. 여백만 유지
-              "& .MuiAccordionSummary-content": { margin: 0 },
+              // 세로 여백은 루트가 아닌 content의 margin이 생성하는 방식임
+              "& .MuiAccordionSummary-content": {
+                marginBlock: "var(--component-accordion-head-padding-block)",
+              },
             }}
           >
             {item.title}
