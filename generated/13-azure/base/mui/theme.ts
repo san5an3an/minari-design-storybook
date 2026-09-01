@@ -36,6 +36,7 @@ export const theme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -237,7 +238,7 @@ export const theme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
@@ -429,6 +430,7 @@ export const darkTheme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -630,7 +632,7 @@ export const darkTheme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
@@ -822,6 +824,7 @@ export const highContrastTheme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -1023,7 +1026,7 @@ export const highContrastTheme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
