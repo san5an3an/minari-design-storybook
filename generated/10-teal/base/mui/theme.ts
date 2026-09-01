@@ -118,7 +118,9 @@ export const theme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -380,6 +382,24 @@ export const theme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }
@@ -512,7 +532,9 @@ export const darkTheme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -774,6 +796,24 @@ export const darkTheme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }
@@ -906,7 +946,9 @@ export const highContrastTheme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -1168,6 +1210,24 @@ export const highContrastTheme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }
