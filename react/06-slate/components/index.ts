@@ -1,4 +1,4 @@
-// @interop 컴포넌트 베이스: Ant Design, seed token, 고밀도 계열
+// @interop 컴포넌트 베이스: shadcn/ui. Tailwind 필수임
 export * from "./Accordion";
 export * from "./Alert";
 export * from "./Alertdialog";
