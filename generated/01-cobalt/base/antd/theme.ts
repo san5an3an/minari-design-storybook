@@ -45,6 +45,117 @@ const components = { ...{
   },
   "Alert": {
     "borderRadiusLG": "0.75rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#163975",
+    "subMenuItemSelectedColor": "#163975",
+    "horizontalItemSelectedColor": "#163975",
+    "horizontalItemHoverColor": "#163975"
+  },
+  "Tabs": {
+    "itemSelectedColor": "#08080b",
+    "itemHoverColor": "#08080b",
+    "itemActiveColor": "#08080b"
+  },
+  "Pagination": {
+    "itemActiveColor": "#08080b",
+    "itemActiveColorHover": "#08080b"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const darkComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "1rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "1rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "1rem"
+  },
+  "Message": {
+    "borderRadiusLG": "1rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "1rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.25rem"
+  },
+  "Card": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Table": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#84adf3",
+    "subMenuItemSelectedColor": "#84adf3",
+    "horizontalItemSelectedColor": "#84adf3",
+    "horizontalItemHoverColor": "#84adf3"
+  },
+  "Tabs": {
+    "itemSelectedColor": "#f8f9fd",
+    "itemHoverColor": "#f8f9fd",
+    "itemActiveColor": "#f8f9fd"
+  },
+  "Pagination": {
+    "itemActiveColor": "#f8f9fd",
+    "itemActiveColorHover": "#f8f9fd"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const highContrastComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "1rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "1rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "1rem"
+  },
+  "Message": {
+    "borderRadiusLG": "1rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "1rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.25rem"
+  },
+  "Card": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Table": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "0.75rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#e9f1ff",
+    "subMenuItemSelectedColor": "#e9f1ff",
+    "horizontalItemSelectedColor": "#e9f1ff",
+    "horizontalItemHoverColor": "#e9f1ff"
+  },
+  "Tabs": {
+    "itemSelectedColor": "#eff1f4",
+    "itemHoverColor": "#eff1f4",
+    "itemActiveColor": "#eff1f4"
+  },
+  "Pagination": {
+    "itemActiveColor": "#eff1f4",
+    "itemActiveColorHover": "#eff1f4"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -106,7 +217,7 @@ const themeOverrides = {
 export const theme = {
   algorithm: [antdTheme.defaultAlgorithm],
   token: { ...themeSeed, ...themeOverrides },
-  components,
+  components: components,
 } as unknown as ThemeConfig;
 
 const darkThemeSeed = {
@@ -166,7 +277,7 @@ const darkThemeOverrides = {
 export const darkTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...darkThemeSeed, ...darkThemeOverrides },
-  components,
+  components: darkComponents,
 } as unknown as ThemeConfig;
 
 const highContrastThemeSeed = {
@@ -226,7 +337,7 @@ const highContrastThemeOverrides = {
 export const highContrastTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...highContrastThemeSeed, ...highContrastThemeOverrides },
-  components,
+  components: highContrastComponents,
 } as unknown as ThemeConfig;
 
 // 모드-테마 매핑 표. 화면은 이 표만 참조
