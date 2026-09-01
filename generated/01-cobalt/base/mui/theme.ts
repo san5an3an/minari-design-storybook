@@ -81,7 +81,7 @@ export const theme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -205,7 +205,9 @@ export const theme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
@@ -495,7 +497,7 @@ export const darkTheme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -619,7 +621,9 @@ export const darkTheme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
@@ -909,7 +913,7 @@ export const highContrastTheme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -1033,7 +1037,9 @@ export const highContrastTheme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
