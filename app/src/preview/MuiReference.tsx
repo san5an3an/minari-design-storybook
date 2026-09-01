@@ -42,8 +42,25 @@ const HTML_TO_MD: [RegExp, string][] = [
   [/<a\s+[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)"],
 ];
 
+const ENTITY = /&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]{1,31});/g;
+const entityCache = new Map<string, string>;
+
+function decodeEntities(s: string): string {
+  if (!s.includes("&") || typeof document === "undefined") return s;
+  return s.replace(ENTITY, (tok) => {
+    let got = entityCache.get(tok);
+    if (got === undefined) {
+      const el = document.createElement("textarea");
+      el.innerHTML = tok;
+      got = el.value;
+      entityCache.set(tok, got);
+    }
+    return got;
+  });
+}
+
 function htmlToMarkdown(s: string): string {
-  return HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s);
+  return decodeEntities(HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s));
 }
 
 // @param html HTML 원문 여부, md 본문에는 비적용
@@ -337,9 +354,8 @@ export function MuiReference({ slug, system, active }: {
                       <code>{p.prop}</code>
                       {p.required ? <i className="doc-req-mark">필수</i> : null}
                     </th>
-                    {/* Type 값은 문서 HTML 그대로 유지. 마크다운 렌더링 시 표시가 글자로 보임 */}
-                    <td><code>{p.type.replace(/<br\s*\/?>/gi, " ")
-                      .replace(/&#124;/g, "|").replace(/&nbsp;/g, " ")}</code></td>
+                    {/* Type 값은 공식 문서 HTML 그대로 유지. 이 위치는 마크다운을 거치지 않음 */}
+                    <td><code>{decodeEntities(p.type.replace(/<br\s*\/?>/gi, " "))}</code></td>
                     <td>{p.default ? <code>{p.default}</code>
                       : <span className="doc-dim">—</span>}</td>
                     <td>
