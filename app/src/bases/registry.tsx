@@ -4,6 +4,8 @@ import type { ComponentImpl, Mode } from "../systems/types";
 import { ConfigProvider } from "antd";
 import { AntdStyleLayer } from "./antdStyleLayer";
 import { ANTD_BUTTON_CONFIG } from "./antdButtonConfig";
+import { ANTD_AVATAR_CONFIG } from "./antdAvatarConfig";
+import { ANTD_SPIN_CONFIG } from "./antdSpinConfig";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.layer.css";
@@ -402,6 +404,8 @@ function antdProvider({ slug, mode, children }: BaseProviderProps) {
       <ConfigProvider
         theme={pick(ANTD_THEME, slug, "antd")[mode]}
         button={ANTD_BUTTON_CONFIG}
+        avatar={ANTD_AVATAR_CONFIG}
+        spin={ANTD_SPIN_CONFIG}
       >
         {children}
       </ConfigProvider>
