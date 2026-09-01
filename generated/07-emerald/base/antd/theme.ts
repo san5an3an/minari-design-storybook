@@ -59,10 +59,12 @@ const themeSeed = {
   "colorTextBase": "#060907",
   "colorBgBase": "#f7f8f7",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "1rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 43
 } satisfies Token;
@@ -117,10 +119,12 @@ const darkThemeSeed = {
   "colorTextBase": "#f5fbf8",
   "colorBgBase": "#181918",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "1rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 43
 } satisfies Token;
@@ -175,10 +179,12 @@ const highContrastThemeSeed = {
   "colorTextBase": "#ecf2ee",
   "colorBgBase": "#020202",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "1rem",
   "lineWidth": 2,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 45
 } satisfies Token;
