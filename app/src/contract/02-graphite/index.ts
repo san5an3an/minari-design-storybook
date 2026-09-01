@@ -1,4 +1,4 @@
-// @interop 컴포넌트 베이스: Ant Design
+// @interop 컴포넌트 베이스: shadcn/ui
 export type * from "./Accordion";
 export type * from "./Alert";
 export type * from "./Alertdialog";
