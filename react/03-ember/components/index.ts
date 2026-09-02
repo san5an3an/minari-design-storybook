@@ -51,6 +51,7 @@ export * from "./Prose";
 export * from "./Questionnaire";
 export * from "./Radio";
 export * from "./Resizable";
+export * from "./Ringcarousel";
 export * from "./Scrollarea";
 export * from "./Segmented";
 export * from "./Select";

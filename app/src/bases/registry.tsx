@@ -89,9 +89,10 @@ import { Toggle as ShadcnToggle } from "./shadcn/Toggle";
 import { Toolbar as ShadcnToolbar } from "./shadcn/Toolbar";
 import { Tooltip as ShadcnTooltip } from "./shadcn/Tooltip";
 
-// standalone 2종
+// standalone 3종
 import { Button as StandaloneButton } from "./standalone/Button";
 import { Dialog as StandaloneDialog } from "./standalone/Dialog";
+import { Ringcarousel as StandaloneRingcarousel } from "./standalone/Ringcarousel";
 
 import { byMode as muiS01Cobalt } from "../../../generated/01-cobalt/base/mui/theme";
 import { byMode as muiS02Graphite } from "../../../generated/02-graphite/base/mui/theme";
@@ -267,65 +268,85 @@ const MANTINE_THEME = {
 
 import cssS01CobaltButton from "../../../systems/01-cobalt/components/button/button.css?raw";
 import cssS01CobaltDialog from "../../../systems/01-cobalt/components/dialog/dialog.css?raw";
+import cssS01CobaltRingcarousel from "../../../systems/01-cobalt/components/ringcarousel/ringcarousel.css?raw";
 import cssS02GraphiteButton from "../../../systems/02-graphite/components/button/button.css?raw";
 import cssS02GraphiteDialog from "../../../systems/02-graphite/components/dialog/dialog.css?raw";
+import cssS02GraphiteRingcarousel from "../../../systems/02-graphite/components/ringcarousel/ringcarousel.css?raw";
 import cssS03EmberButton from "../../../systems/03-ember/components/button/button.css?raw";
 import cssS03EmberDialog from "../../../systems/03-ember/components/dialog/dialog.css?raw";
+import cssS03EmberRingcarousel from "../../../systems/03-ember/components/ringcarousel/ringcarousel.css?raw";
 import cssS04JadeButton from "../../../systems/04-jade/components/button/button.css?raw";
 import cssS04JadeDialog from "../../../systems/04-jade/components/dialog/dialog.css?raw";
+import cssS04JadeRingcarousel from "../../../systems/04-jade/components/ringcarousel/ringcarousel.css?raw";
 import cssS05PlumButton from "../../../systems/05-plum/components/button/button.css?raw";
 import cssS05PlumDialog from "../../../systems/05-plum/components/dialog/dialog.css?raw";
+import cssS05PlumRingcarousel from "../../../systems/05-plum/components/ringcarousel/ringcarousel.css?raw";
 import cssS06SlateButton from "../../../systems/06-slate/components/button/button.css?raw";
 import cssS06SlateDialog from "../../../systems/06-slate/components/dialog/dialog.css?raw";
+import cssS06SlateRingcarousel from "../../../systems/06-slate/components/ringcarousel/ringcarousel.css?raw";
 import cssS07EmeraldButton from "../../../systems/07-emerald/components/button/button.css?raw";
 import cssS07EmeraldDialog from "../../../systems/07-emerald/components/dialog/dialog.css?raw";
+import cssS07EmeraldRingcarousel from "../../../systems/07-emerald/components/ringcarousel/ringcarousel.css?raw";
 import cssS08IndigoButton from "../../../systems/08-indigo/components/button/button.css?raw";
 import cssS08IndigoDialog from "../../../systems/08-indigo/components/dialog/dialog.css?raw";
+import cssS08IndigoRingcarousel from "../../../systems/08-indigo/components/ringcarousel/ringcarousel.css?raw";
 import cssS09SandButton from "../../../systems/09-sand/components/button/button.css?raw";
 import cssS09SandDialog from "../../../systems/09-sand/components/dialog/dialog.css?raw";
+import cssS09SandRingcarousel from "../../../systems/09-sand/components/ringcarousel/ringcarousel.css?raw";
 import cssS10TealButton from "../../../systems/10-teal/components/button/button.css?raw";
 import cssS10TealDialog from "../../../systems/10-teal/components/dialog/dialog.css?raw";
+import cssS10TealRingcarousel from "../../../systems/10-teal/components/ringcarousel/ringcarousel.css?raw";
 import cssS11CrimsonButton from "../../../systems/11-crimson/components/button/button.css?raw";
 import cssS11CrimsonDialog from "../../../systems/11-crimson/components/dialog/dialog.css?raw";
+import cssS11CrimsonRingcarousel from "../../../systems/11-crimson/components/ringcarousel/ringcarousel.css?raw";
 import cssS12MossButton from "../../../systems/12-moss/components/button/button.css?raw";
 import cssS12MossDialog from "../../../systems/12-moss/components/dialog/dialog.css?raw";
+import cssS12MossRingcarousel from "../../../systems/12-moss/components/ringcarousel/ringcarousel.css?raw";
 import cssS13AzureButton from "../../../systems/13-azure/components/button/button.css?raw";
 import cssS13AzureDialog from "../../../systems/13-azure/components/dialog/dialog.css?raw";
+import cssS13AzureRingcarousel from "../../../systems/13-azure/components/ringcarousel/ringcarousel.css?raw";
 import cssS14VioletButton from "../../../systems/14-violet/components/button/button.css?raw";
 import cssS14VioletDialog from "../../../systems/14-violet/components/dialog/dialog.css?raw";
+import cssS14VioletRingcarousel from "../../../systems/14-violet/components/ringcarousel/ringcarousel.css?raw";
 import cssS15RustButton from "../../../systems/15-rust/components/button/button.css?raw";
 import cssS15RustDialog from "../../../systems/15-rust/components/dialog/dialog.css?raw";
+import cssS15RustRingcarousel from "../../../systems/15-rust/components/ringcarousel/ringcarousel.css?raw";
 import cssS16MintButton from "../../../systems/16-mint/components/button/button.css?raw";
 import cssS16MintDialog from "../../../systems/16-mint/components/dialog/dialog.css?raw";
+import cssS16MintRingcarousel from "../../../systems/16-mint/components/ringcarousel/ringcarousel.css?raw";
 import cssS17NavyButton from "../../../systems/17-navy/components/button/button.css?raw";
 import cssS17NavyDialog from "../../../systems/17-navy/components/dialog/dialog.css?raw";
+import cssS17NavyRingcarousel from "../../../systems/17-navy/components/ringcarousel/ringcarousel.css?raw";
 import cssS18SaffronButton from "../../../systems/18-saffron/components/button/button.css?raw";
 import cssS18SaffronDialog from "../../../systems/18-saffron/components/dialog/dialog.css?raw";
+import cssS18SaffronRingcarousel from "../../../systems/18-saffron/components/ringcarousel/ringcarousel.css?raw";
 import cssS19FogButton from "../../../systems/19-fog/components/button/button.css?raw";
 import cssS19FogDialog from "../../../systems/19-fog/components/dialog/dialog.css?raw";
+import cssS19FogRingcarousel from "../../../systems/19-fog/components/ringcarousel/ringcarousel.css?raw";
 import cssS20BerryButton from "../../../systems/20-berry/components/button/button.css?raw";
 import cssS20BerryDialog from "../../../systems/20-berry/components/dialog/dialog.css?raw";
+import cssS20BerryRingcarousel from "../../../systems/20-berry/components/ringcarousel/ringcarousel.css?raw";
 const STANDALONE_CSS: Record<string, string> = {
-  "01-cobalt": [cssS01CobaltButton, cssS01CobaltDialog].join("\n"),
-  "02-graphite": [cssS02GraphiteButton, cssS02GraphiteDialog].join("\n"),
-  "03-ember": [cssS03EmberButton, cssS03EmberDialog].join("\n"),
-  "04-jade": [cssS04JadeButton, cssS04JadeDialog].join("\n"),
-  "05-plum": [cssS05PlumButton, cssS05PlumDialog].join("\n"),
-  "06-slate": [cssS06SlateButton, cssS06SlateDialog].join("\n"),
-  "07-emerald": [cssS07EmeraldButton, cssS07EmeraldDialog].join("\n"),
-  "08-indigo": [cssS08IndigoButton, cssS08IndigoDialog].join("\n"),
-  "09-sand": [cssS09SandButton, cssS09SandDialog].join("\n"),
-  "10-teal": [cssS10TealButton, cssS10TealDialog].join("\n"),
-  "11-crimson": [cssS11CrimsonButton, cssS11CrimsonDialog].join("\n"),
-  "12-moss": [cssS12MossButton, cssS12MossDialog].join("\n"),
-  "13-azure": [cssS13AzureButton, cssS13AzureDialog].join("\n"),
-  "14-violet": [cssS14VioletButton, cssS14VioletDialog].join("\n"),
-  "15-rust": [cssS15RustButton, cssS15RustDialog].join("\n"),
-  "16-mint": [cssS16MintButton, cssS16MintDialog].join("\n"),
-  "17-navy": [cssS17NavyButton, cssS17NavyDialog].join("\n"),
-  "18-saffron": [cssS18SaffronButton, cssS18SaffronDialog].join("\n"),
-  "19-fog": [cssS19FogButton, cssS19FogDialog].join("\n"),
-  "20-berry": [cssS20BerryButton, cssS20BerryDialog].join("\n"),
+  "01-cobalt": [cssS01CobaltButton, cssS01CobaltDialog, cssS01CobaltRingcarousel].join("\n"),
+  "02-graphite": [cssS02GraphiteButton, cssS02GraphiteDialog, cssS02GraphiteRingcarousel].join("\n"),
+  "03-ember": [cssS03EmberButton, cssS03EmberDialog, cssS03EmberRingcarousel].join("\n"),
+  "04-jade": [cssS04JadeButton, cssS04JadeDialog, cssS04JadeRingcarousel].join("\n"),
+  "05-plum": [cssS05PlumButton, cssS05PlumDialog, cssS05PlumRingcarousel].join("\n"),
+  "06-slate": [cssS06SlateButton, cssS06SlateDialog, cssS06SlateRingcarousel].join("\n"),
+  "07-emerald": [cssS07EmeraldButton, cssS07EmeraldDialog, cssS07EmeraldRingcarousel].join("\n"),
+  "08-indigo": [cssS08IndigoButton, cssS08IndigoDialog, cssS08IndigoRingcarousel].join("\n"),
+  "09-sand": [cssS09SandButton, cssS09SandDialog, cssS09SandRingcarousel].join("\n"),
+  "10-teal": [cssS10TealButton, cssS10TealDialog, cssS10TealRingcarousel].join("\n"),
+  "11-crimson": [cssS11CrimsonButton, cssS11CrimsonDialog, cssS11CrimsonRingcarousel].join("\n"),
+  "12-moss": [cssS12MossButton, cssS12MossDialog, cssS12MossRingcarousel].join("\n"),
+  "13-azure": [cssS13AzureButton, cssS13AzureDialog, cssS13AzureRingcarousel].join("\n"),
+  "14-violet": [cssS14VioletButton, cssS14VioletDialog, cssS14VioletRingcarousel].join("\n"),
+  "15-rust": [cssS15RustButton, cssS15RustDialog, cssS15RustRingcarousel].join("\n"),
+  "16-mint": [cssS16MintButton, cssS16MintDialog, cssS16MintRingcarousel].join("\n"),
+  "17-navy": [cssS17NavyButton, cssS17NavyDialog, cssS17NavyRingcarousel].join("\n"),
+  "18-saffron": [cssS18SaffronButton, cssS18SaffronDialog, cssS18SaffronRingcarousel].join("\n"),
+  "19-fog": [cssS19FogButton, cssS19FogDialog, cssS19FogRingcarousel].join("\n"),
+  "20-berry": [cssS20BerryButton, cssS20BerryDialog, cssS20BerryRingcarousel].join("\n"),
 };
 
 import shadcnInteropS01Cobalt from "../../../generated/01-cobalt/base/shadcn/theme.css?raw";
@@ -493,11 +514,11 @@ export const BASES: Record<string, BaseDefinition> = {
   standalone: {
     key: "standalone",
     title: "자체 구현",
-    impl: { button: StandaloneButton as ComponentImpl, dialog: StandaloneDialog as ComponentImpl },
+    impl: { button: StandaloneButton as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl },
     Provider: standaloneProvider,
     css: (slug: string) => STANDALONE_CSS[slug] ?? "",
   },
 };
 
 // 구현 많은 순서대로 화면 나열. 그 수가 프로젝트 범위
-export const BASE_ORDER: string[] = ["shadcn", "chakra", "mantine", "standalone", "antd", "mui"];
+export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "mui"];
