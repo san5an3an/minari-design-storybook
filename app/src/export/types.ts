@@ -1,7 +1,7 @@
 export const EXPORT_KIND = "ods.export";
 export const EXPORT_VERSION = 1;
 
-export const FORMATS = ["html", "next", "both"] as const;
+export const FORMATS = ["html", "next", "both", "theme"] as const;
 export type Format = (typeof FORMATS)[number];
 
 export function wantsHtml(f: Format): boolean {
@@ -9,6 +9,10 @@ export function wantsHtml(f: Format): boolean {
 }
 export function wantsNext(f: Format): boolean {
   return f === "next" || f === "both";
+}
+// 테마, 토큰만 해당. 라이브러리 경로에서만 의미 있음
+export function wantsThemeOnly(f: Format): boolean {
+  return f === "theme";
 }
 
 // 창에서 고른 값 전부. 내보내기 한 번에 필요한 입력임
@@ -94,6 +98,29 @@ export interface ExportResources {
   cxSource: string;
   // 화면 하나를 정적 마크업으로 표현. 내부에서 실제 컴포넌트 사용
   renderComponent(args: RenderArgs): string;
+
+  lib?: LibResources;
+}
+
+// 라이브러리 경로가 쓰는 자원. 전부 산출물에서 읽은 원문임
+export interface LibResources {
+  // 사람이 읽는 이름, 예: Ant Design
+  title: string;
+  // 설치 대상
+  packages: string[];
+  // 컴포넌트 임포트 출처: antd, @mui/material
+  importFrom: string;
+  // generated/{slug}/base/{base}/theme.ts 원문 그대로 표시
+  themeSource: string;
+  // 공급자 파일 본문
+  providerSource: string;
+  // 함께 포함하는 저장소 파일 목록: { to, text, why }
+  extras: { to: string; text: string; why: string }[];
+  // 공식 컴포넌트가 실제로 쓰는 이름: Button
+  componentName: string;
+  // 선택 가능한 prop. 공식 메타데이터에서 추출하기
+  props: { prop: string; values: string[]; default: string | null }[];
+  dropped: string[];
 }
 
 // payload 전송. 브라우저에서 처리

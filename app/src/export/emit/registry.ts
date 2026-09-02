@@ -1,5 +1,6 @@
 import type { ExportFile, ExportRequest, ExportResources } from "../types";
 import { emitHtml } from "./html";
+import { emitLib } from "./lib";
 import { emitNext } from "./next";
 
 export type Emitter = (req: ExportRequest, res: ExportResources) => ExportFile[];
@@ -7,6 +8,7 @@ export type Emitter = (req: ExportRequest, res: ExportResources) => ExportFile[]
 export const EMITTERS: Readonly<Record<string, Emitter>> = {
   html: emitHtml,
   next: emitNext,
+  lib: emitLib,
 };
 
 // 이름으로 조회 후 없으면 예외 처리

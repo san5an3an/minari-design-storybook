@@ -36,6 +36,21 @@ export function buildPayload(req: ExportRequest, res: ExportResources): ExportPa
 
   const files: ExportFile[] = [];
 
+  if (res.lib) {
+    return {
+      kind: EXPORT_KIND,
+      version: EXPORT_VERSION,
+      source: res.source,
+      selection: {
+        format: req.format,
+        values: req.values,
+        parts: req.parts,
+        states: req.states,
+      },
+      files: emitterFor("lib")(req, res),
+    };
+  }
+
   if (wantsHtml(req.format)) {
     files.push(...emitterFor("html")(req, res));
   }
