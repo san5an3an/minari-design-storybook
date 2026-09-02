@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ExportDialog } from "@/components/ExportDialog";
 import { requestExport } from "@/export/client";
+import { isLibBase } from "@/export/lib/registry";
 import { sinkFor } from "@/export/sinks/registry";
 import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
@@ -523,8 +524,10 @@ export function App {
     ?? bare;
 
   const exportable =
-    section !== COLORS && section !== TYPE && !isOfficialSection &&
-    system.components.some((c) => c.name === bare);
+    section !== COLORS && section !== TYPE &&
+    (isOfficialSection
+      ? isLibBase(system.baseKey)
+      : system.components.some((c) => c.name === bare));
 
   return (
     <SidebarProvider>

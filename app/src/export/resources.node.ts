@@ -5,7 +5,8 @@ import { partLabel } from "./rows";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
 
 let cachedRoot: string | null = null;
-async function repoRoot: Promise<string> {
+// 라이브러리 어댑터와 경로 공유
+export async function repoRoot: Promise<string> {
   if (cachedRoot) return cachedRoot;
   let dir = process.cwd;
   for (let i = 0; i < 6; i++) {
