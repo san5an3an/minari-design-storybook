@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <Space vertical>
       <Switch disabled={disabled} defaultChecked />
       <Button type="primary" onClick={toggle}>
-        못 쓰게 바꾸기
+        {disabled ? '쓸 수 있게 바꾸기' : '못 쓰게 바꾸기'}
       </Button>
     </Space>
   );
