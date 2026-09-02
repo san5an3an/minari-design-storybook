@@ -3,6 +3,8 @@ import { Button } from "../bases/standalone/Button";
 import buttonCss from "../../../systems/09-sand/components/button/button.css?raw";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "../../../systems/09-sand/components/dialog/dialog.css?raw";
+import { Ringcarousel } from "../bases/standalone/Ringcarousel";
+import ringcarouselCss from "../../../systems/09-sand/components/ringcarousel/ringcarousel.css?raw";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
 import vars from "../../../generated/09-sand/vars.css?raw";
 import refs from "../../../generated/09-sand/mapping.json";
@@ -23,12 +25,12 @@ export const sand: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#c5ab77",
   Icon: BookOpen,
-  css: [vars, buttonCss, dialogCss].join("\n"),
+  css: [vars, buttonCss, dialogCss, ringcarouselCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl },
+  impl: { button: Button as Impl, dialog: Dialog as Impl, ringcarousel: Ringcarousel as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -89,6 +91,7 @@ export const sand: SystemDefinition = {
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
+    { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: true },
     { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: false },
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },

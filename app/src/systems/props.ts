@@ -112,6 +112,15 @@ export interface BadgeProps extends Common {
   iconPosition?: "inline-start" | "inline-end";
 }
 
+export interface RingcarouselItem {
+  id: string;
+  label: string;
+}
+export interface RingcarouselProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  items: readonly RingcarouselItem[];
+}
+
 export interface CardProps extends Common {
   interactive?: boolean;
   title?: ReactNode;

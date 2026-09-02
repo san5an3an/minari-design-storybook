@@ -51,6 +51,7 @@ export type * from "./Prose";
 export type * from "./Questionnaire";
 export type * from "./Radio";
 export type * from "./Resizable";
+export type * from "./Ringcarousel";
 export type * from "./Scrollarea";
 export type * from "./Segmented";
 export type * from "./Select";
