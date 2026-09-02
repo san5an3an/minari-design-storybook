@@ -1,0 +1,119 @@
+
+.ods-colorpicker {
+  display: flex; flex-direction: column;
+  gap: var(--component-colorpicker-gap);
+  font-family: var(--base-font-family-sans);
+}
+.ods-colorpicker-swatches {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--component-colorpicker-gap);
+}
+/* 채움색은 --ods-colorpicker-swatch로 지정. 고정 토큰 아니므로 제한적임 */
+.ods-colorpicker-swatch {
+  inline-size: var(--component-colorpicker-swatch-size);
+  block-size: var(--component-colorpicker-swatch-size);
+  padding: 0; cursor: pointer;
+  border-radius: var(--component-colorpicker-swatch-radius);
+  background: var(--ods-colorpicker-swatch, transparent);
+  border: var(--semantic-border-width-default) solid var(--component-colorpicker-swatch-border);
+}
+.ods-colorpicker-swatch[aria-checked="true"] {
+  border-color: var(--component-colorpicker-swatch-border-selected);
+  border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--semantic-border-width-default)
+              var(--component-colorpicker-swatch-border-selected);
+}
+.ods-colorpicker-swatch:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+.ods-colorpicker-more {
+  padding: 0; cursor: pointer; background: none; border: none;
+  color: var(--component-colorpicker-more-fg);
+  font-family: inherit;
+  font-size: var(--component-colorpicker-more-font-size);
+  letter-spacing: var(--component-colorpicker-more-letter-spacing);
+  text-decoration: underline; text-underline-offset: 0.2em;
+}
+.ods-colorpicker-more:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+/* 접힘 hidden 속성으로 처리. CSS 오버라이드 시 상태가 두 곳에 남음 */
+.ods-colorpicker-custom {
+  display: flex; flex-direction: column;
+  gap: var(--component-colorpicker-gap);
+}
+.ods-colorpicker-custom[hidden] { display: none; }
+
+/* 채도, 명도 면은 그라디언트 2겹으로 구현. 세로는 명도, 가로는 채도 표시 */
+.ods-colorpicker-area {
+  position: relative;
+  block-size: var(--component-colorpicker-area-height);
+  border-radius: var(--component-colorpicker-area-radius);
+  cursor: crosshair; touch-action: none;
+  background:
+    linear-gradient(to top, #000, rgb(0 0 0 / 0)),
+    linear-gradient(to right, #fff, rgb(255 255 255 / 0)),
+    hsl(var(--ods-colorpicker-hue, 0) 100% 50%);
+}
+.ods-colorpicker-area:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+/* 핸들 내부 비우기 */
+.ods-colorpicker-thumb {
+  position: absolute;
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-thumb-size);
+  inset-inline-start: var(--ods-colorpicker-x, 50%);
+  inset-block-start: var(--ods-colorpicker-y, 50%);
+  translate: -50% -50%;
+  border-radius: var(--semantic-radius-pill);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  background: none; pointer-events: none;
+}
+
+/* 색상 띠 양 끝이 같은 빨강. 색상값은 순환값이라 끝이 없음 */
+.ods-colorpicker-hue {
+  -webkit-appearance: none; appearance: none;
+  inline-size: 100%; block-size: var(--component-colorpicker-hue-height);
+  padding: 0; cursor: pointer;
+  border-radius: var(--component-colorpicker-hue-radius);
+  background: linear-gradient(to right,
+    hsl(0 100% 50%), hsl(60 100% 50%), hsl(120 100% 50%),
+    hsl(180 100% 50%), hsl(240 100% 50%), hsl(300 100% 50%), hsl(360 100% 50%));
+}
+.ods-colorpicker-hue::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--component-colorpicker-hue-radius);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  background: none;
+}
+.ods-colorpicker-hue::-moz-range-thumb {
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--component-colorpicker-hue-radius);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  background: none;
+}
+.ods-colorpicker-hue:focus-visible { outline: none; }
+.ods-colorpicker-hue:focus-visible::-webkit-slider-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+.ods-colorpicker-hue:focus-visible::-moz-range-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+/* 값을 글자로도 표시. 색은 말로 전달 안 돼 화면 못 보는 사용자에게는 글자만 남음 */
+.ods-colorpicker-value {
+  color: var(--component-colorpicker-value-fg);
+  font-family: var(--base-font-family-mono);
+  font-size: var(--component-colorpicker-value-font-size);
+  letter-spacing: var(--component-colorpicker-value-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}

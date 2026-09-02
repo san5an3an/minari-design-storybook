@@ -17,6 +17,7 @@ export type * from "./Chart";
 export type * from "./Checkbox";
 export type * from "./Chip";
 export type * from "./Collapsible";
+export type * from "./Colorpicker";
 export type * from "./Combobox";
 export type * from "./Command";
 export type * from "./Contextmenu";
