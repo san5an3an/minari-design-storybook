@@ -11,6 +11,12 @@
  *    인라인으로 갖고 있어 거기서 그대로 옮겼다 — 손으로 옮겨 적지 않고 스크립트로 뽑았다).
  *
  * ⚠️ 이 예제가 **Autocomplete 의 Master** 다 (사용자 지정, 공식 문서의 `Combo box`).
+ *
+ * ⚠️ **언제 지우나.** 공식이 그 목록을 예제 안으로 들이면(= 아래 표식의 import 가 없어지면)
+ *    이 override 를 둘 이유가 없다. 그 조건을 사람이 아니라 `gen_mui_demos.py` 가 확인한다 —
+ *    2026-09-02 에 감시를 붙이자 **이 파일에 폐기 조건이 없다는 것이 바로 걸렸다.**
+ *
+ *      @upstream-marker `from './top100Films'`
  */
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
