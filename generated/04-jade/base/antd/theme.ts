@@ -58,8 +58,9 @@ const components = { ...{
     "itemActiveColor": "#070807"
   },
   "Pagination": {
-    "itemActiveColor": "#070807",
-    "itemActiveColorHover": "#070807"
+    "itemActiveBg": "#47a248",
+    "itemActiveColor": "#ffffff",
+    "itemActiveColorHover": "#ffffff"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -106,8 +107,9 @@ const darkComponents = { ...{
     "itemActiveColor": "#f7faf7"
   },
   "Pagination": {
-    "itemActiveColor": "#f7faf7",
-    "itemActiveColorHover": "#f7faf7"
+    "itemActiveBg": "#47a248",
+    "itemActiveColor": "#ffffff",
+    "itemActiveColorHover": "#ffffff"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -154,8 +156,9 @@ const highContrastComponents = { ...{
     "itemActiveColor": "#eef1ee"
   },
   "Pagination": {
-    "itemActiveColor": "#eef1ee",
-    "itemActiveColorHover": "#eef1ee"
+    "itemActiveBg": "#90db8d",
+    "itemActiveColor": "#000000",
+    "itemActiveColorHover": "#000000"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
