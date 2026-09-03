@@ -53,6 +53,7 @@ const components = { ...{
     "horizontalItemHoverColor": "#244e24"
   },
   "Tabs": {
+    "itemColor": "#696e6a",
     "itemSelectedColor": "#070807",
     "itemHoverColor": "#070807",
     "itemActiveColor": "#070807"
@@ -102,6 +103,7 @@ const darkComponents = { ...{
     "horizontalItemHoverColor": "#96c593"
   },
   "Tabs": {
+    "itemColor": "#959a96",
     "itemSelectedColor": "#f7faf7",
     "itemHoverColor": "#f7faf7",
     "itemActiveColor": "#f7faf7"
@@ -151,6 +153,7 @@ const highContrastComponents = { ...{
     "horizontalItemHoverColor": "#d0f9ce"
   },
   "Tabs": {
+    "itemColor": "#e1e6e2",
     "itemSelectedColor": "#eef1ee",
     "itemHoverColor": "#eef1ee",
     "itemActiveColor": "#eef1ee"
