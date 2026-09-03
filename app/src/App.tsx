@@ -24,9 +24,7 @@ import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
 import { UsagePage } from "./usage/UsagePage";
 import { ComponentPage } from "./preview/ComponentPage";
-import { AntdReference } from "./preview/AntdReference";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
-import { MuiReference } from "./preview/MuiReference";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
 import { MODES, MODE_LABEL, type Mode } from "./preview/tokens";
 import { DEFAULT_FONT, FONTS, fontByKey, loadFont } from "./preview/fonts";
@@ -34,6 +32,21 @@ import { SYSTEMS, systemBySlug } from "./systems/registry";
 import { BASES, BASE_ORDER } from "./bases/registry";
 import { resolveSystem } from "./systems/resolve";
 import type { SystemDefinition } from "./systems/types";
+
+// named export를 default로 감싸 지연 로드용 변환
+const AntdReference = React.lazy( =>
+  import("./preview/AntdReference").then((m) => ({ default: m.AntdReference })));
+const MuiReference = React.lazy( =>
+  import("./preview/MuiReference").then((m) => ({ default: m.MuiReference })));
+
+// 지연 로드 전 위치 표시
+function ReferenceLoading({ title }: { title: string }) {
+  return (
+    <div className="text-muted-foreground px-6 py-10 text-sm" role="status" aria-live="polite">
+      {title} 화면을 불러오고 있어요…
+    </div>
+  );
+}
 
 const STYLE_ID = "ods-active-system";
 
@@ -630,11 +643,15 @@ export function App {
           ) : (
             // 접두사 없으면 슬러그 실제 보유 여부로 구분. 이름 충돌에도 안전
             system.baseKey === "antd" && isAntdSlug(section) ? (
-              <AntdReference slug={section} system={system}
-                active={mode} />
+              <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
+                <AntdReference slug={section} system={system}
+                  active={mode} />
+              </React.Suspense>
             ) : system.baseKey === "mui" && isMuiSlug(section) ? (
-              <MuiReference slug={section} system={system}
-                active={mode} />
+              <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
+                <MuiReference slug={section} system={system}
+                  active={mode} />
+              </React.Suspense>
             ) : (
               <ComponentPage system={system} name={bare} active={mode} />
             )
