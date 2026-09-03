@@ -67,7 +67,7 @@ import { Tabs } from "../bases/shadcn/Tabs";
 import { Toggle } from "../bases/shadcn/Toggle";
 import { Toolbar } from "../bases/shadcn/Toolbar";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/10-teal/vars.css?raw";
+import vars from "./css/10-teal/_vars.json";
 import refs from "../../../generated/10-teal/mapping.json";
 import api from "../contract/10-teal/api.json";
 

@@ -1,14 +1,14 @@
 import { Newspaper } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
-import buttonCss from "../../../systems/11-crimson/components/button/button.css?raw";
+import buttonCss from "./css/11-crimson/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
-import dialogCss from "../../../systems/11-crimson/components/dialog/dialog.css?raw";
+import dialogCss from "./css/11-crimson/dialog.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
-import colorpickerCss from "../../../systems/11-crimson/components/colorpicker/colorpicker.css?raw";
+import colorpickerCss from "./css/11-crimson/colorpicker.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
-import ringcarouselCss from "../../../systems/11-crimson/components/ringcarousel/ringcarousel.css?raw";
+import ringcarouselCss from "./css/11-crimson/ringcarousel.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/11-crimson/vars.css?raw";
+import vars from "./css/11-crimson/_vars.json";
 import refs from "../../../generated/11-crimson/mapping.json";
 import api from "../contract/11-crimson/api.json";
 

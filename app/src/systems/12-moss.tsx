@@ -5,7 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import { byMode } from "../../../generated/12-moss/base/mantine/theme";
 import "@mantine/core/styles.layer.css";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/12-moss/vars.css?raw";
+import vars from "./css/12-moss/_vars.json";
 import refs from "../../../generated/12-moss/mapping.json";
 import api from "../contract/12-moss/api.json";
 

@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/08-indigo/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/08-indigo/vars.css?raw";
+import vars from "./css/08-indigo/_vars.json";
 import refs from "../../../generated/08-indigo/mapping.json";
 import api from "../contract/08-indigo/api.json";
 

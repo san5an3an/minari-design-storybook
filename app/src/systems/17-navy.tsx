@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/17-navy/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/17-navy/vars.css?raw";
+import vars from "./css/17-navy/_vars.json";
 import refs from "../../../generated/17-navy/mapping.json";
 import api from "../contract/17-navy/api.json";
 

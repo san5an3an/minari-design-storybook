@@ -5,7 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import { byMode } from "../../../generated/16-mint/base/mantine/theme";
 import "@mantine/core/styles.layer.css";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/16-mint/vars.css?raw";
+import vars from "./css/16-mint/_vars.json";
 import refs from "../../../generated/16-mint/mapping.json";
 import api from "../contract/16-mint/api.json";
 

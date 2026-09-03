@@ -5,7 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import { byMode } from "../../../generated/07-emerald/base/mantine/theme";
 import "@mantine/core/styles.layer.css";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/07-emerald/vars.css?raw";
+import vars from "./css/07-emerald/_vars.json";
 import refs from "../../../generated/07-emerald/mapping.json";
 import api from "../contract/07-emerald/api.json";
 

@@ -67,7 +67,7 @@ import { Tabs } from "../bases/shadcn/Tabs";
 import { Toggle } from "../bases/shadcn/Toggle";
 import { Toolbar } from "../bases/shadcn/Toolbar";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/06-slate/vars.css?raw";
+import vars from "./css/06-slate/_vars.json";
 import refs from "../../../generated/06-slate/mapping.json";
 import api from "../contract/06-slate/api.json";
 

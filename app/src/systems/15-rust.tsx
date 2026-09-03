@@ -1,14 +1,14 @@
 import { Archive } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
-import buttonCss from "../../../systems/15-rust/components/button/button.css?raw";
+import buttonCss from "./css/15-rust/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
-import dialogCss from "../../../systems/15-rust/components/dialog/dialog.css?raw";
+import dialogCss from "./css/15-rust/dialog.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
-import colorpickerCss from "../../../systems/15-rust/components/colorpicker/colorpicker.css?raw";
+import colorpickerCss from "./css/15-rust/colorpicker.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
-import ringcarouselCss from "../../../systems/15-rust/components/ringcarousel/ringcarousel.css?raw";
+import ringcarouselCss from "./css/15-rust/ringcarousel.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/15-rust/vars.css?raw";
+import vars from "./css/15-rust/_vars.json";
 import refs from "../../../generated/15-rust/mapping.json";
 import api from "../contract/15-rust/api.json";
 

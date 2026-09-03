@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/20-berry/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/20-berry/vars.css?raw";
+import vars from "./css/20-berry/_vars.json";
 import refs from "../../../generated/20-berry/mapping.json";
 import api from "../contract/20-berry/api.json";
 

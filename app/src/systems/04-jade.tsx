@@ -4,7 +4,7 @@ import { Dialog } from "../bases/chakra/Dialog";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 import { byMode } from "../../../generated/04-jade/base/chakra/theme";
 import type { ComponentImpl, Mode, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/04-jade/vars.css?raw";
+import vars from "./css/04-jade/_vars.json";
 import refs from "../../../generated/04-jade/mapping.json";
 import api from "../contract/04-jade/api.json";
 

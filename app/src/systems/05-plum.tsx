@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/05-plum/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/05-plum/vars.css?raw";
+import vars from "./css/05-plum/_vars.json";
 import refs from "../../../generated/05-plum/mapping.json";
 import api from "../contract/05-plum/api.json";
 
