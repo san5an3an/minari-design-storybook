@@ -128,13 +128,12 @@ export interface ColorPickerSwatch {
 }
 export interface ColorPickerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onChange" | "defaultValue"> {
-  // 초기 색 목록, 추가 색 포함 최대 16개
+  // 초기 색 목록, 추가 색 포함 최대 10개
   swatches?: readonly ColorPickerSwatch[];
+  // 지금 고른 색, 투명도 있으면 8자리로 반환. 6자리만 내보내면 알파 변경이 전달되지 않음
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
-  // 자유색 펼침 허용 여부
-  allowCustom?: boolean;
 }
 
 export interface CardProps extends Common {
