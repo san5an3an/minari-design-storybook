@@ -67,7 +67,7 @@ import { Tabs } from "../bases/shadcn/Tabs";
 import { Toggle } from "../bases/shadcn/Toggle";
 import { Toolbar } from "../bases/shadcn/Toolbar";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/01-cobalt/vars.css?raw";
+import vars from "./css/01-cobalt/_vars.json";
 import refs from "../../../generated/01-cobalt/mapping.json";
 import api from "../contract/01-cobalt/api.json";
 

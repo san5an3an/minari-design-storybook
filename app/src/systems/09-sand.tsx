@@ -1,14 +1,14 @@
 import { BookOpen } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
-import buttonCss from "../../../systems/09-sand/components/button/button.css?raw";
+import buttonCss from "./css/09-sand/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
-import dialogCss from "../../../systems/09-sand/components/dialog/dialog.css?raw";
+import dialogCss from "./css/09-sand/dialog.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
-import colorpickerCss from "../../../systems/09-sand/components/colorpicker/colorpicker.css?raw";
+import colorpickerCss from "./css/09-sand/colorpicker.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
-import ringcarouselCss from "../../../systems/09-sand/components/ringcarousel/ringcarousel.css?raw";
+import ringcarouselCss from "./css/09-sand/ringcarousel.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/09-sand/vars.css?raw";
+import vars from "./css/09-sand/_vars.json";
 import refs from "../../../generated/09-sand/mapping.json";
 import api from "../contract/09-sand/api.json";
 

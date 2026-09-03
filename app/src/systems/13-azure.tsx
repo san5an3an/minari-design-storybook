@@ -4,7 +4,7 @@ import { Dialog } from "../bases/chakra/Dialog";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 import { byMode } from "../../../generated/13-azure/base/chakra/theme";
 import type { ComponentImpl, Mode, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/13-azure/vars.css?raw";
+import vars from "./css/13-azure/_vars.json";
 import refs from "../../../generated/13-azure/mapping.json";
 import api from "../contract/13-azure/api.json";
 

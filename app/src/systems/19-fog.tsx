@@ -1,14 +1,14 @@
 import { Focus } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
-import buttonCss from "../../../systems/19-fog/components/button/button.css?raw";
+import buttonCss from "./css/19-fog/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
-import dialogCss from "../../../systems/19-fog/components/dialog/dialog.css?raw";
+import dialogCss from "./css/19-fog/dialog.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
-import colorpickerCss from "../../../systems/19-fog/components/colorpicker/colorpicker.css?raw";
+import colorpickerCss from "./css/19-fog/colorpicker.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
-import ringcarouselCss from "../../../systems/19-fog/components/ringcarousel/ringcarousel.css?raw";
+import ringcarouselCss from "./css/19-fog/ringcarousel.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/19-fog/vars.css?raw";
+import vars from "./css/19-fog/_vars.json";
 import refs from "../../../generated/19-fog/mapping.json";
 import api from "../contract/19-fog/api.json";
 

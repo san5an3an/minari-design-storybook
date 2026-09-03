@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/14-violet/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/14-violet/vars.css?raw";
+import vars from "./css/14-violet/_vars.json";
 import refs from "../../../generated/14-violet/mapping.json";
 import api from "../contract/14-violet/api.json";
 

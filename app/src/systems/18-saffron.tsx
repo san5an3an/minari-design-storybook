@@ -67,7 +67,7 @@ import { Tabs } from "../bases/shadcn/Tabs";
 import { Toggle } from "../bases/shadcn/Toggle";
 import { Toolbar } from "../bases/shadcn/Toolbar";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/18-saffron/vars.css?raw";
+import vars from "./css/18-saffron/_vars.json";
 import refs from "../../../generated/18-saffron/mapping.json";
 import api from "../contract/18-saffron/api.json";
 
