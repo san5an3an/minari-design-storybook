@@ -220,7 +220,8 @@ api(ctx) ──┬── gen_systems.py → 컴포넌트 CSS, SYSTEMS.md
 │ ├── components/ 컴포넌트 레지스트리, 새 컴포넌트는 파일 추가와 1줄 작성으로 등록
 │ │ └── _api.py API 선언 어휘
 │ ├── bases/ 베이스별 테마 산출기 (shadcn, MUI, antd, Chakra, Mantine)
-│ ├── fixtures/ `ui-baseline.json`, 이관 전 UI 지문 50경로
+│ ├── fixtures/ `ui-baseline.json`, UI 지문 기준값임
+│ │ 측정 도구는 라이트 64종 + 모드 8종을 측정함, 재촬영 대기
 │ ├── ui_fingerprint.js 그 지문을 측정하는 도구. UI가 바뀌지 않았음을 기계적으로 증명함
 │ └── doc_shapes.py 문서 조각의 자료 모양 셋
 │ HTML 문서층과 함께 삭제
