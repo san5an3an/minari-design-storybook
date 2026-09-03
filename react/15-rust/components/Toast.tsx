@@ -25,7 +25,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
 Toast.displayName = "Toast";
 
 // 종류 유무로 표시 여부 지정
-export const ToastIcon = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const ToastIcon = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-toast-icon", className)} {...rest}>
       {children}

@@ -3,6 +3,8 @@ import { Button } from "../bases/standalone/Button";
 import buttonCss from "../../../systems/11-crimson/components/button/button.css?raw";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "../../../systems/11-crimson/components/dialog/dialog.css?raw";
+import { Colorpicker } from "../bases/standalone/Colorpicker";
+import colorpickerCss from "../../../systems/11-crimson/components/colorpicker/colorpicker.css?raw";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "../../../systems/11-crimson/components/ringcarousel/ringcarousel.css?raw";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
@@ -25,12 +27,12 @@ export const crimson: SystemDefinition = {
   typeRatio: 1.2,
   brand: "#7f1d1d",
   Icon: Newspaper,
-  css: [vars, buttonCss, dialogCss, ringcarouselCss].join("\n"),
+  css: [vars, buttonCss, dialogCss, colorpickerCss, ringcarouselCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl, ringcarousel: Ringcarousel as Impl },
+  impl: { button: Button as Impl, dialog: Dialog as Impl, colorpicker: Colorpicker as Impl, ringcarousel: Ringcarousel as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -64,7 +66,7 @@ export const crimson: SystemDefinition = {
     { name: "chart", title: "Chart", summary: "수를 모양으로 읽게 하는 그림. 그리는 것은 라이브러리이고, 이 시스템의 몫은 색과 툴팁·라벨임.", ready: false },
     { name: "chip", title: "Chip", summary: "누르고 고르고 지울 수 있는 표시. 읽기만 하는 Badge 와 다른 컴포넌트임.", ready: false },
     { name: "collapsible", title: "Collapsible", summary: "단일 영역 접기, 펼치기. 여러 영역은 Accordion 사용", ready: false },
-    { name: "colorpicker", title: "ColorPicker", summary: "시스템 색 중에서 선택. 그 밖의 색은 펼쳐서 선택.", ready: false },
+    { name: "colorpicker", title: "ColorPicker", summary: "색을 공간에서 집음. 담아 둔 것만 아래에 남음. 스와치는 쌓이는 위치이지 주어진 목록이 아님.", ready: true },
     { name: "combobox", title: "Combobox", summary: "쳐서 좁히며 고르는 필드. 항목이 열 개 남짓이면 Select 가 나음.", ready: false },
     { name: "command", title: "Command", summary: "쳐서 좁히고 골라 실행하는 요소. 이것만으로 기능을 제공하지 않음.", ready: false },
     { name: "contextmenu", title: "ContextMenu", summary: "오른쪽 눌러 여는 동작 목록. 여기에만 있는 동작은 없는 것과 같음.", ready: false },

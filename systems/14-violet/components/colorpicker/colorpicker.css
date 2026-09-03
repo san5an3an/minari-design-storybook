@@ -5,13 +5,17 @@
   font-family: var(--base-font-family-sans);
 }
 .ods-colorpicker-swatches {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: var(--component-colorpicker-gap);
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, var(--component-colorpicker-swatch-size)));
+  justify-content: start;
+  gap: var(--component-colorpicker-swatch-gap);
 }
 /* 채움색은 --ods-colorpicker-swatch로 지정. 고정 토큰 아니므로 제한적임 */
+/* 셀은 열을 채우되 정사각형 유지. 폭만 줄이면 세로로 긴 막대 되어 같은 색도 다르게 보임 */
 .ods-colorpicker-swatch {
-  inline-size: var(--component-colorpicker-swatch-size);
-  block-size: var(--component-colorpicker-swatch-size);
+  inline-size: 100%;
+  max-inline-size: var(--component-colorpicker-swatch-size);
+  aspect-ratio: 1;
   padding: 0; cursor: pointer;
   border-radius: var(--component-colorpicker-swatch-radius);
   background: var(--ods-colorpicker-swatch, transparent);
@@ -105,6 +109,150 @@
   outline-offset: var(--semantic-border-inset-default);
 }
 .ods-colorpicker-hue:focus-visible::-moz-range-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+.ods-colorpicker-alpha {
+  -webkit-appearance: none; appearance: none;
+  inline-size: 100%; block-size: var(--component-colorpicker-hue-height);
+  padding: 0; cursor: pointer;
+  border-radius: var(--component-colorpicker-hue-radius);
+  background-image:
+    linear-gradient(to right, transparent, var(--ods-colorpicker-solid, #000)),
+    conic-gradient(var(--component-colorpicker-checker) 0 25%, transparent 0 50%,
+                   var(--component-colorpicker-checker) 0 75%, transparent 0);
+  background-size:
+    auto,
+    var(--component-colorpicker-checker-size) var(--component-colorpicker-checker-size);
+}
+.ods-colorpicker-alpha::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--component-colorpicker-hue-radius);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  background: none;
+}
+.ods-colorpicker-alpha::-moz-range-thumb {
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--component-colorpicker-hue-radius);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  background: none;
+}
+.ods-colorpicker-alpha:focus-visible { outline: none; }
+.ods-colorpicker-alpha:focus-visible::-webkit-slider-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+.ods-colorpicker-alpha:focus-visible::-moz-range-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+.ods-colorpicker-row {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: var(--component-colorpicker-row-gap);
+}
+.ods-colorpicker-pipette,
+.ods-colorpicker-format,
+.ods-colorpicker-field {
+  block-size: var(--component-colorpicker-field-height);
+  padding-inline: var(--component-colorpicker-field-pad-inline);
+  padding-block: var(--component-colorpicker-field-pad-block);
+  border-radius: var(--component-colorpicker-field-radius);
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-field-border);
+  background: var(--component-colorpicker-field-bg);
+  color: var(--component-colorpicker-value-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-colorpicker-value-font-size);
+  letter-spacing: var(--component-colorpicker-value-letter-spacing);
+}
+.ods-colorpicker-current {
+  position: relative;
+  flex: 0 0 auto;
+  inline-size: var(--component-colorpicker-field-height);
+  block-size: var(--component-colorpicker-field-height);
+  padding: 0; cursor: pointer;
+  border-radius: var(--component-colorpicker-field-radius);
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-swatch-border);
+  background: var(--ods-colorpicker-swatch, transparent);
+}
+.ods-colorpicker-current[aria-disabled="true"] { cursor: default; }
+.ods-colorpicker-current-mark {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  border-radius: inherit;
+  background: var(--component-colorpicker-current-scrim);
+  color: var(--component-colorpicker-current-mark-fg);
+  opacity: 0;
+}
+/* hover 또는 focus-visible 시 표시, 비활성 시 숨김 처리 */
+.ods-colorpicker-current:hover:not([aria-disabled="true"]) .ods-colorpicker-current-mark,
+.ods-colorpicker-current:focus-visible .ods-colorpicker-current-mark { opacity: 1; }
+.ods-colorpicker-current:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+/* 아이콘은 선 스타일만 사용. 채우면 의미가 안 보이고 색을 덮음 */
+.ods-colorpicker-icon {
+  inline-size: var(--component-colorpicker-icon-size);
+  block-size: var(--component-colorpicker-icon-size);
+  stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* 스포이드와 형식 표시 폭 고정. 내용 기반 폭이라 줄어들면 되돌릴 근거 없음 */
+.ods-colorpicker-pipette {
+  display: inline-grid; place-items: center;
+  flex: 0 0 auto;
+  inline-size: var(--component-colorpicker-field-height);
+  padding-inline: 0; cursor: pointer;
+}
+.ods-colorpicker-format { flex: 0 0 auto; cursor: pointer; }
+.ods-colorpicker-fields {
+  display: flex; align-items: center;
+  flex: 1 1 auto; min-inline-size: 0;
+  gap: var(--component-colorpicker-row-gap);
+}
+/* 고정 글자 #, %를 값에 섞지 않기 */
+.ods-colorpicker-field {
+  display: inline-flex; align-items: center;
+  flex: 1 1 auto; min-inline-size: 0;
+  font-family: var(--base-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+/* 같은 폭에서 시작해 함께 크기 조정되는 숫자 필드 */
+.ods-colorpicker-field--num {
+  flex: 1 1 var(--component-colorpicker-field-num-width);
+  justify-content: end;
+}
+/* 투명도 필드만 폭 고정. 함께 줄이면 100%가 90%와 구분되지 않음 */
+.ods-colorpicker-field--alpha {
+  flex: 0 0 var(--component-colorpicker-field-num-width);
+}
+.ods-colorpicker-field-input {
+  inline-size: 100%; min-inline-size: 0;
+  padding: 0; border: none; background: none;
+  color: inherit; font: inherit;
+}
+.ods-colorpicker-field--num .ods-colorpicker-field-input { text-align: end; }
+.ods-colorpicker-field-input:focus-visible { outline: none; }
+.ods-colorpicker-field-affix { color: var(--component-colorpicker-more-fg); }
+/* 앞 붙박이 #과 뒤 붙박이 %의 여백 방향을 반대로 지정 */
+.ods-colorpicker-field-affix:first-child { padding-inline-end: 0.125rem; }
+.ods-colorpicker-field-affix:last-child { padding-inline-start: 0.125rem; }
+
+.ods-colorpicker-pipette:focus-visible,
+.ods-colorpicker-format:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+/* 포커스 링은 상자에 적용. 입력에 적용하면 붙박이만 밖에 남아 둘로 나뉘어 보임 */
+.ods-colorpicker-field:focus-within {
   outline: 0.125rem solid var(--component-colorpicker-border-focus);
   outline-offset: var(--semantic-border-inset-default);
 }
