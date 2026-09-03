@@ -28,7 +28,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 Badge.displayName = "Badge";
 
 // 표시. 텍스트 대체 아님. 그림만 있는 배지는 읽을 수 없음
-export const BadgeIcon = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const BadgeIcon = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-badge-icon", className)} {...rest}>
       {children}

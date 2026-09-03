@@ -121,6 +121,22 @@ export interface RingcarouselProps
   items: readonly RingcarouselItem[];
 }
 
+// 담아 둔 색 하나. value 가 곧 선택값이며 토큰이 아니라 데이터임
+export interface ColorPickerSwatch {
+  value: string;
+  label: string;
+}
+export interface ColorPickerProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onChange" | "defaultValue"> {
+  // 초기 색 목록, 추가 색 포함 최대 16개
+  swatches?: readonly ColorPickerSwatch[];
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  // 자유색 펼침 허용 여부
+  allowCustom?: boolean;
+}
+
 export interface CardProps extends Common {
   interactive?: boolean;
   title?: ReactNode;
