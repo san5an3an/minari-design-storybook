@@ -62,6 +62,9 @@ const components = { ...{
     "itemActiveBg": "#0052cc",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
+  },
+  "Calendar": {
+    "itemActiveBg": "#0052cc"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -112,6 +115,9 @@ const darkComponents = { ...{
     "itemActiveBg": "#0052cc",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
+  },
+  "Calendar": {
+    "itemActiveBg": "#0052cc"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -162,6 +168,9 @@ const highContrastComponents = { ...{
     "itemActiveBg": "#abcbff",
     "itemActiveColor": "#000000",
     "itemActiveColorHover": "#000000"
+  },
+  "Calendar": {
+    "itemActiveBg": "#abcbff"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
