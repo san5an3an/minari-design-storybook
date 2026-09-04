@@ -92,7 +92,7 @@ next 를 터미널에 직접 실행하지 않음. 전역 명령이 아니라 nod
 > `> next dev web --webpack` 으로 그대로 출력됨. 그 줄은 복사해 쓰라는 뜻이 아님
 > 직접 실행해야 하면 `npx next dev web --webpack` 사용
 
-`dev`, `build` 에 붙은 `--webpack` 을 제거하지 말 것. 이 앱은 `import css from "…/x.css?raw"` 로 생성물 CSS 를 문자열로 읽는데, Turbopack 은 그 문법을 모르면서 에러도 없이 `undefined` 를 줌. 제거하는 순간 20종 컴포넌트 CSS 가 조용히 로드되지 않음. 사유는 `web/next.config.ts` 참고
+dev는 아직 `--webpack`이고 build만 Turbopack임. `import css from "...css?raw"`를 Turbopack이 에러 없이 undefined로 처리해 두 번들러를 분리해 둔 것이며, 지문 기준값이 dev 화면에서 찍히기 때문에 번들러를 바꾸면 값이 달라질 수 있음
 
 돌고 있는 서버가 어느 쪽인지는 다음처럼 확인. 경로에 공백이 있어 `ps aux` 결과는 잘리는 문제가 있음
 
