@@ -134,6 +134,7 @@ export interface ColorPickerProps
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
+  onFull?:  => void;
 }
 
 export interface CardProps extends Common {

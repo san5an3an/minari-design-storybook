@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Kid, Kids, Master, impl } from "../Doc";
+import { Kid, Kids, Master, compound, impl } from "../Doc";
 import type { Condition } from "../PropsTable";
-import type { ColorPickerProps } from "../../systems/props";
+import type { ColorPickerProps, ToastImpl } from "../../systems/props";
 import type { PageProps } from "./types";
 
 const SWATCHES = [
@@ -40,8 +40,21 @@ export function Page({ system }: PageProps) {
   const ColorPicker = impl<ColorPickerProps>(system, "colorpicker");
   const [v, setV] = React.useState(SWATCHES[0].value);
 
+  const hasToast = "toast" in system.impl;
+  const Toast = hasToast ? compound<ToastImpl>(system, "toast") : undefined;
+  const 가득참 = React.useCallback( => {
+    Toast?.show({
+      title: "더 담을 수 없어요",
+      description: "스와치가 가득 찼어요. 담으려면 먼저 하나를 빼세요.",
+      type: "error",
+    });
+  }, [Toast]);
+
   return (
     <>
+      {/* 알림 표시 위치, 화면당 한 번만 배치. 이 화면의 유일한 알림 위치임 */}
+      {Toast ? <Toast.Region /> : null}
+
       <Master
         note={
           <>
@@ -63,7 +76,7 @@ export function Page({ system }: PageProps) {
         }
       >
         <div style={{ inlineSize: "25rem" }}>
-          <ColorPicker swatches={SWATCHES} value={v} onValueChange={setV} />
+          <ColorPicker swatches={SWATCHES} value={v} onValueChange={setV} onFull={가득참} />
         </div>
       </Master>
 
@@ -90,9 +103,9 @@ export function Page({ system }: PageProps) {
             <ColorPicker swatches={SWATCHES} defaultValue={SWATCHES[1].value} />
           </div>
         </Kid>
-        <Kid label="가득 참" hint="10개가 상한. 담기 버튼이 흐려져요">
+        <Kid label="가득 참" hint="10개가 상한. 눌러 보면 까닭을 알려줘요">
           <div style={{ inlineSize: "25rem" }}>
-            <ColorPicker swatches={FULL} defaultValue="#4A7FD4" />
+            <ColorPicker swatches={FULL} defaultValue="#4A7FD4" onFull={가득참} />
           </div>
         </Kid>
         <Kid label="같은 색이 둘" hint="중복이 허용돼요. 빼기는 위치로 해요">

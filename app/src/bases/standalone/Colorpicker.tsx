@@ -236,6 +236,7 @@ export function Colorpicker({
   value,
   defaultValue,
   onValueChange,
+  onFull,
   className,
   ...rest
 }: ColorPickerProps) {
@@ -310,7 +311,7 @@ export function Colorpicker({
     : "이 색을 스와치에 담기";
 
   const add =  => {
-    if (full) return;
+    if (full) { onFull?.; return; }
     // label 필수, 색 이름 사용. 비우면 스크린리더에 버튼만 읽힐 수 있음
     setList((prev) => [...prev, { value: current, label: current }]);
   };
