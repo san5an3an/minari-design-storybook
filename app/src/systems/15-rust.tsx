@@ -3,6 +3,8 @@ import { Button } from "../bases/standalone/Button";
 import buttonCss from "./css/15-rust/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/15-rust/dialog.json";
+import { Toast } from "../bases/standalone/Toast";
+import toastCss from "./css/15-rust/toast.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
 import colorpickerCss from "./css/15-rust/colorpicker.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
@@ -27,12 +29,12 @@ export const rust: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#9e6954",
   Icon: Archive,
-  css: [vars, buttonCss, dialogCss, colorpickerCss, ringcarouselCss].join("\n"),
+  css: [vars, buttonCss, dialogCss, toastCss, colorpickerCss, ringcarouselCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl, colorpicker: Colorpicker as Impl, ringcarousel: Ringcarousel as Impl },
+  impl: { button: Button as Impl, dialog: Dialog as Impl, toast: Toast as Impl, colorpicker: Colorpicker as Impl, ringcarousel: Ringcarousel as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -49,7 +51,7 @@ export const rust: SystemDefinition = {
     { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: false },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
     { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
-    { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: false },
+    { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
     { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: false },
     { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: false },

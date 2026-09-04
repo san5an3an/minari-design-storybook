@@ -162,8 +162,10 @@ export interface ToastProps extends Common {
   type?: string;
 }
 export type ToastImpl = ComponentType<ToastProps> & {
-  // 토스트 표시 위치, 화면당 한 번만 배치. 중복 배치 시 토스트 중복 표시 문제 있음
-  Region: ComponentType;
+  Region: ComponentType<{
+    position?: "top-start" | "top-center" | "top-end"
+      | "bottom-start" | "bottom-center" | "bottom-end";
+  }>;
   // 토스트 실제 표시, toast.add 직접 호출하기
   show: (opts: {
     title?: string;

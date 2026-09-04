@@ -685,10 +685,31 @@
     "values": [
      "success",
      "danger",
-     "warning"
+     "warning",
+     "info"
     ],
     "default": null,
-    "desc": "알리는 종류, 이 시스템이 가진 팔레트만"
+    "desc": "알리는 종류, 이 시스템 팔레트만, 다만 info 는 척도가 없어 neutral 에서 가져옴"
+   },
+   {
+    "prop": "leaving",
+    "kind": "flag",
+    "values": [
+     "true",
+     "false"
+    ],
+    "default": "false",
+    "desc": "나가는 중, 지우기 전에 붙이고 움직임이 끝나면 그때 지움, 먼저 지우면 나가는 모습이 재생될 틈이 없음"
+   },
+   {
+    "prop": "collapsing",
+    "kind": "flag",
+    "values": [
+     "true",
+     "false"
+    ],
+    "default": "false",
+    "desc": "나가면서 남은 공간도 접힘, leaving과 높이값 함께 줄 때만 정확히 닫힘"
    }
   ],
   "parts": [
@@ -703,14 +724,64 @@
     "name": "ToastRegion",
     "cls": "ods-toast-region",
     "tag": "div",
-    "desc": "떠 있는 영역, role=\"status\"를 여기 붙임",
-    "props": []
+    "desc": "떠 있는 영역, role=\"status\" 부착, 화면 어디에 놓일지는 이 영역이 결정, 알림 개별이 아님",
+    "props": [
+     {
+      "prop": "position",
+      "kind": "variant",
+      "values": [
+       "top-start",
+       "top-center",
+       "top-end",
+       "bottom-start",
+       "bottom-center",
+       "bottom-end"
+      ],
+      "default": "bottom-end",
+      "desc": "화면에서 알림이 나타나는 위치, 기본은 오른쪽 아래로 읽던 위치를 가장 덜 가림"
+     }
+    ]
    },
    {
     "name": "ToastAction",
     "cls": "ods-toast-action",
     "tag": "button",
     "desc": "되돌리기 같은 동작, 하나까지",
+    "props": []
+   },
+   {
+    "name": "ToastContent",
+    "cls": "ods-toast-content",
+    "tag": "div",
+    "desc": "제목과 본문이 세로로 쌓이는 영역, 없으면 아이콘 옆에 개별 배치",
+    "props": []
+   },
+   {
+    "name": "ToastTitle",
+    "cls": "ods-toast-title",
+    "tag": "div",
+    "desc": "무슨 일인지 한 마디, 본문보다 크고 굵음, 크기만 같고 굵기만 다르면 훑을 때 위계가 안 보임",
+    "props": []
+   },
+   {
+    "name": "ToastBody",
+    "cls": "ods-toast-body",
+    "tag": "div",
+    "desc": "한 줄 설명, 제목만으로 부족할 때만 사용, 없으면 제목이 통째로 메시지",
+    "props": []
+   },
+   {
+    "name": "ToastClose",
+    "cls": "ods-toast-close",
+    "tag": "button",
+    "desc": "지금 닫음, 스스로 사라져도 필요함, 기다리지 않고 치우고 싶을 때 이 길이 없으면 화면이 막힘",
+    "props": []
+   },
+   {
+    "name": "ToastProgress",
+    "cls": "ods-toast-progress",
+    "tag": "div",
+    "desc": "남은 시간 띠, 사라짐 예고용, aria-hidden으로 매 프레임 낭독 방지",
     "props": []
    }
   ]
