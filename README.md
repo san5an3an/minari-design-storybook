@@ -92,7 +92,9 @@ next 를 터미널에 직접 실행하지 않음. 전역 명령이 아니라 nod
 > `> next dev web --webpack` 으로 그대로 출력됨. 그 줄은 복사해 쓰라는 뜻이 아님
 > 직접 실행해야 하면 `npx next dev web --webpack` 사용
 
-dev는 아직 `--webpack`이고 build만 Turbopack임. `import css from "...css?raw"`를 Turbopack이 에러 없이 undefined로 처리해 두 번들러를 분리해 둔 것이며, 지문 기준값이 dev 화면에서 찍히기 때문에 번들러를 바꾸면 값이 달라질 수 있음
+dev는 아직 `--webpack`이고 build만 Turbopack임. `import css from "...css?raw"`를 Turbopack이 에러 없이 undefined로 처리해 두 번들러를 분리해 둔 것이며, 지문 기준값이 dev 화면에서 찍히기 때문에 번들러 변경 영향은 아직 다 측정되지 않음
+
+이 시점부터 지문을 측정하는 번들러와 배포되는 번들러가 달라짐. 지문은 `dev`(webpack) 화면에서 찍히고 배포본은 Turbopack 임. 지문이 통과해도 webpack dev 화면이 바뀌지 않았다는 것만 증명할 뿐 배포본의 회귀는 잡지 못하는 한계가 있음. `dev` 도 옮기거나 지문을 빌드본에서 찍어야 하는 과제로 남음
 
 돌고 있는 서버가 어느 쪽인지는 다음처럼 확인. 경로에 공백이 있어 `ps aux` 결과는 잘리는 문제가 있음
 
