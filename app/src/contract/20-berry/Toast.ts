@@ -8,7 +8,7 @@ export interface ToastContract {
   tone?: ToastTone;
   // 나가는 중 상태 표시, 삭제 전 부착하고 애니메이션 종료 후 제거
   leaving?: boolean;
-  // 퇴장하며 위치 접기, leaving과 --ods-toast-leave-block-size 함께 지정 시만 적용
+  // 퇴장하며 위치 접기, 항목 빠지면 나머지 위치 이동. leaving과 함께 적용
   collapsing?: boolean;
 }
 

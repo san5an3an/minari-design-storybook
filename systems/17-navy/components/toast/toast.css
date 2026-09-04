@@ -7,7 +7,6 @@
   max-width: var(--component-toast-region-max-width);
   position: fixed;
   z-index: 30;
-  /* 알림 클릭 가능 영역을 콘텐츠로 제한, 빈 공간은 제외 */
   pointer-events: none;
 }
 .ods-toast-region > * { pointer-events: auto; }
@@ -134,7 +133,7 @@
 .ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end { --ods-toast-shift: -0.75rem; }
 .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end { --ods-toast-shift: 0.75rem; }
 
-:where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+:where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-in 220ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 
 /* 애니메이션 종료 후 제거. animation: none 처리 시 종료 이벤트를 못 받음 */
 .ods-toast--leaving {
@@ -157,16 +156,14 @@
   to   { opacity: 0; transform: translateY(var(--ods-toast-shift, 0.75rem)) scale(0.96); }
 }
 @keyframes ods-toast-collapse {
-  /* auto는 보간 불가라는 뜻. 0 전환 시 보간 안 돼 절반에서 접히는 문제 있음 */
-  from { block-size: var(--ods-toast-leave-block-size, auto); margin-block-start: 0; }
-  to   { block-size: 0;
-         margin-block-start: calc(-1 * var(--component-toast-stack-gap));
-         padding-block: 0; border-block-width: 0; }
+  /* 기본값 0px 지정. auto는 높이가 보간되지 않음 */
+  to { margin-block-end: calc(-1 * (var(--ods-toast-h, 0px)
+                                     + var(--component-toast-stack-gap))); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ods-toast-progress { display: none; }
-  :where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  :where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
   .ods-toast--leaving,
   .ods-toast--leaving.ods-toast--collapsing {
     animation: ods-toast-fade-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
@@ -174,6 +171,34 @@
 }
 @keyframes ods-toast-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes ods-toast-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+.ods-toast-region:not(:empty) { pointer-events: auto; }
+
+:where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast {
+  transition: margin 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* 축소 기준점은 앞 요소 위치임. 반대로 두면 뒤 요소가 다가오며 작아지는 것처럼 보임 */
+:where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end) > .ods-toast { transform-origin: top center; }
+:where(.ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { transform-origin: bottom center; }
+
+.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end { flex-direction: column-reverse; }
+
+/* 접힘 시 마지막 항목 제외 높이 제거, 위치별로 상하 여백 각각 제거 */
+:is(.ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end):not(:hover):not(:focus-within) > .ods-toast:not(:last-child) { margin-block-end: calc(var(--component-toast-stack-peek) - var(--ods-toast-h, 0px) - var(--component-toast-stack-gap)); }
+:is(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end):not(:hover):not(:focus-within) > .ods-toast:not(:last-child) { margin-block-start: calc(var(--component-toast-stack-peek) - var(--ods-toast-h, 0px) - var(--component-toast-stack-gap)); }
+
+/* 깊이 값 4단계부터 숨김 처리 */
+:is(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end):not(:hover):not(:focus-within) > .ods-toast:nth-last-child(2) { transform: scale(0.96); }
+:is(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end):not(:hover):not(:focus-within) > .ods-toast:nth-last-child(3) { transform: scale(0.92); }
+:is(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end):not(:hover):not(:focus-within) > .ods-toast:nth-last-child(n+4) { opacity: 0; transform: scale(0.92); }
+
+/* 펼친 동안 남은 시간 멈추기, 사라지면 확인 자체가 의미 없음 */
+:is(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end):is(:hover, :focus-within) .ods-toast-progress { animation-play-state: paused; }
+
+/* 접고 펴는 기능은 유지, 전환 애니메이션만 제거 */
+@media (prefers-reduced-motion: reduce) {
+  :where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { transition: none; }
+}
 .ods-toast--success {
   background: var(--component-toast-success-bg);
   color: var(--component-toast-success-fg);
