@@ -5,6 +5,42 @@
   /* 폭 지정 위치. 알림이 이 안에서 크기 조정 */
   align-items: flex-end;
   max-width: var(--component-toast-region-max-width);
+  position: fixed;
+  z-index: 30;
+  /* 알림 클릭 가능 영역을 콘텐츠로 제한, 빈 공간은 제외 */
+  pointer-events: none;
+}
+.ods-toast-region > * { pointer-events: auto; }
+
+.ods-toast-region--top-start {
+  inset-block: var(--component-toast-region-inset) auto;
+  inset-inline: var(--component-toast-region-inset) auto;
+  align-items: flex-start;
+}
+.ods-toast-region--top-center {
+  inset-block: var(--component-toast-region-inset) auto;
+  inset-inline-start: 50%; translate: -50% 0;
+  align-items: center;
+}
+.ods-toast-region--top-end {
+  inset-block: var(--component-toast-region-inset) auto;
+  inset-inline: auto var(--component-toast-region-inset);
+  align-items: flex-end;
+}
+.ods-toast-region--bottom-start {
+  inset-block: auto var(--component-toast-region-inset);
+  inset-inline: var(--component-toast-region-inset) auto;
+  align-items: flex-start;
+}
+.ods-toast-region--bottom-center {
+  inset-block: auto var(--component-toast-region-inset);
+  inset-inline-start: 50%; translate: -50% 0;
+  align-items: center;
+}
+.ods-toast-region--bottom-end {
+  inset-block: auto var(--component-toast-region-inset);
+  inset-inline: auto var(--component-toast-region-inset);
+  align-items: flex-end;
 }
 .ods-toast {
   display: flex; align-items: center;
@@ -41,18 +77,124 @@
 /* 동작 안 아이콘은 배지 크기로 키우지 않음. 글자 옆 장식용임 */
 .ods-toast-action svg { width: 1.15em; height: 1.15em; flex-shrink: 0; stroke: currentColor;
   fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.ods-toast { position: relative; overflow: hidden; }
+/* 아이콘과 닫기를 첫 줄에 정렬. 가운데 정렬이면 글 길수록 제목과 안 맞음 */
+.ods-toast:has(.ods-toast-content) { align-items: flex-start; }
+.ods-toast-content {
+  display: flex; flex-direction: column;
+  gap: var(--component-toast-content-gap);
+  /* 상자 밀어내지 않고 긴 글 접기 */
+  min-width: 0;
+}
+.ods-toast-title {
+  font-size: var(--component-toast-title-font-size);
+  font-weight: var(--base-font-weight-semibold);
+  line-height: var(--base-font-line-height-snug);
+  letter-spacing: var(--component-toast-title-letter-spacing);
+}
+.ods-toast-body {
+  font-size: var(--component-toast-body-font-size);
+  letter-spacing: var(--component-toast-body-letter-spacing);
+  font-weight: var(--base-font-weight-regular);
+  line-height: var(--base-font-line-height-normal);
+}
+/* 자동 사라짐에도 닫기 버튼 표시, hover 시 색 진하게 변경 */
+.ods-toast-close {
+  margin-inline-start: auto; flex-shrink: 0;
+  inline-size: var(--component-toast-close-size);
+  block-size: var(--component-toast-close-size);
+  display: grid; place-items: center;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  border-radius: var(--semantic-radius-pill);
+  color: var(--component-toast-close-fg);
+}
+.ods-toast-close:hover { color: var(--component-toast-close-fg-hover); }
+.ods-toast-close:focus-visible {
+  outline: 0.125rem solid currentColor; outline-offset: 0.125rem;
+}
+.ods-toast-close svg { width: 1.15em; height: 1.15em; stroke: currentColor;
+  fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* 동작과 닫기가 함께 배치되면 동작이 auto를 이미 차지해 닫기는 그 옆에 붙음 */
+.ods-toast-action + .ods-toast-close { margin-inline-start: 0; }
+
+.ods-toast-progress {
+  position: absolute; inset-inline: 0; inset-block-end: 0;
+  block-size: var(--component-toast-progress-height);
+  background: var(--component-toast-progress);
+  transform-origin: left center;
+  animation: ods-toast-countdown var(--ods-toast-duration, 5000ms) linear forwards;
+}
+/* 고정 시간 동안 한 번만 줄어드는 진행 표시 */
+@keyframes ods-toast-countdown {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end { --ods-toast-shift: -0.75rem; }
+.ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end { --ods-toast-shift: 0.75rem; }
+
+:where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* 애니메이션 종료 후 제거. animation: none 처리 시 종료 이벤트를 못 받음 */
+.ods-toast--leaving {
+  animation: ods-toast-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+  /* 사라지는 중 클릭 무시 */
+  pointer-events: none;
+}
+
+.ods-toast--leaving.ods-toast--collapsing {
+  animation: ods-toast-out 180ms cubic-bezier(0.4, 0, 1, 1) both,
+             ods-toast-collapse 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes ods-toast-in {
+  from { opacity: 0; transform: translateY(var(--ods-toast-shift, 0.75rem)) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ods-toast-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(var(--ods-toast-shift, 0.75rem)) scale(0.96); }
+}
+@keyframes ods-toast-collapse {
+  /* auto는 보간 불가라는 뜻. 0 전환 시 보간 안 돼 절반에서 접히는 문제 있음 */
+  from { block-size: var(--ods-toast-leave-block-size, auto); margin-block-start: 0; }
+  to   { block-size: 0;
+         margin-block-start: calc(-1 * var(--component-toast-stack-gap));
+         padding-block: 0; border-block-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ods-toast-progress { display: none; }
+  :where(.ods-toast-region--top-start, .ods-toast-region--top-center, .ods-toast-region--top-end, .ods-toast-region--bottom-start, .ods-toast-region--bottom-center, .ods-toast-region--bottom-end) > .ods-toast { animation: ods-toast-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .ods-toast--leaving,
+  .ods-toast--leaving.ods-toast--collapsing {
+    animation: ods-toast-fade-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+  }
+}
+@keyframes ods-toast-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ods-toast-fade-out { from { opacity: 1; } to { opacity: 0; } }
 .ods-toast--success {
   background: var(--component-toast-success-bg);
   color: var(--component-toast-success-fg);
   border-color: var(--component-toast-success-border);
 }
+.ods-toast--success .ods-toast-progress { background: var(--component-toast-success-progress); }
 .ods-toast--danger {
   background: var(--component-toast-danger-bg);
   color: var(--component-toast-danger-fg);
   border-color: var(--component-toast-danger-border);
 }
+.ods-toast--danger .ods-toast-progress { background: var(--component-toast-danger-progress); }
 .ods-toast--warning {
   background: var(--component-toast-warning-bg);
   color: var(--component-toast-warning-fg);
   border-color: var(--component-toast-warning-border);
 }
+.ods-toast--warning .ods-toast-progress { background: var(--component-toast-warning-progress); }
+.ods-toast--info {
+  background: var(--component-toast-info-bg);
+  color: var(--component-toast-info-fg);
+  border-color: var(--component-toast-info-border);
+}
+.ods-toast--info .ods-toast-progress { background: var(--component-toast-info-progress); }
