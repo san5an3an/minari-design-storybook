@@ -74,23 +74,34 @@ const EXIT_MS = 180;
 const EXIT_FALLBACK = EXIT_MS * 3;
 
 // 떠 있는 알림 하나. 알림마다 자체 타이머 보유
-function LiveToast({ item }: { item: Item }) {
+function LiveToast({ item, paused }: { item: Item; paused: boolean }) {
   const tone = item.type ? TONE[item.type] : undefined;
   const Icon = item.type ? ICON[item.type] : undefined;
   const ref = React.useRef<HTMLDivElement>(null);
   const leaving = item.leaving === true;
 
-  // 타이머는 알림 표시 동안만 유지, Region 갱신마다 재설정돼 먼저 사라지는 문제임
+  const left = React.useRef(item.duration);
+  const from = React.useRef(0);
   React.useEffect( => {
-    if (leaving) return;
-    const t = setTimeout( => dismiss(item.id), item.duration);
-    return  => clearTimeout(t);
-  }, [item.id, item.duration, leaving]);
+    if (leaving || paused) return;
+    from.current = Date.now;
+    const t = setTimeout( => dismiss(item.id), Math.max(0, left.current));
+    return  => {
+      clearTimeout(t);
+      left.current -= Date.now - from.current;
+    };
+  }, [item.id, leaving, paused]);
 
   React.useLayoutEffect( => {
     const el = ref.current;
+    if (el) el.style.setProperty("--ods-toast-h", `${el.offsetHeight}px`);
+  });
+
+  // 접기 클래스 직접 부여. className 넣으면 높이 낡을 수 있음
+  React.useLayoutEffect( => {
+    const el = ref.current;
     if (!leaving || !el) return;
-    el.style.setProperty("--ods-toast-leave-block-size", `${el.offsetHeight}px`);
+    el.style.setProperty("--ods-toast-h", `${el.offsetHeight}px`);
     el.classList.add("ods-toast--collapsing");
   }, [leaving]);
 
@@ -148,13 +159,19 @@ function Region({ position = "bottom-end" }: { position?: Position }) {
     return  => { listeners.delete(force); };
   }, []);
 
+  const [paused, setPaused] = React.useState(false);
+
   return (
     <div
       className={cx("ods-toast-region", `ods-toast-region--${position}`)}
       role="status"
       aria-live="polite"
+      onPointerEnter={ => setPaused(true)}
+      onPointerLeave={ => setPaused(false)}
+      onFocus={ => setPaused(true)}
+      onBlur={ => setPaused(false)}
     >
-      {items.map((it) => <LiveToast key={it.id} item={it} />)}
+      {items.map((it) => <LiveToast key={it.id} item={it} paused={paused} />)}
     </div>
   );
 }
