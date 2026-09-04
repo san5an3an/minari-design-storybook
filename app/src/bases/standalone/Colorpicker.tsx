@@ -47,11 +47,14 @@ function rgbToHex(r: number, g: number, b: number) {
   return (to(r) + to(g) + to(b)).toUpperCase;
 }
 
-function hexToRgb(hex: string): Rgb | null {
+function hexToRgba(hex: string): Rgb & { a: number } | null {
   const s = hex.replace("#", "");
-  if (!/^[0-9a-fA-F]{6}$/.test(s)) return null;
-  const n = parseInt(s, 16);
-  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+  if (!/^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/.test(s)) return null;
+  const n = parseInt(s.slice(0, 6), 16);
+  return {
+    r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255,
+    a: s.length === 8 ? Math.round((parseInt(s.slice(6, 8), 16) / 255) * 100) : 100,
+  };
 }
 
 function rgbToHsl(r: number, g: number, b: number) {
@@ -238,13 +241,14 @@ export function Colorpicker({
 }: ColorPickerProps) {
   // 처음 색에서 HSV 유도. 고정 시 defaultValue와 화면값 달라지는 문제 있음
   const [seed] = React.useState( =>
-    hexToRgb(value ?? defaultValue ?? swatches[0]?.value ?? "#4a7fd4"));
+    hexToRgba(value ?? defaultValue ?? swatches[0]?.value ?? "#4a7fd4"));
   const first = seed ? rgbToHsv(seed.r, seed.g, seed.b) : null;
 
   const [hue, setHue] = React.useState(first?.h ?? 212);
   const [sat, setSat] = React.useState(first?.s ?? 72);
   const [val, setVal] = React.useState(first?.v ?? 83);
-  const [alpha, setAlpha] = React.useState(100);
+  // 처음 색 8자리면 투명도도 해당 값 사용. 100 고정 시 값 어긋나는 문제 있음
+  const [alpha, setAlpha] = React.useState(seed?.a ?? 100);
   const [format, setFormat] = React.useState<Format>("HEX");
 
   const rgb = hsvToRgb(hue, sat, val);
@@ -275,13 +279,15 @@ export function Colorpicker({
   if (value !== undefined && !driving && value !== seenValue) {
     setSeenValue(value);
     if (value.toLowerCase !== emitted.current?.toLowerCase) {
-      const c = hexToRgb(value);
+      const c = hexToRgba(value);
       if (c) {
         const n = rgbToHsv(c.r, c.g, c.b);
         // 기존 색상값 유지. 0 초기화 시 회색 구간에서 빨강으로 튀는 문제가 있음
         if (n.s > 0) setHue(n.h);
         setSat(n.s);
         setVal(n.v);
+        // 투명도도 함께 전달. 누락 시 같은 색값이 불투명 반투명 두 가지로 해석되는 문제가 있음
+        setAlpha(c.a);
       }
     }
   }
@@ -360,7 +366,8 @@ export function Colorpicker({
     if (!Ctor) return;
     try {
       const { sRGBHex } = await new Ctor.open;
-      const c = hexToRgb(sRGBHex);
+      // 스포이드로 집은 색은 EyeDropper 규격상 불투명 6자리 값임
+      const c = hexToRgba(sRGBHex);
       if (c) {
         const n = rgbToHsv(c.r, c.g, c.b);
         if (n.s > 0) setHue(n.h);
@@ -396,9 +403,12 @@ export function Colorpicker({
         onChange={(e) => {
           const clean = e.target.value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6).toUpperCase;
           setHexDraft(clean);
-          const c = hexToRgb(clean);
+          // 필드는 6자리만 허용. 투명도는 옆 필드가 담당해 알파값은 전달되지 않음
+          const c = hexToRgba(clean);
           if (c) fromRgb(c.r, c.g, c.b);
         }}
+        onBlur={ => setHexDraft(hex)}
+        onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur; }}
       />
     </div>
   ) : format === "RGB" ? (
