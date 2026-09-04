@@ -133,6 +133,14 @@ export const theme = createTheme({
         }
       }
     },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
     "MuiChip": {
       "styleOverrides": {
         "root": {
@@ -549,6 +557,14 @@ export const darkTheme = createTheme({
         }
       }
     },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
     "MuiChip": {
       "styleOverrides": {
         "root": {
@@ -960,6 +976,14 @@ export const highContrastTheme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-input-radius)",
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
           "fontSize": "var(--component-input-font-size)",
           "letterSpacing": "var(--component-input-letter-spacing)"
         }
