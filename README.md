@@ -89,10 +89,12 @@ npm run start # 빌드한 것을 그대로 띄움
 
 next 를 터미널에 직접 실행하지 않음. 전역 명령이 아니라 node_modules/.bin/next 에 있는 명령이라 직접 실행하면 zsh: command not found: next 오류가 남는 구조임. npm run 이 그 폴더를 PATH 앞에 추가해줄 때만 이름이 정상적으로 인식되는 구조임
 
-> `> next dev web --webpack` 으로 그대로 출력됨. 그 줄은 복사해 쓰라는 뜻이 아님
-> 직접 실행해야 하면 `npx next dev web --webpack` 사용
+> `> next dev web --turbopack` 으로 그대로 출력됨. 그 줄은 복사해 쓰라는 뜻이 아님
+> 직접 실행해야 하면 `npx next dev web --turbopack` 사용
 
-`dev`, `build` 에 붙은 `--webpack` 을 제거하지 말 것. 이 앱은 `import css from "…/x.css?raw"` 로 생성물 CSS 를 문자열로 읽는데, Turbopack 은 그 문법을 모르면서 에러도 없이 `undefined` 를 줌. 제거하는 순간 20종 컴포넌트 CSS 가 조용히 로드되지 않음. 사유는 `web/next.config.ts` 참고
+dev와 build 모두 Turbopack임. 이전에는 `import css from "...css?raw"`를 Turbopack이 에러 없이 undefined로 처리해 webpack을 병행했으나, build를 먼저 옮겨 CI로 검증하고 Turbopack dev 화면 64개 경로를 Playwright로 확인해 번들러 기인 결함이 없음을 확인한 뒤 dev도 전환
+
+지문이 측정하는 번들러와 배포되는 번들러가 다르다는 문제는 해결된 상태임. dev와 build가 같은 번들러이므로 지문이 배포본에 대해서도 유효한 상태임. 다만 기준값은 아직 없고, 첫 측정은 Turbopack 화면에서 새로 세우는 것이며, 지문은 여전히 dev 화면을 측정하는 것이지 빌드본을 측정하는 것은 아님
 
 돌고 있는 서버가 어느 쪽인지는 다음처럼 확인. 경로에 공백이 있어 `ps aux` 결과는 잘리는 문제가 있음
 
@@ -215,12 +217,14 @@ api(ctx) ──┬── gen_systems.py → 컴포넌트 CSS, SYSTEMS.md
 │ └── raw-modules.d.ts `?raw` · `.css` 임포트 타입임. 지우면 타입 에러 88개 발생
 ├── web/ Next(App Router) 구조만 있고 화면 코드는 여기 없음
 │ ├── app/layout.tsx antd Registry · 문서 제목
-│ ├── next.config.ts `?raw` webpack 규칙, 별칭
+│ ├── next.config.ts 번들러 별칭. Turbopack 기준, webpack 은 되돌림용임
 │ └── postcss.config.mjs Tailwind 배선. 없으면 유틸리티가 조용히 무효화되는 문제가 있음
 │ ├── components/ 컴포넌트 레지스트리, 새 컴포넌트는 파일 추가와 1줄 작성으로 등록
 │ │ └── _api.py API 선언 어휘
 │ ├── bases/ 베이스별 테마 산출기 (shadcn, MUI, antd, Chakra, Mantine)
-│ ├── fixtures/ `ui-baseline.json`, 이관 전 UI 지문 50경로
+│ ├── fixtures/ `ui-baseline.json`, UI 지문 기준값임
+│ │ 측정 도구는 라이트 64종(`capture`) + 모드 8종(`captureModes`)을 측정함
+│ │ · 재촬영 대기
 │ ├── ui_fingerprint.js 그 지문을 측정하는 도구. UI가 바뀌지 않았음을 기계적으로 증명함
 │ └── doc_shapes.py 문서 조각의 자료 모양 셋
 │ HTML 문서층과 함께 삭제

@@ -35,7 +35,7 @@ export const TabsTrigger = React.forwardRef<HTMLButtonElement, React.ButtonHTMLA
 TabsTrigger.displayName = "TabsTrigger";
 
 // 탭 앞머리 표시. 글자만으로 뜻이 통하면 제외
-export const TabsIcon = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const TabsIcon = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-tabs-icon", className)} {...rest}>
       {children}

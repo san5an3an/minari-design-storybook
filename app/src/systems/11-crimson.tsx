@@ -1,10 +1,16 @@
 import { Newspaper } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
-import buttonCss from "../../../systems/11-crimson/components/button/button.css?raw";
+import buttonCss from "./css/11-crimson/button.json";
 import { Dialog } from "../bases/standalone/Dialog";
-import dialogCss from "../../../systems/11-crimson/components/dialog/dialog.css?raw";
+import dialogCss from "./css/11-crimson/dialog.json";
+import { Toast } from "../bases/standalone/Toast";
+import toastCss from "./css/11-crimson/toast.json";
+import { Colorpicker } from "../bases/standalone/Colorpicker";
+import colorpickerCss from "./css/11-crimson/colorpicker.json";
+import { Ringcarousel } from "../bases/standalone/Ringcarousel";
+import ringcarouselCss from "./css/11-crimson/ringcarousel.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/11-crimson/vars.css?raw";
+import vars from "./css/11-crimson/_vars.json";
 import refs from "../../../generated/11-crimson/mapping.json";
 import api from "../contract/11-crimson/api.json";
 
@@ -23,12 +29,12 @@ export const crimson: SystemDefinition = {
   typeRatio: 1.2,
   brand: "#7f1d1d",
   Icon: Newspaper,
-  css: [vars, buttonCss, dialogCss].join("\n"),
+  css: [vars, buttonCss, dialogCss, toastCss, colorpickerCss, ringcarouselCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl },
+  impl: { button: Button as Impl, dialog: Dialog as Impl, toast: Toast as Impl, colorpicker: Colorpicker as Impl, ringcarousel: Ringcarousel as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -45,7 +51,7 @@ export const crimson: SystemDefinition = {
     { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: false },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
     { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
-    { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: false },
+    { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
     { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: false },
     { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: false },
@@ -62,6 +68,7 @@ export const crimson: SystemDefinition = {
     { name: "chart", title: "Chart", summary: "수를 모양으로 읽게 하는 그림. 그리는 것은 라이브러리이고, 이 시스템의 몫은 색과 툴팁·라벨임.", ready: false },
     { name: "chip", title: "Chip", summary: "누르고 고르고 지울 수 있는 표시. 읽기만 하는 Badge 와 다른 컴포넌트임.", ready: false },
     { name: "collapsible", title: "Collapsible", summary: "단일 영역 접기, 펼치기. 여러 영역은 Accordion 사용", ready: false },
+    { name: "colorpicker", title: "ColorPicker", summary: "색을 공간에서 집음. 담아 둔 것만 아래에 남음. 스와치는 쌓이는 위치이지 주어진 목록이 아님.", ready: true },
     { name: "combobox", title: "Combobox", summary: "쳐서 좁히며 고르는 필드. 항목이 열 개 남짓이면 Select 가 나음.", ready: false },
     { name: "command", title: "Command", summary: "쳐서 좁히고 골라 실행하는 요소. 이것만으로 기능을 제공하지 않음.", ready: false },
     { name: "contextmenu", title: "ContextMenu", summary: "오른쪽 눌러 여는 동작 목록. 여기에만 있는 동작은 없는 것과 같음.", ready: false },
@@ -89,6 +96,7 @@ export const crimson: SystemDefinition = {
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
+    { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: true },
     { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: false },
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },

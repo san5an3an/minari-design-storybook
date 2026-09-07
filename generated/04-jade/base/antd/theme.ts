@@ -45,6 +45,132 @@ const components = { ...{
   },
   "Alert": {
     "borderRadiusLG": "1rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#244e24",
+    "subMenuItemSelectedColor": "#244e24",
+    "horizontalItemSelectedColor": "#244e24",
+    "horizontalItemHoverColor": "#244e24"
+  },
+  "Tabs": {
+    "itemColor": "#696e6a",
+    "itemSelectedColor": "#070807",
+    "itemHoverColor": "#070807",
+    "itemActiveColor": "#070807"
+  },
+  "Pagination": {
+    "itemActiveBg": "#47a248",
+    "itemActiveColor": "#ffffff",
+    "itemActiveColorHover": "#ffffff"
+  },
+  "Calendar": {
+    "itemActiveBg": "#47a248"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const darkComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Message": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.375rem"
+  },
+  "Card": {
+    "borderRadiusLG": "1rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "1rem"
+  },
+  "Table": {
+    "borderRadiusLG": "1rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "1rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#96c593",
+    "subMenuItemSelectedColor": "#96c593",
+    "horizontalItemSelectedColor": "#96c593",
+    "horizontalItemHoverColor": "#96c593"
+  },
+  "Tabs": {
+    "itemColor": "#959a96",
+    "itemSelectedColor": "#f7faf7",
+    "itemHoverColor": "#f7faf7",
+    "itemActiveColor": "#f7faf7"
+  },
+  "Pagination": {
+    "itemActiveBg": "#47a248",
+    "itemActiveColor": "#ffffff",
+    "itemActiveColorHover": "#ffffff"
+  },
+  "Calendar": {
+    "itemActiveBg": "#47a248"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const highContrastComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Message": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "1.25rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.375rem"
+  },
+  "Card": {
+    "borderRadiusLG": "1rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "1rem"
+  },
+  "Table": {
+    "borderRadiusLG": "1rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "1rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#d0f9ce",
+    "subMenuItemSelectedColor": "#d0f9ce",
+    "horizontalItemSelectedColor": "#d0f9ce",
+    "horizontalItemHoverColor": "#d0f9ce"
+  },
+  "Tabs": {
+    "itemColor": "#e1e6e2",
+    "itemSelectedColor": "#eef1ee",
+    "itemHoverColor": "#eef1ee",
+    "itemActiveColor": "#eef1ee"
+  },
+  "Pagination": {
+    "itemActiveBg": "#90db8d",
+    "itemActiveColor": "#000000",
+    "itemActiveColorHover": "#000000"
+  },
+  "Calendar": {
+    "itemActiveBg": "#90db8d"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -59,10 +185,12 @@ const themeSeed = {
   "colorTextBase": "#070807",
   "colorBgBase": "#f7f8f7",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "0.75rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 43
 } satisfies Token;
@@ -104,7 +232,7 @@ const themeOverrides = {
 export const theme = {
   algorithm: [antdTheme.defaultAlgorithm],
   token: { ...themeSeed, ...themeOverrides },
-  components,
+  components: components,
 } as unknown as ThemeConfig;
 
 const darkThemeSeed = {
@@ -117,10 +245,12 @@ const darkThemeSeed = {
   "colorTextBase": "#f7faf7",
   "colorBgBase": "#181918",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "0.75rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 43
 } satisfies Token;
@@ -162,7 +292,7 @@ const darkThemeOverrides = {
 export const darkTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...darkThemeSeed, ...darkThemeOverrides },
-  components,
+  components: darkComponents,
 } as unknown as ThemeConfig;
 
 const highContrastThemeSeed = {
@@ -175,10 +305,12 @@ const highContrastThemeSeed = {
   "colorTextBase": "#eef1ee",
   "colorBgBase": "#020202",
   "fontSize": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
   "borderRadius": "0.75rem",
   "lineWidth": 2,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 45
 } satisfies Token;
@@ -220,7 +352,7 @@ const highContrastThemeOverrides = {
 export const highContrastTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...highContrastThemeSeed, ...highContrastThemeOverrides },
-  components,
+  components: highContrastComponents,
 } as unknown as ThemeConfig;
 
 // 모드-테마 매핑 표. 화면은 이 표만 참조

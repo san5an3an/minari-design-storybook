@@ -25,7 +25,7 @@ const App: React.FC = () => {
       <InputNumber min={1} max={10} disabled={disabled} defaultValue={3} />
       <div style={{ marginTop: 20 }}>
         <Button onClick={toggle} type="primary">
-          못 쓰게 바꾸기
+          {disabled ? '쓸 수 있게 바꾸기' : '못 쓰게 바꾸기'}
         </Button>
       </div>
     </>

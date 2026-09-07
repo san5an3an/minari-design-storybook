@@ -112,6 +112,31 @@ export interface BadgeProps extends Common {
   iconPosition?: "inline-start" | "inline-end";
 }
 
+export interface RingcarouselItem {
+  id: string;
+  label: string;
+}
+export interface RingcarouselProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  items: readonly RingcarouselItem[];
+}
+
+// 담아 둔 색 하나. value 가 곧 선택값이며 토큰이 아니라 데이터임
+export interface ColorPickerSwatch {
+  value: string;
+  label: string;
+}
+export interface ColorPickerProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onChange" | "defaultValue"> {
+  // 초기 색 목록, 추가 색 포함 최대 10개
+  swatches?: readonly ColorPickerSwatch[];
+  // 지금 고른 색, 투명도 있으면 8자리로 반환. 6자리만 내보내면 알파 변경이 전달되지 않음
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  onFull?:  => void;
+}
+
 export interface CardProps extends Common {
   interactive?: boolean;
   title?: ReactNode;
@@ -138,8 +163,10 @@ export interface ToastProps extends Common {
   type?: string;
 }
 export type ToastImpl = ComponentType<ToastProps> & {
-  // 토스트 표시 위치, 화면당 한 번만 배치. 중복 배치 시 토스트 중복 표시 문제 있음
-  Region: ComponentType;
+  Region: ComponentType<{
+    position?: "top-start" | "top-center" | "top-end"
+      | "bottom-start" | "bottom-center" | "bottom-end";
+  }>;
   // 토스트 실제 표시, toast.add 직접 호출하기
   show: (opts: {
     title?: string;

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Check, ChevronRight, ChevronsUpDown, Download, Palette } from "lucide-react";
+import { Check, ChevronRight, ChevronsUpDown, Download, Palette, Search } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
@@ -18,14 +18,13 @@ import {
 } from "@/components/ui/tooltip";
 import { ExportDialog } from "@/components/ExportDialog";
 import { requestExport } from "@/export/client";
+import { isLibBase } from "@/export/lib/registry";
 import { sinkFor } from "@/export/sinks/registry";
 import { ColorScheme } from "./preview/ColorScheme";
 import { Typography } from "./preview/Typography";
 import { UsagePage } from "./usage/UsagePage";
 import { ComponentPage } from "./preview/ComponentPage";
-import { AntdReference } from "./preview/AntdReference";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
-import { MuiReference } from "./preview/MuiReference";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
 import { MODES, MODE_LABEL, type Mode } from "./preview/tokens";
 import { DEFAULT_FONT, FONTS, fontByKey, loadFont } from "./preview/fonts";
@@ -33,6 +32,21 @@ import { SYSTEMS, systemBySlug } from "./systems/registry";
 import { BASES, BASE_ORDER } from "./bases/registry";
 import { resolveSystem } from "./systems/resolve";
 import type { SystemDefinition } from "./systems/types";
+
+// named export를 default로 감싸 지연 로드용 변환
+const AntdReference = React.lazy( =>
+  import("./preview/AntdReference").then((m) => ({ default: m.AntdReference })));
+const MuiReference = React.lazy( =>
+  import("./preview/MuiReference").then((m) => ({ default: m.MuiReference })));
+
+// 지연 로드 전 위치 표시
+function ReferenceLoading({ title }: { title: string }) {
+  return (
+    <div className="text-muted-foreground px-6 py-10 text-sm" role="status" aria-live="polite">
+      {title} 화면을 불러오고 있어요…
+    </div>
+  );
+}
 
 const STYLE_ID = "ods-active-system";
 
@@ -210,152 +224,120 @@ function BasePicker({
 const ANTD_TITLE = new Map(ANTD_INDEX.map((c) => [c.slug, c.title]));
 const MUI_TITLE = new Map(MUI_INDEX.map((c) => [c.slug, c.title]));
 
-function OfficialNav({ groups, title, section, onPick }: {
-  groups: Record<string, string[]>;
-  title: Map<string, string>;
-  section: string;
-  onPick: (section: string) => void;
-}) {
-  return (
-    <>
-      {Object.entries(groups).map(([group, slugs]) => (
-        <SidebarGroup key={group}>
-          <SidebarGroupLabel>{group} {slugs.length}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {slugs.map((slug) => (
-                <SidebarMenuItem key={slug}>
-                  <SidebarMenuButton
-                    isActive={section === slug}
-                    onClick={ => onPick(slug)}
-                  >
-                    {/* 공식 이름이 없으면 슬러그를 그대로 표시 */}
-                    <span>{title.get(slug) ?? slug}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      ))}
-    </>
-  );
+type NavItem = { key: string; label: string };
+type NavSpec = {
+  label: string;
+  // 이름 뒤 개수 표시, Main, Foundations 제외
+  count?: boolean;
+  items: NavItem[];
+};
+
+function filterSpec(spec: NavSpec, q: string): NavSpec | null {
+  if (spec.items.length === 0) return null; // 빈 그룹은 검색 결과와 무관하게 렌더링 제외
+  if (q === "") return spec;
+  const items = spec.label.toLowerCase.includes(q)
+    ? spec.items
+    : spec.items.filter((i) => i.label.toLowerCase.includes(q));
+  return items.length === 0 ? null : { ...spec, items };
 }
 
-function OursNav({ system, section, onPick }: {
-  system: SystemDefinition;
+// 그룹 단위 렌더링. 필터링 없이 완료된 데이터 사용
+function NavGroup({ spec, section, onPick }: {
+  spec: NavSpec;
   section: string;
   onPick: (section: string) => void;
 }) {
-  if (system.components.length === 0) return null;
-
   return (
     <SidebarGroup>
       <SidebarGroupLabel>
-        어댑터 {system.components.length}
+        {spec.count ? `${spec.label} ${spec.items.length}` : spec.label}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {/* 정렬 적용 */}
-          {[...system.components]
-            .sort((a, b) => a.title.localeCompare(b.title, "en"))
-            .map((c) => (
-              <SidebarMenuItem key={c.name}>
-                <SidebarMenuButton
-                  isActive={section === c.name}
-                  onClick={ => onPick(c.name)}
-                >
-                  <span>{c.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+          {spec.items.map((it) => (
+            <SidebarMenuItem key={it.key}>
+              <SidebarMenuButton
+                isActive={section === it.key}
+                onClick={ => onPick(it.key)}
+              >
+                <span>{it.label}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
   );
 }
 
+// 공식 문서 목록을 그룹으로 이전, 이름과 순서는 공식 그대로 유지
+function officialSpecs(groups: Record<string, string[]>, title: Map<string, string>): NavSpec[] {
+  return Object.entries(groups).map(([group, slugs]) => ({
+    label: group,
+    count: true,
+    items: slugs.map((slug) => ({
+      // 공식 이름이 없으면 슬러그를 그대로 표시
+      key: slug,
+      label: title.get(slug) ?? slug,
+    })),
+  }));
+}
+
+function componentSpec(system: SystemDefinition, label: string): NavSpec {
+  return {
+    label,
+    count: true,
+    items: [...system.components]
+      .sort((a, b) => a.title.localeCompare(b.title, "en"))
+      .map((c) => ({ key: c.name, label: c.title })),
+  };
+}
+
 // 페이지 목록. 현재 선택한 테마의 것만 표시
 function PageNav({
-  system, section, onPick,
+  system, section, onPick, query,
 }: {
   system: SystemDefinition;
   section: string;
   onPick: (section: string) => void;
+  query: string;
 }) {
+  const q = query.trim.toLowerCase;
+
+  const specs: NavSpec[] = [
+    { label: "Main", items: MAIN.map((m) => ({ key: m.key, label: m.label })) },
+    { label: "Foundations", items: FOUNDATIONS.map((f) => ({ key: f.key, label: f.label })) },
+    ...(system.baseKey === "antd" || system.baseKey === "mui"
+      ? [
+          componentSpec(system, "이 어댑터"),
+          ...officialSpecs(
+            system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS,
+            system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE,
+          ),
+        ]
+      : [componentSpec(system, "Components")]),
+  ];
+
+  const shown = specs
+    .map((s) => filterSpec(s, q))
+    .filter((s): s is NavSpec => s !== null);
+
+  if (shown.length === 0) {
+    return (
+      <div className="text-muted-foreground px-4 py-6 text-sm">
+        <p>
+          <b className="text-foreground">{query.trim}</b> 와 맞는 것이 없어요.
+        </p>
+        <p className="mt-1.5 text-xs">그룹 이름으로도 찾을 수 있어요. Foundations · Components …</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* 컴포넌트 조합 화면, 맨 위 배치. 아래 두 층은 재료 */}
-      <SidebarGroup>
-        <SidebarGroupLabel>Main</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {MAIN.map((m) => (
-              <SidebarMenuItem key={m.key}>
-                <SidebarMenuButton
-                  isActive={section === m.key}
-                  onClick={ => onPick(m.key)}
-                >
-                  <span>{m.label}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-
-      <SidebarGroup>
-        {/* 재료 계층. 컴포넌트가 읽고 쓰며 상위 배치, 하위 계층이 사용 */}
-        <SidebarGroupLabel>Foundations</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {FOUNDATIONS.map((f) => (
-              <SidebarMenuItem key={f.key}>
-                <SidebarMenuButton
-                  isActive={section === f.key}
-                  onClick={ => onPick(f.key)}
-                >
-                  <span>{f.label}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-
-      {/* antd, MUI 공식 목록 그대로 사용. 자체 목록 맞추면 고유 컴포넌트 소실되는 문제임 */}
-      {/* 커스텀 항목을 공식 항목보다 위에 정렬 */}
-      {system.baseKey === "antd" || system.baseKey === "mui" ? (
-        <>
-          <OursNav system={system} section={section} onPick={onPick} />
-          <OfficialNav
-            groups={system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS}
-            title={system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE}
-            section={section} onPick={onPick} />
-        </>
-      ) : (
-      <SidebarGroup>
-        <SidebarGroupLabel>Components {system.components.length}</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-          {/* 정렬 적용 */}
-          {[...system.components]
-            .sort((a, b) => a.title.localeCompare(b.title, "en"))
-            .map((c) => (
-            <SidebarMenuItem key={c.name}>
-              <SidebarMenuButton
-                isActive={section === c.name}
-                onClick={ => onPick(c.name)}
-              >
-                <span>{c.title}</span>
-                {/* 미사용 코드. 삭제하지 않고 보존 */}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      )}
+      {shown.map((s) => (
+        <NavGroup key={s.label} spec={s} section={section} onPick={onPick} />
+      ))}
     </>
   );
 }
@@ -472,6 +454,24 @@ export function App {
   const [font, setFont] = React.useState<string>(DEFAULT_FONT);
   // 내보내기 창은 URL 반영에서 제외
   const [exportOpen, setExportOpen] = React.useState(false);
+  // 사이드바 검색어 URL 제외
+  const [query, setQuery] = React.useState("");
+  const searchRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect( => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "/" || !(e.metaKey || e.ctrlKey)) return;
+      const el = e.target as HTMLElement | null;
+      const tag = el?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || el?.isContentEditable) return;
+      e.preventDefault;
+      searchRef.current?.focus;
+      searchRef.current?.select;
+    };
+    window.addEventListener("keydown", onKey);
+    return  => window.removeEventListener("keydown", onKey);
+  }, []);
+
   // 색과 베이스를 병합. 명세와 일치하면 해당 모듈 그대로 반환
   const system = React.useMemo( => resolveSystem(slug, base), [slug, base]);
   const color = systemBySlug(slug);
@@ -523,13 +523,16 @@ export function App {
     ?? bare;
 
   const exportable =
-    section !== COLORS && section !== TYPE && !isOfficialSection &&
-    system.components.some((c) => c.name === bare);
+    section !== COLORS && section !== TYPE &&
+    (isOfficialSection
+      ? isLibBase(system.baseKey)
+      : system.components.some((c) => c.name === bare));
 
   return (
     <SidebarProvider>
       {/* ods-chrome이 경계. 안쪽은 시스템 설정과 무관하게 같은 모습 유지 */}
       <Sidebar className="ods-chrome">
+        {/* 헤더와 하단 선택기 스크롤 고정. 스크롤은 SidebarContent만 사용 */}
         <SidebarHeader>
           <div className="flex items-center gap-2 px-2 py-1.5">
             <Palette className="size-4 shrink-0" />
@@ -540,11 +543,37 @@ export function App {
               </span>
             </div>
           </div>
+          <BasePicker base={base} color={color} onPick={setBase} />
+
+          {/* 검색창은 헤더에 고정되어 목록과 함께 스크롤되지 않음 */}
+          <div className="relative">
+            <Search
+              aria-hidden="true"
+              className="text-muted-foreground pointer-events-none absolute top-1/2 left-2 size-3.5 -translate-y-1/2"
+            />
+            <SidebarInput
+              ref={searchRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Escape") setQuery(""); }}
+              placeholder="찾기…"
+              aria-label="컴포넌트 찾기. 그룹 이름으로도 찾을 수 있어요"
+              className="pl-7"
+            />
+          </div>
+
+          {/* 고정/스크롤 영역 경계선, 헤더에 고정. 본문 두면 스크롤 시 사라지는 문제 있음 */}
+          {/* mx-0 지정. 헤더에 p-2 있어 mx-2 두면 16px 겹치는 문제 있음 */}
+          <SidebarSeparator className="mx-0" />
         </SidebarHeader>
         <SidebarContent>
-          <BasePicker base={base} color={color} onPick={setBase} />
-          <SidebarSeparator />
-          <PageNav system={system} section={section} onPick={(s2) => pick(slug, s2)} />
+          <PageNav
+            system={system}
+            section={section}
+            onPick={(s2) => pick(slug, s2)}
+            query={query}
+          />
         </SidebarContent>
         <SidebarRail />
       </Sidebar>
@@ -614,11 +643,15 @@ export function App {
           ) : (
             // 접두사 없으면 슬러그 실제 보유 여부로 구분. 이름 충돌에도 안전
             system.baseKey === "antd" && isAntdSlug(section) ? (
-              <AntdReference slug={section} system={system}
-                active={mode} />
+              <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
+                <AntdReference slug={section} system={system}
+                  active={mode} />
+              </React.Suspense>
             ) : system.baseKey === "mui" && isMuiSlug(section) ? (
-              <MuiReference slug={section} system={system}
-                active={mode} />
+              <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
+                <MuiReference slug={section} system={system}
+                  active={mode} />
+              </React.Suspense>
             ) : (
               <ComponentPage system={system} name={bare} active={mode} />
             )

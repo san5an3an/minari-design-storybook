@@ -30,7 +30,7 @@ const App: React.FC = () => {
       </Radio>
       <br />
       <Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }}>
-        못 쓰게 바꾸기
+        {disabled ? '쓸 수 있게 바꾸기' : '못 쓰게 바꾸기'}
       </Button>
     </>
   );

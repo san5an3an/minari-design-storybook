@@ -289,7 +289,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
             <Box
               sx={{
                 alignItems: "center",
-                bgcolor: "action.hover",
+                bgcolor: "background.default",
                 color: "text.secondary",
                 display: "flex",
                 flexDirection: "column",

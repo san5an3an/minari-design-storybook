@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "Fog Component 계층, semantic.* 만 참조, 컴포넌트 70종 = core 17 + signature 53",
+  "$description": "Fog Component 계층, semantic.* 만 참조, 컴포넌트 72종 = core 17 + signature 55",
   "component": {
     "button": {
       "$description": "variant 3종 × role 5종 × size 3종, variant 구성은 이 시스템의 elevation 성격(flat)에서 옴",
@@ -1469,6 +1469,11 @@
         "$value": "{semantic.space.sm}",
         "$description": "쌓였을 때의 간격"
       },
+      "stack-peek": {
+        "$type": "dimension",
+        "$value": "calc({semantic.space.sm} * 1.5)",
+        "$description": "뒤로 물러난 알림이 위로 내미는 깊이, 간격의 1.5배, 간격만큼이면 쌓인 것과 벌어진 것이 구별되지 않음"
+      },
       "icon-size": {
         "$type": "dimension",
         "$value": "{semantic.size.control-sm}",
@@ -1478,6 +1483,53 @@
         "$type": "dimension",
         "$value": "calc({semantic.text.display} * 12)",
         "$description": "떠 있는 영역의 폭 상한, 글자 12벌, 배수는 여기서 지정"
+      },
+      "region-inset": {
+        "$type": "dimension",
+        "$value": "{semantic.space.lg}",
+        "$description": "화면 가장자리와의 거리"
+      },
+      "title-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.body}",
+        "$description": "제목, 본문(body-sm)보다 한 단 큰 크기"
+      },
+      "title-letter-spacing": {
+        "$type": "dimension",
+        "$value": "-0.01em",
+        "$description": "제목만 살짝 좁힘, 굵은 글자는 넓어 보임"
+      },
+      "body-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.body-sm}"
+      },
+      "content-gap": {
+        "$type": "dimension",
+        "$value": "{semantic.space.xs}",
+        "$description": "제목과 본문 사이"
+      },
+      "close-size": {
+        "$type": "dimension",
+        "$value": "{semantic.size.control-sm}",
+        "$description": "닫기 표적 한 변"
+      },
+      "close-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.subtle}",
+        "$description": "본문보다 작음, 읽기보다 닫기 위한 요소임"
+      },
+      "close-fg-hover": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.default}"
+      },
+      "progress-height": {
+        "$type": "dimension",
+        "$value": "0.1875rem",
+        "$description": "남은 시간 띠의 두께"
+      },
+      "progress": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.strong}"
       },
       "success": {
         "bg": {
@@ -1490,7 +1542,12 @@
         },
         "border": {
           "$type": "color",
-          "$value": "{semantic.border.success.default}"
+          "$value": "{semantic.border.success.strong}"
+        },
+        "progress": {
+          "$type": "color",
+          "$value": "{semantic.border.success.strong}",
+          "$description": "남은 시간 띠, 테두리와 같은 색"
         }
       },
       "danger": {
@@ -1504,7 +1561,12 @@
         },
         "border": {
           "$type": "color",
-          "$value": "{semantic.border.danger.default}"
+          "$value": "{semantic.border.danger.strong}"
+        },
+        "progress": {
+          "$type": "color",
+          "$value": "{semantic.border.danger.strong}",
+          "$description": "남은 시간 띠, 테두리와 같은 색"
         }
       },
       "warning": {
@@ -1518,10 +1580,37 @@
         },
         "border": {
           "$type": "color",
-          "$value": "{semantic.border.warning.default}"
+          "$value": "{semantic.border.warning.strong}"
+        },
+        "progress": {
+          "$type": "color",
+          "$value": "{semantic.border.warning.strong}",
+          "$description": "남은 시간 띠, 테두리와 같은 색"
+        }
+      },
+      "info": {
+        "bg": {
+          "$type": "color",
+          "$value": "{semantic.bg.neutral.subtle}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{semantic.fg.neutral.default}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.border.neutral.strong}"
+        },
+        "progress": {
+          "$type": "color",
+          "$value": "{semantic.border.neutral.strong}"
         }
       },
       "letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.body-sm}"
+      },
+      "body-letter-spacing": {
         "$type": "dimension",
         "$value": "{semantic.tracking.body-sm}"
       }
@@ -2502,6 +2591,285 @@
       "letter-spacing": {
         "$type": "dimension",
         "$value": "{semantic.tracking.body-sm}"
+      }
+    },
+    "colorpicker": {
+      "$description": "색 고르개, 칠하는 색은 토큰 아닌 값, 토큰은 담는 컨테이너(크기, 모서리, 테두리, 간격) 지정",
+      "card-bg": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.surface}",
+        "$description": "카드 바탕"
+      },
+      "card-border": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}",
+        "$description": "카드 테두리"
+      },
+      "card-shadow": {
+        "$type": "shadow",
+        "$value": "{semantic.shadow.raised}",
+        "$description": "카드 그림자 (예제 shadow-md)"
+      },
+      "card-pad": {
+        "$type": "dimension",
+        "$value": "1.25rem",
+        "$description": "카드 안쪽 여백 (예제 p-5)"
+      },
+      "card-radius": {
+        "$type": "dimension",
+        "$value": "2rem",
+        "$description": "카드 모서리, 예제는 1rem이나 크게 보이도록 키움"
+      },
+      "area-height": {
+        "$type": "dimension",
+        "$value": "11.25rem",
+        "$description": "채도, 명도 면의 높이 (예제 180)"
+      },
+      "thumb-size": {
+        "$type": "dimension",
+        "$value": "1rem",
+        "$description": "면 위 핸들, 아래 색이 보이도록 속을 비움"
+      },
+      "thumb-border": {
+        "$type": "dimension",
+        "$value": "#fff",
+        "$description": "핸들 테, 어두운 색 위에서 읽힘"
+      },
+      "thumb-ring": {
+        "$type": "dimension",
+        "$value": "rgb(0 0 0 / 0.3)",
+        "$description": "핸들 바깥 링, 밝은 색 위에서 읽힘"
+      },
+      "hue-height": {
+        "$type": "dimension",
+        "$value": "{semantic.space.sm}",
+        "$description": "색상 띠와 투명도 띠의 두께"
+      },
+      "slider-thumb-size": {
+        "$type": "dimension",
+        "$value": "0.875rem",
+        "$description": "띠 위 핸들의 폭"
+      },
+      "checker": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.subtle}",
+        "$description": "투명도 뒤의 격자. 비침을 눈에 드러냄"
+      },
+      "checker-size": {
+        "$type": "dimension",
+        "$value": "0.5rem",
+        "$description": "격자 한 셀, 너무 잘면 무늬가 아니라 노이즈로 보임"
+      },
+      "preview-size": {
+        "$type": "dimension",
+        "$value": "2rem",
+        "$description": "지금 색과 스포이드의 지름 (예제 w-8 h-8)"
+      },
+      "preview-border": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}"
+      },
+      "scrim": {
+        "$type": "color",
+        "$value": "{semantic.overlay.scrim}",
+        "$description": "담기 표시 뒤 배경 어둡게 처리"
+      },
+      "mark-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.on-neutral.default}",
+        "$description": "담기 표시의 선 색"
+      },
+      "icon-size": {
+        "$type": "dimension",
+        "$value": "0.875rem",
+        "$description": "아이콘 크기, 버튼 안에 여백 확보"
+      },
+      "hex-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.subtle}"
+      },
+      "hex-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.caption}"
+      },
+      "field-bg": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.subtlest}",
+        "$description": "값 행 셀들의 바탕"
+      },
+      "field-border": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}"
+      },
+      "field-border-hover": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.default}",
+        "$description": "짚었을 때 한 단 진하게, 만질 수 있다는 표시임"
+      },
+      "field-height": {
+        "$type": "dimension",
+        "$value": "2.25rem",
+        "$description": "값 필드 높이 (예제 h-9)"
+      },
+      "field-pad-inline": {
+        "$type": "dimension",
+        "$value": "0.5rem",
+        "$description": "숫자 셀의 좌우 여백 (예제 px-2)"
+      },
+      "field-pad-wide": {
+        "$type": "dimension",
+        "$value": "0.75rem",
+        "$description": "형식 버튼, hex 필드의 좌우 여백 (예제 px-3)"
+      },
+      "field-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.default}"
+      },
+      "field-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.body-sm}"
+      },
+      "label-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.subtle}",
+        "$description": "채널 라벨(R, G, B), 값보다 연한 색으로 표시"
+      },
+      "label-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.caption}"
+      },
+      "format-width": {
+        "$type": "dimension",
+        "$value": "5.25rem",
+        "$description": "형식 버튼의 폭, HEX~LAB이 다 들어감"
+      },
+      "alpha-width": {
+        "$type": "dimension",
+        "$value": "4rem",
+        "$description": "투명도 필드 폭 (예제 w-16), 100%가 안 잘림"
+      },
+      "row-gap": {
+        "$type": "dimension",
+        "$value": "0.5rem",
+        "$description": "값 행 요소 사이 (예제 gap-2)"
+      },
+      "fields-gap": {
+        "$type": "dimension",
+        "$value": "0.25rem",
+        "$description": "값 필드끼리의 간격 (예제 gap-1)"
+      },
+      "label-gap": {
+        "$type": "dimension",
+        "$value": "0.25rem",
+        "$description": "채널 라벨과 숫자 사이 (예제 mr-1)"
+      },
+      "menu-bg": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.surface}"
+      },
+      "menu-border": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}"
+      },
+      "menu-offset": {
+        "$type": "dimension",
+        "$value": "0.25rem",
+        "$description": "버튼과 목록 사이 간격 (예: mt-1)"
+      },
+      "menu-min-width": {
+        "$type": "dimension",
+        "$value": "4.5rem",
+        "$description": "목록 최소 폭, minWidth 72"
+      },
+      "menu-shadow": {
+        "$type": "shadow",
+        "$value": "{semantic.shadow.overlay}"
+      },
+      "menu-pad-block": {
+        "$type": "dimension",
+        "$value": "0.25rem",
+        "$description": "목록 위아래 여백"
+      },
+      "option-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.default}"
+      },
+      "option-fg-selected": {
+        "$type": "color",
+        "$value": "{semantic.fg.brand.default}",
+        "$description": "고른 형식, 브랜드 역할이 없는 시스템에서는 기본색으로 나타남"
+      },
+      "option-bg-hover": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.subtle}"
+      },
+      "option-pad-block": {
+        "$type": "dimension",
+        "$value": "0.375rem",
+        "$description": "목록 항목의 위아래 여백"
+      },
+      "swatch-size": {
+        "$type": "dimension",
+        "$value": "1.75rem",
+        "$description": "스와치 지름 (예제 w-7 h-7)"
+      },
+      "swatch-gap": {
+        "$type": "dimension",
+        "$value": "0.5rem",
+        "$description": "스와치 사이 (예제 gap-2)"
+      },
+      "swatch-border": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}"
+      },
+      "divider": {
+        "$type": "color",
+        "$value": "{semantic.border.neutral.subtle}",
+        "$description": "담아 둔 색 위의 구분선"
+      },
+      "count-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.subtlest}",
+        "$description": "3/10 같은 보조 수"
+      },
+      "count-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.caption}"
+      },
+      "head-gap": {
+        "$type": "dimension",
+        "$value": "0.5rem",
+        "$description": "머리줄과 스와치 사이, mb-2"
+      },
+      "gap-lg": {
+        "$type": "dimension",
+        "$value": "1rem",
+        "$description": "면은 띠, 띠는 지금색, 값행은 담아둔색, mt-4"
+      },
+      "gap-sm": {
+        "$type": "dimension",
+        "$value": "0.75rem",
+        "$description": "색상 띠에서 투명도 띠로, 지금 색에서 값 행 순서(예: mt-3)"
+      },
+      "border-focus": {
+        "$type": "color",
+        "$value": "{semantic.border.focus.default}"
+      },
+      "hex-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.caption}"
+      },
+      "field-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.body-sm}"
+      },
+      "label-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.caption}"
+      },
+      "count-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.caption}"
       }
     },
     "combobox": {
@@ -4175,6 +4543,81 @@
       "panel-padding": {
         "$type": "dimension",
         "$value": "{semantic.space.md}"
+      }
+    },
+    "ringcarousel": {
+      "$description": "링 캐러셀, 셰이더가 이 값들을 유니폼으로 읽음, 색을 코드에 안 박아 20종 색과 라이트/다크가 따라옴",
+      "plane": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.strong}",
+        "$description": "점성체 자체의 색, 카드와 잇는 실이 같은 물질임"
+      },
+      "page": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.subtlest}",
+        "$description": "링 뒤에 있는 것, 실이 끊어진 지점으로 이 색이 드러남"
+      },
+      "sheen": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.surface}",
+        "$description": "면이 가장 휜 위치에 얹는 빛, 굴곡이 표면으로 읽힘"
+      },
+      "dim": {
+        "$type": "color",
+        "$value": "{semantic.bg.neutral.default}",
+        "$description": "앞에 오지 않은 카드가 물러나는 색, plane 과 page 사이에 위치"
+      },
+      "viscosity": {
+        "$type": "dimension",
+        "$value": "0.875rem",
+        "$description": "융합이 일어나는 거리(smin의 k), 0이면 그냥 min"
+      },
+      "plane-size": {
+        "$type": "dimension",
+        "$value": "5.625rem",
+        "$description": "카드 긴 변, 짧은 변은 1.5:1로 따라옴"
+      },
+      "plane-radius": {
+        "$type": "dimension",
+        "$value": "{semantic.radius.container}"
+      },
+      "ring-radius": {
+        "$type": "dimension",
+        "$value": "21.25rem",
+        "$description": "호의 반지름, 화면보다 크게 두어 일부만 보임"
+      },
+      "wobble": {
+        "$type": "dimension",
+        "$value": "0.0625rem",
+        "$description": "표면장력 잡음, 실이 곧은 막대처럼 보이지 않게 방지"
+      },
+      "label-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.default}"
+      },
+      "label-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.heading}"
+      },
+      "index-fg": {
+        "$type": "color",
+        "$value": "{semantic.fg.neutral.subtle}"
+      },
+      "index-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text.caption}"
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{semantic.space.md}"
+      },
+      "label-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.heading}"
+      },
+      "index-letter-spacing": {
+        "$type": "dimension",
+        "$value": "{semantic.tracking.caption}"
       }
     },
     "scrollarea": {

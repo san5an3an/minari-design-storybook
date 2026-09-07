@@ -42,8 +42,25 @@ const HTML_TO_MD: [RegExp, string][] = [
   [/<a\s+[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)"],
 ];
 
+const ENTITY = /&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]{1,31});/g;
+const entityCache = new Map<string, string>;
+
+function decodeEntities(s: string): string {
+  if (!s.includes("&") || typeof document === "undefined") return s;
+  return s.replace(ENTITY, (tok) => {
+    let got = entityCache.get(tok);
+    if (got === undefined) {
+      const el = document.createElement("textarea");
+      el.innerHTML = tok;
+      got = el.value;
+      entityCache.set(tok, got);
+    }
+    return got;
+  });
+}
+
 function htmlToMarkdown(s: string): string {
-  return HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s);
+  return decodeEntities(HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s));
 }
 
 // @param html HTML 원문 여부, md 본문에는 비적용
@@ -105,11 +122,18 @@ function Section({ title, count, note, children }: {
   );
 }
 
+function josa(word: string): string {
+  const last = word.trim.slice(-1).charCodeAt(0);
+  const hangul = last >= 0xac00 && last <= 0xd7a3;
+  return hangul && (last - 0xac00) % 28 !== 0 ? "이" : "가";
+}
+
 // 공식에 해당 섹션이 없을 때. 빈 화면으로 두지 않음
 function Absent({ what }: { what: string }) {
+  // 보충 설명 문구 생략
   return (
     <p className="doc-note" style={{ marginTop: 0 }}>
-      공식 문서에 <b>{what} 절이 없어요.</b> 빠뜨린 게 아니라 그쪽에도 없어요.
+      공식 문서에 <b>{what}{josa(what)} 없어요.</b>
     </p>
   );
 }
@@ -275,7 +299,8 @@ export function MuiReference({ slug, system, active }: {
         note={<>공식 문서가 맨 앞에 두는 기본형이에요{introAt >= 0
           ? <>, <b>Introduction</b> 바로 아래 그것이에요.</>
           : <>. 이 컴포넌트엔 <b>Introduction 절이 없어서</b> 문서 순서의 첫 예제예요.</>}{" "}
-          색·모서리·글자는 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>}
+          {/* 뒷문장은 antd 화면 문구와 동일하게 유지 */}
+          색·모서리·글자는 <b>이 시스템 토큰</b>을 사용해요. 아래 <b>Tokens</b>을 참고해주세요.</>}
       >
         {master ? one(master) : <Absent what="예제" />}
       </Master>
@@ -329,9 +354,8 @@ export function MuiReference({ slug, system, active }: {
                       <code>{p.prop}</code>
                       {p.required ? <i className="doc-req-mark">필수</i> : null}
                     </th>
-                    {/* Type 값은 문서 HTML 그대로 유지. 마크다운 렌더링 시 표시가 글자로 보임 */}
-                    <td><code>{p.type.replace(/<br\s*\/?>/gi, " ")
-                      .replace(/&#124;/g, "|").replace(/&nbsp;/g, " ")}</code></td>
+                    {/* Type 값은 공식 문서 HTML 그대로 유지. 이 위치는 마크다운을 거치지 않음 */}
+                    <td><code>{decodeEntities(p.type.replace(/<br\s*\/?>/gi, " "))}</code></td>
                     <td>{p.default ? <code>{p.default}</code>
                       : <span className="doc-dim">—</span>}</td>
                     <td>

@@ -370,7 +370,8 @@ export function AntdReference({ slug, system, active }: {
       <Master
         note={<>공식이 <b>기본</b>으로 두는 예제예요. antd 는 <code>Basic</code> 이 그 자리예요.
           코드는 <b>공식 원본 그대로</b>예요. 아이콘도 <code>@ant-design/icons</code> 진짜를
-          불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>이 나릅니다. 아래 <b>Tokens</b> 참고.</>}
+          불러요. 색·모서리·글자만 <b>이 시스템 토큰</b>을 사용해요. 아래 <b>Tokens</b>을
+          참고해주세요.</>}
       >
         {master ? stand(master) : <Absent what="예제" />}
       </Master>

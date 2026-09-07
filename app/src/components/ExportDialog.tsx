@@ -6,14 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { FORMATS, type ExportRequest, type Format } from "@/export/types";
+import { requestLibAxes, type LibAxes } from "@/export/client";
+import { isLibBase } from "@/export/lib/registry";
+import { type ExportRequest, type Format } from "@/export/types";
 import type { SystemDefinition } from "@/systems/types";
 
 const FORMAT_LABEL: Record<Format, string> = {
   html: "HTML",
   next: "Next.js 컴포넌트",
   both: "둘 다",
+  theme: "테마만",
 };
+
+const LIB_FORMATS: readonly Format[] = ["next", "theme"];
+const OURS_FORMATS: readonly Format[] = ["html", "next", "both"];
 
 // 축 저장용 특수 키 2개, prop 이름과 안 겹치게 밑줄로 감싸기
 const PARTS = "__parts__";
@@ -145,12 +151,34 @@ export function ExportDialog({
   onExport: (request: ExportRequest) => Promise<void>;
 }) {
   const idBase = React.useId;
-  const [format, setFormat] = React.useState<Format>("html");
+
+  // 라이브러리 경로 여부. 베이스 이름 나열 금지
+  const isLib = isLibBase(system.baseKey);
+  const formats = isLib ? LIB_FORMATS : OURS_FORMATS;
+
+  const [format, setFormat] = React.useState<Format>(isLib ? "next" : "html");
+
+  // 라이브러리 경로에서 선택할 값, 서버가 제공
+  const [lib, setLib] = React.useState<LibAxes | null>(null);
+  const [libFailed, setLibFailed] = React.useState<string | null>(null);
   // 내보내는 중 상태와 실패 사유
   const [busy, setBusy] = React.useState(false);
   const [failed, setFailed] = React.useState<string | null>(null);
 
   const axes = React.useMemo<readonly Axis[]>( => {
+    if (isLib) {
+      return (lib?.props ?? []).map((p) => ({
+        key: p.prop,
+        label: p.prop,
+        // 설명은 필수 입력. 계약 항목엔 desc가 항상 있어 라이브러리만 비면 화면이 어색해 보임
+        desc: `${lib?.libTitle ?? "공식"} API 의 프롭이에요. 고른 값마다 한 판씩 나가요.`,
+        choices: p.values.map((v) => ({
+          value: v,
+          note: v === p.default ? "기본" : undefined,
+        })),
+      }));
+    }
+
     const api = system.api[section];
     if (!api) return [];
     const out: Axis[] = [];
@@ -190,7 +218,24 @@ export function ExportDialog({
     }
 
     return out;
-  }, [system, section]);
+  }, [system, section, isLib, lib]);
+
+  React.useEffect( => {
+    if (!open || !isLib) {
+      setLib(null);
+      setLibFailed(null);
+      return;
+    }
+    let cancelled = false;
+    setLib(null);
+    setLibFailed(null);
+    requestLibAxes(system.baseKey, section)
+      .then((v) => { if (!cancelled) setLib(v); })
+      .catch((e: unknown) => {
+        if (!cancelled) setLibFailed(e instanceof Error ? e.message : String(e));
+      });
+    return  => { cancelled = true; };
+  }, [open, isLib, system.baseKey, section]);
 
   const [picked, setPicked] = React.useState<Picked>( => pickAll(axes));
 
@@ -200,8 +245,10 @@ export function ExportDialog({
       setPicked(pickAll(axes));
       // 이전 실패 원인도 함께 초기화
       setFailed(null);
+      // 형식도 초기화. 경로별 형식이 달라 안 하면 없는 형식이 선택된 채 남음
+      setFormat((cur) => (formats.includes(cur) ? cur : formats[0]));
     }
-  }, [open, axes]);
+  }, [open, axes, formats]);
 
   const total = axes.reduce((n, a) => n + a.choices.length, 0);
   const chosen = axes.reduce((n, a) => n + (picked[a.key]?.length ?? 0), 0);
@@ -249,7 +296,9 @@ export function ExportDialog({
         <DialogHeader className="p-4 pb-3">
           <DialogTitle>내보내기</DialogTitle>
           <DialogDescription>
-            <b>{system.name}</b> 의 <b>{title}</b> 를 {system.baseTitle} 로 내보내요.
+            {/* 라이브러리 경로는 baseTitle 대신 npm 패키지명인 라이브러리 이름 사용 */}
+            <b>{system.name}</b> 의 <b>{title}</b> 를{" "}
+            {isLib ? (lib?.libTitle ?? system.baseTitle) : system.baseTitle} 로 내보내요.
           </DialogDescription>
         </DialogHeader>
 
@@ -268,14 +317,21 @@ export function ExportDialog({
               }}
               aria-label="내보낼 형식 고르기"
             >
-              {FORMATS.map((f) => (
+              {formats.map((f) => (
                 <ToggleGroupItem key={f} value={f} className="px-3">
                   {FORMAT_LABEL[f]}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-            {/* MUI 등은 런타임 CSS-in-JS라 정적 HTML 변환 불가, HTML은 자체 구현임 */}
-            {system.baseKey !== "shadcn" && format !== "next" ? (
+            {/* 조건을 미리 안내하기 */}
+            {isLib ? (
+              <p className="text-muted-foreground text-xs">
+                <b>{lib?.libTitle ?? system.baseTitle}</b> 컴포넌트를 <b>그대로</b> 쓰는 코드가
+                나가요. 이 시스템의 것은 테마와 토큰으로 실려요. <code>vars.css</code> 가 함께 가고,
+                그게 없으면 색이 죽어요.
+              </p>
+            ) : system.baseKey !== "shadcn" && format !== "next" ? (
+              // 미등재 베이스 chakra/mantine/standalone는 여기로, 자체 구현 처리
               <p className="text-muted-foreground text-xs">
                 HTML 은 <b>{system.baseTitle}</b> 가 아니라 이 시스템의 <b>자체 구현</b>으로
                 나가요. 정적 HTML 에는 그쪽 런타임이 없어요.
@@ -283,11 +339,20 @@ export function ExportDialog({
             ) : null}
           </section>
 
-          {axes.length === 0 ? (
+          {isLib && libFailed ? (
+            // 로드 실패와 데이터 없음 상태 확인
+            <p className="text-destructive rounded-md border border-dashed p-4 text-sm">
+              고를 것을 못 불러왔어요. {libFailed}
+            </p>
+          ) : isLib && !lib ? (
+            <p className="text-muted-foreground rounded-md border border-dashed p-4 text-sm">
+              {system.baseTitle} 공식 목록에서 고를 것을 불러오는 중이에요…
+            </p>
+          ) : axes.length === 0 ? (
             // 빈 상태를 명시적으로 표시. 비워 두면 로딩 중으로 오인될 수 있음
             <p className="text-muted-foreground rounded-md border border-dashed p-4 text-sm">
               <b>{title}</b> 은 갈리는 것이 없어요. 값 고르기도 부품도 없이 마크업과 토큰만으로
-              정해지거나, {system.baseTitle} 의 공식 목록에 있는 것이라 이 저장소의 선언에 없어요.
+              정해져요.
             </p>
           ) : (
             <>
