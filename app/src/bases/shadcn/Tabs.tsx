@@ -16,16 +16,22 @@ export function Tabs({
     ? { minWidth: "var(--component-tabs-vertical-min-width)" }
     : {};
 
+  const scrollPad = "pb-[0.375rem] -mb-[0.375rem]";
+
+  const list = (
+    <TabsList variant={v} style={listStyle}>
+      {items.map((it) => (
+        <TabsTrigger key={it.value} value={it.value} disabled={it.disabled}>
+          {it.icon}
+          {it.label}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  );
+
   return (
     <ShadcnTabs defaultValue={defaultValue ?? items[0]?.value} orientation={orientation}>
-      <TabsList variant={v} style={listStyle}>
-        {items.map((it) => (
-          <TabsTrigger key={it.value} value={it.value} disabled={it.disabled}>
-            {it.icon}
-            {it.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {vertical ? list : <div className={`max-w-full overflow-x-auto ${scrollPad}`}>{list}</div>}
       {items.map((it) => (
         <TabsContent key={it.value} value={it.value}>
           {it.content}
