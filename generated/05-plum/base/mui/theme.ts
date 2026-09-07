@@ -82,6 +82,9 @@ export const theme = createTheme({
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         },
         "sizeSmall": {
@@ -141,6 +144,39 @@ export const theme = createTheme({
         }
       }
     },
+    "MuiFormLabel": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          },
+          "&.MuiFormLabel-colorWarning.Mui-focused": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiFormLabel-colorSuccess.Mui-focused": {
+            "color": "var(--semantic-fg-success-default)"
+          }
+        }
+      }
+    },
+    "MuiFormHelperText": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-field-error-fg)"
+          }
+        }
+      }
+    },
+    "MuiStepLabel": {
+      "styleOverrides": {
+        "label": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          }
+        }
+      }
+    },
     "MuiChip": {
       "styleOverrides": {
         "root": {
@@ -148,6 +184,15 @@ export const theme = createTheme({
           "fontSize": "var(--component-chip-font-size)",
           "&.MuiChip-outlined.MuiChip-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorSuccess": {
+            "color": "var(--semantic-fg-success-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorWarning": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         }
       }
@@ -506,6 +551,9 @@ export const darkTheme = createTheme({
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         },
         "sizeSmall": {
@@ -565,6 +613,39 @@ export const darkTheme = createTheme({
         }
       }
     },
+    "MuiFormLabel": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          },
+          "&.MuiFormLabel-colorWarning.Mui-focused": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiFormLabel-colorSuccess.Mui-focused": {
+            "color": "var(--semantic-fg-success-default)"
+          }
+        }
+      }
+    },
+    "MuiFormHelperText": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-field-error-fg)"
+          }
+        }
+      }
+    },
+    "MuiStepLabel": {
+      "styleOverrides": {
+        "label": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          }
+        }
+      }
+    },
     "MuiChip": {
       "styleOverrides": {
         "root": {
@@ -572,6 +653,15 @@ export const darkTheme = createTheme({
           "fontSize": "var(--component-chip-font-size)",
           "&.MuiChip-outlined.MuiChip-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorSuccess": {
+            "color": "var(--semantic-fg-success-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorWarning": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         }
       }
@@ -930,6 +1020,9 @@ export const highContrastTheme = createTheme({
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiButton-outlined.MuiButton-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         },
         "sizeSmall": {
@@ -989,6 +1082,39 @@ export const highContrastTheme = createTheme({
         }
       }
     },
+    "MuiFormLabel": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          },
+          "&.MuiFormLabel-colorWarning.Mui-focused": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiFormLabel-colorSuccess.Mui-focused": {
+            "color": "var(--semantic-fg-success-default)"
+          }
+        }
+      }
+    },
+    "MuiFormHelperText": {
+      "styleOverrides": {
+        "root": {
+          "&.Mui-error": {
+            "color": "var(--component-field-error-fg)"
+          }
+        }
+      }
+    },
+    "MuiStepLabel": {
+      "styleOverrides": {
+        "label": {
+          "&.Mui-error": {
+            "color": "var(--component-label-fg-invalid)"
+          }
+        }
+      }
+    },
     "MuiChip": {
       "styleOverrides": {
         "root": {
@@ -996,6 +1122,15 @@ export const highContrastTheme = createTheme({
           "fontSize": "var(--component-chip-font-size)",
           "&.MuiChip-outlined.MuiChip-colorPrimary": {
             "color": "var(--semantic-fg-brand-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorSuccess": {
+            "color": "var(--semantic-fg-success-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorWarning": {
+            "color": "var(--semantic-fg-warning-default)"
+          },
+          "&.MuiChip-outlined.MuiChip-colorError": {
+            "color": "var(--semantic-fg-danger-default)"
           }
         }
       }
