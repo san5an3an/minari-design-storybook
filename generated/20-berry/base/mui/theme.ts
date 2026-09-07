@@ -57,22 +57,56 @@ export const theme = createTheme({
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
             "color": "var(--component-alert-success-fg)",
-            "borderColor": "var(--component-alert-success-border)"
+            "borderColor": "var(--component-alert-success-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
             "color": "var(--component-alert-brand-fg)",
-            "borderColor": "var(--component-alert-brand-border)"
+            "borderColor": "var(--component-alert-brand-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
             "color": "var(--component-alert-warning-fg)",
-            "borderColor": "var(--component-alert-warning-border)"
+            "borderColor": "var(--component-alert-warning-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
             "color": "var(--component-alert-danger-fg)",
-            "borderColor": "var(--component-alert-danger-border)"
+            "borderColor": "var(--component-alert-danger-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
+          }
+        },
+        "outlined": {
+          "&.MuiAlert-colorSuccess": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
+          },
+          "&.MuiAlert-colorInfo": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
+          },
+          "&.MuiAlert-colorWarning": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
+          },
+          "&.MuiAlert-colorError": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
           }
         }
       }
@@ -530,22 +564,56 @@ export const darkTheme = createTheme({
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
             "color": "var(--component-alert-success-fg)",
-            "borderColor": "var(--component-alert-success-border)"
+            "borderColor": "var(--component-alert-success-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
             "color": "var(--component-alert-brand-fg)",
-            "borderColor": "var(--component-alert-brand-border)"
+            "borderColor": "var(--component-alert-brand-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
             "color": "var(--component-alert-warning-fg)",
-            "borderColor": "var(--component-alert-warning-border)"
+            "borderColor": "var(--component-alert-warning-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
             "color": "var(--component-alert-danger-fg)",
-            "borderColor": "var(--component-alert-danger-border)"
+            "borderColor": "var(--component-alert-danger-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
+          }
+        },
+        "outlined": {
+          "&.MuiAlert-colorSuccess": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
+          },
+          "&.MuiAlert-colorInfo": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
+          },
+          "&.MuiAlert-colorWarning": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
+          },
+          "&.MuiAlert-colorError": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
           }
         }
       }
@@ -1003,22 +1071,56 @@ export const highContrastTheme = createTheme({
           "&.MuiAlert-colorSuccess": {
             "backgroundColor": "var(--component-alert-success-bg)",
             "color": "var(--component-alert-success-fg)",
-            "borderColor": "var(--component-alert-success-border)"
+            "borderColor": "var(--component-alert-success-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
           },
           "&.MuiAlert-colorInfo": {
             "backgroundColor": "var(--component-alert-brand-bg)",
             "color": "var(--component-alert-brand-fg)",
-            "borderColor": "var(--component-alert-brand-border)"
+            "borderColor": "var(--component-alert-brand-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
           },
           "&.MuiAlert-colorWarning": {
             "backgroundColor": "var(--component-alert-warning-bg)",
             "color": "var(--component-alert-warning-fg)",
-            "borderColor": "var(--component-alert-warning-border)"
+            "borderColor": "var(--component-alert-warning-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
           },
           "&.MuiAlert-colorError": {
             "backgroundColor": "var(--component-alert-danger-bg)",
             "color": "var(--component-alert-danger-fg)",
-            "borderColor": "var(--component-alert-danger-border)"
+            "borderColor": "var(--component-alert-danger-border)",
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
+          }
+        },
+        "outlined": {
+          "&.MuiAlert-colorSuccess": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-success-icon)"
+            }
+          },
+          "&.MuiAlert-colorInfo": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-brand-icon)"
+            }
+          },
+          "&.MuiAlert-colorWarning": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-warning-icon)"
+            }
+          },
+          "&.MuiAlert-colorError": {
+            "& .MuiAlert-icon": {
+              "color": "var(--component-alert-danger-icon)"
+            }
           }
         }
       }
