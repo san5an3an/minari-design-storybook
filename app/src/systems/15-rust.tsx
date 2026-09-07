@@ -3,6 +3,8 @@ import { Button } from "../bases/standalone/Button";
 import buttonCss from "./css/15-rust/button.json";
 import { Link } from "../bases/standalone/Link";
 import linkCss from "./css/15-rust/link.json";
+import { Input } from "../bases/standalone/Input";
+import inputCss from "./css/15-rust/input.json";
 import { Label } from "../bases/standalone/Label";
 import labelCss from "./css/15-rust/label.json";
 import { Badge } from "../bases/standalone/Badge";
@@ -11,6 +13,8 @@ import { Card } from "../bases/standalone/Card";
 import cardCss from "./css/15-rust/card.json";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/15-rust/dialog.json";
+import { Alert } from "../bases/standalone/Alert";
+import alertCss from "./css/15-rust/alert.json";
 import { Toast } from "../bases/standalone/Toast";
 import toastCss from "./css/15-rust/toast.json";
 import { Spinner } from "../bases/standalone/Spinner";
@@ -19,6 +23,10 @@ import { Divider } from "../bases/standalone/Divider";
 import dividerCss from "./css/15-rust/divider.json";
 import { Aspectratio } from "../bases/standalone/Aspectratio";
 import aspectratioCss from "./css/15-rust/aspectratio.json";
+import { Banner } from "../bases/standalone/Banner";
+import bannerCss from "./css/15-rust/banner.json";
+import { Breadcrumb } from "../bases/standalone/Breadcrumb";
+import breadcrumbCss from "./css/15-rust/breadcrumb.json";
 import { Chip } from "../bases/standalone/Chip";
 import chipCss from "./css/15-rust/chip.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
@@ -31,6 +39,8 @@ import { Marker } from "../bases/standalone/Marker";
 import markerCss from "./css/15-rust/marker.json";
 import { Meter } from "../bases/standalone/Meter";
 import meterCss from "./css/15-rust/meter.json";
+import { Nativeselect } from "../bases/standalone/Nativeselect";
+import nativeselectCss from "./css/15-rust/nativeselect.json";
 import { Pageheader } from "../bases/standalone/Pageheader";
 import pageheaderCss from "./css/15-rust/pageheader.json";
 import { Progress } from "../bases/standalone/Progress";
@@ -67,18 +77,18 @@ export const rust: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#9e6954",
   Icon: Archive,
-  css: [vars, buttonCss, linkCss, labelCss, badgeCss, cardCss, dialogCss, toastCss, spinnerCss, dividerCss, aspectratioCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
+  css: [vars, buttonCss, linkCss, inputCss, labelCss, badgeCss, cardCss, dialogCss, alertCss, toastCss, spinnerCss, dividerCss, aspectratioCss, bannerCss, breadcrumbCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, nativeselectCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, link: Link as Impl, label: Label as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
+  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, label: Label as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, banner: Banner as Impl, breadcrumb: Breadcrumb as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, nativeselect: Nativeselect as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
     { name: "button", title: "Button", summary: "사용자가 눌러 동작을 일으키는 컨트롤. variant 구성이 이 시스템의 elevation 성격에서 유래.", ready: true },
     { name: "link", title: "Link", summary: "이동하는 글자. 누르면 위치가 바뀌고, 뒤로 가기로 되돌아올 수 있음.", ready: true },
-    { name: "input", title: "Input", summary: "한 줄 또는 여러 줄의 텍스트를 받는 폼 컨트롤. 해부 구조가 control 옵션에서 유래.", ready: false },
+    { name: "input", title: "Input", summary: "한 줄 또는 여러 줄의 텍스트를 받는 폼 컨트롤. 해부 구조가 control 옵션에서 유래.", ready: true },
     { name: "label", title: "Label", summary: "컨트롤이 무엇을 받는 필드인지 알리는 이름. 자리표시자로 대신하지 않음.", ready: true },
     { name: "field", title: "Field", summary: "컨트롤 하나를 이름·설명·오류와 함께 묶는 컨테이너. 폼의 최소 단위임.", ready: false },
     { name: "select", title: "Select", summary: "접힌 목록에서 값 하나를 고르는 폼 컨트롤. 선택지가 적으면 Radio 사용.", ready: false },
@@ -88,7 +98,7 @@ export const rust: SystemDefinition = {
     { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: true },
     { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: true },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
-    { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
+    { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: true },
     { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
     { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: true },
@@ -98,8 +108,8 @@ export const rust: SystemDefinition = {
     { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: true },
     { name: "attachment", title: "Attachment", summary: "대화에 딸려 온 파일 한 개. 아직 끝나지 않았을 수 있어 상태가 있음.", ready: false },
     { name: "avatar", title: "Avatar", summary: "사람이나 조직을 나타내는 작은 표시. 모서리가 이 시스템의 형태 기준에서 유래.", ready: false },
-    { name: "banner", title: "Banner", summary: "화면에서 시선을 가장 먼저 끄는 큰 영역. 제목 크기가 이 시스템의 타이포 비율에서 유래.", ready: false },
-    { name: "breadcrumb", title: "Breadcrumb", summary: "탐색 계층에서 지금 어디에 있는지와 어떻게 위로 올라가는지를 보여주는 경로.", ready: false },
+    { name: "banner", title: "Banner", summary: "화면에서 시선을 가장 먼저 끄는 큰 영역. 제목 크기가 이 시스템의 타이포 비율에서 유래.", ready: true },
+    { name: "breadcrumb", title: "Breadcrumb", summary: "탐색 계층에서 지금 어디에 있는지와 어떻게 위로 올라가는지를 보여주는 경로.", ready: true },
     { name: "bubble", title: "Bubble", summary: "한 번에 한 말을 담는 컨테이너. 보내는 이·시각까지 필요하면 Message 임.", ready: false },
     { name: "calendar", title: "Calendar", summary: "날짜를 달력 모양으로 선택. 먼 날짜는 치는 편이 빠름.", ready: false },
     { name: "carousel", title: "Carousel", summary: "몇 개만 보이고 나머지는 밀어서 보는 줄. 다음 것이 있다는 사실을 버튼이 알림.", ready: false },
@@ -125,7 +135,7 @@ export const rust: SystemDefinition = {
     { name: "message", title: "Message", summary: "대화 한 줄 전체. 누가 언제 말했는지까지 포함. 말만 담으면 Bubble 임.", ready: false },
     { name: "messagescroller", title: "MessageScroller", summary: "대화가 길어져도 스크롤 위치를 유지하는 컨테이너. 넘치는 것을 담는 ScrollArea 와 다름.", ready: false },
     { name: "meter", title: "Meter", summary: "임계값이 있는 측정치가 지금 어느 구간에 있는지 보여줌. Progress 와 다른 컴포넌트임.", ready: true },
-    { name: "nativeselect", title: "NativeSelect", summary: "목록을 브라우저가 그리는 고르개. 항목을 꾸며야 하면 Select 임.", ready: false },
+    { name: "nativeselect", title: "NativeSelect", summary: "목록을 브라우저가 그리는 고르개. 항목을 꾸며야 하면 Select 임.", ready: true },
     { name: "navigationmenu", title: "NavigationMenu", summary: "위치를 옮기는 길잡이. 고르면 일이 일어나는 것은 Menu 임.", ready: false },
     { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: true },
     { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
