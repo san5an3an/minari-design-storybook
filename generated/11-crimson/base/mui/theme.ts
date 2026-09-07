@@ -22,6 +22,10 @@ export const theme = createTheme({
       "secondary": "#5f5b5c"
     },
     "divider": "#d8d6d6",
+    "info": {
+      "main": "#7f1d1d",
+      "contrastText": "#ffffff"
+    },
     "success": {
       "main": "#35ca68",
       "contrastText": "#000000"
@@ -491,6 +495,10 @@ export const darkTheme = createTheme({
       "secondary": "#9c9898"
     },
     "divider": "#3b393a",
+    "info": {
+      "main": "#7f1d1d",
+      "contrastText": "#ffffff"
+    },
     "success": {
       "main": "#009342",
       "contrastText": "#011a07"
@@ -960,6 +968,10 @@ export const highContrastTheme = createTheme({
       "secondary": "#e8e4e5"
     },
     "divider": "#6b696a",
+    "info": {
+      "main": "#ffb6c2",
+      "contrastText": "#000000"
+    },
     "success": {
       "main": "#6ce08a",
       "contrastText": "#000000"
