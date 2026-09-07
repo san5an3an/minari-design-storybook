@@ -161,9 +161,24 @@ function Region({ position = "bottom-end" }: { position?: Position }) {
 
   const [paused, setPaused] = React.useState(false);
 
+  const [shifting, setShifting] = React.useState(false);
+  const count = items.length;
+  const seen = React.useRef(count);
+  React.useLayoutEffect( => {
+    if (seen.current === count) return;
+    seen.current = count;
+    setShifting(true);
+    let inner = 0;
+    const outer = requestAnimationFrame( => {
+      inner = requestAnimationFrame( => setShifting(false));
+    });
+    return  => { cancelAnimationFrame(outer); cancelAnimationFrame(inner); };
+  }, [count]);
+
   return (
     <div
-      className={cx("ods-toast-region", `ods-toast-region--${position}`)}
+      className={cx("ods-toast-region", `ods-toast-region--${position}`,
+                    shifting && "ods-toast-region--shifting")}
       role="status"
       aria-live="polite"
       onPointerEnter={ => setPaused(true)}
