@@ -1,31 +1,47 @@
 import type { TokenCandidate } from "../types";
 
-// --semantic-bg-brand-default를 bg.brand.default로 변환
-export function toRef(cssVar: string): string {
-  return cssVar.replace(/^--semantic-/, "").replace(/-/g, ".");
-}
-
-// 축약 색상 코드 #ABC를 #aabbcc로 정규화 후 비교
 export function normalizeColor(v: string): string {
   const s = v.trim.toLowerCase;
-  const m = /^#([0-9a-f]{3})$/.exec(s);
-  if (m) return "#" + [...m[1]].map((c) => c + c).join("");
+
+  const short = /^#([0-9a-f]{3})$/.exec(s);
+  if (short) return "#" + [...short[1]].map((c) => c + c).join("");
+
+  const withAlpha = /^#([0-9a-f]{6})([0-9a-f]{2})$/.exec(s);
+  if (withAlpha) return withAlpha[2] === "ff" ? "#" + withAlpha[1] : s;
+
+  const rgb = /^rgba?\(\s*([0-9.]+)[\s,]+([0-9.]+)[\s,]+([0-9.]+)\s*(?:[,/]\s*([0-9.%]+)\s*)?\)$/.exec(s);
+  if (rgb) {
+    const a = rgb[4];
+    // 알파 값이 없거나 1일 때만 hex로 변환
+    if (a !== undefined && a !== "1" && a !== "1.0" && a !== "100%") return s;
+    const hex = [rgb[1], rgb[2], rgb[3]]
+      .map((n) => Math.max(0, Math.min(255, Math.round(Number(n)))).toString(16).padStart(2, "0"))
+      .join("");
+    return "#" + hex;
+  }
+
   return s;
 }
 
-// @param value 구체값 @param perSystem 시스템별 semantic 맵
+// @param value 구체값 @param perSystem 시스템별 참조명-값 맵
 export function matchToken(
   value: string,
   perSystem: Record<string, Record<string, string>>,
 ): TokenCandidate[] {
   const want = normalizeColor(value);
   const systems = Object.keys(perSystem);
-  if (systems.length === 0) return [];
+
+  if (systems.length === 0) {
+    throw new Error(
+      "토큰 표를 하나도 안 받았어요. `matchToken` 에 빈 `perSystem` 이 왔습니다.\n" +
+        "이건 「이 색에 맞는 토큰이 없다」가 아니라 「한 번도 안 재 봤다」입니다.",
+    );
+  }
 
   const hits: Record<string, number> = {};
   for (const slug of systems) {
-    for (const [cssVar, v] of Object.entries(perSystem[slug])) {
-      if (normalizeColor(v) === want) hits[cssVar] = (hits[cssVar] ?? 0) + 1;
+    for (const [ref, v] of Object.entries(perSystem[slug])) {
+      if (normalizeColor(v) === want) hits[ref] = (hits[ref] ?? 0) + 1;
     }
   }
   const names = Object.keys(hits);
@@ -42,12 +58,10 @@ export function matchToken(
     });
 
   return names
-    .map((cssVar) => ({
-      token: toRef(cssVar),
-      matchedSystems: hits[cssVar],
-      indistinguishableFrom: names
-        .filter((other) => other !== cssVar && alwaysSame(cssVar, other))
-        .map(toRef),
+    .map((ref) => ({
+      token: ref,
+      matchedSystems: hits[ref],
+      indistinguishableFrom: names.filter((other) => other !== ref && alwaysSame(ref, other)),
     }))
     // 일치 항목 우선 정렬, 동일하면 이름순 정렬
     .sort(

@@ -15,7 +15,7 @@ export interface Fragment {
   children: Fragment[];
   // 블록이 직접 갖는 글자
   text: string;
-  source?: { line: number };
+  source?: { line: number | null };
   html?: string;
   sameCount: number;
 }
@@ -29,6 +29,11 @@ export interface ComponentCandidate {
   because: string[];
   // 이 후보 선택 시 마크업만으로 확인 불가한 항목. 선택 후 사람이 직접 확인
   cannotTellFromMarkup: string[];
+  tiedWith?: string[];
+  // 1.000의 근거. true면 base 클래스를 실제로 확인
+  sawBase?: boolean;
+  // 동점 그룹 접힘 크기. 값이 있으면 과도하게 크다는 뜻, 빈 tiedWith와 다른 값임
+  tooManyTies?: number;
 }
 
 // 구체값 하나에 대한 시맨틱 토큰 후보
@@ -70,6 +75,8 @@ export interface Draft {
   // 사람이 지정한 이름, 미정이면 null, 마크업에 이름 없는 경우
   name: string | null;
 
+  names?: Record<string, string>;
+
   fragments: Fragment[];
   // 프래그먼트 id별 후보 순위, 점수 내림차순
   candidates: Record<string, ComponentCandidate[]>;
@@ -95,7 +102,6 @@ export interface IngestResources {
   parseFragments(html: string): Fragment[];
   // 시스템 슬러그로 api.json 72종 계약 조회하기
   contractFor(slug: string): Promise<ContractIndex>;
-  // 시스템 슬러그별 모드별 시맨틱 토큰 표 반환
   tokensFor(slug: string): Promise<Record<string, Record<string, string>>>;
   // 내용 해시, 런타임마다 다른 외부 주입 값
   hash(text: string): string;
@@ -117,6 +123,7 @@ export interface ContractEntry {
 }
 
 export interface Store {
+  // upsert 방식. 같은 id 재호출 시 덮어쓰기, 두 번째 호출 실패 금지
   save(d: Draft): Promise<void>;
   load(id: string): Promise<Draft | null>;
   list: Promise<DraftSummary[]>;

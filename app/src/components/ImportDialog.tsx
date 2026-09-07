@@ -1,10 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { FileUp, Loader2, Send, Trash2, Upload } from "lucide-react";
+import { FileUp, Loader2, Pencil, Send, Trash2, Upload } from "lucide-react";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -12,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { extract } from "@/ingest/extract";
-import { extractHead } from "@/ingest/parse/html";
+import { extractHead, NO_FRAGMENTS_REASON } from "@/ingest/parse/html";
 import { renderMockup } from "@/ingest/parse/render";
 import { browserResources } from "@/ingest/resources.browser";
 import { storeFor, DEFAULT_STORE } from "@/ingest/stores/registry";
@@ -20,6 +24,8 @@ import type { Draft, DraftSummary, Fragment } from "@/ingest/types";
 import type { SystemDefinition } from "@/systems/types";
 
 type Step = "upload" | "pick" | "refine";
+
+const MAX_HISTORY_TURNS = 20;
 
 // 채팅 메시지 한 건
 interface Turn {
@@ -29,38 +35,71 @@ interface Turn {
 
 function FragmentPreview({ f, head }: { f: Fragment; head: { head: string; bodyClass: string } }) {
   const [h, setH] = React.useState(56);
+  // 측정 높이. 고정값인 h만으로는 잘림 여부를 알 수 없음
+  const [natural, setNatural] = React.useState<number | null>(null);
   // 프래그먼트별 고유 채널 이름 지정. 채널을 구분하지 않으면 다른 iframe, 확장이 보낸 메시지까지 수신하는 문제가 있음
   const channel = React.useId;
+
+  const opened = React.useMemo( => {
+    const raw = f.html ?? "";
+    const m = /^(<[a-zA-Z][^>]*?)\sclass="([^"]*)"/.exec(raw);
+    if (!m) return raw;
+    const CLOSED = new Set(["hidden", "invisible", "opacity-0", "pointer-events-none"]);
+    const kept = m[2].split(/\s+/).filter((c) => c && !CLOSED.has(c));
+    return m[1] + ` class="${kept.join(" ")}"` + raw.slice(m[0].length);
+  }, [f.html]);
 
   const srcDoc = React.useMemo(
      =>
       `<!doctype html><html><head><meta charset="utf-8">${head.head}` +
       // 목업 스타일 덮어쓰기 금지. margin, padding만 반영하고 배경, 색은 유지
-      `<style>html,body{margin:0;padding:0}</style>` +
+      `<style>html,body{margin:0;padding:0}` +
+      // display 유지. block!important 쓰면 flex 배치 깨질 수 있음
+      `body>*{position:static!important;inset:auto!important;opacity:1!important;` +
+      `pointer-events:auto!important;transform:none!important;` +
+      `max-width:100%!important;margin:0!important}` +
+      `</style>` +
       // html은 루트에만 있음. ??는 빈 상자 오해 막으려 사용
-      `</head><body class="${head.bodyClass}">${f.html ?? "<!-- 이 조각의 마크업은 조상 안에 있습니다 -->"}` +
+      `</head><body class="${head.bodyClass}">${opened || "<!-- 이 조각의 마크업은 조상 안에 있습니다 -->"}` +
       `<script>(function{` +
       `var ic=function{try{window.lucide&&window.lucide.createIcons}catch(e){}};` +
-      `var send=function{parent.postMessage({__ods:${JSON.stringify(channel)},h:document.documentElement.scrollHeight},"*")};` +
+      // scrollHeight, fixed/absolute는 0으로 계산. 루트 크기도 사용
+      `var measure=function{var el=document.body.firstElementChild;` +
+      `var r=el&&el.getBoundingClientRect?el.getBoundingClientRect:null;` +
+      `return Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,r?Math.ceil(r.height):0)};` +
+      `var send=function{parent.postMessage({__ods:${JSON.stringify(channel)},h:measure},"*")};` +
       `ic;new ResizeObserver(send).observe(document.documentElement);send;` +
       // CDN 로드 지연 대비 2회 재시도 후 실패해도 조용히 처리
       `setTimeout(function{ic;send},150);setTimeout(function{ic;send},600)})<\/script>` +
       `</body></html>`,
-    [f.html, head, channel],
+    [opened, head, channel],
   );
 
   React.useEffect( => {
     const onMsg = (e: MessageEvent) => {
       const d = e.data as { __ods?: string; h?: number } | null;
       if (!d || d.__ods !== channel || typeof d.h !== "number") return;
-      // 항목을 위아래로 그룹 표시
-      setH(Math.min(Math.max(d.h, 40), 260));
+      // 항목 그룹 표시, 상한 420
+      setH(Math.min(Math.max(d.h, 40), 420));
+      setNatural(d.h);
     };
     window.addEventListener("message", onMsg);
     return  => window.removeEventListener("message", onMsg);
   }, [channel]);
 
+  const emptyInOriginal = React.useMemo( => {
+    const doc = new DOMParser.parseFromString(`<body>${f.html ?? ""}</body>`, "text/html");
+    const root = doc.body.firstElementChild;
+    if (!root) return false;
+    if (root.textContent?.trim) return false;
+    return root.querySelectorAll("img, svg, canvas, video, input, textarea").length === 0;
+  }, [f.html]);
+
+  // 강제로 펼친 닫힘 요소 표시
+  const wasClosed = opened !== (f.html ?? "");
+
   return (
+    <>
     <iframe
       title={`${f.tag} 미리보기`}
       sandbox="allow-scripts"
@@ -68,6 +107,19 @@ function FragmentPreview({ f, head }: { f: Fragment; head: { head: string; bodyC
       className="w-full rounded-md border"
       style={{ height: `${h}px` }}
     />
+    {emptyInOriginal && (
+      <p className="mt-0.5 text-xs text-amber-600 dark:text-amber-500">
+        <b>원본에서도 비어 있는 부분</b>이에요. 기본 구조만 있고 안쪽은 스크립트가 열 때 채웁니다.
+        «화면을 못 그린 것»이 아닙니다.
+      </p>
+    )}
+    {(wasClosed || (natural !== null && natural > 420)) && (
+      <p className="mt-0.5 text-xs text-muted-foreground">
+        {wasClosed && "원본에서 «닫힌» 상태(투명·클릭 불가)인 부분이라 펴서 보여 드려요. "}
+        {natural !== null && natural > 420 && `ⓘ 실제 높이 ${natural}px 중 420px 까지만 보여요.`}
+      </p>
+    )}
+    </>
   );
 }
 
@@ -79,8 +131,9 @@ function kb(bytes: number | null): string {
 function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) {
   const [rows, setRows] = React.useState<DraftSummary[] | null>(null);
   const [err, setErr] = React.useState<string | null>(null);
-  // 두 번 눌러야 삭제
   const [armed, setArmed] = React.useState<string | null>(null);
+  // ③단계는 경고창이 떠 있는 상태. armed와 다른 상태이며 서로 연결만 되어 있음
+  const [confirming, setConfirming] = React.useState<string | null>(null);
 
   const reload = React.useCallback(async  => {
     try {
@@ -106,6 +159,9 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
   }
   if (!rows || rows.length === 0) return null;
 
+  // 창이 가리키는 행. 목록이 갱신되면 사라질 수 있어 매번 새로 찾기
+  const confirmingRow =
+    confirming === null ? null : (rows.find((r) => r.id === confirming) ?? null);
   const known = rows.filter((r) => r.bytes !== null);
   const total = known.reduce((s, r) => s + (r.bytes ?? 0), 0);
   const unknown = rows.length - known.length;
@@ -134,20 +190,19 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
                   size="sm"
                   variant="destructive"
                   className="h-6 px-2"
-                  onClick={async  => {
-                    await storeFor(DEFAULT_STORE).remove(r.id);
+                  onClick={ => {
                     setArmed(null);
-                    onChanged;
-                    await reload;
+                    setConfirming(r.id);
                   }}
                 >
-                  지웁니다
+                  삭제하기
                 </Button>
                 <Button size="sm" variant="ghost" className="h-6 px-2" onClick={ => setArmed(null)}>
                   취소
                 </Button>
               </>
             ) : (
+              // ① 단계
               <Button
                 size="sm"
                 variant="ghost"
@@ -161,6 +216,53 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
           </div>
         ))}
       </div>
+
+      {/* 되돌릴 수 없는 결정에 경고창 표시 */}
+      <AlertDialog open={confirming !== null} onOpenChange={(o) => { if (!o) setConfirming(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>정말 지우시겠어요?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {confirmingRow ? (
+                <>
+                  <b>{confirmingRow.name ?? confirmingRow.filename}</b>
+                  {", "}
+                  조각 {confirmingRow.fragmentCount}개 · 아직 답 안 한 물음 {confirmingRow.openQuestions}개 ·{" "}
+                  {kb(confirmingRow.bytes)}
+                  <br />
+                  {/* 삭제될 항목 수 표시. 확인 문구만으론 무엇을 잃는지 알 수 없음 */}
+                  <span className="text-destructive">
+                    지우면 <b>되돌릴 수 없어요.</b> 여기서 하신 판단도 함께 사라집니다.
+                  </span>
+                </>
+              ) : (
+                "지우면 되돌릴 수 없어요."
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>그대로 둡니다</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-white hover:bg-destructive/90"
+              onClick={async  => {
+                const id = confirming;
+                setConfirming(null);
+                if (!id) return;
+                try {
+                  await storeFor(DEFAULT_STORE).remove(id);
+                  onChanged;
+                  await reload;
+                } catch (e) {
+                  // 삭제 실패 시 오류 표시. 조용히 넘기면 사용자가 삭제된 것으로 오해할 수 있음
+                  setErr(e instanceof Error ? e.message : String(e));
+                }
+              }}
+            >
+              지웁니다
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </details>
   );
 }
@@ -211,6 +313,9 @@ export function ImportDialog({
   const [head, setHead] = React.useState<{ head: string; bodyClass: string }>({ head: "", bodyClass: "" });
   // 스크립트 실행 실패 시 사유 표시
   const [renderNote, setRenderNote] = React.useState<string | null>(null);
+  // 이름 수정 중인 항목 id
+  const [renaming, setRenaming] = React.useState<string | null>(null);
+  const [renameText, setRenameText] = React.useState("");
   // 초안 목록 재조회 신호. 저장 실패 시 가장 중요하며 확인할 것은 현재 점유 현황임
   const [shelfTick, setShelfTick] = React.useState(0);
   const fileInput = React.useRef<HTMLInputElement>(null);
@@ -269,8 +374,8 @@ export function ImportDialog({
       setDraft(d);
       // 초기 상태 전체 미선택. 전부 켜두면 확인 절차 없이 다음으로 넘어가는 문제 있음
       setPicked(new Set);
-      setStep("pick");
       await storeFor(DEFAULT_STORE).save(d);
+      setStep("pick");
     } catch (e) {
       // 저장 실패 시 목록 다시 읽기. 오류만 띄우면 삭제 판단 근거가 화면에 없음
       setShelfTick((t) => t + 1);
@@ -278,6 +383,32 @@ export function ImportDialog({
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function saveName(fragId: string, raw: string) {
+    const value = raw.trim;
+    if (!draft) return;
+    const names = { ...(draft.names ?? {}) };
+    if (value) names[fragId] = value;
+    else delete names[fragId]; // 비우면 미지정 상태로 되돌리기
+    const next: Draft = {
+      ...draft,
+      names,
+      unresolved: draft.unresolved.map((u) =>
+        u.about === "component" && u.target === fragId
+          ? { ...u, answer: value || null }
+          : u,
+      ),
+    };
+    setDraft(next);
+    setRenaming(null);
+    try {
+      await storeFor(DEFAULT_STORE).save(next);
+    } catch (e) {
+      // 저장 실패 시 화면에도 표시. 안 그러면 정상 처리된 것으로 오인할 수 있음
+      setShelfTick((t) => t + 1);
+      setError(e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -309,8 +440,7 @@ export function ImportDialog({
           fragment: showing,
           candidates: { component: draft?.candidates[showing.id] ?? [] },
           prompt: text,
-          // 역할 태그 유지한 채 이전 메시지 전송. 한 덩어리로 보내면 모델 지시문처럼 보임
-          history: turns.map((t) => ({
+          history: turns.slice(-MAX_HISTORY_TURNS).map((t) => ({
             role: t.who === "user" ? ("user" as const) : ("assistant" as const),
             content: t.text,
           })),
@@ -323,12 +453,14 @@ export function ImportDialog({
       if (!res.ok) {
         const why =
           res.status === 404
-            ? "AI 다듬기는 아직 이 서버에 안 올라왔어요.\n\n" +
-              "고장이 아니라 아직 없는 것입니다. 어느 AI 를 쓸지가 안 정해져서 이 부분만 따로 갈라 뒀어요.\n" +
-              "그때까지도 고른 요소와 판단은 그대로 저장됩니다. 여기서 못 하는 것은 «말로 고치기» 하나뿐이에요."
+            ? /* 404 응답에 원인 설명 없이 아는 정보만 표시 */
+              "AI 다듬기가 이 서버에 없어요.\n\n" +
+              "고장이 아니라 아직 없는 것입니다.\n" +
+              "고른 부분과 판단은 그대로 저장됩니다. 여기서 못 하는 것은 «말로 고치기» 하나뿐이에요."
             : res.status === 503
-              ? `${body?.error ?? "서버가 준비되지 않았어요."}\n\n` +
-                "(키가 없으면 이 기능은 아무것도 안 물어봅니다. 답이 비는 것과 다릅니다.)"
+              ? /* 인증 오류 메시지에 꼬리말 없이 그대로 표시 */
+                body?.error ??
+                "AI 를 부를 준비가 안 됐다고 서버가 알려 왔어요. (까닭은 안 실어 보냈습니다.)"
               : body?.error ?? "라우트가 까닭을 안 실어 보냈어요.";
         setTurns((t) => [...t, { who: "agent", text: `${res.status}, ${why}` }]);
         return;
@@ -434,15 +566,17 @@ export function ImportDialog({
             <div className="flex flex-col gap-3">
               {frags.length === 0 && (
                 <p className="text-sm text-muted-foreground">
-                  부분을 하나도 못 찾았어요. 이건 «컴포넌트가 없다»가 아니라 «기댈 신호가 없었다»입니다.
-                  이 자가 뿌리로 삼는 것은 <b>누를 수 있는 태그</b>(button·a·input·select)와{" "}
-                  <b>의미 태그</b>(table·dialog·details…), 그리고 <b>role·aria-* 표시</b>뿐입니다.
-                  순수 <code>&lt;div&gt;</code> 로만 만든 목업이면 아무것도 안 잡혀요.
+                  조각을 하나도 못 찾았어요. 이건 «컴포넌트가 없다»가 아니라 «기댈 신호가 없었다»입니다.
+                  {/* 규칙 설명을 직접 적지 않고 파서가 내보내는 문장을 그대로 사용 */}
+                  <br />
+                  {NO_FRAGMENTS_REASON}
                 </p>
               )}
               {frags.map((f) => {
                 const cands = draft?.candidates[f.id] ?? [];
                 const top = cands[0];
+                // 사람이 지정한 이름이 있으면 그 값 우선 사용
+                const named = draft?.names?.[f.id];
                 return (
                   <div key={f.id} className="flex gap-3">
                     <Checkbox
@@ -458,8 +592,42 @@ export function ImportDialog({
                       className="mt-1"
                     />
                     <div className="flex min-w-0 flex-1 flex-col gap-1">
-                      <Label htmlFor={`frag-${f.id}`} className="cursor-pointer text-sm font-medium">
-                        {top ? (
+                      {renaming === f.id ? (
+                        <div className="flex items-center gap-1">
+                          <Input
+                            autoFocus
+                            value={renameText}
+                            onChange={(ev) => setRenameText(ev.target.value)}
+                            onKeyDown={(ev) => {
+                              if (ev.key === "Enter") void saveName(f.id, renameText);
+                              if (ev.key === "Escape") setRenaming(null);
+                            }}
+                            placeholder="이 컴포넌트의 이름"
+                            className="h-7 text-sm"
+                          />
+                          <Button size="sm" className="h-7 px-2" onClick={ => void saveName(f.id, renameText)}>
+                            저장
+                          </Button>
+                          <Button size="sm" variant="ghost" className="h-7 px-2" onClick={ => setRenaming(null)}>
+                            취소
+                          </Button>
+                        </div>
+                      ) : (
+                        <Label htmlFor={`frag-${f.id}`} className="cursor-pointer text-sm font-medium">
+                        {named ? (
+                          <>
+                            {named}
+                            {/* 사람이 정한 값과 자동 추정값 구분 표시 */}
+                            <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-normal text-primary">
+                              내가 정함
+                            </span>
+                            {top && top.component !== named && (
+                              <span className="ml-2 font-normal text-muted-foreground line-through">
+                                {top.component}
+                              </span>
+                            )}
+                          </>
+                        ) : top ? (
                           <>
                             {top.component}
                             <span className="ml-2 font-normal text-muted-foreground">
@@ -477,7 +645,23 @@ export function ImportDialog({
                             이 목업에 {f.sameCount}개
                           </span>
                         )}
-                      </Label>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="ml-1 h-6 px-1.5 text-muted-foreground"
+                          onClick={(ev) => {
+                            // 라벨 안 클릭의 체크박스 전파 차단
+                            ev.preventDefault;
+                            ev.stopPropagation;
+                            setRenameText(named ?? top?.component ?? f.tag);
+                            setRenaming(f.id);
+                          }}
+                        >
+                          <Pencil className="size-3.5" />
+                          <span className="sr-only">이름 고치기</span>
+                        </Button>
+                        </Label>
+                      )}
                       {top?.because[0] && (
                         <p className="text-xs text-muted-foreground">{top.because[0]}</p>
                       )}

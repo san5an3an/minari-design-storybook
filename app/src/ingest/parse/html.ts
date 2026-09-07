@@ -1,5 +1,12 @@
 import type { Fragment } from "../types";
 
+export const NO_FRAGMENTS_REASON =
+  "이 자가 부분의 뿌리로 삼는 것은 셋뿐이에요. " +
+  "누를 수 있는 태그(button·a·input·select·textarea·label), " +
+  "의미 태그(table·dialog·details·progress·meter…), 그리고 role·aria-* 표시. " +
+  "순수 <div> 로만 만든 카드·배지는 못 잡습니다(알려진 한계). " +
+  "클래스는 신호로 쓰지 않아요. Tailwind 목업에서 클래스는 이름이 아니라 치수라서요.";
+
 // 프래그먼트 여부 판별, 임계값이 아니라 명백히 빈 컨테이너만 제외
 const SKIP_TAGS = new Set(["script", "style", "meta", "link", "title", "head", "br", "wbr"]);
 
@@ -84,18 +91,19 @@ function prunedClone(el: Element): Element {
   return clone;
 }
 
-function toFragment(el: Element, path: string, line: number | null): Fragment {
+function toFragment(el: Element, path: string, line: number | null | undefined): Fragment {
   const kids = Array.from(el.children).filter((c) => !SKIP_TAGS.has(c.tagName.toLowerCase));
   const f: Fragment = {
     id: path,
     tag: el.tagName.toLowerCase,
     classes: Array.from(el.classList),
     attrs: attrsOf(el),
-    children: kids.map((c, i) => toFragment(c, `${path}/${i}`, null)),
+    children: kids.map((c, i) => toFragment(c, `${path}/${i}`, undefined)),
     text: directText(el),
     sameCount: 1,
   };
-  if (line !== null) {
+  if (line !== undefined) {
+    // line이 null이어도 source는 유지. 못 찾음과 미기록은 구분해 표시
     f.source = { line };
     // 미리보기 렌더링에 사용. 자르면 태그가 끊겨 화면이 깨지는 문제가 있음
     f.html = el.outerHTML;
@@ -116,10 +124,21 @@ function signatureOf(f: Fragment): string {
 export function parseFragments(html: string): Fragment[] {
   const doc = new DOMParser.parseFromString(html, "text/html");
 
-  // 줄 번호 남기기. DOMParser가 줄 정보를 제공하지 않음
-  const lineOf = (el: Element): number => {
-    const idx = html.indexOf(el.outerHTML.slice(0, 80));
-    return idx < 0 ? 0 : html.slice(0, idx).split("\n").length;
+  const lineOf = (el: Element): number | null => {
+    const at = (idx: number) => html.slice(0, idx).split("\n").length;
+
+    const exact = html.indexOf(el.outerHTML.slice(0, 80));
+    if (exact >= 0) return at(exact);
+
+    // 느슨한 식별 키 사용. button 과 첫 클래스만 비교해 따옴표, 대소문자 차이에 영향받지 않음
+    const tag = el.tagName.toLowerCase;
+    const cls = el.classList[0];
+    if (cls) {
+      const loose = new RegExp(`<${tag}\\b[^>]*['"\\s]${cls.replace(/[.*+?^$|[\]\\]/g, "\\$&")}['"\\s]`, "i");
+      const m = loose.exec(html);
+      if (m?.index !== undefined) return at(m.index);
+    }
+    return null;
   };
 
   const roots: Fragment[] = [];

@@ -1,4 +1,4 @@
-import { parseFragments } from "./parse/html";
+import { parserFor, DEFAULT_PARSER } from "./parse/registry";
 import type { ContractIndex, IngestResources } from "./types";
 
 async function contractFor(slug: string): Promise<ContractIndex> {
@@ -6,41 +6,64 @@ async function contractFor(slug: string): Promise<ContractIndex> {
   return (mod.default ?? mod) as ContractIndex;
 }
 
-async function tokensFor(_slug: string): Promise<Record<string, Record<string, string>>> {
-  const cs = getComputedStyle(document.documentElement);
-  const mode = document.documentElement.dataset.theme || ":root";
-  const table: Record<string, string> = {};
+function shownSlug: string | null {
+  return /^#\/[^/]+\/([^/]+)/.exec(location.hash)?.[1] ?? null;
+}
 
-  // 스타일시트에서 --semantic-* 이름 수집. API가 나열 못 해 직접 조회로 얻음
-  for (const sheet of Array.from(document.styleSheets)) {
-    let rules: CSSRuleList;
-    try {
-      rules = sheet.cssRules;
-    } catch {
-      // 다른 출처 스타일시트는 CORS 제약으로 못 읽어 건너뜀. 없는 것 취급이 아니라 건너뛰는 것뿐임
-      continue;
-    }
-    for (const rule of Array.from(rules)) {
-      if (!(rule instanceof CSSStyleRule)) continue;
-      for (const prop of Array.from(rule.style)) {
-        if (prop.startsWith("--semantic-")) {
-          const v = cs.getPropertyValue(prop).trim;
-          if (v) table[prop] = v;
-        }
-      }
-    }
-  }
-
-  if (Object.keys(table).length === 0) {
-    // 빈 표와 읽기 실패 구분해 처리
+async function tokensFor(slug: string): Promise<Record<string, Record<string, string>>> {
+  const shown = shownSlug;
+  if (shown !== null && shown !== slug) {
+    // 현재 작동 중인 가드. shownSlug 참고
     throw new Error(
-      "시맨틱 토큰을 하나도 못 읽었어요. 스타일시트가 아직 안 붙었거나 다른 출처일 수 있어요. " +
-        "「이 시스템에 토큰이 없다」는 뜻이 아닙니다.",
+      `\`${slug}\` 의 토큰을 물었는데 화면에 그려진 것은 \`${shown}\` 이에요.\n` +
+        `이 구현은 지금 그려진 값밖에 못 읽습니다: 다른 색의 값인 척 돌려주면\n` +
+        `«20색을 봤다» 가 거짓이 됩니다. 20색을 보려면 서버 라우트가 필요해요.`,
     );
   }
 
-  // 키를 슬러그 대신 현재 시스템으로 고정. 20색 척하면 매칭 카운트를 잘못 읽는 문제임
-  return { [mode]: table, __only: table } as Record<string, Record<string, string>>;
+  const mod = (await import(`../../../generated/${slug}/mapping.json`)) as {
+    default?: Record<string, Record<string, string>>;
+  } & Record<string, unknown>;
+  const mapping = (mod.default ?? mod) as Record<string, Record<string, string>>;
+
+  // 모드 이름 기준은 mapping.json 최상위 키. data-theme도 동일 값 사용
+  const mode = document.documentElement.dataset.theme ?? "light";
+  const names = mapping[mode];
+  if (!names) {
+    throw new Error(
+      `모드 \`${mode}\` 의 토큰 표가 \`generated/${slug}/mapping.json\` 에 없어요.\n` +
+        `그 파일에 있는 모드: ${Object.keys(mapping).join(" · ")}`,
+    );
+  }
+
+  const cs = getComputedStyle(document.documentElement);
+  const table: Record<string, string> = {};
+  let missing = 0;
+  for (const full of Object.keys(names)) {
+    if (!full.startsWith("semantic.")) continue; // base.* 원자값은 역매핑에서 제외
+    const ref = full.slice("semantic.".length); // bg.brand.default, 계약이 쓰는 형태
+    const v = cs.getPropertyValue("--" + full.replace(/\./g, "-")).trim;
+    if (v) table[ref] = v;
+    else missing += 1;
+  }
+
+  if (Object.keys(table).length === 0) {
+    // 빈 표와 읽기 실패를 구분해 반환
+    throw new Error(
+      `시맨틱 토큰을 하나도 못 읽었어요 (이름은 ${Object.keys(names).length}개 받았는데 값이 0개).\n` +
+        `스타일시트가 아직 안 붙었을 수 있어요. 「이 시스템에 토큰이 없다」는 뜻이 아닙니다.`,
+    );
+  }
+  if (missing > 0) {
+    // 부분만 읽은 항목도 허용해 기록 유지
+    console.warn(
+      `[ingest] ${slug}/${mode}: 이름 ${Object.keys(names).length}개 중 값이 빈 것 ${missing}개, ` +
+        `그 색이 안 정의한 토큰일 수 있습니다.`,
+    );
+  }
+
+  // 키를 슬러그 대신 현재 모드로 고정. 20색 척하면 매칭 카운트를 잘못 읽는 문제임
+  return { [mode]: table };
 }
 
 // 내용 해시, 같은 파일 두 번 넣어도 같은 초안으로 처리
@@ -54,7 +77,7 @@ function hash(text: string): string {
 }
 
 export const browserResources: IngestResources = {
-  parseFragments,
+  parseFragments: (source: string) => parserFor(DEFAULT_PARSER).parseFragments(source),
   contractFor,
   tokensFor,
   hash,
