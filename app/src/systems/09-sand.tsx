@@ -1,8 +1,14 @@
 import { BookOpen } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
 import buttonCss from "./css/09-sand/button.json";
+import { Link } from "../bases/standalone/Link";
+import linkCss from "./css/09-sand/link.json";
+import { Label } from "../bases/standalone/Label";
+import labelCss from "./css/09-sand/label.json";
 import { Badge } from "../bases/standalone/Badge";
 import badgeCss from "./css/09-sand/badge.json";
+import { Card } from "../bases/standalone/Card";
+import cardCss from "./css/09-sand/card.json";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/09-sand/dialog.json";
 import { Toast } from "../bases/standalone/Toast";
@@ -11,6 +17,8 @@ import { Spinner } from "../bases/standalone/Spinner";
 import spinnerCss from "./css/09-sand/spinner.json";
 import { Divider } from "../bases/standalone/Divider";
 import dividerCss from "./css/09-sand/divider.json";
+import { Aspectratio } from "../bases/standalone/Aspectratio";
+import aspectratioCss from "./css/09-sand/aspectratio.json";
 import { Chip } from "../bases/standalone/Chip";
 import chipCss from "./css/09-sand/chip.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
@@ -23,6 +31,8 @@ import { Marker } from "../bases/standalone/Marker";
 import markerCss from "./css/09-sand/marker.json";
 import { Meter } from "../bases/standalone/Meter";
 import meterCss from "./css/09-sand/meter.json";
+import { Pageheader } from "../bases/standalone/Pageheader";
+import pageheaderCss from "./css/09-sand/pageheader.json";
 import { Progress } from "../bases/standalone/Progress";
 import progressCss from "./css/09-sand/progress.json";
 import { Prose } from "../bases/standalone/Prose";
@@ -31,6 +41,8 @@ import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/09-sand/ringcarousel.json";
 import { Skeleton } from "../bases/standalone/Skeleton";
 import skeletonCss from "./css/09-sand/skeleton.json";
+import { Stages } from "../bases/standalone/Stages";
+import stagesCss from "./css/09-sand/stages.json";
 import { Stat } from "../bases/standalone/Stat";
 import statCss from "./css/09-sand/stat.json";
 import { Toggle } from "../bases/standalone/Toggle";
@@ -55,26 +67,26 @@ export const sand: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#c5ab77",
   Icon: BookOpen,
-  css: [vars, buttonCss, badgeCss, dialogCss, toastCss, spinnerCss, dividerCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, progressCss, proseCss, ringcarouselCss, skeletonCss, statCss, toggleCss].join("\n"),
+  css: [vars, buttonCss, linkCss, labelCss, badgeCss, cardCss, dialogCss, toastCss, spinnerCss, dividerCss, aspectratioCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, badge: Badge as Impl, dialog: Dialog as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
+  impl: { button: Button as Impl, link: Link as Impl, label: Label as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
     { name: "button", title: "Button", summary: "사용자가 눌러 동작을 일으키는 컨트롤. variant 구성이 이 시스템의 elevation 성격에서 유래.", ready: true },
-    { name: "link", title: "Link", summary: "이동하는 글자. 누르면 위치가 바뀌고, 뒤로 가기로 되돌아올 수 있음.", ready: false },
+    { name: "link", title: "Link", summary: "이동하는 글자. 누르면 위치가 바뀌고, 뒤로 가기로 되돌아올 수 있음.", ready: true },
     { name: "input", title: "Input", summary: "한 줄 또는 여러 줄의 텍스트를 받는 폼 컨트롤. 해부 구조가 control 옵션에서 유래.", ready: false },
-    { name: "label", title: "Label", summary: "컨트롤이 무엇을 받는 필드인지 알리는 이름. 자리표시자로 대신하지 않음.", ready: false },
+    { name: "label", title: "Label", summary: "컨트롤이 무엇을 받는 필드인지 알리는 이름. 자리표시자로 대신하지 않음.", ready: true },
     { name: "field", title: "Field", summary: "컨트롤 하나를 이름·설명·오류와 함께 묶는 컨테이너. 폼의 최소 단위임.", ready: false },
     { name: "select", title: "Select", summary: "접힌 목록에서 값 하나를 고르는 폼 컨트롤. 선택지가 적으면 Radio 사용.", ready: false },
     { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: false },
     { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: false },
     { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: false },
     { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: true },
-    { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: false },
+    { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: true },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
     { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
     { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
@@ -83,7 +95,7 @@ export const sand: SystemDefinition = {
     { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: true },
     { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: false },
     { name: "alertdialog", title: "AlertDialog", summary: "되돌릴 수 없는 결정을 받는 창. 바깥을 눌러도 닫히지 않음.", ready: false },
-    { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: false },
+    { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: true },
     { name: "attachment", title: "Attachment", summary: "대화에 딸려 온 파일 한 개. 아직 끝나지 않았을 수 있어 상태가 있음.", ready: false },
     { name: "avatar", title: "Avatar", summary: "사람이나 조직을 나타내는 작은 표시. 모서리가 이 시스템의 형태 기준에서 유래.", ready: false },
     { name: "banner", title: "Banner", summary: "화면에서 시선을 가장 먼저 끄는 큰 영역. 제목 크기가 이 시스템의 타이포 비율에서 유래.", ready: false },
@@ -115,7 +127,7 @@ export const sand: SystemDefinition = {
     { name: "meter", title: "Meter", summary: "임계값이 있는 측정치가 지금 어느 구간에 있는지 보여줌. Progress 와 다른 컴포넌트임.", ready: true },
     { name: "nativeselect", title: "NativeSelect", summary: "목록을 브라우저가 그리는 고르개. 항목을 꾸며야 하면 Select 임.", ready: false },
     { name: "navigationmenu", title: "NavigationMenu", summary: "위치를 옮기는 길잡이. 고르면 일이 일어나는 것은 Menu 임.", ready: false },
-    { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: false },
+    { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: true },
     { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
     { name: "popover", title: "Popover", summary: "눌러서 뜨는 작은 창. 설명 한 줄이면 Tooltip, 고르면 닫히면 Menu 임.", ready: false },
     { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: true },
@@ -129,7 +141,7 @@ export const sand: SystemDefinition = {
     { name: "sidebar", title: "Sidebar", summary: "옆에 늘 붙어 있는 길잡이. 접혀도 위치를 남기는 것이 시트와 다른 점임.", ready: false },
     { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: true },
     { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: false },
-    { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: false },
+    { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: true },
     { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: true },
     { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: false },
     { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: false },
