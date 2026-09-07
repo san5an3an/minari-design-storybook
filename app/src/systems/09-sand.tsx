@@ -7,18 +7,26 @@ import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/09-sand/dialog.json";
 import { Toast } from "../bases/standalone/Toast";
 import toastCss from "./css/09-sand/toast.json";
+import { Spinner } from "../bases/standalone/Spinner";
+import spinnerCss from "./css/09-sand/spinner.json";
 import { Divider } from "../bases/standalone/Divider";
 import dividerCss from "./css/09-sand/divider.json";
 import { Chip } from "../bases/standalone/Chip";
 import chipCss from "./css/09-sand/chip.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
 import colorpickerCss from "./css/09-sand/colorpicker.json";
+import { Empty } from "../bases/standalone/Empty";
+import emptyCss from "./css/09-sand/empty.json";
 import { Kbd } from "../bases/standalone/Kbd";
 import kbdCss from "./css/09-sand/kbd.json";
+import { Marker } from "../bases/standalone/Marker";
+import markerCss from "./css/09-sand/marker.json";
 import { Meter } from "../bases/standalone/Meter";
 import meterCss from "./css/09-sand/meter.json";
 import { Progress } from "../bases/standalone/Progress";
 import progressCss from "./css/09-sand/progress.json";
+import { Prose } from "../bases/standalone/Prose";
+import proseCss from "./css/09-sand/prose.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/09-sand/ringcarousel.json";
 import { Skeleton } from "../bases/standalone/Skeleton";
@@ -47,12 +55,12 @@ export const sand: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#c5ab77",
   Icon: BookOpen,
-  css: [vars, buttonCss, badgeCss, dialogCss, toastCss, dividerCss, chipCss, colorpickerCss, kbdCss, meterCss, progressCss, ringcarouselCss, skeletonCss, statCss, toggleCss].join("\n"),
+  css: [vars, buttonCss, badgeCss, dialogCss, toastCss, spinnerCss, dividerCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, progressCss, proseCss, ringcarouselCss, skeletonCss, statCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, badge: Badge as Impl, dialog: Dialog as Impl, toast: Toast as Impl, divider: Divider as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, kbd: Kbd as Impl, meter: Meter as Impl, progress: Progress as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
+  impl: { button: Button as Impl, badge: Badge as Impl, dialog: Dialog as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -71,7 +79,7 @@ export const sand: SystemDefinition = {
     { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
     { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
-    { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: false },
+    { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: true },
     { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: true },
     { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: false },
     { name: "alertdialog", title: "AlertDialog", summary: "되돌릴 수 없는 결정을 받는 창. 바깥을 눌러도 닫히지 않음.", ready: false },
@@ -93,13 +101,13 @@ export const sand: SystemDefinition = {
     { name: "datatable", title: "DataTable", summary: "표에 정렬·거르기·고르기·쪽 넘김이 붙은 것. 기능이 없으면 그냥 Table 임.", ready: false },
     { name: "datepicker", title: "DatePicker", summary: "눌러서 달력을 띄워 고름. 루트 컴포넌트가 없는 조합임. Popover + Calendar.", ready: false },
     { name: "drawer", title: "Drawer", summary: "끌어서 여닫는 패널. 끌기가 조작 그 자체임. 잡을 위치가 보여야 함.", ready: false },
-    { name: "empty", title: "Empty", summary: "보여줄 것이 없을 때의 화면. 왜 비었는지와 다음에 무엇을 할지를 함께 말함.", ready: false },
+    { name: "empty", title: "Empty", summary: "보여줄 것이 없을 때의 화면. 왜 비었는지와 다음에 무엇을 할지를 함께 말함.", ready: true },
     { name: "hovercard", title: "HoverCard", summary: "hover 시 표시되는 미리보기. 터치 환경에서는 표시되지 않아 보조 정보만 사용", ready: false },
     { name: "inputgroup", title: "InputGroup", summary: "필드에 붙어 있는 부분을 한 상자로 통합. 테두리는 바깥 상자에만 표시.", ready: false },
     { name: "inputotp", title: "InputOTP", summary: "인증번호를 한 글자씩 필드를 나눠 받음. 보이는 필드는 표시이고 입력은 하나임.", ready: false },
     { name: "kbd", title: "Kbd", summary: "눌러야 하는 키를 글자로 보여 주는 표시. 버튼이 아니라 설명임.", ready: true },
     { name: "listrow", title: "ListRow", summary: "목록의 한 줄. 한 줄이 하나의 대상이며, 열끼리 견줘야 하면 Table 사용", ready: false },
-    { name: "marker", title: "Marker", summary: "대화 사이에 끼는 한 줄. 누가 말한 것이 아니라 그 사이에 일어난 일을 알림.", ready: false },
+    { name: "marker", title: "Marker", summary: "대화 사이에 끼는 한 줄. 누가 말한 것이 아니라 그 사이에 일어난 일을 알림.", ready: true },
     { name: "menu", title: "Menu", summary: "눌러서 펼치는 동작 목록. 고르는 것이 값이면 Select 사용", ready: false },
     { name: "menubar", title: "Menubar", summary: "늘 보이는 메뉴 막대. 동작이 아주 많은 편집기용임.", ready: false },
     { name: "message", title: "Message", summary: "대화 한 줄 전체. 누가 언제 말했는지까지 포함. 말만 담으면 Bubble 임.", ready: false },
@@ -111,7 +119,7 @@ export const sand: SystemDefinition = {
     { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
     { name: "popover", title: "Popover", summary: "눌러서 뜨는 작은 창. 설명 한 줄이면 Tooltip, 고르면 닫히면 Menu 임.", ready: false },
     { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: true },
-    { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
+    { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: true },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
     { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: true },
