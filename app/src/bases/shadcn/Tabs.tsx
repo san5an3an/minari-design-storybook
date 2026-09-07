@@ -31,7 +31,9 @@ export function Tabs({
 
   return (
     <ShadcnTabs defaultValue={defaultValue ?? items[0]?.value} orientation={orientation}>
-      {vertical ? list : <div className={`max-w-full overflow-x-auto ${scrollPad}`}>{list}</div>}
+      {vertical ? list : (
+        <div className={`max-w-full overflow-x-auto scroll-fade-x ${scrollPad}`}>{list}</div>
+      )}
       {items.map((it) => (
         <TabsContent key={it.value} value={it.value}>
           {it.content}
