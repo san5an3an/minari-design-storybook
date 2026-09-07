@@ -161,6 +161,8 @@ function BaseCard({
   );
 }
 
+const HIDDEN_BASES = ["chakra", "mantine"];
+
 function BasePicker({
   base, color, onPick,
 }: {
@@ -202,8 +204,9 @@ function BasePicker({
               <b> 색 20종을 모두</b> 쓸 수 있어요. 색은 상단바에서 골라요.
             </DialogDescription>
           </DialogHeader>
+          {/* BASE_ORDER 그대로 두지 않음. HIDDEN_BASES 제외 */}
           <div className="grid gap-2 sm:grid-cols-2">
-            {BASE_ORDER.map((key) => (
+            {BASE_ORDER.filter((key) => !HIDDEN_BASES.includes(key)).map((key) => (
               <BaseCard
                 key={key}
                 baseKey={key}
