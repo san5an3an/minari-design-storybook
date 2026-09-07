@@ -89,7 +89,7 @@ import { Toggle as ShadcnToggle } from "./shadcn/Toggle";
 import { Toolbar as ShadcnToolbar } from "./shadcn/Toolbar";
 import { Tooltip as ShadcnTooltip } from "./shadcn/Tooltip";
 
-// standalone 29종
+// standalone 33종
 import { Alert as StandaloneAlert } from "./standalone/Alert";
 import { Aspectratio as StandaloneAspectratio } from "./standalone/Aspectratio";
 import { Badge as StandaloneBadge } from "./standalone/Badge";
@@ -97,6 +97,7 @@ import { Banner as StandaloneBanner } from "./standalone/Banner";
 import { Breadcrumb as StandaloneBreadcrumb } from "./standalone/Breadcrumb";
 import { Button as StandaloneButton } from "./standalone/Button";
 import { Card as StandaloneCard } from "./standalone/Card";
+import { Checkbox as StandaloneCheckbox } from "./standalone/Checkbox";
 import { Chip as StandaloneChip } from "./standalone/Chip";
 import { Colorpicker as StandaloneColorpicker } from "./standalone/Colorpicker";
 import { Dialog as StandaloneDialog } from "./standalone/Dialog";
@@ -112,11 +113,14 @@ import { Nativeselect as StandaloneNativeselect } from "./standalone/Nativeselec
 import { Pageheader as StandalonePageheader } from "./standalone/Pageheader";
 import { Progress as StandaloneProgress } from "./standalone/Progress";
 import { Prose as StandaloneProse } from "./standalone/Prose";
+import { Radio as StandaloneRadio } from "./standalone/Radio";
 import { Ringcarousel as StandaloneRingcarousel } from "./standalone/Ringcarousel";
+import { Segmented as StandaloneSegmented } from "./standalone/Segmented";
 import { Skeleton as StandaloneSkeleton } from "./standalone/Skeleton";
 import { Spinner as StandaloneSpinner } from "./standalone/Spinner";
 import { Stages as StandaloneStages } from "./standalone/Stages";
 import { Stat as StandaloneStat } from "./standalone/Stat";
+import { Switch as StandaloneSwitch } from "./standalone/Switch";
 import { Toast as StandaloneToast } from "./standalone/Toast";
 import { Toggle as StandaloneToggle } from "./standalone/Toggle";
 
@@ -299,6 +303,7 @@ import cssS01CobaltBanner from "../systems/css/01-cobalt/banner.json";
 import cssS01CobaltBreadcrumb from "../systems/css/01-cobalt/breadcrumb.json";
 import cssS01CobaltButton from "../systems/css/01-cobalt/button.json";
 import cssS01CobaltCard from "../systems/css/01-cobalt/card.json";
+import cssS01CobaltCheckbox from "../systems/css/01-cobalt/checkbox.json";
 import cssS01CobaltChip from "../systems/css/01-cobalt/chip.json";
 import cssS01CobaltColorpicker from "../systems/css/01-cobalt/colorpicker.json";
 import cssS01CobaltDialog from "../systems/css/01-cobalt/dialog.json";
@@ -314,11 +319,14 @@ import cssS01CobaltNativeselect from "../systems/css/01-cobalt/nativeselect.json
 import cssS01CobaltPageheader from "../systems/css/01-cobalt/pageheader.json";
 import cssS01CobaltProgress from "../systems/css/01-cobalt/progress.json";
 import cssS01CobaltProse from "../systems/css/01-cobalt/prose.json";
+import cssS01CobaltRadio from "../systems/css/01-cobalt/radio.json";
 import cssS01CobaltRingcarousel from "../systems/css/01-cobalt/ringcarousel.json";
+import cssS01CobaltSegmented from "../systems/css/01-cobalt/segmented.json";
 import cssS01CobaltSkeleton from "../systems/css/01-cobalt/skeleton.json";
 import cssS01CobaltSpinner from "../systems/css/01-cobalt/spinner.json";
 import cssS01CobaltStages from "../systems/css/01-cobalt/stages.json";
 import cssS01CobaltStat from "../systems/css/01-cobalt/stat.json";
+import cssS01CobaltSwitch from "../systems/css/01-cobalt/switch.json";
 import cssS01CobaltToast from "../systems/css/01-cobalt/toast.json";
 import cssS01CobaltToggle from "../systems/css/01-cobalt/toggle.json";
 import cssS02GraphiteAlert from "../systems/css/02-graphite/alert.json";
@@ -328,6 +336,7 @@ import cssS02GraphiteBanner from "../systems/css/02-graphite/banner.json";
 import cssS02GraphiteBreadcrumb from "../systems/css/02-graphite/breadcrumb.json";
 import cssS02GraphiteButton from "../systems/css/02-graphite/button.json";
 import cssS02GraphiteCard from "../systems/css/02-graphite/card.json";
+import cssS02GraphiteCheckbox from "../systems/css/02-graphite/checkbox.json";
 import cssS02GraphiteChip from "../systems/css/02-graphite/chip.json";
 import cssS02GraphiteColorpicker from "../systems/css/02-graphite/colorpicker.json";
 import cssS02GraphiteDialog from "../systems/css/02-graphite/dialog.json";
@@ -343,11 +352,14 @@ import cssS02GraphiteNativeselect from "../systems/css/02-graphite/nativeselect.
 import cssS02GraphitePageheader from "../systems/css/02-graphite/pageheader.json";
 import cssS02GraphiteProgress from "../systems/css/02-graphite/progress.json";
 import cssS02GraphiteProse from "../systems/css/02-graphite/prose.json";
+import cssS02GraphiteRadio from "../systems/css/02-graphite/radio.json";
 import cssS02GraphiteRingcarousel from "../systems/css/02-graphite/ringcarousel.json";
+import cssS02GraphiteSegmented from "../systems/css/02-graphite/segmented.json";
 import cssS02GraphiteSkeleton from "../systems/css/02-graphite/skeleton.json";
 import cssS02GraphiteSpinner from "../systems/css/02-graphite/spinner.json";
 import cssS02GraphiteStages from "../systems/css/02-graphite/stages.json";
 import cssS02GraphiteStat from "../systems/css/02-graphite/stat.json";
+import cssS02GraphiteSwitch from "../systems/css/02-graphite/switch.json";
 import cssS02GraphiteToast from "../systems/css/02-graphite/toast.json";
 import cssS02GraphiteToggle from "../systems/css/02-graphite/toggle.json";
 import cssS03EmberAlert from "../systems/css/03-ember/alert.json";
@@ -357,6 +369,7 @@ import cssS03EmberBanner from "../systems/css/03-ember/banner.json";
 import cssS03EmberBreadcrumb from "../systems/css/03-ember/breadcrumb.json";
 import cssS03EmberButton from "../systems/css/03-ember/button.json";
 import cssS03EmberCard from "../systems/css/03-ember/card.json";
+import cssS03EmberCheckbox from "../systems/css/03-ember/checkbox.json";
 import cssS03EmberChip from "../systems/css/03-ember/chip.json";
 import cssS03EmberColorpicker from "../systems/css/03-ember/colorpicker.json";
 import cssS03EmberDialog from "../systems/css/03-ember/dialog.json";
@@ -372,11 +385,14 @@ import cssS03EmberNativeselect from "../systems/css/03-ember/nativeselect.json";
 import cssS03EmberPageheader from "../systems/css/03-ember/pageheader.json";
 import cssS03EmberProgress from "../systems/css/03-ember/progress.json";
 import cssS03EmberProse from "../systems/css/03-ember/prose.json";
+import cssS03EmberRadio from "../systems/css/03-ember/radio.json";
 import cssS03EmberRingcarousel from "../systems/css/03-ember/ringcarousel.json";
+import cssS03EmberSegmented from "../systems/css/03-ember/segmented.json";
 import cssS03EmberSkeleton from "../systems/css/03-ember/skeleton.json";
 import cssS03EmberSpinner from "../systems/css/03-ember/spinner.json";
 import cssS03EmberStages from "../systems/css/03-ember/stages.json";
 import cssS03EmberStat from "../systems/css/03-ember/stat.json";
+import cssS03EmberSwitch from "../systems/css/03-ember/switch.json";
 import cssS03EmberToast from "../systems/css/03-ember/toast.json";
 import cssS03EmberToggle from "../systems/css/03-ember/toggle.json";
 import cssS04JadeAlert from "../systems/css/04-jade/alert.json";
@@ -386,6 +402,7 @@ import cssS04JadeBanner from "../systems/css/04-jade/banner.json";
 import cssS04JadeBreadcrumb from "../systems/css/04-jade/breadcrumb.json";
 import cssS04JadeButton from "../systems/css/04-jade/button.json";
 import cssS04JadeCard from "../systems/css/04-jade/card.json";
+import cssS04JadeCheckbox from "../systems/css/04-jade/checkbox.json";
 import cssS04JadeChip from "../systems/css/04-jade/chip.json";
 import cssS04JadeColorpicker from "../systems/css/04-jade/colorpicker.json";
 import cssS04JadeDialog from "../systems/css/04-jade/dialog.json";
@@ -401,11 +418,14 @@ import cssS04JadeNativeselect from "../systems/css/04-jade/nativeselect.json";
 import cssS04JadePageheader from "../systems/css/04-jade/pageheader.json";
 import cssS04JadeProgress from "../systems/css/04-jade/progress.json";
 import cssS04JadeProse from "../systems/css/04-jade/prose.json";
+import cssS04JadeRadio from "../systems/css/04-jade/radio.json";
 import cssS04JadeRingcarousel from "../systems/css/04-jade/ringcarousel.json";
+import cssS04JadeSegmented from "../systems/css/04-jade/segmented.json";
 import cssS04JadeSkeleton from "../systems/css/04-jade/skeleton.json";
 import cssS04JadeSpinner from "../systems/css/04-jade/spinner.json";
 import cssS04JadeStages from "../systems/css/04-jade/stages.json";
 import cssS04JadeStat from "../systems/css/04-jade/stat.json";
+import cssS04JadeSwitch from "../systems/css/04-jade/switch.json";
 import cssS04JadeToast from "../systems/css/04-jade/toast.json";
 import cssS04JadeToggle from "../systems/css/04-jade/toggle.json";
 import cssS05PlumAlert from "../systems/css/05-plum/alert.json";
@@ -415,6 +435,7 @@ import cssS05PlumBanner from "../systems/css/05-plum/banner.json";
 import cssS05PlumBreadcrumb from "../systems/css/05-plum/breadcrumb.json";
 import cssS05PlumButton from "../systems/css/05-plum/button.json";
 import cssS05PlumCard from "../systems/css/05-plum/card.json";
+import cssS05PlumCheckbox from "../systems/css/05-plum/checkbox.json";
 import cssS05PlumChip from "../systems/css/05-plum/chip.json";
 import cssS05PlumColorpicker from "../systems/css/05-plum/colorpicker.json";
 import cssS05PlumDialog from "../systems/css/05-plum/dialog.json";
@@ -430,11 +451,14 @@ import cssS05PlumNativeselect from "../systems/css/05-plum/nativeselect.json";
 import cssS05PlumPageheader from "../systems/css/05-plum/pageheader.json";
 import cssS05PlumProgress from "../systems/css/05-plum/progress.json";
 import cssS05PlumProse from "../systems/css/05-plum/prose.json";
+import cssS05PlumRadio from "../systems/css/05-plum/radio.json";
 import cssS05PlumRingcarousel from "../systems/css/05-plum/ringcarousel.json";
+import cssS05PlumSegmented from "../systems/css/05-plum/segmented.json";
 import cssS05PlumSkeleton from "../systems/css/05-plum/skeleton.json";
 import cssS05PlumSpinner from "../systems/css/05-plum/spinner.json";
 import cssS05PlumStages from "../systems/css/05-plum/stages.json";
 import cssS05PlumStat from "../systems/css/05-plum/stat.json";
+import cssS05PlumSwitch from "../systems/css/05-plum/switch.json";
 import cssS05PlumToast from "../systems/css/05-plum/toast.json";
 import cssS05PlumToggle from "../systems/css/05-plum/toggle.json";
 import cssS06SlateAlert from "../systems/css/06-slate/alert.json";
@@ -444,6 +468,7 @@ import cssS06SlateBanner from "../systems/css/06-slate/banner.json";
 import cssS06SlateBreadcrumb from "../systems/css/06-slate/breadcrumb.json";
 import cssS06SlateButton from "../systems/css/06-slate/button.json";
 import cssS06SlateCard from "../systems/css/06-slate/card.json";
+import cssS06SlateCheckbox from "../systems/css/06-slate/checkbox.json";
 import cssS06SlateChip from "../systems/css/06-slate/chip.json";
 import cssS06SlateColorpicker from "../systems/css/06-slate/colorpicker.json";
 import cssS06SlateDialog from "../systems/css/06-slate/dialog.json";
@@ -459,11 +484,14 @@ import cssS06SlateNativeselect from "../systems/css/06-slate/nativeselect.json";
 import cssS06SlatePageheader from "../systems/css/06-slate/pageheader.json";
 import cssS06SlateProgress from "../systems/css/06-slate/progress.json";
 import cssS06SlateProse from "../systems/css/06-slate/prose.json";
+import cssS06SlateRadio from "../systems/css/06-slate/radio.json";
 import cssS06SlateRingcarousel from "../systems/css/06-slate/ringcarousel.json";
+import cssS06SlateSegmented from "../systems/css/06-slate/segmented.json";
 import cssS06SlateSkeleton from "../systems/css/06-slate/skeleton.json";
 import cssS06SlateSpinner from "../systems/css/06-slate/spinner.json";
 import cssS06SlateStages from "../systems/css/06-slate/stages.json";
 import cssS06SlateStat from "../systems/css/06-slate/stat.json";
+import cssS06SlateSwitch from "../systems/css/06-slate/switch.json";
 import cssS06SlateToast from "../systems/css/06-slate/toast.json";
 import cssS06SlateToggle from "../systems/css/06-slate/toggle.json";
 import cssS07EmeraldAlert from "../systems/css/07-emerald/alert.json";
@@ -473,6 +501,7 @@ import cssS07EmeraldBanner from "../systems/css/07-emerald/banner.json";
 import cssS07EmeraldBreadcrumb from "../systems/css/07-emerald/breadcrumb.json";
 import cssS07EmeraldButton from "../systems/css/07-emerald/button.json";
 import cssS07EmeraldCard from "../systems/css/07-emerald/card.json";
+import cssS07EmeraldCheckbox from "../systems/css/07-emerald/checkbox.json";
 import cssS07EmeraldChip from "../systems/css/07-emerald/chip.json";
 import cssS07EmeraldColorpicker from "../systems/css/07-emerald/colorpicker.json";
 import cssS07EmeraldDialog from "../systems/css/07-emerald/dialog.json";
@@ -488,11 +517,14 @@ import cssS07EmeraldNativeselect from "../systems/css/07-emerald/nativeselect.js
 import cssS07EmeraldPageheader from "../systems/css/07-emerald/pageheader.json";
 import cssS07EmeraldProgress from "../systems/css/07-emerald/progress.json";
 import cssS07EmeraldProse from "../systems/css/07-emerald/prose.json";
+import cssS07EmeraldRadio from "../systems/css/07-emerald/radio.json";
 import cssS07EmeraldRingcarousel from "../systems/css/07-emerald/ringcarousel.json";
+import cssS07EmeraldSegmented from "../systems/css/07-emerald/segmented.json";
 import cssS07EmeraldSkeleton from "../systems/css/07-emerald/skeleton.json";
 import cssS07EmeraldSpinner from "../systems/css/07-emerald/spinner.json";
 import cssS07EmeraldStages from "../systems/css/07-emerald/stages.json";
 import cssS07EmeraldStat from "../systems/css/07-emerald/stat.json";
+import cssS07EmeraldSwitch from "../systems/css/07-emerald/switch.json";
 import cssS07EmeraldToast from "../systems/css/07-emerald/toast.json";
 import cssS07EmeraldToggle from "../systems/css/07-emerald/toggle.json";
 import cssS08IndigoAlert from "../systems/css/08-indigo/alert.json";
@@ -502,6 +534,7 @@ import cssS08IndigoBanner from "../systems/css/08-indigo/banner.json";
 import cssS08IndigoBreadcrumb from "../systems/css/08-indigo/breadcrumb.json";
 import cssS08IndigoButton from "../systems/css/08-indigo/button.json";
 import cssS08IndigoCard from "../systems/css/08-indigo/card.json";
+import cssS08IndigoCheckbox from "../systems/css/08-indigo/checkbox.json";
 import cssS08IndigoChip from "../systems/css/08-indigo/chip.json";
 import cssS08IndigoColorpicker from "../systems/css/08-indigo/colorpicker.json";
 import cssS08IndigoDialog from "../systems/css/08-indigo/dialog.json";
@@ -517,11 +550,14 @@ import cssS08IndigoNativeselect from "../systems/css/08-indigo/nativeselect.json
 import cssS08IndigoPageheader from "../systems/css/08-indigo/pageheader.json";
 import cssS08IndigoProgress from "../systems/css/08-indigo/progress.json";
 import cssS08IndigoProse from "../systems/css/08-indigo/prose.json";
+import cssS08IndigoRadio from "../systems/css/08-indigo/radio.json";
 import cssS08IndigoRingcarousel from "../systems/css/08-indigo/ringcarousel.json";
+import cssS08IndigoSegmented from "../systems/css/08-indigo/segmented.json";
 import cssS08IndigoSkeleton from "../systems/css/08-indigo/skeleton.json";
 import cssS08IndigoSpinner from "../systems/css/08-indigo/spinner.json";
 import cssS08IndigoStages from "../systems/css/08-indigo/stages.json";
 import cssS08IndigoStat from "../systems/css/08-indigo/stat.json";
+import cssS08IndigoSwitch from "../systems/css/08-indigo/switch.json";
 import cssS08IndigoToast from "../systems/css/08-indigo/toast.json";
 import cssS08IndigoToggle from "../systems/css/08-indigo/toggle.json";
 import cssS09SandAlert from "../systems/css/09-sand/alert.json";
@@ -531,6 +567,7 @@ import cssS09SandBanner from "../systems/css/09-sand/banner.json";
 import cssS09SandBreadcrumb from "../systems/css/09-sand/breadcrumb.json";
 import cssS09SandButton from "../systems/css/09-sand/button.json";
 import cssS09SandCard from "../systems/css/09-sand/card.json";
+import cssS09SandCheckbox from "../systems/css/09-sand/checkbox.json";
 import cssS09SandChip from "../systems/css/09-sand/chip.json";
 import cssS09SandColorpicker from "../systems/css/09-sand/colorpicker.json";
 import cssS09SandDialog from "../systems/css/09-sand/dialog.json";
@@ -546,11 +583,14 @@ import cssS09SandNativeselect from "../systems/css/09-sand/nativeselect.json";
 import cssS09SandPageheader from "../systems/css/09-sand/pageheader.json";
 import cssS09SandProgress from "../systems/css/09-sand/progress.json";
 import cssS09SandProse from "../systems/css/09-sand/prose.json";
+import cssS09SandRadio from "../systems/css/09-sand/radio.json";
 import cssS09SandRingcarousel from "../systems/css/09-sand/ringcarousel.json";
+import cssS09SandSegmented from "../systems/css/09-sand/segmented.json";
 import cssS09SandSkeleton from "../systems/css/09-sand/skeleton.json";
 import cssS09SandSpinner from "../systems/css/09-sand/spinner.json";
 import cssS09SandStages from "../systems/css/09-sand/stages.json";
 import cssS09SandStat from "../systems/css/09-sand/stat.json";
+import cssS09SandSwitch from "../systems/css/09-sand/switch.json";
 import cssS09SandToast from "../systems/css/09-sand/toast.json";
 import cssS09SandToggle from "../systems/css/09-sand/toggle.json";
 import cssS10TealAlert from "../systems/css/10-teal/alert.json";
@@ -560,6 +600,7 @@ import cssS10TealBanner from "../systems/css/10-teal/banner.json";
 import cssS10TealBreadcrumb from "../systems/css/10-teal/breadcrumb.json";
 import cssS10TealButton from "../systems/css/10-teal/button.json";
 import cssS10TealCard from "../systems/css/10-teal/card.json";
+import cssS10TealCheckbox from "../systems/css/10-teal/checkbox.json";
 import cssS10TealChip from "../systems/css/10-teal/chip.json";
 import cssS10TealColorpicker from "../systems/css/10-teal/colorpicker.json";
 import cssS10TealDialog from "../systems/css/10-teal/dialog.json";
@@ -575,11 +616,14 @@ import cssS10TealNativeselect from "../systems/css/10-teal/nativeselect.json";
 import cssS10TealPageheader from "../systems/css/10-teal/pageheader.json";
 import cssS10TealProgress from "../systems/css/10-teal/progress.json";
 import cssS10TealProse from "../systems/css/10-teal/prose.json";
+import cssS10TealRadio from "../systems/css/10-teal/radio.json";
 import cssS10TealRingcarousel from "../systems/css/10-teal/ringcarousel.json";
+import cssS10TealSegmented from "../systems/css/10-teal/segmented.json";
 import cssS10TealSkeleton from "../systems/css/10-teal/skeleton.json";
 import cssS10TealSpinner from "../systems/css/10-teal/spinner.json";
 import cssS10TealStages from "../systems/css/10-teal/stages.json";
 import cssS10TealStat from "../systems/css/10-teal/stat.json";
+import cssS10TealSwitch from "../systems/css/10-teal/switch.json";
 import cssS10TealToast from "../systems/css/10-teal/toast.json";
 import cssS10TealToggle from "../systems/css/10-teal/toggle.json";
 import cssS11CrimsonAlert from "../systems/css/11-crimson/alert.json";
@@ -589,6 +633,7 @@ import cssS11CrimsonBanner from "../systems/css/11-crimson/banner.json";
 import cssS11CrimsonBreadcrumb from "../systems/css/11-crimson/breadcrumb.json";
 import cssS11CrimsonButton from "../systems/css/11-crimson/button.json";
 import cssS11CrimsonCard from "../systems/css/11-crimson/card.json";
+import cssS11CrimsonCheckbox from "../systems/css/11-crimson/checkbox.json";
 import cssS11CrimsonChip from "../systems/css/11-crimson/chip.json";
 import cssS11CrimsonColorpicker from "../systems/css/11-crimson/colorpicker.json";
 import cssS11CrimsonDialog from "../systems/css/11-crimson/dialog.json";
@@ -604,11 +649,14 @@ import cssS11CrimsonNativeselect from "../systems/css/11-crimson/nativeselect.js
 import cssS11CrimsonPageheader from "../systems/css/11-crimson/pageheader.json";
 import cssS11CrimsonProgress from "../systems/css/11-crimson/progress.json";
 import cssS11CrimsonProse from "../systems/css/11-crimson/prose.json";
+import cssS11CrimsonRadio from "../systems/css/11-crimson/radio.json";
 import cssS11CrimsonRingcarousel from "../systems/css/11-crimson/ringcarousel.json";
+import cssS11CrimsonSegmented from "../systems/css/11-crimson/segmented.json";
 import cssS11CrimsonSkeleton from "../systems/css/11-crimson/skeleton.json";
 import cssS11CrimsonSpinner from "../systems/css/11-crimson/spinner.json";
 import cssS11CrimsonStages from "../systems/css/11-crimson/stages.json";
 import cssS11CrimsonStat from "../systems/css/11-crimson/stat.json";
+import cssS11CrimsonSwitch from "../systems/css/11-crimson/switch.json";
 import cssS11CrimsonToast from "../systems/css/11-crimson/toast.json";
 import cssS11CrimsonToggle from "../systems/css/11-crimson/toggle.json";
 import cssS12MossAlert from "../systems/css/12-moss/alert.json";
@@ -618,6 +666,7 @@ import cssS12MossBanner from "../systems/css/12-moss/banner.json";
 import cssS12MossBreadcrumb from "../systems/css/12-moss/breadcrumb.json";
 import cssS12MossButton from "../systems/css/12-moss/button.json";
 import cssS12MossCard from "../systems/css/12-moss/card.json";
+import cssS12MossCheckbox from "../systems/css/12-moss/checkbox.json";
 import cssS12MossChip from "../systems/css/12-moss/chip.json";
 import cssS12MossColorpicker from "../systems/css/12-moss/colorpicker.json";
 import cssS12MossDialog from "../systems/css/12-moss/dialog.json";
@@ -633,11 +682,14 @@ import cssS12MossNativeselect from "../systems/css/12-moss/nativeselect.json";
 import cssS12MossPageheader from "../systems/css/12-moss/pageheader.json";
 import cssS12MossProgress from "../systems/css/12-moss/progress.json";
 import cssS12MossProse from "../systems/css/12-moss/prose.json";
+import cssS12MossRadio from "../systems/css/12-moss/radio.json";
 import cssS12MossRingcarousel from "../systems/css/12-moss/ringcarousel.json";
+import cssS12MossSegmented from "../systems/css/12-moss/segmented.json";
 import cssS12MossSkeleton from "../systems/css/12-moss/skeleton.json";
 import cssS12MossSpinner from "../systems/css/12-moss/spinner.json";
 import cssS12MossStages from "../systems/css/12-moss/stages.json";
 import cssS12MossStat from "../systems/css/12-moss/stat.json";
+import cssS12MossSwitch from "../systems/css/12-moss/switch.json";
 import cssS12MossToast from "../systems/css/12-moss/toast.json";
 import cssS12MossToggle from "../systems/css/12-moss/toggle.json";
 import cssS13AzureAlert from "../systems/css/13-azure/alert.json";
@@ -647,6 +699,7 @@ import cssS13AzureBanner from "../systems/css/13-azure/banner.json";
 import cssS13AzureBreadcrumb from "../systems/css/13-azure/breadcrumb.json";
 import cssS13AzureButton from "../systems/css/13-azure/button.json";
 import cssS13AzureCard from "../systems/css/13-azure/card.json";
+import cssS13AzureCheckbox from "../systems/css/13-azure/checkbox.json";
 import cssS13AzureChip from "../systems/css/13-azure/chip.json";
 import cssS13AzureColorpicker from "../systems/css/13-azure/colorpicker.json";
 import cssS13AzureDialog from "../systems/css/13-azure/dialog.json";
@@ -662,11 +715,14 @@ import cssS13AzureNativeselect from "../systems/css/13-azure/nativeselect.json";
 import cssS13AzurePageheader from "../systems/css/13-azure/pageheader.json";
 import cssS13AzureProgress from "../systems/css/13-azure/progress.json";
 import cssS13AzureProse from "../systems/css/13-azure/prose.json";
+import cssS13AzureRadio from "../systems/css/13-azure/radio.json";
 import cssS13AzureRingcarousel from "../systems/css/13-azure/ringcarousel.json";
+import cssS13AzureSegmented from "../systems/css/13-azure/segmented.json";
 import cssS13AzureSkeleton from "../systems/css/13-azure/skeleton.json";
 import cssS13AzureSpinner from "../systems/css/13-azure/spinner.json";
 import cssS13AzureStages from "../systems/css/13-azure/stages.json";
 import cssS13AzureStat from "../systems/css/13-azure/stat.json";
+import cssS13AzureSwitch from "../systems/css/13-azure/switch.json";
 import cssS13AzureToast from "../systems/css/13-azure/toast.json";
 import cssS13AzureToggle from "../systems/css/13-azure/toggle.json";
 import cssS14VioletAlert from "../systems/css/14-violet/alert.json";
@@ -676,6 +732,7 @@ import cssS14VioletBanner from "../systems/css/14-violet/banner.json";
 import cssS14VioletBreadcrumb from "../systems/css/14-violet/breadcrumb.json";
 import cssS14VioletButton from "../systems/css/14-violet/button.json";
 import cssS14VioletCard from "../systems/css/14-violet/card.json";
+import cssS14VioletCheckbox from "../systems/css/14-violet/checkbox.json";
 import cssS14VioletChip from "../systems/css/14-violet/chip.json";
 import cssS14VioletColorpicker from "../systems/css/14-violet/colorpicker.json";
 import cssS14VioletDialog from "../systems/css/14-violet/dialog.json";
@@ -691,11 +748,14 @@ import cssS14VioletNativeselect from "../systems/css/14-violet/nativeselect.json
 import cssS14VioletPageheader from "../systems/css/14-violet/pageheader.json";
 import cssS14VioletProgress from "../systems/css/14-violet/progress.json";
 import cssS14VioletProse from "../systems/css/14-violet/prose.json";
+import cssS14VioletRadio from "../systems/css/14-violet/radio.json";
 import cssS14VioletRingcarousel from "../systems/css/14-violet/ringcarousel.json";
+import cssS14VioletSegmented from "../systems/css/14-violet/segmented.json";
 import cssS14VioletSkeleton from "../systems/css/14-violet/skeleton.json";
 import cssS14VioletSpinner from "../systems/css/14-violet/spinner.json";
 import cssS14VioletStages from "../systems/css/14-violet/stages.json";
 import cssS14VioletStat from "../systems/css/14-violet/stat.json";
+import cssS14VioletSwitch from "../systems/css/14-violet/switch.json";
 import cssS14VioletToast from "../systems/css/14-violet/toast.json";
 import cssS14VioletToggle from "../systems/css/14-violet/toggle.json";
 import cssS15RustAlert from "../systems/css/15-rust/alert.json";
@@ -705,6 +765,7 @@ import cssS15RustBanner from "../systems/css/15-rust/banner.json";
 import cssS15RustBreadcrumb from "../systems/css/15-rust/breadcrumb.json";
 import cssS15RustButton from "../systems/css/15-rust/button.json";
 import cssS15RustCard from "../systems/css/15-rust/card.json";
+import cssS15RustCheckbox from "../systems/css/15-rust/checkbox.json";
 import cssS15RustChip from "../systems/css/15-rust/chip.json";
 import cssS15RustColorpicker from "../systems/css/15-rust/colorpicker.json";
 import cssS15RustDialog from "../systems/css/15-rust/dialog.json";
@@ -720,11 +781,14 @@ import cssS15RustNativeselect from "../systems/css/15-rust/nativeselect.json";
 import cssS15RustPageheader from "../systems/css/15-rust/pageheader.json";
 import cssS15RustProgress from "../systems/css/15-rust/progress.json";
 import cssS15RustProse from "../systems/css/15-rust/prose.json";
+import cssS15RustRadio from "../systems/css/15-rust/radio.json";
 import cssS15RustRingcarousel from "../systems/css/15-rust/ringcarousel.json";
+import cssS15RustSegmented from "../systems/css/15-rust/segmented.json";
 import cssS15RustSkeleton from "../systems/css/15-rust/skeleton.json";
 import cssS15RustSpinner from "../systems/css/15-rust/spinner.json";
 import cssS15RustStages from "../systems/css/15-rust/stages.json";
 import cssS15RustStat from "../systems/css/15-rust/stat.json";
+import cssS15RustSwitch from "../systems/css/15-rust/switch.json";
 import cssS15RustToast from "../systems/css/15-rust/toast.json";
 import cssS15RustToggle from "../systems/css/15-rust/toggle.json";
 import cssS16MintAlert from "../systems/css/16-mint/alert.json";
@@ -734,6 +798,7 @@ import cssS16MintBanner from "../systems/css/16-mint/banner.json";
 import cssS16MintBreadcrumb from "../systems/css/16-mint/breadcrumb.json";
 import cssS16MintButton from "../systems/css/16-mint/button.json";
 import cssS16MintCard from "../systems/css/16-mint/card.json";
+import cssS16MintCheckbox from "../systems/css/16-mint/checkbox.json";
 import cssS16MintChip from "../systems/css/16-mint/chip.json";
 import cssS16MintColorpicker from "../systems/css/16-mint/colorpicker.json";
 import cssS16MintDialog from "../systems/css/16-mint/dialog.json";
@@ -749,11 +814,14 @@ import cssS16MintNativeselect from "../systems/css/16-mint/nativeselect.json";
 import cssS16MintPageheader from "../systems/css/16-mint/pageheader.json";
 import cssS16MintProgress from "../systems/css/16-mint/progress.json";
 import cssS16MintProse from "../systems/css/16-mint/prose.json";
+import cssS16MintRadio from "../systems/css/16-mint/radio.json";
 import cssS16MintRingcarousel from "../systems/css/16-mint/ringcarousel.json";
+import cssS16MintSegmented from "../systems/css/16-mint/segmented.json";
 import cssS16MintSkeleton from "../systems/css/16-mint/skeleton.json";
 import cssS16MintSpinner from "../systems/css/16-mint/spinner.json";
 import cssS16MintStages from "../systems/css/16-mint/stages.json";
 import cssS16MintStat from "../systems/css/16-mint/stat.json";
+import cssS16MintSwitch from "../systems/css/16-mint/switch.json";
 import cssS16MintToast from "../systems/css/16-mint/toast.json";
 import cssS16MintToggle from "../systems/css/16-mint/toggle.json";
 import cssS17NavyAlert from "../systems/css/17-navy/alert.json";
@@ -763,6 +831,7 @@ import cssS17NavyBanner from "../systems/css/17-navy/banner.json";
 import cssS17NavyBreadcrumb from "../systems/css/17-navy/breadcrumb.json";
 import cssS17NavyButton from "../systems/css/17-navy/button.json";
 import cssS17NavyCard from "../systems/css/17-navy/card.json";
+import cssS17NavyCheckbox from "../systems/css/17-navy/checkbox.json";
 import cssS17NavyChip from "../systems/css/17-navy/chip.json";
 import cssS17NavyColorpicker from "../systems/css/17-navy/colorpicker.json";
 import cssS17NavyDialog from "../systems/css/17-navy/dialog.json";
@@ -778,11 +847,14 @@ import cssS17NavyNativeselect from "../systems/css/17-navy/nativeselect.json";
 import cssS17NavyPageheader from "../systems/css/17-navy/pageheader.json";
 import cssS17NavyProgress from "../systems/css/17-navy/progress.json";
 import cssS17NavyProse from "../systems/css/17-navy/prose.json";
+import cssS17NavyRadio from "../systems/css/17-navy/radio.json";
 import cssS17NavyRingcarousel from "../systems/css/17-navy/ringcarousel.json";
+import cssS17NavySegmented from "../systems/css/17-navy/segmented.json";
 import cssS17NavySkeleton from "../systems/css/17-navy/skeleton.json";
 import cssS17NavySpinner from "../systems/css/17-navy/spinner.json";
 import cssS17NavyStages from "../systems/css/17-navy/stages.json";
 import cssS17NavyStat from "../systems/css/17-navy/stat.json";
+import cssS17NavySwitch from "../systems/css/17-navy/switch.json";
 import cssS17NavyToast from "../systems/css/17-navy/toast.json";
 import cssS17NavyToggle from "../systems/css/17-navy/toggle.json";
 import cssS18SaffronAlert from "../systems/css/18-saffron/alert.json";
@@ -792,6 +864,7 @@ import cssS18SaffronBanner from "../systems/css/18-saffron/banner.json";
 import cssS18SaffronBreadcrumb from "../systems/css/18-saffron/breadcrumb.json";
 import cssS18SaffronButton from "../systems/css/18-saffron/button.json";
 import cssS18SaffronCard from "../systems/css/18-saffron/card.json";
+import cssS18SaffronCheckbox from "../systems/css/18-saffron/checkbox.json";
 import cssS18SaffronChip from "../systems/css/18-saffron/chip.json";
 import cssS18SaffronColorpicker from "../systems/css/18-saffron/colorpicker.json";
 import cssS18SaffronDialog from "../systems/css/18-saffron/dialog.json";
@@ -807,11 +880,14 @@ import cssS18SaffronNativeselect from "../systems/css/18-saffron/nativeselect.js
 import cssS18SaffronPageheader from "../systems/css/18-saffron/pageheader.json";
 import cssS18SaffronProgress from "../systems/css/18-saffron/progress.json";
 import cssS18SaffronProse from "../systems/css/18-saffron/prose.json";
+import cssS18SaffronRadio from "../systems/css/18-saffron/radio.json";
 import cssS18SaffronRingcarousel from "../systems/css/18-saffron/ringcarousel.json";
+import cssS18SaffronSegmented from "../systems/css/18-saffron/segmented.json";
 import cssS18SaffronSkeleton from "../systems/css/18-saffron/skeleton.json";
 import cssS18SaffronSpinner from "../systems/css/18-saffron/spinner.json";
 import cssS18SaffronStages from "../systems/css/18-saffron/stages.json";
 import cssS18SaffronStat from "../systems/css/18-saffron/stat.json";
+import cssS18SaffronSwitch from "../systems/css/18-saffron/switch.json";
 import cssS18SaffronToast from "../systems/css/18-saffron/toast.json";
 import cssS18SaffronToggle from "../systems/css/18-saffron/toggle.json";
 import cssS19FogAlert from "../systems/css/19-fog/alert.json";
@@ -821,6 +897,7 @@ import cssS19FogBanner from "../systems/css/19-fog/banner.json";
 import cssS19FogBreadcrumb from "../systems/css/19-fog/breadcrumb.json";
 import cssS19FogButton from "../systems/css/19-fog/button.json";
 import cssS19FogCard from "../systems/css/19-fog/card.json";
+import cssS19FogCheckbox from "../systems/css/19-fog/checkbox.json";
 import cssS19FogChip from "../systems/css/19-fog/chip.json";
 import cssS19FogColorpicker from "../systems/css/19-fog/colorpicker.json";
 import cssS19FogDialog from "../systems/css/19-fog/dialog.json";
@@ -836,11 +913,14 @@ import cssS19FogNativeselect from "../systems/css/19-fog/nativeselect.json";
 import cssS19FogPageheader from "../systems/css/19-fog/pageheader.json";
 import cssS19FogProgress from "../systems/css/19-fog/progress.json";
 import cssS19FogProse from "../systems/css/19-fog/prose.json";
+import cssS19FogRadio from "../systems/css/19-fog/radio.json";
 import cssS19FogRingcarousel from "../systems/css/19-fog/ringcarousel.json";
+import cssS19FogSegmented from "../systems/css/19-fog/segmented.json";
 import cssS19FogSkeleton from "../systems/css/19-fog/skeleton.json";
 import cssS19FogSpinner from "../systems/css/19-fog/spinner.json";
 import cssS19FogStages from "../systems/css/19-fog/stages.json";
 import cssS19FogStat from "../systems/css/19-fog/stat.json";
+import cssS19FogSwitch from "../systems/css/19-fog/switch.json";
 import cssS19FogToast from "../systems/css/19-fog/toast.json";
 import cssS19FogToggle from "../systems/css/19-fog/toggle.json";
 import cssS20BerryAlert from "../systems/css/20-berry/alert.json";
@@ -850,6 +930,7 @@ import cssS20BerryBanner from "../systems/css/20-berry/banner.json";
 import cssS20BerryBreadcrumb from "../systems/css/20-berry/breadcrumb.json";
 import cssS20BerryButton from "../systems/css/20-berry/button.json";
 import cssS20BerryCard from "../systems/css/20-berry/card.json";
+import cssS20BerryCheckbox from "../systems/css/20-berry/checkbox.json";
 import cssS20BerryChip from "../systems/css/20-berry/chip.json";
 import cssS20BerryColorpicker from "../systems/css/20-berry/colorpicker.json";
 import cssS20BerryDialog from "../systems/css/20-berry/dialog.json";
@@ -865,34 +946,37 @@ import cssS20BerryNativeselect from "../systems/css/20-berry/nativeselect.json";
 import cssS20BerryPageheader from "../systems/css/20-berry/pageheader.json";
 import cssS20BerryProgress from "../systems/css/20-berry/progress.json";
 import cssS20BerryProse from "../systems/css/20-berry/prose.json";
+import cssS20BerryRadio from "../systems/css/20-berry/radio.json";
 import cssS20BerryRingcarousel from "../systems/css/20-berry/ringcarousel.json";
+import cssS20BerrySegmented from "../systems/css/20-berry/segmented.json";
 import cssS20BerrySkeleton from "../systems/css/20-berry/skeleton.json";
 import cssS20BerrySpinner from "../systems/css/20-berry/spinner.json";
 import cssS20BerryStages from "../systems/css/20-berry/stages.json";
 import cssS20BerryStat from "../systems/css/20-berry/stat.json";
+import cssS20BerrySwitch from "../systems/css/20-berry/switch.json";
 import cssS20BerryToast from "../systems/css/20-berry/toast.json";
 import cssS20BerryToggle from "../systems/css/20-berry/toggle.json";
 const STANDALONE_CSS: Record<string, string> = {
-  "01-cobalt": [cssS01CobaltAlert, cssS01CobaltAspectratio, cssS01CobaltBadge, cssS01CobaltBanner, cssS01CobaltBreadcrumb, cssS01CobaltButton, cssS01CobaltCard, cssS01CobaltChip, cssS01CobaltColorpicker, cssS01CobaltDialog, cssS01CobaltDivider, cssS01CobaltEmpty, cssS01CobaltInput, cssS01CobaltKbd, cssS01CobaltLabel, cssS01CobaltLink, cssS01CobaltMarker, cssS01CobaltMeter, cssS01CobaltNativeselect, cssS01CobaltPageheader, cssS01CobaltProgress, cssS01CobaltProse, cssS01CobaltRingcarousel, cssS01CobaltSkeleton, cssS01CobaltSpinner, cssS01CobaltStages, cssS01CobaltStat, cssS01CobaltToast, cssS01CobaltToggle].join("\n"),
-  "02-graphite": [cssS02GraphiteAlert, cssS02GraphiteAspectratio, cssS02GraphiteBadge, cssS02GraphiteBanner, cssS02GraphiteBreadcrumb, cssS02GraphiteButton, cssS02GraphiteCard, cssS02GraphiteChip, cssS02GraphiteColorpicker, cssS02GraphiteDialog, cssS02GraphiteDivider, cssS02GraphiteEmpty, cssS02GraphiteInput, cssS02GraphiteKbd, cssS02GraphiteLabel, cssS02GraphiteLink, cssS02GraphiteMarker, cssS02GraphiteMeter, cssS02GraphiteNativeselect, cssS02GraphitePageheader, cssS02GraphiteProgress, cssS02GraphiteProse, cssS02GraphiteRingcarousel, cssS02GraphiteSkeleton, cssS02GraphiteSpinner, cssS02GraphiteStages, cssS02GraphiteStat, cssS02GraphiteToast, cssS02GraphiteToggle].join("\n"),
-  "03-ember": [cssS03EmberAlert, cssS03EmberAspectratio, cssS03EmberBadge, cssS03EmberBanner, cssS03EmberBreadcrumb, cssS03EmberButton, cssS03EmberCard, cssS03EmberChip, cssS03EmberColorpicker, cssS03EmberDialog, cssS03EmberDivider, cssS03EmberEmpty, cssS03EmberInput, cssS03EmberKbd, cssS03EmberLabel, cssS03EmberLink, cssS03EmberMarker, cssS03EmberMeter, cssS03EmberNativeselect, cssS03EmberPageheader, cssS03EmberProgress, cssS03EmberProse, cssS03EmberRingcarousel, cssS03EmberSkeleton, cssS03EmberSpinner, cssS03EmberStages, cssS03EmberStat, cssS03EmberToast, cssS03EmberToggle].join("\n"),
-  "04-jade": [cssS04JadeAlert, cssS04JadeAspectratio, cssS04JadeBadge, cssS04JadeBanner, cssS04JadeBreadcrumb, cssS04JadeButton, cssS04JadeCard, cssS04JadeChip, cssS04JadeColorpicker, cssS04JadeDialog, cssS04JadeDivider, cssS04JadeEmpty, cssS04JadeInput, cssS04JadeKbd, cssS04JadeLabel, cssS04JadeLink, cssS04JadeMarker, cssS04JadeMeter, cssS04JadeNativeselect, cssS04JadePageheader, cssS04JadeProgress, cssS04JadeProse, cssS04JadeRingcarousel, cssS04JadeSkeleton, cssS04JadeSpinner, cssS04JadeStages, cssS04JadeStat, cssS04JadeToast, cssS04JadeToggle].join("\n"),
-  "05-plum": [cssS05PlumAlert, cssS05PlumAspectratio, cssS05PlumBadge, cssS05PlumBanner, cssS05PlumBreadcrumb, cssS05PlumButton, cssS05PlumCard, cssS05PlumChip, cssS05PlumColorpicker, cssS05PlumDialog, cssS05PlumDivider, cssS05PlumEmpty, cssS05PlumInput, cssS05PlumKbd, cssS05PlumLabel, cssS05PlumLink, cssS05PlumMarker, cssS05PlumMeter, cssS05PlumNativeselect, cssS05PlumPageheader, cssS05PlumProgress, cssS05PlumProse, cssS05PlumRingcarousel, cssS05PlumSkeleton, cssS05PlumSpinner, cssS05PlumStages, cssS05PlumStat, cssS05PlumToast, cssS05PlumToggle].join("\n"),
-  "06-slate": [cssS06SlateAlert, cssS06SlateAspectratio, cssS06SlateBadge, cssS06SlateBanner, cssS06SlateBreadcrumb, cssS06SlateButton, cssS06SlateCard, cssS06SlateChip, cssS06SlateColorpicker, cssS06SlateDialog, cssS06SlateDivider, cssS06SlateEmpty, cssS06SlateInput, cssS06SlateKbd, cssS06SlateLabel, cssS06SlateLink, cssS06SlateMarker, cssS06SlateMeter, cssS06SlateNativeselect, cssS06SlatePageheader, cssS06SlateProgress, cssS06SlateProse, cssS06SlateRingcarousel, cssS06SlateSkeleton, cssS06SlateSpinner, cssS06SlateStages, cssS06SlateStat, cssS06SlateToast, cssS06SlateToggle].join("\n"),
-  "07-emerald": [cssS07EmeraldAlert, cssS07EmeraldAspectratio, cssS07EmeraldBadge, cssS07EmeraldBanner, cssS07EmeraldBreadcrumb, cssS07EmeraldButton, cssS07EmeraldCard, cssS07EmeraldChip, cssS07EmeraldColorpicker, cssS07EmeraldDialog, cssS07EmeraldDivider, cssS07EmeraldEmpty, cssS07EmeraldInput, cssS07EmeraldKbd, cssS07EmeraldLabel, cssS07EmeraldLink, cssS07EmeraldMarker, cssS07EmeraldMeter, cssS07EmeraldNativeselect, cssS07EmeraldPageheader, cssS07EmeraldProgress, cssS07EmeraldProse, cssS07EmeraldRingcarousel, cssS07EmeraldSkeleton, cssS07EmeraldSpinner, cssS07EmeraldStages, cssS07EmeraldStat, cssS07EmeraldToast, cssS07EmeraldToggle].join("\n"),
-  "08-indigo": [cssS08IndigoAlert, cssS08IndigoAspectratio, cssS08IndigoBadge, cssS08IndigoBanner, cssS08IndigoBreadcrumb, cssS08IndigoButton, cssS08IndigoCard, cssS08IndigoChip, cssS08IndigoColorpicker, cssS08IndigoDialog, cssS08IndigoDivider, cssS08IndigoEmpty, cssS08IndigoInput, cssS08IndigoKbd, cssS08IndigoLabel, cssS08IndigoLink, cssS08IndigoMarker, cssS08IndigoMeter, cssS08IndigoNativeselect, cssS08IndigoPageheader, cssS08IndigoProgress, cssS08IndigoProse, cssS08IndigoRingcarousel, cssS08IndigoSkeleton, cssS08IndigoSpinner, cssS08IndigoStages, cssS08IndigoStat, cssS08IndigoToast, cssS08IndigoToggle].join("\n"),
-  "09-sand": [cssS09SandAlert, cssS09SandAspectratio, cssS09SandBadge, cssS09SandBanner, cssS09SandBreadcrumb, cssS09SandButton, cssS09SandCard, cssS09SandChip, cssS09SandColorpicker, cssS09SandDialog, cssS09SandDivider, cssS09SandEmpty, cssS09SandInput, cssS09SandKbd, cssS09SandLabel, cssS09SandLink, cssS09SandMarker, cssS09SandMeter, cssS09SandNativeselect, cssS09SandPageheader, cssS09SandProgress, cssS09SandProse, cssS09SandRingcarousel, cssS09SandSkeleton, cssS09SandSpinner, cssS09SandStages, cssS09SandStat, cssS09SandToast, cssS09SandToggle].join("\n"),
-  "10-teal": [cssS10TealAlert, cssS10TealAspectratio, cssS10TealBadge, cssS10TealBanner, cssS10TealBreadcrumb, cssS10TealButton, cssS10TealCard, cssS10TealChip, cssS10TealColorpicker, cssS10TealDialog, cssS10TealDivider, cssS10TealEmpty, cssS10TealInput, cssS10TealKbd, cssS10TealLabel, cssS10TealLink, cssS10TealMarker, cssS10TealMeter, cssS10TealNativeselect, cssS10TealPageheader, cssS10TealProgress, cssS10TealProse, cssS10TealRingcarousel, cssS10TealSkeleton, cssS10TealSpinner, cssS10TealStages, cssS10TealStat, cssS10TealToast, cssS10TealToggle].join("\n"),
-  "11-crimson": [cssS11CrimsonAlert, cssS11CrimsonAspectratio, cssS11CrimsonBadge, cssS11CrimsonBanner, cssS11CrimsonBreadcrumb, cssS11CrimsonButton, cssS11CrimsonCard, cssS11CrimsonChip, cssS11CrimsonColorpicker, cssS11CrimsonDialog, cssS11CrimsonDivider, cssS11CrimsonEmpty, cssS11CrimsonInput, cssS11CrimsonKbd, cssS11CrimsonLabel, cssS11CrimsonLink, cssS11CrimsonMarker, cssS11CrimsonMeter, cssS11CrimsonNativeselect, cssS11CrimsonPageheader, cssS11CrimsonProgress, cssS11CrimsonProse, cssS11CrimsonRingcarousel, cssS11CrimsonSkeleton, cssS11CrimsonSpinner, cssS11CrimsonStages, cssS11CrimsonStat, cssS11CrimsonToast, cssS11CrimsonToggle].join("\n"),
-  "12-moss": [cssS12MossAlert, cssS12MossAspectratio, cssS12MossBadge, cssS12MossBanner, cssS12MossBreadcrumb, cssS12MossButton, cssS12MossCard, cssS12MossChip, cssS12MossColorpicker, cssS12MossDialog, cssS12MossDivider, cssS12MossEmpty, cssS12MossInput, cssS12MossKbd, cssS12MossLabel, cssS12MossLink, cssS12MossMarker, cssS12MossMeter, cssS12MossNativeselect, cssS12MossPageheader, cssS12MossProgress, cssS12MossProse, cssS12MossRingcarousel, cssS12MossSkeleton, cssS12MossSpinner, cssS12MossStages, cssS12MossStat, cssS12MossToast, cssS12MossToggle].join("\n"),
-  "13-azure": [cssS13AzureAlert, cssS13AzureAspectratio, cssS13AzureBadge, cssS13AzureBanner, cssS13AzureBreadcrumb, cssS13AzureButton, cssS13AzureCard, cssS13AzureChip, cssS13AzureColorpicker, cssS13AzureDialog, cssS13AzureDivider, cssS13AzureEmpty, cssS13AzureInput, cssS13AzureKbd, cssS13AzureLabel, cssS13AzureLink, cssS13AzureMarker, cssS13AzureMeter, cssS13AzureNativeselect, cssS13AzurePageheader, cssS13AzureProgress, cssS13AzureProse, cssS13AzureRingcarousel, cssS13AzureSkeleton, cssS13AzureSpinner, cssS13AzureStages, cssS13AzureStat, cssS13AzureToast, cssS13AzureToggle].join("\n"),
-  "14-violet": [cssS14VioletAlert, cssS14VioletAspectratio, cssS14VioletBadge, cssS14VioletBanner, cssS14VioletBreadcrumb, cssS14VioletButton, cssS14VioletCard, cssS14VioletChip, cssS14VioletColorpicker, cssS14VioletDialog, cssS14VioletDivider, cssS14VioletEmpty, cssS14VioletInput, cssS14VioletKbd, cssS14VioletLabel, cssS14VioletLink, cssS14VioletMarker, cssS14VioletMeter, cssS14VioletNativeselect, cssS14VioletPageheader, cssS14VioletProgress, cssS14VioletProse, cssS14VioletRingcarousel, cssS14VioletSkeleton, cssS14VioletSpinner, cssS14VioletStages, cssS14VioletStat, cssS14VioletToast, cssS14VioletToggle].join("\n"),
-  "15-rust": [cssS15RustAlert, cssS15RustAspectratio, cssS15RustBadge, cssS15RustBanner, cssS15RustBreadcrumb, cssS15RustButton, cssS15RustCard, cssS15RustChip, cssS15RustColorpicker, cssS15RustDialog, cssS15RustDivider, cssS15RustEmpty, cssS15RustInput, cssS15RustKbd, cssS15RustLabel, cssS15RustLink, cssS15RustMarker, cssS15RustMeter, cssS15RustNativeselect, cssS15RustPageheader, cssS15RustProgress, cssS15RustProse, cssS15RustRingcarousel, cssS15RustSkeleton, cssS15RustSpinner, cssS15RustStages, cssS15RustStat, cssS15RustToast, cssS15RustToggle].join("\n"),
-  "16-mint": [cssS16MintAlert, cssS16MintAspectratio, cssS16MintBadge, cssS16MintBanner, cssS16MintBreadcrumb, cssS16MintButton, cssS16MintCard, cssS16MintChip, cssS16MintColorpicker, cssS16MintDialog, cssS16MintDivider, cssS16MintEmpty, cssS16MintInput, cssS16MintKbd, cssS16MintLabel, cssS16MintLink, cssS16MintMarker, cssS16MintMeter, cssS16MintNativeselect, cssS16MintPageheader, cssS16MintProgress, cssS16MintProse, cssS16MintRingcarousel, cssS16MintSkeleton, cssS16MintSpinner, cssS16MintStages, cssS16MintStat, cssS16MintToast, cssS16MintToggle].join("\n"),
-  "17-navy": [cssS17NavyAlert, cssS17NavyAspectratio, cssS17NavyBadge, cssS17NavyBanner, cssS17NavyBreadcrumb, cssS17NavyButton, cssS17NavyCard, cssS17NavyChip, cssS17NavyColorpicker, cssS17NavyDialog, cssS17NavyDivider, cssS17NavyEmpty, cssS17NavyInput, cssS17NavyKbd, cssS17NavyLabel, cssS17NavyLink, cssS17NavyMarker, cssS17NavyMeter, cssS17NavyNativeselect, cssS17NavyPageheader, cssS17NavyProgress, cssS17NavyProse, cssS17NavyRingcarousel, cssS17NavySkeleton, cssS17NavySpinner, cssS17NavyStages, cssS17NavyStat, cssS17NavyToast, cssS17NavyToggle].join("\n"),
-  "18-saffron": [cssS18SaffronAlert, cssS18SaffronAspectratio, cssS18SaffronBadge, cssS18SaffronBanner, cssS18SaffronBreadcrumb, cssS18SaffronButton, cssS18SaffronCard, cssS18SaffronChip, cssS18SaffronColorpicker, cssS18SaffronDialog, cssS18SaffronDivider, cssS18SaffronEmpty, cssS18SaffronInput, cssS18SaffronKbd, cssS18SaffronLabel, cssS18SaffronLink, cssS18SaffronMarker, cssS18SaffronMeter, cssS18SaffronNativeselect, cssS18SaffronPageheader, cssS18SaffronProgress, cssS18SaffronProse, cssS18SaffronRingcarousel, cssS18SaffronSkeleton, cssS18SaffronSpinner, cssS18SaffronStages, cssS18SaffronStat, cssS18SaffronToast, cssS18SaffronToggle].join("\n"),
-  "19-fog": [cssS19FogAlert, cssS19FogAspectratio, cssS19FogBadge, cssS19FogBanner, cssS19FogBreadcrumb, cssS19FogButton, cssS19FogCard, cssS19FogChip, cssS19FogColorpicker, cssS19FogDialog, cssS19FogDivider, cssS19FogEmpty, cssS19FogInput, cssS19FogKbd, cssS19FogLabel, cssS19FogLink, cssS19FogMarker, cssS19FogMeter, cssS19FogNativeselect, cssS19FogPageheader, cssS19FogProgress, cssS19FogProse, cssS19FogRingcarousel, cssS19FogSkeleton, cssS19FogSpinner, cssS19FogStages, cssS19FogStat, cssS19FogToast, cssS19FogToggle].join("\n"),
-  "20-berry": [cssS20BerryAlert, cssS20BerryAspectratio, cssS20BerryBadge, cssS20BerryBanner, cssS20BerryBreadcrumb, cssS20BerryButton, cssS20BerryCard, cssS20BerryChip, cssS20BerryColorpicker, cssS20BerryDialog, cssS20BerryDivider, cssS20BerryEmpty, cssS20BerryInput, cssS20BerryKbd, cssS20BerryLabel, cssS20BerryLink, cssS20BerryMarker, cssS20BerryMeter, cssS20BerryNativeselect, cssS20BerryPageheader, cssS20BerryProgress, cssS20BerryProse, cssS20BerryRingcarousel, cssS20BerrySkeleton, cssS20BerrySpinner, cssS20BerryStages, cssS20BerryStat, cssS20BerryToast, cssS20BerryToggle].join("\n"),
+  "01-cobalt": [cssS01CobaltAlert, cssS01CobaltAspectratio, cssS01CobaltBadge, cssS01CobaltBanner, cssS01CobaltBreadcrumb, cssS01CobaltButton, cssS01CobaltCard, cssS01CobaltCheckbox, cssS01CobaltChip, cssS01CobaltColorpicker, cssS01CobaltDialog, cssS01CobaltDivider, cssS01CobaltEmpty, cssS01CobaltInput, cssS01CobaltKbd, cssS01CobaltLabel, cssS01CobaltLink, cssS01CobaltMarker, cssS01CobaltMeter, cssS01CobaltNativeselect, cssS01CobaltPageheader, cssS01CobaltProgress, cssS01CobaltProse, cssS01CobaltRadio, cssS01CobaltRingcarousel, cssS01CobaltSegmented, cssS01CobaltSkeleton, cssS01CobaltSpinner, cssS01CobaltStages, cssS01CobaltStat, cssS01CobaltSwitch, cssS01CobaltToast, cssS01CobaltToggle].join("\n"),
+  "02-graphite": [cssS02GraphiteAlert, cssS02GraphiteAspectratio, cssS02GraphiteBadge, cssS02GraphiteBanner, cssS02GraphiteBreadcrumb, cssS02GraphiteButton, cssS02GraphiteCard, cssS02GraphiteCheckbox, cssS02GraphiteChip, cssS02GraphiteColorpicker, cssS02GraphiteDialog, cssS02GraphiteDivider, cssS02GraphiteEmpty, cssS02GraphiteInput, cssS02GraphiteKbd, cssS02GraphiteLabel, cssS02GraphiteLink, cssS02GraphiteMarker, cssS02GraphiteMeter, cssS02GraphiteNativeselect, cssS02GraphitePageheader, cssS02GraphiteProgress, cssS02GraphiteProse, cssS02GraphiteRadio, cssS02GraphiteRingcarousel, cssS02GraphiteSegmented, cssS02GraphiteSkeleton, cssS02GraphiteSpinner, cssS02GraphiteStages, cssS02GraphiteStat, cssS02GraphiteSwitch, cssS02GraphiteToast, cssS02GraphiteToggle].join("\n"),
+  "03-ember": [cssS03EmberAlert, cssS03EmberAspectratio, cssS03EmberBadge, cssS03EmberBanner, cssS03EmberBreadcrumb, cssS03EmberButton, cssS03EmberCard, cssS03EmberCheckbox, cssS03EmberChip, cssS03EmberColorpicker, cssS03EmberDialog, cssS03EmberDivider, cssS03EmberEmpty, cssS03EmberInput, cssS03EmberKbd, cssS03EmberLabel, cssS03EmberLink, cssS03EmberMarker, cssS03EmberMeter, cssS03EmberNativeselect, cssS03EmberPageheader, cssS03EmberProgress, cssS03EmberProse, cssS03EmberRadio, cssS03EmberRingcarousel, cssS03EmberSegmented, cssS03EmberSkeleton, cssS03EmberSpinner, cssS03EmberStages, cssS03EmberStat, cssS03EmberSwitch, cssS03EmberToast, cssS03EmberToggle].join("\n"),
+  "04-jade": [cssS04JadeAlert, cssS04JadeAspectratio, cssS04JadeBadge, cssS04JadeBanner, cssS04JadeBreadcrumb, cssS04JadeButton, cssS04JadeCard, cssS04JadeCheckbox, cssS04JadeChip, cssS04JadeColorpicker, cssS04JadeDialog, cssS04JadeDivider, cssS04JadeEmpty, cssS04JadeInput, cssS04JadeKbd, cssS04JadeLabel, cssS04JadeLink, cssS04JadeMarker, cssS04JadeMeter, cssS04JadeNativeselect, cssS04JadePageheader, cssS04JadeProgress, cssS04JadeProse, cssS04JadeRadio, cssS04JadeRingcarousel, cssS04JadeSegmented, cssS04JadeSkeleton, cssS04JadeSpinner, cssS04JadeStages, cssS04JadeStat, cssS04JadeSwitch, cssS04JadeToast, cssS04JadeToggle].join("\n"),
+  "05-plum": [cssS05PlumAlert, cssS05PlumAspectratio, cssS05PlumBadge, cssS05PlumBanner, cssS05PlumBreadcrumb, cssS05PlumButton, cssS05PlumCard, cssS05PlumCheckbox, cssS05PlumChip, cssS05PlumColorpicker, cssS05PlumDialog, cssS05PlumDivider, cssS05PlumEmpty, cssS05PlumInput, cssS05PlumKbd, cssS05PlumLabel, cssS05PlumLink, cssS05PlumMarker, cssS05PlumMeter, cssS05PlumNativeselect, cssS05PlumPageheader, cssS05PlumProgress, cssS05PlumProse, cssS05PlumRadio, cssS05PlumRingcarousel, cssS05PlumSegmented, cssS05PlumSkeleton, cssS05PlumSpinner, cssS05PlumStages, cssS05PlumStat, cssS05PlumSwitch, cssS05PlumToast, cssS05PlumToggle].join("\n"),
+  "06-slate": [cssS06SlateAlert, cssS06SlateAspectratio, cssS06SlateBadge, cssS06SlateBanner, cssS06SlateBreadcrumb, cssS06SlateButton, cssS06SlateCard, cssS06SlateCheckbox, cssS06SlateChip, cssS06SlateColorpicker, cssS06SlateDialog, cssS06SlateDivider, cssS06SlateEmpty, cssS06SlateInput, cssS06SlateKbd, cssS06SlateLabel, cssS06SlateLink, cssS06SlateMarker, cssS06SlateMeter, cssS06SlateNativeselect, cssS06SlatePageheader, cssS06SlateProgress, cssS06SlateProse, cssS06SlateRadio, cssS06SlateRingcarousel, cssS06SlateSegmented, cssS06SlateSkeleton, cssS06SlateSpinner, cssS06SlateStages, cssS06SlateStat, cssS06SlateSwitch, cssS06SlateToast, cssS06SlateToggle].join("\n"),
+  "07-emerald": [cssS07EmeraldAlert, cssS07EmeraldAspectratio, cssS07EmeraldBadge, cssS07EmeraldBanner, cssS07EmeraldBreadcrumb, cssS07EmeraldButton, cssS07EmeraldCard, cssS07EmeraldCheckbox, cssS07EmeraldChip, cssS07EmeraldColorpicker, cssS07EmeraldDialog, cssS07EmeraldDivider, cssS07EmeraldEmpty, cssS07EmeraldInput, cssS07EmeraldKbd, cssS07EmeraldLabel, cssS07EmeraldLink, cssS07EmeraldMarker, cssS07EmeraldMeter, cssS07EmeraldNativeselect, cssS07EmeraldPageheader, cssS07EmeraldProgress, cssS07EmeraldProse, cssS07EmeraldRadio, cssS07EmeraldRingcarousel, cssS07EmeraldSegmented, cssS07EmeraldSkeleton, cssS07EmeraldSpinner, cssS07EmeraldStages, cssS07EmeraldStat, cssS07EmeraldSwitch, cssS07EmeraldToast, cssS07EmeraldToggle].join("\n"),
+  "08-indigo": [cssS08IndigoAlert, cssS08IndigoAspectratio, cssS08IndigoBadge, cssS08IndigoBanner, cssS08IndigoBreadcrumb, cssS08IndigoButton, cssS08IndigoCard, cssS08IndigoCheckbox, cssS08IndigoChip, cssS08IndigoColorpicker, cssS08IndigoDialog, cssS08IndigoDivider, cssS08IndigoEmpty, cssS08IndigoInput, cssS08IndigoKbd, cssS08IndigoLabel, cssS08IndigoLink, cssS08IndigoMarker, cssS08IndigoMeter, cssS08IndigoNativeselect, cssS08IndigoPageheader, cssS08IndigoProgress, cssS08IndigoProse, cssS08IndigoRadio, cssS08IndigoRingcarousel, cssS08IndigoSegmented, cssS08IndigoSkeleton, cssS08IndigoSpinner, cssS08IndigoStages, cssS08IndigoStat, cssS08IndigoSwitch, cssS08IndigoToast, cssS08IndigoToggle].join("\n"),
+  "09-sand": [cssS09SandAlert, cssS09SandAspectratio, cssS09SandBadge, cssS09SandBanner, cssS09SandBreadcrumb, cssS09SandButton, cssS09SandCard, cssS09SandCheckbox, cssS09SandChip, cssS09SandColorpicker, cssS09SandDialog, cssS09SandDivider, cssS09SandEmpty, cssS09SandInput, cssS09SandKbd, cssS09SandLabel, cssS09SandLink, cssS09SandMarker, cssS09SandMeter, cssS09SandNativeselect, cssS09SandPageheader, cssS09SandProgress, cssS09SandProse, cssS09SandRadio, cssS09SandRingcarousel, cssS09SandSegmented, cssS09SandSkeleton, cssS09SandSpinner, cssS09SandStages, cssS09SandStat, cssS09SandSwitch, cssS09SandToast, cssS09SandToggle].join("\n"),
+  "10-teal": [cssS10TealAlert, cssS10TealAspectratio, cssS10TealBadge, cssS10TealBanner, cssS10TealBreadcrumb, cssS10TealButton, cssS10TealCard, cssS10TealCheckbox, cssS10TealChip, cssS10TealColorpicker, cssS10TealDialog, cssS10TealDivider, cssS10TealEmpty, cssS10TealInput, cssS10TealKbd, cssS10TealLabel, cssS10TealLink, cssS10TealMarker, cssS10TealMeter, cssS10TealNativeselect, cssS10TealPageheader, cssS10TealProgress, cssS10TealProse, cssS10TealRadio, cssS10TealRingcarousel, cssS10TealSegmented, cssS10TealSkeleton, cssS10TealSpinner, cssS10TealStages, cssS10TealStat, cssS10TealSwitch, cssS10TealToast, cssS10TealToggle].join("\n"),
+  "11-crimson": [cssS11CrimsonAlert, cssS11CrimsonAspectratio, cssS11CrimsonBadge, cssS11CrimsonBanner, cssS11CrimsonBreadcrumb, cssS11CrimsonButton, cssS11CrimsonCard, cssS11CrimsonCheckbox, cssS11CrimsonChip, cssS11CrimsonColorpicker, cssS11CrimsonDialog, cssS11CrimsonDivider, cssS11CrimsonEmpty, cssS11CrimsonInput, cssS11CrimsonKbd, cssS11CrimsonLabel, cssS11CrimsonLink, cssS11CrimsonMarker, cssS11CrimsonMeter, cssS11CrimsonNativeselect, cssS11CrimsonPageheader, cssS11CrimsonProgress, cssS11CrimsonProse, cssS11CrimsonRadio, cssS11CrimsonRingcarousel, cssS11CrimsonSegmented, cssS11CrimsonSkeleton, cssS11CrimsonSpinner, cssS11CrimsonStages, cssS11CrimsonStat, cssS11CrimsonSwitch, cssS11CrimsonToast, cssS11CrimsonToggle].join("\n"),
+  "12-moss": [cssS12MossAlert, cssS12MossAspectratio, cssS12MossBadge, cssS12MossBanner, cssS12MossBreadcrumb, cssS12MossButton, cssS12MossCard, cssS12MossCheckbox, cssS12MossChip, cssS12MossColorpicker, cssS12MossDialog, cssS12MossDivider, cssS12MossEmpty, cssS12MossInput, cssS12MossKbd, cssS12MossLabel, cssS12MossLink, cssS12MossMarker, cssS12MossMeter, cssS12MossNativeselect, cssS12MossPageheader, cssS12MossProgress, cssS12MossProse, cssS12MossRadio, cssS12MossRingcarousel, cssS12MossSegmented, cssS12MossSkeleton, cssS12MossSpinner, cssS12MossStages, cssS12MossStat, cssS12MossSwitch, cssS12MossToast, cssS12MossToggle].join("\n"),
+  "13-azure": [cssS13AzureAlert, cssS13AzureAspectratio, cssS13AzureBadge, cssS13AzureBanner, cssS13AzureBreadcrumb, cssS13AzureButton, cssS13AzureCard, cssS13AzureCheckbox, cssS13AzureChip, cssS13AzureColorpicker, cssS13AzureDialog, cssS13AzureDivider, cssS13AzureEmpty, cssS13AzureInput, cssS13AzureKbd, cssS13AzureLabel, cssS13AzureLink, cssS13AzureMarker, cssS13AzureMeter, cssS13AzureNativeselect, cssS13AzurePageheader, cssS13AzureProgress, cssS13AzureProse, cssS13AzureRadio, cssS13AzureRingcarousel, cssS13AzureSegmented, cssS13AzureSkeleton, cssS13AzureSpinner, cssS13AzureStages, cssS13AzureStat, cssS13AzureSwitch, cssS13AzureToast, cssS13AzureToggle].join("\n"),
+  "14-violet": [cssS14VioletAlert, cssS14VioletAspectratio, cssS14VioletBadge, cssS14VioletBanner, cssS14VioletBreadcrumb, cssS14VioletButton, cssS14VioletCard, cssS14VioletCheckbox, cssS14VioletChip, cssS14VioletColorpicker, cssS14VioletDialog, cssS14VioletDivider, cssS14VioletEmpty, cssS14VioletInput, cssS14VioletKbd, cssS14VioletLabel, cssS14VioletLink, cssS14VioletMarker, cssS14VioletMeter, cssS14VioletNativeselect, cssS14VioletPageheader, cssS14VioletProgress, cssS14VioletProse, cssS14VioletRadio, cssS14VioletRingcarousel, cssS14VioletSegmented, cssS14VioletSkeleton, cssS14VioletSpinner, cssS14VioletStages, cssS14VioletStat, cssS14VioletSwitch, cssS14VioletToast, cssS14VioletToggle].join("\n"),
+  "15-rust": [cssS15RustAlert, cssS15RustAspectratio, cssS15RustBadge, cssS15RustBanner, cssS15RustBreadcrumb, cssS15RustButton, cssS15RustCard, cssS15RustCheckbox, cssS15RustChip, cssS15RustColorpicker, cssS15RustDialog, cssS15RustDivider, cssS15RustEmpty, cssS15RustInput, cssS15RustKbd, cssS15RustLabel, cssS15RustLink, cssS15RustMarker, cssS15RustMeter, cssS15RustNativeselect, cssS15RustPageheader, cssS15RustProgress, cssS15RustProse, cssS15RustRadio, cssS15RustRingcarousel, cssS15RustSegmented, cssS15RustSkeleton, cssS15RustSpinner, cssS15RustStages, cssS15RustStat, cssS15RustSwitch, cssS15RustToast, cssS15RustToggle].join("\n"),
+  "16-mint": [cssS16MintAlert, cssS16MintAspectratio, cssS16MintBadge, cssS16MintBanner, cssS16MintBreadcrumb, cssS16MintButton, cssS16MintCard, cssS16MintCheckbox, cssS16MintChip, cssS16MintColorpicker, cssS16MintDialog, cssS16MintDivider, cssS16MintEmpty, cssS16MintInput, cssS16MintKbd, cssS16MintLabel, cssS16MintLink, cssS16MintMarker, cssS16MintMeter, cssS16MintNativeselect, cssS16MintPageheader, cssS16MintProgress, cssS16MintProse, cssS16MintRadio, cssS16MintRingcarousel, cssS16MintSegmented, cssS16MintSkeleton, cssS16MintSpinner, cssS16MintStages, cssS16MintStat, cssS16MintSwitch, cssS16MintToast, cssS16MintToggle].join("\n"),
+  "17-navy": [cssS17NavyAlert, cssS17NavyAspectratio, cssS17NavyBadge, cssS17NavyBanner, cssS17NavyBreadcrumb, cssS17NavyButton, cssS17NavyCard, cssS17NavyCheckbox, cssS17NavyChip, cssS17NavyColorpicker, cssS17NavyDialog, cssS17NavyDivider, cssS17NavyEmpty, cssS17NavyInput, cssS17NavyKbd, cssS17NavyLabel, cssS17NavyLink, cssS17NavyMarker, cssS17NavyMeter, cssS17NavyNativeselect, cssS17NavyPageheader, cssS17NavyProgress, cssS17NavyProse, cssS17NavyRadio, cssS17NavyRingcarousel, cssS17NavySegmented, cssS17NavySkeleton, cssS17NavySpinner, cssS17NavyStages, cssS17NavyStat, cssS17NavySwitch, cssS17NavyToast, cssS17NavyToggle].join("\n"),
+  "18-saffron": [cssS18SaffronAlert, cssS18SaffronAspectratio, cssS18SaffronBadge, cssS18SaffronBanner, cssS18SaffronBreadcrumb, cssS18SaffronButton, cssS18SaffronCard, cssS18SaffronCheckbox, cssS18SaffronChip, cssS18SaffronColorpicker, cssS18SaffronDialog, cssS18SaffronDivider, cssS18SaffronEmpty, cssS18SaffronInput, cssS18SaffronKbd, cssS18SaffronLabel, cssS18SaffronLink, cssS18SaffronMarker, cssS18SaffronMeter, cssS18SaffronNativeselect, cssS18SaffronPageheader, cssS18SaffronProgress, cssS18SaffronProse, cssS18SaffronRadio, cssS18SaffronRingcarousel, cssS18SaffronSegmented, cssS18SaffronSkeleton, cssS18SaffronSpinner, cssS18SaffronStages, cssS18SaffronStat, cssS18SaffronSwitch, cssS18SaffronToast, cssS18SaffronToggle].join("\n"),
+  "19-fog": [cssS19FogAlert, cssS19FogAspectratio, cssS19FogBadge, cssS19FogBanner, cssS19FogBreadcrumb, cssS19FogButton, cssS19FogCard, cssS19FogCheckbox, cssS19FogChip, cssS19FogColorpicker, cssS19FogDialog, cssS19FogDivider, cssS19FogEmpty, cssS19FogInput, cssS19FogKbd, cssS19FogLabel, cssS19FogLink, cssS19FogMarker, cssS19FogMeter, cssS19FogNativeselect, cssS19FogPageheader, cssS19FogProgress, cssS19FogProse, cssS19FogRadio, cssS19FogRingcarousel, cssS19FogSegmented, cssS19FogSkeleton, cssS19FogSpinner, cssS19FogStages, cssS19FogStat, cssS19FogSwitch, cssS19FogToast, cssS19FogToggle].join("\n"),
+  "20-berry": [cssS20BerryAlert, cssS20BerryAspectratio, cssS20BerryBadge, cssS20BerryBanner, cssS20BerryBreadcrumb, cssS20BerryButton, cssS20BerryCard, cssS20BerryCheckbox, cssS20BerryChip, cssS20BerryColorpicker, cssS20BerryDialog, cssS20BerryDivider, cssS20BerryEmpty, cssS20BerryInput, cssS20BerryKbd, cssS20BerryLabel, cssS20BerryLink, cssS20BerryMarker, cssS20BerryMeter, cssS20BerryNativeselect, cssS20BerryPageheader, cssS20BerryProgress, cssS20BerryProse, cssS20BerryRadio, cssS20BerryRingcarousel, cssS20BerrySegmented, cssS20BerrySkeleton, cssS20BerrySpinner, cssS20BerryStages, cssS20BerryStat, cssS20BerrySwitch, cssS20BerryToast, cssS20BerryToggle].join("\n"),
 };
 
 import shadcnInteropS01Cobalt from "../systems/css/01-cobalt/_theme-shadcn.json";
@@ -1060,7 +1144,7 @@ export const BASES: Record<string, BaseDefinition> = {
   standalone: {
     key: "standalone",
     title: "자체 구현",
-    impl: { alert: StandaloneAlert as ComponentImpl, aspectratio: StandaloneAspectratio as ComponentImpl, badge: StandaloneBadge as ComponentImpl, banner: StandaloneBanner as ComponentImpl, breadcrumb: StandaloneBreadcrumb as ComponentImpl, button: StandaloneButton as ComponentImpl, card: StandaloneCard as ComponentImpl, chip: StandaloneChip as ComponentImpl, colorpicker: StandaloneColorpicker as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, divider: StandaloneDivider as ComponentImpl, empty: StandaloneEmpty as ComponentImpl, input: StandaloneInput as ComponentImpl, kbd: StandaloneKbd as ComponentImpl, label: StandaloneLabel as ComponentImpl, link: StandaloneLink as ComponentImpl, marker: StandaloneMarker as ComponentImpl, meter: StandaloneMeter as ComponentImpl, nativeselect: StandaloneNativeselect as ComponentImpl, pageheader: StandalonePageheader as ComponentImpl, progress: StandaloneProgress as ComponentImpl, prose: StandaloneProse as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl, skeleton: StandaloneSkeleton as ComponentImpl, spinner: StandaloneSpinner as ComponentImpl, stages: StandaloneStages as ComponentImpl, stat: StandaloneStat as ComponentImpl, toast: StandaloneToast as ComponentImpl, toggle: StandaloneToggle as ComponentImpl },
+    impl: { alert: StandaloneAlert as ComponentImpl, aspectratio: StandaloneAspectratio as ComponentImpl, badge: StandaloneBadge as ComponentImpl, banner: StandaloneBanner as ComponentImpl, breadcrumb: StandaloneBreadcrumb as ComponentImpl, button: StandaloneButton as ComponentImpl, card: StandaloneCard as ComponentImpl, checkbox: StandaloneCheckbox as ComponentImpl, chip: StandaloneChip as ComponentImpl, colorpicker: StandaloneColorpicker as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, divider: StandaloneDivider as ComponentImpl, empty: StandaloneEmpty as ComponentImpl, input: StandaloneInput as ComponentImpl, kbd: StandaloneKbd as ComponentImpl, label: StandaloneLabel as ComponentImpl, link: StandaloneLink as ComponentImpl, marker: StandaloneMarker as ComponentImpl, meter: StandaloneMeter as ComponentImpl, nativeselect: StandaloneNativeselect as ComponentImpl, pageheader: StandalonePageheader as ComponentImpl, progress: StandaloneProgress as ComponentImpl, prose: StandaloneProse as ComponentImpl, radio: StandaloneRadio as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl, segmented: StandaloneSegmented as ComponentImpl, skeleton: StandaloneSkeleton as ComponentImpl, spinner: StandaloneSpinner as ComponentImpl, stages: StandaloneStages as ComponentImpl, stat: StandaloneStat as ComponentImpl, switch: StandaloneSwitch as ComponentImpl, toast: StandaloneToast as ComponentImpl, toggle: StandaloneToggle as ComponentImpl },
     Provider: standaloneProvider,
     css: (slug: string) => STANDALONE_CSS[slug] ?? "",
   },

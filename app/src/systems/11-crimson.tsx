@@ -7,6 +7,12 @@ import { Input } from "../bases/standalone/Input";
 import inputCss from "./css/11-crimson/input.json";
 import { Label } from "../bases/standalone/Label";
 import labelCss from "./css/11-crimson/label.json";
+import { Checkbox } from "../bases/standalone/Checkbox";
+import checkboxCss from "./css/11-crimson/checkbox.json";
+import { Radio } from "../bases/standalone/Radio";
+import radioCss from "./css/11-crimson/radio.json";
+import { Switch } from "../bases/standalone/Switch";
+import switchCss from "./css/11-crimson/switch.json";
 import { Badge } from "../bases/standalone/Badge";
 import badgeCss from "./css/11-crimson/badge.json";
 import { Card } from "../bases/standalone/Card";
@@ -49,6 +55,8 @@ import { Prose } from "../bases/standalone/Prose";
 import proseCss from "./css/11-crimson/prose.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/11-crimson/ringcarousel.json";
+import { Segmented } from "../bases/standalone/Segmented";
+import segmentedCss from "./css/11-crimson/segmented.json";
 import { Skeleton } from "../bases/standalone/Skeleton";
 import skeletonCss from "./css/11-crimson/skeleton.json";
 import { Stages } from "../bases/standalone/Stages";
@@ -77,12 +85,12 @@ export const crimson: SystemDefinition = {
   typeRatio: 1.2,
   brand: "#7f1d1d",
   Icon: Newspaper,
-  css: [vars, buttonCss, linkCss, inputCss, labelCss, badgeCss, cardCss, dialogCss, alertCss, toastCss, spinnerCss, dividerCss, aspectratioCss, bannerCss, breadcrumbCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, nativeselectCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
+  css: [vars, buttonCss, linkCss, inputCss, labelCss, checkboxCss, radioCss, switchCss, badgeCss, cardCss, dialogCss, alertCss, toastCss, spinnerCss, dividerCss, aspectratioCss, bannerCss, breadcrumbCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, nativeselectCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, segmentedCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, label: Label as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, banner: Banner as Impl, breadcrumb: Breadcrumb as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, nativeselect: Nativeselect as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
+  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, label: Label as Impl, checkbox: Checkbox as Impl, radio: Radio as Impl, switch: Switch as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, banner: Banner as Impl, breadcrumb: Breadcrumb as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, nativeselect: Nativeselect as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, segmented: Segmented as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -92,9 +100,9 @@ export const crimson: SystemDefinition = {
     { name: "label", title: "Label", summary: "컨트롤이 무엇을 받는 필드인지 알리는 이름. 자리표시자로 대신하지 않음.", ready: true },
     { name: "field", title: "Field", summary: "컨트롤 하나를 이름·설명·오류와 함께 묶는 컨테이너. 폼의 최소 단위임.", ready: false },
     { name: "select", title: "Select", summary: "접힌 목록에서 값 하나를 고르는 폼 컨트롤. 선택지가 적으면 Radio 사용.", ready: false },
-    { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: false },
-    { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: false },
-    { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: false },
+    { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: true },
+    { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: true },
+    { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: true },
     { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: true },
     { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: true },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
@@ -146,7 +154,7 @@ export const crimson: SystemDefinition = {
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
     { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: true },
     { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: false },
-    { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
+    { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: true },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },
     { name: "sidebar", title: "Sidebar", summary: "옆에 늘 붙어 있는 길잡이. 접혀도 위치를 남기는 것이 시트와 다른 점임.", ready: false },
     { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: true },
