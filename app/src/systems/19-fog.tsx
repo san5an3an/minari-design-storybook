@@ -1,20 +1,32 @@
 import { Focus } from "lucide-react";
 import { Button } from "../bases/standalone/Button";
 import buttonCss from "./css/19-fog/button.json";
+import { Badge } from "../bases/standalone/Badge";
+import badgeCss from "./css/19-fog/badge.json";
 import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/19-fog/dialog.json";
 import { Toast } from "../bases/standalone/Toast";
 import toastCss from "./css/19-fog/toast.json";
+import { Divider } from "../bases/standalone/Divider";
+import dividerCss from "./css/19-fog/divider.json";
 import { Chip } from "../bases/standalone/Chip";
 import chipCss from "./css/19-fog/chip.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
 import colorpickerCss from "./css/19-fog/colorpicker.json";
+import { Kbd } from "../bases/standalone/Kbd";
+import kbdCss from "./css/19-fog/kbd.json";
 import { Meter } from "../bases/standalone/Meter";
 import meterCss from "./css/19-fog/meter.json";
+import { Progress } from "../bases/standalone/Progress";
+import progressCss from "./css/19-fog/progress.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/19-fog/ringcarousel.json";
+import { Skeleton } from "../bases/standalone/Skeleton";
+import skeletonCss from "./css/19-fog/skeleton.json";
 import { Stat } from "../bases/standalone/Stat";
 import statCss from "./css/19-fog/stat.json";
+import { Toggle } from "../bases/standalone/Toggle";
+import toggleCss from "./css/19-fog/toggle.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
 import vars from "./css/19-fog/_vars.json";
 import refs from "../../../generated/19-fog/mapping.json";
@@ -35,12 +47,12 @@ export const fog: SystemDefinition = {
   typeRatio: 1.2,
   brand: "#1d2d35",
   Icon: Focus,
-  css: [vars, buttonCss, dialogCss, toastCss, chipCss, colorpickerCss, meterCss, ringcarouselCss, statCss].join("\n"),
+  css: [vars, buttonCss, badgeCss, dialogCss, toastCss, dividerCss, chipCss, colorpickerCss, kbdCss, meterCss, progressCss, ringcarouselCss, skeletonCss, statCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl, toast: Toast as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, meter: Meter as Impl, ringcarousel: Ringcarousel as Impl, stat: Stat as Impl },
+  impl: { button: Button as Impl, badge: Badge as Impl, dialog: Dialog as Impl, toast: Toast as Impl, divider: Divider as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, kbd: Kbd as Impl, meter: Meter as Impl, progress: Progress as Impl, ringcarousel: Ringcarousel as Impl, skeleton: Skeleton as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -53,14 +65,14 @@ export const fog: SystemDefinition = {
     { name: "checkbox", title: "Checkbox", summary: "여러 개를 동시에 고르는 선택 컨트롤. 항목끼리 독립임. Radio(단일 선택)와 다른 컴포넌트임.", ready: false },
     { name: "radio", title: "Radio", summary: "여러 선택지 중 하나만 고르는 컨트롤. 같은 name 안에서 배타적임. Checkbox(다중 선택)와 다른 컴포넌트임.", ready: false },
     { name: "switch", title: "Switch", summary: "켜짐과 꺼짐을 즉시 전환하는 컨트롤. 핸들이 오른쪽인 상태가 켜짐임.", ready: false },
-    { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: false },
+    { name: "badge", title: "Badge", summary: "짧은 상태나 분류를 나타내는 표시. 읽는 것이지 누르는 것이 아님.", ready: true },
     { name: "card", title: "Card", summary: "관련된 내용을 하나로 묶는 컨테이너. 읽는 것이고 결정을 받지 않음. 결정은 Dialog 의 몫임.", ready: false },
     { name: "dialog", title: "Dialog", summary: "흐름을 멈추고 결정을 받는 창. 확인 버튼은 항상 오른쪽이고, 버튼 그룹은 창의 아래쪽 끝에 붙음.", ready: true },
     { name: "alert", title: "Alert", summary: "화면에 머무르며 상태를 알리는 영역. 알릴 수 있는 종류가 이 시스템의 팔레트 구성에서 유래.", ready: false },
     { name: "toast", title: "Toast", summary: "떴다가 스스로 사라지는 알림. 놓쳐도 되는 것만 포함.", ready: true },
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
     { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: false },
-    { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: false },
+    { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: true },
     { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: false },
     { name: "alertdialog", title: "AlertDialog", summary: "되돌릴 수 없는 결정을 받는 창. 바깥을 눌러도 닫히지 않음.", ready: false },
     { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: false },
@@ -85,7 +97,7 @@ export const fog: SystemDefinition = {
     { name: "hovercard", title: "HoverCard", summary: "hover 시 표시되는 미리보기. 터치 환경에서는 표시되지 않아 보조 정보만 사용", ready: false },
     { name: "inputgroup", title: "InputGroup", summary: "필드에 붙어 있는 부분을 한 상자로 통합. 테두리는 바깥 상자에만 표시.", ready: false },
     { name: "inputotp", title: "InputOTP", summary: "인증번호를 한 글자씩 필드를 나눠 받음. 보이는 필드는 표시이고 입력은 하나임.", ready: false },
-    { name: "kbd", title: "Kbd", summary: "눌러야 하는 키를 글자로 보여 주는 표시. 버튼이 아니라 설명임.", ready: false },
+    { name: "kbd", title: "Kbd", summary: "눌러야 하는 키를 글자로 보여 주는 표시. 버튼이 아니라 설명임.", ready: true },
     { name: "listrow", title: "ListRow", summary: "목록의 한 줄. 한 줄이 하나의 대상이며, 열끼리 견줘야 하면 Table 사용", ready: false },
     { name: "marker", title: "Marker", summary: "대화 사이에 끼는 한 줄. 누가 말한 것이 아니라 그 사이에 일어난 일을 알림.", ready: false },
     { name: "menu", title: "Menu", summary: "눌러서 펼치는 동작 목록. 고르는 것이 값이면 Select 사용", ready: false },
@@ -98,7 +110,7 @@ export const fog: SystemDefinition = {
     { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: false },
     { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
     { name: "popover", title: "Popover", summary: "눌러서 뜨는 작은 창. 설명 한 줄이면 Tooltip, 고르면 닫히면 Menu 임.", ready: false },
-    { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: false },
+    { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: true },
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
@@ -107,14 +119,14 @@ export const fog: SystemDefinition = {
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },
     { name: "sidebar", title: "Sidebar", summary: "옆에 늘 붙어 있는 길잡이. 접혀도 위치를 남기는 것이 시트와 다른 점임.", ready: false },
-    { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: false },
+    { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: true },
     { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: false },
     { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: false },
     { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: true },
     { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: false },
     { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: false },
     { name: "tabs", title: "Tabs", summary: "같은 층위의 화면을 오가는 컨트롤. 활성 표시 방식은 이 시스템의 형태 기준에서 유래", ready: false },
-    { name: "toggle", title: "Toggle", summary: "눌린 채로 있는 버튼. 하나를 켜고 끄는 용도. 여럿 중 고르는 것은 Segmented 사용", ready: false },
+    { name: "toggle", title: "Toggle", summary: "눌린 채로 있는 버튼. 하나를 켜고 끄는 용도. 여럿 중 고르는 것은 Segmented 사용", ready: true },
     { name: "toolbar", title: "Toolbar", summary: "자주 쓰는 동작을 한 줄에 모아 두는 띠. 버튼은 이 시스템의 Button 을 그대로 사용", ready: false },
   ],
 };
