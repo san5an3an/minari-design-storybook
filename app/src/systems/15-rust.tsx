@@ -27,6 +27,8 @@ import { Spinner } from "../bases/standalone/Spinner";
 import spinnerCss from "./css/15-rust/spinner.json";
 import { Divider } from "../bases/standalone/Divider";
 import dividerCss from "./css/15-rust/divider.json";
+import { Accordion } from "../bases/standalone/Accordion";
+import accordionCss from "./css/15-rust/accordion.json";
 import { Aspectratio } from "../bases/standalone/Aspectratio";
 import aspectratioCss from "./css/15-rust/aspectratio.json";
 import { Banner } from "../bases/standalone/Banner";
@@ -49,12 +51,16 @@ import { Nativeselect } from "../bases/standalone/Nativeselect";
 import nativeselectCss from "./css/15-rust/nativeselect.json";
 import { Pageheader } from "../bases/standalone/Pageheader";
 import pageheaderCss from "./css/15-rust/pageheader.json";
+import { Pagination } from "../bases/standalone/Pagination";
+import paginationCss from "./css/15-rust/pagination.json";
 import { Progress } from "../bases/standalone/Progress";
 import progressCss from "./css/15-rust/progress.json";
 import { Prose } from "../bases/standalone/Prose";
 import proseCss from "./css/15-rust/prose.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/15-rust/ringcarousel.json";
+import { Scrollarea } from "../bases/standalone/Scrollarea";
+import scrollareaCss from "./css/15-rust/scrollarea.json";
 import { Segmented } from "../bases/standalone/Segmented";
 import segmentedCss from "./css/15-rust/segmented.json";
 import { Skeleton } from "../bases/standalone/Skeleton";
@@ -63,6 +69,10 @@ import { Stages } from "../bases/standalone/Stages";
 import stagesCss from "./css/15-rust/stages.json";
 import { Stat } from "../bases/standalone/Stat";
 import statCss from "./css/15-rust/stat.json";
+import { Stepper } from "../bases/standalone/Stepper";
+import stepperCss from "./css/15-rust/stepper.json";
+import { Table } from "../bases/standalone/Table";
+import tableCss from "./css/15-rust/table.json";
 import { Toggle } from "../bases/standalone/Toggle";
 import toggleCss from "./css/15-rust/toggle.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
@@ -85,12 +95,12 @@ export const rust: SystemDefinition = {
   typeRatio: 1.333,
   brand: "#9e6954",
   Icon: Archive,
-  css: [vars, buttonCss, linkCss, inputCss, labelCss, checkboxCss, radioCss, switchCss, badgeCss, cardCss, dialogCss, alertCss, toastCss, spinnerCss, dividerCss, aspectratioCss, bannerCss, breadcrumbCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, nativeselectCss, pageheaderCss, progressCss, proseCss, ringcarouselCss, segmentedCss, skeletonCss, stagesCss, statCss, toggleCss].join("\n"),
+  css: [vars, buttonCss, linkCss, inputCss, labelCss, checkboxCss, radioCss, switchCss, badgeCss, cardCss, dialogCss, alertCss, toastCss, spinnerCss, dividerCss, accordionCss, aspectratioCss, bannerCss, breadcrumbCss, chipCss, colorpickerCss, emptyCss, kbdCss, markerCss, meterCss, nativeselectCss, pageheaderCss, paginationCss, progressCss, proseCss, ringcarouselCss, scrollareaCss, segmentedCss, skeletonCss, stagesCss, statCss, stepperCss, tableCss, toggleCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, label: Label as Impl, checkbox: Checkbox as Impl, radio: Radio as Impl, switch: Switch as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, aspectratio: Aspectratio as Impl, banner: Banner as Impl, breadcrumb: Breadcrumb as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, nativeselect: Nativeselect as Impl, pageheader: Pageheader as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, segmented: Segmented as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, toggle: Toggle as Impl },
+  impl: { button: Button as Impl, link: Link as Impl, input: Input as Impl, label: Label as Impl, checkbox: Checkbox as Impl, radio: Radio as Impl, switch: Switch as Impl, badge: Badge as Impl, card: Card as Impl, dialog: Dialog as Impl, alert: Alert as Impl, toast: Toast as Impl, spinner: Spinner as Impl, divider: Divider as Impl, accordion: Accordion as Impl, aspectratio: Aspectratio as Impl, banner: Banner as Impl, breadcrumb: Breadcrumb as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, empty: Empty as Impl, kbd: Kbd as Impl, marker: Marker as Impl, meter: Meter as Impl, nativeselect: Nativeselect as Impl, pageheader: Pageheader as Impl, pagination: Pagination as Impl, progress: Progress as Impl, prose: Prose as Impl, ringcarousel: Ringcarousel as Impl, scrollarea: Scrollarea as Impl, segmented: Segmented as Impl, skeleton: Skeleton as Impl, stages: Stages as Impl, stat: Stat as Impl, stepper: Stepper as Impl, table: Table as Impl, toggle: Toggle as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -111,7 +121,7 @@ export const rust: SystemDefinition = {
     { name: "tooltip", title: "Tooltip", summary: "가리켰을 때만 뜨는 짧은 덧말. 없어도 되는 말만 포함.", ready: false },
     { name: "spinner", title: "Spinner", summary: "끝을 모르는 기다림을 알리는 표시. 끝을 알면 Progress 사용.", ready: true },
     { name: "divider", title: "Divider", summary: "내용을 가르는 선. 뜻이 있는 선과 꾸미는 선을 구분해서 사용.", ready: true },
-    { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: false },
+    { name: "accordion", title: "Accordion", summary: "눌러서 속을 펴는 그룹. 한 번에 하나만 펴야 한다면 Tabs 사용.", ready: true },
     { name: "alertdialog", title: "AlertDialog", summary: "되돌릴 수 없는 결정을 받는 창. 바깥을 눌러도 닫히지 않음.", ready: false },
     { name: "aspectratio", title: "AspectRatio", summary: "안에 무엇이 오든 비율을 지키는 컨테이너. 이미지가 오기 전에도 공간을 확보.", ready: true },
     { name: "attachment", title: "Attachment", summary: "대화에 딸려 온 파일 한 개. 아직 끝나지 않았을 수 있어 상태가 있음.", ready: false },
@@ -146,14 +156,14 @@ export const rust: SystemDefinition = {
     { name: "nativeselect", title: "NativeSelect", summary: "목록을 브라우저가 그리는 고르개. 항목을 꾸며야 하면 Select 임.", ready: true },
     { name: "navigationmenu", title: "NavigationMenu", summary: "위치를 옮기는 길잡이. 고르면 일이 일어나는 것은 Menu 임.", ready: false },
     { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: true },
-    { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: false },
+    { name: "pagination", title: "Pagination", summary: "긴 목록을 쪽으로 나눠 오가는 컨트롤. 쪽 번호는 저마다 주소를 가진 링크임.", ready: true },
     { name: "popover", title: "Popover", summary: "눌러서 뜨는 작은 창. 설명 한 줄이면 Tooltip, 고르면 닫히면 Menu 임.", ready: false },
     { name: "progress", title: "Progress", summary: "일이 얼마나 진행됐는지 보여주는 막대. 끝이 있는 작업에만 사용", ready: true },
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: true },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
     { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: true },
-    { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: false },
+    { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: true },
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: true },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },
     { name: "sidebar", title: "Sidebar", summary: "옆에 늘 붙어 있는 길잡이. 접혀도 위치를 남기는 것이 시트와 다른 점임.", ready: false },
@@ -161,8 +171,8 @@ export const rust: SystemDefinition = {
     { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: false },
     { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: true },
     { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: true },
-    { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: false },
-    { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: false },
+    { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: true },
+    { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: true },
     { name: "tabs", title: "Tabs", summary: "같은 층위의 화면을 오가는 컨트롤. 활성 표시 방식은 이 시스템의 형태 기준에서 유래", ready: false },
     { name: "toggle", title: "Toggle", summary: "눌린 채로 있는 버튼. 하나를 켜고 끄는 용도. 여럿 중 고르는 것은 Segmented 사용", ready: true },
     { name: "toolbar", title: "Toolbar", summary: "자주 쓰는 동작을 한 줄에 모아 두는 띠. 버튼은 이 시스템의 Button 을 그대로 사용", ready: false },
