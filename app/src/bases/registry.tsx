@@ -89,15 +89,21 @@ import { Toggle as ShadcnToggle } from "./shadcn/Toggle";
 import { Toolbar as ShadcnToolbar } from "./shadcn/Toolbar";
 import { Tooltip as ShadcnTooltip } from "./shadcn/Tooltip";
 
-// standalone 8종
+// standalone 14종
+import { Badge as StandaloneBadge } from "./standalone/Badge";
 import { Button as StandaloneButton } from "./standalone/Button";
 import { Chip as StandaloneChip } from "./standalone/Chip";
 import { Colorpicker as StandaloneColorpicker } from "./standalone/Colorpicker";
 import { Dialog as StandaloneDialog } from "./standalone/Dialog";
+import { Divider as StandaloneDivider } from "./standalone/Divider";
+import { Kbd as StandaloneKbd } from "./standalone/Kbd";
 import { Meter as StandaloneMeter } from "./standalone/Meter";
+import { Progress as StandaloneProgress } from "./standalone/Progress";
 import { Ringcarousel as StandaloneRingcarousel } from "./standalone/Ringcarousel";
+import { Skeleton as StandaloneSkeleton } from "./standalone/Skeleton";
 import { Stat as StandaloneStat } from "./standalone/Stat";
 import { Toast as StandaloneToast } from "./standalone/Toast";
+import { Toggle as StandaloneToggle } from "./standalone/Toggle";
 
 import { byMode as muiS01Cobalt } from "../../../generated/01-cobalt/base/mui/theme";
 import { byMode as muiS02Graphite } from "../../../generated/02-graphite/base/mui/theme";
@@ -271,187 +277,307 @@ const MANTINE_THEME = {
   "20-berry": mantineS20Berry,
 };
 
+import cssS01CobaltBadge from "../systems/css/01-cobalt/badge.json";
 import cssS01CobaltButton from "../systems/css/01-cobalt/button.json";
 import cssS01CobaltChip from "../systems/css/01-cobalt/chip.json";
 import cssS01CobaltColorpicker from "../systems/css/01-cobalt/colorpicker.json";
 import cssS01CobaltDialog from "../systems/css/01-cobalt/dialog.json";
+import cssS01CobaltDivider from "../systems/css/01-cobalt/divider.json";
+import cssS01CobaltKbd from "../systems/css/01-cobalt/kbd.json";
 import cssS01CobaltMeter from "../systems/css/01-cobalt/meter.json";
+import cssS01CobaltProgress from "../systems/css/01-cobalt/progress.json";
 import cssS01CobaltRingcarousel from "../systems/css/01-cobalt/ringcarousel.json";
+import cssS01CobaltSkeleton from "../systems/css/01-cobalt/skeleton.json";
 import cssS01CobaltStat from "../systems/css/01-cobalt/stat.json";
 import cssS01CobaltToast from "../systems/css/01-cobalt/toast.json";
+import cssS01CobaltToggle from "../systems/css/01-cobalt/toggle.json";
+import cssS02GraphiteBadge from "../systems/css/02-graphite/badge.json";
 import cssS02GraphiteButton from "../systems/css/02-graphite/button.json";
 import cssS02GraphiteChip from "../systems/css/02-graphite/chip.json";
 import cssS02GraphiteColorpicker from "../systems/css/02-graphite/colorpicker.json";
 import cssS02GraphiteDialog from "../systems/css/02-graphite/dialog.json";
+import cssS02GraphiteDivider from "../systems/css/02-graphite/divider.json";
+import cssS02GraphiteKbd from "../systems/css/02-graphite/kbd.json";
 import cssS02GraphiteMeter from "../systems/css/02-graphite/meter.json";
+import cssS02GraphiteProgress from "../systems/css/02-graphite/progress.json";
 import cssS02GraphiteRingcarousel from "../systems/css/02-graphite/ringcarousel.json";
+import cssS02GraphiteSkeleton from "../systems/css/02-graphite/skeleton.json";
 import cssS02GraphiteStat from "../systems/css/02-graphite/stat.json";
 import cssS02GraphiteToast from "../systems/css/02-graphite/toast.json";
+import cssS02GraphiteToggle from "../systems/css/02-graphite/toggle.json";
+import cssS03EmberBadge from "../systems/css/03-ember/badge.json";
 import cssS03EmberButton from "../systems/css/03-ember/button.json";
 import cssS03EmberChip from "../systems/css/03-ember/chip.json";
 import cssS03EmberColorpicker from "../systems/css/03-ember/colorpicker.json";
 import cssS03EmberDialog from "../systems/css/03-ember/dialog.json";
+import cssS03EmberDivider from "../systems/css/03-ember/divider.json";
+import cssS03EmberKbd from "../systems/css/03-ember/kbd.json";
 import cssS03EmberMeter from "../systems/css/03-ember/meter.json";
+import cssS03EmberProgress from "../systems/css/03-ember/progress.json";
 import cssS03EmberRingcarousel from "../systems/css/03-ember/ringcarousel.json";
+import cssS03EmberSkeleton from "../systems/css/03-ember/skeleton.json";
 import cssS03EmberStat from "../systems/css/03-ember/stat.json";
 import cssS03EmberToast from "../systems/css/03-ember/toast.json";
+import cssS03EmberToggle from "../systems/css/03-ember/toggle.json";
+import cssS04JadeBadge from "../systems/css/04-jade/badge.json";
 import cssS04JadeButton from "../systems/css/04-jade/button.json";
 import cssS04JadeChip from "../systems/css/04-jade/chip.json";
 import cssS04JadeColorpicker from "../systems/css/04-jade/colorpicker.json";
 import cssS04JadeDialog from "../systems/css/04-jade/dialog.json";
+import cssS04JadeDivider from "../systems/css/04-jade/divider.json";
+import cssS04JadeKbd from "../systems/css/04-jade/kbd.json";
 import cssS04JadeMeter from "../systems/css/04-jade/meter.json";
+import cssS04JadeProgress from "../systems/css/04-jade/progress.json";
 import cssS04JadeRingcarousel from "../systems/css/04-jade/ringcarousel.json";
+import cssS04JadeSkeleton from "../systems/css/04-jade/skeleton.json";
 import cssS04JadeStat from "../systems/css/04-jade/stat.json";
 import cssS04JadeToast from "../systems/css/04-jade/toast.json";
+import cssS04JadeToggle from "../systems/css/04-jade/toggle.json";
+import cssS05PlumBadge from "../systems/css/05-plum/badge.json";
 import cssS05PlumButton from "../systems/css/05-plum/button.json";
 import cssS05PlumChip from "../systems/css/05-plum/chip.json";
 import cssS05PlumColorpicker from "../systems/css/05-plum/colorpicker.json";
 import cssS05PlumDialog from "../systems/css/05-plum/dialog.json";
+import cssS05PlumDivider from "../systems/css/05-plum/divider.json";
+import cssS05PlumKbd from "../systems/css/05-plum/kbd.json";
 import cssS05PlumMeter from "../systems/css/05-plum/meter.json";
+import cssS05PlumProgress from "../systems/css/05-plum/progress.json";
 import cssS05PlumRingcarousel from "../systems/css/05-plum/ringcarousel.json";
+import cssS05PlumSkeleton from "../systems/css/05-plum/skeleton.json";
 import cssS05PlumStat from "../systems/css/05-plum/stat.json";
 import cssS05PlumToast from "../systems/css/05-plum/toast.json";
+import cssS05PlumToggle from "../systems/css/05-plum/toggle.json";
+import cssS06SlateBadge from "../systems/css/06-slate/badge.json";
 import cssS06SlateButton from "../systems/css/06-slate/button.json";
 import cssS06SlateChip from "../systems/css/06-slate/chip.json";
 import cssS06SlateColorpicker from "../systems/css/06-slate/colorpicker.json";
 import cssS06SlateDialog from "../systems/css/06-slate/dialog.json";
+import cssS06SlateDivider from "../systems/css/06-slate/divider.json";
+import cssS06SlateKbd from "../systems/css/06-slate/kbd.json";
 import cssS06SlateMeter from "../systems/css/06-slate/meter.json";
+import cssS06SlateProgress from "../systems/css/06-slate/progress.json";
 import cssS06SlateRingcarousel from "../systems/css/06-slate/ringcarousel.json";
+import cssS06SlateSkeleton from "../systems/css/06-slate/skeleton.json";
 import cssS06SlateStat from "../systems/css/06-slate/stat.json";
 import cssS06SlateToast from "../systems/css/06-slate/toast.json";
+import cssS06SlateToggle from "../systems/css/06-slate/toggle.json";
+import cssS07EmeraldBadge from "../systems/css/07-emerald/badge.json";
 import cssS07EmeraldButton from "../systems/css/07-emerald/button.json";
 import cssS07EmeraldChip from "../systems/css/07-emerald/chip.json";
 import cssS07EmeraldColorpicker from "../systems/css/07-emerald/colorpicker.json";
 import cssS07EmeraldDialog from "../systems/css/07-emerald/dialog.json";
+import cssS07EmeraldDivider from "../systems/css/07-emerald/divider.json";
+import cssS07EmeraldKbd from "../systems/css/07-emerald/kbd.json";
 import cssS07EmeraldMeter from "../systems/css/07-emerald/meter.json";
+import cssS07EmeraldProgress from "../systems/css/07-emerald/progress.json";
 import cssS07EmeraldRingcarousel from "../systems/css/07-emerald/ringcarousel.json";
+import cssS07EmeraldSkeleton from "../systems/css/07-emerald/skeleton.json";
 import cssS07EmeraldStat from "../systems/css/07-emerald/stat.json";
 import cssS07EmeraldToast from "../systems/css/07-emerald/toast.json";
+import cssS07EmeraldToggle from "../systems/css/07-emerald/toggle.json";
+import cssS08IndigoBadge from "../systems/css/08-indigo/badge.json";
 import cssS08IndigoButton from "../systems/css/08-indigo/button.json";
 import cssS08IndigoChip from "../systems/css/08-indigo/chip.json";
 import cssS08IndigoColorpicker from "../systems/css/08-indigo/colorpicker.json";
 import cssS08IndigoDialog from "../systems/css/08-indigo/dialog.json";
+import cssS08IndigoDivider from "../systems/css/08-indigo/divider.json";
+import cssS08IndigoKbd from "../systems/css/08-indigo/kbd.json";
 import cssS08IndigoMeter from "../systems/css/08-indigo/meter.json";
+import cssS08IndigoProgress from "../systems/css/08-indigo/progress.json";
 import cssS08IndigoRingcarousel from "../systems/css/08-indigo/ringcarousel.json";
+import cssS08IndigoSkeleton from "../systems/css/08-indigo/skeleton.json";
 import cssS08IndigoStat from "../systems/css/08-indigo/stat.json";
 import cssS08IndigoToast from "../systems/css/08-indigo/toast.json";
+import cssS08IndigoToggle from "../systems/css/08-indigo/toggle.json";
+import cssS09SandBadge from "../systems/css/09-sand/badge.json";
 import cssS09SandButton from "../systems/css/09-sand/button.json";
 import cssS09SandChip from "../systems/css/09-sand/chip.json";
 import cssS09SandColorpicker from "../systems/css/09-sand/colorpicker.json";
 import cssS09SandDialog from "../systems/css/09-sand/dialog.json";
+import cssS09SandDivider from "../systems/css/09-sand/divider.json";
+import cssS09SandKbd from "../systems/css/09-sand/kbd.json";
 import cssS09SandMeter from "../systems/css/09-sand/meter.json";
+import cssS09SandProgress from "../systems/css/09-sand/progress.json";
 import cssS09SandRingcarousel from "../systems/css/09-sand/ringcarousel.json";
+import cssS09SandSkeleton from "../systems/css/09-sand/skeleton.json";
 import cssS09SandStat from "../systems/css/09-sand/stat.json";
 import cssS09SandToast from "../systems/css/09-sand/toast.json";
+import cssS09SandToggle from "../systems/css/09-sand/toggle.json";
+import cssS10TealBadge from "../systems/css/10-teal/badge.json";
 import cssS10TealButton from "../systems/css/10-teal/button.json";
 import cssS10TealChip from "../systems/css/10-teal/chip.json";
 import cssS10TealColorpicker from "../systems/css/10-teal/colorpicker.json";
 import cssS10TealDialog from "../systems/css/10-teal/dialog.json";
+import cssS10TealDivider from "../systems/css/10-teal/divider.json";
+import cssS10TealKbd from "../systems/css/10-teal/kbd.json";
 import cssS10TealMeter from "../systems/css/10-teal/meter.json";
+import cssS10TealProgress from "../systems/css/10-teal/progress.json";
 import cssS10TealRingcarousel from "../systems/css/10-teal/ringcarousel.json";
+import cssS10TealSkeleton from "../systems/css/10-teal/skeleton.json";
 import cssS10TealStat from "../systems/css/10-teal/stat.json";
 import cssS10TealToast from "../systems/css/10-teal/toast.json";
+import cssS10TealToggle from "../systems/css/10-teal/toggle.json";
+import cssS11CrimsonBadge from "../systems/css/11-crimson/badge.json";
 import cssS11CrimsonButton from "../systems/css/11-crimson/button.json";
 import cssS11CrimsonChip from "../systems/css/11-crimson/chip.json";
 import cssS11CrimsonColorpicker from "../systems/css/11-crimson/colorpicker.json";
 import cssS11CrimsonDialog from "../systems/css/11-crimson/dialog.json";
+import cssS11CrimsonDivider from "../systems/css/11-crimson/divider.json";
+import cssS11CrimsonKbd from "../systems/css/11-crimson/kbd.json";
 import cssS11CrimsonMeter from "../systems/css/11-crimson/meter.json";
+import cssS11CrimsonProgress from "../systems/css/11-crimson/progress.json";
 import cssS11CrimsonRingcarousel from "../systems/css/11-crimson/ringcarousel.json";
+import cssS11CrimsonSkeleton from "../systems/css/11-crimson/skeleton.json";
 import cssS11CrimsonStat from "../systems/css/11-crimson/stat.json";
 import cssS11CrimsonToast from "../systems/css/11-crimson/toast.json";
+import cssS11CrimsonToggle from "../systems/css/11-crimson/toggle.json";
+import cssS12MossBadge from "../systems/css/12-moss/badge.json";
 import cssS12MossButton from "../systems/css/12-moss/button.json";
 import cssS12MossChip from "../systems/css/12-moss/chip.json";
 import cssS12MossColorpicker from "../systems/css/12-moss/colorpicker.json";
 import cssS12MossDialog from "../systems/css/12-moss/dialog.json";
+import cssS12MossDivider from "../systems/css/12-moss/divider.json";
+import cssS12MossKbd from "../systems/css/12-moss/kbd.json";
 import cssS12MossMeter from "../systems/css/12-moss/meter.json";
+import cssS12MossProgress from "../systems/css/12-moss/progress.json";
 import cssS12MossRingcarousel from "../systems/css/12-moss/ringcarousel.json";
+import cssS12MossSkeleton from "../systems/css/12-moss/skeleton.json";
 import cssS12MossStat from "../systems/css/12-moss/stat.json";
 import cssS12MossToast from "../systems/css/12-moss/toast.json";
+import cssS12MossToggle from "../systems/css/12-moss/toggle.json";
+import cssS13AzureBadge from "../systems/css/13-azure/badge.json";
 import cssS13AzureButton from "../systems/css/13-azure/button.json";
 import cssS13AzureChip from "../systems/css/13-azure/chip.json";
 import cssS13AzureColorpicker from "../systems/css/13-azure/colorpicker.json";
 import cssS13AzureDialog from "../systems/css/13-azure/dialog.json";
+import cssS13AzureDivider from "../systems/css/13-azure/divider.json";
+import cssS13AzureKbd from "../systems/css/13-azure/kbd.json";
 import cssS13AzureMeter from "../systems/css/13-azure/meter.json";
+import cssS13AzureProgress from "../systems/css/13-azure/progress.json";
 import cssS13AzureRingcarousel from "../systems/css/13-azure/ringcarousel.json";
+import cssS13AzureSkeleton from "../systems/css/13-azure/skeleton.json";
 import cssS13AzureStat from "../systems/css/13-azure/stat.json";
 import cssS13AzureToast from "../systems/css/13-azure/toast.json";
+import cssS13AzureToggle from "../systems/css/13-azure/toggle.json";
+import cssS14VioletBadge from "../systems/css/14-violet/badge.json";
 import cssS14VioletButton from "../systems/css/14-violet/button.json";
 import cssS14VioletChip from "../systems/css/14-violet/chip.json";
 import cssS14VioletColorpicker from "../systems/css/14-violet/colorpicker.json";
 import cssS14VioletDialog from "../systems/css/14-violet/dialog.json";
+import cssS14VioletDivider from "../systems/css/14-violet/divider.json";
+import cssS14VioletKbd from "../systems/css/14-violet/kbd.json";
 import cssS14VioletMeter from "../systems/css/14-violet/meter.json";
+import cssS14VioletProgress from "../systems/css/14-violet/progress.json";
 import cssS14VioletRingcarousel from "../systems/css/14-violet/ringcarousel.json";
+import cssS14VioletSkeleton from "../systems/css/14-violet/skeleton.json";
 import cssS14VioletStat from "../systems/css/14-violet/stat.json";
 import cssS14VioletToast from "../systems/css/14-violet/toast.json";
+import cssS14VioletToggle from "../systems/css/14-violet/toggle.json";
+import cssS15RustBadge from "../systems/css/15-rust/badge.json";
 import cssS15RustButton from "../systems/css/15-rust/button.json";
 import cssS15RustChip from "../systems/css/15-rust/chip.json";
 import cssS15RustColorpicker from "../systems/css/15-rust/colorpicker.json";
 import cssS15RustDialog from "../systems/css/15-rust/dialog.json";
+import cssS15RustDivider from "../systems/css/15-rust/divider.json";
+import cssS15RustKbd from "../systems/css/15-rust/kbd.json";
 import cssS15RustMeter from "../systems/css/15-rust/meter.json";
+import cssS15RustProgress from "../systems/css/15-rust/progress.json";
 import cssS15RustRingcarousel from "../systems/css/15-rust/ringcarousel.json";
+import cssS15RustSkeleton from "../systems/css/15-rust/skeleton.json";
 import cssS15RustStat from "../systems/css/15-rust/stat.json";
 import cssS15RustToast from "../systems/css/15-rust/toast.json";
+import cssS15RustToggle from "../systems/css/15-rust/toggle.json";
+import cssS16MintBadge from "../systems/css/16-mint/badge.json";
 import cssS16MintButton from "../systems/css/16-mint/button.json";
 import cssS16MintChip from "../systems/css/16-mint/chip.json";
 import cssS16MintColorpicker from "../systems/css/16-mint/colorpicker.json";
 import cssS16MintDialog from "../systems/css/16-mint/dialog.json";
+import cssS16MintDivider from "../systems/css/16-mint/divider.json";
+import cssS16MintKbd from "../systems/css/16-mint/kbd.json";
 import cssS16MintMeter from "../systems/css/16-mint/meter.json";
+import cssS16MintProgress from "../systems/css/16-mint/progress.json";
 import cssS16MintRingcarousel from "../systems/css/16-mint/ringcarousel.json";
+import cssS16MintSkeleton from "../systems/css/16-mint/skeleton.json";
 import cssS16MintStat from "../systems/css/16-mint/stat.json";
 import cssS16MintToast from "../systems/css/16-mint/toast.json";
+import cssS16MintToggle from "../systems/css/16-mint/toggle.json";
+import cssS17NavyBadge from "../systems/css/17-navy/badge.json";
 import cssS17NavyButton from "../systems/css/17-navy/button.json";
 import cssS17NavyChip from "../systems/css/17-navy/chip.json";
 import cssS17NavyColorpicker from "../systems/css/17-navy/colorpicker.json";
 import cssS17NavyDialog from "../systems/css/17-navy/dialog.json";
+import cssS17NavyDivider from "../systems/css/17-navy/divider.json";
+import cssS17NavyKbd from "../systems/css/17-navy/kbd.json";
 import cssS17NavyMeter from "../systems/css/17-navy/meter.json";
+import cssS17NavyProgress from "../systems/css/17-navy/progress.json";
 import cssS17NavyRingcarousel from "../systems/css/17-navy/ringcarousel.json";
+import cssS17NavySkeleton from "../systems/css/17-navy/skeleton.json";
 import cssS17NavyStat from "../systems/css/17-navy/stat.json";
 import cssS17NavyToast from "../systems/css/17-navy/toast.json";
+import cssS17NavyToggle from "../systems/css/17-navy/toggle.json";
+import cssS18SaffronBadge from "../systems/css/18-saffron/badge.json";
 import cssS18SaffronButton from "../systems/css/18-saffron/button.json";
 import cssS18SaffronChip from "../systems/css/18-saffron/chip.json";
 import cssS18SaffronColorpicker from "../systems/css/18-saffron/colorpicker.json";
 import cssS18SaffronDialog from "../systems/css/18-saffron/dialog.json";
+import cssS18SaffronDivider from "../systems/css/18-saffron/divider.json";
+import cssS18SaffronKbd from "../systems/css/18-saffron/kbd.json";
 import cssS18SaffronMeter from "../systems/css/18-saffron/meter.json";
+import cssS18SaffronProgress from "../systems/css/18-saffron/progress.json";
 import cssS18SaffronRingcarousel from "../systems/css/18-saffron/ringcarousel.json";
+import cssS18SaffronSkeleton from "../systems/css/18-saffron/skeleton.json";
 import cssS18SaffronStat from "../systems/css/18-saffron/stat.json";
 import cssS18SaffronToast from "../systems/css/18-saffron/toast.json";
+import cssS18SaffronToggle from "../systems/css/18-saffron/toggle.json";
+import cssS19FogBadge from "../systems/css/19-fog/badge.json";
 import cssS19FogButton from "../systems/css/19-fog/button.json";
 import cssS19FogChip from "../systems/css/19-fog/chip.json";
 import cssS19FogColorpicker from "../systems/css/19-fog/colorpicker.json";
 import cssS19FogDialog from "../systems/css/19-fog/dialog.json";
+import cssS19FogDivider from "../systems/css/19-fog/divider.json";
+import cssS19FogKbd from "../systems/css/19-fog/kbd.json";
 import cssS19FogMeter from "../systems/css/19-fog/meter.json";
+import cssS19FogProgress from "../systems/css/19-fog/progress.json";
 import cssS19FogRingcarousel from "../systems/css/19-fog/ringcarousel.json";
+import cssS19FogSkeleton from "../systems/css/19-fog/skeleton.json";
 import cssS19FogStat from "../systems/css/19-fog/stat.json";
 import cssS19FogToast from "../systems/css/19-fog/toast.json";
+import cssS19FogToggle from "../systems/css/19-fog/toggle.json";
+import cssS20BerryBadge from "../systems/css/20-berry/badge.json";
 import cssS20BerryButton from "../systems/css/20-berry/button.json";
 import cssS20BerryChip from "../systems/css/20-berry/chip.json";
 import cssS20BerryColorpicker from "../systems/css/20-berry/colorpicker.json";
 import cssS20BerryDialog from "../systems/css/20-berry/dialog.json";
+import cssS20BerryDivider from "../systems/css/20-berry/divider.json";
+import cssS20BerryKbd from "../systems/css/20-berry/kbd.json";
 import cssS20BerryMeter from "../systems/css/20-berry/meter.json";
+import cssS20BerryProgress from "../systems/css/20-berry/progress.json";
 import cssS20BerryRingcarousel from "../systems/css/20-berry/ringcarousel.json";
+import cssS20BerrySkeleton from "../systems/css/20-berry/skeleton.json";
 import cssS20BerryStat from "../systems/css/20-berry/stat.json";
 import cssS20BerryToast from "../systems/css/20-berry/toast.json";
+import cssS20BerryToggle from "../systems/css/20-berry/toggle.json";
 const STANDALONE_CSS: Record<string, string> = {
-  "01-cobalt": [cssS01CobaltButton, cssS01CobaltChip, cssS01CobaltColorpicker, cssS01CobaltDialog, cssS01CobaltMeter, cssS01CobaltRingcarousel, cssS01CobaltStat, cssS01CobaltToast].join("\n"),
-  "02-graphite": [cssS02GraphiteButton, cssS02GraphiteChip, cssS02GraphiteColorpicker, cssS02GraphiteDialog, cssS02GraphiteMeter, cssS02GraphiteRingcarousel, cssS02GraphiteStat, cssS02GraphiteToast].join("\n"),
-  "03-ember": [cssS03EmberButton, cssS03EmberChip, cssS03EmberColorpicker, cssS03EmberDialog, cssS03EmberMeter, cssS03EmberRingcarousel, cssS03EmberStat, cssS03EmberToast].join("\n"),
-  "04-jade": [cssS04JadeButton, cssS04JadeChip, cssS04JadeColorpicker, cssS04JadeDialog, cssS04JadeMeter, cssS04JadeRingcarousel, cssS04JadeStat, cssS04JadeToast].join("\n"),
-  "05-plum": [cssS05PlumButton, cssS05PlumChip, cssS05PlumColorpicker, cssS05PlumDialog, cssS05PlumMeter, cssS05PlumRingcarousel, cssS05PlumStat, cssS05PlumToast].join("\n"),
-  "06-slate": [cssS06SlateButton, cssS06SlateChip, cssS06SlateColorpicker, cssS06SlateDialog, cssS06SlateMeter, cssS06SlateRingcarousel, cssS06SlateStat, cssS06SlateToast].join("\n"),
-  "07-emerald": [cssS07EmeraldButton, cssS07EmeraldChip, cssS07EmeraldColorpicker, cssS07EmeraldDialog, cssS07EmeraldMeter, cssS07EmeraldRingcarousel, cssS07EmeraldStat, cssS07EmeraldToast].join("\n"),
-  "08-indigo": [cssS08IndigoButton, cssS08IndigoChip, cssS08IndigoColorpicker, cssS08IndigoDialog, cssS08IndigoMeter, cssS08IndigoRingcarousel, cssS08IndigoStat, cssS08IndigoToast].join("\n"),
-  "09-sand": [cssS09SandButton, cssS09SandChip, cssS09SandColorpicker, cssS09SandDialog, cssS09SandMeter, cssS09SandRingcarousel, cssS09SandStat, cssS09SandToast].join("\n"),
-  "10-teal": [cssS10TealButton, cssS10TealChip, cssS10TealColorpicker, cssS10TealDialog, cssS10TealMeter, cssS10TealRingcarousel, cssS10TealStat, cssS10TealToast].join("\n"),
-  "11-crimson": [cssS11CrimsonButton, cssS11CrimsonChip, cssS11CrimsonColorpicker, cssS11CrimsonDialog, cssS11CrimsonMeter, cssS11CrimsonRingcarousel, cssS11CrimsonStat, cssS11CrimsonToast].join("\n"),
-  "12-moss": [cssS12MossButton, cssS12MossChip, cssS12MossColorpicker, cssS12MossDialog, cssS12MossMeter, cssS12MossRingcarousel, cssS12MossStat, cssS12MossToast].join("\n"),
-  "13-azure": [cssS13AzureButton, cssS13AzureChip, cssS13AzureColorpicker, cssS13AzureDialog, cssS13AzureMeter, cssS13AzureRingcarousel, cssS13AzureStat, cssS13AzureToast].join("\n"),
-  "14-violet": [cssS14VioletButton, cssS14VioletChip, cssS14VioletColorpicker, cssS14VioletDialog, cssS14VioletMeter, cssS14VioletRingcarousel, cssS14VioletStat, cssS14VioletToast].join("\n"),
-  "15-rust": [cssS15RustButton, cssS15RustChip, cssS15RustColorpicker, cssS15RustDialog, cssS15RustMeter, cssS15RustRingcarousel, cssS15RustStat, cssS15RustToast].join("\n"),
-  "16-mint": [cssS16MintButton, cssS16MintChip, cssS16MintColorpicker, cssS16MintDialog, cssS16MintMeter, cssS16MintRingcarousel, cssS16MintStat, cssS16MintToast].join("\n"),
-  "17-navy": [cssS17NavyButton, cssS17NavyChip, cssS17NavyColorpicker, cssS17NavyDialog, cssS17NavyMeter, cssS17NavyRingcarousel, cssS17NavyStat, cssS17NavyToast].join("\n"),
-  "18-saffron": [cssS18SaffronButton, cssS18SaffronChip, cssS18SaffronColorpicker, cssS18SaffronDialog, cssS18SaffronMeter, cssS18SaffronRingcarousel, cssS18SaffronStat, cssS18SaffronToast].join("\n"),
-  "19-fog": [cssS19FogButton, cssS19FogChip, cssS19FogColorpicker, cssS19FogDialog, cssS19FogMeter, cssS19FogRingcarousel, cssS19FogStat, cssS19FogToast].join("\n"),
-  "20-berry": [cssS20BerryButton, cssS20BerryChip, cssS20BerryColorpicker, cssS20BerryDialog, cssS20BerryMeter, cssS20BerryRingcarousel, cssS20BerryStat, cssS20BerryToast].join("\n"),
+  "01-cobalt": [cssS01CobaltBadge, cssS01CobaltButton, cssS01CobaltChip, cssS01CobaltColorpicker, cssS01CobaltDialog, cssS01CobaltDivider, cssS01CobaltKbd, cssS01CobaltMeter, cssS01CobaltProgress, cssS01CobaltRingcarousel, cssS01CobaltSkeleton, cssS01CobaltStat, cssS01CobaltToast, cssS01CobaltToggle].join("\n"),
+  "02-graphite": [cssS02GraphiteBadge, cssS02GraphiteButton, cssS02GraphiteChip, cssS02GraphiteColorpicker, cssS02GraphiteDialog, cssS02GraphiteDivider, cssS02GraphiteKbd, cssS02GraphiteMeter, cssS02GraphiteProgress, cssS02GraphiteRingcarousel, cssS02GraphiteSkeleton, cssS02GraphiteStat, cssS02GraphiteToast, cssS02GraphiteToggle].join("\n"),
+  "03-ember": [cssS03EmberBadge, cssS03EmberButton, cssS03EmberChip, cssS03EmberColorpicker, cssS03EmberDialog, cssS03EmberDivider, cssS03EmberKbd, cssS03EmberMeter, cssS03EmberProgress, cssS03EmberRingcarousel, cssS03EmberSkeleton, cssS03EmberStat, cssS03EmberToast, cssS03EmberToggle].join("\n"),
+  "04-jade": [cssS04JadeBadge, cssS04JadeButton, cssS04JadeChip, cssS04JadeColorpicker, cssS04JadeDialog, cssS04JadeDivider, cssS04JadeKbd, cssS04JadeMeter, cssS04JadeProgress, cssS04JadeRingcarousel, cssS04JadeSkeleton, cssS04JadeStat, cssS04JadeToast, cssS04JadeToggle].join("\n"),
+  "05-plum": [cssS05PlumBadge, cssS05PlumButton, cssS05PlumChip, cssS05PlumColorpicker, cssS05PlumDialog, cssS05PlumDivider, cssS05PlumKbd, cssS05PlumMeter, cssS05PlumProgress, cssS05PlumRingcarousel, cssS05PlumSkeleton, cssS05PlumStat, cssS05PlumToast, cssS05PlumToggle].join("\n"),
+  "06-slate": [cssS06SlateBadge, cssS06SlateButton, cssS06SlateChip, cssS06SlateColorpicker, cssS06SlateDialog, cssS06SlateDivider, cssS06SlateKbd, cssS06SlateMeter, cssS06SlateProgress, cssS06SlateRingcarousel, cssS06SlateSkeleton, cssS06SlateStat, cssS06SlateToast, cssS06SlateToggle].join("\n"),
+  "07-emerald": [cssS07EmeraldBadge, cssS07EmeraldButton, cssS07EmeraldChip, cssS07EmeraldColorpicker, cssS07EmeraldDialog, cssS07EmeraldDivider, cssS07EmeraldKbd, cssS07EmeraldMeter, cssS07EmeraldProgress, cssS07EmeraldRingcarousel, cssS07EmeraldSkeleton, cssS07EmeraldStat, cssS07EmeraldToast, cssS07EmeraldToggle].join("\n"),
+  "08-indigo": [cssS08IndigoBadge, cssS08IndigoButton, cssS08IndigoChip, cssS08IndigoColorpicker, cssS08IndigoDialog, cssS08IndigoDivider, cssS08IndigoKbd, cssS08IndigoMeter, cssS08IndigoProgress, cssS08IndigoRingcarousel, cssS08IndigoSkeleton, cssS08IndigoStat, cssS08IndigoToast, cssS08IndigoToggle].join("\n"),
+  "09-sand": [cssS09SandBadge, cssS09SandButton, cssS09SandChip, cssS09SandColorpicker, cssS09SandDialog, cssS09SandDivider, cssS09SandKbd, cssS09SandMeter, cssS09SandProgress, cssS09SandRingcarousel, cssS09SandSkeleton, cssS09SandStat, cssS09SandToast, cssS09SandToggle].join("\n"),
+  "10-teal": [cssS10TealBadge, cssS10TealButton, cssS10TealChip, cssS10TealColorpicker, cssS10TealDialog, cssS10TealDivider, cssS10TealKbd, cssS10TealMeter, cssS10TealProgress, cssS10TealRingcarousel, cssS10TealSkeleton, cssS10TealStat, cssS10TealToast, cssS10TealToggle].join("\n"),
+  "11-crimson": [cssS11CrimsonBadge, cssS11CrimsonButton, cssS11CrimsonChip, cssS11CrimsonColorpicker, cssS11CrimsonDialog, cssS11CrimsonDivider, cssS11CrimsonKbd, cssS11CrimsonMeter, cssS11CrimsonProgress, cssS11CrimsonRingcarousel, cssS11CrimsonSkeleton, cssS11CrimsonStat, cssS11CrimsonToast, cssS11CrimsonToggle].join("\n"),
+  "12-moss": [cssS12MossBadge, cssS12MossButton, cssS12MossChip, cssS12MossColorpicker, cssS12MossDialog, cssS12MossDivider, cssS12MossKbd, cssS12MossMeter, cssS12MossProgress, cssS12MossRingcarousel, cssS12MossSkeleton, cssS12MossStat, cssS12MossToast, cssS12MossToggle].join("\n"),
+  "13-azure": [cssS13AzureBadge, cssS13AzureButton, cssS13AzureChip, cssS13AzureColorpicker, cssS13AzureDialog, cssS13AzureDivider, cssS13AzureKbd, cssS13AzureMeter, cssS13AzureProgress, cssS13AzureRingcarousel, cssS13AzureSkeleton, cssS13AzureStat, cssS13AzureToast, cssS13AzureToggle].join("\n"),
+  "14-violet": [cssS14VioletBadge, cssS14VioletButton, cssS14VioletChip, cssS14VioletColorpicker, cssS14VioletDialog, cssS14VioletDivider, cssS14VioletKbd, cssS14VioletMeter, cssS14VioletProgress, cssS14VioletRingcarousel, cssS14VioletSkeleton, cssS14VioletStat, cssS14VioletToast, cssS14VioletToggle].join("\n"),
+  "15-rust": [cssS15RustBadge, cssS15RustButton, cssS15RustChip, cssS15RustColorpicker, cssS15RustDialog, cssS15RustDivider, cssS15RustKbd, cssS15RustMeter, cssS15RustProgress, cssS15RustRingcarousel, cssS15RustSkeleton, cssS15RustStat, cssS15RustToast, cssS15RustToggle].join("\n"),
+  "16-mint": [cssS16MintBadge, cssS16MintButton, cssS16MintChip, cssS16MintColorpicker, cssS16MintDialog, cssS16MintDivider, cssS16MintKbd, cssS16MintMeter, cssS16MintProgress, cssS16MintRingcarousel, cssS16MintSkeleton, cssS16MintStat, cssS16MintToast, cssS16MintToggle].join("\n"),
+  "17-navy": [cssS17NavyBadge, cssS17NavyButton, cssS17NavyChip, cssS17NavyColorpicker, cssS17NavyDialog, cssS17NavyDivider, cssS17NavyKbd, cssS17NavyMeter, cssS17NavyProgress, cssS17NavyRingcarousel, cssS17NavySkeleton, cssS17NavyStat, cssS17NavyToast, cssS17NavyToggle].join("\n"),
+  "18-saffron": [cssS18SaffronBadge, cssS18SaffronButton, cssS18SaffronChip, cssS18SaffronColorpicker, cssS18SaffronDialog, cssS18SaffronDivider, cssS18SaffronKbd, cssS18SaffronMeter, cssS18SaffronProgress, cssS18SaffronRingcarousel, cssS18SaffronSkeleton, cssS18SaffronStat, cssS18SaffronToast, cssS18SaffronToggle].join("\n"),
+  "19-fog": [cssS19FogBadge, cssS19FogButton, cssS19FogChip, cssS19FogColorpicker, cssS19FogDialog, cssS19FogDivider, cssS19FogKbd, cssS19FogMeter, cssS19FogProgress, cssS19FogRingcarousel, cssS19FogSkeleton, cssS19FogStat, cssS19FogToast, cssS19FogToggle].join("\n"),
+  "20-berry": [cssS20BerryBadge, cssS20BerryButton, cssS20BerryChip, cssS20BerryColorpicker, cssS20BerryDialog, cssS20BerryDivider, cssS20BerryKbd, cssS20BerryMeter, cssS20BerryProgress, cssS20BerryRingcarousel, cssS20BerrySkeleton, cssS20BerryStat, cssS20BerryToast, cssS20BerryToggle].join("\n"),
 };
 
 import shadcnInteropS01Cobalt from "../systems/css/01-cobalt/_theme-shadcn.json";
@@ -619,7 +745,7 @@ export const BASES: Record<string, BaseDefinition> = {
   standalone: {
     key: "standalone",
     title: "자체 구현",
-    impl: { button: StandaloneButton as ComponentImpl, chip: StandaloneChip as ComponentImpl, colorpicker: StandaloneColorpicker as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, meter: StandaloneMeter as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl, stat: StandaloneStat as ComponentImpl, toast: StandaloneToast as ComponentImpl },
+    impl: { badge: StandaloneBadge as ComponentImpl, button: StandaloneButton as ComponentImpl, chip: StandaloneChip as ComponentImpl, colorpicker: StandaloneColorpicker as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, divider: StandaloneDivider as ComponentImpl, kbd: StandaloneKbd as ComponentImpl, meter: StandaloneMeter as ComponentImpl, progress: StandaloneProgress as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl, skeleton: StandaloneSkeleton as ComponentImpl, stat: StandaloneStat as ComponentImpl, toast: StandaloneToast as ComponentImpl, toggle: StandaloneToggle as ComponentImpl },
     Provider: standaloneProvider,
     css: (slug: string) => STANDALONE_CSS[slug] ?? "",
   },
