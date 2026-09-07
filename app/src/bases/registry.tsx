@@ -4,6 +4,8 @@ import type { ComponentImpl, Mode } from "../systems/types";
 import { ConfigProvider } from "antd";
 import { AntdStyleLayer } from "./antdStyleLayer";
 import { ANTD_BUTTON_CONFIG } from "./antdButtonConfig";
+import { ANTD_AVATAR_CONFIG } from "./antdAvatarConfig";
+import { ANTD_SPIN_CONFIG } from "./antdSpinConfig";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.layer.css";
@@ -87,9 +89,12 @@ import { Toggle as ShadcnToggle } from "./shadcn/Toggle";
 import { Toolbar as ShadcnToolbar } from "./shadcn/Toolbar";
 import { Tooltip as ShadcnTooltip } from "./shadcn/Tooltip";
 
-// standalone 2종
+// standalone 5종
 import { Button as StandaloneButton } from "./standalone/Button";
+import { Colorpicker as StandaloneColorpicker } from "./standalone/Colorpicker";
 import { Dialog as StandaloneDialog } from "./standalone/Dialog";
+import { Ringcarousel as StandaloneRingcarousel } from "./standalone/Ringcarousel";
+import { Toast as StandaloneToast } from "./standalone/Toast";
 
 import { byMode as muiS01Cobalt } from "../../../generated/01-cobalt/base/mui/theme";
 import { byMode as muiS02Graphite } from "../../../generated/02-graphite/base/mui/theme";
@@ -263,89 +268,149 @@ const MANTINE_THEME = {
   "20-berry": mantineS20Berry,
 };
 
-import cssS01CobaltButton from "../../../systems/01-cobalt/components/button/button.css?raw";
-import cssS01CobaltDialog from "../../../systems/01-cobalt/components/dialog/dialog.css?raw";
-import cssS02GraphiteButton from "../../../systems/02-graphite/components/button/button.css?raw";
-import cssS02GraphiteDialog from "../../../systems/02-graphite/components/dialog/dialog.css?raw";
-import cssS03EmberButton from "../../../systems/03-ember/components/button/button.css?raw";
-import cssS03EmberDialog from "../../../systems/03-ember/components/dialog/dialog.css?raw";
-import cssS04JadeButton from "../../../systems/04-jade/components/button/button.css?raw";
-import cssS04JadeDialog from "../../../systems/04-jade/components/dialog/dialog.css?raw";
-import cssS05PlumButton from "../../../systems/05-plum/components/button/button.css?raw";
-import cssS05PlumDialog from "../../../systems/05-plum/components/dialog/dialog.css?raw";
-import cssS06SlateButton from "../../../systems/06-slate/components/button/button.css?raw";
-import cssS06SlateDialog from "../../../systems/06-slate/components/dialog/dialog.css?raw";
-import cssS07EmeraldButton from "../../../systems/07-emerald/components/button/button.css?raw";
-import cssS07EmeraldDialog from "../../../systems/07-emerald/components/dialog/dialog.css?raw";
-import cssS08IndigoButton from "../../../systems/08-indigo/components/button/button.css?raw";
-import cssS08IndigoDialog from "../../../systems/08-indigo/components/dialog/dialog.css?raw";
-import cssS09SandButton from "../../../systems/09-sand/components/button/button.css?raw";
-import cssS09SandDialog from "../../../systems/09-sand/components/dialog/dialog.css?raw";
-import cssS10TealButton from "../../../systems/10-teal/components/button/button.css?raw";
-import cssS10TealDialog from "../../../systems/10-teal/components/dialog/dialog.css?raw";
-import cssS11CrimsonButton from "../../../systems/11-crimson/components/button/button.css?raw";
-import cssS11CrimsonDialog from "../../../systems/11-crimson/components/dialog/dialog.css?raw";
-import cssS12MossButton from "../../../systems/12-moss/components/button/button.css?raw";
-import cssS12MossDialog from "../../../systems/12-moss/components/dialog/dialog.css?raw";
-import cssS13AzureButton from "../../../systems/13-azure/components/button/button.css?raw";
-import cssS13AzureDialog from "../../../systems/13-azure/components/dialog/dialog.css?raw";
-import cssS14VioletButton from "../../../systems/14-violet/components/button/button.css?raw";
-import cssS14VioletDialog from "../../../systems/14-violet/components/dialog/dialog.css?raw";
-import cssS15RustButton from "../../../systems/15-rust/components/button/button.css?raw";
-import cssS15RustDialog from "../../../systems/15-rust/components/dialog/dialog.css?raw";
-import cssS16MintButton from "../../../systems/16-mint/components/button/button.css?raw";
-import cssS16MintDialog from "../../../systems/16-mint/components/dialog/dialog.css?raw";
-import cssS17NavyButton from "../../../systems/17-navy/components/button/button.css?raw";
-import cssS17NavyDialog from "../../../systems/17-navy/components/dialog/dialog.css?raw";
-import cssS18SaffronButton from "../../../systems/18-saffron/components/button/button.css?raw";
-import cssS18SaffronDialog from "../../../systems/18-saffron/components/dialog/dialog.css?raw";
-import cssS19FogButton from "../../../systems/19-fog/components/button/button.css?raw";
-import cssS19FogDialog from "../../../systems/19-fog/components/dialog/dialog.css?raw";
-import cssS20BerryButton from "../../../systems/20-berry/components/button/button.css?raw";
-import cssS20BerryDialog from "../../../systems/20-berry/components/dialog/dialog.css?raw";
+import cssS01CobaltButton from "../systems/css/01-cobalt/button.json";
+import cssS01CobaltColorpicker from "../systems/css/01-cobalt/colorpicker.json";
+import cssS01CobaltDialog from "../systems/css/01-cobalt/dialog.json";
+import cssS01CobaltRingcarousel from "../systems/css/01-cobalt/ringcarousel.json";
+import cssS01CobaltToast from "../systems/css/01-cobalt/toast.json";
+import cssS02GraphiteButton from "../systems/css/02-graphite/button.json";
+import cssS02GraphiteColorpicker from "../systems/css/02-graphite/colorpicker.json";
+import cssS02GraphiteDialog from "../systems/css/02-graphite/dialog.json";
+import cssS02GraphiteRingcarousel from "../systems/css/02-graphite/ringcarousel.json";
+import cssS02GraphiteToast from "../systems/css/02-graphite/toast.json";
+import cssS03EmberButton from "../systems/css/03-ember/button.json";
+import cssS03EmberColorpicker from "../systems/css/03-ember/colorpicker.json";
+import cssS03EmberDialog from "../systems/css/03-ember/dialog.json";
+import cssS03EmberRingcarousel from "../systems/css/03-ember/ringcarousel.json";
+import cssS03EmberToast from "../systems/css/03-ember/toast.json";
+import cssS04JadeButton from "../systems/css/04-jade/button.json";
+import cssS04JadeColorpicker from "../systems/css/04-jade/colorpicker.json";
+import cssS04JadeDialog from "../systems/css/04-jade/dialog.json";
+import cssS04JadeRingcarousel from "../systems/css/04-jade/ringcarousel.json";
+import cssS04JadeToast from "../systems/css/04-jade/toast.json";
+import cssS05PlumButton from "../systems/css/05-plum/button.json";
+import cssS05PlumColorpicker from "../systems/css/05-plum/colorpicker.json";
+import cssS05PlumDialog from "../systems/css/05-plum/dialog.json";
+import cssS05PlumRingcarousel from "../systems/css/05-plum/ringcarousel.json";
+import cssS05PlumToast from "../systems/css/05-plum/toast.json";
+import cssS06SlateButton from "../systems/css/06-slate/button.json";
+import cssS06SlateColorpicker from "../systems/css/06-slate/colorpicker.json";
+import cssS06SlateDialog from "../systems/css/06-slate/dialog.json";
+import cssS06SlateRingcarousel from "../systems/css/06-slate/ringcarousel.json";
+import cssS06SlateToast from "../systems/css/06-slate/toast.json";
+import cssS07EmeraldButton from "../systems/css/07-emerald/button.json";
+import cssS07EmeraldColorpicker from "../systems/css/07-emerald/colorpicker.json";
+import cssS07EmeraldDialog from "../systems/css/07-emerald/dialog.json";
+import cssS07EmeraldRingcarousel from "../systems/css/07-emerald/ringcarousel.json";
+import cssS07EmeraldToast from "../systems/css/07-emerald/toast.json";
+import cssS08IndigoButton from "../systems/css/08-indigo/button.json";
+import cssS08IndigoColorpicker from "../systems/css/08-indigo/colorpicker.json";
+import cssS08IndigoDialog from "../systems/css/08-indigo/dialog.json";
+import cssS08IndigoRingcarousel from "../systems/css/08-indigo/ringcarousel.json";
+import cssS08IndigoToast from "../systems/css/08-indigo/toast.json";
+import cssS09SandButton from "../systems/css/09-sand/button.json";
+import cssS09SandColorpicker from "../systems/css/09-sand/colorpicker.json";
+import cssS09SandDialog from "../systems/css/09-sand/dialog.json";
+import cssS09SandRingcarousel from "../systems/css/09-sand/ringcarousel.json";
+import cssS09SandToast from "../systems/css/09-sand/toast.json";
+import cssS10TealButton from "../systems/css/10-teal/button.json";
+import cssS10TealColorpicker from "../systems/css/10-teal/colorpicker.json";
+import cssS10TealDialog from "../systems/css/10-teal/dialog.json";
+import cssS10TealRingcarousel from "../systems/css/10-teal/ringcarousel.json";
+import cssS10TealToast from "../systems/css/10-teal/toast.json";
+import cssS11CrimsonButton from "../systems/css/11-crimson/button.json";
+import cssS11CrimsonColorpicker from "../systems/css/11-crimson/colorpicker.json";
+import cssS11CrimsonDialog from "../systems/css/11-crimson/dialog.json";
+import cssS11CrimsonRingcarousel from "../systems/css/11-crimson/ringcarousel.json";
+import cssS11CrimsonToast from "../systems/css/11-crimson/toast.json";
+import cssS12MossButton from "../systems/css/12-moss/button.json";
+import cssS12MossColorpicker from "../systems/css/12-moss/colorpicker.json";
+import cssS12MossDialog from "../systems/css/12-moss/dialog.json";
+import cssS12MossRingcarousel from "../systems/css/12-moss/ringcarousel.json";
+import cssS12MossToast from "../systems/css/12-moss/toast.json";
+import cssS13AzureButton from "../systems/css/13-azure/button.json";
+import cssS13AzureColorpicker from "../systems/css/13-azure/colorpicker.json";
+import cssS13AzureDialog from "../systems/css/13-azure/dialog.json";
+import cssS13AzureRingcarousel from "../systems/css/13-azure/ringcarousel.json";
+import cssS13AzureToast from "../systems/css/13-azure/toast.json";
+import cssS14VioletButton from "../systems/css/14-violet/button.json";
+import cssS14VioletColorpicker from "../systems/css/14-violet/colorpicker.json";
+import cssS14VioletDialog from "../systems/css/14-violet/dialog.json";
+import cssS14VioletRingcarousel from "../systems/css/14-violet/ringcarousel.json";
+import cssS14VioletToast from "../systems/css/14-violet/toast.json";
+import cssS15RustButton from "../systems/css/15-rust/button.json";
+import cssS15RustColorpicker from "../systems/css/15-rust/colorpicker.json";
+import cssS15RustDialog from "../systems/css/15-rust/dialog.json";
+import cssS15RustRingcarousel from "../systems/css/15-rust/ringcarousel.json";
+import cssS15RustToast from "../systems/css/15-rust/toast.json";
+import cssS16MintButton from "../systems/css/16-mint/button.json";
+import cssS16MintColorpicker from "../systems/css/16-mint/colorpicker.json";
+import cssS16MintDialog from "../systems/css/16-mint/dialog.json";
+import cssS16MintRingcarousel from "../systems/css/16-mint/ringcarousel.json";
+import cssS16MintToast from "../systems/css/16-mint/toast.json";
+import cssS17NavyButton from "../systems/css/17-navy/button.json";
+import cssS17NavyColorpicker from "../systems/css/17-navy/colorpicker.json";
+import cssS17NavyDialog from "../systems/css/17-navy/dialog.json";
+import cssS17NavyRingcarousel from "../systems/css/17-navy/ringcarousel.json";
+import cssS17NavyToast from "../systems/css/17-navy/toast.json";
+import cssS18SaffronButton from "../systems/css/18-saffron/button.json";
+import cssS18SaffronColorpicker from "../systems/css/18-saffron/colorpicker.json";
+import cssS18SaffronDialog from "../systems/css/18-saffron/dialog.json";
+import cssS18SaffronRingcarousel from "../systems/css/18-saffron/ringcarousel.json";
+import cssS18SaffronToast from "../systems/css/18-saffron/toast.json";
+import cssS19FogButton from "../systems/css/19-fog/button.json";
+import cssS19FogColorpicker from "../systems/css/19-fog/colorpicker.json";
+import cssS19FogDialog from "../systems/css/19-fog/dialog.json";
+import cssS19FogRingcarousel from "../systems/css/19-fog/ringcarousel.json";
+import cssS19FogToast from "../systems/css/19-fog/toast.json";
+import cssS20BerryButton from "../systems/css/20-berry/button.json";
+import cssS20BerryColorpicker from "../systems/css/20-berry/colorpicker.json";
+import cssS20BerryDialog from "../systems/css/20-berry/dialog.json";
+import cssS20BerryRingcarousel from "../systems/css/20-berry/ringcarousel.json";
+import cssS20BerryToast from "../systems/css/20-berry/toast.json";
 const STANDALONE_CSS: Record<string, string> = {
-  "01-cobalt": [cssS01CobaltButton, cssS01CobaltDialog].join("\n"),
-  "02-graphite": [cssS02GraphiteButton, cssS02GraphiteDialog].join("\n"),
-  "03-ember": [cssS03EmberButton, cssS03EmberDialog].join("\n"),
-  "04-jade": [cssS04JadeButton, cssS04JadeDialog].join("\n"),
-  "05-plum": [cssS05PlumButton, cssS05PlumDialog].join("\n"),
-  "06-slate": [cssS06SlateButton, cssS06SlateDialog].join("\n"),
-  "07-emerald": [cssS07EmeraldButton, cssS07EmeraldDialog].join("\n"),
-  "08-indigo": [cssS08IndigoButton, cssS08IndigoDialog].join("\n"),
-  "09-sand": [cssS09SandButton, cssS09SandDialog].join("\n"),
-  "10-teal": [cssS10TealButton, cssS10TealDialog].join("\n"),
-  "11-crimson": [cssS11CrimsonButton, cssS11CrimsonDialog].join("\n"),
-  "12-moss": [cssS12MossButton, cssS12MossDialog].join("\n"),
-  "13-azure": [cssS13AzureButton, cssS13AzureDialog].join("\n"),
-  "14-violet": [cssS14VioletButton, cssS14VioletDialog].join("\n"),
-  "15-rust": [cssS15RustButton, cssS15RustDialog].join("\n"),
-  "16-mint": [cssS16MintButton, cssS16MintDialog].join("\n"),
-  "17-navy": [cssS17NavyButton, cssS17NavyDialog].join("\n"),
-  "18-saffron": [cssS18SaffronButton, cssS18SaffronDialog].join("\n"),
-  "19-fog": [cssS19FogButton, cssS19FogDialog].join("\n"),
-  "20-berry": [cssS20BerryButton, cssS20BerryDialog].join("\n"),
+  "01-cobalt": [cssS01CobaltButton, cssS01CobaltColorpicker, cssS01CobaltDialog, cssS01CobaltRingcarousel, cssS01CobaltToast].join("\n"),
+  "02-graphite": [cssS02GraphiteButton, cssS02GraphiteColorpicker, cssS02GraphiteDialog, cssS02GraphiteRingcarousel, cssS02GraphiteToast].join("\n"),
+  "03-ember": [cssS03EmberButton, cssS03EmberColorpicker, cssS03EmberDialog, cssS03EmberRingcarousel, cssS03EmberToast].join("\n"),
+  "04-jade": [cssS04JadeButton, cssS04JadeColorpicker, cssS04JadeDialog, cssS04JadeRingcarousel, cssS04JadeToast].join("\n"),
+  "05-plum": [cssS05PlumButton, cssS05PlumColorpicker, cssS05PlumDialog, cssS05PlumRingcarousel, cssS05PlumToast].join("\n"),
+  "06-slate": [cssS06SlateButton, cssS06SlateColorpicker, cssS06SlateDialog, cssS06SlateRingcarousel, cssS06SlateToast].join("\n"),
+  "07-emerald": [cssS07EmeraldButton, cssS07EmeraldColorpicker, cssS07EmeraldDialog, cssS07EmeraldRingcarousel, cssS07EmeraldToast].join("\n"),
+  "08-indigo": [cssS08IndigoButton, cssS08IndigoColorpicker, cssS08IndigoDialog, cssS08IndigoRingcarousel, cssS08IndigoToast].join("\n"),
+  "09-sand": [cssS09SandButton, cssS09SandColorpicker, cssS09SandDialog, cssS09SandRingcarousel, cssS09SandToast].join("\n"),
+  "10-teal": [cssS10TealButton, cssS10TealColorpicker, cssS10TealDialog, cssS10TealRingcarousel, cssS10TealToast].join("\n"),
+  "11-crimson": [cssS11CrimsonButton, cssS11CrimsonColorpicker, cssS11CrimsonDialog, cssS11CrimsonRingcarousel, cssS11CrimsonToast].join("\n"),
+  "12-moss": [cssS12MossButton, cssS12MossColorpicker, cssS12MossDialog, cssS12MossRingcarousel, cssS12MossToast].join("\n"),
+  "13-azure": [cssS13AzureButton, cssS13AzureColorpicker, cssS13AzureDialog, cssS13AzureRingcarousel, cssS13AzureToast].join("\n"),
+  "14-violet": [cssS14VioletButton, cssS14VioletColorpicker, cssS14VioletDialog, cssS14VioletRingcarousel, cssS14VioletToast].join("\n"),
+  "15-rust": [cssS15RustButton, cssS15RustColorpicker, cssS15RustDialog, cssS15RustRingcarousel, cssS15RustToast].join("\n"),
+  "16-mint": [cssS16MintButton, cssS16MintColorpicker, cssS16MintDialog, cssS16MintRingcarousel, cssS16MintToast].join("\n"),
+  "17-navy": [cssS17NavyButton, cssS17NavyColorpicker, cssS17NavyDialog, cssS17NavyRingcarousel, cssS17NavyToast].join("\n"),
+  "18-saffron": [cssS18SaffronButton, cssS18SaffronColorpicker, cssS18SaffronDialog, cssS18SaffronRingcarousel, cssS18SaffronToast].join("\n"),
+  "19-fog": [cssS19FogButton, cssS19FogColorpicker, cssS19FogDialog, cssS19FogRingcarousel, cssS19FogToast].join("\n"),
+  "20-berry": [cssS20BerryButton, cssS20BerryColorpicker, cssS20BerryDialog, cssS20BerryRingcarousel, cssS20BerryToast].join("\n"),
 };
 
-import shadcnInteropS01Cobalt from "../../../generated/01-cobalt/base/shadcn/theme.css?raw";
-import shadcnInteropS02Graphite from "../../../generated/02-graphite/base/shadcn/theme.css?raw";
-import shadcnInteropS03Ember from "../../../generated/03-ember/base/shadcn/theme.css?raw";
-import shadcnInteropS04Jade from "../../../generated/04-jade/base/shadcn/theme.css?raw";
-import shadcnInteropS05Plum from "../../../generated/05-plum/base/shadcn/theme.css?raw";
-import shadcnInteropS06Slate from "../../../generated/06-slate/base/shadcn/theme.css?raw";
-import shadcnInteropS07Emerald from "../../../generated/07-emerald/base/shadcn/theme.css?raw";
-import shadcnInteropS08Indigo from "../../../generated/08-indigo/base/shadcn/theme.css?raw";
-import shadcnInteropS09Sand from "../../../generated/09-sand/base/shadcn/theme.css?raw";
-import shadcnInteropS10Teal from "../../../generated/10-teal/base/shadcn/theme.css?raw";
-import shadcnInteropS11Crimson from "../../../generated/11-crimson/base/shadcn/theme.css?raw";
-import shadcnInteropS12Moss from "../../../generated/12-moss/base/shadcn/theme.css?raw";
-import shadcnInteropS13Azure from "../../../generated/13-azure/base/shadcn/theme.css?raw";
-import shadcnInteropS14Violet from "../../../generated/14-violet/base/shadcn/theme.css?raw";
-import shadcnInteropS15Rust from "../../../generated/15-rust/base/shadcn/theme.css?raw";
-import shadcnInteropS16Mint from "../../../generated/16-mint/base/shadcn/theme.css?raw";
-import shadcnInteropS17Navy from "../../../generated/17-navy/base/shadcn/theme.css?raw";
-import shadcnInteropS18Saffron from "../../../generated/18-saffron/base/shadcn/theme.css?raw";
-import shadcnInteropS19Fog from "../../../generated/19-fog/base/shadcn/theme.css?raw";
-import shadcnInteropS20Berry from "../../../generated/20-berry/base/shadcn/theme.css?raw";
+import shadcnInteropS01Cobalt from "../systems/css/01-cobalt/_theme-shadcn.json";
+import shadcnInteropS02Graphite from "../systems/css/02-graphite/_theme-shadcn.json";
+import shadcnInteropS03Ember from "../systems/css/03-ember/_theme-shadcn.json";
+import shadcnInteropS04Jade from "../systems/css/04-jade/_theme-shadcn.json";
+import shadcnInteropS05Plum from "../systems/css/05-plum/_theme-shadcn.json";
+import shadcnInteropS06Slate from "../systems/css/06-slate/_theme-shadcn.json";
+import shadcnInteropS07Emerald from "../systems/css/07-emerald/_theme-shadcn.json";
+import shadcnInteropS08Indigo from "../systems/css/08-indigo/_theme-shadcn.json";
+import shadcnInteropS09Sand from "../systems/css/09-sand/_theme-shadcn.json";
+import shadcnInteropS10Teal from "../systems/css/10-teal/_theme-shadcn.json";
+import shadcnInteropS11Crimson from "../systems/css/11-crimson/_theme-shadcn.json";
+import shadcnInteropS12Moss from "../systems/css/12-moss/_theme-shadcn.json";
+import shadcnInteropS13Azure from "../systems/css/13-azure/_theme-shadcn.json";
+import shadcnInteropS14Violet from "../systems/css/14-violet/_theme-shadcn.json";
+import shadcnInteropS15Rust from "../systems/css/15-rust/_theme-shadcn.json";
+import shadcnInteropS16Mint from "../systems/css/16-mint/_theme-shadcn.json";
+import shadcnInteropS17Navy from "../systems/css/17-navy/_theme-shadcn.json";
+import shadcnInteropS18Saffron from "../systems/css/18-saffron/_theme-shadcn.json";
+import shadcnInteropS19Fog from "../systems/css/19-fog/_theme-shadcn.json";
+import shadcnInteropS20Berry from "../systems/css/20-berry/_theme-shadcn.json";
 const SHADCN_INTEROP: Record<string, string> = {
   "01-cobalt": shadcnInteropS01Cobalt,
   "02-graphite": shadcnInteropS02Graphite,
@@ -402,6 +467,8 @@ function antdProvider({ slug, mode, children }: BaseProviderProps) {
       <ConfigProvider
         theme={pick(ANTD_THEME, slug, "antd")[mode]}
         button={ANTD_BUTTON_CONFIG}
+        avatar={ANTD_AVATAR_CONFIG}
+        spin={ANTD_SPIN_CONFIG}
       >
         {children}
       </ConfigProvider>
@@ -489,11 +556,11 @@ export const BASES: Record<string, BaseDefinition> = {
   standalone: {
     key: "standalone",
     title: "자체 구현",
-    impl: { button: StandaloneButton as ComponentImpl, dialog: StandaloneDialog as ComponentImpl },
+    impl: { button: StandaloneButton as ComponentImpl, colorpicker: StandaloneColorpicker as ComponentImpl, dialog: StandaloneDialog as ComponentImpl, ringcarousel: StandaloneRingcarousel as ComponentImpl, toast: StandaloneToast as ComponentImpl },
     Provider: standaloneProvider,
     css: (slug: string) => STANDALONE_CSS[slug] ?? "",
   },
 };
 
 // 구현 많은 순서대로 화면 나열. 그 수가 프로젝트 범위
-export const BASE_ORDER: string[] = ["shadcn", "chakra", "mantine", "standalone", "antd", "mui"];
+export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "mui"];

@@ -36,6 +36,7 @@ export const theme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -80,7 +81,7 @@ export const theme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -117,7 +118,9 @@ export const theme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -125,6 +128,14 @@ export const theme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-input-radius)",
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
           "fontSize": "var(--component-input-font-size)",
           "letterSpacing": "var(--component-input-letter-spacing)"
         }
@@ -202,7 +213,9 @@ export const theme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
@@ -237,7 +250,7 @@ export const theme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
@@ -379,6 +392,24 @@ export const theme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }
@@ -429,6 +460,7 @@ export const darkTheme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -473,7 +505,7 @@ export const darkTheme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -510,7 +542,9 @@ export const darkTheme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -518,6 +552,14 @@ export const darkTheme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-input-radius)",
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
           "fontSize": "var(--component-input-font-size)",
           "letterSpacing": "var(--component-input-letter-spacing)"
         }
@@ -595,7 +637,9 @@ export const darkTheme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
@@ -630,7 +674,7 @@ export const darkTheme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
@@ -772,6 +816,24 @@ export const darkTheme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }
@@ -822,6 +884,7 @@ export const highContrastTheme = createTheme({
   },
   "spacing": 8,
   "typography": {
+    "fontFamily": "var(--base-font-family-sans)",
     "fontSize": 16
   },
   "components": {
@@ -866,7 +929,7 @@ export const highContrastTheme = createTheme({
             "color": "var(--component-button-plain-brand-fg)"
           },
           "&.MuiButton-outlined.MuiButton-colorPrimary": {
-            "color": "var(--component-button-outline-brand-fg)"
+            "color": "var(--semantic-fg-brand-default)"
           }
         },
         "sizeSmall": {
@@ -903,7 +966,9 @@ export const highContrastTheme = createTheme({
           "color": "var(--component-dialog-body-fg)",
           "borderStyle": "solid",
           "borderWidth": "var(--semantic-border-width-default)",
-          "borderColor": "var(--component-dialog-border)"
+          "borderColor": "var(--component-dialog-border)",
+          "scrollbarWidth": "thin",
+          "scrollbarColor": "var(--component-scrollarea-thumb) var(--component-scrollarea-track)"
         }
       }
     },
@@ -911,6 +976,14 @@ export const highContrastTheme = createTheme({
       "styleOverrides": {
         "root": {
           "borderRadius": "var(--component-input-radius)",
+          "fontSize": "var(--component-input-font-size)",
+          "letterSpacing": "var(--component-input-letter-spacing)"
+        }
+      }
+    },
+    "MuiInputLabel": {
+      "styleOverrides": {
+        "root": {
           "fontSize": "var(--component-input-font-size)",
           "letterSpacing": "var(--component-input-letter-spacing)"
         }
@@ -988,7 +1061,9 @@ export const highContrastTheme = createTheme({
     "MuiAvatar": {
       "styleOverrides": {
         "root": {
-          "fontSize": "var(--component-avatar-font-size)"
+          "fontSize": "var(--component-avatar-font-size)",
+          "backgroundColor": "var(--component-avatar-bg)",
+          "color": "var(--component-avatar-fg)"
         }
       }
     },
@@ -1023,7 +1098,7 @@ export const highContrastTheme = createTheme({
     "MuiTableCell": {
       "styleOverrides": {
         "head": {
-          "fontSize": "var(--component-table-head-font-size)",
+          "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
           "color": "var(--component-table-head-fg)"
         },
@@ -1165,6 +1240,24 @@ export const highContrastTheme = createTheme({
         "root": {
           "&.Mui-selected.MuiToggleButton-primary": {
             "color": "var(--semantic-fg-brand-default)"
+          }
+        }
+      }
+    },
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
+          "scrollbarWidth": "thin",
+          "&::-webkit-scrollbar": {
+            "width": "0.5rem",
+            "height": "0.5rem"
+          },
+          "&::-webkit-scrollbar-track": {
+            "background": "var(--component-scrollarea-track)"
+          },
+          "&::-webkit-scrollbar-thumb": {
+            "background": "var(--component-scrollarea-thumb)",
+            "borderRadius": "var(--component-scrollarea-radius)"
           }
         }
       }

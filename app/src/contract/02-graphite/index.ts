@@ -1,4 +1,4 @@
-// @interop 컴포넌트 베이스: Ant Design
+// @interop 컴포넌트 베이스: shadcn/ui
 export type * from "./Accordion";
 export type * from "./Alert";
 export type * from "./Alertdialog";
@@ -17,6 +17,7 @@ export type * from "./Chart";
 export type * from "./Checkbox";
 export type * from "./Chip";
 export type * from "./Collapsible";
+export type * from "./Colorpicker";
 export type * from "./Combobox";
 export type * from "./Command";
 export type * from "./Contextmenu";
@@ -51,6 +52,7 @@ export type * from "./Prose";
 export type * from "./Questionnaire";
 export type * from "./Radio";
 export type * from "./Resizable";
+export type * from "./Ringcarousel";
 export type * from "./Scrollarea";
 export type * from "./Segmented";
 export type * from "./Select";

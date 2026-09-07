@@ -41,7 +41,9 @@ import * as toast from "./toast";
 import * as toggle from "./toggle";
 import * as tooltip from "./tooltip";
 import * as collapsible from "./collapsible";
+import * as colorpicker from "./colorpicker";
 import * as resizable from "./resizable";
+import * as ringcarousel from "./ringcarousel";
 import * as scrollarea from "./scrollarea";
 import * as avatar from "./avatar";
 import * as skeleton from "./skeleton";
@@ -78,6 +80,7 @@ export const PAGES: Record<string, PageModule> = {
   card,
   checkbox,
   collapsible,
+  colorpicker,
   dialog,
   divider,
   field,
@@ -94,6 +97,7 @@ export const PAGES: Record<string, PageModule> = {
   progress,
   radio,
   resizable,
+  ringcarousel,
   scrollarea,
   select,
   spinner,

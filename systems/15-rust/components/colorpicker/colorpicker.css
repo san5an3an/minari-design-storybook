@@ -1,0 +1,325 @@
+
+.ods-colorpicker {
+  padding: var(--component-colorpicker-card-pad);
+  border-radius: var(--component-colorpicker-card-radius);
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-card-border);
+  background: var(--component-colorpicker-card-bg);
+  box-shadow: var(--component-colorpicker-card-shadow);
+  font-family: var(--base-font-family-sans);
+}
+.ods-colorpicker-hue { margin-block-start: var(--component-colorpicker-gap-lg); }
+.ods-colorpicker-alpha,
+.ods-colorpicker-row { margin-block-start: var(--component-colorpicker-gap-sm); }
+.ods-colorpicker-preview,
+.ods-colorpicker-swatches { margin-block-start: var(--component-colorpicker-gap-lg); }
+
+.ods-colorpicker-area {
+  position: relative;
+  block-size: var(--component-colorpicker-area-height);
+  border-radius: max(0rem, calc(var(--component-colorpicker-card-radius) - var(--component-colorpicker-card-pad)));
+  cursor: crosshair; touch-action: none;
+  background:
+    linear-gradient(to top, #000, rgb(0 0 0 / 0)),
+    linear-gradient(to right, #fff, rgb(255 255 255 / 0)),
+    hsl(var(--ods-colorpicker-hue, 0) 100% 50%);
+}
+.ods-colorpicker-area:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+.ods-colorpicker-thumb {
+  position: absolute;
+  inline-size: var(--component-colorpicker-thumb-size);
+  block-size: var(--component-colorpicker-thumb-size);
+  inset-inline-start: var(--ods-colorpicker-x, 50%);
+  inset-block-start: var(--ods-colorpicker-y, 50%);
+  translate: -50% -50%;
+  border-radius: var(--semantic-radius-pill);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  box-shadow: 0 0 0 0.0625rem var(--component-colorpicker-thumb-ring);
+  background: none; pointer-events: none;
+}
+
+/* 색상 띠 양 끝이 같은 빨강. 색상값은 순환값이라 끝이 없음 */
+.ods-colorpicker-hue,
+.ods-colorpicker-alpha {
+  -webkit-appearance: none; appearance: none;
+  inline-size: 100%; block-size: var(--component-colorpicker-hue-height);
+  padding: 0; cursor: pointer;
+  border-radius: var(--semantic-radius-pill);
+}
+.ods-colorpicker-hue {
+  background: linear-gradient(to right,
+    hsl(0 100% 50%), hsl(60 100% 50%), hsl(120 100% 50%),
+    hsl(180 100% 50%), hsl(240 100% 50%), hsl(300 100% 50%), hsl(360 100% 50%));
+}
+/* 격자 배경이 있어야 투명 여부 확인. 단색 위에선 흐린 색으로만 보임 */
+.ods-colorpicker-alpha {
+  background-image:
+    linear-gradient(to right, transparent, var(--ods-colorpicker-solid, #000)),
+    conic-gradient(var(--component-colorpicker-checker) 0 25%, transparent 0 50%,
+                   var(--component-colorpicker-checker) 0 75%, transparent 0);
+  background-size:
+    auto,
+    var(--component-colorpicker-checker-size) var(--component-colorpicker-checker-size);
+}
+.ods-colorpicker-hue::-webkit-slider-thumb,
+.ods-colorpicker-alpha::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  inline-size: var(--component-colorpicker-slider-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--semantic-radius-pill);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  box-shadow: 0 0 0 0.0625rem var(--component-colorpicker-thumb-ring);
+  background: none;
+}
+.ods-colorpicker-hue::-moz-range-thumb,
+.ods-colorpicker-alpha::-moz-range-thumb {
+  inline-size: var(--component-colorpicker-slider-thumb-size);
+  block-size: var(--component-colorpicker-hue-height);
+  border-radius: var(--semantic-radius-pill);
+  border: 0.125rem solid var(--component-colorpicker-thumb-border);
+  box-shadow: 0 0 0 0.0625rem var(--component-colorpicker-thumb-ring);
+  background: none;
+}
+/* 링은 트랙이 아니라 핸들에 적용. 트랙에 적용하면 띠 전체가 두 겹으로 보임 */
+.ods-colorpicker-hue:focus-visible,
+.ods-colorpicker-alpha:focus-visible { outline: none; }
+.ods-colorpicker-hue:focus-visible::-webkit-slider-thumb,
+.ods-colorpicker-alpha:focus-visible::-webkit-slider-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+.ods-colorpicker-hue:focus-visible::-moz-range-thumb,
+.ods-colorpicker-alpha:focus-visible::-moz-range-thumb {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+.ods-colorpicker-preview {
+  display: flex; align-items: center;
+  gap: var(--component-colorpicker-row-gap);
+}
+.ods-colorpicker-current,
+.ods-colorpicker-pipette {
+  position: relative; flex: 0 0 auto;
+  inline-size: var(--component-colorpicker-preview-size);
+  block-size: var(--component-colorpicker-preview-size);
+  padding: 0; cursor: pointer;
+  border-radius: var(--semantic-radius-pill);
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-preview-border);
+}
+/* 채움색 외부 지정. 격자 배경으로 투명색 표시 */
+.ods-colorpicker-current {
+  background-image:
+    linear-gradient(var(--ods-colorpicker-swatch, transparent),
+                    var(--ods-colorpicker-swatch, transparent)),
+    conic-gradient(var(--component-colorpicker-checker) 0 25%, transparent 0 50%,
+                   var(--component-colorpicker-checker) 0 75%, transparent 0);
+  background-size:
+    auto,
+    var(--component-colorpicker-checker-size) var(--component-colorpicker-checker-size);
+}
+.ods-colorpicker-current[aria-disabled="true"] { cursor: default; }
+.ods-colorpicker-current-mark {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  border-radius: var(--semantic-radius-pill);
+  background: var(--component-colorpicker-scrim);
+  color: var(--component-colorpicker-mark-fg);
+  opacity: 0; pointer-events: none;
+}
+.ods-colorpicker-current:hover:not([aria-disabled="true"]) .ods-colorpicker-current-mark,
+.ods-colorpicker-current:focus-visible .ods-colorpicker-current-mark { opacity: 1; }
+/* 값을 글자로도 표시. 색은 말로 전달 안 돼 화면 못 보는 쪽엔 글자만 남음 */
+.ods-colorpicker-hex {
+  font-family: var(--base-font-family-mono);
+  font-size: var(--component-colorpicker-hex-font-size);
+  letter-spacing: var(--component-colorpicker-hex-letter-spacing);
+  color: var(--component-colorpicker-hex-fg);
+}
+/* 스포이드를 오른쪽 끝으로 정렬 */
+.ods-colorpicker-pipette {
+  margin-inline-start: auto;
+  display: grid; place-items: center;
+  background: none;
+  color: var(--component-colorpicker-field-fg);
+}
+.ods-colorpicker-icon {
+  inline-size: var(--component-colorpicker-icon-size);
+  block-size: var(--component-colorpicker-icon-size);
+  stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+.ods-colorpicker-row {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: var(--component-colorpicker-row-gap);
+}
+.ods-colorpicker-format,
+.ods-colorpicker-field {
+  display: flex; align-items: center;
+  block-size: var(--component-colorpicker-field-height);
+  padding-inline: var(--component-colorpicker-field-pad-inline);
+  border-radius: max(0rem, calc(max(0rem, calc(var(--component-colorpicker-card-radius) - var(--component-colorpicker-card-pad))) - 0.25rem));
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-field-border);
+  background: var(--component-colorpicker-field-bg);
+  color: var(--component-colorpicker-field-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-colorpicker-field-font-size);
+  letter-spacing: var(--component-colorpicker-field-letter-spacing);
+}
+/* 형식 버튼, hex 필드만 넓음. 숫자 필드 좁아야 셋이 한 행에 들어갈 수 있음 */
+.ods-colorpicker-format,
+.ods-colorpicker-field:not(.ods-colorpicker-field--num) {
+  padding-inline: var(--component-colorpicker-field-pad-wide);
+}
+.ods-colorpicker-format:hover,
+.ods-colorpicker-field:hover { border-color: var(--component-colorpicker-field-border-hover); }
+.ods-colorpicker-format:focus-visible,
+.ods-colorpicker-field:focus-within {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+.ods-colorpicker-format-slot {
+  position: relative;
+  flex: 0 0 var(--component-colorpicker-format-width);
+}
+/* 형식 버튼 폭 고정. HEX~LAB이 같은 위치 아니면 목록 열 때 옆 요소가 움직임 */
+.ods-colorpicker-format {
+  inline-size: 100%;
+  justify-content: space-between;
+  gap: var(--component-colorpicker-row-gap);
+  cursor: pointer;
+}
+/* 목록은 플로팅 표시. 공간 차지 시 열 때마다 아래 내용 밀리는 문제 있음 */
+.ods-colorpicker-format-menu {
+  position: absolute; z-index: 1;
+  inset-inline-start: 0;
+  inset-block-start: calc(100% + var(--component-colorpicker-menu-offset));
+  min-inline-size: max(100%, var(--component-colorpicker-menu-min-width));
+  padding-block: var(--component-colorpicker-menu-pad-block);
+  border-radius: max(0rem, calc(max(0rem, calc(var(--component-colorpicker-card-radius) - var(--component-colorpicker-card-pad))) - 0.25rem));
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-menu-border);
+  background: var(--component-colorpicker-menu-bg);
+  box-shadow: var(--component-colorpicker-menu-shadow);
+}
+.ods-colorpicker-format-option {
+  display: block; inline-size: 100%;
+  padding-inline: var(--component-colorpicker-field-pad-inline);
+  padding-block: var(--component-colorpicker-option-pad-block);
+  border: none; background: none; cursor: pointer;
+  text-align: start;
+  font-family: inherit;
+  font-size: var(--component-colorpicker-field-font-size);
+  letter-spacing: var(--component-colorpicker-field-letter-spacing);
+  color: var(--component-colorpicker-option-fg);
+}
+.ods-colorpicker-format-option:hover {
+  background: var(--component-colorpicker-option-bg-hover);
+}
+/* 선택 항목은 색뿐 아니라 aria-selected로도 표시 */
+.ods-colorpicker-format-option[aria-selected="true"] {
+  color: var(--component-colorpicker-option-fg-selected);
+}
+.ods-colorpicker-format-option:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}
+
+.ods-colorpicker-fields {
+  display: flex; align-items: center;
+  flex: 1 1 auto; min-inline-size: 0;
+  gap: var(--component-colorpicker-fields-gap);
+}
+.ods-colorpicker-field { gap: var(--component-colorpicker-label-gap); }
+/* 숫자 필드 셋 폭을 동일하게 유지 */
+.ods-colorpicker-field--num { flex: 1 1 0; min-inline-size: 0; }
+/* 투명도 필드만 폭 고정. 함께 줄이면 100%가 90%와 구분되지 않음 */
+.ods-colorpicker-field--alpha {
+  flex: 0 0 var(--component-colorpicker-alpha-width);
+  justify-content: end;
+}
+.ods-colorpicker-field-label {
+  flex: 0 0 auto;
+  font-size: var(--component-colorpicker-label-font-size);
+  letter-spacing: var(--component-colorpicker-label-letter-spacing);
+  color: var(--component-colorpicker-label-fg);
+  user-select: none;
+}
+/* 고정 기호 %를 값에 섞지 않기 */
+.ods-colorpicker-field-affix {
+  flex: 0 0 auto;
+  color: var(--component-colorpicker-label-fg);
+  user-select: none;
+}
+/* 포커스 링은 상자에 적용. 입력에 적용하면 고정 요소만 링 밖에 남아 둘로 나뉘어 보임 */
+.ods-colorpicker-field-input {
+  inline-size: 100%; min-inline-size: 0;
+  padding: 0; border: none; background: none; outline: none;
+  color: inherit; font: inherit;
+}
+.ods-colorpicker-field--num .ods-colorpicker-field-input,
+.ods-colorpicker-field--alpha .ods-colorpicker-field-input { text-align: end; }
+
+/* 담아 둔 색은 맨 아래에 표시. 위에서 고르면 아래로 쌓이는 순서이기 때문임 */
+.ods-colorpicker-swatches {
+  display: flex; flex-direction: column;
+  gap: var(--component-colorpicker-head-gap);
+  padding-block-start: var(--component-colorpicker-gap-lg);
+  border-block-start: var(--semantic-border-width-default) solid
+                      var(--component-colorpicker-divider);
+}
+/* 상한은 텍스트로 표시. 흐르는 배치에서는 격자 방식으로 상한을 표현할 수 없음 */
+.ods-colorpicker-swatches-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-size: var(--component-colorpicker-count-font-size);
+  letter-spacing: var(--component-colorpicker-count-letter-spacing);
+  color: var(--component-colorpicker-label-fg);
+}
+.ods-colorpicker-swatches-count { color: var(--component-colorpicker-count-fg); }
+.ods-colorpicker-swatch-grid {
+  display: flex; flex-wrap: wrap;
+  gap: var(--component-colorpicker-swatch-gap);
+}
+.ods-colorpicker-swatch-slot {
+  position: relative;
+  inline-size: var(--component-colorpicker-swatch-size);
+  block-size: var(--component-colorpicker-swatch-size);
+}
+.ods-colorpicker-swatch {
+  inline-size: var(--component-colorpicker-swatch-size);
+  block-size: var(--component-colorpicker-swatch-size);
+  border-radius: var(--semantic-radius-pill);
+  border: var(--semantic-border-width-default) solid
+          var(--component-colorpicker-swatch-border);
+  background-image:
+    linear-gradient(var(--ods-colorpicker-swatch, transparent),
+                    var(--ods-colorpicker-swatch, transparent)),
+    conic-gradient(var(--component-colorpicker-checker) 0 25%, transparent 0 50%,
+                   var(--component-colorpicker-checker) 0 75%, transparent 0);
+  background-size:
+    auto,
+    var(--component-colorpicker-checker-size) var(--component-colorpicker-checker-size);
+}
+.ods-colorpicker-swatch-remove {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: 0; cursor: pointer;
+  border: none; border-radius: var(--semantic-radius-pill);
+  background: var(--component-colorpicker-scrim);
+  color: var(--component-colorpicker-mark-fg);
+  opacity: 0;
+}
+/* hover 또는 focus-visible 시 표시. 표시와 포커스 링 규칙은 별개임 */
+.ods-colorpicker-swatch-slot:hover .ods-colorpicker-swatch-remove,
+.ods-colorpicker-swatch-remove:focus-visible { opacity: 1; }
+.ods-colorpicker-swatch-remove:focus-visible {
+  outline: 0.125rem solid var(--component-colorpicker-border-focus);
+  outline-offset: var(--semantic-border-inset-default);
+}

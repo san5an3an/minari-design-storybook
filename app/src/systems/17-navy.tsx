@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { byMode } from "../../../generated/17-navy/base/mui/theme";
 import type { ProviderProps, SystemDefinition } from "./types";
-import vars from "../../../generated/17-navy/vars.css?raw";
+import vars from "./css/17-navy/_vars.json";
 import refs from "../../../generated/17-navy/mapping.json";
 import api from "../contract/17-navy/api.json";
 
@@ -62,6 +62,7 @@ export const navy: SystemDefinition = {
     { name: "chart", title: "Chart", summary: "수를 모양으로 읽게 하는 그림. 그리는 것은 라이브러리이고, 이 시스템의 몫은 색과 툴팁·라벨임.", ready: false },
     { name: "chip", title: "Chip", summary: "누르고 고르고 지울 수 있는 표시. 읽기만 하는 Badge 와 다른 컴포넌트임.", ready: false },
     { name: "collapsible", title: "Collapsible", summary: "단일 영역 접기, 펼치기. 여러 영역은 Accordion 사용", ready: false },
+    { name: "colorpicker", title: "ColorPicker", summary: "색을 공간에서 집음. 담아 둔 것만 아래에 남음. 스와치는 쌓이는 위치이지 주어진 목록이 아님.", ready: false },
     { name: "combobox", title: "Combobox", summary: "쳐서 좁히며 고르는 필드. 항목이 열 개 남짓이면 Select 가 나음.", ready: false },
     { name: "command", title: "Command", summary: "쳐서 좁히고 골라 실행하는 요소. 이것만으로 기능을 제공하지 않음.", ready: false },
     { name: "contextmenu", title: "ContextMenu", summary: "오른쪽 눌러 여는 동작 목록. 여기에만 있는 동작은 없는 것과 같음.", ready: false },
@@ -89,6 +90,7 @@ export const navy: SystemDefinition = {
     { name: "prose", title: "Prose", summary: "긴 글을 읽기 위한 조판. 한글 행간 기준은 측정 근거가 없는 경험칙임.", ready: false },
     { name: "questionnaire", title: "Questionnaire", summary: "한 번에 하나씩 묻는 폼. 전부 한 화면에 두면 Field 그룹임.", ready: false },
     { name: "resizable", title: "Resizable", summary: "두 위치의 경계를 사용자가 옮김. 핸들은 보이고 키보드로도 잡힘.", ready: false },
+    { name: "ringcarousel", title: "RingCarousel", summary: "점성체처럼 붙었다 떨어지는 링. 버튼으로 넘기는 Carousel 과 다른 컴포넌트임.", ready: false },
     { name: "scrollarea", title: "ScrollArea", summary: "넘치는 내용을 자기 안에서 굴림. 막대를 숨기지 않고 얇게 만듦.", ready: false },
     { name: "segmented", title: "Segmented", summary: "붙어 있는 셀 중 하나만 고르는 띠. 내용이 바뀌면 Tabs 사용", ready: false },
     { name: "sheet", title: "Sheet", summary: "가장자리에서 밀려 나오는 패널. 끌어서 여닫는 것은 Drawer 임.", ready: false },

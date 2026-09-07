@@ -71,10 +71,11 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                 style={{ inlineSize: "min(180px, 42vw)" }}
               />
               {/* Badge count 숫자 전용. 긴 문자열이면 배지 크기가 커지는 문제 있음 */}
+              {/* -default까지 포함해 지정. 생략하면 없는 토큰이라 상속색으로 안 보임 */}
               <Tag
                 style={{
                   background: "var(--semantic-bg-brand-default)",
-                  color: "var(--semantic-fg-on-brand)",
+                  color: "var(--semantic-fg-on-brand-default)",
                   borderColor: "transparent",
                   marginInlineEnd: 0,
                 }}

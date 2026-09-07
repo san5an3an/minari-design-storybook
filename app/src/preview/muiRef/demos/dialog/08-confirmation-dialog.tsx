@@ -101,7 +101,7 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
         <Button autoFocus onClick={handleCancel}>
           취소
         </Button>
-        <Button onClick={handleOk}>보통</Button>
+        <Button onClick={handleOk}>확인</Button>
       </DialogActions>
     </Dialog>
   );
