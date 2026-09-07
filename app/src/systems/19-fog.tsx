@@ -5,10 +5,16 @@ import { Dialog } from "../bases/standalone/Dialog";
 import dialogCss from "./css/19-fog/dialog.json";
 import { Toast } from "../bases/standalone/Toast";
 import toastCss from "./css/19-fog/toast.json";
+import { Chip } from "../bases/standalone/Chip";
+import chipCss from "./css/19-fog/chip.json";
 import { Colorpicker } from "../bases/standalone/Colorpicker";
 import colorpickerCss from "./css/19-fog/colorpicker.json";
+import { Meter } from "../bases/standalone/Meter";
+import meterCss from "./css/19-fog/meter.json";
 import { Ringcarousel } from "../bases/standalone/Ringcarousel";
 import ringcarouselCss from "./css/19-fog/ringcarousel.json";
+import { Stat } from "../bases/standalone/Stat";
+import statCss from "./css/19-fog/stat.json";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
 import vars from "./css/19-fog/_vars.json";
 import refs from "../../../generated/19-fog/mapping.json";
@@ -29,12 +35,12 @@ export const fog: SystemDefinition = {
   typeRatio: 1.2,
   brand: "#1d2d35",
   Icon: Focus,
-  css: [vars, buttonCss, dialogCss, toastCss, colorpickerCss, ringcarouselCss].join("\n"),
+  css: [vars, buttonCss, dialogCss, toastCss, chipCss, colorpickerCss, meterCss, ringcarouselCss, statCss].join("\n"),
   vars,
   refs,
   api,
   Provider,
-  impl: { button: Button as Impl, dialog: Dialog as Impl, toast: Toast as Impl, colorpicker: Colorpicker as Impl, ringcarousel: Ringcarousel as Impl },
+  impl: { button: Button as Impl, dialog: Dialog as Impl, toast: Toast as Impl, chip: Chip as Impl, colorpicker: Colorpicker as Impl, meter: Meter as Impl, ringcarousel: Ringcarousel as Impl, stat: Stat as Impl },
   buttonVariants: ["solid", "subtle", "plain"],
   buttonTones: ["neutral", "brand", "danger", "success", "warning"],
   components: [
@@ -66,7 +72,7 @@ export const fog: SystemDefinition = {
     { name: "calendar", title: "Calendar", summary: "날짜를 달력 모양으로 선택. 먼 날짜는 치는 편이 빠름.", ready: false },
     { name: "carousel", title: "Carousel", summary: "몇 개만 보이고 나머지는 밀어서 보는 줄. 다음 것이 있다는 사실을 버튼이 알림.", ready: false },
     { name: "chart", title: "Chart", summary: "수를 모양으로 읽게 하는 그림. 그리는 것은 라이브러리이고, 이 시스템의 몫은 색과 툴팁·라벨임.", ready: false },
-    { name: "chip", title: "Chip", summary: "누르고 고르고 지울 수 있는 표시. 읽기만 하는 Badge 와 다른 컴포넌트임.", ready: false },
+    { name: "chip", title: "Chip", summary: "누르고 고르고 지울 수 있는 표시. 읽기만 하는 Badge 와 다른 컴포넌트임.", ready: true },
     { name: "collapsible", title: "Collapsible", summary: "단일 영역 접기, 펼치기. 여러 영역은 Accordion 사용", ready: false },
     { name: "colorpicker", title: "ColorPicker", summary: "색을 공간에서 집음. 담아 둔 것만 아래에 남음. 스와치는 쌓이는 위치이지 주어진 목록이 아님.", ready: true },
     { name: "combobox", title: "Combobox", summary: "쳐서 좁히며 고르는 필드. 항목이 열 개 남짓이면 Select 가 나음.", ready: false },
@@ -86,7 +92,7 @@ export const fog: SystemDefinition = {
     { name: "menubar", title: "Menubar", summary: "늘 보이는 메뉴 막대. 동작이 아주 많은 편집기용임.", ready: false },
     { name: "message", title: "Message", summary: "대화 한 줄 전체. 누가 언제 말했는지까지 포함. 말만 담으면 Bubble 임.", ready: false },
     { name: "messagescroller", title: "MessageScroller", summary: "대화가 길어져도 스크롤 위치를 유지하는 컨테이너. 넘치는 것을 담는 ScrollArea 와 다름.", ready: false },
-    { name: "meter", title: "Meter", summary: "임계값이 있는 측정치가 지금 어느 구간에 있는지 보여줌. Progress 와 다른 컴포넌트임.", ready: false },
+    { name: "meter", title: "Meter", summary: "임계값이 있는 측정치가 지금 어느 구간에 있는지 보여줌. Progress 와 다른 컴포넌트임.", ready: true },
     { name: "nativeselect", title: "NativeSelect", summary: "목록을 브라우저가 그리는 고르개. 항목을 꾸며야 하면 Select 임.", ready: false },
     { name: "navigationmenu", title: "NavigationMenu", summary: "위치를 옮기는 길잡이. 고르면 일이 일어나는 것은 Menu 임.", ready: false },
     { name: "pageheader", title: "PageHeader", summary: "화면 맨 위의 제목 구역. 동작이 주인공이면 Toolbar 사용", ready: false },
@@ -104,7 +110,7 @@ export const fog: SystemDefinition = {
     { name: "skeleton", title: "Skeleton", summary: "내용이 오기 전 공간을 미리 확보하는 플레이스홀더.", ready: false },
     { name: "slider", title: "Slider", summary: "끌어서 범위 안의 값을 정하는 컨트롤. 읽기만 하면 Meter 사용", ready: false },
     { name: "stages", title: "Stages", summary: "여러 단계 중 지금 어디인지 보여주는 표시. 수량을 바꾸는 Stepper 와 다른 컴포넌트임.", ready: false },
-    { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: false },
+    { name: "stat", title: "Stat", summary: "하나의 수치를 크게 보여주는 지표. 증감 색이 이 시스템의 팔레트 구성에서 옴.", ready: true },
     { name: "stepper", title: "Stepper", summary: "수를 한 칸씩 올리고 내리는 컨트롤. 테두리 구조는 이 시스템의 control 기준에서 유래", ready: false },
     { name: "table", title: "Table", summary: "행과 열로 데이터를 늘어놓는 표. 셀 여백은 이 시스템의 밀도 기준에서 유래", ready: false },
     { name: "tabs", title: "Tabs", summary: "같은 층위의 화면을 오가는 컨트롤. 활성 표시 방식은 이 시스템의 형태 기준에서 유래", ready: false },

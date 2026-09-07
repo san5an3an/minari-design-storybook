@@ -20,3 +20,27 @@
 .ods-stat-delta--down { color: var(--component-stat-delta-down-fg); }
 .ods-stat-delta svg { width: 1em; height: 1em; stroke: currentColor; fill: none;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.ods-stat-value {
+  animation: ods-stat-value-in 420ms cubic-bezier(.22,.61,.36,1) backwards; }
+.ods-stat-delta {
+  animation: ods-stat-delta-in 460ms cubic-bezier(.22,.61,.36,1) 120ms backwards; }
+.ods-stat-delta--up { animation-name: ods-stat-delta-up-in; }
+.ods-stat-delta--down { animation-name: ods-stat-delta-down-in; }
+@keyframes ods-stat-value-in {
+  from { opacity: 0; transform: translateY(0.25em); } to { opacity: 1; transform: none; } }
+@keyframes ods-stat-delta-in {
+  from { opacity: 0; } to { opacity: 1; } }
+@keyframes ods-stat-delta-up-in {
+  from { opacity: 0; transform: translateY(0.4em); } to { opacity: 1; transform: none; } }
+@keyframes ods-stat-delta-down-in {
+  from { opacity: 0; transform: translateY(-0.4em); } to { opacity: 1; transform: none; } }
+
+/* animation: none 대신 페이드로 완화. 없애면 갱신 사실이 사라져 보이는 문제임 */
+@media (prefers-reduced-motion: reduce) {
+  .ods-stat-value,
+  .ods-stat-delta,
+  .ods-stat-delta--up,
+  .ods-stat-delta--down { animation: ods-stat-fade-in 200ms linear backwards; }
+}
+@keyframes ods-stat-fade-in { from { opacity: 0; } to { opacity: 1; } }
