@@ -28,4 +28,6 @@ export type ToastRegionPosition = "top-start" | "top-center" | "top-end" | "bott
 export interface ToastRegionContract {
   // 알림 표시 위치, 기본값 오른쪽 아래
   position?: ToastRegionPosition;
+  // 알림 추가, 제거 프레임에서는 margin 전환 미적용. 레이아웃이 즉시 끝나 있기 때문임
+  shifting?: boolean;
 }

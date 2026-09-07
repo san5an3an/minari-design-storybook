@@ -42,10 +42,12 @@ export type ToastRegionPosition = "top-start" | "top-center" | "top-end" | "bott
 export interface ToastRegionProps extends React.HTMLAttributes<HTMLDivElement> {
   // 알림 표시 위치, 기본값 오른쪽 아래
   position?: ToastRegionPosition;
+  // 알림 추가, 제거 프레임에서는 margin 전환 미적용. 레이아웃이 즉시 끝나 있기 때문임
+  shifting?: boolean;
 }
 export const ToastRegion = React.forwardRef<HTMLDivElement, ToastRegionProps>(
-  ({ position = "bottom-end", className, children, ...rest }, ref) => (
-    <div ref={ref} className={cx("ods-toast-region", `ods-toast-region--${position}`, className)} {...rest}>
+  ({ position = "bottom-end", shifting = false, className, children, ...rest }, ref) => (
+    <div ref={ref} className={cx("ods-toast-region", `ods-toast-region--${position}`, shifting && "ods-toast-region--shifting", className)} {...rest}>
       {children}
     </div>
   )
