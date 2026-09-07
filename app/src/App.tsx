@@ -164,6 +164,12 @@ function BaseCard({
 
 const HIDDEN_BASES = ["chakra", "mantine"];
 
+const CARD_ORDER = ["shadcn", "antd", "mui", "standalone"];
+const cardRank = (key: string) => {
+  const i = CARD_ORDER.indexOf(key);
+  return i < 0 ? CARD_ORDER.length : i; // 알 수 없는 베이스는 뒤로 정렬
+};
+
 function BasePicker({
   base, color, onPick,
 }: {
@@ -205,19 +211,21 @@ function BasePicker({
               <b> 색 20종을 모두</b> 쓸 수 있어요. 색은 상단바에서 골라요.
             </DialogDescription>
           </DialogHeader>
-          {/* BASE_ORDER 그대로 두지 않음. HIDDEN_BASES 제외 */}
+          {/* BASE_ORDER 그대로 안 쓰고 HIDDEN_BASES 제외해 재구성 */}
           <div className="grid gap-2 sm:grid-cols-2">
-            {BASE_ORDER.filter((key) => !HIDDEN_BASES.includes(key)).map((key) => (
-              <BaseCard
-                key={key}
-                baseKey={key}
-                active={key === base}
-                onPick={(next) => {
-                  onPick(next);
-                  setOpen(false);
-                }}
-              />
-            ))}
+            {BASE_ORDER.filter((key) => !HIDDEN_BASES.includes(key))
+              .sort((a, b) => cardRank(a) - cardRank(b))
+              .map((key) => (
+                <BaseCard
+                  key={key}
+                  baseKey={key}
+                  active={key === base}
+                  onPick={(next) => {
+                    onPick(next);
+                    setOpen(false);
+                  }}
+                />
+              ))}
           </div>
         </DialogContent>
       </Dialog>
