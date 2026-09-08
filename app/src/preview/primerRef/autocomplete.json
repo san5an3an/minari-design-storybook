@@ -1,0 +1,205 @@
+{
+ "slug": "autocomplete",
+ "title": "Autocomplete",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/Autocomplete",
+  "id": "autocomplete",
+  "name": "Autocomplete",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-autocomplete--default",
+    "code": "() => {\n  return (\n    <form\n      className={classes.DefaultForm}\n      onSubmit={(event) => event.preventDefault()}\n    >\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel-default\">\n          Label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              selectedItemIds={[]}\n              aria-labelledby=\"autocompleteLabel-default\"\n              items={items}\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--with-token-input",
+    "code": "() => {\n  const [tokens, setTokens] = useState<Datum[]>([])\n  const selectedTokenIds = tokens.map((token) => token.id)\n  const [selectedItemIds, setSelectedItemIds] =\n    useState<Array<string>>(selectedTokenIds)\n  const onTokenRemove: (tokenId: string | number) => void = (tokenId) => {\n    setTokens(tokens.filter((token) => token.id !== tokenId))\n    setSelectedItemIds(selectedItemIds.filter((id) => id !== tokenId))\n  }\n  const onSelectedChange = (newlySelectedItems: Datum | Datum[]) => {\n    if (!Array.isArray(newlySelectedItems)) {\n      return\n    }\n    setSelectedItemIds(newlySelectedItems.map((item) => item.id))\n    if (newlySelectedItems.length < selectedItemIds.length) {\n      const newlySelectedItemIds = newlySelectedItems.map(({ id }) => id)\n      const removedItemIds = selectedTokenIds.filter(\n        (id) => !newlySelectedItemIds.includes(id),\n      )\n      for (const removedItemId of removedItemIds) {\n        onTokenRemove(removedItemId)\n      }\n      return\n    }\n    setTokens(\n      newlySelectedItems.map(({ id, text }) => ({\n        id,\n        text,\n      })),\n    )\n  }\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel\">\n          Default label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input\n            as={TextInputTokens}\n            tokens={tokens}\n            onTokenRemove={onTokenRemove}\n            block\n          />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              items={items}\n              selectedItemIds={selectedItemIds}\n              onSelectedChange={onSelectedChange}\n              selectionVariant=\"multiple\"\n              aria-labelledby=\"autocompleteLabel\"\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--add-new-item",
+    "code": "() => {\n  const [inputValue, setInputValue] = React.useState<string>('')\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel-add-new\">\n          Label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input\n            value={inputValue}\n            onChange={(e) => {\n              setInputValue(e.currentTarget.value)\n            }}\n          />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              selectedItemIds={[]}\n              aria-labelledby=\"autocompleteLabel-add-new\"\n              addNewItem={\n                inputValue &&\n                !items.map((item) => item.text).includes(inputValue)\n                  ? {\n                      text: inputValue,\n                      id: inputValue,\n                      handleAddItem: (selectedItem) => {\n                        // eslint-disable-next-line no-console\n                        console.log('added item:', selectedItem)\n                        return\n                      },\n                    }\n                  : undefined\n              }\n              items={items}\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--custom-search-filter-fn",
+    "code": "() => {\n  const [filterVal, setFilterVal] = useState<string>('')\n  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {\n    setFilterVal(e.currentTarget.value)\n  }\n  const customFilterFn = (item: Datum) => item.text.includes(filterVal)\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel\">\n          Default label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input onChange={handleChange} />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              items={items}\n              selectedItemIds={[]}\n              filterFn={customFilterFn}\n              aria-labelledby=\"autocompleteLabel\"\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n        <FormControl.Caption>\n          Items in dropdown are filtered if their text has no part that matches\n          the input value\n        </FormControl.Caption>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--custom-sort-after-menu-close",
+    "code": "() => {\n  const [selectedItemIds, setSelectedItemIds] = useState<Array<string>>([])\n  const isItemSelected = (itemId: string) => selectedItemIds.includes(itemId)\n  const onSelectedChange = (newlySelectedItems: Datum | Datum[]) => {\n    if (!Array.isArray(newlySelectedItems)) {\n      return\n    }\n    setSelectedItemIds(newlySelectedItems.map((item) => item.id))\n  }\n  const customSortFn = (itemIdA: string, itemIdB: string) =>\n    isItemSelected(itemIdA) === isItemSelected(itemIdB)\n      ? 0\n      : isItemSelected(itemIdA)\n        ? 1\n        : -1\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel\">\n          Default label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              items={items}\n              selectedItemIds={selectedItemIds}\n              onSelectedChange={onSelectedChange}\n              sortOnCloseFn={customSortFn}\n              aria-labelledby=\"autocompleteLabel\"\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n        <FormControl.Caption>\n          When the dropdown closes, selected items are sorted to the end\n        </FormControl.Caption>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--with-callback-when-overlay-open-state-changes",
+    "code": "() => {\n  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)\n  const onOpenChange = (isOpen: boolean) => {\n    setIsMenuOpen(isOpen)\n  }\n  return (\n    <Stack as=\"form\" padding=\"normal\">\n      <div className={classes.InputWithStateLabel}>\n        <div>\n          <FormControl>\n            <FormControl.Label id=\"autocompleteLabel\">\n              Default label\n            </FormControl.Label>\n            <Autocomplete>\n              <Autocomplete.Input />\n              <Autocomplete.Overlay>\n                <Autocomplete.Menu\n                  items={items}\n                  selectedItemIds={[]}\n                  onOpenChange={onOpenChange}\n                  aria-labelledby=\"autocompleteLabel\"\n                />\n              </Autocomplete.Overlay>\n            </Autocomplete>\n          </FormControl>\n        </div>\n\n        <div className={classes.StateLabelInline}>\n          The menu is <strong>{isMenuOpen ? 'open' : 'closed'}</strong>\n        </div>\n      </div>\n    </Stack>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--async-loading-of-items",
+    "code": "(args: FormControlArgs<AutocompleteArgs>) => {\n  const { parentArgs, labelArgs, captionArgs, validationArgs } =\n    getFormControlArgsByChildComponent(args)\n  const { menuArgs, overlayArgs, textInputArgs } = getArgsByChildComponent(args)\n  const [loadedItems, setLoadedItems] = useState<Datum[]>([])\n  const onOpenChange = (isOpen: boolean) => {\n    if (isOpen) {\n      setTimeout(() => {\n        setLoadedItems(items)\n      }, 1500)\n    }\n  }\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl {...parentArgs}>\n        <FormControl.Label id=\"autocompleteLabel\" {...labelArgs} />\n        <Autocomplete>\n          <Autocomplete.Input\n            {...textInputArgs}\n            size={textInputArgs.inputSize}\n          />\n          <Autocomplete.Overlay {...overlayArgs}>\n            <Autocomplete.Menu\n              items={loadedItems}\n              selectedItemIds={[]}\n              onOpenChange={onOpenChange}\n              aria-labelledby=\"autocompleteLabel\"\n              {...menuArgs}\n              loading={loadedItems.length === 0}\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n        {captionArgs.children && <FormControl.Caption {...captionArgs} />}\n        {validationArgs.children && validationArgs.variant && (\n          <FormControl.Validation\n            {...validationArgs}\n            variant={validationArgs.variant}\n          />\n        )}\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--rendering-the-menu-outside-an-overlay",
+    "code": "() => {\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label id=\"autocompleteLabel\">\n          Default label\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input />\n          <Autocomplete.Menu\n            items={items}\n            selectedItemIds={[]}\n            aria-labelledby=\"autocompleteLabel\"\n          />\n        </Autocomplete>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--custom-overlay-menu-anchor",
+    "code": "() => {\n  const menuAnchorRef = useRef<HTMLElement>(null)\n  return (\n    <form className={classes.FormPadding}>\n      <FormControl>\n        <FormControl.Label htmlFor=\"autocompleteInput\" id=\"autocompleteLabel\">\n          Default label\n        </FormControl.Label>\n        <div\n          ref={menuAnchorRef as React.RefObject<HTMLDivElement>}\n          className={classes.AnchorContainer}\n        >\n          <Autocomplete>\n            <Autocomplete.Input\n              id=\"autocompleteInput\"\n              aria-describedby=\"autocompleteCaption autocompleteValidation\"\n              className={classes.AnchorInput}\n            />\n            <Autocomplete.Overlay menuAnchorRef={menuAnchorRef}>\n              <Autocomplete.Menu\n                items={items}\n                selectedItemIds={[]}\n                aria-labelledby=\"autocompleteLabel\"\n              />\n            </Autocomplete.Overlay>\n          </Autocomplete>\n        </div>\n        <FormControl.Caption>\n          The overlay menu position is anchored to the div with the black border\n          instead of to the text input\n        </FormControl.Caption>\n      </FormControl>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--in-overlay-with-custom-scroll-container-ref",
+    "code": "() => {\n  const scrollContainerRef = useRef<HTMLElement>(null)\n  const inputRef = useRef<HTMLInputElement>(null)\n  const triggerRef = useRef<HTMLButtonElement>(null)\n  const [isOpen, setIsOpen] = useState(false)\n  const [selectedItem, setSelectedItem] = useState<Datum>()\n  const handleOpen = () => {\n    setIsOpen(true)\n    inputRef.current && inputRef.current.focus()\n  }\n  const selectChange = (item: Datum[] | Datum) => {\n    setIsOpen(false)\n    if (Array.isArray(item) && item.length) setSelectedItem(item[0])\n    triggerRef.current?.focus()\n  }\n  return (\n    <form className={classes.FormPadding}>\n      <span id=\"selected-item-status\">\n        Selected item: {selectedItem ? selectedItem.text : 'none'}\n      </span>\n\n      <AnchoredOverlay\n        open={isOpen}\n        onOpen={handleOpen}\n        onClose={() => setIsOpen(false)}\n        width=\"large\"\n        focusTrapSettings={{\n          initialFocusRef: inputRef,\n        }}\n        side=\"inside-top\"\n        anchorRef={triggerRef}\n        renderAnchor={(props) => (\n          <Button {...props} aria-describedby=\"selected-item-status\">\n            open overlay\n          </Button>\n        )}\n        preventOverflow={false}\n      >\n        <Autocomplete>\n          <div className={classes.OverlayFlexCol}>\n            <div className={classes.OverlayInputBar}>\n              <Autocomplete.Input\n                ref={inputRef}\n                className={classes.OverlayInput}\n                block\n                aria-label=\"Search\"\n              />\n            </div>\n            <div\n              ref={scrollContainerRef as RefObject<HTMLDivElement>}\n              className={classes.OverlayScroll}\n            >\n              <Autocomplete.Menu\n                items={items}\n                selectedItemIds={[]}\n                customScrollContainerRef={scrollContainerRef}\n                aria-labelledby=\"autocompleteLabel\"\n                onSelectedChange={selectChange}\n              />\n            </div>\n          </div>\n        </Autocomplete>\n      </AnchoredOverlay>\n    </form>\n  )\n}"
+   },
+   {
+    "id": "components-autocomplete-features--in-a-dialog",
+    "code": "() => {\n  const outerContainerRef = useRef<HTMLDivElement>(null)\n  const [mounted, setMounted] = useState(false)\n  const [isDialogOpen, setIsDialogOpen] = useState(false)\n  useEffect(() => {\n    if (outerContainerRef.current instanceof HTMLElement) {\n      registerPortalRoot(outerContainerRef.current, 'outerContainer')\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-chain-state-updates\n      setMounted(true)\n    }\n  }, [isDialogOpen])\n  return (\n    <>\n      <Button onClick={() => setIsDialogOpen(true)}>Show dialog</Button>\n      <Dialog\n        aria-label=\"Dialog with autocomplete\"\n        id=\"dialog-with-autocomplete\"\n        isOpen={isDialogOpen}\n        onDismiss={() => setIsDialogOpen(false)}\n      >\n        <div ref={outerContainerRef}>\n          <form className={classes.FormPadding}>\n            {mounted ? (\n              <FormControl>\n                <FormControl.Label id=\"autocompleteLabel\">\n                  Default label\n                </FormControl.Label>\n                <Autocomplete>\n                  <Autocomplete.Input data-testid=\"autocompleteInput\" />\n                  <Autocomplete.Overlay portalContainerName=\"outerContainer\">\n                    <Autocomplete.Menu\n                      items={items}\n                      selectedItemIds={[]}\n                      aria-labelledby=\"autocompleteLabel\"\n                    />\n                  </Autocomplete.Overlay>\n                </Autocomplete>\n              </FormControl>\n            ) : null}\n          </form>\n        </div>\n      </Dialog>\n      <p>\n        The Autocomplete.Overlay is portalled to a div inside the Dialog to\n        ensure it appears above the dialog in the stacking context.\n      </p>\n    </>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "children",
+    "type": "React.ReactNode"
+   },
+   {
+    "name": "id",
+    "type": "string",
+    "description": "May be used to customize how the ID is set on the text input to be used by ARIA attributes on related elements.",
+    "defaultValue": ""
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "Autocomplete.Input",
+    "props": [
+     {
+      "name": "as",
+      "type": "React.ElementType",
+      "defaultValue": "TextInput"
+     },
+     {
+      "name": "openOnFocus",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether the associated autocomplete menu should open on an input focus event",
+      "deprecated": true
+     }
+    ],
+    "passthrough": {
+     "element": "TextInput",
+     "url": "/react/TextInput"
+    }
+   },
+   {
+    "name": "Autocomplete.Overlay",
+    "props": [
+     {
+      "name": "menuAnchorRef",
+      "type": "React.RefObject<HTMLElement>"
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     },
+     {
+      "name": "overlayProps",
+      "deprecated": true,
+      "type": "Partial<OverlayProps>",
+      "description": "Props to be spread on the internal `Overlay` component."
+     }
+    ],
+    "passthrough": {
+     "element": "Overlay",
+     "url": "/react/Overlay"
+    }
+   },
+   {
+    "name": "Autocomplete.Menu",
+    "props": [
+     {
+      "name": "items",
+      "required": true,
+      "type": "T[]",
+      "description": "The options for field values that are displayed in the dropdown menu. One or more may be selected depending on the value of the `selectionVariant` prop."
+     },
+     {
+      "name": "selectedItemIds",
+      "required": true,
+      "type": "string[]",
+      "description": "The IDs of the selected items"
+     },
+     {
+      "name": "aria-labelledby",
+      "required": true,
+      "type": "string"
+     },
+     {
+      "name": "addNewItem",
+      "type": "Omit<T, 'id' | 'leadingVisual' | 'onAction'> & { handleAddItem: (item: Omit<T, 'leadingVisual' | 'onAction'>) => void; }",
+      "description": "A menu item that is used to allow users make a selection that is not available in the array passed to the `items` prop. This menu item gets appended to the end of the list of options."
+     },
+     {
+      "name": "emptyStateText",
+      "type": "React.ReactNode | false",
+      "description": "The text that appears in the menu when there are no options in the array passed to the `items` prop."
+     },
+     {
+      "name": "filterFn",
+      "type": "(item: T, i: number) => boolean",
+      "description": "A custom function used to filter the options in the array passed to the `items` prop. By default, we filter out items that don't match the value of the autocomplete text input. The default filter is not case-sensitive."
+     },
+     {
+      "name": "loading",
+      "type": "boolean",
+      "description": "Whether the data is loading for the menu items"
+     },
+     {
+      "name": "sortOnCloseFn",
+      "type": "(itemIdA: string | number, itemIdB: string | number) => number",
+      "description": "The sort function that is applied to the options in the array passed to the `items` prop after the user closes the menu. By default, selected items are sorted to the top after the user closes the menu."
+     },
+     {
+      "name": "selectionVariant",
+      "type": "'single' | 'multiple'",
+      "description": "Whether there can be one item selected from the menu or multiple items selected from the menu"
+     },
+     {
+      "name": "onOpenChange",
+      "type": "(open: boolean) => void",
+      "description": "Function that gets called when the menu is opened or closed"
+     },
+     {
+      "name": "onSelectedChange",
+      "type": "(item: T | T[]) => void",
+      "description": "The function that is called when an item in the list is selected or deselected"
+     },
+     {
+      "name": "customScrollContainerRef",
+      "type": "React.MutableRefObject<HTMLElement | null>",
+      "description": "If the menu is rendered in a scrolling element other than the `Autocomplete.Overlay` component, pass the ref of that element to `customScrollContainerRef` to ensure the container automatically scrolls when the user highlights an item in the menu that is outside the scroll container"
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:1023",
+ "name": "autocomplete",
+ "sourceKey": "$.components.autocomplete",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "AnchoredOverlay",
+  "Array",
+  "Autocomplete",
+  "AutocompleteArgs",
+  "Button",
+  "Datum",
+  "Dialog",
+  "FormControl",
+  "HTMLButtonElement",
+  "HTMLDivElement",
+  "HTMLElement",
+  "HTMLInputElement",
+  "Stack",
+  "TextInputTokens"
+ ]
+}
