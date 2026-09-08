@@ -17,6 +17,7 @@ import {
   Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ExportDialog } from "@/components/ExportDialog";
+import { ImportButton, ImportDialog } from "@/components/ImportDialog";
 import { requestExport } from "@/export/client";
 import { isLibBase } from "@/export/lib/registry";
 import { sinkFor } from "@/export/sinks/registry";
@@ -161,6 +162,14 @@ function BaseCard({
   );
 }
 
+const HIDDEN_BASES = ["chakra", "mantine"];
+
+const CARD_ORDER = ["shadcn", "antd", "mui", "standalone"];
+const cardRank = (key: string) => {
+  const i = CARD_ORDER.indexOf(key);
+  return i < 0 ? CARD_ORDER.length : i; // 알 수 없는 베이스는 뒤로 정렬
+};
+
 function BasePicker({
   base, color, onPick,
 }: {
@@ -202,18 +211,21 @@ function BasePicker({
               <b> 색 20종을 모두</b> 쓸 수 있어요. 색은 상단바에서 골라요.
             </DialogDescription>
           </DialogHeader>
+          {/* BASE_ORDER 그대로 안 쓰고 HIDDEN_BASES 제외해 재구성 */}
           <div className="grid gap-2 sm:grid-cols-2">
-            {BASE_ORDER.map((key) => (
-              <BaseCard
-                key={key}
-                baseKey={key}
-                active={key === base}
-                onPick={(next) => {
-                  onPick(next);
-                  setOpen(false);
-                }}
-              />
-            ))}
+            {BASE_ORDER.filter((key) => !HIDDEN_BASES.includes(key))
+              .sort((a, b) => cardRank(a) - cardRank(b))
+              .map((key) => (
+                <BaseCard
+                  key={key}
+                  baseKey={key}
+                  active={key === base}
+                  onPick={(next) => {
+                    onPick(next);
+                    setOpen(false);
+                  }}
+                />
+              ))}
           </div>
         </DialogContent>
       </Dialog>
@@ -454,6 +466,7 @@ export function App {
   const [font, setFont] = React.useState<string>(DEFAULT_FONT);
   // 내보내기 창은 URL 반영에서 제외
   const [exportOpen, setExportOpen] = React.useState(false);
+  const [importOpen, setImportOpen] = React.useState(false);
   // 사이드바 검색어 URL 제외
   const [query, setQuery] = React.useState("");
   const searchRef = React.useRef<HTMLInputElement>(null);
@@ -601,6 +614,8 @@ export function App {
           </span>
           {/* 그룹도 접힘. 넷이 한 행에 안 들어가면 둘씩 두 행 배치 */}
           <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
+            {/* 내보내기를 색상, 글꼴, 모드 세트 왼쪽에 배치 */}
+            <ImportButton onOpen={ => setImportOpen(true)} />
             <ExportButton disabled={!exportable} onOpen={ => setExportOpen(true)} />
             <SystemSelect slug={slug} onPick={(next) => pick(next, section)} />
             <FontSelect font={font} onPick={setFont} />
@@ -609,6 +624,9 @@ export function App {
         </header>
 
         {/* 내보낼 수 없는 화면은 생성 금지. parseHash로 직접 접근하는 경로가 있음 */}
+        {/* ExportDialog와 달리 조건부로 감싸지 않기 */}
+        <ImportDialog open={importOpen} onOpenChange={setImportOpen} system={system} />
+
         {exportable ? (
           <ExportDialog
             open={exportOpen}

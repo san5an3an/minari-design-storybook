@@ -112,6 +112,23 @@ export interface BadgeProps extends Common {
   iconPosition?: "inline-start" | "inline-end";
 }
 
+type ChipBase = Common & { disabled?: boolean };
+export type ChipProps =
+  | (ChipBase & {
+      // 선택 상태
+      pressed?: boolean;
+      onClick?:  => void;
+      onRemove?: never;
+      removeLabel?: never;
+    })
+  | (ChipBase & {
+      // 지우기 속성. 지정 시 바깥 태그가 span임
+      onRemove:  => void;
+      removeLabel: string;
+      pressed?: never;
+      onClick?: never;
+    });
+
 export interface RingcarouselItem {
   id: string;
   label: string;
@@ -261,6 +278,26 @@ export interface ProgressProps {
   indeterminate?: boolean;
   label?: ReactNode;
   showValue?: boolean;
+}
+
+export interface MeterProps {
+  label?: ReactNode;
+  // 값을 글자 그대로 표시, 단위 병기 가능
+  value?: ReactNode;
+  // 표시 위치. 0~100
+  at: number;
+  // 저, 중, 고 구간 폭. 합계 100
+  bands?: readonly [number, number, number];
+}
+
+// 지표 하나. 값과 증감 함께 표시
+export interface StatProps {
+  label?: ReactNode;
+  value?: ReactNode;
+  // 변화량. 없으면 렌더링 생략
+  delta?: ReactNode;
+  // 오름차순, 내림차순 여부. delta 있을 때만 의미 있음
+  direction?: "up" | "down";
 }
 
 export interface PageHeaderProps extends Common {

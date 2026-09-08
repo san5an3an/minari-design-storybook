@@ -13,7 +13,8 @@
   letter-spacing: var(--component-chip-letter-spacing);
   line-height: var(--base-font-line-height-tight);
   cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease,
+              transform 120ms ease;
 }
 .ods-chip:hover { background: var(--component-chip-bg-hover); }
 .ods-chip:focus-visible { outline: 0.125rem solid var(--component-chip-border-focus); outline-offset: 0.125rem; }
@@ -25,4 +26,17 @@
 .ods-chip svg { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2;
   stroke-linecap: round; }
 .ods-chip-remove { display: inline-flex; border: 0; background: transparent; padding: 0;
-  color: inherit; cursor: pointer; }
+  color: inherit; cursor: pointer;
+  transition: transform 140ms ease, color 140ms ease; }
+
+button.ods-chip:active { transform: scale(0.97); }
+.ods-chip-remove:hover { transform: scale(1.15); }
+.ods-chip-remove:active { transform: scale(0.92); }
+
+/* 움직임만 제거하고 전환 유지. 전환까지 없애면 상태 변화를 알아보기 어려움 */
+@media (prefers-reduced-motion: reduce) {
+  .ods-chip, .ods-chip-remove { transition-duration: 1ms; }
+  button.ods-chip:active,
+  .ods-chip-remove:hover,
+  .ods-chip-remove:active { transform: none; }
+}

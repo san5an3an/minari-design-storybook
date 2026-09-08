@@ -208,13 +208,13 @@ api(ctx) ──┬── gen_systems.py → 컴포넌트 CSS, SYSTEMS.md
 │ └── styles.css 이 시스템 vars + 컴포넌트 CSS 일괄 처리
 ├── app/src/ 미리보기 앱이 앱의 기준임
 │ ├── App.tsx 해시 라우팅과 기본 구조(사이드바, 상단바). 기본 구조는 shadcn으로 고정됨
+│ │ 예외 1건. components/ChromeSteps.tsx 만 antd Steps 사용
 │ ├── app.css 스타일 기준
 │ ├── bases/{베이스}/, 손으로 작성. 그 라이브러리로 계약을 이행함
 │ ├── contract/{시스템}/, 생성물. 타입만 있고 아무것도 import 하지 않음
 │ ├── systems/{시스템}.tsx, 생성물. 베이스 하나, 자기 vars.css
 │ ├── components/ui/ shadcn/ui 원본. 공식 CLI 가 넣는 위치임
-│ ├── preview/ 화면 구성, 토큰 표, 공식 참조 문서 뷰어
-│ └── raw-modules.d.ts `?raw` · `.css` 임포트 타입임. 지우면 타입 에러 88개 발생
+│ └── preview/ 화면 구성, 토큰 표, 공식 참조 문서 뷰어
 ├── web/ Next(App Router) 구조만 있고 화면 코드는 여기 없음
 │ ├── app/layout.tsx antd Registry · 문서 제목
 │ ├── next.config.ts 번들러 별칭. Turbopack 기준, webpack 은 되돌림용임
