@@ -1,0 +1,110 @@
+{
+  "slug": "variables",
+  "title": "Variables",
+  "kind": "guide",
+  "sourcePath": "node_modules/@blueprintjs/core/src/docs/variables.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: Variables\n---\n\n# Variables\n\nAvailable for use with Sass and Less.\n\n```scss\n// Sass\n@import \"path/to/@blueprintjs/core/lib/scss/variables\";\n```\n\n```less\n// Less\n@import \"path/to/@blueprintjs/core/lib/less/variables\";\n```\n\nThe Sass `$` convention is used in this documentation for consistency with the original source code.\nEvery variable mentioned below is also available in `variables.less` with an `@` prefix instead of `$`.\n\n## Font variables\n\nTypically, correct typography styles should be achieved by using the proper HTML tag (`<p>` for\ntext, `<h*>` for headings, `<code>` for code, etc.). The following variables are provided for the\nrare cases where custom styling is necessary and should be used sparingly:\n\n- `$pt-font-family`\n- `$pt-font-family-monospace`\n- `$pt-font-size`\n- `$pt-font-size-small`\n- `$pt-font-size-large`\n- `$pt-line-height`\n\n## Icon variables\n\nMost icons should be displayed using the `<Icon>` component from `@blueprintjs/icons` or the\n`icon` and `iconName` prop APIs available on many Blueprint components. These APIs have the advantage\nof rendering SVGs directly onto the page.\n\nIn some cases you may use the icon fonts instead with the CSS API targeting selectors of the kind\n`span.@ns-icon-*` (be sure to include `.@ns-icon-standard` or `.@ns-icon-large` as well).\n\nIn rare cases, you may need direct access to the code points the icon font. Blueprint provides these\nvariables in Sass as a map and in TypeScript as an object (see the [Icons section](#icons) for the\nfull list of identifiers):\n\n```scss\n@import \"@blueprintjs/icons/lib/scss/variables\";\n\n.my-custom-icon {\n    content: map-get($blueprint-icon-codepoints, \"tick\");\n}\n```\n\n```ts\nimport { getIconContentString } from \"@blueprintjs/icons\";\n\ndocument.querySelector(\".my-custom-icon\").style.content = getIconContentString(\"tick\");\n```\n\nSass variables are also provided for the two icon font families and their pixel sizes:\n\n- `$blueprint-icons-16`\n- `$blueprint-icons-20`\n- `$pt-icon-size-standard`\n- `$pt-icon-size-large`\n\n## Grids & dimensions\n\nSizes of common components. Most sizing variables are based on `$pt-spacing`, which has\na base value of `4px`. Custom components should adhere to the relevant `height` variable.\n\n- `$pt-spacing` (base unit: 4px)\n- `$pt-grid-size` **[DEPRECATED]** (10px - use `$pt-spacing` instead)\n- `$pt-border-radius`\n- `$pt-button-height`\n- `$pt-button-height-large`\n- `$pt-input-height`\n- `$pt-input-height-large`\n- `$pt-navbar-height`\n\n### Grid system\n\nBlueprint provides a standardized spacing variable based on a 4px grid. You should use the `$pt-spacing`\nvariable to generate consistent layout & sizing style rules in your CSS codebase.\n\n> **Note:** The legacy `$pt-grid-size` variable (10px) is deprecated. Please use `$pt-spacing` (4px) for new components and migrate existing usage when possible.\n\nFor layout, we recommend using the **CSS flexible box layout model** (a.k.a. \"flexbox\") in combination\nwith our spacing variable. This approach allows you to build robust, responsive layouts with consistent\nspacing. Here are some resources for learning flexbox:\n\n- [MDN guide](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Flexible_boxes)\n- [CSS Tricks guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)\n\nExample usage:\n\n```scss\n.my-component {\n    padding: $pt-spacing * 4; // 16px\n    margin-bottom: $pt-spacing * 2; // 8px\n    gap: $pt-spacing; // 4px\n}\n```\n\n## Layering\n\nBlueprint provides variables for three z-index layers. This should be enough for most use cases,\nespecially if you make correct use of [stacking context][MDN]. [Overlay2](#core/components/overlay2)\ncomponents such as dialogs and popovers use these z-index values to configure their stacking\ncontexts.\n\n- `$pt-z-index-base`\n- `$pt-z-index-content`\n- `$pt-z-index-overlay`\n\n[MDN]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context\n\n## Light theme styles\n\nUse these when you need to build custom UI components that look similar to Blueprint's\nlight theme components.\n\n- `$pt-dialog-box-shadow`\n- `$pt-input-box-shadow`\n- `$pt-popover-box-shadow`\n- `$pt-tooltip-box-shadow`\n\n## Dark theme styles\n\nUse these when you need to build custom UI components that look similar to Blueprint's\ndark theme components.\n\n- `$pt-dark-dialog-box-shadow`\n- `$pt-dark-input-box-shadow`\n- `$pt-dark-popover-box-shadow`\n- `$pt-dark-tooltip-box-shadow`\n\n## Elevation drop shadows\n\nUse these when you need to apply a drop shadow to custom UI components to simulate height.\nThese elevations correspond to those of the [Card](#core/components/card.elevation) component.\n\n- `$pt-elevation-shadow-0`\n- `$pt-elevation-shadow-1`\n- `$pt-elevation-shadow-2`\n- `$pt-elevation-shadow-3`\n- `$pt-elevation-shadow-4`\n\nUse these for drop shadows in dark theme.\n\n- `$pt-dark-elevation-shadow-0`\n- `$pt-dark-elevation-shadow-1`\n- `$pt-dark-elevation-shadow-2`\n- `$pt-dark-elevation-shadow-3`\n- `$pt-dark-elevation-shadow-4`\n\n## Color aliases\n\nThese variables are semantic aliases of our [colors](#core/colors).\nThey are used throughout Blueprint itself to ensure consistent color usage across components\nand are available in the Sass or Less variables files.\n\n<table class=\"@ns-html-table docs-color-aliases-table\">\n    <thead>\n        <tr>\n            <th></th>\n            <th>Variable</th>\n            <th>Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-intent-primary\"></div>\n            </td>\n            <td>\n                <code>$pt-intent-primary</code>\n            </td>\n            <td>Primary intent color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-intent-success\"></div>\n            </td>\n            <td>\n                <code>$pt-intent-success</code>\n            </td>\n            <td>Success intent color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-intent-warning\"></div>\n            </td>\n            <td>\n                <code>$pt-intent-warning</code>\n            </td>\n            <td>Warning intent color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-intent-danger\"></div>\n            </td>\n            <td>\n                <code>$pt-intent-danger</code>\n            </td>\n            <td>Danger intent color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-app-background-color\"></div>\n            </td>\n            <td>\n                <code>$pt-app-background-color</code>\n            </td>\n            <td>Application background color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-app-background-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-app-background-color</code>\n            </td>\n            <td>Dark theme application background color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-text-color\"></div>\n            </td>\n            <td>\n                <code>$pt-text-color</code>\n            </td>\n            <td>Default text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-text-color-muted\"></div>\n            </td>\n            <td>\n                <code>$pt-text-color-muted</code>\n            </td>\n            <td>Muted text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-text-color-disabled\"></div>\n            </td>\n            <td>\n                <code>$pt-text-color-disabled</code>\n            </td>\n            <td>Disabled text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-heading-color\"></div>\n            </td>\n            <td>\n                <code>$pt-heading-color</code>\n            </td>\n            <td>Text color for headers</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-link-color\"></div>\n            </td>\n            <td>\n                <code>$pt-link-color</code>\n            </td>\n            <td>Text color for links</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-text-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-text-color</code>\n            </td>\n            <td>Dark theme default text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-text-color-muted\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-text-color-muted</code>\n            </td>\n            <td>Dark theme muted text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-text-color-disabled\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-text-color-disabled</code>\n            </td>\n            <td>Dark theme disabled text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-heading-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-heading-color</code>\n            </td>\n            <td>Dark theme text color for headers</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-link-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-link-color</code>\n            </td>\n            <td>Dark theme text color for links</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-text-selection-color\"></div>\n            </td>\n            <td>\n                <code>$pt-text-selection-color</code>\n            </td>\n            <td>Text selection color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-icon-color\"></div>\n            </td>\n            <td>\n                <code>$pt-icon-color</code>\n            </td>\n            <td>Default icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-icon-color-hover\"></div>\n            </td>\n            <td>\n                <code>$pt-icon-color-hover</code>\n            </td>\n            <td>Hovered icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-icon-color-disabled\"></div>\n            </td>\n            <td>\n                <code>$pt-icon-color-disabled</code>\n            </td>\n            <td>Disabled icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-icon-color-selected\"></div>\n            </td>\n            <td>\n                <code>$pt-icon-color-selected</code>\n            </td>\n            <td>Selected icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-icon-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-icon-color</code>\n            </td>\n            <td>Dark theme default icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-icon-color-hover\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-icon-color-hover</code>\n            </td>\n            <td>Dark theme hovered icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-icon-color-disabled\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-icon-color-disabled</code>\n            </td>\n            <td>Dark theme disabled icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-icon-color-selected\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-icon-color-selected</code>\n            </td>\n            <td>Dark theme selected icon color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-divider-black\"></div>\n            </td>\n            <td>\n                <code>$pt-divider-black</code>\n            </td>\n            <td>Black divider color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-divider-black\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-divider-black</code>\n            </td>\n            <td>Dark theme black divider color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-divider-white\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-divider-white</code>\n            </td>\n            <td>Dark theme white divider color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-code-text-color\"></div>\n            </td>\n            <td>\n                <code>$pt-code-text-color</code>\n            </td>\n            <td>Code text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-code-background-color\"></div>\n            </td>\n            <td>\n                <code>$pt-code-background-color</code>\n            </td>\n            <td>Code background color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-code-text-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-code-text-color</code>\n            </td>\n            <td>Dark theme code text color</td>\n        </tr>\n        <tr>\n            <td>\n                <div class=\"docs-color-bubble alias-dark-code-background-color\"></div>\n            </td>\n            <td>\n                <code>$pt-dark-code-background-color</code>\n            </td>\n            <td>Dark theme code background color</td>\n        </tr>\n    </tbody>\n</table>\n",
+  "lines": 464,
+  "frontMatter": {
+    "title": "Variables"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Variables",
+      "at": 26
+    },
+    {
+      "level": 2,
+      "text": "Font variables",
+      "at": 438
+    },
+    {
+      "level": 2,
+      "text": "Icon variables",
+      "at": 864
+    },
+    {
+      "level": 2,
+      "text": "Grids & dimensions",
+      "at": 2026
+    },
+    {
+      "level": 3,
+      "text": "Grid system",
+      "at": 2474
+    },
+    {
+      "level": 2,
+      "text": "Layering",
+      "at": 3426
+    },
+    {
+      "level": 2,
+      "text": "Light theme styles",
+      "at": 3927
+    },
+    {
+      "level": 2,
+      "text": "Dark theme styles",
+      "at": 4168
+    },
+    {
+      "level": 2,
+      "text": "Elevation drop shadows",
+      "at": 4427
+    },
+    {
+      "level": 2,
+      "text": "Color aliases",
+      "at": 4981
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "scss",
+      "code": "// Sass\n@import \"path/to/@blueprintjs/core/lib/scss/variables\";\n",
+      "at": 86
+    },
+    {
+      "lang": "less",
+      "code": "// Less\n@import \"path/to/@blueprintjs/core/lib/less/variables\";\n",
+      "at": 163
+    },
+    {
+      "lang": "scss",
+      "code": "@import \"@blueprintjs/icons/lib/scss/variables\";\n\n.my-custom-icon {\n    content: map-get($blueprint-icon-codepoints, \"tick\");\n}\n",
+      "at": 1546
+    },
+    {
+      "lang": "ts",
+      "code": "import { getIconContentString } from \"@blueprintjs/icons\";\n\ndocument.querySelector(\".my-custom-icon\").style.content = getIconContentString(\"tick\");\n",
+      "at": 1685
+    },
+    {
+      "lang": "scss",
+      "code": ".my-component {\n    padding: $pt-spacing * 4; // 16px\n    margin-bottom: $pt-spacing * 2; // 8px\n    gap: $pt-spacing; // 4px\n}\n",
+      "at": 3293
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "import",
+      "arg": "\"path/to/@blueprintjs/core/lib/scss/variables\";",
+      "at": 94
+    },
+    {
+      "name": "import",
+      "arg": "\"path/to/@blueprintjs/core/lib/less/variables\";",
+      "at": 171
+    },
+    {
+      "name": "import",
+      "arg": "\"@blueprintjs/icons/lib/scss/variables\";",
+      "at": 1546
+    }
+  ]
+}
