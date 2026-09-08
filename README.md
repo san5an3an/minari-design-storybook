@@ -208,6 +208,7 @@ api(ctx) ──┬── gen_systems.py → 컴포넌트 CSS, SYSTEMS.md
 │ └── styles.css 이 시스템 vars + 컴포넌트 CSS 일괄 처리
 ├── app/src/ 미리보기 앱이 앱의 기준임
 │ ├── App.tsx 해시 라우팅과 기본 구조(사이드바, 상단바). 기본 구조는 shadcn으로 고정됨
+│ │ 예외 1건. components/ChromeSteps.tsx 만 antd Steps 사용
 │ ├── app.css 스타일 기준
 │ ├── bases/{베이스}/, 손으로 작성. 그 라이브러리로 계약을 이행함
 │ ├── contract/{시스템}/, 생성물. 타입만 있고 아무것도 import 하지 않음
