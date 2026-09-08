@@ -1,0 +1,145 @@
+{
+ "slug": "underline_nav",
+ "title": "UnderlineNav",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/UnderlineNav",
+  "id": "underline_nav",
+  "name": "UnderlineNav",
+  "status": "beta",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-underlinenav-features--default",
+    "code": "() => {\n  const children = ['Code', 'Pull requests', 'Actions', 'Projects', 'Wiki']\n  return (\n    <UnderlineNav aria-label=\"Repository\">\n      {children.map((child: string, index: number) => (\n        <UnderlineNavItem\n          key={index}\n          href=\"#\"\n          aria-current={index === 0 ? 'page' : undefined}\n        >\n          {child}\n        </UnderlineNavItem>\n      ))}\n    </UnderlineNav>\n  )\n}"
+   },
+   {
+    "id": "components-underlinenav-features--with-icons",
+    "code": "() => {\n  return (\n    <UnderlineNav aria-label=\"Repository with icons\">\n      <UnderlineNav.Item leadingVisual={<CodeIcon />}>Code</UnderlineNav.Item>\n      <UnderlineNav.Item leadingVisual={<EyeIcon />} counter={6}>\n        Issues\n      </UnderlineNav.Item>\n      <UnderlineNav.Item\n        aria-current=\"page\"\n        leadingVisual={<GitPullRequestIcon />}\n      >\n        Pull Requests\n      </UnderlineNav.Item>\n      <UnderlineNav.Item leadingVisual={<CommentDiscussionIcon />} counter={7}>\n        Discussions\n      </UnderlineNav.Item>\n      <UnderlineNav.Item leadingVisual={<ProjectIcon />}>\n        Projects\n      </UnderlineNav.Item>\n    </UnderlineNav>\n  )\n}"
+   },
+   {
+    "id": "components-underlinenav-features--with-counter-labels",
+    "code": "() => {\n  return (\n    <UnderlineNav aria-label=\"Repository with counters\">\n      <UnderlineNav.Item\n        aria-current=\"page\"\n        leadingVisual={<CodeIcon />}\n        counter=\"11K\"\n      >\n        Code\n      </UnderlineNav.Item>\n      <UnderlineNav.Item leadingVisual={<IssueOpenedIcon />} counter={12}>\n        Issues\n      </UnderlineNav.Item>\n    </UnderlineNav>\n  )\n}"
+   },
+   {
+    "id": "components-underlinenav-features--overflow-template",
+    "code": "({ initialSelectedIndex = 1 }: { initialSelectedIndex?: number }) => {\n  const [selectedIndex, setSelectedIndex] = React.useState<number | null>(\n    initialSelectedIndex,\n  )\n  return (\n    <UnderlineNav aria-label=\"Repository\" hideIconsBreakpoint=\"medium\">\n      {items.map((item, index) => (\n        <UnderlineNav.Item\n          key={item.navigation}\n          leadingVisual={item.icon}\n          aria-current={index === selectedIndex ? 'page' : undefined}\n          // Set so that navigation in interaction tests does not cause the\n          // page to load the storybook iframe URL and instead keeps the test in\n          // the local preview\n          target=\"_self\"\n          onSelect={(event) => {\n            event.preventDefault()\n            setSelectedIndex(index)\n          }}\n          counter={item.counter}\n          href={item.href}\n        >\n          {item.navigation}\n        </UnderlineNav.Item>\n      ))}\n    </UnderlineNav>\n  )\n}"
+   },
+   {
+    "id": "components-underlinenav-features--overflow-on-narrow-screen",
+    "code": "() => {\n  return <OverflowTemplate initialSelectedIndex={items.length - 1} />\n}"
+   },
+   {
+    "id": "components-underlinenav-features--counters-loading-state",
+    "code": "() => {\n  const [selectedIndex, setSelectedIndex] = React.useState<number | null>(1)\n  return (\n    <UnderlineNav\n      aria-label=\"Repository with loading counters\"\n      loadingCounters={true}\n    >\n      {items.map((item, index) => (\n        <UnderlineNav.Item\n          key={item.navigation}\n          leadingVisual={item.icon}\n          aria-current={index === selectedIndex ? 'page' : undefined}\n          onSelect={() => setSelectedIndex(index)}\n          counter={item.counter}\n        >\n          {item.navigation}\n        </UnderlineNav.Item>\n      ))}\n    </UnderlineNav>\n  )\n}"
+   },
+   {
+    "id": "components-underlinenav-features--variant-flush",
+    "code": "() => {\n  return (\n    <UnderlineNav aria-label=\"Repository\" variant=\"flush\">\n      <UnderlineNav.Item aria-current=\"page\">Code</UnderlineNav.Item>\n      <UnderlineNav.Item>Issues</UnderlineNav.Item>\n      <UnderlineNav.Item>Pull Requests</UnderlineNav.Item>\n    </UnderlineNav>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "aria-label",
+    "type": "string",
+    "defaultValue": "",
+    "description": "A unique name for the rendered nav landmark. It will also be used to label the arrow\nbuttons that control the scroll behaviour on coarse pointer devices. (I.e.\n'Scroll _aria-label_ left/right')\n"
+   },
+   {
+    "name": "children",
+    "type": "UnderlineNav.Item[]",
+    "defaultValue": "",
+    "required": true,
+    "description": ""
+   },
+   {
+    "name": "loadingCounters",
+    "type": "boolean",
+    "defaultValue": "false",
+    "description": "Whether the navigation items are in loading state. Component waits for all the counters to finish loading to prevent multiple layout shifts."
+   },
+   {
+    "name": "hideIconsBreakpoint",
+    "type": "'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | null",
+    "defaultValue": "'medium'",
+    "description": "Controls the container width below which icons are hidden to save space. To keep icons visible in a narrow container, use a smaller breakpoint such as `xsmall`, or set to `null` to always show icons."
+   },
+   {
+    "name": "variant",
+    "type": "'inset' | 'flush'",
+    "defaultValue": "'inset'",
+    "description": "`inset` children are offset horizontally from container edges. `flush` children are flush horizontally with container edges"
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "UnderlineNav.Item",
+    "props": [
+     {
+      "name": "aria-current",
+      "type": "| 'page' | 'step' | 'location' | 'date' | 'time' | true | false",
+      "defaultValue": "false",
+      "description": "Set `aria-current` to `\"page\"` to indicate that the item represents the current page. Set `aria-current` to `\"location\"` to indicate that the item represents the current location on a page. For more information about `aria-current`, see [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current)."
+     },
+     {
+      "name": "counter",
+      "type": "number | string",
+      "defaultValue": "",
+      "description": "The number to display in the counter label."
+     },
+     {
+      "name": "href",
+      "type": "string",
+      "defaultValue": "",
+      "description": "The URL that the item navigates to. `href` is passed to the underlying `<a>` element. If 'as' is specified, the component may need different props and 'href' is ignored. (Required prop for the react router is 'to' for example)"
+     },
+     {
+      "name": "icon",
+      "type": "Component",
+      "defaultValue": "",
+      "description": "The leading icon comes before item label",
+      "deprecated": true
+     },
+     {
+      "name": "leadingVisual",
+      "type": "React.ReactElement",
+      "defaultValue": "",
+      "description": "The leading visual comes before item label"
+     },
+     {
+      "name": "onSelect",
+      "type": "(event) => void",
+      "defaultValue": "",
+      "description": "The handler that gets called when a nav link is selected. For example, a manual route binding can be done here(I.e. 'navigate(href)' for the react router.)"
+     },
+     {
+      "name": "as",
+      "type": "React.ElementType",
+      "defaultValue": "\"a\""
+     }
+    ],
+    "passthrough": {
+     "element": "a",
+     "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#Attributes"
+    }
+   }
+  ]
+ },
+ "source": "generated/components.json:9085",
+ "name": "underline_nav",
+ "sourceKey": "$.components.underline_nav",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "CodeIcon",
+  "CommentDiscussionIcon",
+  "EyeIcon",
+  "GitPullRequestIcon",
+  "IssueOpenedIcon",
+  "OverflowTemplate",
+  "ProjectIcon",
+  "UnderlineNav",
+  "UnderlineNavItem"
+ ]
+}
