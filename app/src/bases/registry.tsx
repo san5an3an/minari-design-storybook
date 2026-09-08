@@ -1255,5 +1255,4 @@ export const BASES: Record<string, BaseDefinition> = {
   },
 };
 
-// 구현 많은 순서대로 화면 나열. 그 수가 프로젝트 범위
 export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "mui"];
