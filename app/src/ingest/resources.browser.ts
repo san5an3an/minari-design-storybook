@@ -58,7 +58,7 @@ async function tokensFor(slug: string): Promise<Record<string, Record<string, st
     // 부분만 읽은 항목도 허용해 기록 유지
     console.warn(
       `[ingest] ${slug}/${mode}: 이름 ${Object.keys(names).length}개 중 값이 빈 것 ${missing}개, ` +
-        `그 색이 안 정의한 토큰일 수 있습니다.`,
+        `그 색이 안 쓰는 토큰일 수 있어요.`,
     );
   }
 

@@ -25,12 +25,12 @@ function scoreOne(f: Fragment, entry: ContractEntry): { score: number; because: 
 
   if (f.classes.includes(entry.base)) {
     score += W.base;
-    because.push(`루트 클래스가 \`${entry.base}\`. 이 이름은 72종에서 유일`);
+    because.push(`맨 바깥 클래스가 \`${entry.base}\` 예요. 이 이름은 이 컴포넌트에만 쓰여요`);
   }
 
   if (f.tag === entry.root) {
     score += W.root;
-    because.push(`루트 태그 \`<${entry.root}>\``);
+    because.push(`맨 바깥 태그가 \`<${entry.root}>\` 예요`);
   }
 
   // 마크업 속성 확인. aria-pressed 유무가 badge, chip 구분 신호
@@ -38,7 +38,7 @@ function scoreOne(f: Fragment, entry: ContractEntry): { score: number; because: 
     if (p.kind !== "attr") continue;
     if (p.prop in f.attrs) {
       score += W.attr;
-      because.push(`\`${p.prop}\` 속성이 있다. 계약이 이 컴포넌트의 표시로 삼는 것`);
+      because.push(`\`${p.prop}\` 속성이 있어요. 이 컴포넌트를 알아보는 표시예요`);
     }
   }
 
@@ -52,18 +52,18 @@ function scoreOne(f: Fragment, entry: ContractEntry): { score: number; because: 
   for (const [cls, name] of partClasses) {
     if (!classes.has(cls)) continue;
     score += W.partCls;
-    because.push(`부품 클래스 \`${cls}\` (${name}) 가 자손에 있다`);
+    because.push(`안쪽에 ${name || cls} 가 들어 있어요`);
   }
   for (const [tag, name] of partTags) {
     if (GENERIC.has(tag) || !tags.has(tag) || tag === f.tag) continue;
     score += W.part;
-    because.push(`부품 태그 \`<${tag}>\` (${name}) 가 자손에 있다`);
+    because.push(`안쪽에 ${name || `<${tag}>`} 가 들어 있어요`);
   }
 
   const role = f.attrs["role"];
   if (role && role === entry.name) {
     score += W.role;
-    because.push(`\`role="${role}"\` 이 계약 이름과 같다. 작성자가 명시한 위치`);
+    because.push(`\`role="${role}"\` 이라고 적혀 있어요. 목업 만든 분이 직접 밝혀 둔 거예요`);
   }
 
   return { score, because };
@@ -106,7 +106,7 @@ export function rankComponents(f: Fragment, contract: ContractIndex): ComponentC
       because: s.because,
       tiedWith: tied,
       cannotTellFromMarkup: tied.map(
-        (c) => `\`${c}\` 와 점수가 붙는다. 마크업만으로는 못 가른다`,
+        (c) => `\`${c}\` 일 수도 있어요. 생김새가 거의 같아서 지금은 구별이 안 돼요.`,
       ),
       tooManyTies: s.raw >= top * NEAR && near.length > TOO_MANY ? near.length : undefined,
     };

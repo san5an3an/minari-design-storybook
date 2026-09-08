@@ -51,7 +51,7 @@ export const local: Store = {
       }
 
       throw new Error(
-        `초안을 저장하지 못했어요. 브라우저 저장 공간이 찼습니다.\n` +
+        `초안을 저장하지 못했어요. 브라우저 저장 공간이 찼어요.\n` +
           `  이 초안: ${kb(bytesOf(body))} · 이미 쌓인 초안 ${stored.length > 0 ? `${stored.length}개 이상, 합계 ${kb(used)}` : "(세지 못함)"}\n` +
           (stored.length > 0
             ? `  큰 것부터: ${stored.map((s) => `${s.id}(${kb(s.bytes)})`).join(" · ")}\n`
