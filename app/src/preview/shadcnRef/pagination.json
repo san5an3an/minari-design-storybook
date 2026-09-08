@@ -1,0 +1,82 @@
+{
+ "slug": "pagination",
+ "title": "pagination",
+ "registryPath": "registry/base-nova/ui/pagination.tsx",
+ "source": "registry/base-nova/ui/pagination.tsx",
+ "code": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\nimport { Button } from \"@/registry/base-nova/ui/button\"\nimport { IconPlaceholder } from \"@/app/(create)/components/icon-placeholder\"\n\nfunction Pagination({ className, ...props }: React.ComponentProps<\"nav\">) {\n  return (\n    <nav\n      role=\"navigation\"\n      aria-label=\"pagination\"\n      data-slot=\"pagination\"\n      className={cn(\"mx-auto flex w-full justify-center\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction PaginationContent({\n  className,\n  ...props\n}: React.ComponentProps<\"ul\">) {\n  return (\n    <ul\n      data-slot=\"pagination-content\"\n      className={cn(\"flex items-center gap-0.5\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction PaginationItem({ ...props }: React.ComponentProps<\"li\">) {\n  return <li data-slot=\"pagination-item\" {...props} />\n}\n\ntype PaginationLinkProps = {\n  isActive?: boolean\n} & Pick<React.ComponentProps<typeof Button>, \"size\"> &\n  React.ComponentProps<\"a\">\n\nfunction PaginationLink({\n  className,\n  isActive,\n  size = \"icon\",\n  ...props\n}: PaginationLinkProps) {\n  return (\n    <Button\n      variant={isActive ? \"outline\" : \"ghost\"}\n      size={size}\n      className={cn(className)}\n      nativeButton={false}\n      render={\n        <a\n          aria-current={isActive ? \"page\" : undefined}\n          data-slot=\"pagination-link\"\n          data-active={isActive}\n          {...props}\n        />\n      }\n    />\n  )\n}\n\nfunction PaginationPrevious({\n  className,\n  text = \"Previous\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to previous page\"\n      size=\"default\"\n      className={cn(\"pl-1.5!\", className)}\n      {...props}\n    >\n      <IconPlaceholder\n        lucide=\"ChevronLeftIcon\"\n        tabler=\"IconChevronLeft\"\n        hugeicons=\"ArrowLeft01Icon\"\n        phosphor=\"CaretLeftIcon\"\n        remixicon=\"RiArrowLeftSLine\"\n        data-icon=\"inline-start\"\n        className=\"cn-rtl-flip\"\n      />\n      <span className=\"hidden sm:block\">{text}</span>\n    </PaginationLink>\n  )\n}\n\nfunction PaginationNext({\n  className,\n  text = \"Next\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to next page\"\n      size=\"default\"\n      className={cn(\"pr-1.5!\", className)}\n      {...props}\n    >\n      <span className=\"hidden sm:block\">{text}</span>\n      <IconPlaceholder\n        lucide=\"ChevronRightIcon\"\n        tabler=\"IconChevronRight\"\n        hugeicons=\"ArrowRight01Icon\"\n        phosphor=\"CaretRightIcon\"\n        remixicon=\"RiArrowRightSLine\"\n        data-icon=\"inline-end\"\n        className=\"cn-rtl-flip\"\n      />\n    </PaginationLink>\n  )\n}\n\nfunction PaginationEllipsis({\n  className,\n  ...props\n}: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      aria-hidden\n      data-slot=\"pagination-ellipsis\"\n      className={cn(\n        \"flex size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4\",\n        className\n      )}\n      {...props}\n    >\n      <IconPlaceholder\n        lucide=\"MoreHorizontalIcon\"\n        tabler=\"IconDots\"\n        hugeicons=\"MoreHorizontalCircle01Icon\"\n        phosphor=\"DotsThreeIcon\"\n        remixicon=\"RiMoreLine\"\n      />\n      <span className=\"sr-only\">More pages</span>\n    </span>\n  )\n}\n\nexport {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n}\n",
+ "license": "MIT",
+ "lines": 151,
+ "style": "base-nova",
+ "dependencies": [
+  "cn"
+ ],
+ "registryDependencies": [
+  "button"
+ ],
+ "links": {
+  "docs": "https://ui.shadcn.com/docs/components/base/pagination",
+  "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/pagination-example.tsx"
+ },
+ "exports": [
+  {
+   "name": "Pagination",
+   "source": "registry/base-nova/ui/pagination.tsx:7"
+  },
+  {
+   "name": "PaginationContent",
+   "source": "registry/base-nova/ui/pagination.tsx:19"
+  },
+  {
+   "name": "PaginationEllipsis",
+   "source": "registry/base-nova/ui/pagination.tsx:117"
+  },
+  {
+   "name": "PaginationItem",
+   "source": "registry/base-nova/ui/pagination.tsx:32"
+  },
+  {
+   "name": "PaginationLink",
+   "source": "registry/base-nova/ui/pagination.tsx:36"
+  },
+  {
+   "name": "PaginationNext",
+   "source": "registry/base-nova/ui/pagination.tsx:91"
+  },
+  {
+   "name": "PaginationPrevious",
+   "source": "registry/base-nova/ui/pagination.tsx:65"
+  }
+ ],
+ "imports": [
+  "@/app/(create)/components/icon-placeholder",
+  "@/registry/base-nova/ui/button",
+  "cn",
+  "react"
+ ],
+ "dataSlots": [
+  {
+   "name": "pagination",
+   "source": "registry/base-nova/ui/pagination.tsx:11"
+  },
+  {
+   "name": "pagination-content",
+   "source": "registry/base-nova/ui/pagination.tsx:25"
+  },
+  {
+   "name": "pagination-ellipsis",
+   "source": "registry/base-nova/ui/pagination.tsx:124"
+  },
+  {
+   "name": "pagination-item",
+   "source": "registry/base-nova/ui/pagination.tsx:33"
+  },
+  {
+   "name": "pagination-link",
+   "source": "registry/base-nova/ui/pagination.tsx:56"
+  }
+ ],
+ "usesCva": false,
+ "variants": {},
+ "defaultVariants": {},
+ "semanticTokens": []
+}
