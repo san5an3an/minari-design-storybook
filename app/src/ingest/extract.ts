@@ -100,7 +100,7 @@ export async function extract(input: ExtractInput, res: IngestResources): Promis
       unresolved.push({
         about: "component",
         target: f.id,
-        question: `\`<${f.tag}>\` 이 \`${[top.component, ...tied].join("` 과 `")}\` 사이에서 안 갈려요. 어느 쪽인가요?`,
+        question: `\`<${f.tag}>\` 이 \`${[top.component, ...tied].join("` 과 `")}\` 중에 어느 것인지 구별이 안 돼요. 어느 쪽인가요?`,
         // 그룹 재계산 금지. 이중 판별로 어긋날 수 있어 shapes 집합 사용
         options: [top.component, ...tied],
         answer: null,
@@ -125,8 +125,8 @@ export async function extract(input: ExtractInput, res: IngestResources): Promis
         about: "component",
         target: f.id,
         question:
-          `\`<${f.tag}>\` 이 ${top.tooManyTies}종과 한꺼번에 점수가 붙어요, 그건 «이 중 하나» 가 아니라 ` +
-          `«기댈 신호가 없다» 는 뜻이에요. 무엇인가요?`,
+          `\`<${f.tag}>\` 이 ${top.tooManyTies}종과 점수가 똑같이 나왔어요. 이 중 하나라는 뜻이 아니라, ` +
+          `무엇인지 알아볼 단서가 없다는 뜻이에요. 무엇인가요?`,
         options: Object.keys(contract).sort,
         answer: null,
       });

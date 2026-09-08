@@ -1,10 +1,10 @@
 import type { Fragment } from "../types";
 
 export const NO_FRAGMENTS_REASON =
-  "이 자가 부분의 뿌리로 삼는 것은 셋뿐이에요. " +
+  "컴포넌트로 잡는 것은 셋뿐이에요: " +
   "누를 수 있는 태그(button·a·input·select·textarea·label), " +
   "의미 태그(table·dialog·details·progress·meter…), 그리고 role·aria-* 표시. " +
-  "순수 <div> 로만 만든 카드·배지는 못 잡습니다(알려진 한계). " +
+  "<div> 로만 만든 카드나 배지는 못 잡아요 (알려진 한계예요). " +
   "클래스는 신호로 쓰지 않아요. Tailwind 목업에서 클래스는 이름이 아니라 치수라서요.";
 
 // 프래그먼트 여부 판별, 임계값이 아니라 명백히 빈 컨테이너만 제외
@@ -82,7 +82,7 @@ function prunedClone(el: Element): Element {
       if (g.length <= KEEP_SIBLINGS) continue;
       for (const extra of g.slice(KEEP_SIBLINGS)) extra.remove;
       g[KEEP_SIBLINGS - 1].after(
-        doc.createComment(` …같은 모양 ${g.length - KEEP_SIBLINGS}개 더 (담을 때 줄임) `),
+        doc.createComment(` …같은 모양이 ${g.length - KEEP_SIBLINGS}개 더 있어요 (저장할 때 줄였어요) `),
       );
     }
     for (const kid of Array.from(n.children)) walk(kid);

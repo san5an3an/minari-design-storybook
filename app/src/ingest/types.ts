@@ -77,6 +77,8 @@ export interface Draft {
 
   names?: Record<string, string>;
 
+  preview?: { head: string; bodyClass: string };
+
   fragments: Fragment[];
   // 프래그먼트 id별 후보 순위, 점수 내림차순
   candidates: Record<string, ComponentCandidate[]>;

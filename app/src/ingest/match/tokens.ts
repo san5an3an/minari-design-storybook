@@ -33,8 +33,8 @@ export function matchToken(
 
   if (systems.length === 0) {
     throw new Error(
-      "토큰 표를 하나도 안 받았어요. `matchToken` 에 빈 `perSystem` 이 왔습니다.\n" +
-        "이건 「이 색에 맞는 토큰이 없다」가 아니라 「한 번도 안 재 봤다」입니다.",
+      "토큰 표를 하나도 못 받았어요. 색을 맞춰 볼 기준표가 비어 있어요.\n" +
+        "이 색에 맞는 토큰이 없다는 뜻이 아니라, 한 번도 확인해 보지 못했다는 뜻이에요.",
     );
   }
 

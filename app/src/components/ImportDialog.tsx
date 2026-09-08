@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { FileUp, Loader2, Pencil, Send, Trash2, Upload } from "lucide-react";
+import { ArrowRight, FileUp, Loader2, Pencil, Play, Send, Trash2, Upload } from "lucide-react";
+import { ChromeSteps } from "@/components/ChromeSteps";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
@@ -23,7 +24,13 @@ import { storeFor, DEFAULT_STORE } from "@/ingest/stores/registry";
 import type { Draft, DraftSummary, Fragment } from "@/ingest/types";
 import type { SystemDefinition } from "@/systems/types";
 
-type Step = "upload" | "pick" | "refine";
+const STEPS = [
+  { key: "upload", title: "올리기" },
+  { key: "pick", title: "고르기" },
+  { key: "refine", title: "다듬기" },
+] as const;
+
+type Step = (typeof STEPS)[number]["key"];
 
 const MAX_HISTORY_TURNS = 20;
 
@@ -109,8 +116,8 @@ function FragmentPreview({ f, head }: { f: Fragment; head: { head: string; bodyC
     />
     {emptyInOriginal && (
       <p className="mt-0.5 text-xs text-amber-600 dark:text-amber-500">
-        <b>원본에서도 비어 있는 부분</b>이에요. 기본 구조만 있고 안쪽은 스크립트가 열 때 채웁니다.
-        «화면을 못 그린 것»이 아닙니다.
+        <b>원본에서도 비어 있는 부분</b>이에요. 겉만 있고 안쪽은 열 때 스크립트가 채워요.
+        그리지 못한 게 아니에요.
       </p>
     )}
     {(wasClosed || (natural !== null && natural > 420)) && (
@@ -128,7 +135,16 @@ function kb(bytes: number | null): string {
   return bytes === null ? "크기 모름" : `${(bytes / 1024).toFixed(0)}KB`;
 }
 
-function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) {
+function DraftShelf({
+  tick, onChanged, onResume, busy,
+}: {
+  tick: number;
+  onChanged:  => void;
+  // 초안 재열기 경로. 없으면 이 목록이 삭제 전용으로 제한
+  onResume: (id: string) => void;
+  // 이어서 여는 중인지 확인, 중복 클릭 방지 처리
+  busy: boolean;
+}) {
   const [rows, setRows] = React.useState<DraftSummary[] | null>(null);
   const [err, setErr] = React.useState<string | null>(null);
   const [armed, setArmed] = React.useState<string | null>(null);
@@ -153,7 +169,7 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
   if (err) {
     return (
       <p className="text-xs text-destructive">
-        쌓인 초안을 못 읽었어요. {err} <b>«초안이 없다»가 아닙니다.</b>
+        쌓인 초안을 못 읽었어요. {err} <b>초안이 없다는 뜻은 아니에요.</b>
       </p>
     );
   }
@@ -170,7 +186,7 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
     <details className="rounded-md border bg-muted/30 px-3 py-2">
       <summary className="cursor-pointer text-xs text-muted-foreground">
         쌓인 초안 {rows.length}개 · 합계 약 {kb(total)}
-        {unknown > 0 && ` (+ 크기 모르는 것 ${unknown}개)`}, 공간이 부족하면 여기서 지우세요
+        {unknown > 0 && ` (+ 크기 모르는 것 ${unknown}개)`}, 이어서 하시거나, 공간이 부족하면 지우세요
       </summary>
       <div className="mt-2 flex flex-col gap-1">
         {rows.map((r) => (
@@ -178,11 +194,24 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
             <span className="min-w-0 flex-1 truncate" title={r.filename}>
               {r.name ?? r.filename}
               <span className="ml-2 text-muted-foreground">
-                조각 {r.fragmentCount} · 미결 {r.openQuestions}
+                조각 {r.fragmentCount}개 · 답할 물음 {r.openQuestions}개
                 {r.updatedAt && ` · ${r.updatedAt.slice(0, 10)}`}
               </span>
             </span>
             <span className="tabular-nums text-muted-foreground">{kb(r.bytes)}</span>
+            {/* 삭제 대신 다른 동작을 왼쪽에 배치 */}
+            {armed !== r.id && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-6 px-2"
+                disabled={busy}
+                onClick={ => onResume(r.id)}
+              >
+                <Play className="size-3.5" />
+                이어서 하기
+              </Button>
+            )}
             {armed === r.id ? (
               <>
                 <span className="text-destructive">되돌릴 수 없어요.</span>
@@ -232,7 +261,7 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
                   <br />
                   {/* 삭제될 항목 수 표시. 확인 문구만으론 무엇을 잃는지 알 수 없음 */}
                   <span className="text-destructive">
-                    지우면 <b>되돌릴 수 없어요.</b> 여기서 하신 판단도 함께 사라집니다.
+                    지우면 <b>되돌릴 수 없어요.</b> 여기서 하신 판단도 함께 사라져요.
                   </span>
                 </>
               ) : (
@@ -241,7 +270,7 @@ function DraftShelf({ tick, onChanged }: { tick: number; onChanged:  => void }) 
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>그대로 둡니다</AlertDialogCancel>
+            <AlertDialogCancel>그대로 둘게요</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-white hover:bg-destructive/90"
               onClick={async  => {
@@ -319,6 +348,16 @@ export function ImportDialog({
   // 초안 목록 재조회 신호. 저장 실패 시 가장 중요하며 확인할 것은 현재 점유 현황임
   const [shelfTick, setShelfTick] = React.useState(0);
   const fileInput = React.useRef<HTMLInputElement>(null);
+  // 닫기 확인 창 표시 여부. 닫지 않고 확인을 묻는 중이라는 뜻임
+  const [confirmClose, setConfirmClose] = React.useState(false);
+
+  const started = step !== "upload" || file !== null;
+
+  // 닫기 요청을 한 곳으로 모음. 빠지면 확인창 동작이 경로마다 달라지는 문제 있음
+  const requestClose = React.useCallback( => {
+    if (started) setConfirmClose(true);
+    else onOpenChange(false);
+  }, [started, onOpenChange]);
 
   React.useEffect( => {
     if (open) return;
@@ -333,7 +372,7 @@ export function ImportDialog({
     if (!f) return;
     // 확장자만 확인. 내용 검사는 파서가 처리
     if (!/\.(html?|htm)$/i.test(f.name)) {
-      setError(`HTML 파일이 아닌 것 같아요, '${f.name}'. 그래도 올리려면 이름을 .html 로 바꿔 주세요.`);
+      setError(`HTML 파일이 아닌 것 같아요. '${f.name}'\n확장자 확인 후 다시 업로드해주세요`);
       return;
     }
     setError(null);
@@ -346,22 +385,23 @@ export function ImportDialog({
     setError(null);
     try {
       const html = await file.text;
-      setHead(extractHead(html));
+      const mockupHead = extractHead(html);
+      setHead(mockupHead);
 
       // 목업 실행 후 추출. 미실행 시 JS 렌더 요소 다수 누락
       const rendered = await renderMockup(html);
       setRenderNote(
         rendered.fellBackTo
           ? `목업 스크립트를 못 돌렸어요. ${rendered.fellBackTo}.\n` +
-            `   그래서 스크립트가 만드는 부분은 안 보입니다. 「컴포넌트가 없다」가 아니라 「못 봤다」예요.`
+            `   그래서 스크립트가 만드는 부분은 안 보여요. 컴포넌트가 없는 게 아니라 반영되지 않은 것뿐이에요.`
           : rendered.after > rendered.before
             ? `스크립트를 돌려 마크업이 ${(rendered.after / rendered.before).toFixed(1)}배가 됐어요 ` +
-              `(태그 ${rendered.before} → ${rendered.after}). «요소 수»가 아니라 문자열에서 센 태그 수예요 ` +
-              `, 다른 자로 센 수와 안 맞는 것이 정상입니다.`
+              `(태그 ${rendered.before}개 → ${rendered.after}개). 글자에서 태그를 세어 나온 수라, ` +
+              `브라우저가 세는 요소 수와는 조금 다를 수 있어요.`
             : null,
       );
 
-      const d = await extract(
+      const raw = await extract(
         {
           filename: file.name,
           // 마크업은 렌더링본, head/CDN은 원본 사용. 둘 다 필요해 원본과 같음
@@ -371,6 +411,7 @@ export function ImportDialog({
         },
         browserResources,
       );
+      const d: Draft = { ...raw, preview: mockupHead };
       setDraft(d);
       // 초기 상태 전체 미선택. 전부 켜두면 확인 절차 없이 다음으로 넘어가는 문제 있음
       setPicked(new Set);
@@ -409,6 +450,39 @@ export function ImportDialog({
       // 저장 실패 시 화면에도 표시. 안 그러면 정상 처리된 것으로 오인할 수 있음
       setShelfTick((t) => t + 1);
       setError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  async function resume(id: string) {
+    setBusy(true);
+    setError(null);
+    try {
+      const d = await storeFor(DEFAULT_STORE).load(id);
+      if (!d) {
+        // null은 저장소 없음만 의미. 조회 실패는 예외로 전달
+        setError("그 초안이 저장소에 없어요. 이미 지워졌을 수 있어요.");
+        setShelfTick((t) => t + 1);
+        return;
+      }
+      setDraft(d);
+      setPicked(new Set(d.selected ?? []));
+      setCursor(0);
+      setTurns([]);
+      setPrompt("");
+      setRenaming(null);
+      // 없음과 빈 값을 구분. 필드 추가 전 저장된 초안엔 preview 가 없음
+      setHead(d.preview ?? { head: "", bodyClass: "" });
+      setRenderNote(
+        d.preview
+          ? null
+          : "이 초안은 미리보기용 스타일을 안 담고 저장됐어요. 부분이 밋밋하게 보여요. " +
+            "목업에 스타일이 없어서가 아니라 그때 담기지 않아서예요. 다시 올리시면 제대로 보여요.",
+      );
+      setStep(d.selected === null ? "pick" : "refine");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -473,7 +547,7 @@ export function ImportDialog({
           who: "agent",
           text:
             (body?.reply ?? "(답이 비었어요. 라우트는 200 을 냈습니다. 이건 라우트 쪽 문제입니다.)") +
-            (patch?.component ? `\n\n→ 컴포넌트를 \`${patch.component}\` 로 봅니다.` : "") +
+            (patch?.component ? `\n\n→ 이 컴포넌트를 \`${patch.component}\` 로 볼게요.` : "") +
             (patch?.notes ? `\n   ${patch.notes}` : ""),
         },
       ]);
@@ -481,7 +555,7 @@ export function ImportDialog({
       // 네트워크 끊김과 서버 응답은 다른 상태로 구분해 기록
       setTurns((t) => [
         ...t,
-        { who: "agent", text: `라우트에 닿지 못했어요. ${e instanceof Error ? e.message : String(e)}` },
+        { who: "agent", text: `서버에 닿지 못했어요. ${e instanceof Error ? e.message : String(e)}` },
       ]);
     } finally {
       setSending(false);
@@ -493,7 +567,8 @@ export function ImportDialog({
   const showing = chosen[cursor];
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    // 닫기 요청 일괄 처리. 진행 중이면 확인창 표시 후 닫기
+    <Dialog open={open} onOpenChange={(next) => (next ? onOpenChange(true) : requestClose)}>
       {/* ods-chrome 클래스 지정. 없으면 시스템 색이 그대로 보임 */}
       <DialogContent className="ods-chrome sm:max-w-3xl">
         <DialogHeader>
@@ -505,11 +580,18 @@ export function ImportDialog({
           <DialogDescription>
             {step === "upload" && "HTML 목업 파일을 올리면 쓸 수 있는 컴포넌트를 찾아 드려요."}
             {step === "pick" &&
-              `${frags.length}개를 찾았어요. 가지고 올 것만 고르세요. 점수는 «얼마나 확실한가»입니다.`}
+              `${frags.length}개를 찾았어요. 가지고 올 것만 고르세요. 점수는 얼마나 확실한지를 나타내요.`}
             {step === "refine" &&
               `${chosen.length}개 중 ${Math.min(cursor + 1, chosen.length)}번째. 아래에 고칠 점을 적어 보내세요.`}
           </DialogDescription>
         </DialogHeader>
+
+        {/* 단계 표시기만 antd 사용 */}
+        <ChromeSteps
+          steps={STEPS}
+          current={STEPS.findIndex((s) => s.key === step)}
+          label="목업 가져오기 단계"
+        />
 
         {renderNote && (
           <div className="rounded-md border bg-muted/50 px-3 py-2 text-xs whitespace-pre-wrap text-muted-foreground">
@@ -557,7 +639,12 @@ export function ImportDialog({
               onChange={(e) => accept(e.target.files?.[0])}
             />
           </div>
-          <DraftShelf tick={shelfTick} onChanged={ => setError(null)} />
+          <DraftShelf
+            tick={shelfTick}
+            onChanged={ => setError(null)}
+            onResume={(id) => void resume(id)}
+            busy={busy}
+          />
           </div>
         )}
 
@@ -566,7 +653,7 @@ export function ImportDialog({
             <div className="flex flex-col gap-3">
               {frags.length === 0 && (
                 <p className="text-sm text-muted-foreground">
-                  조각을 하나도 못 찾았어요. 이건 «컴포넌트가 없다»가 아니라 «기댈 신호가 없었다»입니다.
+                  컴포넌트를 하나도 못 찾았어요. 컴포넌트가 없는 게 아니라, 무엇인지 알아볼 단서가 없었어요.
                   {/* 규칙 설명을 직접 적지 않고 파서가 내보내는 문장을 그대로 사용 */}
                   <br />
                   {NO_FRAGMENTS_REASON}
@@ -619,7 +706,7 @@ export function ImportDialog({
                             {named}
                             {/* 사람이 정한 값과 자동 추정값 구분 표시 */}
                             <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-normal text-primary">
-                              내가 정함
+                              직접 정하셨어요
                             </span>
                             {top && top.component !== named && (
                               <span className="ml-2 font-normal text-muted-foreground line-through">
@@ -636,13 +723,13 @@ export function ImportDialog({
                           </>
                         ) : (
                           <span className="text-muted-foreground">
-                            <code>&lt;{f.tag}&gt;</code> , 닮은 것을 못 찾음
+                            <code>&lt;{f.tag}&gt;</code> . 닮은 것을 못 찾았어요
                           </span>
                         )}
                         {/* 같은 모양이 여럿이면 개수 표시. 버튼 71개를 한 줄로 그룹화해 표현 */}
                         {f.sameCount > 1 && (
                           <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-xs font-normal text-muted-foreground">
-                            이 목업에 {f.sameCount}개
+                            이 목업에 {f.sameCount}개 있어요
                           </span>
                         )}
                         <Button
@@ -667,7 +754,7 @@ export function ImportDialog({
                       )}
                       {top && top.cannotTellFromMarkup.length > 0 && (
                         <p className="text-xs text-amber-600 dark:text-amber-500">
-                          {top.cannotTellFromMarkup[0]}. 가져온 뒤에 정하시게 됩니다
+                          {top.cannotTellFromMarkup[0]} 가져오신 뒤에 어느 쪽인지 골라 주세요.
                         </p>
                       )}
                       <FragmentPreview f={f} head={head} />
@@ -750,20 +837,31 @@ export function ImportDialog({
             onClick={ => {
               if (step === "refine") setStep("pick");
               else if (step === "pick") setStep("upload");
-              else onOpenChange(false);
+              else requestClose;
             }}
           >
             {step === "upload" ? "닫기" : "뒤로"}
           </Button>
           {step === "upload" && (
             <Button onClick={analyze} disabled={!file || busy}>
-              {busy ? <Loader2 className="animate-spin" /> : <Upload />}
-              {busy ? "분석 중…" : "다음"}
+              {/* 버튼은 업로드 아닌 다음 이동 기능 */}
+              {busy ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  분석 중…
+                </>
+              ) : (
+                <>
+                  다음
+                  <ArrowRight />
+                </>
+              )}
             </Button>
           )}
           {step === "pick" && (
             <Button onClick={goRefine} disabled={picked.size === 0}>
               다음 ({picked.size}개)
+              <ArrowRight />
             </Button>
           )}
           {step === "refine" && (
@@ -780,6 +878,26 @@ export function ImportDialog({
             </Button>
           )}
         </DialogFooter>
+
+        <AlertDialog open={confirmClose} onOpenChange={(o) => { if (!o) setConfirmClose(false); }}>
+          <AlertDialogContent className="ods-chrome">
+            <AlertDialogHeader>
+              <AlertDialogTitle>정말 닫으시겠어요?</AlertDialogTitle>
+              <AlertDialogDescription>
+                {step === "upload"
+                  ? "고른 파일이 사라져요. 아직 아무것도 저장되지 않았어요. 다시 올리시면 됩니다."
+                  : "화면만 처음으로 돌아가요. 저장된 초안은 그대로 남아 있어서 나중에 이어서 하실 수 있어요."}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              {/* 두 버튼 글자를 실제 동작 그대로 표기 */}
+              <AlertDialogCancel>계속 할게요</AlertDialogCancel>
+              <AlertDialogAction onClick={ => { setConfirmClose(false); onOpenChange(false); }}>
+                닫을게요
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </DialogContent>
     </Dialog>
   );
