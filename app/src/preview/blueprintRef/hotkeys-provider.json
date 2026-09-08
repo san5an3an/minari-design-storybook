@@ -1,0 +1,65 @@
+{
+  "slug": "hotkeys-provider",
+  "title": "HotkeysProvider",
+  "kind": "guide",
+  "sourcePath": "node_modules/@blueprintjs/core/src/context/hotkeys/hotkeys-provider.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: HotkeysProvider\n---\n\n# HotkeysProvider\n\n**HotkeysProvider** generates a React context necessary for the [`useHotkeys` hook](#core/hooks/use-hotkeys)\nto maintain state for the globally-accessible hotkeys dialog. As your application runs and components\nare mounted/unmounted, global and local hotkeys are registered/unregistered with this context and\nthe dialog displays/hides the relevant information. You can try it out in the Blueprint docs app\nby navigating around and triggering the dialog with the <kbd>?</kbd> key.\n\n## Usage\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">\n\nConsider [**BlueprintProvider**](#core/context/blueprint-provider)\n\n</h5>\n\n**BlueprintProvider** is a new composite React context provider for Blueprint applications which\nenables & configures multiple providers automatically and is simpler to use than individual lower-level providers.\n\n</div>\n\nTo use **HotkeysProvider**, wrap your application with it at the root level:\n\n```tsx\nimport { HotkeysProvider } from \"@blueprintjs/core\";\nimport * as React from \"react\";\nimport * as ReactDOM from \"react-dom/client\";\n\nconst root = ReactDOM.createRoot(document.getElementById(\"root\"));\n\nroot.render(\n    <HotkeysProvider>\n        <div>My app has hotkeys 😎</div>\n    </HotkeysProvider>,\n);\n```\n\n## Usage with other providers\n\nIf your app uses a router or other providers (e.g. `RouterProvider`, `ApolloProvider`), nest\n**HotkeysProvider** underneath them:\n\n```tsx\nimport { HotkeysProvider } from \"@blueprintjs/core\";\nimport { createBrowserRouter, RouterProvider } from \"react-router-dom\";\n\nconst router = createBrowserRouter([...]);\n\nfunction App() {\n    return (\n        <RouterProvider router={router}>\n            <HotkeysProvider>\n                <div>My app has hotkeys 😎</div>\n            </HotkeysProvider>\n        </RouterProvider>\n    );\n}\n```\n\n## Advanced usage\n\n**HotkeysProvider** should not be nested, except in special cases. If you have a rendering boundary within your application\nthrough which React context is not preserved (for example, a plugin system which uses `render()`) and you wish\nto use hotkeys in a descendant part of the tree below such a boundary, you may render a descendant provider and initialize\nit with the root context instance. This ensures that there will only be one \"global\" hotkeys dialogs in an application\nwhich has multiple **HotkeysProviders**.\n\n```tsx\nimport { type HotkeyConfig, HotkeysContext, HotkeysProvider, HotkeysTarget } from \"@blueprintjs/core\";\nimport React, { useContext, useEffect, useRef } from \"react\";\nimport { createRoot } from \"react-dom/client\";\n\nfunction App() {\n    const appHotkeys: HotkeyConfig[] = [\n        {\n            combo: \"o\",\n            global: true,\n            label: \"Open\",\n            onKeyDown: () => console.info(\"open\"),\n        },\n    ];\n\n    return (\n        <HotkeysProvider>\n            <div>\n                <HotkeysTarget hotkeys={appHotkeys}>\n                    <div>My app has hotkeys 😎</div>\n                </HotkeysTarget>\n                <PluginSlot>\n                    <Plugin />\n                </PluginSlot>\n            </div>\n        </HotkeysProvider>\n    );\n}\n\nfunction Plugin() {\n    const pluginHotkeys: HotkeyConfig[] = [\n        {\n            combo: \"f\",\n            global: true,\n            label: \"Search\",\n            onKeyDown: () => console.info(\"search\"),\n        },\n    ];\n\n    return (\n        <HotkeysTarget hotkeys={pluginHotkeys}>\n            <div>This plugin also has hotkeys</div>\n        </HotkeysTarget>\n    );\n}\n\nfunction PluginSlot({ children }: { children: React.ReactNode }) {\n    const hotkeysContext = useContext(HotkeysContext);\n    const ref = useRef<HTMLDivElement>(null);\n\n    useEffect(() => {\n        if (ref.current == null) {\n            return;\n        }\n        const root = createRoot(ref.current);\n        root.render(<HotkeysProvider value={hotkeysContext}>{children}</HotkeysProvider>);\n        return () => {\n            root.unmount();\n        };\n    }, [ref, hotkeysContext, children]);\n\n    return <div ref={ref} />;\n}\n```\n\n## Props interface\n\n@interface HotkeysProviderProps\n",
+  "lines": 141,
+  "frontMatter": {
+    "title": "HotkeysProvider"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "HotkeysProvider",
+      "at": 32
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 532
+    },
+    {
+      "level": 2,
+      "text": "Usage with other providers",
+      "at": 1353
+    },
+    {
+      "level": 2,
+      "text": "Advanced usage",
+      "at": 1912
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 4133
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "tsx",
+      "code": "import { HotkeysProvider } from \"@blueprintjs/core\";\nimport * as React from \"react\";\nimport * as ReactDOM from \"react-dom/client\";\n\nconst root = ReactDOM.createRoot(document.getElementById(\"root\"));\n\nroot.render(\n    <HotkeysProvider>\n        <div>My app has hotkeys 😎</div>\n    </HotkeysProvider>,\n);\n",
+      "at": 1046
+    },
+    {
+      "lang": "tsx",
+      "code": "import { HotkeysProvider } from \"@blueprintjs/core\";\nimport { createBrowserRouter, RouterProvider } from \"react-router-dom\";\n\nconst router = createBrowserRouter([...]);\n\nfunction App() {\n    return (\n        <RouterProvider router={router}>\n            <HotkeysProvider>\n                <div>My app has hotkeys 😎</div>\n            </HotkeysProvider>\n        </RouterProvider>\n    );\n}\n",
+      "at": 1522
+    },
+    {
+      "lang": "tsx",
+      "code": "import { type HotkeyConfig, HotkeysContext, HotkeysProvider, HotkeysTarget } from \"@blueprintjs/core\";\nimport React, { useContext, useEffect, useRef } from \"react\";\nimport { createRoot } from \"react-dom/client\";\n\nfunction App() {\n    const appHotkeys: HotkeyConfig[] = [\n        {\n            combo: \"o\",\n            global: true,\n            label: \"Open\",\n            onKeyDown: () => console.info(\"open\"),\n        },\n    ];\n\n    return (\n        <HotkeysProvider>\n            <div>\n                <HotkeysTarget hotkeys={appHotkeys}>\n                    <div>My app has hotkeys 😎</div>\n                </HotkeysTarget>\n                <PluginSlot>\n                    <Plugin />\n                </PluginSlot>\n            </div>\n        </HotkeysProvider>\n    );\n}\n\nfunction Plugin() {\n    const pluginHotkeys: HotkeyConfig[] = [\n        {\n            combo: \"f\",\n            global: true,\n            label: \"Search\",\n            onKeyDown: () => console.info(\"search\"),\n        },\n    ];\n\n    return (\n        <HotkeysTarget hotkeys={pluginHotkeys}>\n            <div>This plugin also has hotkeys</div>\n        </HotkeysTarget>\n    );\n}\n\nfunction PluginSlot({ children }: { children: React.ReactNode }) {\n    const hotkeysContext = useContext(HotkeysContext);\n    const ref = useRef<HTMLDivElement>(null);\n\n    useEffect(() => {\n        if (ref.current == null) {\n            return;\n        }\n        const root = createRoot(ref.current);\n        root.render(<HotkeysProvider value={hotkeysContext}>{children}</HotkeysProvider>);\n        return () => {\n            root.unmount();\n        };\n    }, [ref, hotkeysContext, children]);\n\n    return <div ref={ref} />;\n}\n",
+      "at": 2457
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "interface",
+      "arg": "HotkeysProviderProps",
+      "at": 4153
+    }
+  ]
+}

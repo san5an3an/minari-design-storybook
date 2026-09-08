@@ -1,0 +1,65 @@
+{
+  "slug": "accessibility",
+  "title": "Accessibility",
+  "kind": "guide",
+  "sourcePath": "node_modules/@blueprintjs/core/src/docs/accessibility.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: Accessibility\n---\n\n# Accessibility\n\nBlueprint strives to provide accessible components out of the box. Many of the JS components\nwill apply accessible HTML attributes to support different modes of usage.\n\n## Focus management\n\nFocus states (that glowy blue outline around the active element) are essential for keyboard\nnavigation to indicate which element is currently active. They are less important, and\noccasionally outright intrusive, when using a mouse because you can click wherever you want at\nany time.\n\nBlueprint includes a utility that manages the appearance of focus styles. When enabled, focus styles\nwill be hidden while the user interacts using the mouse and will appear when the\n\n<kbd>tab</kbd> key is pressed to begin keyboard navigation. Try this out for yourself below.\n\n**You must explicitly enable this feature in your app (and you probably want to):**\n\n```ts\nimport { FocusStyleManager } from \"@blueprintjs/core\";\n\nFocusStyleManager.onlyShowFocusOnTabs();\n```\n\nNote that the focus style for text inputs (a slightly thicker colored border) is not removed by this\nutility because it is always useful to know where you're typing.\n\n@reactExample FocusExample\n\n### JavaScript API\n\nThis behavior is controlled by a singleton instance called `FocusStyleManager` that lives in the\n**@blueprintjs/core** package. It supports the following public methods:\n\n- `FocusStyleManager.isActive(): boolean`: Returns whether the `FocusStyleManager` is currently running.\n- `FocusStyleManager.onlyShowFocusOnTabs(): void`: Enable behavior which hides focus styles during mouse interaction.\n- `FocusStyleManager.alwaysShowFocus(): void`: Stop this behavior (focus styles are always visible).\n\n### Ignoring focus style manager\n\nThere is an escape hatch to allow components to selectively ignore the focus style manager. This\ncan be useful when you do want to always show the focus outline, but only for certain\ncomponents, like a tree. This is done by applying `Classes.FOCUS_STYLE_MANAGER_IGNORE`\nto a container element.\n\n```tsx\nimport { Classes } from \"@blueprintjs/core\";\n\nconst MyComponent = () => ({\n    <div classname={Classes.FOCUS_STYLE_MANAGER_IGNORE}>\n        // Any components here will always show the focus outline when clicked.\n    </div>\n})\n```\n\n## Color contrast\n\nColors have been designed to be accessible to as many people as possible, even those who are\nvisually impaired or experiencing any kind of colorblindness. Our colors have not only been chosen\nto go well together, but to also adhere to [WCAG 2.0](https://www.w3.org/TR/WCAG20/) standards.\n\n### Focus indication contrast\n\nFocus indication states generally adhere to\n[WCAG 2.2 focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html).\nDefault focus indication states should support a minimum 3:1 contrast ratio on\n[background colors](#core/colors) up to `$light-gray1` in light theme, and `$dark-gray5` in dark theme.\n\nComponents that appear with an `intent` outline, such as [`InputGroup`](#core/components/input-group),\n[`EditableText`](#core/components/editable-text), [`NumericInput`](#core/components/numeric-input), and other\nsimilarly styled components have some exceptions to this rule. In light theme, all intents support a minimum contrast\nratio of 3:1 for the full range of background colors up to `$light-gray1`, besides `\"warning\"`,\nwhich supports a 3:1 contrast ratio up to `$light-gray4`.\nIn dark theme, all intents support a minimum contrast ratio of 3:1 up to `$dark-gray4`, except for `\"warning\"`,\nwhich supports the full range of background colors up to `$dark-gray5`.\n",
+  "lines": 81,
+  "frontMatter": {
+    "title": "Accessibility"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Accessibility",
+      "at": 30
+    },
+    {
+      "level": 2,
+      "text": "Focus management",
+      "at": 216
+    },
+    {
+      "level": 3,
+      "text": "JavaScript API",
+      "at": 1187
+    },
+    {
+      "level": 3,
+      "text": "Ignoring focus style manager",
+      "at": 1703
+    },
+    {
+      "level": 2,
+      "text": "Color contrast",
+      "at": 2270
+    },
+    {
+      "level": 3,
+      "text": "Focus indication contrast",
+      "at": 2578
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { FocusStyleManager } from \"@blueprintjs/core\";\n\nFocusStyleManager.onlyShowFocusOnTabs();\n",
+      "at": 890
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Classes } from \"@blueprintjs/core\";\n\nconst MyComponent = () => ({\n    <div classname={Classes.FOCUS_STYLE_MANAGER_IGNORE}>\n        // Any components here will always show the focus outline when clicked.\n    </div>\n})\n",
+      "at": 2039
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "FocusExample",
+      "at": 1159
+    }
+  ]
+}

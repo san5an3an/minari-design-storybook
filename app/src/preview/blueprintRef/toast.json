@@ -1,0 +1,120 @@
+{
+  "slug": "toast",
+  "title": "Toast",
+  "kind": "component",
+  "sourcePath": "node_modules/@blueprintjs/core/src/components/toast/toast.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: Toast\n---\n\n# Toast\n\nA toast is a lightweight, ephemeral notice from an application in direct response to a user's action.\n\n**Toasts** can be configured to appear at either the top or the bottom of an application window.\nIt is possible to show more than one toast on-screen at a time.\n\n@reactExample ToastExample\n\n## Usage\n\n### Toast\n\n**Toasts** have a built-in timeout of five seconds. Users can also dismiss them manually by clicking\nthe &times; button. Hovering the cursor over a toast prevents it from disappearing. When the cursor\nleaves the toast, the toast's timeout restarts. Similarly, focussing the toast DOM element (for\nexample, by hitting the `tab` key) halts the timeout, and blurring restarts the timeout.\n\nYou may add one additional action button to a toast. You might use this to provide an undo button,\nfor example.\n\nYou may also apply the same visual intents to **Toasts** as other core components like\n[**Buttons**](#core/components/button.css).\n\n@interface ToastProps\n\n### OverlayToaster\n\nThe **OverlayToaster** component (previously named **Toaster**) is a stateful container for a single\nlist of toasts. Internally, it uses [**Overlay2**](#core/components/overlay2) to manage children and\ntransitions. It can be vertically aligned along the top or bottom edge of its container (new toasts\nwill slide in from that edge) and horizontally aligned along the left edge, center, or right edge\nof its container.\n\nThere are three ways to use **OverlayToaster**:\n\n1. **Recommended**: use the `OverlayToaster.create()` static method to create a new `Toaster` instance:\n\n    ```ts\n    const myToaster: Toaster = await OverlayToaster.create({ position: \"bottom\" });\n    myToaster.show({ ...toastOptions });\n    ```\n\n    We recommend calling `OverlayToaster.create` once in your application and\n    [sharing the generated instance](#core/components/toast.example) throughout your application.\n\n2. Render an `<OverlayToaster>` with `<Toast>` children:\n    ```ts\n    render(\n        <OverlayToaster>\n            <Toast {...toastOptions} />\n        </OverlayToaster>,\n        targetElement,\n    );\n    ```\n3. Use a ref callback or object to access toaster instance methods.\n    - Example with ref callback:\n\n    ```ts\n    render(<OverlayToaster ref={(ref: Toaster | null) => ref?.show({ ...toastOptions })} />, targetElement);\n    ```\n\n    - Example with ref object (note that React type constraints require us to use the more specific `OverlayToaster` type):\n\n    ```ts\n    const myToaster = React.createRef<OverlayToaster>();\n    render(<OverlayToaster ref={myToaster} />, targetElement);\n    myToaster.current?.show({ ...toastOptions });\n    ```\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Working with multiple toasters</h5>\n\nYou can have multiple toasters in a single application, but you must ensure that each has a unique\n`position` to prevent overlap.\n\n</div>\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Toaster focus</h5>\n\n**OverlayToaster** always disables Overlay2's `enforceFocus` behavior (meaning that you're not blocked\nfrom accessing other parts of the application while a toast is active), and by default also\ndisables `autoFocus` (meaning that focus will not switch to a toast when it appears). You can\nenable `autoFocus` for an individual `OverlayToaster` via a prop, if desired.\n\n</div>\n\n@interface OverlayToasterProps\n\n## Static usage\n\n**OverlayToaster** provides the static `create` method that returns a promise that resolves to a new `Toaster`,\nrendered into an element attached to `<body>`. A toaster instance has a collection of methods to show and\nhide toasts in its given container.\n\n```ts\nOverlayToaster.create(props?: OverlayToasterProps, options?: OverlayToasterCreateOptions): Promise<Toaster>;\n```\n\n@interface OverlayToasterCreateOptions\n\nThe toaster will be rendered into a new element appended to the given `container`.\nThe `container` determines which element toasts are positioned relative to; the default value of\n`<body>` allows them to use the entire viewport.\n\nThe returned promise contains a `Toaster` which is a minimal interface that exposes only the instance\nmethods detailed below. It can be thought of as `OverlayToaster` minus the `React.Component` methods,\nbecause the `OverlayToaster` should not be treated as a normal React component.\n\nA promise is returned as React components cannot be rendered synchronously after React version 18.\nIf this makes `Toaster` usage difficult outside of a function that's not `async`, it's still\npossible to attach `.then()` handlers to the returned toaster.\n\n```ts\nfunction synchronousFn() {\n    const toasterPromise = OverlayToaster.create({});\n    toasterPromise.then(toaster => toaster.show({ message: \"Toast!\" }));\n}\n```\n\nNote that `OverlayToaster.create()` will throw an error if invoked inside a component lifecycle\nmethod, as `ReactDOM.render()` will return `null` resulting in an inaccessible toaster instance.\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Beware of memory leaks</h5>\n\nThe static `create` method creates a new `OverlayToaster` instance for the full lifetime of your\napplication. Since there's no React parent component, this method creates a new DOM node as a container for the\nrendered `<OverlayToaster>` component. Every `create` call will add a new DOM node. We do not recommend creating a\nnew `Toaster` every time a toast needs to be shown. To minimize leaking:\n\n1. Call `OverlayToaster.create` once in an application and [share the instance](#core/components/toast.example).\n2. Consider one of the alternative APIs that mount the `<OverlayToaster>` somewhere in the application's React component\n   tree. This provides component lifecycle management out of the box. See\n   [_React component usage_](#core/components/toast.react-component-usage) for an example.\n\n</div>\n\n@interface Toaster\n\n### Example\n\nYour application can contain several `ToasterInstance`s and easily share them across the codebase as modules.\n\nThe following code samples demonstrate our preferred pattern for integrating a toaster into a React application:\n\n#### `toaster.ts`\n\n```ts\nimport { OverlayToaster, Position } from \"@blueprintjs/core\";\n\n/** Singleton toaster instance. Create separate instances for different options. */\nexport const AppToaster = OverlayToaster.create({\n    className: \"recipe-toaster\",\n    position: Position.TOP,\n});\n```\n\n#### `application.tsx`\n\n```tsx\nimport { Button } from \"@blueprintjs/core\";\nimport * as React from \"react\";\nimport { AppToaster } from \"./toaster\";\n\nexport const App: React.FC = () => {\n    const handleClick = React.useCallback(() => {\n        // create toasts in response to interactions.\n        // in most cases, it's enough to simply create and forget (thanks to timeout).\n        (await AppToaster).show({ message: \"Toasted.\" });\n    }, []);\n\n    return <Button onClick={handleClick} text=\"Toast please\" />;\n};\n```\n\nThe example below uses the `OverlayToaster.create()` static method. Clicking the button will create a new toaster mounted to `<body>`, show a message, and unmount the toaster from the DOM once the message is dismissed.\n\n@reactExample ToastCreateAsyncExample\n\n## React component usage\n\nRender the `<OverlayToaster>` component like any other element and supply `<Toast>` elements as\n`children`. You can optionally attach a `ref` handler to access the instance methods, but we\nstrongly recommend using the [`OverlayToaster.create` static method](#core/components/toast.static-usage)\ndocumented above instead. Note that `children` and `ref` can be used together, but `children` will\nalways appear _after_ toasts created with `ref.show()`.\n\n```tsx\nimport { Button, OverlayToaster, Position, Toast, ToastOptions } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction MyComponent() {\n    const [toasts, setToasts] = React.useState<ToastOptions[]>([]);\n    const toaster = React.useRef<OverlayToaster>(null);\n\n    const addToastViaRef = React.useCallback(() => {\n        toaster.current?.show({ message: \"Toasted!\" });\n    }, []);\n\n    const addToastLocally = React.useCallback(() => {\n        setToasts(t => [...t, { key: \"toasted\", message: \"Toasted!\" }]);\n    }, []);\n\n    return (\n        <div>\n            <Button onClick={addToastViaRef} text=\"Procure toast remotely\" />\n            <Button onClick={addToastLocally} text=\"Procure toast locally\" />\n            <OverlayToaster position={Position.TOP_RIGHT} ref={toaster}>\n                {/* \"Toasted!\" will appear here after clicking button. */}\n                {toasts.map(toast => (\n                    <Toast key={toast.key} {...toast} />\n                ))}\n            </OverlayToaster>\n        </div>\n    );\n}\n```\n",
+  "lines": 224,
+  "frontMatter": {
+    "title": "Toast"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Toast",
+      "at": 22
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 324
+    },
+    {
+      "level": 3,
+      "text": "Toast",
+      "at": 334
+    },
+    {
+      "level": 3,
+      "text": "OverlayToaster",
+      "at": 1000
+    },
+    {
+      "level": 2,
+      "text": "Static usage",
+      "at": 3513
+    },
+    {
+      "level": 3,
+      "text": "Example",
+      "at": 6053
+    },
+    {
+      "level": 4,
+      "text": "`toaster.ts`",
+      "at": 6291
+    },
+    {
+      "level": 4,
+      "text": "`application.tsx`",
+      "at": 6583
+    },
+    {
+      "level": 2,
+      "text": "React component usage",
+      "at": 7362
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "OverlayToaster.create(props?: OverlayToasterProps, options?: OverlayToasterCreateOptions): Promise<Toaster>;\n",
+      "at": 3791
+    },
+    {
+      "lang": "ts",
+      "code": "function synchronousFn() {\n    const toasterPromise = OverlayToaster.create({});\n    toasterPromise.then(toaster => toaster.show({ message: \"Toast!\" }));\n}\n",
+      "at": 4722
+    },
+    {
+      "lang": "ts",
+      "code": "import { OverlayToaster, Position } from \"@blueprintjs/core\";\n\n/** Singleton toaster instance. Create separate instances for different options. */\nexport const AppToaster = OverlayToaster.create({\n    className: \"recipe-toaster\",\n    position: Position.TOP,\n});\n",
+      "at": 6316
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button } from \"@blueprintjs/core\";\nimport * as React from \"react\";\nimport { AppToaster } from \"./toaster\";\n\nexport const App: React.FC = () => {\n    const handleClick = React.useCallback(() => {\n        // create toasts in response to interactions.\n        // in most cases, it's enough to simply create and forget (thanks to timeout).\n        (await AppToaster).show({ message: \"Toasted.\" });\n    }, []);\n\n    return <Button onClick={handleClick} text=\"Toast please\" />;\n};\n",
+      "at": 6614
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button, OverlayToaster, Position, Toast, ToastOptions } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction MyComponent() {\n    const [toasts, setToasts] = React.useState<ToastOptions[]>([]);\n    const toaster = React.useRef<OverlayToaster>(null);\n\n    const addToastViaRef = React.useCallback(() => {\n        toaster.current?.show({ message: \"Toasted!\" });\n    }, []);\n\n    const addToastLocally = React.useCallback(() => {\n        setToasts(t => [...t, { key: \"toasted\", message: \"Toasted!\" }]);\n    }, []);\n\n    return (\n        <div>\n            <Button onClick={addToastViaRef} text=\"Procure toast remotely\" />\n            <Button onClick={addToastLocally} text=\"Procure toast locally\" />\n            <OverlayToaster position={Position.TOP_RIGHT} ref={toaster}>\n                {/* \"Toasted!\" will appear here after clicking button. */}\n                {toasts.map(toast => (\n                    <Toast key={toast.key} {...toast} />\n                ))}\n            </OverlayToaster>\n        </div>\n    );\n}\n",
+      "at": 7846
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "ToastExample",
+      "at": 296
+    },
+    {
+      "name": "interface",
+      "arg": "ToastProps",
+      "at": 977
+    },
+    {
+      "name": "interface",
+      "arg": "OverlayToasterProps",
+      "at": 3481
+    },
+    {
+      "name": "interface",
+      "arg": "OverlayToasterCreateOptions",
+      "at": 3905
+    },
+    {
+      "name": "interface",
+      "arg": "Toaster",
+      "at": 6033
+    },
+    {
+      "name": "reactExample",
+      "arg": "ToastCreateAsyncExample",
+      "at": 7323
+    }
+  ]
+}

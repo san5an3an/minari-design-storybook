@@ -1,0 +1,85 @@
+{
+  "slug": "tabs",
+  "title": "Tabs",
+  "kind": "component",
+  "sourcePath": "node_modules/@blueprintjs/core/src/components/tabs/tabs.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: Tabs\n---\n\n# Tabs\n\nThe **Tabs** component allows you to switch between displaying multiple panels of content.\n\n## Import\n\n```ts copy\nimport { Tab, TabPanel, Tabs } from \"@blueprintjs/core\";\n```\n\n@reactExample TabsExample\n\n## Usage\n\nTab selection is managed by `id`, much like the HTML `<select>` element respects `<option value>`. This is more\nreliable than using a numeric index as it does not require translating between arbitrary indices and tab names.\nIt does, however, require that every `<Tab>` have a _locally unique `id` value_.\n\nArbitrary elements are supported in the tab list, and order is respected. Yes,\nyou can even insert things _between_ `<Tab>` elements.\n\n```tsx\nimport { Tab, Tabs } from \"@blueprintjs/core\";\n\n<Tabs id=\"TabsExample\">\n    <Tab id=\"ng\" title=\"Angular\" panel={<AngularPanel />} />\n    <Tab id=\"mb\" title=\"Ember\" panel={<EmberPanel />} panelClassName=\"ember-panel\" />\n    <Tab id=\"rx\" title=\"React\" panel={<ReactPanel />} />\n    <Tab id=\"bb\" disabled title=\"Backbone\" panel={<BackbonePanel />} />\n    <TabsExpander />\n    <input className=\"@ns-input\" type=\"text\" placeholder=\"Search...\" />\n</Tabs>;\n```\n\n### Tabs\n\n`<Tabs>` is the top-level component responsible for rendering the tab list and coordinating selection.\nIt can be used in controlled mode by providing `selectedTabId` and `onChange` props, or in\nuncontrolled mode by optionally providing `defaultSelectedTabId` and `onChange`.\n\nChildren of `<Tabs>` are rendered in order in the tab list, which is a flex container.\n`<Tab>` child elements are managed by the component; clicking one will change selection.\nOther child elements are rendered in order; interactions are your responsibility.\n\nInsert a `<TabsExpander />` between any two children to right-align all subsequent children\n(or bottom-align when `vertical`).\n\n@interface TabsProps\n\n### Tab\n\nThe **Tab** component is a minimal wrapper with no functionality of its own&mdash;it is managed entirely by its\nparent **Tabs** component. Tab title text can be set either via `title` prop or via React children\n(for more complex content).\n\nThe associated tab `panel` will be visible when the _Tab_ is active. Omitting the `panel` prop is supported; this can\nbe useful when you want the associated panel to appear elsewhere in the DOM (by rendering it yourself as needed&mdash;see _TabPanel_).\n\n@interface TabProps\n\n### TabPanel\n\n**TabPanel** wraps a passed `panel` in proper aria attributes, `id`, and `role`, for proper accessibility. A **TabPanel** gets automatically rendered by a _Tab_ when `panel` is supplied and the _Tab_ is active, but **TabPanel** is also exported for cases where you want to render the panel yourself elsewhere in the DOM, while using _Tabs_ in controlled mode:\n\n```tsx\nimport * as React from \"react\";\nimport { Tab, Tabs, TabPanel, type TabId } from \"@blueprintjs/core\";\n\nfunction TabsControlledExample() {\n    const TABS_PARENT_ID = React.useId();\n    const [selectedTabId, setSelectedTabId] = React.useState<TabId>(\"Home\");\n\n    return (\n        <>\n            <Tabs id={TABS_PARENT_ID} onChange={setSelectedTabId} selectedTabId={selectedTabId}>\n                <Tab id=\"Home\" title=\"Home\" />\n                <Tab id=\"Files\" title=\"Files\" />\n            </Tabs>\n            <TabPanel\n                id={selectedTabId}\n                selectedTabId={selectedTabId}\n                parentId={TABS_PARENT_ID}\n                panel={<p>The current panel id is: \"{selectedTabId}\"</p>}\n            />\n        </>\n    );\n}\n```\n\n@interface TabPanelProps\n",
+  "lines": 95,
+  "frontMatter": {
+    "title": "Tabs"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Tabs",
+      "at": 21
+    },
+    {
+      "level": 2,
+      "text": "Import",
+      "at": 121
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 232
+    },
+    {
+      "level": 3,
+      "text": "Tabs",
+      "at": 1145
+    },
+    {
+      "level": 3,
+      "text": "Tab",
+      "at": 1840
+    },
+    {
+      "level": 3,
+      "text": "TabPanel",
+      "at": 2364
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { Tab, TabPanel, Tabs } from \"@blueprintjs/core\";\n",
+      "at": 143
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Tab, Tabs } from \"@blueprintjs/core\";\n\n<Tabs id=\"TabsExample\">\n    <Tab id=\"ng\" title=\"Angular\" panel={<AngularPanel />} />\n    <Tab id=\"mb\" title=\"Ember\" panel={<EmberPanel />} panelClassName=\"ember-panel\" />\n    <Tab id=\"rx\" title=\"React\" panel={<ReactPanel />} />\n    <Tab id=\"bb\" disabled title=\"Backbone\" panel={<BackbonePanel />} />\n    <TabsExpander />\n    <input className=\"@ns-input\" type=\"text\" placeholder=\"Search...\" />\n</Tabs>;\n",
+      "at": 690
+    },
+    {
+      "lang": "tsx",
+      "code": "import * as React from \"react\";\nimport { Tab, Tabs, TabPanel, type TabId } from \"@blueprintjs/core\";\n\nfunction TabsControlledExample() {\n    const TABS_PARENT_ID = React.useId();\n    const [selectedTabId, setSelectedTabId] = React.useState<TabId>(\"Home\");\n\n    return (\n        <>\n            <Tabs id={TABS_PARENT_ID} onChange={setSelectedTabId} selectedTabId={selectedTabId}>\n                <Tab id=\"Home\" title=\"Home\" />\n                <Tab id=\"Files\" title=\"Files\" />\n            </Tabs>\n            <TabPanel\n                id={selectedTabId}\n                selectedTabId={selectedTabId}\n                parentId={TABS_PARENT_ID}\n                panel={<p>The current panel id is: \"{selectedTabId}\"</p>}\n            />\n        </>\n    );\n}\n",
+      "at": 2746
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "TabsExample",
+      "at": 205
+    },
+    {
+      "name": "interface",
+      "arg": "TabsProps",
+      "at": 1818
+    },
+    {
+      "name": "interface",
+      "arg": "TabProps",
+      "at": 2343
+    },
+    {
+      "name": "interface",
+      "arg": "TabPanelProps",
+      "at": 3500
+    }
+  ]
+}

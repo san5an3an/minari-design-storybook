@@ -1,0 +1,105 @@
+{
+  "slug": "overlay2",
+  "title": "Overlay2",
+  "kind": "component",
+  "sourcePath": "node_modules/@blueprintjs/core/src/components/overlay2/overlay2.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "source": "---\ntitle: Overlay2\n---\n\n# Overlay2\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">\n\nMigrating from [Overlay](#core/components/overlay)?\n\n</h5>\n\n[**OverlaysProvider**](#core/context/overlays-provider) and **Overlay2**, when used\ntogether, are a replacement for **Overlay**. You are encouraged to use these new APIs, as they will\nbecome the standard in a future major version of Blueprint. See the full\n[migration guide](https://github.com/palantir/blueprint/wiki/Overlay2-migration) on the wiki.\n\n</div>\n\n**Overlay2** is a generic low-level component for rendering content _on top of_ its siblings or\nabove the entire application.\n\nIt combines the functionality of the [**Portal**](#core/components/portal) component (which allows\nReact elements to escape their current DOM hierarchy) with a\n[**CSSTransitionGroup**](https://reactcommunity.org/react-transition-group/)\n(to show elegant enter and leave transitions).\n\nAn optional \"backdrop\" element can be rendered behind the overlaid children to provide modal\nbehavior, whereby the overlay prevents interaction with anything behind it.\n\n**Overlay2** is the backbone of all the components listed in the \"Overlays\" group in the sidebar.\nUsing **Overlay2** directly should be rare in your application; it should only be necessary if no\nexisting component meets your needs.\n\n## Import\n\n```ts copy\nimport { Overlay2 } from \"@blueprintjs/core\";\n```\n\n@reactExample Overlay2Example\n\n## Usage\n\n**Overlay2** is a controlled component that renders its children only when `isOpen={true}`.\nThe optional backdrop element will be inserted before the children if `hasBackdrop={true}`.\n\nThe `onClose` callback prop is invoked when user interaction causes the overlay to close, but your\napplication is responsible for updating the state that actually closes the overlay.\n\n**Overlay2** _strongly recommends_ usage only within a React subtree which has an\n[**OverlaysProvider**](#core/context/overlays-provider). In Blueprint v5.x, the component\nimplements backwards-compatibilty (via the [`useOverlayStack()` hook](#core/hooks/use-overlay-stack))\nsuch that it will work without one, but this functionality will be removed in a future major version.\n\n```tsx\nimport { Button, Overlay2, OverlaysProvider } from \"@blueprintjs/core\";\nimport { useCallback, useState } from \"react\";\n\nfunction Example() {\n    const [isOpen, setIsOpen] = useState(false);\n    const toggleOverlay = useCallback(() => setIsOpen(open => !open), [setIsOpen]);\n\n    return (\n        <OverlaysProvider>\n            <div>\n                <Button text=\"Show overlay\" onClick={toggleOverlay} />\n                <Overlay2 isOpen={isOpen} onClose={toggleOverlay}>\n                    Overlaid contents...\n                </Overlay2>\n            </div>\n        </OverlaysProvider>\n    );\n}\n```\n\n## DOM layout\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">A note about overlay content positioning</h5>\n\nWhen rendered inline, content will automatically be set to `position: absolute` to respect\ndocument flow. Otherwise, content will be set to `position: fixed` to cover the entire viewport.\n\n</div>\n\nOverlays rely on fixed and absolute CSS positioning. By default, an overlay larger than the viewport\nwill not be scrollable, so any overflowing content will be hidden. Fortunately, making an overlay\nscrollable is very easy: pass `Classes.OVERLAY_SCROLL_CONTAINER` in the Overlay2 `className` prop,\nand the component will take care of the rest.\n\n```tsx\n<Overlay2 className={Classes.OVERLAY_SCROLL_CONTAINER} />\n```\n\nNote that the [**Dialog**](https://blueprintjs.com/docs/#core/components/dialog) component applies\nthis modifier class automatically.\n\n## Child refs\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">DOM ref(s) required</h5>\n\nOverlay2 needs to be able to attach DOM refs to its child elements, so the children of this\ncomponent _must be a native DOM element_ or utilize\n[`React.forwardRef()`](https://reactjs.org/docs/forwarding-refs.html) to forward any\ninjected ref to the underlying DOM element.\n\n</div>\n\n**Overlay2** utilizes the react-transition-group library to declaratively configure \"enter\" and\n\"exit\" transitions for its contents; it does so by individually wrapping its child nodes with\n[**CSSTransition**](https://reactcommunity.org/react-transition-group/css-transition). This\nthird-party component requires a DOM ref to its child node in order to work correctly in React 18\nstrict mode (where `ReactDOM.findDOMNode()` is not available). **Overlay2** can manage this ref for\nyou automatically in some cases, but it requires some user help to handle more advanced use cases:\n\n### Single child with automatic ref\n\nIf you provide a _single_ child element to `<Overlay2>` and _do not_ set its `ref` prop, you\ndon't need to do anything. The component will generate a child ref and happily pass it along\nto the underlying `<CSSTransition>`.\n\n```tsx\nfunction Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    return (\n        <Overlay2 isOpen={isOpen}>\n            <div>Contents</div>\n        </Overlay2>\n    );\n}\n```\n\n### Single child with manual ref\n\nIf you provide a _single_ child element to `<Overlay2>` and _do_ set its `ref` prop, you must\npass the same ref to `<Overlay2 childRef={..}>`.\n\n```tsx\nfunction Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    const myRef = React.useRef<HTMLElement>();\n\n    return (\n        <Overlay2 isOpen={isOpen} childRef={myRef}>\n            <div ref={myRef}>Contents</div>\n        </Overlay2>\n    );\n}\n```\n\n### Multiple children\n\nIf you provide _multiple_ child elements to `<Overlay2>`, you must enumerate a collection of\nrefs for each of those elements and pass those along as a record (keyed by the elements'\ncorresponding React `key` values) to `<Overlay2 childRefs={...}>`.\n\n```tsx\nimport { uniqueId } from \"../utils\";\n\nfunction Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    const [childRefs, setChildRefs] = React.useState<Record<string, React.RefObject<HTMLDivElement>>>({});\n    const [children, setChildren] = React.useState<Array<{ key: string }>>([]);\n    const addChild = React.useCallback(() => {\n        const newRef = React.createRef<HTMLDivElement>();\n        const newKey = uniqueId();\n        setChildren(oldChildren => [...oldChildren, { key: newKey }]);\n        setChildRefs(oldRefs => ({ ...oldRefs, [newKey]: newRef }));\n    }, []);\n\n    return (\n        <div>\n            <Button onClick={addChild}>Add child</Button>\n            <Overlay2 isOpen={isOpen} childRefs={childRefs}>\n                {children.map(child => (\n                    <div key={child.key} ref={childRefs[child.key]} />\n                ))}\n            </Overlay2>\n        </div>\n    );\n}\n```\n\n## Props interface\n\n@interface Overlay2Props\n",
+  "lines": 190,
+  "frontMatter": {
+    "title": "Overlay2"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Overlay2",
+      "at": 25
+    },
+    {
+      "level": 2,
+      "text": "Import",
+      "at": 1396
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 1500
+    },
+    {
+      "level": 2,
+      "text": "DOM layout",
+      "at": 2864
+    },
+    {
+      "level": 2,
+      "text": "Child refs",
+      "at": 3794
+    },
+    {
+      "level": 3,
+      "text": "Single child with automatic ref",
+      "at": 4821
+    },
+    {
+      "level": 3,
+      "text": "Single child with manual ref",
+      "at": 5287
+    },
+    {
+      "level": 3,
+      "text": "Multiple children",
+      "at": 5747
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 6960
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { Overlay2 } from \"@blueprintjs/core\";\n",
+      "at": 1418
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button, Overlay2, OverlaysProvider } from \"@blueprintjs/core\";\nimport { useCallback, useState } from \"react\";\n\nfunction Example() {\n    const [isOpen, setIsOpen] = useState(false);\n    const toggleOverlay = useCallback(() => setIsOpen(open => !open), [setIsOpen]);\n\n    return (\n        <OverlaysProvider>\n            <div>\n                <Button text=\"Show overlay\" onClick={toggleOverlay} />\n                <Overlay2 isOpen={isOpen} onClose={toggleOverlay}>\n                    Overlaid contents...\n                </Overlay2>\n            </div>\n        </OverlaysProvider>\n    );\n}\n",
+      "at": 2263
+    },
+    {
+      "lang": "tsx",
+      "code": "<Overlay2 className={Classes.OVERLAY_SCROLL_CONTAINER} />\n",
+      "at": 3596
+    },
+    {
+      "lang": "tsx",
+      "code": "function Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    return (\n        <Overlay2 isOpen={isOpen}>\n            <div>Contents</div>\n        </Overlay2>\n    );\n}\n",
+      "at": 5089
+    },
+    {
+      "lang": "tsx",
+      "code": "function Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    const myRef = React.useRef<HTMLElement>();\n\n    return (\n        <Overlay2 isOpen={isOpen} childRef={myRef}>\n            <div ref={myRef}>Contents</div>\n        </Overlay2>\n    );\n}\n",
+      "at": 5472
+    },
+    {
+      "lang": "tsx",
+      "code": "import { uniqueId } from \"../utils\";\n\nfunction Example() {\n    const [isOpen, setIsOpen] = React.useState<boolean>(true);\n    const [childRefs, setChildRefs] = React.useState<Record<string, React.RefObject<HTMLDivElement>>>({});\n    const [children, setChildren] = React.useState<Array<{ key: string }>>([]);\n    const addChild = React.useCallback(() => {\n        const newRef = React.createRef<HTMLDivElement>();\n        const newKey = uniqueId();\n        setChildren(oldChildren => [...oldChildren, { key: newKey }]);\n        setChildRefs(oldRefs => ({ ...oldRefs, [newKey]: newRef }));\n    }, []);\n\n    return (\n        <div>\n            <Button onClick={addChild}>Add child</Button>\n            <Overlay2 isOpen={isOpen} childRefs={childRefs}>\n                {children.map(child => (\n                    <div key={child.key} ref={childRefs[child.key]} />\n                ))}\n            </Overlay2>\n        </div>\n    );\n}\n",
+      "at": 6027
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "Overlay2Example",
+      "at": 1469
+    },
+    {
+      "name": "interface",
+      "arg": "Overlay2Props",
+      "at": 6980
+    }
+  ]
+}
