@@ -18,10 +18,24 @@
   outline: var(--semantic-border-width-default) solid var(--component-meter-track-border);
   outline-offset: var(--semantic-border-inset-default);
   border-radius: var(--component-meter-radius); }
-.ods-meter-band { height: 100%; }
+.ods-meter-band { height: 100%; transform-origin: left center;
+  animation: ods-meter-band-in 420ms cubic-bezier(.22,.61,.36,1) backwards; }
 .ods-meter-band--low { background: var(--component-meter-band-low); }
 .ods-meter-band--mid { background: var(--component-meter-band-mid); }
 .ods-meter-band--high { background: var(--component-meter-band-high); }
 .ods-meter-marker { position: absolute; top: 0; bottom: 0; width: 0.125rem;
   background: var(--component-meter-marker);
-  transform: translateX(-50%); }
+  transform: translateX(-50%);
+  transition: left 320ms cubic-bezier(.22,.61,.36,1);
+  animation: ods-meter-marker-in 520ms cubic-bezier(.22,.61,.36,1) backwards; }
+
+@keyframes ods-meter-band-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ods-meter-marker-in { from { left: 0; opacity: 0; } }
+
+/* animation: none 대신 표시만 제거. 지우면 항상 있던 것처럼 보이며 폭은 그대로인 방식임 */
+@media (prefers-reduced-motion: reduce) {
+  .ods-meter-band { animation: none; }
+  .ods-meter-marker { transition: none;
+    animation: ods-meter-marker-fade 200ms linear backwards; }
+}
+@keyframes ods-meter-marker-fade { from { opacity: 0; } }
