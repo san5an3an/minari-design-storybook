@@ -1,0 +1,69 @@
+{
+ "slug": "IconButton",
+ "title": "IconButton",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Meta, Canvas } from '@storybook/addon-docs/blocks';\nimport * as IconButtonStories from './IconButton.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# IconButton\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/IconButton)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/button/usage)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Kind](#kind)\n- [Alignment](#alignment)\n- [Customizing the label](#customizing-the-label)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nThe `IconButton` component is useful when you have a button where the content is\nan icon. In this situation, it's important that the button itself is labeled in\na way that can be understandable by mouse, keyboard, and screen readers. As a\nresult, this component makes it easy to create accessible icon buttons\n\n```jsx\nimport { IconButton } from '@carbon/react';\nimport { Add } from '@carbon/react/icons';\n\nfunction ExampleComponent() {\n  return (\n    <IconButton label=\"Add\">\n      <Add />\n    </IconButton>\n  );\n}\n```\n\n<Canvas\n  of={IconButtonStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(IconButtonStories.Default),\n    },\n  ]}\n/>\n\n## Kind\n\nIcon buttons can take the form of Primary, Secondary, Tertiary, and Ghost but\nmost commonly will be styled as primary or ghost buttons. Icon only buttons do\nnot support Danger, Danger tertiary, or Danger ghost.\n\n## Alignment\n\nThe `align` prop allows you to specify where your content should be placed\nrelative to the `IconButton`. For example, if you provide `align=\"top\"` to the\n`IconButton` component then the tooltip will render above your component.\nSimilarly, if you provide `align=\"bottom\"` then the tooltip will render below\nyour component.\n\n## Customizing the label\n\nYou can customize the label, or tooltip, of the `IconButton` with the `label`\nprop. However, it's important that this label contain no interactive content so\nthat the component remains accessible.\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/IconButton/IconButton.mdx).\n",
+   "source": "packages/react/src/components/IconButton/IconButton.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:15"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:26"
+    },
+    {
+     "name": "Kind",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:56"
+    },
+    {
+     "name": "Alignment",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:62"
+    },
+    {
+     "name": "Customizing the label",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:70"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:76"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/IconButton/IconButton.mdx:80"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-iconbutton--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/IconButton/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/IconButton/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const { align, alignDeprecated, defaultOpen, ...rest } = args;\n  const resolvedAlign = alignDeprecated || align;\n  return (\n    <div style={{ margin: '3rem' }}>\n      <IconButton\n        key={defaultOpen ? 'open' : 'closed'}\n        align={resolvedAlign}\n        defaultOpen={defaultOpen}\n        {...rest}>\n        <Edit />\n      </IconButton>\n    </div>\n  );\n};\n\nDefault.args = {\n  align: 'bottom',\n  defaultOpen: true,\n  disabled: false,\n  label: 'Custom label',\n  kind: 'primary',\n};\n\nDefault.argTypes = {\n  align: {\n    options: alignOptions,\n    control: {\n      type: 'select',\n    },\n  },\n  alignDeprecated: {\n    name: 'align (deprecated)',\n    options: deprecatedAlignOptions,\n    control: {\n      type: 'select',\n    },\n    table: {\n      category: 'Deprecated',\n    },\n  },\n  disabled: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  defaultOpen: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  label: {\n    control: {\n      type: 'text',\n    },\n  },\n  kind: {\n    control: {\n      type: 'select',\n    },\n    options: ['primary', 'secondary', 'ghost', 'tertiary'],\n  },\n};\n",
+   "source": "packages/react/src/components/IconButton/IconButton.stories.js:54"
+  },
+  {
+   "name": "withBadgeIndicator",
+   "description": null,
+   "code": "export const withBadgeIndicator = (args) => {\n  return (\n    <div style={{ margin: '3rem' }}>\n      <IconButton\n        label=\"Notification\"\n        kind=\"ghost\"\n        size=\"lg\"\n        autoAlign\n        {...args}>\n        <Notification />\n      </IconButton>\n    </div>\n  );\n};\n\nwithBadgeIndicator.args = {\n  badgeCount: 4,\n};\nwithBadgeIndicator.parameters = {\n  controls: {\n    exclude: ['size', 'kind'],\n  },\n};\n",
+   "source": "packages/react/src/components/IconButton/IconButton.stories.js:118"
+  }
+ ],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

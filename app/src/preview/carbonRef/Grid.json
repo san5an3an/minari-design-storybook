@@ -1,0 +1,312 @@
+{
+ "slug": "Grid",
+ "title": "FlexGrid",
+ "docs": [
+  {
+   "markdown": "import { Story, Canvas, ArgTypes, Meta } from '@storybook/addon-docs/blocks';\nimport * as FlexGridStories from './FlexGrid.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# FlexGrid\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Grid)\n&nbsp;|&nbsp;\n[Usage guidelines](https://carbondesignsystem.com/elements/2x-grid/overview/)\n\n{/* prettier-ignore-start */}\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Gutter modes](#gutter-modes)\n  - [Wide grid](#wide-grid)\n  - [Narrow grid](#narrow-grid)\n  - [Condensed grid](#condensed-grid)\n  - [Mix-and-match](#mix-and-match)\n- [Auto columns](#auto-columns)\n- [Offset columns](#offset-columns)\n- [Row gap](#row-gap)\n- [Component API](#component-api)\n  - [Using the `as` prop](#using-the-as-prop)\n- [FAQ](#faq)\n  - [How can I hide columns at a certain breakpoint?](#how-can-i-hide-columns-at-a-certain-breakpoint)\n  - [Can I nest FlexGrid components?](#can-i-nest-flexgrid-components)\n  - [Why are the FlexGrid styles not working?](#why-are-the-flexgrid-styles-not-working)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n{/* prettier-ignore-end */}\n\nCarbon's grid components help developers use the\n[2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/). The\nproject provides `FlexGrid`, `Row`, and `Column` components which can be used to\nbuild a variety of layouts. You can import these components from\n`@carbon/react`:\n\n```js\nimport { FlexGrid, Row, Column } from '@carbon/react';\n```\n\n```scss\n/* FlexGrid styles are not emitted by default, the feature flag must be turned on */\n\n@use '@carbon/react' with (\n  $use-flexbox-grid: true\n);\n```\n\n<Canvas\n  of={FlexGridStories.ResponsiveGrid}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.ResponsiveGrid),\n    },\n  ]}\n/>\n\n## Overview\n\nEvery layout starts with the `FlexGrid` component. You can specify a `FlexGrid`\nat the top-level of your project, or at different depths provided that it can\nspan 100% width of its container.\n\nNext, you will use a combination of `Row` and `Column`. You can have multiple\n`Row` components in a `FlexGrid`, and multiple `Column` components in a `Row`.\nEach `Row` will contain all the `Column` components provided to it, as long as\nthey don't span more columns than the total number of columns in the grid.\n\nTo specify how many columns the `Column` component should span, you can use the\n`sm`, `md`, `lg`, `xlg`, or `max` props. These props are shorthand versions of\nthe names given to each of the breakpoints defined by the\n[2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/#breakpoints).\nIn the example below, we will use the `lg` prop for the large breakpoint and the\nnumber `4` to specify that each `Column` component should span 4 columns at that\nbreakpoint.\n\n```js\nimport { FlexGrid, Row, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <FlexGrid>\n      <Row>\n        <Column lg={4}>Span 4 of 12</Column>\n        <Column lg={4}>Span 4 of 12</Column>\n        <Column lg={4}>Span 4 of 12</Column>\n        <Column lg={4}>Span 4 of 12</Column>\n      </Row>\n    <FlexGrid>\n  );\n}\n```\n\nYou can pair up multiple breakpoint props to specify how many columns the\n`Column` component should span at different break points. In the example below,\nwe will use the `sm`, `md`, and `lg` prop to specify how many columns the\n`Column` components should span at the small, medium, and large breakpoints.\n\n<Canvas\n  of={FlexGridStories.ResponsiveGrid}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.ResponsiveGrid),\n    },\n  ]}\n/>\n\n## Gutter modes\n\nThere are several\n[gutter modes](https://carbondesignsystem.com/elements/2x-grid/overview/#gutters)\nthat you can use depending on the layout effect you're looking to achieve. By\ndefault, `FlexGrid` uses the wide gutter mode with a 32px gutter. However, you\ncan use the `narrow` or `condensed` props to enable the narrow and condensed\ngrid modes, respectively.\n\nThe same way that you can pass in `narrow` or `condensed` to the `FlexGrid`\ncomponent, you can also pass in `narrow` or `condensed` to a `Row` component to\nenable a certain gutter mode but only for a row. This can be useful when you\nneed to mix-and-match certain gutter modes to achieve a particular layout.\n\n### Wide grid\n\n<Canvas\n  of={FlexGridStories.FullWidth}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.FullWidth),\n    },\n  ]}\n/>\n\n### Narrow grid\n\n<Canvas\n  of={FlexGridStories.Narrow}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.Narrow),\n    },\n  ]}\n/>\n\n### Condensed grid\n\n<Canvas\n  of={FlexGridStories.Condensed}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.Condensed),\n    },\n  ]}\n/>\n\n### Mix-and-match\n\n<Canvas\n  of={FlexGridStories.MixedGutterModes}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.MixedGutterModes),\n    },\n  ]}\n/>\n\n## Auto columns\n\nIn some situations, you may want your content to span a specific proportion of\nthe grid without having to calculate it across every breakpoint. A common\nuse-case for this is if you have a row of four cards and want each to span 25%\nwidth each.\n\nIn these situations, you can make use of the auto columns feature of the\n`Column` component. Auto columns is enabled when you do not provide any\nbreakpoint props, and it will automatically set each column to a percentage of\nthe total available width.\n\nFor example, if you have on `Column` component it would span 100%, two `Column`\ncomponents would span 50% each, four `Column` components would span 25% each,\nand so on.\n\n<Canvas\n  of={FlexGridStories.AutoColumns}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.AutoColumns),\n    },\n  ]}\n/>\n\n## Offset columns\n\nYou can offset your `Column` components by a specific amount of columns using\nthe object form for each breakpoint prop. This specific prop type allows you to\npass in an object to each breakpoint prop and this object has two keys, `span`\nand `offset`, which allow you to specify the total numbers of columns the\n`Column` component spans, and how many columns to offset it by.\n\nYou can specify either prop in this object form, and can mix-and-match across\nbreakpoints. For example, the following snippet will have the `Column` component\nspan two columns at the small breakpoint and then four columns at the medium\nbreakpoint. At the medium breakpoint, it will be offset by two columns.\n\n```jsx\n<Column sm={2} md={{ span: 4, offset: 2 }} />\n```\n\n<Canvas\n  of={FlexGridStories.Offset}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.Offset),\n    },\n  ]}\n/>\n\n## Row gap\n\nThe `FlexGrid` component supports an optional `withRowGap` prop that adds\nvertical spacing between rows. When enabled, the row gap automatically matches\nthe current gutter mode:\n\n- Default (wide): 32px row gap\n- Narrow: 16px row gap\n- Condensed: 1px row gap\n\nThis feature is useful when you want consistent vertical spacing between rows\nthat matches your horizontal gutter spacing.\n\n```jsx\nimport { FlexGrid, Row, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <FlexGrid withRowGap>\n      <Row>\n        <Column lg={4}>Row 1, Column 1</Column>\n        <Column lg={4}>Row 1, Column 2</Column>\n        <Column lg={4}>Row 1, Column 3</Column>\n      </Row>\n      <Row>\n        <Column lg={4}>Row 2, Column 1</Column>\n        <Column lg={4}>Row 2, Column 2</Column>\n        <Column lg={4}>Row 2, Column 3</Column>\n      </Row>\n    </FlexGrid>\n  );\n}\n```\n\nYou can combine `withRowGap` with different gutter modes:\n\n```jsx\n{\n  /* Narrow grid with row gap */\n}\n<FlexGrid narrow withRowGap>\n  <Row>\n    <Column>Content</Column>\n  </Row>\n  <Row>\n    <Column>Content</Column>\n  </Row>\n</FlexGrid>;\n\n{\n  /* Condensed grid with row gap */\n}\n<FlexGrid condensed withRowGap>\n  <Row>\n    <Column>Content</Column>\n  </Row>\n  <Row>\n    <Column>Content</Column>\n  </Row>\n</FlexGrid>;\n```\n\n<Canvas\n  of={FlexGridStories.WithRowGap}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(FlexGridStories.WithRowGap),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n### Using the `as` prop\n\nBy default, `FlexGrid`, `Row`, and `Column` will render as a `div`. However, you\ncan use the `as` prop to change this to another HTML element, or a custom\ncomponent from your project.\n\nIn the example below, we use the `as` prop on `Row` to change it from a `div` to\na `section`. Similarly, we use the `as` prop on `Column` to change it from a\n`div` to an `article`.\n\n```jsx\nimport { FlexGrid, Row, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <FlexGrid>\n      <Row as=\"section\">\n        <Column as=\"article\">Example content</Column>\n        <Column as=\"article\">Example content</Column>\n        <Column as=\"article\">Example content</Column>\n        <Column as=\"article\">Example content</Column>\n      </Row>\n    </FlexGrid>\n  );\n}\n```\n\nYou can also provide a custom component to the `as` prop. This custom component\nshould accept all props passed to it, like a class name for the column.\n\n```jsx\nimport { FlexGrid, Row, Column } from '@carbon/react';\n\nfunction Article({ children, ...rest }) {\n  return <article {...rest}>{children}</article>;\n}\n\nfunction CustomColumn({ children, ...rest }) {\n  return <Column as={Article} {...rest}>{children}</Column:\n}\n\nfunction MyComponent() {\n  return (\n    <FlexGrid>\n      <Row>\n        <CustomColumn>Example content</Column>\n        <CustomColumn>Example content</Column>\n        <CustomColumn>Example content</Column>\n        <CustomColumn>Example content</Column>\n      </Row>\n    <FlexGrid>\n  );\n}\n```\n\n## FAQ\n\n### How can I hide columns at a certain breakpoint?\n\nTo hide a column at a specific breakpoint, you should specify 0 for the span of\nthe column at that particular breakpoint. For example, you can use the following\ntwo forms for specifying column span and pass in 0 to either to hide the column\nat the small breakpoint.\n\n```jsx\n<Column sm={0} />\n<Column sm={{ span: 0 }} />\n```\n\n### Can I nest FlexGrid components?\n\n`FlexGrid` does not support nested grids. For nested grids, use the `Grid`\n(`CSSGrid`) component.\n\n### Why are the FlexGrid styles not working?\n\nFlexGrid styles are not emitted by default. You must opt in to emitting the\nstyling via one of the following options:\n\n```scss\n/* Option 1: Turn on the feature flag */\n\n@use '@carbon/react' with (\n  $use-flexbox-grid: true\n);\n```\n\n```scss\n/* Option 2: Use the flexgrid module */\n\n@use '@carbon/react/scss/grid/flexbox';\n```\n\n```scss\n/* Option 3: Use the grid module and call the flex-grid mixin */\n\n@use '@carbon/react/scss/grid';\n@include grid.flex-grid();\n```\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Grid/Grid.mdx).\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:17"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:68"
+    },
+    {
+     "name": "Gutter modes",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:119"
+    },
+    {
+     "name": "Auto columns",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:181"
+    },
+    {
+     "name": "Offset columns",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:207"
+    },
+    {
+     "name": "Row gap",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:234"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:306"
+    },
+    {
+     "name": "FAQ",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:365"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Grid/FlexGrid.mdx:410"
+    }
+   ]
+  },
+  {
+   "markdown": "import { Story, Canvas, ArgTypes, Meta } from '@storybook/addon-docs/blocks';\nimport * as GridStories from './Grid.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Grid\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Grid)\n&nbsp;|&nbsp;\n[Usage guidelines](https://carbondesignsystem.com/elements/2x-grid/overview/)\n\n{/* prettier-ignore-start */}\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [Debugging](#debugging)\n- [Gutter modes](#gutter-modes)\n  - [Full width grid](#full-width-grid)\n  - [Condensed grid](#condensed-grid)\n  - [Narrow grid](#narrow-grid)\n- [Row gap](#row-gap)\n- [Subgrid](#subgrid)\n- [Mixed gutter modes](#mixed-gutter-modes)\n- [Auto columns](#auto-columns)\n- [Offset columns](#offset-columns)\n- [Component API](#component-api)\n  - [Using the `as` prop](#using-the-as-prop)\n- [FAQ](#faq)\n  - [How can I hide columns at a certain breakpoint?](#how-can-i-hide-columns-at-a-certain-breakpoint)\n  - [Can I nest grid components?](#can-i-nest-grid-components)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n{/* prettier-ignore-end */}\n\nCarbon's grid components help developers use the\n[2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/). The\nproject provides `Grid` and `Column` components which can be used to build a\nvariety of layouts. You can import these components from `@carbon/react`:\n\n```js\nimport { Grid, Column } from '@carbon/react';\n```\n\n<Canvas\n  of={GridStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Default),\n    },\n  ]}\n/>\n\n## Overview\n\nEvery layout starts with the `Grid` component. You can specify a `Grid` at the\ntop-level of your project, or at different depths provided that it can span 100%\nwidth of its container.\n\nNext, you will use a combination of `Column` and `Grid`. You can have multiple\n`Column` components in a `Grid`, and nest `Grid` components in a `Column`. Each\n`Grid` will contain all the `Column` components provided to it, as long as they\ndon't span more columns than the total number of columns in the grid.\n\nTo specify how many columns the `Column` component should span, you can use the\n`sm`, `md`, `lg`, `xlg`, or `max` props. These props are shorthand versions of\nthe names given to each of the breakpoints defined by the\n[2x Grid](https://carbondesignsystem.com/elements/2x-grid/overview/#breakpoints).\nIn the example below, we will use the `lg` prop for the large breakpoint and the\nnumber `4` to specify that each `Column` component should span 4 columns at that\nbreakpoint.\n\n```js\nimport { Grid, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <Grid>\n      <Column lg={4}>Span 4 of 16</Column>\n      <Column lg={4}>Span 4 of 16</Column>\n      <Column lg={4}>Span 4 of 16</Column>\n      <Column lg={4}>Span 4 of 16</Column>\n    </Grid>\n  );\n}\n```\n\n_Note: by default, `@carbon/styles` ships with a 16 column grid._\n\nYou can pair up multiple breakpoint props to specify how many columns the\n`Column` component should span at different break points. In the example below,\nwe will use the `sm`, `md`, and `lg` prop to specify how many columns the\n`Column` components should span at the small, medium, and large breakpoints.\n\n<Canvas\n  of={GridStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Default),\n    },\n  ]}\n/>\n\n### Debugging\n\nIt is incredibly helpful when debugging CSS Grid to use the browser developer\ntools' css gutter mode to view the grid definition. Depending on the browser,\nthese typically provide a toggle for overlaying a schematic showing the column\nand grid gap definition. With this overlay, it's much easier to visually\nunderstand if gutter modes are configured and set properly on the grid.\n\nDocumentation on these features is available for\n[Chrome](https://developer.chrome.com/docs/devtools/css/grid/),\n[Firefox](https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_grid_layouts),\nand\n[Safari](https://webkit.org/blog/11588/introducing-css-grid-inspector/#:~:text=If%20you're%20using%20Safari,%23css%2Dgrid%2Ddemo%20.),\namong others.\n\n## Gutter modes\n\nThere are several\n[gutter modes](https://carbondesignsystem.com/elements/2x-grid/overview/#gutters)\nthat you can use depending on the layout effect you're looking to achieve. By\ndefault, `Grid` uses the wide gutter mode with a 32px gutter. However, you can\nuse the `condensed` prop to enable the condensed gutter mode with a 1px gutter\nor the `narrow` prop to enable the narrow grid with a 16px gutter.\n\n### Full width grid\n\n<Canvas\n  of={GridStories.FullWidth}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.FullWidth),\n    },\n  ]}\n/>\n\n### Condensed grid\n\n<Canvas\n  of={GridStories.Condensed}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Condensed),\n    },\n  ]}\n/>\n\n### Narrow grid\n\n<Canvas\n  of={GridStories.Narrow}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Narrow),\n    },\n  ]}\n/>\n\n## Row gap\n\nBy default, the CSS Grid does not add vertical spacing (row gap) between grid\nitems. You can enable row gap by using the `withRowGap` prop on the `Grid`\ncomponent. When enabled, the row gap will automatically match the current gutter\nsize:\n\n- Default mode: 2rem (32px) row gap\n- Narrow mode: 1rem (16px) row gap\n- Condensed mode: 1px row gap\n\nThis is useful when you want consistent vertical spacing between rows that\nmatches your horizontal gutter spacing.\n\n```jsx\nimport { Grid, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <Grid withRowGap>\n      <Column lg={4}>Row 1, Column 1</Column>\n      <Column lg={4}>Row 1, Column 2</Column>\n      <Column lg={4}>Row 1, Column 3</Column>\n      <Column lg={4}>Row 1, Column 4</Column>\n      <Column lg={4}>Row 2, Column 1</Column>\n      <Column lg={4}>Row 2, Column 2</Column>\n      <Column lg={4}>Row 2, Column 3</Column>\n      <Column lg={4}>Row 2, Column 4</Column>\n    </Grid>\n  );\n}\n```\n\n<Canvas\n  of={GridStories.WithRowGap}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.WithRowGap),\n    },\n  ]}\n/>\n\n## Subgrid\n\n`Grid` components can be nested within one another to achieve more advanced\nlayout configurations. When a `Grid` is a child of another `Grid`, the child\nwill always be automatically defined as a subgrid. Subgrids should always be\ncontained within a `Column` to ensure that the column amount/definition is\nproperly configured for the subgrid to inherit. Additionally, wrapping subgrids\nin a `Column` enables you to define responsive parameters for the column (`sm`,\n`md`, etc) that the subgrid will inherit and be bound to.\n\n<Canvas\n  of={GridStories.Subgrid}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Subgrid),\n    },\n  ]}\n/>\n\nFor more specialized grid implementations you may want to disable the automatic\nsubgrid definition. To achieve this you can wrap your nested `Grid` in\n`GridSettings` and set `subgrid={false}`.\n\n```jsx\n<Grid>\n  <Column>\n    <GridSettings subgrid={false}>\n      <Grid>\n        <Column />\n      </Grid>\n    </GridSettings>\n  </Column>\n</Grid>\n```\n\n<Canvas\n  of={GridStories.WithGridSettings}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.WithGridSettings),\n    },\n  ]}\n/>\n\n## Mixed gutter modes\n\nThe same way that you can pass in `condensed` to a root `Grid`, you can also\npass in `condensed` to a nested `Grid` (subgrid) to enable a certain gutter mode\nfor only that subgrid. This can be useful when you need to mix-and-match certain\ngutter modes to achieve a particular layout.\n\n<Canvas\n  of={GridStories.MixedGutterModes}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.MixedGutterModes),\n    },\n  ]}\n/>\n\n## Auto columns\n\nEach column by default spans one single column as defined by the parent grid's\nparameters.\n\nThe default track sizing functions of the grid columns are defined by the parent\ngrid's `grid-template-columns` property. This declares that there should be\n`--cds-grid-columns` number of columns, and each column should by default span a\n`minmax()` of `0` columns minimum, or a maximum of `--cds-grid-column-size`\n(`1fr`).\n\nThe values of these custom properties can be changed to modify the default\nbehavior of columns.\n\n<Canvas\n  of={GridStories.Responsive}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Responsive),\n    },\n  ]}\n/>\n\n## Offset columns\n\nYou can offset your `Column` components by a specific amount of columns using\nthe object form for each breakpoint prop. This specific prop type allows you to\npass in an object to each breakpoint prop and this object has two keys, `span`\nand `offset`, which allow you to specify the total numbers of columns the\n`Column` component spans, and how many columns to offset it by.\n\nYou can specify either prop in this object form, and can mix-and-match across\nbreakpoints. For example, the following snippet will have the `Column` component\nspan two columns at the small breakpoint and then four columns at the medium\nbreakpoint. At the medium breakpoint, it will be offset by two columns.\n\n```jsx\n<Column sm={2} md={{ span: 4, offset: 2 }} />\n```\n\n<Canvas\n  of={GridStories.Offset}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(GridStories.Offset),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n### Using the `as` prop\n\nBy default, `Grid` and `Column` will render as a `div`. However, you can use the\n`as` prop to change this to another HTML element, or a custom component from\nyour project.\n\nIn the example below, we use the `as` prop on `Column` to change it from a `div`\nto a `section`. Similarly, we use the `as` prop on `Column` to change it from a\n`div` to an `article`.\n\n```jsx\nimport { Grid, Column } from '@carbon/react';\n\nfunction MyComponent() {\n  return (\n    <Grid>\n      <Column as=\"article\">Example content</Column>\n      <Column as=\"article\">Example content</Column>\n      <Column as=\"article\">Example content</Column>\n      <Column as=\"article\">Example content</Column>\n    </Grid>\n  );\n}\n```\n\nYou can also provide a custom component to the `as` prop. This custom component\nshould accept all props passed to it, like a class name for the column.\n\n```jsx\nimport { Grid, Column } from '@carbon/react';\n\nfunction Article({ children, ...rest }) {\n  return <article {...rest}>{children}</article>;\n}\n\nfunction CustomColumn({ children, ...rest }) {\n  return <Column as={Article} {...rest}>{children}</Column:\n}\n\nfunction MyComponent() {\n  return (\n    <Grid>\n      <CustomColumn>Example content</Column>\n      <CustomColumn>Example content</Column>\n      <CustomColumn>Example content</Column>\n      <CustomColumn>Example content</Column>\n    </Grid>\n  );\n}\n```\n\n## FAQ\n\n### How can I hide columns at a certain breakpoint?\n\nTo hide a column at a specific breakpoint, you should specify 0 for the span of\nthe column at that particular breakpoint. For example, you can use the following\ntwo forms for specifying column span and pass in 0 to either to hide the column\nat the small breakpoint.\n\n```jsx\n<Column sm={0} />\n<Column sm={{ span: 0 }} />\n```\n\n### Can I nest grid components?\n\nYes! While the CSS Grid `subgrid` property is still\n[not well supported](https://caniuse.com/#feat=css-subgrid), css custom\nproperties are used to enable nested grids with inherited column definitions.\nView the subgrid story documentation for more information on how this works and\nhow to use it.\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Grid/Grid.mdx).\n",
+   "source": "packages/react/src/components/Grid/Grid.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Grid/Grid.mdx:17"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Grid/Grid.mdx:60"
+    },
+    {
+     "name": "Gutter modes",
+     "source": "packages/react/src/components/Grid/Grid.mdx:126"
+    },
+    {
+     "name": "Row gap",
+     "source": "packages/react/src/components/Grid/Grid.mdx:171"
+    },
+    {
+     "name": "Subgrid",
+     "source": "packages/react/src/components/Grid/Grid.mdx:214"
+    },
+    {
+     "name": "Mixed gutter modes",
+     "source": "packages/react/src/components/Grid/Grid.mdx:260"
+    },
+    {
+     "name": "Auto columns",
+     "source": "packages/react/src/components/Grid/Grid.mdx:277"
+    },
+    {
+     "name": "Offset columns",
+     "source": "packages/react/src/components/Grid/Grid.mdx:301"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Grid/Grid.mdx:328"
+    },
+    {
+     "name": "FAQ",
+     "source": "packages/react/src/components/Grid/Grid.mdx:383"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Grid/Grid.mdx:405"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  tall\n  wide\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'elements-grid--default',\n    },\n    {\n      label: 'Condensed',\n      variant: 'elements-grid--condensed',\n    },\n    {\n      label: 'Full Width',\n      variant: 'elements-grid--full-width',\n    },\n    {\n      label: 'Grid Start End',\n      variant: 'elements-grid--grid-start-end',\n    },\n    {\n      label: 'Mixed Gutter Modes',\n      variant: 'elements-grid--mixed-gutter-modes',\n    },\n    {\n      label: 'Narrow',\n      variant: 'elements-grid--narrow',\n    },\n    {\n      label: 'Offset',\n      variant: 'elements-grid--offset',\n    },\n    {\n      label: 'Responsive',\n      variant: 'elements-grid--responsive',\n    },\n    {\n      label: 'Subgrid',\n      variant: 'elements-grid--subgrid',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Grid/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Grid/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Elements",
+ "examples": [
+  {
+   "name": "AutoColumns",
+   "description": null,
+   "code": "export const AutoColumns = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>Span 25%</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>Span 25%</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>Span 25%</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>Span 25%</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:75"
+  },
+  {
+   "name": "ResponsiveGrid",
+   "description": null,
+   "code": "export const ResponsiveGrid = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column sm={2} md={4} lg={6}>\n            <DemoContent>\n              <p>Small: Span 2 of 4</p>\n              <p>Medium: Span 4 of 8</p>\n              <p>Large: Span 6 of 16</p>\n            </DemoContent>\n          </Column>\n          <Column sm={2} md={2} lg={3}>\n            <DemoContent>\n              <p>Small: Span 2 of 4</p>\n              <p>Medium: Span 2 of 8</p>\n              <p>Large: Span 3 of 16</p>\n            </DemoContent>\n          </Column>\n          <Column sm={0} md={2} lg={3}>\n            <DemoContent>\n              <p>Small: Span 0 of 4</p>\n              <p>Medium: Span 2 of 8</p>\n              <p>Large: Span 3 of 16</p>\n            </DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:98"
+  },
+  {
+   "name": "Offset",
+   "description": null,
+   "code": "export const Offset = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column sm={{ span: 1, offset: 3 }}>\n            <DemoContent>Small: offset 3</DemoContent>\n          </Column>\n          <Column sm={{ span: 2, offset: 2 }}>\n            <DemoContent>Small: offset 2</DemoContent>\n          </Column>\n          <Column sm={{ span: 3, offset: 1 }}>\n            <DemoContent>Small: offset 1</DemoContent>\n          </Column>\n          <Column sm={{ span: 4, offset: 0 }}>\n            <DemoContent>Small: offset 0</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:130"
+  },
+  {
+   "name": "Condensed",
+   "description": null,
+   "code": "export const Condensed = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nCondensed.args = {\n  condensed: true,\n};\n\nCondensed.argTypes = {\n  condensed: {\n    table: { readonly: true },\n  },\n};\n\nCondensed.parameters = {\n  controls: {\n    include: [...gridContainerControls, 'condensed'],\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:153"
+  },
+  {
+   "name": "CondensedColumns",
+   "description": null,
+   "code": "export const CondensedColumns = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row condensed>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nCondensedColumns.parameters = {\n  controls: {\n    include: gridContainerControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:192"
+  },
+  {
+   "name": "Narrow",
+   "description": null,
+   "code": "export const Narrow = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nNarrow.args = {\n  narrow: true,\n};\n\nNarrow.argTypes = {\n  narrow: {\n    table: { readonly: true },\n  },\n};\n\nNarrow.parameters = {\n  controls: {\n    include: [...gridContainerControls, 'narrow'],\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:249"
+  },
+  {
+   "name": "NarrowColumns",
+   "description": null,
+   "code": "export const NarrowColumns = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row narrow>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nNarrowColumns.parameters = {\n  controls: {\n    include: gridContainerControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:288"
+  },
+  {
+   "name": "FullWidth",
+   "description": null,
+   "code": "export const FullWidth = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nFullWidth.args = {\n  fullWidth: true,\n};\n\nFullWidth.argTypes = {\n  fullWidth: {\n    table: { readonly: true },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:345"
+  },
+  {
+   "name": "MixedGutterModes",
+   "description": null,
+   "code": "export const MixedGutterModes = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>Wide</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row narrow>\n          <Column>\n            <DemoContent>Narrow</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n        <Row condensed>\n          <Column>\n            <DemoContent>Condensed</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nMixedGutterModes.parameters = {\n  controls: {\n    include: gridContainerControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:378"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n          <Column>\n            <DemoContent>1/4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:435"
+  },
+  {
+   "name": "WithRowGap",
+   "description": null,
+   "code": "export const WithRowGap = (args) => {\n  return (\n    <div id=\"templates\">\n      <FlexGrid {...args}>\n        <Row>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 1, Col 1</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 1, Col 2</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 1, Col 3</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 1, Col 4</DemoContent>\n          </Column>\n        </Row>\n        <Row>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 2, Col 1</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 2, Col 2</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 2, Col 3</DemoContent>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <DemoContent>Row 2, Col 4</DemoContent>\n          </Column>\n        </Row>\n      </FlexGrid>\n    </div>\n  );\n};\n\nWithRowGap.args = {\n  withRowGap: true,\n};\n\nWithRowGap.argTypes = {\n  withRowGap: {\n    table: { readonly: true },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/FlexGrid.stories.js:458"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:75"
+  },
+  {
+   "name": "WithRowGap",
+   "description": null,
+   "code": "export const WithRowGap = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n      </Grid>\n    </div>\n  );\n};\n\nWithRowGap.args = {\n  withRowGap: true,\n};\n\nWithRowGap.argTypes = {\n  ...sharedArgTypes,\n  withRowGap: {\n    ...sharedArgTypes.withRowGap,\n    table: {\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:88"
+  },
+  {
+   "name": "Narrow",
+   "description": null,
+   "code": "export const Narrow = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n      </Grid>\n    </div>\n  );\n};\n\nNarrow.args = {\n  narrow: true,\n};\n\nNarrow.argTypes = {\n  ...sharedArgTypes,\n  narrow: {\n    ...sharedArgTypes.narrow,\n    table: {\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:119"
+  },
+  {
+   "name": "Condensed",
+   "description": null,
+   "code": "export const Condensed = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n      </Grid>\n    </div>\n  );\n};\n\nCondensed.args = {\n  condensed: true,\n};\n\nCondensed.argTypes = {\n  ...sharedArgTypes,\n  condensed: {\n    ...sharedArgTypes.condensed,\n    table: {\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:146"
+  },
+  {
+   "name": "FullWidth",
+   "description": null,
+   "code": "export const FullWidth = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n        <Column sm={4} />\n      </Grid>\n    </div>\n  );\n};\n\nFullWidth.args = {\n  fullWidth: true,\n};\n\nFullWidth.argTypes = {\n  ...sharedArgTypes,\n  fullWidth: {\n    ...sharedArgTypes.fullWidth,\n    table: {\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:173"
+  },
+  {
+   "name": "Responsive",
+   "description": null,
+   "code": "export const Responsive = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={2} md={4} lg={6}>\n          <p>Small: Span 2 of 4</p>\n          <p>Medium: Span 4 of 8</p>\n          <p>Large: Span 6 of 16</p>\n        </Column>\n        <Column sm={2} md={2} lg={3}>\n          <p>Small: Span 2 of 4</p>\n          <p>Medium: Span 2 of 8</p>\n          <p>Large: Span 3 of 16</p>\n        </Column>\n        <Column sm={0} md={2} lg={3}>\n          <p>Small: Span 0 of 4</p>\n          <p>Medium: Span 2 of 8</p>\n          <p>Large: Span 3 of 16</p>\n        </Column>\n        <Column sm={0} md={0} lg={4}>\n          <p>Small: Span 0 of 4</p>\n          <p>Medium: Span 0 of 8</p>\n          <p>Large: Span 4 of 16</p>\n        </Column>\n        <Column sm=\"25%\" md=\"50%\" lg=\"75%\">\n          <p>Small: Span 25%</p>\n          <p>Medium: Span 50%</p>\n          <p>Large: Span 75%</p>\n        </Column>\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:200"
+  },
+  {
+   "name": "Subgrid",
+   "description": null,
+   "code": "export const Subgrid = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column sm={2} md={4} lg={3}>\n          <p>Small: Span 2 of 4</p>\n          <p>Medium: Span 4 of 8</p>\n          <p>Large: Span 3 of 16</p>\n        </Column>\n        <Column sm={2} md={4} lg={10}>\n          <p>Small: Span 2 of 4</p>\n          <p>Medium: Span 4 of 8</p>\n          <p>Large: Span 10 of 16</p>\n          <Grid className=\"example\">\n            <Column sm={1} md={1} lg={2}>\n              <p>sm={1}</p> <p>md={1}</p> <p>lg={2}</p>\n            </Column>\n            <Column sm={1} md={1} lg={2}>\n              <p>sm={1}</p> <p>md={1}</p> <p>lg={2}</p>\n            </Column>\n            <Column sm={0} md={1} lg={1}>\n              <p>sm={0}</p> <p>md={1}</p> <p>lg={1}</p>\n            </Column>\n            <Column sm={0} md={1} lg={1}>\n              <p>sm={0}</p> <p>md={1}</p> <p>lg={1}</p>\n            </Column>\n            <Column sm={0} md={0} lg={1}>\n              <p>sm={0}</p> <p>md={0}</p> <p>lg={1}</p>\n            </Column>\n            <Column sm={0} md={0} lg={1}>\n              <p>sm={0}</p> <p>md={0}</p> <p>lg={1}</p>\n            </Column>\n            <Column sm={0} md={0} lg={1}>\n              <p>sm={0}</p> <p>md={0}</p> <p>lg={1}</p>\n            </Column>\n            <Column sm={0} md={0} lg={1}>\n              <p>sm={0}</p> <p>md={0}</p> <p>lg={1}</p>\n            </Column>\n          </Grid>\n        </Column>\n        <Column sm={0} md={0} lg={3}>\n          <p>Small: Span 0 of 4</p>\n          <p>Medium: Span 0 of 8</p>\n          <p>Large: Span 3 of 16</p>\n        </Column>\n      </Grid>\n\n      <h5>Wide</h5>\n      <Grid>\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={8} lg={16}>\n          <Grid>\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n          </Grid>\n        </Column>\n      </Grid>\n      <h5>Narrow</h5>\n      <Grid narrow>\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={8} lg={16}>\n          <Grid narrow>\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n          </Grid>\n        </Column>\n      </Grid>\n      <h5>Condensed</h5>\n      <Grid condensed>\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={4} lg={4} />\n        <Column sm={4} md={8} lg={16}>\n          <Grid condensed>\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n            <Column sm={4} md={4} lg={4} />\n          </Grid>\n        </Column>\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:234"
+  },
+  {
+   "name": "SubgridWithRowGap",
+   "description": null,
+   "code": "export const SubgridWithRowGap = (args) => (\n  <Grid {...args}>\n    <Column sm={4} md={8} lg={16}>\n      <Grid withRowGap>\n        {/* Nested subgrid with row gap */}\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n      </Grid>\n    </Column>\n    <Column sm={4} md={8} lg={16}>\n      <Grid withRowGap narrow>\n        {/* Nested subgrid with row gap */}\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n      </Grid>\n    </Column>\n    <Column sm={4} md={8} lg={16}>\n      <Grid withRowGap condensed>\n        {/* Nested subgrid with row gap */}\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n        <Column sm={4} md={4} lg={8} />\n      </Grid>\n    </Column>\n  </Grid>\n);\n\nSubgridWithRowGap.args = {\n  withRowGap: true,\n};\n\nSubgridWithRowGap.argTypes = {\n  ...sharedArgTypes,\n  withRowGap: {\n    ...sharedArgTypes.withRowGap,\n    table: {\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:330"
+  },
+  {
+   "name": "MixedGutterModes",
+   "description": null,
+   "code": "export const MixedGutterModes = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column span={8}>\n          <Grid>\n            <Column span={8}>\n              <Grid narrow>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column span={4}>\n                  <Grid>\n                    <Column>Text</Column>\n                    <Column>Text</Column>\n                    <Column span={2}>\n                      <Grid condensed>\n                        <Column>\n                          <ColumnHang>Text</ColumnHang>\n                        </Column>\n                        <Column>\n                          <ColumnHang>Text</ColumnHang>\n                        </Column>\n                      </Grid>\n                    </Column>\n                  </Grid>\n                </Column>\n              </Grid>\n            </Column>\n          </Grid>\n        </Column>\n      </Grid>\n      <Grid {...args} narrow>\n        <Column span={8}>\n          <Grid>\n            <Column span={4} />\n            <Column span={4}>\n              <Grid narrow>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n                <Column>\n                  <ColumnHang>Text</ColumnHang>\n                </Column>\n              </Grid>\n            </Column>\n          </Grid>\n        </Column>\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:376"
+  },
+  {
+   "name": "GridStartEnd",
+   "description": null,
+   "code": "export const GridStartEnd = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column\n          sm={{ span: 1, start: 4 }}\n          md={{ span: 2, start: 7 }}\n          lg={{ span: 4, start: 13 }}>\n          span, start\n        </Column>\n        <Column\n          sm={{ span: 2, end: 5 }}\n          md={{ span: 4, end: 9 }}\n          lg={{ span: 8, end: 17 }}>\n          span, end\n        </Column>\n        <Column\n          sm={{ start: 1, end: 4 }}\n          md={{ start: 3, end: 9 }}\n          lg={{ start: 5, end: 17 }}>\n          start, end\n        </Column>\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:444"
+  },
+  {
+   "name": "Offset",
+   "description": null,
+   "code": "export const Offset = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <Grid {...args}>\n        <Column\n          sm={{ span: 1, offset: 3 }}\n          md={{ span: 2, offset: 6 }}\n          lg={{ span: 4, offset: 12 }}\n        />\n        <Column\n          sm={{ span: 2, offset: 2 }}\n          md={{ span: 4, offset: 4 }}\n          lg={{ span: 8, offset: 8 }}\n        />\n        <Column\n          sm={{ span: 3, offset: 1 }}\n          md={{ span: 6, offset: 2 }}\n          lg={{ span: 12, offset: 4 }}\n        />\n        <Column sm={{ span: 4 }} md={{ span: 8 }} lg={{ span: 16 }} />\n        <Column\n          sm={{ span: '25%', offset: 1 }}\n          md={{ span: '50%', offset: 2 }}\n          lg={{ span: '75%', offset: 4 }}\n        />\n      </Grid>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:471"
+  },
+  {
+   "name": "WithGridSettings",
+   "description": null,
+   "code": "export const WithGridSettings = (args) => {\n  return (\n    <div className=\"sb-css-grid-container\">\n      <GridSettings subgrid={args.subgrid}>\n        <Grid>\n          <Column sm={4} md={4} lg={4}>\n            <p>Column 1</p>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <p>Column 2</p>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <p>Column 3</p>\n          </Column>\n          <Column sm={4} md={4} lg={4}>\n            <p>Column 4</p>\n          </Column>\n        </Grid>\n      </GridSettings>\n    </div>\n  );\n};\n\nWithGridSettings.args = {\n  subgrid: false,\n};\n\nWithGridSettings.argTypes = {\n  subgrid: {\n    control: 'boolean',\n    description: 'If true, will specify whether subgrid should be enabled',\n  },\n  align: {\n    control: false,\n  },\n  condensed: {\n    control: false,\n  },\n  fullWidth: {\n    control: false,\n  },\n  narrow: {\n    control: false,\n  },\n  withRowGap: {\n    control: false,\n  },\n};\n\nWithGridSettings.parameters = {\n  controls: {\n    include: ['subgrid'],\n  },\n};\n",
+   "source": "packages/react/src/components/Grid/Grid.stories.js:501"
+  }
+ ],
+ "props": {
+  "name": "Grid.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "align",
+    "PropTypes.oneOf(['start', 'center', 'end'])",
+    "Specify grid alignment. Default is center",
+    "packages/react/src/components/Grid/Grid.tsx:27"
+   ],
+   [
+    "as",
+    "PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])",
+    "Provide a custom element to render instead of the default <div>",
+    "packages/react/src/components/Grid/Grid.tsx:32"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "Pass in content that will be rendered within the `Grid`",
+    "packages/react/src/components/Grid/Grid.tsx:37"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Specify a custom className to be applied to the `Grid`",
+    "packages/react/src/components/Grid/Grid.tsx:42"
+   ],
+   [
+    "condensed",
+    "PropTypes.bool",
+    "Collapse the gutter to 1px. Useful for fluid layouts. Rows have 1px of margin between them to match gutter.",
+    "packages/react/src/components/Grid/Grid.tsx:48"
+   ],
+   [
+    "fullWidth",
+    "PropTypes.bool",
+    "Remove the default max width that the grid has set",
+    "packages/react/src/components/Grid/Grid.tsx:53"
+   ],
+   [
+    "narrow",
+    "PropTypes.bool",
+    "Container hangs 16px into the gutter. Useful for typographic alignment with and without containers.",
+    "packages/react/src/components/Grid/Grid.tsx:59"
+   ],
+   [
+    "withRowGap",
+    "PropTypes.bool",
+    "Add a row gap to the grid that matches the current gutter size. This is useful when you want consistent vertical spacing between rows.",
+    "packages/react/src/components/Grid/Grid.tsx:65"
+   ]
+  ],
+  "source": "packages/react/src/components/Grid/Grid.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

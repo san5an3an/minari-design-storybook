@@ -1,0 +1,34 @@
+{
+ "slug": "FeatureFlags",
+ "title": "Feature Flags",
+ "docs": [
+  {
+   "markdown": "import { Meta, Markdown } from '@storybook/addon-docs/blocks';\nimport FeatureFlags from '../../../../../docs/feature-flags.md?raw';\n\n<Meta title=\"Getting Started/Feature Flags\" />\n\n# Feature Flags\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/FeatureFlags)\n\n## Table of Contents\n\n- [About feature flags](#about-feature-flags)\n- [Current feature flags](#current-feature-flags)\n- [Documentation](#documentation)\n- [Using Codemods for Migration](#using-codemods-for-migration)\n  - [Running a Codemod](#running-a-codemod)\n- [Feature flag naming convention](#feature-flag-naming-convention)\n  - [Flags prefixed with `enable-*`](#flags-prefixed-with-enable-)\n  - [Flags prefixed with `enable-v#-*`](#flags-prefixed-with-enable-v-)\n- [Turning on feature flags in Javascript/react](#turning-on-feature-flags-in-javascriptreact)\n- [Turning on feature flags in Sass](#turning-on-feature-flags-in-sass)\n- [FeatureFlags Prop Update](#featureflags-prop-update)\n\n<Markdown>{FeatureFlags}</Markdown>\n\n## Turning on feature flags in Javascript/react\n\nUse the FeatureFlag component to turn on a feature flag for a portion of your\napplication's react tree. Multiple feature flags can be configured at the same\ntime.\n\n```jsx\nimport { FeatureFlags } from '@carbon/react';\n\n<FeatureFlags enableV12TileDefaultIcons=\"true\" enableASecondFeatureFlag=\"true\">\n  <Tile />\n</FeatureFlags>;\n```\n\nThe `FeatureFlag` component can be placed at any point in your react tree and\nwill impact all children components. You can turn on feature flags for your\nentire app, or only certain pages/routes/sections of your application.\n\n```jsx\nimport { StrictMode } from 'react';\nimport { createRoot } from 'react-dom/client';\nimport { FeatureFlags } from '@carbon/react';\nimport App from './App';\n\nconst root = createRoot(document.getElementById('root'));\nroot.render(\n  <StrictMode>\n    <FeatureFlags enableV12TileDefaultIcons=\"true\">\n      <App />\n    </FeatureFlags>\n  </StrictMode>\n);\n```\n\n## Turning on feature flags in Sass\n\nIn Sass, you can enable feature flags in any of your stylesheets. Most often\nthis is done at the root/entrypoint stylesheet.\n\n```sass\n@use '@carbon/react' with (\n  $feature-flags: (\n    'enable-tile-contrast': true,\n  )\n);\n```\n\nFeature flags can also be enabled via the provided `enable()` mixin\n\n```sass\n@use '@carbon/react/scss/feature-flags';\n@use '@carbon/react';\n\n@include feature-flags.enable('enable-tile-contrast');\n```\n\n## FeatureFlags Prop Update\n\nThe `FeatureFlags` component has been updated to improve compatibility. The\n`flags` object prop is now deprecated and is replaced with individual boolean\nprops for each feature flag.\n\nThe `flags` prop will be removed in a future release. Instead, use individual\nboolean props for each feature flag. A `featureflag-deprecate-flags-prop`\ncodemod has been provided to help deprecate the `flags` object prop and switch\nto individual boolean props.\n\n```bash\nnpx @carbon/upgrade migrate featureflag-deprecate-flags-prop --write\n```\n\n```jsx\n//Before migration\n\n <FeatureFlags\n  flags={{\n    'enable-v12-tile-default-icons': true,\n  }}>\n    <App />\n  </FeatureFlags>\n\n\n//After migration\n\n  <FeatureFlags enableV12TileDefaultIcons>\n    <App />\n  </FeatureFlags>\n```\n",
+   "source": "packages/react/src/components/FeatureFlags/overview.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/FeatureFlags/overview.mdx:10"
+    },
+    {
+     "name": "Turning on feature flags in Javascript/react",
+     "source": "packages/react/src/components/FeatureFlags/overview.mdx:26"
+    },
+    {
+     "name": "Turning on feature flags in Sass",
+     "source": "packages/react/src/components/FeatureFlags/overview.mdx:60"
+    },
+    {
+     "name": "FeatureFlags Prop Update",
+     "source": "packages/react/src/components/FeatureFlags/overview.mdx:82"
+    }
+   ]
+  }
+ ],
+ "group": null,
+ "examples": [],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}
