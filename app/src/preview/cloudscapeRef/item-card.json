@@ -1,0 +1,132 @@
+{
+ "slug": "item-card",
+ "title": "Item Card",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "padding-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ItemCard from '~components/item-card';\nimport { ItemCardProps } from '~components/item-card/interfaces';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport { CardPage, longContent, longHeader, reactNodeContent, shortFooter } from './common';\n\n/* Disable-padding permutations for header, content, and footer */\nconst permutations = createPermutations<ItemCardProps>([\n  // All padding toggle combinations with all slots present\n  {\n    header: [longHeader],\n    children: [longContent],\n    footer: [shortFooter],\n    disableHeaderPaddings: [false, true],\n    disableContentPaddings: [false, true],\n    disableFooterPaddings: [false, true],\n  },\n  // Disabled paddings with custom React node content\n  {\n    children: [reactNodeContent],\n    disableContentPaddings: [false, true],\n  },\n  // Header padding only (no footer)\n  {\n    header: [longHeader],\n    children: [longContent],\n    disableHeaderPaddings: [false, true],\n  },\n  // Footer padding only (no header)\n  {\n    children: [longContent],\n    footer: [shortFooter],\n    disableFooterPaddings: [false, true],\n  },\n]);\n\nexport default function CardPaddingPermutations() {\n  return (\n    <CardPage title=\"Item card padding permutations\">\n      <PermutationsView permutations={permutations} render={permutation => <ItemCard {...permutation} />} />\n    </CardPage>\n  );\n}\n",
+   "source": "pages/item-card/padding-permutations.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ItemCard from '~components/item-card';\nimport { ItemCardProps } from '~components/item-card/interfaces';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport {\n  actions,\n  CardPage,\n  icon,\n  longContent,\n  longDescription,\n  longFooter,\n  longHeader,\n  shortDescription,\n  shortFooter,\n  shortHeader,\n  wideActions,\n  wrappingActions,\n} from './common';\n\n/* Content slot combinations: header, description, children, footer, actions, icon */\nconst permutations = createPermutations<ItemCardProps>([\n  // All content slots filled\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [longContent],\n    footer: [shortFooter],\n    actions: [actions],\n    icon: [icon],\n  },\n  // Header variations\n  {\n    header: [shortHeader, longHeader, undefined],\n    description: [shortDescription],\n    children: [longContent],\n  },\n  // Description variations\n  {\n    header: [shortHeader],\n    description: [shortDescription, longDescription, undefined],\n    children: [longContent],\n    footer: [shortFooter],\n  },\n  // Footer variations\n  {\n    header: [longHeader],\n    children: [longContent],\n    footer: [longFooter, shortFooter, undefined],\n  },\n  // Actions with and without header\n  {\n    header: [shortHeader, undefined],\n    children: [longContent],\n    actions: [actions, undefined],\n    description: [longDescription],\n  },\n  // With wide actions and long header\n  {\n    header: [longHeader],\n    description: [shortDescription, undefined],\n    children: [longContent],\n    actions: [wideActions],\n  },\n  // Minimal: content only\n  {\n    children: [longContent],\n  },\n  // Wrapping actions\n  {\n    header: [shortHeader],\n    children: [longContent],\n    actions: [wrappingActions],\n  },\n]);\n\nexport default function CardPermutations() {\n  return (\n    <CardPage title=\"Item card permutations\">\n      <PermutationsView permutations={permutations} render={permutation => <ItemCard {...permutation} />} />\n    </CardPage>\n  );\n}\n",
+   "source": "pages/item-card/permutations.page.tsx"
+  },
+  {
+   "name": "style-custom",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { SpaceBetween } from '~components';\nimport ItemCard from '~components/item-card';\n\nimport { SimplePage } from '../app/templates';\n\nexport default function CustomCard() {\n  const background = 'light-dark(#ffe1e1, rgb(40, 0, 0))';\n\n  return (\n    <SimplePage\n      title=\"Item card with custom style api\"\n      screenshotArea={{\n        style: {\n          padding: 10,\n        },\n      }}\n    >\n      <SpaceBetween size=\"m\" direction=\"horizontal\">\n        <ItemCard\n          disableHeaderPaddings={true}\n          style={{\n            root: {\n              background,\n              borderColor: 'green',\n              borderRadius: '8px',\n              borderWidth: '4px',\n              boxShadow: '0px 5px 5px red',\n            },\n            content: {\n              paddingBlock: '4px',\n              paddingInline: '4px',\n            },\n          }}\n        >\n          Card content\n        </ItemCard>\n\n        <ItemCard\n          header=\"Card header\"\n          style={{\n            root: {\n              background,\n              borderColor: 'magenta',\n              borderRadius: '0px',\n              borderWidth: '1px',\n              boxShadow: '0px 5px 5px green',\n            },\n            content: {\n              paddingBlock: '20px',\n              paddingInline: '40px',\n            },\n            header: {\n              paddingBlock: '20px',\n              paddingInline: '40px',\n            },\n          }}\n        >\n          Card content\n        </ItemCard>\n\n        <ItemCard\n          footer=\"Card footer\"\n          style={{\n            root: {\n              background,\n              borderColor: '#000',\n              borderRadius: '20px',\n              borderWidth: '3px',\n              boxShadow: '0px 5px 5px blue',\n            },\n            content: {\n              paddingBlock: '40px',\n              paddingInline: '40px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '40px',\n                paddingInline: '40px',\n              },\n              divider: {\n                borderColor: '#000',\n                borderWidth: '3px',\n              },\n            },\n          }}\n        >\n          Card content\n        </ItemCard>\n\n        <ItemCard\n          header=\"Card header\"\n          footer=\"Card footer\"\n          style={{\n            root: {\n              background,\n              borderColor: 'blue',\n              borderRadius: '40px',\n              borderWidth: '4px',\n              boxShadow: '5px 5px 5px pink',\n            },\n            header: {\n              paddingBlock: '60px',\n              paddingInline: '10px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '60px',\n                paddingInline: '10px',\n              },\n              divider: {\n                borderWidth: '0px',\n              },\n            },\n          }}\n        />\n\n        <ItemCard\n          header=\"Card header\"\n          footer=\"Card footer\"\n          style={{\n            root: {\n              background,\n              borderColor: 'purple',\n              borderRadius: '240px',\n              borderWidth: '6px',\n              boxShadow: '0px 5px 5px orange',\n            },\n            content: {\n              paddingBlock: '20px',\n              paddingInline: '140px',\n            },\n            header: {\n              paddingBlock: '20px 0px',\n              paddingInline: '140px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '40px',\n                paddingInline: '140px',\n              },\n              divider: {\n                borderColor: 'purple',\n                borderWidth: '6px',\n              },\n            },\n          }}\n        >\n          Card content\n        </ItemCard>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/item-card/style-custom.page.tsx"
+  },
+  {
+   "name": "variant-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ItemCard from '~components/item-card';\nimport { ItemCardProps } from '~components/item-card/interfaces';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport {\n  actions,\n  CardPage,\n  icon,\n  imageContentDefault,\n  imageContentEmbedded,\n  longContent,\n  longDescription,\n  shortDescription,\n  shortFooter,\n  shortHeader,\n} from './common';\n\n/* Visual variant permutations: default vs embedded */\nconst permutations = createPermutations<ItemCardProps>([\n  // Variants with all slots\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [longContent],\n    footer: [shortFooter],\n    actions: [actions],\n    icon: [icon],\n    variant: ['default', 'embedded'],\n  },\n  // Variants with minimal content\n  {\n    children: [longContent],\n    variant: ['default', 'embedded'],\n  },\n  // Variants with header only\n  {\n    header: [shortHeader],\n    children: [longContent],\n    variant: ['default', 'embedded'],\n  },\n  // Image in body (default variant)\n  {\n    header: [shortHeader],\n    description: [longDescription],\n    children: [imageContentDefault],\n    disableContentPaddings: [true],\n    variant: ['default'],\n  },\n  // Image in body (embedded variant)\n  {\n    header: [shortHeader],\n    description: [longDescription],\n    children: [imageContentEmbedded],\n    disableContentPaddings: [true],\n    variant: ['embedded'],\n  },\n]);\n\nexport default function CardVariantPermutations() {\n  return (\n    <CardPage title=\"Item card variant permutations\">\n      <PermutationsView permutations={permutations} render={permutation => <ItemCard {...permutation} />} />\n    </CardPage>\n  );\n}\n",
+   "source": "pages/item-card/variant-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ItemCardProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "header",
+    "React.ReactNode",
+    "아니오",
+    "Heading element of the item card. Use this to add a title or header text.",
+    "src/item-card/interfaces.ts:15"
+   ],
+   [
+    "description",
+    "React.ReactNode",
+    "아니오",
+    "A description or subtitle displayed below the header.",
+    "src/item-card/interfaces.ts:20"
+   ],
+   [
+    "footer",
+    "React.ReactNode",
+    "아니오",
+    "Footer content displayed at the bottom of the item card.",
+    "src/item-card/interfaces.ts:25"
+   ],
+   [
+    "actions",
+    "React.ReactNode",
+    "아니오",
+    "Actions to display in the item card header area, typically buttons or links.",
+    "src/item-card/interfaces.ts:30"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Main content of the item card.",
+    "src/item-card/interfaces.ts:35"
+   ],
+   [
+    "icon",
+    "React.ReactNode",
+    "아니오",
+    "Icon content displayed next to the header.",
+    "src/item-card/interfaces.ts:40"
+   ],
+   [
+    "disableHeaderPaddings",
+    "boolean",
+    "아니오",
+    "Removes the default padding from the header area. @default false",
+    "src/item-card/interfaces.ts:46"
+   ],
+   [
+    "disableContentPaddings",
+    "boolean",
+    "아니오",
+    "Removes the default padding from the content area. @default false",
+    "src/item-card/interfaces.ts:52"
+   ],
+   [
+    "disableFooterPaddings",
+    "boolean",
+    "아니오",
+    "Removes the default padding from the footer area. @default false",
+    "src/item-card/interfaces.ts:58"
+   ],
+   [
+    "variant",
+    "ItemCardProps.Variant",
+    "아니오",
+    "Specifies the visual variant of the item card, which controls the border radius and padding. - `default` - Uses container-level border radius and padding (larger). - `embedded` - Uses compact border radius and padding (smaller). @default 'default'",
+    "src/item-card/interfaces.ts:68"
+   ],
+   [
+    "style",
+    "ItemCardProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the item card's visual appearance. Refer to the [style](/components/item-card/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/item-card/interfaces.ts:75"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.HTMLAttributes<HTMLDivElement>>",
+    "아니오",
+    "Attributes to add to the native root element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/item-card/interfaces.ts:87"
+   ]
+  ],
+  "source": "src/item-card/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

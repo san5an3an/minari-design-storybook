@@ -1,0 +1,147 @@
+{
+ "slug": "slider",
+ "title": "Slider",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "basic",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport FormField from '~components/form-field';\nimport Grid from '~components/grid';\nimport Input from '~components/input';\nimport Select, { SelectProps } from '~components/select';\nimport Slider, { SliderProps } from '~components/slider';\nimport SpaceBetween from '~components/space-between';\n\nimport styles from './styles.scss';\n\nfunction Sliders() {\n  const [value, setValue] = useState<SliderProps['value']>(25);\n  const [value2, setValue2] = useState<SliderProps['value']>(200);\n  const [value3, setValue3] = useState<SliderProps['value']>(50);\n  const [value4, setValue4] = useState<SelectProps.Option>({ value: '2', label: `Not satisfied or unsatisfied` });\n  const [value5, setValue5] = useState<SliderProps['value']>(72.5);\n  const [value6, setValue6] = useState<SliderProps['value']>(60);\n  const [ticks, setTicks] = useState<boolean>(false);\n  const [error, setError] = useState<string>('Enter a valid unit.');\n  const [warning, setWarning] = useState<string>('Unit is below 80.');\n\n  const satisfactionScaleOptions = [\n    { value: '0', label: 'Extremely unsatisfied' },\n    { value: '1', label: 'Somewhat unsatisfied' },\n    { value: '2', label: `Not satisfied or unsatisfied` },\n    { value: '3', label: 'Somewhat satisfied' },\n    { value: '4', label: 'Extremely satisfied' },\n  ];\n\n  const i18nStrings = {\n    valueTextRange: (previousValue: string, value: number, nextValue: string) =>\n      `${value}, between ${previousValue} and ${nextValue}`,\n  };\n\n  const validateValue = (value: SliderProps['value']) => {\n    if (value && (value < 0 || value > 100 || value % 1 !== 0)) {\n      return 'Enter a valid unit.';\n    }\n\n    if (value && value < 80) {\n      return 'Unit is below 80.';\n    }\n\n    return '';\n  };\n\n  return (\n    <SpaceBetween size=\"xxl\">\n      <Slider\n        ariaLabel=\"slider-example\"\n        valueFormatter={value => `${value} is the value`}\n        value={value}\n        min={0}\n        max={100}\n        step={10}\n        tickMarks={true}\n        referenceValues={[25, 50, 75]}\n        onChange={({ detail }) => {\n          setValue(detail.value);\n        }}\n        i18nStrings={i18nStrings}\n      />\n      <FormField\n        label=\"Slider with input and error validation\"\n        errorText={error}\n        i18nStrings={{ errorIconAriaLabel: 'Error' }}\n      >\n        <div className={styles['flex-wrapper']}>\n          <div className={styles['slider-wrapper']}>\n            <Slider\n              ariaLabel=\"validation-slider-example\"\n              value={value2}\n              onChange={({ detail }) => {\n                setValue2(detail.value);\n                setError(validateValue(detail.value));\n              }}\n              min={0}\n              max={100}\n              i18nStrings={i18nStrings}\n            />\n          </div>\n          <SpaceBetween size=\"m\" alignItems=\"center\" direction=\"horizontal\">\n            <div className={styles['input-wrapper']}>\n              <Input\n                type=\"number\"\n                inputMode=\"numeric\"\n                value={`${value2}`}\n                onChange={({ detail }) => {\n                  setValue2(Number(detail.value));\n                  setError(validateValue(Number(detail.value)));\n                }}\n                controlId=\"validation-input-error\"\n              />\n            </div>\n            <Box>Units</Box>\n          </SpaceBetween>\n        </div>\n      </FormField>\n      <FormField\n        label=\"Slider with input and warning validation\"\n        warningText={warning}\n        i18nStrings={{ warningIconAriaLabel: 'Warning' }}\n      >\n        <div className={styles['flex-wrapper']}>\n          <div className={styles['slider-wrapper']}>\n            <Slider\n              ariaLabel=\"validation-slider-example\"\n              value={value6}\n              onChange={({ detail }) => {\n                setValue6(detail.value);\n                setWarning(validateValue(detail.value));\n              }}\n              min={0}\n              max={100}\n              i18nStrings={i18nStrings}\n            />\n          </div>\n          <SpaceBetween size=\"m\" alignItems=\"center\" direction=\"horizontal\">\n            <div className={styles['input-wrapper']}>\n              <Input\n                type=\"number\"\n                inputMode=\"numeric\"\n                value={`${value6}`}\n                onChange={({ detail }) => {\n                  setValue6(Number(detail.value));\n                  setWarning(validateValue(Number(detail.value)));\n                }}\n                controlId=\"validation-input-warning\"\n              />\n            </div>\n            <Box>Units</Box>\n          </SpaceBetween>\n        </div>\n      </FormField>\n      <FormField label=\"Slider with select\">\n        <Grid gridDefinition={[{ colspan: { default: 12, xs: 4, m: 3 } }]}>\n          <Select\n            selectedOption={value4}\n            onChange={({ detail }) => setValue4(detail.selectedOption)}\n            options={satisfactionScaleOptions}\n          />\n        </Grid>\n        <Slider\n          ariaLabel=\"select-slider-example\"\n          value={Number(value4.value)}\n          onChange={({ detail }) => {\n            setValue4({\n              value: `${detail.value}`,\n              label: satisfactionScaleOptions.find(item => item.value === `${detail.value}`)?.label || '',\n            });\n          }}\n          step={1}\n          min={0}\n          max={4}\n          valueFormatter={value => satisfactionScaleOptions.find(item => item.value === `${value}`)?.label || ''}\n          referenceValues={[1, 2, 3]}\n          tickMarks={true}\n          controlId=\"select-slider\"\n          ariaDescription=\"From very unsatisfied to very satisfied\"\n          i18nStrings={i18nStrings}\n        />\n      </FormField>\n      <FormField label=\"Stepped slider\">\n        <Slider\n          value={value3}\n          onChange={({ detail }) => {\n            setValue3(detail.value);\n          }}\n          valueFormatter={value => `${value} is the very long and precise value at this point.`}\n          min={100}\n          max={200}\n          step={5}\n          referenceValues={[110, 190, 120, 150, 130, 140, 180, 170, 160]}\n          tickMarks={true}\n          i18nStrings={i18nStrings}\n        />\n      </FormField>\n      <Button onClick={() => setTicks(!ticks)}>Toggle ticks</Button>\n      <FormField label=\"Temperature\">\n        <Grid gridDefinition={[{ colspan: { default: 12, xs: 4, m: 3 } }]}>\n          <Input\n            type=\"number\"\n            inputMode=\"numeric\"\n            value={`${value5}`}\n            onChange={({ detail }) => {\n              setValue5(Number(detail.value));\n            }}\n          />\n        </Grid>\n        <Slider\n          ariaLabel=\"temperature-slider\"\n          step={0.5}\n          tickMarks={ticks}\n          value={value5}\n          onChange={({ detail }) => setValue5(detail.value)}\n          min={65}\n          max={85}\n          controlId=\"temperature-slider\"\n          i18nStrings={i18nStrings}\n        />\n      </FormField>\n    </SpaceBetween>\n  );\n}\n\nexport default function InputsPage() {\n  return (\n    <div style={{ padding: 30 }}>\n      <h1>Sliders demo</h1>\n      <SpaceBetween size=\"xxl\">\n        <Sliders />\n      </SpaceBetween>\n    </div>\n  );\n}\n",
+   "source": "pages/slider/basic.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box } from '~components';\nimport Slider, { SliderProps } from '~components/slider';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<SliderProps & { label: string }>([\n  {\n    label: ['Value'],\n    value: [-10, 0, 10],\n    min: [-10],\n    max: [10],\n    step: [1],\n  },\n  {\n    label: ['Ticks, value'],\n    value: [-10, -9, 0, 9, 10],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, value, smaller step'],\n    value: [-10, -9, 0, 9, 10],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    step: [0.5],\n  },\n  {\n    label: ['Ticks, value, larger step'],\n    value: [-10, -9, 0, 9, 10],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    step: [2],\n  },\n  {\n    label: ['Ticks, invalid'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    invalid: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, warning'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    warning: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, invalid, warning'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    invalid: [true],\n    warning: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, disabled'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    disabled: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, read-only'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    readOnly: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, read-only, disabled'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    readOnly: [true],\n    disabled: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, invalid, warning, read-only'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    invalid: [true],\n    warning: [true],\n    readOnly: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, invalid, warning, disabled'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    invalid: [true],\n    warning: [true],\n    disabled: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, hide fill line'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    hideFillLine: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, hide fill line, invalid'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    hideFillLine: [true],\n    invalid: [true],\n    step: [1],\n  },\n  {\n    label: ['Ticks, hide fill line, disabled'],\n    value: [0],\n    min: [-10],\n    max: [10],\n    tickMarks: [true],\n    hideFillLine: [true],\n    disabled: [true],\n    step: [1],\n  },\n  {\n    label: ['Reference values'],\n    value: [0],\n    min: [-50],\n    max: [50],\n    referenceValues: [\n      [-40, -30, -20, -10, 0, 10, 20, 30, 40],\n      [-25, 25],\n    ],\n  },\n  {\n    label: ['Long reference values'],\n    value: [10],\n    min: [0],\n    max: [30],\n    valueFormatter: [value => `${value} is the very long value.`],\n    referenceValues: [\n      [15],\n      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],\n      [2, 3, 8, 9, 10, 17, 19, 25, 26, 29],\n      [4.38, 8.3143, 17.999],\n    ],\n  },\n]);\n\nexport default function SliderPermutations() {\n  const i18nStrings = {\n    valueTextRange: (previousValue: string, value: number, nextValue: string) =>\n      `${value}, between ${previousValue} and ${nextValue}`,\n  };\n\n  return (\n    <>\n      <h1>Slider permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={(permutation, index) => (\n            <Box>\n              <label htmlFor={`label-${index}`}>{permutation.label}</label>\n              <Slider ariaLabel=\"Slider\" controlId={`slider-${index}`} i18nStrings={i18nStrings} {...permutation} />\n            </Box>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/slider/permutations.page.tsx"
+  },
+  {
+   "name": "style-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box } from '~components';\nimport Slider, { SliderProps } from '~components/slider';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\n// Blue theme with rounded handle\nconst style1 = {\n  track: {\n    backgroundColor: 'light-dark(#dbeafe, #1e3a8a)',\n  },\n  range: {\n    backgroundColor: {\n      default: 'light-dark(#3b82f6, #60a5fa)',\n      active: 'light-dark(#2563eb, #3b82f6)',\n    },\n  },\n  handle: {\n    backgroundColor: {\n      default: 'light-dark(#3b82f6, #60a5fa)',\n      hover: 'light-dark(#2563eb, #3b82f6)',\n      active: 'light-dark(#1d4ed8, #2563eb)',\n    },\n    borderRadius: '50%',\n  },\n};\n\n// Orange theme with square handle\nconst style2 = {\n  track: {\n    backgroundColor: 'light-dark(#fed7aa, #7c2d12)',\n  },\n  range: {\n    backgroundColor: {\n      default: 'light-dark(#f97316, #fb923c)',\n      active: 'light-dark(#ea580c, #f97316)',\n    },\n  },\n  handle: {\n    backgroundColor: {\n      default: 'light-dark(#f97316, #fb923c)',\n      hover: 'light-dark(#ea580c, #f97316)',\n      active: 'light-dark(#c2410c, #ea580c)',\n    },\n    borderRadius: '4px',\n  },\n};\n\nconst permutations = createPermutations<SliderProps & { label: string }>([\n  {\n    min: [0],\n    max: [100],\n    hideFillLine: [false, true],\n    style: [style1, style2],\n    label: ['Style permutation'],\n    disabled: [false],\n  },\n  {\n    min: [0],\n    max: [100],\n    hideFillLine: [false],\n    style: [style1, style2],\n    label: ['Style permutation disabled'],\n    disabled: [true],\n  },\n  {\n    min: [0],\n    max: [100],\n    hideFillLine: [false],\n    style: [style1, style2],\n    label: ['Style permutation warning'],\n    warning: [true],\n  },\n  {\n    min: [0],\n    max: [100],\n    hideFillLine: [false],\n    style: [style1, style2],\n    label: ['Style permutation invalid'],\n    invalid: [true],\n  },\n]);\n\nexport default function SliderStylePermutations() {\n  return (\n    <>\n      <h1>Slider Style Permutations</h1>\n\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={(permutation, index) => (\n            <Box>\n              <label htmlFor={`label-${index}`}>\n                {permutation.label} {index}\n              </label>\n              <Slider {...permutation} value={50} step={10} tickMarks={true} ariaLabel=\"Styled slider\" />\n            </Box>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/slider/style-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "SliderProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "value",
+    "number",
+    "아니오",
+    "Indicates the current value.",
+    "src/slider/interfaces.ts:11"
+   ],
+   [
+    "min",
+    "number",
+    "예",
+    "Indicates the minimum value.",
+    "src/slider/interfaces.ts:16"
+   ],
+   [
+    "max",
+    "number",
+    "예",
+    "Indicates the maximum value.",
+    "src/slider/interfaces.ts:21"
+   ],
+   [
+    "valueFormatter",
+    "(value: number) => string",
+    "아니오",
+    "Formats the values. This will format both the labels and the tooltip.",
+    "src/slider/interfaces.ts:26"
+   ],
+   [
+    "onChange",
+    "NonCancelableEventHandler<SliderProps.ChangeDetail>",
+    "아니오",
+    "Called when the user selects a value. The event `detail` contains the current `value`.",
+    "src/slider/interfaces.ts:32"
+   ],
+   [
+    "step",
+    "number",
+    "아니오",
+    "How big the step size is.",
+    "src/slider/interfaces.ts:37"
+   ],
+   [
+    "hideFillLine",
+    "boolean",
+    "아니오",
+    "Hides the colored fill line, so only the handle is visible.",
+    "src/slider/interfaces.ts:42"
+   ],
+   [
+    "tickMarks",
+    "boolean",
+    "아니오",
+    "Show the tick marks along the slider line. Use with stepped sliders, except in extreme cases.",
+    "src/slider/interfaces.ts:47"
+   ],
+   [
+    "disabled",
+    "boolean",
+    "아니오",
+    "Whether or not the slider is disabled.",
+    "src/slider/interfaces.ts:52"
+   ],
+   [
+    "referenceValues",
+    "ReadonlyArray<number>",
+    "아니오",
+    "Labels shown between the minimum and maximum values.",
+    "src/slider/interfaces.ts:57"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds an `aria-label` to the native control. Use this if you don't have a visible label for this control.",
+    "src/slider/interfaces.ts:64"
+   ],
+   [
+    "ariaDescription",
+    "string",
+    "아니오",
+    "Adds an aria-description for slider labels. Use when sliders have formatted reference values.",
+    "src/slider/interfaces.ts:71"
+   ],
+   [
+    "i18nStrings",
+    "SliderProps.I18nStrings",
+    "아니오",
+    "An object containing all the necessary localized strings required by the component. @i18n",
+    "src/slider/interfaces.ts:77"
+   ],
+   [
+    "readOnly",
+    "boolean",
+    "아니오",
+    "Specifies if the control is read-only, which prevents the user from modifying the value, but does not prevent the value from being included in a form submission. A read-only control is still focusable.",
+    "src/slider/interfaces.ts:84"
+   ],
+   [
+    "style",
+    "SliderProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the slider's visual appearance. Refer to the [style](/components/slider/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/slider/interfaces.ts:91"
+   ]
+  ],
+  "source": "src/slider/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

@@ -1,0 +1,203 @@
+{
+ "slug": "s3-resource-selector",
+ "title": "S3 Resource Selector",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "main",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport FormField from '~components/form-field';\nimport Header from '~components/header';\nimport { NonCancelableCustomEvent } from '~components/interfaces';\nimport S3ResourceSelector, { S3ResourceSelectorProps } from '~components/s3-resource-selector';\n\nimport { i18nStrings } from './data/i18n-strings';\nimport { fetchBuckets, fetchObjects, fetchVersions } from './data/request';\nimport { SelfDismissibleAlert, uriToConsoleUrl } from './shared';\n\nexport default function S3PickerExample() {\n  const [validationError, setValidationError] = useState<string | undefined>();\n  const [fetchError, setFetchError] = useState<string | null>(null);\n  const [resource, setResource] = useState<S3ResourceSelectorProps.Resource>({ uri: '' });\n\n  function wrapWithErrorHandler<T extends (...args: any[]) => Promise<unknown>>(callback: T): T {\n    return ((...args) => {\n      setFetchError(null);\n      return callback(...args).catch(error => {\n        setFetchError(error.message);\n        throw error;\n      });\n    }) as T;\n  }\n\n  const s3ResourceSelectorProps: S3ResourceSelectorProps = {\n    resource,\n    viewHref: resource?.uri !== '' && !validationError ? uriToConsoleUrl(resource.uri) : '',\n    alert: fetchError && (\n      <SelfDismissibleAlert type=\"error\" header=\"Data fetching error\">\n        {fetchError}\n      </SelfDismissibleAlert>\n    ),\n    invalid: !!validationError,\n    selectableItemsTypes: ['objects', 'versions'],\n    bucketsVisibleColumns: ['CreationDate', 'Region', 'Name'],\n    objectsIsItemDisabled: object => !!object.IsFolder,\n    i18nStrings,\n    fetchBuckets: wrapWithErrorHandler(fetchBuckets),\n    fetchObjects: wrapWithErrorHandler(fetchObjects),\n    fetchVersions: wrapWithErrorHandler(fetchVersions),\n    onChange: ({ detail }: NonCancelableCustomEvent<S3ResourceSelectorProps.ChangeDetail>) => {\n      setResource(detail.resource);\n      setValidationError(detail.errorText);\n    },\n  };\n  return (\n    <Box padding=\"l\">\n      <Container header={<Header headingTagOverride=\"h1\">S3 Resource Selector Example</Header>}>\n        <button id=\"focus-start\">Set focus here</button>\n        <FormField\n          label=\"Read audio files from S3\"\n          description=\"Choose an audio file in Amazon S3. Amazon S3 is object storage built to store and retrieve data.\"\n          constraintText=\"Format: s3://bucket/prefix/object. For objects in a bucket with versioning enabled, you can choose the most recent or a previous version of the object.\"\n          errorText={validationError}\n          stretch={true}\n        >\n          <S3ResourceSelector {...s3ResourceSelectorProps} />\n        </FormField>\n      </Container>\n    </Box>\n  );\n}\n",
+   "source": "pages/s3-resource-selector/main.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Alert from '~components/alert';\nimport S3ResourceSelector, { S3ResourceSelectorProps } from '~components/s3-resource-selector';\n\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './data/i18n-strings';\nimport { fetchBuckets, fetchObjects, fetchVersions } from './data/request';\n\nconst defaults = {\n  resource: { uri: '' },\n  selectableItemsTypes: ['buckets', 'objects'],\n  fetchBuckets,\n  fetchObjects,\n  fetchVersions,\n  i18nStrings,\n} as const;\n\nconst permutations: ReadonlyArray<S3ResourceSelectorProps> = [\n  {\n    ...defaults,\n  },\n  {\n    ...defaults,\n    selectableItemsTypes: ['versions'],\n  },\n  {\n    ...defaults,\n    invalid: true,\n  },\n  {\n    ...defaults,\n    viewHref: '#',\n  },\n  {\n    ...defaults,\n    alert: (\n      <Alert type=\"error\" statusIconAriaLabel=\"Error\" header=\"Resource cannot be found\">\n        The specified path does not exist\n      </Alert>\n    ),\n  },\n];\n\nexport default function () {\n  return (\n    <>\n      <h1>S3 Resource Selector permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <S3ResourceSelector {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/s3-resource-selector/permutations.page.tsx"
+  },
+  {
+   "name": "with-alert",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Alert from '~components/alert';\nimport S3ResourceSelector from '~components/s3-resource-selector';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './data/i18n-strings';\nimport { fetchBuckets, fetchObjects, fetchVersions } from './data/request';\n\nexport default function () {\n  return (\n    <>\n      <h1>S3 Resource Selector with alert</h1>\n      <ScreenshotArea>\n        <S3ResourceSelector\n          alert={\n            <Alert type=\"error\" statusIconAriaLabel=\"Error\" header=\"Resource cannot be found\">\n              The specified path does not exist\n            </Alert>\n          }\n          resource={{ uri: '' }}\n          fetchBuckets={fetchBuckets}\n          fetchObjects={fetchObjects}\n          fetchVersions={fetchVersions}\n          i18nStrings={i18nStrings}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/s3-resource-selector/with-alert.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "S3ResourceSelectorProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "alert",
+    "React.ReactNode",
+    "아니오",
+    "Specifies additional information about component status.",
+    "src/s3-resource-selector/interfaces.ts:15"
+   ],
+   [
+    "ariaLabelledby",
+    "string",
+    "아니오",
+    "Adds `aria-labelledby` to the component. If you're using this component within a form field, don't set this property because the form field component automatically sets it. Use this property if the component isn't surrounded by a form field, or you want to override the value automatically set by the form field (for example, if you have two components within a single form field). To use it correctly, define an ID for the element you want to use as label and set the property to that ID.",
+    "src/s3-resource-selector/interfaces.ts:26"
+   ],
+   [
+    "ariaDescribedby",
+    "string",
+    "아니오",
+    "Adds `aria-describedby` to the component. If you're using this component within a form field, don't set this property because the form field component automatically sets it. Use this property if the component isn't surrounded by a form field, or you want to override the value automatically set by the form field (for example, if you have two components within a single form field). To use it correctly, define an ID for each element that you want to use as a description and set the property to a string of each ID separated by spaces (for example, `\"id1 id2 id3\"`).",
+    "src/s3-resource-selector/interfaces.ts:38"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` to the component.",
+    "src/s3-resource-selector/interfaces.ts:43"
+   ],
+   [
+    "inputAriaDescribedby",
+    "string",
+    "아니오",
+    "Adds `aria-labelledby` to the S3 URI input. If you're using this component within a form field, you do not need to set this property, as the form field component will set it automatically. Use this property if the component isn't surrounded by a form field, or you want to override the value automatically set by the form field (for example, if you have two components within a single form field). To use it correctly, define an ID for the element you want to use as label and set the property to that ID.",
+    "src/s3-resource-selector/interfaces.ts:54"
+   ],
+   [
+    "inputPlaceholder",
+    "string",
+    "아니오",
+    "Adds a placeholder to the S3 URI input.",
+    "src/s3-resource-selector/interfaces.ts:59"
+   ],
+   [
+    "selectableItemsTypes",
+    "ReadonlyArray<S3ResourceSelectorProps.SelectableItems>",
+    "아니오",
+    "An array of the item types that are selectable in the table view. The array may contain the following items: 'buckets', 'objects', or 'versions'. Example: ['buckets', 'objects']. By default, no items are selectable. This property determines whether the component operates in Read mode or Write mode: * Read mode - When 'objects' and 'versions' values are provided (folder selection should be disabled by customizing `objectsIsItemDisabled` function). * Write mode - When 'buckets' and 'objects' values are provided (file selection should be disabled by customizing `objectsIsItemDisabled` function).",
+    "src/s3-resource-selector/interfaces.ts:70"
+   ],
+   [
+    "viewHref",
+    "string",
+    "아니오",
+    "Href of the selected object that is applied to the View button.",
+    "src/s3-resource-selector/interfaces.ts:75"
+   ],
+   [
+    "invalid",
+    "boolean",
+    "아니오",
+    "Whether the S3 URI input field is in invalid state.",
+    "src/s3-resource-selector/interfaces.ts:80"
+   ],
+   [
+    "bucketsVisibleColumns",
+    "ReadonlyArray<string>",
+    "아니오",
+    "Optionally overrides the set of visible columns in the Buckets view. Available columns: 'Name', 'CreationDate', and 'Region'.",
+    "src/s3-resource-selector/interfaces.ts:86"
+   ],
+   [
+    "objectsVisibleColumns",
+    "ReadonlyArray<string>",
+    "아니오",
+    "Optionally overrides the set of visible columns in the Objects view. Available columns: 'Key', 'LastModified', and 'Size'.",
+    "src/s3-resource-selector/interfaces.ts:92"
+   ],
+   [
+    "versionsVisibleColumns",
+    "ReadonlyArray<string>",
+    "아니오",
+    "Optionally overrides the set of visible columns in the Versions view. Available columns: 'ID', 'CreationDate', and 'Size'.",
+    "src/s3-resource-selector/interfaces.ts:98"
+   ],
+   [
+    "bucketsIsItemDisabled",
+    "(item: S3ResourceSelectorProps.Bucket) => boolean",
+    "아니오",
+    "Optionally overrides whether a bucket should be disabled for selection in the Buckets view or not. It has higher priority than `selectableItemsTypes`. Example: if `selectableItemsTypes` has `['buckets']` value and `bucketsIsItemDisabled` returns false for a bucket, then the bucket is disabled for selection.",
+    "src/s3-resource-selector/interfaces.ts:105"
+   ],
+   [
+    "objectsIsItemDisabled",
+    "(item: S3ResourceSelectorProps.Object) => boolean",
+    "아니오",
+    "Optionally overrides whether an object should be disabled for selection in the Objects view or not. Similar to `bucketsIsItemDisabled` this property takes precedence over the `selectableItemsTypes` property.",
+    "src/s3-resource-selector/interfaces.ts:111"
+   ],
+   [
+    "versionsIsItemDisabled",
+    "(item: S3ResourceSelectorProps.Version) => boolean",
+    "아니오",
+    "Optionally overrides whether a version should be disabled for selection in the Versions view or not. Similar to `bucketsIsItemDisabled` this property takes precedence over the `selectableItemsTypes` property.",
+    "src/s3-resource-selector/interfaces.ts:117"
+   ],
+   [
+    "resource",
+    "S3ResourceSelectorProps.Resource",
+    "예",
+    "The current selected resource. Resource has the following properties: - `uri` (string) - URI of the resource. - `versionId` (string) - (Optional) Version ID of the selected resource.",
+    "src/s3-resource-selector/interfaces.ts:124"
+   ],
+   [
+    "i18nStrings",
+    "S3ResourceSelectorProps.I18nStrings",
+    "아니오",
+    "An object containing all the necessary localized strings required by the component. @i18n",
+    "src/s3-resource-selector/interfaces.ts:130"
+   ],
+   [
+    "fetchBuckets",
+    "() => Promise<ReadonlyArray<S3ResourceSelectorProps.Bucket>>",
+    "예",
+    "Specifies a function that returns all available buckets. The return type of the function should be a promise that resolves to a list of objects with the following properties: - `Name` (string) - Name of the bucket. - `CreationDate` (string) - (Optional) Creation date of the bucket. - `Region` (string) - (Optional) Region of the bucket.",
+    "src/s3-resource-selector/interfaces.ts:139"
+   ],
+   [
+    "fetchObjects",
+    "(bucketName: string, pathPrefix: string) => Promise<ReadonlyArray<S3ResourceSelectorProps.Object>>",
+    "예",
+    "Specifies a function that returns available objects and object prefixes for the given `bucketName` and `pathPrefix`. The return type of the function should be a promise that resolves to a list of objects with the following properties: - `Key` (string) - Name of the object or object prefix. - `LastModified` (string) - (Optional) Date when this object was last modified. - `Size` (number) - (Optional) Size of the object. - `IsFolder` (boolean) - (Optional) Determines whether the entry is an object prefix (folder).",
+    "src/s3-resource-selector/interfaces.ts:149"
+   ],
+   [
+    "fetchVersions",
+    "(bucketName: string, pathPrefix: string) => Promise<ReadonlyArray<S3ResourceSelectorProps.Version>>",
+    "예",
+    "Specifies a function that returns available versions for the given `bucketName` and `pathPrefix`. The return type of the function should be a promise that resolves to a list of versions with the following properties: - `VersionId` (string) - Version ID of an object. - `LastModified` (string) - (Optional) Date when this object was last modified. - `Size` (number) - (Optional) Size of the object version.",
+    "src/s3-resource-selector/interfaces.ts:158"
+   ],
+   [
+    "onInputBlur",
+    "NonCancelableEventHandler<null>",
+    "아니오",
+    "Called when input focus is removed from the S3 URI input.",
+    "src/s3-resource-selector/interfaces.ts:163"
+   ],
+   [
+    "onInputFocus",
+    "NonCancelableEventHandler<null>",
+    "아니오",
+    "Called when input focus is moved to the S3 URI input.",
+    "src/s3-resource-selector/interfaces.ts:168"
+   ],
+   [
+    "onChange",
+    "NonCancelableEventHandler<S3ResourceSelectorProps.ChangeDetail>",
+    "아니오",
+    "Fired when the resource selection is changed. The event detail object contains resource that represents the full path of the selected resource and `errorText` that may contain a validation error.",
+    "src/s3-resource-selector/interfaces.ts:174"
+   ]
+  ],
+  "source": "src/s3-resource-selector/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

@@ -1,0 +1,77 @@
+{
+ "slug": "space-between",
+ "title": "Space Between",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "alignment.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport Header from '~components/header';\nimport SpaceBetween, { SpaceBetweenProps } from '~components/space-between';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst size = 'm';\n\nconst ExampleChildren = (\n  <>\n    <div className={styles['border-box-inner']}>\n      <h2>Heading</h2>\n    </div>\n    <div className={styles['border-box-inner']}>\n      <p>Paragraph</p>\n    </div>\n    <div className={styles['border-box-inner']}>\n      <Button>Button</Button>\n    </div>\n  </>\n);\n\nconst NestedExample = createPermutations([\n  {\n    direction: ['vertical', 'horizontal'] as SpaceBetweenProps.Direction[],\n    alignItems: [undefined, 'center'] as SpaceBetweenProps.AlignItems[],\n  },\n]).map(({ direction, alignItems }) => (\n  <div className={styles['border-box-outer']} key={`direction-${direction}-alignment-${alignItems || 'default'}`}>\n    <h3>\n      Direction: {direction}, alignment: {alignItems || 'default'}\n    </h3>\n    <SpaceBetween size={size} direction={direction} alignItems={alignItems}>\n      {ExampleChildren}\n    </SpaceBetween>\n  </div>\n));\n\nconst permutations = createPermutations<Pick<SpaceBetweenProps, 'direction' | 'alignItems' | 'children'>>([\n  {\n    children: [ExampleChildren, NestedExample],\n    direction: ['vertical', 'horizontal'],\n    alignItems: [undefined, 'center', 'start', 'end'],\n  },\n]);\n\nexport default function SpaceBetweenPermutations() {\n  return (\n    <>\n      <h1>SpaceBetween - alignment</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Container\n              header={\n                <Header>\n                  Direction: {permutation.direction}, alignment: {permutation.alignItems || 'default'}\n                </Header>\n              }\n            >\n              <SpaceBetween {...permutation} size={size} />\n            </Container>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/space-between/alignment.permutations.page.tsx"
+  },
+  {
+   "name": "nested-components",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ColumnLayout from '~components/column-layout';\nimport Grid from '~components/grid';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst ExampleContent = () => <div className={styles.box}>This is some text.</div>;\nconst NullComponent = () => null;\n\nexport default function SpaceBetweenNestedComponents() {\n  return (\n    <>\n      <h1>SpaceBetween with nested layouting components</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <SpaceBetween size=\"s\">\n          <h1>Inside a grid</h1>\n          <Grid gridDefinition={[{ colspan: { default: 9, m: 3 } }, { colspan: { default: 3, m: 9 } }]}>\n            <SpaceBetween size=\"xs\" direction=\"horizontal\">\n              <ExampleContent />\n              <ExampleContent />\n              <NullComponent />\n              <>{null}</>\n              <ExampleContent />\n            </SpaceBetween>\n\n            <SpaceBetween size=\"l\" direction=\"horizontal\">\n              <ExampleContent />\n              <ExampleContent />\n              <ExampleContent />\n            </SpaceBetween>\n          </Grid>\n\n          <h1>Inside a column layout</h1>\n\n          <ColumnLayout columns={2} borders=\"all\">\n            <SpaceBetween size=\"xs\" direction=\"horizontal\">\n              <ExampleContent />\n              <ExampleContent />\n              <ExampleContent />\n            </SpaceBetween>\n            <SpaceBetween size=\"m\" direction=\"horizontal\">\n              <ExampleContent />\n              <ExampleContent />\n              <ExampleContent />\n            </SpaceBetween>\n            <SpaceBetween size=\"xl\" direction=\"horizontal\">\n              <ExampleContent />\n              <ExampleContent />\n              <ExampleContent />\n            </SpaceBetween>\n          </ColumnLayout>\n        </SpaceBetween>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/space-between/nested-components.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Container from '~components/container';\nimport SpaceBetween, { SpaceBetweenProps } from '~components/space-between';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst ExampleContent = ({ renderNull }: { renderNull?: boolean }) =>\n  renderNull ? null : <div className={styles.box}>This is some text.</div>;\n\n/* eslint-disable react/jsx-key */\nconst permutations = createPermutations<SpaceBetweenProps & { note?: string }>([\n  {\n    size: ['xxxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'],\n    direction: ['vertical', 'horizontal'],\n    children: [\n      [\n        <ExampleContent renderNull={true} />,\n        <ExampleContent />,\n        <ExampleContent renderNull={true} />,\n        <ExampleContent />,\n        <ExampleContent />,\n        <ExampleContent renderNull={true} />,\n      ],\n    ],\n  },\n  {\n    size: ['xs', 'xl'],\n    direction: ['horizontal', 'vertical'],\n    children: [\n      [\n        <ExampleContent renderNull={true} />,\n        <SpaceBetween size=\"s\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <ExampleContent renderNull={true} />,\n        <SpaceBetween size=\"l\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <SpaceBetween size=\"xxl\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <ExampleContent renderNull={true} />,\n      ],\n    ],\n    note: ['nested vertical'],\n  },\n  {\n    size: ['xs', 'xl'],\n    direction: ['horizontal', 'vertical'],\n    children: [\n      [\n        <ExampleContent renderNull={true} />,\n        <SpaceBetween size=\"s\" direction=\"horizontal\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <ExampleContent renderNull={true} />,\n        <SpaceBetween size=\"l\" direction=\"horizontal\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <SpaceBetween size=\"xxl\" direction=\"horizontal\">\n          <ExampleContent renderNull={true} />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent />\n          <ExampleContent renderNull={true} />\n        </SpaceBetween>,\n        <ExampleContent renderNull={true} />,\n      ],\n    ],\n    note: ['nested horizontal'],\n  },\n\n  {\n    size: ['xxl'],\n    direction: ['vertical', 'horizontal'],\n    children: [<ExampleContent />],\n    note: ['single child'],\n  },\n]);\n/* eslint-enable react/jsx-key */\n\nexport default function SpaceBetweenPermutations() {\n  return (\n    <>\n      <h1>SpaceBetween permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            /*\n             We're surrounding this in a Container so we can see any layouting side-effects the\n             SpaceBetween component might have.\n             */\n            <Container\n              header={\n                <>\n                  Size {permutation.size.toUpperCase()}, {permutation.direction}\n                  {permutation.note && ', ' + permutation.note}\n                </>\n              }\n            >\n              Some content before.\n              <SpaceBetween {...permutation} />\n              Some content after.\n            </Container>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/space-between/permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "SpaceBetweenProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "direction",
+    "SpaceBetweenProps.Direction",
+    "아니오",
+    "Defines the direction in which the content is laid out.",
+    "src/space-between/interfaces.ts:13"
+   ],
+   [
+    "size",
+    "SpaceBetweenProps.Size",
+    "예",
+    "Defines the spacing between the individual items of the content.",
+    "src/space-between/interfaces.ts:18"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Content of this component.",
+    "src/space-between/interfaces.ts:23"
+   ],
+   [
+    "alignItems",
+    "SpaceBetweenProps.AlignItems",
+    "아니오",
+    "Determines how the child elements will be aligned based on the [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) property of the CSS Flexbox.",
+    "src/space-between/interfaces.ts:28"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.HTMLAttributes<HTMLDivElement>>",
+    "아니오",
+    "Attributes to add to the native element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/space-between/interfaces.ts:40"
+   ]
+  ],
+  "source": "src/space-between/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

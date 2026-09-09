@@ -1,0 +1,143 @@
+{
+ "slug": "radio-group",
+ "title": "Radio Group",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "focus-test",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport RadioGroup from '~components/radio-group';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function RadioButtonScenario() {\n  return (\n    <article>\n      <h1>Radio buttons should be focused using the correct highlight</h1>\n      <p>\n        Click here to focus so we can tab to the content below{' '}\n        <button type=\"button\" id=\"focus-target\">\n          focus\n        </button>\n      </p>\n      <ScreenshotArea>\n        <RadioGroup\n          value=\"radio1\"\n          items={[{ value: 'radio1', label: 'Radio button label' }]}\n          onChange={() => {\n            /*empty handler to suppress react controlled property warning*/\n          }}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/radio-group/focus-test.page.tsx"
+  },
+  {
+   "name": "horizontal.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport RadioGroup, { RadioGroupProps } from '~components/radio-group';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport permutations from './common-permutations';\n\nconst extraPermutations = createPermutations<RadioGroupProps>([\n  {\n    value: ['first'],\n    items: [\n      [\n        { value: 'first', label: 'First Button' },\n        { value: 'second', label: 'Second Button' },\n        { value: 'third', label: 'Third Button' },\n        { value: 'fourth', label: 'Fourth Button' },\n        { value: 'fifth', label: 'Fifth Button' },\n        { value: 'sixth', label: 'Sixth Button' },\n        { value: 'seventh', label: 'Seventh Button' },\n        { value: 'eighth', label: 'Eighth Button' },\n        { value: 'ninth', label: 'Ninth Button' },\n        { value: 'tenth', label: 'Tenth Button' },\n        { value: 'eleventh', label: 'Eleventh Button' },\n        { value: 'twelfth', label: 'Twelfth Button' },\n      ],\n    ],\n  },\n]);\n\nexport default function HorizontalRadioGroupPermutations() {\n  return (\n    <>\n      <h1>RadioGroup horizontal permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={[...permutations, ...extraPermutations]}\n          render={permutation => (\n            <Box margin={{ vertical: 'xl' }}>\n              <RadioGroup\n                direction=\"horizontal\"\n                onChange={() => {\n                  /*empty handler to suppress react controlled property warning*/\n                }}\n                {...permutation}\n              />\n            </Box>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/radio-group/horizontal.permutations.page.tsx"
+  },
+  {
+   "name": "index",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport RadioGroup from '~components/radio-group';\n\nimport styles from './styles.scss';\n\nexport default function RadiosPage() {\n  const [value, setValue] = useState<string>('two');\n  return (\n    <div>\n      <h1>Radio groups demo</h1>\n      <h2>Simple group</h2>\n      <RadioGroup\n        id=\"simple\"\n        value={value}\n        onChange={event => setValue(event.detail.value)}\n        items={[\n          { label: 'One', value: 'one' },\n          { label: 'Two', value: 'two' },\n          { label: 'Three', value: 'three', disabled: true },\n        ]}\n      />\n      <div className={styles.scrollableContainer} id=\"scrollable-container\">\n        <h2>Group in container</h2>\n        <RadioGroup\n          id=\"in-container\"\n          value={value}\n          onChange={event => setValue(event.detail.value)}\n          items={[\n            { label: 'Foo', value: 'foo' },\n            { label: 'Bar', value: 'bar' },\n            { label: 'Baz', value: 'baz' },\n          ]}\n        />\n      </div>\n    </div>\n  );\n}\n",
+   "source": "pages/radio-group/index.page.tsx"
+  },
+  {
+   "name": "labels-highlight",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport RadioGroup, { RadioGroupProps } from '~components/radio-group';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst items: RadioGroupProps.RadioButtonDefinition[] = [\n  { value: 'radio1', label: 'Radio button label' },\n  { value: 'radio2', label: 'Radio button label 2', description: 'Some description' },\n  { value: 'radio3', label: 'Radio button label 3', description: 'Description that is longer that the label' },\n];\n\nexport default function RadioButtonScenario() {\n  return (\n    <article className={styles.highlightLabels}>\n      <h1>Labels width check</h1>\n      <p>Labels (green) should not take 100% of parent width, but only space needed for its content</p>\n      <ScreenshotArea>\n        <RadioGroup\n          value={null}\n          items={items}\n          onChange={() => {\n            /*empty handler to suppress react controlled property warning*/\n          }}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/radio-group/labels-highlight.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport RadioGroup from '~components/radio-group';\n\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport permutations from './common-permutations';\n\nexport default function RadioGroupPermutations() {\n  return (\n    <>\n      <h1>RadioGroup permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <RadioGroup\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/radio-group/permutations.page.tsx"
+  },
+  {
+   "name": "progressive-disclosure",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport FormField from '~components/form-field';\nimport RadioGroup from '~components/radio-group';\nimport Select, { SelectProps } from '~components/select';\n\nconst langOptions: Array<SelectProps.Option> = [\n  { value: 'en-US', label: 'English (United States)' },\n  { value: 'en-GB', label: 'English (United Kingdom)' },\n  { value: 'de-DE', label: 'Deutsch (Deutschland)' },\n  { value: 'de-CH', label: 'Deutsch (Schweiz)' },\n];\n\nexport default function RadiosPage() {\n  const [radioSelection, setRadioSelection] = useState<string>('');\n  const [lang, setLang] = useState<SelectProps.Option>(langOptions[0]);\n\n  return (\n    <Box padding=\"l\">\n      <h1>Radio group progressive disclosure demo</h1>\n      <FormField\n        label=\"Language settings\"\n        description=\"You can select a specific language or have this service automatically identify the language in your media.\"\n      >\n        <RadioGroup\n          value={radioSelection}\n          onChange={event => setRadioSelection(event.detail.value)}\n          ariaControls=\"language-settings\"\n          items={[\n            {\n              label: 'Specific language',\n              value: 'specific',\n              description:\n                'If you know the language spoken in the source media, choose this option for optimal results.',\n            },\n            {\n              label: 'Automatic language detection',\n              value: 'automatic',\n              description: 'If you do not know the language spoken in the source media, choose this option.',\n            },\n          ]}\n        />\n      </FormField>\n      <Box id=\"language-settings\" display={radioSelection !== 'specific' ? 'none' : 'block'}>\n        <FormField label=\"Language\" description=\"Select the language you want to use.\">\n          <Select\n            selectedOption={lang}\n            onChange={event => setLang(event.detail.selectedOption)}\n            options={langOptions}\n          />\n        </FormField>\n      </Box>\n    </Box>\n  );\n}\n",
+   "source": "pages/radio-group/progressive-disclosure.page.tsx"
+  },
+  {
+   "name": "style-custom",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { RadioGroup, SpaceBetween } from '~components';\n\nimport customStyle from '../radio-button/custom-style';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function CustomRadio() {\n  const items = [\n    {\n      value: 'first',\n      label: 'First choice',\n      description: 'This is the first option.',\n    },\n    {\n      disabled: true,\n      value: 'second',\n      label: 'Second choice',\n      description: 'This is the second option.',\n    },\n    {\n      value: 'third',\n      label: 'Third choice',\n      description: 'This is the third option.',\n    },\n  ];\n\n  return (\n    <ScreenshotArea>\n      <h1>Custom Radio</h1>\n\n      <SpaceBetween size=\"m\" direction=\"vertical\">\n        <SpaceBetween size=\"m\" direction=\"horizontal\">\n          <RadioGroup value=\"first\" items={items} style={customStyle} data-testid=\"1\" />\n          <RadioGroup value=\"second\" items={items} style={customStyle} />\n          <RadioGroup value=\"third\" items={items} style={customStyle} readOnly={true} />\n        </SpaceBetween>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/radio-group/style-custom.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "RadioGroupProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "name",
+    "string",
+    "아니오",
+    "Specify a custom name for the radio buttons. If not provided, the radio group generates a random name.",
+    "src/radio-group/interfaces.ts:13"
+   ],
+   [
+    "value",
+    "string | null",
+    "예",
+    "Sets the value of the selected radio button. If you want to clear the selection, use `null`.",
+    "src/radio-group/interfaces.ts:19"
+   ],
+   [
+    "items",
+    "ReadonlyArray<RadioGroupProps.RadioButtonDefinition>",
+    "아니오",
+    "Specifies an array of radio buttons to display. Each of these objects have the following properties: - `value` (string) - Sets the value of the radio button. Assigned to the radio group when a user selects the radio button. - `label` (ReactNode) - Specifies a label for the radio button. - `description` (ReactNode) - (Optional) Specifies descriptive text that appears below the label. - `disabled` (boolean) - (Optional) Determines whether the radio button is disabled, which prevents the user from selecting it. - `controlId` (string) - (Optional) Sets the ID of the internal input. You can use it to relate a label element's `for` attribute to this control. In general it's not recommended to set this because the ID is automatically set by the radio group component.",
+    "src/radio-group/interfaces.ts:31"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` to the group. If you are using this form element within a form field, don't set this property because the form field component automatically sets the correct labels to make the component accessible.",
+    "src/radio-group/interfaces.ts:37"
+   ],
+   [
+    "ariaRequired",
+    "boolean",
+    "아니오",
+    "Adds `aria-required` to the group.",
+    "src/radio-group/interfaces.ts:42"
+   ],
+   [
+    "ariaControls",
+    "string",
+    "아니오",
+    "Adds `aria-controls` attribute to the radio group. If the radio group controls any secondary content (for example, another form field), use this to provide an ID referring to the secondary content.",
+    "src/radio-group/interfaces.ts:48"
+   ],
+   [
+    "onChange",
+    "NonCancelableEventHandler<RadioGroupProps.ChangeDetail>",
+    "아니오",
+    "Called when the user selects a different radio button. The event `detail` contains the current `value`.",
+    "src/radio-group/interfaces.ts:53"
+   ],
+   [
+    "controlId",
+    "string",
+    "아니오",
+    "@deprecated Has no effect.",
+    "src/radio-group/interfaces.ts:58"
+   ],
+   [
+    "readOnly",
+    "boolean",
+    "아니오",
+    "Specifies if the whole group is read-only, which prevents the user from modifying the value, but does not prevent the value from being included in a form submission. A read-only control is still focusable.",
+    "src/radio-group/interfaces.ts:65"
+   ],
+   [
+    "style",
+    "RadioGroupProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the radio group's visual appearance. Refer to the [style](/components/radio-group/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/radio-group/interfaces.ts:72"
+   ],
+   [
+    "direction",
+    "'horizontal' | 'vertical'",
+    "아니오",
+    "Defines the direction in which the radio buttons are laid out.",
+    "src/radio-group/interfaces.ts:77"
+   ]
+  ],
+  "source": "src/radio-group/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

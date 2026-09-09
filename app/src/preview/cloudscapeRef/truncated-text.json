@@ -1,0 +1,50 @@
+{
+ "slug": "truncated-text",
+ "title": "Truncated Text",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { CopyToClipboard, Link, TruncatedText, TruncatedTextProps } from '~components';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst containerStyle: React.CSSProperties = {\n  maxWidth: '320px',\n  padding: '8px 12px',\n  border: '1px solid #d5dbdb',\n  borderRadius: '4px',\n};\n\nconst longArn = 'arn:aws:iam::123456789012:role/my-very-long-role-name-that-should-truncate';\nconst longSentence = 'The instance has been running for an extended period of time and may be slow.';\n\nconst permutations = createPermutations<\n  TruncatedTextProps & { Wrapper: (props: { children: React.ReactNode }) => JSX.Element | null }\n>([\n  {\n    Wrapper: [React.Fragment],\n    children: [\n      'Short text',\n      longArn,\n      longSentence,\n      <Link key=\"link\" href=\"#\">\n        {longArn}\n      </Link>,\n      <CopyToClipboard\n        key=\"copy-inline\"\n        variant=\"inline\"\n        textToCopy={longArn}\n        copyButtonAriaLabel=\"Copy ARN\"\n        copySuccessText=\"ARN copied\"\n        copyErrorText=\"Failed to copy ARN\"\n      />,\n    ],\n  },\n  {\n    Wrapper: [\n      ({ children }) => (\n        <CopyToClipboard\n          key=\"copy-inline\"\n          variant=\"inline\"\n          textToCopy={longArn}\n          textToDisplay={children}\n          wrapText={false}\n          copyButtonAriaLabel=\"Copy ARN\"\n          copySuccessText=\"ARN copied\"\n          copyErrorText=\"Failed to copy ARN\"\n        />\n      ),\n    ],\n    children: [\n      'Short text',\n      longArn,\n      longSentence,\n      <Link key=\"link\" href=\"#\">\n        {longArn}\n      </Link>,\n    ],\n  },\n]);\n\nexport default function TruncatedTextPermutations() {\n  return (\n    <>\n      <h1>TruncatedText permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={({ Wrapper, ...permutation }) => (\n            <div style={containerStyle}>\n              <Wrapper>\n                <TruncatedText {...permutation} />\n              </Wrapper>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/truncated-text/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport CopyToClipboard from '~components/copy-to-clipboard';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\nimport StatusIndicator from '~components/status-indicator';\nimport TruncatedText from '~components/truncated-text';\n\nconst containerStyle: React.CSSProperties = {\n  maxWidth: '320px',\n  padding: '8px 12px',\n  border: '1px solid #d5dbdb',\n  borderRadius: '4px',\n};\n\nexport default function TruncatedTextSimple() {\n  return (\n    <>\n      <h1>TruncatedText examples</h1>\n      <SpaceBetween size=\"m\">\n        <Box>\n          <Box variant=\"awsui-key-label\">Truncated plain text</Box>\n          <div style={containerStyle}>\n            <TruncatedText>arn:aws:lambda:us-east-1:123456789012:function:my-function</TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">Non-truncated plain text</Box>\n          <div style={containerStyle}>\n            <TruncatedText>arn:aws:lambda</TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">Truncated with interactive child (uses tooltipText)</Box>\n          <div style={containerStyle}>\n            <TruncatedText tooltipText=\"ResourceName-421492941223_may-be-truncated\">\n              <Link href=\"#\">ResourceName-421492941223_may-be-truncated</Link>\n            </TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">Truncated text in a flex container</Box>\n          <div style={{ ...containerStyle, display: 'flex', alignItems: 'center', gap: '8px' }}>\n            <span>Label:</span>\n            <div style={{ flex: 1, minWidth: 0 }}>\n              <TruncatedText>arn:aws:s3:::my-very-long-bucket-name-with-extra-words</TruncatedText>\n            </div>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">With StatusIndicator (wrapText=true, default)</Box>\n          <div style={containerStyle}>\n            <TruncatedText>\n              <StatusIndicator type=\"success\">\n                The instance has been running for an extended period of time\n              </StatusIndicator>\n            </TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">With StatusIndicator (wrapText=false)</Box>\n          <div style={containerStyle}>\n            <TruncatedText>\n              <StatusIndicator type=\"success\" wrapText={false}>\n                The instance has been running for an extended period of time\n              </StatusIndicator>\n            </TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">With CopyToClipboard (variant=inline)</Box>\n          <div style={containerStyle}>\n            <TruncatedText tooltipText=\"arn:aws:iam::123456789012:role/my-very-long-role-name\">\n              <CopyToClipboard\n                variant=\"inline\"\n                textToCopy=\"arn:aws:iam::123456789012:role/my-very-long-role-name\"\n                copyButtonAriaLabel=\"Copy ARN\"\n                copySuccessText=\"ARN copied\"\n                copyErrorText=\"Failed to copy ARN\"\n              />\n            </TruncatedText>\n          </div>\n        </Box>\n\n        <Box>\n          <Box variant=\"awsui-key-label\">With CopyToClipboard, internal truncation</Box>\n          <div style={containerStyle}>\n            <CopyToClipboard\n              variant=\"inline\"\n              textToCopy=\"arn:aws:iam::123456789012:role/my-very-long-role-name\"\n              textToDisplay={<TruncatedText>arn:aws:iam::123456789012:role/my-very-long-role-name</TruncatedText>}\n              copyButtonAriaLabel=\"Copy ARN\"\n              copySuccessText=\"ARN copied\"\n              copyErrorText=\"Failed to copy ARN\"\n            />\n          </div>\n        </Box>\n      </SpaceBetween>\n    </>\n  );\n}\n",
+   "source": "pages/truncated-text/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "TruncatedTextProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "The inline text to display. If there isn't enough space to render the text in a single line, it is truncated with an ellipsis and the full content is shown on pointer hover or keyboard focus.",
+    "src/truncated-text/interfaces.ts:13"
+   ],
+   [
+    "tooltipText",
+    "string",
+    "아니오",
+    "The content of the tooltip shown when the text is truncated. By default, the tooltip content is the same as the `children` slot. Use only if the `children` slot may contain interactive elements.",
+    "src/truncated-text/interfaces.ts:20"
+   ]
+  ],
+  "source": "src/truncated-text/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

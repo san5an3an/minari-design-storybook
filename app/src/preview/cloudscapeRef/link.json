@@ -1,0 +1,164 @@
+{
+ "slug": "link",
+ "title": "Link",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "icon-overflow-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Link, { LinkProps } from '~components/link';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst permutations = createPermutations<LinkProps>([\n  {\n    href: ['#', undefined],\n    children: ['Short', 'Hello world', 'Reallylongstringthatcannotwraptothenextline'],\n  },\n]);\n\nexport default function LinkPermutations() {\n  return (\n    <>\n      <h1>Link icon overflow permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div className={styles.narrow}>\n              <Link {...permutation} external={true} externalIconAriaLabel={`Opens in a new tab`}>\n                {permutation.children}\n              </Link>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/link/icon-overflow-permutations.page.tsx"
+  },
+  {
+   "name": "inherit-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\nimport clsx from 'clsx';\n\nimport Box, { BoxProps } from '~components/box';\nimport Link, { LinkProps } from '~components/link';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst permutations = createPermutations<LinkProps>([\n  {\n    variant: ['primary', 'secondary'],\n    fontSize: ['body-s', 'body-m', 'heading-xs', 'heading-s', 'heading-m', 'heading-l', 'heading-xl', 'display-l'],\n    color: ['normal', 'inverted'],\n    external: [false, true],\n  },\n]);\n\nexport default function LinkPermutations() {\n  return (\n    <>\n      <h1>Link inheriting font size permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Box fontSize={permutation.fontSize as BoxProps.FontSize}>\n              <div className={clsx(permutation.color === 'inverted' && styles['container-inverted'])}>\n                <Link {...permutation} fontSize=\"inherit\" href=\"#\" externalIconAriaLabel={`Opens in a new tab`}>\n                  This is a link\n                </Link>\n              </div>\n            </Box>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/link/inherit-permutations.page.tsx"
+  },
+  {
+   "name": "inherit-styles",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  return (\n    <>\n      <h1>Inherit parent styles</h1>\n      <ScreenshotArea>\n        <SpaceBetween size=\"l\">\n          <Box variant=\"strong\">\n            Bold text with <Link href=\"#\">a link</Link>\n          </Box>\n          <Box variant=\"small\">\n            Small text with <Link href=\"#\">a link</Link>\n          </Box>\n          <Box color=\"text-status-success\">\n            The colored text with <Link href=\"#\">a normal link</Link>\n          </Box>\n          <Box>\n            Dashboard link{' '}\n            <Link href=\"#\" variant=\"awsui-value-large\">\n              14\n            </Link>\n          </Box>\n        </SpaceBetween>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/link/inherit-styles.page.tsx"
+  },
+  {
+   "name": "integration",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useState } from 'react';\n\nimport Link from '~components/link';\n\nexport default function LinkIntegrationTestPage() {\n  const [clickCount, setClickCount] = useState<number>(0);\n  const onFollow = useCallback((e: CustomEvent) => {\n    setClickCount(clickCount => clickCount + 1);\n    e.preventDefault();\n  }, []);\n\n  return (\n    <>\n      <h1>Link integration test</h1>\n      <section>\n        <h2>Link (role=link)</h2>\n        <button type=\"submit\" id=\"role-link-focus-target\">\n          Focus here\n        </button>{' '}\n        <Link id=\"role-link\" href=\"#\" onFollow={onFollow}>\n          I am a link!\n        </Link>\n      </section>\n      <section>\n        <h2>Link (role=button)</h2>\n        <button type=\"submit\" id=\"role-button-focus-target\">\n          Focus here\n        </button>{' '}\n        <Link id=\"role-button\" onFollow={onFollow}>\n          I am secretly a button!\n        </Link>\n      </section>\n      <section>\n        <h2>Click events</h2>\n        <div id=\"click-message\">{clickCount} times clicked</div>\n      </section>\n    </>\n  );\n}\n",
+   "source": "pages/link/integration.page.tsx"
+  },
+  {
+   "name": "long-label-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\nimport clsx from 'clsx';\n\nimport Link, { LinkProps } from '~components/link';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst permutations = createPermutations<LinkProps>([\n  {\n    variant: ['primary', 'secondary'],\n    fontSize: ['body-s', 'body-m', 'heading-xs', 'heading-s', 'heading-m', 'heading-l', 'heading-xl', 'display-l'],\n    color: ['normal', 'inverted'],\n    external: [false, true],\n    href: ['#', undefined],\n    children: [\n      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',\n    ],\n  },\n]);\n\nexport default function LinkPermutations() {\n  return (\n    <>\n      <h1>Long-label link permutations</h1>\n      <ScreenshotArea style={{ maxWidth: 600 }}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div className={clsx(permutation.color === 'inverted' && styles['container-inverted'])}>\n              <Link {...permutation} externalIconAriaLabel={`Opens in a new tab`}>\n                {permutation.children}\n              </Link>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/link/long-label-permutations.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\nimport clsx from 'clsx';\n\nimport Link, { LinkProps } from '~components/link';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst permutations = createPermutations<LinkProps>([\n  {\n    variant: ['info'],\n    external: [false, true],\n    href: ['#', undefined],\n    children: ['Info'],\n  },\n  {\n    variant: ['primary', 'secondary'],\n    fontSize: ['body-s', 'body-m', 'heading-xs', 'heading-s', 'heading-m', 'heading-l', 'heading-xl', 'display-l'],\n    color: ['normal', 'inverted'],\n    external: [false, true],\n    href: ['#', undefined],\n    children: ['This is a link.'],\n  },\n]);\n\nexport default function LinkPermutations() {\n  return (\n    <>\n      <h1>Link permutations</h1>\n      <ScreenshotArea style={{ maxWidth: 600 }}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div className={clsx(permutation.color === 'inverted' && styles['container-inverted'])}>\n              <Link {...permutation} externalIconAriaLabel={`Opens in a new tab`}>\n                {permutation.children}\n              </Link>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/link/permutations.page.tsx"
+  },
+  {
+   "name": "style-custom-types",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Link as CloudscapeLink, SpaceBetween } from '~components';\n\nimport { palette } from '../app/themes/style-api';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function CustomLinkTypes() {\n  return (\n    <ScreenshotArea>\n      <h1>Custom Link Types</h1>\n      <SpaceBetween direction=\"vertical\" size=\"xl\">\n        <CustomLink colorTheme=\"secondary\">Secondary</CustomLink>\n        <CustomLink colorTheme=\"primary\">Primary</CustomLink>\n        <CustomLink colorTheme=\"external\">External</CustomLink>\n        <CustomLink colorTheme=\"button\">Button</CustomLink>\n        <CustomLink colorTheme=\"info\">Info</CustomLink>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n\ninterface CustomLinkProps {\n  children?: React.ReactNode;\n  colorTheme: 'secondary' | 'primary' | 'external' | 'button' | 'info';\n}\n\nfunction CustomLink({ children, colorTheme }: CustomLinkProps) {\n  const linkProps = getLinkProps(colorTheme);\n\n  return (\n    <CloudscapeLink\n      {...linkProps}\n      style={{\n        root: {\n          color: getColor(colorTheme),\n          focusRing: getFocusRing(),\n        },\n      }}\n    >\n      {children}\n    </CloudscapeLink>\n  );\n}\n\nfunction getColor(colorTheme: string) {\n  const colors = {\n    secondary: {\n      active: `light-dark(${palette.blue100}, ${palette.blue20})`,\n      default: `light-dark(${palette.blue80}, ${palette.blue40})`,\n      hover: `light-dark(${palette.green90}, ${palette.blue60})`,\n    },\n    primary: {\n      active: `light-dark(${palette.blue100}, ${palette.blue20})`,\n      default: `light-dark(${palette.blue80}, ${palette.blue40})`,\n      hover: `light-dark(${palette.blue90}, ${palette.blue40})`,\n    },\n    external: {\n      active: `light-dark(${palette.red80}, ${palette.red20})`,\n      default: `light-dark(${palette.red60}, ${palette.red30})`,\n      hover: `light-dark(${palette.red60}, ${palette.red30})`,\n    },\n    button: {\n      active: `light-dark(${palette.green100}, ${palette.green10})`,\n      default: `light-dark(${palette.green80}, ${palette.green20})`,\n      hover: `light-dark(${palette.green90}, ${palette.green60})`,\n    },\n    info: {\n      active: `light-dark(${palette.teal100}, ${palette.teal10})`,\n      default: `light-dark(${palette.teal90}, ${palette.teal20})`,\n      hover: `light-dark(${palette.teal90}, ${palette.teal20})`,\n    },\n  };\n  return colors[colorTheme as keyof typeof colors];\n}\n\nfunction getFocusRing() {\n  return {\n    borderColor: `light-dark(${palette.blue80}, ${palette.red60})`,\n    borderRadius: '4px',\n    borderWidth: '2px',\n  };\n}\n\nfunction getLinkProps(colorTheme: string) {\n  const baseProps = {\n    href: '#',\n    ariaLabel: `${colorTheme} link example`,\n  };\n\n  switch (colorTheme) {\n    case 'primary':\n      return { ...baseProps, variant: 'primary' as const };\n    case 'secondary':\n      return { ...baseProps, variant: 'secondary' as const };\n    case 'external':\n      return { ...baseProps, variant: 'secondary' as const, external: true, target: '_blank' };\n    case 'button':\n      return {\n        ...baseProps,\n        variant: 'primary' as const,\n        onFollow: () => alert('You clicked the button link!'),\n      };\n    case 'info':\n      return { ...baseProps, variant: 'info' as const };\n    default:\n      return baseProps;\n  }\n}\n",
+   "source": "pages/link/style-custom-types.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "LinkProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "variant",
+    "LinkProps.Variant",
+    "아니오",
+    "Determines the visual style of the link as follows: - `primary` - Displays the link text with an underline for sufficient contrast with surrounding text. Use this for links adjacent to other text, such as inside a paragraph, a \"Learn more\" link, an item ID in a table, a link in a key-value pair, or a link in an alert. - `secondary` - Uses regular font weight without additional interactivity indicators (except for an underline on hover). Use this where context implies interactivity and users can identify links easily, such as in a list of links inside a container. - `info` - Use for \"info\" links that link to content in a help panel. The default is `secondary`, except inside the following components where it defaults to `primary`: - Table - Cards - Alert - Popover - Help Panel (main `content` only)",
+    "src/link/interfaces.ts:36"
+   ],
+   [
+    "fontSize",
+    "LinkProps.FontSize",
+    "아니오",
+    "Determines the font size and line height. This property is overridden if the variant is `info`.",
+    "src/link/interfaces.ts:42"
+   ],
+   [
+    "color",
+    "LinkProps.Color",
+    "아니오",
+    "Determines the text color of the link and its icon. - `normal`: Use in most cases where a link is required. - `inverted`: Use to style links inside Flashbars. This property is overridden if the variant is `info`.",
+    "src/link/interfaces.ts:52"
+   ],
+   [
+    "external",
+    "boolean",
+    "아니오",
+    "Marks the link as external by adding an icon after the text. If `href` is provided, opens the link in a new tab when clicked.",
+    "src/link/interfaces.ts:58"
+   ],
+   [
+    "target",
+    "string",
+    "아니오",
+    "Specifies where to open the linked URL. Set this to `_blank` to open the URL in a new tab. If you set this property to `_blank`, the component automatically adds `rel=\"noopener noreferrer\"` to avoid performance and security issues. For other options see the documentation for <a> tag's [target attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target).",
+    "src/link/interfaces.ts:69"
+   ],
+   [
+    "href",
+    "string",
+    "아니오",
+    "The URL that the link points to. If an `href` is not provided, the component will render using a \"button\" role and `target` will not be used.",
+    "src/link/interfaces.ts:76"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "The text to render inside the link.",
+    "src/link/interfaces.ts:81"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds an aria-label to the HTML element.",
+    "src/link/interfaces.ts:86"
+   ],
+   [
+    "externalIconAriaLabel",
+    "string",
+    "아니오",
+    "Adds an aria-label to the external icon. @i18n",
+    "src/link/interfaces.ts:92"
+   ],
+   [
+    "onFollow",
+    "CancelableEventHandler<LinkProps.FollowDetail>",
+    "아니오",
+    "Called when a link is clicked without any modifier keys. If the link has no `href` provided, it will be called on all clicks. If you want to implement client-side routing yourself, use this event and prevent default browser navigation (by calling `preventDefault`).",
+    "src/link/interfaces.ts:101"
+   ],
+   [
+    "onClick",
+    "NonCancelableEventHandler<LinkProps.ClickDetail>",
+    "아니오",
+    "Called when the user clicks on the link. Do not use this handler for navigation, use the `onFollow` event instead.",
+    "src/link/interfaces.ts:106"
+   ],
+   [
+    "rel",
+    "string",
+    "아니오",
+    "Adds a `rel` attribute to the link. If the `rel` property is provided, it overrides the default behaviour. By default, the component sets the `rel` attribute to \"noopener noreferrer\" when `external` is `true` or `target` is `\"_blank\"`.",
+    "src/link/interfaces.ts:112"
+   ],
+   [
+    "style",
+    "LinkProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the link's visual appearance. Refer to the [style](/components/link/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/link/interfaces.ts:119"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.AnchorHTMLAttributes<HTMLAnchorElement>>",
+    "아니오",
+    "Attributes to add to the native element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/link/interfaces.ts:131"
+   ]
+  ],
+  "source": "src/link/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

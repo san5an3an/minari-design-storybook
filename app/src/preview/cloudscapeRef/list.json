@@ -1,0 +1,162 @@
+{
+ "slug": "list",
+ "title": "List",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, ButtonDropdown, Icon, SpaceBetween } from '~components';\nimport List, { ListProps } from '~components/list';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\ninterface Item {\n  content: string;\n  description?: string;\n  timestamp?: string;\n}\nconst items: Item[] = [\n  { content: 'Item 1', timestamp: '3:23 pm' },\n  { content: 'Item 2 has a longer title', timestamp: 'Two hours ago' },\n  {\n    content: 'Item 3 with more text',\n    description: 'Item 3 has a long description that probably spans onto multiple lines on smaller viewports.',\n    timestamp: 'Yesterday',\n  },\n  { content: 'Item 4', description: 'Description', timestamp: 'January 1 2025' },\n];\n\nconst permutations = createPermutations<\n  ListProps<Item> & { viewportWidth: number; _disablePaddings: boolean | 'item' }\n>([\n  {\n    viewportWidth: [200, 400],\n    items: [items],\n    _disablePaddings: [false, true, 'item'],\n    renderItem: [\n      ({ content }) => ({ content, id: content }),\n      ({ content }) => ({ content, id: content, secondaryContent: <Box variant=\"small\">Description</Box> }),\n      ({ content }) => ({\n        content,\n        id: content,\n        icon: <Icon name=\"anchor-link\" ariaLabel=\"Icon\" />,\n        secondaryContent: <Box variant=\"small\">Description</Box>,\n      }),\n      ({ content, description }) => ({\n        id: content,\n        content,\n        secondaryContent: description && <Box variant=\"small\">{description}</Box>,\n        actions: <ButtonDropdown variant=\"icon\" items={[{ id: 'item', text: 'item' }]} ariaLabel=\"Actions\" />,\n      }),\n      ({ content, description, timestamp }) => ({\n        id: content,\n        content,\n        secondaryContent: description && <Box variant=\"small\">{description}</Box>,\n        actions: (\n          <SpaceBetween size=\"xs\" direction=\"horizontal\" alignItems=\"center\">\n            <Box variant=\"small\">{timestamp}</Box>\n            <ButtonDropdown variant=\"icon\" items={[{ id: 'item', text: 'item' }]} ariaLabel=\"Actions\" />\n          </SpaceBetween>\n        ),\n      }),\n    ],\n  },\n]);\n\nexport default function ListItemPermutations() {\n  return (\n    <>\n      <h1>List permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={({ viewportWidth, _disablePaddings, ...permutation }) => (\n            <div style={{ width: viewportWidth, borderRight: '1px solid red', padding: '4px', overflow: 'hidden' }}>\n              <List\n                {...permutation}\n                disablePaddings={_disablePaddings === true}\n                disableItemPaddings={_disablePaddings === 'item'}\n              />\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/list/permutations.page.tsx"
+  },
+  {
+   "name": "sortable-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, ButtonDropdown, SpaceBetween } from '~components';\nimport List, { ListProps } from '~components/list';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\ninterface Item {\n  content: string;\n  description?: string;\n  timestamp?: string;\n}\nconst items: Item[] = [\n  { content: 'Item 1', timestamp: '3:23 pm' },\n  { content: 'Item 2 has a longer title', timestamp: 'Two hours ago' },\n  {\n    content: 'Item 3 with more text',\n    description: 'Item 3 has a long description that probably spans onto multiple lines on smaller viewports.',\n    timestamp: 'Yesterday',\n  },\n  { content: 'Item 4', description: 'Description', timestamp: 'January 1 2025' },\n];\n\nconst ControlledList = (props: ListProps<Item>) => {\n  const [items, setItems] = React.useState(props.items);\n  return <List {...props} items={items} onSortingChange={e => setItems(e.detail.items)} />;\n};\n\nconst permutations = createPermutations<ListProps<Item> & { viewportWidth: number; _sortable: boolean | 'disabled' }>([\n  {\n    viewportWidth: [200, 400],\n    items: [items],\n    _sortable: [true, false, 'disabled'],\n    disableItemPaddings: [false, true],\n    renderItem: [\n      ({ content }) => ({ content, id: content }),\n      ({ content, description, timestamp }) => ({\n        id: content,\n        content,\n        secondaryContent: description && <Box variant=\"small\">{description}</Box>,\n        actions: (\n          <SpaceBetween size=\"xs\" direction=\"horizontal\" alignItems=\"center\">\n            <Box variant=\"small\">{timestamp}</Box>\n            <ButtonDropdown variant=\"icon\" items={[{ id: 'item', text: 'item' }]} ariaLabel=\"Actions\" />\n          </SpaceBetween>\n        ),\n      }),\n    ],\n  },\n]);\n\nexport default function ListItemPermutations() {\n  return (\n    <>\n      <h1>List permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={({ viewportWidth, _sortable, ...permutation }) => (\n            <div style={{ width: viewportWidth, borderRight: '1px solid red', padding: '4px', overflow: 'hidden' }}>\n              <ControlledList {...permutation} sortable={!!_sortable} sortDisabled={_sortable === 'disabled'} />\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/list/sortable-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ListProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "items",
+    "ReadonlyArray<T>",
+    "예",
+    "The items to display in the list.",
+    "src/list/interfaces.ts:13"
+   ],
+   [
+    "renderItem",
+    "(item: T) => {",
+    "예",
+    "Render an item. The function should return an object with the following keys: * `id` (string) - A unique identifier for the item. * `content` (React.ReactNode) - The content of the item. * `secondaryContent` (React.ReactNode) - (Optional) Secondary content, for example item description. * `icon` (React.ReactNode) - (Optional) An icon, displayed at the start. * `actions` (React.ReactNode) - (Optional) Action button(s). * `announcementLabel` (string) - (Optional) An announcement label for the item, used when sorting. By default, the `content` is used: a custom label should be provided if `content` is not a string.",
+    "src/list/interfaces.ts:25"
+   ],
+   [
+    "id",
+    "string",
+    "예",
+    "",
+    "src/list/interfaces.ts:26"
+   ],
+   [
+    "content",
+    "ReactNode",
+    "예",
+    "",
+    "src/list/interfaces.ts:27"
+   ],
+   [
+    "secondaryContent",
+    "ReactNode",
+    "아니오",
+    "",
+    "src/list/interfaces.ts:28"
+   ],
+   [
+    "icon",
+    "ReactNode",
+    "아니오",
+    "",
+    "src/list/interfaces.ts:29"
+   ],
+   [
+    "actions",
+    "ReactNode",
+    "아니오",
+    "",
+    "src/list/interfaces.ts:30"
+   ],
+   [
+    "announcementLabel",
+    "string",
+    "아니오",
+    "",
+    "src/list/interfaces.ts:31"
+   ],
+   [
+    "tagOverride",
+    "'ol' | 'ul'",
+    "아니오",
+    "The HTML tag to render. By default `ul` is used for standard lists and `ol` for sortable lists.",
+    "src/list/interfaces.ts:37"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds an aria-label to the list.",
+    "src/list/interfaces.ts:42"
+   ],
+   [
+    "ariaLabelledby",
+    "string",
+    "아니오",
+    "Adds an aria-labelledby to the list.",
+    "src/list/interfaces.ts:46"
+   ],
+   [
+    "ariaDescribedby",
+    "string",
+    "아니오",
+    "Adds an aria-describedby to the list.",
+    "src/list/interfaces.ts:50"
+   ],
+   [
+    "sortable",
+    "boolean",
+    "아니오",
+    "Makes the list sortable by enabling drag and drop functionality.",
+    "src/list/interfaces.ts:54"
+   ],
+   [
+    "sortDisabled",
+    "boolean",
+    "아니오",
+    "Disables sorting drag handles. Use this to temporarily prevent users from reordering the list.",
+    "src/list/interfaces.ts:58"
+   ],
+   [
+    "disableItemPaddings",
+    "boolean",
+    "아니오",
+    "Removes padding around and inside list items.",
+    "src/list/interfaces.ts:62"
+   ],
+   [
+    "disablePaddings",
+    "boolean",
+    "아니오",
+    "Removes top and bottom padding around the list. Does not apply for sortable lists.",
+    "src/list/interfaces.ts:66"
+   ],
+   [
+    "onSortingChange",
+    "NonCancelableEventHandler<ListProps.SortingState<T>>",
+    "아니오",
+    "Called when items are reordered in a sortable list.",
+    "src/list/interfaces.ts:70"
+   ],
+   [
+    "i18nStrings",
+    "ListProps.I18nStrings",
+    "아니오",
+    "An object containing all the localized strings required by the component. - `liveAnnouncementDndStarted` ((position: number, total: number) => string) - (Optional) Adds a message to be announced by screen readers when an item is picked for reordering. - `liveAnnouncementDndDiscarded` (string) - (Optional) Adds a message to be announced by screen readers when a reordering action is canceled. - `liveAnnouncementDndItemReordered` ((initialPosition: number, currentPosition: number, total: number) => string) - (Optional) Adds a message to be announced by screen readers when an item is being moved. - `liveAnnouncementDndItemCommitted` ((initialPosition: number, finalPosition: number, total: number) => string) - (Optional) Adds a message to be announced by screen readers when a reordering action is committed. - `dragHandleAriaDescription` (string) - (Optional) Adds an ARIA description for the drag handle. - `dragHandleAriaLabel` (string) - (Optional) Adds an ARIA label for the drag handle. @i18n",
+    "src/list/interfaces.ts:83"
+   ]
+  ],
+  "source": "src/list/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

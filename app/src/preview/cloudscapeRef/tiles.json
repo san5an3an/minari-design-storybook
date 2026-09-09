@@ -1,0 +1,105 @@
+{
+ "slug": "tiles",
+ "title": "Tiles",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "in-form",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Container, Form, FormField, Header, Input, Link, SpaceBetween, Textarea, Tiles } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst TILE_OPTIONS = [\n  {\n    label: 'First option',\n    value: 'first',\n    description: 'This is the first option, that is set ad default. This is the most common choice.',\n  },\n  {\n    label: 'Second option',\n    value: 'second',\n    description: 'This is the second option. Not often selected and is only for those daring enough to chose it.',\n  },\n  {\n    label: 'Third option',\n    value: 'third',\n    description: 'This is the third option. Only those who like tricycles chose this',\n  },\n  {\n    label: 'Fourth option',\n    value: 'fourth',\n    description: 'This is the fourth option. This option is rarely selected and mostly for show.',\n  },\n];\n\nexport default function TilesInFormPage() {\n  const [inputValue, setInputValue] = useState<number>(0);\n  const [textAreaValue, setTextAreaValue] = useState<string>('');\n  const [formTileValue, setFormTileValue] = useState<string>('first');\n\n  return (\n    <article>\n      <h1>Selectable tiles in form example</h1>\n      <ScreenshotArea>\n        <Form\n          actions={\n            <Button href=\"#\" disabled={true}>\n              Call to action\n            </Button>\n          }\n        >\n          <SpaceBetween size=\"l\">\n            <Container header={<Header variant=\"h2\">Selectable tiles in form example</Header>}>\n              <SpaceBetween size=\"l\">\n                <FormField label=\"Potential solution\">\n                  <Input\n                    ariaLabel=\"test input\"\n                    type=\"number\"\n                    step={0.2}\n                    value={`${inputValue}`}\n                    onChange={event => setInputValue(Number(event.detail.value))}\n                  />\n                </FormField>\n                <FormField label=\"Text area\">\n                  <Textarea\n                    value={textAreaValue}\n                    ariaLabel=\"textarea\"\n                    onChange={event => setTextAreaValue(event.detail.value)}\n                  />\n                </FormField>\n                <FormField\n                  label=\"Available tiles\"\n                  info={\n                    <Link variant=\"info\" href=\"#\">\n                      Info\n                    </Link>\n                  }\n                  stretch={true}\n                >\n                  <Tiles\n                    value={formTileValue}\n                    onChange={({ detail }) => setFormTileValue(detail.value)}\n                    items={TILE_OPTIONS}\n                  />\n                </FormField>\n              </SpaceBetween>\n            </Container>\n          </SpaceBetween>\n        </Form>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/tiles/in-form.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Tiles, { TilesProps } from '~components/tiles';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport img from './assets/amazon.svg';\n\nconst permutations = createPermutations<TilesProps>([\n  {\n    value: ['first'],\n    readOnly: [false, true],\n    items: [\n      [\n        { value: 'first', description: 'Short description', label: 'First Button', disabled: true },\n        { value: 'second', description: 'Short description', label: 'Second Button' },\n        { value: 'third', description: 'Short description', label: 'Third Button' },\n        { value: 'fourth', description: 'Short description', label: 'Fourth Button' },\n        { value: 'fifth', description: 'Short description', label: 'Fifth Button' },\n        { value: 'sixth', description: 'Short description', label: 'Sixth Button' },\n      ],\n      [\n        {\n          value: 'first',\n          description: 'Long description describes long',\n          label: 'First Button',\n        },\n        {\n          value: 'second',\n          description: 'Short description',\n          label: 'Label Label Label Label Label Label Label Label Label Label',\n          disabled: true,\n        },\n        {\n          value: 'third',\n          description: 'ContinuouslyLongDescriptionContinuouslyLongDescriptionContinuouslyLongDescription',\n          label: 'Third Button',\n        },\n        {\n          value: 'fourth',\n          description: 'Short description',\n          label: 'LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel',\n        },\n        {\n          value: 'fifth',\n          description:\n            'Long description describes long description describes long description describes long description describes long description describes long description describes long description describes long',\n          label: 'Fourth Button',\n        },\n        { value: 'sixth', description: 'Short description', label: 'Sixth Button' },\n      ],\n      [\n        { value: 'seventh', description: 'Short Description', label: 'First Button', disabled: true },\n        { value: 'second', description: 'Short description', label: 'Second Button' },\n        { value: 'ninth', description: '', label: 'Label' },\n        {\n          value: 'first',\n          description: 'Short description',\n          label: 'Third Button',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        { value: 'third', description: 'Short description', label: 'Third Button' },\n        {\n          value: 'fourth',\n          description: 'Short description',\n          label: 'LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel',\n        },\n        {\n          value: 'fifth',\n          description:\n            'Long description describes long description describes long description describes long description describes long description describes long description describes long description describes long',\n          label: 'Fourth Button',\n        },\n        {\n          value: 'sixth',\n          description: 'Short description',\n          label: 'Third Button',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n      ],\n      [\n        { value: 'first', description: 'Short description', label: 'First Button', disabled: true },\n        { value: 'second', description: 'Short description', label: 'Second Button' },\n        {\n          value: 'third',\n          description: 'Short description',\n          label: 'Third Button',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        { value: 'fourth', description: 'Short description', label: 'Fourth Button' },\n        { value: 'fifth', description: 'Short description', label: 'Fifth Button' },\n        {\n          value: 'sixth',\n          description: 'Short description',\n          label: 'Sixth Button Sixth Button Sixth Button Sixth Button Sixth Button',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n      ],\n    ],\n  },\n  {\n    value: ['first'],\n    columns: [undefined, 4],\n    items: [\n      [\n        {\n          value: 'first',\n          label: 'First Button',\n          description: 'Short description',\n          disabled: true,\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        {\n          value: 'second',\n          label: 'Second Button',\n          description: 'Short description',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        {\n          value: 'third',\n          label: 'Third Button',\n          description:\n            'Long text, long enough to wrap.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Whatever.',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        {\n          value: 'fourth',\n          label: 'Fourth Button',\n          description: 'Short description',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n        {\n          value: 'fifth',\n          label: 'Fourth Button',\n          description: 'Short description',\n          image: <img src={img} alt=\"Amazon\" />,\n        },\n      ],\n    ],\n  },\n]);\n\nexport default function AlertScenario() {\n  return (\n    <article>\n      <h1>Tiles permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Tiles\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/tiles/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Tiles from '~components/tiles';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport img from './assets/amazon.svg';\n\nexport default function TilesPage() {\n  const [value, setValue] = useState<string>('bar');\n  return (\n    <article>\n      <h1>Tiles demo</h1>\n      <ScreenshotArea>\n        <Tiles\n          value={value}\n          onChange={event => setValue(event.detail.value)}\n          columns={3}\n          items={[\n            { label: 'Foo', value: 'foo', image: <img src={img} alt=\"Amazon\" /> },\n            { label: 'Bar', value: 'bar', image: <img src={img} alt=\"Amazon\" /> },\n            { label: 'Baz', value: 'baz', image: <img src={img} alt=\"Amazon\" />, disabled: true },\n            { label: 'Boo', value: 'boo', image: <img src={img} alt=\"Amazon\" /> },\n          ]}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/tiles/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "TilesProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "name",
+    "string",
+    "아니오",
+    "Specify a custom name for the native radio buttons. If not provided, the tiles component generates a random name.",
+    "src/tiles/interfaces.ts:14"
+   ],
+   [
+    "value",
+    "string | null",
+    "예",
+    "Specifies the value of the selected tile. If you want to clear the selection, use `null`.",
+    "src/tiles/interfaces.ts:20"
+   ],
+   [
+    "items",
+    "ReadonlyArray<TilesProps.TilesDefinition>",
+    "아니오",
+    "List of tile definitions. Each tile has the following properties: - `value` [string] - The value that will be associated with the tile. This is the value the tiles will get when the radio button is selected. - `label` [ReactNode] - A short description for the option the tile represents. - `description` [ReactNode] - (Optional) Further explanatory guidance on the tile option, shown below the `label`. - `image` [ReactNode] - (Optional) Visually distinctive image for the tile option, shown below the `description`. - `disabled` [boolean] - (Optional) Specifies whether the tile is disabled. Users can't select disabled tiles. - `controlId` [string] - (Optional) The ID of the internal input. You can use this to relate a label element's `for` attribute to this control. We recommend that you don't set this property because it's automatically set by the tiles component.",
+    "src/tiles/interfaces.ts:33"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` on the group. Don't set this property if you are using this form element within a form field because the form field component automatically sets the correct labels to make the component accessible.",
+    "src/tiles/interfaces.ts:39"
+   ],
+   [
+    "ariaRequired",
+    "boolean",
+    "아니오",
+    "Adds `aria-required` on the group.",
+    "src/tiles/interfaces.ts:44"
+   ],
+   [
+    "columns",
+    "number",
+    "아니오",
+    "The number of columns for the tiles to be displayed in. Valid values are integers between 1 and 4. If no value is specified, the number of columns is determined based on the number of items, with a maximum of 3. It is set to 2 if 4 or 8 items are supplied in order to optimize the layout.",
+    "src/tiles/interfaces.ts:51"
+   ],
+   [
+    "onChange",
+    "NonCancelableEventHandler<TilesProps.ChangeDetail>",
+    "아니오",
+    "Called when the user selects a different tile.",
+    "src/tiles/interfaces.ts:56"
+   ],
+   [
+    "ariaControls",
+    "string",
+    "아니오",
+    "Adds `aria-controls` attribute to the component. If the component controls any secondary content (for example, another form field), use this to provide an ID referring to the secondary content.",
+    "src/tiles/interfaces.ts:62"
+   ],
+   [
+    "readOnly",
+    "boolean",
+    "아니오",
+    "Specifies if the control is read-only, which prevents the user from modifying the value, but does not prevent the value from being included in a form submission. A read-only control is still focusable.",
+    "src/tiles/interfaces.ts:69"
+   ]
+  ],
+  "source": "src/tiles/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

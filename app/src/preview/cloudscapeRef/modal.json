@@ -1,0 +1,205 @@
+{
+ "slug": "modal",
+ "title": "Modal",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "async-modal-root",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal, ModalProps } from '~components';\n\nconst getModalRoot: ModalProps['getModalRoot'] = async ({ abortSignal }) => {\n  await new Promise(resolve => setTimeout(resolve, 1000));\n  const element = document.createElement('div');\n  element.setAttribute('id', 'async-modal-root');\n  if (!abortSignal.aborted) {\n    document.body.appendChild(element);\n  }\n  return element;\n};\n\nconst removeModalRoot: ModalProps['removeModalRoot'] = root => {\n  if (root) {\n    document.body.removeChild(root);\n  }\n};\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Modal with async root</h1>\n      <Button data-testid=\"modal-trigger\" onClick={() => setVisible(true)}>\n        Show modal\n      </Button>\n      {visible && (\n        <Modal\n          header=\"Modal\"\n          visible={true}\n          getModalRoot={getModalRoot}\n          removeModalRoot={removeModalRoot}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n        >\n          This modal was rendered in lazy-loaded container\n        </Modal>\n      )}\n    </article>\n  );\n}\n",
+   "source": "pages/modal/async-modal-root.page.tsx"
+  },
+  {
+   "name": "custom-dimensions",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Box, Button, Checkbox, FormField, Input, Modal, SpaceBetween } from '~components';\n\nimport { useAppContext } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const { urlParams, setUrlParams } = useAppContext();\n  const [visible, setVisible] = useState(false);\n  const showFooter = urlParams.footer ? true : false;\n  const footer = (\n    <Box float=\"right\">\n      <Button variant=\"primary\">Ok</Button>\n    </Box>\n  );\n\n  return (\n    <SimplePage\n      title=\"Modal with custom dimensions\"\n      settings={\n        <SpaceBetween size=\"m\">\n          <FormField label=\"Width (px)\">\n            <Input\n              value={urlParams.width ? String(urlParams.width) : ''}\n              onChange={e => setUrlParams({ width: e.detail.value })}\n              type=\"number\"\n            />\n          </FormField>\n          <FormField label=\"Height (px)\">\n            <Input\n              value={urlParams.height ? String(urlParams.height) : ''}\n              onChange={e => setUrlParams({ height: e.detail.value })}\n              type=\"number\"\n            />\n          </FormField>\n          <Checkbox checked={showFooter} onChange={e => setUrlParams({ footer: e.detail.checked })}>\n            Show footer\n          </Checkbox>\n        </SpaceBetween>\n      }\n    >\n      <Button data-testid=\"modal-trigger\" onClick={() => setVisible(true)}>\n        Show modal\n      </Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"Custom dimensions modal\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          width={Number(urlParams.width) || undefined}\n          height={Number(urlParams.height) || undefined}\n          footer={showFooter ? footer : undefined}\n        >\n          {Array(100)\n            .fill(0)\n            .map((value, index) => (\n              <div key={index}>\n                <span>Text content {index}</span>\n              </div>\n            ))}\n          <input data-testid=\"final-input\" />\n        </Modal>\n      </ScreenshotArea>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/modal/custom-dimensions.page.tsx"
+  },
+  {
+   "name": "focus-restoration",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { AttributeEditor, Button, Input, Modal, SpaceBetween } from '~components';\n\ninterface Item {\n  key: string;\n  value: string;\n}\n\nfunction createItems() {\n  return Array(15)\n    .fill(null)\n    .map((_, i) => ({ key: `some-key-${i}`, value: `some-value-${i}` }));\n}\n\nfunction Destructible() {\n  const [visible, setVisible] = useState(false);\n  const [items, setItems] = useState(createItems());\n  return (\n    <article>\n      <Button id=\"destructible\" onClick={() => setVisible(true)}>\n        Show destructible modal\n      </Button>\n      {visible && (\n        <Modal visible={true} onDismiss={() => setVisible(false)} closeAriaLabel=\"Close modal\">\n          <ItemsForm items={items} setItems={setItems} />\n        </Modal>\n      )}\n    </article>\n  );\n}\n\nfunction Controlled() {\n  const [visible, setVisible] = useState(false);\n  const [items, setItems] = useState(createItems());\n  return (\n    <article>\n      <Button id=\"controlled\" onClick={() => setVisible(true)}>\n        Show controlled modal\n      </Button>\n      <Modal visible={visible} onDismiss={() => setVisible(false)} closeAriaLabel=\"Close modal\">\n        <ItemsForm items={items} setItems={setItems} />\n      </Modal>\n    </article>\n  );\n}\n\nfunction ItemsForm({ items, setItems }: { items: Item[]; setItems: (items: Item[]) => void }) {\n  return (\n    <AttributeEditor\n      onAddButtonClick={() => setItems([...items, { key: '', value: '' }])}\n      onRemoveButtonClick={({ detail: { itemIndex } }) => {\n        const tmpItems = [...items];\n        tmpItems.splice(itemIndex, 1);\n        setItems(tmpItems);\n      }}\n      items={items}\n      addButtonText=\"Add new item\"\n      definition={[\n        {\n          label: 'Key',\n          control: item => <Input value={item.key} onChange={() => undefined} placeholder=\"Enter key\" />,\n        },\n        {\n          label: 'Value',\n          control: item => <Input value={item.value} onChange={() => undefined} placeholder=\"Enter value\" />,\n        },\n      ]}\n      removeButtonText=\"Remove\"\n      empty=\"No items associated with the resource.\"\n    />\n  );\n}\n\nexport default function () {\n  return (\n    <>\n      <h1>Destructible modals</h1>\n      <SpaceBetween size=\"m\">\n        <Destructible />\n        <Controlled />\n      </SpaceBetween>\n    </>\n  );\n}\n",
+   "source": "pages/modal/focus-restoration.page.tsx"
+  },
+  {
+   "name": "long-header",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Long header modal</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"This is going to be an extremely long title for a modal not sure whether it makes any sense but whatever\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n        >\n          Content\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/long-header.page.tsx"
+  },
+  {
+   "name": "no-paddings",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>No paddings modal</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"Delete instance\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n          footer={\n            <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n              <Button variant=\"link\">Cancel</Button>\n              <Button variant=\"primary\">Delete</Button>\n            </span>\n          }\n          disableContentPaddings={true}\n        >\n          This will permanently delete your instance, and may affect the performance of other resources.\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/no-paddings.page.tsx"
+  },
+  {
+   "name": "position-top",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Modal from '~components/modal';\n\nimport { SimplePage } from '../app/templates';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function PositionTopPage() {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <SimplePage title=\"Top positioned modal\">\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal visible={visible} onDismiss={() => setVisible(false)} header=\"Top positioned modal\" position=\"top\">\n          This modal is positioned at the top of the viewport.\n        </Modal>\n      </ScreenshotArea>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/modal/position-top.page.tsx"
+  },
+  {
+   "name": "scroll-padding",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Scroll padding modal</h1>\n      <Button data-testid=\"modal-trigger\" onClick={() => setVisible(true)}>\n        Show modal\n      </Button>\n      <Modal\n        header=\"Modal title\"\n        visible={visible}\n        onDismiss={() => setVisible(false)}\n        closeAriaLabel=\"Close modal\"\n        footer={\n          <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n            <Button variant=\"link\">Cancel</Button>\n            <Button variant=\"primary\">Delete</Button>\n          </span>\n        }\n      >\n        {Array(100)\n          .fill(0)\n          .map((value, index) => (\n            <div key={index}>\n              <input />\n            </div>\n          ))}\n      </Modal>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/scroll-padding.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Simple modal</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"Delete instance\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n          footer={\n            <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n              <Button variant=\"link\">Cancel</Button>\n              <Button variant=\"primary\">Delete</Button>\n            </span>\n          }\n        >\n          This will permanently delete your instance, and may affect the performance of other resources.\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/simple.page.tsx"
+  },
+  {
+   "name": "sizes",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Modal from '~components/modal';\nimport SpaceBetween from '~components/space-between';\n\nimport { SimplePage } from '../app/templates';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function SizesPage() {\n  const [size, setSize] = useState<'small' | 'medium' | 'large' | 'x-large' | 'xx-large' | 'max'>('medium');\n  const [visible, setVisible] = useState(false);\n\n  const sizes = ['small', 'medium', 'large', 'x-large', 'xx-large', 'max'] as const;\n\n  return (\n    <SimplePage title=\"Modal sizes\">\n      <SpaceBetween size=\"s\">\n        {sizes.map(size => (\n          <Button\n            key={size}\n            onClick={() => {\n              setSize(size);\n              setVisible(true);\n            }}\n          >\n            {size}\n          </Button>\n        ))}\n      </SpaceBetween>\n      <ScreenshotArea>\n        <Modal visible={visible} onDismiss={() => setVisible(false)} header={`${size} modal`} size={size}>\n          This is a {size} modal.\n        </Modal>\n      </ScreenshotArea>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/modal/sizes.page.tsx"
+  },
+  {
+   "name": "unbreakable-header",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Unbreakable header modal</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"Thisisgoingtobeanextremelylongtitleforamodalnotsurewhetheritmakesanysensebutwhatever\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n        >\n          Content\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/unbreakable-header.page.tsx"
+  },
+  {
+   "name": "vertical-scroll",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  const content = [];\n\n  for (let i = 0; i < 10; i++) {\n    content.push(\n      <p key={i} style={{ position: 'relative', zIndex: 10 }}>\n        Bacon ipsum dolor amet jowl short ribs shankle prosciutto flank tenderloin tri-tip tongue. Meatloaf salami\n        turducken bresaola ribeye flank shankle boudin sirloin. Picanha meatloaf short ribs chicken jowl andouille filet\n        mignon spare ribs kevin rump corned beef. Cow pastrami beef ribs turkey kielbasa alcatra.\n      </p>\n    );\n  }\n\n  return (\n    <article>\n      <h1>Vertical scroll modal</h1>\n      <Button data-testid=\"modal-trigger\" onClick={() => setVisible(true)}>\n        Show modal\n      </Button>\n      <ScreenshotArea>\n        <Modal\n          header=\"Modal title\"\n          visible={visible}\n          onDismiss={() => setVisible(false)}\n          closeAriaLabel=\"Close modal\"\n          footer=\"What?\"\n        >\n          <div>\n            <h3>Modal with vertical scroll</h3>\n            <p>This is a large modal, it&apos;s size is equal to viewport size - 100px on each side.</p>\n            <h3>Some random content</h3>\n            <p>\n              Bacon ipsum dolor amet cupim ham capicola meatball pastrami. Corned beef strip steak flank, drumstick\n              short loin pork chop picanha. Landjaeger picanha spare ribs tongue chuck sausage pork belly, t-bone\n              shankle short loin venison kevin. Ball tip t-bone leberkas flank, frankfurter pig corned beef spare ribs\n              jerky pork loin shoulder tri-tip salami.\n            </p>\n            <p>\n              Swine andouille pig pork belly pork chop meatball beef ribs prosciutto meatloaf spare ribs chuck shank\n              pork loin. Capicola ham filet mignon chicken ground round pork leberkas bresaola shoulder shank strip\n              steak. Kevin tri-tip pork chop short loin corned beef, beef drumstick doner. Beef kevin jerky tail.\n            </p>\n            {content}\n          </div>\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/vertical-scroll.page.tsx"
+  },
+  {
+   "name": "with-component-load",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport { Box, Button, Checkbox, Modal, SpaceBetween, Spinner } from '~components';\nimport { setPerformanceMetrics } from '~components/internal/analytics';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n  const [buttonLoading, setButtonLoading] = useState(true);\n  const [textLoading, setTextLoading] = useState(true);\n\n  useEffect(() => {\n    (window as any).modalPerformanceMetrics = [];\n\n    setPerformanceMetrics({\n      modalPerformanceData(props) {\n        (window as any).modalPerformanceMetrics.push(props);\n      },\n      tableInteraction() {},\n      taskCompletionData() {},\n    });\n\n    return () => {\n      setPerformanceMetrics({\n        tableInteraction: () => {},\n        taskCompletionData: () => {},\n        modalPerformanceData: () => {},\n      });\n      delete (window as any).modalPerformanceMetrics;\n    };\n  }, []);\n\n  const checkBoxesForLoadingStateChange = (id: string) => {\n    return (\n      <Box margin=\"m\">\n        <SpaceBetween size=\"xs\">\n          <Checkbox\n            id={'checkbox-button' + id}\n            onChange={() => setButtonLoading(!buttonLoading)}\n            checked={buttonLoading}\n          >\n            Button Loading\n          </Checkbox>\n          <Checkbox id={'checkbox-text' + id} onChange={() => setTextLoading(!textLoading)} checked={textLoading}>\n            Text Loading\n          </Checkbox>\n        </SpaceBetween>\n      </Box>\n    );\n  };\n  return (\n    <Box margin=\"m\">\n      <h1>Modal with loading component</h1>\n      <SpaceBetween size=\"s\">\n        {checkBoxesForLoadingStateChange('1')}\n        <Button data-testid=\"modal-trigger\" onClick={() => setVisible(true)}>\n          Show modal\n        </Button>\n      </SpaceBetween>\n      <Modal\n        header={<div>{'Header text'}</div>}\n        visible={visible}\n        onDismiss={() => setVisible(false)}\n        closeAriaLabel=\"Close modal\"\n        footer={\n          <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n            <Button variant=\"link\">Cancel</Button>\n            <Button id=\"primary-button\" variant=\"primary\" loading={buttonLoading}>\n              Delete\n            </Button>\n          </span>\n        }\n      >\n        <div>{textLoading ? <Spinner /> : 'Content'}</div>\n        {checkBoxesForLoadingStateChange('2')}\n      </Modal>\n    </Box>\n  );\n}\n",
+   "source": "pages/modal/with-component-load.page.tsx"
+  },
+  {
+   "name": "with-dropdowns",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport {\n  Autosuggest,\n  Button,\n  ButtonDropdown,\n  DatePicker,\n  DateRangePicker,\n  DateRangePickerProps,\n  Modal,\n  Multiselect,\n  MultiselectProps,\n  Popover,\n  SpaceBetween,\n} from '~components';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n  const [value, setValue] = useState('');\n  const [dateRangeValue, setDateRangeValue] = useState<DateRangePickerProps['value']>(null);\n  const [selectedOptions, setSelectedOptions] = useState<MultiselectProps['selectedOptions']>([\n    {\n      label: 'Option 1',\n      value: '1',\n      description: 'This is a description',\n    },\n  ]);\n\n  return (\n    <article>\n      <h1>Simple modal</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <Modal\n        header=\"Delete instance\"\n        visible={visible}\n        onDismiss={() => setVisible(false)}\n        closeAriaLabel=\"Close modal\"\n        footer={\n          <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n            <Button variant=\"link\">Cancel</Button>\n            <Button variant=\"primary\">Delete</Button>\n          </span>\n        }\n      >\n        <SpaceBetween size={'xs'}>\n          <Autosuggest\n            onChange={({ detail }) => setValue(detail.value)}\n            value={value}\n            options={[\n              { value: 'Suggestion 1' },\n              { value: 'Suggestion 2' },\n              { value: 'Suggestion 3' },\n              { value: 'Suggestion 4' },\n            ]}\n            ariaLabel=\"Autosuggest example with suggestions\"\n            placeholder=\"Enter value\"\n            empty=\"No matches found\"\n          />\n\n          <ButtonDropdown\n            items={[\n              { text: 'Delete', id: 'rm', disabled: false },\n              { text: 'Move', id: 'mv', disabled: false },\n              { text: 'Rename', id: 'rn', disabled: true },\n              {\n                id: 'view',\n                text: 'View metrics',\n                href: 'https://example.com',\n                external: true,\n                externalIconAriaLabel: '(opens in new tab)',\n              },\n            ]}\n          >\n            Short\n          </ButtonDropdown>\n\n          <DatePicker\n            onChange={({ detail }) => setValue(detail.value)}\n            value={value}\n            openCalendarAriaLabel={selectedDate =>\n              'Choose certificate expiry date' + (selectedDate ? `, selected date is ${selectedDate}` : '')\n            }\n            placeholder=\"YYYY/MM/DD\"\n          />\n\n          <DateRangePicker\n            onChange={({ detail }) => setDateRangeValue(detail.value)}\n            value={dateRangeValue}\n            relativeOptions={[\n              {\n                key: 'previous-5-minutes',\n                amount: 5,\n                unit: 'minute',\n                type: 'relative',\n              },\n              {\n                key: 'previous-30-minutes',\n                amount: 30,\n                unit: 'minute',\n                type: 'relative',\n              },\n              {\n                key: 'previous-1-hour',\n                amount: 1,\n                unit: 'hour',\n                type: 'relative',\n              },\n              {\n                key: 'previous-6-hours',\n                amount: 6,\n                unit: 'hour',\n                type: 'relative',\n              },\n            ]}\n            isValidRange={range => {\n              if (range?.type === 'absolute') {\n                const [startDateWithoutTime] = range.startDate.split('T');\n                const [endDateWithoutTime] = range.endDate.split('T');\n                if (!startDateWithoutTime || !endDateWithoutTime) {\n                  return {\n                    valid: false,\n                    errorMessage:\n                      'The selected date range is incomplete. Select a start and end date for the date range.',\n                  };\n                }\n              }\n              return { valid: true };\n            }}\n            i18nStrings={{}}\n            placeholder=\"Filter by a date and time range\"\n          />\n\n          <Multiselect\n            selectedOptions={selectedOptions}\n            onChange={({ detail }) => setSelectedOptions(detail.selectedOptions)}\n            options={[\n              {\n                label: 'Option 1',\n                value: '1',\n                description: 'This is a description',\n              },\n              {\n                label: 'Option 2',\n                value: '2',\n                iconName: 'unlocked',\n                labelTag: 'This is a label tag',\n              },\n              {\n                label: 'Option 3 (disabled)',\n                value: '3',\n                iconName: 'share',\n                tags: ['Tags go here', 'Tag1', 'Tag2'],\n                disabled: true,\n              },\n              {\n                label: 'Option 4',\n                value: '4',\n                filteringTags: ['filtering', 'tags', 'these are filtering tags'],\n              },\n              { label: 'Option 5', value: '5' },\n            ]}\n            placeholder=\"Choose options\"\n          />\n\n          <Popover\n            header=\"Memory Error\"\n            content=\"This instance contains insufficient memory. Stop the instance, choose a different instance type with more memory, and restart it.\"\n          >\n            Error\n          </Popover>\n\n          <Popover\n            dismissButton={false}\n            position=\"top\"\n            size=\"small\"\n            triggerType=\"custom\"\n            content={'Code snippet copied'}\n          >\n            <Button iconName=\"copy\">Copy</Button>\n          </Popover>\n        </SpaceBetween>\n      </Modal>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/with-dropdowns.page.tsx"
+  },
+  {
+   "name": "with-input-focus",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useRef, useState } from 'react';\n\nimport { Button, FormField, Input, InputProps, Modal } from '~components';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n  const [value, setValue] = useState('');\n  const inputRef = useRef<InputProps.Ref>(null);\n\n  useEffect(() => {\n    if (visible && inputRef.current) {\n      inputRef.current.focus();\n    }\n  }, [visible]);\n\n  return (\n    <article>\n      <h1>Modal with input</h1>\n      <Button id=\"open-modal\" onClick={() => setVisible(true)}>\n        Show modal\n      </Button>\n      <Modal header=\"Prompt dialog\" visible={visible} onDismiss={() => setVisible(false)} closeAriaLabel=\"Close modal\">\n        <FormField label=\"Enter your name\">\n          <Input ref={inputRef} id=\"input\" value={value} onChange={event => setValue(event.detail.value)} />\n        </FormField>\n      </Modal>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/with-input-focus.page.tsx"
+  },
+  {
+   "name": "with-tooltip",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, FormField, Modal, Slider } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [visible, setVisible] = useState(false);\n\n  return (\n    <article>\n      <h1>Simple modal with tooltip-based component (slider)</h1>\n      <Button onClick={() => setVisible(true)}>Show modal</Button>\n      <ScreenshotArea>\n        <Modal header=\"Slider\" visible={visible} onDismiss={() => setVisible(false)} closeAriaLabel=\"Close modal\">\n          <FormField label=\"Slider\">\n            <Slider onChange={() => {}} value={50} max={100} min={0} />\n          </FormField>\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/modal/with-tooltip.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ModalProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "width",
+    "number",
+    "아니오",
+    "Specifies the width of the modal. When provided, takes precedence over the `size` property. If the specified width exceeds available viewport space, the modal will use the maximum available space. The minimum width is 320px (equivalent to the `small` size).",
+    "src/modal/interfaces.ts:32"
+   ],
+   [
+    "height",
+    "number",
+    "아니오",
+    "Specifies the height of the modal. When provided, the modal content becomes scrollable if it exceeds the specified height. If the specified height exceeds available viewport space, the modal will use the maximum available space. To make sure the content is accessible, the component will apply a minimum height of 60px for the content area, plus the header height and the footer height.",
+    "src/modal/interfaces.ts:40"
+   ],
+   [
+    "size",
+    "ModalProps.Size",
+    "아니오",
+    "Sets the width of the modal. `max` uses variable width up to the largest size allowed by the design guidelines. Other sizes have fixed widths: `small` (320px), `medium` (600px), `large` (820px), `x-large` (1024px), `xx-large` (1280px).",
+    "src/modal/interfaces.ts:47"
+   ],
+   [
+    "position",
+    "ModalProps.Position",
+    "아니오",
+    "Controls the vertical positioning of the modal. - `center` (default) - The modal is vertically centered in the viewport and re-centers when content height changes. Use for dialogs with static, predictable content. - `top` - The modal anchors at fixed distance and grows downward as content expands. Use when the content changes dynamically to prevent disruptive vertical repositioning that can cause users to lose context.",
+    "src/modal/interfaces.ts:58"
+   ],
+   [
+    "visible",
+    "boolean",
+    "예",
+    "Determines whether the modal is displayed on the screen. Modals are hidden by default. Set this property to `true` to show them.",
+    "src/modal/interfaces.ts:63"
+   ],
+   [
+    "closeAriaLabel",
+    "string",
+    "아니오",
+    "Adds an `aria-label` to the close button, for accessibility. @i18n",
+    "src/modal/interfaces.ts:68"
+   ],
+   [
+    "header",
+    "React.ReactNode",
+    "아니오",
+    "Specifies a title for the modal. Although this can be empty, we suggest that you always provide a title.",
+    "src/modal/interfaces.ts:72"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Body of the modal.",
+    "src/modal/interfaces.ts:76"
+   ],
+   [
+    "footer",
+    "React.ReactNode",
+    "아니오",
+    "Specifies a footer for the modal. If empty, the footer isn't displayed.",
+    "src/modal/interfaces.ts:80"
+   ],
+   [
+    "disableContentPaddings",
+    "boolean",
+    "아니오",
+    "Determines whether the modal content has padding. If `true`, removes the default padding from the content area.",
+    "src/modal/interfaces.ts:84"
+   ],
+   [
+    "onDismiss",
+    "NonCancelableEventHandler<ModalProps.DismissDetail>",
+    "아니오",
+    "Called when a user closes the modal by using the close icon button, clicking outside of the modal, or pressing ESC. The event detail contains the `reason`, which can be any of the following: `['closeButton', 'overlay', 'keyboard']`.",
+    "src/modal/interfaces.ts:91"
+   ],
+   [
+    "modalRoot",
+    "HTMLElement",
+    "아니오",
+    "Specifies the HTML element where the modal is rendered. If neither `modalRoot` or `getModalRoot` properties are provided, the modal will render to an element under `document.body`.",
+    "src/modal/interfaces.ts:97"
+   ],
+   [
+    "analyticsMetadata",
+    "ModalProps.AnalyticsMetadata",
+    "아니오",
+    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `flowType` - Identifies the type of flow represented by the component. * `resourceType` - Identifies the type of resource represented by the flow. **Note:** This API is currently experimental. @analytics",
+    "src/modal/interfaces.ts:106"
+   ]
+  ],
+  "source": "src/modal/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}
