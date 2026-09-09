@@ -1,0 +1,129 @@
+{
+ "slug": "checkbox",
+ "title": "Checkbox",
+ "docs": [
+  {
+   "repoPath": "ui/components/checkbox/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/checkbox/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/checkbox/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/checkbox/base/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/checkbox/form-element/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/checkbox/form-element/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/checkbox/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * The ability to style checkboxes with CSS varies across browsers.\n * To ensure that checkboxes look the same everywhere, we use a custom DOM.\n * Pay close attention to the markup, because all elements must exist for the\n * styles to work.\n *\n * #### Accessibility\n *\n * Groups of checkboxes should be marked up using the fieldset and legend\n * element. This helps someone using assistive technology to understand the\n * question they're answering with the group of checkboxes. The fieldset is\n * placed around the whole group and the legend contains the question.\n *\n * Custom checkboxes are created by applying the `.slds-checkbox` class to\n * a `<label>` element. To remain accessible to all user agents, place\n * `<input>` with `type=\"checkbox\"` inside the `<label>` element.  The `<input>`\n * is then visually hidden, and the styling is placed on a span with\n * the `.slds-checkbox_faux` class. The styling of the span changes based\n * on whether the checkbox is selected or focused by using a pseudo-element.\n * A second span with `.slds-form-element__label` contains the label text.\n *\n * When a single checkbox is required, `<div class=\"slds-checkbox\">` should\n * get `<abbr class=\"required\" title=\"required\">*</abbr>` added to the DOM,\n * directly before the `<input type=\"checkbox\" />` for visual indication\n * that the checkbox is required.\n *\n * When a checkbox group is required, the `<fieldset>` should receive the\n * class `.slds-is-required`. The `<legend>` should then get\n * `<abbr class=\"required\" title=\"required\">*</abbr>` added to the DOM for\n * visual indication that the checkbox group is required.\n *\n * As SLDS checkboxes rely on the :checked psuedo selector, and the\n * indeterminate state is only accessible via JavaScript, the use of a\n * CSS class on the input will be necessary to implement this in SLDS.\n * Use JavaScript to add the class when the indeterminate property is set to\n * true on the input.\n *\n * The following JavaScript demonstrates how to set a checkbox to be indeterminate:\n * ```js\n * var checkbox = document.getElementById('checkbox-indeterminate-01');\n * checkbox.indeterminate = true;\n * ```\n *\n * @summary A checkable input that communicates if an option is true, false or indeterminate\n *\n * @base\n * @name checkbox\n * @selector .slds-checkbox\n * @support dev-ready\n * @category base\n * @type data-entry\n * @role checkbox\n * @layout responsive\n * @lwc\n * @styling-hooks\n */\n"
+   },
+   {
+    "source": "scss/components/checkbox/base/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n   * @name stacked\n   * @summary stacks label over checkbox\n   * @selector .slds-checkbox_stacked\n   * @restrict .slds-checkbox\n   * @modifier\n   * @group layout\n   * @deprecated\n   */\n@include deprecate('4.0.0') {\n  // Needs reasoning in second arg for anyone with historical context - JB\n\n  .slds-checkbox.slds-checkbox_stacked {\n\n    .slds-checkbox__label {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n    }\n\n    .slds-form-element__label {\n      font-size: $font-size-2;\n    }\n\n    .slds-checkbox_faux {\n      order: 1;\n      margin-bottom: 1px;\n    }\n\n    .slds-required {\n      float: left;\n    }\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/checkbox/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n\n/**\n * @summary Initializes checkbox\n *\n * @name base\n * @selector .slds-checkbox\n * @restrict span, label, div\n * @required\n * @support dev-ready\n * @variant\n */\n.slds-checkbox {\n  display: inline-block;\n  position: relative;\n\n  /**\n   * @summary Creates a custom styled checkbox\n   * @selector .slds-checkbox_faux\n   * @restrict .slds-checkbox span\n   */\n  .slds-checkbox_faux,\n  .slds-checkbox--faux {\n    @include square($square-icon-medium-content);\n    display: inline-block;\n    position: relative;\n    flex-shrink: 0;\n    vertical-align: middle;\n    // @todo consider shared hooks for inputs\n    border-radius: var(--slds-c-checkbox-radius-border, var(--sds-c-checkbox-radius-border, $border-radius-small));\n    // @todo consider shared hooks for inputs\n    border-width: $border-width-thin;\n    border-style: solid;\n    // @todo consider shared hooks for inputs\n    border-color: var(--slds-c-checkbox-color-border,\n      var(--sds-c-checkbox-color-border, var(--slds-g-color-border-base-4, #{$color-border-input})));\n    // @todo consider shared hooks for inputs\n    background-color: var(--slds-c-checkbox-color-background, var(--sds-c-checkbox-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-input})));\n    box-shadow: var(--slds-c-checkbox-shadow, var(--sds-c-checkbox-shadow));\n    transition: border $duration-quickly linear, background-color $duration-quickly linear;\n  }\n\n  /**\n   * @summary Container for faux checkbox, text, and slds-form-element__label\n   * @selector .slds-checkbox__label\n   * @restrict .slds-checkbox label\n   */\n  .slds-checkbox__label {\n    cursor: pointer;\n\n    // When slds-form-element__label is inline with slds-checkbox_faux, display as inline\n    .slds-form-element__label {\n      display: inline;\n      vertical-align: middle;\n      font-size: $font-size-3;\n    }\n  }\n\n  [type=\"checkbox\"] {\n    @include square(1px);\n    border: 0;\n    clip: rect(0 0 0 0);\n    margin: -1px;\n    overflow: hidden;\n    padding: 0;\n    position: absolute;\n    pointer-events: auto;\n    cursor: pointer;\n\n    &[disabled] {\n      cursor: default;\n    }\n\n    &:checked + .slds-checkbox_faux,\n    &:checked + .slds-checkbox--faux,\n    &:checked ~ .slds-checkbox_faux,\n    &:checked ~ .slds-checkbox--faux,\n    &:checked + .slds-checkbox__label .slds-checkbox_faux,\n    &:checked + .slds-checkbox__label .slds-checkbox--faux {\n      // @todo consider shared hooks\n      --slds-c-checkbox-color-border: var(--slds-c-checkbox-color-border-checked, var(--sds-c-checkbox-color-border-checked));\n      --slds-c-checkbox-color-background: var(--slds-c-checkbox-color-background-checked, var(--sds-c-checkbox-color-background-checked));\n\n      &:after {\n        display: block;\n        content: '';\n        height: ($square-icon-x-small-content * 0.5);\n        width: $square-icon-x-small-content;\n        position: absolute;\n        top: 50%;\n        /* stylelint-disable comment-empty-line-before */\n        /*! @noflip */\n        left: 50%;\n        transform: translate3d(-50%, -50%, 0) rotate(-45deg);\n        border-bottom: $border-width-thick solid var(--slds-c-checkbox-mark-color-foreground, var(--sds-c-checkbox-mark-color-foreground, var(--slds-s-mark-color-foreground-checked, $brand-accessible)));\n\n        /*! @noflip */\n        border-left: $border-width-thick solid var(--slds-c-checkbox-mark-color-foreground, var(--sds-c-checkbox-mark-color-foreground, var(--slds-s-mark-color-foreground-checked, $brand-accessible)));\n      }\n    }\n\n    &:focus {\n\n      + .slds-checkbox_faux,\n      + .slds-checkbox--faux,\n      ~ .slds-checkbox_faux,\n      ~ .slds-checkbox--faux,\n      + .slds-checkbox__label .slds-checkbox_faux,\n      + .slds-checkbox__label .slds-checkbox--faux {\n        // @todo consider shared hooks for inputs\n\n        outline: 0;\n        outline-offset: 0px;\n        /*! @css-var-fallback border-color */\n        --slds-c-checkbox-color-border: var(--slds-c-checkbox-color-border-focus, var(--sds-c-checkbox-color-border-focus));\n\n        /*! @css-var-fallback box-shadow */\n        --slds-c-checkbox-shadow: var(--slds-c-checkbox-shadow-focus, var(--sds-c-checkbox-shadow-focus, var(--slds-g-shadow-outset-focus-1, #{$shadow-button-focus})));\n      }\n\n      &:checked > .slds-checkbox_faux,\n      &:checked > .slds-checkbox--faux,\n      &:checked ~ .slds-checkbox_faux,\n      &:checked ~ .slds-checkbox--faux,\n      &:checked + .slds-checkbox__label .slds-checkbox_faux,\n      &:checked + .slds-checkbox__label .slds-checkbox--faux {\n        // @todo consider shared hooks for inputs\n        /*! @css-var-fallback border-color */\n        --slds-c-checkbox-color-border: var(--slds-c-checkbox-color-border-focus, var(--sds-c-checkbox-color-border-focus));\n      }\n    }\n\n    &:focus-visible {\n\n      + .slds-checkbox_faux,\n      + .slds-checkbox--faux,\n      ~ .slds-checkbox_faux,\n      ~ .slds-checkbox--faux,\n      + .slds-checkbox__label .slds-checkbox_faux,\n      + .slds-checkbox__label .slds-checkbox--faux {\n        // @todo consider shared hooks for inputs\n        outline: 2px solid transparent;\n        outline-offset: 2px;\n      }\n    }\n\n    &:indeterminate + .slds-checkbox_faux,\n    &:indeterminate + .slds-checkbox--faux,\n    &:indeterminate ~ .slds-checkbox_faux,\n    &:indeterminate ~ .slds-checkbox--faux,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox_faux,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox--faux {\n      --slds-c-checkbox-color-border: var(--slds-c-checkbox-color-border-checked, var(--sds-c-checkbox-color-border-checked));\n      --slds-c-checkbox-color-background: var(--slds-c-checkbox-color-background-checked, var(--sds-c-checkbox-color-background-checked));\n    }\n\n    &:indeterminate + .slds-checkbox_faux:after,\n    &:indeterminate + .slds-checkbox--faux:after,\n    &:indeterminate ~ .slds-checkbox_faux:after,\n    &:indeterminate ~ .slds-checkbox--faux:after,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox_faux:after,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox--faux:after {\n      content: '';\n      display: block;\n      position: absolute;\n      top: 50%;\n\n      /*! @noflip */\n      left: 50%;\n      width: $square-icon-x-small-content;\n      height: 2px;\n      border: 0;\n      transform: translate3d(-50%, -50%, 0);\n      border-bottom: var(--slds-g-sizing-border-2, $border-width-thick) solid var(--slds-c-checkbox-mark-color-foreground, var(--sds-c-checkbox-mark-color-foreground, var(--slds-s-mark-color-foreground-checked, $brand-accessible)));\n    }\n\n    &[disabled] {\n\n      + .slds-checkbox_faux,\n      + .slds-checkbox--faux,\n      ~ .slds-checkbox_faux,\n      ~ .slds-checkbox--faux,\n      + .slds-checkbox__label .slds-checkbox_faux,\n      + .slds-checkbox__label .slds-checkbox--faux {\n        // @todo consider shared hooks for inputs\n        border-color: var(--slds-g-color-border-base-1, #{$color-border-input-disabled});\n        // @todo consider shared hooks for inputs\n        background-color: var(--slds-g-color-neutral-base-95, #{$color-background-input-disabled});\n\n        &:after {\n          // @todo consider shared hooks for inputs\n          border-color: var(--slds-g-color-neutral-base-60, #{$color-gray-8});\n        }\n      }\n    }\n  }\n}\n\n.slds-form-element:has(.slds-checkbox) > .slds-form-element__label {\n  cursor: pointer;\n}\n\n.slds-checkbox:has([type=\"checkbox\"][disabled]) .slds-checkbox__label,\n.slds-form-element:has(.slds-checkbox [type=\"checkbox\"][disabled]) > .slds-form-element__label {\n  cursor: default;\n}\n\n.slds-has-error .slds-checkbox [type=\"checkbox\"] {\n\n  + .slds-checkbox_faux,\n  + .slds-checkbox--faux,\n  ~ .slds-checkbox_faux,\n  ~ .slds-checkbox--faux,\n  + .slds-checkbox__label .slds-checkbox_faux,\n  + .slds-checkbox__label .slds-checkbox--faux {\n    border-color: var(--slds-g-color-error-base-40, #{$color-border-error});\n    border-width: $border-width-thick;\n  }\n\n  &:checked + .slds-checkbox_faux,\n  &:checked + .slds-checkbox--faux,\n  &:checked ~ .slds-checkbox_faux,\n  &:checked ~ .slds-checkbox--faux,\n  &:checked + .slds-checkbox__label .slds-checkbox_faux,\n  &:checked + .slds-checkbox__label .slds-checkbox--faux {\n    border-color: var(--slds-g-color-error-base-40, #{$color-border-error});\n\n    &:after {\n      border-color: var(--slds-g-color-error-base-40, #{$color-background-error});\n    }\n  }\n}\n\n.slds-form-element .slds-checkbox [type=\"checkbox\"] + .slds-checkbox_faux,\n.slds-form-element .slds-checkbox [type=\"checkbox\"] + .slds-checkbox--faux,\n.slds-form-element .slds-checkbox [type=\"checkbox\"] ~ .slds-checkbox_faux,\n.slds-form-element .slds-checkbox [type=\"checkbox\"] ~ .slds-checkbox--faux,\n.slds-form-element .slds-checkbox [type=\"checkbox\"] + .slds-checkbox__label .slds-checkbox_faux,\n.slds-form-element .slds-checkbox [type=\"checkbox\"] + .slds-checkbox__label .slds-checkbox--faux {\n  margin-right: $spacing-x-small;\n\n  @include rtl() {\n    /*! @noflip */\n    margin-right: 0;\n\n    /*! @noflip */\n    margin-left: $spacing-x-small;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/checkbox/base/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-checkbox {\n\n  .slds-checkbox_faux,\n  .slds-checkbox--faux {\n    @include square($square-tappable-x-small);\n    flex-shrink: 0; // Contained within flex, we don't want checkbox to shrink\n  }\n\n  .slds-checkbox__label {\n    @include flex-vertical-center(inline-flex);\n    vertical-align: middle;  // Label is inline but with explicit size so we need to help with alignment\n    min-height: $height-tappable;\n\n    // When slds-form-element__label is inline with slds-checkbox_faux, display as inline\n    .slds-form-element__label {\n      // When in touch context, go back to flex for vertical centering within tap target area\n      display: inline-flex;\n      font-size: $font-size-5;\n    }\n  }\n\n  [type=\"checkbox\"] {\n\n    &:checked + .slds-checkbox_faux,\n    &:checked + .slds-checkbox--faux,\n    &:checked ~ .slds-checkbox_faux,\n    &:checked ~ .slds-checkbox--faux,\n    &:checked + .slds-checkbox__label .slds-checkbox_faux,\n    &:checked + .slds-checkbox__label .slds-checkbox--faux {\n\n      &:after {\n        height: ($square-icon-small-content * 0.5);\n        width: $square-icon-small-content;\n        margin-top: -1px; // vertical alignment adjustment for centering\n      }\n    }\n\n    &:indeterminate + .slds-checkbox_faux:after,\n    &:indeterminate + .slds-checkbox--faux:after,\n    &:indeterminate ~ .slds-checkbox_faux:after,\n    &:indeterminate ~ .slds-checkbox--faux:after,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox_faux:after,\n    &:indeterminate + .slds-checkbox__label .slds-checkbox--faux:after {\n      width: $square-icon-small-content;\n    }\n  }\n\n  &.slds-checkbox_stacked {\n\n    .slds-form-element__label {\n      font-size: $font-size-4;\n    }\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/checkbox/form-element/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Checkbox with top-level label and value != label\n * @name form-element\n * @selector .slds-checkbox_standalone\n * @restrict .slds-checkbox\n * @support dev-ready\n * @variant\n * @lwc\n */\n.slds-checkbox_standalone {\n  pointer-events: none; // Allows pointer-event to pass through to input\n\n  [type=\"checkbox\"] {\n    @include square(1rem); // Increase dimensions since the pointer-event is being passed to this element\n    margin: 0;\n    clip: auto; // This allows element to be available but since visibily hidden\n    opacity: 0; // Visually hide but keep size and pointer events, doesn't impact screen readers\n  }\n\n  .slds-checkbox_faux {\n    display: block; // Helps with some alignment\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/checkbox/form-element/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-checkbox_standalone {\n  min-height: $height-tappable;\n\n  [type=\"checkbox\"] {\n    @include square($square-tappable); // Needs to be larger than faux checkbox for increased tap target size\n    @include vertical-center;\n  }\n\n  .slds-checkbox_faux {\n    @include vertical-center; // We vertically align with position instead of flex due to \".slds-form-element__control .slds-checkbox\" display specificity\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/checkbox"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-checkbox-radius-border",
+    "0.125rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-shadow",
+    "",
+    "Box Shadow",
+    "String",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-color-border-checked",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-color-background-checked",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-mark-color-foreground",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-color-border-focus",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/checkbox/styling-hooks.json"
+   ],
+   [
+    "--slds-c-checkbox-shadow-focus",
+    "1, 0 0 3px #0176d3",
+    "Box Shadow",
+    "String",
+    "metadata/components/checkbox/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/checkbox/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}
