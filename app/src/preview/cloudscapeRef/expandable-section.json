@@ -1,0 +1,165 @@
+{
+ "slug": "expandable-section",
+ "title": "Expandable Section",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "container-variant.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ExpandableSection, { ExpandableSectionProps } from '~components/expandable-section';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { headerActions, headerInfo, headerTextActions } from './common';\n\nconst permutations = createPermutations<ExpandableSectionProps>([\n  {\n    headerCounter: [undefined, '(5)'],\n    headerDescription: [\n      undefined,\n      'Expandable section header description',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    headerInfo: [undefined, headerInfo],\n    headerActions: [undefined, headerActions],\n  },\n  {\n    headerCounter: ['(5)'],\n    headerActions: [headerTextActions],\n  },\n]);\nexport default function ExpandableSectionContainerVariantPermutations({\n  variant = 'container',\n}: {\n  variant: ExpandableSectionProps.Variant;\n}) {\n  return (\n    <article>\n      <h1>Expandable Section - container variant</h1>\n\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <ExpandableSection\n              {...permutation}\n              headerText={'Expandable section heading'}\n              defaultExpanded={true}\n              variant={variant}\n            >\n              Expandable section content\n            </ExpandableSection>\n          )}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/expandable-section/container-variant.permutations.page.tsx"
+  },
+  {
+   "name": "focus",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport ExpandableSection, { ExpandableSectionProps } from '~components/expandable-section';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { headerActions, headerInfo } from './common';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    hasHeaderActions?: boolean;\n    hasHeaderInfo?: boolean;\n    headerCounter?: string;\n    headerDescription?: string;\n    headerText: string;\n    variant?: string;\n  }>\n>;\n\nexport default function () {\n  const { urlParams } = useContext(AppContext as DemoContext);\n  const { hasHeaderActions, hasHeaderInfo, headerCounter, headerDescription, headerText, variant } = urlParams;\n\n  const isVariantValid = variant && ['container', 'default', 'footer', 'navigation'].indexOf(variant) !== -1;\n\n  return (\n    <article>\n      <h1>Expandable Section - focus tests</h1>\n\n      <button id=\"focus-target\">Focus target</button>\n\n      <ScreenshotArea>\n        <ExpandableSection\n          defaultExpanded={true}\n          headerActions={hasHeaderActions ? headerActions : undefined}\n          headerCounter={headerCounter}\n          headerDescription={headerDescription}\n          headerInfo={hasHeaderInfo ? headerInfo : undefined}\n          headerText={headerText || 'Header text'}\n          variant={isVariantValid ? (variant as ExpandableSectionProps.Variant) : undefined}\n        >\n          Expandable section content\n        </ExpandableSection>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/expandable-section/focus.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport ExpandableSection, { ExpandableSectionProps } from '~components/expandable-section';\nimport InternalExpandableSection from '~components/expandable-section/internal';\nimport Header from '~components/header';\nimport SpaceBetween from '~components/space-between';\nimport StatusIndicator from '~components/status-indicator';\nimport Table from '~components/table';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\n// Eight 200px columns give the table a min-content width far wider than the section that holds it.\nconst wideColumnDefinitions = Array.from({ length: 8 }, (_, index) => ({\n  id: `column-${index + 1}`,\n  header: `Configuration column ${index + 1}`,\n  cell: (item: { id: number }) => `Item ${item.id} value ${index + 1}`,\n  minWidth: 200,\n}));\n\nconst wideItems = Array.from({ length: 3 }, (_, index) => ({ id: index + 1 }));\n\n/* eslint-disable react/jsx-key */\nconst permutations = createPermutations<ExpandableSectionProps>([\n  {\n    defaultExpanded: [true, false],\n    variant: ['default'],\n    headerText: [\n      'Default Example Header',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n      <div>\n        Default example header <i>- optional</i>\n      </div>,\n    ],\n    children: [\n      'Sample content',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n  },\n  {\n    defaultExpanded: [true],\n    variant: ['footer'],\n    headerText: [\n      'Footer Example Header',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    children: [\n      'Sample content',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n  },\n  {\n    defaultExpanded: [true, false],\n    variant: ['container'],\n    headerText: [\n      'Container example header',\n      <>\n        Container example header <i>- optional</i>\n      </>,\n    ],\n    children: [\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n  },\n  {\n    defaultExpanded: [true],\n    variant: ['container'],\n    headerText: [\n      'Container example header',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    children: [\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    disableContentPaddings: [true],\n    headerCounter: [undefined, '(0)'],\n  },\n  {\n    defaultExpanded: [true],\n    variant: ['container'],\n    headerText: ['Container example header'],\n    children: [\n      <Container header=\"Container Header\">Content</Container>,\n      <Container header=\"Container Header\" footer=\"Container Footer\">\n        Content\n      </Container>,\n      <>\n        <span>some text</span>\n        <Table items={[]} columnDefinitions={[{ header: 'Test', cell: () => '' }]} empty=\"There will be content\" />\n      </>,\n    ],\n    disableContentPaddings: [false],\n  },\n  {\n    defaultExpanded: [true],\n    variant: ['container'],\n    // keep on variant='container' with header for screenshot test to check no style breaks\n    header: [<Header variant=\"h2\">Container example header</Header>],\n    children: [\n      <div style={{ overflow: 'hidden' }}>\n        <Table\n          variant=\"embedded\"\n          items={[]}\n          columnDefinitions={[{ header: 'Test', cell: () => '' }]}\n          empty=\"There will be content\"\n        />\n      </div>,\n    ],\n    disableContentPaddings: [true],\n  },\n  {\n    defaultExpanded: [true, false],\n    variant: ['navigation'],\n    headerText: [\n      'Navigation Example Header',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n      <div>\n        Navigation header <i>- optional</i>\n      </div>,\n    ],\n    children: ['Navigation content'],\n  },\n  {\n    defaultExpanded: [true],\n    headerAriaLabel: ['Header with ARIA label (ARIA)'],\n    variant: ['default', 'footer', 'navigation'],\n    headerText: ['Header with ARIA label'],\n    children: ['Sample content'],\n  },\n  {\n    defaultExpanded: [false],\n    variant: ['default', 'footer', 'navigation'],\n    headerText: ['Custom heading tag override'],\n    children: ['Sample content'],\n    headingTagOverride: [undefined, 'h2', 'h3'],\n  },\n  {\n    variant: ['default', 'container', 'footer'],\n    headerText: ['With description'],\n    children: ['Sample content'],\n    headerDescription: [\n      'Sample description',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    defaultExpanded: [false, true],\n  },\n  {\n    defaultExpanded: [false],\n    variant: ['default', 'footer'],\n    header: ['Deprecated header prop'],\n    children: ['Sample content'],\n  },\n  {\n    defaultExpanded: [false, true],\n    variant: ['default'],\n    headerText: ['Default with action'],\n    headerActions: [<Button variant=\"inline-link\">Some action</Button>],\n    children: ['Sample content'],\n  },\n  {\n    defaultExpanded: [false, true],\n    variant: ['inline'],\n    headerText: ['Inline with headerText'],\n    headerActions: [undefined, <Button variant=\"inline-link\">Some action</Button>],\n    headerDescription: [undefined, 'Description'],\n    children: ['Sample content'],\n  },\n]);\n\nconst endIconPermutations = createPermutations<ExpandableSectionProps>([\n  {\n    variant: ['default', 'footer', 'navigation', 'container'],\n    headerText: [\n      'Short Header',\n      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    headerActions: [\n      undefined,\n      <SpaceBetween direction=\"horizontal\" size=\"xs\" alignItems=\"center\">\n        <Button variant=\"inline-link\">Action</Button>\n        <Button>Another action</Button>\n        <StatusIndicator>Information</StatusIndicator>\n      </SpaceBetween>,\n    ],\n  },\n]);\n\nconst overflowPermutations = createPermutations<ExpandableSectionProps>([\n  {\n    defaultExpanded: [true],\n    variant: ['default', 'container'],\n    headerText: ['Content wider than the section'],\n  },\n]);\n\nexport default function ExpandableSectionPermutations() {\n  return (\n    <>\n      <h1>Expandable Section permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView permutations={permutations} render={permutation => <ExpandableSection {...permutation} />} />\n        <PermutationsView\n          permutations={endIconPermutations}\n          render={permutation => (\n            <InternalExpandableSection {...permutation} defaultExpanded={true} __expandIconPosition=\"end\">\n              Variant {permutation.variant} section content\n            </InternalExpandableSection>\n          )}\n        />\n        {/* The narrow wrapper is outside the section on purpose: content that manages its own inline\n            overflow must scroll within the section rather than stretch it past the red boundary. */}\n        <PermutationsView\n          permutations={overflowPermutations}\n          render={permutation => (\n            <div style={{ inlineSize: 400, borderInline: '1px solid red', borderBlock: '1px solid red' }}>\n              <ExpandableSection {...permutation}>\n                <Table\n                  variant=\"embedded\"\n                  columnDefinitions={wideColumnDefinitions}\n                  items={wideItems}\n                  // The scrollable table wrapper becomes a region landmark, which needs a unique name per permutation.\n                  ariaLabels={{ tableLabel: `Wide table in ${permutation.variant} section` }}\n                />\n              </ExpandableSection>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/expandable-section/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport ExpandableSection from '~components/expandable-section';\nimport SpaceBetween from '~components/space-between';\nimport StatusIndicator from '~components/status-indicator';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function SimpleContainers() {\n  const [expanded, setExpanded] = useState(false);\n  return (\n    <article>\n      <h1>Simple Expandable Section</h1>\n      <ScreenshotArea>\n        <h2>Default</h2>\n        <SpaceBetween size=\"xs\">\n          <ExpandableSection headerText=\"Static website hosting\">\n            After you enable your S3 bucket for static website hosting, web browsers can access your content through the\n            Amazon S3 website endpoint for the bucket.\n          </ExpandableSection>\n          <ExpandableSection\n            headerText=\"Static website hosting (controlled)\"\n            expanded={expanded}\n            onChange={({ detail }) => setExpanded(detail.expanded)}\n          >\n            After you enable your S3 bucket for static website hosting, web browsers can access your content through the\n            Amazon S3 website endpoint for the bucket.\n          </ExpandableSection>\n          <ExpandableSection headerText=\"Static website hosting\" defaultExpanded={true}>\n            After you enable your S3 bucket for static website hosting, web browsers can access your content through the\n            Amazon S3 website endpoint for the bucket.\n          </ExpandableSection>\n        </SpaceBetween>\n\n        <h2>Footer</h2>\n        <SpaceBetween size=\"xs\">\n          <ExpandableSection headerText=\"Versioning\" variant=\"footer\">\n            Versioning provides an additional level of protection by providing a way to recover from accidental\n            overwrites or expirations.\n          </ExpandableSection>\n\n          <h2>Navigation</h2>\n          <ExpandableSection headerText=\"Versioning\" variant=\"navigation\" defaultExpanded={true}>\n            Versioning provides an additional level of protection by providing a way to recover from accidental\n            overwrites or expirations.\n          </ExpandableSection>\n        </SpaceBetween>\n\n        <h2>Container</h2>\n        <SpaceBetween size=\"xs\">\n          <ExpandableSection\n            headerText={'Header component'}\n            headerCounter={'(5)'}\n            variant=\"container\"\n            defaultExpanded={true}\n          >\n            Verify or edit the settings below.\n          </ExpandableSection>\n\n          <ExpandableSection\n            headerText={'Header component'}\n            headerCounter={'(5)'}\n            variant=\"container\"\n            defaultExpanded={false}\n            headerActions={<StatusIndicator>Warning</StatusIndicator>}\n          >\n            Verify or edit the settings below.\n          </ExpandableSection>\n          <ExpandableSection\n            headerText={'Header component'}\n            headerCounter={'(5)'}\n            variant=\"container\"\n            defaultExpanded={false}\n            headerActions={<Button>Action</Button>}\n          >\n            Verify or edit the settings below.\n          </ExpandableSection>\n        </SpaceBetween>\n\n        <h2>Default with inline actions</h2>\n        <ExpandableSection\n          headerText=\"Volume 1 (AMI Root) (Custom) (8 GiB, EBS)\"\n          headerActions={\n            <Button variant=\"inline-link\" ariaLabel=\"Remove Volume 1\">\n              Remove\n            </Button>\n          }\n        >\n          Configuration Form here\n        </ExpandableSection>\n        <ExpandableSection\n          headerText=\"Volume 2 (Custom) (8 GiB, EBS)\"\n          headerActions={\n            <Button variant=\"inline-link\" ariaLabel=\"Remove Volume 2\">\n              Remove\n            </Button>\n          }\n        >\n          Configuration Form here\n        </ExpandableSection>\n        <ExpandableSection\n          headerText=\"Volume 3 (Custom) (16 GiB, EBS)\"\n          headerActions={\n            <Button variant=\"inline-link\" ariaLabel=\"Remove Volume 3\">\n              Remove\n            </Button>\n          }\n        >\n          Configuration Form here\n        </ExpandableSection>\n        <ExpandableSection\n          headerText=\"Volume 4 (Custom) (64 GiB, EBS, General Purpose SSD (gp3))\"\n          headerActions={\n            <Button variant=\"inline-link\" ariaLabel=\"Remove Volume 4\">\n              Remove\n            </Button>\n          }\n        >\n          Configuration Form here\n        </ExpandableSection>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/expandable-section/simple.page.tsx"
+  },
+  {
+   "name": "stacked-variant.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ExpandableSectionContainerVariantPermutations from './container-variant.permutations.page';\n\nexport default function ExpandableSectionStackedVariantPermutations() {\n  return <ExpandableSectionContainerVariantPermutations variant=\"stacked\" />;\n}\n",
+   "source": "pages/expandable-section/stacked-variant.permutations.page.tsx"
+  },
+  {
+   "name": "test",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport ExpandableSection from '~components/expandable-section';\nimport InternalExpandableSection from '~components/expandable-section/internal';\n\nexport default function ExpandableSectionTestPage() {\n  return (\n    <article>\n      <h1>Expandable Section Test Page</h1>\n\n      <button id=\"focus-target\">Focus target</button>\n\n      <ExpandableSection headerText=\"Static website hosting\">\n        After you enable your S3 bucket for static website hosting, web browsers can access your content through the\n        Amazon S3 website endpoint for the bucket.\n      </ExpandableSection>\n\n      <div data-testid=\"end-position-single-row\">\n        <InternalExpandableSection\n          variant=\"default\"\n          headerText=\"End position section\"\n          __expandIconPosition=\"end\"\n          headerActions={<Button>Action</Button>}\n        >\n          Content of the end-position expandable section used for keyboard toggle and focus tests.\n        </InternalExpandableSection>\n      </div>\n\n      <div data-testid=\"end-position-wrapping-header\">\n        <InternalExpandableSection\n          variant=\"default\"\n          headerText=\"This is a long wrapping header text that is intentionally verbose and extended to ensure it wraps to multiple lines when rendered in the test viewport used by integration tests\"\n          __expandIconPosition=\"end\"\n          headerActions={<Button>Action</Button>}\n        >\n          Content of the wrapping-header end-position expandable section used for the below-caret click test.\n        </InternalExpandableSection>\n      </div>\n    </article>\n  );\n}\n",
+   "source": "pages/expandable-section/test.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ExpandableSectionProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "analyticsMetadata",
+    "ExpandableSectionProps.AnalyticsMetadata",
+    "아니오",
+    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. @analytics",
+    "src/expandable-section/interfaces.ts:26"
+   ],
+   [
+    "defaultExpanded",
+    "boolean",
+    "아니오",
+    "Determines whether the component initially displays in expanded state (that is, with content visible). The component operates in an uncontrolled manner even if you provide a value for this property.",
+    "src/expandable-section/interfaces.ts:32"
+   ],
+   [
+    "expanded",
+    "boolean",
+    "아니오",
+    "Determines whether the component is in the expanded state (that is, with content visible). The component operates in a controlled manner if you provide a value for this property.",
+    "src/expandable-section/interfaces.ts:38"
+   ],
+   [
+    "variant",
+    "ExpandableSectionProps.Variant",
+    "아니오",
+    "The possible variants of an expandable section are as follows: * `default` - Use this variant in any context. * `footer` - Use this variant in container footers. * `container` - Use this variant in a detail page alongside other containers. * `navigation` - Use this variant in the navigation panel with anchors and custom styled content. It doesn't have any default styles. * `stacked` - Use this variant directly adjacent to other stacked containers (such as a container, table). * `inline` - Use this variant in any context where you need reduced padding around the header. @visualrefresh `stacked` variant",
+    "src/expandable-section/interfaces.ts:51"
+   ],
+   [
+    "disableContentPaddings",
+    "boolean",
+    "아니오",
+    "Determines whether the default padding around the content section is removed.",
+    "src/expandable-section/interfaces.ts:56"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Primary content displayed in the expandable section element.",
+    "src/expandable-section/interfaces.ts:61"
+   ],
+   [
+    "header",
+    "React.ReactNode",
+    "아니오",
+    "@deprecated Use `headerText` instead.",
+    "src/expandable-section/interfaces.ts:66"
+   ],
+   [
+    "headerText",
+    "React.ReactNode",
+    "아니오",
+    "The heading text. Use plain text. When using the container variant, you can use additional header props like `headerDescription` and `headerCounter` to display other elements in the header.",
+    "src/expandable-section/interfaces.ts:71"
+   ],
+   [
+    "headerDescription",
+    "string",
+    "아니오",
+    "Supplementary text below the heading. Use with the container, default or footer variants.",
+    "src/expandable-section/interfaces.ts:76"
+   ],
+   [
+    "headerCounter",
+    "string",
+    "아니오",
+    "Specifies secondary text that's displayed to the right of the heading title. Use with the container variant. Behaves similar to the Header component counter.",
+    "src/expandable-section/interfaces.ts:82"
+   ],
+   [
+    "headingTagOverride",
+    "ExpandableSectionProps.HeadingTag",
+    "아니오",
+    "Overrides the default [HTML heading tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements). Use with the container variant (which defaults to H2) or default/footer variants (which default to DIV). Using this property does not change the visual appearance of the component. Note that this only works with the `headerText` slot (not with the deprecated `header`), and not with the navigation variant.",
+    "src/expandable-section/interfaces.ts:90"
+   ],
+   [
+    "headerAriaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` to the header element. Use to assign unique labels when there are multiple expandable sections with the same header text on one page.",
+    "src/expandable-section/interfaces.ts:96"
+   ],
+   [
+    "onChange",
+    "NonCancelableEventHandler<ExpandableSectionProps.ChangeDetail>",
+    "아니오",
+    "Called when the state changes (that is, when the user expands or collapses the component). The event `detail` contains the current value of the `expanded` property.",
+    "src/expandable-section/interfaces.ts:102"
+   ],
+   [
+    "headerInfo",
+    "React.ReactNode",
+    "아니오",
+    "The area next to the heading, used to display an Info link. Use with the container variant.",
+    "src/expandable-section/interfaces.ts:107"
+   ],
+   [
+    "headerActions",
+    "React.ReactNode",
+    "아니오",
+    "Actions for the header. Use with the default or container variant.",
+    "src/expandable-section/interfaces.ts:112"
+   ]
+  ],
+  "source": "src/expandable-section/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

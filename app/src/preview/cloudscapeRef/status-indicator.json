@@ -1,0 +1,78 @@
+{
+ "slug": "status-indicator",
+ "title": "Status Indicator",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport InternalStatusIndicator, { InternalStatusIndicatorProps } from '~components/status-indicator/internal';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<InternalStatusIndicatorProps>([\n  {\n    type: ['error', 'warning', 'success', 'info', 'stopped', 'pending', 'in-progress', 'loading', 'not-started', 'log'],\n  },\n  {\n    type: ['pending'],\n    colorOverride: ['blue', 'grey', 'green', 'red', 'yellow'],\n  },\n  {\n    type: ['info'],\n    wrapText: [true, false],\n    __display: ['inline', 'inline-block'],\n    children: [\n      'Simple',\n      'very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text',\n      'verylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspaces',\n    ],\n  },\n]);\n\nexport default function StatusIndicatorPermutations() {\n  return (\n    <>\n      <h1>StatusIndicator permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div style={{ overflow: 'hidden' }}>\n              <div style={{ width: permutation.wrapText ? 'auto' : 200 }}>\n                <InternalStatusIndicator {...permutation} iconAriaLabel={`status ${permutation.type}`}>\n                  {permutation.children ?? <>Status {permutation.type}</>}\n                </InternalStatusIndicator>\n              </div>\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/status-indicator/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport StatusIndicator, { StatusIndicatorProps } from '~components/status-indicator';\n\nconst statusToText: [StatusIndicatorProps.Type, string][] = [\n  ['error', 'Error'],\n  ['warning', 'Warning'],\n  ['success', 'Success'],\n  ['info', 'Info'],\n  ['stopped', 'Stopped'],\n  ['pending', 'Pending'],\n  ['in-progress', 'In progress'],\n  ['loading', 'Loading'],\n  ['not-started', 'Not started'],\n];\n\nexport default function StatusIndicatorScenario() {\n  return (\n    <article>\n      <h1>Status Indicator demo page</h1>\n      <ul>\n        <li>Status indicator renders the icon with the supplied status text in appropriate color</li>\n        <li>Color can be overridden by using colorOverride property</li>\n      </ul>\n      <div>\n        {statusToText.map(([type, text]) => (\n          <div key={type}>\n            <StatusIndicator type={type} iconAriaLabel={text}>\n              {text}\n            </StatusIndicator>\n          </div>\n        ))}\n      </div>\n      <div>\n        {statusToText.map(([type, text]) => (\n          <div key={type}>\n            <StatusIndicator colorOverride={'green'} type={type} iconAriaLabel={text}>\n              {text}\n            </StatusIndicator>\n          </div>\n        ))}\n      </div>\n    </article>\n  );\n}\n",
+   "source": "pages/status-indicator/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "StatusIndicatorProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "type",
+    "StatusIndicatorProps.Type",
+    "아니오",
+    "Specifies the status type.",
+    "src/status-indicator/interfaces.ts:13"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "A text fragment that communicates the status.",
+    "src/status-indicator/interfaces.ts:17"
+   ],
+   [
+    "iconAriaLabel",
+    "string",
+    "아니오",
+    "Specifies an `aria-label` for the icon. If the status text alone does not fully describe the status, use this to communicate additional context.",
+    "src/status-indicator/interfaces.ts:22"
+   ],
+   [
+    "colorOverride",
+    "StatusIndicatorProps.Color",
+    "아니오",
+    "Specifies an override for the status indicator color.",
+    "src/status-indicator/interfaces.ts:26"
+   ],
+   [
+    "wrapText",
+    "boolean",
+    "아니오",
+    "Specifies if the text content should wrap. If you set it to false, it prevents the text from wrapping and truncates it with an ellipsis.",
+    "src/status-indicator/interfaces.ts:31"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.HTMLAttributes<HTMLElement>>",
+    "아니오",
+    "Attributes to add to the native element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/status-indicator/interfaces.ts:42"
+   ]
+  ],
+  "source": "src/status-indicator/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

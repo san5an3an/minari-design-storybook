@@ -1,0 +1,77 @@
+{
+ "slug": "date-input",
+ "title": "Date Input",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations-formats",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { SpaceBetween } from '~components';\nimport Box from '~components/box';\nimport DateInput, { DateInputProps } from '~components/date-input';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { locales } from './common';\n\nconst permutationsFormatsDay = createPermutations<DateInputProps>([\n  {\n    value: ['2020-01-02'],\n    ariaLabel: ['Some label'],\n    format: ['iso', 'slashed', 'long-localized'],\n    granularity: ['day'],\n  },\n]);\nconst permutationsFormatsMonth = createPermutations<DateInputProps>([\n  {\n    value: ['2020-01'],\n    ariaLabel: ['Some label'],\n    format: ['iso', 'slashed', 'long-localized'],\n    granularity: ['month'],\n  },\n]);\n\nconst permutationsLongLocalizedLocales = createPermutations<DateInputProps>([\n  {\n    value: ['2020-01-02'],\n    ariaLabel: ['Some label'],\n    format: ['long-localized'],\n    granularity: ['day', 'month'],\n    locale: locales,\n  },\n]);\n\nexport default function DateInputPermutations() {\n  return (\n    <Box padding=\"l\">\n      <h1>Date Input permutations - formats</h1>\n      <ScreenshotArea>\n        <SpaceBetween size=\"m\">\n          <PermutationsView\n            permutations={permutationsFormatsDay}\n            render={permutation => <DateInput {...permutation} onChange={() => {}} />}\n          />\n\n          <PermutationsView\n            permutations={permutationsFormatsMonth}\n            render={permutation => <DateInput {...permutation} onChange={() => {}} />}\n          />\n\n          <hr />\n\n          <PermutationsView\n            permutations={permutationsLongLocalizedLocales}\n            render={permutation => <DateInput {...permutation} onChange={() => {}} />}\n          />\n        </SpaceBetween>\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
+   "source": "pages/date-input/permutations-formats.page.tsx"
+  },
+  {
+   "name": "permutations-states",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport DateInput, { DateInputProps } from '~components/date-input';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<DateInputProps>([\n  {\n    value: ['', '2020-01-01'],\n    placeholder: ['', 'YYYY/MM/DD'],\n    ariaLabel: ['Some label'],\n    invalid: [false, true],\n    readOnly: [false, true],\n    disabled: [false, true],\n  },\n]);\n\nexport default function DateInputPermutations() {\n  return (\n    <Box padding=\"l\">\n      <h1>Date Input permutations - states</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <DateInput {...permutation} onChange={() => {}} />}\n        />\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
+   "source": "pages/date-input/permutations-states.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useEffect, useState } from 'react';\n\nimport { Box, Select, SelectProps, SpaceBetween, Toggle } from '~components';\nimport DateInput, { DateInputProps } from '~components/date-input';\n\nimport { AppContextType } from '../app/app-context';\nimport AppContext from '../app/app-context';\nimport { getPlaceholder, locales } from './common';\n\nexport type PageContext = React.Context<\n  AppContextType<{\n    granularity?: DateInputProps.Granularity;\n    readOnly?: boolean;\n    disabled?: boolean;\n    inputFormat?: DateInputProps.InputFormat;\n    format?: DateInputProps.Format;\n    locale?: string;\n    hasValue?: boolean;\n  }>\n>;\n\nconst inputFormatOptions: SelectProps.Option[] = [{ value: 'iso' }, { value: 'slashed' }];\n\nconst formatOptions: SelectProps.Option[] = [...inputFormatOptions, { value: 'long-localized' }];\n\nconst localeOptions: SelectProps.Option[] = locales.map(locale => ({ value: locale }));\n\nexport default function DateInputScenario() {\n  const { urlParams, setUrlParams } = useContext(AppContext as PageContext);\n  const initValue = '2025-02-14';\n  const hasValue = urlParams.hasValue ?? false;\n  const [value, setValue] = useState<DateInputProps['value']>('');\n\n  useEffect(() => {\n    if (hasValue) {\n      setValue(initValue);\n    } else {\n      setValue('');\n    }\n  }, [hasValue]);\n\n  return (\n    <Box padding=\"l\">\n      <SpaceBetween direction=\"vertical\" size=\"m\">\n        <h1>Date input</h1>\n\n        <SpaceBetween size=\"m\">\n          <SpaceBetween direction=\"horizontal\" size=\"s\">\n            <Toggle\n              checked={urlParams.granularity === 'month'}\n              onChange={({ detail }) => setUrlParams({ granularity: detail.checked ? 'month' : 'day' })}\n            >\n              Month only\n            </Toggle>\n            <Toggle\n              checked={!!urlParams.readOnly}\n              onChange={({ detail }) => setUrlParams({ readOnly: detail.checked })}\n            >\n              Read-only\n            </Toggle>\n            <Toggle\n              checked={!!urlParams.disabled}\n              onChange={({ detail }) => setUrlParams({ disabled: detail.checked })}\n            >\n              Disabled\n            </Toggle>\n            <Toggle checked={hasValue} onChange={({ detail }) => setUrlParams({ hasValue: detail.checked })}>\n              Has initial value\n            </Toggle>\n          </SpaceBetween>\n\n          <SpaceBetween direction=\"horizontal\" size=\"s\">\n            <div style={{ minWidth: 200 }}>\n              <Select\n                inlineLabelText=\"Input format\"\n                options={inputFormatOptions}\n                selectedOption={inputFormatOptions.find(o => o.value === urlParams.inputFormat) ?? null}\n                onChange={({ detail }) =>\n                  setUrlParams({ inputFormat: detail.selectedOption.value as DateInputProps.InputFormat })\n                }\n              />\n            </div>\n\n            <div style={{ minWidth: 200 }}>\n              <Select\n                inlineLabelText=\"Format\"\n                options={formatOptions}\n                selectedOption={formatOptions.find(o => o.value === urlParams.format) ?? null}\n                onChange={({ detail }) =>\n                  setUrlParams({ format: detail.selectedOption.value as DateInputProps.Format })\n                }\n              />\n            </div>\n\n            <div style={{ minWidth: 200 }}>\n              <Select\n                inlineLabelText=\"Locale\"\n                options={localeOptions}\n                selectedOption={localeOptions.find(o => o.value === urlParams.locale) ?? null}\n                onChange={({ detail }) => setUrlParams({ locale: detail.selectedOption.value })}\n              />\n            </div>\n          </SpaceBetween>\n        </SpaceBetween>\n\n        <DateInput\n          className=\"testing-date-input\"\n          name=\"date\"\n          ariaLabel=\"Enter the date in YYYY/MM/DD\"\n          placeholder={getPlaceholder({\n            granularity: urlParams.granularity ?? 'day',\n            inputFormat: urlParams.inputFormat,\n            format: urlParams.format,\n          })}\n          value={value}\n          onChange={e => setValue(e.detail.value)}\n          {...urlParams}\n        />\n\n        <Box variant=\"code\">Raw value (iso): {JSON.stringify(value, undefined, 2)}</Box>\n      </SpaceBetween>\n    </Box>\n  );\n}\n",
+   "source": "pages/date-input/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "DateInputProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "value",
+    "string",
+    "예",
+    "The current input value, in YYYY-MM-DD format.",
+    "src/date-input/interfaces.ts:13"
+   ],
+   [
+    "locale",
+    "string",
+    "아니오",
+    "Specifies the locale to use to render month names and determine the starting day of the week. If you don't provide this, the locale is determined by the page and browser locales. Supported values and formats are listed in the [JavaScript Intl API specification](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).",
+    "src/date-input/interfaces.ts:20"
+   ],
+   [
+    "granularity",
+    "DateInputProps.Granularity",
+    "아니오",
+    "Specifies the granularity at which users will be able to select a date. Defaults to `day`.",
+    "src/date-input/interfaces.ts:26"
+   ],
+   [
+    "format",
+    "DateInputProps.Format",
+    "아니오",
+    "The format as it is displayed. It can take the following values: * `iso`: ISO 8601 format without time, e.g.: 2024-01-30 (or 2024-01). * `long-localized`: a more human-readable, localized format, e.g.: January 30, 2024 (or January, 2024). * `slashed`: similar to ISO 8601 but with '/' in place of '-'. e.g.: 2024/01/30 (or 2024/01).",
+    "src/date-input/interfaces.ts:34"
+   ],
+   [
+    "inputFormat",
+    "DateInputProps.InputFormat",
+    "아니오",
+    "Specifies the date format to use when the format is 'long-localized' and editing the date. The format of the input as it is being interacted with. It can take the following values: * `iso`: ISO 8601 format without time, e.g.: 2024-01-30 (or 2024-01). * `slashed`: similar to ISO 8601 but with '/' in place of '-'. e.g.: 2024/01/30 (or 2024/01).",
+    "src/date-input/interfaces.ts:42"
+   ]
+  ],
+  "source": "src/date-input/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

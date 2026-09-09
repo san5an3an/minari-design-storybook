@@ -1,0 +1,98 @@
+{
+ "slug": "form",
+ "title": "Form",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport ButtonDropdown from '~components/button-dropdown';\nimport Container from '~components/container';\nimport Form, { FormProps } from '~components/form';\nimport FormField from '~components/form-field';\nimport Header from '~components/header';\nimport Input from '~components/input';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\n/* eslint-disable react/jsx-key */\nconst permutations = createPermutations<FormProps>([\n  {\n    header: [\n      <Header variant=\"h1\">Form header</Header>,\n      <Header variant=\"h1\" description=\"You can find more examples in Form field documentation page\">\n        Form header\n      </Header>,\n      <Header\n        variant=\"h1\"\n        description=\"You can find more examples in Form field documentation page\"\n        info={<Link variant=\"info\">Info</Link>}\n      >\n        Form header\n      </Header>,\n    ],\n    children: [\n      <SpaceBetween direction=\"vertical\" size=\"l\">\n        <Container header={<Header variant=\"h2\">Form section header 1</Header>}>\n          <SpaceBetween direction=\"vertical\" size=\"l\">\n            <FormField label=\"First field\">\n              <Input value=\"\" readOnly={true} />\n            </FormField>\n            <FormField label=\"Second field\">\n              <Input value=\"\" readOnly={true} />\n            </FormField>\n          </SpaceBetween>\n        </Container>\n        <Container header={<Header variant=\"h2\">Form section header 2</Header>}>\n          <SpaceBetween direction=\"vertical\" size=\"l\">\n            <FormField label=\"First field\">\n              <Input value=\"\" readOnly={true} />\n            </FormField>\n            <FormField label=\"Second field\">\n              <Input value=\"\" readOnly={true} />\n            </FormField>\n          </SpaceBetween>\n        </Container>\n      </SpaceBetween>,\n    ],\n    errorText: ['', 'This is an error!'],\n    errorIconAriaLabel: ['Error'],\n    actions: [\n      <SpaceBetween direction=\"horizontal\" size=\"xs\">\n        <Button variant=\"link\">Cancel</Button>\n        <Button variant=\"primary\">Submit</Button>\n      </SpaceBetween>,\n    ],\n    variant: ['embedded'],\n  },\n]);\n\nconst secondaryActionsPermutations = createPermutations<FormProps>([\n  {\n    header: [<Header variant=\"h1\">Form header</Header>],\n    children: [\n      <SpaceBetween direction=\"vertical\" size=\"l\">\n        <FormField label=\"First field\">\n          <Input value=\"\" readOnly={true} />\n        </FormField>\n        <FormField label=\"Second field\">\n          <Input value=\"\" readOnly={true} />\n        </FormField>\n      </SpaceBetween>,\n    ],\n    actions: [\n      <SpaceBetween direction=\"horizontal\" size=\"xs\">\n        <Button variant=\"link\">Cancel</Button>\n        <Button variant=\"primary\">Submit</Button>\n      </SpaceBetween>,\n    ],\n    secondaryActions: [\n      <Button>Save and close</Button>,\n      <ButtonDropdown items={[{ id: '1', text: 'Item 1' }]}>Actions</ButtonDropdown>,\n      <SpaceBetween direction=\"horizontal\" size=\"xs\">\n        <Button variant=\"link\">Info</Button>\n        <Button>Save and close</Button>\n      </SpaceBetween>,\n    ],\n    variant: ['embedded'],\n  },\n]);\n\nconst layoutPermutations = createPermutations<FormProps>([\n  {\n    header: [<Header variant=\"h1\">Form header</Header>, undefined],\n    children: [\n      <Container header={<Header variant=\"h2\">Form section</Header>}>\n        <FormField label=\"Form field\">\n          <Input value=\"\" readOnly={true} />\n        </FormField>\n      </Container>,\n    ],\n    actions: [\n      <SpaceBetween direction=\"horizontal\" size=\"xs\">\n        <Button variant=\"link\">Cancel</Button>\n        <Button variant=\"primary\">Submit</Button>\n      </SpaceBetween>,\n    ],\n    variant: ['embedded', 'full-page'],\n  },\n]);\n\nexport default function FormPermutations() {\n  return (\n    <>\n      <h1>Form permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={[...permutations, ...secondaryActionsPermutations, ...layoutPermutations]}\n          render={permutation => <Form {...permutation} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/form/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport Form from '~components/form';\nimport FormField from '~components/form-field';\nimport Header from '~components/header';\nimport Input from '~components/input';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\nimport Tiles from '~components/tiles';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function FormScenario() {\n  const [value, setValue] = useState<string>('bar');\n\n  return (\n    <ScreenshotArea>\n      <div className={styles['form-container']}>\n        <Form\n          header={\n            <Header\n              variant=\"h1\"\n              description=\"You can find more examples in Form field documentation page\"\n              info={<Link variant=\"info\">Info</Link>}\n            >\n              Form header\n            </Header>\n          }\n          actions={\n            <SpaceBetween direction=\"horizontal\" size=\"xs\">\n              <Button variant=\"link\">Cancel</Button>\n              <Button variant=\"primary\">Submit</Button>\n            </SpaceBetween>\n          }\n          errorText=\"This is an error!\"\n          errorIconAriaLabel=\"Error\"\n        >\n          <SpaceBetween direction=\"vertical\" size=\"l\">\n            <Container header={<Header variant=\"h2\">Form section header 1</Header>}>\n              <SpaceBetween direction=\"vertical\" size=\"l\">\n                <FormField label=\"First field\">\n                  <Input value=\"\" readOnly={true} />\n                </FormField>\n                <FormField label=\"Second field\">\n                  <Input value=\"\" readOnly={true} />\n                </FormField>\n              </SpaceBetween>\n            </Container>\n            <Container header={<Header variant=\"h2\">Form section header 2</Header>}>\n              <SpaceBetween direction=\"vertical\" size=\"l\">\n                <FormField label=\"First field\">\n                  <Input value=\"\" readOnly={true} />\n                </FormField>\n                <FormField label=\"Second field\">\n                  <Input value=\"\" readOnly={true} />\n                </FormField>\n                <FormField label=\"Some tiles\">\n                  <Tiles\n                    value={value}\n                    onChange={event => setValue(event.detail.value)}\n                    columns={3}\n                    items={[\n                      { label: 'Foo', value: 'foo' },\n                      { label: 'Bar', value: 'bar' },\n                      { label: 'Baz', value: 'baz', disabled: true },\n                      { label: 'Boo', value: 'boo' },\n                    ]}\n                  />\n                </FormField>\n                <FormField label=\"Third field\">\n                  <Input value=\"\" readOnly={true} />\n                </FormField>\n              </SpaceBetween>\n            </Container>\n          </SpaceBetween>\n        </Form>\n      </div>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/form/simple.page.tsx"
+  },
+  {
+   "name": "with-validation",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport {\n  Alert,\n  BreadcrumbGroup,\n  Button,\n  Checkbox,\n  Container,\n  Form,\n  FormField,\n  Header,\n  Input,\n  SpaceBetween,\n} from '~components';\n\nexport default function FormScenario() {\n  const [value, setValue] = useState('');\n  const [simulateServerError, setSimulateServerError] = useState(true);\n  const [showInlineSuccess, setShowInlineSuccess] = useState(false);\n  const [submitWithDelay, setSubmitWithDelay] = useState(false);\n\n  const [attemptedToSubmit, setAttemptedToSubmit] = useState(false);\n\n  const [loading, setLoading] = useState(false);\n  const [showFormError, setShowFormError] = useState(false);\n\n  const [finished, setFinished] = useState(false);\n\n  const onSubmit = () => {\n    setAttemptedToSubmit(true);\n    setShowFormError(false);\n\n    if (value.length > 4) {\n      return;\n    }\n\n    setLoading(true);\n\n    const submit = () => {\n      setLoading(false);\n\n      if (simulateServerError) {\n        setShowFormError(true);\n      } else {\n        setFinished(true);\n      }\n    };\n\n    if (submitWithDelay) {\n      setTimeout(submit, 2000);\n    } else {\n      submit();\n    }\n  };\n\n  return (\n    <>\n      <BreadcrumbGroup\n        items={[\n          { text: 'Breadcrumbs', href: '#' },\n          { text: 'Create a resource', href: '#' },\n        ]}\n      />\n      {finished && !showInlineSuccess ? (\n        <Container>Finished</Container>\n      ) : (\n        <Form\n          header={<Header variant=\"h1\">Form</Header>}\n          actions={\n            <SpaceBetween direction=\"horizontal\" size=\"xs\">\n              <Button variant=\"link\" disabled={loading}>\n                Cancel\n              </Button>\n              <Button variant=\"primary\" onClick={onSubmit} loading={loading} loadingText=\"Loading\">\n                Submit\n              </Button>\n            </SpaceBetween>\n          }\n          errorText={showFormError ? 'A server-side error happened.' : undefined}\n          errorIconAriaLabel=\"Error\"\n        >\n          <SpaceBetween direction=\"vertical\" size=\"l\">\n            <Container header={<Header variant=\"h2\">Form section 1</Header>}>\n              <FormField\n                label=\"Form field\"\n                errorText={\n                  attemptedToSubmit && value.length > 4 ? 'The text must not be longer than 4 letters' : undefined\n                }\n                warningText={value.includes(' ') ? 'The value has empty characters.' : undefined}\n                constraintText=\"Maximum length: 4 letters\"\n                i18nStrings={{ errorIconAriaLabel: 'Error', warningIconAriaLabel: 'Warning' }}\n              >\n                <Input value={value} onChange={e => setValue(e.detail.value)} disabled={loading} />\n              </FormField>\n            </Container>\n            <Container header={<Header variant=\"h2\">Form section 2</Header>}>\n              <SpaceBetween direction=\"vertical\" size=\"l\">\n                <FormField label=\"Apply delay\">\n                  <Checkbox\n                    checked={submitWithDelay}\n                    onChange={e => setSubmitWithDelay(e.detail.checked)}\n                    disabled={loading}\n                  >\n                    Apply a loading state when submitting the form\n                  </Checkbox>\n                </FormField>\n\n                <FormField label=\"Error simulation\">\n                  <Checkbox\n                    checked={simulateServerError}\n                    onChange={e => setSimulateServerError(e.detail.checked)}\n                    disabled={loading}\n                  >\n                    Show a server side error when this form is submitted\n                  </Checkbox>\n                </FormField>\n\n                <FormField label=\"Success display\">\n                  <Checkbox\n                    checked={showInlineSuccess}\n                    onChange={e => setShowInlineSuccess(e.detail.checked)}\n                    disabled={loading}\n                  >\n                    Show success inline instead of on a new page\n                  </Checkbox>\n                </FormField>\n              </SpaceBetween>\n            </Container>\n            {finished && showInlineSuccess && <Alert type=\"success\">The resource was successfully created.</Alert>}\n          </SpaceBetween>\n        </Form>\n      )}\n    </>\n  );\n}\n",
+   "source": "pages/form/with-validation.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "FormProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Specifies the main form content.",
+    "src/form/interfaces.ts:21"
+   ],
+   [
+    "header",
+    "React.ReactNode",
+    "아니오",
+    "Specifies the form title and optional description. Use the [header component](/components/header/).",
+    "src/form/interfaces.ts:26"
+   ],
+   [
+    "errorText",
+    "React.ReactNode",
+    "아니오",
+    "Specifies a form-level validation message.",
+    "src/form/interfaces.ts:31"
+   ],
+   [
+    "errorIconAriaLabel",
+    "string",
+    "아니오",
+    "Provides a text alternative for the error icon in the error alert. @i18n",
+    "src/form/interfaces.ts:37"
+   ],
+   [
+    "actions",
+    "React.ReactNode",
+    "아니오",
+    "Specifies actions for the form. You should wrap action buttons in a [space between component](/components/space-between) with `direction=\"horizontal\"` and `size=\"xs\"`.",
+    "src/form/interfaces.ts:42"
+   ],
+   [
+    "secondaryActions",
+    "React.ReactNode",
+    "아니오",
+    "Specifies left-aligned secondary actions for the form. Use a button dropdown if multiple actions are required.",
+    "src/form/interfaces.ts:47"
+   ],
+   [
+    "variant",
+    "'full-page' | 'embedded'",
+    "아니오",
+    "Specify a form variant with one of the following: * `full-page` - Use this variant when the form contains the entire content of the page. * `embedded` - Use this variant when the form doesn't occupy the full page. @deprecated You can safely remove this property as there is no longer any visual difference between `full-page` and `embedded` variants.",
+    "src/form/interfaces.ts:55"
+   ],
+   [
+    "analyticsMetadata",
+    "FormProps.AnalyticsMetadata",
+    "아니오",
+    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `flowType` - Identifies the type of flow represented by the component. * `resourceType` - Identifies the type of resource represented by the flow. **Note:** This API is currently experimental. * `errorContext` - Identifies the error category and sub-category. @analytics",
+    "src/form/interfaces.ts:65"
+   ]
+  ],
+  "source": "src/form/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

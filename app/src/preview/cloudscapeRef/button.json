@@ -1,0 +1,225 @@
+{
+ "slug": "button",
+ "title": "Button",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "alignment",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function ButtonsScenario() {\n  return (\n    <article>\n      <ul>\n        <li>Buttons should not inherit font styles from parent component</li>\n        <li>Buttons should have margins when placed next to each other</li>\n      </ul>\n      <ScreenshotArea>\n        <h1 className={styles.styledWrapper}>\n          Text for comparison\n          <Button variant=\"link\">Link</Button> <Button>Default</Button>{' '}\n          <Button id=\"btnTest\" variant=\"primary\">\n            Primary\n          </Button>{' '}\n          {/*TODO: uncomment when we add ButtonDropdown component */}\n          {/*<ButtonDropdown text=\"Dropdown\" />*/}\n        </h1>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/button/alignment.page.tsx"
+  },
+  {
+   "name": "disabled-reason-modal",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Button, Modal } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function ButtonsScenario() {\n  return (\n    <article>\n      <ScreenshotArea>\n        <h1 className={styles.styledWrapper}>Button with disabled reason within a modal</h1>\n        <Modal\n          header=\"Delete instance\"\n          visible={true}\n          onDismiss={() => {}}\n          closeAriaLabel=\"Close modal\"\n          footer={\n            <span style={{ display: 'flex', justifyContent: 'flex-end' }}>\n              <Button variant=\"link\">Cancel</Button>\n              <Button variant=\"primary\" disabled={true} disabledReason=\"reason\" data-testid=\"button\">\n                Delete\n              </Button>\n            </span>\n          }\n        >\n          This will permanently delete your instance, and may affect the performance of other resources.\n        </Modal>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/button/disabled-reason-modal.page.tsx"
+  },
+  {
+   "name": "disabled-reason",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function ButtonsScenario() {\n  return (\n    <article>\n      <ScreenshotArea>\n        <h1 className={styles.styledWrapper}>Buttons with disabled reason</h1>\n        <Button variant=\"primary\" disabled={true} disabledReason=\"disabled reason\">\n          Primary\n        </Button>\n        <Button disabled={true} disabledReason=\"disabled reason\">\n          Default\n        </Button>\n        <Button\n          disabled={true}\n          disabledReason=\"disabled reason\"\n          href=\"https://smth.com\"\n          data-testid=\"normal-button-with-href\"\n        >\n          Button with href\n        </Button>\n        <Button\n          disabled={true}\n          disabledReason=\"disabled reason\"\n          iconName=\"star\"\n          ariaLabel=\"Disabled reason icon button\"\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/button/disabled-reason.page.tsx"
+  },
+  {
+   "name": "external.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button, { ButtonProps } from '~components/button';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ButtonProps>([\n  {\n    disabled: [false, true],\n    loading: [false, true],\n    iconName: [undefined, 'settings'],\n    iconAlign: ['left', 'right'],\n    external: [true],\n    children: [\n      'Button',\n      <>\n        <em>Custom</em> content\n      </>,\n    ],\n    href: [undefined, '/choco/home'],\n    variant: ['normal', 'primary'],\n  },\n  {\n    variant: ['inline-link'],\n    external: [false, true],\n    iconName: [undefined, 'download'],\n    iconAlign: ['left', 'right'],\n    children: ['Inline link'],\n    loading: [false, true],\n    disabled: [false, true],\n  },\n]);\n\nexport default function ButtonPermutations() {\n  return (\n    <>\n      <h1>External button permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Button {...permutation} i18nStrings={{ externalIconAriaLabel: '(opens in a new tab)' }} />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/button/external.permutations.page.tsx"
+  },
+  {
+   "name": "form-submit",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\n\nexport default function ButtonIntegrationPage() {\n  const [clickedButton, setClickedButton] = useState('');\n  return (\n    <article>\n      <h1>Buttons with different types in a form</h1>\n\n      <form onSubmit={event => event.preventDefault()}>\n        <label>\n          Input here:\n          <input id=\"keyInput\" name=\"test-value\" />\n        </label>\n        <Button formAction=\"none\" onClick={() => setClickedButton('Simple')}>\n          Simple\n        </Button>\n        <Button formAction=\"submit\" onClick={() => setClickedButton('Submit')}>\n          Submit\n        </Button>\n        <span id=\"clickMessage\">{clickedButton && `${clickedButton} button is triggered`}</span>\n      </form>\n    </article>\n  );\n}\n",
+   "source": "pages/button/form-submit.page.tsx"
+  },
+  {
+   "name": "loading-announcements",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport { FormField, Input, LiveRegion } from '~components';\nimport Button from '~components/button';\n\nexport default function ButtonIntegrationPage() {\n  const [loadingState, setLoadingState] = useState<'initial' | 'loading' | 'success'>('initial');\n  const [loadingTime, setLoadingTime] = useState(2000);\n  const [lastReloadTime, setLastReloadTime] = useState<Date | null>(null);\n  useEffect(() => {\n    if (loadingState === 'loading') {\n      const timer = setTimeout(() => {\n        setLoadingState('success');\n        setLastReloadTime(new Date());\n      }, loadingTime);\n      return () => clearTimeout(timer);\n    }\n  }, [loadingState, loadingTime]);\n  return (\n    <article>\n      <h1>Button with loading text and result</h1>\n      <FormField label=\"Loading duration\">\n        <Input\n          type=\"number\"\n          value={loadingTime.toString()}\n          onChange={e => setLoadingTime(parseInt(e.detail.value) || 0)}\n        />\n      </FormField>\n      Trigger reload:\n      <Button\n        ariaLabel=\"Reload\"\n        iconName=\"refresh\"\n        loading={loadingState === 'loading'}\n        loadingText=\"Loading\"\n        onClick={() => setLoadingState('loading')}\n      />\n      <LiveRegion>\n        {loadingState === 'success' && (\n          <div data-testid=\"success-message\">\n            Successfully reloaded at {lastReloadTime?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}\n          </div>\n        )}\n      </LiveRegion>\n    </article>\n  );\n}\n",
+   "source": "pages/button/loading-announcements.page.tsx"
+  },
+  {
+   "name": "performance-marks-in-modal",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Modal from '~components/modal';\n\nexport default function ButtonsPerformanceMarkPage() {\n  const marks = usePerformanceMarks();\n\n  return (\n    <Box padding=\"xxl\">\n      <h1>Performance marks in a Modal</h1>\n\n      <Modal\n        visible={true}\n        footer={<Button variant=\"primary\">Button INSIDE modal</Button>}\n        header=\"Performance marks on this page\"\n        closeAriaLabel=\"Close\"\n      >\n        <pre>\n          {marks.map((m, index) => (\n            <React.Fragment key={index}>\n              <b>{m.name}</b>\n              <pre>Details: {JSON.stringify(m.detail, null, 2)}</pre>\n            </React.Fragment>\n          ))}\n        </pre>\n      </Modal>\n\n      <Button variant=\"primary\">Button OUTSIDE modal</Button>\n    </Box>\n  );\n}\n\nfunction usePerformanceMarks() {\n  const [marks, setMarks] = useState<PerformanceMark[]>([]);\n\n  useEffect(() => {\n    const existingEntries = (performance.getEntriesByType('mark') as PerformanceMark[]).filter(isNotReactDevTools);\n    setMarks(existingEntries);\n\n    const observer = new PerformanceObserver(list => {\n      const newEntries = (list.getEntries() as PerformanceMark[]).filter(isNotReactDevTools);\n      if (newEntries.length > 0) {\n        setMarks(existing => [...existing, ...newEntries]);\n      }\n    });\n\n    observer.observe({ type: 'mark' });\n    return () => observer.disconnect();\n  }, [setMarks]);\n\n  return marks;\n}\n\n// This prevents an infinite rerendering loop.\nconst isNotReactDevTools = (m: PerformanceMark) => !m.name.includes('⚛') && m.name !== '__v3';\n",
+   "source": "pages/button/performance-marks-in-modal.page.tsx"
+  },
+  {
+   "name": "performance-marks",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Modal, SpaceBetween, Tabs } from '~components';\nimport Box from '~components/box';\nimport Button from '~components/button';\n\nconst EVALUATE_COMPONENT_VISIBILITY_EVENT = 'awsui-evaluate-component-visibility';\n\nexport default function ButtonsPerformanceMarkPage() {\n  const [loading, setLoading] = useState(true);\n  const [disabled, setDisabled] = useState(false);\n  const dispatchEvaluateVisibilityEvent = () => {\n    const event = new CustomEvent(EVALUATE_COMPONENT_VISIBILITY_EVENT);\n    setTimeout(() => {\n      document.dispatchEvent(event);\n    }, 0);\n  };\n\n  return (\n    <Box padding=\"xxl\">\n      <h1>Performance marks in buttons</h1>\n      <SpaceBetween size=\"l\">\n        <label>\n          <input type=\"checkbox\" checked={loading} onChange={e => setLoading(e.target.checked)} id=\"loading\" />\n          Loading\n        </label>\n        <label>\n          <input type=\"checkbox\" checked={disabled} onChange={e => setDisabled(e.target.checked)} id=\"disabled\" />\n          Disabled\n        </label>\n        <label>\n          <Button onClick={() => dispatchEvaluateVisibilityEvent()} id=\"evaluateComponentVisibility\">\n            Dispatch EvaluateVisibility Event\n          </Button>\n        </label>\n        <Button variant=\"primary\" loading={loading} disabled={disabled}>\n          Primary button with loading and disabled props\n        </Button>\n        <Button variant=\"primary\">Primary button</Button>\n        <Button>Non-primary button</Button>\n\n        <Modal visible={false} footer={<Button variant=\"primary\">Submit modal</Button>}></Modal>\n\n        <Tabs\n          tabs={[\n            {\n              label: 'An empty tab',\n              id: 'first',\n              content: \"There is nothing in this tab, but there's a button in the other tab.\",\n            },\n            {\n              label: 'A tab with a button',\n              id: 'second',\n              content: <Button variant=\"primary\">This is the button in the tab</Button>,\n            },\n          ]}\n        />\n      </SpaceBetween>\n    </Box>\n  );\n}\n",
+   "source": "pages/button/performance-marks.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button, { ButtonProps } from '~components/button';\n\nimport img from '../icon/custom-icon.png';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ButtonProps>([\n  {\n    disabled: [false, true],\n    loading: [false, true],\n    iconName: [undefined, 'settings'],\n    iconAlign: ['left', 'right'],\n    children: [\n      'Button',\n      <>\n        <em>Custom</em> content\n      </>,\n    ],\n    href: [undefined, '/choco/home'],\n    variant: ['normal', 'primary'],\n  },\n  {\n    disabled: [false, true],\n    iconName: ['settings'],\n    iconAlign: ['left', 'right'],\n    children: ['Link to Home Page'],\n    href: [undefined, '/choco/home'],\n    variant: ['link'],\n    download: [true, 'download'],\n  },\n  {\n    disabled: [false, true],\n    iconName: ['settings'],\n    iconAlign: ['left', 'right'],\n    ariaLabel: ['Standalone'],\n    variant: ['icon', 'inline-icon', 'normal'],\n  },\n  {\n    iconUrl: [img],\n    iconAlt: ['letter A'],\n    iconAlign: ['left', 'right'],\n    children: ['With custom icon'],\n    variant: ['normal'],\n  },\n  {\n    children: [\n      'A very long text, long enough to wrap the tab label. Ut eleifend nisi non dui imperdiet iaculis. Vestibulum volutpat est mi, nec luctus augue eleifend vel. Ut tellus nisl, ultrices mattis leo non, faucibus aliquet est. Ut eleifend nisi non dui imperdiet iaculis.',\n      'AVeryLongWordLongEnoughToWrapTheTabLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n    ],\n  },\n  {\n    iconSvg: [\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\" key=\"0\">\n        <g>\n          <line x1=\"5.5\" y1=\"12\" x2=\"5.5\" y2=\"15\" />\n          <line x1=\"0.5\" y1=\"15\" x2=\"10.5\" y2=\"15\" />\n          <rect x=\"1\" y=\"5\" width=\"9\" height=\"7\" />\n          <polyline points=\"5 4 5 1 14 1 14 8 10 8\" />\n        </g>\n      </svg>,\n    ],\n    iconAlign: ['left', 'right'],\n    children: ['With custom svg icon'],\n    ariaLabel: ['With custom svg icon'],\n    variant: ['normal', 'icon', 'inline-icon', 'primary'],\n  },\n  {\n    fullWidth: [true],\n    ariaLabel: ['Full width'],\n    variant: ['normal', 'primary', 'link'],\n    children: ['Full width'],\n  },\n  {\n    fullWidth: [true],\n    iconName: ['settings'],\n    iconAlign: ['left', 'right'],\n    ariaLabel: ['Full width'],\n    variant: ['normal', 'primary', 'link'],\n    children: ['Full width'],\n  },\n  {\n    variant: ['inline-link'],\n    iconName: [undefined, 'download'],\n    iconAlign: ['left', 'right'],\n    children: ['Inline link'],\n    loading: [false, true],\n    disabled: [false, true],\n  },\n]);\n\nexport default function ButtonPermutations() {\n  return (\n    <>\n      <h1>Button permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView permutations={permutations} render={permutation => <Button {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/button/permutations.page.tsx"
+  },
+  {
+   "name": "show-more",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\nimport range from 'lodash/range';\n\nimport Button from '~components/button';\n\nimport styles from './styles.scss';\n\nconst LIST_ID = 'expanded-list-id';\n\ninterface ListItem {\n  index: number;\n  label: string;\n}\n\nconst defaultItems: ListItem[] = range(8).map(index => ({\n  label: '' + index,\n  index,\n}));\n\nexport default function ButtonControlsScenario() {\n  const [isExpanded, setIsExpanded] = useState(false);\n  const visibleItems = isExpanded ? defaultItems : defaultItems.slice(0, 2);\n\n  return (\n    <article>\n      <h1>Button controls another element</h1>\n      <ul id={LIST_ID}>\n        {visibleItems.map(({ label, index }) => (\n          <li key={index} aria-setsize={defaultItems.length} aria-posinset={index + 1}>\n            {label}\n          </li>\n        ))}\n      </ul>\n      <div className={styles.buttonWrapper}>\n        <Button\n          variant=\"inline-link\"\n          iconName={isExpanded ? 'treeview-collapse' : 'treeview-expand'}\n          onClick={() => setIsExpanded(!isExpanded)}\n          ariaExpanded={isExpanded}\n          ariaControls={LIST_ID}\n        >\n          {isExpanded ? 'Show less' : 'Show more'}\n        </Button>\n      </div>\n    </article>\n  );\n}\n",
+   "source": "pages/button/show-more.page.tsx"
+  },
+  {
+   "name": "style-api-v2",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext } from 'react';\nimport clsx from 'clsx';\n\nimport { Button, Checkbox, KeyValuePairs, SpaceBetween } from '~components';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nimport styles from './style-api-v2.scss';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    loading?: boolean;\n    disabled?: boolean;\n    disabledReason?: boolean;\n  }>\n>;\n\nexport default function () {\n  const {\n    urlParams: { loading = false, disabled = false, disabledReason = false },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  const shared = { loading, disabled, disabledReason: disabledReason ? 'Disabled reason' : undefined };\n  const disabledStyle = disabled || loading ? styles.disabled : undefined;\n  return (\n    <SimplePage\n      title=\"Button - Style API v2\"\n      screenshotArea={{}}\n      settings={\n        <SpaceBetween size=\"xs\" direction=\"horizontal\">\n          <Checkbox checked={loading} onChange={({ detail }) => setUrlParams({ loading: detail.checked })}>\n            loading\n          </Checkbox>\n          <Checkbox checked={disabled} onChange={({ detail }) => setUrlParams({ disabled: detail.checked })}>\n            disabled\n          </Checkbox>\n          <Checkbox\n            checked={disabledReason}\n            onChange={({ detail }) => setUrlParams({ disabledReason: detail.checked })}\n          >\n            disabled reason\n          </Checkbox>\n        </SpaceBetween>\n      }\n    >\n      <KeyValuePairs\n        items={[\n          {\n            type: 'pair',\n            label: 'Danger button',\n            value: (\n              <Button\n                iconName=\"remove\"\n                {...shared}\n                {...{ styleClassNames: { root: clsx(styles['button-danger'], disabledStyle) } }}\n              >\n                Delete resource\n              </Button>\n            ),\n          },\n          {\n            type: 'pair',\n            label: 'Circle button',\n            value: (\n              <Button\n                variant=\"icon\"\n                iconName=\"copy\"\n                ariaLabel=\"Copy\"\n                {...shared}\n                {...{ styleClassNames: { root: clsx(styles['button-circle'], disabledStyle) } }}\n              />\n            ),\n          },\n          {\n            type: 'pair',\n            label: 'Ghost button',\n            value: (\n              <Button\n                iconName=\"settings\"\n                {...shared}\n                {...{ styleClassNames: { root: clsx(styles['button-ghost'], disabledStyle) } }}\n              >\n                Settings\n              </Button>\n            ),\n          },\n          {\n            type: 'pair',\n            label: 'Link button',\n            value: (\n              <Button\n                variant=\"link\"\n                href=\"#\"\n                external={true}\n                {...{ styleClassNames: { root: styles['button-ghost'] } }}\n              >\n                Preferences\n              </Button>\n            ),\n          },\n        ]}\n      />\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/button/style-api-v2.page.tsx"
+  },
+  {
+   "name": "style-custom-types",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Button as CloudscapeButton, SpaceBetween } from '~components';\n\nimport { palette } from '../app/themes/style-api';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function CustomButtonTypes() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>Custom Button Types</h1>\n\n      <SpaceBetween direction=\"horizontal\" size=\"m\">\n        <CustomButton colorTheme=\"default\" variation=\"primary\" id=\"default\">\n          Default\n        </CustomButton>\n        <CustomButton colorTheme=\"success\" variation=\"primary\">\n          Success\n        </CustomButton>\n        <CustomButton colorTheme=\"error\" variation=\"primary\">\n          Error\n        </CustomButton>\n        <CustomButton colorTheme=\"info\" variation=\"primary\">\n          Info\n        </CustomButton>\n        <CustomButton colorTheme=\"warning\" variation=\"primary\">\n          Warning\n        </CustomButton>\n        <CustomButton colorTheme=\"success\" variation=\"primary\" isDisabled={true}>\n          isDisabled\n        </CustomButton>\n        <CustomButton colorTheme=\"success\" variation=\"primary\" isLoading={true}>\n          isLoading\n        </CustomButton>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n\ninterface CustomButtonProps {\n  children?: React.ReactNode;\n  colorTheme: 'default' | 'error' | 'info' | 'warning' | 'success';\n  id?: string;\n  isDisabled?: boolean;\n  isLoading?: boolean;\n  onClick?: any;\n  variation: 'primary';\n}\n\nfunction CustomButton({ children, colorTheme, id, isDisabled, isLoading, onClick, variation }: CustomButtonProps) {\n  return (\n    <CloudscapeButton\n      data-testid={id}\n      disabled={isDisabled}\n      loading={isLoading}\n      onClick={onClick}\n      variant={variation}\n      style={{\n        root: {\n          background: getBackground(colorTheme),\n          borderRadius: '4px',\n          borderWidth: '0px',\n          color: getColor(),\n          focusRing: getFocusRing(),\n          paddingBlock: '12px',\n          paddingInline: '16px',\n          boxShadow: getBoxShadow(colorTheme),\n        },\n      }}\n    >\n      <span style={{ fontSize: '16px' }}>{children}</span>\n    </CloudscapeButton>\n  );\n}\n\nfunction getBackground(colorTheme: string) {\n  const backgrounds = {\n    default: {\n      active: `light-dark(${palette.teal100}, ${palette.teal10})`,\n      default: `light-dark(${palette.teal80}, ${palette.teal30})`,\n      disabled: `light-dark(${palette.neutral40}, ${palette.neutral80})`,\n      hover: `light-dark(${palette.teal90}, ${palette.teal20})`,\n    },\n    error: {\n      active: `light-dark(${palette.red100}, ${palette.red10})`,\n      default: `light-dark(${palette.red80}, ${palette.red30})`,\n      disabled: `light-dark(${palette.neutral40}, ${palette.neutral80})`,\n      hover: `light-dark(${palette.red90}, ${palette.red20})`,\n    },\n    info: {\n      active: `light-dark(${palette.blue100}, ${palette.blue10})`,\n      default: `light-dark(${palette.blue80}, ${palette.blue40})`,\n      disabled: `light-dark(${palette.neutral40}, ${palette.neutral80})`,\n      hover: `light-dark(${palette.blue90}, ${palette.blue20})`,\n    },\n    success: {\n      active: `light-dark(${palette.green100}, ${palette.green10})`,\n      default: `light-dark(${palette.green80}, ${palette.green30})`,\n      disabled: `light-dark(${palette.neutral40}, ${palette.neutral80})`,\n      hover: `light-dark(${palette.green90}, ${palette.green20})`,\n    },\n    warning: {\n      active: `light-dark(${palette.orange100}, ${palette.orange10})`,\n      default: `light-dark(${palette.orange80}, ${palette.orange40})`,\n      disabled: `light-dark(${palette.neutral40}, ${palette.neutral80})`,\n      hover: `light-dark(${palette.orange90}, ${palette.orange20})`,\n    },\n  };\n  return backgrounds[colorTheme as keyof typeof backgrounds];\n}\n\nfunction getColor() {\n  return {\n    active: `light-dark(${palette.neutral10}, ${palette.neutral100})`,\n    default: `light-dark(${palette.neutral10}, ${palette.neutral100})`,\n    hover: `light-dark(${palette.neutral10}, ${palette.neutral100})`,\n    disabled: `light-dark(${palette.neutral60}, ${palette.neutral60})`,\n  };\n}\n\nfunction getFocusRing() {\n  return {\n    borderColor: 'light-dark(rgb(0, 64, 77), rgb(233, 249, 252))',\n    borderWidth: '2px',\n  };\n}\n\nfunction getBoxShadow(colorTheme: string) {\n  const boxShadows = {\n    default: {\n      active: `0 4px 8px light-dark(rgba(0, 128, 128, 0.3), rgba(0, 255, 255, 0.4))`,\n      default: `0 2px 4px light-dark(rgba(0, 128, 128, 0.2), rgba(0, 255, 255, 0.3))`,\n      disabled: 'none',\n      hover: `0 6px 12px light-dark(rgba(0, 128, 128, 0.25), rgba(0, 255, 255, 0.35))`,\n    },\n    error: {\n      active: `0 4px 8px light-dark(rgba(255, 0, 0, 0.3), rgba(255, 100, 100, 0.4))`,\n      default: `0 2px 4px light-dark(rgba(255, 0, 0, 0.2), rgba(255, 100, 100, 0.3))`,\n      disabled: 'none',\n      hover: `0 6px 12px light-dark(rgba(255, 0, 0, 0.25), rgba(255, 100, 100, 0.35))`,\n    },\n    info: {\n      active: `0 4px 8px light-dark(rgba(0, 0, 255, 0.3), rgba(100, 100, 255, 0.4))`,\n      default: `0 2px 4px light-dark(rgba(0, 0, 255, 0.2), rgba(100, 100, 255, 0.3))`,\n      disabled: 'none',\n      hover: `0 6px 12px light-dark(rgba(0, 0, 255, 0.25), rgba(100, 100, 255, 0.35))`,\n    },\n    success: {\n      active: `0 4px 8px light-dark(rgba(0, 255, 0, 0.3), rgba(100, 255, 100, 0.4))`,\n      default: `0 2px 4px light-dark(rgba(0, 255, 0, 0.2), rgba(100, 255, 100, 0.3))`,\n      disabled: 'none',\n      hover: `0 6px 12px light-dark(rgba(0, 255, 0, 0.25), rgba(100, 255, 100, 0.35))`,\n    },\n    warning: {\n      active: `0 4px 8px light-dark(rgba(255, 165, 0, 0.3), rgba(255, 200, 100, 0.4))`,\n      default: `0 2px 4px light-dark(rgba(255, 165, 0, 0.2), rgba(255, 200, 100, 0.3))`,\n      disabled: 'none',\n      hover: `0 6px 12px light-dark(rgba(255, 165, 0, 0.25), rgba(255, 200, 100, 0.35))`,\n    },\n  };\n  return boxShadows[colorTheme as keyof typeof boxShadows];\n}\n",
+   "source": "pages/button/style-custom-types.page.tsx"
+  },
+  {
+   "name": "style-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button, { ButtonProps } from '~components/button';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ButtonProps>([\n  {\n    ariaLabel: ['Border Styles'],\n    children: ['Border Styles'],\n    disabled: [false, true],\n    iconName: ['add-plus'],\n    iconAlt: ['add-plus'],\n    style: [\n      {\n        root: {\n          borderColor: {\n            active: 'purple',\n            default: 'magenta',\n            hover: 'orange',\n            disabled: 'brown',\n          },\n          borderRadius: '2px',\n          borderWidth: '4px',\n        },\n      },\n    ],\n    variant: ['primary', 'normal', 'link', 'icon', 'inline-icon', 'inline-link'],\n  },\n  {\n    ariaLabel: ['Background and Color Styles'],\n    children: ['Background and Color Styles'],\n    disabled: [false, true],\n    iconName: ['arrow-left'],\n    iconAlt: ['arrow-left'],\n    loading: [false, true],\n    style: [\n      {\n        root: {\n          background: {\n            active: 'brown',\n            default: 'purple',\n            hover: 'brown',\n            disabled: '#ccc',\n          },\n          borderWidth: '0px',\n          color: {\n            active: 'white',\n            default: 'white',\n            hover: 'white',\n            disabled: 'black',\n          },\n        },\n      },\n    ],\n    variant: ['primary', 'normal', 'link', 'icon', 'inline-icon', 'inline-link'],\n  },\n  {\n    ariaLabel: ['Padding Styles'],\n    children: ['Padding Styles'],\n    disabled: [false, true],\n    iconName: ['delete-marker'],\n    iconAlt: ['delete-marker'],\n    iconAlign: ['left', 'right'],\n    loading: [false, true],\n    fullWidth: [false, true],\n    style: [\n      {\n        root: {\n          borderColor: {\n            active: 'black',\n            default: 'black',\n            disabled: 'black',\n            hover: 'black',\n          },\n          borderWidth: '2px',\n          borderRadius: '1px',\n          paddingBlock: '22px',\n          paddingInline: '44px',\n        },\n      },\n    ],\n    variant: ['primary', 'normal', 'link', 'icon', 'inline-icon', 'inline-link'],\n  },\n]);\n\nexport default function ButtonStylePermutations() {\n  return (\n    <>\n      <h1>Button Style permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView permutations={permutations} render={permutation => <Button {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/button/style-permutations.page.tsx"
+  },
+  {
+   "name": "tab-navigation",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function TabNavigationPage() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>Buttons for focus testing</h1>\n      <Button id=\"focusButton\">Start button</Button> <Button href=\"#\">Active with href</Button>{' '}\n      <Button href=\"#\" disabled={true}>\n        Disabled with href\n      </Button>{' '}\n      <Button loading={true}>Loading</Button>{' '}\n      <Button href=\"#\" loading={true}>\n        Loading with href\n      </Button>{' '}\n      <Button href=\"#\" variant=\"link\">\n        Last button\n      </Button>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/button/tab-navigation.page.tsx"
+  },
+  {
+   "name": "text-wrap",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function WrappingButtonScenario() {\n  return (\n    <article>\n      <h1>Text wrapping examples</h1>\n      <ul>\n        <li>Buttons should wrap by default</li>\n        <li>Buttons can be specified to not wrap</li>\n      </ul>\n      <ScreenshotArea>\n        <div className={styles.buttonWrapper}>\n          <Button>I adapt, ergo I wrap</Button>\n        </div>\n        <div className={styles.buttonWrapper}>\n          <Button wrapText={false}>Too shy to wrap!</Button>\n        </div>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/button/text-wrap.page.tsx"
+  },
+  {
+   "name": "with-icon-wrap",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function WrappingButtonScenario() {\n  return (\n    <article>\n      <h1>Icon wrap examples</h1>\n      <ul>\n        <li>Buttons should wrap by default</li>\n        <li>Buttons can be specified to not wrap</li>\n      </ul>\n      <ScreenshotArea>\n        <h2>Left icon</h2>\n        <div className={styles.buttonWrapper}>\n          <Button iconName=\"add-plus\">Icon wrap, and so I do</Button>\n          <Button iconName=\"add-plus\" wrapText={false}>\n            I control my own space\n          </Button>\n        </div>\n\n        <h2>Right icon</h2>\n        <div className={styles.buttonWrapper}>\n          <Button iconName=\"add-plus\" iconAlign=\"right\">\n            <u>Icon</u> wrap, and so I do\n          </Button>\n          <Button iconName=\"add-plus\" iconAlign=\"right\" wrapText={false}>\n            <u>I con</u>trol my own space\n          </Button>\n        </div>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/button/with-icon-wrap.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ButtonProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "iconAlign",
+    "ButtonProps.IconAlign",
+    "아니오",
+    "Specifies the alignment of the icon.",
+    "src/button/interfaces.ts:137"
+   ],
+   [
+    "formAction",
+    "ButtonProps.FormAction",
+    "아니오",
+    "The form action that is performed by a button click.",
+    "src/button/interfaces.ts:142"
+   ],
+   [
+    "href",
+    "string",
+    "아니오",
+    "Applies button styling to a link. Use this property if you need a link styled as a button (`variant=link`). For example, if you have a 'help' button that links to a documentation page.",
+    "src/button/interfaces.ts:148"
+   ],
+   [
+    "target",
+    "string",
+    "아니오",
+    "Specifies where to open the linked URL (for example, to open in a new browser window or tab use `_blank`). This property only applies when an `href` is provided.",
+    "src/button/interfaces.ts:154"
+   ],
+   [
+    "rel",
+    "string",
+    "아니오",
+    "Adds a `rel` attribute to the link. By default, the component sets the `rel` attribute to \"noopener noreferrer\" when `target` is `\"_blank\"`. If the `rel` property is provided, it overrides the default behavior.",
+    "src/button/interfaces.ts:160"
+   ],
+   [
+    "download",
+    "boolean | string",
+    "아니오",
+    "Specifies whether the linked URL, when selected, will prompt the user to download instead of navigate. You can specify a string value that will be suggested as the name of the downloaded file. This property only applies when an `href` is provided.",
+    "src/button/interfaces.ts:167"
+   ],
+   [
+    "form",
+    "string",
+    "아니오",
+    "The id of the <form> element to associate with the button. The value of this attribute must be the id of a <form> in the same document. Use when a button is not the descendant of a form element, such as when used in a modal.",
+    "src/button/interfaces.ts:172"
+   ],
+   [
+    "ariaExpanded",
+    "boolean",
+    "아니오",
+    "Adds aria-expanded to the button element. Use when the button controls an expandable element.",
+    "src/button/interfaces.ts:177"
+   ],
+   [
+    "ariaHaspopup",
+    "boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'",
+    "아니오",
+    "Adds `aria-haspopup` to the button element. Use when the button triggers a popup element such as a menu, listbox, tree, grid, or dialog.",
+    "src/button/interfaces.ts:182"
+   ],
+   [
+    "onClick",
+    "CancelableEventHandler<ButtonProps.ClickDetail>",
+    "아니오",
+    "Called when the user clicks on the button and the button is not disabled or in loading state.",
+    "src/button/interfaces.ts:187"
+   ],
+   [
+    "onFollow",
+    "CancelableEventHandler<ButtonProps.FollowDetail>",
+    "아니오",
+    "Called when the user clicks on the button with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META), and the button has an `href` set.",
+    "src/button/interfaces.ts:193"
+   ],
+   [
+    "fullWidth",
+    "boolean",
+    "아니오",
+    "Sets the button width to be 100% of the parent container width. Button content is centered.",
+    "src/button/interfaces.ts:198"
+   ],
+   [
+    "variant",
+    "ButtonProps.Variant",
+    "아니오",
+    "Determines the general styling of the button as follows: * `primary` for primary buttons. * `normal` for secondary buttons. * `link` for tertiary buttons. * `icon` to display an icon only (no text). * `inline-icon` to display an icon-only (no text) button within a text context. * `inline-link` to display a tertiary button with no outer padding.",
+    "src/button/interfaces.ts:208"
+   ],
+   [
+    "iconAlt",
+    "string",
+    "아니오",
+    "Specifies alternate text for a custom icon. We recommend that you provide this for accessibility. This property is ignored if you use a predefined icon or if you set your custom icon using the `iconSvg` slot.",
+    "src/button/interfaces.ts:214"
+   ],
+   [
+    "style",
+    "ButtonProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the button's visual appearance. Refer to the [style](/components/button/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/button/interfaces.ts:221"
+   ]
+  ],
+  "source": "src/button/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

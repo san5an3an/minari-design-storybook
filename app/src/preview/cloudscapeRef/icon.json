@@ -1,0 +1,164 @@
+{
+ "slug": "icon",
+ "title": "Icon",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "custom-icon",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Icon from '~components/icon';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport icon from './custom-icon.png';\n\nconst sizes = ['small', 'normal', 'big', 'large'] as const;\n\nexport default function IconScenario() {\n  return (\n    <ScreenshotArea>\n      <h1>Custom icons</h1>\n      <SpaceBetween direction=\"horizontal\" size=\"s\">\n        {sizes.map(size => (\n          <Icon key={size} url={icon} alt=\"custom icon\" size={size} />\n        ))}\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/icon/custom-icon.page.tsx"
+  },
+  {
+   "name": "custom-svg",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Icon from '~components/icon';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst sizes = ['small', 'normal', 'big', 'large'] as const;\nconst variants = ['normal', 'disabled', 'error', 'inverted', 'link', 'subtle', 'success', 'warning'] as const;\n\nexport default function IconScenario() {\n  return (\n    <ScreenshotArea>\n      <h1>Custom icons with SVGs</h1>\n      <h2>Custom icons with SVGs inheriting styles</h2>\n      <SpaceBetween size=\"s\">\n        {sizes.map(size => (\n          <SpaceBetween direction=\"horizontal\" size=\"s\" key={size}>\n            {variants.map(variant => (\n              <div style={{ backgroundColor: variant === 'inverted' ? 'black' : 'transparent' }} key={variant}>\n                <Icon\n                  svg={\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n                      <circle cx=\"8\" cy=\"8\" r=\"7\" />\n                      <circle cx=\"8\" cy=\"8\" r=\"3\" />\n                    </svg>\n                  }\n                  size={size}\n                  variant={variant}\n                />\n              </div>\n            ))}\n          </SpaceBetween>\n        ))}\n      </SpaceBetween>\n      <h2>Custom icons with SVGs not inheriting styles</h2>\n\n      <SpaceBetween direction=\"horizontal\" size=\"s\">\n        {sizes.map(size => (\n          <Icon\n            key={size}\n            variant=\"error\"\n            svg={\n              <span>\n                <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n                  <circle cx=\"8\" cy=\"8\" r=\"7\" strokeWidth=\"2\" stroke=\"currentColor\" fill=\"none\" />\n                  <circle cx=\"8\" cy=\"8\" r=\"3\" />\n                </svg>\n              </span>\n            }\n            size={size}\n          />\n        ))}\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/icon/custom-svg.page.tsx"
+  },
+  {
+   "name": "icon-inherit-sizing",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Icon from '~components/icon';\nimport Link from '~components/link';\nimport TextContent from '~components/text-content';\n\nexport default function IconInheritSizingPage() {\n  return (\n    <div style={{ padding: '20px' }}>\n      <h1>Icon Inherit Sizing Test</h1>\n\n      <small style={{ fontSize: '12px', lineHeight: '16px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 12px, Line-height: 16px (body small text). The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        should have normal (16x16) icon.\n      </small>\n\n      <p style={{ fontSize: '14px', lineHeight: '20px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 14px, Line-height: 20px (body normal text). The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        should have normal (16x16) icon.\n      </p>\n\n      <p style={{ fontSize: '16px', lineHeight: '24px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 16px, Line-height: 24px. The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        icon should have normal (16x16).\n      </p>\n\n      <p style={{ fontSize: '18px', lineHeight: '24px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 18px, Line-height: 24px. The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        icon should have normal (16x16).\n      </p>\n\n      <p style={{ fontSize: '20px', lineHeight: '24px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 20px, Line-height: 24px. The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        should have medium (20x20) icon.\n      </p>\n\n      <p style={{ fontSize: '22px', lineHeight: '24px', fontFamily: 'Amazon Ember', paddingBlock: '8px' }}>\n        Font: 22px, Line-height: 24px. The{' '}\n        <Link external={true} variant=\"primary\" fontSize=\"inherit\" href=\"https://example.com\">\n          external link\n        </Link>{' '}\n        should have medium (20x20) icon.\n      </p>\n\n      <TextContent>\n        <h1>\n          <Icon name=\"status-positive\" size=\"big\" /> Heading 1 - Font: 24px, Line height: 30px\n        </h1>\n        <h2>\n          <Icon name=\"status-positive\" size=\"inherit\" /> Heading 2 - Font: 20px, Line height: 24px\n        </h2>\n        <h3>\n          <Icon name=\"status-positive\" size=\"normal\" /> Heading 3 - Font: 18px, Line height: 22px\n        </h3>\n        <h4>\n          <Icon name=\"status-positive\" size=\"normal\" /> Heading 4 - Font: 16px, Line height: 20px\n        </h4>\n        <h5>\n          <Icon name=\"status-positive\" size=\"normal\" /> Heading 5 - Font: 14px, Line height: 18px\n        </h5>\n      </TextContent>\n    </div>\n  );\n}\n",
+   "source": "pages/icon/icon-inherit-sizing.page.tsx"
+  },
+  {
+   "name": "motion",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport Header from '~components/header';\nimport Icon, { IconProps } from '~components/icon';\nimport icons from '~components/icon/generated/icons';\n\nimport styles from './icons-list.scss';\n\nconst sizes = ['x-small', 'small', 'normal', 'medium', 'big', 'large'] as const;\n\nconst triggerAttrs = { 'data-awsui-motion-trigger': 'hover', 'data-awsui-motion-target': 'true' } as const;\n\nexport default function IconMotionPage() {\n  return (\n    <Box padding=\"l\">\n      <Header variant=\"h1\">Icon hover motion</Header>\n      {sizes.map(size => (\n        <div key={size} className={styles.wrapper}>\n          {Object.keys(icons).map(icon => (\n            <span key={icon} title={icon} {...triggerAttrs}>\n              <Icon name={icon as IconProps['name']} size={size} />\n            </span>\n          ))}\n        </div>\n      ))}\n    </Box>\n  );\n}\n",
+   "source": "pages/icon/motion.page.tsx"
+  },
+  {
+   "name": "size-inherit",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport Box from '~components/box';\nimport Icon, { IconProps } from '~components/icon';\nimport icons from '~components/icon/generated/icons';\nimport SpaceBetween from '~components/space-between';\nimport TextContent from '~components/text-content';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport customIcon from './custom-icon.png';\n\nconst UNITS = 'px';\nconst tagVariants = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'div', 'span', 'small'] as const;\ntype DemoContext = React.Context<AppContextType<{ iconName: IconProps.Name }>>;\n\nexport default function IconScenario() {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const iconName: IconProps.Name = urlParams.iconName || 'settings';\n  const [height, setHeight] = useState(16);\n  const [visibility, setVisibility] = useState(false);\n  const unitHeight = height + UNITS;\n  const iconPermutations = (\n    <>\n      <Icon name=\"external\" size=\"inherit\" /> <Icon url={customIcon} alt=\"custom icon\" size=\"inherit\" />{' '}\n      <Icon\n        svg={\n          <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n            <circle cx=\"8\" cy=\"8\" r=\"7\" strokeWidth=\"2\" stroke=\"currentColor\" fill=\"none\" />\n            <circle cx=\"8\" cy=\"8\" r=\"3\" />\n          </svg>\n        }\n        size=\"inherit\"\n      />\n    </>\n  );\n\n  return (\n    <article>\n      <ul>\n        <li>Icons must align with text</li>\n      </ul>\n      <div style={{ padding: '5px 20px' }} id=\"test-controls\">\n        <label>\n          Icon to show:\n          <select defaultValue={iconName} onChange={e => setUrlParams({ iconName: e.target.value as IconProps.Name })}>\n            {Object.keys(icons).map((icon, key) => (\n              <option value={icon} key={key}>\n                {icon}\n              </option>\n            ))}\n          </select>\n        </label>\n        <SpaceBetween direction=\"horizontal\" size=\"xxl\">\n          <div>\n            <h2>Dynamic line height switch</h2>\n            <label htmlFor=\"height-input\">\n              Line height:\n              <input\n                type=\"number\"\n                id=\"height-input\"\n                value={height}\n                onChange={e => setHeight(parseInt(e.target.value, 10))}\n              />\n            </label>\n            <span> {UNITS}</span>\n\n            <div>\n              <h1 style={{ lineHeight: unitHeight }}>\n                <Icon name={iconName} size=\"inherit\" id=\"dynamic-test-1\" /> Heading 1 {unitHeight} {iconPermutations}\n              </h1>\n              <h2 style={{ lineHeight: unitHeight }}>\n                <Icon name={iconName} size=\"inherit\" id=\"dynamic-test-2\" /> Heading 2 {unitHeight} {iconPermutations}\n              </h2>\n              <p style={{ lineHeight: unitHeight }}>\n                <Icon name={iconName} size=\"inherit\" id=\"dynamic-test-p\" /> Paragraph {unitHeight} {iconPermutations}\n              </p>\n            </div>\n          </div>\n          <div>\n            <h2>Toggle visibility (hidden by default)</h2>\n            <label htmlFor=\"visibility-toggle\">\n              <input\n                type=\"checkbox\"\n                id=\"visibility-toggle\"\n                checked={visibility}\n                onChange={e => setVisibility(e.target.checked)}\n              />{' '}\n              Show icon\n            </label>\n            {visibility && (\n              <Box variant=\"h1\">\n                <Icon name={iconName} size=\"inherit\" id=\"visibility-test-1\" /> Box h1 (big)\n              </Box>\n            )}\n            <h2 style={{ display: visibility ? 'block' : 'none' }}>\n              <Icon name={iconName} size=\"inherit\" id=\"visibility-test-2\" /> Heading 2 with default line height (24px)\n            </h2>\n\n            <div>\n              <Box variant=\"h2\" padding={{ vertical: 'xl' }}>\n                <Icon name={iconName} size=\"inherit\" id=\"static-test\" /> Box h2 (normal/medium)\n              </Box>\n            </div>\n          </div>\n        </SpaceBetween>\n      </div>\n      <hr />\n\n      <ScreenshotArea>\n        <SpaceBetween direction=\"horizontal\" size=\"xl\">\n          <div>\n            <h2>Text content + inherit prop</h2>\n            <TextContent>\n              {tagVariants.map(tag => {\n                const Tag = tag as keyof JSX.IntrinsicElements;\n                return (\n                  <Tag key={tag}>\n                    <Icon name={iconName} size=\"inherit\" /> {tag} example text {iconPermutations}\n                  </Tag>\n                );\n              })}\n            </TextContent>\n          </div>\n          <div>\n            <h2>Box + inherit prop</h2>\n            <div>\n              {tagVariants.map(variant => {\n                return (\n                  <Box variant={variant} key={variant}>\n                    <Icon name={iconName} size=\"inherit\" /> {variant} example text {iconPermutations}\n                  </Box>\n                );\n              })}\n            </div>\n          </div>\n        </SpaceBetween>\n        <h2>Other permutations</h2>\n        <div style={{ width: '250px' }}>\n          <Box>\n            <Icon name={iconName} size=\"inherit\" /> A long line of text to make sure that the icon inherits the right\n            size. {iconPermutations}\n          </Box>\n          <Box variant=\"h2\">\n            <Icon name={iconName} size=\"inherit\" /> A long line of text to make sure that the icon inherits the right\n            size. {iconPermutations}\n          </Box>\n        </div>\n        <Icon name={iconName} size=\"inherit\" /> <Box variant=\"h2\">Icons with no parent shouldnt inherit height</Box>{' '}\n        <Icon name=\"external\" size=\"inherit\" />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/icon/size-inherit.page.tsx"
+  },
+  {
+   "name": "text-align",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport Icon from '~components/icon';\nimport TextContent from '~components/text-content';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function IconScenario() {\n  return (\n    <article>\n      <ul>\n        <li>Icons must align with text</li>\n      </ul>\n      <ScreenshotArea>\n        <Box fontSize=\"display-l\" fontWeight=\"light\">\n          <Icon name=\"settings\" size=\"large\" /> Display large <Icon name=\"external\" size=\"inherit\" />\n        </Box>\n        <TextContent>\n          <h1>\n            <Icon name=\"settings\" size=\"big\" /> Heading 1 <Icon name=\"external\" size=\"inherit\" />\n          </h1>\n          <h2>\n            <Icon name=\"settings\" size=\"medium\" /> Heading 2 <Icon name=\"external\" size=\"inherit\" />\n          </h2>\n          <h3>\n            <Icon name=\"settings\" /> Heading 3 <Icon name=\"external\" size=\"inherit\" />\n          </h3>\n          <h4>\n            <Icon name=\"settings\" /> Heading 4 <Icon name=\"external\" size=\"inherit\" />\n          </h4>\n          <h5>\n            <Icon name=\"settings\" /> Heading 5 <Icon name=\"external\" size=\"inherit\" />\n          </h5>\n          <p>\n            <Icon name=\"settings\" /> Paragraph <Icon name=\"external\" size=\"inherit\" />\n          </p>\n          <small>\n            <Icon name=\"settings\" size=\"small\" /> Small <Icon name=\"external\" size=\"inherit\" />\n          </small>\n        </TextContent>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
+   "source": "pages/icon/text-align.page.tsx"
+  },
+  {
+   "name": "variant-disabled",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"disabled\" />;\n}\n",
+   "source": "pages/icon/variant-disabled.page.tsx"
+  },
+  {
+   "name": "variant-error",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"error\" />;\n}\n",
+   "source": "pages/icon/variant-error.page.tsx"
+  },
+  {
+   "name": "variant-info",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"info\" />;\n}\n",
+   "source": "pages/icon/variant-info.page.tsx"
+  },
+  {
+   "name": "variant-inverted",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"inverted\" />;\n}\n",
+   "source": "pages/icon/variant-inverted.page.tsx"
+  },
+  {
+   "name": "variant-normal",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"normal\" />;\n}\n",
+   "source": "pages/icon/variant-normal.page.tsx"
+  },
+  {
+   "name": "variant-subtle",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"subtle\" />;\n}\n",
+   "source": "pages/icon/variant-subtle.page.tsx"
+  },
+  {
+   "name": "variant-success",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"success\" />;\n}\n",
+   "source": "pages/icon/variant-success.page.tsx"
+  },
+  {
+   "name": "variant-warning",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport IconsList from './icons-list';\n\nexport default function IconScenario() {\n  return <IconsList variant=\"warning\" />;\n}\n",
+   "source": "pages/icon/variant-warning.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "IconProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "name",
+    "IconProps.Name",
+    "아니오",
+    "Specifies the icon to be displayed.",
+    "src/icon/interfaces.ts:16"
+   ],
+   [
+    "size",
+    "IconProps.Size",
+    "아니오",
+    "Specifies the size of the icon. If you set size to `inherit`, an icon size will be assigned based on the icon's inherited line height. For icons used alongside text, ensure the icon is placed inside the acompanying text tag. The icon will be vertically centered based on the height. @visualrefresh `medium` size",
+    "src/icon/interfaces.ts:27"
+   ],
+   [
+    "variant",
+    "IconProps.Variant",
+    "아니오",
+    "Specifies the color variant of the icon. The `normal` variant picks up the current color of its context.",
+    "src/icon/interfaces.ts:32"
+   ],
+   [
+    "url",
+    "string",
+    "아니오",
+    "Specifies the URL of a custom icon. Use this property if the icon you want isn't available, and your custom icon cannot be an SVG. For SVG icons, use the `svg` slot instead. If you set both `url` and `svg`, `svg` will take precedence.",
+    "src/icon/interfaces.ts:40"
+   ],
+   [
+    "alt",
+    "string",
+    "아니오",
+    "Specifies alternate text for a custom icon (using the `url` attribute). This property is ignored if you use a predefined icon or if you set your custom icon using the `svg` slot. @deprecated Use `ariaLabel` instead.",
+    "src/icon/interfaces.ts:48"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Specifies alternate text for the icon. We recommend that you provide this for accessibility.",
+    "src/icon/interfaces.ts:53"
+   ],
+   [
+    "svg",
+    "React.ReactNode",
+    "아니오",
+    "Specifies the SVG of a custom icon. Use this property if the icon you want isn't available, and you want your custom icon to inherit colors dictated by variant or hover states. When this property is set, the component will be decorated with `aria-hidden=\"true\"`. Ensure that the `svg` element: - has attribute `focusable=\"false\"`. - has `viewBox=\"0 0 16 16\"`. If you set the `svg` element as the root node of the slot, the component will automatically - set `stroke=\"currentColor\"`, `fill=\"none\"`, and `vertical-align=\"top\"`. - set the stroke width based on the size of the icon. - set the width and height of the SVG element based on the size of the icon. If you don't want these styles to be automatically set, wrap the `svg` element into a `span` and ensure icon `size` is not set to `inherit`. You can still set the stroke to `currentColor` to inherit the color of the surrounding elements. If you set both `url` and `svg`, `svg` will take precedence. *Note:* Remember to remove any additional elements (for example: `defs`) and related CSS classes from SVG files exported from design software. In most cases, they aren't needed, as the `svg` element inherits styles from the icon component.",
+    "src/icon/interfaces.ts:76"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.HTMLAttributes<HTMLElement>>",
+    "아니오",
+    "Attributes to add to the native element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/icon/interfaces.ts:88"
+   ]
+  ],
+  "source": "src/icon/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

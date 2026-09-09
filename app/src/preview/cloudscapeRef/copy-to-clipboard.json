@@ -1,0 +1,133 @@
+{
+ "slug": "copy-to-clipboard",
+ "title": "Copy To Clipboard",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { CopyToClipboard, CopyToClipboardProps, Popover } from '~components';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<CopyToClipboardProps>([\n  {\n    variant: ['inline', 'icon', 'button'],\n    disabled: [true, false],\n    disabledReason: ['Copying is disabled'],\n    textToCopy: [\n      'Lorem ipsum dolor sit amet consectetur adipiscing elit cursus ut pharetra semper litora lobortis sed lacinia. Dolor mauris commodo accumsan aliquam litora phasellus interdum pulvinar rhoncus potenti sapien morbi inceptos suspendisse urna sem arcu imperdiet vivamus ipsum porta a lacinia vulputate elementum libero. Hac nostra fames vitae egestas sodales penatibus porta taciti habitant sociosqu ut ipsum quam adipiscing ligula sagittis id nec eleifend integer vulputate aptent felis.',\n    ],\n    copySuccessText: ['Text copied successfully'],\n    textToDisplay: ['Lorem ipsum dolor sit amet consectetur adipiscing elit'],\n    copyErrorText: ['Copy failed.'],\n    copyButtonText: ['Copy to clipboard'],\n  },\n  {\n    textToDisplay: [\n      <Popover key={1} content=\"Popover\" triggerType=\"text\">\n        Inline block popover\n      </Popover>,\n      <Popover key={2} content=\"Popover\" triggerType=\"text-inline\">\n        Inline text popover\n      </Popover>,\n    ],\n    disabled: [false, true],\n    variant: ['inline'],\n    copyButtonText: ['Copy to clipboard'],\n    textToCopy: ['Lorem ipsum dolor sit amet.'],\n    copySuccessText: ['Text copied successfully'],\n    copyErrorText: ['Copy failed.'],\n  },\n  {\n    wrapText: [true, false],\n    variant: ['inline'],\n    textToCopy: [\n      'Lorem ipsum dolor sit amet consectetur adipiscing elit cursus ut pharetra semper litora lobortis sed lacinia.',\n    ],\n    copyButtonText: ['Copy to clipboard'],\n    copySuccessText: ['Text copied successfully'],\n    copyErrorText: ['Copy failed.'],\n  },\n  {\n    wrapText: [true, false],\n    variant: ['inline'],\n    textToDisplay: [\n      <Popover key={1} content=\"Popover\" wrapTriggerText={false}>\n        Inline block popover with relatively long content that should truncate when wrapText is false\n      </Popover>,\n    ],\n    textToCopy: ['Lorem ipsum dolor sit amet.'],\n    copyButtonText: ['Copy to clipboard'],\n    copySuccessText: ['Text copied successfully'],\n    copyErrorText: ['Copy failed.'],\n  },\n]);\n\nexport default function ButtonPermutations() {\n  return (\n    <>\n      <h1>Button permutations</h1>\n      <ScreenshotArea disableAnimations={true} style={{ maxWidth: 400 }}>\n        <PermutationsView permutations={permutations} render={permutation => <CopyToClipboard {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/copy-to-clipboard/permutations.page.tsx"
+  },
+  {
+   "name": "scenario-split-panel",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport AppLayout from '~components/app-layout';\nimport Container from '~components/container';\nimport CopyToClipboard from '~components/copy-to-clipboard';\nimport Header from '~components/header';\nimport SpaceBetween from '~components/space-between';\nimport SplitPanel from '~components/split-panel';\n\nimport { Breadcrumbs, Navigation } from '../app-layout/utils/content-blocks';\nimport labels from '../app-layout/utils/labels';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  return (\n    <ScreenshotArea gutters={false}>\n      <AppLayout\n        ariaLabels={labels}\n        breadcrumbs={<Breadcrumbs />}\n        navigation={<Navigation />}\n        toolsHide={true}\n        splitPanelOpen={true}\n        splitPanel={\n          <SplitPanel\n            header=\"Split panel header\"\n            i18nStrings={{\n              preferencesTitle: 'Preferences',\n              preferencesPositionLabel: 'Split panel position',\n              preferencesPositionDescription: 'Choose the default split panel position for the service.',\n              preferencesPositionSide: 'Side',\n              preferencesPositionBottom: 'Bottom',\n              preferencesConfirm: 'Confirm',\n              preferencesCancel: 'Cancel',\n              closeButtonAriaLabel: 'Close panel',\n              openButtonAriaLabel: 'Open panel',\n              resizeHandleAriaLabel: 'Slider',\n              resizeHandleTooltipText: 'Drag or select to resize',\n            }}\n          >\n            <div>\n              <p>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\n                dolore magna aliqua. Augue neque gravida in fermentum. Suspendisse sed nisi lacus sed viverra tellus in\n                hac. Nec sagittis aliquam malesuada bibendum arcu vitae elementum. Lectus proin nibh nisl condimentum id\n                venenatis. Penatibus et magnis dis parturient montes nascetur ridiculus mus mauris. Nisi porta lorem\n                mollis aliquam ut porttitor leo a. Facilisi morbi tempus iaculis urna. Odio tempor orci dapibus ultrices\n                in iaculis nunc.\n              </p>\n              <CopyToClipboard\n                copyButtonText=\"Copy dummy text\"\n                copyErrorText=\"Dumym text failed to copy\"\n                copySuccessText=\"Dumy text copied\"\n                textToCopy=\"Pharetra et ultrices neque ornare\"\n              />\n              <p>\n                Ut diam quam nulla porttitor massa id neque. Duis at tellus at urna condimentum mattis pellentesque id\n                nibh. Metus vulputate eu scelerisque felis imperdiet proin fermentum.\n              </p>\n              <p>\n                Orci porta non pulvinar neque laoreet suspendisse interdum consectetur libero. Varius quam quisque id\n                diam vel. Risus viverra adipiscing at in. Orci sagittis eu volutpat odio facilisis mauris. Mauris vitae\n                ultricies leo integer malesuada nunc. Sem et tortor consequat id porta nibh. Semper auctor neque vitae\n                tempus quam pellentesque.\n              </p>\n              <p>\n                Pharetra et ultrices neque ornare. Bibendum neque egestas congue quisque egestas diam in arcu cursus.\n                Porttitor eget dolor morbi non arcu risus quis. Integer quis auctor elit sed vulputate mi sit. Mauris\n                nunc congue nisi vitae suscipit tellus mauris a diam. Diam donec adipiscing tristique risus nec feugiat\n                in. Arcu felis bibendum ut tristique et egestas quis. Nulla porttitor massa id neque aliquam vestibulum\n                morbi blandit. In hac habitasse platea dictumst quisque sagittis. Sollicitudin tempor id eu nisl nunc mi\n                ipsum.\n              </p>\n              <p>\n                Ut diam quam nulla porttitor massa id neque. Duis at tellus at urna condimentum mattis pellentesque id\n                nibh. Metus vulputate eu scelerisque felis imperdiet proin fermentum.\n              </p>\n              <p>\n                Ornare aenean euismod elementum nisi quis. Elementum curabitur vitae nunc sed velit dignissim sodales.\n                Amet tellus cras adipiscing enim eu. Id interdum velit laoreet id donec ultrices tincidunt. Ullamcorper\n                eget nulla facilisi etiam. Sodales neque sodales ut etiam sit amet nisl purus. Auctor urna nunc id\n                cursus metus aliquam eleifend mi in. Urna condimentum mattis pellentesque id. Porta lorem mollis aliquam\n                ut porttitor leo a. Lectus quam id leo in vitae turpis massa sed. Pharetra pharetra massa massa\n                ultricies mi.\n              </p>\n              <p>\n                Pharetra et ultrices neque ornare. Bibendum neque egestas congue quisque egestas diam in arcu cursus.\n                Porttitor eget dolor morbi non arcu risus quis. Integer quis auctor elit sed vulputate mi sit. Mauris\n                nunc congue nisi vitae suscipit tellus mauris a diam. Diam donec adipiscing tristique risus nec feugiat\n                in. Arcu felis bibendum ut tristique et egestas quis. Nulla porttitor massa id neque aliquam vestibulum\n                morbi blandit. In hac habitasse platea dictumst quisque sagittis. Sollicitudin tempor id eu nisl nunc mi\n                ipsum. Ornare aenean euismod elementum nisi quis. Elementum curabitur vitae nunc sed velit dignissim\n                sodales. Amet tellus cras adipiscing enim eu. Id interdum velit laoreet id donec ultrices tincidunt.\n                Ullamcorper eget nulla facilisi etiam. Sodales neque sodales ut etiam sit amet nisl purus. Auctor urna\n                nunc id cursus metus aliquam eleifend mi in. Urna condimentum mattis pellentesque id. Porta lorem mollis\n                aliquam ut porttitor leo a. Lectus quam id leo in vitae turpis massa sed. Pharetra pharetra massa massa\n                ultricies mi.\n              </p>\n              <div data-testid=\"scroll-me\">The end</div>\n            </div>\n          </SplitPanel>\n        }\n        content={\n          <div>\n            <SpaceBetween size=\"l\">\n              <Header variant=\"h1\" description=\"Basic demo with split panel\">\n                Demo page copy-to-clipboard inside split panel\n              </Header>\n              <Container header={<Header variant=\"h2\">Demo container</Header>}>\n                <p>\n                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\n                  dolore magna aliqua. Augue neque gravida in fermentum. Suspendisse sed nisi lacus sed viverra tellus\n                  in hac. Nec sagittis aliquam malesuada bibendum arcu vitae elementum. Lectus proin nibh nisl\n                  condimentum id venenatis. Penatibus et magnis dis parturient montes nascetur ridiculus mus mauris.\n                  Nisi porta lorem mollis aliquam ut porttitor leo a. Facilisi morbi tempus iaculis urna. Odio tempor\n                  orci dapibus ultrices in iaculis nunc.\n                </p>\n              </Container>\n            </SpaceBetween>\n          </div>\n        }\n      />\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/copy-to-clipboard/scenario-split-panel.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, CopyToClipboard, SpaceBetween } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst paragraphs = [\n  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elementum metus sem, fringilla feugiat leo lacinia sed. Integer a nulla in tellus fermentum gravida. In diam augue, venenatis non augue ac, fermentum molestie nunc. Quisque semper blandit ultricies. Ut auctor lobortis velit, et faucibus velit pharetra vel. Maecenas ut maximus massa, vel lobortis velit. Morbi sollicitudin hendrerit odio eu dictum. Donec cursus est at orci sagittis, vel bibendum tortor efficitur. Duis cursus mi et pellentesque ornare. Vivamus ultrices at leo sit amet malesuada. Pellentesque imperdiet ligula sed dolor ornare, non rutrum tellus ultricies.',\n  'Morbi ut congue nunc. Cras malesuada ut enim et consectetur. Sed sed dui nulla. Duis tincidunt at ante at egestas. Vestibulum sapien erat, fermentum et quam nec, sodales aliquam purus. Sed tristique vitae massa non vehicula. In hac habitasse platea dictumst. Nunc non ultricies arcu. Mauris pretium bibendum neque, ut mattis mi rhoncus sit amet. Integer pulvinar maximus vehicula.',\n  'Sed ac bibendum elit, commodo venenatis leo. Ut a erat quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed venenatis mi sed mollis laoreet. Vivamus aliquam ex id diam convallis molestie non faucibus turpis. Nullam scelerisque aliquam mi nec interdum. Nunc at tortor venenatis, facilisis arcu a, porta libero. Cras efficitur mauris in pulvinar posuere. Pellentesque eu enim at risus efficitur blandit. Nulla a massa id felis vestibulum faucibus sit amet nec lacus. Aliquam ultricies placerat urna, ac ultricies orci vehicula at. Duis vulputate magna vitae enim ornare porttitor. Sed auctor vehicula tristique. Ut vitae mattis dolor. Donec sollicitudin ornare auctor. Donec maximus lacinia quam sed euismod.',\n];\n\nconst sentence = paragraphs[0].split('.')[0];\n\nexport default function DateInputScenario() {\n  return (\n    <ScreenshotArea>\n      <Box>\n        <SpaceBetween size=\"l\">\n          <h1>Copy to clipboard</h1>\n\n          <div style={{ display: 'flex', gap: 16 }}>\n            <article>\n              {paragraphs.map((text, index) => (\n                <Box variant=\"p\" key={index}>\n                  {text}\n                </Box>\n              ))}\n            </article>\n\n            <CopyToClipboard\n              data-testid=\"copy-article\"\n              copyButtonText=\"Copy\"\n              textToCopy={paragraphs.join('\\n\\n')}\n              copySuccessText=\"Lorem ipsum article copied\"\n              copyErrorText=\"Lorem ipsum article failed to copy\"\n            />\n          </div>\n\n          <div style={{ display: 'flex', gap: 16 }}>\n            <Box variant=\"p\">{paragraphs[0]}</Box>\n\n            <CopyToClipboard\n              data-testid=\"copy-paragraph\"\n              variant=\"icon\"\n              copyButtonAriaLabel=\"Copy lorem ipsum paragraph\"\n              textToCopy={paragraphs[0]}\n              copySuccessText=\"Lorem ipsum paragraph copied\"\n              copyErrorText=\"Lorem ipsum paragraph failed to copy\"\n            />\n          </div>\n\n          <CopyToClipboard\n            data-testid=\"copy-sentence\"\n            variant=\"inline\"\n            copyButtonAriaLabel=\"Copy lorem ipsum sentence\"\n            textToCopy={sentence}\n            copySuccessText=\"Lorem ipsum sentence copied\"\n            copyErrorText=\"Lorem ipsum sentence failed to copy\"\n          />\n\n          <CopyToClipboard\n            data-testid=\"copy-sentence\"\n            variant=\"inline\"\n            copyButtonAriaLabel=\"Copy lorem ipsum sentence\"\n            textToCopy={sentence}\n            textToDisplay={'Custom text: copy the lorem ipsum sentence'}\n            copySuccessText=\"Lorem ipsum sentence copied\"\n            copyErrorText=\"Lorem ipsum sentence failed to copy\"\n          />\n\n          <div style={{ width: '150px' }}>\n            <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>\n              <CopyToClipboard\n                variant=\"inline\"\n                copyButtonAriaLabel=\"Copy lorem ipsum sentence\"\n                textToCopy=\"Relatively long text that we don't want to wrap\"\n                copySuccessText=\"Lorem ipsum sentence copied\"\n                copyErrorText=\"Lorem ipsum sentence failed to copy\"\n              />\n            </div>\n          </div>\n        </SpaceBetween>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/copy-to-clipboard/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "CopyToClipboardProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "variant",
+    "CopyToClipboardProps.Variant",
+    "아니오",
+    "Determines the general styling of the copy button as follows: * `button` to display a standalone secondary button with an icon, and `copyButtonText` as text. * `icon` to display a standalone icon-only (no text) button. * `inline` to display an icon-only (no text) button within a text context. Defaults to `button`.",
+    "src/copy-to-clipboard/interfaces.ts:16"
+   ],
+   [
+    "copyButtonText",
+    "string",
+    "아니오",
+    "The text of the copy button (for variant=\"button\").",
+    "src/copy-to-clipboard/interfaces.ts:21"
+   ],
+   [
+    "copyButtonAriaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` to the copy button. Use this to provide an accessible name for buttons that don't have visible text, and to distinguish between multiple buttons with identical visible text. The text will also be added to the `title` attribute of the button.",
+    "src/copy-to-clipboard/interfaces.ts:27"
+   ],
+   [
+    "textToCopy",
+    "string",
+    "예",
+    "The text content to be copied. It is displayed next to the copy button when `variant=\"inline\"` unless when `content` is specified, and is not shown otherwise.",
+    "src/copy-to-clipboard/interfaces.ts:32"
+   ],
+   [
+    "textToDisplay",
+    "React.ReactNode",
+    "아니오",
+    "The content to display next to the copy button when `variant=\"inline\"`. If not provided, `textToCopy` will be displayed instead.",
+    "src/copy-to-clipboard/interfaces.ts:37"
+   ],
+   [
+    "wrapText",
+    "boolean",
+    "아니오",
+    "Specifies if the `textToDisplay` content should wrap. If you set it to false, it prevents the text from wrapping and truncates it with an ellipsis. Only applies to `variant=\"inline\"`.",
+    "src/copy-to-clipboard/interfaces.ts:43"
+   ],
+   [
+    "copySuccessText",
+    "string",
+    "예",
+    "The message shown when the text is copied successfully.",
+    "src/copy-to-clipboard/interfaces.ts:48"
+   ],
+   [
+    "copyErrorText",
+    "string",
+    "예",
+    "The message shown when the text is not copied due to an error, see [https://w3c.github.io/clipboard-apis/#dom-clipboard-writetext](https://w3c.github.io/clipboard-apis/#dom-clipboard-writetext).",
+    "src/copy-to-clipboard/interfaces.ts:53"
+   ],
+   [
+    "popoverRenderWithPortal",
+    "boolean",
+    "아니오",
+    "By default, the popover is constrained to fit inside its parent [stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context). Enabling this property will allow the popover to be rendered in the root stack context using [React Portals](https://reactjs.org/docs/portals.html). Enable this setting if you need the popover to ignore its parent stacking context.",
+    "src/copy-to-clipboard/interfaces.ts:62"
+   ],
+   [
+    "disabled",
+    "boolean",
+    "아니오",
+    "Renders the copy to clipboard button as disabled and prevents clicks.",
+    "src/copy-to-clipboard/interfaces.ts:67"
+   ],
+   [
+    "disabledReason",
+    "string",
+    "아니오",
+    "Provides a reason why the copy to clipboard button is disabled (only when `disabled` is `true`). If provided, the copy to clipboard button becomes focusable. Applicable for all variants except inline.",
+    "src/copy-to-clipboard/interfaces.ts:74"
+   ],
+   [
+    "onCopySuccess",
+    "NonCancelableEventHandler<CopyToClipboardProps.CopySuccessDetail>",
+    "아니오",
+    "Called when the text is successfully copied to the clipboard. The event `detail` contains the text that was copied.",
+    "src/copy-to-clipboard/interfaces.ts:80"
+   ],
+   [
+    "onCopyFailure",
+    "NonCancelableEventHandler<CopyToClipboardProps.CopyFailureDetail>",
+    "아니오",
+    "Called when the copy operation fails. The event `detail` contains the text that failed to copy.",
+    "src/copy-to-clipboard/interfaces.ts:86"
+   ]
+  ],
+  "source": "src/copy-to-clipboard/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

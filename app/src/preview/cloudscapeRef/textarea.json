@@ -1,0 +1,83 @@
+{
+ "slug": "textarea",
+ "title": "Textarea",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "integration",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Textarea from '~components/textarea';\n\nexport default function Page() {\n  const [value, setValue] = useState('');\n  const [submitStatus, setSubmitStatus] = useState(false);\n\n  return (\n    <div id=\"test\" style={{ padding: 10 }}>\n      <h1>Textarea submit test</h1>\n      {submitStatus ? <div id=\"submit-success\">Submitted</div> : null}\n      <form\n        onSubmit={event => {\n          console.log('submitted');\n          event.preventDefault();\n          setSubmitStatus(true);\n        }}\n      >\n        <Textarea value={value} ariaLabel=\"textarea\" onChange={event => setValue(event.detail.value)} />\n      </form>\n    </div>\n  );\n}\n",
+   "source": "pages/textarea/integration.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Textarea, { TextareaProps } from '~components/textarea';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TextareaProps>([\n  {\n    disabled: [false],\n    value: [\n      '',\n      'Short value',\n      'Long value, enough to line wrap and maybe have scroll bars.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    rows: [3, 6],\n  },\n  {\n    disabled: [false],\n    placeholder: [\n      'Short placeholder',\n      'Long placeholder, enough to line wrap and maybe have scroll bars.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    rows: [3, 6],\n    value: [''],\n  },\n  {\n    disabled: [false, true],\n    value: ['Non-empty value: Placeholder should be hidden'],\n    placeholder: ['Short placeholder'],\n    invalid: [false, true],\n    warning: [false, true],\n  },\n  {\n    readOnly: [true],\n    value: ['', 'a piece of text'],\n    placeholder: ['Short placeholder'],\n  },\n  {\n    placeholder: ['Placeholder with\\nmultiple lines'],\n    value: [''],\n  },\n  {\n    resize: ['both', 'horizontal', 'vertical', 'none'],\n    value: ['Resizable in the direction given by the resize property'],\n  },\n]);\n\nexport default function TextareaPermutations() {\n  return (\n    <>\n      <h1>Textarea permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Textarea\n              ariaLabel=\"textarea\"\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/textarea/permutations.page.tsx"
+  },
+  {
+   "name": "pseudo-selectors",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Textarea from '~components/textarea';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function TextareaPseudoSelectorsPage() {\n  const [value, setValue] = useState('Test value');\n  const [isInvalid, setIsInvalid] = useState(false);\n  const [isDisabled, setIsDisabled] = useState(false);\n  const [isReadOnly, setIsReadOnly] = useState(false);\n  const [isWarning, setIsWarning] = useState(false);\n  const [customStyling, setCustomStyling] = useState(false);\n\n  const customStyle = {\n    root: {\n      borderColor: {\n        default: '#3b82f6',\n        hover: '#2563eb',\n        focus: '#1d4ed8',\n        disabled: '#93c5fd',\n        readonly: '#60a5fa',\n      },\n      borderWidth: '2px',\n      borderRadius: '8px',\n      backgroundColor: {\n        default: '#dbeafe',\n        hover: '#bfdbfe',\n        focus: '#bfdbfe',\n        disabled: '#eff6ff',\n        readonly: '#f0f9ff',\n      },\n      color: {\n        default: '#1e40af',\n        hover: '#1e40af',\n        focus: '#1e3a8a',\n        disabled: '#93c5fd',\n        readonly: '#3b82f6',\n      },\n      fontSize: '16px',\n      fontWeight: '500',\n      paddingBlock: '10px',\n      paddingInline: '14px',\n    },\n    placeholder: {\n      color: '#60a5fa',\n      fontSize: '14px',\n      fontStyle: 'italic',\n    },\n  };\n\n  return (\n    <>\n      <h1>Textarea Style API - Pseudo Selectors</h1>\n      <ScreenshotArea>\n        <Textarea\n          ariaLabel=\"Test textarea\"\n          value={value}\n          onChange={event => setValue(event.detail.value)}\n          invalid={isInvalid}\n          disabled={isDisabled}\n          readOnly={isReadOnly}\n          warning={isWarning}\n          placeholder=\"Enter text\"\n          data-testid=\"test-textarea\"\n          style={customStyling ? customStyle : undefined}\n        />\n      </ScreenshotArea>\n\n      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>\n        <button id=\"toggle-styling\" onClick={() => setCustomStyling(!customStyling)} type=\"button\">\n          Toggle Custom Styling ({customStyling ? 'ON' : 'OFF'})\n        </button>\n        <button id=\"toggle-invalid\" onClick={() => setIsInvalid(!isInvalid)} type=\"button\">\n          Toggle Invalid ({isInvalid ? 'ON' : 'OFF'})\n        </button>\n        <button id=\"toggle-disabled\" onClick={() => setIsDisabled(!isDisabled)} type=\"button\">\n          Toggle Disabled ({isDisabled ? 'ON' : 'OFF'})\n        </button>\n        <button id=\"toggle-readonly\" onClick={() => setIsReadOnly(!isReadOnly)} type=\"button\">\n          Toggle ReadOnly ({isReadOnly ? 'ON' : 'OFF'})\n        </button>\n        <button id=\"toggle-warning\" onClick={() => setIsWarning(!isWarning)} type=\"button\">\n          Toggle Warning ({isWarning ? 'ON' : 'OFF'})\n        </button>\n        <button\n          id=\"reset-all\"\n          onClick={() => {\n            setCustomStyling(false);\n            setIsInvalid(false);\n            setIsDisabled(false);\n            setIsReadOnly(false);\n            setIsWarning(false);\n          }}\n          type=\"button\"\n        >\n          Reset All\n        </button>\n      </div>\n    </>\n  );\n}\n",
+   "source": "pages/textarea/pseudo-selectors.page.tsx"
+  },
+  {
+   "name": "style-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Textarea, { TextareaProps } from '~components/textarea';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TextareaProps>([\n  {\n    value: ['This is an example value'],\n    placeholder: [''],\n    disabled: [false, true],\n    readOnly: [false, true],\n    onChange: [() => {}],\n    style: [\n      {\n        root: {\n          borderColor: {\n            default: '#14b8a6',\n            hover: '#0f766e',\n            focus: '#0d9488',\n            disabled: '#99f6e4',\n            readonly: '#5eead4',\n          },\n          borderWidth: '2px',\n          borderRadius: '8px',\n          backgroundColor: {\n            default: '#99f6e4',\n            hover: '#5eead4',\n            focus: '#5eead4',\n            disabled: '#5eead4',\n            readonly: '#ccfbf1',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(20, 184, 166, 0.15)',\n            focus: '0 0 0 4px rgba(20, 184, 166, 0.2), 0 2px 4px rgba(20, 184, 166, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#0d5c54',\n            hover: '#0d5c54',\n            focus: '#0d5c54',\n            disabled: '#0d5c54',\n            readonly: '#0f766e',\n          },\n          fontSize: '16px',\n          fontWeight: '500',\n          paddingBlock: '12px',\n          paddingInline: '16px',\n        },\n        placeholder: {\n          color: '#14b8a6',\n          fontSize: '14px',\n          fontStyle: 'italic',\n          fontWeight: '400',\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#ef4444',\n            hover: '#b91c1c',\n            focus: '#dc2626',\n            disabled: '#fca5a5',\n            readonly: '#fca5a5',\n          },\n          borderWidth: '2px',\n          borderRadius: '8px',\n          backgroundColor: {\n            default: '#fecaca',\n            hover: '#fca5a5',\n            focus: '#fca5a5',\n            disabled: '#fca5a5',\n            readonly: '#fee2e2',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(239, 68, 68, 0.15)',\n            focus: '0 0 0 4px rgba(239, 68, 68, 0.2), 0 2px 4px rgba(239, 68, 68, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#7f1d1d',\n            hover: '#7f1d1d',\n            focus: '#7f1d1d',\n            disabled: '#7f1d1d',\n            readonly: '#991b1b',\n          },\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#f59e0b',\n            hover: '#b45309',\n            focus: '#d97706',\n            disabled: '#fcd34d',\n            readonly: '#fcd34d',\n          },\n          borderWidth: '2px',\n          borderRadius: '16px',\n          backgroundColor: {\n            default: '#fde68a',\n            hover: '#fcd34d',\n            focus: '#fcd34d',\n            disabled: '#fcd34d',\n            readonly: '#fef3c7',\n          },\n          boxShadow: {\n            default: '0 2px 8px rgba(245, 158, 11, 0.15)',\n            hover: '0 6px 16px rgba(245, 158, 11, 0.25)',\n            focus: '0 0 0 4px rgba(245, 158, 11, 0.25), 0 6px 16px rgba(245, 158, 11, 0.3)',\n            disabled: 'none',\n            readonly: '0 2px 8px rgba(245, 158, 11, 0.15)',\n          },\n          color: {\n            default: '#78350f',\n            hover: '#78350f',\n            focus: '#78350f',\n            disabled: '#78350f',\n            readonly: '#92400e',\n          },\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#10b981',\n            hover: '#047857',\n            focus: '#059669',\n            disabled: '#6ee7b7',\n            readonly: '#6ee7b7',\n          },\n          borderWidth: '3px',\n          borderRadius: '0px',\n          backgroundColor: {\n            default: '#d1fae5',\n            hover: '#a7f3d0',\n            focus: '#a7f3d0',\n            disabled: '#a7f3d0',\n            readonly: '#ecfdf5',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(16, 185, 129, 0.1)',\n            focus: '0 0 0 4px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(16, 185, 129, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#064e3b',\n            hover: '#064e3b',\n            focus: '#064e3b',\n            disabled: '#064e3b',\n            readonly: '#065f46',\n          },\n        },\n      },\n    ],\n  },\n]);\n\nexport default function TextareaStylePermutations() {\n  return (\n    <>\n      <h1>Textarea Style permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <Textarea ariaLabel=\"Textarea field\" {...permutation} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/textarea/style-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "TextareaProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "rows",
+    "number",
+    "아니오",
+    "Specifies the number of lines of text to set the height to.",
+    "src/textarea/interfaces.ts:29"
+   ],
+   [
+    "resize",
+    "TextareaProps.Resize",
+    "아니오",
+    "Specifies the directions in which the user can resize the textarea: * `both` (default) - The user can change both the width and the height. * `vertical` - The user can only change the height. Use this when the textarea is next to other content that a width change would disrupt. * `horizontal` - The user can only change the width. * `none` - The user can't resize the textarea. Longer content scrolls instead. Consider using the `rows` property to make the initial height fit the expected content.",
+    "src/textarea/interfaces.ts:41"
+   ],
+   [
+    "disableBrowserSpellcheck",
+    "boolean",
+    "아니오",
+    "Specifies whether to disable browser spellcheck feature. If you set this to `true`, it disables native browser capability that checks for spelling/grammar errors. If you don't set it, the behavior follows the default behavior of the user's browser. @deprecated Use the `spellcheck` property instead.",
+    "src/textarea/interfaces.ts:52"
+   ],
+   [
+    "nativeTextareaAttributes",
+    "NativeAttributes<React.TextareaHTMLAttributes<HTMLTextAreaElement>>",
+    "아니오",
+    "Attributes to add to the native `textarea` element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/textarea/interfaces.ts:64"
+   ],
+   [
+    "style",
+    "TextareaProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the textarea's visual appearance. Refer to the [style](/components/textarea/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/textarea/interfaces.ts:71"
+   ]
+  ],
+  "source": "src/textarea/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

@@ -1,0 +1,187 @@
+{
+ "slug": "action-card",
+ "title": "Action Card",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "link",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { ActionCard, Icon, SpaceBetween } from '~components';\n\nimport { SimplePage } from '../app/templates';\n\nexport default function ActionCardLinkPage() {\n  const [lastFollowed, setLastFollowed] = React.useState<string | null>(null);\n\n  return (\n    <SimplePage title=\"Action Card link page\" screenshotArea={{}}>\n      <SpaceBetween size=\"l\">\n        <div>Last followed: {lastFollowed ?? 'None'}</div>\n\n        <div style={{ maxInlineSize: '400px' }}>\n          <SpaceBetween size=\"m\">\n            <ActionCard\n              header={<b>Navigates with href</b>}\n              description=\"Renders as an anchor element\"\n              href=\"#in-page\"\n              icon={<Icon name=\"angle-right\" />}\n              onFollow={event => {\n                event.preventDefault();\n                setLastFollowed('Header card');\n              }}\n            />\n\n            <ActionCard\n              ariaLabel=\"Standalone link card\"\n              href=\"#standalone\"\n              icon={<Icon name=\"angle-right\" />}\n              iconVerticalAlignment=\"center\"\n              onFollow={event => {\n                event.preventDefault();\n                setLastFollowed('Standalone card');\n              }}\n            >\n              Standalone link card\n            </ActionCard>\n\n            <ActionCard\n              header={<b>External link (new tab)</b>}\n              description=\"Opens in a new tab\"\n              href=\"https://cloudscape.design/\"\n              target=\"_blank\"\n              icon={<Icon name=\"external\" />}\n            />\n\n            <ActionCard\n              header={<b>Disabled link</b>}\n              description=\"href is removed when disabled\"\n              href=\"#disabled\"\n              disabled={true}\n            />\n          </SpaceBetween>\n        </div>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/action-card/link.page.tsx"
+  },
+  {
+   "name": "padding-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ActionCard, { ActionCardProps } from '~components/action-card';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport { longHeader, onClick, reactNodeContent, shortContent, shortDescription } from './common';\n\nconst permutations = createPermutations<ActionCardProps>([\n  // All padding toggle combinations with all slots present\n  {\n    header: [longHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    disableHeaderPaddings: [false, true],\n    disableContentPaddings: [false, true],\n    onClick: [onClick],\n  },\n  // Disabled paddings with custom React node content\n  {\n    children: [reactNodeContent],\n    disableContentPaddings: [false, true],\n    ariaLabel: ['Action card'],\n    onClick: [onClick],\n  },\n  // Header padding only (no content)\n  {\n    header: [longHeader],\n    disableHeaderPaddings: [false, true],\n    onClick: [onClick],\n  },\n  // Content padding only (no header)\n  {\n    children: [shortContent],\n    disableContentPaddings: [false, true],\n    ariaLabel: ['Action card'],\n    onClick: [onClick],\n  },\n  // All disabled paddings with disabled state\n  {\n    header: [longHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    disabled: [true],\n    disableHeaderPaddings: [true],\n    disableContentPaddings: [true],\n    onClick: [onClick],\n  },\n]);\n\nexport default function ActionCardPaddingPermutations() {\n  return (\n    <PermutationsPage title=\"Action card padding permutations\" i18n={{}}>\n      <PermutationsView permutations={permutations} render={permutation => <ActionCard {...permutation} />} />\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/action-card/padding-permutations.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ActionCard, { ActionCardProps } from '~components/action-card';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport {\n  icon,\n  longContent,\n  longDescription,\n  longHeader,\n  onClick,\n  shortContent,\n  shortDescription,\n  shortHeader,\n} from './common';\n\nconst permutations = createPermutations<ActionCardProps>([\n  // All content slots filled\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    icon: [icon],\n    iconVerticalAlignment: ['top'],\n    onClick: [onClick],\n  },\n  // Header variations\n  {\n    header: [shortHeader, longHeader, undefined],\n    description: [shortDescription],\n    children: [shortContent],\n    ariaLabel: ['Action card'],\n    onClick: [onClick],\n  },\n  // Description variations\n  {\n    header: [shortHeader],\n    description: [shortDescription, longDescription, undefined],\n    children: [shortContent],\n    onClick: [onClick],\n  },\n  // Icon with alignment variations\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    icon: [icon],\n    iconVerticalAlignment: ['top', 'center'],\n    onClick: [onClick],\n  },\n  // Icon with children content\n  {\n    header: [shortHeader],\n    children: [shortContent],\n    icon: [icon],\n    iconVerticalAlignment: ['top', 'center'],\n    onClick: [onClick],\n  },\n  // Disabled state\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    icon: [icon],\n    iconVerticalAlignment: ['top', 'center'],\n    disabled: [true],\n    onClick: [onClick],\n  },\n  // Long content wrapping\n  {\n    header: [longHeader],\n    description: [longDescription],\n    children: [longContent],\n    icon: [icon],\n    iconVerticalAlignment: ['top', 'center'],\n    onClick: [onClick],\n  },\n  // Minimal: content only\n  {\n    children: [shortContent],\n    ariaLabel: ['Minimal card'],\n    onClick: [onClick],\n  },\n  // Header only\n  {\n    header: [shortHeader],\n    onClick: [onClick],\n  },\n]);\n\nexport default function ActionCardPermutations() {\n  return (\n    <PermutationsPage title=\"Action card permutations\" i18n={{}}>\n      <PermutationsView permutations={permutations} render={permutation => <ActionCard {...permutation} />} />\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/action-card/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { ActionCard, Badge, Box, Icon, SpaceBetween } from '~components';\n\nimport { SimplePage } from '../app/templates';\n\nexport default function ActionCardSimplePage() {\n  const [clickedCard, setClickedCard] = React.useState<string | null>(null);\n\n  return (\n    <SimplePage title=\"Action Card simple page\" screenshotArea={{}}>\n      <SpaceBetween size=\"l\">\n        <div>Last clicked: {clickedCard ?? 'None'}</div>\n\n        <div style={{ maxInlineSize: '400px' }}>\n          <SpaceBetween size=\"m\">\n            <ActionCard\n              variant=\"embedded\"\n              disableContentPaddings={true}\n              disableHeaderPaddings={true}\n              onClick={() => setClickedCard('Juice')}\n            >\n              <Box padding=\"xs\">\n                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>\n                  <Icon name=\"expand\" />\n                  <div style={{ flex: 1 }}>Lambda Execution Role - Current IAM Policies</div>\n                  <Badge>Table</Badge>\n                </div>\n              </Box>\n            </ActionCard>\n            <ActionCard\n              icon={<Icon name=\"angle-right\" />}\n              iconVerticalAlignment=\"center\"\n              ariaLabel=\"Test Action card\"\n              onClick={() => setClickedCard('Basic 1')}\n            >\n              Test\n            </ActionCard>\n            <ActionCard\n              header={<b>EC2 access to S3</b>}\n              description=\"A description of the template/icebreaker\"\n              icon={<Icon name=\"arrow-right\" />}\n              iconVerticalAlignment=\"top\"\n              onClick={() => setClickedCard('Basic 2')}\n            ></ActionCard>\n            <ActionCard\n              header={<b>Account alias (111112222233333)</b>}\n              description=\"Dev/john.doe@amazon.com\"\n              icon={<Icon name=\"angle-right\" />}\n              iconVerticalAlignment=\"top\"\n              onClick={() => setClickedCard('Basic 3')}\n            >\n              Logged in 1 minute ago\n            </ActionCard>\n          </SpaceBetween>\n        </div>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/action-card/simple.page.tsx"
+  },
+  {
+   "name": "variant-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ActionCard, { ActionCardProps } from '~components/action-card';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport { icon, longContent, longDescription, onClick, shortContent, shortDescription, shortHeader } from './common';\n\nconst permutations = createPermutations<ActionCardProps>([\n  // Variants with all slots\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    icon: [icon],\n    variant: ['default', 'embedded'],\n    onClick: [onClick],\n  },\n  // Variants with minimal content\n  {\n    children: [shortContent],\n    variant: ['default', 'embedded'],\n    ariaLabel: ['Action card'],\n    onClick: [onClick],\n  },\n  // Variants with header only\n  {\n    header: [shortHeader],\n    variant: ['default', 'embedded'],\n    onClick: [onClick],\n  },\n  // Variants with icon and alignment\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    icon: [icon],\n    iconVerticalAlignment: ['top', 'center'],\n    variant: ['default', 'embedded'],\n    onClick: [onClick],\n  },\n  // Variants with long content\n  {\n    header: [shortHeader],\n    description: [longDescription],\n    children: [longContent],\n    variant: ['default', 'embedded'],\n    onClick: [onClick],\n  },\n  // Variants with disabled state\n  {\n    header: [shortHeader],\n    description: [shortDescription],\n    children: [shortContent],\n    disabled: [true],\n    variant: ['default', 'embedded'],\n    onClick: [onClick],\n  },\n]);\n\nexport default function ActionCardVariantPermutations() {\n  return (\n    <PermutationsPage title=\"Action card variant permutations\" i18n={{}}>\n      <PermutationsView permutations={permutations} render={permutation => <ActionCard {...permutation} />} />\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/action-card/variant-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "ActionCardProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "header",
+    "ReactNode",
+    "아니오",
+    "The header content displayed at the top of the action card.",
+    "src/action-card/interfaces.ts:13"
+   ],
+   [
+    "description",
+    "ReactNode",
+    "아니오",
+    "The description content displayed below the header.",
+    "src/action-card/interfaces.ts:18"
+   ],
+   [
+    "children",
+    "ReactNode",
+    "아니오",
+    "The main content of the action card.",
+    "src/action-card/interfaces.ts:23"
+   ],
+   [
+    "onClick",
+    "CancelableEventHandler<ActionCardProps.ClickDetail>",
+    "아니오",
+    "Called when the user clicks on the action card.",
+    "src/action-card/interfaces.ts:28"
+   ],
+   [
+    "href",
+    "string",
+    "아니오",
+    "Turns the action card into a link, pointing to the given URL. The card is rendered using an `a` element instead of a `button`. For example, use this property if selecting the card should navigate the user to another page.",
+    "src/action-card/interfaces.ts:34"
+   ],
+   [
+    "target",
+    "string",
+    "아니오",
+    "Specifies where to open the linked URL (for example, to open in a new browser window or tab use `_blank`). This property only applies when an `href` is provided.",
+    "src/action-card/interfaces.ts:40"
+   ],
+   [
+    "rel",
+    "string",
+    "아니오",
+    "Adds a `rel` attribute to the link. By default, the component sets the `rel` attribute to \"noopener noreferrer\" when `target` is `\"_blank\"`. If the `rel` property is provided, it overrides the default behavior. This property only applies when an `href` is provided.",
+    "src/action-card/interfaces.ts:47"
+   ],
+   [
+    "download",
+    "boolean | string",
+    "아니오",
+    "Specifies whether the linked URL, when selected, will prompt the user to download instead of navigate. You can specify a string value that will be suggested as the name of the downloaded file. This property only applies when an `href` is provided.",
+    "src/action-card/interfaces.ts:54"
+   ],
+   [
+    "onFollow",
+    "CancelableEventHandler<ActionCardProps.FollowDetail>",
+    "아니오",
+    "Called when the user clicks on the action card with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META), and the action card has an `href` set.",
+    "src/action-card/interfaces.ts:60"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds an aria-label to the action card.",
+    "src/action-card/interfaces.ts:65"
+   ],
+   [
+    "ariaDescribedby",
+    "string",
+    "아니오",
+    "Adds an aria-describedby reference for the action card.",
+    "src/action-card/interfaces.ts:70"
+   ],
+   [
+    "disabled",
+    "boolean",
+    "아니오",
+    "Determines whether the action card is disabled.",
+    "src/action-card/interfaces.ts:75"
+   ],
+   [
+    "disableHeaderPaddings",
+    "boolean",
+    "아니오",
+    "Removes the default padding from the header area.",
+    "src/action-card/interfaces.ts:80"
+   ],
+   [
+    "disableContentPaddings",
+    "boolean",
+    "아니오",
+    "Removes the default padding from the content area.",
+    "src/action-card/interfaces.ts:85"
+   ],
+   [
+    "icon",
+    "React.ReactNode",
+    "아니오",
+    "Displays an icon next to the content. You can use the `iconVerticalAlignment` property to control vertical alignment.",
+    "src/action-card/interfaces.ts:90"
+   ],
+   [
+    "iconVerticalAlignment",
+    "ActionCardProps.IconVerticalAlignment",
+    "아니오",
+    "Specifies the vertical alignment of the icon.",
+    "src/action-card/interfaces.ts:95"
+   ],
+   [
+    "variant",
+    "ActionCardProps.Variant",
+    "아니오",
+    "Specifies the visual variant of the card, which controls the border radius and padding. - `default` - Uses container-level border radius and padding (larger). - `embedded` - Uses compact border radius and padding (smaller).",
+    "src/action-card/interfaces.ts:103"
+   ],
+   [
+    "nativeButtonAttributes",
+    "NativeAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>",
+    "아니오",
+    "Attributes to add to the native button element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/action-card/interfaces.ts:115"
+   ],
+   [
+    "nativeAnchorAttributes",
+    "NativeAttributes<React.AnchorHTMLAttributes<HTMLAnchorElement>>",
+    "아니오",
+    "Attributes to add to the native `a` element (when `href` is provided). Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/action-card/interfaces.ts:127"
+   ]
+  ],
+  "source": "src/action-card/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

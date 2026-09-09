@@ -1,0 +1,63 @@
+{
+ "slug": "badge",
+ "title": "Badge",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Badge, { BadgeProps } from '~components/badge';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<BadgeProps>([\n  {\n    color: [\n      'blue',\n      'grey',\n      'green',\n      'red',\n      'severity-critical',\n      'severity-high',\n      'severity-medium',\n      'severity-low',\n      'severity-neutral',\n    ],\n    children: [\n      'ABC',\n      'Badge With A Very Long Text',\n      <>\n        Badge with <strong>html</strong>\n      </>,\n    ],\n  },\n]);\n\nexport default function BadgePermutations() {\n  return (\n    <>\n      <h1>Badge permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView permutations={permutations} render={permutation => <Badge {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/badge/permutations.page.tsx"
+  },
+  {
+   "name": "style-api-v2",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\nimport clsx from 'clsx';\n\nimport { Badge, SpaceBetween } from '~components';\n\nimport { SimplePage } from '../app/templates';\n\nimport styles from './style-api-v2.scss';\n\nexport default function () {\n  return (\n    <SimplePage title=\"Badge - Style API v2\" screenshotArea={{}}>\n      <SpaceBetween size=\"m\" direction=\"horizontal\">\n        <Badge {...{ styleClassNames: { root: clsx(styles.badge, styles['badge-info-pill']) } }}>Info pill</Badge>\n        <Badge {...{ styleClassNames: { root: clsx(styles.badge, styles['badge-error-square']) } }}>Error square</Badge>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/badge/style-api-v2.page.tsx"
+  },
+  {
+   "name": "style-custom-types",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Badge as CloudscapeBadge, SpaceBetween } from '~components';\n\nimport { palette } from '../app/themes/style-api';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function CustomBadgeTypes() {\n  return (\n    <ScreenshotArea>\n      <h1>Custom Badge Types</h1>\n      <SpaceBetween direction=\"horizontal\" size=\"m\">\n        <CustomBadge colorTheme=\"blue\">Blue</CustomBadge>\n        <CustomBadge colorTheme=\"critical\">Critical</CustomBadge>\n        <CustomBadge colorTheme=\"high\">High</CustomBadge>\n        <CustomBadge colorTheme=\"medium\">Medium</CustomBadge>\n        <CustomBadge colorTheme=\"low\">Low</CustomBadge>\n        <CustomBadge colorTheme=\"neutral\">Neutral</CustomBadge>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n\ninterface CustomBadgeProps {\n  children?: React.ReactNode;\n  colorTheme: 'blue' | 'critical' | 'high' | 'medium' | 'low' | 'neutral';\n}\n\nfunction CustomBadge({ children, colorTheme }: CustomBadgeProps) {\n  return (\n    <CloudscapeBadge\n      style={{\n        root: {\n          background: getBackground(colorTheme),\n          borderColor: getBorderColor(colorTheme),\n          borderRadius: '8px',\n          color: getColor(),\n          borderWidth: getBorderWidth(colorTheme),\n          paddingBlock: '8px',\n          paddingInline: '12px',\n        },\n      }}\n    >\n      <span style={{ fontSize: '16px' }}>{children}</span>\n    </CloudscapeBadge>\n  );\n}\n\nfunction getBackground(colorTheme: string) {\n  const backgrounds = {\n    blue: `light-dark(${palette.blue80}, ${palette.blue40})`,\n    critical: `light-dark(${palette.red80}, ${palette.red30})`,\n    high: `light-dark(${palette.red60}, ${palette.red30})`,\n    medium: `light-dark(${palette.green80}, ${palette.green20})`,\n    low: `light-dark(${palette.teal90}, ${palette.teal20})`,\n    neutral: `light-dark(${palette.neutral80}, ${palette.neutral20})`,\n  };\n  return backgrounds[colorTheme as keyof typeof backgrounds];\n}\n\nfunction getColor() {\n  return 'light-dark(white, black)';\n}\n\nfunction getBorderColor(colorTheme: string) {\n  const borderColors = {\n    blue: `light-dark(${palette.neutral80}, ${palette.neutral20})`,\n    critical: `light-dark(${palette.blue90}, ${palette.red60})`,\n    high: `light-dark(${palette.red80}, ${palette.red10})`,\n    medium: `light-dark(${palette.green80}, ${palette.green30})`,\n    low: `light-dark(${palette.neutral80}, ${palette.neutral20})`,\n    neutral: `light-dark(${palette.teal80}, ${palette.teal40})`,\n  };\n  return borderColors[colorTheme as keyof typeof borderColors];\n}\n\nfunction getBorderWidth(colorTheme: string) {\n  const borderWidths = {\n    blue: '2px',\n    critical: '4px',\n    high: '0px',\n    medium: '0px',\n    low: '0px',\n    neutral: '0px',\n  };\n  return borderWidths[colorTheme as keyof typeof borderWidths];\n}\n",
+   "source": "pages/badge/style-custom-types.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "BadgeProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Text displayed inside the badge.",
+    "src/badge/interfaces.ts:29"
+   ],
+   [
+    "style",
+    "BadgeProps.Style",
+    "아니오",
+    "An object containing CSS properties to customize the badge's visual appearance. Refer to the [style](/components/badge/?tabId=style) tab for more details. @awsuiSystem core",
+    "src/badge/interfaces.ts:36"
+   ],
+   [
+    "nativeAttributes",
+    "NativeAttributes<React.HTMLAttributes<HTMLElement>>",
+    "아니오",
+    "Attributes to add to the native element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+    "src/badge/interfaces.ts:48"
+   ]
+  ],
+  "source": "src/badge/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

@@ -1,0 +1,57 @@
+{
+ "slug": "time-input",
+ "title": "Time Input",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, SpaceBetween, TimeInput, TimeInputProps } from '~components';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TimeInputProps>([\n  {\n    value: ['', '12:33:44', '23:33:44'],\n    placeholder: ['hh:mm:ss'],\n    format: ['hh', 'hh:mm', 'hh:mm:ss'],\n    disabled: [false, true],\n    readOnly: [false, true],\n    name: ['Some Name'],\n    ariaLabel: ['Some label'],\n    use24Hour: [false, true],\n  },\n  {\n    value: [''],\n    placeholder: ['hh', 'hh:mm', 'hh:mm:ss'],\n    format: ['hh:mm:ss'],\n    disabled: [false, true],\n    readOnly: [false, true],\n    name: ['Some Name'],\n    ariaLabel: ['Some label'],\n  },\n  {\n    value: ['', '12:33:44'],\n    placeholder: ['hh:mm:ss'],\n    format: ['hh:mm:ss'],\n    invalid: [false, true],\n    warning: [false, true],\n    disabled: [false, true],\n    readOnly: [false, true],\n    name: ['Some Name'],\n    ariaLabel: ['Some label'],\n  },\n]);\n\nexport default function TimeInputPermutations() {\n  return (\n    <Box padding=\"l\">\n      <h1>Time Input permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <SpaceBetween size=\"m\">\n          <PermutationsView\n            permutations={permutations}\n            render={permutation => (\n              <TimeInput\n                onChange={() => {\n                  /*empty handler to suppress react controlled property warning*/\n                }}\n                {...permutation}\n              />\n            )}\n          />\n        </SpaceBetween>\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
+   "source": "pages/time-input/permutations.page.tsx"
+  },
+  {
+   "name": "simple",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Box } from '~components';\nimport TimeInput from '~components/time-input';\n\nexport default function TimeInputScenario() {\n  const [value, setValue] = useState('');\n\n  return (\n    <Box padding=\"l\">\n      <h1>Time input</h1>\n      <section>\n        <TimeInput\n          format=\"hh:mm:ss\"\n          placeholder=\"hh:mm:ss\"\n          ariaLabel=\"time-input\"\n          value={value}\n          onChange={event => setValue(event.detail.value)}\n        />\n      </section>\n    </Box>\n  );\n}\n",
+   "source": "pages/time-input/simple.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "TimeInputProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "format",
+    "TimeInputProps.Format",
+    "아니오",
+    "Specifies the format of the time input. Use it to restrict the granularity of time that the user can enter.",
+    "src/time-input/interfaces.ts:17"
+   ],
+   [
+    "use24Hour",
+    "boolean",
+    "아니오",
+    "Specifies whether the component should use 12-hour or 24-hour format. When using 12-hour format, there is no option for picking AM or PM.",
+    "src/time-input/interfaces.ts:23"
+   ],
+   [
+    "autoComplete",
+    "boolean",
+    "아니오",
+    "Specifies whether to enable a browser's autocomplete functionality for this input. In some cases it might be appropriate to disable autocomplete (for example, for security-sensitive fields). To use it correctly, set the `name` property.",
+    "src/time-input/interfaces.ts:30"
+   ]
+  ],
+  "source": "src/time-input/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

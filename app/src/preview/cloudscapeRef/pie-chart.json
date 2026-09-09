@@ -1,0 +1,295 @@
+{
+ "slug": "pie-chart",
+ "title": "Pie Chart",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "basic",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport FormField from '~components/form-field';\nimport Grid from '~components/grid';\nimport Header from '~components/header';\nimport PieChart from '~components/pie-chart';\nimport Select, { SelectProps } from '~components/select';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, data2, data3, FoodData, segmentDescription1 } from './common';\n\nconst statusMap: Record<string, 'finished' | 'loading' | 'error'> = {\n  finished: 'finished',\n  loading: 'loading',\n  error: 'error',\n} as const;\n\nconst statusOptions: Array<SelectProps.Option> = Object.keys(statusMap).map(status => ({ value: status }));\n\nexport default function () {\n  const [currentStatus, setStatus] = useState(statusOptions[0]);\n\n  return (\n    <ScreenshotArea>\n      <h1>Polar charts</h1>\n      <Box padding=\"l\">\n        <div style={{ width: '20rem' }}>\n          <FormField label=\"Chart status\">\n            <Select\n              options={statusOptions}\n              selectedOption={currentStatus}\n              onChange={event => setStatus(event.detail.selectedOption)}\n            />\n          </FormField>\n        </div>\n        <Grid\n          gridDefinition={[\n            { colspan: { default: 12, s: 6 } },\n            { colspan: { default: 12, s: 6 } },\n            { colspan: { default: 12, s: 6 } },\n            { colspan: { default: 12, s: 6 } },\n            { colspan: { default: 12, s: 4 } },\n            { colspan: { default: 12, s: 4 } },\n            { colspan: { default: 12, s: 4 } },\n          ]}\n        >\n          <Container header={<Header variant=\"h2\">Food facts</Header>}>\n            <PieChart<FoodData>\n              {...commonProps}\n              statusType={statusMap[currentStatus.value || 'finished']}\n              data={data1}\n              ariaLabel=\"Food facts\"\n              size=\"medium\"\n              legendTitle=\"Legend\"\n              ariaDescription=\"Potatoes are most delicious\"\n              detailPopoverContent={datum => [\n                {\n                  key: 'Popularity',\n                  value: `${datum.value}%`,\n                },\n                {\n                  key: 'Calories per 100g',\n                  value: `${datum.calories} kcal`,\n                },\n              ]}\n              segmentDescription={segmentDescription1}\n              hideDescriptions={true}\n              hideTitles={true}\n            />\n          </Container>\n          <Container header={<Header variant=\"h2\">Donut Chart</Header>}>\n            <PieChart\n              {...commonProps}\n              statusType={statusMap[currentStatus.value || 'finished']}\n              data={data3}\n              size=\"large\"\n              variant=\"donut\"\n              ariaLabel=\"Donut chart\"\n              ariaDescription=\"Product A is the most popular\"\n              innerMetricValue=\"200\"\n              innerMetricDescription=\"Items sold\"\n              hideDescriptions={true}\n              i18nStrings={{\n                ...commonProps.i18nStrings,\n                chartAriaRoleDescription: 'donut chart',\n              }}\n            />\n          </Container>\n          <Container header={<Header variant=\"h2\">Minimal pie Chart</Header>}>\n            <PieChart\n              {...commonProps}\n              statusType={statusMap[currentStatus.value || 'finished']}\n              ariaLabel=\"Minimal pie chart\"\n              size=\"medium\"\n              variant=\"donut\"\n              data={[\n                { title: 'Complete', value: 160, color: '#3481CC' },\n                { title: 'Incomplete', value: 40, color: '#879596' },\n                { title: 'Error', value: 0, color: '#ba2e0f' },\n              ]}\n              innerMetricValue=\"80%\"\n              innerMetricDescription={'Complete'}\n              hideTitles={true}\n              hideDescriptions={true}\n              hideFilter={true}\n            />\n          </Container>\n          <Container header={<Header variant=\"h2\">Pie Chart</Header>}>\n            <PieChart {...commonProps} ariaLabel=\"Some pie chart\" data={data2} size=\"medium\" />\n          </Container>\n          <Container header={<Header variant=\"h2\">Pie Chart</Header>}>\n            <PieChart {...commonProps} ariaLabel=\"Empty pie chart\" data={[]} size=\"medium\" />\n          </Container>\n          <Container header={<Header variant=\"h2\">Pie Chart</Header>}>\n            <PieChart {...commonProps} ariaLabel=\"Loading chart\" data={data2} size=\"medium\" statusType=\"loading\" />\n          </Container>\n          <Container header={<Header variant=\"h2\">Pie Chart</Header>}>\n            <PieChart {...commonProps} ariaLabel=\"Broken pie chart\" data={data2} size=\"medium\" statusType=\"error\" />\n          </Container>\n        </Grid>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/pie-chart/basic.page.tsx"
+  },
+  {
+   "name": "controlled",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport Grid from '~components/grid';\nimport Header from '~components/header';\nimport PieChart, { PieChartProps } from '~components/pie-chart';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps } from './common';\n\nconst data: Array<PieChartProps.Datum> = [\n  { title: 'Product A', value: 130 },\n  { title: 'Product B', value: 30 },\n  { title: 'Product C', value: 20 },\n  { title: 'Product D', value: 10 },\n  { title: 'Product E', value: 10 },\n];\n\nconst segmentDescription = (datum: PieChartProps.Datum, sum: number) =>\n  `${datum.value} items, ${((datum.value / sum) * 100).toFixed(0)}%`;\n\nexport default function () {\n  const [activeSegment, setActiveSegment] = useState<PieChartProps.Datum | null>(null);\n\n  return (\n    <ScreenshotArea>\n      <h1>Controlled Polar charts</h1>\n      <Box padding=\"l\">\n        <Grid\n          gridDefinition={[\n            { colspan: { xxs: 12, s: 12, m: 6, default: 6 } },\n            { colspan: { xxs: 12, s: 12, m: 6, default: 6 } },\n          ]}\n        >\n          <Container header={<Header variant=\"h2\">Controlling chart</Header>}>\n            <PieChart\n              {...commonProps}\n              id=\"chart-1\"\n              data={data}\n              size=\"medium\"\n              ariaLabel=\"Controlling chart\"\n              segmentDescription={segmentDescription}\n              highlightedSegment={activeSegment}\n              onHighlightChange={e => {\n                setActiveSegment(e.detail.highlightedSegment);\n              }}\n            />\n          </Container>\n          <Container header={<Header variant=\"h2\">Passive chart</Header>}>\n            <PieChart\n              {...commonProps}\n              id=\"chart-2\"\n              data={data}\n              size=\"medium\"\n              ariaLabel=\"Passive chart\"\n              segmentDescription={segmentDescription}\n              highlightedSegment={activeSegment}\n              onHighlightChange={e => {\n                setActiveSegment(e.detail.highlightedSegment);\n              }}\n            />\n          </Container>\n        </Grid>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/pie-chart/controlled.page.tsx"
+  },
+  {
+   "name": "custom-filtering",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport Header from '~components/header';\nimport PieChart from '~components/pie-chart';\nimport Toggle from '~components/toggle';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, FoodData } from './common';\n\nexport default function () {\n  const [visibleSegments, setVisibleSegments] = useState<ReadonlyArray<FoodData>>(data1);\n  const [checked, setChecked] = useState(false);\n\n  return (\n    <ScreenshotArea>\n      <h1>Pie charts with additional filtering</h1>\n      <Box padding=\"l\">\n        <Container header={<Header variant=\"h2\">Food facts</Header>}>\n          <PieChart<FoodData>\n            {...commonProps}\n            data={data1}\n            ariaLabel=\"Food facts\"\n            size=\"large\"\n            legendTitle=\"Legend\"\n            onFilterChange={e => {\n              console.log(e.detail);\n              setVisibleSegments(e.detail.visibleSegments);\n            }}\n            visibleSegments={visibleSegments}\n            additionalFilters={\n              <Toggle\n                checked={checked}\n                onChange={e => {\n                  setChecked(e.detail.checked);\n                  if (e.detail.checked) {\n                    setVisibleSegments(visibleSegments.filter(segment => segment.calories < 75));\n                  } else {\n                    setVisibleSegments(data1);\n                  }\n                }}\n              >\n                Only below 75 calories\n              </Toggle>\n            }\n          />\n        </Container>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/pie-chart/custom-filtering.page.tsx"
+  },
+  {
+   "name": "fit-height",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport { Box, Button, Checkbox, PieChart, SegmentedControl, SpaceBetween } from '~components';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, FoodData } from './common';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    fitHeight: boolean;\n    hideFilter: boolean;\n    hideLegend: boolean;\n    hideTitles: boolean;\n    hideDescriptions: boolean;\n    minSize: 'large' | 'medium' | 'small';\n  }>\n>;\n\nexport default function () {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const minSize = urlParams.minSize ?? 'small';\n  const heights = [800, 600, 400, 300, 160, 100];\n  const fitHeight = urlParams.fitHeight ?? true;\n  return (\n    <Box padding=\"m\">\n      <h1>Pie chart fit height</h1>\n\n      <Box>\n        <Checkbox checked={fitHeight} onChange={e => setUrlParams({ fitHeight: e.detail.checked })}>\n          fit height\n        </Checkbox>\n        <Checkbox checked={urlParams.hideFilter} onChange={e => setUrlParams({ hideFilter: e.detail.checked })}>\n          hide filter\n        </Checkbox>\n        <Checkbox checked={urlParams.hideLegend} onChange={e => setUrlParams({ hideLegend: e.detail.checked })}>\n          hide legend\n        </Checkbox>\n        <Checkbox checked={urlParams.hideTitles} onChange={e => setUrlParams({ hideTitles: e.detail.checked })}>\n          hide titles\n        </Checkbox>\n        <Checkbox\n          checked={urlParams.hideDescriptions}\n          onChange={e => setUrlParams({ hideDescriptions: e.detail.checked })}\n        >\n          hide descriptions\n        </Checkbox>\n        <SpaceBetween size=\"xs\" direction=\"horizontal\" alignItems=\"center\">\n          <SegmentedControl\n            id=\"min-size-input\"\n            label=\"Position\"\n            options={[\n              { id: 'large', text: 'Large' },\n              { id: 'medium', text: 'Medium' },\n              { id: 'small', text: 'Small' },\n            ]}\n            selectedId={minSize}\n            onChange={e => setUrlParams({ minSize: e.detail.selectedId as any })}\n          />\n          <label htmlFor=\"min-size-input\">min size</label>\n        </SpaceBetween>\n      </Box>\n\n      <ScreenshotArea>\n        <SpaceBetween size=\"l\">\n          {heights.map(height => (\n            <Box key={height}>\n              <Box>{height}px</Box>\n              <div\n                style={{ boxSizing: 'border-box', width: '100%', padding: '8px', border: '2px solid black', height }}\n              >\n                <PieChart<FoodData>\n                  {...commonProps}\n                  fitHeight={fitHeight}\n                  hideFilter={urlParams.hideFilter}\n                  hideLegend={urlParams.hideLegend}\n                  hideTitles={urlParams.hideTitles}\n                  hideDescriptions={urlParams.hideDescriptions}\n                  segmentDescription={item => `${item.calories} calories`}\n                  data={data1}\n                  ariaLabel=\"Food facts\"\n                  size={minSize}\n                  detailPopoverFooter={segment => <Button>Filter by {segment.title}</Button>}\n                  variant=\"donut\"\n                  innerMetricValue=\"180\"\n                />\n              </div>\n            </Box>\n          ))}\n        </SpaceBetween>\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
+   "source": "pages/pie-chart/fit-height.page.tsx"
+  },
+  {
+   "name": "overlap",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport Header from '~components/header';\nimport PieChart from '~components/pie-chart';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, overlappingData } from './common';\n\nexport default function () {\n  return (\n    <ScreenshotArea>\n      <h1>Pie charts with additional filtering</h1>\n      <Box padding=\"l\">\n        <Container header={<Header variant=\"h2\">Overlapping chart</Header>}>\n          <PieChart\n            {...commonProps}\n            data={overlappingData}\n            ariaLabel=\"Overlapping chart\"\n            size=\"medium\"\n            segmentDescription={datum => (datum.value === 2 ? 'Description' : '')}\n          />\n        </Container>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/pie-chart/overlap.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, Toggle } from '~components';\nimport PieChart, { PieChartProps } from '~components/pie-chart';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, overlappingData, segmentDescription1 } from './common';\n\n/* eslint-disable react/jsx-key */\nconst permutations = createPermutations<PieChartProps>([\n  {\n    data: [[]],\n    statusType: ['loading'],\n    loadingText: ['Loading chart data...'],\n  },\n  {\n    data: [[]],\n    statusType: ['finished'],\n    empty: [\n      'No data',\n      <Box textAlign=\"center\" color=\"inherit\">\n        <b>No data</b>\n        <Box variant=\"p\" color=\"inherit\">\n          There is no data to display\n        </Box>\n      </Box>,\n    ],\n  },\n  {\n    data: [[]],\n    statusType: ['error'],\n    errorText: ['Error loading chart data.'],\n    recoveryText: ['Retry'],\n  },\n  {\n    data: [data1],\n    variant: ['pie', 'donut'],\n    size: ['small', 'medium', 'large'],\n    statusType: ['finished'],\n    innerMetricValue: ['180'],\n    innerMetricDescription: ['surveys'],\n  },\n  {\n    data: [overlappingData],\n    variant: ['pie', 'donut'],\n    size: ['small'],\n    statusType: ['finished'],\n    visibleSegments: [undefined, [overlappingData[0], overlappingData[1]]],\n  },\n  {\n    data: [data1],\n    variant: ['pie'],\n    size: ['small'],\n    statusType: ['finished'],\n    legendTitle: ['Legend'],\n  },\n  {\n    data: [data1],\n    variant: ['pie'],\n    size: ['small'],\n    statusType: ['finished'],\n    hideLegend: [false, true],\n    hideTitles: [false, true],\n    hideDescriptions: [false, true],\n    hideFilter: [false, true],\n  },\n  {\n    data: [data1],\n    variant: ['donut'],\n    size: ['medium'],\n    statusType: ['finished'],\n    innerMetricValue: ['Header'],\n    innerMetricDescription: ['Description'],\n  },\n  {\n    data: [data1],\n    variant: ['pie'],\n    size: ['small'],\n    statusType: ['finished'],\n    additionalFilters: [\n      <Toggle checked={false} onChange={() => void 0}>\n        Only below 75 calories\n      </Toggle>,\n    ],\n    hideFilter: [false, true],\n  },\n  {\n    data: [overlappingData],\n    variant: ['pie'],\n    size: ['medium'],\n    statusType: ['finished'],\n    segmentDescription: [datum => (datum.value === 2 ? 'Description' : '')],\n    visibleSegments: [undefined, overlappingData.filter(datum => datum.title !== 'Product E')],\n  },\n  // Some overlapping labels, but not all need to be moved\n  {\n    data: [\n      [\n        { title: 'Item A', value: 40 },\n        { title: 'Item B', value: 25 },\n        { title: 'Item C', value: 20 },\n        { title: 'Item D', value: 10 },\n        { title: 'Item E', value: 5 },\n      ],\n    ],\n    variant: ['pie'],\n    size: ['small'],\n    statusType: ['finished'],\n    segmentDescription: [datum => `${datum.value} units`],\n    visibleSegments: [undefined],\n  },\n]);\n\nexport default function PieChartPermutations() {\n  return (\n    <>\n      <h1>Pie chart permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <PieChart\n              i18nStrings={commonProps.i18nStrings}\n              legendTitle=\"Legend\"\n              segmentDescription={segmentDescription1}\n              ariaLabel=\"Permutation chart\"\n              onRecoveryClick={() => {}}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/pie-chart/permutations.page.tsx"
+  },
+  {
+   "name": "test",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Grid from '~components/grid';\nimport PieChart, { PieChartProps } from '~components/pie-chart';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1 } from './common';\n\ninterface FoodData {\n  title: string;\n  value: number;\n  description?: string;\n  calories: number;\n}\n\nexport default function () {\n  const [activeSegment, setActiveSegment] = useState<PieChartProps.Datum | null>(null);\n\n  return (\n    <ScreenshotArea>\n      <h1>Pie chart integration test</h1>\n      <Box padding=\"l\">\n        <Grid\n          gridDefinition={[\n            { colspan: { xxs: 12, s: 12, m: 6, default: 6 } },\n            { colspan: { xxs: 12, s: 12, m: 6, default: 6 } },\n          ]}\n        >\n          <div>\n            <input id=\"focus-target\" aria-label=\"focus input\" placeholder=\"focus input\" />\n            <PieChart<FoodData>\n              {...commonProps}\n              id=\"pie-chart\"\n              data={data1}\n              ariaLabel=\"Food facts\"\n              size=\"medium\"\n              onHighlightChange={e => setActiveSegment(e.detail.highlightedSegment)}\n              detailPopoverFooter={segment => <Button>Filter by {segment.title}</Button>}\n            />\n          </div>\n\n          <PieChart\n            {...commonProps}\n            id=\"pie-chart-2\"\n            data={data1}\n            ariaLabel=\"Food facts\"\n            size=\"medium\"\n            highlightedSegment={activeSegment}\n            onHighlightChange={e => setActiveSegment(e.detail.highlightedSegment)}\n          />\n        </Grid>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/pie-chart/test.page.tsx"
+  },
+  {
+   "name": "with-links-in-keys",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Link from '~components/link';\nimport PieChart from '~components/pie-chart';\n\nimport FocusTarget from '../common/focus-target';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, FoodData, segmentDescription1 } from './common';\n\nexport default function () {\n  return (\n    <>\n      <h1>Pie chart with links in the keys</h1>\n      <FocusTarget />\n      <ScreenshotArea>\n        <PieChart<FoodData>\n          {...commonProps}\n          hideFilter={true}\n          hideLegend={true}\n          data={data1}\n          size=\"medium\"\n          detailPopoverContent={datum =>\n            [\n              {\n                key: 'Popularity',\n                value: `${datum.value}%`,\n              },\n              {\n                key: 'Calories per 100g',\n                value: `${datum.calories} kcal`,\n              },\n            ].map(({ key, value }) => ({\n              key: (\n                <Link external={true} href=\"#\">\n                  {key}\n                </Link>\n              ),\n              value,\n            }))\n          }\n          segmentDescription={segmentDescription1}\n          hideDescriptions={true}\n          hideTitles={true}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/pie-chart/with-links-in-keys.page.tsx"
+  },
+  {
+   "name": "with-links-in-values",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Link from '~components/link';\nimport PieChart from '~components/pie-chart';\n\nimport FocusTarget from '../common/focus-target';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { commonProps, data1, FoodData, segmentDescription1 } from './common';\n\nexport default function () {\n  return (\n    <>\n      <h1>Pie chart with links in the values</h1>\n      <FocusTarget />\n      <ScreenshotArea>\n        <PieChart<FoodData>\n          {...commonProps}\n          hideFilter={true}\n          hideLegend={true}\n          data={data1}\n          size=\"medium\"\n          detailPopoverContent={datum =>\n            [\n              {\n                key: 'Popularity',\n                value: `${datum.value}%`,\n              },\n              {\n                key: 'Calories per 100g',\n                value: `${datum.calories} kcal`,\n              },\n            ].map(({ key, value }) => ({\n              key,\n              value: (\n                <Link external={true} href=\"#\">\n                  {value}\n                </Link>\n              ),\n            }))\n          }\n          segmentDescription={segmentDescription1}\n          hideDescriptions={true}\n          hideTitles={true}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/pie-chart/with-links-in-values.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "PieChartProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "data",
+    "ReadonlyArray<T>",
+    "예",
+    "An array that represents the source of data for the displayed segments. Each element can have the following properties: * `title` (string) - A human-readable title for this data point. * `value` (number) - Numeric value that determines the segment size. A segment with a value of zero (0) or lower (negative number) won't have a segment. * `color`: (string) - (Optional) Color value for this segment that takes priority over the automatically assigned color. Can be any valid CSS color identifier. As long as your data object implements the properties above, you can also define additional properties that are relevant to your data visualization. The full data object will be passed down to events and properties like `detailPopoverContent`.",
+    "src/pie-chart/interfaces.ts:36"
+   ],
+   [
+    "size",
+    "'small' | 'medium' | 'large'",
+    "아니오",
+    "Specifies the size of the pie or donut chart. When used with `fitHeight`, this property defines the minimum size of the chart area.",
+    "src/pie-chart/interfaces.ts:42"
+   ],
+   [
+    "variant",
+    "'pie' | 'donut'",
+    "아니오",
+    "Visual variant of the pie chart. Currently supports the default `pie` variant and the `donut` variant. The donut variant provides a slot in the center of the chart that can contain additional information. For more information, see `innerContent`.",
+    "src/pie-chart/interfaces.ts:49"
+   ],
+   [
+    "detailPopoverContent",
+    "PieChartProps.DetailPopoverContentFunction<T>",
+    "아니오",
+    "A function that determines the details that are displayed in the popover when hovering over a segment. The function is called with the data of the target segment and is expected to return an array of detail pairs. By default, each segment displays two detail pairs: count and percentage. Each pair has the following properties: * `key` (ReactNode) - Name of the detail or metric. * `value` (ReactNode) - The value of this detail for the target segment.",
+    "src/pie-chart/interfaces.ts:60"
+   ],
+   [
+    "detailPopoverFooter",
+    "PieChartProps.DetailPopoverFooter<T>",
+    "아니오",
+    "Additional content that is displayed at the bottom of the detail popover.",
+    "src/pie-chart/interfaces.ts:65"
+   ],
+   [
+    "segmentDescription",
+    "PieChartProps.SegmentDescriptionFunction<T>",
+    "아니오",
+    "A function that determines the description of a segment that is displayed on the chart, unless `hideDescriptions` is set to `true`. This is an optional description that explains the segment and is displayed underneath the label. The function is called with the data object of each segment and is expected to return the description as a string.",
+    "src/pie-chart/interfaces.ts:72"
+   ],
+   [
+    "detailPopoverSize",
+    "PopoverProps.Size",
+    "아니오",
+    "Determines the maximum width of the popover.",
+    "src/pie-chart/interfaces.ts:77"
+   ],
+   [
+    "hideLegend",
+    "boolean",
+    "아니오",
+    "Hides legend beneath the chart when set to `true`. We highly recommend that you leave this unspecified or set to `false`.",
+    "src/pie-chart/interfaces.ts:83"
+   ],
+   [
+    "hideTitles",
+    "boolean",
+    "아니오",
+    "Hides label titles next to the chart segments when set to `true`. We highly recommend that you leave this unspecified or set to `false`.",
+    "src/pie-chart/interfaces.ts:89"
+   ],
+   [
+    "hideDescriptions",
+    "boolean",
+    "아니오",
+    "Hides the label descriptions next to the chart segments when set to `true`.",
+    "src/pie-chart/interfaces.ts:94"
+   ],
+   [
+    "hideFilter",
+    "boolean",
+    "아니오",
+    "Hides the default filtering dropdown when set to `true`. You can still display additional filters with the `additionalFilters` slot.",
+    "src/pie-chart/interfaces.ts:100"
+   ],
+   [
+    "innerMetricValue",
+    "string",
+    "아니오",
+    "Additional metric number that's displayed in the center of the chart if `variant` is set to `donut`.",
+    "src/pie-chart/interfaces.ts:105"
+   ],
+   [
+    "innerMetricDescription",
+    "string",
+    "아니오",
+    "Additional description that's displayed in the center of the chart below `innerMetricValue` if `variant` is set to `donut`. This is usually the unit of the `innerMetricValue`.",
+    "src/pie-chart/interfaces.ts:111"
+   ],
+   [
+    "legendTitle",
+    "string",
+    "아니오",
+    "Title for the legend.",
+    "src/pie-chart/interfaces.ts:116"
+   ],
+   [
+    "additionalFilters",
+    "React.ReactNode",
+    "아니오",
+    "Additional filters that you can add above the chart component. Make sure you update the `data` property when any of your custom filters change the data that's displayed.",
+    "src/pie-chart/interfaces.ts:122"
+   ],
+   [
+    "highlightedSegment",
+    "T | null",
+    "아니오",
+    "Specifies the currently highlighted data segment. Highlighting is typically the result of a user hovering over or selecting a segment in the chart or the legend. A value of `null` means no segment is being highlighted. - If you don't set this property, segments are highlighted automatically when a user hovers over or selects one of the triggers (that is, uncontrolled behavior). - If you explicitly set this property, you must set an `onHighlightChange` listener to update this property when a segment should be highlighted (that is, controlled behavior).",
+    "src/pie-chart/interfaces.ts:132"
+   ],
+   [
+    "visibleSegments",
+    "ReadonlyArray<T>",
+    "아니오",
+    "An array of data segment objects that determines which data segments are currently visible (that is, not filtered out). - If you don't set this property, segments are filtered automatically when using the default filtering of the component (that is, uncontrolled behavior). - If you explicitly set this property, you must set an `onFilterChange` listener to update this property when the list of filtered segments changes (that is, controlled behavior).",
+    "src/pie-chart/interfaces.ts:140"
+   ],
+   [
+    "statusType",
+    "'loading' | 'finished' | 'error'",
+    "아니오",
+    "Specifies the current status of loading data. * `loading` - Indicates that data fetching is in progress. * `finished` - Indicates that data has loaded successfully. * `error` - Indicates that an error occurred during fetch. You should provide an option to enable the user to recover.",
+    "src/pie-chart/interfaces.ts:148"
+   ],
+   [
+    "empty",
+    "React.ReactNode",
+    "아니오",
+    "Content that's displayed when the data passed to the component is empty.",
+    "src/pie-chart/interfaces.ts:153"
+   ],
+   [
+    "noMatch",
+    "React.ReactNode",
+    "아니오",
+    "Content that's displayed when there is no data to display because it doesn't match the specified filter.",
+    "src/pie-chart/interfaces.ts:158"
+   ],
+   [
+    "loadingText",
+    "string",
+    "아니오",
+    "Text that's displayed when the chart is loading (that is, when `statusType` is set to `loading`). @i18n",
+    "src/pie-chart/interfaces.ts:164"
+   ],
+   [
+    "errorText",
+    "string",
+    "아니오",
+    "Text that's displayed when the chart is in error state (that is, when `statusType` is set to `error`). @i18n",
+    "src/pie-chart/interfaces.ts:170"
+   ],
+   [
+    "recoveryText",
+    "string",
+    "아니오",
+    "Text for the recovery button that's displayed next to the error text. @i18n",
+    "src/pie-chart/interfaces.ts:176"
+   ],
+   [
+    "onRecoveryClick",
+    "NonCancelableEventHandler",
+    "아니오",
+    "Called when the user clicks the recovery button that appears when there is an error state. Use this to enable the user to retry a failed request or provide another option for the user to recover from the error.",
+    "src/pie-chart/interfaces.ts:183"
+   ],
+   [
+    "onHighlightChange",
+    "NonCancelableEventHandler<PieChartProps.HighlightChangeDetail<T>>",
+    "아니오",
+    "Called when the highlighted segmented changes because of a user interaction.",
+    "src/pie-chart/interfaces.ts:188"
+   ],
+   [
+    "onFilterChange",
+    "NonCancelableEventHandler<PieChartProps.FilterChangeDetail<T>>",
+    "아니오",
+    "Called when the values of the internal filter component changes. This isn't called for any custom filter components you've defined in `additionalFilters`.",
+    "src/pie-chart/interfaces.ts:194"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "ARIA label that's assigned to the chart. It should match the visible label on the page (for example, in the container header). Use either `ariaLabel` or `ariaLabelledby` (you can't use both).",
+    "src/pie-chart/interfaces.ts:200"
+   ],
+   [
+    "ariaLabelledby",
+    "string",
+    "아니오",
+    "Sets `aria-labelledby` on the chart. If there is a visible label for the chart on the page (for example, in the container header), set this property to the ID of that header element. Use either `ariaLabel` or `ariaLabelledby` (you can't use both).",
+    "src/pie-chart/interfaces.ts:207"
+   ],
+   [
+    "ariaDescription",
+    "string",
+    "아니오",
+    "A description of the chart that assistive technologies can use (through `aria-describedby` and `<title>`). Provide a concise summary of the data visualized in the chart.",
+    "src/pie-chart/interfaces.ts:213"
+   ],
+   [
+    "i18nStrings",
+    "PieChartProps.I18nStrings",
+    "아니오",
+    "An object that contains all of the localized strings required by the component. @i18n",
+    "src/pie-chart/interfaces.ts:219"
+   ],
+   [
+    "fitHeight",
+    "boolean",
+    "아니오",
+    "Enable this property to make the chart fit into the available height of the parent container.",
+    "src/pie-chart/interfaces.ts:224"
+   ]
+  ],
+  "source": "src/pie-chart/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

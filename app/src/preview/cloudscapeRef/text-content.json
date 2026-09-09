@@ -1,0 +1,55 @@
+{
+ "slug": "text-content",
+ "title": "Text Content",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "box-nesting",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box, { BoxProps } from '~components/box';\nimport TextContent from '~components/text-content';\n\nimport createPermutations from '../utils/permutations';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './style.scss';\n\nconst colorPermutations = createPermutations<BoxProps>([\n  {\n    variant: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'p', 'strong', 'small', 'code', 'samp'],\n    color: [undefined, 'inherit', 'text-label', 'text-body-secondary'],\n  },\n]);\n\nconst fontStylesPermutations = createPermutations<BoxProps>([\n  {\n    fontSize: ['body-s', 'body-m', 'heading-xs', 'heading-m', 'heading-xl', 'display-l'],\n    variant: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'p', 'strong', 'small', 'code', 'samp'],\n  },\n  {\n    fontWeight: ['light', 'normal', 'bold'],\n    variant: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'p', 'strong', 'small', 'code', 'samp'],\n  },\n]);\n\nconst layoutPermutations = createPermutations<BoxProps>([\n  {\n    variant: ['h1', 'h2', 'h3', 'h4', 'h5', 'p'],\n    margin: ['n', 'xxl'],\n  },\n  {\n    variant: ['h1', 'h2', 'h3', 'h4', 'h5', 'p'],\n    padding: ['n', 'xxl'],\n  },\n  {\n    variant: ['small'],\n    display: ['none'],\n  },\n]);\n\nexport default function NestedBoxPermutations() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <TextContent>\n        <hr />\n        <h1> TextContent</h1>\n        {colorPermutations.map((permutation, key) => (\n          <div key={key} className={permutation.color ? styles[`box-${permutation.color as string}`] : styles.default}>\n            <Box {...permutation}>\n              variant: {permutation.variant}, color: {permutation.color}\n            </Box>\n          </div>\n        ))}\n      </TextContent>\n      <hr />\n      <TextContent>\n        {fontStylesPermutations.map((permutation, key) => (\n          <div key={key}>\n            <Box {...permutation}>\n              variant: {permutation.variant}\n              {permutation.fontSize && `, fontSize: ${permutation.fontSize}`}\n              {permutation.fontWeight && `, fontWeight: ${permutation.fontWeight}`}\n            </Box>\n          </div>\n        ))}\n      </TextContent>\n      <hr />\n      <TextContent>\n        {layoutPermutations.map((permutation, index) => (\n          <div key={index} className={styles['permutation-box']}>\n            <Box {...permutation} className={styles['permutation-box']}>\n              variant {permutation.variant} -{permutation.margin ? `margin: ${permutation.margin}` : ''}\n              {permutation.padding ? `padding: ${permutation.padding}` : ''}\n              {permutation.display ? `display: ${permutation.display}` : ''}\n            </Box>\n          </div>\n        ))}\n      </TextContent>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/text-content/box-nesting.page.tsx"
+  },
+  {
+   "name": "iconography",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Icon from '~components/icon';\nimport TextContent from '~components/text-content';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function TextContentPermutations() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <TextContent>\n        <h1>\n          <Icon name=\"status-positive\" size=\"big\" /> Heading 1 <Icon name=\"external\" size=\"inherit\" />\n        </h1>\n        <h2>\n          <Icon name=\"status-positive\" size=\"medium\" /> Heading 2 <Icon name=\"external\" size=\"inherit\" />\n        </h2>\n        <h3>\n          <Icon name=\"status-positive\" size=\"medium\" /> Heading 3 <Icon name=\"external\" size=\"inherit\" />\n        </h3>\n        <h4>\n          <Icon name=\"status-positive\" size=\"normal\" /> Heading 4 <Icon name=\"external\" size=\"inherit\" />\n        </h4>\n        <h5>\n          <Icon name=\"status-positive\" size=\"normal\" /> Heading 5 <Icon name=\"external\" size=\"inherit\" />\n        </h5>\n        <p>\n          <Icon name=\"status-positive\" size=\"normal\" /> paragraph <Icon name=\"external\" size=\"inherit\" />\n        </p>\n        <small>\n          <Icon name=\"status-positive\" size=\"small\" /> small <Icon name=\"external\" size=\"inherit\" />\n        </small>\n      </TextContent>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/text-content/iconography.page.tsx"
+  },
+  {
+   "name": "link-nesting",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Link, { LinkProps } from '~components/link';\nimport TextContent from '~components/text-content';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './style.scss';\n\nconst linkPermutations = createPermutations<LinkProps>([\n  {\n    variant: ['primary', 'secondary'],\n    fontSize: ['body-s', 'heading-xl'],\n    color: ['normal', 'inverted'],\n    external: [false, true],\n    href: ['#'],\n  },\n]);\n\nexport default function TextContentPermutations() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>TextContent with nested links</h1>\n      <TextContent>\n        <PermutationsView\n          permutations={linkPermutations}\n          render={linkPermutation => (\n            <div className={styles[linkPermutation.color as string]}>\n              <Link {...linkPermutation} externalIconAriaLabel={`Opens in a new tab`}>\n                {linkPermutation.variant} link with fontSize={linkPermutation.fontSize} and color=\n                {linkPermutation.color}\n              </Link>\n              <small>\n                <Link {...linkPermutation} externalIconAriaLabel={`Opens in a new tab`}>\n                  {linkPermutation.variant} link with fontSize={linkPermutation.fontSize} and color=\n                  {linkPermutation.color} in a small tag\n                </Link>\n              </small>\n            </div>\n          )}\n        />\n      </TextContent>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/text-content/link-nesting.page.tsx"
+  },
+  {
+   "name": "permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport TextContent from '~components/text-content';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function TextContentPermutations() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <TextContent>\n        <h1>Heading 1</h1>\n        <h2>Heading 2</h2>\n        <h3>Heading 3</h3>\n        <h4>Heading 4</h4>\n        <h5>Heading 5</h5>\n        <div>just a div</div>\n        <span>just a span</span>\n\n        <p>\n          <strong>This is strong text.</strong> <em>This is emphasized text.</em>{' '}\n          <small>\n            This is small text <a href=\"#\">with a link</a>.\n          </small>\n          <code>this.is_code();</code> <a href=\"#\">I am a full-size link</a>\n        </p>\n        <div>\n          <small>small text</small>\n        </div>\n        <p>just a paragraph</p>\n\n        <ul>\n          <li>This is an item.</li>\n          <li>This is another item.</li>\n          <li>\n            <ul>\n              <li>This is a list of items.</li>\n              <li>\n                <ol>\n                  <li>Here is a list of items inside a list of items.</li>\n                </ol>\n              </li>\n            </ul>\n          </li>\n        </ul>\n\n        <ol>\n          <li>This is the first item.</li>\n          <li>This is the second item.</li>\n          <li>This is the last item.</li>\n        </ol>\n        <code>This is just some code</code>\n      </TextContent>\n    </ScreenshotArea>\n  );\n}\n",
+   "source": "pages/text-content/permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "TextContentProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "children",
+    "React.ReactNode",
+    "아니오",
+    "Content of the component. @displayname content",
+    "src/text-content/interfaces.ts:12"
+   ]
+  ],
+  "source": "src/text-content/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

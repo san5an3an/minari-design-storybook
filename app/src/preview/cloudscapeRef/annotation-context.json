@@ -1,0 +1,97 @@
+{
+ "slug": "annotation-context",
+ "title": "Annotation Context",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "annotation-scroll",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useLayoutEffect } from 'react';\nimport clsx from 'clsx';\n\nimport AnnotationContext from '~components/annotation-context';\nimport Hotspot from '~components/hotspot';\nimport properties from '~components/internal/generated/custom-css-properties';\n\nimport { annotationContextStrings } from '../onboarding/i18n';\nimport tutorials from '../onboarding/tutorials';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst tutorial = tutorials(() => {})[0];\n\nexport default function AnnotationScroll() {\n  const onStartTutorial = () => {};\n  const onExitTutorial = () => {};\n\n  useLayoutEffect(() => {\n    const fixedHeightVar = '--fixed-height';\n    document.documentElement.style.setProperty(fixedHeightVar, '180px');\n    document.documentElement.style.setProperty(\n      properties.contentScrollMargin,\n      // Add 4px to scroll-margin to avoid edge on edge\n      `calc(var(${fixedHeightVar}) + 4px) 0 calc(var(${fixedHeightVar}) + 4px) 0`\n    );\n  }, []);\n\n  return (\n    <>\n      <h1>Annotation Context: Annotation Scroll</h1>\n      <ScreenshotArea>\n        <AnnotationContext\n          currentTutorial={tutorial}\n          i18nStrings={annotationContextStrings}\n          onStartTutorial={onStartTutorial}\n          onExitTutorial={onExitTutorial}\n        >\n          <div className={styles.parent}>\n            <span />\n            <Hotspot data-testid=\"hotspot-1\" hotspotId={tutorial.tasks[0].steps[0].hotspotId}></Hotspot>\n            <Hotspot data-testid=\"hotspot-2\" hotspotId={tutorial.tasks[0].steps[2].hotspotId}></Hotspot>\n          </div>\n          <div className={clsx(styles.fixed, styles.header)} data-testid=\"header\" />\n          <div className={clsx(styles.fixed, styles.footer)} data-testid=\"footer\" />\n        </AnnotationContext>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/annotation-context/annotation-scroll.page.tsx"
+  },
+  {
+   "name": "with-flashbar",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport AnnotationContext from '~components/annotation-context';\nimport Button from '~components/button';\nimport Flashbar, { FlashbarProps } from '~components/flashbar';\nimport Hotspot from '~components/hotspot';\nimport Link from '~components/link';\n\nimport { annotationContextStrings } from '../onboarding/i18n';\nimport tutorials from '../onboarding/tutorials';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst tutorial = tutorials(() => {})[0];\nconst noop = () => {};\n\nconst dismissibleCommonProps: Partial<FlashbarProps.MessageDefinition> = {\n  dismissible: true,\n  dismissLabel: 'Dismiss',\n  onDismiss: noop,\n};\n\nexport default function AnnotationScroll() {\n  return (\n    <>\n      <h1>Annotation Context: with Hotspots inside flashbar</h1>\n      <ScreenshotArea>\n        <AnnotationContext\n          currentTutorial={tutorial}\n          i18nStrings={annotationContextStrings}\n          onStartTutorial={noop}\n          onExitTutorial={noop}\n        >\n          <Flashbar\n            items={[\n              {\n                ...dismissibleCommonProps,\n                type: 'info',\n                content: (\n                  <>\n                    info variant{' '}\n                    <Link href=\"#\" color=\"inverted\">\n                      click me\n                    </Link>\n                  </>\n                ),\n                action: (\n                  <>\n                    <Button>Click me</Button>\n                    <Hotspot hotspotId={tutorial.tasks[0].steps[0].hotspotId}></Hotspot>\n                  </>\n                ),\n              },\n              {\n                ...dismissibleCommonProps,\n                type: 'success',\n                content: 'success variant',\n                action: (\n                  <>\n                    <Button>Click me</Button>\n                    <Hotspot hotspotId={tutorial.tasks[0].steps[2].hotspotId}></Hotspot>\n                  </>\n                ),\n              },\n              {\n                ...dismissibleCommonProps,\n                type: 'warning',\n                content: 'warning variant',\n                action: (\n                  <>\n                    <Button>Click me</Button>\n                    <Hotspot hotspotId={tutorial.tasks[0].steps[3].hotspotId}></Hotspot>\n                  </>\n                ),\n              },\n              {\n                ...dismissibleCommonProps,\n                type: 'error',\n                content: 'error variant',\n                action: (\n                  <>\n                    <Button>Click me</Button>\n                    <Hotspot hotspotId={tutorial.tasks[0].steps[4].hotspotId}></Hotspot>\n                  </>\n                ),\n              },\n            ]}\n          />\n        </AnnotationContext>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
+   "source": "pages/annotation-context/with-flashbar.page.tsx"
+  },
+  {
+   "name": "with-hotspot-inside-switch",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport AnnotationContext from '~components/annotation-context';\nimport Checkbox from '~components/checkbox';\nimport Hotspot from '~components/hotspot';\nimport RadioGroup from '~components/radio-group';\nimport SpaceBetween from '~components/space-between';\nimport Toggle from '~components/toggle';\n\nimport { annotationContextStrings } from '../onboarding/i18n';\nimport tutorials from '../onboarding/tutorials';\n\nconst tutorial = tutorials(() => {})[0];\nconst noop = () => {};\n\nexport default function AnnotationScroll() {\n  const [checkboxIsChecked, setCheckboxIsChecked] = useState(false);\n  const [toggleIsChecked, setToggleIsChecked] = useState(false);\n  const [radiogroupValue, setRadiogroupValue] = useState('first');\n\n  return (\n    <>\n      <h1>Annotation Context: with Hotspots inside components using AbstractSwitch</h1>\n      <AnnotationContext\n        currentTutorial={tutorial}\n        i18nStrings={annotationContextStrings}\n        onStartTutorial={noop}\n        onExitTutorial={noop}\n      >\n        <div style={{ padding: 20 }}>\n          <SpaceBetween size=\"l\">\n            <Checkbox\n              checked={checkboxIsChecked}\n              onChange={e => {\n                console.log('Checkbox toggled');\n                setCheckboxIsChecked(e.detail.checked);\n              }}\n              description=\"This is a description\"\n            >\n              This is the checkbox label\n              <Hotspot hotspotId={tutorial.tasks[0].steps[0].hotspotId} />\n            </Checkbox>\n\n            <Toggle\n              checked={toggleIsChecked}\n              onChange={e => {\n                console.log('Toggle toggled');\n                setToggleIsChecked(e.detail.checked);\n              }}\n              description=\"This is a description\"\n            >\n              This is the toggle label\n              <Hotspot hotspotId={tutorial.tasks[0].steps[2].hotspotId}></Hotspot>\n            </Toggle>\n\n            <RadioGroup\n              onChange={({ detail }) => {\n                console.log('Radio button selected');\n                setRadiogroupValue(detail.value);\n              }}\n              value={radiogroupValue}\n              items={[\n                { value: 'first', label: 'First choice', description: 'This is a description' },\n                {\n                  value: 'second',\n                  label: (\n                    <>\n                      Second choice <Hotspot hotspotId={tutorial.tasks[0].steps[3].hotspotId} />\n                    </>\n                  ),\n                  description: 'This is a description',\n                },\n                { value: 'third', label: 'Third choice', description: 'This is a description' },\n              ]}\n            />\n          </SpaceBetween>\n        </div>\n      </AnnotationContext>\n    </>\n  );\n}\n",
+   "source": "pages/annotation-context/with-hotspot-inside-switch.page.tsx"
+  },
+  {
+   "name": "with-switching-pages",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport AnnotationContext from '~components/annotation-context';\nimport Button from '~components/button';\nimport Hotspot from '~components/hotspot';\nimport SpaceBetween from '~components/space-between';\nimport Spinner from '~components/spinner';\n\nimport { annotationContextStrings } from '../onboarding/i18n';\nimport tutorials from '../onboarding/tutorials';\n\nconst tutorial = tutorials(() => {})[0];\nconst noop = () => {};\n\nexport default function AnnotationScroll() {\n  const [currentPage, setCurrentPage] = useState<'1' | '2' | 'loading'>('1');\n\n  return (\n    <>\n      <h1>Annotation Context: with switching pages</h1>\n      <AnnotationContext\n        currentTutorial={tutorial}\n        i18nStrings={annotationContextStrings}\n        onStartTutorial={noop}\n        onExitTutorial={noop}\n      >\n        <div style={{ padding: 20 }}>\n          <SpaceBetween size=\"l\">\n            {currentPage === 'loading' && <Spinner />}\n\n            {currentPage === '1' && (\n              <div>\n                <div style={{ paddingBottom: '200px' }}>\n                  first\n                  <Hotspot hotspotId={tutorial.tasks[0].steps[0].hotspotId} />\n                </div>\n                <Button\n                  onClick={() => {\n                    setCurrentPage('loading');\n                    setTimeout(() => setCurrentPage('2'), 100);\n                  }}\n                  data-testid=\"next-page\"\n                >\n                  to next page\n                </Button>\n              </div>\n            )}\n\n            {currentPage === '2' && (\n              <div data-testid=\"second-page\">\n                <div>\n                  fourth\n                  <Hotspot hotspotId={tutorial.tasks[0].steps[2].hotspotId} />\n                </div>\n              </div>\n            )}\n          </SpaceBetween>\n        </div>\n      </AnnotationContext>\n    </>\n  );\n}\n",
+   "source": "pages/annotation-context/with-switching-pages.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "AnnotationContextProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "currentTutorial",
+    "AnnotationContextProps.Tutorial | null",
+    "예",
+    "The currently launched tutorial. This should be the object received in the `detail` property of the `onStartTutorial` event.",
+    "src/annotation-context/interfaces.ts:11"
+   ],
+   [
+    "onStepChange",
+    "NonCancelableEventHandler<AnnotationContextProps.StepChangeDetail>",
+    "아니오",
+    "This event is fired when a user clicks the \"Next\" or \"Previous\" button on a popover, when the user clicks on a closed hotspot icon, or when the AnnotationOverlay determines that the current hotspot has disappeared from the page and a different one should be selected (e.g. when navigating between pages). Use the `reason` property of the event detail to determine why this event was fired.",
+    "src/annotation-context/interfaces.ts:23"
+   ],
+   [
+    "onStartTutorial",
+    "NonCancelableEventHandler<TutorialPanelProps.TutorialDetail>",
+    "예",
+    "Fired when the user selects a tutorial from the list.",
+    "src/annotation-context/interfaces.ts:28"
+   ],
+   [
+    "onExitTutorial",
+    "NonCancelableEventHandler<TutorialPanelProps.TutorialDetail>",
+    "예",
+    "Fired when the user exits the current tutorial.",
+    "src/annotation-context/interfaces.ts:33"
+   ],
+   [
+    "onFinish",
+    "NonCancelableEventHandler<void>",
+    "아니오",
+    "Fired when the user clicks the \"Finish\" button on the last step of the tutorial.",
+    "src/annotation-context/interfaces.ts:39"
+   ],
+   [
+    "children",
+    "React.ReactNode",
+    "예",
+    "Put all page content inside this component's children. This component will provide a context which is used by the Hotspot elements throughout the page.",
+    "src/annotation-context/interfaces.ts:46"
+   ],
+   [
+    "i18nStrings",
+    "AnnotationContextProps.I18nStrings",
+    "예",
+    "An object containing all the necessary localized strings required by the component. The object should contain: * `finishButtonText` - Specifies the text that's displayed in the finish button. * `labelDismissAnnotation` - Specifies the aria-label for the dismiss button. * `labelHotspot` - Specifies the aria-label for the hotspot button. The `openState` argument is deprecated, it's handled by the hotspot button aria-expanded attribute. * `nextButtonText` - Specifies the text that's displayed in the next button. * `previousButtonText` - Specifies the text that's displayed in the previous button. * `stepCounterText` - Specifies the step counter text that's displayed in the annotation popover. * `taskTitle` - Specifies the title text that's displayed in the annotation popover.",
+    "src/annotation-context/interfaces.ts:59"
+   ]
+  ],
+  "source": "src/annotation-context/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}

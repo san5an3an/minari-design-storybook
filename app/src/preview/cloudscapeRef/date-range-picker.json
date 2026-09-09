@@ -1,0 +1,201 @@
+{
+ "slug": "date-range-picker",
+ "title": "Date Range Picker",
+ "description": null,
+ "descriptionSource": null,
+ "group": null,
+ "examples": [
+  {
+   "name": "absolute-format-all-locales",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { DateRangePicker, FormField, Grid } from '~components';\n\nimport { SimplePage } from '../app/templates';\nimport { locales } from '../date-input/common';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nconst rtlLocales = new Set(['ar', 'he']);\n\nexport default function DateRangePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({ rangeSelectorMode: 'absolute-only' });\n  return (\n    <SimplePage\n      title=\"Date range picker: all locales for absolute format\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      {locales.map(locale => (\n        <div key={`pickers-${locale}`} dir={rtlLocales.has(locale) ? 'rtl' : 'ltr'}>\n          <Grid gridDefinition={[{ colspan: 1 }, { colspan: 11 }]}>\n            <div style={{ textAlign: 'right' }}>{locale}</div>\n            <FormField label=\"Date Range Picker field\">\n              <DateRangePicker {...props} locale={locale} />\n            </FormField>\n          </Grid>\n        </div>\n      ))}\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/absolute-format-all-locales.page.tsx"
+  },
+  {
+   "name": "absolute-format-day-picker.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { DateRangePicker, DateRangePickerProps } from '~components';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport { isValid, placeholders } from './common';\n\nconst permutations = createPermutations<DateRangePickerProps>([\n  {\n    absoluteFormat: ['iso', 'slashed', 'long-localized'],\n    dateOnly: [true, false],\n    value: [{ type: 'absolute', startDate: '2024-12-30', endDate: '2024-12-31' }],\n    isValidRange: [() => ({ valid: true })],\n    relativeOptions: [[]],\n  },\n  {\n    absoluteFormat: ['iso', 'slashed', 'long-localized'],\n    dateOnly: [true, false],\n    hideTimeOffset: [true, false],\n    value: [{ type: 'absolute', startDate: '2024-12-30T00:00:00+01:00', endDate: '2024-12-31T23:59:59+01:00' }],\n    isValidRange: [() => ({ valid: true })],\n    relativeOptions: [[]],\n  },\n]);\n\nexport default function DateRangePickerPermutations() {\n  return (\n    <PermutationsPage title=\"Date range picker permutations: absolute with day granularity\" i18n={{}}>\n      <PermutationsView\n        permutations={permutations}\n        render={permutation => (\n          <DateRangePicker\n            {...permutation}\n            placeholder={permutation.dateOnly ? placeholders['date-only'] : placeholders.mixed}\n            granularity=\"day\"\n            locale=\"en-US\"\n            rangeSelectorMode=\"absolute-only\"\n            isValidRange={value => isValid('day')(value)}\n            getTimeOffset={() => 60}\n          />\n        )}\n      />\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/date-range-picker/absolute-format-day-picker.permutations.page.tsx"
+  },
+  {
+   "name": "absolute-format-month-picker.permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { DateRangePicker, DateRangePickerProps } from '~components';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport { isValid, placeholders } from './common';\n\nconst permutations = createPermutations<DateRangePickerProps>([\n  {\n    absoluteFormat: ['iso', 'slashed', 'long-localized'],\n    value: [\n      {\n        type: 'absolute',\n        startDate: '2024-12',\n        endDate: '2025-01',\n      },\n    ],\n    isValidRange: [() => ({ valid: true })],\n    relativeOptions: [[]],\n  },\n  {\n    absoluteFormat: ['iso', 'slashed', 'long-localized'],\n    hideTimeOffset: [true, false],\n    value: [\n      {\n        type: 'absolute',\n        startDate: '2023-06',\n        endDate: '2024-02',\n      },\n    ],\n    isValidRange: [() => ({ valid: true })],\n    relativeOptions: [[]],\n  },\n]);\n\nexport default function DateRangePickerPermutations() {\n  return (\n    <PermutationsPage title=\"Date range picker permutations: absolute with month granularity\" i18n={{}}>\n      <PermutationsView\n        permutations={permutations}\n        render={permutation => (\n          <DateRangePicker\n            {...permutation}\n            placeholder={placeholders['month-only']}\n            dateOnly={false}\n            granularity=\"month\"\n            locale=\"en-US\"\n            rangeSelectorMode=\"absolute-only\"\n            isValidRange={value => isValid('month')(value)}\n            getTimeOffset={() => 60}\n          />\n        )}\n      />\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/date-range-picker/absolute-format-month-picker.permutations.page.tsx"
+  },
+  {
+   "name": "custom-control",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\nimport {\n  endOfMonth,\n  endOfQuarter,\n  endOfWeek,\n  endOfYear,\n  startOfMonth,\n  startOfQuarter,\n  startOfWeek,\n  startOfYear,\n  sub,\n} from 'date-fns';\n\nimport { DateRangePicker, DateRangePickerProps, FormField, Link } from '~components';\nimport { formatDate } from '~components/internal/utils/date-time';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nexport default function DatePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({\n    hasValue: false,\n    rangeSelectorMode: 'absolute-only',\n  });\n\n  const renderCustomDateAbsoluteRangeControl = (\n    setSelectedDate: React.Dispatch<React.SetStateAction<DateRangePickerProps.PendingAbsoluteValue>>\n  ) => {\n    return (\n      <>\n        Auto-select:{' '}\n        <Link\n          onFollow={() => {\n            const today = formatDate(new Date());\n            return setSelectedDate({\n              start: { date: today, time: '' },\n              end: { date: today, time: '' },\n            });\n          }}\n        >\n          1D\n        </Link>{' '}\n        <Link\n          variant=\"secondary\"\n          onFollow={() =>\n            setSelectedDate({\n              start: {\n                date: formatDate(startOfWeek(new Date())),\n                time: '',\n              },\n              end: {\n                date: formatDate(endOfWeek(new Date())),\n                time: '',\n              },\n            })\n          }\n        >\n          7D\n        </Link>{' '}\n        <Link\n          onFollow={() =>\n            setSelectedDate({\n              start: { date: formatDate(startOfMonth(new Date())), time: '' },\n              end: { date: formatDate(endOfMonth(new Date())), time: '' },\n            })\n          }\n        >\n          1M\n        </Link>{' '}\n        <Link\n          onFollow={() =>\n            setSelectedDate({\n              start: { date: '', time: '' },\n              end: { date: '', time: '' },\n            })\n          }\n        >\n          None\n        </Link>\n      </>\n    );\n  };\n\n  const renderCustomMonthAbsoluteRangeControl = (\n    setSelectedDate: React.Dispatch<React.SetStateAction<DateRangePickerProps.PendingAbsoluteValue>>\n  ) => {\n    const today = new Date();\n    const lastMonth = sub(today, { months: 1 });\n    const oneQuarterAgoDate = sub(today, { months: 3 });\n    const oneYearAgoDate = sub(today, { years: 1 });\n    return (\n      <>\n        Auto-select:{' '}\n        <Link\n          onFollow={() =>\n            setSelectedDate({\n              start: { date: formatDate(lastMonth), time: '' },\n              end: { date: formatDate(lastMonth), time: '' },\n            })\n          }\n        >\n          Last full month\n        </Link>{' '}\n        <Link\n          variant=\"secondary\"\n          onFollow={() =>\n            setSelectedDate({\n              start: {\n                date: formatDate(startOfQuarter(oneQuarterAgoDate)),\n                time: '',\n              },\n              end: {\n                date: formatDate(endOfQuarter(oneQuarterAgoDate)),\n                time: '',\n              },\n            })\n          }\n        >\n          Last full quarter\n        </Link>{' '}\n        <Link\n          onFollow={() =>\n            setSelectedDate({\n              start: { date: formatDate(startOfYear(oneYearAgoDate)), time: '' },\n              end: { date: formatDate(endOfYear(oneYearAgoDate)), time: '' },\n            })\n          }\n        >\n          Last full year\n        </Link>{' '}\n        <Link\n          onFollow={() =>\n            setSelectedDate({\n              start: { date: '', time: '' },\n              end: { date: '', time: '' },\n            })\n          }\n        >\n          None\n        </Link>\n      </>\n    );\n  };\n\n  return (\n    <SimplePage\n      title=\"Date range picker: custom control\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      <FormField label=\"Date Range Picker field\">\n        <DateRangePicker\n          {...props}\n          customAbsoluteRangeControl={(_, setSelectedDate) =>\n            props.granularity === 'month'\n              ? renderCustomMonthAbsoluteRangeControl(setSelectedDate)\n              : renderCustomDateAbsoluteRangeControl(setSelectedDate)\n          }\n        />\n      </FormField>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/custom-control.page.tsx"
+  },
+  {
+   "name": "custom-relative-content",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { DateRangePicker, DateRangePickerProps, FormField, Grid, Header, Link, SpaceBetween } from '~components';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nexport default function DatePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({\n    hasValue: false,\n  });\n\n  const renderCustomRelativeRangeControl = (\n    selectedRange: DateRangePickerProps.RelativeValue | null,\n    setSelectedDate: (value: DateRangePickerProps.RelativeValue) => void\n  ) => {\n    return (\n      <div>\n        <Header variant=\"h2\" description=\"Please select the relative time.\">\n          Custom Relative Control\n        </Header>\n        <Grid gridDefinition={[{ colspan: 2 }, { colspan: 10 }]}>\n          <b key=\"select-minutes-label\">Minutes</b>\n          <SpaceBetween size=\"xs\" direction=\"horizontal\" key=\"select-minutes-values\">\n            <Link\n              onFollow={() =>\n                setSelectedDate({\n                  unit: 'minute',\n                  amount: 5,\n                  type: 'relative',\n                })\n              }\n            >\n              5\n            </Link>\n            <Link\n              onFollow={() =>\n                setSelectedDate({\n                  unit: 'minute',\n                  amount: 15,\n                  type: 'relative',\n                })\n              }\n            >\n              15\n            </Link>\n            <Link\n              onFollow={() =>\n                setSelectedDate({\n                  unit: 'minute',\n                  amount: 30,\n                  type: 'relative',\n                })\n              }\n            >\n              30\n            </Link>\n            <Link\n              onFollow={() =>\n                setSelectedDate({\n                  unit: 'minute',\n                  amount: 45,\n                  type: 'relative',\n                })\n              }\n            >\n              45\n            </Link>\n          </SpaceBetween>\n        </Grid>\n        Selected: {selectedRange ? selectedRange.amount + ' ' + selectedRange.unit : 'Nothing Selected.'}\n      </div>\n    );\n  };\n\n  return (\n    <SimplePage\n      title=\"Date range picker: custom relative content\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      <FormField label=\"Custom Relative Range Picker field\">\n        <DateRangePicker\n          {...props}\n          renderRelativeRangeContent={(selectedRange, setSelectedRange) =>\n            renderCustomRelativeRangeControl(selectedRange, setSelectedRange)\n          }\n        />\n      </FormField>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/custom-relative-content.page.tsx"
+  },
+  {
+   "name": "localised",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { DateRangePicker, FormField } from '~components';\nimport messages from '~components/i18n/messages/all.de';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\nimport { makeIsDateValidFunction, makeIsMonthValidFunction } from './is-valid-range';\n\nconst localizedErrors = {\n  durationBetweenOneAndTwenty: 'Die Zeitdauer muss zwischen 1 und 20 liegen.',\n  durationMissing: 'Sie müssen eine Zeitdauer angeben.',\n  minimumStartDate: 'Der Zeitraum darf nicht vor 2018 beginnen.',\n  noValueSelected: 'Sie müssen einen Zeitraum auswählen.',\n  notLongEnough: 'Der ausgewählte Datumsbereich ist zu klein. Wählen Sie einen Bereich von mindestens einem Monat.',\n  startDateMissing: 'Sie müssen ein Startdatum angeben.',\n  endDateMissing: 'Sie müssen ein Enddatum angeben.',\n};\n\nexport default function DatePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({ hasValue: false });\n  return (\n    <SimplePage\n      title=\"Date range picker: localized\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n      i18n={{ messages: [messages], locale: 'de-DE' }}\n    >\n      <FormField label=\"Date Range Picker field\">\n        <DateRangePicker\n          {...props}\n          locale=\"de\"\n          placeholder=\"Nach einem Zeitraum filtern\"\n          isValidRange={value =>\n            props.granularity === 'month'\n              ? makeIsMonthValidFunction(localizedErrors)(value)\n              : makeIsDateValidFunction(localizedErrors)(value)\n          }\n        />\n      </FormField>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/localised.page.tsx"
+  },
+  {
+   "name": "month-calendar-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Calendar, { DateRangePickerCalendarProps } from '~components/date-range-picker/calendar';\nimport Dropdown from '~components/dropdown/internal';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\n\nconst intervals = [\n  ['2021-08-01', '2021-08-31'],\n  ['2021-08-02', '2021-09-01'],\n  ['2021-08-09', '2021-08-16'],\n  ['2021-08-30', '2021-08-31'],\n  ['2021-08-31', '2021-09-22'],\n  ['2021-08-10', '2021-08-14'],\n  ['2021-08-03', '2021-08-09'],\n  ['2021-05-10', '2021-05-31'],\n  ['2021-05-10', '2021-05-30'],\n  ['2024-12-15', '2025-01-15'],\n  ['2025-01-15', '2025-01-15'],\n];\n\nconst permutations = createPermutations<DateRangePickerCalendarProps>([\n  // Selection range\n  ...intervals.map(([startDate, endDate]) => ({\n    value: [{ start: { date: startDate, time: '' }, end: { date: endDate, time: '' } }],\n    setValue: [() => {}],\n    locale: ['en-GB'],\n    startOfWeek: [1],\n    onChange: [() => {}],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  })),\n  // Disabled dates\n  {\n    value: [{ start: { date: '2021-08-30', time: '' }, end: { date: '2021-09-03', time: '' } }],\n    setValue: [() => {}],\n    isDateEnabled: [() => false, (date: Date) => date.getDate() % 2 !== 0],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Date-only\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    dateOnly: [true],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Custom control\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    customAbsoluteRangeControl: [() => 'Custom control'],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Date input formats\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    dateInputFormat: ['iso', 'slashed'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Time input formats\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm', 'hh'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n]);\n\nexport default function DateRangePickerCalendarPage() {\n  return (\n    <PermutationsPage title=\"Date range picker permutations: month calendar\" i18n={{}}>\n      <div style={{ blockSize: `${(1 + permutations.length) * 400}px` }}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div style={{ blockSize: '400px' }}>\n              <Dropdown\n                stretchHeight={true}\n                open={true}\n                onOutsideClick={() => {}}\n                onMouseDown={() => {}}\n                trigger={null}\n                content={\n                  <Box padding=\"m\">\n                    <Calendar {...permutation} />\n                  </Box>\n                }\n              />\n            </div>\n          )}\n        />\n      </div>\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/date-range-picker/month-calendar-permutations.page.tsx"
+  },
+  {
+   "name": "range-calendar",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport { Link, SpaceBetween } from '~components';\nimport RangeCalendar, { DateRangePickerCalendarProps } from '~components/date-range-picker/calendar';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nexport default function RangeCalendarScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({ timeInputFormat: 'hh:mm' });\n  const [value, setValue] = useState<DateRangePickerCalendarProps['value']>({\n    start: { date: '2020-01-25', time: '' },\n    end: { date: '2020-02-02', time: '' },\n  });\n  return (\n    <SimplePage\n      title=\"Date range picker: range calendar\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      <SpaceBetween direction=\"vertical\" size=\"m\">\n        <Link id=\"focusable-before\">Focusable element before</Link>\n\n        <RangeCalendar\n          {...props}\n          value={value}\n          setValue={setValue}\n          customAbsoluteRangeControl={undefined}\n          timeInputFormat=\"hh:mm:ss\"\n          absoluteFormat=\"slashed\"\n          multiGridStartPeriod=\"current\"\n        />\n\n        <Link id=\"focusable-after\">Focusable element after</Link>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/range-calendar.page.tsx"
+  },
+  {
+   "name": "small-viewport",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport { Checkbox, DateRangePicker, FormField, Link, SpaceBetween } from '~components';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nexport default function DatePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({\n    hasValue: false,\n    timeInputFormat: 'hh:mm',\n  });\n  const [sticky, setSticky] = useState(false);\n  return (\n    <SimplePage\n      title=\"Date range picker: small viewport\"\n      settings={\n        <SpaceBetween size=\"s\">\n          <Settings settings={settings} setSettings={setSettings} />\n          <Checkbox checked={sticky} onChange={({ detail }) => setSticky(detail.checked)}>\n            Sticky\n          </Checkbox>\n        </SpaceBetween>\n      }\n      screenshotArea={{}}\n    >\n      <SpaceBetween size=\"m\">\n        <Link id=\"focusable-before\">Focusable element before</Link>\n\n        <div style={sticky ? { minBlockSize: '200vh' } : {}}>\n          <div style={sticky ? { position: 'sticky', insetBlockStart: 200 } : {}}>\n            <FormField label=\"Date Range Picker field\">\n              <DateRangePicker {...props} />\n            </FormField>\n          </div>\n        </div>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/small-viewport.page.tsx"
+  },
+  {
+   "name": "with-event-handlers",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useRef, useState } from 'react';\n\nimport { Box, DateRangePicker, DateRangePickerProps, FormField, Link } from '~components';\n\nimport { SimplePage } from '../app/templates';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nlet blurCount = 0;\nlet focusCount = 0;\nexport default function DateRangePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({ hasValue: false });\n\n  const blurLogDiv = useRef<HTMLDivElement>(null);\n  const focusLogDiv = useRef<HTMLDivElement>(null);\n  const handleFocus = () => {\n    focusCount++;\n    if (focusLogDiv.current) {\n      focusLogDiv.current.textContent = `onFocus event called ${focusCount} times.`;\n    }\n  };\n  const handleBlur = () => {\n    blurCount++;\n    if (blurLogDiv.current) {\n      blurLogDiv.current.textContent = `onBlur event called ${blurCount} times.`;\n    }\n  };\n\n  const [changeCount, setChangeCount] = useState(0);\n  const [onChangeDetails, setOnChangeDetails] = useState<DateRangePickerProps['value']>({\n    type: 'absolute',\n    startDate: '2018-01-09T12:34:56Z',\n    endDate: '2018-01-19T15:30:00',\n  });\n\n  return (\n    <SimplePage\n      title=\"Date range picker: event handlers\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      <Link id=\"focusable-before\">Focusable element before</Link>\n      <br />\n\n      <Box variant=\"pre\">\n        <div id=\"onFocusEvent\" ref={focusLogDiv}>\n          onFocus event called 0 times.\n        </div>\n        <div id=\"onBlurEvent\" ref={blurLogDiv}>\n          onBlur event called 0 times.\n        </div>\n        <div id=\"onChangeEvent\">\n          onChange Event: {changeCount} times. Latest detail: {JSON.stringify(onChangeDetails)}\n        </div>\n      </Box>\n\n      <FormField label=\"Date Range Picker field\">\n        <DateRangePicker\n          {...props}\n          onFocus={handleFocus}\n          onBlur={handleBlur}\n          onChange={event => {\n            props.onChange?.(event);\n            setChangeCount(prevCount => prevCount + 1);\n            setOnChangeDetails(event.detail.value);\n          }}\n        />\n      </FormField>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/with-event-handlers.page.tsx"
+  },
+  {
+   "name": "with-value",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { Box, DateRangePicker, FormField, Link } from '~components';\n\nimport { SimplePage } from '../app/templates';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { Settings, useDateRangePickerSettings } from './common';\n\nexport default function DatePickerScenario() {\n  const { props, settings, setSettings } = useDateRangePickerSettings({\n    value: {\n      type: 'absolute',\n      startDate: '2018-01-09T12:34:56Z',\n      endDate: '2018-01-19T15:30:00Z',\n    },\n  });\n  return (\n    <SimplePage\n      title=\"Date range picker: test page\"\n      settings={<Settings settings={settings} setSettings={setSettings} />}\n    >\n      <Link id=\"focusable-before\">Focusable element before</Link>\n      <br />\n      <br />\n\n      <ScreenshotArea gutters={false}>\n        <FormField label=\"Date Range Picker field\">\n          <DateRangePicker {...props} />\n        </FormField>\n\n        <br />\n        <br />\n        {/* We give more space at the bottom so that the dropdown opens down and stays within the screenshot area. */}\n        <div style={{ blockSize: 800 }}>\n          <b>\n            Raw value: <Box variant=\"pre\">{JSON.stringify(props.value, undefined, 2)}</Box>\n          </b>\n        </div>\n      </ScreenshotArea>\n    </SimplePage>\n  );\n}\n",
+   "source": "pages/date-range-picker/with-value.page.tsx"
+  },
+  {
+   "name": "year-calendar-permutations",
+   "description": null,
+   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Calendar, { DateRangePickerCalendarProps } from '~components/date-range-picker/calendar';\nimport Dropdown from '~components/dropdown/internal';\n\nimport { PermutationsPage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\n\nconst intervals = [\n  ['2021-08', '2023-08'], //multi year\n  ['2021-08', '2021-08'], //same month\n  ['2021-05', '2022-05'], //one year\n  ['2024-12', '2025-01'], //start-end\n  ['2022-02', '2022-03'], //next\n  ['2021-01', '2021-03'], //q1\n  ['2022-04', '2022-06'], //q2\n  ['2022-07', '2022-09'], //q3\n  ['2024-10', '2024-12'], //q4\n];\n\nconst permutations = createPermutations<DateRangePickerCalendarProps>([\n  // Selection range\n  ...intervals.map(([startDate, endDate]) => ({\n    value: [{ start: { date: startDate, time: '' }, end: { date: endDate, time: '' } }],\n    setValue: [() => {}],\n    locale: ['en-GB'],\n    onChange: [() => {}],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current', 'previous'] as const,\n  })),\n  // Disabled dates\n  {\n    value: [{ start: { date: '2022-04', time: '' }, end: { date: '2022-06', time: '' } }],\n    setValue: [() => {}],\n    isDateEnabled: [() => false],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Custom control\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    customAbsoluteRangeControl: [() => 'Custom control'],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n  // Input date formats\n  {\n    value: [{ start: { date: '', time: '' }, end: { date: '', time: '' } }],\n    setValue: [() => {}],\n    customAbsoluteRangeControl: [undefined],\n    timeInputFormat: ['hh:mm:ss'] as const,\n    dateInputFormat: ['iso', 'slashed'] as const,\n    absoluteFormat: ['long-localized'] as const,\n    multiGridStartPeriod: ['current'] as const,\n  },\n]);\n\nexport default function DateRangePickerCalendarPage() {\n  return (\n    <PermutationsPage title=\"Date range picker permutations: year calendar\" i18n={{}}>\n      <div style={{ blockSize: `${permutations.length * 320}px` }}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div style={{ blockSize: '300px' }}>\n              <Dropdown\n                stretchHeight={true}\n                open={true}\n                onOutsideClick={() => {}}\n                onMouseDown={() => {}}\n                trigger={null}\n                content={\n                  <Box padding=\"m\">\n                    <Calendar {...permutation} granularity=\"month\" />\n                  </Box>\n                }\n              />\n            </div>\n          )}\n        />\n      </div>\n    </PermutationsPage>\n  );\n}\n",
+   "source": "pages/date-range-picker/year-calendar-permutations.page.tsx"
+  }
+ ],
+ "props": {
+  "name": "DateRangePickerProps",
+  "columns": [
+   "이름",
+   "타입",
+   "필수",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "placeholder",
+    "string",
+    "아니오",
+    "Specifies the placeholder text that is rendered when the value is empty.",
+    "src/date-range-picker/interfaces.ts:143"
+   ],
+   [
+    "disabled",
+    "boolean",
+    "아니오",
+    "Specifies that the component is disabled, preventing the user from modifying the value. A disabled component cannot receive focus.",
+    "src/date-range-picker/interfaces.ts:149"
+   ],
+   [
+    "readOnly",
+    "boolean",
+    "아니오",
+    "Specifies that the component is read-only, preventing the user from modifying the value. A read-only component can receive focus.",
+    "src/date-range-picker/interfaces.ts:155"
+   ],
+   [
+    "onFocus",
+    "NonCancelableEventHandler<null>",
+    "아니오",
+    "Fired when keyboard focus is set onto the UI control.",
+    "src/date-range-picker/interfaces.ts:160"
+   ],
+   [
+    "onBlur",
+    "NonCancelableEventHandler<null>",
+    "아니오",
+    "Fired when keyboard focus is removed from the UI control.",
+    "src/date-range-picker/interfaces.ts:165"
+   ],
+   [
+    "isValidRange",
+    "DateRangePickerProps.ValidationFunction",
+    "예",
+    "A function that defines whether a particular range is valid or not. Ensure that your function checks for missing fields in the value.",
+    "src/date-range-picker/interfaces.ts:172"
+   ],
+   [
+    "showClearButton",
+    "boolean",
+    "아니오",
+    "Specifies whether the component should show a button that allows the user to clear the selected value.",
+    "src/date-range-picker/interfaces.ts:178"
+   ],
+   [
+    "customAbsoluteRangeControl",
+    "DateRangePickerProps.AbsoluteRangeControl",
+    "아니오",
+    "Specifies an additional control displayed in the dropdown, located below the range calendar.",
+    "src/date-range-picker/interfaces.ts:183"
+   ],
+   [
+    "customRelativeRangeUnits",
+    "DateRangePickerProps.TimeUnit[]",
+    "아니오",
+    "Specifies which time units to allow in the custom relative range control.",
+    "src/date-range-picker/interfaces.ts:188"
+   ],
+   [
+    "renderRelativeRangeContent",
+    "DateRangePickerProps.RelativeRangeControl",
+    "아니오",
+    "Specifies custom content to fully override the relative range tab. When provided, all default relative range functionality is replaced.",
+    "src/date-range-picker/interfaces.ts:194"
+   ],
+   [
+    "absoluteFormat",
+    "DateRangePickerProps.AbsoluteFormat",
+    "아니오",
+    "Specifies the time format to use for displaying the absolute time range. It can take the following values: * `iso`: ISO 8601 format, e.g.: 2024-01-30T13:32:32+01:00 (or 2024-01-30 when `dateOnly` is true) * `long-localized`: a more human-readable, localized format, e.g.: January 30, 2024, 13:32:32 (UTC+1) (or January 30, 2024 when `dateOnly` is true) * `slashed`: similar to ISO 8601 but with '/' in place of '-'. e.g.: 2024/01/30 (or 2024/01)",
+    "src/date-range-picker/interfaces.ts:204"
+   ],
+   [
+    "hideTimeOffset",
+    "boolean",
+    "아니오",
+    "Specifies whether to hide the time offset in the displayed absolute time range. Defaults to `false`.",
+    "src/date-range-picker/interfaces.ts:210"
+   ],
+   [
+    "ariaLabel",
+    "string",
+    "아니오",
+    "Adds `aria-label` to the trigger and dropdown.",
+    "src/date-range-picker/interfaces.ts:215"
+   ],
+   [
+    "absoluteMultiGridStartPeriod",
+    "DateRangePickerProps.StartPeriod",
+    "아니오",
+    "Specifies whether to start with the previous or current period (month or year) when multiple calendar grids are displayed in absolute mode. Defaults to 'auto', which starts with previous if no date is selected, or current if a selection is present.",
+    "src/date-range-picker/interfaces.ts:224"
+   ],
+   [
+    "renderTriggerContent",
+    "DateRangePickerProps.RenderTriggerContent",
+    "아니오",
+    "Specifies custom content to fully override the trigger content. When provided, the default content of the trigger is replaced.",
+    "src/date-range-picker/interfaces.ts:230"
+   ]
+  ],
+  "source": "src/date-range-picker/interfaces.ts"
+ },
+ "version": "3.0.1365",
+ "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+}
