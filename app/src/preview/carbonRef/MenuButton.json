@@ -1,0 +1,119 @@
+{
+ "slug": "MenuButton",
+ "title": "Dynamically set floating styles",
+ "docs": [
+  {
+   "markdown": "import { Meta } from '@storybook/addon-docs/blocks';\n\n<Meta title=\"Components/MenuButton/Feature Flag\" name=\"Flag details\" />\n\n# Dynamically set floating styles\n\nComponents with `autoAlign` use the\n[`floating-ui`](https://github.com/floating-ui/floating-ui) library to handle\nthe dynamic positioning of floating elements relative to their trigger / anchor\nelement. This also includes collision detection that repositions the floating\nelement as necessary to keep it visible within the viewport. In the majority of\ncases, the styling from the `floating-ui` 'fixed' positioning strategy prevents\nthe floating element from being\n[clipped](https://floating-ui.com/docs/misc#clipping) by an ancestor element.\n\nThe `enable-v12-dynamic-floating-styles` flag enables this dynamic styling\nwithout the collision detection.\n\n**Note**: The flag has no effect when used with `autoAlign` because `autoAlign`\nincludes both the dynamic positioning styles and collision detection.\n\nTo use `autoAlign` your project needs to be using React v17+, see\nhttps://github.com/carbon-design-system/carbon/issues/18714.\n\n## Enable dynamic setting of floating styles\n\n```js\n<FeatureFlags enableV12DynamicFloatingStyles>\n  <MenuButton menuAlignment={args.menuAlignment} label=\"Actions\">\n    <MenuItem label=\"First action\" />\n    <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n    <MenuItem label=\"Third action\" disabled />\n  </MenuButton>\n</FeatureFlags>\n```\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.DynamicStyles.featureflag.mdx",
+   "sections": [
+    {
+     "name": "Enable dynamic setting of floating styles",
+     "source": "packages/react/src/components/MenuButton/MenuButton.DynamicStyles.featureflag.mdx:25"
+    }
+   ]
+  },
+  {
+   "markdown": "import { ArgTypes, Meta, Canvas } from '@storybook/addon-docs/blocks';\nimport * as MenuButtonStories from './MenuButton.stories.js';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# MenuButton\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/MenuButton)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [With Danger](#with-danger)\n  - [With Dividers](#with-dividers)\n  - [With Icons](#with-icons)\n- [Menu Alignment](#menu-alignment)\n- [menuTarget Prop](#menutarget-prop)\n- [Managing the `menuTarget` prop with React refs](#managing-the-menutarget-prop-with-react-refs)\n- [Experimental Auto Align](#experimental-auto-align)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nA `MenuButton` can be used to group a set of actions that are related. These\nactions must be `MenuItem`s passed as `children`. The trigger buttons's label is\npassed as `props.label`.\n\n```jsx\n<MenuButton label=\"Actions\">\n  <MenuItem label=\"First action\" />\n  <MenuItem label=\"Second action\" />\n  <MenuItem label=\"Third action\" />\n</MenuButton>\n```\n\n<Canvas\n  of={MenuButtonStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(MenuButtonStories.Default),\n    },\n  ]}\n/>\n\n#### With Danger\n\n<Canvas\n  of={MenuButtonStories.WithDanger}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(MenuButtonStories.WithDanger),\n    },\n  ]}\n/>\n\n#### With Dividers\n\n<Canvas\n  of={MenuButtonStories.WithDividers}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(MenuButtonStories.WithDividers),\n    },\n  ]}\n/>\n\n#### With Icons\n\n<Canvas\n  of={MenuButtonStories.WithIcons}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(MenuButtonStories.WithIcons),\n    },\n  ]}\n/>\n\n## Menu Alignment\n\nThe `menuAlignment` prop enables you to define the placement of the Menu in\nrelation to the `MenuButton`. For instance, setting `menuAlignment=\"top\"` on the\n`MenuButton` will render the Menu above the button.\n\nIf it seems your specified `menuAlignment` isn't working, it's because we\nprioritize ensuring the Menu remains visible. We calculate the optimal position\nto display the Menu in case the provided `menuAlignment` obscures it.\n\nWe encourage you to play around in the Storybook Default stories to better\nunderstand the `menuAlignment` prop.\n\n<Canvas\n  of={MenuButtonStories.WithMenuAlignment}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(MenuButtonStories.WithMenuAlignment),\n    },\n  ]}\n/>\n\n## menuTarget Prop\n\nThe `menuTarget` prop specifies where the `Menu` should render, which is\nparticularly useful when using `MenuButton` inside a modal. By default, the menu\nrenders in `document.body`, but this can disrupt focus order in modals or other\ncomponents with focus management.\n\nPass the `menuTarget` prop to render the `Menu` inside the modal or any specific\nelement where you want it to render:\n\n## Managing the `menuTarget` prop with React refs\n\nBecause React does not trigger re-renders when a ref's `.current` value changes,\nyou must capture the ref value in state to update the `menuTarget` prop.\n\n```tsx\nconst Component = () => {\n  const containerRef = useRef<HTMLDivElement>(null);\n  const [target, setTarget] = useState<HTMLDivElement | undefined>(undefined);\n  useEffect(() => {\n    if (containerRef.current) {\n      setTarget(containerRef.current);\n    }\n  }, []);\n  return (\n    <div ref={containerRef}>\n      <MenuButton label=\"Actions\" menuTarget={target}>\n        <MenuItem label=\"First action\" />\n      </MenuButton>\n    </div>\n  );\n};\n```\n\n## Experimental Auto Align\n\n<Canvas\n  of={MenuButtonStories.ExperimentalAutoAlign}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(MenuButtonStories.ExperimentalAutoAlign),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/MenuButton/MenuButton.mdx).\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:13"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:28"
+    },
+    {
+     "name": "Menu Alignment",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:88"
+    },
+    {
+     "name": "menuTarget Prop",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:112"
+    },
+    {
+     "name": "Managing the `menuTarget` prop with React refs",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:122"
+    },
+    {
+     "name": "Experimental Auto Align",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:146"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:159"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/MenuButton/MenuButton.mdx:163"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  tall\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-menubutton--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/MenuButton/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/MenuButton/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "FloatingStyles",
+   "description": null,
+   "code": "export const FloatingStyles = (args) => (\n  <MenuButton menuAlignment={args.menuAlignment} label=\"Actions\">\n    <MenuItem label=\"First action\" />\n    <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n    <MenuItem label=\"Third action\" disabled />\n  </MenuButton>\n);\n\nFloatingStyles.args = {\n  menuAlignment: 'bottom',\n};\n\nFloatingStyles.argTypes = {\n  menuAlignment: {\n    options: ['top', 'bottom'],\n    control: {\n      type: 'radio',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.featureflag.stories.js:27"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  return (\n    <MenuButton {...args} onClick={action('onClick')} label=\"Actions\">\n      <MenuItem\n        label=\"First action with a long label description\"\n        onClick={action('onClick')}\n      />\n      <MenuItem label=\"Second action\" onClick={action('onClick')} />\n      <MenuItem label=\"Third action\" onClick={action('onClick')} disabled />\n    </MenuButton>\n  );\n};\n\nDefault.args = { label: 'Actions' };\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:35"
+  },
+  {
+   "name": "ExperimentalAutoAlign",
+   "description": null,
+   "code": "export const ExperimentalAutoAlign = (args) => (\n  <div style={{ width: '5000px', height: '5000px' }}>\n    <div\n      style={{\n        position: 'absolute',\n        bottom: '20px',\n      }}>\n      <MenuButton label=\"Actions\" {...args}>\n        <MenuItem label=\"First action\" />\n        <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n        <MenuItem label=\"Third action\" disabled />\n      </MenuButton>\n    </div>\n  </div>\n);\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:50"
+  },
+  {
+   "name": "WithDanger",
+   "description": null,
+   "code": "export const WithDanger = (args) => {\n  return (\n    <MenuButton label=\"Actions\" {...args}>\n      <MenuItem label=\"First action\" />\n      <MenuItem label=\"Second action\" />\n      <MenuItem label=\"Third action\" />\n      <MenuItemDivider />\n      <MenuItem label=\"Danger action\" kind=\"danger\" />\n    </MenuButton>\n  );\n};\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:66"
+  },
+  {
+   "name": "WithDividers",
+   "description": null,
+   "code": "export const WithDividers = (args) => {\n  return (\n    <MenuButton label=\"Actions\" {...args}>\n      <MenuItem label=\"Create service request\" />\n      <MenuItem label=\"Create work order\" />\n      <MenuItemDivider />\n      <MenuItem label=\"Add plan\" />\n      <MenuItem label=\"Add flag\" />\n      <MenuItemDivider />\n      <MenuItem label=\"Edit source location\" />\n      <MenuItem label=\"Recalculate source\" />\n    </MenuButton>\n  );\n};\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:78"
+  },
+  {
+   "name": "WithIcons",
+   "description": null,
+   "code": "export const WithIcons = (args) => {\n  return (\n    <MenuButton label=\"Add\" {...args}>\n      <MenuItem label=\"Asset\" renderIcon={Asset} />\n      <MenuItem label=\"User\" renderIcon={User} />\n      <MenuItem label=\"User group\" renderIcon={Group} />\n    </MenuButton>\n  );\n};\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:93"
+  },
+  {
+   "name": "WithNestedMenu",
+   "description": null,
+   "code": "export const WithNestedMenu = (args) => (\n  <MenuButton label=\"Actions\" {...args}>\n    <MenuItem label=\"Save\" shortcut=\"⌘S\" />\n    <MenuItem label=\"Save as\" shortcut=\"⌥⌘S\" />\n    <MenuItem label=\"Export as\">\n      <MenuItem label=\"PDF\" />\n      <MenuItem label=\"JPG\" />\n      <MenuItem label=\"PNG\" />\n    </MenuItem>\n    <MenuItemDivider />\n    <MenuItem label=\"Delete\" kind=\"danger\" />\n  </MenuButton>\n);\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:103"
+  },
+  {
+   "name": "WithMenuAlignment",
+   "description": null,
+   "code": "export const WithMenuAlignment = () => {\n  return (\n    <>\n      <div style={{ display: 'flex', justifyContent: 'space-between' }}>\n        <MenuButton label=\"Bottom\" menuAlignment=\"bottom\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n\n        <MenuButton label=\"Bottom start\" menuAlignment=\"bottom-start\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n\n        <MenuButton label=\"Bottom end\" menuAlignment=\"bottom-end\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n      </div>\n\n      <div\n        style={{\n          display: 'flex',\n          marginTop: '15rem',\n          justifyContent: 'space-between',\n        }}>\n        <MenuButton label=\"Top\" menuAlignment=\"top\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n\n        <MenuButton label=\"Top start\" menuAlignment=\"top-start\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n\n        <MenuButton label=\"Top end\" menuAlignment=\"top-end\">\n          <MenuItem label=\"First action\" />\n          <MenuItem label=\"Second action that is a longer item to test overflow and title.\" />\n          <MenuItem label=\"Third action\" disabled />\n        </MenuButton>\n      </div>\n    </>\n  );\n};\n",
+   "source": "packages/react/src/components/MenuButton/MenuButton.stories.js:117"
+  }
+ ],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

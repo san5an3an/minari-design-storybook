@@ -1,0 +1,300 @@
+{
+ "slug": "Button",
+ "title": "Buttons",
+ "docs": [
+  {
+   "markdown": "import {\n  Story,\n  ArgTypes,\n  Canvas,\n  Unstyled,\n  Meta,\n} from '@storybook/addon-docs/blocks';\nimport Button from '../Button';\nimport ButtonSet from '../ButtonSet';\nimport { Add, TrashCan } from '@carbon/icons-react';\nimport * as ButtonStories from './Button.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Buttons\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Button)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/button/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/button/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Secondary](#secondary)\n- [Tertiary](#tertiary)\n- [Ghost](#ghost)\n- [Danger Button](#danger-button)\n- [Icon-only Button](#icon-only-button)\n- [Skeleton state](#skeleton-state)\n- [Component API](#component-api)\n  - [Button `as`](#button-as)\n  - [Button `className`](#button-classname)\n  - [Button `hasIconOnly`](#button-hasicononly)\n  - [Button `href`](#button-href)\n  - [Button `iconDescription`](#button-icondescription)\n  - [Button `kind`](#button-kind)\n  - [Button `renderIcon`](#button-rendericon)\n  - [Button `role`](#button-role)\n  - [Button `size`](#button-size)\n  - [Button `tooltipAlignment`](#button-tooltipalignment)\n  - [Button `tooltipPosition`](#button-tooltipposition)\n  - [ButtonSet `stacked`](#buttonset-stacked)\n- [References](#references)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nButtons are clickable elements that are used to trigger actions. They\ncommunicate calls to action to the user and allow users to interact with pages\nin a variety of ways. `Button` labels express what action will occur when the\nuser interacts with it.\n\n<Canvas\n  of={ButtonStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ButtonStories.Default),\n    },\n  ]}\n/>\n\n## Danger Button\n\nThe danger button has three different styles: primary, tertiary, and ghost.\nDetermining which danger button style to use will depend on the level of\nemphasis you want to give to the danger action. Destructive actions that are\nconsidered a required or primary step in a workflow should use the primary\ndanger button style. However, if a destructive action is just one of several\nactions a user could choose from, then a lower emphasis style like the danger\ntertiary button or the danger ghost button may be more appropriate.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button kind=\"danger\">Danger</Button>\n  <Button kind=\"danger--tertiary\">Danger tertiary</Button>\n  <Button kind=\"danger--ghost\">Danger ghost</Button>\n</Unstyled>\n\n## Icon-only Button\n\nIcon buttons allow users to take actions, and make choices, with a single tap.\nIcon buttons can take the form of Primary, Secondary, Tertiary, and Ghost but\nmost commonly will be styled as primary or ghost buttons. Icon only buttons do\nnot support Danger, Danger tertiary, or Danger ghost.\n\n<Canvas\n  of={ButtonStories.IconButton}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ButtonStories.IconButton),\n    },\n  ]}\n/>\n\n## Skeleton state\n\nYou can use the `ButtonSkeleton` component to render a skeleton variant of a\nbutton. This is useful to display on initial page load to indicate to users that\ncontent is being loaded.\n\n<Canvas\n  of={ButtonStories.Skeleton}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ButtonStories.Skeleton),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\nAdditional props passed into `Button` will be forwarded along to the underlying\nbutton element.\n\n### Button `as`\n\nThis prop allows you to specify a different element to be rendered as a\n`Button`. You may also need to add a [role](#button-role) for accessibility if\nan element other than a `button` is rendered.\n\n```jsx\n<Button as=\"div\" role=\"button\">\n  I'm a div tag\n</Button>\n```\n\n### Button `className`\n\nThe className prop passed into `Button` will be forwarded along to the\nunderlying `Button` element. This is useful for specifying a custom class name\nfor layout.\n\n```jsx\n<Button className=\"custom-class\">Submit</Button>\n```\n\n### Button `hasIconOnly`\n\nUse this prop to render the icon-only variant of `Button`. First you'll pass in\nthe `renderIcon` prop to tell the `Button` which icon to render. Next, you'll\nneed to specify the `iconDescription` ([read more](#button-icondescription)),\nwhich is used to populate the tooltip that is shown when the icon button is\ninteracted with, as well as internal `aria-label` for screen-readers. Lastly,\nyou can configure both the `tooltipAlignment`\n([read more](#button-tooltipalignment)) and `tooltipPosition`\n([read more](#button-tooltipposition)) props to tell the `Button` where your\ntooltip should be rendered. These props default to `center` and `bottom`,\nrespectively.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" />\n</Unstyled>\n\n```jsx\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" />\n```\n\n### Button `href`\n\nThis prop allows you to specify an address to navigate to on click. This will\nchange the underlying `Button` element to be rendered as an `a` anchor element.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button href=\"https://www.carbondesignsystem.com\">Navigate</Button>\n</Unstyled>\n\n```jsx\n<Button href=\"https://www.carbondesignsystem.com\">Navigate</Button>\n```\n\n### Button `iconDescription`\n\nIf using the `hasIconOnly` prop, `iconDescription` becomes a required prop for\naccessibility reasons. The text provided here populates the internal\n`aria-label` tag on the icon, as well as provides text to be shown when the icon\nbutton is interacted with.\n\n```jsx\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" />\n```\n\n### Button `kind`\n\nCarbon has seven types of buttons, `primary`, `secondary`, `tertiary`, `ghost`,\n`danger`, `danger--tertiary`, and `danger--ghost`. If no `kind` is specified, a\n`primary` button will be rendered. For more information on when to use each\nvariant, check out the\n[design documentation](https://www.carbondesignsystem.com/components/button/usage#overview)\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button>Primary</Button>\n  <Button kind=\"secondary\">Secondary</Button>\n  <Button kind=\"tertiary\">Tertiary </Button>\n  <Button kind=\"danger\">Danger</Button>\n  <Button kind=\"danger--tertiary\">Danger tertiary</Button>\n  <Button kind=\"danger--ghost\">Danger Ghost</Button>\n  <Button kind=\"ghost\">Ghost</Button>\n</Unstyled>\n\n```jsx\n<Button>Primary</Button>\n<Button kind=\"secondary\">Secondary</Button>\n<Button kind=\"tertiary\">Tertiary</Button>\n<Button kind=\"danger\">Danger</Button>\n<Button kind=\"danger--tertiary\">Danger tertiary</Button>\n<Button kind=\"danger--ghost\">Danger ghost</Button>\n<Button kind=\"ghost\">Ghost</Button>\n```\n\n### Button `renderIcon`\n\nThis prop is used to tell `Button` which icon should be rendered inside the\nbutton. Before you pass in the icon, you'll need to import the icon(s) you would\nlike to render, like so:\n\n```js\nimport { Add, TrashCan } from '@carbon/react/icons';\n```\n\nOnce the icons are imported, you can pass them directly in to the `Button`\ncomponent. Keep in mind, you will also need to add an `iconDescription` to help\nwith screen-reader support if you use the `renderIcon` prop. If you are trying\nto render an icon-only button, please refer to the section on the\n[hasIconOnly](#button-hasicononly) prop\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button renderIcon={Add} iconDescription=\"Add\">\n    {'Add'}\n  </Button>\n  <Button renderIcon={TrashCan} kind=\"danger\" iconDescription=\"TrashCan\">\n    {'Delete'}\n  </Button>\n</Unstyled>\n\n```jsx\n<Button renderIcon={Add} iconDescription=\"Add\">Add</Button>\n<Button renderIcon={TrashCan} kind=\"danger\" iconDescription=\"TrashCan\">Delete</Button>\n```\n\nTo render an icon of a different `size`, pass a function that spreads props on\nthe Icon to ensure the proper classes are applied:\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button\n    renderIcon={(props) => <Add size={24} {...props} />}\n    iconDescription=\"Add\">\n    {'Add'}\n  </Button>\n  <Button\n    renderIcon={(props) => <TrashCan size={24} {...props} />}\n    kind=\"danger\"\n    iconDescription=\"TrashCan\">\n    {'Delete'}\n  </Button>\n</Unstyled>\n\n```jsx\n<Button renderIcon={(props) => <Add size={24} {...props} />} iconDescription=\"Add\">Add</Button>\n<Button renderIcon={(props) => <TrashCan size={24} {...props} />} kind=\"danger\"  iconDescription=\"TrashCan\">Delete</Button>\n```\n\n### Button `role`\n\nIf you use the [as](#button-as) prop to render a non-button as a button, you may\nneed to add a `role` for accessibility reasons. Adding `role=\"button\"` will make\nan element appear as a button control to a screen reader. Check out the\n[References](#references) section for more information.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <Button as=\"div\" role=\"button\">\n    {'a11y Button'}\n  </Button>\n</Unstyled>\n\n```jsx\n<Button as=\"div\" role=\"button\">\n  a11y Button\n</Button>\n```\n\n### Button `size`\n\nThis attribute specifies at which size the `button` should be rendered. Valid\nvalues are `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. If no size is specified, it\nrenders as `lg`.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    alignItems: 'end',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button size=\"xs\">Submit</Button>\n  <Button size=\"sm\">Submit</Button>\n  <Button size=\"md\">Submit</Button>\n  <Button>Submit</Button>\n  <Button size=\"xl\">Submit</Button>\n  <Button size=\"2xl\">Submit</Button>\n</Unstyled>\n\n```jsx\n<Button size=\"xs\">Submit</Button>\n<Button size=\"sm\">Submit</Button>\n<Button size=\"md\">Submit</Button>\n<Button>Submit</Button>\n<Button size=\"xl\">Submit</Button>\n<Button size=\"2xl\">Submit</Button>\n```\n\n### Icon Button `badgeCount`\n\nThe `badgeCount` prop is used to display a badge with a number on icon-only\nbuttons. setting this prop without passing any number shows a red dot.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    flexWrap: 'wrap',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button\n    hasIconOnly\n    kind=\"ghost\"\n    renderIcon={Add}\n    iconDescription=\"Add to selection\"\n    badgeCount={5}\n  />\n  <Button\n    hasIconOnly\n    kind=\"ghost\"\n    renderIcon={Add}\n    iconDescription=\"Add to selection\"\n    badgeCount={0}\n  />\n</Unstyled>\n\n```jsx\n<Button hasIconOnly kind=\"ghost\" renderIcon={Add} iconDescription=\"Add to selection\" badgeCount={5} />\n<Button hasIconOnly kind=\"ghost\" renderIcon={Add} iconDescription=\"Add to selection\" badgeCount={0} />\n```\n\n### Icon Button `tooltipAlignment`\n\nThe `tooltipAlignment` prop is used to change where the tooltip text and caret\nis rendered in relation to the `Button`. Accepted options are `start`, `center`,\nand `end`. The default alignment is `center`.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button\n    hasIconOnly\n    renderIcon={Add}\n    iconDescription=\"Add to selection\"\n    tooltipAlignment=\"start\"\n  />\n  <Button hasIconOnly renderIcon={Add} iconDescription=\"Add to selection\" />\n  <Button\n    hasIconOnly\n    renderIcon={Add}\n    iconDescription=\"Add to selection\"\n    tooltipAlignment=\"end\"\n  />\n</Unstyled>\n\n```jsx\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add to selection\" tooltipAlignment=\"start\" />\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add to selection\" />\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add to selection\" tooltipAlignment=\"end\"/>\n```\n\n### Icon Button `tooltipPosition`\n\nWhen using an icon-only button, you may be in a situation where you need to\nchange where the tooltip is positioned on the screen. `tooltipPosition` takes in\na position and will render the tooltip accordingly. Accepted options are `top`,\n`bottom`, `left`, and `right`. The default is position is `top`.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n    display: 'flex',\n    gap: '1rem',\n  }}>\n  <Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" />\n  <Button\n    hasIconOnly\n    renderIcon={Add}\n    iconDescription=\"Add\"\n    tooltipPosition=\"right\"\n  />\n  <Button\n    hasIconOnly\n    renderIcon={Add}\n    iconDescription=\"Add\"\n    tooltipPosition=\"bottom\"\n  />\n  <Button\n    hasIconOnly\n    renderIcon={Add}\n    iconDescription=\"Add\"\n    tooltipPosition=\"left\"\n  />\n</Unstyled>\n\n```jsx\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" />\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" tooltipPosition=\"right\"/>\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" tooltipPosition=\"bottom\"/>\n<Button hasIconOnly renderIcon={Add} iconDescription=\"Add\" tooltipPosition=\"left\" />\n```\n\n### ButtonSet `stacked`\n\nBy passing in `stacked` to the `ButtonSet` component, you can arrange your two\n`Button` elements vertically\n\n<Unstyled style={{ padding: '1rem', background: 'var(--cds-background)' }}>\n  <ButtonSet stacked>\n    <Button kind=\"secondary\">Secondary button</Button>\n    <Button kind=\"primary\">Primary button</Button>\n  </ButtonSet>\n</Unstyled>\n\n```jsx\n<ButtonSet stacked>\n  <Button kind=\"secondary\">Secondary button</Button>\n  <Button kind=\"primary\">Primary button</Button>\n</ButtonSet>\n```\n\n## References\n\n[MDN: ARIA button role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role)\n\n[W3: Role attribute](https://www.w3.org/WAI/PF/HTML/wiki/RoleAttribute)\n\n[W3: ARIA button role example](https://www.w3.org/TR/2016/WD-wai-aria-practices-1.1-20160317/examples/button/button.html)\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Button/Button.mdx)\n",
+   "source": "packages/react/src/components/Button/Button.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Button/Button.mdx:26"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Button/Button.mdx:53"
+    },
+    {
+     "name": "Danger Button",
+     "source": "packages/react/src/components/Button/Button.mdx:70"
+    },
+    {
+     "name": "Icon-only Button",
+     "source": "packages/react/src/components/Button/Button.mdx:93"
+    },
+    {
+     "name": "Skeleton state",
+     "source": "packages/react/src/components/Button/Button.mdx:110"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Button/Button.mdx:126"
+    },
+    {
+     "name": "References",
+     "source": "packages/react/src/components/Button/Button.mdx:495"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Button/Button.mdx:503"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-button--default',\n    },\n    {\n      label: 'Danger',\n      variant: 'components-button--danger',\n    },\n    {\n      label: 'Ghost',\n      variant: 'components-button--ghost',\n    },\n    {\n      label: 'Icon Button',\n      variant: 'components-button--icon-button',\n    },\n    {\n      label: 'Secondary',\n      variant: 'components-button--secondary',\n    },\n    {\n      label: 'Set of Buttons (default)',\n      variant: 'components-button-set-of-buttons--default',\n    },\n    {\n      label: 'Set of Buttons (fluid)',\n      variant: 'components-button-set-of-buttons--fluid',\n    },\n    {\n      label: 'Tertiary',\n      variant: 'components-button--tertiary',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Button/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Button/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nDefault.argTypes = {\n  ...sharedArgTypes,\n};\n\nDefault.parameters = {\n  controls: { include: [...textButtonControls, 'dangerDescription'] },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:143"
+  },
+  {
+   "name": "Secondary",
+   "description": null,
+   "code": "export const Secondary = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nSecondary.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nSecondary.args = {\n  kind: 'secondary',\n};\n\nSecondary.parameters = {\n  controls: {\n    include: textButtonControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:165"
+  },
+  {
+   "name": "Tertiary",
+   "description": null,
+   "code": "export const Tertiary = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nTertiary.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nTertiary.args = {\n  kind: 'tertiary',\n};\n\nTertiary.parameters = {\n  controls: {\n    include: textButtonControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:196"
+  },
+  {
+   "name": "Ghost",
+   "description": null,
+   "code": "export const Ghost = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nGhost.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nGhost.args = {\n  kind: 'ghost',\n};\n\nGhost.parameters = {\n  controls: {\n    include: textButtonControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:227"
+  },
+  {
+   "name": "Danger",
+   "description": null,
+   "code": "export const Danger = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nDanger.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nDanger.args = {\n  kind: 'danger',\n};\n\nDanger.parameters = {\n  controls: {\n    include: [...textButtonControls, 'dangerDescription'],\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:258"
+  },
+  {
+   "name": "DangerTertiary",
+   "description": null,
+   "code": "export const DangerTertiary = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nDangerTertiary.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nDangerTertiary.args = {\n  kind: 'danger--tertiary',\n};\n\nDangerTertiary.parameters = {\n  controls: {\n    include: [...textButtonControls, 'dangerDescription'],\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:289"
+  },
+  {
+   "name": "DangerGhost",
+   "description": null,
+   "code": "export const DangerGhost = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nDangerGhost.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    table: { readonly: true },\n  },\n};\n\nDangerGhost.args = {\n  kind: 'danger--ghost',\n};\n\nDangerGhost.parameters = {\n  controls: {\n    include: [...textButtonControls, 'dangerDescription'],\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:320"
+  },
+  {
+   "name": "IconButton",
+   "description": null,
+   "code": "export const IconButton = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}\n    />\n  );\n};\n\nIconButton.argTypes = {\n  ...sharedArgTypes,\n  hasIconOnly: {\n    table: { readonly: true },\n  },\n  renderIcon: {\n    options: ['Add', 'Filter'],\n  },\n  badgeCount: {\n    table: { readonly: true },\n  },\n};\n\nIconButton.args = {\n  hasIconOnly: true,\n  renderIcon: 'Add',\n  iconDescription: 'Icon Description',\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:351"
+  },
+  {
+   "name": "IconButtonWithBadge",
+   "description": null,
+   "code": "export const IconButtonWithBadge = (args) => {\n  const { renderIcon, ...rest } = args;\n  return (\n    <Button\n      {...rest}\n      renderIcon={\n        renderIcon !== 'None' ? getIconFromString(renderIcon) : undefined\n      }\n      onClick={action('onClick')}>\n      Button\n    </Button>\n  );\n};\n\nIconButtonWithBadge.argTypes = {\n  ...sharedArgTypes,\n  hasIconOnly: {\n    description:\n      'Specify if the button is an icon-only button. this control must be set to `true` if using the `badgeCount` prop.',\n    table: { readonly: true },\n  },\n  kind: {\n    description:\n      'Specify the kind of Button you want to create. this control must be set to `ghost` if using the `badgeCount` prop.',\n    table: { readonly: true },\n  },\n  size: {\n    description:\n      'Specify the size of the button, from the following list of sizes: `xs`, `sm`, `md`, `lg`, `xl`, `2xl`. this control must be set to `lg` if using the `badgeCount` prop',\n    table: { readonly: true },\n  },\n  renderIcon: {\n    options: ['Notification'],\n  },\n};\nIconButtonWithBadge.parameters = {\n  controls: {\n    exclude: ['dangerDescription'],\n  },\n};\n\nIconButtonWithBadge.args = {\n  hasIconOnly: true,\n  renderIcon: 'Notification',\n  iconDescription: 'Notification',\n  badgeCount: 4,\n  kind: 'ghost',\n  size: 'lg',\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:383"
+  },
+  {
+   "name": "Skeleton",
+   "description": null,
+   "code": "export const Skeleton = (args) => <ButtonSkeleton {...args} />;\n\nSkeleton.parameters = {\n  controls: {\n    include: skeletonControls,\n  },\n};\n",
+   "source": "packages/react/src/components/Button/Button.stories.js:433"
+  }
+ ],
+ "props": {
+  "name": "Button.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "as",
+    "PropTypes.oneOfType([",
+    "Specify how the button itself should be rendered. Make sure to apply all props to the root node and render children appropriately",
+    "packages/react/src/components/Button/Button.tsx:253"
+   ],
+   [
+    "autoAlign",
+    "PropTypes.bool",
+    "**Experimental**: Will attempt to automatically align the tooltip. Requires React v17+ @see https://github.com/carbon-design-system/carbon/issues/18714",
+    "packages/react/src/components/Button/Button.tsx:264"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "Specify the content of your Button",
+    "packages/react/src/components/Button/Button.tsx:269"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Specify an optional className to be added to your Button",
+    "packages/react/src/components/Button/Button.tsx:274"
+   ],
+   [
+    "dangerDescription",
+    "PropTypes.string",
+    "Specify the message read by screen readers for the danger button variants",
+    "packages/react/src/components/Button/Button.tsx:279"
+   ],
+   [
+    "disabled",
+    "PropTypes.bool",
+    "Specify whether the Button should be disabled, or not",
+    "packages/react/src/components/Button/Button.tsx:284"
+   ],
+   [
+    "hasIconOnly",
+    "PropTypes.bool",
+    "Specify if the button is an icon-only button",
+    "packages/react/src/components/Button/Button.tsx:289"
+   ],
+   [
+    "href",
+    "PropTypes.string",
+    "Optionally specify an href for your Button to become an `<a>` element",
+    "packages/react/src/components/Button/Button.tsx:294"
+   ],
+   [
+    "iconDescription",
+    "(props) => {",
+    "If specifying the `renderIcon` prop, provide a description for that icon that can be read by screen readers",
+    "packages/react/src/components/Button/Button.tsx:300"
+   ],
+   [
+    "isExpressive",
+    "PropTypes.bool",
+    "Specify whether the Button is expressive, or not",
+    "packages/react/src/components/Button/Button.tsx:312"
+   ],
+   [
+    "isSelected",
+    "PropTypes.bool",
+    "Specify whether the Button is currently selected. Only applies to the icon only Ghost variant.",
+    "packages/react/src/components/Button/Button.tsx:317"
+   ],
+   [
+    "kind",
+    "(props, propName, componentName) => {",
+    "Specify the kind of Button you want to create",
+    "packages/react/src/components/Button/Button.tsx:322"
+   ],
+   [
+    "onBlur",
+    "PropTypes.func",
+    "Provide an optional function to be called when the button element loses focus",
+    "packages/react/src/components/Button/Button.tsx:345"
+   ],
+   [
+    "onClick",
+    "PropTypes.func",
+    "Provide an optional function to be called when the button element is clicked",
+    "packages/react/src/components/Button/Button.tsx:351"
+   ],
+   [
+    "onFocus",
+    "PropTypes.func",
+    "Provide an optional function to be called when the button element receives focus",
+    "packages/react/src/components/Button/Button.tsx:357"
+   ],
+   [
+    "onMouseEnter",
+    "PropTypes.func",
+    "Provide an optional function to be called when the mouse enters the button element",
+    "packages/react/src/components/Button/Button.tsx:363"
+   ],
+   [
+    "onMouseLeave",
+    "PropTypes.func",
+    "Provide an optional function to be called when the mouse leaves the button element",
+    "packages/react/src/components/Button/Button.tsx:369"
+   ],
+   [
+    "rel",
+    "PropTypes.string",
+    "Optionally specify a `rel` when using an `<a>` element.",
+    "packages/react/src/components/Button/Button.tsx:374"
+   ],
+   [
+    "renderIcon",
+    "PropTypes.oneOfType([PropTypes.func, PropTypes.object])",
+    "A component used to render an icon.",
+    "packages/react/src/components/Button/Button.tsx:379"
+   ],
+   [
+    "role",
+    "PropTypes.string",
+    "Optional prop to specify the role of the Button",
+    "packages/react/src/components/Button/Button.tsx:384"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', '2xl'])",
+    "Specify the size of the button, from the following list of sizes:",
+    "packages/react/src/components/Button/Button.tsx:389"
+   ],
+   [
+    "tabIndex",
+    "PropTypes.number",
+    "Optional prop to specify the tabIndex of the Button",
+    "packages/react/src/components/Button/Button.tsx:394"
+   ],
+   [
+    "target",
+    "PropTypes.string",
+    "Optionally specify a `target` when using an `<a>` element.",
+    "packages/react/src/components/Button/Button.tsx:399"
+   ],
+   [
+    "tooltipAlignment",
+    "PropTypes.oneOf(['start', 'center', 'end'])",
+    "Specify the alignment of the tooltip to the icon-only button. Can be one of: `start`, `center`, or `end`.",
+    "packages/react/src/components/Button/Button.tsx:405"
+   ],
+   [
+    "tooltipDropShadow",
+    "PropTypes.bool",
+    "Enable drop shadow for tooltips for icon-only buttons.",
+    "packages/react/src/components/Button/Button.tsx:410"
+   ],
+   [
+    "tooltipHighContrast",
+    "PropTypes.bool",
+    "Enable high-contrast theme for tooltips for icon-only buttons. Defaults to true.",
+    "packages/react/src/components/Button/Button.tsx:416"
+   ],
+   [
+    "tooltipPosition",
+    "PropTypes.oneOf(['top', 'right', 'bottom', 'left'])",
+    "Specify the direction of the tooltip for icon-only buttons. Can be either `top`, `right`, `bottom`, or `left`.",
+    "packages/react/src/components/Button/Button.tsx:422"
+   ],
+   [
+    "type",
+    "PropTypes.oneOf(['button', 'reset', 'submit'])",
+    "Optional prop to specify the type of the Button",
+    "packages/react/src/components/Button/Button.tsx:427"
+   ]
+  ],
+  "source": "packages/react/src/components/Button/Button.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

@@ -1,0 +1,174 @@
+{
+ "slug": "TreeView",
+ "title": "TreeView controllable",
+ "docs": [
+  {
+   "markdown": "import { Meta } from '@storybook/addon-docs/blocks';\n\n<Meta title=\"Components/TreeView/Feature Flag\" name=\"Flag details\" />\n\n# TreeView controllable\n\nAPI\n\nThe new controllable API of TreeView allows you to synchronize the state of\n`selected` and `active` with your application.\n\nYou can opt-in to this by enabling the `enable-treeview-controllable` feature\nflag. This changes the following behaviour:\n\n- `TreeView`\n  - `props.onActivate` will be called with a node's ID whenever it is activated.\n  - The signature of `props.onSelect` changes from `(event, selectedIDs)` to\n    `(selectedIDs)`.\n  - Whenever you update `props.selected` or `props.active`, the internal state\n    will be updated accordingly and the component re-renders.\n- `TreeNode`\n  - The signature of `props.onToggle` changes from\n    `(event, { id, isExpanded, label, value })` to `(isExpanded)`.\n  - `props.defaultIsExpanded` is added to allow for a default state in\n    uncontrolled mode.\n\n## Example\n\n```jsx\nfunction SynchronizedTreeView() {\n  const [selected, setSelected] = useState([]);\n  const [active, setActive] = useState(null);\n\n  return (\n    <FeatureFlags enableTreeViewControllable>\n      <TreeView\n        selected={selected}\n        onSelect={setSelected}\n        active={active}\n        onActivate={setActive}>\n        ...\n      </TreeView>\n    </FeatureFlags>\n  );\n}\n```\n",
+   "source": "packages/react/src/components/TreeView/TreeView.featureflag.mdx",
+   "sections": [
+    {
+     "name": "Example",
+     "source": "packages/react/src/components/TreeView/TreeView.featureflag.mdx:27"
+    }
+   ]
+  },
+  {
+   "markdown": "import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as TreeViewStories from './Treeview.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# TreeView\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/TreeView)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/tree-view/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/tree-view/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [With Controlled Expansion](#with-controlled-expansion)\n- [With Icons](#with-icons)\n- [With Links](#with-links)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nTreeView is a component that allows users to navigate through a hierarchy of\nitems. It is used to display nested lists of items that can be expanded or\ncollapsed to show and hide additional items.\n\n<Canvas\n  of={TreeViewStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(\n          TreeViewStories.Default,\n          \"import { Document, Folder } from '@carbon/icons-react';\"\n        ),\n    },\n  ]}\n/>\n\n## With Controlled Expansion\n\nThe `expanded` prop can be used to control the expansion state of the TreeView.\nThe `isExpanded` prop can be used to determine if an individual tree node is\nexpanded or collapsed.\n\n<Canvas\n  of={TreeViewStories.WithControlledExpansion}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(\n          TreeViewStories.WithControlledExpansion,\n          \"import { Document, Folder } from '@carbon/icons-react';\"\n        ),\n    },\n  ]}\n/>\n\n## With Icons\n\nThe `renderIcon` prop can be used to customize the icons of each node in the\nTreeView.\n\n<Canvas\n  of={TreeViewStories.WithIcons}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(\n          TreeViewStories.WithIcons,\n          \"import { Document, Folder } from '@carbon/icons-react';\"\n        ),\n    },\n  ]}\n/>\n\n## With Links\n\nThe `href` prop can be used with click handling on each node of the TreeView.\n\n<Canvas of={TreeViewStories.WithLinks} />\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/TreeView/TreeView.mdx).\n",
+   "source": "packages/react/src/components/TreeView/TreeView.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:17"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:28"
+    },
+    {
+     "name": "With Controlled Expansion",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:48"
+    },
+    {
+     "name": "With Icons",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:68"
+    },
+    {
+     "name": "With Links",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:87"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:93"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/TreeView/TreeView.mdx:97"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-treeview--default',\n    },\n    {\n      label: 'With controlled expansion',\n      variant: 'components-treeview--with-controlled-expansion',\n    },\n    {\n      label: 'With icons',\n      variant: 'components-treeview--with-icons',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/TreeView/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/TreeView/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const [selected, setSelected] = useState([]);\n  const [active, setActive] = useState(null);\n\n  return (\n    <VStack gap={6}>\n      <VStack gap={2}>\n        <Button\n          kind=\"tertiary\"\n          size=\"sm\"\n          onClick={() => {\n            setSelected(['5-2']);\n          }}>\n          Select &quot;Databases&quot;\n        </Button>\n        <Button\n          kind=\"tertiary\"\n          size=\"sm\"\n          onClick={() => {\n            setActive('5-2');\n          }}>\n          Activate &quot;Databases&quot;\n        </Button>\n      </VStack>\n\n      <div>\n        <TreeView\n          label=\"Tree View\"\n          {...args}\n          active={active}\n          onActivate={setActive}\n          selected={selected}\n          onSelect={setSelected}>\n          {renderTree(nodes)}\n        </TreeView>\n      </div>\n    </VStack>\n  );\n};\n\nDefault.args = {\n  hideLabel: false,\n  multiselect: false,\n};\n\nDefault.argTypes = {\n  size: {\n    options: ['xs', 'sm'],\n    control: { type: 'select' },\n  },\n};\n\nDefault.parameters = {\n  controls: {\n    exclude: ['active', 'selected'],\n  },\n};\n",
+   "source": "packages/react/src/components/TreeView/TreeView.featureflag.stories.js:203"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const nodes = [\n    {\n      id: '1',\n      value: 'Application development and integration solutions',\n      label: 'Application development and integration solutions',\n      renderIcon: Document,\n    },\n    {\n      id: '2',\n      value: 'Blockchain',\n      label: 'Blockchain',\n      renderIcon: Document,\n    },\n    {\n      id: '3',\n      value: 'Business automation',\n      label: 'Business automation',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '3-1',\n          value: 'Business process automation',\n          label: 'Business process automation',\n          renderIcon: Document,\n        },\n        {\n          id: '3-2',\n          value: 'Business process mapping',\n          label: 'Business process mapping',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '4',\n      value: 'Business operations',\n      label: 'Business operations',\n      renderIcon: Document,\n    },\n    {\n      id: '5',\n      value: 'Cloud computing',\n      label: 'Cloud computing',\n      isExpanded: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '5-1',\n          value: 'Containers',\n          label: 'Containers',\n          renderIcon: Document,\n        },\n        {\n          id: '5-2',\n          value: 'Databases',\n          label: 'Databases',\n          renderIcon: Document,\n        },\n        {\n          id: '5-3',\n          value: 'DevOps',\n          label: 'DevOps',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '5-4',\n              value: 'Solutions',\n              label: 'Solutions',\n              renderIcon: Document,\n            },\n            {\n              id: '5-5',\n              value: 'Case studies',\n              label: 'Case studies',\n              isExpanded: true,\n              renderIcon: Folder,\n              children: [\n                {\n                  id: '5-6',\n                  value: 'Resources',\n                  label: 'Resources',\n                  renderIcon: Document,\n                },\n              ],\n            },\n          ],\n        },\n      ],\n    },\n    {\n      id: '6',\n      value: 'Data & Analytics',\n      label: 'Data & Analytics',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '6-1',\n          value: 'Big data',\n          label: 'Big data',\n          renderIcon: Document,\n        },\n        {\n          id: '6-2',\n          value: 'Business intelligence',\n          label: 'Business intelligence',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '7',\n      value: 'Models',\n      label: 'Models',\n      isExpanded: true,\n      disabled: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '7-1',\n          value: 'Audit',\n          label: 'Audit',\n          renderIcon: Document,\n        },\n        {\n          id: '7-2',\n          value: 'Monthly data',\n          label: 'Monthly data',\n          renderIcon: Document,\n        },\n        {\n          id: '8',\n          value: 'Data warehouse',\n          label: 'Data warehouse',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '8-1',\n              value: 'Report samples',\n              label: 'Report samples',\n              renderIcon: Document,\n            },\n            {\n              id: '8-2',\n              value: 'Sales performance',\n              label: 'Sales performance',\n              renderIcon: Document,\n            },\n          ],\n        },\n      ],\n    },\n  ];\n\n  function renderTree({ nodes, expanded, withIcons = false }) {\n    if (!nodes) {\n      return;\n    }\n    return nodes.map(({ children, renderIcon, isExpanded, ...nodeProps }) => (\n      <TreeNode\n        key={nodeProps.id}\n        renderIcon={withIcons ? renderIcon : null}\n        isExpanded={expanded ?? isExpanded}\n        {...nodeProps}>\n        {renderTree({ nodes: children, expanded, withIcons })}\n      </TreeNode>\n    ));\n  }\n  return (\n    <TreeView label=\"Tree View\" {...args}>\n      {renderTree({ nodes })}\n    </TreeView>\n  );\n};\n\nDefault.args = {\n  hideLabel: false,\n  multiselect: false,\n};\n\nDefault.argTypes = {\n  active: { control: { type: 'text' } },\n  size: {\n    options: ['xs', 'sm'],\n    control: { type: 'select' },\n  },\n};\n",
+   "source": "packages/react/src/components/TreeView/Treeview.stories.js:56"
+  },
+  {
+   "name": "WithIcons",
+   "description": null,
+   "code": "export const WithIcons = () => {\n  const nodes = [\n    {\n      id: '1',\n      value: 'Artificial intelligence',\n      label: <span>Artificial intelligence</span>,\n      renderIcon: Document,\n    },\n    {\n      id: '2',\n      value: 'Blockchain',\n      label: 'Blockchain',\n      renderIcon: Document,\n    },\n    {\n      id: '3',\n      value: 'Business automation',\n      label: 'Business automation',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '3-1',\n          value: 'Business process automation',\n          label: 'Business process automation',\n          renderIcon: Document,\n        },\n        {\n          id: '3-2',\n          value: 'Business process mapping',\n          label: 'Business process mapping',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '4',\n      value: 'Business operations',\n      label: 'Business operations',\n      renderIcon: Document,\n    },\n    {\n      id: '5',\n      value: 'Cloud computing',\n      label: 'Cloud computing',\n      isExpanded: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '5-1',\n          value: 'Containers',\n          label: 'Containers',\n          renderIcon: Document,\n        },\n        {\n          id: '5-2',\n          value: 'Databases',\n          label: 'Databases',\n          renderIcon: Document,\n        },\n        {\n          id: '5-3',\n          value: 'DevOps',\n          label: 'DevOps',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '5-4',\n              value: 'Solutions',\n              label: 'Solutions',\n              renderIcon: Document,\n            },\n            {\n              id: '5-5',\n              value: 'Case studies',\n              label: 'Case studies',\n              isExpanded: true,\n              renderIcon: Folder,\n              children: [\n                {\n                  id: '5-6',\n                  value: 'Resources',\n                  label: 'Resources',\n                  renderIcon: Document,\n                },\n              ],\n            },\n          ],\n        },\n      ],\n    },\n    {\n      id: '6',\n      value: 'Data & Analytics',\n      label: 'Data & Analytics',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '6-1',\n          value: 'Big data',\n          label: 'Big data',\n          renderIcon: Document,\n        },\n        {\n          id: '6-2',\n          value: 'Business intelligence',\n          label: 'Business intelligence',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '7',\n      value: 'Models',\n      label: 'Models',\n      isExpanded: true,\n      disabled: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '7-1',\n          value: 'Audit',\n          label: 'Audit',\n          renderIcon: Document,\n        },\n        {\n          id: '7-2',\n          value: 'Monthly data',\n          label: 'Monthly data',\n          renderIcon: Document,\n        },\n        {\n          id: '8',\n          value: 'Data warehouse',\n          label: 'Data warehouse',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '8-1',\n              value: 'Report samples',\n              label: 'Report samples',\n              renderIcon: Document,\n            },\n            {\n              id: '8-2',\n              value: 'Sales performance',\n              label: 'Sales performance',\n              renderIcon: Document,\n            },\n          ],\n        },\n      ],\n    },\n  ];\n\n  function renderTree({ nodes, expanded, withIcons = false }) {\n    if (!nodes) {\n      return;\n    }\n    return nodes.map(({ children, renderIcon, isExpanded, ...nodeProps }) => (\n      <TreeNode\n        key={nodeProps.id}\n        renderIcon={withIcons ? renderIcon : null}\n        isExpanded={expanded ?? isExpanded}\n        {...nodeProps}>\n        {renderTree({ nodes: children, expanded, withIcons })}\n      </TreeNode>\n    ));\n  }\n  return (\n    <TreeView label=\"Tree View\">\n      {renderTree({ nodes, withIcons: true })}\n    </TreeView>\n  );\n};\n\nconst TreeViewWithLinks = React.memo(({ setCurrentPage }) => {\n  const nodes = [\n    {\n      id: '1',\n      value: 'Artificial intelligence',\n      label: <span>Artificial intelligence</span>,\n      href: '/artificial-intelligence',\n      renderIcon: Document,\n    },\n    {\n      id: '2',\n      value: 'Blockchain',\n      label: 'Blockchain',\n      href: '/blockchain',\n      renderIcon: Document,\n    },\n    {\n      id: '3',\n      value: 'Business automation',\n      label: 'Business automation',\n      href: '/business-automation',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '3-1',\n          value: 'Business process automation',\n          label: 'Business process automation',\n          href: '/business-process-automation',\n          renderIcon: Document,\n        },\n        {\n          id: '3-2',\n          value: 'Business process mapping',\n          label: 'Business process mapping',\n          href: '/business-process-mapping',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '4',\n      value: 'Business operations',\n      label: 'Business operations',\n      href: '/business-operations',\n      renderIcon: Document,\n    },\n    {\n      id: '5',\n      value: 'Cloud computing',\n      label: 'Cloud computing',\n      href: '/cloud-computing',\n      isExpanded: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '5-1',\n          value: 'Containers',\n          label: 'Containers',\n          href: '/containers',\n          renderIcon: Document,\n        },\n        {\n          id: '5-2',\n          value: 'Databases',\n          label: 'Databases',\n          href: '/databases',\n          renderIcon: Document,\n        },\n        {\n          id: '5-3',\n          value: 'DevOps',\n          label: 'DevOps',\n          href: '/devops',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '5-4',\n              value: 'Solutions',\n              label: 'Solutions',\n              href: '/solutions',\n              renderIcon: Document,\n            },\n            {\n              id: '5-5',\n              value: 'Case studies',\n              label: 'Case studies',\n              href: '/case-studies',\n              isExpanded: true,\n              renderIcon: Folder,\n              children: [\n                {\n                  id: '5-6',\n                  value: 'Resources',\n                  label: 'Resources',\n                  href: '/resources',\n                  renderIcon: Document,\n                },\n              ],\n            },\n          ],\n        },\n      ],\n    },\n    {\n      id: '6',\n      value: 'Data & Analytics',\n      label: 'Data & Analytics',\n      href: '/data-analytics',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '6-1',\n          value: 'Big data',\n          label: 'Big data',\n          href: '/big-data',\n          renderIcon: Document,\n        },\n        {\n          id: '6-2',\n          value: 'Business intelligence',\n          label: 'Business intelligence',\n          href: '/business-intelligence',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '7',\n      value: 'Models',\n      label: 'Models',\n      href: '/models',\n      isExpanded: true,\n      disabled: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '7-1',\n          value: 'Audit',\n          label: 'Audit',\n          href: '/audit',\n          renderIcon: Document,\n        },\n        {\n          id: '7-2',\n          value: 'Monthly data',\n          label: 'Monthly data',\n          href: '/monthly-data',\n          renderIcon: Document,\n        },\n        {\n          id: '8',\n          value: 'Data warehouse',\n          label: 'Data warehouse',\n          href: '/data-warehouse',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '8-1',\n              value: 'Report samples',\n              label: 'Report samples',\n              href: '/report-samples',\n              renderIcon: Document,\n            },\n            {\n              id: '8-2',\n              value: 'Sales performance',\n              label: 'Sales performance',\n              href: '/sales-performance',\n              renderIcon: Document,\n            },\n          ],\n        },\n      ],\n    },\n  ];\n\n  return (\n    <TreeView\n      label=\"Tree View\"\n      hideLabel\n      active=\"1\"\n      selected={['1']}\n      onSelect={(event, node) => setCurrentPage(node.value)}>\n      {renderTree({ nodes, withLinks: true })}\n    </TreeView>\n  );\n});\n",
+   "source": "packages/react/src/components/TreeView/Treeview.stories.js:246"
+  },
+  {
+   "name": "WithLinks",
+   "description": null,
+   "code": "export const WithLinks = () => {\n  const [currentPage, setCurrentPage] = React.useState(\n    'Artificial Intelligence'\n  );\n\n  return (\n    <div id=\"page-body\">\n      <TreeViewWithLinks setCurrentPage={setCurrentPage} />\n      <main>\n        <h3>The current page is: {currentPage}</h3>\n      </main>\n    </div>\n  );\n};\n",
+   "source": "packages/react/src/components/TreeView/Treeview.stories.js:613"
+  },
+  {
+   "name": "WithControlledExpansion",
+   "description": null,
+   "code": "export const WithControlledExpansion = () => {\n  const nodes = [\n    {\n      id: '1',\n      value: 'Artificial intelligence',\n      label: <span>Artificial intelligence</span>,\n      renderIcon: Document,\n    },\n    {\n      id: '2',\n      value: 'Blockchain',\n      label: 'Blockchain',\n      renderIcon: Document,\n    },\n    {\n      id: '3',\n      value: 'Business automation',\n      label: 'Business automation',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '3-1',\n          value: 'Business process automation',\n          label: 'Business process automation',\n          renderIcon: Document,\n        },\n        {\n          id: '3-2',\n          value: 'Business process mapping',\n          label: 'Business process mapping',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '4',\n      value: 'Business operations',\n      label: 'Business operations',\n      renderIcon: Document,\n    },\n    {\n      id: '5',\n      value: 'Cloud computing',\n      label: 'Cloud computing',\n      isExpanded: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '5-1',\n          value: 'Containers',\n          label: 'Containers',\n          renderIcon: Document,\n        },\n        {\n          id: '5-2',\n          value: 'Databases',\n          label: 'Databases',\n          renderIcon: Document,\n        },\n        {\n          id: '5-3',\n          value: 'DevOps',\n          label: 'DevOps',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '5-4',\n              value: 'Solutions',\n              label: 'Solutions',\n              renderIcon: Document,\n            },\n            {\n              id: '5-5',\n              value: 'Case studies',\n              label: 'Case studies',\n              isExpanded: true,\n              renderIcon: Folder,\n              children: [\n                {\n                  id: '5-6',\n                  value: 'Resources',\n                  label: 'Resources',\n                  renderIcon: Document,\n                },\n              ],\n            },\n          ],\n        },\n      ],\n    },\n    {\n      id: '6',\n      value: 'Data & Analytics',\n      label: 'Data & Analytics',\n      renderIcon: Folder,\n      children: [\n        {\n          id: '6-1',\n          value: 'Big data',\n          label: 'Big data',\n          renderIcon: Document,\n        },\n        {\n          id: '6-2',\n          value: 'Business intelligence',\n          label: 'Business intelligence',\n          renderIcon: Document,\n        },\n      ],\n    },\n    {\n      id: '7',\n      value: 'Models',\n      label: 'Models',\n      isExpanded: true,\n      disabled: true,\n      renderIcon: Folder,\n      children: [\n        {\n          id: '7-1',\n          value: 'Audit',\n          label: 'Audit',\n          renderIcon: Document,\n        },\n        {\n          id: '7-2',\n          value: 'Monthly data',\n          label: 'Monthly data',\n          renderIcon: Document,\n        },\n        {\n          id: '8',\n          value: 'Data warehouse',\n          label: 'Data warehouse',\n          isExpanded: true,\n          renderIcon: Folder,\n          children: [\n            {\n              id: '8-1',\n              value: 'Report samples',\n              label: 'Report samples',\n              renderIcon: Document,\n            },\n            {\n              id: '8-2',\n              value: 'Sales performance',\n              label: 'Sales performance',\n              renderIcon: Document,\n            },\n          ],\n        },\n      ],\n    },\n  ];\n\n  const [expanded, setExpanded] = React.useState(undefined);\n\n  function renderTree({ nodes, expanded, withIcons = false }) {\n    if (!nodes) {\n      return;\n    }\n    return nodes.map(({ children, renderIcon, isExpanded, ...nodeProps }) => (\n      <TreeNode\n        key={nodeProps.id}\n        renderIcon={withIcons ? renderIcon : null}\n        isExpanded={expanded ?? isExpanded}\n        {...nodeProps}>\n        {renderTree({ nodes: children, expanded, withIcons })}\n      </TreeNode>\n    ));\n  }\n\n  return (\n    <>\n      <div style={{ marginBottom: '1rem' }}>\n        <Button onClick={() => setExpanded(true)}>Expand all</Button>\n        &nbsp;\n        <Button onClick={() => setExpanded(false)}>Collapse all</Button>\n      </div>\n      <TreeView label=\"Tree View\">{renderTree({ nodes, expanded })}</TreeView>\n    </>\n  );\n};\n\nconst Nested = () => {\n  return <TreeNode key={21} value=\"Nested\" label=\"Nested\" />;\n};\n",
+   "source": "packages/react/src/components/TreeView/Treeview.stories.js:628"
+  },
+  {
+   "name": "WithComplexNesting",
+   "description": null,
+   "code": "export const WithComplexNesting = (args) => {\n  return (\n    <TreeView label=\"Tree View with Complex Nesting\" {...args}>\n      <TreeNode id=\"1\" value=\"A.I.\" label=\"A.I.\" isExpanded>\n        {/* Pattern 1: A TreeNode wrapped in a simple <div> */}\n        <div>\n          <TreeNode id=\"1-1\" value=\"Sub 1\" label=\"Sub 1 (in a div)\" />\n        </div>\n        <TreeNode id=\"1-2\" value=\"Sub 2\" label=\"Sub 2 (direct child)\">\n          <TreeNode id=\"1-2-1\" value=\"Sub 2.1\" label=\"Sub 2.1\" />\n        </TreeNode>\n      </TreeNode>\n\n      <TreeNode id=\"2\" value=\"Analytics\" label=\"Analytics\" isExpanded>\n        {/* Pattern 2: A TreeNode rendered from an imported component */}\n        <Nested />\n      </TreeNode>\n\n      <TreeNode id=\"3\" value=\"Trust\" label=\"Trust\" />\n    </TreeView>\n  );\n};\n\nWithComplexNesting.args = {\n  hideLabel: true,\n  multiselect: true,\n  selected: ['1-1'],\n};\n",
+   "source": "packages/react/src/components/TreeView/Treeview.stories.js:817"
+  }
+ ],
+ "props": {
+  "name": "TreeView.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "active",
+    "PropTypes.oneOfType([PropTypes.string, PropTypes.number])",
+    "Mark the active node in the tree, represented by its ID",
+    "packages/react/src/components/TreeView/TreeView.tsx:334"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "Specify the children of the TreeView",
+    "packages/react/src/components/TreeView/TreeView.tsx:339"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Specify an optional className to be applied to the TreeView",
+    "packages/react/src/components/TreeView/TreeView.tsx:344"
+   ],
+   [
+    "hideLabel",
+    "PropTypes.bool",
+    "Specify whether or not the label should be hidden",
+    "packages/react/src/components/TreeView/TreeView.tsx:349"
+   ],
+   [
+    "label",
+    "PropTypes.string.isRequired",
+    "Provide the label text that will be read by a screen reader",
+    "packages/react/src/components/TreeView/TreeView.tsx:354"
+   ],
+   [
+    "multiselect",
+    "PropTypes.bool",
+    "**[Experimental]** Specify the selection mode of the tree. If `multiselect` is `false` then only one node can be selected at a time",
+    "packages/react/src/components/TreeView/TreeView.tsx:360"
+   ],
+   [
+    "onActivate",
+    "PropTypes.func",
+    "**[Experimental]** Callback function that is called when any node is activated. *This is only supported with the `enable-treeview-controllable` feature flag!",
+    "packages/react/src/components/TreeView/TreeView.tsx:366"
+   ],
+   [
+    "onSelect",
+    "PropTypes.func",
+    "Callback function that is called when any node is selected",
+    "packages/react/src/components/TreeView/TreeView.tsx:371"
+   ],
+   [
+    "selected",
+    "PropTypes.arrayOf(",
+    "Array representing all selected node IDs in the tree",
+    "packages/react/src/components/TreeView/TreeView.tsx:376"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['xs', 'sm'])",
+    "Specify the size of the tree from a list of available sizes.",
+    "packages/react/src/components/TreeView/TreeView.tsx:383"
+   ]
+  ],
+  "source": "packages/react/src/components/TreeView/TreeView.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

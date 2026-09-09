@@ -1,0 +1,134 @@
+{
+ "slug": "Accordion",
+ "title": "Accordion",
+ "docs": [
+  {
+   "markdown": "import Accordion, { AccordionItem, AccordionSkeleton } from '../Accordion';\nimport { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as AccordionStories from './Accordion.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Accordion\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Accordion)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/accordion/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/accordion/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Controlled](#controlled)\n- [Skeleton state](#skeleton-state)\n- [Component API](#component-api)\n  - [Accordion align](#accordion-align)\n  - [Accordion className](#accordion-classname)\n  - [AccordionItem props](#accordionitem-props)\n  - [AccordionItem className](#accordionitem-classname)\n  - [AccordionItem onHeadingClick](#accordionitem-onheadingclick)\n  - [AccordionItem title](#accordionitem-title)\n  - [AccordionSkeleton props](#accordionskeleton-props)\n  - [AccordionSkeleton className](#accordionskeleton-classname)\n- [References](#references)\n  - [Why is interactive content in a heading considered an accessibility violation?](#why-is-interactive-content-in-a-heading-considered-an-accessibility-violation)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nYou can build an accordion using a combination of the `Accordion` and\n`AccordionItem` components. The `Accordion` components accepts a list of\n`AccordionItem` components as `children` and each `AccordionItem` is responsible\nfor displaying the accordion's heading and panel content.\n\nYou can configure the accordion item's heading using the `title` prop.\nEverything you pass in as a child of `AccordionItem` will be rendered in the\naccordion's panel.\n\n<Canvas\n  of={AccordionStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(AccordionStories.Default),\n    },\n  ]}\n/>\n\n## Controlled\n\n<Canvas\n  of={AccordionStories.Controlled}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(AccordionStories.Controlled),\n    },\n  ]}\n/>\n\n## Skeleton state\n\nYou can use the `AccordionSkeleton` component to render a skeleton variant of an\naccordion. This is useful to display while content in your accordion is being\nfetched from an external resource like an API.\n\n<Canvas\n  of={AccordionStories.Skeleton}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(AccordionStories.Skeleton),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\nAdditional props passed into `Accordion` will be forwarded along to the\nunderlying accordion container.\n\n### Accordion align\n\nIn rare cases, you may need to specify the alignment of the icon in the\naccordion. You can use the `align` prop to specify the side where the icon\nshould be placed.\n\n_Note: This prop must not be used to create a tree view or set of nested\naccordions._\n\n```jsx\n<Accordion align=\"start\">\n  <AccordionItem title=\"Panel A\">Panel A</AccordionItem>\n  <AccordionItem title=\"Panel B\">Panel B</AccordionItem>\n  <AccordionItem title=\"Panel C\">Panel C</AccordionItem>\n</Accordion>\n```\n\n### Accordion className\n\nThe `className` prop passed into `Accordion` will be forwarded along to the\nunderlying accordion container. This is useful for specifying a custom class\nname for layout.\n\n```jsx\n<Accordion className=\"custom-class\">\n  <AccordionItem title=\"Panel A\">Panel A</AccordionItem>\n  <AccordionItem title=\"Panel B\">Panel B</AccordionItem>\n  <AccordionItem title=\"Panel C\">Panel C</AccordionItem>\n</Accordion>\n```\n\n### AccordionItem props\n\nAdditional props passed into `AccordionItem`, such as `onClick`, will be passed\nthrough to the underlying accordion header.\n\n### AccordionItem className\n\nThe `className` prop passed into `AccordionItem` will be forwarded along to the\nunderlying accordion header. This is useful for specifying a custom class name\nfor layout. As a reminder, the callback signature will look like\n`({ isOpen: boolean, event: Event })` rather than the usual\n`(event: Event, state: { isOpen: boolean })` until the next major version.\n\n```jsx\n<Accordion>\n  <AccordionItem title=\"Panel A\" className=\"custom-class\">\n    Panel A\n  </AccordionItem>\n  <AccordionItem title=\"Panel B\">Panel B</AccordionItem>\n  <AccordionItem title=\"Panel C\">Panel C</AccordionItem>\n</Accordion>\n```\n\n### AccordionItem onHeadingClick\n\nYou can use the `onHeadingClick` prop to determine the state of the\n`AccordionItem` when it is clicked. it will return\n\n```jsx\n<Accordion>\n  <AccordionItem onHeadingClick={({ isOpen }) => console.log(isOpen)}>\n    Panel A\n  </AccordionItem>\n</Accordion>\n```\n\n### AccordionItem title\n\nYou can use the `title` prop to specify the accordion item's heading. The\ndefault behavior is to pass in a `string` as the title, however you can also\npass in a `node`.\n\n_Note: A custom title prop that renders an interactive element is considered an\naccessibility violation. For more information, visit our\n[reference section](#why-is-interactive-content-in-a-heading-considered-an-accessibility-violation)\nbelow._\n\n```jsx\n<Accordion align=\"start\">\n  <AccordionItem title={() => <span>Panel A</span>}>Panel A</AccordionItem>\n  <AccordionItem title=\"Panel B\">Panel B</AccordionItem>\n  <AccordionItem title=\"Panel C\">Panel C</AccordionItem>\n</Accordion>\n```\n\n### AccordionSkeleton props\n\nAdditional props passed into `AccordionSkeleton` will be forwarded along to the\nunderlying skeleton container.\n\n### AccordionSkeleton className\n\nThe `className` prop passed into `AccordionSkeleton` will be forwarded along to\nthe underlying skeleton container. This is useful for specifying a custom class\nname for layout.\n\n```jsx\n<AccordionSkeleton className=\"custom-class\" open count={3} />\n```\n\n## References\n\n### Why is interactive content in a heading considered an accessibility violation?\n\nWhen using the `title` prop from `Accordion`, it is possible to render arbitrary\nmarkup within the accordion header. The accordion header itself is rendered as a\n`<button>` and is considered an interactive element.\n\nIf you render an interactive element inside this header, then it becomes nested\ninside the `<button>`. Common examples of this are buttons or links. Rendering\ninteractive content inside the accordion heading is not reachable via a keyboard\nor screen reader.\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Accordion/Accordion.mdx).\n",
+   "source": "packages/react/src/components/Accordion/Accordion.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:18"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:38"
+    },
+    {
+     "name": "Controlled",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:59"
+    },
+    {
+     "name": "Skeleton state",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:71"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:87"
+    },
+    {
+     "name": "References",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:195"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Accordion/Accordion.mdx:208"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-accordion--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Accordion/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Accordion/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const { onHeadingClick, ...restArgs } = args;\n  return (\n    <Accordion {...restArgs}>\n      <AccordionItem title=\"Choose your plan\" onHeadingClick={onHeadingClick}>\n        <p>\n          Compare plan features and select the option that best matches your\n          team&apos;s expected usage.\n        </p>\n      </AccordionItem>\n      <AccordionItem title=\"Add team members\" onHeadingClick={onHeadingClick}>\n        <p>\n          Invite collaborators by email and assign their workspace roles before\n          launch.\n        </p>\n      </AccordionItem>\n      <AccordionItem\n        title=\"Set payment details\"\n        onHeadingClick={onHeadingClick}>\n        <p>\n          Add billing information and choose whether to receive invoices by\n          email.\n        </p>\n      </AccordionItem>\n      <AccordionItem\n        onHeadingClick={onHeadingClick}\n        title={\n          <span>\n            Review and confirm (<em>title can be a node</em>)\n          </span>\n        }>\n        <p>\n          Check your setup summary, then confirm to create the workspace for\n          your team.\n        </p>\n      </AccordionItem>\n    </Accordion>\n  );\n};\n\nDefault.args = { ...sharedArgs };\n\nDefault.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/Accordion/Accordion.stories.tsx:86"
+  },
+  {
+   "name": "Controlled",
+   "description": null,
+   "code": "export const Controlled = (args) => {\n  const { onHeadingClick, ...restArgs } = args;\n  const accordionItemIds = ['plan', 'members', 'payment', 'review'] as const;\n  type AccordionItemId = (typeof accordionItemIds)[number];\n\n  const [openItems, setOpenItems] = useState(() => new Set<AccordionItemId>());\n\n  const handleHeadingClick =\n    (id: AccordionItemId) =>\n    ({ isOpen, event }: OnHeadingClickPayload) => {\n      setOpenItems((prev) => {\n        const nextOpenItems = new Set(prev);\n\n        if (isOpen) {\n          nextOpenItems.add(id);\n        } else {\n          nextOpenItems.delete(id);\n        }\n\n        return nextOpenItems;\n      });\n\n      if (onHeadingClick) {\n        onHeadingClick({ isOpen, event });\n      }\n    };\n\n  return (\n    <>\n      <ButtonSet className={'controlled-accordion-btnset'}>\n        <Button\n          className={'controlled-accordion-btn'}\n          onClick={() => {\n            setOpenItems(new Set(accordionItemIds));\n          }}>\n          Open all\n        </Button>\n        <Button\n          className={'controlled-accordion-btn'}\n          onClick={() => {\n            setOpenItems(new Set());\n          }}>\n          Close all\n        </Button>\n      </ButtonSet>\n\n      <Accordion {...restArgs}>\n        <AccordionItem\n          title=\"Choose your plan\"\n          open={openItems.has('plan')}\n          onHeadingClick={handleHeadingClick('plan')}>\n          <p>\n            Compare plan features and select the option that best matches your\n            team&apos;s expected usage.\n          </p>\n        </AccordionItem>\n        <AccordionItem\n          title=\"Add team members\"\n          open={openItems.has('members')}\n          onHeadingClick={handleHeadingClick('members')}>\n          <p>\n            Invite collaborators by email and assign their workspace roles\n            before launch.\n          </p>\n        </AccordionItem>\n        <AccordionItem\n          title=\"Set payment details\"\n          open={openItems.has('payment')}\n          onHeadingClick={handleHeadingClick('payment')}>\n          <p>\n            Add billing information and choose whether to receive invoices by\n            email.\n          </p>\n        </AccordionItem>\n        <AccordionItem\n          title=\"Review and confirm\"\n          open={openItems.has('review')}\n          onHeadingClick={handleHeadingClick('review')}>\n          <p>\n            Check your setup summary, then confirm to create the workspace for\n            your team.\n          </p>\n        </AccordionItem>\n      </Accordion>\n    </>\n  );\n};\n\nControlled.args = { ...sharedArgs };\n\nControlled.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/Accordion/Accordion.stories.tsx:130"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = (args) => {\n  const { onHeadingClick, ...restArgs } = args;\n\n  return (\n    <WithLayer>\n      <Accordion {...restArgs}>\n        <AccordionItem title=\"Choose your plan\" onHeadingClick={onHeadingClick}>\n          <p>\n            Compare plan features and select the option that best matches your\n            team&apos;s expected usage.\n          </p>\n        </AccordionItem>\n        <AccordionItem title=\"Add team members\" onHeadingClick={onHeadingClick}>\n          <p>\n            Invite collaborators by email and assign their workspace roles\n            before launch.\n          </p>\n        </AccordionItem>\n        <AccordionItem\n          title=\"Set payment details\"\n          onHeadingClick={onHeadingClick}>\n          <p>\n            Add billing information and choose whether to receive invoices by\n            email.\n          </p>\n        </AccordionItem>\n        <AccordionItem\n          title=\"Review and confirm\"\n          onHeadingClick={onHeadingClick}>\n          <p>\n            Check your setup summary, then confirm to create the workspace for\n            your team.\n          </p>\n        </AccordionItem>\n      </Accordion>\n    </WithLayer>\n  );\n};\n\n_WithLayer.args = { ...sharedArgs };\n\n_WithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/Accordion/Accordion.stories.tsx:222"
+  },
+  {
+   "name": "Skeleton",
+   "description": null,
+   "code": "export const Skeleton = (args) => (\n  <AccordionSkeleton open count={4} {...args} />\n);\n\nSkeleton.decorators = [\n  (story) => <div style={{ width: '500px' }}>{story()}</div>,\n];\n\nSkeleton.args = {\n  align: 'end',\n  isFlush: false,\n  ordered: false,\n};\nSkeleton.parameters = {\n  controls: {\n    exclude: ['disabled', 'size'],\n  },\n};\n\nSkeleton.argTypes = {\n  align: {\n    options: ['start', 'end'],\n    control: { type: 'select' },\n  },\n  children: {\n    control: false,\n  },\n  className: {\n    control: false,\n  },\n  isFlush: {\n    control: {\n      type: 'boolean',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Accordion/Accordion.stories.tsx:265"
+  }
+ ],
+ "props": {
+  "name": "Accordion.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "align",
+    "PropTypes.oneOf(['start', 'end'])",
+    "Specify the alignment of the accordion heading title and chevron.",
+    "packages/react/src/components/Accordion/Accordion.tsx:90"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "Pass in the children that will be rendered within the Accordion",
+    "packages/react/src/components/Accordion/Accordion.tsx:95"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Specify an optional className to be applied to the container node",
+    "packages/react/src/components/Accordion/Accordion.tsx:100"
+   ],
+   [
+    "disabled",
+    "PropTypes.bool",
+    "Specify whether an individual AccordionItem should be disabled",
+    "packages/react/src/components/Accordion/Accordion.tsx:105"
+   ],
+   [
+    "isFlush",
+    "PropTypes.bool",
+    "Specify whether Accordion text should be flush, default is false, does not work with align=\"start\"",
+    "packages/react/src/components/Accordion/Accordion.tsx:110"
+   ],
+   [
+    "ordered",
+    "PropTypes.bool",
+    "Specify if the Accordion should be an ordered list, default is `false`",
+    "packages/react/src/components/Accordion/Accordion.tsx:116"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['sm', 'md', 'lg'])",
+    "Specify the size of the Accordion. Currently supports the following:",
+    "packages/react/src/components/Accordion/Accordion.tsx:121"
+   ]
+  ],
+  "source": "packages/react/src/components/Accordion/Accordion.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

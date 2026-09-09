@@ -1,0 +1,360 @@
+{
+ "slug": "DatePicker",
+ "title": "Date Picker",
+ "docs": [
+  {
+   "markdown": "import {\n  Story,\n  ArgTypes,\n  Canvas,\n  Meta,\n  Unstyled,\n} from '@storybook/addon-docs/blocks';\nimport DatePicker from '../DatePicker';\nimport DatePickerInput from '../DatePickerInput';\nimport * as DatePickerStories from './DatePicker.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Date Picker\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/DatePicker)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/date-picker/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/date-picker/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [Simple DatePicker](#simple-datepicker)\n  - [Range Datepicker](#range-datepicker)\n  - [Skeleton state](#skeleton-state)\n  - [AI label](#ai-label)\n- [Component API](#component-api)\n  - [DatePicker `appendTo`](#datepicker-appendto)\n  - [DatePicker `className`](#datepicker-classname)\n  - [DatePicker `dateFormat`](#datepicker-dateformat)\n  - [DatePicker `parseDate`](#datepicker-parsedate)\n  - [DatePicker `datePickerType`](#datepicker-datepickertype)\n  - [DatePicker `light`](#datepicker-light)\n  - [DatePicker `locale`](#datepicker-locale)\n  - [DatePicker `maxDate`](#datepicker-maxdate)\n  - [DatePicker `minDate`](#datepicker-mindate)\n  - [DatePicker `disable` and `enable`](#datepicker-disable-and-enable)\n  - [DatePicker `value`](#datepicker-value)\n- [References](#references)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nDate pickers allow users to select a single or a range of dates. Pickers are\nused to display past, present, or future dates. The kind of date (exact,\napproximate, memorable) you are requesting from the user will determine which\npicker is best to use. Each picker’s format can be customized depending on\nlocation or need. The `DatePicker` component expects a `DatePickerInput` as a\nchild.\n\n<Canvas of={DatePickerStories.Default} />\n\n### Simple DatePicker\n\nThe simple date input provides the user with only a text field in which they can\nmanually input a date. It allows dates to be entered without adding unnecessary\ninteractions that come with the calendar menu or a dropdown.\n\n<Canvas\n  of={DatePickerStories.Simple}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(DatePickerStories.Simple),\n    },\n  ]}\n/>\n\n### Range Datepicker\n\nCalendar pickers default to showing today’s date when opened and only one month\nis shown at a time. Calendar pickers allow users to navigate through months and\nyears, however they work best when used for recent or near future dates.\n\n<Canvas\n  of={DatePickerStories.SingleWithCalendar}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(DatePickerStories.SingleWithCalendar),\n    },\n  ]}\n/>\n<Canvas\n  of={DatePickerStories.RangeWithCalendar}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(DatePickerStories.RangeWithCalendar),\n    },\n  ]}\n/>\n\n### Skeleton state\n\nYou can use the `DatePickerSkeleton` component to render a skeleton variant of a\n`DatePicker`. This is useful to display while an initial date range in your\n`DatePicker` is being fetched from an external resource like an API.\n\n<Canvas\n  of={DatePickerStories.Skeleton}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(DatePickerStories.Skeleton),\n    },\n  ]}\n/>\n\n### AI label\n\n<Canvas\n  of={DatePickerStories.withAILabel}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(DatePickerStories.withAILabel),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n### DatePicker `appendTo`\n\nBy default, the `DatePicker` menu will be appended to the end of the `body`\nelement. If you would like to attach it to a different node, you can specify a\nDOM element with the `appendTo` prop.\n\n```jsx\nconst node = document.querySelector('#my-node');\n\n<DatePicker appendTo={node}>...</DatePicker>;\n```\n\n### DatePicker `className`\n\nThe className prop passed into `DatePicker` will be forwarded along to the\nunderlying wrapper `div.cds--date-picker` element. This is useful for specifying\na custom class name for layout.\n\n```jsx\n<DatePicker className=\"some-class\">...</DatePicker>\n```\n\n### DatePicker `dateFormat`\n\nYou can use the `dateFormat` prop to change how the selected date is displayed\nin the input. For a complete list of supported date formatting tokens, please\nsee the Flatpickr\n[documentation](https://flatpickr.js.org/formatting/#date-formatting-tokens).\n\nWhen configuring `dateFormat`, a `parseDate` function can be specified to modify\nthe date correction behavior that is sometimes undesirable due to\n[oddities in how the native date methods work](https://github.com/carbon-design-system/carbon/issues/15432#issuecomment-1967447677).\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker datePickerType=\"single\" dateFormat=\"Y-m-d\">\n    <DatePickerInput\n      placeholder=\"yyyy-mm-dd\"\n      id=\"date-picker-1\"\n      labelText=\"Date format example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker datePickerType=\"single\" dateFormat=\"Y-m-d\">\n  <DatePickerInput placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n### DatePicker `parseDate`\n\nMost often used when configuring `dateFormat`, a `parseDate` function can be\nspecified to modify the date correction behavior that is sometimes undesirable\ndue to\n[oddities in how the native date methods work](https://github.com/carbon-design-system/carbon/issues/15432#issuecomment-1967447677).\n\nThe specified `parseDate` function will be called before the date is actually\nset. It's called with a date parameter, the input value, that should be parsed\nand return a valid date string. The\n[internal/default implementation](https://github.com/search?q=repo%3Acarbon-design-system%2Fcarbon+symbol%3AparseDate+language%3ATSX&type=code&l=TSX)\ncan be copied and used as a starting point.\n\n### DatePicker `datePickerType`\n\nThere are three supported variations of `DatePicker` in Carbon.\n\n- `simple` will render a simple text input _without_ a calendar dropdown.\n- `single` will render a a single text input _with_ a calendar dropdown.\n- `range` will indicate that multiple `DatePicker` inputs will be rendered. Two\n  `DatePickerInput` will need to be provided as children.\n\n```jsx\n<DatePicker datePickerType=\"range\">\n  <DatePickerInput placeholder=\"Start\" />\n  <DatePickerInput placeholder=\"End\" />\n</DatePicker>\n```\n\n### DatePicker `light`\n\nIn certain circumstances, a `DatePicker` will exist on a container element with\nthe same background color. To improve contrast, you can use the `light` property\nto toggle the light variant of the `DatePicker`.\n\n```jsx\n<DatePicker light>...</DatePicker>\n```\n\n### DatePicker `locale`\n\nThe `locale` prop can be used to help with internationalization. For best\nresults, combine with the `dateFormat` prop. We pass this under the hood to the\nFlatPickr instance. A complete list of valid locales can be found in the\n[component API](#component-api) section\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker locale=\"no\" dateFormat=\"d/m/Y\" datePickerType=\"single\">\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-2\"\n      labelText=\"Locale example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n// Load Norwegian text with the proper date format\n<DatePicker locale=\"no\" dateFormat=\"d/m/Y\" datePickerType=\"single\">\n  <DatePickerInput placeholder=\"dd/mm/yyyy\" />\n</DatePicker>\n```\n\n### DatePicker `maxDate`\n\nLimits the date selection to any date before the date specified. The string\nformat depends on the `locale` specified. For example, the top example below is\nusing the default US date format, and the one below it is using the same format\nas the `locale` prop example. One is setting it as September 1st, and the other\nis setting it as January 9th.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker maxDate=\"09/01/2020\" datePickerType=\"single\">\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-3\"\n      labelText=\"US format\"\n    />\n  </DatePicker>\n  <br />\n  <DatePicker\n    maxDate=\"09/01/2020\"\n    datePickerType=\"single\"\n    locale=\"no\"\n    dateFormat=\"d/m/Y\">\n    <DatePickerInput\n      placeholder=\"mm/dd/yyyy\"\n      id=\"date-picker-4\"\n      labelText=\"European format\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker maxDate=\"09/01/2020\">\n  <DatePickerInput placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n\n<DatePicker\n  maxDate=\"09/01/2020\"\n  datePickerType=\"single\"\n  locale=\"no\"\n  dateFormat=\"d/m/Y\">\n  <DatePickerInput placeholder=\"mm/dd/yyyy\" />\n</DatePicker>;\n```\n\n### DatePicker `minDate`\n\nWorks similarly to the `maxDate` prop. [See above](#datepicker-maxdate).\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker\n    minDate={new Date().setDate(new Date().getDate() - 5)}\n    datePickerType=\"single\"\n    value={new Date()}>\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-5\"\n      labelText=\"minDate example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker\n  minDate={new Date().setDate(new Date().getDate() - 5)}\n  datePickerType=\"single\"\n  value={new Date()}>\n  <DatePickerInput\n    placeholder=\"dd/mm/yyyy\"\n    id=\"date-picker-5\"\n    labelText=\"minDate example\"\n  />\n</DatePicker>\n```\n\n### DatePicker `disable` and `enable`\n\nThis uses the Flatpickr `disable` option which allows a user to disable certain\ndates. The disable takes in a array of date strings, or you can pass in a date\nfunction to the array that will disable dates that returns true.\n[See the Flatpickr documentation for more info](https://flatpickr.js.org/examples/#disabling-dates).\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker\n    datePickerType=\"single\"\n    disable={[(date) => date.getDay() === 0 || date.getDay() === 6]}>\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-8\"\n      labelText=\"minDate example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker\n  datePickerType=\"single\"\n  disable={[(date) => date.getDay() === 0 || date.getDay() === 6]}>\n  <DatePickerInput\n    placeholder=\"dd/mm/yyyy\"\n    id=\"date-picker-8\"\n    labelText=\"minDate example\"\n  />\n</DatePicker>\n```\n\nThe `enable` option works the same, but will disable all dates that are not\nexplicitly added to the array.\n[See the flatpickr documentation for more info](https://flatpickr.js.org/examples/#disabling-all-dates-except-select-few).\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker\n    datePickerType=\"single\"\n    value=\"04/20/2023\"\n    enable={[\n      {\n        from: '04/10/2023',\n        to: '04/25/2023',\n      },\n    ]}>\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-8\"\n      labelText=\"minDate example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker\n  datePickerType=\"single\"\n  value=\"04/20/2023\"\n  enable={[\n    {\n      from: '04/10/2023',\n      to: '04/25/2023',\n    },\n  ]}>\n  <DatePickerInput\n    placeholder=\"dd/mm/yyyy\"\n    id=\"date-picker-8\"\n    labelText=\"minDate example\"\n  />\n</DatePicker>\n```\n\n### DatePicker `value`\n\nBy default `DatePicker` will set the current date as its value. If you'd like to\nstart this at a different date, you can pass in a date string or date object.\n\n<Unstyled\n  style={{\n    padding: '1rem',\n    background: 'var(--cds-background)',\n  }}>\n  <DatePicker datePickerType=\"single\" value=\"07/15/1988\">\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-6\"\n      labelText=\"Value as string example\"\n    />\n  </DatePicker>\n  <br />\n  <DatePicker datePickerType=\"single\" value={new Date()}>\n    <DatePickerInput\n      placeholder=\"dd/mm/yyyy\"\n      id=\"date-picker-7\"\n      labelText=\"Value as object example\"\n    />\n  </DatePicker>\n</Unstyled>\n\n```jsx\n<DatePicker datePickerType=\"single\" value=\"07/15/1988\">\n  <DatePickerInput\n    placeholder=\"dd/mm/yyyy\"\n    id=\"date-picker-6\"\n    labelText=\"Value as string example\"\n  />\n</DatePicker>\n<br />\n<DatePicker datePickerType=\"single\" value={new Date()}>\n  <DatePickerInput\n    placeholder=\"dd/mm/yyyy\"\n    id=\"date-picker-7\"\n    labelText=\"Value as object example\"\n  />\n</DatePicker>\n```\n\n## References\n\n- The `DatePicker` component utilizes Flatpickr under the hood. We will pass any\n  extra options down to the FlatPickr instance. For a full list of options,\n  please see the [Flatpickr docs](https://flatpickr.js.org/options/)\n- The `DatePickerInput` takes in similar props to the `TextInput` component,\n  such as `size` and `placeholder`. For more information on these props, check\n  out the `TextInput` page.\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/DatePicker/DatePicker.mdx).\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/DatePicker/DatePicker.mdx:25"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/DatePicker/DatePicker.mdx:49"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/DatePicker/DatePicker.mdx:131"
+    },
+    {
+     "name": "References",
+     "source": "packages/react/src/components/DatePicker/DatePicker.mdx:461"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/DatePicker/DatePicker.mdx:470"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  tall\n  variants={[\n    {\n      label: 'Range With Calendar',\n      variant: 'components-datepicker--range-with-calendar',\n    },\n    {\n      label: 'Simple',\n      variant: 'components-datepicker--simple',\n    },\n    {\n      label: 'Single With Calendar',\n      variant: 'components-datepicker--single-with-calendar',\n    },\n    {\n      label: 'Fluid Range With Calendar (unstable)',\n      variant: 'experimental-unstable-fluiddatepicker--range-with-calendar',\n    },\n    {\n      label: 'Fluid Simple (unstable)',\n      variant: 'experimental-unstable-fluiddatepicker--simple',\n    },\n    {\n      label: 'Fluid Single (unstable)',\n      variant: 'experimental-unstable-fluiddatepicker--single',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/DatePicker/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/DatePicker/docs/overview.mdx:1"
+    }
+   ]
+  },
+  {
+   "markdown": "import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as DatePickerStories from './DatePickerV2.stories.tsx';\n\n<Meta of={DatePickerStories} />\n\n# Date picker\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/DatePicker/next)\n&nbsp;|&nbsp;\n[Carbon React v11 Documentation](https://react.carbondesignsystem.com/?path=/docs/components-datepicker--overview)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/date-picker/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/date-picker/accessibility)\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [Simple date picker](#simple-date-picker)\n  - [Single date picker](#single-date-picker)\n  - [Range date picker](#range-date-picker)\n  - [Skeleton state](#skeleton-state)\n  - [AI label](#ai-label)\n- [Component API](#component-api)\n  - [API Compatibility](#api-compatibility)\n  - [Breaking changes](#breaking-changes)\n  - [`DatePicker`](#datepicker)\n  - [`DatePickerInput`](#datepickerinput)\n  - [Date picker `dateFormat`](#date-picker-dateformat)\n  - [Date picker `datePickerType`](#date-picker-datepickertype)\n  - [Date picker `maxDate`](#date-picker-maxdate)\n  - [Date picker `minDate`](#date-picker-mindate)\n  - [Date picker `value`](#date-picker-value)\n- [Architecture](#architecture)\n  - [Modern implementation](#modern-implementation)\n  - [State machine](#state-machine)\n  - [Keyboard navigation](#keyboard-navigation)\n- [Migration from Carbon React v11](#migration-from-carbon-react-v11)\n- [References](#references)\n- [Feedback](#feedback)\n\n## Overview\n\nDate pickers allow users to select a single or a range of dates. Pickers are\nused to display past, present, or future dates. The kind of date (exact,\napproximate, memorable) you are requesting from the user will determine which\npicker is best to use. Each picker's format can be customized depending on\nlocation or need. The `DatePicker` component expects a `DatePickerInput` as a\nchild.\n\n<Canvas of={DatePickerStories.SingleWithCalendar} />\n\n### Simple date picker\n\nThe simple date input provides the user with only a text field in which they can\nmanually input a date. It allows dates to be entered without adding unnecessary\ninteractions that come with the calendar menu or a dropdown.\n\n<Canvas of={DatePickerStories.Simple} />\n\n### Single date picker\n\nUse the single date picker when you want to pair a text input with a calendar\npopover. Users can type a date directly, or open the calendar and select one.\n\n<Canvas of={DatePickerStories.SingleWithCalendar} />\n\n### Range date picker\n\nUse the range date picker when users need to choose a start and end date\ntogether. The first input is treated as the start date and the second input is\ntreated as the end date.\n\n<Canvas of={DatePickerStories.RangeWithCalendar} />\n\n### Skeleton state\n\nUse the skeleton state while a date picker is loading or while dependent data is\nbeing fetched.\n\n<Canvas of={DatePickerStories.Skeleton} />\n\n### AI label\n\nThe input also supports Carbon AI label decoration through the `DatePickerInput`\n`decorator` prop.\n\n<Canvas of={DatePickerStories.withAILabel} />\n\n## Component API\n\n### API Compatibility\n\nThis implementation keeps the prop surface close to the Carbon React v11\nDatePicker API. Most existing props work exactly as before:\n\n**`DatePicker` props:**\n\n- `allowInput` - Allow manual date entry\n- `className` - Additional CSS class names\n- `closeOnSelect` - Close calendar on date selection\n- `dateFormat` - Date display format (default: `m/d/Y`)\n- `datePickerType` - Picker type (`simple`, `single`, `range`)\n- `light` - Use light theme variant\n- `locale` - Locale for date formatting\n- `maxDate` - Maximum selectable date\n- `minDate` - Minimum selectable date\n- `onChange` - Callback when date selection changes\n- `onClose` - Callback when the calendar closes\n- `onOpen` - Callback when the calendar opens\n- `readOnly` - Make date picker read-only\n- `short` - Use short variant\n- `value` - Selected date value\n\n**`DatePickerInput` props:**\n\n- `autoComplete` - Autocomplete attribute\n- `className` - Additional CSS class names\n- `decorator` - Decorator component such as an AI label\n- `defaultValue` - Default input value\n- `disabled` - Disable the input\n- `helperText` - Helper text below input\n- `hideIcon` - Hide the calendar icon\n- `hideLabel` - Hide the label text\n- `iconDescription` - Accessible description for the calendar icon\n- `id` - **Required.** Input identifier\n- `invalid` - Show invalid state\n- `invalidText` - Invalid state message\n- `labelText` - Label text\n- `name` - Input name attribute\n- `onBlur` - Blur handler\n- `onChange` - Change handler\n- `onFocus` - Focus handler\n- `onIconClick` - Calendar icon click handler\n- `onKeyDown` - Key down handler\n- `pattern` - Input validation pattern\n- `placeholder` - Placeholder text\n- `readOnly` - Make input read-only\n- `required` - Mark the field as required\n- `size` - Input size (`sm`, `md`, `lg`)\n- `slug` - Deprecated alias for `decorator`\n- `type` - Input type\n- `value` - Input value\n- `warn` - Show warning state\n- `warnText` - Warning state message\n\n### Breaking Changes\n\n**Import path.** Components are now exported under the `preview__DatePicker`\nnamespace from `@carbon/react`. Destructure before use:\n\n```diff\n- import { DatePicker, DatePickerInput } from '@carbon/react';\n+ import { preview__DatePicker } from '@carbon/react';\n+\n+ const { DatePicker, DatePickerInput, DatePickerSkeleton } = preview__DatePicker;\n```\n\n**`onChange` signature.** The v11 component called\n`onChange(selectedDates, dateStr, instance)`. `preview__DatePicker` calls\n`onChange(dates: Date[])` — an array of `Date` objects only:\n\n```diff\n- const handleChange = (selectedDates, dateStr, instance) => setValue(dateStr);\n+ const handleChange = (dates) => {\n+   const [start, end] = dates; // format yourself, e.g. Intl.DateTimeFormat\n+ };\n```\n\n**`onClose` signature.** The v11 component passed\n`(selectedDates, dateStr, instance)`; `preview__DatePicker` calls `onClose()`\nwith no arguments. Read the value from your own state.\n\n**No Flatpickr APIs.** `preview__DatePicker` is not backed by Flatpickr, so\nnothing Flatpickr-specific carries over.\n\n**What changed internally:**\n\n- Removed Flatpickr dependency (~15,000 lines of code)\n- Implemented native calendar using Temporal API and modern web standards\n- Added shared state machine with Web Components implementation\n- Enhanced keyboard navigation\n- Improved accessibility\n\n## `DatePicker`\n\n<ArgTypes of={DatePickerStories.Default} />\n\n## `DatePickerInput`\n\n| Prop           | Type                   | Default        | Description                                   |\n| -------------- | ---------------------- | -------------- | --------------------------------------------- |\n| `id`           | `string`               | -              | **Required.** Unique identifier for the input |\n| `labelText`    | `ReactNode`            | -              | Label text                                    |\n| `placeholder`  | `string`               | `'mm/dd/yyyy'` | Placeholder text                              |\n| `size`         | `'sm' \\| 'md' \\| 'lg'` | `'md'`         | Input size                                    |\n| `disabled`     | `boolean`              | `false`        | Whether the input is disabled                 |\n| `invalid`      | `boolean`              | `false`        | Whether the input is invalid                  |\n| `invalidText`  | `ReactNode`            | -              | Invalid text to display                       |\n| `warn`         | `boolean`              | `false`        | Whether the input has a warning               |\n| `warnText`     | `ReactNode`            | -              | Warning text to display                       |\n| `helperText`   | `ReactNode`            | -              | Helper text to display                        |\n| `hideLabel`    | `boolean`              | `false`        | Whether to hide the label visually            |\n| `readOnly`     | `boolean`              | `false`        | Whether the input is read-only                |\n| `value`        | `string`               | -              | Input value (controlled)                      |\n| `defaultValue` | `string`               | -              | Default value (uncontrolled)                  |\n| `onChange`     | `(event) => void`      | -              | Change handler                                |\n| `onFocus`      | `(event) => void`      | -              | Focus handler                                 |\n| `onBlur`       | `(event) => void`      | -              | Blur handler                                  |\n\n### Date picker `dateFormat`\n\nYou can use the `dateFormat` prop to change how the selected date is displayed\nin the input. The default format is `m/d/Y` (MM/DD/YYYY).\n\nSupported format tokens:\n\n- `m` - Month (1-12)\n- `d` - Day (1-31)\n- `Y` - Year (4 digits)\n\n```tsx\n<DatePicker dateFormat=\"Y-m-d\">\n  <DatePickerInput\n    id=\"date-picker-format\"\n    placeholder=\"yyyy-mm-dd\"\n    labelText=\"ISO format\"\n  />\n</DatePicker>\n```\n\n### Date picker `datePickerType`\n\nThere are three supported variations of `DatePicker` in Carbon.\n\n- `simple` will render a simple text input _without_ a calendar dropdown.\n- `single` will render a single text input _with_ a calendar dropdown.\n- For `range`, two `DatePickerInput` components will need to be provided as\n  children.\n\n```tsx\n// Simple (no calendar)\n<DatePicker datePickerType=\"simple\">\n  <DatePickerInput id=\"date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n\n// Single (with calendar)\n<DatePicker datePickerType=\"single\">\n  <DatePickerInput id=\"date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n\n// Range (with calendar)\n<DatePicker datePickerType=\"range\">\n  <DatePickerInput id=\"start\" labelText=\"Start date\" placeholder=\"mm/dd/yyyy\" />\n  <DatePickerInput id=\"end\" labelText=\"End date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n### Date picker `maxDate`\n\nLimits the date selection to any date before the date specified. Dates after the\nmaximum date will be disabled in the calendar and navigation will be restricted.\n\n```tsx\n<DatePicker maxDate=\"12/31/2024\">\n  <DatePickerInput id=\"date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n### Date picker `minDate`\n\nLimits the date selection to any date after the date specified. Dates before the\nminimum date will be disabled in the calendar and navigation will be restricted.\n\n```tsx\n<DatePicker minDate=\"01/01/2024\">\n  <DatePickerInput id=\"date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n### Date picker `value`\n\nPass a string value to either the `DatePicker` or the child `DatePickerInput` to\ninitialize the selected date.\n\n```tsx\n<DatePicker value=\"04/17/2025\">\n  <DatePickerInput id=\"date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n## Architecture\n\n### Modern implementation\n\nThis date picker implementation uses modern web platform APIs and has **zero\nexternal dependencies**:\n\n- **Temporal API** - Modern date/time handling (polyfilled for browser\n  compatibility)\n- **Popover API** - Native browser popover for the calendar dropdown\n- **CSS Anchor Positioning** - Smart positioning relative to the input field\n- **State Machine** - Predictable state management shared with Web Components\n\n**Benefits:**\n\n- 🎯 **84% less code** compared to Flatpickr-based implementation\n- 📦 **~20-30% smaller bundle** size\n- 🚀 **Zero external dependencies** to maintain\n- 🎨 **Full customization** control\n- ♿ **Enhanced accessibility** with comprehensive keyboard navigation\n- 🔄 **Shared logic** with Web Components implementation\n\n### State machine\n\nThe date picker uses a finite state machine to manage all interactions and state\ntransitions. This provides:\n\n- **Predictable behavior** - All state changes are explicit and testable\n- **Clear event handling** - Events trigger specific state transitions\n- **Maintainable code** - State logic is centralized and documented\n- **Framework agnostic** - Same logic used in Web Components and React\n\nStates include: `IDLE`, `FOCUSED`, `CALENDAR_OPEN`, `DATE_SELECTED`,\n`RANGE_START_SELECTED`, `RANGE_SELECTING`\n\nFor detailed shared state logic, see the primitives package in\n[GitHub](https://github.com/carbon-design-system/carbon/tree/main/packages/utilities/src/date-picker/primitives).\n\n### Keyboard navigation\n\nThe calendar supports comprehensive keyboard navigation:\n\n- **Arrow keys** - Navigate between dates\n- **Enter** - Select the focused date\n- **Escape** - Close the calendar\n- **Tab** - Navigate through the date picker interface\n  - **Single mode**: Input field → Calendar (when open) → Outside the component\n  - **Range mode**: First input → Calendar (when open) → Second input → Calendar\n    (when open) → Outside the component\n  - **Shift+Tab** - Reverse navigation through the same flow\n- **Page Up/Down** - Navigate between months\n- **Home/End** - Jump to start/end of week\n\n**Tab Navigation Flow:**\n\nIn **single date mode**, pressing Tab follows this pattern:\n\n1. Focus on input field\n2. If calendar is open, Tab moves focus to the calendar\n3. Tab again moves focus outside the date picker\n\nIn **range date mode**, pressing Tab follows this pattern:\n\n1. Focus on first input field (start date)\n2. If calendar is open, Tab moves focus to the calendar\n3. Tab again moves focus to second input field (end date)\n4. If calendar is open, Tab moves focus to the calendar again\n5. Tab again moves focus outside the date picker\n\nShift+Tab reverses this flow, allowing you to navigate backward through the same\nsequence.\n\nWhen the calendar opens without a selected date, focus automatically moves to\ntoday's date for easy keyboard navigation.\n\n## Migration from Carbon React v11\n\n### Import path\n\nImport the `preview__DatePicker` namespace from `@carbon/react` and destructure\n— the JSX stays the same:\n\n```diff\n- import { DatePicker, DatePickerInput } from '@carbon/react';\n+ import { preview__DatePicker } from '@carbon/react';\n+\n+ const { DatePicker, DatePickerInput, DatePickerSkeleton } = preview__DatePicker;\n```\n\nOnce destructured, usage is identical:\n\n```tsx\n<DatePicker datePickerType=\"single\" onChange={handleChange}>\n  <DatePickerInput id=\"date\" labelText=\"Date\" placeholder=\"mm/dd/yyyy\" />\n</DatePicker>\n```\n\n### Behavioral differences\n\n1. **`onChange` signature.** Update handlers that rely on `dateStr` or the\n   Flatpickr instance argument:\n\n   ```diff\n   - const handleChange = (selectedDates, dateStr, instance) => setValue(dateStr);\n   + const handleChange = (dates) => {\n   +   const [start, end] = dates; // format yourself, e.g. Intl.DateTimeFormat\n   + };\n   ```\n\n2. **`onClose` signature.** Classic passed `(selectedDates, dateStr, instance)`;\n   preview\\_\\_DatePicker calls **`onClose()`** with no arguments. Read the value\n   from your state.\n\n3. **No Flatpickr APIs.** Nothing Flatpickr-specific is available.\n\n### Migration checklist\n\n- [ ] Import from the `preview__DatePicker` namespace\n- [ ] Verify you've accounted for the new behavioral differences\n- [ ] No reliance on FlatPickr APIs\n\n## References\n\n- [Carbon React v11 DatePicker Documentation](https://react.carbondesignsystem.com/?path=/docs/components-datepicker--overview)\n- The date picker uses the\n  [Temporal API](https://tc39.es/proposal-temporal/docs/) for modern date\n  handling\n- The calendar uses the\n  [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)\n  for dropdown behavior\n- Positioning uses\n  [CSS Anchor Positioning](https://developer.chrome.com/blog/tether-elements-to-each-other-with-css-anchor-positioning)\n  for smart placement\n- The `DatePickerInput` component takes in similar props to the Carbon\n  `TextInput` component\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx).\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:16"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:42"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:90"
+    },
+    {
+     "name": "`DatePicker`",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:185"
+    },
+    {
+     "name": "`DatePickerInput`",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:189"
+    },
+    {
+     "name": "Architecture",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:292"
+    },
+    {
+     "name": "Migration from Carbon React v11",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:367"
+    },
+    {
+     "name": "References",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:413"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.mdx:428"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = ({ readOnly, ...args }) => {\n  const locale = useDocumentLang().split('-')[0];\n  return (\n    <DatePicker\n      datePickerType=\"single\"\n      {...args}\n      readOnly={readOnly}\n      locale={locale}>\n      <DatePickerInput\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"Date Picker label\"\n        id=\"date-picker-single\"\n        {...sharedArgs}\n        {...args}\n      />\n      {args.datePickerType === 'range' && (\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"End date\"\n          size=\"md\"\n          id=\"date-picker-input-2\"\n          {...sharedArgs}\n          {...args}\n        />\n      )}\n    </DatePicker>\n  );\n};\n\nDefault.argTypes = {\n  ...sharedArgTypes,\n  datePickerType: {\n    options: ['single', 'simple', 'range'],\n    control: { type: 'select' },\n  },\n};\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:126"
+  },
+  {
+   "name": "Simple",
+   "description": null,
+   "code": "export const Simple = (args) => (\n  <DatePicker datePickerType=\"simple\" {...args}>\n    <DatePickerInput\n      placeholder=\"mm/dd/yyyy\"\n      labelText=\"Date Picker label\"\n      id=\"date-picker-simple\"\n      {...sharedArgs}\n      {...args}\n    />\n  </DatePicker>\n);\n\nSimple.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:163"
+  },
+  {
+   "name": "SingleWithCalendar",
+   "description": null,
+   "code": "export const SingleWithCalendar = (args) => (\n  <DatePicker datePickerType=\"single\" {...args}>\n    <DatePickerInput\n      placeholder=\"mm/dd/yyyy\"\n      labelText=\"Date Picker label\"\n      id=\"date-picker-single\"\n      size=\"md\"\n      {...sharedArgs}\n      {...args}\n    />\n  </DatePicker>\n);\n\nSingleWithCalendar.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:177"
+  },
+  {
+   "name": "RangeWithCalendar",
+   "description": null,
+   "code": "export const RangeWithCalendar = (args) => {\n  return (\n    <DatePicker datePickerType=\"range\" {...args}>\n      <DatePickerInput\n        id=\"date-picker-input-id-start\"\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"Start date\"\n        size=\"md\"\n        {...sharedArgs}\n        {...args}\n      />\n      <DatePickerInput\n        id=\"date-picker-input-id-finish\"\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"End date\"\n        size=\"md\"\n        {...sharedArgs}\n        {...args}\n      />\n    </DatePicker>\n  );\n};\n\nRangeWithCalendar.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:192"
+  },
+  {
+   "name": "SimpleWithLayer",
+   "description": null,
+   "code": "export const SimpleWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"simple\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          id={`date-picker-simple-${layer}`}\n          size=\"md\"\n          {...sharedArgs}\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nSimpleWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:217"
+  },
+  {
+   "name": "SingleWithCalendarWithLayer",
+   "description": null,
+   "code": "export const SingleWithCalendarWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"single\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          id={`date-picker-single-${layer}`}\n          size=\"md\"\n          {...sharedArgs}\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nSingleWithCalendarWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:236"
+  },
+  {
+   "name": "RangeWithCalendarWithLayer",
+   "description": null,
+   "code": "export const RangeWithCalendarWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"range\" {...args}>\n        <DatePickerInput\n          id={`date-picker-input-id-start-${layer}`}\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Start date\"\n          size=\"md\"\n          {...sharedArgs}\n          {...args}\n        />\n        <DatePickerInput\n          id={`date-picker-input-id-finish-${layer}`}\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"End date\"\n          size=\"md\"\n          {...sharedArgs}\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nRangeWithCalendarWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:255"
+  },
+  {
+   "name": "Skeleton",
+   "description": null,
+   "code": "export const Skeleton = () => {\n  return <DatePickerSkeleton range />;\n};\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:282"
+  },
+  {
+   "name": "withAILabel",
+   "description": null,
+   "code": "export const withAILabel = (args) => {\n  const aiLabel = (\n    <AILabel className=\"ai-label-container\">\n      <AILabelContent>\n        <div>\n          <p className=\"secondary\">AI Explained</p>\n          <h2 className=\"ai-label-heading\">84%</h2>\n          <p className=\"secondary bold\">Confidence score</p>\n          <p className=\"secondary\">\n            Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed\n            do eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.\n          </p>\n          <hr />\n          <p className=\"secondary\">Model type</p>\n          <p className=\"bold\">Foundation model</p>\n        </div>\n        <AILabelActions>\n          <IconButton kind=\"ghost\" label=\"View\">\n            <View />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Open Folder\">\n            <FolderOpen />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Folders\">\n            <Folders />\n          </IconButton>\n          <Button>View details</Button>\n        </AILabelActions>\n      </AILabelContent>\n    </AILabel>\n  );\n  return (\n    <div style={{ width: 400 }}>\n      <DatePicker datePickerType=\"single\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          size=\"md\"\n          id=\"date-picker\"\n          decorator={aiLabel}\n          {...sharedArgs}\n          {...args}\n        />\n      </DatePicker>\n    </div>\n  );\n};\n\nwithAILabel.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/DatePicker.stories.js:286"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const { readOnly, ...restArgs } = args;\n\n  return (\n    <DatePicker datePickerType=\"single\" {...restArgs} readOnly={readOnly}>\n      <DatePickerInput\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"Date Picker label\"\n        id=\"date-picker-single\"\n        {...restArgs}\n      />\n      {restArgs.datePickerType === 'range' && (\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"End date\"\n          size=\"md\"\n          id=\"date-picker-input-2\"\n          {...restArgs}\n        />\n      )}\n    </DatePicker>\n  );\n};\n\nDefault.argTypes = {\n  ...sharedArgTypes,\n  datePickerType: {\n    options: ['single', 'simple', 'range'],\n    control: { type: 'select' },\n  },\n};\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:106"
+  },
+  {
+   "name": "RangeWithCalendar",
+   "description": null,
+   "code": "export const RangeWithCalendar = (args) => {\n  return (\n    <DatePicker datePickerType=\"range\" {...args}>\n      <DatePickerInput\n        id=\"date-picker-input-id-start\"\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"Start date\"\n        size=\"md\"\n        {...args}\n      />\n      <DatePickerInput\n        id=\"date-picker-input-id-finish\"\n        placeholder=\"mm/dd/yyyy\"\n        labelText=\"End date\"\n        size=\"md\"\n        {...args}\n      />\n    </DatePicker>\n  );\n};\n\nRangeWithCalendar.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:138"
+  },
+  {
+   "name": "RangeWithCalendarWithLayer",
+   "description": null,
+   "code": "export const RangeWithCalendarWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"range\" {...args}>\n        <DatePickerInput\n          id={`date-picker-input-id-start-${layer}`}\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Start date\"\n          size=\"md\"\n          {...args}\n        />\n        <DatePickerInput\n          id={`date-picker-input-id-finish-${layer}`}\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"End date\"\n          size=\"md\"\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nRangeWithCalendarWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:161"
+  },
+  {
+   "name": "Simple",
+   "description": null,
+   "code": "export const Simple = (args) => (\n  <DatePicker datePickerType=\"simple\" {...args}>\n    <DatePickerInput\n      placeholder=\"mm/dd/yyyy\"\n      labelText=\"Date Picker label\"\n      id=\"date-picker-simple\"\n      {...args}\n    />\n  </DatePicker>\n);\n\nSimple.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:186"
+  },
+  {
+   "name": "SimpleWithLayer",
+   "description": null,
+   "code": "export const SimpleWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"simple\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          id={`date-picker-simple-${layer}`}\n          size=\"md\"\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nSimpleWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:199"
+  },
+  {
+   "name": "SingleWithCalendar",
+   "description": null,
+   "code": "export const SingleWithCalendar = (args) => (\n  <DatePicker datePickerType=\"single\" {...args}>\n    <DatePickerInput\n      placeholder=\"mm/dd/yyyy\"\n      labelText=\"Date Picker label\"\n      id=\"date-picker-single\"\n      size=\"md\"\n      {...args}\n    />\n  </DatePicker>\n);\n\nSingleWithCalendar.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:217"
+  },
+  {
+   "name": "SingleWithCalendarWithLayer",
+   "description": null,
+   "code": "export const SingleWithCalendarWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <DatePicker datePickerType=\"single\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          id={`date-picker-single-${layer}`}\n          size=\"md\"\n          {...args}\n        />\n      </DatePicker>\n    )}\n  </WithLayer>\n);\n\nSingleWithCalendarWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:231"
+  },
+  {
+   "name": "Skeleton",
+   "description": null,
+   "code": "export const Skeleton = () => <DatePickerSkeleton range />;\n\nSkeleton.parameters = {\n  percy: {\n    skip: true,\n  },\n};\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:249"
+  },
+  {
+   "name": "withAILabel",
+   "description": null,
+   "code": "export const withAILabel = (args) => {\n  const aiLabel = (\n    <AILabel className=\"ai-label-container\">\n      <AILabelContent>\n        <div>\n          <p className=\"secondary\">AI Explained</p>\n          <h2 className=\"ai-label-heading\">84%</h2>\n          <p className=\"secondary bold\">Confidence score</p>\n          <p className=\"secondary\">\n            Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed\n            do eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.\n          </p>\n          <hr />\n          <p className=\"secondary\">Model type</p>\n          <p className=\"bold\">Foundation model</p>\n        </div>\n        <AILabelActions>\n          <IconButton kind=\"ghost\" label=\"View\">\n            <View />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Open Folder\">\n            <FolderOpen />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Folders\">\n            <Folders />\n          </IconButton>\n          <Button>View details</Button>\n        </AILabelActions>\n      </AILabelContent>\n    </AILabel>\n  );\n  return (\n    <div style={{ width: 400 }}>\n      <DatePicker datePickerType=\"single\" {...args}>\n        <DatePickerInput\n          placeholder=\"mm/dd/yyyy\"\n          labelText=\"Date Picker label\"\n          size=\"md\"\n          id=\"date-picker\"\n          decorator={aiLabel}\n          {...args}\n        />\n      </DatePicker>\n    </div>\n  );\n};\n\nwithAILabel.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories.tsx:257"
+  }
+ ],
+ "props": {
+  "name": "DatePicker.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "allowInput",
+    "PropTypes.bool",
+    "Flatpickr prop passthrough enables direct date input, and when set to false, we must clear dates manually by resetting the value prop to an empty value (such as `\"\"`, `null`, or `undefined`) or an array of all empty values, making it a controlled input.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:976"
+   ],
+   [
+    "appendTo",
+    "deprecate(PropTypes.object, flatpickrDeprecation('appendTo'))",
+    "The DOM element the Flatpicker should be inserted into. `<body>` by default.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:981"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "The child nodes.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:986"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "The CSS class names.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:991"
+   ],
+   [
+    "closeOnSelect",
+    "PropTypes.bool",
+    "flatpickr prop passthrough. Controls whether the calendar dropdown closes upon selection.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:996"
+   ],
+   [
+    "dateFormat",
+    "PropTypes.string",
+    "The date format.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1001"
+   ],
+   [
+    "datePickerType",
+    "PropTypes.oneOf(['simple', 'single', 'range'])",
+    "The type of the date picker: * `simple` - Without calendar dropdown. * `single` - With calendar dropdown and single date. * `range` - With calendar dropdown and a date range.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1010"
+   ],
+   [
+    "disable",
+    "deprecate(PropTypes.array, flatpickrDeprecation('disable'))",
+    "The flatpickr `disable` option that allows a user to disable certain dates.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1015"
+   ],
+   [
+    "enable",
+    "deprecate(PropTypes.array, flatpickrDeprecation('enable'))",
+    "The flatpickr `enable` option that allows a user to enable certain dates.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1020"
+   ],
+   [
+    "inline",
+    "deprecate(PropTypes.bool, flatpickrDeprecation('inline'))",
+    "The flatpickr `inline` option.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1025"
+   ],
+   [
+    "invalid",
+    "PropTypes.bool",
+    "Specify whether or not the control is invalid (Fluid only)",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1030"
+   ],
+   [
+    "light",
+    "deprecate(",
+    "`true` to use the light version.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1035"
+   ],
+   [
+    "locale",
+    "PropTypes.oneOfType([",
+    "The language locale used to format the days of the week, months, and numbers. The full list of supported locales can be found here https://github.com/flatpickr/flatpickr/tree/master/src/l10n",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1043"
+   ],
+   [
+    "maxDate",
+    "PropTypes.oneOfType([PropTypes.string, PropTypes.number])",
+    "The maximum date that a user can pick to.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1051"
+   ],
+   [
+    "minDate",
+    "PropTypes.oneOfType([PropTypes.string, PropTypes.number])",
+    "The minimum date that a user can start picking from.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1056"
+   ],
+   [
+    "onChange",
+    "PropTypes.func",
+    "The `change` event handler. `(dates: Date[], dStr: string, fp: Instance, data?: any):void;`",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1062"
+   ],
+   [
+    "onClose",
+    "PropTypes.func",
+    "The `close` event handler. `(dates: Date[], dStr: string, fp: Instance, data?: any):void;`",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1068"
+   ],
+   [
+    "onOpen",
+    "PropTypes.func",
+    "The `open` event handler. `(dates: Date[], dStr: string, fp: Instance, data?: any):void;`",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1074"
+   ],
+   [
+    "parseDate",
+    "deprecate(PropTypes.func, flatpickrDeprecation('parseDate'))",
+    "flatpickr prop passthrough. Controls how dates are parsed.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1079"
+   ],
+   [
+    "readOnly",
+    "PropTypes.oneOfType([PropTypes.bool, PropTypes.array])",
+    "whether the DatePicker is to be readOnly if boolean applies to all inputs if array applies to each input in order",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1086"
+   ],
+   [
+    "short",
+    "PropTypes.bool",
+    "`true` to use the short version.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1091"
+   ],
+   [
+    "value",
+    "PropTypes.oneOfType([",
+    "The value of the date value provided to flatpickr, could be a date, a date number, a date string, an array of dates.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1097"
+   ],
+   [
+    "warn",
+    "PropTypes.bool",
+    "Specify whether the control is currently in warning state (Fluid only)",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1113"
+   ],
+   [
+    "nextMonthAriaLabel",
+    "PropTypes.string",
+    "Accessible aria-label for the \"next month\" arrow icon.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1118"
+   ],
+   [
+    "prevMonthAriaLabel",
+    "PropTypes.string",
+    "Accessible aria-label for the \"previous month\" arrow icon.",
+    "packages/react/src/components/DatePicker/DatePicker.tsx:1123"
+   ]
+  ],
+  "source": "packages/react/src/components/DatePicker/DatePicker.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}
