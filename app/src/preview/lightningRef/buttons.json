@@ -1,0 +1,760 @@
+{
+ "slug": "buttons",
+ "title": "Buttons",
+ "docs": [
+  {
+   "repoPath": "ui/components/buttons/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/buttons/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/buttons/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/buttons/base/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/buttons/dual-stateful/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/buttons/dual-stateful/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/buttons/stateful/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/buttons/stateful/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/buttons/with-icon/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/buttons/with-icon/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/buttons/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * Create a button with a `button` or `a` element to retain the native click\n * function.\n *\n * Use a disabled attribute when a button can’t be clicked.\n *\n * @summary Buttons are used to invoke an event\n *\n * @name buttons\n * @base\n * @selector .slds-button, .slds-button_stateful, .slds-button_dual-stateful, .slds-button_reset\n * @category base\n * @type action\n * @role button\n * @support dev-ready\n * @layout responsive\n * @lwc\n * @styling-hooks\n */\n"
+   },
+   {
+    "source": "scss/components/buttons/base/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @selector .slds-button-space-left\n * @deprecated\n */\n.slds-button-space-left {\n  @include deprecate('4.0.0', 'Use spacing utilities instead') {\n    margin-left: $spacing-xx-small;\n  }\n}\n\n/**\n * @summary Creates a smaller button style\n * @selector .slds-button_small\n * @deprecated\n */\n.slds-button_small,\n.slds-button--small {\n  @include deprecate('4.0.0', 'Small modifier doesnt do anything anymore since its value are the same as the default size') {\n    line-height: $line-height-button-small;\n    // Force icon-only buttons to be the same\n    // height as small buttons since they're SVG\n    // and line-height has no effect on them\n    min-height: $square-icon-medium-boundary;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n@import 'deprecate';\n@import '../mixins/index';\n\n/**\n * @summary This neutralizes all the base styles making it look like a text link\n * @name base\n * @selector .slds-button\n * @restrict button, a, span\n * @support dev-ready\n * @variant\n */\n.slds-button {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  padding-top: var(--slds-c-button-spacing-block-start, var(--slds-c-button-spacing-blockstart, var(--sds-c-button-spacing-block-start, 0)));\n  padding-right: var(--slds-c-button-spacing-inline-end, var(--slds-c-button-spacing-inlineend, var(--sds-c-button-spacing-inline-end, 0)));\n  padding-bottom: var(--slds-c-button-spacing-block-end, var(--slds-c-button-spacing-blockend, var(--sds-c-button-spacing-block-end, 0)));\n  padding-left: var(--slds-c-button-spacing-inline-start, var(--slds-c-button-spacing-inlinestart, var(--sds-c-button-spacing-inline-start, 0)));\n  background: none; // Reset underlying styles like VF\n  background-color: var(--slds-c-button-color-background, var(--sds-c-button-color-background, transparent));\n  background-clip: border-box;\n  border-color: var(--slds-c-button-color-border, var(--sds-c-button-color-border, transparent));\n  border-style: solid;\n  border-width: var(--slds-c-button-sizing-border, var(--sds-c-button-sizing-border, $border-width-thin));\n  border-radius: var(--slds-c-button-radius-border, var(--sds-c-button-radius-border, $button-border-radius));\n  box-shadow: var(--slds-c-button-shadow, var(--sds-c-button-shadow));\n  line-height: var(--slds-c-button-line-height, var(--sds-c-button-line-height, $line-height-button));\n  text-decoration: none;\n  color: var(--slds-c-button-text-color, var(--sds-c-button-text-color, $brand-accessible));\n  // stylelint-disable property-no-vendor-prefix\n  -webkit-appearance: none;\n  // stylelint-enable property-no-vendor-prefix\n  white-space: normal;\n  user-select: none;\n  vertical-align: middle;\n\n  &:hover,\n  &:focus,\n  &:active,\n  &:visited {\n    text-decoration: none;\n  }\n\n  &:hover,\n  &:focus {\n    --slds-c-button-color-border: var(--slds-c-button-color-border-hover);\n    --slds-c-button-color-background: var(--slds-c-button-color-background-hover);\n    color: var(--slds-c-button-text-color-hover, var(--sds-c-button-text-color-hover, #{$brand-accessible-active}));\n  }\n\n  &:focus {\n    box-shadow: var(--slds-c-button-shadow-focus, var(--sds-c-button-shadow-focus, var(--slds-g-shadow-outline-focus-1)));\n    outline: 0;\n  }\n\n  &:active {\n    color: var(--slds-c-button-text-color-active, var(--sds-c-button-text-color-active, #{$brand-accessible-active}));\n    background-color: var(--slds-c-button-color-background-active);\n    border-color: var(--slds-c-button-color-border-active);\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: transparent;\n    border-color: transparent;\n    color: var(--slds-g-color-neutral-base-80, #{$color-text-button-default-disabled});\n    cursor: default;\n\n    * {\n      pointer-events: none;\n    }\n  }\n\n  a {\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color: currentColor;\n  }\n\n  &:hover,\n  &:focus,\n  &:active,\n  &[disabled],\n  &:disabled {\n\n    .slds-button__icon {\n      fill: currentColor;\n      pointer-events: none;\n    }\n  }\n\n  // Add spacing when button-group is adjacent to a button\n  + .slds-button-group,\n  + .slds-button-group-list {\n    margin-left: $spacing-xx-small;\n  }\n  // Add spacing when another button is adjacent to it\n  + .slds-button {\n    margin-left: $spacing-xx-small;\n  }\n}\n\n// Polyfill for slds-button on links\na.slds-button {\n  text-align: center;\n\n  &:focus {\n    /*! @css-var-fallback box-shadow */\n    --slds-c-button-shadow-focus: var(--sds-c-button-shadow-focus, var(--slds-g-shadow-outline-focus-1));\n  }\n}\n\n// NOTE: You may notice that these link-specific Button styles are *not* using CSS Custom Property reassignment. This is due to the fact that the global `a:hover` text styles are leaking into the component (which is expected, as `property: value;` declarations override reassignment by design). This shouldn't be necessary in the vast majority of components, but due to the global inheritance at play here this is our best option.\na.slds-button_brand:hover,\na.slds-button--brand:hover,\na.slds-button_brand:focus,\na.slds-button--brand:focus {\n  color:\n    var(--slds-c-button-brand-text-color-hover,\n    var(--sds-c-button-brand-text-color-hover,\n    var(--slds-g-link-text-color-hover, var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary}))));\n}\n\na.slds-button_destructive:hover,\na.slds-button--destructive:hover,\na.slds-button_destructive:focus,\na.slds-button--destructive:focus {\n  color:\n    var(--slds-c-button-destructive-text-color,\n    var(--sds-c-button-destructive-text-color, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n}\n\na.slds-button_text-destructive:hover,\na.slds-button_text-destructive:focus {\n  color:\n    var(--slds-c-button-text-destructive-text-color-hover,\n    var(--sds-c-button-text-destructive-text-color-hover, var(--slds-g-color-error-base-30, #{$color-text-destructive-hover})));\n}\n\na.slds-button_success:hover,\na.slds-button--success:hover,\na.slds-button_success:focus,\na.slds-button--success:focus {\n  color:\n    var(--slds-c-button-success-text-color-hover,\n    var(--sds-c-button-success-text-color-hover, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n}\n\n// end NOTE\n\na.slds-button_inverse:focus,\na.slds-button--inverse:focus {\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-inverse-color-border-focus, var(--sds-c-button-inverse-color-border-focus,\n    var(--slds-g-color-neutral-base-100, #{$color-border-button-focus-inverse})));\n\n  /*! @css-var-fallback box-shadow */\n  --slds-c-button-shadow: var(--slds-c-button-inverse-shadow-focus, var(--sds-c-button-inverse-shadow-focus, var(--slds-s-button-shadow-focus-inverse, #{$shadow-button-focus-inverse})));\n  outline: none;\n}\n\n/**\n * @name reset\n * @summary Resets attributes of .slds-button back to the browser default\n * @selector .slds-button_reset\n * @restrict button, a, span\n * @modifier\n * @group theme\n */\n.slds-button_reset,\n.slds-button--reset {\n  font-size: inherit;\n  color: inherit;\n  line-height: inherit;\n  padding: 0;\n  background: transparent;\n  border: 0;\n  text-align: inherit;\n}\n\n/**\n * @name neutral\n * @summary Creates the gray border with white background default style\n * @selector .slds-button_neutral\n * @restrict .slds-button\n * @modifier\n * @group theme\n */\n.slds-button_neutral,\n.slds-button--neutral {\n  @include button-shape(neutral, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-neutral-color-background, var(--sds-c-button-neutral-color-background, var(--slds-g-color-neutral-base-100, #{$button-color-background-primary})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-neutral-color-border, var(--sds-c-button-neutral-color-border, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-neutral-color-background-hover, var(--sds-c-button-neutral-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-neutral-color-border-hover, var(--sds-c-button-neutral-color-border-hover, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-neutral-color-background-active, var(--sds-c-button-neutral-color-background-active, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-neutral-color-border-active, var(--sds-c-button-neutral-color-border-active, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-100, #{$color-background-button-default-disabled});\n    border-color: var(--slds-g-color-border-base-1, #{$button-color-border-primary});\n  }\n}\n\n/**\n * @name brand\n * @summary Creates the brand blue Salesforce style\n * @selector .slds-button_brand\n * @restrict .slds-button\n * @modifier\n * @group theme\n */\n.slds-button_brand,\n.slds-button--brand {\n  @include button-shape(brand, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, #{$brand-accessible}));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-brand-color-border, var(--sds-c-button-brand-color-border, #{$brand-accessible}));\n\n  /*! @css-var-fallback color */\n  --slds-c-button-text-color: var(--slds-c-button-brand-text-color, var(--sds-c-button-brand-text-color, var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary})));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-brand-color-background-hover, var(--sds-c-button-brand-color-background-hover, #{$brand-accessible-active}));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-brand-color-border-hover, var(--sds-c-button-brand-color-border-hover, #{$brand-accessible-active}));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-hover: var(--slds-c-button-brand-text-color-hover, var(--sds-c-button-brand-text-color-hover, var(--slds-g-link-text-color-hover, #{$color-text-brand-primary})));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-brand-color-background-active, var(--sds-c-button-brand-color-background-active, #{$brand-accessible-active}));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-brand-color-border-active, var(--sds-c-button-brand-color-border-active, #{$brand-accessible-active}));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-active: var(--slds-c-button-brand-text-color-active, var(--sds-c-button-brand-text-color-active, var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    border-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    color: var(--slds-g-color-neutral-base-100, #{$color-text-button-brand-disabled});\n  }\n}\n\n/**\n * @name outline-brand\n * @summary Creates the outlined button with the brand color\n * @selector .slds-button_outline-brand\n * @restrict .slds-button\n * @modifier\n * @group theme\n */\n.slds-button_outline-brand {\n  @include button-shape(outline-brand, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-outline-brand-color-background, var(--sds-c-button-outline-brand-color-background, var(--slds-g-color-neutral-base-100, #{$button-color-background-primary})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-outline-brand-color-border, var(--sds-c-button-outline-brand-color-border, #{$brand-accessible}));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-outline-brand-color-background-hover, var(--sds-c-button-outline-brand-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-outline-brand-color-border-hover, var(--sds-c-button-outline-brand-color-border-hover, #{$brand-accessible}));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-outline-brand-color-background-active, var(--sds-c-button-outline-brand-color-background-active, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-outline-brand-color-border-active, var(--sds-c-button-outline-brand-color-border-active, #{$brand-accessible}));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-100, #{$color-background-button-default-disabled});\n    border-color: var(--slds-g-color-border-base-1, #{$button-color-border-primary});\n  }\n}\n\n/**\n * @name inverse\n * @summary Creates the inverse style for dark backgrounds\n * @selector .slds-button_inverse\n * @restrict .slds-button\n * @modifier\n * @group theme\n */\n.slds-button_inverse,\n.slds-button--inverse {\n  @include button-shape(inverse, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-inverse-color-background, var(--sds-c-button-inverse-color-background, transparent));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-inverse-color-border, var(--sds-c-button-inverse-color-border, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-inverse-color-background-hover, var(--sds-c-button-inverse-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-inverse-color-border-hover, var(--sds-c-button-inverse-color-border-hover, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n  }\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-inset-focus-1, #{$shadow-button-focus});\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-inverse-color-background-active, var(--sds-c-button-inverse-color-background-active, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-inverse-color-border-active, var(--sds-c-button-inverse-color-border-active, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: transparent;\n    border-color: var(--slds-g-color-neutral-100-opacity-10, #{$color-border-button-inverse-disabled});\n  }\n}\n\n.slds-button_inverse,\n.slds-button--inverse,\n.slds-button_icon-border-inverse,\n.slds-button--icon-border-inverse {\n\n  &,\n  &:link,\n  &:visited {\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color: var(--slds-c-button-inverse-text-color, var(--sds-c-button-inverse-text-color, var(--slds-g-color-neutral-base-100, #{$color-text-button-inverse})));\n  }\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-hover: var(--slds-c-button-inverse-text-color-hover, var(--sds-c-button-inverse-text-color-hover, var(--slds-g-link-color, #{$color-text-button-default})));\n  }\n\n  &:focus {\n    /*! @css-var-fallback box-shadow */\n    --slds-c-button-shadow: var(--sds-c-button-inverse-shadow-focus, var(--sds-c-button-inverse-shadow-focus, #{$shadow-button-focus-inverse}));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border: var(--slds-g-color-neutral-base-100, #{$color-border-button-focus-inverse});\n    outline: none;\n  }\n\n  &:active {\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-active: var(--slds-c-button-inverse-text-color-active, var(--sds-c-button-inverse-text-color-active, var(--slds-g-link-color, #{$color-text-button-default})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // Make sure disabled buttons don't inherit hover states\n    color: var(--slds-g-color-neutral-100-opacity-50, #{$color-text-button-inverse-disabled});\n  }\n}\n\n/**\n * @name destructive\n * @summary Creates a red button style\n * @selector .slds-button_destructive\n * @restrict .slds-button\n * @group theme\n * @modifier\n */\n.slds-button_destructive,\n.slds-button--destructive {\n  @include button-shape(destructive, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-destructive-color-background, var(--sds-c-button-destructive-color-background, var(--slds-g-color-error-base-40, #{$color-background-destructive})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-destructive-color-border, var(--sds-c-button-destructive-color-border, var(--slds-g-color-error-base-40, #{$color-background-destructive})));\n\n  /*! @css-var-fallback color */\n  --slds-c-button-text-color: var(--slds-c-button-destructive-text-color,\n    var(--sds-c-button-destructive-text-color, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-destructive-color-background-hover, var(--sds-c-button-destructive-color-background-hover, var(--slds-g-color-error-base-30, #{$color-background-destructive-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-destructive-color-border-hover, var(--sds-c-button-destructive-color-border-hover));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-hover: var(--slds-c-button-destructive-text-color-hover, var(--sds-c-button-destructive-text-color-hover, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-destructive-color-background-active, var(--sds-c-button-destructive-color-background-active, var(--slds-g-color-error-base-30, #{$color-background-destructive-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-destructive-color-border-active, var(--sds-c-button-destructive-color-border-active, var(--slds-g-color-error-base-30, #{$color-border-destructive-active})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-active: var(--slds-c-button-destructive-text-color-active, var(--sds-c-button-destructive-text-color-active, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    border-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    color: var(--slds-g-color-neutral-base-100, #{$color-text-button-brand-disabled});\n  }\n}\n\n/**\n * @name text-destructive\n * @summary Creates a neutral button with red text\n * @selector .slds-button_text-destructive\n * @restrict .slds-button\n * @modifier\n * @group theme\n */\n.slds-button_text-destructive {\n  @include button-shape(text-destructive, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-text-destructive-color-background, var(--sds-c-button-text-destructive-color-background, var(--slds-g-color-neutral-base-100, #{$button-color-background-primary})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-text-destructive-color-border, var(--sds-c-button-text-destructive-color-border, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n\n  /*! @css-var-fallback color */\n  --slds-c-button-text-color: var(--slds-c-button-text-destructive-text-color, var(--sds-c-button-text-destructive-text-color, var(--slds-g-color-error-base-30, #{$color-text-destructive})));\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-text-destructive-color-background-hover, var(--sds-c-button-text-destructive-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-text-destructive-color-border-hover, var(--sds-c-button-text-destructive-color-border-hover, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-hover: var(--sds-c-button-text-destructive-text-color-hover, var(--sds-c-button-text-destructive-text-color-hover, var(--slds-g-color-error-base-30, #{$color-text-destructive-hover})));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-text-destructive-color-background-active, var(--sds-c-button-text-destructive-color-background-active, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-text-destructive-color-border-active, var(--sds-c-button-text-destructive-color-border-active, var(--slds-g-color-border-base-4, #{$button-color-border-primary})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-active: var(--slds-c-button-text-destructive-text-color-active, var(--sds-c-button-text-destructive-text-color-active, var(--slds-g-color-error-base-30, #{$color-text-destructive-hover})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-100, #{$color-background-button-default-disabled});\n    border-color: var(--slds-g-color-border-base-1, #{$button-color-border-primary});\n    color: var(--slds-g-color-neutral-base-80, #{$color-text-button-default-disabled});\n  }\n}\n\n/**\n * @name success\n * @summary Creates a green button style\n * @selector .slds-button_success\n * @restrict .slds-button\n * @group theme\n * @modifier\n */\n.slds-button_success,\n.slds-button--success {\n  @include button-shape(success, true);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background: var(--slds-c-button-success-color-background, var(--sds-c-button-success-color-background, var(--slds-g-color-success-base-70, #{$color-background-button-success})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border: var(--slds-c-button-success-color-border, var(--sds-c-button-success-color-border, var(--slds-g-color-success-base-50, #{$color-border-success})));\n\n  /*! @css-var-fallback color */\n  --slds-c-button-text-color: var(--slds-c-button-success-text-color, var(--sds-c-button-success-text-color, var(--slds-g-color-neutral-base-10, #{$color-text-default})));\n\n\n  &:hover,\n  &:focus {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-hover: var(--slds-c-button-success-color-background-hover, var(--sds-c-button-success-color-background-hover, var(--slds-g-color-success-base-50, #{$color-background-button-success-hover})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-hover: var(--slds-c-button-success-color-border-hover, var(--sds-c-button-success-color-border-hover, var(--slds-g-color-success-base-50, #{$color-border-success-dark})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-hover: var(--slds-c-button-success-text-color-hover, var(--sds-c-button-success-text-color-hover, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n  }\n\n  &:active {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-color-background-active: var(--slds-c-button-success-color-background-active, var(--sds-c-button-success-color-background-active, var(--slds-g-color-success-base-50, #{$color-background-button-success-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-color-border-active: var(--slds-c-button-success-color-border-active, var(--sds-c-button-success-color-border-active, var(--slds-g-color-success-base-50, #{$color-border-success-dark})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-text-color-active: var(--slds-c-button-success-text-color-active, var(--sds-c-button-success-text-color-active, var(--slds-g-color-neutral-base-100, #{$color-text-inverse})));\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    border-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    color: var(--slds-g-color-neutral-base-100, #{$color-text-button-brand-disabled});\n  }\n}\n\n.slds-button_brand,\n.slds-button--brand,\n.slds-button_success,\n.slds-button--success,\n.slds-button_destructive,\n.slds-button--destructive {\n  &:focus {\n    box-shadow: var(--slds-g-shadow-outset-focus-1);\n    outline: 0;\n  }\n}\n\n/**\n * @name with-icon\n * @summary Sizing for icon that sits inside button__icon\n * @selector .slds-button__icon\n * @restrict .slds-button svg\n * @support dev-ready\n * @variant\n */\n.slds-button__icon {\n  @include square($square-icon-medium-content-alt);\n  // Aura and LBC Button Icon components were created with a mix of approaches: partially with how Button Icon works and partially with Button _with_ Icon. Because of this, state classes (success/warning/error) within a Button Icon would never get the correct color, as this previously was hardcoded to `currentColor`. This is the least-invasive approach for remediation.\n  fill: var(--slds-c-icon-color-foreground, currentColor);\n  flex-shrink: 0;\n}\n\n/**\n * @name large\n * @summary Large size button icon svg\n * @selector .slds-button__icon_large\n * @restrict .slds-button__icon\n * @modifier\n * @group size\n */\n.slds-button__icon_large,\n.slds-button__icon--large {\n  @include square($square-icon-utility-large);\n}\n\n/**\n * @name small\n * @summary Small size button icon svg\n * @selector .slds-button__icon_small\n * @restrict .slds-button__icon\n * @modifier\n * @group size\n */\n.slds-button__icon_small,\n.slds-button__icon--small {\n  @include square($square-icon-small-content);\n}\n\n/**\n * @name x-small\n * @summary X-Small size button icon svg\n * @selector .slds-button__icon_x-small\n * @restrict .slds-button__icon\n * @modifier\n * @group size\n */\n.slds-button__icon_x-small,\n.slds-button__icon--x-small {\n  @include square($square-icon-x-small-content);\n}\n\n/**\n * @summary Position of icon when sitting to the left side of the text when inside a button\n * @selector .slds-button__icon_left\n * @restrict .slds-button__icon, .slds-button__icon_stateful\n */\n.slds-button__icon_left,\n.slds-button__icon--left {\n  margin-right: $spacing-x-small;\n}\n\n/**\n * @summary Position of icon when sitting to the right side of the text when inside a button\n * @selector .slds-button__icon_right\n * @restrict .slds-button__icon, .slds-button__icon_stateful\n */\n.slds-button__icon_right,\n.slds-button__icon--right {\n  margin-left: $spacing-x-small;\n}\n\n/**\n * @summary Creates a button style for full width that resets styling\n * @selector .slds-button_full-width\n * @restrict .slds-button\n * @modifier\n * @group size\n */\n.slds-button_full-width {\n  @include button-reset;\n  width: 100%;\n  display: inline-flex;\n  flex-grow: 1;\n  align-items: center;\n  justify-content: space-between;\n\n  &:focus {\n    /*! @css-var-fallback box-shadow */\n    --slds-c-button-shadow: none;\n  }\n}\n\n/**\n * @summary Creates a button style for 100% width with centered text that maintains current styling\n * @selector .slds-button_stretch\n * @restrict .slds-button\n * @modifier\n * @group size\n */\n.slds-button_stretch {\n  justify-content: center;\n  width: 100%;\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/base/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-button {\n  --slds-c-button-line-height: #{border-box-line-height($height-tappable)};\n  font-weight: $font-weight-bold;\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/dual-stateful/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import '../mixins/index';\n\n/**\n * @summary Initiates a dual stateful button\n * @name dual-stateful\n * @selector .slds-button_dual-stateful\n * @restrict button\n * @support dev-ready\n * @variant\n */\n.slds-button_dual-stateful {\n  /**\n   * @summary Shown text when button is not pressed - default state\n   * @selector .slds-text-not-pressed\n   * @restrict .slds-button_dual-stateful span\n   */\n  .slds-text-not-pressed {\n    display: block;\n  }\n\n  /**\n   * @summary Shown text when button is pressed\n   * @selector .slds-text-pressed\n   * @restrict .slds-button_dual-stateful span\n   */\n  .slds-text-pressed {\n    display: none;\n  }\n}\n\n/**\n * @summary When button is in pressed state\n * @selector .slds-is-pressed\n * @restrict .slds-button_dual-stateful\n * @notes This class should be toggled with JavaScript\n * @modifier\n * @group interaction\n */\n.slds-button_dual-stateful.slds-is-pressed {\n  /**\n   * Styling Hooks uses button-brand identifier instead of button_dual-stateful\n   * because dual stateful is a brand variant underneath the hood and therefore\n   * should pick up any styling customizations made to the brand variant.\n   */\n  @include button-shape(brand);\n\n  /*! @css-var-fallback background-color */\n  --slds-c-button-color-background:\n    var(--slds-c-button-dual-stateful-color-background-selected,\n    var(--slds-c-button-brand-color-background,\n    var(--sds-c-button-brand-color-background, #{$brand-accessible})));\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-color-border:\n    var(--slds-c-button-dual-stateful-color-border-selected,\n    var(--slds-c-button-brand-color-border,\n    var(--sds-c-button-brand-color-border, #{$brand-accessible})));\n\n  /*! @css-var-fallback color */\n  --slds-c-button-text-color:\n    var(--slds-c-button-dual-stateful-text-color-selected,\n    var(--slds-c-button-brand-text-color,\n    var(--sds-c-button-brand-text-color, var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary}))));\n\n  --slds-c-button-text-color-hover: \n    var(--slds-c-button-dual-stateful-text-color-selected-hover,\n    var(--slds-c-button-brand-text-color-hover,\n    var(--sds-c-button-brand-text-color-hover,\n    var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary}))));\n\n  // Since dual-stateful has a high specificity, we have to be explicit with pseudo-class\n  &:focus,\n  &:hover {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-dual-stateful-color-background-selected:\n      var(--slds-c-button-dual-stateful-color-background-selected-hover,\n      var(--slds-c-button-brand-color-background-hover,\n      var(--sds-c-button-brand-color-background-hover, #{$brand-accessible-active})));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-dual-stateful-color-border-selected:\n      var(--slds-c-button-dual-stateful-color-border-selected-hover,\n      var(--slds-c-button-brand-color-border-hover,\n      var(--sds-c-button-brand-color-border-hover, #{$brand-accessible-active})));\n\n    /*! @css-var-fallback color */\n    --slds-c-button-dual-stateful-text-color-selected:\n      var(--slds-c-button-dual-stateful-text-color-selected-hover,\n      var(--slds-c-button-brand-text-color-hover,\n      var(--sds-c-button-brand-text-color-hover, var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary}))));\n\n    --slds-c-button-dual-stateful-text-color-selected-hover:\n      var(--slds-c-button-brand-text-color-hover,\n      var(--sds-c-button-brand-text-color-hover,\n      var(--slds-g-color-neutral-base-100, #{$color-text-brand-primary})));\n  }\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-outset-focus-1);\n    outline: 0;\n  }\n\n  .slds-text-not-pressed {\n    display: none;\n  }\n\n  .slds-text-pressed {\n    display: block;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/kinetics/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Kinetics vars\n$kx-button-ripple-size: 1.25rem;\n$kx-button-pointer-position: 50%;\n$kx-button-gradient-size: 140px;\n\n// Kinetic styles for Base Button\n[kx-scope=\"button\"][kx-type=\"underline\"] {\n  --slds-kx-button-underline-scale-x: 0;\n  --slds-kx-button-underline-base-y: 600%; // CAUTION: magic number, 600% positions the underline to the button text baseline, no matter padding, margin or line-height applied.\n  --slds-kx-button-underline-offset-y: 0.25rem; // this will need to be reassigned if font-size is overridden\n  --slds-kx-button-underline-translate-y: calc(var(--slds-kx-button-underline-base-y) + var(--slds-kx-button-underline-offset-y));\n  will-change: color, transform;\n  transition: $kx-duration-normal $kx-ease-out;\n  transition-property: transform, color;\n\n  &:active {\n    transform: scale(0.95);\n\n    @media (prefers-reduced-motion: reduce) {\n      transform: none;\n    }\n  }\n\n  &:after {\n    will-change: transform-origin, transform;\n    content: \"\";\n    position: absolute;\n    bottom: 50%; // 50% brings the underline to the relative middle of button, no matter padding, margin or line-height applied.\n    height: rem(1px);\n    width: calc(100% - var(--slds-c-button-spacing-inline-start, var(--slds-c-button-spacing-inlinestart, 0rem)) - var(--slds-c-button-spacing-inline-end, var(--slds-c-button-spacing-inlineend, 0rem)));\n    background: var(--slds-c-button-text-color-hover, var(--sds-c-button-text-color-hover, #{$brand-accessible-active}));\n    background-position: left top;\n    transform: scaleX(var(--slds-kx-button-underline-scale-x)) translateY(var(--slds-kx-button-underline-translate-y));\n    transform-origin: var(--slds-kx-button-pointer-position-x, #{$kx-button-pointer-position}) 0;\n    transition: transform $kx-duration-normal $kx-ease-out;\n\n    @media (prefers-reduced-motion: reduce) {\n      transition: none;\n    }\n  }\n\n  &:hover:after,\n  &:focus:after {\n    --slds-kx-button-underline-scale-x: 1;\n  }\n\n  &[disabled],\n  &:disabled {\n    cursor: default;\n\n    &:after {\n      display: none;\n    }\n\n    &,\n    * {\n      pointer-events: none;\n    }\n  }\n}\n\n// Kinetic styles for \"bordered\" buttons\n[kx-scope=\"button-brand\"],\n[kx-scope=\"button-neutral\"],\n[kx-scope=\"button-outline\"],\n[kx-scope=\"button-filled\"] {\n  position: relative;\n  overflow: hidden;\n\n  transition: transform $kx-duration-short $kx-ease-in-out;\n\n  &:hover,\n  &:active {\n    transition: transform $kx-duration-short $kx-ease-in-out;\n  }\n\n  @media (hover: none) {\n\n    &:active {\n      transform: scale(0.97);\n\n      @media (prefers-reduced-motion: reduce) {\n        transform: none;\n      }\n    }\n  }\n\n  @media (hover: hover) and (pointer: fine) {\n\n    &:hover {\n      transform: scale(1);\n\n      @media (prefers-reduced-motion: reduce) {\n        transform: none;\n      }\n    }\n\n    &:active {\n      transform: scale(0.97);\n    }\n  }\n}\n\n// Kinetic styles for Brand Button\n[kx-scope=\"button-brand\"] {\n  // These purposefully override the interaction states to facilitate the Kinetics effect\n  // kinetics overrides the darker $brand-accessible-active color with $brand-accessible\n  // and the $brand-accessible-active color is then used in the hover gradient.\n  &:focus,\n  &:hover,\n  &:active {\n    background-color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, #{$brand-accessible}));\n    border-color: transparent;\n  }\n\n  // Kinetics Button Brand hover gradient\n  &:hover:before {\n    content: \"\";\n    position: absolute;\n    left: var(--slds-kx-button-pointer-position-x, #{$kx-button-pointer-position});\n    top: var(--slds-kx-button-pointer-position-y, #{$kx-button-pointer-position});\n    width: var(--slds-kx-button-gradient-size, #{$kx-button-gradient-size});\n    height: var(--slds-kx-button-gradient-size, #{$kx-button-gradient-size});\n    opacity: 0.75;\n    z-index: -1;\n    background: radial-gradient(circle closest-side, var(--slds-kx-button-gradient-color, $brand-accessible-active), transparent);\n    transform: translate(-50%, -50%);\n  }\n\n  &[disabled]:before,\n  &:disabled:before {\n    display: none;\n  }\n}\n\n// Ripple\n[kx-scope^=\"button-\"][kx-type=\"ripple\"] {\n\n  &:focus {\n    transition: transform $kx-duration-short $kx-ease-in-out,\n      box-shadow $kx-duration-short $kx-ease-none $kx-duration-short,\n      border-color $kx-duration-short $kx-ease-none $kx-duration-short;\n\n    @media (prefers-reduced-motion: reduce) {\n      transition: none;\n    }\n  }\n\n  &:after {\n    content: \"\";\n    position: absolute;\n    width: var(--slds-kx-button-ripple-size, #{$kx-button-ripple-size});\n    height: var(--slds-kx-button-ripple-size, #{$kx-button-ripple-size});\n    left: calc(\n      var(--slds-kx-button-pointer-position-x, #{$kx-button-pointer-position}) - var(--slds-kx-button-ripple-size, #{$kx-button-ripple-size}) / 2\n    );\n    top: calc(\n      var(--slds-kx-button-pointer-position-y, #{$kx-button-pointer-position}) - var(--slds-kx-button-ripple-size, #{$kx-button-ripple-size}) / 2\n    );\n    border-radius: $border-radius-circle;\n    opacity: 0;\n  }\n\n  &.slds-kx-is-animating-from-click {\n\n    &:after {\n      animation: slds-kx-button_ripple $kx-duration-normal $kx-ease-ripple;\n\n      @media (prefers-reduced-motion: reduce) {\n        animation: none;\n      }\n    }\n  }\n\n  &[disabled],\n  &:disabled {\n\n    &:after {\n      display: none;\n    }\n  }\n}\n\n// Kinetic styles for Brand and filled backgrounds\n[kx-scope=\"button-brand\"],\n[kx-scope=\"button-filled\"] {\n\n  &[kx-type=\"ripple\"] {\n\n    &:after {\n      background-color: var(--slds-g-color-neutral-base-100, #{$color-background-light});\n    }\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    border-color: var(--slds-g-color-neutral-base-80, #{$brand-disabled});\n    color: var(--slds-g-color-neutral-base-100, #{$color-text-button-brand-disabled});\n  }\n}\n\n[kx-scope=\"button-neutral\"],\n[kx-scope=\"button-outline\"] {\n\n  &[kx-type=\"ripple\"] {\n\n    &:after {\n      background-color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, #{$brand-accessible}));\n    }\n  }\n\n  &[disabled],\n  &:disabled {\n    // @todo: global shared disabled button hooks\n    background-color: var(--slds-g-color-neutral-base-100, #{$color-background-button-default-disabled});\n    border-color: var(--slds-g-color-border-base-4, #{$button-color-border-primary});\n  }\n}\n\n@keyframes slds-kx-button_ripple {\n\n  0% {\n    opacity: 0.35;\n    transform: scale(1);\n  }\n\n  100% {\n    opacity: 0;\n    transform: scale(7);\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/mixins/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@mixin button-shape($api-variant, $reassign: false) {\n  @if $reassign == true {\n    /*! @css-var-fallback padding-left */\n    --slds-c-button-spacing-inline-start: var(--slds-c-button-#{$api-variant}-spacing-inline-start, var(--slds-c-button-#{$api-variant}-spacing-inlinestart, var(--sds-c-button-#{$api-variant}-spacing-inline-start, #{$spacing-medium})));\n\n    /*! @css-var-fallback padding-right */\n    --slds-c-button-spacing-inline-end: var(--slds-c-button-#{$api-variant}-spacing-inline-end, var(--slds-c-button-#{$api-variant}-spacing-inlineend, var(--sds-c-button-#{$api-variant}-spacing-inline-end, #{$spacing-medium})));\n  } @else {\n    padding-left: var(--slds-c-button-#{$api-variant}-spacing-inline-start, var(--sds-c-button-#{$api-variant}-spacing-inline-start, $spacing-medium));\n    padding-right: var(--slds-c-button-#{$api-variant}-spacing-inline-end, var(--sds-c-button-#{$api-variant}-spacing-inline-end, $spacing-medium));\n  }\n  text-align: center;\n  justify-content: center;\n  transition: border 0.15s linear;\n}\n\n@mixin button-reset {\n  font-size: inherit;\n  color: inherit;\n  line-height: inherit;\n  padding: 0;\n  background: transparent;\n  border: 0;\n  text-align: inherit;\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/stateful/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Icon modifier for stateful buttons\n * @selector .slds-button__icon_stateful\n * @deprecated\n */\n.slds-button__icon_stateful,\n.slds-button__icon--stateful {\n  @include deprecate('4.0.0', 'Use spacing utilities instead') {\n    @include square($square-icon-small-content);\n    fill: currentColor;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/buttons/stateful/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n\n/**\n * @summary Initiates a stateful button\n * @name stateful\n * @selector .slds-button_stateful\n * @restrict button\n * @support dev-ready\n * @variant\n * @lwc\n */\n.slds-button_neutral.slds-is-selected,\n.slds-button--neutral.slds-is-selected {\n  /*! @css-var-fallback background-color */\n  --slds-c-button-neutral-color-background: var(--slds-c-button-stateful-color-background-selected, transparent);\n\n  /*! @css-var-fallback border-color */\n  --slds-c-button-neutral-color-border: var(--slds-c-button-stateful-color-border-selected, transparent);\n\n  /**\n   * Styling Hooks uses button-neutral identifier instead of button_stateful\n   * because stateful is a neutral variant underneath the hood and therefore\n   * should pick up any styling customizations made to the brand variant.\n   */\n  &:hover:not([disabled]),\n  &:focus:not([disabled]) {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-neutral-color-background-hover: var(--slds-c-button-stateful-color-background-selected-hover, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-hover}));\n\n    /*! @css-var-fallback border-color */\n    --slds-c-button-neutral-color-border-hover: var(--slds-c-button-stateful-color-border-selected-hover, var(--slds-g-color-border-base-1, #{$color-border-primary}));\n  }\n\n  &:active:not([disabled]) {\n    /*! @css-var-fallback background-color */\n    --slds-c-button-neutral-color-background-active: var(--slds-c-button-stateful-color-background-selected-active, var(--slds-g-color-neutral-base-95, #{$color-background-button-default-active}));\n  }\n}\n\n// Inverse Button\n.slds-button_inverse.slds-is-selected,\n.slds-button--inverse.slds-is-selected {\n  border-color: transparent;\n}\n\n.slds-button_stateful .slds-text-selected,\n.slds-button_stateful .slds-text-selected-focus,\n.slds-button_stateful .slds-text-not-selected {\n  align-items: center;\n}\n\n/**\n * Default state of a stateful button\n *\n * @selector .slds-not-selected\n * @restrict .slds-button_stateful\n * @notes This class should be toggled with JavaScript\n * @modifier\n * @group interaction\n */\n.slds-not-selected {\n  /**\n   * @summary Shown text when button is selected\n   * @selector .slds-text-selected\n   * @restrict .slds-button_stateful span\n   */\n  .slds-text-selected {\n    display: none;\n  }\n\n  /**\n   * @summary Shown text when button is selected and focused\n   * @selector .slds-text-selected-focus\n   * @restrict .slds-button_stateful span\n   */\n  .slds-text-selected-focus {\n    display: none;\n  }\n\n  /**\n   * @summary Shown text when button is not selected - default state\n   * @selector .slds-text-not-selected\n   * @restrict .slds-button_stateful span\n   */\n  .slds-text-not-selected {\n    display: inline-flex;\n  }\n}\n\n/**\n * @summary When button is selected and still has focus from click\n * @selector .slds-is-selected-clicked\n * @restrict .slds-button_stateful\n * @notes This class should be toggled with JavaScript\n * @modifier\n * @group interaction\n */\n.slds-is-selected-clicked,\n.slds-is-selected[disabled],\n.slds-is-selected[disabled]:hover,\n.slds-is-selected[disabled]:focus {\n\n  .slds-text-selected {\n    display: inline-flex;\n  }\n\n  .slds-text-selected-focus {\n    display: none;\n  }\n\n  .slds-text-not-selected {\n    display: none;\n  }\n}\n\n/**\n * @summary When button is pressed and selected\n * @selector .slds-is-selected\n * @restrict .slds-button_stateful\n * @notes This class should be toggled with JavaScript\n * @modifier\n * @group interaction\n */\n.slds-is-selected {\n\n  .slds-text-not-selected {\n    display: none;\n  }\n\n  .slds-text-selected {\n    display: inline-flex;\n  }\n\n  .slds-text-selected-focus {\n    display: none;\n  }\n\n  &:hover,\n  &:focus {\n\n    .slds-text-not-selected {\n      display: none;\n    }\n\n    .slds-text-selected {\n      display: none;\n    }\n\n    .slds-text-selected-focus {\n      display: inline-flex;\n    }\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/buttons"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-button-stateful-color-background-selected",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-stateful-color-border-selected",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-stateful-color-background-selected-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-stateful-color-border-selected-hover",
+    "1, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-stateful-color-background-selected-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-spacing-inline-start",
+    "0",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-color-hover",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-background",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-border",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-text-color",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-background-hover",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-border-hover",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-text-color-hover",
+    "rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-spacing-block-start",
+    "0",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-spacing-inline-end",
+    "0",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-spacing-block-end",
+    "0",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-background",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-border",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-sizing-border",
+    "1px",
+    "Sizing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-radius-border",
+    "0.25rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-shadow",
+    "",
+    "Box Shadow",
+    "String",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-line-height",
+    "1.875rem",
+    "Text",
+    "Number",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-color",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-border-hover",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-background-hover",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-shadow-focus",
+    "1",
+    "Box Shadow",
+    "String",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-color-active",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-background-active",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-color-border-active",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-text-color",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-text-color-hover",
+    "30, rgb(186, 5, 23)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-text-color-hover",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-shadow-focus",
+    "0 0 3px #f3f3f3",
+    "Box Shadow",
+    "String",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-border-hover",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-background-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-neutral-color-border-active",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-background-active",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-color-border-active",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-brand-text-color-active",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-border",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-border-hover",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-background-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-outline-brand-color-border-active",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-background",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-border-hover",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-background-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-color-border-active",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-text-color",
+    "100, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-text-color-hover",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-inverse-text-color-active",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-background",
+    "40, rgb(186, 5, 23)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-border",
+    "40, rgb(186, 5, 23)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-background-hover",
+    "30, rgb(142, 3, 15)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-border-hover",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-text-color-hover",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-background-active",
+    "30, rgb(142, 3, 15)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-color-border-active",
+    "30, rgb(142, 3, 15)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-destructive-text-color-active",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-text-color",
+    "30, rgb(234, 0, 30)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-border-hover",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-background-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-color-border-active",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-text-destructive-text-color-active",
+    "30, rgb(186, 5, 23)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-background",
+    "70, rgb(69, 198, 90)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-border",
+    "50, rgb(145, 219, 139)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-text-color",
+    "10, rgb(24, 24, 24)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-background-hover",
+    "50, rgb(46, 132, 74)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-border-hover",
+    "50, rgb(46, 132, 74)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-background-active",
+    "50, rgb(46, 132, 74)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-color-border-active",
+    "50, rgb(46, 132, 74)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-button-success-text-color-active",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ],
+   [
+    "--slds-c-icon-color-foreground",
+    "currentColor",
+    "Color",
+    "Color",
+    "metadata/components/buttons/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/buttons/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

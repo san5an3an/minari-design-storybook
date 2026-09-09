@@ -1,0 +1,44 @@
+{
+ "slug": "file-selector",
+ "title": "File Selector",
+ "docs": [
+  {
+   "repoPath": "ui/components/file-selector/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/file-selector/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/file-selector/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/file-selector/base/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/file-selector/image/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/file-selector/image/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/file-selector/integrated/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/file-selector/integrated/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/file-selector/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary The File selector component allows the user to select file(s) from a user’s file system. Either natively using an file input or drag and drop.\n *\n * @base\n * @name file-selector\n * @selector .slds-file-selector\n * @support dev-ready\n * @category experience\n * @type user-input\n * @layout responsive\n * @lwc\n */\n"
+   },
+   {
+    "source": "scss/components/file-selector/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @name base\n * @selector .slds-file-selector\n * @restrict div\n * @support dev-ready\n * @variant\n */\n.slds-file-selector {\n  display: inline-flex;\n}\n\n/**\n * Region that a file can be dropped within\n *\n * @selector .slds-file-selector__dropzone\n * @restrict .slds-file-selector div\n * @required\n */\n.slds-file-selector__dropzone {\n  padding: $spacing-xxx-small;\n  border: $border-width-thin dashed var(--slds-g-color-border-base-4, #{$color-border});\n  border-radius: $border-radius-medium;\n\n  /**\n   * @selector .slds-has-drag-over\n   * @restrict .slds-file-selector__dropzone\n   * @modifier\n   */\n  &.slds-has-drag-over {\n    outline: 0;\n    border-color: var(--slds-g-color-brand-base-60, #{$color-border-input-active});\n    box-shadow: $shadow-button-focus;\n    border-style: solid;\n  }\n}\n\n/**\n * Hidden input element\n *\n * @selector .slds-file-selector__input\n * @restrict .slds-file-selector input\n * @required\n */\n.slds-file-selector__input {\n\n  &:focus ~ .slds-file-selector__body > .slds-file-selector__button {\n    box-shadow: var(--slds-g-shadow-outline-focus-1, #{$shadow-button-focus});\n  }\n\n  &[disabled] ~ .slds-file-selector__body {\n    color: var(--slds-g-color-neutral-base-50, #{$color-text-button-default-disabled});\n\n    > .slds-file-selector__button {\n      background: var(--slds-g-color-neutral-base-95, #{$color-background-button-brand-disabled});\n      border-color: var(--slds-g-color-neutral-base-80, #{$color-border-button-brand-disabled});\n      color: var(--slds-g-color-neutral-base-50, #{$color-text-button-brand-disabled});\n    }\n\n    > .slds-file-selector__body-icon {\n      fill: currentColor;\n    }\n  }\n}\n\n/**\n * Faux button\n *\n * @selector .slds-file-selector__button\n * @restrict .slds-file-selector button, .slds-file-selector span\n * @required\n */\n.slds-file-selector__button {\n  display: inline-flex;\n  align-items: center;\n}\n\n/**\n * Modifications based on context\n *\n * Single Line\n * Dedicated dropzone when there are multiple dropzones in the form or when\n * the input is positioned among other form inputs.\n *\n * @selector .slds-file-selector_files\n * @restrict .slds-file-selector\n * @required\n */\n.slds-file-selector_files,\n.slds-file-selector--files {\n  /**\n   * Container for file selector content, specifically within the dropzone\n   *\n   * @selector .slds-file-selector__body\n   * @restrict .slds-file-selector label\n   * @required\n   */\n  .slds-file-selector__body {\n    display: flex;\n    align-items: center;\n  }\n\n  /**\n   * Descriptive call back text\n   *\n   * @selector .slds-file-selector__text\n   * @restrict .slds-file-selector span\n   * @required\n   */\n  .slds-file-selector__text {\n    margin-left: $spacing-x-small;\n    margin-right: $spacing-small;\n  }\n}\n\n/**\n * Multi Line / Image\n *\n * Use as a dedicated dropzone for image files only. May require a\n * cropping control.\n *\n * @name image\n * @selector .slds-file-selector_images\n * @restrict .slds-file-selector\n * @support dev-ready\n * @variant\n */\n.slds-file-selector_images,\n.slds-file-selector--images {\n  display: block;\n\n  .slds-file-selector__dropzone {\n    @include absolute-center;\n    padding: $spacing-medium;\n  }\n\n  .slds-file-selector__body {\n    text-align: center;\n  }\n\n  .slds-file-selector__text {\n    margin-top: $var-spacing-horizontal-small;\n  }\n}\n\n/**\n * Invisible Dropzone (Container)\n *\n * Use when an entire container should be droppable.\n * The container should have a visible boundary, like a modal, composer, or page.\n *\n * @name integrated\n * @selector .slds-file-selector_integrated\n * @restrict .slds-file-selector\n * @support dev-ready\n * @variant\n */\n.slds-file-selector_integrated,\n.slds-file-selector--integrated {\n  @include square(100%);\n  position: relative;\n  display: block;\n}\n\n/**\n * Specific to integrated file selector — region that a file can be dropped within\n *\n * @selector .slds-file-selector__dropzone_integrated\n * @restrict .slds-file-selector_integrated div\n * @required\n */\n.slds-file-selector__dropzone_integrated,\n.slds-file-selector__dropzone--integrated {\n  @include absolute-center;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border: 0;\n  opacity: 0;\n  z-index: -1;\n\n  /**\n   * Informs dropzone that file has been dragged into the viewport\n   *\n   * @selector .slds-has-drag\n   * @restrict .slds-file-selector__dropzone_integrated\n   * @notes To be added with JavaScript\n   * @required\n   * @modifier\n   */\n  &.slds-has-drag {\n    background: var(--slds-g-color-neutral-100-opacity-75, #{$color-background-backdrop});\n    opacity: 1;\n    z-index: $z-index-overlay;\n  }\n\n  /**\n   * Informs dropzone that file has been dragged into its region\n   *\n   * @selector .slds-has-drag-over\n   * @restrict .slds-file-selector__dropzone_integrated\n   * @notes To be added with JavaScript\n   * @required\n   * @modifier\n   */\n  &.slds-has-drag-over {\n    background: var(--slds-g-color-neutral-base-95, #{$color-background-backdrop-tint});\n    box-shadow: 0 0 0 4px var(--slds-g-color-border-brand-2, #{$color-border-brand}) inset;\n  }\n}\n\n/**\n * Specific to integrated file selector — container for file selector\n * content, specifically within the dropzone\n *\n * @selector .slds-file-selector__body_integrated\n * @restrict .slds-file-selector_integrated label\n * @required\n */\n.slds-file-selector__body_integrated,\n.slds-file-selector__body--integrated {\n  @include square($size-x-small);\n  @include absolute-center;\n  background: var(--slds-g-color-neutral-base-100, #{$color-background-alt});\n  box-shadow: $shadow-drop-down;\n  border: $border-width-thin solid var(--slds-g-color-border-base-1, #{$color-border});\n  border-radius: $border-radius-medium;\n  flex-direction: column;\n}\n\n/**\n * Specific to integrated file selector — Descriptive call back text\n *\n * @selector .slds-file-selector__text_integrated\n * @restrict .slds-file-selector_integrated span\n * @required\n */\n.slds-file-selector__text_integrated,\n.slds-file-selector__text--integrated {\n  margin-top: $spacing-small;\n}\n"
+   }
+  ],
+  "source": "scss/components/file-selector"
+ },
+ "stylingHooks": null,
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}
