@@ -2,7 +2,11 @@ import manifest from "./_index.json";
 
 // 원문 발췌본, at 은 원문 문자 offset 기준 잘림 위치 검증용
 export interface BlueprintSlice {
+  // 원문 offset, 잘림 여부 검증 기준값
   at: number;
+  source: string;
+  // 실제 문자열 필수. 빈 값이면 필드 생략
+  name?: string;
 }
 
 export interface BlueprintHeading extends BlueprintSlice {
@@ -26,12 +30,12 @@ export interface BlueprintDoc {
   // front-matter title, 없으면 파일 이름 사용, 임의로 만들지 않음
   title: string;
   kind: "component" | "guide";
-  sourcePath: string;
+  source: string;
   package: string;
   version: string | null;
   license: string;
   // mdx 원문 그대로 유지. 미러 본체라 다시 쓰지 않음
-  source: string;
+  code: string;
   lines: number;
   frontMatter: Record<string, string>;
   headings: BlueprintHeading[];

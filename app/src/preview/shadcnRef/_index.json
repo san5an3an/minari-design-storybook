@@ -4,7 +4,7 @@
  "styleDeclaredBy": "components.json",
  "license": "MIT",
  "licenseNote": "shadcn/ui 는 MIT 다. 받아 온 것은 공식 레지스트리가 낸 **원문**이며 CLI 변환 전이다 — 설치본과 byte 가 다른 것이 정상이다.",
- "fetchedAt": "2026-09-08T07:16:52+00:00",
+ "fetchedAt": "2026-09-09T02:54:33+00:00",
  "upstreamVersion": null,
  "upstreamVersionNote": "레지스트리가 커밋을 안 낸다. 참인 것은 「fetchedAt 시점의 base-nova 가 이랬다」까지다.",
  "packages": {
@@ -39,14 +39,40 @@
   "meaning": "⛔ 「우리가 고쳤나」가 아니다. 레지스트리 원문은 **CLI 변환 전**이라 `cn` 경로와 아이콘이 다르다 — byte 가 다른 것이 정상이다. 같은 것들은 변환이 닿지 않은 파일이고, 그 존재가 이 대조의 **양성대조**다."
  },
  "negativeControl": {
-  "anchorsChecked": 727,
+  "anchorsChecked": 728,
   "anchorsCaughtWhenShifted": 716,
   "meaning": "앵커의 줄을 +1 밀었을 때 걸린 수. 측정과 **같은 자**로 친다 — 이름만 바꾼 대조는 형식 축의 결함을 통과시킨다."
  },
  "rulerNotes": {
   "variantAxes": "cva 축·값은 **문자열을 마스킹한 뒤 깊이 0 의 키**만 읽는다. 처음엔 줄머리 정규식으로 읽었고, 그래서 멀티라인 클래스 문자열의 `hover:` `before:` 가 축값으로 들어갔다 — badge·button·marker 세 곳, 가짜 3개(79→76). 고친 뒤 새로 들어온 값은 0이라 **진짜를 빠뜨리지도 않았다**.",
   "whyContainmentIsNotEnough": "⛔ 그 가짜 3개는 **양방향 포함 대조를 통과했다** — `hover` 가 원문에 문자열로 실재하기 때문이다. 「원문 **어딘가에** 있다」와 「**그 자리에서** 뽑았다」는 다른 축이고, 앞엣것은 한 겹 약하다.",
-  "anchorsAreLineLevel": "`exports`·`dataSlots` 의 `source` 는 `경로:줄`이라 그 줄에 그 이름이 있는지까지 재진다. `variants`·`semanticTokens` 에는 줄이 없다 — ⛔ 그 둘은 아직 **포함 대조 겹**이다."
+  "anchorsAreLineLevel": "`exports`·`dataSlots` 의 `source` 는 `경로:줄`이라 그 줄에 그 이름이 있는지까지 재진다. `variants`·`semanticTokens` 에는 줄이 없다 — ⛔ 그 둘은 아직 **포함 대조 겹**이다.",
+  "lineLevelIsNotEnough": "⛔ 그리고 「그 줄에 그 이름이 있다」가 참이어도 **그 줄이 옳은 자리가 아닐 수 있다.** 앞 판(`#119`)이 첫 등장·부분 문자열로 찾아 앵커 131개가 import 줄·JSX 사용 줄을 가리켰고, `check_mirror` ④ 727/727 과 게이트 독립 구현 ② 727/727 이 **둘 다 통과**시켰다. 구현이 독립이어도 **물음이 하나면 대조가 아니다**(내보내기 담당)."
+ },
+ "anchorRule": {
+  "exports": {
+   "method": "정의 줄 우선 → 재수출 줄 → 못 찾으면 줄을 안 단다",
+   "define": "^\\s*(?:export\\s+)?(?:const|function|class|type|interface|enum)\\s+{ident}\\b",
+   "reexport": "(?:^|,)\\s*(?:\\w+\\s+as\\s+)?{ident}\\s*,?\\s*$",
+   "excluded": "`import` 문이 차지한 **모든 줄** — 여러 줄 `import { … }` 의 안쪽 줄 포함. ⛔ `^\\s*import` 만 걸면 머리 줄만 잡히고 안쪽 줄이 재수출로 오인된다.",
+   "kind": "해석적 — 「정의 줄」이 무엇인지에 자마다 답이 다를 수 있다"
+  },
+  "dataSlots": {
+   "method": "`data-slot=\"<이름>\"` 이 **그대로 적힌** 줄",
+   "kind": "기계적 — 해석의 여지가 없어 서로 다른 자가 같은 수를 낸다 (게이트와 내 수가 74로 정확히 일치했다)"
+  },
+  "onMiss": "⛔ 줄을 못 찾으면 **줄을 안 단다.** 틀린 줄은 게이트를 통과하고, 안 단 줄은 분모에서 빠져 「못 잼」으로 **보인다.** 후자가 낫다."
+ },
+ "anchorsWithoutLine": {
+  "exports": {
+   "count": 0,
+   "names": []
+  },
+  "dataSlots": {
+   "count": 0,
+   "names": []
+  },
+  "meaning": "정의 자리를 못 찾아 `source` 를 파일까지만 적은 앵커. ⛔ 0 이 아니면 그만큼 ④(`:줄`)·②(음성대조) 의 **분모가 작아진 것**이다 — 「분모가 작아서 초록」인지 「다 통과해서 초록」인지 이 칸이 없으면 안 갈린다. ⚠️ 틀린 줄을 다는 것보다 낫다: 틀린 줄은 게이트를 **통과한다**."
  },
  "components": [
   {
@@ -193,7 +219,7 @@
    "slug": "chart",
    "title": "chart",
    "lines": 372,
-   "exports": 6,
+   "exports": 7,
    "dataSlots": 1,
    "variantAxes": 0,
    "semanticTokens": 4,

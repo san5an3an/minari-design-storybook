@@ -2,11 +2,11 @@
   "slug": "numeric-input",
   "title": "Numeric input",
   "kind": "component",
-  "sourcePath": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx",
+  "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx",
   "package": "@blueprintjs/core",
   "version": "6.18.0",
   "license": "Apache-2.0",
-  "source": "---\ntitle: Numeric input\n---\n\n# Numeric input\n\n**NumericInput** provides controls for inputting, incrementing, and decrementing numeric values.\n\n## Import\n\n```ts copy\nimport { NumericInput } from \"@blueprintjs/core\";\n```\n\n## Interactions\n\nThe value in a numeric input can be incremented or decremented using both keyboard and mouse interactions.\n\n##### Keyboard interactions\n\n- `↑/↓` - change the value by one step (default: `±1`)\n- `Shift + ↑/↓` - change the value by one major step (default: `±10`)\n- `Alt + ↑/↓` - change the value by one minor step (default: `±0.1`)\n\n##### Mouse interactions\n\n- `Click ⌃/⌄` - change the value by one step (default: `±1`)\n- `Shift + Click ⌃/⌄` - change the value by one major step (default: `±10`)\n- `Alt + Click ⌃/⌄` - change the value by one minor step (default: `±0.1`)\n\n## Basic example\n\nThis example shows how **NumericInput** works out of the box. It supports the basic keyboard and mouse interactions\nlisted above, as well as basic keyboard entry.\n\n@reactExample NumericInputBasicExample\n\n## Extended example\n\nThis example shows how **NumericInput** can be extended beyond its core functionality. It supports the basic\ninteractions above as well as each of the following types of input:\n\n- **Number abbreviations** (e.g. `2.1k`, `-0.3m`)\n- **Scientific notation** (e.g. `2.1e3`, `-0.3e6`)\n- **Addition and subtraction expressions** (e.g. `3+2`, `0.1m - 5k + 1`)\n\nThese special-case inputs are evaluated when `Enter` is pressed (via a custom `onKeyDown` callback) and when the field\nloses focus (via a custom `onBlur` callback). If the input is invalid when either of these callbacks is trigged, the\nfield will be cleared.\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nThis example contains non-core functionality that is meant to demonstrate the extensibility of the **NumericInput**\ncomponent. The correctness of the custom evaluation code has not been tested robustly.\n\n</div>\n\n@reactExample NumericInputExtendedExample\n\n## Usage\n\n### Uncontrolled mode\n\nBy default, this component will function in uncontrolled mode, managing all of its own state. In uncontrolled mode,\nyou mus provide an `onValueChange` callback prop to access the value as the user manipulates it. The value will be\nprovided to the callback both as a number and as a string.\n\nIn general, uncontrolled mode is the recommended API for this component, as it allows users to type non-numeric digits\nlike `.` and `-` (for decimals and negative numbers, respectively) more easily.\n\n```tsx\nimport { NumericInput } from \"@blueprintjs/core\";\n\nexport class NumericInputExample extends React.Component {\n    public render() {\n        return <NumericInput onValueChange={this.handleValueChange} />;\n    }\n\n    private handleValueChange = (valueAsNumber: number, valueAsString: string) => {\n        console.log(\"Value as number:\", valueAsNumber);\n        console.log(\"Value as string:\", valueAsString);\n    };\n}\n```\n\n### Controlled mode\n\nIf you need to have more control over your numeric input's behavior, you can specify the `value` property to use the\ncomponent in **controlled mode**.\n\nNote that NumericInput supports arbitrary text entry (not only numeric digits) so the `value`\n**should always be provided as a string, not a number**. Accordingly, change event handlers should use the same data\ntype, namely the _second_ parameter of the `onValueChange` callback. This behavior allows users to type non-numeric\ncharacters like decimal points (\".\") without the component eagerly coercing those strings to their parsed numeric\nequivalents (`0.` becomes `0`, fractional data entry impossible).\n\nExceptions to this rule may occur if your input only supports _positive integers_, which will not\nhave any non-numeric characters. See the [precision section](#core/components/numeric-input.numeric-precision)\nto learn how to enforce this kind of constraint.\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign\">\n\nWhen handling changes in controlled mode, always use the _second_ parameter of the `onValueChange` callback, which\nprovides the value as a string. This allows users to type non-numeric characters like decimal points (\".\") without the\ncomponent eagerly coercing those strings to their parsed numeric equivalents (`0.` becomes `0`, fractional data entry\nimpossible).\n\n</div>\n\nThe combined support of arbitrary text entry, controlled mode, and custom callbacks makes it possible to extend the\nnumeric input's basic functionality in powerful ways. As shown in the example above, one could extend the numeric input\ncomponent with support for mathematical expressions as follows:\n\n```tsx\nimport { NumericInput } from \"@blueprintjs/core\";\nimport * as SomeLibrary from \"some-library\";\n\ninterface NumericInputExampleState = {\n    value?: number | string;\n}\n\nclass NumericInputExample extends React.Component<{}, NumericInputExampleState> {\n    public state = { value: NumericInput.VALUE_EMPTY };\n\n    public render() {\n        return (\n            <NumericInput\n                onValueChange={this.handleValueChange}\n                value={this.state.value}\n            />\n        );\n    }\n\n    private handleValueChange = (_valueAsNumber: number, valueAsString: string) {\n        // Important: use the string value to allow typing decimal places and negative numbers\n        const result = SomeLibrary.evaluateMathExpression(valueAsString);\n        this.setState({ value: result });\n    }\n}\n```\n\n### Numeric precision\n\n**NumericInput** determines its maximum precision by looking at both the `minorStepSize` and `stepSize` props.\nIf `minorStepSize` is non-null, the number of decimal places in that value will be the maximum precision.\nOtherwise, the component will count the decimal places in `stepSize`.\n\nConfiguring these props allows you to expand or constrain the precision of the input. For example, to limit\nthe input to only integers, you can set `minorStepSize={null}` and allow the default `stepSize` of `1` to take\nprecedence.\n\n## Styling\n\n**NumericInput** can be styled with the same set of visual modifier props & CSS classes as\n[**ControlGroup**](#core/components/control-group). The most appropriate such modifier for **NumericInput** is `fill`,\nwhich will make the component expand to fill all available width.\n\n## Props interface\n\n@interface NumericInputProps\n",
+  "code": "---\ntitle: Numeric input\n---\n\n# Numeric input\n\n**NumericInput** provides controls for inputting, incrementing, and decrementing numeric values.\n\n## Import\n\n```ts copy\nimport { NumericInput } from \"@blueprintjs/core\";\n```\n\n## Interactions\n\nThe value in a numeric input can be incremented or decremented using both keyboard and mouse interactions.\n\n##### Keyboard interactions\n\n- `↑/↓` - change the value by one step (default: `±1`)\n- `Shift + ↑/↓` - change the value by one major step (default: `±10`)\n- `Alt + ↑/↓` - change the value by one minor step (default: `±0.1`)\n\n##### Mouse interactions\n\n- `Click ⌃/⌄` - change the value by one step (default: `±1`)\n- `Shift + Click ⌃/⌄` - change the value by one major step (default: `±10`)\n- `Alt + Click ⌃/⌄` - change the value by one minor step (default: `±0.1`)\n\n## Basic example\n\nThis example shows how **NumericInput** works out of the box. It supports the basic keyboard and mouse interactions\nlisted above, as well as basic keyboard entry.\n\n@reactExample NumericInputBasicExample\n\n## Extended example\n\nThis example shows how **NumericInput** can be extended beyond its core functionality. It supports the basic\ninteractions above as well as each of the following types of input:\n\n- **Number abbreviations** (e.g. `2.1k`, `-0.3m`)\n- **Scientific notation** (e.g. `2.1e3`, `-0.3e6`)\n- **Addition and subtraction expressions** (e.g. `3+2`, `0.1m - 5k + 1`)\n\nThese special-case inputs are evaluated when `Enter` is pressed (via a custom `onKeyDown` callback) and when the field\nloses focus (via a custom `onBlur` callback). If the input is invalid when either of these callbacks is trigged, the\nfield will be cleared.\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nThis example contains non-core functionality that is meant to demonstrate the extensibility of the **NumericInput**\ncomponent. The correctness of the custom evaluation code has not been tested robustly.\n\n</div>\n\n@reactExample NumericInputExtendedExample\n\n## Usage\n\n### Uncontrolled mode\n\nBy default, this component will function in uncontrolled mode, managing all of its own state. In uncontrolled mode,\nyou mus provide an `onValueChange` callback prop to access the value as the user manipulates it. The value will be\nprovided to the callback both as a number and as a string.\n\nIn general, uncontrolled mode is the recommended API for this component, as it allows users to type non-numeric digits\nlike `.` and `-` (for decimals and negative numbers, respectively) more easily.\n\n```tsx\nimport { NumericInput } from \"@blueprintjs/core\";\n\nexport class NumericInputExample extends React.Component {\n    public render() {\n        return <NumericInput onValueChange={this.handleValueChange} />;\n    }\n\n    private handleValueChange = (valueAsNumber: number, valueAsString: string) => {\n        console.log(\"Value as number:\", valueAsNumber);\n        console.log(\"Value as string:\", valueAsString);\n    };\n}\n```\n\n### Controlled mode\n\nIf you need to have more control over your numeric input's behavior, you can specify the `value` property to use the\ncomponent in **controlled mode**.\n\nNote that NumericInput supports arbitrary text entry (not only numeric digits) so the `value`\n**should always be provided as a string, not a number**. Accordingly, change event handlers should use the same data\ntype, namely the _second_ parameter of the `onValueChange` callback. This behavior allows users to type non-numeric\ncharacters like decimal points (\".\") without the component eagerly coercing those strings to their parsed numeric\nequivalents (`0.` becomes `0`, fractional data entry impossible).\n\nExceptions to this rule may occur if your input only supports _positive integers_, which will not\nhave any non-numeric characters. See the [precision section](#core/components/numeric-input.numeric-precision)\nto learn how to enforce this kind of constraint.\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign\">\n\nWhen handling changes in controlled mode, always use the _second_ parameter of the `onValueChange` callback, which\nprovides the value as a string. This allows users to type non-numeric characters like decimal points (\".\") without the\ncomponent eagerly coercing those strings to their parsed numeric equivalents (`0.` becomes `0`, fractional data entry\nimpossible).\n\n</div>\n\nThe combined support of arbitrary text entry, controlled mode, and custom callbacks makes it possible to extend the\nnumeric input's basic functionality in powerful ways. As shown in the example above, one could extend the numeric input\ncomponent with support for mathematical expressions as follows:\n\n```tsx\nimport { NumericInput } from \"@blueprintjs/core\";\nimport * as SomeLibrary from \"some-library\";\n\ninterface NumericInputExampleState = {\n    value?: number | string;\n}\n\nclass NumericInputExample extends React.Component<{}, NumericInputExampleState> {\n    public state = { value: NumericInput.VALUE_EMPTY };\n\n    public render() {\n        return (\n            <NumericInput\n                onValueChange={this.handleValueChange}\n                value={this.state.value}\n            />\n        );\n    }\n\n    private handleValueChange = (_valueAsNumber: number, valueAsString: string) {\n        // Important: use the string value to allow typing decimal places and negative numbers\n        const result = SomeLibrary.evaluateMathExpression(valueAsString);\n        this.setState({ value: result });\n    }\n}\n```\n\n### Numeric precision\n\n**NumericInput** determines its maximum precision by looking at both the `minorStepSize` and `stepSize` props.\nIf `minorStepSize` is non-null, the number of decimal places in that value will be the maximum precision.\nOtherwise, the component will count the decimal places in `stepSize`.\n\nConfiguring these props allows you to expand or constrain the precision of the input. For example, to limit\nthe input to only integers, you can set `minorStepSize={null}` and allow the default `stepSize` of `1` to take\nprecedence.\n\n## Styling\n\n**NumericInput** can be styled with the same set of visual modifier props & CSS classes as\n[**ControlGroup**](#core/components/control-group). The most appropriate such modifier for **NumericInput** is `fill`,\nwhich will make the component expand to fill all available width.\n\n## Props interface\n\n@interface NumericInputProps\n",
   "lines": 161,
   "frontMatter": {
     "title": "Numeric input"
@@ -15,101 +15,136 @@
     {
       "level": 1,
       "text": "Numeric input",
-      "at": 30
+      "at": 30,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:5",
+      "name": "Numeric input"
     },
     {
       "level": 2,
       "text": "Import",
-      "at": 145
+      "at": 145,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:9",
+      "name": "Import"
     },
     {
       "level": 2,
       "text": "Interactions",
-      "at": 222
+      "at": 222,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:15",
+      "name": "Interactions"
     },
     {
       "level": 5,
       "text": "Keyboard interactions",
-      "at": 347
+      "at": 347,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:19",
+      "name": "Keyboard interactions"
     },
     {
       "level": 5,
       "text": "Mouse interactions",
-      "at": 571
+      "at": 571,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:25",
+      "name": "Mouse interactions"
     },
     {
       "level": 2,
       "text": "Basic example",
-      "at": 810
+      "at": 810,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:31",
+      "name": "Basic example"
     },
     {
       "level": 2,
       "text": "Extended example",
-      "at": 1032
+      "at": 1032,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:38",
+      "name": "Extended example"
     },
     {
       "level": 2,
       "text": "Usage",
-      "at": 1986
+      "at": 1986,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:60",
+      "name": "Usage"
     },
     {
       "level": 3,
       "text": "Uncontrolled mode",
-      "at": 1996
+      "at": 1996,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:62",
+      "name": "Uncontrolled mode"
     },
     {
       "level": 3,
       "text": "Controlled mode",
-      "at": 2938
+      "at": 2938,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:86",
+      "name": "Controlled mode"
     },
     {
       "level": 3,
       "text": "Numeric precision",
-      "at": 5434
+      "at": 5434,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:142",
+      "name": "Numeric precision"
     },
     {
       "level": 2,
       "text": "Styling",
-      "at": 5977
+      "at": 5977,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:152",
+      "name": "Styling"
     },
     {
       "level": 2,
       "text": "Props interface",
-      "at": 6266
+      "at": 6266,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:158",
+      "name": "Props interface"
     }
   ],
   "codeBlocks": [
     {
       "lang": "ts",
       "code": "import { NumericInput } from \"@blueprintjs/core\";\n",
-      "at": 167
+      "at": 167,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:12",
+      "name": "import { NumericInput } from \"@blueprintjs/core\";"
     },
     {
       "lang": "tsx",
       "code": "import { NumericInput } from \"@blueprintjs/core\";\n\nexport class NumericInputExample extends React.Component {\n    public render() {\n        return <NumericInput onValueChange={this.handleValueChange} />;\n    }\n\n    private handleValueChange = (valueAsNumber: number, valueAsString: string) => {\n        console.log(\"Value as number:\", valueAsNumber);\n        console.log(\"Value as string:\", valueAsString);\n    };\n}\n",
-      "at": 2517
+      "at": 2517,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:72",
+      "name": "import { NumericInput } from \"@blueprintjs/core\";"
     },
     {
       "lang": "tsx",
       "code": "import { NumericInput } from \"@blueprintjs/core\";\nimport * as SomeLibrary from \"some-library\";\n\ninterface NumericInputExampleState = {\n    value?: number | string;\n}\n\nclass NumericInputExample extends React.Component<{}, NumericInputExampleState> {\n    public state = { value: NumericInput.VALUE_EMPTY };\n\n    public render() {\n        return (\n            <NumericInput\n                onValueChange={this.handleValueChange}\n                value={this.state.value}\n            />\n        );\n    }\n\n    private handleValueChange = (_valueAsNumber: number, valueAsString: string) {\n        // Important: use the string value to allow typing decimal places and negative numbers\n        const result = SomeLibrary.evaluateMathExpression(valueAsString);\n        this.setState({ value: result });\n    }\n}\n",
-      "at": 4628
+      "at": 4628,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:115",
+      "name": "import { NumericInput } from \"@blueprintjs/core\";"
     }
   ],
   "exampleRefs": [
     {
       "name": "reactExample",
       "arg": "NumericInputBasicExample",
-      "at": 992
+      "at": 992,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:36"
     },
     {
       "name": "reactExample",
       "arg": "NumericInputExtendedExample",
-      "at": 1943
+      "at": 1943,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:58"
     },
     {
       "name": "interface",
       "arg": "NumericInputProps",
-      "at": 6286
+      "at": 6286,
+      "source": "node_modules/@blueprintjs/core/src/components/forms/numeric-input.mdx:160"
     }
   ]
 }

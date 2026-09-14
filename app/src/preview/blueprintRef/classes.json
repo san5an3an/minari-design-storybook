@@ -2,11 +2,11 @@
   "slug": "classes",
   "title": "Classes",
   "kind": "guide",
-  "sourcePath": "node_modules/@blueprintjs/core/src/docs/classes.mdx",
+  "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx",
   "package": "@blueprintjs/core",
   "version": "6.18.0",
   "license": "Apache-2.0",
-  "source": "---\ntitle: Classes\n---\n\n# Classes\n\nBlueprint packages provide React components in JS files and associated styles in\na CSS file. Each package exports a `Classes` constants object in JavaScript that\ncontains keys of the form `NAMED_CONSTANT` for every CSS class used. This\nseparation allows us to change CSS classes between versions without breaking\ndownstream users (although in practice this happens very rarely).\n\n**Avoid referencing hardcoded Blueprint class names in your JS or CSS code.**\n\n```tsx\n// Don't do this! Avoid hardcoding Blueprint class names.\n<button className=\"@ns-button @ns-large\">Don't do this!</button>\n```\n\nThe **best practice** is to add your own class to an element and then reference\nthat class whenever needed.\n\n```tsx\n<Button className=\"my-custom-class\" text=\"customized button\" />\n```\n\n```scss\n.my-custom-class {\n    width: 4000px;\n}\n```\n\nIn cases where adding and styling a new class is impractical or undesirable, use\nthe `Classes` constants or `$ns` Sass/Less variable. The `Classes` constants can\nbe particularly useful when writing UI tests.\n\n```tsx\n// use Classes constants for forward-compatible custom elements.\nimport { Classes } from \"@blueprintjs/core\";\n<a className={Classes.MENU_ITEM}>custom menu item</a>;\n```\n\n```scss\n// interpolate the $ns variable to generate forward-compatible class names.\n// this approach is *not encouraged* as it increases maintenance cost.\n@import \"@blueprintjs/core/lib/scss/variables\";\n.#{$ns}-menu-item {\n}\n```\n\n## Modifiers\n\nBlueprint components support a range of **modifiers** to adjust their\nappearance. Some commonly used modifiers are `intent`, `large`, and `minimal`.\nWhile modifiers are typically implemented as simple CSS classes, it is always\npreferrable to use the corresponding prop on a React component.\n\n```tsx\n// Prefer props over modifier classes.\n<Button intent=\"primary\" variant=\"minimal\">Good stuff</Button>\n\n// Don't do this!\n<Button className={classNames(Classes.INTENT_PRIMARY, Classes.MINIMAL)}>Don't do this!</Button>\n```\n\nAnother important note: Since modifiers typically correspond directly to CSS classes, they will often\ncascade to children and _cannot be disabled_ on descendants. If a `<ButtonGroup>`\nis marked `variant=\"outlined\"`, then setting `<Button variant=\"minimal\">` on a child\nwill have _no effect_ since `Classes.OUTLINED` cannot be removed or overridden\nby a descendant.\n\n## Namespacing\n\nAll Blueprint CSS classes begin with a namespace prefix to isolate our styles\nfrom other frameworks: `.button` is a very common name, but only Blueprint\ndefines `.@ns-button`.\n\nThis CSS namespace is versioned by major version of the library so two major versions of Blueprint\ncan be used together on a single page.\n\n### Current namespace prefix\n\nBlueprint v6 uses the **`bp6-`** prefix for all CSS classes. For example, Button components have the class `.bp6-button`, Cards have `.bp6-card`, etc. This prefix changes with each major version of Blueprint (e.g., v5 used `bp5-`, v6 uses `bp6-`).\n\nWhen writing custom styles that target Blueprint components, you should reference the namespace using the `$ns` Sass variable rather than hardcoding the prefix:\n\n```scss\n@use \"@blueprintjs/core/lib/scss/variables.scss\" as bp;\n\n.my-class .#{bp.$ns}-button {\n    // Custom styles for Blueprint buttons within .my-class\n    background-color: red;\n}\n```\n\n### Custom namespace\n\nThe CSS namespace can be changed _at build time_ to produce a custom Blueprint build.\nWith this approach, you will import Blueprint's Sass sources from `/lib/scss/` instead of the CSS files from the\n`/lib/css/` folders.\n\nYou must use [Dart Sass](https://sass-lang.com/dart-sass) and set up a few important bits of build configuration:\n\n1. Sass `loadPaths` must include the `node_modules` folder where `@blueprintjs` packages are installed\n2. A custom function implementation for `svg-icon()` must be defined\n3. You must copy the [resources/icons folder](https://github.com/palantir/blueprint/tree/develop/resources/icons) from the Blueprint repo into your project (in the future, this may not be required once Blueprint starts publishing these SVG files in a public NPM package).\n\nThe **@blueprintjs/node-build-scripts** package provides some utility functions to help with this. Here's a code example\nfor a custom Sass compiler that can import Blueprint `.scss` sources:\n\n```js\nimport { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst result = await sass.compileAsync(\"path/to/input.scss\", {\n    loadPaths: sassNodeModulesLoadPaths,\n    functions: {\n        /**\n         * Sass function to inline a UI icon svg and change its path color.\n         *\n         * Usage:\n         * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n         */\n        \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n            optimize: true,\n            encodingFormat: \"uri\",\n        }),\n    },\n});\n```\n\nIn addition to the JS API, you can specify this configuration with Webpack's sass-loader:\n\n```js\n// webpack.config.mjs\n\nimport { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst functions = {\n    /**\n     * Sass function to inline a UI icon svg and change its path color.\n     *\n     * Usage:\n     * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n     */\n    \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n        optimize: true,\n        encodingFormat: \"uri\",\n    }),\n};\n\nexport default {\n    module: {\n        rules: [\n            {\n                test: /\\.scss$/,\n                use: {\n                    loader: require.resolve(\"sass-loader\"),\n                    options: {\n                        sassOptions: {\n                            loadPaths: sassNodeModulesLoadPaths,\n                            functions,\n                        },\n                    },\n                },\n            },\n        ],\n    },\n};\n```\n\nOnce you have this build configuration set up, you can proceed to customize Sass and JS variables:\n\n1. Define the `$ns` Sass variable in your app styles _before_ importing `blueprint.scss`.\n2. When bundling your JS JS code, define the `BLUEPRINT_NAMESPACE` variable to the same value; this will update the generated `Classes` constants. The easiest way to do is with webpack's [DefinePlugin](https://webpack.js.org/plugins/define-plugin/).\n\n```js\nplugins: [\n    new webpack.DefinePlugin({\n        BLUEPRINT_NAMESPACE: \"my-custom-namespace\",\n    }),\n];\n```\n\n## Linting\n\nThe [**@blueprintjs/eslint-config**](https://www.npmjs.com/package/@blueprintjs/eslint-config)\nNPM package provides advanced configuration for [ESLint](https://eslint.org/). The\n[**@blueprintjs/eslint-plugin**](https://www.npmjs.com/package/@blueprintjs/eslint-plugin)\nNPM package includes a custom `blueprint-html-components` rule that will warn on usages of\nJSX intrinsic elements (`<h1>`) that have a Blueprint alternative (`<H1>`). See\nthe package's [README](https://www.npmjs.com/package/@blueprintjs/eslint-plugin)\nfor usage instructions.\n",
+  "code": "---\ntitle: Classes\n---\n\n# Classes\n\nBlueprint packages provide React components in JS files and associated styles in\na CSS file. Each package exports a `Classes` constants object in JavaScript that\ncontains keys of the form `NAMED_CONSTANT` for every CSS class used. This\nseparation allows us to change CSS classes between versions without breaking\ndownstream users (although in practice this happens very rarely).\n\n**Avoid referencing hardcoded Blueprint class names in your JS or CSS code.**\n\n```tsx\n// Don't do this! Avoid hardcoding Blueprint class names.\n<button className=\"@ns-button @ns-large\">Don't do this!</button>\n```\n\nThe **best practice** is to add your own class to an element and then reference\nthat class whenever needed.\n\n```tsx\n<Button className=\"my-custom-class\" text=\"customized button\" />\n```\n\n```scss\n.my-custom-class {\n    width: 4000px;\n}\n```\n\nIn cases where adding and styling a new class is impractical or undesirable, use\nthe `Classes` constants or `$ns` Sass/Less variable. The `Classes` constants can\nbe particularly useful when writing UI tests.\n\n```tsx\n// use Classes constants for forward-compatible custom elements.\nimport { Classes } from \"@blueprintjs/core\";\n<a className={Classes.MENU_ITEM}>custom menu item</a>;\n```\n\n```scss\n// interpolate the $ns variable to generate forward-compatible class names.\n// this approach is *not encouraged* as it increases maintenance cost.\n@import \"@blueprintjs/core/lib/scss/variables\";\n.#{$ns}-menu-item {\n}\n```\n\n## Modifiers\n\nBlueprint components support a range of **modifiers** to adjust their\nappearance. Some commonly used modifiers are `intent`, `large`, and `minimal`.\nWhile modifiers are typically implemented as simple CSS classes, it is always\npreferrable to use the corresponding prop on a React component.\n\n```tsx\n// Prefer props over modifier classes.\n<Button intent=\"primary\" variant=\"minimal\">Good stuff</Button>\n\n// Don't do this!\n<Button className={classNames(Classes.INTENT_PRIMARY, Classes.MINIMAL)}>Don't do this!</Button>\n```\n\nAnother important note: Since modifiers typically correspond directly to CSS classes, they will often\ncascade to children and _cannot be disabled_ on descendants. If a `<ButtonGroup>`\nis marked `variant=\"outlined\"`, then setting `<Button variant=\"minimal\">` on a child\nwill have _no effect_ since `Classes.OUTLINED` cannot be removed or overridden\nby a descendant.\n\n## Namespacing\n\nAll Blueprint CSS classes begin with a namespace prefix to isolate our styles\nfrom other frameworks: `.button` is a very common name, but only Blueprint\ndefines `.@ns-button`.\n\nThis CSS namespace is versioned by major version of the library so two major versions of Blueprint\ncan be used together on a single page.\n\n### Current namespace prefix\n\nBlueprint v6 uses the **`bp6-`** prefix for all CSS classes. For example, Button components have the class `.bp6-button`, Cards have `.bp6-card`, etc. This prefix changes with each major version of Blueprint (e.g., v5 used `bp5-`, v6 uses `bp6-`).\n\nWhen writing custom styles that target Blueprint components, you should reference the namespace using the `$ns` Sass variable rather than hardcoding the prefix:\n\n```scss\n@use \"@blueprintjs/core/lib/scss/variables.scss\" as bp;\n\n.my-class .#{bp.$ns}-button {\n    // Custom styles for Blueprint buttons within .my-class\n    background-color: red;\n}\n```\n\n### Custom namespace\n\nThe CSS namespace can be changed _at build time_ to produce a custom Blueprint build.\nWith this approach, you will import Blueprint's Sass sources from `/lib/scss/` instead of the CSS files from the\n`/lib/css/` folders.\n\nYou must use [Dart Sass](https://sass-lang.com/dart-sass) and set up a few important bits of build configuration:\n\n1. Sass `loadPaths` must include the `node_modules` folder where `@blueprintjs` packages are installed\n2. A custom function implementation for `svg-icon()` must be defined\n3. You must copy the [resources/icons folder](https://github.com/palantir/blueprint/tree/develop/resources/icons) from the Blueprint repo into your project (in the future, this may not be required once Blueprint starts publishing these SVG files in a public NPM package).\n\nThe **@blueprintjs/node-build-scripts** package provides some utility functions to help with this. Here's a code example\nfor a custom Sass compiler that can import Blueprint `.scss` sources:\n\n```js\nimport { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst result = await sass.compileAsync(\"path/to/input.scss\", {\n    loadPaths: sassNodeModulesLoadPaths,\n    functions: {\n        /**\n         * Sass function to inline a UI icon svg and change its path color.\n         *\n         * Usage:\n         * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n         */\n        \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n            optimize: true,\n            encodingFormat: \"uri\",\n        }),\n    },\n});\n```\n\nIn addition to the JS API, you can specify this configuration with Webpack's sass-loader:\n\n```js\n// webpack.config.mjs\n\nimport { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst functions = {\n    /**\n     * Sass function to inline a UI icon svg and change its path color.\n     *\n     * Usage:\n     * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n     */\n    \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n        optimize: true,\n        encodingFormat: \"uri\",\n    }),\n};\n\nexport default {\n    module: {\n        rules: [\n            {\n                test: /\\.scss$/,\n                use: {\n                    loader: require.resolve(\"sass-loader\"),\n                    options: {\n                        sassOptions: {\n                            loadPaths: sassNodeModulesLoadPaths,\n                            functions,\n                        },\n                    },\n                },\n            },\n        ],\n    },\n};\n```\n\nOnce you have this build configuration set up, you can proceed to customize Sass and JS variables:\n\n1. Define the `$ns` Sass variable in your app styles _before_ importing `blueprint.scss`.\n2. When bundling your JS JS code, define the `BLUEPRINT_NAMESPACE` variable to the same value; this will update the generated `Classes` constants. The easiest way to do is with webpack's [DefinePlugin](https://webpack.js.org/plugins/define-plugin/).\n\n```js\nplugins: [\n    new webpack.DefinePlugin({\n        BLUEPRINT_NAMESPACE: \"my-custom-namespace\",\n    }),\n];\n```\n\n## Linting\n\nThe [**@blueprintjs/eslint-config**](https://www.npmjs.com/package/@blueprintjs/eslint-config)\nNPM package provides advanced configuration for [ESLint](https://eslint.org/). The\n[**@blueprintjs/eslint-plugin**](https://www.npmjs.com/package/@blueprintjs/eslint-plugin)\nNPM package includes a custom `blueprint-html-components` rule that will warn on usages of\nJSX intrinsic elements (`<h1>`) that have a Blueprint alternative (`<H1>`). See\nthe package's [README](https://www.npmjs.com/package/@blueprintjs/eslint-plugin)\nfor usage instructions.\n",
   "lines": 195,
   "frontMatter": {
     "title": "Classes"
@@ -15,96 +15,130 @@
     {
       "level": 1,
       "text": "Classes",
-      "at": 24
+      "at": 24,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:5",
+      "name": "Classes"
     },
     {
       "level": 2,
       "text": "Modifiers",
-      "at": 1483
+      "at": 1483,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:51",
+      "name": "Modifiers"
     },
     {
       "level": 2,
       "text": "Namespacing",
-      "at": 2384
+      "at": 2384,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:72",
+      "name": "Namespacing"
     },
     {
       "level": 3,
       "text": "Current namespace prefix",
-      "at": 2716
+      "at": 2716,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:81",
+      "name": "Current namespace prefix"
     },
     {
       "level": 3,
       "text": "Custom namespace",
-      "at": 3346
+      "at": 3346,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:96",
+      "name": "Custom namespace"
     },
     {
       "level": 2,
       "text": "Linting",
-      "at": 6601
+      "at": 6601,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:186",
+      "name": "Linting"
     }
   ],
   "codeBlocks": [
     {
       "lang": "tsx",
       "code": "// Don't do this! Avoid hardcoding Blueprint class names.\n<button className=\"@ns-button @ns-large\">Don't do this!</button>\n",
-      "at": 501
+      "at": 501,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:16",
+      "name": "// Don't do this! Avoid hardcoding Blueprint class names."
     },
     {
       "lang": "tsx",
       "code": "<Button className=\"my-custom-class\" text=\"customized button\" />\n",
-      "at": 745
+      "at": 745,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:24",
+      "name": "<Button className=\"my-custom-class\" text=\"customized button\" />"
     },
     {
       "lang": "scss",
       "code": ".my-custom-class {\n    width: 4000px;\n}\n",
-      "at": 822
+      "at": 822,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:28",
+      "name": ".my-custom-class {"
     },
     {
       "lang": "tsx",
       "code": "// use Classes constants for forward-compatible custom elements.\nimport { Classes } from \"@blueprintjs/core\";\n<a className={Classes.MENU_ITEM}>custom menu item</a>;\n",
-      "at": 1083
+      "at": 1083,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:38",
+      "name": "// use Classes constants for forward-compatible custom elements."
     },
     {
       "lang": "scss",
       "code": "// interpolate the $ns variable to generate forward-compatible class names.\n// this approach is *not encouraged* as it increases maintenance cost.\n@import \"@blueprintjs/core/lib/scss/variables\";\n.#{$ns}-menu-item {\n}\n",
-      "at": 1261
+      "at": 1261,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:44",
+      "name": "// interpolate the $ns variable to generate forward-compatible class names."
     },
     {
       "lang": "tsx",
       "code": "// Prefer props over modifier classes.\n<Button intent=\"primary\" variant=\"minimal\">Good stuff</Button>\n\n// Don't do this!\n<Button className={classNames(Classes.INTENT_PRIMARY, Classes.MINIMAL)}>Don't do this!</Button>\n",
-      "at": 1796
+      "at": 1796,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:59",
+      "name": "// Prefer props over modifier classes."
     },
     {
       "lang": "scss",
       "code": "@use \"@blueprintjs/core/lib/scss/variables.scss\" as bp;\n\n.my-class .#{bp.$ns}-button {\n    // Custom styles for Blueprint buttons within .my-class\n    background-color: red;\n}\n",
-      "at": 3165
+      "at": 3165,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:88",
+      "name": "@use \"@blueprintjs/core/lib/scss/variables.scss\" as bp;"
     },
     {
       "lang": "js",
       "code": "import { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst result = await sass.compileAsync(\"path/to/input.scss\", {\n    loadPaths: sassNodeModulesLoadPaths,\n    functions: {\n        /**\n         * Sass function to inline a UI icon svg and change its path color.\n         *\n         * Usage:\n         * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n         */\n        \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n            optimize: true,\n            encodingFormat: \"uri\",\n        }),\n    },\n});\n",
-      "at": 4347
+      "at": 4347,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:112",
+      "name": "import { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";"
     },
     {
       "lang": "js",
       "code": "// webpack.config.mjs\n\nimport { sassNodeModulesLoadPaths, sassSvgInlinerFactory } from \"@blueprintjs/node-build-scripts\";\nimport * as sass from \"sass\";\n\nconst functions = {\n    /**\n     * Sass function to inline a UI icon svg and change its path color.\n     *\n     * Usage:\n     * svg-icon(\"16px/icon-name.svg\", (path: (fill: $color)) )\n     */\n    \"svg-icon($path, $selectors: null)\": sassSvgInlinerFactory(\"path/to/resources/icons\", {\n        optimize: true,\n        encodingFormat: \"uri\",\n    }),\n};\n\nexport default {\n    module: {\n        rules: [\n            {\n                test: /\\.scss$/,\n                use: {\n                    loader: require.resolve(\"sass-loader\"),\n                    options: {\n                        sassOptions: {\n                            loadPaths: sassNodeModulesLoadPaths,\n                            functions,\n                        },\n                    },\n                },\n            },\n        ],\n    },\n};\n",
-      "at": 5078
+      "at": 5078,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:135",
+      "name": "// webpack.config.mjs"
     },
     {
       "lang": "js",
       "code": "plugins: [\n    new webpack.DefinePlugin({\n        BLUEPRINT_NAMESPACE: \"my-custom-namespace\",\n    }),\n];\n",
-      "at": 6491
+      "at": 6491,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:179",
+      "name": "plugins: ["
     }
   ],
   "exampleRefs": [
     {
       "name": "import",
       "arg": "\"@blueprintjs/core/lib/scss/variables\";",
-      "at": 1408
+      "at": 1408,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:46"
     },
     {
       "name": "use",
       "arg": "\"@blueprintjs/core/lib/scss/variables.scss\" as bp;",
-      "at": 3165
+      "at": 3165,
+      "source": "node_modules/@blueprintjs/core/src/docs/classes.mdx:88"
     }
   ]
 }
