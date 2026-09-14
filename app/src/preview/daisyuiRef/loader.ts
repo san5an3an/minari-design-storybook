@@ -4,14 +4,14 @@ export interface DaisyuiDoc {
   slug: string;
   // 공식이 낸 유일한 이름 = 파일 이름. 임의로 고쳐 적지 않음
   title: string;
-  sourcePath: string;
+  source: string;
   package: string;
   version: string | null;
   license: string;
   // css-banner는 원문 스스로 밝힌 값, package.json은 배너 없을 때 대체값
   versionSource: "css-banner" | "package.json";
-  // CSS 원문 그대로 유지, 미러 본체 요약이나 재작성 제외
-  source: string;
+  // CSS 원문 전체 그대로 유지, 미러 본체 요약이나 재작성 제외
+  code: string;
   bytes: number;
   // daisyUI 계약. 사용자가 그대로 쓰는 클래스 이름
   classes: string[];
