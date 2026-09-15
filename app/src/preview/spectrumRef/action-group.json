@@ -1,0 +1,105 @@
+{
+  "slug": "action-group",
+  "title": "ActionGroup",
+  "group": "Buttons",
+  "heading": "ActionGroup",
+  "description": null,
+  "sharedImports": "import {ActionGroup, Item} from '@react-spectrum/actiongroup';\nimport Brush from '@spectrum-icons/workflow/Brush';\nimport RegionSelect from '@spectrum-icons/workflow/RegionSelect';\nimport Select from '@spectrum-icons/workflow/Select';\nimport {Flex} from '@react-spectrum/layout';\nimport {View} from '@react-spectrum/view';\nimport ViewList from '@spectrum-icons/workflow/ViewList';\nimport ViewGrid from '@spectrum-icons/workflow/ViewGrid';\nimport ViewCard from '@spectrum-icons/workflow/ViewCard';\nimport Move from '@spectrum-icons/workflow/Move';\nimport Duplicate from '@spectrum-icons/workflow/Duplicate';\nimport TagBold from '@spectrum-icons/workflow/TagBold';\nimport TagItalic from '@spectrum-icons/workflow/TagItalic';\nimport TagUnderline from '@spectrum-icons/workflow/TagUnderline';\nimport TextStrikethrough from '@spectrum-icons/workflow/TextStrikethrough';\nimport TextAlignCenter from '@spectrum-icons/workflow/TextAlignCenter';\nimport TextAlignJustify from '@spectrum-icons/workflow/TextAlignJustify';\nimport TextAlignLeft from '@spectrum-icons/workflow/TextAlignLeft';\nimport TextAlignRight from '@spectrum-icons/workflow/TextAlignRight';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "function Example() {\n  let [action, setAction] = React.useState(null);\n\n  return (\n    <>\n      <ActionGroup onAction={setAction}>\n        <Item key=\"add\">Add</Item>\n        <Item key=\"delete\">Delete</Item>\n        <Item key=\"edit\">Edit</Item>\n      </ActionGroup>\n      <p>Action: {action}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Content",
+      "code": "const items = [\n  {label: 'React', name: 'React'},\n  {label: 'Add', name: 'Add'},\n  {label: 'Delete', name: 'Delete'}\n];\n\n<ActionGroup items={items}>\n  {item => <Item key={item.name}>{item.label}</Item>}\n</ActionGroup>"
+    },
+    {
+      "name": "Icons",
+      "code": "import Draw from '@spectrum-icons/workflow/Draw';\nimport Copy from '@spectrum-icons/workflow/Copy';\nimport Delete from '@spectrum-icons/workflow/Delete';\nimport {Text} from '@react-spectrum/text';\n\n<ActionGroup>\n  <Item key=\"edit\">\n    <Draw />\n    <Text>Edit</Text>\n  </Item>\n  <Item key=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n  </Item>\n  <Item key=\"delete\">\n    <Delete />\n    <Text>Delete</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Icons",
+      "code": "<ActionGroup buttonLabelBehavior=\"hide\">\n  <Item key=\"edit\">\n    <Draw />\n    <Text>Edit</Text>\n  </Item>\n  <Item key=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n  </Item>\n  <Item key=\"delete\">\n    <Delete />\n    <Text>Delete</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Accessibility",
+      "code": "<ActionGroup>\n  <Item key=\"brush\" aria-label=\"Brush\"><Brush /></Item>\n  <Item key=\"select\" aria-label=\"Select\"><Select /></Item>\n  <Item key=\"regionSelect\" aria-label=\"Select Region\"><RegionSelect /></Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Selection",
+      "code": "<ActionGroup selectionMode=\"single\" defaultSelectedKeys={['list']}>\n  <Item key=\"grid\">Grid view</Item>\n  <Item key=\"list\">List view</Item>\n  <Item key=\"gallery\">Gallery view</Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Selection",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set(['list']));\n\n  return (\n    <>\n      <ActionGroup selectionMode=\"single\" selectedKeys={selected} onSelectionChange={setSelected}>\n        <Item key=\"grid\">Grid view</Item>\n        <Item key=\"list\">List view</Item>\n        <Item key=\"gallery\">Gallery view</Item>\n      </ActionGroup>\n      <p>Current selection (controlled): {[...selected]}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Selection",
+      "code": "function Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set(['list']));\n\n  return (\n    <>\n      <ActionGroup selectionMode=\"multiple\" selectedKeys={selected} onSelectionChange={setSelected}>\n        <Item key=\"grid\">Grid view</Item>\n        <Item key=\"list\">List view</Item>\n        <Item key=\"gallery\">Gallery view</Item>\n      </ActionGroup>\n      <p>Current selections (controlled): {[...selected].join(', ')}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "import type {Key} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [actionKey, setActionKey] = React.useState<Key>('');\n  return (\n    <>\n      <ActionGroup onAction={setActionKey}>\n        <Item key=\"add\">Add</Item>\n        <Item key=\"delete\">Delete</Item>\n        <Item key=\"edit\">Edit</Item>\n      </ActionGroup>\n      <p>Action: {actionKey}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Non-selectable",
+      "code": "<ActionGroup overflowMode=\"collapse\" maxWidth={250}>\n  <Item key=\"edit\">\n    <Draw />\n    <Text>Edit</Text>\n  </Item>\n  <Item key=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n  </Item>\n  <Item key=\"delete\">\n    <Delete />\n    <Text>Delete</Text>\n  </Item>\n  <Item key=\"move\">\n    <Move />\n    <Text>Move</Text>\n  </Item>\n  <Item key=\"duplicate\">\n    <Duplicate />\n    <Text>Duplicate</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Selection",
+      "code": "import TextStyle from '@spectrum-icons/workflow/TextStyle';\n\n<ActionGroup\n  aria-label=\"Text style\"\n  overflowMode=\"collapse\"\n  selectionMode=\"multiple\"\n  isEmphasized\n  summaryIcon={<TextStyle />}\n  maxWidth={100}>\n  <Item key=\"bold\">\n    <TagBold />\n    <Text>Bold</Text>\n  </Item>\n  <Item key=\"italic\">\n    <TagItalic />\n    <Text>Italic</Text>\n  </Item>\n  <Item key=\"underline\">\n    <TagUnderline />\n    <Text>Underline</Text>\n  </Item>\n  <Item key=\"strike\">\n    <TextStrikethrough />\n    <Text>Strikethrough</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Single selection",
+      "code": "<ActionGroup\n  aria-label=\"Text alignment\"\n  overflowMode=\"collapse\"\n  selectionMode=\"single\"\n  defaultSelectedKeys={['left']}\n  disallowEmptySelection\n  buttonLabelBehavior=\"hide\"\n  isEmphasized\n  maxWidth={100}>\n  <Item key=\"left\">\n    <TextAlignLeft />\n    <Text>Align Left</Text>\n  </Item>\n  <Item key=\"center\">\n    <TextAlignCenter />\n    <Text>Align Center</Text>\n  </Item>\n  <Item key=\"right\">\n    <TextAlignRight />\n    <Text>Align Right</Text>\n  </Item>\n  <Item key=\"justify\">\n    <TextAlignJustify />\n    <Text>Justify</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Collapsing button labels",
+      "code": "<ActionGroup overflowMode=\"collapse\" buttonLabelBehavior=\"collapse\" maxWidth={180}>\n  <Item key=\"edit\">\n    <Draw />\n    <Text>Edit</Text>\n  </Item>\n  <Item key=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n  </Item>\n  <Item key=\"delete\">\n    <Delete />\n    <Text>Delete</Text>\n  </Item>\n  <Item key=\"move\">\n    <Move />\n    <Text>Move</Text>\n  </Item>\n  <Item key=\"duplicate\">\n    <Duplicate />\n    <Text>Duplicate</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Vertical collapsing behavior",
+      "code": "<ActionGroup overflowMode=\"collapse\" orientation=\"vertical\" buttonLabelBehavior=\"hide\" maxHeight={150}>\n  <Item key=\"edit\">\n    <Draw />\n    <Text>Edit</Text>\n  </Item>\n  <Item key=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n  </Item>\n  <Item key=\"delete\">\n    <Delete />\n    <Text>Delete</Text>\n  </Item>\n  <Item key=\"move\">\n    <Move />\n    <Text>Move</Text>\n  </Item>\n  <Item key=\"duplicate\">\n    <Duplicate />\n    <Text>Duplicate</Text>\n  </Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<ActionGroup isQuiet>\n  <Item key=\"add\">Add</Item>\n  <Item key=\"delete\">Delete</Item>\n  <Item key=\"edit\">Edit</Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Emphasized",
+      "code": "<ActionGroup\n  isEmphasized\n  selectionMode=\"single\"\n  defaultSelectedKeys={['list']}>\n  <Item key=\"grid\">Grid view</Item>\n  <Item key=\"list\">List view</Item>\n  <Item key=\"gallery\">Gallery view</Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Static color",
+      "code": "<Flex wrap gap=\"size-250\">\n  <View backgroundColor=\"static-blue-700\" padding=\"size-500\">\n    <ActionGroup staticColor=\"white\">\n      <Item key=\"edit\">\n        <Draw />\n        <Text>Edit</Text>\n      </Item>\n      <Item key=\"copy\">\n        <Copy />\n        <Text>Copy</Text>\n      </Item>\n      <Item key=\"delete\">\n        <Delete />\n        <Text>Delete</Text>\n      </Item>\n    </ActionGroup>\n  </View>\n  <View backgroundColor=\"static-yellow-400\" padding=\"size-500\">\n    <ActionGroup\n      staticColor=\"black\"\n      isQuiet\n      buttonLabelBehavior=\"hide\"\n      selectionMode=\"single\"\n      disallowEmptySelection\n      defaultSelectedKeys={['list']}>\n      <Item key=\"list\">\n        <ViewList />\n        <Text>List view</Text>\n      </Item>\n      <Item key=\"grid\">\n        <ViewGrid />\n        <Text>Grid view</Text>\n      </Item>\n      <Item key=\"gallery\">\n        <ViewCard />\n        <Text>Gallery view</Text>\n      </Item>\n    </ActionGroup>\n  </View>\n</Flex>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<ActionGroup isDisabled>\n  <Item key=\"add\">Add</Item>\n  <Item key=\"delete\">Delete</Item>\n  <Item key=\"edit\">Edit</Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<ActionGroup disabledKeys={['add', 'delete']}>\n  <Item key=\"add\">Add</Item>\n  <Item key=\"delete\">Delete</Item>\n  <Item key=\"edit\">Edit</Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Orientation",
+      "code": "<ActionGroup orientation=\"vertical\">\n  <Item key=\"brush\" aria-label=\"Brush\"><Brush /></Item>\n  <Item key=\"select\" aria-label=\"Select\"><Select /></Item>\n  <Item key=\"regionSelect\" aria-label=\"Select Region\"><RegionSelect /></Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Density",
+      "code": "<ActionGroup density=\"compact\">\n  <Item key=\"brush\" aria-label=\"Brush\"><Brush /></Item>\n  <Item key=\"select\" aria-label=\"Select\"><Select /></Item>\n  <Item key=\"regionSelect\" aria-label=\"Select Region\"><RegionSelect /></Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Density",
+      "code": "<ActionGroup isQuiet density=\"compact\">\n  <Item key=\"brush\" aria-label=\"Brush\"><Brush /></Item>\n  <Item key=\"select\" aria-label=\"Select\"><Select /></Item>\n  <Item key=\"regionSelect\" aria-label=\"Select Region\"><RegionSelect /></Item>\n</ActionGroup>"
+    },
+    {
+      "name": "Justified",
+      "code": "<Flex width=\"size-2000\" direction=\"column\">\n  <ActionGroup isJustified>\n    <Item key=\"brush\" aria-label=\"Brush\"><Brush /></Item>\n    <Item key=\"select\" aria-label=\"Select\"><Select /></Item>\n    <Item key=\"regionSelect\" aria-label=\"Select Region\"><RegionSelect /></Item>\n  </ActionGroup>\n</Flex>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/action-group/",
+  "source": "packages/@adobe/react-spectrum/docs/actiongroup/ActionGroup.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ActionGroup.html"
+}

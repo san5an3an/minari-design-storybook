@@ -1,0 +1,133 @@
+{
+  "slug": "combo-box",
+  "title": "ComboBox",
+  "group": "Pickers",
+  "heading": "ComboBox",
+  "description": null,
+  "sharedImports": "import Add from '@spectrum-icons/workflow/Add';\nimport Alert from '@spectrum-icons/workflow/Alert';\nimport Bell from '@spectrum-icons/workflow/Bell';\nimport {ComboBox, Item, Section} from '@react-spectrum/combobox';\nimport Draw from '@spectrum-icons/workflow/Draw';\nimport {Flex} from '@react-spectrum/layout';\nimport {Text} from '@react-spectrum/text';\nimport {useFilter} from '@react-aria/i18n';\nimport {Avatar} from \"@react-spectrum/avatar\";",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<ComboBox label=\"Favorite Animal\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Aerospace'},\n    {id: 2, name: 'Mechanical'},\n    {id: 3, name: 'Civil'},\n    {id: 4, name: 'Biomedical'},\n    {id: 5, name: 'Nuclear'},\n    {id: 6, name: 'Industrial'},\n    {id: 7, name: 'Chemical'},\n    {id: 8, name: 'Agricultural'},\n    {id: 9, name: 'Electrical'}\n  ];\n  let [majorId, setMajorId] = React.useState(null);\n\n  return (\n    <>\n      <p>Topic id: {majorId}</p>\n      <ComboBox\n        label=\"Pick an engineering major\"\n        defaultItems={options}\n        onSelectionChange={setMajorId}>\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Value",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Adobe Photoshop'},\n    {id: 2, name: 'Adobe XD'},\n    {id: 3, name: 'Adobe InDesign'},\n    {id: 4, name: 'Adobe AfterEffects'},\n    {id: 5, name: 'Adobe Illustrator'},\n    {id: 6, name: 'Adobe Lightroom'},\n    {id: 7, name: 'Adobe Premiere Pro'},\n    {id: 8, name: 'Adobe Fresco'},\n    {id: 9, name: 'Adobe Dreamweaver'}\n  ];\n  let [value, setValue] = React.useState('Adobe XD');\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <ComboBox\n        label=\"Adobe product (Uncontrolled)\"\n        defaultItems={options}\n        defaultInputValue=\"Adobe XD\">\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n\n      <ComboBox\n        label=\"Pick an Adobe product (Controlled)\"\n        defaultItems={options}\n        inputValue={value}\n        onInputChange={setValue}>\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Custom Value",
+      "code": "function Example() {\n  let options = [\n    {name: 'Apple'},\n    {name: 'Banana'},\n    {name: 'Orange'},\n    {name: 'Honeydew'},\n    {name: 'Grapes'},\n    {name: 'Watermelon'},\n    {name: 'Cantaloupe'},\n    {name: 'Pear'}\n  ];\n\n  return (\n    <>\n      <p>\n        Please indicate what fruit you would like included with your delivery. If your desired choice does not appear in the list\n        feel free to write your own selection.\n      </p>\n      <ComboBox\n        label=\"Preferred fruit\"\n        defaultItems={options}\n        allowsCustomValue>\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </ComboBox>\n    </>\n  );\n}"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<Flex gap=\"size-200\" wrap>\n  <ComboBox\n    label=\"Ice cream flavor\"\n    ///- begin highlight -///\n    name=\"iceCream\"\n    allowsCustomValue\n    ///- end highlight -///\n  >\n    <Item>Chocolate</Item>\n    <Item>Mint</Item>\n    <Item>Strawberry</Item>\n    <Item>Vanilla</Item>\n  </ComboBox>\n  <ComboBox\n    label=\"Favorite Animal\"\n    ///- begin highlight -///\n    name=\"favoriteAnimalId\"\n    formValue=\"key\"\n    ///- end highlight -///\n  >\n    <Item key=\"panda\">Panda</Item>\n    <Item key=\"cat\">Cat</Item>\n    <Item key=\"dog\">Dog</Item>\n  </ComboBox>\n</Flex>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<ComboBox label=\"Favorite Animal\" isRequired necessityIndicator=\"icon\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<ComboBox label=\"Favorite Animal\" isRequired necessityIndicator=\"label\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<ComboBox label=\"Favorite Animal\" necessityIndicator=\"label\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Selection",
+      "code": "import type {Key} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let options = [\n    {id: 1, name: 'Adobe Photoshop'},\n    {id: 2, name: 'Adobe XD'},\n    {id: 3, name: 'Adobe InDesign'},\n    {id: 4, name: 'Adobe AfterEffects'},\n    {id: 5, name: 'Adobe Illustrator'},\n    {id: 6, name: 'Adobe Lightroom'},\n    {id: 7, name: 'Adobe Premiere Pro'},\n    {id: 8, name: 'Adobe Fresco'},\n    {id: 9, name: 'Adobe Dreamweaver'}\n  ];\n  let [productId, setProductId] = React.useState<Key>(9);\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <ComboBox\n        label=\"Pick an Adobe product (uncontrolled)\"\n        defaultItems={options}\n        defaultSelectedKey={9}>\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n\n      <ComboBox\n        label=\"Pick an Adobe product (controlled)\"\n        defaultItems={options}\n        selectedKey={productId}\n        onSelectionChange={selected => setProductId(selected)}>\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Links",
+      "code": "<ComboBox label=\"Tech company websites\">\n  <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n  <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n  <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n  <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Static items",
+      "code": "<ComboBox label=\"Preferred fruit or vegetable\">\n  <Section title=\"Fruit\">\n    <Item key=\"Apple\">Apple</Item>\n    <Item key=\"Banana\">Banana</Item>\n    <Item key=\"Orange\">Orange</Item>\n    <Item key=\"Honeydew\">Honeydew</Item>\n    <Item key=\"Grapes\">Grapes</Item>\n    <Item key=\"Watermelon\">Watermelon</Item>\n    <Item key=\"Cantaloupe\">Cantaloupe</Item>\n    <Item key=\"Pear\">Pear</Item>\n  </Section>\n  <Section title=\"Vegetable\">\n    <Item key=\"Cabbage\">Cabbage</Item>\n    <Item key=\"Broccoli\">Broccoli</Item>\n    <Item key=\"Carrots\">Carrots</Item>\n    <Item key=\"Lettuce\">Lettuce</Item>\n    <Item key=\"Spinach\">Spinach</Item>\n    <Item key=\"Bok Choy\">Bok Choy</Item>\n    <Item key=\"Cauliflower\">Cauliflower</Item>\n    <Item key=\"Potatoes\">Potatoes</Item>\n  </Section>\n</ComboBox>"
+    },
+    {
+      "name": "Dynamic items",
+      "code": "function Example() {\n  let options = [\n    {name: 'Fruit', children: [\n      {name: 'Apple'},\n      {name: 'Banana'},\n      {name: 'Orange'},\n      {name: 'Honeydew'},\n      {name: 'Grapes'},\n      {name: 'Watermelon'},\n      {name: 'Cantaloupe'},\n      {name: 'Pear'}\n    ]},\n    {name: 'Vegetable', children: [\n      {name: 'Cabbage'},\n      {name: 'Broccoli'},\n      {name: 'Carrots'},\n      {name: 'Lettuce'},\n      {name: 'Spinach'},\n      {name: 'Bok Choy'},\n      {name: 'Cauliflower'},\n      {name: 'Potatoes'}\n    ]}\n  ];\n\n  return (\n    <ComboBox label=\"Preferred fruit or vegetable\" defaultItems={options}>\n      {item => (\n        <Section key={item.name} items={item.children} title={item.name}>\n          {item => <Item key={item.name}>{item.name}</Item>}\n        </Section>\n      )}\n    </ComboBox>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Aerospace'},\n    {id: 2, name: 'Mechanical'},\n    {id: 3, name: 'Civil'},\n    {id: 4, name: 'Biomedical'},\n    {id: 5, name: 'Nuclear'},\n    {id: 6, name: 'Industrial'},\n    {id: 7, name: 'Chemical'},\n    {id: 8, name: 'Agricultural'},\n    {id: 9, name: 'Electrical'}\n  ];\n\n  let [value, setValue] = React.useState('');\n  let [majorId, setMajorId] = React.useState('');\n\n  let onSelectionChange = (id) => {\n    setMajorId(id);\n  };\n\n  let onInputChange = (value) => {\n    setValue(value)\n  };\n\n  return (\n    <>\n      <p>Current selected major id: {majorId}</p>\n      <p>Current input text: {value}</p>\n      <ComboBox\n        label=\"Pick a engineering major\"\n        defaultItems={options}\n        selectedKey={majorId}\n        onSelectionChange={onSelectionChange}\n        onInputChange={onInputChange}>\n        {item => <Item>{item.name}</Item>}\n      </ComboBox>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Fully controlled ComboBox",
+      "code": "import {useTreeData} from '@react-stately/data';\n\nfunction Example() {\n  let options = [\n    {id: 1, name: 'Aerospace'},\n    {id: 2, name: 'Mechanical'},\n    {id: 3, name: 'Civil'},\n    {id: 4, name: 'Biomedical'},\n    {id: 5, name: 'Nuclear'},\n    {id: 6, name: 'Industrial'},\n    {id: 7, name: 'Chemical'},\n    {id: 8, name: 'Agricultural'},\n    {id: 9, name: 'Electrical'}\n  ];\n\n  let [fieldState, setFieldState] = React.useState({\n    selectedKey: '',\n    inputValue: ''\n  });\n\n  let list = useTreeData({\n    initialItems: options\n  });\n\n  let onSelectionChange = (key) => {\n    setFieldState({\n      inputValue: list.getItem(key)?.value.name ?? '',\n      selectedKey: key\n    });\n  };\n\n  let onInputChange = (value) => {\n    setFieldState(prevState => ({\n      inputValue: value,\n      selectedKey: value === '' ? null : prevState.selectedKey\n    }));\n  };\n\n  return (\n     <>\n      <p>Current selected major id: {fieldState.selectedKey}</p>\n      <p>Current input text: {fieldState.inputValue}</p>\n       <ComboBox\n        label=\"Pick a engineering major\"\n        defaultItems={list.items}\n        selectedKey={fieldState.selectedKey}\n        inputValue={fieldState.inputValue}\n        onSelectionChange={onSelectionChange}\n        onInputChange={onInputChange}>\n        {item => <Item>{item.value.name}</Item>}\n      </ComboBox>\n     </>\n  );\n}"
+    },
+    {
+      "name": "Complex items",
+      "code": "<ComboBox label=\"Select action\">\n  <Item textValue=\"Add to queue\">\n    <Add />\n    <Text>Add to queue</Text>\n    <Text slot=\"description\">Add to current watch queue.</Text>\n  </Item>\n  <Item textValue=\"Add review\">\n    <Draw />\n    <Text>Add review</Text>\n    <Text slot=\"description\">Post a review for the episode.</Text>\n  </Item>\n    <Item textValue=\"Subscribe to series\">\n    <Bell />\n    <Text>Subscribe to series</Text>\n    <Text slot=\"description\">Add series to your subscription list and be notified when a new episode airs.</Text>\n  </Item>\n  <Item textValue=\"Report\">\n    <Alert />\n    <Text>Report</Text>\n    <Text slot=\"description\">Report an issue/violation.</Text>\n  </Item>\n</ComboBox>"
+    },
+    {
+      "name": "With avatars",
+      "code": "<ComboBox label=\"Select a user\">\n  <Item textValue=\"User 1\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 1</Text>\n  </Item>\n  <Item textValue=\"User 2\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 2</Text>\n  </Item>\n  <Item textValue=\"User 3\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 3</Text>\n  </Item>\n  <Item textValue=\"User 4\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 4</Text>\n  </Item>\n</ComboBox>"
+    },
+    {
+      "name": "Asynchronous loading",
+      "code": "import {useAsyncList} from '@react-stately/data';\n\ninterface Character {\n  name: string\n}\n\nfunction AsyncLoadingExample() {\n  let list = useAsyncList<Character>({\n    async load({signal, cursor, filterText}) {\n      if (cursor) {\n        cursor = cursor.replace(/^http:\\/\\//i, 'https://');\n      }\n\n      // If no cursor is available, then we're loading the first page,\n      // filtering the results returned via a query string that\n      // mirrors the ComboBox input text.\n      // Otherwise, the cursor is the next URL to load,\n      // as returned from the previous page.\n      let res = await fetch(cursor || `https://swapi.py4e.com/api/people/?search=${filterText}`, {signal});\n      let json = await res.json();\n\n      return {\n        items: json.results,\n        cursor: json.next\n      };\n    }\n  });\n\n  return (\n    <ComboBox\n      label=\"Star Wars Character Lookup\"\n      items={list.items}\n      inputValue={list.filterText}\n      onInputChange={list.setFilterText}\n      loadingState={list.loadingState}\n      onLoadMore={list.loadMore}>\n      {item => <Item key={item.name}>{item.name}</Item>}\n    </ComboBox>\n  );\n}"
+    },
+    {
+      "name": "Asynchronous loading",
+      "code": "interface Character {\n  name: string\n}\n\nfunction AsyncLoadingExample() {\n  let isFocused = React.useRef(false);\n  let list = useAsyncList<Character>({\n    async load({signal, cursor, filterText, selectedKeys}) {\n      if (cursor) {\n        cursor = cursor.replace(/^http:\\/\\//i, 'https://');\n      }\n\n      // If no cursor is available, then we're loading the first page,\n      // filtering the results returned via a query string that\n      // mirrors the ComboBox input text.\n      // Otherwise, the cursor is the next URL to load,\n      // as returned from the previous page.\n      let res = await fetch(cursor || `https://swapi.py4e.com/api/people/?search=${filterText}`, {signal});\n      let json = await res.json();\n\n      let selectedText;\n      let selectedKey = selectedKeys !== 'all' && selectedKeys.values().next().value;\n\n      // If selectedKey exists and combobox is not focused, update the input value with the selected key text\n      // This allows the input value to be up to date when items load for the first time or the selected key text is updated server side.\n      if (!isFocused.current && selectedKey) {\n        let selectedItemName = json.results.find(item => item.name === selectedKey)?.name;\n        if (selectedItemName != null && selectedItemName !== filterText) {\n          selectedText = selectedItemName;\n        }\n      }\n\n      return {\n        items: json.results,\n        cursor: json.next,\n        filterText: selectedText ?? filterText\n      };\n    },\n    initialSelectedKeys: ['Luke Skywalker'],\n    getKey: (item) => item.name\n  });\n\n  let onSelectionChange = (key) => {\n    let itemText = list.getItem(key)?.name;\n    list.setSelectedKeys(new Set([key]));\n    list.setFilterText(itemText);\n  };\n\n  let onInputChange = (value) => {\n    // Clear key if user deletes all text in the field\n    if (value === '') {\n      list.setSelectedKeys(new Set([null]));\n    }\n    list.setFilterText(value);\n  };\n\n  let selectedKey = list.selectedKeys !== 'all' && list.selectedKeys.values().next().value;\n  return (\n    <ComboBox\n      label=\"Star Wars Character Lookup\"\n      onFocusChange={(focus) => isFocused.current = focus}\n      selectedKey={selectedKey}\n      onSelectionChange={onSelectionChange}\n      items={list.items}\n      inputValue={list.filterText}\n      onInputChange={onInputChange}\n      loadingState={list.loadingState}\n      onLoadMore={list.loadMore}>\n      {item => <Item key={item.name}>{item.name}</Item>}\n    </ComboBox>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <ComboBox label=\"Favorite animal\" name=\"animal\" isRequired>\n  {/*- end highlight -*/}\n    <Item>Aardvark</Item>\n    <Item>Cat</Item>\n    <Item>Dog</Item>\n    <Item>Kangaroo</Item>\n    <Item>Panda</Item>\n    <Item>Snake</Item>\n  </ComboBox>\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Custom Filtering",
+      "code": "function Example() {\n  let options = [\n    {id: 1, email: 'fake@email.com'},\n    {id: 2, email: 'anotherfake@email.com'},\n    {id: 3, email: 'bob@email.com'},\n    {id: 4, email: 'joe@email.com'},\n    {id: 5, email: 'yourEmail@email.com'},\n    {id: 6, email: 'valid@email.com'},\n    {id: 7, email: 'spam@email.com'},\n    {id: 8, email: 'newsletter@email.com'},\n    {id: 9, email: 'subscribe@email.com'}\n  ];\n\n  let [showAll, setShowAll] = React.useState(false);\n  let [filterValue, setFilterValue] = React.useState('');\n  let {startsWith} = useFilter({sensitivity: 'base'});\n  let filteredItems = React.useMemo(() => options.filter(item => startsWith(item.email, filterValue)), [options, filterValue]);\n\n  return (\n    <ComboBox\n      onOpenChange={(isOpen, menuTrigger) => {\n        // Show all items if menu is opened manually\n        // i.e. by the arrow keys or trigger button\n        if (menuTrigger === 'manual' && isOpen) {\n          setShowAll(true);\n        }\n      }}\n      width=\"size-3000\"\n      label=\"To:\"\n      items={showAll ? options : filteredItems}\n      inputValue={filterValue}\n      onInputChange={(value) => {\n        setShowAll(false);\n        setFilterValue(value);\n      }}\n      allowsCustomValue>\n      {item => <Item>{item.email}</Item>}\n    </ComboBox>\n  );\n}"
+    },
+    {
+      "name": "Trigger options",
+      "code": "<ComboBox label=\"Select action\" menuTrigger=\"focus\">\n  <Item textValue=\"Add to queue\">\n    <Add />\n    <Text>Add to queue</Text>\n    <Text slot=\"description\">Add to current watch queue.</Text>\n  </Item>\n  <Item textValue=\"Add review\">\n    <Draw />\n    <Text>Add review</Text>\n    <Text slot=\"description\">Post a review for the episode.</Text>\n  </Item>\n    <Item textValue=\"Subscribe to series\">\n    <Bell />\n    <Text>Subscribe to series</Text>\n    <Text slot=\"description\">Add series to your subscription list and be notified when a new episode airs.</Text>\n  </Item>\n  <Item textValue=\"Report\">\n    <Alert />\n    <Text>Report</Text>\n    <Text slot=\"description\">Report an issue/violation.</Text>\n  </Item>\n</ComboBox>"
+    },
+    {
+      "name": "Trigger options",
+      "code": "<ComboBox label=\"Select action\" menuTrigger=\"manual\">\n  <Item textValue=\"Add to queue\">\n    <Add />\n    <Text>Add to queue</Text>\n    <Text slot=\"description\">Add to current watch queue.</Text>\n  </Item>\n  <Item textValue=\"Add review\">\n    <Draw />\n    <Text>Add review</Text>\n    <Text slot=\"description\">Post a review for the episode.</Text>\n  </Item>\n    <Item textValue=\"Subscribe to series\">\n    <Bell />\n    <Text>Subscribe to series</Text>\n    <Text slot=\"description\">Add series to your subscription list and be notified when a new episode airs.</Text>\n  </Item>\n  <Item textValue=\"Report\">\n    <Alert />\n    <Text>Report</Text>\n    <Text slot=\"description\">Report an issue/violation.</Text>\n  </Item>\n</ComboBox>"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<ComboBox label=\"Favorite Animal\" labelPosition=\"side\" labelAlign=\"end\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<ComboBox label=\"Favorite Animal\" isQuiet>\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<ComboBox label=\"Favorite Animal\" isDisabled>\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Read only",
+      "code": "<ComboBox label=\"Favorite Animal\" isReadOnly selectedKey=\"red panda\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Help text",
+      "code": "function Example() {\n    let [animalId, setAnimalId] = React.useState(null);\n    let options = [\n      {id: 1, name: 'Aardvark'},\n      {id: 2, name: 'Cat'},\n      {id: 3, name: 'Dog'},\n      {id: 4, name: 'Kangaroo'},\n      {id: 5, name: 'Koala'},\n      {id: 6, name: 'Penguin'},\n      {id: 7, name: 'Snake'},\n      {id: 8, name: 'Turtle'},\n      {id: 9, name: 'Wombat'}\n    ];\n  let isValid = React.useMemo(() => animalId !== 2 && animalId !== 7, [animalId]);\n\n  return (\n    <ComboBox\n      validationState={!animalId ? undefined : isValid ? 'valid' : 'invalid'}\n      label=\"Favorite animal\"\n      description=\"Pick your favorite animal, you will be judged.\"\n      errorMessage={animalId === 2 ? 'The author of this example is a dog person.' : 'Oh no it\\'s a snake! Choose anything else.'}\n      items={options}\n      selectedKey={animalId}\n      onSelectionChange={selected => setAnimalId(selected)}>\n      {item => <Item>{item.name}</Item>}\n    </ComboBox>\n  );\n}"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<ComboBox\n  label=\"Engineering major\"\n  contextualHelp={\n    <ContextualHelp variant=\"info\">\n      <Heading>Major changes</Heading>\n      <Content>Once you have changed your major, you cannot change it back.</Content>\n    </ContextualHelp>\n  }>\n  <Item>Aerospace</Item>\n  <Item>Mechanical</Item>\n  <Item>Civil</Item>\n  <Item>Nuclear</Item>\n  <Item>Industrial</Item>\n  <Item>Chemical</Item>\n  <Item>Agricultural</Item>\n  <Item>Electrical</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Custom widths",
+      "code": "<ComboBox label=\"Favorite Animal\" width=\"size-6000\" maxWidth=\"100%\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    },
+    {
+      "name": "Menu direction",
+      "code": "<ComboBox label=\"Favorite Animal\" direction=\"top\">\n  <Item key=\"red panda\">Red Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n  <Item key=\"aardvark\">Aardvark</Item>\n  <Item key=\"kangaroo\">Kangaroo</Item>\n  <Item key=\"snake\">Snake</Item>\n</ComboBox>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/combo-box/",
+  "source": "packages/@adobe/react-spectrum/docs/combobox/ComboBox.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ComboBox.html"
+}

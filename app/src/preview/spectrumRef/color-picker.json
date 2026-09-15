@@ -1,0 +1,57 @@
+{
+  "slug": "color-picker",
+  "title": "ColorPicker",
+  "group": "Color",
+  "heading": "ColorPicker",
+  "description": null,
+  "sharedImports": "import {ColorPicker, ColorEditor} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<ColorPicker label=\"Fill\" defaultValue=\"#5100FF\">\n  <ColorEditor />\n</ColorPicker>"
+    },
+    {
+      "name": "Value",
+      "code": "import {ColorPicker} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';\nimport {parseColor} from '@react-spectrum/color';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseColor('hsl(25, 100%, 50%)'));\n  return (\n    <Flex gap=\"size-300\" wrap>\n      <ColorPicker\n        label=\"Color Picker (uncontrolled)\"\n        /*- begin highlight -*/\n        defaultValue=\"hsl(25, 100%, 50%)\">\n        {/*- end highlight -*/}\n        <ColorEditor />\n      </ColorPicker>\n      <ColorPicker\n        label=\"Color Picker (controlled)\"\n        /*- begin highlight -*/\n        value={value}\n        onChange={setValue}>\n        {/*- end highlight -*/}\n        <ColorEditor />\n      </ColorPicker>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Labeling",
+      "code": "<ColorPicker label=\"Stroke color\" defaultValue=\"#345\">\n  <ColorEditor />\n</ColorPicker>"
+    },
+    {
+      "name": "Accessibility",
+      "code": "<ColorPicker aria-label=\"Fill color\" defaultValue=\"#184\">\n  <ColorEditor />\n</ColorPicker>"
+    },
+    {
+      "name": "Events",
+      "code": "import {parseColor} from '@react-spectrum/color';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseColor('hsl(50, 100%, 50%)'));\n\n  return (\n    <div>\n      <ColorPicker\n        label=\"Color\"\n        value={value}\n        onChange={setValue}>\n        <ColorEditor />\n      </ColorPicker>\n      <p>Selected color: {value.toString('hsl')}</p>\n    </div>\n  );\n}"
+    },
+    {
+      "name": "Custom color editor",
+      "code": "import {ColorWheel, ColorArea} from '@react-spectrum/color';\n\n<ColorPicker label=\"Fill\" defaultValue=\"#08f\">\n  <ColorWheel />\n  <ColorArea\n    colorSpace=\"hsb\"\n    xChannel=\"saturation\"\n    yChannel=\"brightness\"\n    size=\"size-400\"\n    position=\"absolute\"\n    top=\"calc(50% - size-400)\"\n    left=\"calc(50% - size-400)\" />\n</ColorPicker>"
+    },
+    {
+      "name": "Hide alpha channel",
+      "code": "<ColorPicker label=\"Color\" defaultValue=\"#f80\">\n  <ColorEditor hideAlphaChannel />\n</ColorPicker>"
+    },
+    {
+      "name": "Swatches",
+      "code": "import {ColorSwatchPicker, ColorSwatch} from '@react-spectrum/color';\n\n<ColorPicker label=\"Color\" defaultValue=\"#A00\">\n  <Flex direction=\"column\" gap=\"size-300\">\n    <ColorEditor />\n    <ColorSwatchPicker>\n      <ColorSwatch color=\"#A00\" />\n      <ColorSwatch color=\"#f80\" />\n      <ColorSwatch color=\"#080\" />\n      <ColorSwatch color=\"#08f\" />\n      <ColorSwatch color=\"#088\" />\n      <ColorSwatch color=\"#008\" />\n    </ColorSwatchPicker>\n  </Flex>\n</ColorPicker>"
+    },
+    {
+      "name": "Channel sliders",
+      "code": "import type {ColorSpace} from '@react-spectrum/color';\nimport {ColorSlider, getColorChannels} from '@react-spectrum/color';\nimport {Picker, Item} from '@react-spectrum/picker';\n\nfunction Example() {\n  let [space, setSpace] = React.useState<ColorSpace>('rgb');\n\n  return (\n    <ColorPicker label=\"Color\" defaultValue=\"#184\">\n      <Flex direction=\"column\" gap=\"size-100\">\n        <Picker aria-label=\"Color space\" isQuiet selectedKey={space} onSelectionChange={s => setSpace(s as ColorSpace)}>\n          <Item key=\"rgb\">RGB</Item>\n          <Item key=\"hsl\">HSL</Item>\n          <Item key=\"hsb\">HSB</Item>\n        </Picker>\n        {getColorChannels(space).map(channel => (\n          <ColorSlider key={channel} colorSpace={space} channel={channel} />\n        ))}\n        <ColorSlider channel=\"alpha\" />\n      </Flex>\n    </ColorPicker>\n  );\n}"
+    },
+    {
+      "name": "Rounding",
+      "code": "<Flex direction=\"column\" gap=\"size-100\">\n  <ColorPicker label=\"None\" rounding=\"none\" defaultValue=\"#A00\">\n    <ColorEditor />\n  </ColorPicker>\n  <ColorPicker label=\"Default\" rounding=\"default\" defaultValue=\"#080\">\n    <ColorEditor />\n  </ColorPicker>\n  <ColorPicker label=\"Full\" rounding=\"full\" defaultValue=\"#00F\">\n    <ColorEditor />\n  </ColorPicker>\n</Flex>"
+    },
+    {
+      "name": "Size",
+      "code": "<Flex direction=\"column\" gap=\"size-100\">\n  <ColorPicker label=\"Extra small\" size=\"XS\" defaultValue=\"#A00\">\n    <ColorEditor />\n  </ColorPicker>\n  <ColorPicker label=\"Small\" size=\"S\" defaultValue=\"#080\">\n    <ColorEditor />\n  </ColorPicker>\n  <ColorPicker label=\"Medium\" size=\"M\" defaultValue=\"#FB0\">\n    <ColorEditor />\n  </ColorPicker>\n  <ColorPicker label=\"Large\" size=\"L\" defaultValue=\"#00F\">\n    <ColorEditor />\n  </ColorPicker>\n</Flex>"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/color/ColorPicker.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ColorPicker.html"
+}
