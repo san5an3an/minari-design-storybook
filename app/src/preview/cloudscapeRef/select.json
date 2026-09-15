@@ -1,164 +1,228 @@
 {
  "slug": "select",
  "title": "Select",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "custom-render-option",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\nimport { useState } from 'react';\n\nimport { Toggle } from '~components';\nimport Select, { SelectProps } from '~components/select';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nconst lotsOfOptions = [...Array(50).keys()].map(n => {\n  const numberToDisplay = (n + 5).toString();\n  return {\n    value: numberToDisplay,\n    label: `Option ${n + 5}`,\n  };\n});\n\nconst options: SelectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconName: 'folder' },\n  {\n    value: 'third',\n    label: 'With big icon icon',\n    description: 'Very big option',\n    iconName: 'heart',\n    disabled: true,\n    disabledReason: 'disabled reason',\n    tags: ['Cool', 'Intelligent', 'Cat'],\n  },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n    disabledReason: 'disabled reason',\n  },\n  ...lotsOfOptions,\n  { label: 'Last option', disabled: true, disabledReason: 'disabled reason' },\n];\ntype PageContext = React.Context<\n  AppContextType<{\n    virtualScroll?: boolean;\n  }>\n>;\n\nexport default function SelectPage() {\n  const { urlParams, setUrlParams } = React.useContext(AppContext as PageContext);\n  const virtualScroll = urlParams.virtualScroll ?? false;\n  const [selectedOption, setSelectedOption] = useState<SelectProps.Option | null>(null);\n  const renderOption: SelectProps.SelectOptionItemRenderer = ({ item }) => {\n    if (item.type === 'trigger') {\n      return <div>Trigger: {item.option.label}</div>;\n    } else if (item.type === 'group') {\n      return <div>Group: {item.option.label}</div>;\n    } else if (item.type === 'item') {\n      return <div>Item: {item.option.label}</div>;\n    }\n    return null;\n  };\n\n  return (\n    <SimplePage\n      title=\"Select with custom item renderer\"\n      settings={\n        <Toggle\n          checked={!!urlParams.virtualScroll}\n          onChange={({ detail }) => setUrlParams({ virtualScroll: detail.checked })}\n        >\n          Virtual Scroll\n        </Toggle>\n      }\n      screenshotArea={{\n        style: {\n          padding: 10,\n        },\n      }}\n    >\n      <div style={{ maxInlineSize: '400px', blockSize: '650px' }}>\n        <Select\n          virtualScroll={virtualScroll}\n          filteringType=\"auto\"\n          renderOption={renderOption}\n          selectedOption={selectedOption}\n          placeholder={`Choose option ${virtualScroll ? '(virtual)' : ''}`}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          options={options}\n          triggerVariant=\"option\"\n        />\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/select/custom-render-option.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "disabled-reason",
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Select from '~components/select';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst options = [...Array(50).keys()].map(n => {\n  const numberToDisplay = (n + 1).toString();\n  const baseOption = {\n    value: numberToDisplay,\n    label: `Option ${numberToDisplay}`,\n  };\n  if (n === 0 || n === 24 || n === 49) {\n    return { ...baseOption, disabled: true, disabledReason: 'disabled reason' };\n  }\n  return baseOption;\n});\n\nexport default function SelectPage() {\n  return (\n    <ScreenshotArea>\n      <Box variant=\"h1\">Select with disabled reason</Box>\n      <Box padding=\"l\">\n        <div style={{ width: '400px' }}>\n          <Select placeholder=\"Choose option\" selectedOption={null} options={options} />\n        </div>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/select/disabled-reason.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "dropdown-customization",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Select, { SelectProps } from '~components/select';\n\nconst options: SelectProps.Options = [\n  { label: 'Apples', value: 'apples' },\n  { label: 'Oranges', value: 'oranges' },\n  { label: 'Bananas', value: 'bananas' },\n  { label: 'Cherries', value: 'cherries' },\n];\n\nexport default function SelectDropdownCustomizationPage() {\n  const [selectedOption, setSelectedOption] = React.useState<SelectProps.Option | null>(null);\n\n  return (\n    <article>\n      <Box padding=\"l\">\n        <h1>Select dropdown customization</h1>\n\n        <h2>Interactive footer reachability — dialog context (filteringType=auto)</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"footer-dialog-control\">Fruit (dialog footer)</label>\n        </Box>\n        <Select\n          id=\"footer-dialog\"\n          controlId=\"footer-dialog-control\"\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find a fruit\"\n          filteringAriaLabel=\"Find a fruit\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Footer action\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>Interactive footer reachability — plain listbox (filteringType=none)</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"footer-listbox-control\">Fruit (listbox footer)</label>\n        </Box>\n        <Select\n          id=\"footer-listbox\"\n          controlId=\"footer-listbox-control\"\n          filteringType=\"none\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Footer action\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>Interactive header reachability — dialog context (filteringType=auto)</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"header-dialog-control\">Fruit (dialog header)</label>\n        </Box>\n        <Select\n          id=\"header-dialog\"\n          controlId=\"header-dialog-control\"\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find a fruit\"\n          filteringAriaLabel=\"Find a fruit\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownHeader={() => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\">Header action</Button>\n            </Box>\n          )}\n        />\n\n        <h2>Interactive header reachability — plain listbox (filteringType=none)</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"header-listbox-control\">Fruit (listbox header)</label>\n        </Box>\n        <Select\n          id=\"header-listbox\"\n          controlId=\"header-listbox-control\"\n          filteringType=\"none\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownHeader={() => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\">Header action</Button>\n            </Box>\n          )}\n        />\n\n        <h2>Filtering + header + footer (dialog)</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruit\">Fruit</label>\n        </Box>\n        <Select\n          controlId=\"fruit\"\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find a fruit\"\n          filteringAriaLabel=\"Find a fruit\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownHeader={({ filterText }) => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              {filterText ? `Showing results for \"${filterText}\"` : 'Start typing to filter fruit'}\n            </Box>\n          )}\n          renderDropdownFooter={({ filterText, closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"inline-link\">{filterText ? `Create \"${filterText}\"` : 'Create new fruit'}</Button>{' '}\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>No filter, forced dialog role, with described-by</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruit-no-filter\">Fruit (no filter)</label>\n        </Box>\n        <p id=\"fruit-dropdown-description\">Pick a fruit or create a new one using the actions below.</p>\n        <Select\n          controlId=\"fruit-no-filter\"\n          filteringType=\"none\"\n          dropdownRole=\"dialog\"\n          dropdownAriaDescribedby=\"fruit-dropdown-description\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"inline-link\">Create new fruit</Button>{' '}\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>Custom header without a filter</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruit-header-no-filter\">Fruit (header, no filter)</label>\n        </Box>\n        <Select\n          controlId=\"fruit-header-no-filter\"\n          filteringType=\"none\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownHeader={() => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              Recently used fruit\n            </Box>\n          )}\n        />\n\n        <h2>Expand to viewport</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruit-expand\">Fruit (expandToViewport)</label>\n        </Box>\n        <Select\n          controlId=\"fruit-expand\"\n          expandToViewport={true}\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find a fruit\"\n          filteringAriaLabel=\"Find a fruit\"\n          placeholder=\"Choose a fruit\"\n          ariaLabel=\"Choose a fruit\"\n          options={options}\n          selectedOption={selectedOption}\n          onChange={({ detail }) => setSelectedOption(detail.selectedOption)}\n          renderDropdownHeader={({ filterText }) => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              {filterText ? `Showing results for \"${filterText}\"` : 'Start typing to filter fruit'}\n            </Box>\n          )}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/select/dropdown-customization.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "item.permutations",
+   "key": "table-select-filter",
+   "name": "Table with select filter",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { DropdownOption } from '~components/internal/components/option/interfaces';\nimport Item from '~components/select/parts/item';\nimport { ItemProps } from '~components/select/parts/item';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst complexOption: DropdownOption = {\n  option: {\n    value: 'Complex option',\n    labelTag: 'tag',\n    description: 'description',\n    iconName: 'share',\n    tags: ['tag 1', 'tag 2', 'tag 3'],\n    filteringTags: ['tag 1', 'tag 2'],\n  },\n};\n\nconst options: Record<string, DropdownOption> = {\n  simpleOption: {\n    option: { value: 'Option 1' },\n  },\n  complexOption,\n  complexOptionGroup: {\n    option: { ...complexOption.option, options: [complexOption.option] },\n  },\n  longOption: {\n    option: {\n      label:\n        'Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label',\n      labelTag:\n        'LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag',\n      description:\n        'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description',\n      tags: [\n        'Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1',\n        'Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2',\n      ],\n    },\n  },\n  group: {\n    option: { value: 'Group 1' },\n    type: 'parent',\n  },\n  child: {\n    option: { value: 'Child 1' },\n    type: 'child',\n  },\n  disabledGroup: {\n    option: { value: 'Disabled group 1' },\n    type: 'parent',\n    disabled: true,\n  },\n  disabledChild: {\n    option: { value: 'Disabled child' },\n    type: 'child',\n    disabled: true,\n  },\n  simpleOptionWithCustomSvg: {\n    option: {\n      value: 'With custom svg',\n      iconSvg: (\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n          <circle cx=\"8\" cy=\"8\" r=\"7\" />\n          <circle cx=\"8\" cy=\"8\" r=\"3\" />\n        </svg>\n      ),\n    },\n  },\n  complexDisabledOptionWithCustomSvg: {\n    option: {\n      value: 'With custom svg',\n      iconSvg: (\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n          <circle cx=\"8\" cy=\"8\" r=\"7\" />\n          <circle cx=\"8\" cy=\"8\" r=\"3\" />\n        </svg>\n      ),\n      labelTag: 'LabelTag',\n      description: 'Description Description',\n      tags: ['Tag1 ', 'Tag2 '],\n    },\n    disabled: true,\n  },\n};\n\nconst permutations = createPermutations<Omit<ItemProps, 'index'>>([\n  {\n    option: [options.simpleOption],\n    highlighted: [false, true],\n    selected: [false, true],\n  },\n  {\n    option: [options.complexOption],\n    highlighted: [false, true],\n    selected: [false, true],\n    highlightType: ['keyboard'],\n    hasCheckbox: [true],\n  },\n  {\n    option: [options.complexOption],\n    filteringValue: ['a'],\n  },\n  {\n    option: [options.group],\n  },\n  {\n    option: [options.child],\n  },\n  {\n    option: [options.disabledGroup],\n  },\n  {\n    option: [options.disabledChild],\n  },\n  {\n    option: [options.longOption],\n  },\n  {\n    option: [options.simpleOptionWithCustomSvg],\n  },\n  {\n    option: [options.complexDisabledOptionWithCustomSvg],\n    hasCheckbox: [true],\n  },\n  {\n    option: [options.simpleOption, options.complexOption],\n    highlighted: [false, true],\n    highlightType: ['keyboard'],\n    selected: [true],\n    hasCheckbox: [false],\n  },\n  {\n    option: [options.complexOptionGroup],\n    highlighted: [false],\n    highlightType: ['keyboard'],\n    selected: [true],\n    hasCheckbox: [false, true],\n  },\n]);\n\nexport default function InputPermutations() {\n  return (\n    <>\n      <h1>Select item permutations</h1>\n      <ScreenshotArea>\n        <ul role=\"listbox\" aria-label=\"list\">\n          <PermutationsView\n            permutations={permutations}\n            render={(permutation, index) => <Item index={index ?? -1} {...permutation} />}\n          />\n        </ul>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/select/item.permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-select-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "screenshot",
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport { SpaceBetween } from '~components';\nimport Select, { SelectProps } from '~components/select';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst options: SelectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconAriaLabel: 'folder icon alt label', iconName: 'folder' },\n  {\n    value: 'third',\n    label: 'With big icon icon',\n    description: 'Very big option',\n    iconAriaLabel: 'very big option icon alt label',\n    iconSvg: (\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n        <circle cx=\"8\" cy=\"8\" r=\"7\" />\n        <circle cx=\"8\" cy=\"8\" r=\"3\" />\n      </svg>\n    ),\n  },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n  },\n];\nconst options2: SelectProps.Options = [\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n  },\n];\n\nconst options3: SelectProps.Options = [\n  {\n    label: 'Option 1',\n    value: '1',\n    iconName: 'settings',\n  },\n  {\n    label: 'Option 2',\n    value: '2',\n    iconName: 'unlocked',\n  },\n  {\n    label: 'Option 3',\n    value: '3',\n    iconName: 'share',\n  },\n];\n\nexport default function () {\n  const [selected, setSelected] = useState<SelectProps['selectedOption']>(null);\n  const [virtualScroll, setVirtualScroll] = useState<boolean>(false);\n  return (\n    <>\n      <h1>Select for screenshot</h1>\n\n      <button id=\"toggle-virtual\" onClick={() => setVirtualScroll(vs => !vs)}>\n        Toggle virtual scroll\n      </button>\n\n      <ScreenshotArea\n        style={{\n          // extra space to include dropdown in the screenshot area\n          paddingBlockEnd: 300,\n        }}\n      >\n        <SpaceBetween size=\"s\">\n          <Select\n            placeholder=\"Demo with manual filtering\"\n            selectedOption={selected}\n            options={options}\n            filteringType=\"manual\"\n            finishedText=\"End of all results\"\n            onChange={event => setSelected(event.detail.selectedOption)}\n            virtualScroll={virtualScroll}\n            ariaLabel=\"select demo\"\n            data-testid=\"select-demo\"\n          />\n\n          <Select\n            placeholder=\"Demo with no filtering\"\n            selectedOption={selected}\n            options={options}\n            finishedText=\"End of all results\"\n            onChange={event => setSelected(event.detail.selectedOption)}\n            virtualScroll={virtualScroll}\n            ariaLabel=\"select demo no filtering\"\n            data-testid=\"select-demo-no-filtering\"\n          />\n\n          <Select\n            placeholder=\"Demo with a single option inside group\"\n            selectedOption={selected}\n            options={options2}\n            finishedText=\"End of all results\"\n            onChange={event => setSelected(event.detail.selectedOption)}\n            virtualScroll={virtualScroll}\n            ariaLabel=\"select demo single option inside group\"\n            data-testid=\"select-demo-single-option-inside-group\"\n          />\n\n          <div style={{ width: '100px' }}>\n            <Select\n              placeholder=\"Demo with no filtering and limited width\"\n              selectedOption={selected}\n              options={options3}\n              onChange={event => setSelected(event.detail.selectedOption)}\n              virtualScroll={virtualScroll}\n              ariaLabel=\"select demo with no filtering and limited width\"\n              data-testid=\"select-demo-with-no-filtering-and-limited-width\"\n            />\n          </div>\n        </SpaceBetween>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/select/screenshot.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "select.async.example",
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport Box from '~components/box';\nimport Select, { SelectProps } from '~components/select';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { useOptionsLoader } from '../common/options-loader';\nimport { groupsRaw } from './mock/data';\n\nconst allOptions = JSON.parse(JSON.stringify(groupsRaw)) as unknown as SelectProps.OptionGroup[];\n\ntype PageContext = React.Context<\n  AppContextType<{\n    showFinishedText?: boolean;\n    fakeResponses?: boolean;\n    randomErrors?: boolean;\n    virtualScroll?: boolean;\n    expandToViewport?: boolean;\n  }>\n>;\n\nexport default function Page() {\n  const [selectedOption, setSelectedOption] = useState<null | SelectProps.Option>(null);\n  const {\n    urlParams: { fakeResponses = true, randomErrors = true },\n  } = useContext(AppContext as PageContext);\n\n  const { items, status, filteringText, fetchItems } = useOptionsLoader<SelectProps.Option>({\n    pageSize: 10,\n    randomErrors: randomErrors,\n  });\n\n  function showFilteredText(matchesCount: number, totalCount: number) {\n    if (status === 'pending') {\n      return `${matchesCount}+ results`;\n    }\n\n    if (status === 'finished') {\n      return `${matchesCount} out of ${totalCount} results`;\n    }\n    return '';\n  }\n\n  return (\n    <Box padding=\"l\">\n      <Box variant=\"h1\">Select: asynchronously fetched options</Box>\n      <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n        <label htmlFor=\"select_security_group\">Security group</label>\n      </Box>\n      <Select\n        controlId=\"select_security_group\"\n        filteringType=\"manual\"\n        filteringPlaceholder=\"Find security group\"\n        filteringAriaLabel=\"Filtering aria label\"\n        filteringResultsText={showFilteredText}\n        statusType={status as any}\n        placeholder=\"Choose a security group\"\n        loadingText=\"Loading security groups\"\n        errorText=\"Error fetching results.\"\n        recoveryText=\"Retry\"\n        finishedText={filteringText ? `End of \"${filteringText}\" results` : 'End of all results'}\n        empty=\"No security groups found\"\n        options={items}\n        selectedOption={selectedOption}\n        onChange={event => setSelectedOption(event.detail.selectedOption)}\n        onLoadItems={({ detail: { firstPage, filteringText } }) => {\n          const filteredOptions = allOptions\n            .filter(group => group.label!.indexOf(filteringText) > -1)\n            .map(group => ({ ...group, value: group.label }));\n          fetchItems({ firstPage, filteringText, sourceItems: fakeResponses ? filteredOptions : undefined });\n        }}\n      />\n    </Box>\n  );\n}\n",
-   "source": "pages/select/select.async.example.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "select.sync.example",
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Checkbox from '~components/checkbox';\nimport Select from '~components/select';\n\nimport { generateOptions } from './generate-options';\n\nconst { options } = generateOptions(50) as any;\n\nconst onLoadItems = (e: any) => {\n  console.log('onLoadItems', e);\n};\n\nconst onFocus = () => {\n  console.log('onFocus');\n};\n\nconst onBlur = () => {\n  console.log('onBlur');\n};\n\nexport default function SelectPage() {\n  const [selectedOption1, setSelectedOption1] = React.useState(null);\n  const [selectedOption2, setSelectedOption2] = React.useState(null);\n  const [readOnly, setReadOnly] = React.useState(false);\n\n  return (\n    <article>\n      <Box padding=\"l\">\n        <Box padding=\"s\">\n          <Checkbox checked={readOnly} onChange={({ detail }) => setReadOnly(detail.checked)}>\n            Read-only\n          </Checkbox>\n        </Box>\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Select with filteringType = none</Box>\n          <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n            <label htmlFor=\"equipment_1\">Equipment</label>\n          </Box>\n          <Select\n            controlId=\"equipment_1\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            filteringPlaceholder=\"Find equipment\"\n            filteringAriaLabel=\"Filtering aria label\"\n            options={options}\n            name=\"choose_equipment\"\n            placeholder={'Choose equipment'}\n            ariaLabel=\"Choose equipment\"\n            noMatch={<b>No match</b>}\n            loadingText=\"Fetching equipment\"\n            selectedAriaLabel=\"Selected\"\n            readOnly={readOnly}\n            onBlur={onBlur}\n            onFocus={onFocus}\n            onLoadItems={onLoadItems}\n            triggerVariant=\"option\"\n            selectedOption={selectedOption1}\n            onChange={(e: any) => {\n              setSelectedOption1(e.detail.selectedOption);\n            }}\n          />\n        </Box>\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Select with filteringType = auto</Box>\n          <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n            <label htmlFor=\"equipment_2\">Equipment</label>\n          </Box>\n          <Select\n            controlId=\"equipment_2\"\n            statusType=\"pending\"\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Find equipment\"\n            filteringAriaLabel=\"Filtering aria label\"\n            filteringResultsText={(matchesCount, totalCount) => `${matchesCount} out of ${totalCount} items`}\n            options={options}\n            name=\"choose_equipment\"\n            placeholder={'Choose equipment'}\n            ariaLabel=\"Choose equipment\"\n            noMatch={<b>No match</b>}\n            loadingText=\"Fetching equipment\"\n            selectedAriaLabel=\"Selected\"\n            readOnly={readOnly}\n            onBlur={onBlur}\n            onFocus={onFocus}\n            onLoadItems={onLoadItems}\n            triggerVariant=\"option\"\n            selectedOption={selectedOption2}\n            onChange={(e: any) => {\n              setSelectedOption2(e.detail.selectedOption);\n            }}\n          />\n        </Box>\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/select/select.sync.example.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "select.test.async",
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\nimport range from 'lodash/range';\n\nimport Select, { SelectProps } from '~components/select';\nimport { DropdownStatusProps } from '~components/types/dropdown-status';\n\ninterface APIResponse {\n  items: NonNullable<SelectProps['options']>;\n  hasNextPage: boolean;\n}\ninterface PendingRequest {\n  resolve: (value: APIResponse) => void;\n  reject: (reason: any) => void;\n  params: {\n    filteringText: string;\n    pageNumber: number;\n  };\n}\ninterface ExtendedWindow extends Window {\n  __pendingRequests: Array<PendingRequest>;\n}\ndeclare const window: ExtendedWindow;\nconst pendingRequests: Array<PendingRequest> = (window.__pendingRequests = []);\n\nconst ITEMS_PER_PAGE = 25;\nconst MAX_PAGES = 3;\n\nconst generateFakeItems = (pageNumber: number): SelectProps.Options => {\n  return range(ITEMS_PER_PAGE).map(i => ({ value: `Option #${pageNumber * ITEMS_PER_PAGE + i}` }));\n};\n\nexport default class App extends React.Component {\n  state: {\n    selectedOption: SelectProps['selectedOption'];\n    status: DropdownStatusProps.StatusType;\n    filteringText: string;\n    options: SelectProps.Options;\n    randomErrors: boolean;\n    showFinishedText: boolean;\n    fakeResponses: boolean;\n    virtualScroll: boolean;\n    expandToViewport: boolean;\n  } = {\n    selectedOption: null,\n    status: 'pending',\n    filteringText: '',\n    options: [],\n    randomErrors: false,\n    showFinishedText: true,\n    fakeResponses: false,\n    virtualScroll: false,\n    expandToViewport: false,\n  };\n  pageNumber = 0;\n\n  fetchSecurityGroups = () => {\n    return new Promise<APIResponse>((resolve, reject) => {\n      if (this.state.randomErrors && Math.random() < 0.3) {\n        reject();\n      }\n      setTimeout(() => {\n        resolve({\n          items: generateFakeItems(this.pageNumber),\n          hasNextPage: this.pageNumber < MAX_PAGES,\n        });\n      }, 1000);\n    });\n  };\n\n  fetchData = async () => {\n    const { filteringText } = this.state;\n    try {\n      let response;\n\n      if (this.state.fakeResponses) {\n        response = await this.fetchSecurityGroups();\n      } else {\n        response = await new Promise<APIResponse>((resolve, reject) => {\n          pendingRequests.push({\n            resolve,\n            reject,\n            params: {\n              filteringText,\n              pageNumber: this.pageNumber,\n            },\n          });\n        });\n      }\n\n      this.pageNumber++;\n      const { items, hasNextPage } = response;\n\n      if (this.state.filteringText !== filteringText) {\n        // there is another request in progress, discard the result of this one\n        return;\n      }\n\n      this.setState({\n        status: hasNextPage ? 'pending' : 'finished',\n        options: this.pageNumber === 0 ? items : this.state.options.concat(items),\n      });\n    } catch {\n      this.setState({\n        status: 'error',\n      });\n    }\n  };\n\n  handleLoadItems: SelectProps['onLoadItems'] = ({ detail: { filteringText, firstPage } }) => {\n    const options = firstPage ? [] : this.state.options;\n    this.setState({ filteringText, options, status: 'loading' }, () => {\n      if (firstPage) {\n        this.pageNumber = 0;\n      }\n      this.fetchData();\n    });\n  };\n\n  handleChange: SelectProps['onChange'] = event => this.setState({ value: event.detail.selectedOption });\n\n  render() {\n    return (\n      <div className=\"awsui-util-p-l\">\n        <h1>Select async</h1>\n        <section className=\"awsui-util-mb-l\">\n          <label>\n            <input\n              type=\"checkbox\"\n              checked={this.state.fakeResponses}\n              onChange={e => this.setState({ fakeResponses: !!e.target.checked })}\n            />\n            Fake API responses\n          </label>\n          <label>\n            <input\n              type=\"checkbox\"\n              checked={this.state.randomErrors}\n              onChange={e => this.setState({ randomErrors: !!e.target.checked })}\n            />\n            Cause random API errors\n          </label>\n          <label>\n            <input\n              type=\"checkbox\"\n              checked={this.state.showFinishedText}\n              onChange={e => this.setState({ showFinishedText: !!e.target.checked })}\n            />\n            Show end-of-list text\n          </label>\n          <label>\n            <input\n              id=\"virtual\"\n              type=\"checkbox\"\n              checked={this.state.virtualScroll}\n              onChange={e => this.setState({ virtualScroll: !!e.target.checked })}\n            />\n            Enable virtualization\n          </label>\n          <label>\n            <input\n              id=\"expand-to-viewport\"\n              type=\"checkbox\"\n              checked={this.state.expandToViewport}\n              onChange={e => this.setState({ expandToViewport: !!e.target.checked })}\n            />\n            Expand to viewport\n          </label>\n        </section>\n        <Select\n          selectedOption={this.state.selectedOption}\n          options={this.state.options}\n          empty={<span>Nothing found</span>}\n          filteringType=\"manual\"\n          statusType={this.state.status}\n          loadingText=\"Fetching items\"\n          errorText=\"Error fetching results.\"\n          recoveryText=\"Retry\"\n          finishedText={this.state.showFinishedText ? 'End of all results' : undefined}\n          onChange={this.handleChange}\n          onLoadItems={this.handleLoadItems}\n          ariaLabel=\"async autosuggest\"\n          virtualScroll={this.state.virtualScroll}\n          expandToViewport={this.state.expandToViewport}\n        />\n        <input id=\"to-blur\" aria-label=\"input to blur to\" />\n      </div>\n    );\n  }\n}\n",
-   "source": "pages/select/select.test.async.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "select.test.events",
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Select, { SelectProps } from '~components/select';\n\nimport styles from './styles.scss';\n\nconst options: SelectProps.Options = [...Array(50)].map((_, index) => ({\n  value: `Option ${index}`,\n  label: `Option ${index}`,\n}));\n\ninterface ExtendedWindow extends Window {\n  __eventsLog?: string[];\n  __clearEvents?: () => void;\n}\ndeclare const window: ExtendedWindow;\nconst appendLog = (text: string) => {\n  if (!window.__eventsLog) {\n    window.__eventsLog = [];\n  }\n  window.__eventsLog.push(text);\n};\nconst clearLog = () => (window.__eventsLog = []);\nwindow.__clearEvents = clearLog;\n\nexport default function SelectEventsPage() {\n  const [selectedOption, setValue] = useState<SelectProps['selectedOption']>(null);\n  const [filteringEnabled, setFiltering] = useState(false);\n  const [expandToViewport, setExpandToViewport] = useState(false);\n  return (\n    <div style={{ padding: 10 }}>\n      <ul>\n        <li>Select component has 4 events: onChange, onBlur, onFocus, onLoadItems</li>\n      </ul>\n      <h1>Select events</h1>\n      <div className={styles['flex-container']}>\n        <label>\n          enable filtering\n          <input\n            id=\"filtering\"\n            type=\"checkbox\"\n            checked={filteringEnabled}\n            onChange={e => setFiltering(e.target.checked)}\n          />\n        </label>\n        <label>\n          expand to viewport\n          <input\n            id=\"expand-to-viewport\"\n            type=\"checkbox\"\n            checked={expandToViewport}\n            onChange={e => setExpandToViewport(e.target.checked)}\n          />\n        </label>\n        <input aria-label=\"focusable\" id=\"focusable\" />\n        <Select\n          selectedOption={selectedOption}\n          options={options}\n          onChange={event => {\n            appendLog('onChange');\n            setValue(event.detail.selectedOption);\n          }}\n          onBlur={() => appendLog('onBlur')}\n          onFocus={() => appendLog('onFocus')}\n          ariaLabel={'events select'}\n          filteringType={filteringEnabled ? 'auto' : 'none'}\n          expandToViewport={expandToViewport}\n        />\n      </div>\n    </div>\n  );\n}\n",
-   "source": "pages/select/select.test.events.page.tsx"
-  },
-  {
-   "name": "select.test",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\nimport range from 'lodash/range';\n\nimport Box from '~components/box';\nimport Select from '~components/select';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst options = [\n  {\n    value: '1',\n    label: 'Option 1',\n  },\n  {\n    value: '2',\n    label: 'Option 2',\n  },\n];\n\nconst optionsOverflow = range(45).map(index => ({\n  value: 'option' + index,\n  label: 'option ' + index,\n}));\n\nconst optionsExtended = [\n  {\n    value: 'option1',\n    label: 'Something longer than expected',\n    labelTag: '128Gb',\n    description: 'Blah, and then blablaaah',\n    tags: ['2-CPU', '2Gb RAM'],\n  },\n  {\n    value: 'option2',\n    label: 'Another thing',\n    labelTag: '128Gb',\n    description: 'Blah, and then blablaaah',\n    tags: ['2-CPU', '2Gb RAM', 'Stuff', 'More stuff', 'A lot'],\n    disabled: true,\n  },\n  {\n    value: 'option3',\n    label: 'Third thing',\n    labelTag: '128Gb',\n    description: 'short',\n    tags: ['2-CPU', '2Gb RAM'],\n  },\n];\n\nconst optionsSemiExtended = [\n  {\n    id: 'option1',\n    label: 'Something longer than expected',\n  },\n  {\n    id: 'option2',\n    label: 'Another thing',\n  },\n  {\n    id: 'option3',\n    label: 'Third thing',\n  },\n];\n\nexport default function SelectPage() {\n  const [selectedOption1, setSelectedOption1] = React.useState(null);\n  const [selectedOption2, setSelectedOption2] = React.useState(null);\n  const [selectedOption3, setSelectedOption3] = React.useState(null);\n  const [selectedOption4, setSelectedOption4] = React.useState(null);\n  const [selectedOption5, setSelectedOption5] = React.useState(null);\n\n  return (\n    <article>\n      <ScreenshotArea>\n        <Box padding=\"l\">\n          <Box padding=\"s\">\n            <div style={{ height: '300px' }}>300px space above the select</div>\n            <Box variant=\"h1\">Overflow test</Box>\n            <Box variant=\"p\">Dropdown should not be rendered beyond the container with overflow hidden</Box>\n            <div id=\"smallest_container\" style={{ overflow: 'hidden', blockSize: '500px', padding: 0 }}>\n              <div style={{ overflow: 'hidden', blockSize: '900px' }}>\n                <Select\n                  id=\"select_overflow\"\n                  placeholder=\"Choose option\"\n                  selectedOption={{ value: 'option30' }}\n                  options={optionsOverflow}\n                />\n              </div>\n            </div>\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Simple select</Box>\n            <Select\n              id=\"simple_select\"\n              statusType=\"pending\"\n              filteringType=\"auto\"\n              options={options}\n              selectedOption={selectedOption1}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption1(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Expanded select</Box>\n            <Select\n              expandToViewport={true}\n              id=\"expanded_select\"\n              statusType=\"pending\"\n              filteringType=\"auto\"\n              options={options}\n              selectedOption={selectedOption2}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption2(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Native search tests</Box>\n            <Select\n              id=\"select_native_search_simple\"\n              options={options}\n              selectedOption={selectedOption3}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption3(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Native search tests: extended</Box>\n            <Select\n              id=\"select_native_search_extended\"\n              options={optionsExtended}\n              selectedOption={selectedOption4}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption4(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Native search tests: semi-extended</Box>\n            <Select\n              id=\"select_native_search_semi_extended\"\n              options={optionsSemiExtended}\n              selectedOption={selectedOption5}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption5(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n          <Box padding=\"s\">\n            <Box variant=\"h1\">Read-only select</Box>\n            <Select\n              id=\"select_native_search_readonly\"\n              readOnly={true}\n              options={options}\n              selectedOption={selectedOption1}\n              placeholder=\"Choose option\"\n              onChange={(e: any) => {\n                setSelectedOption1(e.detail.selectedOption);\n              }}\n            />\n          </Box>\n        </Box>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/select/select.test.page.tsx"
-  },
-  {
-   "name": "select.test.scroll-padding",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Select, { SelectProps } from '~components/select';\n\nimport './scroll-padding.css';\n\nconst options: SelectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconName: 'folder' },\n  {\n    value: 'third',\n    label: 'With big icon icon',\n    description: 'Very big option',\n    iconSvg: (\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n        <circle cx=\"8\" cy=\"8\" r=\"7\" />\n        <circle cx=\"8\" cy=\"8\" r=\"3\" />\n      </svg>\n    ),\n  },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n  },\n];\n\nexport default function () {\n  const [selected, setSelected] = useState<SelectProps['selectedOption']>(null);\n\n  return (\n    <>\n      <h1>Select with scroll padding</h1>\n\n      <div\n        style={{\n          paddingBottom: 300,\n        }}\n      >\n        <Select\n          placeholder=\"Select an option\"\n          selectedOption={selected}\n          options={options}\n          onChange={event => setSelected(event.detail.selectedOption)}\n          ariaLabel=\"select demo\"\n        />\n      </div>\n    </>\n  );\n}\n",
-   "source": "pages/select/select.test.scroll-padding.page.tsx"
-  },
-  {
-   "name": "trigger.permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, SelectProps } from '~components';\nimport Trigger, { TriggerProps } from '~components/select/parts/trigger';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst complexOption: SelectProps.Option = {\n  label: 'Complex option',\n  labelTag: 'tag',\n  description: 'description',\n  iconName: 'share',\n  tags: ['tag 1', 'tag 2', 'tag 3'],\n  filteringTags: ['tag 1', 'tag 2'],\n};\nconst longOption = {\n  label:\n    'Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label',\n  labelTag:\n    'LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag LabelTag',\n  description:\n    'Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description',\n  tags: [\n    'Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1 Tag1',\n    'Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2 Tag2',\n  ],\n};\n\nconst complexOptionWithCustomSvg = {\n  label: 'Complex option',\n  labelTag: 'tag',\n  description: 'description',\n  iconSvg: (\n    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n      <circle cx=\"8\" cy=\"8\" r=\"7\" />\n      <circle cx=\"8\" cy=\"8\" r=\"3\" />\n    </svg>\n  ),\n  tags: ['tag 1', 'tag 2', 'tag 3'],\n  filteringTags: ['tag 1', 'tag 2'],\n};\n\nconst permutations = createPermutations<TriggerProps>([\n  {\n    placeholder: ['Select an item'],\n    triggerVariant: ['label'],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [null, complexOption],\n    disabled: [false],\n  },\n  {\n    placeholder: ['Select an item'],\n    disabled: [true],\n    triggerVariant: ['option'],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [null, complexOption],\n  },\n  {\n    placeholder: ['Select an item'],\n    triggerVariant: ['label'],\n    invalid: [true],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [complexOption],\n    isOpen: [false, true],\n    disabled: [false],\n  },\n  {\n    placeholder: ['Select an item'],\n    triggerVariant: ['label'],\n    warning: [true],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [complexOption],\n    isOpen: [false, true],\n    disabled: [false],\n  },\n  {\n    placeholder: ['Select an item'],\n    triggerVariant: ['label'],\n    warning: [true],\n    invalid: [true],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [complexOption],\n    isOpen: [false],\n    disabled: [false],\n  },\n  {\n    placeholder: [\n      'A very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long placeholder',\n    ],\n    disabled: [false],\n    triggerVariant: ['label', 'option'],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [null, longOption],\n  },\n  {\n    placeholder: ['Select an item'],\n    disabled: [true, false],\n    triggerVariant: ['option'],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [complexOptionWithCustomSvg],\n  },\n  {\n    placeholder: ['Select an item'],\n    disabled: [false, true],\n    readOnly: [true],\n    triggerVariant: ['label'],\n    triggerProps: [{ ref: React.createRef() }],\n    selectedOption: [complexOption, null],\n  },\n  // Inline label\n  {\n    placeholder: ['Select an item'],\n    triggerProps: [{ ref: React.createRef() }],\n    readOnly: [false],\n    disabled: [false],\n    triggerVariant: ['label', 'option'],\n    selectedOption: [complexOption, null],\n    inlineLabelText: [\n      'Inline label',\n      'Very long inline label that should wrap into multiple lines on narrow enough viewports',\n    ],\n  },\n  // Inline label, read only\n  {\n    placeholder: ['Select an item'],\n    triggerProps: [{ ref: React.createRef() }],\n    readOnly: [true],\n    disabled: [false],\n    triggerVariant: ['label', 'option'],\n    selectedOption: [complexOption, null],\n    inlineLabelText: [\n      'Inline label',\n      'Very long inline label that should wrap into multiple lines on narrow enough viewports',\n    ],\n  },\n  // Inline label, disabled\n  {\n    placeholder: ['Select an item'],\n    triggerProps: [{ ref: React.createRef() }],\n    readOnly: [false],\n    disabled: [true],\n    triggerVariant: ['label', 'option'],\n    selectedOption: [complexOption, null],\n    inlineLabelText: [\n      'Inline label',\n      'Very long inline label that should wrap into multiple lines on narrow enough viewports',\n    ],\n  },\n]);\n\nexport default function InputPermutations() {\n  return (\n    <Box>\n      <h1>Select trigger permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <Trigger {...permutation} />} />\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
-   "source": "pages/select/trigger.permutations.page.tsx"
-  },
-  {
-   "name": "virtual-resize",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Select, { SelectProps } from '~components/select';\n\ninterface ExtendedWindow extends Window {\n  __shrinkComponent?: (shrunk: boolean) => void;\n}\ndeclare const window: ExtendedWindow;\n\nconst options = [\n  {\n    value:\n      'A very very very very very very very very very very very very very long option label that wraps upon resizing',\n    tags: ['tag1', 'tag2'],\n    filteringTags: ['bla', 'opt'],\n    description: 'description1',\n  },\n  { value: 'Option 1', labelTag: 'This is a label tag' },\n  { value: 'Option 2' },\n  { value: 'Option', description: 'description2' },\n];\nexport default function () {\n  const [selectedOption, setSelectedOption] = useState<SelectProps['selectedOption']>(null);\n  const [shrunk, setShrunk] = useState(false);\n  window.__shrinkComponent = setShrunk;\n\n  const style = shrunk ? { width: '100px' } : undefined;\n  return (\n    <div style={{ padding: 10 }}>\n      <h1>Virtual select resizing</h1>\n      <div style={style}>\n        <Select\n          selectedOption={selectedOption}\n          options={options}\n          onChange={event => setSelectedOption(event.detail.selectedOption)}\n          ariaLabel={'simple select'}\n          filteringType={'auto'}\n          virtualScroll={true}\n        />\n      </div>\n    </div>\n  );\n}\n",
-   "source": "pages/select/virtual-resize.page.tsx"
-  },
-  {
-   "name": "virtual-scroll",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport Select, { SelectProps } from '~components/select';\n\nimport { SimplePage } from '../app/templates';\n\nconst options: SelectProps.Options = Array.from({ length: 1000 }, (_, i) => ({\n  value: `${i}`,\n  label: `Option ${i + 1}`,\n}));\n\nexport default function () {\n  const [selected, setSelected] = useState<SelectProps['selectedOption']>(null);\n\n  return (\n    <SimplePage title=\"Select Virtual Scroll\" i18n={{}} screenshotArea={{}}>\n      <div\n        style={{\n          height: 500,\n          padding: 10,\n          // Prevents dropdown from expanding outside of the screenshot area\n          overflow: 'auto',\n        }}\n      >\n        <Select\n          placeholder=\"Select with virtual scroll\"\n          selectedOption={selected}\n          options={options}\n          filteringType=\"auto\"\n          finishedText=\"End of all results\"\n          onChange={event => setSelected(event.detail.selectedOption)}\n          virtualScroll={true}\n          expandToViewport={false}\n          ariaLabel=\"select demo\"\n          data-testid=\"select-demo\"\n        />\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/select/virtual-scroll.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "SelectProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "inlineLabelText",
-    "string",
-    "아니오",
-    "Adds a small label inline with the input for saving vertical space in the UI. For use with collection select filters only.",
-    "src/select/interfaces.ts:188"
-   ],
-   [
-    "onLoadItems",
-    "NonCancelableEventHandler<SelectProps.LoadItemsDetail>",
-    "아니오",
-    "",
-    "src/select/interfaces.ts:189"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Adds `aria-labelledby` to the component. If you're using this component within a form field, don't set this property because the form field component automatically sets it. Use this property if the component isn't using `inlineLabelText` and isn't surrounded by a form field, or you want to override the value automatically set by the form field (for example, if you have two components within a single form field). To use it correctly, define an ID for the element you want to use as label and set the property to that ID.",
-    "src/select/interfaces.ts:199"
-   ],
-   [
-    "triggerVariant",
-    "SelectProps.TriggerVariant",
-    "아니오",
-    "Defines the variant of the trigger. You can use a simple label or the entire option (`label | option`)",
-    "src/select/interfaces.ts:203"
-   ],
-   [
-    "selectedOption",
-    "SelectProps.Option | null",
-    "예",
-    "Specifies the currently selected option. If you want to clear the selection, use `null`.",
-    "src/select/interfaces.ts:208"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<SelectProps.ChangeDetail>",
-    "아니오",
-    "Called when the user selects an option. The event `detail` contains the current `selectedOption`.",
-    "src/select/interfaces.ts:213"
-   ],
-   [
-    "autoFocus",
-    "boolean",
-    "아니오",
-    "Automatically focuses the trigger when component is mounted.",
-    "src/select/interfaces.ts:218"
-   ],
-   [
-    "renderOption",
-    "SelectProps.SelectOptionItemRenderer",
-    "아니오",
-    "Specifies a render function to render custom options in the dropdown menu or trigger.",
-    "src/select/interfaces.ts:222"
-   ]
-  ],
-  "source": "src/select/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "SelectProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "inlineLabelText",
+      "string",
+      "아니오",
+      "Adds a small label inline with the input for saving vertical space in the UI. For use with collection select filters only.",
+      "src/select/interfaces.ts:188"
+     ],
+     [
+      "onLoadItems",
+      "NonCancelableEventHandler<SelectProps.LoadItemsDetail>",
+      "아니오",
+      "",
+      "src/select/interfaces.ts:189"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Adds `aria-labelledby` to the component. If you're using this component within a form field, don't set this property because the form field component automatically sets it. Use this property if the component isn't using `inlineLabelText` and isn't surrounded by a form field, or you want to override the value automatically set by the form field (for example, if you have two components within a single form field). To use it correctly, define an ID for the element you want to use as label and set the property to that ID.",
+      "src/select/interfaces.ts:199"
+     ],
+     [
+      "triggerVariant",
+      "SelectProps.TriggerVariant",
+      "아니오",
+      "Defines the variant of the trigger. You can use a simple label or the entire option (`label | option`)",
+      "src/select/interfaces.ts:203"
+     ],
+     [
+      "selectedOption",
+      "SelectProps.Option | null",
+      "예",
+      "Specifies the currently selected option. If you want to clear the selection, use `null`.",
+      "src/select/interfaces.ts:208"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<SelectProps.ChangeDetail>",
+      "아니오",
+      "Called when the user selects an option. The event `detail` contains the current `selectedOption`.",
+      "src/select/interfaces.ts:213"
+     ],
+     [
+      "autoFocus",
+      "boolean",
+      "아니오",
+      "Automatically focuses the trigger when component is mounted.",
+      "src/select/interfaces.ts:218"
+     ],
+     [
+      "renderOption",
+      "SelectProps.SelectOptionItemRenderer",
+      "아니오",
+      "Specifies a render function to render custom options in the dropdown menu or trigger.",
+      "src/select/interfaces.ts:222"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "select"
 }

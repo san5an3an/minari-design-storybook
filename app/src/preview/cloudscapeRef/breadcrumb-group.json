@@ -1,77 +1,521 @@
 {
  "slug": "breadcrumb-group",
  "title": "Breadcrumb Group",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "events",
+   "key": "cards",
+   "name": "Card view",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { SpaceBetween } from '~components';\nimport BreadcrumbGroup, { BreadcrumbGroupProps } from '~components/breadcrumb-group';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nconst defaultItems = [\n  'First that is very very very very very very long long long text',\n  'Second',\n  'Third',\n  'Fourth',\n  'Fifth',\n  'Sixth that is very very very very very very long long long text',\n];\n\nexport default function ButtonDropdownPage() {\n  const [onFollowMessage, setOnFollowMessage] = useState('');\n  const [onClickMessage, setOnClickMessage] = useState('');\n  const onFollowCallback = (event: CustomEvent<BreadcrumbGroupProps.ClickDetail>) => {\n    setOnFollowMessage(`OnFollow: ${event.detail.text} item was selected`);\n    event.preventDefault(); // prevent reloading to see updated message\n  };\n  const onClickCallback = (event: CustomEvent<BreadcrumbGroupProps.ClickDetail>) => {\n    setOnClickMessage(`OnClick: ${event.detail.text} item was selected`);\n  };\n  const [items, setItems] = useState(defaultItems);\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <article>\n        <h1>BreadcrumbGroup variations</h1>\n        <SpaceBetween size=\"xxl\">\n          <div>\n            <button type=\"button\" id=\"focus-target-long-text\">\n              focus long text\n            </button>\n            <BreadcrumbGroup\n              ariaLabel=\"Navigation long text\"\n              expandAriaLabel=\"Show path for long text\"\n              items={items.map(text => ({ text, href: `#` }))}\n              onFollow={onFollowCallback}\n              onClick={onClickCallback}\n            />\n            <div id=\"onFollowMessage\">{onFollowMessage}</div>\n            <div id=\"onClickMessage\">{onClickMessage}</div>\n          </div>\n          <div>\n            <button type=\"button\" id=\"focus-target-short-text\">\n              focus short text\n            </button>\n          </div>\n          <button type=\"button\" id=\"add\" onClick={() => setItems([...items, defaultItems[5]])}>\n            Add\n          </button>\n          <button type=\"button\" id=\"remove\" onClick={() => setItems(items.slice(0, items.length - 1))}>\n            Remove\n          </button>\n        </SpaceBetween>\n      </article>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/breadcrumb-group/events.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/cards/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "responsive",
+   "key": "delete-one-click",
+   "name": "One-click delete",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport BreadcrumbGroup from '~components/breadcrumb-group';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nlet counter = 0;\n\nexport default function ResponsiveBreadcrumbsPage() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <article>\n        <Box padding=\"xl\">\n          <SpaceBetween size=\"xxl\">\n            <h1>Responsive breadcrumbs</h1>\n            <ResponsiveBreadcrumbs\n              widths={[900, 800, 700, 600, 500, 400, 300, 200]}\n              items={[\n                'Amazon service name',\n                'Longer breadrcumb',\n                'ABC',\n                'Another even longer breadcrumb',\n                'ABCDEF',\n                'ABCDEFGHIJsjbdkasbdhjabsjdhasjhdabsjd',\n              ]}\n            />\n            <ResponsiveBreadcrumbs widths={[150]} items={['Small', 'Small', 'Small', 'Small', 'Small']} />\n            <ResponsiveBreadcrumbs\n              widths={[150]}\n              items={[\n                'Large breadcrumb',\n                'Large breadcrumb',\n                'Large breadcrumb',\n                'Large breadcrumb',\n                'Large breadcrumb',\n              ]}\n            />\n            <ResponsiveBreadcrumbs widths={[100]} items={['Small', 'Small']} />\n            <ResponsiveBreadcrumbs widths={[100]} items={['Large breadcrumb', 'Large breadcrumb']} />\n            <ResponsiveBreadcrumbs widths={[100]} items={['Large breadcrumb', 'Small']} />\n            <ResponsiveBreadcrumbs widths={[30]} items={['Small']} />\n            <ResponsiveBreadcrumbs widths={[30]} items={['Large breadcrumb']} />\n          </SpaceBetween>\n        </Box>\n      </article>\n    </ScreenshotArea>\n  );\n}\n\ninterface ResponsiveBreadcrumbsProps {\n  items: Array<string>;\n  widths: Array<number>;\n}\n\nconst ResponsiveBreadcrumbs = ({ items, widths }: ResponsiveBreadcrumbsProps) => {\n  const breadcrumbs = items.map(text => ({ text, href: `#` }));\n  return (\n    <SpaceBetween size=\"xxl\">\n      {widths.map((width, key) => (\n        <div key={key} style={{ width, borderInlineEnd: '2px solid blue' }}>\n          <BreadcrumbGroup\n            key={key}\n            ariaLabel={`label - ${counter++}`}\n            expandAriaLabel=\"Show path for long text\"\n            items={breadcrumbs}\n          />\n        </div>\n      ))}\n    </SpaceBetween>\n  );\n};\n",
-   "source": "pages/breadcrumb-group/responsive.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-one-click/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "scenarios",
+   "key": "delete-with-simple-confirmation",
+   "name": "Delete with simple confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport BreadcrumbGroup from '~components/breadcrumb-group';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nconst testCases = [\n  ['First'],\n  ['First', 'Second'],\n  ['First', 'Second', 'Third'],\n  ['First that is quite long', 'Second', 'Third that is quite long'],\n  ['First', 'Second', 'Third that is quite long'],\n  ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'],\n  [\n    'First or rather some more text',\n    'Second',\n    'Third',\n    'Some very very long text here to make it wrap on 1200px',\n    'Even-longer-without-white-space',\n    'And if it was not enough, another breadcrumb here',\n  ],\n];\n\nexport default function ButtonDropdownPage() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <article>\n        <h1>BreadcrumbGroup variations</h1>\n        {testCases.map((testcase, index) => (\n          <BreadcrumbGroup\n            key={index}\n            ariaLabel={'Navigation' + index}\n            data-testid={`breadcrumbs-${index}`}\n            expandAriaLabel=\"Show path\"\n            items={testcase.map((text, i) => ({ text, href: `#item-${index}-${i}` }))}\n          />\n        ))}\n      </article>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/breadcrumb-group/scenarios.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-simple-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "details",
+   "name": "Details page",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "details-hub",
+   "name": "Details page as hub",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-hub/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "details-tabs",
+   "name": "Details page with tabs",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-tabs/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "edit",
+   "name": "Edit resource",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/edit/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "product-detail-page",
+   "name": "Product detail page",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/product-detail-page/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "server-side-table",
+   "name": "Table view (server-side)",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "server-side-table-property-filter",
+   "name": "Table property filter (server-side)",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-property-filter",
+   "name": "Table property filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-select-filter",
+   "name": "Table with select filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-select-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-date-filter",
+   "name": "Table view with date range picker filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-date-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table",
+   "name": "Table view",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-expandable",
+   "name": "Table view with expandable rows",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-expandable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "manage-tags",
+   "name": "Manage tags",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/manage-tags/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "read-from-s3",
+   "name": "Read from Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/read-from-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "write-to-s3",
+   "name": "Write to Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/write-to-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "dashboard",
+   "name": "Service dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "split-panel-multiple",
+   "name": "Split view",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/split-panel-multiple/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "split-panel-comparison",
+   "name": "Split view with details comparison",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/split-panel-comparison/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "non-console",
+   "name": "Top navigation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/non-console/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "BreadcrumbGroupProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "items",
-    "ReadonlyArray<T>",
-    "예",
-    "An array of breadcrumb items that describes the link hierarchy for this navigation. Each option has the following properties: * `text` (string) - Specifies the title text of the breadcrumb item. * `href` (string) - Specifies the URL for the link in the breadcrumb item. You should specify the link even if you have a click handler for a breadcrumb item to ensure that valid markup is generated. Note: The last breadcrumb item is automatically considered the current item, and it's not a link.",
-    "src/breadcrumb-group/interfaces.ts:21"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Provides an `aria-label` to the breadcrumb group that screen readers can read (for accessibility).",
-    "src/breadcrumb-group/interfaces.ts:25"
-   ],
-   [
-    "expandAriaLabel",
-    "string",
-    "아니오",
-    "Provides an `aria-label` to the ellipsis button that screen readers can read (for accessibility). @i18n",
-    "src/breadcrumb-group/interfaces.ts:31"
-   ],
-   [
-    "onClick",
-    "CancelableEventHandler<BreadcrumbGroupProps.ClickDetail<T>>",
-    "아니오",
-    "Called when the user clicks on a breadcrumb item. Do not use this handler for navigation, use the `onFollow` event instead.",
-    "src/breadcrumb-group/interfaces.ts:35"
-   ],
-   [
-    "onFollow",
-    "CancelableEventHandler<BreadcrumbGroupProps.ClickDetail<T>>",
-    "아니오",
-    "Called when the user clicks on a breadcrumb item with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META).",
-    "src/breadcrumb-group/interfaces.ts:40"
-   ]
-  ],
-  "source": "src/breadcrumb-group/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "cards",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "BreadcrumbGroupProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "items",
+      "ReadonlyArray<T>",
+      "예",
+      "An array of breadcrumb items that describes the link hierarchy for this navigation. Each option has the following properties: * `text` (string) - Specifies the title text of the breadcrumb item. * `href` (string) - Specifies the URL for the link in the breadcrumb item. You should specify the link even if you have a click handler for a breadcrumb item to ensure that valid markup is generated. Note: The last breadcrumb item is automatically considered the current item, and it's not a link.",
+      "src/breadcrumb-group/interfaces.ts:21"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Provides an `aria-label` to the breadcrumb group that screen readers can read (for accessibility).",
+      "src/breadcrumb-group/interfaces.ts:25"
+     ],
+     [
+      "expandAriaLabel",
+      "string",
+      "아니오",
+      "Provides an `aria-label` to the ellipsis button that screen readers can read (for accessibility). @i18n",
+      "src/breadcrumb-group/interfaces.ts:31"
+     ],
+     [
+      "onClick",
+      "CancelableEventHandler<BreadcrumbGroupProps.ClickDetail<T>>",
+      "아니오",
+      "Called when the user clicks on a breadcrumb item. Do not use this handler for navigation, use the `onFollow` event instead.",
+      "src/breadcrumb-group/interfaces.ts:35"
+     ],
+     [
+      "onFollow",
+      "CancelableEventHandler<BreadcrumbGroupProps.ClickDetail<T>>",
+      "아니오",
+      "Called when the user clicks on a breadcrumb item with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META).",
+      "src/breadcrumb-group/interfaces.ts:40"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

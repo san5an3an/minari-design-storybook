@@ -1,189 +1,176 @@
 {
  "slug": "multiselect",
  "title": "Multiselect",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "custom-render-option",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { Multiselect, MultiselectProps, Toggle } from '~components';\nimport { SelectProps } from '~components/select';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\nimport { i18nStrings } from './constants';\nconst lotsOfOptions: SelectProps.Options = [...Array(50)].map((_, index) => ({\n  value: `Option ${index}`,\n  label: `Option ${index}`,\n}));\nconst options: SelectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconName: 'folder' },\n  {\n    value: 'third',\n    label: 'With big icon icon',\n    description: 'Very big option',\n    iconName: 'heart',\n    disabled: false,\n    disabledReason: 'disabled reason',\n    tags: ['Cool', 'Intelligent', 'Cat'],\n  },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n    disabledReason: 'disabled reason',\n  },\n  ...lotsOfOptions,\n  { label: 'Last option', disabled: false, disabledReason: 'disabled reason' },\n];\ntype PageContext = React.Context<\n  AppContextType<{\n    virtualScroll?: boolean;\n  }>\n>;\n\nexport default function SelectPage() {\n  const { urlParams, setUrlParams } = React.useContext(AppContext as PageContext);\n  const virtualScroll = urlParams.virtualScroll ?? false;\n\n  const [selectedOptions, setSelectedOptions] = React.useState<MultiselectProps.Options>([]);\n  const renderOptionItem: MultiselectProps.MultiselectOptionItemRenderer = ({ item }) => {\n    if (item.type === 'select-all') {\n      return <div>Select all? {item.selected ? 'Yes' : 'No'}</div>;\n    } else if (item.type === 'group') {\n      return <div>Group: {item.option.label}</div>;\n    } else if (item.type === 'item') {\n      return <div>Item: {item.option.label}</div>;\n    }\n\n    return null;\n  };\n\n  return (\n    <SimplePage\n      title=\"Multiselect with custom item renderer\"\n      settings={\n        <Toggle\n          checked={!!urlParams.virtualScroll}\n          onChange={({ detail }) => setUrlParams({ virtualScroll: detail.checked })}\n        >\n          Virtual Scroll\n        </Toggle>\n      }\n      screenshotArea={{\n        style: {\n          padding: 10,\n        },\n      }}\n    >\n      <div style={{ maxInlineSize: '400px', blockSize: '650px' }}>\n        <Multiselect\n          virtualScroll={virtualScroll}\n          enableSelectAll={true}\n          i18nStrings={{ ...i18nStrings, selectAllText: 'Select all' }}\n          filteringType={'auto'}\n          renderOption={renderOptionItem}\n          placeholder={`Choose option ${virtualScroll ? '(virtual)' : ''}`}\n          selectedOptions={selectedOptions}\n          onChange={event => {\n            setSelectedOptions(event.detail.selectedOptions);\n          }}\n          options={options}\n        />\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/multiselect/custom-render-option.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "disabled-reason",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst extraOptions = [...Array(30).keys()].map(n => {\n  const numberToDisplay = (n + 5).toString();\n  return {\n    value: numberToDisplay,\n    label: `Option ${n + 5}`,\n  };\n});\n\nconst options: MultiselectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconName: 'folder' },\n  {\n    value: 'third',\n    label: 'With big icon icon',\n    description: 'Very big option',\n    iconName: 'heart',\n    disabled: true,\n    disabledReason: 'disabled reason',\n  },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n    disabled: true,\n    disabledReason: 'disabled reason',\n  },\n  ...extraOptions,\n  { label: 'Last option', disabled: true, disabledReason: 'disabled reason' },\n];\n\nexport default function MultiselectPage() {\n  return (\n    <ScreenshotArea>\n      <Box variant=\"h1\">Multiselect with disabled reason</Box>\n      <Box padding=\"l\">\n        <div style={{ width: '400px' }}>\n          <Multiselect placeholder=\"Choose option\" selectedOptions={[]} options={options} />\n        </div>\n      </Box>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/multiselect/disabled-reason.page.tsx"
-  },
-  {
-   "name": "dropdown-customization",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\n\nconst options: MultiselectProps.Options = [\n  { label: 'Apples', value: 'apples' },\n  { label: 'Oranges', value: 'oranges' },\n  { label: 'Bananas', value: 'bananas' },\n  { label: 'Cherries', value: 'cherries' },\n];\n\nexport default function MultiselectDropdownCustomizationPage() {\n  const [selectedOptions, setSelectedOptions] = React.useState<ReadonlyArray<MultiselectProps.Option>>([]);\n\n  return (\n    <article>\n      <Box padding=\"l\">\n        <h1>Multiselect dropdown customization</h1>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruits\">Fruits</label>\n        </Box>\n        <Multiselect\n          controlId=\"fruits\"\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find fruit\"\n          filteringAriaLabel=\"Find fruit\"\n          placeholder=\"Choose fruit\"\n          ariaLabel=\"Choose fruit\"\n          options={options}\n          selectedOptions={selectedOptions}\n          onChange={({ detail }) => setSelectedOptions(detail.selectedOptions)}\n          renderDropdownHeader={({ filterText }) => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              {filterText ? `Showing results for \"${filterText}\"` : 'Start typing to filter fruit'}\n            </Box>\n          )}\n          renderDropdownFooter={({ filterText, closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"inline-link\">{filterText ? `Create \"${filterText}\"` : 'Create new fruit'}</Button>{' '}\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>No filter, forced dialog role, with described-by</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruits-no-filter\">Fruits (no filter)</label>\n        </Box>\n        <p id=\"fruits-dropdown-description\">Pick fruit or create a new one using the actions below.</p>\n        <Multiselect\n          controlId=\"fruits-no-filter\"\n          filteringType=\"none\"\n          dropdownRole=\"dialog\"\n          dropdownAriaDescribedby=\"fruits-dropdown-description\"\n          placeholder=\"Choose fruit\"\n          ariaLabel=\"Choose fruit\"\n          options={options}\n          selectedOptions={selectedOptions}\n          onChange={({ detail }) => setSelectedOptions(detail.selectedOptions)}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"inline-link\">Create new fruit</Button>{' '}\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n\n        <h2>Custom header without a filter</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruits-header-no-filter\">Fruits (header, no filter)</label>\n        </Box>\n        <Multiselect\n          controlId=\"fruits-header-no-filter\"\n          filteringType=\"none\"\n          placeholder=\"Choose fruit\"\n          ariaLabel=\"Choose fruit\"\n          options={options}\n          selectedOptions={selectedOptions}\n          onChange={({ detail }) => setSelectedOptions(detail.selectedOptions)}\n          renderDropdownHeader={() => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              Recently used fruit\n            </Box>\n          )}\n        />\n\n        <h2>Expand to viewport</h2>\n        <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n          <label htmlFor=\"fruits-expand\">Fruits (expandToViewport)</label>\n        </Box>\n        <Multiselect\n          controlId=\"fruits-expand\"\n          expandToViewport={true}\n          filteringType=\"auto\"\n          filteringPlaceholder=\"Find fruit\"\n          filteringAriaLabel=\"Find fruit\"\n          placeholder=\"Choose fruit\"\n          ariaLabel=\"Choose fruit\"\n          options={options}\n          selectedOptions={selectedOptions}\n          onChange={({ detail }) => setSelectedOptions(detail.selectedOptions)}\n          renderDropdownHeader={({ filterText }) => (\n            <Box padding={{ horizontal: 's', vertical: 'xxs' }} color=\"text-body-secondary\" fontSize=\"body-s\">\n              {filterText ? `Showing results for \"${filterText}\"` : 'Start typing to filter fruit'}\n            </Box>\n          )}\n          renderDropdownFooter={({ closeDropdown }) => (\n            <Box padding=\"s\">\n              <Button variant=\"primary\" onClick={closeDropdown}>\n                Done\n              </Button>\n            </Box>\n          )}\n        />\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/multiselect/dropdown-customization.page.tsx"
-  },
-  {
-   "name": "inline-label-text-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { deselectAriaLabel, i18nStrings } from './constants';\n\nconst options: MultiselectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'Second option' },\n];\n\nconst permutations = createPermutations<MultiselectProps>([\n  {\n    placeholder: ['Select an item'],\n    disabled: [false, true],\n    options: [options],\n    selectedOptions: [[], [options[0], options[1]]],\n    deselectAriaLabel: [deselectAriaLabel],\n    i18nStrings: [i18nStrings],\n    inlineLabelText: [\n      'Inline label',\n      'Very long inline label that should wrap into multiple lines on narrow enough viewports',\n    ],\n    inlineTokens: [undefined, true],\n  },\n]);\n\nexport default function MultiselectInlineLabelTextPermutations() {\n  return (\n    <>\n      <h1>Multiselect inlineLabelText permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <Multiselect {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/multiselect/inline-label-text-permutations.page.tsx"
-  },
-  {
-   "name": "multiselect.async.example",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport { SpaceBetween, TextFilter } from '~components';\nimport Box from '~components/box';\nimport { fireNonCancelableEvent } from '~components/internal/events';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\nimport EmbeddedMultiselect, { EmbeddedMultiselectProps } from '~components/multiselect/embedded';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { useOptionsLoader } from '../common/options-loader';\nimport { groupsRaw } from '../select/mock/data';\nimport { i18nStrings } from './constants';\n\nconst allOptions = JSON.parse(JSON.stringify(groupsRaw)) as unknown as MultiselectProps.OptionGroup[];\n\ntype PageContext = React.Context<\n  AppContextType<{\n    showFinishedText?: boolean;\n    fakeResponses?: boolean;\n    randomErrors?: boolean;\n    virtualScroll?: boolean;\n    expandToViewport?: boolean;\n    embedded?: boolean;\n  }>\n>;\n\nconst deselectAriaLabel: MultiselectProps['deselectAriaLabel'] = option => {\n  const label = option?.value || option?.label;\n  return label ? `Deselect ${label}` : 'no label';\n};\n\nexport default function Page() {\n  const [selectedOptions, setSelectedOptions] = useState<readonly MultiselectProps.Option[]>([]);\n  const {\n    urlParams: { fakeResponses = true, randomErrors = true, embedded = false },\n  } = useContext(AppContext as PageContext);\n\n  const { items, status, filteringText, fetchItems } = useOptionsLoader<MultiselectProps.Option>({\n    pageSize: 10,\n    randomErrors: randomErrors,\n  });\n\n  function showFilteredText(matchesCount: number, totalCount: number) {\n    if (status === 'pending') {\n      return `${matchesCount}+ results`;\n    }\n\n    if (status === 'finished') {\n      return `${matchesCount} out of ${totalCount} results`;\n    }\n    return '';\n  }\n\n  const Component = embedded ? EmbeddedMultiselectIntegration : Multiselect;\n\n  return (\n    <Box padding=\"l\">\n      <Box variant=\"h1\">Multiselect: asynchronously fetched options</Box>\n      <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n        <label htmlFor=\"select_security_group\">Security group</label>\n      </Box>\n\n      <Component\n        controlId=\"select_security_group\"\n        filteringType=\"manual\"\n        filteringPlaceholder=\"Find security group\"\n        filteringAriaLabel=\"Filtering aria label\"\n        filteringResultsText={showFilteredText}\n        statusType={status as any}\n        placeholder=\"Choose a security group\"\n        loadingText=\"Loading security groups\"\n        errorText=\"Error fetching results.\"\n        recoveryText=\"Retry\"\n        finishedText={filteringText ? `End of \"${filteringText}\" results` : 'End of all results'}\n        empty=\"No security groups found\"\n        options={items}\n        selectedOptions={selectedOptions}\n        onChange={event => setSelectedOptions(event.detail.selectedOptions)}\n        onLoadItems={({ detail: { firstPage, filteringText } }) => {\n          const filteredOptions = allOptions\n            .filter(group => group.label!.indexOf(filteringText) > -1)\n            .map(group => ({ ...group, value: group.label }));\n          fetchItems({ firstPage, filteringText, sourceItems: fakeResponses ? filteredOptions : undefined });\n        }}\n        tokenLimit={3}\n        deselectAriaLabel={deselectAriaLabel}\n        i18nStrings={i18nStrings}\n      />\n    </Box>\n  );\n}\n\nfunction EmbeddedMultiselectIntegration(props: EmbeddedMultiselectProps) {\n  const [filteringText, setFilteringText] = useState('');\n  const onChangeFilter = (filteringText: string) => {\n    setFilteringText(filteringText);\n    fireNonCancelableEvent(props.onLoadItems, { filteringText, firstPage: true, samePage: false });\n  };\n  return (\n    <SpaceBetween size=\"s\">\n      <TextFilter\n        filteringText={filteringText}\n        onChange={({ detail }) => onChangeFilter(detail.filteringText)}\n        filteringPlaceholder=\"Find security group\"\n      />\n\n      <div style={{ maxBlockSize: 400, display: 'flex', flexDirection: 'column' }}>\n        <EmbeddedMultiselect {...props} filteringText={filteringText} />\n      </div>\n    </SpaceBetween>\n  );\n}\n",
-   "source": "pages/multiselect/multiselect.async.example.page.tsx"
-  },
-  {
-   "name": "multiselect.sync.example",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Checkbox from '~components/checkbox';\nimport { NonCancelableCustomEvent } from '~components/interfaces';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\nimport { SelectProps } from '~components/select';\n\nimport { generateOptions } from '../select/generate-options';\nimport { i18nStrings } from './constants';\n\nconst { options } = generateOptions(50);\n\nconst deselectAriaLabel: MultiselectProps['deselectAriaLabel'] = option => {\n  const label = option?.value || option?.label;\n  return label ? `Deselect ${label}` : 'no label';\n};\n\nconst onLoadItems = (event: NonCancelableCustomEvent<SelectProps.LoadItemsDetail>) => {\n  console.log('onLoadItems', event);\n};\n\nconst onFocus = () => {\n  console.log('onFocus');\n};\n\nconst onBlur = () => {\n  console.log('onBlur');\n};\n\nexport default function MultiselectPage() {\n  // eslint-disable-next-line no-restricted-syntax -- Page demo: filtering option groups from flat options\n  const selectableOptions = options.filter(o => !o.disabled && !('options' in o));\n  const [selectedOptions1, setSelectedOptions1] = React.useState<MultiselectProps.Options>([\n    selectableOptions[10],\n    selectableOptions[15],\n  ]);\n  const [selectedOptions2, setSelectedOptions2] = React.useState<MultiselectProps.Options>([]);\n  const [readOnly, setReadOnly] = React.useState(false);\n\n  return (\n    <article>\n      <Box padding=\"l\">\n        <Box padding=\"s\">\n          <Checkbox checked={readOnly} onChange={({ detail }) => setReadOnly(detail.checked)}>\n            Read-only\n          </Checkbox>\n        </Box>\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Multiselect with filteringType = none</Box>\n          <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n            <label htmlFor=\"equipment_1\">Equipment</label>\n          </Box>\n          <Multiselect\n            controlId=\"equipment_1\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            filteringPlaceholder=\"Find equipment\"\n            filteringAriaLabel=\"Filtering aria label\"\n            options={options}\n            name=\"choose_equipment\"\n            placeholder={'Choose equipment'}\n            ariaLabel=\"Choose equipment\"\n            noMatch={<b>No match</b>}\n            loadingText=\"Fetching equipment\"\n            selectedAriaLabel=\"Selected\"\n            readOnly={readOnly}\n            onBlur={onBlur}\n            onFocus={onFocus}\n            onLoadItems={onLoadItems}\n            tokenLimit={3}\n            selectedOptions={selectedOptions1}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions1(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Multiselect with filteringType = auto</Box>\n          <Box margin={{ bottom: 'xxs' }} color=\"text-label\">\n            <label htmlFor=\"equipment_2\">Equipment</label>\n          </Box>\n          <Multiselect\n            controlId=\"equipment_2\"\n            statusType=\"pending\"\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Find equipment\"\n            filteringAriaLabel=\"Filtering aria label\"\n            filteringResultsText={(matchesCount, totalCount) => `${matchesCount} out of ${totalCount} items`}\n            options={options}\n            name=\"choose_equipment\"\n            placeholder={'Choose equipment'}\n            ariaLabel=\"Choose equipment\"\n            noMatch={<b>No match</b>}\n            loadingText=\"Fetching equipment\"\n            selectedAriaLabel=\"Selected\"\n            readOnly={readOnly}\n            onBlur={onBlur}\n            onFocus={onFocus}\n            onLoadItems={onLoadItems}\n            tokenLimit={3}\n            selectedOptions={selectedOptions2}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions2(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/multiselect/multiselect.sync.example.page.tsx"
-  },
-  {
-   "name": "multiselect.test",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Box from '~components/box';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\n\nimport { deselectAriaLabel, getInlineAriaLabel, groupedOptions, i18nStrings } from './constants';\n\nconst _selectedOptions1 = [\n  {\n    value: 'option3',\n    label: 'option3',\n    description: 'option3',\n    tags: ['2-CPU', '2Gb RAM'],\n  },\n  {\n    value: 'option4',\n    label: 'option4',\n    description: 'option4',\n    tags: ['2-CPU', '2Gb RAM'],\n  },\n];\nconst _selectedOptions2 = [\n  {\n    value: 'option4',\n    label: 'option4',\n    description: 'option4',\n    tags: ['2-CPU', '2Gb RAM'],\n  },\n  {\n    value: 'option5',\n    label: 'option5',\n    description: 'option5',\n    tags: ['2-CPU', '2Gb RAM', 'Stuff', 'More stuff', 'A lot'],\n    disabled: true,\n  },\n];\nconst options1 = groupedOptions.slice(0, 2); // First 2 option groups\nconst options2 = groupedOptions; // All 3 option groups\n\nexport default function MultiselectPage() {\n  const [selectedOptions1, setSelectedOptions1] = React.useState<MultiselectProps.Options>(_selectedOptions1);\n  const [selectedOptions2, setSelectedOptions2] = React.useState<MultiselectProps.Options>(_selectedOptions1);\n  const [selectedOptions3, setSelectedOptions3] = React.useState<MultiselectProps.Options>([]);\n  const [selectedOptions4, setSelectedOptions4] = React.useState<MultiselectProps.Options>(_selectedOptions1);\n  const [selectedOptions5, setSelectedOptions5] = React.useState<MultiselectProps.Options>(_selectedOptions2);\n  const [selectedOptions6, setSelectedOptions6] = React.useState<MultiselectProps.Options>(_selectedOptions1);\n  const [selectedOptions7, setSelectedOptions7] = React.useState<MultiselectProps.Options>(_selectedOptions1);\n\n  return (\n    <article>\n      <Box padding=\"l\">\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: Close after</Box>\n          <Multiselect\n            id=\"close_after\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            options={options1}\n            placeholder={'Choose option'}\n            tokenLimit={3}\n            keepOpen={false}\n            selectedOptions={selectedOptions1}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions1(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: Keep open</Box>\n          <Multiselect\n            id=\"keep_open\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            options={options1}\n            placeholder={'Choose option'}\n            tokenLimit={3}\n            selectedOptions={selectedOptions2}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions2(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: With Filtering</Box>\n          <Multiselect\n            id=\"with_filtering\"\n            statusType=\"pending\"\n            filteringType=\"auto\"\n            options={options1}\n            placeholder={'Choose option'}\n            selectedOptions={selectedOptions3}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions3(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: With token limit</Box>\n          <Multiselect\n            id=\"with_token_limit\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            options={options1}\n            placeholder={'Choose option'}\n            tokenLimit={1}\n            selectedOptions={selectedOptions4}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions4(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: Group selection</Box>\n          <Multiselect\n            id=\"group_selection\"\n            statusType=\"pending\"\n            filteringType=\"auto\"\n            options={options2}\n            placeholder={'Choose option'}\n            selectedOptions={selectedOptions5}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            onChange={event => {\n              setSelectedOptions5(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: Expand to viewport</Box>\n          <Multiselect\n            id=\"expand_to_viewport\"\n            statusType=\"pending\"\n            filteringType=\"none\"\n            options={selectedOptions6}\n            placeholder={'Choose option'}\n            tokenLimit={3}\n            selectedOptions={selectedOptions1}\n            deselectAriaLabel={deselectAriaLabel}\n            i18nStrings={i18nStrings}\n            expandToViewport={true}\n            onChange={event => {\n              setSelectedOptions6(event.detail.selectedOptions);\n            }}\n          />\n        </Box>\n\n        <Box padding=\"s\">\n          <Box variant=\"h1\">Test: Inline tokens</Box>\n          <div style={{ width: 200 }}>\n            <Multiselect\n              inlineTokens={true}\n              statusType=\"pending\"\n              filteringType=\"none\"\n              options={options1}\n              placeholder={'Choose option'}\n              selectedOptions={selectedOptions7}\n              i18nStrings={i18nStrings}\n              ariaLabel={getInlineAriaLabel(selectedOptions7)}\n              onChange={event => {\n                setSelectedOptions7(event.detail.selectedOptions);\n              }}\n            />\n          </div>\n        </Box>\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/multiselect/multiselect.test.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\nimport { OptionDefinition, OptionGroup } from '~components/types/option';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { deselectAriaLabel, i18nStrings } from './constants';\n\nconst options: MultiselectProps.Options = [\n  { value: 'first', label: 'Simple' },\n  { value: 'second', label: 'With small icon', iconName: 'folder' },\n  { value: 'third', label: 'With big icon icon', description: 'Very big option', iconName: 'heart' },\n  {\n    label: 'Option group',\n    options: [{ value: 'forth', label: 'Nested option' }],\n  },\n  {\n    label: 'Option group 2',\n    options: [\n      { value: 'fifth', label: 'Complex' },\n      { value: 'sixth', label: 'Complex With small icon', iconName: 'folder', disabled: true },\n      { value: 'seventh', label: 'Complex With big icon icon', description: 'Very big option', iconName: 'heart' },\n    ],\n  },\n  { value: 'more1', label: 'More options with very long texts 1' },\n  { value: 'more2', label: 'More options with very long texts 2' },\n  { value: 'more3', label: 'More options with very long texts 3' },\n  { value: 'more4', label: 'More options with very long texts 4' },\n];\n\n// eslint-disable-next-line no-restricted-syntax -- Page demo: option/group discrimination\nconst _getGroupOptions = (option: OptionDefinition | OptionGroup) => ('options' in option ? option.options : [option]);\n// eslint-disable-next-line no-restricted-syntax -- Page demo: option/group discrimination\nconst _getFirstChild = (option: OptionDefinition | OptionGroup) => ('options' in option ? option.options[0] : option);\n\nconst permutations = createPermutations<MultiselectProps & { inlineTokens?: boolean }>([\n  {\n    placeholder: ['Select an item'],\n    disabled: [false, true],\n    hideTokens: [false, true],\n    tokenLimit: [undefined, 2, 0],\n    options: [options],\n    selectedOptions: [\n      [],\n      [options[3]],\n      [options[1], options[2]],\n      [..._getGroupOptions(options[4])],\n      [_getFirstChild(options[4])],\n    ],\n    deselectAriaLabel: [deselectAriaLabel],\n    i18nStrings: [i18nStrings],\n    inlineTokens: [undefined, true],\n  },\n  {\n    placeholder: ['Select an item'],\n    invalid: [false, true],\n    warning: [false, true],\n    tokenLimit: [2],\n    options: [options],\n    selectedOptions: [[], [options[0], options[1]]],\n    deselectAriaLabel: [deselectAriaLabel],\n    i18nStrings: [i18nStrings],\n    inlineTokens: [undefined, true],\n  },\n  // Inline tokens with many selected options\n  {\n    placeholder: ['Select an item'],\n    disabled: [false, true],\n    options: [options],\n    selectedOptions: [\n      [\n        options[0],\n        options[1],\n        options[2],\n        ..._getGroupOptions(options[4]),\n        options[5],\n        options[6],\n        options[7],\n        options[8],\n      ],\n    ],\n    i18nStrings: [i18nStrings],\n    inlineTokens: [true],\n  },\n  {\n    placeholder: ['Select an item'],\n    readOnly: [true],\n    tokenLimit: [2],\n    options: [options],\n    selectedOptions: [[options[0], options[1], options[1]]],\n    deselectAriaLabel: [deselectAriaLabel],\n    i18nStrings: [i18nStrings],\n    inlineTokens: [true, false],\n  },\n]);\n\nexport default function MultiselectPermutations() {\n  return (\n    <>\n      <h1>Multiselect permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <Multiselect {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/multiselect/permutations.page.tsx"
-  },
-  {
-   "name": "screenshot",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport Box from '~components/box';\nimport Multiselect, { MultiselectProps } from '~components/multiselect';\nimport SpaceBetween from '~components/space-between';\nimport { OptionGroup } from '~components/types/option';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { deselectAriaLabel, getInlineAriaLabel, groupedOptions, i18nStrings } from './constants';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    // Props passed to the component\n    enableSelectAll?: MultiselectProps['enableSelectAll'];\n    expandToViewport?: MultiselectProps['expandToViewport'];\n    filteringType?: MultiselectProps['filteringType'];\n    inlineTokens?: MultiselectProps['inlineTokens'];\n    keepOpen?: MultiselectProps['keepOpen'];\n    statusType?: MultiselectProps['statusType'];\n    virtualScroll?: MultiselectProps['virtualScroll'];\n    // Content controls\n    withDisabledOptions?: boolean;\n    withGroups?: boolean;\n    manyOptions?: boolean;\n  }>\n>;\n\n// Mix of grouped and top-level options\nconst groupedOptionsWithDisabledOptions: MultiselectProps.Options = [\n  ...groupedOptions.slice(0, 2), // First 2 groups\n  ...groupedOptions[2].options, // children of the 2rd group\n];\n\nconst initialSelectedOptions = [\n  (groupedOptionsWithDisabledOptions[0] as OptionGroup).options[2],\n  (groupedOptionsWithDisabledOptions[1] as OptionGroup).options[0],\n  (groupedOptionsWithDisabledOptions[1] as OptionGroup).options[1],\n];\n\nexport default function MultiselectPage() {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const [selectedOptions, setSelectedOptions] = useState<MultiselectProps.Options>(initialSelectedOptions);\n\n  const groupedOptions: MultiselectProps.Options = urlParams.withDisabledOptions\n    ? groupedOptionsWithDisabledOptions\n    : groupedOptionsWithDisabledOptions.map(option => ({\n        ...option,\n        disabled: false,\n        options:\n          // eslint-disable-next-line no-restricted-syntax -- Page demo: option/group discrimination\n          'options' in option && option.options.length\n            ? option.options.map(childOption => ({ ...childOption, disabled: false }))\n            : undefined,\n      }));\n\n  const baseOptions: MultiselectProps.Options = urlParams.withGroups\n    ? groupedOptions\n    : groupedOptions.reduce(\n        (previousValue: MultiselectProps.Options, currentValue: MultiselectProps.Option) =>\n          // eslint-disable-next-line no-restricted-syntax -- Page demo: option/group discrimination\n          'options' in currentValue && (currentValue as OptionGroup).options?.length\n            ? [...previousValue, ...(currentValue as OptionGroup).options]\n            : [...previousValue, currentValue],\n        []\n      );\n\n  const options = urlParams.manyOptions\n    ? [\n        ...baseOptions,\n        ...Array(100)\n          .fill(undefined)\n          .map((_, index) => ({\n            value: `option${index + baseOptions.length + 1}`,\n            label: `option${index + baseOptions.length + 1}`,\n            description: `option${index + baseOptions.length + 1}`,\n            tags: ['2-CPU', '2Gb RAM'],\n          })),\n      ]\n    : baseOptions;\n\n  return (\n    <article>\n      <h1>Multiselect for screenshot</h1>\n      <Box padding={{ horizontal: 'l' }}>\n        <SpaceBetween size=\"xxl\">\n          <SpaceBetween direction=\"horizontal\" size=\"l\">\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.withGroups}\n                onChange={e => setUrlParams({ withGroups: e.target.checked })}\n              />{' '}\n              With groups\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.withDisabledOptions}\n                onChange={e => setUrlParams({ withDisabledOptions: e.target.checked })}\n              />{' '}\n              With disabled options\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.enableSelectAll}\n                onChange={e => setUrlParams({ enableSelectAll: e.target.checked })}\n              />{' '}\n              Enable select all\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.expandToViewport}\n                onChange={e => setUrlParams({ expandToViewport: e.target.checked })}\n              />{' '}\n              Expand to viewport\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.inlineTokens}\n                onChange={e => setUrlParams({ inlineTokens: e.target.checked })}\n              />{' '}\n              Inline tokens\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.keepOpen}\n                onChange={e => setUrlParams({ keepOpen: e.target.checked })}\n              />{' '}\n              Keep open after selection\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.virtualScroll}\n                onChange={e => setUrlParams({ virtualScroll: e.target.checked })}\n              />{' '}\n              Virtual scroll\n            </label>\n            <label>\n              <input\n                type=\"checkbox\"\n                checked={!!urlParams.manyOptions}\n                onChange={e => setUrlParams({ manyOptions: e.target.checked })}\n              />{' '}\n              Many options\n            </label>\n            <label>\n              Filtering:{' '}\n              <select\n                value={urlParams.filteringType ?? ''}\n                onChange={e => setUrlParams({ filteringType: e.target.value as MultiselectProps['filteringType'] })}\n              >\n                <option value=\"manual\">manual</option>\n                <option value=\"auto\">auto</option>\n                <option value=\"none\">none</option>\n              </select>\n            </label>\n            <label>\n              Status type:{' '}\n              <select\n                value={urlParams.statusType ?? ''}\n                onChange={e => setUrlParams({ statusType: e.target.value as MultiselectProps['statusType'] })}\n              >\n                {(\n                  ['pending', 'loading', 'finished', 'error'] as const satisfies NonNullable<\n                    MultiselectProps['statusType']\n                  >[]\n                ).map(v => (\n                  <option key={v} value={v}>\n                    {v}\n                  </option>\n                ))}\n              </select>\n            </label>\n          </SpaceBetween>\n\n          <ScreenshotArea\n            style={{\n              // extra space to include dropdown in the screenshot area\n              paddingBlockEnd: 550,\n            }}\n          >\n            <Multiselect\n              ariaLabel={urlParams.inlineTokens ? getInlineAriaLabel(selectedOptions) : undefined}\n              enableSelectAll={urlParams.enableSelectAll}\n              expandToViewport={urlParams.expandToViewport}\n              filteringType={urlParams.filteringType}\n              inlineTokens={urlParams.inlineTokens}\n              keepOpen={urlParams.keepOpen}\n              onLoadItems={() => {}}\n              options={options}\n              selectedOptions={selectedOptions}\n              statusType={urlParams.statusType}\n              virtualScroll={urlParams.virtualScroll}\n              onChange={event => setSelectedOptions(event.detail.selectedOptions)}\n              placeholder={'Choose options'}\n              deselectAriaLabel={deselectAriaLabel}\n              i18nStrings={{ ...i18nStrings, selectAllText: 'Select all' }}\n              recoveryText=\"Retry\"\n              finishedText=\"End of all results\"\n              errorText=\"verylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspaces\"\n            />\n          </ScreenshotArea>\n        </SpaceBetween>\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/multiselect/screenshot.page.tsx"
-  },
-  {
-   "name": "virtual-scroll",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext, useState } from 'react';\n\nimport { Multiselect, MultiselectProps, SegmentedControl } from '~components';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\ntype DemoContext = React.Context<AppContextType<{ type?: string }>>;\n\nconst options: MultiselectProps.Options = Array.from({ length: 1000 }, (_, i) => ({\n  value: `${i}`,\n  label: `Option ${i + 1}`,\n}));\n\nexport default function () {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const selectedType = urlParams.type || 'multiselect';\n\n  const [selectedMulti, setSelectedMulti] = useState<MultiselectProps.Options>(options.slice(0, 2));\n  const [selectedMultiWithSelectAll, setSelectedMultiWithSelectAll] = useState<MultiselectProps.Options>([]);\n\n  return (\n    <SimplePage\n      title=\"Multiselect Virtual Scroll\"\n      i18n={{}}\n      screenshotArea={{}}\n      settings={\n        <SegmentedControl\n          selectedId={selectedType}\n          onChange={({ detail }) => {\n            setUrlParams({ type: detail.selectedId });\n          }}\n          options={[\n            { id: 'multiselect', text: 'Multiselect' },\n            { id: 'multiselect-select-all', text: 'Multiselect with Select All' },\n          ]}\n        />\n      }\n    >\n      <div\n        style={{\n          height: 500,\n          padding: 10,\n          // Prevents dropdown from expanding outside of the screenshot area\n          overflow: 'auto',\n        }}\n      >\n        {selectedType === 'multiselect' && (\n          <Multiselect\n            placeholder=\"Multiselect with virtual scroll\"\n            selectedOptions={selectedMulti}\n            options={options}\n            filteringType=\"manual\"\n            finishedText=\"End of all results\"\n            errorText=\"verylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspacesverylongtextwithoutspaces\"\n            recoveryText=\"Retry\"\n            onLoadItems={() => {}}\n            onChange={event => setSelectedMulti(event.detail.selectedOptions)}\n            tokenLimit={2}\n            virtualScroll={true}\n            expandToViewport={false}\n            ariaLabel=\"multiselect demo\"\n            data-testid=\"multiselect-demo\"\n          />\n        )}\n\n        {selectedType === 'multiselect-select-all' && (\n          <Multiselect\n            placeholder=\"Multiselect with virtual scroll and select all\"\n            selectedOptions={selectedMultiWithSelectAll}\n            options={options}\n            filteringType=\"auto\"\n            finishedText=\"End of all results\"\n            onChange={event => setSelectedMultiWithSelectAll(event.detail.selectedOptions)}\n            enableSelectAll={true}\n            virtualScroll={true}\n            expandToViewport={false}\n            ariaLabel=\"multiselect with select all demo\"\n            data-testid=\"multiselect-select-all-demo\"\n          />\n        )}\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/multiselect/virtual-scroll.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "MultiselectProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "selectedOptions",
-    "ReadonlyArray<MultiselectProps.Option>",
-    "예",
-    "Specifies the currently selected options. Provide an empty array to clear the selection.",
-    "src/multiselect/interfaces.ts:15"
-   ],
-   [
-    "inlineLabelText",
-    "string",
-    "아니오",
-    "Specifies an inline label that appears next to the multiselect trigger.",
-    "src/multiselect/interfaces.ts:20"
-   ],
-   [
-    "keepOpen",
-    "boolean",
-    "아니오",
-    "Determines whether the dropdown list stays open after the user selects an item.",
-    "src/multiselect/interfaces.ts:24"
-   ],
-   [
-    "tokenLimit",
-    "number",
-    "아니오",
-    "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
-    "src/multiselect/interfaces.ts:28"
-   ],
-   [
-    "hideTokens",
-    "boolean",
-    "아니오",
-    "Hides the tokens displayed underneath the component. Only use this if the selected options are displayed elsewhere on the page.",
-    "src/multiselect/interfaces.ts:33"
-   ],
-   [
-    "inlineTokens",
-    "boolean",
-    "아니오",
-    "Shows tokens inside the trigger instead of below it.",
-    "src/multiselect/interfaces.ts:37"
-   ],
-   [
-    "deselectAriaLabel",
-    "MultiselectProps.DeselectAriaLabelFunction",
-    "아니오",
-    "Specifies an `aria-label` for the token deselection button. @i18n",
-    "src/multiselect/interfaces.ts:42"
-   ],
-   [
-    "i18nStrings",
-    "MultiselectProps.I18nStrings",
-    "아니오",
-    "An object containing all the localized strings required by the component. * `selectAllText` (string) - Specifies the text to be displayed next to the checkbox that selects or deselects all options. * `tokenLimitShowFewer` (string) - Specifies the text to be displayed in the \"Show fewer\" button for the token group control. * `tokenLimitShowMore` (string) - Specifies the text to be displayed in the \"Show more\" button for the token group control. This string should not contain the number of hidden tokens because this will be added by the component automatically. @i18n",
-    "src/multiselect/interfaces.ts:52"
-   ],
-   [
-    "onLoadItems",
-    "NonCancelableEventHandler<MultiselectProps.LoadItemsDetail>",
-    "아니오",
-    "",
-    "src/multiselect/interfaces.ts:53"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<MultiselectProps.MultiselectChangeDetail>",
-    "아니오",
-    "Called when the user selects or deselects an option. The event `detail` contains the current `selectedOptions`.",
-    "src/multiselect/interfaces.ts:58"
-   ],
-   [
-    "autoFocus",
-    "boolean",
-    "아니오",
-    "Automatically focuses the trigger when component is mounted.",
-    "src/multiselect/interfaces.ts:63"
-   ],
-   [
-    "tokenLimitShowFewerAriaLabel",
-    "string",
-    "아니오",
-    "Adds an aria-label to the \"Show fewer\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowFewer` label on one page.",
-    "src/multiselect/interfaces.ts:69"
-   ],
-   [
-    "tokenLimitShowMoreAriaLabel",
-    "string",
-    "아니오",
-    "Adds an aria-label to the \"Show more\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowMore` label on one page.",
-    "src/multiselect/interfaces.ts:74"
-   ],
-   [
-    "enableSelectAll",
-    "boolean",
-    "아니오",
-    "Enables users to select and deselect all options with a special extra checkbox which is displayed at the start of the dropdown.",
-    "src/multiselect/interfaces.ts:78"
-   ],
-   [
-    "renderOption",
-    "MultiselectProps.MultiselectOptionItemRenderer",
-    "아니오",
-    "Specifies a render function to render custom options in the dropdown menu.",
-    "src/multiselect/interfaces.ts:82"
-   ]
-  ],
-  "source": "src/multiselect/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "MultiselectProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "selectedOptions",
+      "ReadonlyArray<MultiselectProps.Option>",
+      "예",
+      "Specifies the currently selected options. Provide an empty array to clear the selection.",
+      "src/multiselect/interfaces.ts:15"
+     ],
+     [
+      "inlineLabelText",
+      "string",
+      "아니오",
+      "Specifies an inline label that appears next to the multiselect trigger.",
+      "src/multiselect/interfaces.ts:20"
+     ],
+     [
+      "keepOpen",
+      "boolean",
+      "아니오",
+      "Determines whether the dropdown list stays open after the user selects an item.",
+      "src/multiselect/interfaces.ts:24"
+     ],
+     [
+      "tokenLimit",
+      "number",
+      "아니오",
+      "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
+      "src/multiselect/interfaces.ts:28"
+     ],
+     [
+      "hideTokens",
+      "boolean",
+      "아니오",
+      "Hides the tokens displayed underneath the component. Only use this if the selected options are displayed elsewhere on the page.",
+      "src/multiselect/interfaces.ts:33"
+     ],
+     [
+      "inlineTokens",
+      "boolean",
+      "아니오",
+      "Shows tokens inside the trigger instead of below it.",
+      "src/multiselect/interfaces.ts:37"
+     ],
+     [
+      "deselectAriaLabel",
+      "MultiselectProps.DeselectAriaLabelFunction",
+      "아니오",
+      "Specifies an `aria-label` for the token deselection button. @i18n",
+      "src/multiselect/interfaces.ts:42"
+     ],
+     [
+      "i18nStrings",
+      "MultiselectProps.I18nStrings",
+      "아니오",
+      "An object containing all the localized strings required by the component. * `selectAllText` (string) - Specifies the text to be displayed next to the checkbox that selects or deselects all options. * `tokenLimitShowFewer` (string) - Specifies the text to be displayed in the \"Show fewer\" button for the token group control. * `tokenLimitShowMore` (string) - Specifies the text to be displayed in the \"Show more\" button for the token group control. This string should not contain the number of hidden tokens because this will be added by the component automatically. @i18n",
+      "src/multiselect/interfaces.ts:52"
+     ],
+     [
+      "onLoadItems",
+      "NonCancelableEventHandler<MultiselectProps.LoadItemsDetail>",
+      "아니오",
+      "",
+      "src/multiselect/interfaces.ts:53"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<MultiselectProps.MultiselectChangeDetail>",
+      "아니오",
+      "Called when the user selects or deselects an option. The event `detail` contains the current `selectedOptions`.",
+      "src/multiselect/interfaces.ts:58"
+     ],
+     [
+      "autoFocus",
+      "boolean",
+      "아니오",
+      "Automatically focuses the trigger when component is mounted.",
+      "src/multiselect/interfaces.ts:63"
+     ],
+     [
+      "tokenLimitShowFewerAriaLabel",
+      "string",
+      "아니오",
+      "Adds an aria-label to the \"Show fewer\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowFewer` label on one page.",
+      "src/multiselect/interfaces.ts:69"
+     ],
+     [
+      "tokenLimitShowMoreAriaLabel",
+      "string",
+      "아니오",
+      "Adds an aria-label to the \"Show more\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowMore` label on one page.",
+      "src/multiselect/interfaces.ts:74"
+     ],
+     [
+      "enableSelectAll",
+      "boolean",
+      "아니오",
+      "Enables users to select and deselect all options with a special extra checkbox which is displayed at the start of the dropdown.",
+      "src/multiselect/interfaces.ts:78"
+     ],
+     [
+      "renderOption",
+      "MultiselectProps.MultiselectOptionItemRenderer",
+      "아니오",
+      "Specifies a render function to render custom options in the dropdown menu.",
+      "src/multiselect/interfaces.ts:82"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

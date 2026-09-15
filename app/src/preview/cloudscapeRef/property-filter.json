@@ -1,313 +1,330 @@
 {
  "slug": "property-filter",
  "title": "Property Filter",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "async-loading.integ",
+   "key": "server-side-table-property-filter",
+   "name": "Table property filter (server-side)",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\nimport range from 'lodash/range';\n\nimport PropertyFilter from '~components/property-filter';\nimport { PropertyFilterProps } from '~components/property-filter/interfaces';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { useOptionsLoader } from '../common/options-loader';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings, labels } from './common-props';\n\ntype PropertyFilterDemoContext = React.Context<\n  AppContextType<{\n    token: string;\n    asyncProperties: boolean;\n  }>\n>;\n\nconst filteringProperties = [\n  {\n    key: 'property',\n    operators: ['=', '!=', '>', '<', '<=', '>='],\n    propertyLabel: 'label',\n    groupValuesLabel: `Label values`,\n  },\n] as const;\nconst filteringOptions = range(1000).map(value => ({\n  propertyKey: 'property',\n  value: value + '',\n}));\n\ninterface ExtendedWindow {\n  loadItemsCalls: PropertyFilterProps.LoadItemsDetail[];\n}\ndeclare let window: ExtendedWindow;\nwindow.loadItemsCalls = [];\n\nexport default function () {\n  const { urlParams } = useContext(AppContext as PropertyFilterDemoContext);\n  const [query, setQuery] = useState<PropertyFilterProps['query']>({\n    tokens: [\n      urlParams.token === 'freeText'\n        ? ({ operator: ':', value: '1' } as const)\n        : ({ propertyKey: 'property', operator: ':', value: '1' } as const),\n    ],\n    operation: 'and',\n  });\n  const [fetchTarget, setFetchTarget] = useState<'properties' | 'options'>('properties');\n  const propertiesLoader = useOptionsLoader({ timeout: 100 });\n  const optionsLoader = useOptionsLoader<PropertyFilterProps.FilteringOption>({ pageSize: 100, timeout: 100 });\n  const status = { properties: propertiesLoader, options: optionsLoader }[fetchTarget].status;\n\n  const handleLoadItems = ({ detail }: { detail: PropertyFilterProps.LoadItemsDetail }) => {\n    const { filteringProperty, filteringOperator, filteringText, firstPage, samePage } = detail;\n    window.loadItemsCalls.push({\n      filteringText,\n      samePage,\n      firstPage,\n      ...(filteringProperty\n        ? {\n            filteringProperty,\n          }\n        : {}),\n      ...(filteringOperator ? { filteringOperator } : {}),\n    });\n\n    const fetchTarget = filteringProperty && filteringOperator ? 'options' : 'properties';\n    setFetchTarget(fetchTarget);\n\n    if (fetchTarget === 'properties') {\n      propertiesLoader.fetchItems({ sourceItems: filteringProperties, filteringText, firstPage });\n    } else {\n      optionsLoader.fetchItems({ sourceItems: filteringOptions, filteringText, firstPage });\n    }\n  };\n\n  return (\n    <>\n      <h1>Integration tests fixture for async loading suggestions</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PropertyFilter\n          {...labels}\n          i18nStrings={i18nStrings}\n          query={query}\n          onChange={e => setQuery(e.detail)}\n          filteringProperties={filteringProperties}\n          filteringOptions={optionsLoader.items}\n          filteringStatusType={status}\n          onLoadItems={handleLoadItems}\n          asyncProperties={urlParams.asyncProperties}\n          virtualScroll={true}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/property-filter/async-loading.integ.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "count-text",
+   "key": "table-property-filter",
+   "name": "Table property filter",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport PropertyFilter, { PropertyFilterProps } from '~components/property-filter';\nimport SpaceBetween from '~components/space-between';\n\nexport default function () {\n  const [query, setQuery] = React.useState<PropertyFilterProps['query']>({\n    tokens: [\n      {\n        operator: '=',\n        propertyKey: 'instanceid',\n        value: 'i-2dc5ce28a0328391',\n      },\n    ],\n    operation: 'and',\n  });\n  const [countText, setCountText] = React.useState('');\n  const [loading, setLoading] = React.useState(false);\n  const propertyFilterRef = React.useRef<PropertyFilterProps.Ref>(null);\n\n  return (\n    <I18nProvider messages={[messages]} locale=\"en\">\n      <h1>Demo page for countText live announcement testing</h1>\n      <SpaceBetween size=\"l\">\n        <SpaceBetween direction=\"horizontal\" size=\"s\" key=\"settings\">\n          <span>Count Text:</span>\n          {['18 matches', '36 matches', ''].map((countText, index) => (\n            <label key={index}>\n              <input type=\"radio\" name=\"count-text\" value={countText} onChange={() => setCountText(countText)} />{' '}\n              {countText !== '' ? countText : '[Empty]'}\n            </label>\n          ))}\n        </SpaceBetween>\n        <label htmlFor=\"loading-state-toggle\" key=\"loadingStateToggle\">\n          <input id=\"loading-state-toggle\" type=\"checkbox\" onChange={event => setLoading(event.target.checked)} />{' '}\n          Loading\n        </label>\n        <PropertyFilter\n          key=\"property-filter\"\n          query={query}\n          onChange={({ detail }) => setQuery(detail)}\n          countText={countText}\n          ref={propertyFilterRef}\n          expandToViewport={true}\n          filteringAriaLabel=\"Find distributions\"\n          loading={loading}\n          filteringOptions={[\n            {\n              propertyKey: 'instanceid',\n              value: 'i-2dc5ce28a0328391',\n            },\n            {\n              propertyKey: 'instanceid',\n              value: 'i-d0312e022392efa0',\n            },\n            {\n              propertyKey: 'instanceid',\n              value: 'i-070eef935c1301e6',\n            },\n            {\n              propertyKey: 'instanceid',\n              value: 'i-3b44795b1fea36ac',\n            },\n            { propertyKey: 'state', value: 'Stopped' },\n            { propertyKey: 'state', value: 'Stopping' },\n            { propertyKey: 'state', value: 'Pending' },\n            { propertyKey: 'state', value: 'Running' },\n            {\n              propertyKey: 'instancetype',\n              value: 't3.small',\n            },\n            {\n              propertyKey: 'instancetype',\n              value: 't2.small',\n            },\n            { propertyKey: 'instancetype', value: 't3.nano' },\n            {\n              propertyKey: 'instancetype',\n              value: 't2.medium',\n            },\n            {\n              propertyKey: 'instancetype',\n              value: 't3.medium',\n            },\n            {\n              propertyKey: 'instancetype',\n              value: 't2.large',\n            },\n            { propertyKey: 'instancetype', value: 't2.nano' },\n            {\n              propertyKey: 'instancetype',\n              value: 't2.micro',\n            },\n            {\n              propertyKey: 'instancetype',\n              value: 't3.large',\n            },\n            {\n              propertyKey: 'instancetype',\n              value: 't3.micro',\n            },\n            { propertyKey: 'averagelatency', value: '17' },\n            { propertyKey: 'averagelatency', value: '53' },\n            { propertyKey: 'averagelatency', value: '73' },\n            { propertyKey: 'averagelatency', value: '74' },\n            { propertyKey: 'averagelatency', value: '107' },\n            { propertyKey: 'averagelatency', value: '236' },\n            { propertyKey: 'averagelatency', value: '242' },\n            { propertyKey: 'averagelatency', value: '375' },\n            { propertyKey: 'averagelatency', value: '402' },\n            { propertyKey: 'averagelatency', value: '636' },\n            { propertyKey: 'averagelatency', value: '639' },\n            { propertyKey: 'averagelatency', value: '743' },\n            { propertyKey: 'averagelatency', value: '835' },\n            { propertyKey: 'averagelatency', value: '981' },\n            { propertyKey: 'averagelatency', value: '995' },\n          ]}\n          filteringPlaceholder=\"Find distributions\"\n          filteringProperties={[\n            {\n              key: 'instanceid',\n              operators: ['=', '!=', ':', '!:', '^', '!^'],\n              propertyLabel: 'Instance ID',\n              groupValuesLabel: 'Instance ID values',\n            },\n            {\n              key: 'state',\n              operators: ['=', '!=', ':', '!:', '^', '!^'],\n              propertyLabel: 'State',\n              groupValuesLabel: 'State values',\n            },\n            {\n              key: 'instancetype',\n              operators: ['=', '!=', ':', '!:', '^', '!^'],\n              propertyLabel: 'Instance type',\n              groupValuesLabel: 'Instance type values',\n            },\n            {\n              key: 'averagelatency',\n              operators: ['=', '!=', '>', '<', '<=', '>='],\n              propertyLabel: 'Average latency',\n              groupValuesLabel: 'Average latency values',\n            },\n          ]}\n        />\n      </SpaceBetween>\n    </I18nProvider>\n  );\n}\n",
-   "source": "pages/property-filter/count-text.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "hooks",
+   "key": "table-date-filter",
+   "name": "Table view with date range picker filter",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { useCollection } from '@cloudscape-design/collection-hooks';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Header from '~components/header';\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport PropertyFilter from '~components/property-filter';\nimport Table from '~components/table';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { columnDefinitions, filteringProperties, i18nStrings, labels } from './common-props';\nimport { allItems, TableItem } from './table.data';\n\nexport default function () {\n  const [locale, setLocale] = useState('en');\n  const [tokenLimit, setTokenLimit] = useState<number>();\n  const [hideOperations, setHideOperations] = useState<boolean>(false);\n  const [disableFreeTextFiltering, setDisableFreeText] = useState<boolean>(false);\n  const { items, collectionProps, actions, propertyFilterProps } = useCollection(allItems, {\n    propertyFiltering: {\n      empty: 'empty',\n      noMatch: (\n        <Box textAlign=\"center\" color=\"inherit\">\n          <Box variant=\"strong\" textAlign=\"center\" color=\"inherit\">\n            No matches\n          </Box>\n          <Box variant=\"p\" padding={{ bottom: 's' }} color=\"inherit\">\n            We can’t find a match.\n          </Box>\n          <Button\n            onClick={() => actions.setPropertyFiltering({ tokens: [], operation: propertyFilterProps.query.operation })}\n          >\n            Clear filter\n          </Button>\n        </Box>\n      ),\n      filteringProperties,\n      freeTextFiltering: { operators: ['=', '!=', ':', '!:'] },\n    },\n    sorting: {},\n  });\n\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <I18nProvider messages={[messages]} locale={locale}>\n        <ul>\n          <li>\n            <label>\n              Token limit\n              <input\n                type=\"number\"\n                value={tokenLimit === undefined ? '' : tokenLimit}\n                onChange={e => setTokenLimit(parseInt(e.target.value))}\n              />\n            </label>\n          </li>\n          <li>\n            <label>\n              Toggle hideOperations\n              <input type=\"checkbox\" checked={hideOperations} onChange={() => setHideOperations(!hideOperations)} />\n            </label>\n          </li>\n          <li>\n            <label>\n              Toggle disableFreeTextFiltering\n              <input\n                type=\"checkbox\"\n                checked={disableFreeTextFiltering}\n                onChange={() => setDisableFreeText(!disableFreeTextFiltering)}\n              />\n            </label>\n          </li>\n          <li>\n            <label>\n              Language\n              <select value={locale} onChange={event => setLocale(event.currentTarget.value)}>\n                <option value=\"de\">Deutsch</option>\n                <option value=\"en\">English (US)</option>\n                <option value=\"en-GB\">English (UK)</option>\n                <option value=\"es\">Español</option>\n                <option value=\"fr\">Français</option>\n                <option value=\"id\">Bahasa Indonesia</option>\n                <option value=\"it\">Italiano</option>\n                <option value=\"ja\">日本語</option>\n                <option value=\"ko\">한국어</option>\n                <option value=\"pt-BR\">Português</option>\n                <option value=\"zh-CN\">中文(简体)</option>\n                <option value=\"zh-TW\">中文(繁體)</option>\n              </select>\n            </label>\n          </li>\n        </ul>\n        <Table<TableItem>\n          header={<Header headingTagOverride={'h1'}>Instances</Header>}\n          items={items}\n          {...collectionProps}\n          filter={\n            <PropertyFilter\n              {...labels}\n              {...propertyFilterProps}\n              virtualScroll={true}\n              countText={`${items.length} matches`}\n              i18nStrings={{ filteringAriaLabel: i18nStrings.filteringAriaLabel }}\n              tokenLimit={tokenLimit}\n              hideOperations={hideOperations}\n              disableFreeTextFiltering={disableFreeTextFiltering}\n            />\n          }\n          columnDefinitions={columnDefinitions}\n        />\n      </I18nProvider>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/property-filter/hooks.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-date-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { ButtonDropdown } from '~components';\nimport FormField from '~components/form-field';\nimport PropertyFilter, { PropertyFilterProps } from '~components/property-filter';\nimport Select from '~components/select';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { columnDefinitions, filteringProperties, i18nStrings, labels } from './common-props';\nimport { allItems, TableItem } from './table.data';\n\nconst filteringOptions: readonly PropertyFilterProps.FilteringOption[] = columnDefinitions.reduce<\n  PropertyFilterProps.FilteringOption[]\n>((acc, def) => {\n  Object.keys(\n    allItems.reduce<{ [key in string]: boolean }>((acc, item) => {\n      acc['' + item[def.id as keyof TableItem]] = true;\n      return acc;\n    }, {})\n  ).forEach(value =>\n    acc.push({\n      propertyKey: def.id,\n      value,\n    })\n  );\n  return acc;\n}, []);\n\nconst permutations = createPermutations<Partial<PropertyFilterProps>>([\n  {\n    query: [\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'and',\n      },\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'or',\n      },\n      {\n        tokens: [\n          {\n            value:\n              'LoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloreLoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloreLoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdoloreLoremipsumdolorsitametconsecteturadipiscingelitseddoeiusmodtemporincididuntutlaboreetdolore magnaaliqua',\n            operator: ':',\n          },\n          { value: '234', operator: '!:' },\n        ],\n        operation: 'or',\n      },\n    ],\n    hideOperations: [true, false],\n    disabled: [true, false],\n  },\n  {\n    query: [\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'and',\n      },\n    ],\n    tokenLimit: [0, 2],\n  },\n  {\n    query: [\n      { tokens: [], operation: 'and' },\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'and',\n      },\n    ],\n    customControl: [\n      <Select key={0} placeholder=\"Select a value\" options={[]} selectedOption={null} />,\n      <FormField key={1} label=\"Select a value\">\n        <Select placeholder=\"Select a value\" options={[]} selectedOption={null} />\n      </FormField>,\n    ],\n  },\n  {\n    query: [\n      { tokens: [], operation: 'and' },\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'and',\n      },\n    ],\n    customFilterActions: [\n      <ButtonDropdown key={0} mainAction={{ text: 'Clear filters' }} items={[]} ariaLabel=\"Filter actions\" />,\n    ],\n  },\n  {\n    query: [\n      { tokens: [], operation: 'and' },\n      {\n        tokens: [\n          { value: '123', operator: ':' },\n          { value: '234', operator: '!:' },\n          { propertyKey: 'instanceid', value: '345', operator: '=' },\n        ],\n        operation: 'and',\n      },\n    ],\n    filteringConstraintText: [\n      <div key={0}>\n        Some <b>bold</b> constraint text\n      </div>,\n    ],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <h1>Token visuals screenshot page</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <PropertyFilter\n              {...labels}\n              countText={`5 matches`}\n              i18nStrings={i18nStrings}\n              query={{ tokens: [], operation: 'and' }}\n              onChange={() => {}}\n              filteringProperties={filteringProperties}\n              filteringOptions={filteringOptions}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/property-filter/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "property-filter-autosuggest",
+   "key": "table-expandable",
+   "name": "Table view with expandable rows",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport PropertyFilterAutosuggest from '~components/property-filter/property-filter-autosuggest';\n\nconst options = [\n  {\n    value: 'A very long option label that wraps upon resizing',\n    tags: ['tag1', 'tag2'],\n    filteringTags: ['bla', 'opt'],\n    description: 'description1',\n  },\n  { value: 'Option 1', labelTag: 'This is a label tag' },\n  { value: 'Option 2' },\n  { value: 'Option', description: 'description2' },\n];\nconst enteredTextLabel = (value: string) => `Use: ${value}`;\n\nexport default function PropertyFilterAutosuggestPage() {\n  const [value, setValue] = useState('Option 1');\n  return (\n    <div style={{ padding: 10 }}>\n      <h1>Property filter autosuggest features</h1>\n      <PropertyFilterAutosuggest\n        filterText={value.substr(2)}\n        onOptionClick={e => e.preventDefault()}\n        value={value}\n        options={options}\n        onChange={event => setValue(event.detail.value)}\n        enteredTextLabel={enteredTextLabel}\n        ariaLabel={'internal autosuggest'}\n        clearAriaLabel=\"Clear\"\n        virtualScroll={true}\n      />\n    </div>\n  );\n}\n",
-   "source": "pages/property-filter/property-filter-autosuggest.page.tsx"
-  },
-  {
-   "name": "property-filter-custom-operator",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { useCollection } from '@cloudscape-design/collection-hooks';\n\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport PropertyFilter from '~components/property-filter';\nimport { PropertyFilterProps } from '~components/property-filter/interfaces';\n\ninterface Item {\n  name: string;\n  env: string;\n  owner: string;\n  created: string;\n  priority: number;\n}\n\nconst allItems: Item[] = [\n  { name: 'app-web-prod', env: 'production', owner: 'alice', created: '2025-01-15', priority: 1 },\n  { name: 'app-api-prod', env: 'production', owner: 'bob', created: '2025-03-20', priority: 2 },\n  { name: 'app-worker-staging', env: 'staging', owner: 'alice', created: '2025-06-01', priority: 3 },\n  { name: 'app-web-dev', env: 'development', owner: 'charlie', created: '2025-08-10', priority: 1 },\n  { name: 'svc-auth-prod', env: 'production', owner: 'bob', created: '2024-11-05', priority: 2 },\n  { name: 'svc-data-staging', env: 'staging', owner: 'charlie', created: '2025-02-28', priority: 3 },\n];\n\nconst filteringProperties: PropertyFilterProps.FilteringProperty[] = [\n  // Demo 1: Custom symbolic operators (~, !~)\n  {\n    key: 'name',\n    propertyLabel: 'Name',\n    groupValuesLabel: 'Name values',\n    operators: [\n      '=',\n      '!=',\n      ':',\n      '!:',\n      {\n        operator: '~',\n        match: (itemValue: unknown, tokenValue: unknown) => {\n          try {\n            return new RegExp(String(tokenValue)).test(String(itemValue));\n          } catch {\n            return String(itemValue).toLowerCase().includes(String(tokenValue).toLowerCase());\n          }\n        },\n        description: 'Matches regular expression',\n      },\n      {\n        operator: '!~',\n        match: (itemValue: unknown, tokenValue: unknown) => {\n          try {\n            return !new RegExp(String(tokenValue)).test(String(itemValue));\n          } catch {\n            return !String(itemValue).toLowerCase().includes(String(tokenValue).toLowerCase());\n          }\n        },\n        description: 'Does not match regular expression',\n      },\n    ],\n  },\n  // Demo 2: Description override on predefined operators (> = \"After\", < = \"Before\")\n  {\n    key: 'created',\n    propertyLabel: 'Created',\n    groupValuesLabel: 'Created values',\n    operators: [\n      { operator: '=', description: 'On' },\n      { operator: '>', description: 'After', match: 'date' as const },\n      { operator: '<', description: 'Before', match: 'date' as const },\n      { operator: '>=', description: 'On or after', match: 'date' as const },\n      { operator: '<=', description: 'On or before', match: 'date' as const },\n    ],\n  },\n  // Demo 3: Text-based operators (in, NOT IN)\n  {\n    key: 'env',\n    propertyLabel: 'Environment',\n    groupValuesLabel: 'Environment values',\n    operators: [\n      '=',\n      '!=',\n      {\n        operator: 'in',\n        match: (itemValue: unknown, tokenValue: unknown) => {\n          const values = String(tokenValue)\n            .split(',')\n            .map(v => v.trim().toLowerCase());\n          return values.includes(String(itemValue).toLowerCase());\n        },\n        description: 'Is one of',\n      },\n      {\n        operator: 'NOT IN',\n        match: (itemValue: unknown, tokenValue: unknown) => {\n          const values = String(tokenValue)\n            .split(',')\n            .map(v => v.trim().toLowerCase());\n          return !values.includes(String(itemValue).toLowerCase());\n        },\n        description: 'Is not one of',\n      },\n    ],\n  },\n  {\n    key: 'owner',\n    propertyLabel: 'Owner',\n    groupValuesLabel: 'Owner values',\n    operators: ['=', '!='],\n  },\n  {\n    key: 'priority',\n    propertyLabel: 'Priority',\n    groupValuesLabel: 'Priority values',\n    operators: ['=', '!=', '>', '<', '>=', '<='],\n  },\n];\n\nconst filteringOptions: PropertyFilterProps.FilteringOption[] = [...new Set(allItems.map(i => i.name))]\n  .map(v => ({ propertyKey: 'name', value: v }))\n  .concat([...new Set(allItems.map(i => i.env))].map(v => ({ propertyKey: 'env', value: v })))\n  .concat([...new Set(allItems.map(i => i.owner))].map(v => ({ propertyKey: 'owner', value: v })))\n  .concat([...new Set(allItems.map(i => String(i.priority)))].map(v => ({ propertyKey: 'priority', value: v })));\n\nexport default function CustomOperatorDemo() {\n  const { items, propertyFilterProps } = useCollection(allItems, {\n    propertyFiltering: {\n      filteringProperties,\n    },\n  });\n\n  return (\n    <I18nProvider locale=\"en\" messages={[messages]}>\n      <div style={{ padding: 20 }}>\n        <h1>Property Filter — Custom Operator Demo</h1>\n\n        <PropertyFilter\n          {...propertyFilterProps}\n          filteringOptions={filteringOptions}\n          freeTextFiltering={{ operators: [':', '!:', '~', 'in'] }}\n          i18nStrings={{\n            filteringAriaLabel: 'Filter instances',\n            dismissAriaLabel: 'Dismiss',\n            filteringPlaceholder: 'Filter instances',\n            groupValuesText: 'Values',\n            groupPropertiesText: 'Properties',\n            operatorsText: 'Operators',\n            operationAndText: 'and',\n            operationOrText: 'or',\n            operatorLessText: 'Less than',\n            operatorLessOrEqualText: 'Less than or equal',\n            operatorGreaterText: 'Greater than',\n            operatorGreaterOrEqualText: 'Greater than or equal',\n            operatorContainsText: 'Contains',\n            operatorDoesNotContainText: 'Does not contain',\n            operatorEqualsText: 'Equals',\n            operatorDoesNotEqualText: 'Does not equal',\n            operatorStartsWithText: 'Starts with',\n            operatorDoesNotStartWithText: 'Does not start with',\n            editTokenHeader: 'Edit filter',\n            propertyText: 'Property',\n            operatorText: 'Operator',\n            valueText: 'Value',\n            cancelActionText: 'Cancel',\n            applyActionText: 'Apply',\n            clearFiltersText: 'Clear filters',\n            removeTokenButtonAriaLabel: token =>\n              `Remove filter, ${token.propertyLabel} ${token.operator} ${token.value}`,\n            enteredTextLabel: text => `Use: \"${text}\"`,\n          }}\n        />\n\n        <h2>\n          Filtered items ({items.length} / {allItems.length})\n        </h2>\n        <h3>Current query</h3>\n        <pre>{JSON.stringify(propertyFilterProps.query, null, 2)}</pre>\n        <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: 8 }}>\n          <thead>\n            <tr>\n              <th style={{ border: '1px solid #ccc', padding: 8, textAlign: 'left' }}>Name</th>\n              <th style={{ border: '1px solid #ccc', padding: 8, textAlign: 'left' }}>Environment</th>\n              <th style={{ border: '1px solid #ccc', padding: 8, textAlign: 'left' }}>Owner</th>\n              <th style={{ border: '1px solid #ccc', padding: 8, textAlign: 'left' }}>Created</th>\n              <th style={{ border: '1px solid #ccc', padding: 8, textAlign: 'left' }}>Priority</th>\n            </tr>\n          </thead>\n          <tbody>\n            {items.map((item, i) => (\n              <tr key={i}>\n                <td style={{ border: '1px solid #ccc', padding: 8 }}>{item.name}</td>\n                <td style={{ border: '1px solid #ccc', padding: 8 }}>{item.env}</td>\n                <td style={{ border: '1px solid #ccc', padding: 8 }}>{item.owner}</td>\n                <td style={{ border: '1px solid #ccc', padding: 8 }}>{item.created}</td>\n                <td style={{ border: '1px solid #ccc', padding: 8 }}>{item.priority}</td>\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </I18nProvider>\n  );\n}\n",
-   "source": "pages/property-filter/property-filter-custom-operator.page.tsx"
-  },
-  {
-   "name": "property-filter-editor-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\nimport { format } from 'date-fns';\n\nimport { DatePicker, FormField, TimeInput } from '~components';\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport { usePropertyFilterI18n } from '~components/property-filter/i18n-utils';\nimport { InternalFilteringProperty } from '~components/property-filter/internal-interfaces';\nimport { TokenEditor, TokenEditorProps } from '~components/property-filter/token-editor';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './common-props';\n\nconst externalProperty = {\n  key: '',\n  operators: [],\n  propertyLabel: '',\n  groupValuesLabel: '',\n} as const;\n\nconst openCalendarAriaLabel = (selectedDate: string | null) =>\n  'Choose Date' + (selectedDate ? `, selected date is ${selectedDate}` : '');\n\nconst nameProperty: InternalFilteringProperty = {\n  propertyKey: 'name',\n  propertyLabel: 'Name',\n  groupValuesLabel: 'Name values',\n  operators: ['=', '!='],\n  defaultOperator: '=',\n  getTokenType: () => 'value',\n  getValueFormatter: () => null,\n  getValueFormRenderer: () => null,\n  getOperatorDescription: () => null,\n  externalProperty,\n};\n\nconst stateProperty: InternalFilteringProperty = {\n  propertyKey: 'state',\n  propertyLabel: 'State',\n  groupValuesLabel: 'State values',\n  operators: ['=', '!='],\n  defaultOperator: '=',\n  getTokenType: () => 'enum',\n  getValueFormatter: () => null,\n  getValueFormRenderer: () => null,\n  getOperatorDescription: () => null,\n  externalProperty,\n};\n\nconst dateProperty: InternalFilteringProperty = {\n  propertyKey: 'date',\n  propertyLabel: 'Date',\n  groupValuesLabel: 'Date values',\n  operators: ['=', '!='],\n  defaultOperator: '=',\n  getTokenType: () => 'value',\n  getValueFormatter: () => (value: Date) => (value ? format(value, 'yyyy-MM-dd') : ''),\n  getValueFormRenderer:\n    () =>\n    ({ value }) => (\n      <FormField>\n        <DatePicker value={value ? format(value, 'yyyy-MM-dd') : ''} openCalendarAriaLabel={openCalendarAriaLabel} />\n      </FormField>\n    ),\n  getOperatorDescription: () => null,\n  externalProperty,\n};\n\nconst dateTimeProperty: InternalFilteringProperty = {\n  propertyKey: 'date',\n  propertyLabel: 'Date time',\n  groupValuesLabel: 'Date time values',\n  operators: ['=', '!='],\n  defaultOperator: '=',\n  getTokenType: () => 'value',\n  getValueFormatter: () => (value: Date) => (value ? format(value, 'yyyy-MM-dd hh:mm') : ''),\n  getValueFormRenderer:\n    () =>\n    ({ value }) => (\n      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>\n        <FormField description=\"Date\">\n          <DatePicker value={value ? format(value, 'yyyy-MM-dd') : ''} openCalendarAriaLabel={openCalendarAriaLabel} />\n        </FormField>\n        <FormField description=\"Time\">\n          <TimeInput value={value ? format(value, 'hh:mm:ss') : ''} />\n        </FormField>\n      </div>\n    ),\n  getOperatorDescription: () => null,\n  externalProperty,\n};\n\nconst defaultProps: Omit<TokenEditorProps, 'i18nStrings'> = {\n  supportsGroups: true,\n  asyncProps: {},\n  customGroupsText: [],\n  freeTextFiltering: {\n    disabled: false,\n    operators: [':', '!:'],\n    defaultOperator: ':',\n  },\n  filteringProperties: [nameProperty, dateProperty],\n  filteringOptions: [\n    { property: stateProperty, value: 'Happy', label: 'Happy' },\n    { property: stateProperty, value: 'Healthy', label: 'Healthy' },\n    { property: stateProperty, value: 'Wealthy', label: 'Wealthy' },\n  ],\n  onSubmit: () => {},\n  onDismiss: () => {},\n  tokensToCapture: [],\n  onTokenCapture: () => {},\n  onTokenRelease: () => {},\n  tempGroup: [{ property: null, operator: ':', value: 'search text' }],\n  onChangeTempGroup: () => {},\n};\n\nconst editorPermutations = createPermutations<Partial<TokenEditorProps>>([\n  // Single name property\n  {\n    tempGroup: [[{ property: nameProperty, operator: '=', value: 'John' }]],\n    supportsGroups: [false, true],\n  },\n  // Single date property\n  {\n    tempGroup: [[{ property: dateProperty, operator: '=', value: new Date('2020-01-01') }]],\n  },\n  // Single date/time property\n  {\n    tempGroup: [[{ property: dateTimeProperty, operator: '=', value: new Date('2020-01-01T01:00') }]],\n  },\n  // Multiple properties\n  {\n    tempGroup: [\n      [\n        { property: nameProperty, operator: '=', value: 'John' },\n        { property: dateTimeProperty, operator: '=', value: new Date('2020-01-01T01:00') },\n        { property: stateProperty, operator: '=', value: ['Happy', 'Healthy'] },\n      ],\n    ],\n    tokensToCapture: [\n      [\n        { standaloneIndex: 0, property: dateProperty, operator: '=', value: new Date('2020-01-01') },\n        { standaloneIndex: 1, property: dateProperty, operator: '=', value: new Date('2020-01-02') },\n        { standaloneIndex: 2, property: dateProperty, operator: '=', value: new Date('2020-01-03') },\n        { standaloneIndex: 3, property: dateProperty, operator: '=', value: new Date('2020-01-04') },\n        { standaloneIndex: 4, property: dateProperty, operator: '=', value: new Date('2020-01-05') },\n      ],\n    ],\n  },\n]);\n\nfunction TokenEditorStateful(props: Omit<TokenEditorProps, 'i18nStrings'>) {\n  const [tempGroup, setTempGroup] = useState(props.tempGroup);\n  const capturedTokenIndices = tempGroup.map(token => token.standaloneIndex).filter(Boolean);\n  const tokensToCapture = props.tokensToCapture.filter((_, index) => !capturedTokenIndices.includes(index));\n  const i18nStringsInternal = usePropertyFilterI18n(i18nStrings);\n  return (\n    <TokenEditor\n      {...props}\n      i18nStrings={i18nStringsInternal}\n      tokensToCapture={tokensToCapture}\n      tempGroup={tempGroup}\n      onChangeTempGroup={setTempGroup}\n      onDismiss={() => {\n        setTempGroup(props.tempGroup);\n      }}\n      onSubmit={() => {\n        setTempGroup(props.tempGroup);\n      }}\n    />\n  );\n}\n\nexport default function () {\n  return (\n    <>\n      <I18nProvider messages={[messages]} locale=\"en\">\n        <h1>Property filter editor permutations</h1>\n        <ScreenshotArea disableAnimations={true}>\n          <PermutationsView\n            permutations={editorPermutations}\n            render={permutation => <TokenEditorStateful {...defaultProps} {...permutation} />}\n          />\n        </ScreenshotArea>\n      </I18nProvider>\n    </>\n  );\n}\n",
-   "source": "pages/property-filter/property-filter-editor-permutations.page.tsx"
-  },
-  {
-   "name": "property-filter-tags",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Box, Container, Header, PropertyFilter, SpaceBetween } from '~components';\nimport { PropertyFilterProps } from '~components/property-filter';\n\nimport { i18nStrings, labels } from './common-props';\n\nconst filteringProperties: PropertyFilterProps.FilteringProperty[] = [\n  {\n    key: 'service',\n    propertyLabel: 'Service',\n    groupValuesLabel: 'Service values',\n    operators: ['=', '!=', ':', '!:'],\n  },\n  {\n    key: 'environment',\n    propertyLabel: 'Environment',\n    groupValuesLabel: 'Environment values',\n    operators: ['=', '!=', ':', '!:'],\n  },\n  {\n    key: 'logGroup',\n    propertyLabel: 'Log group',\n    groupValuesLabel: 'All log groups',\n    operators: [\n      // Set token type for equals and not equals operators as enum so that\n      // the default multi-choice form and formatter are used.\n      { operator: '=', tokenType: 'enum' },\n      { operator: '!=', tokenType: 'enum' },\n      // Keep token type for contains and not contains operators as is.\n      ':',\n      '!:',\n    ],\n    defaultOperator: '=',\n  },\n];\n\nconst filteringOptions: PropertyFilterProps.FilteringOption[] = [\n  {\n    propertyKey: 'service',\n    value: 'ec2',\n    label: 'Amazon EC2',\n    tags: ['compute', 'virtual-machines'],\n  },\n  {\n    propertyKey: 'service',\n    value: 's3',\n    label: 'Amazon S3',\n    tags: ['storage', 'object-storage'],\n    filteringTags: ['bucket', 'simple-storage'],\n  },\n  {\n    propertyKey: 'service',\n    value: 'lambda',\n    label: 'AWS Lambda',\n    tags: ['serverless', 'compute', 'functions'],\n    filteringTags: ['faas', 'function-as-a-service'],\n  },\n  {\n    propertyKey: 'service',\n    value: 'rds',\n    label: 'Amazon RDS',\n    tags: ['database', 'relational', 'managed'],\n    filteringTags: ['mysql', 'postgresql', 'oracle', 'sql-server'],\n  },\n  {\n    propertyKey: 'environment',\n    value: 'production',\n    label: 'Production',\n    tags: ['live', 'critical'],\n  },\n  {\n    propertyKey: 'environment',\n    value: 'staging',\n    label: 'Staging',\n    tags: ['pre-production', 'testing', 'qa'],\n    filteringTags: ['stage', 'pre-prod'],\n  },\n  {\n    propertyKey: 'environment',\n    value: 'development',\n    label: 'Development',\n    tags: ['dev', 'testing', 'experimental'],\n    filteringTags: ['sandbox', 'playground'],\n  },\n  {\n    propertyKey: 'service',\n    value: 'cloudfront',\n    label: 'Amazon CloudFront',\n  },\n\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-01',\n    label: 'Log-group-01',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-02',\n    label: 'Log-group-02',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-03',\n    label: 'Log-group-03',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-04',\n    label: 'Log-group-04',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-05',\n    label: 'Log-group-05',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-06',\n    label: 'Log-group-06',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-07',\n    label: 'Log-group-07',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-08',\n    label: 'Log-group-08',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-09',\n    label: 'Log-group-09',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n  {\n    propertyKey: 'logGroup',\n    value: 'Log-group-10',\n    label: 'Log-group-10',\n    tags: ['Standard', 'AccountID', 'Tag'],\n  },\n];\n\nexport default function PropertyFilterTagsPage() {\n  const [query, setQuery] = useState<PropertyFilterProps.Query>({\n    tokens: [],\n    operation: 'and',\n  });\n\n  return (\n    <Container\n      header={\n        <Header variant=\"h1\" description=\"Demo page showcasing Property Filter with tags support\">\n          Property Filter Tags Demo\n        </Header>\n      }\n    >\n      <SpaceBetween size=\"l\">\n        <Box>\n          <Header variant=\"h2\">Interactive Demo</Header>\n        </Box>\n\n        <PropertyFilter\n          {...labels}\n          i18nStrings={i18nStrings}\n          filteringProperties={filteringProperties}\n          filteringOptions={filteringOptions}\n          query={query}\n          onChange={({ detail }) => setQuery(detail)}\n          countText={`${query.tokens.length} ${query.tokens.length === 1 ? 'filter' : 'filters'} applied`}\n        />\n\n        <Box>\n          <Header variant=\"h3\">Current Query</Header>\n          <Box variant=\"code\">{JSON.stringify(query, null, 2)}</Box>\n        </Box>\n      </SpaceBetween>\n    </Container>\n  );\n}\n",
-   "source": "pages/property-filter/property-filter-tags.page.tsx"
-  },
-  {
-   "name": "property-filter-tokens-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport TokenList, { TokenListProps } from '~components/internal/components/token-list';\nimport FilteringToken, { FilteringTokenProps } from '~components/property-filter/filtering-token';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst token1 = {\n  content: 'property1 = value',\n  ariaLabel: 'filter property1 = value',\n  dismissAriaLabel: 'remove filter property1 = value',\n} as const;\n\nconst token2 = {\n  content: 'property2 = value',\n  ariaLabel: 'filter property2 = value',\n  dismissAriaLabel: 'remove filter property2 = value',\n} as const;\n\nconst token3 = {\n  content: 'very-long-property-name-3 = very-long-property-value',\n  ariaLabel: 'filter very-long-property-name-3 = very-long-property-value',\n  dismissAriaLabel: 'remove filter very-long-property-name-3 = very-long-property-value',\n} as const;\n\nconst tokenProps: FilteringTokenProps = {\n  tokens: [],\n  operation: 'and',\n  groupOperation: 'or',\n  showOperation: false,\n  readOnlyOperations: false,\n  andText: 'and',\n  orText: 'or',\n  groupAriaLabel: 'filter group with 0 tokens',\n  groupEditAriaLabel: 'edit token group',\n  operationAriaLabel: 'operation',\n  onChangeOperation: () => {},\n  onChangeGroupOperation: () => {},\n  onDismissToken: () => {},\n  disabled: false,\n  editorContent: 'Token editor content',\n  editorHeader: 'Token editor header',\n  editorDismissAriaLabel: 'dismiss token editor',\n  editorExpandToViewport: false,\n  hasGroups: false,\n  popoverSize: 'content',\n};\n\nconst tokenPermutations = createPermutations<Partial<FilteringTokenProps>>([\n  // Single token with and show operation\n  {\n    tokens: [[token1]],\n    operation: ['and'],\n    showOperation: [false, true],\n  },\n  // Single token with or disabled\n  {\n    tokens: [[token1]],\n    operation: ['or'],\n    showOperation: [true],\n    disabled: [false, true],\n  },\n  // Group token with and show operation\n  {\n    tokens: [[token1, token2]],\n    operation: ['and'],\n    groupOperation: ['or'],\n    showOperation: [false, true],\n    hasGroups: [true],\n  },\n  // Group token with or disabled\n  {\n    tokens: [[token1, token2]],\n    operation: ['or'],\n    groupOperation: ['and'],\n    showOperation: [true],\n    disabled: [false, true],\n    hasGroups: [true],\n  },\n  // Large token group\n  {\n    tokens: [\n      [token1, token2, token3],\n      [token1, token3, token2],\n      [token3, token1, token2],\n    ],\n    operation: ['and'],\n    groupOperation: ['or'],\n    showOperation: [true],\n    hasGroups: [true],\n  },\n  // Fixed operations\n  {\n    tokens: [[token1, token2, token3]],\n    operation: ['and'],\n    groupOperation: ['or'],\n    showOperation: [true],\n    readOnlyOperations: [true],\n  },\n]);\n\nconst tokenListProps: TokenListProps<React.ReactNode> = {\n  items: [],\n  alignment: 'inline',\n  renderItem: item => item,\n  limit: 3,\n  after: null,\n  limitShowFewerAriaLabel: 'show more',\n  limitShowMoreAriaLabel: 'show fewer',\n};\n\nconst tokenListPermutations = createPermutations<Partial<TokenListProps<React.ReactNode>>>([\n  // List of single tokens with show more\n  {\n    items: [\n      [\n        <FilteringToken key=\"1\" {...tokenProps} tokens={[token1]} hasGroups={false} />,\n        <FilteringToken key=\"2\" {...tokenProps} showOperation={true} tokens={[token2]} hasGroups={false} />,\n        <FilteringToken key=\"3\" {...tokenProps} showOperation={true} tokens={[token3]} hasGroups={false} />,\n      ],\n    ],\n    limit: [3, 2],\n  },\n  // List of single and grouped tokens\n  {\n    items: [\n      [\n        <FilteringToken key=\"2\" {...tokenProps} tokens={[token1, token2]} hasGroups={true} />,\n        <FilteringToken key=\"1\" {...tokenProps} showOperation={true} tokens={[token1]} hasGroups={true} />,\n        <FilteringToken key=\"3\" {...tokenProps} showOperation={true} tokens={[token2]} hasGroups={true} />,\n      ],\n      [\n        <FilteringToken key=\"1\" {...tokenProps} tokens={[token1]} hasGroups={true} />,\n        <FilteringToken key=\"2\" {...tokenProps} showOperation={true} tokens={[token1, token2]} hasGroups={true} />,\n        <FilteringToken key=\"3\" {...tokenProps} showOperation={true} tokens={[token2]} hasGroups={true} />,\n      ],\n      [\n        <FilteringToken key=\"1\" {...tokenProps} tokens={[token1]} hasGroups={true} />,\n        <FilteringToken key=\"3\" {...tokenProps} showOperation={true} tokens={[token2]} hasGroups={true} />,\n        <FilteringToken key=\"2\" {...tokenProps} showOperation={true} tokens={[token1, token2]} hasGroups={true} />,\n      ],\n    ],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <h1>Property filter tokens permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={tokenPermutations}\n          render={permutation => <FilteringToken {...tokenProps} {...permutation} />}\n        />\n\n        <br />\n        <hr />\n        <br />\n\n        <PermutationsView\n          permutations={tokenListPermutations}\n          render={permutation => <TokenList {...tokenListProps} {...permutation} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/property-filter/property-filter-tokens-permutations.page.tsx"
-  },
-  {
-   "name": "split-panel-app-layout-integration",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport { useCollection } from '@cloudscape-design/collection-hooks';\n\nimport {\n  AppLayout,\n  Box,\n  Button,\n  Checkbox,\n  Header,\n  PropertyFilter,\n  PropertyFilterProps,\n  SpaceBetween,\n  SplitPanel,\n  Table,\n} from '~components';\nimport I18nProvider from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { Breadcrumbs, Navigation, Tools } from '../app-layout/utils/content-blocks';\nimport appLayoutLabels from '../app-layout/utils/labels';\nimport * as toolsContent from '../app-layout/utils/tools-content';\nimport { useOptionsLoader } from '../common/options-loader';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { columnDefinitions, filteringProperties, labels } from './common-props';\nimport { allItems, states, TableItem } from './table.data';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    virtualScroll?: boolean;\n    expandToViewport?: boolean;\n    enableTokenGroups?: boolean;\n    disableFreeTextFiltering?: boolean;\n    hideOperations?: boolean;\n    readOnlyOperations?: boolean;\n    asyncOptions?: boolean;\n    emptyOptions?: boolean;\n  }>\n>;\n\nexport default function () {\n  const {\n    urlParams: {\n      virtualScroll = true,\n      expandToViewport = true,\n      enableTokenGroups = true,\n      disableFreeTextFiltering = false,\n      hideOperations = false,\n      readOnlyOperations = false,\n      asyncOptions = false,\n      emptyOptions = false,\n    },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n\n  const { items, collectionProps, actions, propertyFilterProps } = useCollection(allItems, {\n    propertyFiltering: {\n      empty: 'empty',\n      noMatch: (\n        <Box textAlign=\"center\" color=\"inherit\">\n          <Box variant=\"strong\" textAlign=\"center\" color=\"inherit\">\n            No matches\n          </Box>\n          <Box variant=\"p\" padding={{ bottom: 's' }} color=\"inherit\">\n            We can’t find a match.\n          </Box>\n          <Button\n            onClick={() => actions.setPropertyFiltering({ tokens: [], operation: propertyFilterProps.query.operation })}\n          >\n            Clear filter\n          </Button>\n        </Box>\n      ),\n      filteringProperties,\n      defaultQuery: { tokens: [{ propertyKey: 'averagelatency', operator: '!=', value: '30' }], operation: 'and' },\n    },\n    sorting: {},\n  });\n\n  let filteringOptions = propertyFilterProps.filteringOptions\n    .map(option => {\n      if (option.propertyKey === 'state') {\n        option.label = states[option.value];\n      }\n      return option;\n    })\n    .filter(option => option.propertyKey !== 'tags')\n    .filter(option => option.propertyKey !== 'averagelatency');\n\n  const allTags = new Set<string>();\n  for (const item of allItems) {\n    for (const tag of item.tags ?? []) {\n      allTags.add(tag);\n    }\n  }\n  for (const tag of allTags) {\n    filteringOptions.push({ propertyKey: 'tags', value: tag });\n  }\n\n  if (emptyOptions) {\n    filteringOptions = [];\n  }\n\n  const [splitPanelOpen, setSplitPanelOpen] = useState(true);\n  const [filteringText, setFilteringText] = useState('');\n  const optionsLoader = useOptionsLoader<PropertyFilterProps.FilteringOption>({ pageSize: 15, timeout: 1000 });\n  const handleLoadItems = ({\n    detail: { filteringProperty, filteringText, firstPage },\n  }: {\n    detail: PropertyFilterProps.LoadItemsDetail;\n  }) => {\n    if (filteringProperty) {\n      const sourceItems = filteringOptions.filter(option => option.propertyKey === filteringProperty.key);\n      optionsLoader.fetchItems({ sourceItems, filteringText, firstPage });\n      setFilteringText(filteringText);\n    } else {\n      setFilteringText('');\n    }\n  };\n  const asyncProps = asyncOptions\n    ? {\n        asyncProperties: false,\n        filteringStatusType: optionsLoader.status,\n        onLoadItems: handleLoadItems,\n        filteringFinishedText: filteringText ? `End of \"${filteringText}\" results` : 'End of all results',\n      }\n    : {};\n\n  return (\n    <ScreenshotArea gutters={false}>\n      <I18nProvider messages={[messages]} locale=\"en\">\n        <AppLayout\n          ariaLabels={appLayoutLabels}\n          breadcrumbs={<Breadcrumbs />}\n          navigation={<Navigation />}\n          tools={<Tools>{toolsContent.long}</Tools>}\n          splitPanelOpen={splitPanelOpen}\n          onSplitPanelToggle={({ detail }) => setSplitPanelOpen(detail.open)}\n          splitPanel={\n            <SplitPanel\n              header=\"Split panel header\"\n              i18nStrings={{\n                preferencesTitle: 'Preferences',\n                preferencesPositionLabel: 'Split panel position',\n                preferencesPositionDescription: 'Choose the default split panel position for the service.',\n                preferencesPositionSide: 'Side',\n                preferencesPositionBottom: 'Bottom',\n                preferencesConfirm: 'Confirm',\n                preferencesCancel: 'Cancel',\n                closeButtonAriaLabel: 'Close panel',\n                openButtonAriaLabel: 'Open panel',\n                resizeHandleAriaLabel: 'Slider',\n                resizeHandleTooltipText: 'Drag or select to resize',\n              }}\n            >\n              <SpaceBetween size=\"s\">\n                <Checkbox\n                  checked={virtualScroll}\n                  onChange={({ detail }) => setUrlParams({ virtualScroll: detail.checked })}\n                >\n                  virtualScroll\n                </Checkbox>\n                <Checkbox\n                  checked={expandToViewport}\n                  onChange={({ detail }) => setUrlParams({ expandToViewport: detail.checked })}\n                >\n                  expandToViewport\n                </Checkbox>\n                <Checkbox\n                  checked={enableTokenGroups}\n                  onChange={({ detail }) => setUrlParams({ enableTokenGroups: detail.checked })}\n                >\n                  enableTokenGroups\n                </Checkbox>\n                <Checkbox\n                  checked={disableFreeTextFiltering}\n                  onChange={({ detail }) => setUrlParams({ disableFreeTextFiltering: detail.checked })}\n                >\n                  disableFreeTextFiltering\n                </Checkbox>\n                <Checkbox\n                  checked={readOnlyOperations}\n                  onChange={({ detail }) => setUrlParams({ readOnlyOperations: detail.checked })}\n                >\n                  readOnlyOperations\n                </Checkbox>\n                <Checkbox\n                  checked={hideOperations}\n                  onChange={({ detail }) => setUrlParams({ hideOperations: detail.checked })}\n                >\n                  hideOperations\n                </Checkbox>\n                <Checkbox\n                  checked={asyncOptions}\n                  onChange={({ detail }) => setUrlParams({ asyncOptions: detail.checked })}\n                >\n                  asyncOptions\n                </Checkbox>\n                <Checkbox\n                  checked={emptyOptions}\n                  onChange={({ detail }) => setUrlParams({ emptyOptions: detail.checked })}\n                >\n                  Empty options\n                </Checkbox>\n              </SpaceBetween>\n            </SplitPanel>\n          }\n          content={\n            <Table<TableItem>\n              className=\"main-content\"\n              stickyHeader={true}\n              header={<Header headingTagOverride={'h1'}>Instances</Header>}\n              items={items}\n              {...collectionProps}\n              filter={\n                <PropertyFilter\n                  {...labels}\n                  {...propertyFilterProps}\n                  {...asyncProps}\n                  filteringOptions={asyncOptions ? optionsLoader.items : filteringOptions}\n                  enableTokenGroups={enableTokenGroups}\n                  disableFreeTextFiltering={disableFreeTextFiltering}\n                  hideOperations={hideOperations}\n                  readOnlyOperations={readOnlyOperations}\n                  virtualScroll={virtualScroll}\n                  expandToViewport={expandToViewport}\n                  countText={`${items.length} matches`}\n                />\n              }\n              columnDefinitions={columnDefinitions}\n            />\n          }\n        />\n      </I18nProvider>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/property-filter/split-panel-app-layout-integration.page.tsx"
-  },
-  {
-   "name": "token-editor",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport PropertyFilter from '~components/property-filter';\nimport { PropertyFilterProps } from '~components/property-filter/interfaces';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport {\n  columnDefinitions,\n  filteringProperties as commonFilteringProperties,\n  i18nStrings,\n  labels,\n} from './common-props';\n\nconst filteringProperties: readonly PropertyFilterProps.FilteringProperty[] = columnDefinitions.map(def => ({\n  key: def.id,\n  operators: def.type === 'text' ? ['=', '!=', ':', '!:'] : ['=', '!=', '>', '<', '<=', '>='],\n  propertyLabel: def.propertyLabel,\n  groupValuesLabel: `${def.propertyLabel} values`,\n}));\n\nconst filteringOptions: readonly PropertyFilterProps.FilteringOption[] = [\n  { propertyKey: 'state', value: 'Stopping' },\n  { propertyKey: 'state', value: 'Stopped' },\n  { propertyKey: 'state', value: 'Running' },\n];\n\nconst commonProps = {\n  ...labels,\n  onChange: () => {},\n  filteringProperties,\n  filteringOptions,\n  i18nStrings,\n  countText: '5 matches',\n  disableFreeTextFiltering: false,\n  virtualScroll: true,\n} as const;\n\nexport default function () {\n  return (\n    <>\n      <h1>Strings wrapping screenshot page</h1>\n      <ScreenshotArea disableAnimations={true} style={{ blockSize: '1000px' }}>\n        <PropertyFilter\n          className=\"property-filter-overflow\"\n          query={{\n            tokens: [\n              {\n                operator: ':',\n                value: 'filtering token',\n              },\n            ],\n            operation: 'and',\n          }}\n          {...commonProps}\n          i18nStrings={{\n            ...i18nStrings,\n            editTokenHeader: 'Edit filter editTokenHeadereditTokenHeadereditTokenHeadereditTokenHeader',\n            propertyText: 'Property propertyTextpropertyTextpropertyTextpropertyTextpropertyText',\n            operatorText: 'Operator operatorTextoperatorTextoperatorTextoperatorTextoperatorTextoperatorText',\n            valueText: 'Value valuesTextvalueTextvalueTextvalueTextvalueTextvalueTextvalueTextvalueText',\n            cancelActionText: 'Cancel cancelActionTextcancelActionTextcancelActionTextcancelActionText',\n            applyActionText: 'Apply applyActionTextapplyActionTextapplyActionTextapplyActionText',\n          }}\n        />\n        <PropertyFilter\n          className=\"property-filter-default\"\n          query={{\n            tokens: [\n              { operator: ':', value: 'filtering token' },\n              { operator: ':', value: 'second filtering token' },\n            ],\n            operation: 'and',\n          }}\n          {...commonProps}\n        />\n        <PropertyFilter\n          className=\"property-filter-custom-prop-boolean\"\n          query={{\n            tokens: [{ propertyKey: 'stopped', operator: '=', value: 'true' }],\n            operation: 'and',\n          }}\n          {...commonProps}\n          filteringProperties={commonFilteringProperties}\n        />\n        <PropertyFilter\n          className=\"property-filter-custom-prop-datetime\"\n          query={{\n            tokens: [{ propertyKey: 'lasteventat-legacy', operator: '>', value: '2022-01-01T00:00:00' }],\n            operation: 'and',\n          }}\n          {...commonProps}\n          filteringProperties={commonFilteringProperties}\n        />\n        <PropertyFilter\n          className=\"property-filter-free-text-operators\"\n          query={{\n            tokens: [\n              { operator: '!=', value: 'not equal filtering token' },\n              { operator: '^', value: 'starts with filtering token' },\n            ],\n            operation: 'and',\n          }}\n          {...commonProps}\n          freeTextFiltering={{ operators: [':', '!:', '=', '!=', '^', '!^'] }}\n        />\n        <PropertyFilter\n          className=\"property-filter-group-editor\"\n          query={{\n            tokens: [\n              { propertyKey: 'instanceid', operator: '=', value: 'i123' },\n              { propertyKey: 'lasteventat', operator: '>', value: '2022-01-01T00:00:00' },\n            ],\n            operation: 'and',\n          }}\n          {...commonProps}\n          filteringProperties={commonFilteringProperties}\n          customGroupsText={[]}\n          enableTokenGroups={true}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/property-filter/token-editor.page.tsx"
-  },
-  {
-   "name": "virtual-scroll",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport PropertyFilter, { PropertyFilterProps } from '~components/property-filter';\n\nimport { SimplePage } from '../app/templates';\nimport { i18nStrings, labels } from './common-props';\n\nconst options = Array.from({ length: 1000 }, (_, i) => ({\n  value: `${i}`,\n  label: `Option ${i + 1}`,\n}));\n\nexport default function () {\n  const [query, setQuery] = useState<PropertyFilterProps.Query>({ tokens: [], operation: 'and' });\n\n  return (\n    <SimplePage title=\"PropertyFilter Virtual Scroll\" i18n={{}} screenshotArea={{}}>\n      <div\n        style={{\n          height: 500,\n          padding: 10,\n          // Prevents dropdown from expanding outside of the screenshot area\n          overflow: 'auto',\n        }}\n      >\n        <PropertyFilter\n          query={query}\n          onChange={({ detail }) => setQuery(detail)}\n          filteringProperties={[\n            {\n              key: 'property',\n              operators: ['=', '!='],\n              propertyLabel: 'Property',\n              groupValuesLabel: 'Property values',\n            },\n          ]}\n          filteringOptions={options.map(opt => ({ propertyKey: 'property', value: opt.value! }))}\n          virtualScroll={true}\n          expandToViewport={false}\n          data-testid=\"property-filter-demo\"\n          i18nStrings={i18nStrings}\n          {...labels}\n        />\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/property-filter/virtual-scroll.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-expandable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "PropertyFilterProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "disabled",
-    "boolean",
-    "아니오",
-    "If set to `true`, the filtering input will be disabled. Use it, for example, if you are fetching new items upon filtering change in order to prevent the user from changing the filtering query.",
-    "src/property-filter/interfaces.ts:33"
-   ],
-   [
-    "i18nStrings",
-    "PropertyFilterProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/property-filter/interfaces.ts:38"
-   ],
-   [
-    "countText",
-    "string",
-    "아니오",
-    "Accepts a human-readable, localized string that indicates the number of results. For example, \"1 match\" or \"165 matches.\" If the total number of results is unknown, also include an indication that there may be more results than the number listed. For example, \"25+ matches.\" The count text is only displayed when `query.tokens` isn't empty. When the `countText` or `query` changes, it will be announced to assistive technologies.",
-    "src/property-filter/interfaces.ts:47"
-   ],
-   [
-    "loading",
-    "boolean",
-    "아니오",
-    "Set to `true` while the related collection is loading (e.g. during an async filtering action). If set to `true`, the live announcement of countText by assistive technologies will be paused until it changes back to `false`.",
-    "src/property-filter/interfaces.ts:53"
-   ],
-   [
-    "query",
-    "PropertyFilterProps.Query",
-    "예",
-    "An object representing the current query displayed in the property filter, which has three properties: `operation`, `tokens`, and `tokenGroups`. The `operation` property has two valid values: \"and\", \"or\", and controls the join operation to be applied between tokens when filtering the items. The `tokens` property is an array of objects that will be displayed to the user beneath the filtering input. When `enableTokenGroups=true`, the `tokenGroups` property is used instead, which supports nested tokens. Each token has the following properties: * value [unknown]: The value of the token to be used as a filter. Can be null or string for default tokens, string[] for enum tokens, and anything for tokens with custom forms. * propertyKey [string]: The key of the corresponding property in filteringProperties. * operator ['<' | '<=' | '>' | '>=' | ':' | '!:' | '=' | '!=' | '^' | '!^']: The operator which indicates how to filter the dataset using this token.",
-    "src/property-filter/interfaces.ts:66"
-   ],
-   [
-    "hideOperations",
-    "boolean",
-    "아니오",
-    "If hideOperations it set, the indicator of the operation (that is, `and` or `or`) and the selection of operations (applied to the property and value token) are hidden from the user. Only use when you have a custom filtering logic which combines tokens in different way than the default one. When used, ensure that operations are communicated to the user in another way, or use `readOnlyOperations`. This property cannot be set when `enableTokenGroups=true`.",
-    "src/property-filter/interfaces.ts:75"
-   ],
-   [
-    "readOnlyOperations",
-    "boolean",
-    "아니오",
-    "If readOnlyOperations it set, the indicator of the operation (that is, `and` or `or`) is shown, but the operation cannot be changed. This is also supported for nested tokens when `enableTokenGroups=true`.",
-    "src/property-filter/interfaces.ts:80"
-   ],
-   [
-    "enableTokenGroups",
-    "boolean",
-    "아니오",
-    "Activates token grouping mechanism to support token nesting (up to one level). When `true`, the `query.tokens` property is ignored and `query.tokenGroups` is used instead.",
-    "src/property-filter/interfaces.ts:85"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<PropertyFilterProps.Query>",
-    "예",
-    "Fired when the `query` gets changed. Filter the dataset in response to this event using the values in the `detail` object.",
-    "src/property-filter/interfaces.ts:89"
-   ],
-   [
-    "filteringProperties",
-    "ReadonlyArray<PropertyFilterProps.FilteringProperty>",
-    "예",
-    "An array of properties by which the data set can be filtered. Each element has the following properties: * groupValuesLabel [string]: Localized string to display for the 'Values' group label for a specific property. * key [string]: The identifier of this property. * propertyLabel [string]: A human-readable string for the property. * operators [Array]: A list of all operators supported by this property. Built-in operators are always shown first in their standard order; custom operators are appended after them. If you omit the equals operator because your API does not support it, make sure to set `defaultOperator` to a supported operator from this list. Each entry is either an operator string (for example, `=`, `!=`, `:`, `>`), or an object that customizes the operator with the following properties: * `operator` [string]: The operator string. In addition to the built-in operators, you can define a custom operator string, for example `~` or `in`. * `match` ['date' | 'datetime' | function]: Overrides how items are matched for this operator. Use `'date'` or `'datetime'` for the built-in date matchers, or a function `(itemValue, tokenValue) => boolean` for custom matching. When you use a custom operator string, provide a `match` function; otherwise there is no matcher for it and items are not filtered by that operator. * `description` [string]: A human-readable description shown next to the operator in the operator dropdown. Use it to describe a custom operator, or to override the built-in description of a predefined operator (for example, describing `>` as \"After\" for a date property). * `tokenType` ['value' | 'enum']: The type of value input rendered for this operator. * `format` [function]: A function `(value) => string` used to format the token value for display. * `form` [ReactNode]: A custom form used to enter the token value. * group [string]: Optional identifier of a custom group that this filtering option is assigned to. Use to create additional groups below the default one. Make sure to also define labels for the group in the customGroupsText property. Notice that only one level of options nesting is supported. * defaultOperator [ComparisonOperator]: Optional parameter that changes the default operator used with this filtering property. Use it only if your API does not support \"equals\" filtering terms with this property.",
-    "src/property-filter/interfaces.ts:106"
-   ],
-   [
-    "filteringOptions",
-    "ReadonlyArray<PropertyFilterProps.FilteringOption>",
-    "아니오",
-    "An array of possible values of the individual `filteringProperties`. Each element has the following properties: * `propertyKey` [string]: The key of the corresponding filtering property in the `filteringProperties` array. * `value` [string]: The value that will be used as a suggestion when creating or modifying a filtering token. * `label` [string]: Optional suggestion label to be matched instead of the value. * `tags` [string[]]: Optional list of tags giving further guidance about the option. * `filteringTags` [string[]]: Optional list of additional tags used for automatic filtering. Filtering options that require labels can only use `=` and `!=` operators. The token value must be labelled separately, for example: ``` const filteringProperty = { key: 'state', propertyLabel: 'State', operators: ['=', '!='].map(operator => ({ operator, format: getStateLabel })) } const filteringOptions = [ { propertyKey: 'state', value: 'STOPPED', label: getStateLabel('STOPPED') }, { propertyKey: 'state', value: 'STOPPING', label: getStateLabel('STOPPING') }, { propertyKey: 'state', value: 'RUNNING', label: getStateLabel('RUNNING') }, ] ```",
-    "src/property-filter/interfaces.ts:130"
-   ],
-   [
-    "customGroupsText",
-    "PropertyFilterProps.GroupText[]",
-    "아니오",
-    "An array of objects that contain localized, human-readable strings for the labels of custom groups within the filtering dropdown. Use group property to associate the strings with your custom group of options. Define the following values for each group: * properties [string]: The group label in the filtering dropdown that contains the list of properties from this group. For example: Tags. * values [string]: The group label in the filtering dropdown that contains the list of values from this group. For example: Tags values. * group [string]: The identifier of a custom group.",
-    "src/property-filter/interfaces.ts:138"
-   ],
-   [
-    "disableFreeTextFiltering",
-    "boolean",
-    "아니오",
-    "Set `disableFreeTextFiltering` only if you can’t filter the dataset using a filter that is applied to every column, instead of a specific property. This would stop the user from creating such tokens.",
-    "src/property-filter/interfaces.ts:143"
-   ],
-   [
-    "freeTextFiltering",
-    "PropertyFilterProps.FreeTextFiltering",
-    "아니오",
-    "An object configuring the operators for free text filtering, which has the following properties: * operators [Array]: A list of all operators supported for free text filtering. Each entry is either an operator string, or an object with an `operator` string and an optional `match` function `(item, text) => boolean` for custom matching. Custom operator strings are supported and are appended after the built-in operators. If you omit the contains operator because your API does not support it, make sure to set `defaultOperator` to a supported operator from this list. * defaultOperator [ComparisonOperator]: An optional parameter that changes the default operator used for free text filtering. Use this parameter only if your API does not support \"contains\" free test filtering terms.",
-    "src/property-filter/interfaces.ts:150"
-   ],
-   [
-    "onLoadItems",
-    "NonCancelableEventHandler<PropertyFilterProps.LoadItemsDetail>",
-    "아니오",
-    "Use this event to asynchronously load filteringOptions, component currently needs. The detail object contains following properties: * `filteringProperty` - The property for which you need to fetch the options. * `filteringOperator` - The operator for which you need to fetch the options. * `filteringText` - The value that you need to use to fetch options. * `firstPage` - Indicates that you should fetch the first page of options for a `filteringProperty` that match the `filteringText`. * `samePage` - Indicates that you should fetch the same page that you have previously fetched (for example, when the user clicks on the recovery button).",
-    "src/property-filter/interfaces.ts:160"
-   ],
-   [
-    "virtualScroll",
-    "boolean",
-    "아니오",
-    "If you have more than 500 `filteringOptions`, enable this flag to apply a performance optimization that makes the filtering experience smoother. We don't recommend enabling the feature if you have less than 500 options, because the improvements to performance are offset by a visible scrolling lag. When you set this flag to true, it removes options that are not currently in view from the DOM.",
-    "src/property-filter/interfaces.ts:167"
-   ],
-   [
-    "customControl",
-    "React.ReactNode",
-    "아니오",
-    "A slot located before the filtering input. Use it if for a Select component if your dataset supports property filter queries only after an initial filter is applied.",
-    "src/property-filter/interfaces.ts:172"
-   ],
-   [
-    "customFilterActions",
-    "React.ReactNode",
-    "아니오",
-    "A slot that replaces the standard \"Clear filter\" button. When using this slot, make sure to still provide a mechanism to clear all filters.",
-    "src/property-filter/interfaces.ts:177"
-   ],
-   [
-    "asyncProperties",
-    "boolean",
-    "아니오",
-    "Set `asyncProperties` if you need to load `filteringProperties` asynchronously. This would cause extra `onLoadMore` events to fire calling for more properties.",
-    "src/property-filter/interfaces.ts:182"
-   ],
-   [
-    "tokenLimit",
-    "number",
-    "아니오",
-    "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
-    "src/property-filter/interfaces.ts:186"
-   ],
-   [
-    "filteringAriaLabel",
-    "string",
-    "아니오",
-    "The label that will be passed down to the Autosuggest `ariaLabel` property. See the [Autosuggest API](/components/autosuggest/?tabId=api) page for more details.",
-    "src/property-filter/interfaces.ts:191"
-   ],
-   [
-    "filteringPlaceholder",
-    "string",
-    "아니오",
-    "Placeholder for the filtering input.",
-    "src/property-filter/interfaces.ts:195"
-   ],
-   [
-    "filteringEmpty",
-    "React.ReactNode",
-    "아니오",
-    "Displayed when there are no options to display. This is only shown when `statusType` is set to `finished` or not set at all.",
-    "src/property-filter/interfaces.ts:200"
-   ],
-   [
-    "filteringLoadingText",
-    "string",
-    "아니오",
-    "Specifies the text to display when in the loading state.",
-    "src/property-filter/interfaces.ts:204"
-   ],
-   [
-    "filteringFinishedText",
-    "string",
-    "아니오",
-    "Specifies the text to display at the bottom of the dropdown menu after pagination has reached the end.",
-    "src/property-filter/interfaces.ts:208"
-   ],
-   [
-    "filteringErrorText",
-    "string",
-    "아니오",
-    "Specifies the text to display when a data fetching error occurs. Make sure that you provide `recoveryText`.",
-    "src/property-filter/interfaces.ts:212"
-   ],
-   [
-    "filteringRecoveryText",
-    "string",
-    "아니오",
-    "Specifies the text for the recovery button. The text is displayed next to the error text. Use the `onLoadItems` event to perform a recovery action (for example, retrying the request).",
-    "src/property-filter/interfaces.ts:217"
-   ],
-   [
-    "filteringConstraintText",
-    "React.ReactNode",
-    "아니오",
-    "Constraint text that's displayed below the filtering input. Use this to provide additional information about supported filters.",
-    "src/property-filter/interfaces.ts:222"
-   ],
-   [
-    "filteringStatusType",
-    "PropertyFilterProps.StatusType",
-    "아니오",
-    "Specifies the current status of loading more options. * `pending` - Indicates that no request in progress, but more options may be loaded. * `loading` - Indicates that data fetching is in progress. * `finished` - Indicates that pagination has finished and no more requests are expected. * `error` - Indicates that an error occurred during fetch. You should use `recoveryText` to enable the user to recover.",
-    "src/property-filter/interfaces.ts:230"
-   ],
-   [
-    "tokenLimitShowFewerAriaLabel",
-    "string",
-    "아니오",
-    "Adds an aria-label to the \"Show fewer\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowFewer` label on one page.",
-    "src/property-filter/interfaces.ts:236"
-   ],
-   [
-    "tokenLimitShowMoreAriaLabel",
-    "string",
-    "아니오",
-    "Adds an aria-label to the \"Show more\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowMore` label on one page.",
-    "src/property-filter/interfaces.ts:241"
-   ]
-  ],
-  "source": "src/property-filter/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "server-side-table-property-filter",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "PropertyFilterProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "disabled",
+      "boolean",
+      "아니오",
+      "If set to `true`, the filtering input will be disabled. Use it, for example, if you are fetching new items upon filtering change in order to prevent the user from changing the filtering query.",
+      "src/property-filter/interfaces.ts:33"
+     ],
+     [
+      "i18nStrings",
+      "PropertyFilterProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/property-filter/interfaces.ts:38"
+     ],
+     [
+      "countText",
+      "string",
+      "아니오",
+      "Accepts a human-readable, localized string that indicates the number of results. For example, \"1 match\" or \"165 matches.\" If the total number of results is unknown, also include an indication that there may be more results than the number listed. For example, \"25+ matches.\" The count text is only displayed when `query.tokens` isn't empty. When the `countText` or `query` changes, it will be announced to assistive technologies.",
+      "src/property-filter/interfaces.ts:47"
+     ],
+     [
+      "loading",
+      "boolean",
+      "아니오",
+      "Set to `true` while the related collection is loading (e.g. during an async filtering action). If set to `true`, the live announcement of countText by assistive technologies will be paused until it changes back to `false`.",
+      "src/property-filter/interfaces.ts:53"
+     ],
+     [
+      "query",
+      "PropertyFilterProps.Query",
+      "예",
+      "An object representing the current query displayed in the property filter, which has three properties: `operation`, `tokens`, and `tokenGroups`. The `operation` property has two valid values: \"and\", \"or\", and controls the join operation to be applied between tokens when filtering the items. The `tokens` property is an array of objects that will be displayed to the user beneath the filtering input. When `enableTokenGroups=true`, the `tokenGroups` property is used instead, which supports nested tokens. Each token has the following properties: * value [unknown]: The value of the token to be used as a filter. Can be null or string for default tokens, string[] for enum tokens, and anything for tokens with custom forms. * propertyKey [string]: The key of the corresponding property in filteringProperties. * operator ['<' | '<=' | '>' | '>=' | ':' | '!:' | '=' | '!=' | '^' | '!^']: The operator which indicates how to filter the dataset using this token.",
+      "src/property-filter/interfaces.ts:66"
+     ],
+     [
+      "hideOperations",
+      "boolean",
+      "아니오",
+      "If hideOperations it set, the indicator of the operation (that is, `and` or `or`) and the selection of operations (applied to the property and value token) are hidden from the user. Only use when you have a custom filtering logic which combines tokens in different way than the default one. When used, ensure that operations are communicated to the user in another way, or use `readOnlyOperations`. This property cannot be set when `enableTokenGroups=true`.",
+      "src/property-filter/interfaces.ts:75"
+     ],
+     [
+      "readOnlyOperations",
+      "boolean",
+      "아니오",
+      "If readOnlyOperations it set, the indicator of the operation (that is, `and` or `or`) is shown, but the operation cannot be changed. This is also supported for nested tokens when `enableTokenGroups=true`.",
+      "src/property-filter/interfaces.ts:80"
+     ],
+     [
+      "enableTokenGroups",
+      "boolean",
+      "아니오",
+      "Activates token grouping mechanism to support token nesting (up to one level). When `true`, the `query.tokens` property is ignored and `query.tokenGroups` is used instead.",
+      "src/property-filter/interfaces.ts:85"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<PropertyFilterProps.Query>",
+      "예",
+      "Fired when the `query` gets changed. Filter the dataset in response to this event using the values in the `detail` object.",
+      "src/property-filter/interfaces.ts:89"
+     ],
+     [
+      "filteringProperties",
+      "ReadonlyArray<PropertyFilterProps.FilteringProperty>",
+      "예",
+      "An array of properties by which the data set can be filtered. Each element has the following properties: * groupValuesLabel [string]: Localized string to display for the 'Values' group label for a specific property. * key [string]: The identifier of this property. * propertyLabel [string]: A human-readable string for the property. * operators [Array]: A list of all operators supported by this property. Built-in operators are always shown first in their standard order; custom operators are appended after them. If you omit the equals operator because your API does not support it, make sure to set `defaultOperator` to a supported operator from this list. Each entry is either an operator string (for example, `=`, `!=`, `:`, `>`), or an object that customizes the operator with the following properties: * `operator` [string]: The operator string. In addition to the built-in operators, you can define a custom operator string, for example `~` or `in`. * `match` ['date' | 'datetime' | function]: Overrides how items are matched for this operator. Use `'date'` or `'datetime'` for the built-in date matchers, or a function `(itemValue, tokenValue) => boolean` for custom matching. When you use a custom operator string, provide a `match` function; otherwise there is no matcher for it and items are not filtered by that operator. * `description` [string]: A human-readable description shown next to the operator in the operator dropdown. Use it to describe a custom operator, or to override the built-in description of a predefined operator (for example, describing `>` as \"After\" for a date property). * `tokenType` ['value' | 'enum']: The type of value input rendered for this operator. * `format` [function]: A function `(value) => string` used to format the token value for display. * `form` [ReactNode]: A custom form used to enter the token value. * group [string]: Optional identifier of a custom group that this filtering option is assigned to. Use to create additional groups below the default one. Make sure to also define labels for the group in the customGroupsText property. Notice that only one level of options nesting is supported. * defaultOperator [ComparisonOperator]: Optional parameter that changes the default operator used with this filtering property. Use it only if your API does not support \"equals\" filtering terms with this property.",
+      "src/property-filter/interfaces.ts:106"
+     ],
+     [
+      "filteringOptions",
+      "ReadonlyArray<PropertyFilterProps.FilteringOption>",
+      "아니오",
+      "An array of possible values of the individual `filteringProperties`. Each element has the following properties: * `propertyKey` [string]: The key of the corresponding filtering property in the `filteringProperties` array. * `value` [string]: The value that will be used as a suggestion when creating or modifying a filtering token. * `label` [string]: Optional suggestion label to be matched instead of the value. * `tags` [string[]]: Optional list of tags giving further guidance about the option. * `filteringTags` [string[]]: Optional list of additional tags used for automatic filtering. Filtering options that require labels can only use `=` and `!=` operators. The token value must be labelled separately, for example: ``` const filteringProperty = { key: 'state', propertyLabel: 'State', operators: ['=', '!='].map(operator => ({ operator, format: getStateLabel })) } const filteringOptions = [ { propertyKey: 'state', value: 'STOPPED', label: getStateLabel('STOPPED') }, { propertyKey: 'state', value: 'STOPPING', label: getStateLabel('STOPPING') }, { propertyKey: 'state', value: 'RUNNING', label: getStateLabel('RUNNING') }, ] ```",
+      "src/property-filter/interfaces.ts:130"
+     ],
+     [
+      "customGroupsText",
+      "PropertyFilterProps.GroupText[]",
+      "아니오",
+      "An array of objects that contain localized, human-readable strings for the labels of custom groups within the filtering dropdown. Use group property to associate the strings with your custom group of options. Define the following values for each group: * properties [string]: The group label in the filtering dropdown that contains the list of properties from this group. For example: Tags. * values [string]: The group label in the filtering dropdown that contains the list of values from this group. For example: Tags values. * group [string]: The identifier of a custom group.",
+      "src/property-filter/interfaces.ts:138"
+     ],
+     [
+      "disableFreeTextFiltering",
+      "boolean",
+      "아니오",
+      "Set `disableFreeTextFiltering` only if you can’t filter the dataset using a filter that is applied to every column, instead of a specific property. This would stop the user from creating such tokens.",
+      "src/property-filter/interfaces.ts:143"
+     ],
+     [
+      "freeTextFiltering",
+      "PropertyFilterProps.FreeTextFiltering",
+      "아니오",
+      "An object configuring the operators for free text filtering, which has the following properties: * operators [Array]: A list of all operators supported for free text filtering. Each entry is either an operator string, or an object with an `operator` string and an optional `match` function `(item, text) => boolean` for custom matching. Custom operator strings are supported and are appended after the built-in operators. If you omit the contains operator because your API does not support it, make sure to set `defaultOperator` to a supported operator from this list. * defaultOperator [ComparisonOperator]: An optional parameter that changes the default operator used for free text filtering. Use this parameter only if your API does not support \"contains\" free test filtering terms.",
+      "src/property-filter/interfaces.ts:150"
+     ],
+     [
+      "onLoadItems",
+      "NonCancelableEventHandler<PropertyFilterProps.LoadItemsDetail>",
+      "아니오",
+      "Use this event to asynchronously load filteringOptions, component currently needs. The detail object contains following properties: * `filteringProperty` - The property for which you need to fetch the options. * `filteringOperator` - The operator for which you need to fetch the options. * `filteringText` - The value that you need to use to fetch options. * `firstPage` - Indicates that you should fetch the first page of options for a `filteringProperty` that match the `filteringText`. * `samePage` - Indicates that you should fetch the same page that you have previously fetched (for example, when the user clicks on the recovery button).",
+      "src/property-filter/interfaces.ts:160"
+     ],
+     [
+      "virtualScroll",
+      "boolean",
+      "아니오",
+      "If you have more than 500 `filteringOptions`, enable this flag to apply a performance optimization that makes the filtering experience smoother. We don't recommend enabling the feature if you have less than 500 options, because the improvements to performance are offset by a visible scrolling lag. When you set this flag to true, it removes options that are not currently in view from the DOM.",
+      "src/property-filter/interfaces.ts:167"
+     ],
+     [
+      "customControl",
+      "React.ReactNode",
+      "아니오",
+      "A slot located before the filtering input. Use it if for a Select component if your dataset supports property filter queries only after an initial filter is applied.",
+      "src/property-filter/interfaces.ts:172"
+     ],
+     [
+      "customFilterActions",
+      "React.ReactNode",
+      "아니오",
+      "A slot that replaces the standard \"Clear filter\" button. When using this slot, make sure to still provide a mechanism to clear all filters.",
+      "src/property-filter/interfaces.ts:177"
+     ],
+     [
+      "asyncProperties",
+      "boolean",
+      "아니오",
+      "Set `asyncProperties` if you need to load `filteringProperties` asynchronously. This would cause extra `onLoadMore` events to fire calling for more properties.",
+      "src/property-filter/interfaces.ts:182"
+     ],
+     [
+      "tokenLimit",
+      "number",
+      "아니오",
+      "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
+      "src/property-filter/interfaces.ts:186"
+     ],
+     [
+      "filteringAriaLabel",
+      "string",
+      "아니오",
+      "The label that will be passed down to the Autosuggest `ariaLabel` property. See the [Autosuggest API](/components/autosuggest/?tabId=api) page for more details.",
+      "src/property-filter/interfaces.ts:191"
+     ],
+     [
+      "filteringPlaceholder",
+      "string",
+      "아니오",
+      "Placeholder for the filtering input.",
+      "src/property-filter/interfaces.ts:195"
+     ],
+     [
+      "filteringEmpty",
+      "React.ReactNode",
+      "아니오",
+      "Displayed when there are no options to display. This is only shown when `statusType` is set to `finished` or not set at all.",
+      "src/property-filter/interfaces.ts:200"
+     ],
+     [
+      "filteringLoadingText",
+      "string",
+      "아니오",
+      "Specifies the text to display when in the loading state.",
+      "src/property-filter/interfaces.ts:204"
+     ],
+     [
+      "filteringFinishedText",
+      "string",
+      "아니오",
+      "Specifies the text to display at the bottom of the dropdown menu after pagination has reached the end.",
+      "src/property-filter/interfaces.ts:208"
+     ],
+     [
+      "filteringErrorText",
+      "string",
+      "아니오",
+      "Specifies the text to display when a data fetching error occurs. Make sure that you provide `recoveryText`.",
+      "src/property-filter/interfaces.ts:212"
+     ],
+     [
+      "filteringRecoveryText",
+      "string",
+      "아니오",
+      "Specifies the text for the recovery button. The text is displayed next to the error text. Use the `onLoadItems` event to perform a recovery action (for example, retrying the request).",
+      "src/property-filter/interfaces.ts:217"
+     ],
+     [
+      "filteringConstraintText",
+      "React.ReactNode",
+      "아니오",
+      "Constraint text that's displayed below the filtering input. Use this to provide additional information about supported filters.",
+      "src/property-filter/interfaces.ts:222"
+     ],
+     [
+      "filteringStatusType",
+      "PropertyFilterProps.StatusType",
+      "아니오",
+      "Specifies the current status of loading more options. * `pending` - Indicates that no request in progress, but more options may be loaded. * `loading` - Indicates that data fetching is in progress. * `finished` - Indicates that pagination has finished and no more requests are expected. * `error` - Indicates that an error occurred during fetch. You should use `recoveryText` to enable the user to recover.",
+      "src/property-filter/interfaces.ts:230"
+     ],
+     [
+      "tokenLimitShowFewerAriaLabel",
+      "string",
+      "아니오",
+      "Adds an aria-label to the \"Show fewer\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowFewer` label on one page.",
+      "src/property-filter/interfaces.ts:236"
+     ],
+     [
+      "tokenLimitShowMoreAriaLabel",
+      "string",
+      "아니오",
+      "Adds an aria-label to the \"Show more\" button for the token group control. Use to assign unique labels when there are multiple token groups with the same `tokenLimitShowMore` label on one page.",
+      "src/property-filter/interfaces.ts:241"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

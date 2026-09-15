@@ -1,96 +1,239 @@
 {
  "slug": "input",
  "title": "Input",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "input-integ",
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Input from '~components/input';\n\nexport default function Page() {\n  const [value, setValue] = useState('');\n  const [submitStatus, setSubmitStatus] = useState(false);\n  const [isKeyboardSubmittingDisabled, setDisableKeyboardSubmitting] = useState(false);\n\n  // State for styleable input\n  const [styleableValue, setStyleableValue] = useState('Test value');\n  const [isInvalid, setIsInvalid] = useState(false);\n  const [isDisabled, setIsDisabled] = useState(false);\n  const [isReadOnly, setIsReadOnly] = useState(false);\n  const [isWarning, setIsWarning] = useState(false);\n\n  return (\n    <>\n      <div id=\"test\">\n        <h1>Input submit check</h1>\n        {submitStatus ? <div id=\"submit-success\">Submitted</div> : null}\n        <form\n          onSubmit={event => {\n            console.log('submitted');\n            event.preventDefault();\n            setSubmitStatus(true);\n          }}\n        >\n          <Input\n            ariaLabel=\"test input\"\n            type=\"number\"\n            step={0.2}\n            value={value}\n            onChange={event => setValue(event.detail.value)}\n            onKeyDown={event => {\n              if (isKeyboardSubmittingDisabled) {\n                console.log('prevent!');\n                event.preventDefault();\n                event.stopPropagation();\n              }\n            }}\n          />\n          <button id=\"disable-form-submitting\" onClick={() => setDisableKeyboardSubmitting(true)} type=\"button\">\n            Disable keyboard form submitting\n          </button>\n        </form>\n      </div>\n\n      <div id=\"styleable-input-test\">\n        <h1>Input Style API with State Toggles</h1>\n        <div style={{ marginBottom: '20px' }}>\n          <Input\n            ariaLabel=\"Styleable test input\"\n            value={styleableValue}\n            onChange={event => setStyleableValue(event.detail.value)}\n            invalid={isInvalid}\n            disabled={isDisabled}\n            readOnly={isReadOnly}\n            warning={isWarning}\n            placeholder=\"Enter text\"\n            data-testid=\"styleable-input\"\n            style={{\n              root: {\n                borderColor: {\n                  default: '#3b82f6',\n                  hover: '#2563eb',\n                  focus: '#1d4ed8',\n                  disabled: '#93c5fd',\n                  readonly: '#60a5fa',\n                },\n                borderWidth: '2px',\n                borderRadius: '8px',\n                backgroundColor: {\n                  default: '#dbeafe',\n                  hover: '#bfdbfe',\n                  focus: '#bfdbfe',\n                  disabled: '#eff6ff',\n                  readonly: '#f0f9ff',\n                },\n                color: {\n                  default: '#1e40af',\n                  hover: '#1e40af',\n                  focus: '#1e3a8a',\n                  disabled: '#93c5fd',\n                  readonly: '#3b82f6',\n                },\n                fontSize: '16px',\n                fontWeight: '500',\n                paddingBlock: '10px',\n                paddingInline: '14px',\n              },\n              placeholder: {\n                color: '#60a5fa',\n                fontSize: '14px',\n                fontStyle: 'italic',\n              },\n            }}\n          />\n        </div>\n        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>\n          <button id=\"toggle-invalid\" onClick={() => setIsInvalid(!isInvalid)} type=\"button\">\n            Toggle Invalid ({isInvalid ? 'ON' : 'OFF'})\n          </button>\n          <button id=\"toggle-disabled\" onClick={() => setIsDisabled(!isDisabled)} type=\"button\">\n            Toggle Disabled ({isDisabled ? 'ON' : 'OFF'})\n          </button>\n          <button id=\"toggle-readonly\" onClick={() => setIsReadOnly(!isReadOnly)} type=\"button\">\n            Toggle ReadOnly ({isReadOnly ? 'ON' : 'OFF'})\n          </button>\n          <button id=\"toggle-warning\" onClick={() => setIsWarning(!isWarning)} type=\"button\">\n            Toggle Warning ({isWarning ? 'ON' : 'OFF'})\n          </button>\n        </div>\n      </div>\n    </>\n  );\n}\n",
-   "source": "pages/input/input-integ.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "inputs",
+   "key": "edit",
+   "name": "Edit resource",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport FormField from '~components/form-field';\nimport Input from '~components/input';\nimport SpaceBetween from '~components/space-between';\nimport Textarea from '~components/textarea';\n\nfunction Inputs() {\n  const [inputValue, setInputValue] = useState('something');\n  const [textareaValue, setTextareaValue] = useState('something');\n  return (\n    <SpaceBetween size=\"xs\">\n      <Input ariaLabel=\"input\" placeholder=\"Enter something\" value=\"\" readOnly={true} />\n      <Input\n        ariaLabel=\"invalid input\"\n        invalid={true}\n        value={inputValue}\n        onChange={event => setInputValue(event.detail.value)}\n      />\n      <Input ariaLabel=\"disabled input\" disabled={true} placeholder=\"Enter something\" value=\"\" />\n\n      <Textarea ariaLabel=\"textarea\" placeholder=\"Enter something\" value=\"\" readOnly={true} />\n      <Textarea\n        ariaLabel=\"Invalid textarea\"\n        invalid={true}\n        value={textareaValue}\n        onChange={event => setTextareaValue(event.detail.value)}\n      />\n      <Textarea ariaLabel=\"Disabled textarea\" disabled={true} placeholder=\"Enter something\" value=\"\" />\n    </SpaceBetween>\n  );\n}\n\nfunction SimpleForm() {\n  const [login, setLogin] = useState('');\n  const [password, setPassword] = useState('');\n  return (\n    <div style={{ maxWidth: 400, padding: 10 }}>\n      <Container header=\"Simple form\">\n        <SpaceBetween size=\"xs\">\n          <Input ariaLabel=\"Login\" placeholder=\"Login\" value={login} onChange={event => setLogin(event.detail.value)} />\n\n          <Input\n            ariaLabel=\"Password\"\n            type=\"password\"\n            placeholder=\"Password\"\n            value={password}\n            onChange={event => setPassword(event.detail.value)}\n          />\n\n          <Button variant=\"primary\">Login</Button>\n        </SpaceBetween>\n      </Container>\n    </div>\n  );\n}\n\nexport default function InputsPage() {\n  return (\n    <div style={{ padding: 10 }}>\n      <h1>Inputs demo</h1>\n      <Inputs />\n      <SimpleForm />\n      <FormField description=\"This is a description.\" label=\"Form field label\" id=\"formfield-with-input\">\n        <Input value={''} onChange={() => {}} />\n      </FormField>\n    </div>\n  );\n}\n",
-   "source": "pages/input/inputs.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/edit/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Input, { InputProps } from '~components/input';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst longAdornment = 'A long decorative prefix or suffix that must not cover the editable value';\n\nconst permutations = createPermutations<InputProps>([\n  {\n    disabled: [false, true],\n    type: ['text', 'password', 'search', 'email', 'url'] as const,\n    invalid: [false, true],\n    warning: [false, true],\n    value: [\n      '',\n      'Short value',\n      'Long value, enough to extend beyond the input width.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n  },\n  {\n    value: [''],\n    disabled: [false, true],\n    type: ['text', 'password', 'search', 'email', 'url'] as const,\n    placeholder: [\n      'Short placeholder',\n      'Long placeholder, enough to extend beyond the input width.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n  },\n  {\n    disabled: [false, true],\n    type: ['text', 'password', 'search', 'email', 'url'] as const,\n    value: ['Non-empty value: Placeholder should be hidden'],\n    placeholder: ['Short placeholder'],\n  },\n  {\n    disabled: [false, true],\n    type: ['number'] as const,\n    value: ['-1', '1'],\n    placeholder: ['Short placeholder'],\n  },\n  {\n    readOnly: [true],\n    type: ['text', 'password', 'search', 'number', 'email', 'url'] as const,\n    value: ['100000000'],\n    placeholder: ['Short placeholder'],\n  },\n  { value: ['10'], prefix: ['$'], suffix: [undefined] },\n  { value: ['10'], prefix: [undefined], suffix: ['USD'] },\n  { value: ['10'], prefix: ['$'], suffix: ['USD'], disabled: [false, true], readOnly: [false, true] },\n  { value: ['10'], prefix: ['$'], suffix: ['USD'], disabled: [false, true], invalid: [true], warning: [false, true] },\n  { type: ['search'], value: ['', 'query'], prefix: ['$'], suffix: ['USD'], clearAriaLabel: ['Clear'] },\n  { value: ['10'], prefix: [longAdornment], suffix: [longAdornment] },\n  { value: ['10'], prefix: ['$'], suffix: ['USD'] },\n]);\n\nexport default function InputPermutations() {\n  return (\n    <>\n      <h1>Input permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Input\n              ariaLabel=\"Input field\"\n              clearAriaLabel=\"Clear\"\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/input/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "prefix-suffix",
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport Box from '~components/box';\nimport FormField from '~components/form-field';\nimport Icon from '~components/icon';\nimport Input, { InputProps } from '~components/input';\nimport Select, { SelectProps } from '~components/select';\nimport SpaceBetween from '~components/space-between';\nimport Toggle from '~components/toggle';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\ntype PrefixSuffixMode = 'none' | 'short' | 'long' | 'icon';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    type?: InputProps.Type;\n    prefix?: PrefixSuffixMode;\n    suffix?: PrefixSuffixMode;\n    disabled?: boolean;\n    readOnly?: boolean;\n    invalid?: boolean;\n    warning?: boolean;\n    value?: string;\n  }>\n>;\n\nconst typeOptions: ReadonlyArray<SelectProps.Option> = [\n  { value: 'text', label: 'Text' },\n  { value: 'password', label: 'Password' },\n  { value: 'number', label: 'Number' },\n  { value: 'email', label: 'Email' },\n  { value: 'url', label: 'URL' },\n  { value: 'search', label: 'Search' },\n];\n\nconst prefixSuffixOptions: ReadonlyArray<SelectProps.Option> = [\n  { value: 'none', label: 'None' },\n  { value: 'short', label: 'Short text' },\n  { value: 'long', label: 'Long text' },\n  { value: 'icon', label: 'Icon' },\n];\n\nfunction getPrefix(mode: PrefixSuffixMode): React.ReactNode {\n  switch (mode) {\n    case 'short':\n      return '$';\n    case 'long':\n      return 'https://example.com/very-long-prefix-that-overflows';\n    case 'icon':\n      return <Icon name=\"search\" />;\n    default:\n      return undefined;\n  }\n}\n\nfunction getSuffix(mode: PrefixSuffixMode): React.ReactNode {\n  switch (mode) {\n    case 'short':\n      return '%';\n    case 'long':\n      return '.ec2.internal.very-long-domain-that-overflows';\n    case 'icon':\n      return <Icon name=\"settings\" />;\n    default:\n      return undefined;\n  }\n}\n\nexport default function PrefixSuffixPage() {\n  const { urlParams, setUrlParams } = useContext(AppContext as PageContext);\n  const type = urlParams.type ?? 'text';\n  const prefixMode = urlParams.prefix ?? 'short';\n  const suffixMode = urlParams.suffix ?? 'short';\n  const disabled = urlParams.disabled ?? false;\n  const readOnly = urlParams.readOnly ?? false;\n  const invalid = urlParams.invalid ?? false;\n  const warning = urlParams.warning ?? false;\n\n  return (\n    <SimplePage\n      title=\"Input prefix and suffix\"\n      settings={\n        <SpaceBetween direction=\"horizontal\" size=\"s\" alignItems=\"center\">\n          <Select\n            inlineLabelText=\"Type\"\n            selectedOption={typeOptions.find(option => option.value === type) ?? null}\n            options={typeOptions}\n            onChange={({ detail }) => setUrlParams({ type: detail.selectedOption.value as InputProps.Type })}\n          />\n          <Select\n            inlineLabelText=\"Prefix\"\n            selectedOption={prefixSuffixOptions.find(option => option.value === prefixMode) ?? null}\n            options={prefixSuffixOptions}\n            onChange={({ detail }) => setUrlParams({ prefix: detail.selectedOption.value as PrefixSuffixMode })}\n          />\n          <Select\n            inlineLabelText=\"Suffix\"\n            selectedOption={prefixSuffixOptions.find(option => option.value === suffixMode) ?? null}\n            options={prefixSuffixOptions}\n            onChange={({ detail }) => setUrlParams({ suffix: detail.selectedOption.value as PrefixSuffixMode })}\n          />\n          <Toggle checked={disabled} onChange={({ detail }) => setUrlParams({ disabled: detail.checked })}>\n            Disabled\n          </Toggle>\n          <Toggle checked={readOnly} onChange={({ detail }) => setUrlParams({ readOnly: detail.checked })}>\n            Read-only\n          </Toggle>\n          <Toggle checked={invalid} onChange={({ detail }) => setUrlParams({ invalid: detail.checked })}>\n            Invalid\n          </Toggle>\n          <Toggle checked={warning} onChange={({ detail }) => setUrlParams({ warning: detail.checked })}>\n            Warning\n          </Toggle>\n        </SpaceBetween>\n      }\n    >\n      <FormField\n        label=\"Input with prefix and suffix\"\n        errorText={invalid ? 'Validation error.' : undefined}\n        warningText={warning && !invalid ? 'Validation warning.' : undefined}\n      >\n        <Input\n          value={urlParams.value ?? ''}\n          onChange={({ detail }) => setUrlParams({ value: detail.value })}\n          type={type}\n          prefix={getPrefix(prefixMode)}\n          suffix={getSuffix(suffixMode)}\n          disabled={disabled}\n          readOnly={readOnly}\n          invalid={invalid}\n          warning={warning}\n          placeholder=\"Enter a value\"\n          clearAriaLabel=\"Clear\"\n        />\n      </FormField>\n\n      {type === 'search' && (\n        <Box variant=\"small\" color=\"text-body-secondary\">\n          Prefix and suffix are ignored for search inputs.\n        </Box>\n      )}\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/input/prefix-suffix.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "style-permutations",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Input, { InputProps } from '~components/input';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<InputProps>([\n  {\n    value: ['This is an example value'],\n    placeholder: [''],\n    disabled: [false, true],\n    readOnly: [false, true],\n    onChange: [() => {}],\n    prefix: [undefined, '$'],\n    suffix: [undefined, 'USD'],\n    style: [\n      {\n        root: {\n          borderColor: {\n            default: '#14b8a6',\n            hover: '#0f766e',\n            focus: '#0d9488',\n            disabled: '#99f6e4',\n            readonly: '#5eead4',\n          },\n          borderWidth: '2px',\n          borderRadius: '8px',\n          backgroundColor: {\n            default: '#99f6e4',\n            hover: '#5eead4',\n            focus: '#5eead4',\n            disabled: '#5eead4',\n            readonly: '#ccfbf1',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(20, 184, 166, 0.15)',\n            focus: '0 0 0 4px rgba(20, 184, 166, 0.2), 0 2px 4px rgba(20, 184, 166, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#0d5c54',\n            hover: '#0d5c54',\n            focus: '#0d5c54',\n            disabled: '#0d5c54',\n            readonly: '#0f766e',\n          },\n          fontSize: '16px',\n          fontWeight: '500',\n          paddingBlock: '12px',\n          paddingInline: '16px',\n        },\n        placeholder: {\n          color: '#14b8a6',\n          fontSize: '14px',\n          fontStyle: 'italic',\n          fontWeight: '400',\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#ef4444',\n            hover: '#b91c1c',\n            focus: '#dc2626',\n            disabled: '#fca5a5',\n            readonly: '#fca5a5',\n          },\n          borderWidth: '2px',\n          borderRadius: '8px',\n          backgroundColor: {\n            default: '#fecaca',\n            hover: '#fca5a5',\n            focus: '#fca5a5',\n            disabled: '#fca5a5',\n            readonly: '#fee2e2',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(239, 68, 68, 0.15)',\n            focus: '0 0 0 4px rgba(239, 68, 68, 0.2), 0 2px 4px rgba(239, 68, 68, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#7f1d1d',\n            hover: '#7f1d1d',\n            focus: '#7f1d1d',\n            disabled: '#7f1d1d',\n            readonly: '#991b1b',\n          },\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#f59e0b',\n            hover: '#b45309',\n            focus: '#d97706',\n            disabled: '#fcd34d',\n            readonly: '#fcd34d',\n          },\n          borderWidth: '2px',\n          borderRadius: '16px',\n          backgroundColor: {\n            default: '#fde68a',\n            hover: '#fcd34d',\n            focus: '#fcd34d',\n            disabled: '#fcd34d',\n            readonly: '#fef3c7',\n          },\n          boxShadow: {\n            default: '0 2px 8px rgba(245, 158, 11, 0.15)',\n            hover: '0 6px 16px rgba(245, 158, 11, 0.25)',\n            focus: '0 0 0 4px rgba(245, 158, 11, 0.25), 0 6px 16px rgba(245, 158, 11, 0.3)',\n            disabled: 'none',\n            readonly: '0 2px 8px rgba(245, 158, 11, 0.15)',\n          },\n          color: {\n            default: '#78350f',\n            hover: '#78350f',\n            focus: '#78350f',\n            disabled: '#78350f',\n            readonly: '#92400e',\n          },\n        },\n      },\n      {\n        root: {\n          borderColor: {\n            default: '#10b981',\n            hover: '#047857',\n            focus: '#059669',\n            disabled: '#6ee7b7',\n            readonly: '#6ee7b7',\n          },\n          borderWidth: '3px',\n          borderRadius: '0px',\n          backgroundColor: {\n            default: '#d1fae5',\n            hover: '#a7f3d0',\n            focus: '#a7f3d0',\n            disabled: '#a7f3d0',\n            readonly: '#ecfdf5',\n          },\n          boxShadow: {\n            default: '0 1px 2px rgba(0, 0, 0, 0.05)',\n            hover: '0 2px 4px rgba(16, 185, 129, 0.1)',\n            focus: '0 0 0 4px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(16, 185, 129, 0.15)',\n            disabled: 'none',\n            readonly: '0 1px 2px rgba(0, 0, 0, 0.05)',\n          },\n          color: {\n            default: '#064e3b',\n            hover: '#064e3b',\n            focus: '#064e3b',\n            disabled: '#064e3b',\n            readonly: '#065f46',\n          },\n        },\n      },\n    ],\n  },\n]);\n\nexport default function InputStylePermutations() {\n  return (\n    <>\n      <h1>Input Style permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <Input ariaLabel=\"Input field\" {...permutation} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/input/style-permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-select-filter",
+   "name": "Table with select filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-select-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "non-console",
+   "name": "Top navigation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/non-console/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "InputProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "type",
-    "InputProps.Type",
-    "아니오",
-    "Specifies the type of control to render. Inputs with a `number` type use the native element behavior, which might be slightly different across browsers.",
-    "src/input/interfaces.ts:171"
-   ],
-   [
-    "inputMode",
-    "InputProps.InputMode",
-    "아니오",
-    "Adds a hint to the browser about the type of data a user may enter into this field. Some devices may render a different virtual keyboard depending on this value. This value may not be supported by all browsers or devices.",
-    "src/input/interfaces.ts:178"
-   ],
-   [
-    "step",
-    "InputProps.Step",
-    "아니오",
-    "The step attribute is a number that specifies the granularity that the value must adhere to or the keyword \"any\". It is valid for the numeric input types, including the date, month, week, time, datetime-local, number and range types.",
-    "src/input/interfaces.ts:185"
-   ],
-   [
-    "style",
-    "InputProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the input's visual appearance. Refer to the [style](/components/input/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/input/interfaces.ts:192"
-   ],
-   [
-    "prefix",
-    "ReactNode",
-    "아니오",
-    "Use for content rendered before the editable value.",
-    "src/input/interfaces.ts:197"
-   ],
-   [
-    "suffix",
-    "ReactNode",
-    "아니오",
-    "Use for content rendered after the editable value.",
-    "src/input/interfaces.ts:202"
-   ]
-  ],
-  "source": "src/input/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "delete-with-additional-confirmation",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "InputProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "type",
+      "InputProps.Type",
+      "아니오",
+      "Specifies the type of control to render. Inputs with a `number` type use the native element behavior, which might be slightly different across browsers.",
+      "src/input/interfaces.ts:171"
+     ],
+     [
+      "inputMode",
+      "InputProps.InputMode",
+      "아니오",
+      "Adds a hint to the browser about the type of data a user may enter into this field. Some devices may render a different virtual keyboard depending on this value. This value may not be supported by all browsers or devices.",
+      "src/input/interfaces.ts:178"
+     ],
+     [
+      "step",
+      "InputProps.Step",
+      "아니오",
+      "The step attribute is a number that specifies the granularity that the value must adhere to or the keyword \"any\". It is valid for the numeric input types, including the date, month, week, time, datetime-local, number and range types.",
+      "src/input/interfaces.ts:185"
+     ],
+     [
+      "style",
+      "InputProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the input's visual appearance. Refer to the [style](/components/input/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/input/interfaces.ts:192"
+     ],
+     [
+      "prefix",
+      "ReactNode",
+      "아니오",
+      "Use for content rendered before the editable value.",
+      "src/input/interfaces.ts:197"
+     ],
+     [
+      "suffix",
+      "ReactNode",
+      "아니오",
+      "Use for content rendered after the editable value.",
+      "src/input/interfaces.ts:202"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "input"
 }

@@ -1,118 +1,112 @@
 {
  "slug": "steps",
  "title": "Steps",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "permutations-annotation",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Icon } from '~components';\nimport Steps, { StepsProps } from '~components/steps';\n\nimport { SimplePage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\n\nexport const stepsWithAnnotation: ReadonlyArray<StepsProps.Step> = [\n  {\n    annotation: <time dateTime=\"2024-05-01T15:01:23Z\">3:01:23 PM</time>,\n    status: 'log',\n    header: 'Provided preferences',\n  },\n  {\n    annotation: <time dateTime=\"2024-05-01T15:03:10Z\">3:03:10 PM</time>,\n    status: 'success',\n    statusIconAriaLabel: 'Success',\n    header: 'Created environment',\n    details: 'Environment created successfully.',\n  },\n  {\n    annotation: <time dateTime=\"2024-05-01T15:04:45Z\">3:04:45 PM</time>,\n    status: 'error',\n    statusIconAriaLabel: 'Error',\n    header: 'Validation failed',\n    details: 'One or more resources could not be validated.',\n  },\n];\n\nexport const varyingLengthAnnotationsSteps: ReadonlyArray<StepsProps.Step> = [\n  {\n    annotation: <time dateTime=\"2024-05-01T09:00:00Z\">May 05, 2024, 9:00 AM</time>,\n    status: 'log',\n    header: 'Shorter timestamp',\n    details: 'This is used to test the shorter timestamp and and we have detail here',\n  },\n  {\n    annotation: (\n      <time dateTime=\"2024-12-31T23:59:59+14:00\" title=\"December 31, 2024, 11:59:59 PM\">\n        December 31, 2024, 11:59 PM\n      </time>\n    ),\n    status: 'log',\n    details: 'One or more resources could not be validated. A detail in the middle',\n    header: 'Long timestamp',\n  },\n  {\n    status: 'loading',\n    header: 'No annotation yet',\n    details: 'This is used to test without annotation.',\n  },\n];\n\nconst stepsPermutations = createPermutations<StepsProps>([\n  {\n    steps: [varyingLengthAnnotationsSteps, stepsWithAnnotation],\n    ariaLabel: ['test label'],\n    orientation: ['vertical', 'horizontal'],\n    renderStep: [\n      undefined,\n      step => ({\n        annotation: step.annotation,\n        header: step.header,\n        details: step.details && <i>Custom details for {step.details}</i>,\n        icon: <Icon ariaLabel=\"log\" name=\"dot\" variant=\"normal\" />,\n      }),\n      step => ({\n        annotation: step.annotation,\n        header: <b>This step header ({step.header}) is wrapped in a custom HTML tag and has very long content</b>,\n        details: step.details && <i>Custom details for {step.details}</i>,\n      }),\n    ],\n  },\n  {\n    connectorLines: ['none'],\n    orientation: ['vertical', 'horizontal'],\n    steps: [varyingLengthAnnotationsSteps],\n    ariaLabel: ['test label'],\n  },\n]);\n\nexport default function StepsPermutations() {\n  return (\n    <SimplePage screenshotArea={{ disableAnimations: true }} title=\"Steps permutations with annotation\">\n      <PermutationsView\n        permutations={stepsPermutations}\n        render={permutation => <div>{<Steps {...permutation} />}</div>}\n      />\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/steps/permutations-annotation.page.tsx"
-  },
-  {
-   "name": "permutations-custom-steps",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Icon } from '~components';\nimport Steps, { StepsProps } from '~components/steps';\n\nimport { SimplePage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport * as variants from './permutations-utils';\n\nconst stepsPermutations = createPermutations<StepsProps>([\n  {\n    steps: [variants.allStatusesSteps, variants.successfulSteps],\n    ariaLabel: ['test label'],\n    orientation: ['vertical', 'horizontal'],\n    renderStep: [\n      step => ({\n        header: <b>This step header ({step.header}) is wrapped in a custom HTML tag and has very long content</b>,\n        details: step.details && <i>Custom details for {step.details}</i>,\n      }),\n      step => ({\n        header: step.header,\n        details: step.details && <i>Custom details for {step.details}</i>,\n        icon: <Icon ariaLabel=\"success\" name=\"status-positive\" variant=\"success\" />,\n      }),\n    ],\n  },\n]);\n\nexport default function StepsPermutations() {\n  return (\n    <SimplePage screenshotArea={{ disableAnimations: true }} title=\"Steps permutations: custom steps\">\n      <PermutationsView\n        permutations={stepsPermutations}\n        render={permutation => <div>{<Steps {...permutation} />}</div>}\n      />\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/steps/permutations-custom-steps.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Steps, { StepsProps } from '~components/steps';\n\nimport { SimplePage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport * as variants from './permutations-utils';\n\nconst stepsPermutations = createPermutations<StepsProps>([\n  {\n    connectorLines: ['visible'],\n    orientation: ['vertical', 'horizontal'],\n    steps: [\n      variants.initialSteps,\n      variants.loadingSteps,\n      variants.loadingSteps2,\n      variants.loadingSteps3,\n      variants.successfulSteps,\n      variants.blockedSteps,\n      variants.failedSteps,\n      variants.allStatusesSteps,\n      variants.logSteps,\n      variants.initialStepsInteractive,\n      variants.loadingStepsInteractive,\n      variants.loadingSteps2Interactive,\n      variants.loadingSteps3Interactive,\n      variants.successfulStepsInteractive,\n      variants.blockedStepsInteractive,\n      variants.failedStepsInteractive,\n      variants.failedStepsWithRetryTextInteractive,\n      variants.failedStepsWithRetryButtonInteractive,\n      variants.changesetStepsInteractive,\n    ],\n    ariaLabel: ['test label'],\n  },\n  {\n    connectorLines: ['none'],\n    orientation: ['vertical', 'horizontal'],\n    steps: [variants.successfulSteps],\n    ariaLabel: ['test label'],\n  },\n]);\n\nexport default function StepsPermutations() {\n  return (\n    <SimplePage screenshotArea={{ disableAnimations: true }} title=\"Steps permutations\">\n      <PermutationsView\n        permutations={stepsPermutations}\n        render={permutation => <div>{<Steps {...permutation} />}</div>}\n      />\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/steps/permutations.page.tsx"
-  },
-  {
-   "name": "with-updates",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useRef, useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Header from '~components/header';\nimport LiveRegion from '~components/live-region';\nimport Steps from '~components/steps';\n\nimport {\n  blockedStepsInteractive,\n  failedStepsInteractive,\n  failedStepsWithRetryButtonInteractive,\n  initialStepsInteractive,\n  loadingSteps2Interactive,\n  loadingSteps3Interactive,\n  loadingStepsInteractive,\n  successfulStepsInteractive,\n} from './permutations-utils';\n\nexport default function StepsPermutationsWithUpdates() {\n  const [stepIndex1, setStepIndex1] = useState(0);\n  const timeoutRef1 = useRef<ReturnType<typeof setTimeout>>();\n  const stepsExecution1 = [\n    initialStepsInteractive,\n    loadingStepsInteractive,\n    loadingSteps2Interactive,\n    loadingSteps3Interactive,\n    successfulStepsInteractive,\n  ];\n\n  const [stepIndex2, setStepIndex2] = useState(0);\n  const timeoutRef2 = useRef<ReturnType<typeof setTimeout>>();\n  const stepsExecution2 = [\n    initialStepsInteractive,\n    loadingStepsInteractive,\n    loadingSteps2Interactive,\n    blockedStepsInteractive,\n  ];\n\n  const [stepIndex3, setStepIndex3] = useState(0);\n  const timeoutRef3 = useRef<ReturnType<typeof setTimeout>>();\n  const stepsExecution3 = [initialStepsInteractive, loadingStepsInteractive, failedStepsInteractive];\n\n  const [stepIndex4, setStepIndex4] = useState(0);\n  const timeoutRef4 = useRef<ReturnType<typeof setTimeout>>();\n  const stepsExecution4 = [initialStepsInteractive, loadingStepsInteractive, failedStepsWithRetryButtonInteractive];\n\n  const activateTimerStep1 = () => {\n    resetTimeoutStep1();\n    function step(i: number) {\n      setStepIndex1(i + 1);\n      timeoutRef1.current = setTimeout(() => i < stepsExecution1.length - 2 && step(i + 1), 2000);\n    }\n    step(0);\n  };\n  const resetTimeoutStep1 = () => {\n    setStepIndex1(0);\n    if (timeoutRef1.current !== undefined) {\n      clearTimeout(timeoutRef1.current);\n      timeoutRef1.current = undefined;\n    }\n  };\n\n  const activateTimerStep2 = () => {\n    resetTimeoutStep2();\n    function step(i: number) {\n      setStepIndex2(i + 1);\n      timeoutRef2.current = setTimeout(() => i < stepsExecution2.length - 2 && step(i + 1), 2000);\n    }\n    step(0);\n  };\n  const resetTimeoutStep2 = () => {\n    setStepIndex2(0);\n    if (timeoutRef2.current !== undefined) {\n      clearTimeout(timeoutRef2.current);\n      timeoutRef2.current = undefined;\n    }\n  };\n\n  const activateTimerStep3 = () => {\n    resetTimeoutStep3();\n    function step(i: number) {\n      setStepIndex3(i + 1);\n      timeoutRef3.current = setTimeout(() => i < stepsExecution3.length - 2 && step(i + 1), 2000);\n    }\n    step(0);\n  };\n  const resetTimeoutStep3 = () => {\n    setStepIndex3(0);\n    if (timeoutRef3.current !== undefined) {\n      clearTimeout(timeoutRef3.current);\n      timeoutRef3.current = undefined;\n    }\n  };\n\n  const activateTimerStep4 = () => {\n    resetTimeoutStep4();\n    function step(i: number) {\n      setStepIndex4(i + 1);\n      timeoutRef4.current = setTimeout(() => i < stepsExecution4.length - 2 && step(i + 1), 2000);\n    }\n    step(0);\n  };\n  const resetTimeoutStep4 = () => {\n    setStepIndex4(0);\n    if (timeoutRef4.current !== undefined) {\n      clearTimeout(timeoutRef1.current);\n      timeoutRef4.current = undefined;\n    }\n  };\n\n  return (\n    <Box margin={'l'}>\n      <article>\n        <Header variant={'h1'}>Steps permutations with updates</Header>\n        <Box margin={{ bottom: 'xl' }}>\n          <Box variant={'div'} fontWeight={'bold'} margin={'s'}>\n            Successful Execution\n          </Box>\n          <Box id=\"successfull-execution-label\" fontWeight={'light'} margin={{ bottom: 'm' }}>\n            Steps Component Label\n          </Box>\n          <Box id=\"successfull-execution-description\" fontWeight={'light'} margin={{ bottom: 'm' }}>\n            Steps Component Description\n          </Box>\n          <LiveRegion>\n            <Steps\n              steps={stepsExecution1[stepIndex1]}\n              ariaLabelledby=\"successfull-execution-label\"\n              ariaDescribedby=\"successfull-execution-description\"\n            />\n          </LiveRegion>\n          <div style={{ display: 'flex' }}>\n            <Button onClick={activateTimerStep1}>Start</Button>\n            <Button onClick={resetTimeoutStep1}>Reset</Button>\n          </div>\n        </Box>\n        <Box margin={{ bottom: 'xl' }}>\n          <Box variant={'div'} fontWeight={'bold'} margin={'s'}>\n            Blocked Execution\n          </Box>\n          <LiveRegion>\n            <Steps steps={stepsExecution2[stepIndex2]} ariaLabel=\"Blocked Execution Label\" />\n          </LiveRegion>\n          <div style={{ display: 'flex' }}>\n            <Button onClick={activateTimerStep2}>Start</Button>\n            <Button onClick={resetTimeoutStep2}>Reset</Button>\n          </div>\n        </Box>\n        <Box margin={{ bottom: 'xl' }}>\n          <Box variant={'div'} fontWeight={'bold'} margin={'s'}>\n            Failed Execution\n          </Box>\n          <LiveRegion>\n            <Steps steps={stepsExecution3[stepIndex3]} ariaLabel=\"Failed Execution Label\" />\n          </LiveRegion>\n          <div style={{ display: 'flex' }}>\n            <Button onClick={activateTimerStep3}>Start</Button>\n            <Button onClick={resetTimeoutStep3}>Reset</Button>\n          </div>\n        </Box>\n        <Box margin={{ bottom: 'xl' }}>\n          <Box variant={'div'} fontWeight={'bold'} margin={'s'}>\n            Failed Execution with Retry\n          </Box>\n          <LiveRegion>\n            <Steps steps={stepsExecution4[stepIndex4]} ariaLabel=\"Failed Execution with Retry Label\" />\n          </LiveRegion>\n          <div style={{ display: 'flex' }}>\n            <Button onClick={activateTimerStep4}>Start</Button>\n            <Button onClick={resetTimeoutStep4}>Reset</Button>\n          </div>\n        </Box>\n      </article>\n    </Box>\n  );\n}\n",
-   "source": "pages/steps/with-updates.page.tsx"
-  }
- ],
- "props": {
-  "name": "StepsProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "steps",
-    "ReadonlyArray<StepsProps.Step>",
-    "예",
-    "An array of individual steps Each step definition has the following properties: * `status` (string) - Status of the step corresponding to a status indicator. * `statusIconAriaLabel` - (string) - (Optional) Alternative text for the status icon. * `header` (ReactNode) - Summary corresponding to the step. * `details` (ReactNode) - (Optional) Additional information corresponding to the step. * `annotation` (ReactNode) - (Optional) Content rendered at the start of the step, before the icon. Typically a timestamp in a timeline view.",
-    "src/steps/interfaces.ts:17"
-   ],
-   [
-    "orientation",
-    "StepsProps.Orientation",
-    "아니오",
-    "The visual orientation of the steps (vertical or horizontal). By default the orientation is vertical.",
-    "src/steps/interfaces.ts:22"
-   ],
-   [
-    "connectorLines",
-    "StepsProps.ConnectorLinesVariant",
-    "아니오",
-    "Determines whether the connector lines between steps are displayed. The following variants are available: * `visible` - Shows connector lines between consecutive steps. * `none` - Hides the connector lines between steps.",
-    "src/steps/interfaces.ts:28"
-   ],
-   [
-    "renderStep",
-    "(step: StepsProps.Step) => {",
-    "아니오",
-    "Render a step. This overrides the default icon, header, and details provided by the component. The function is called for each step and should return an object with the following keys: * `header` (React.ReactNode) - Summary corresponding to the step. * `details` (React.ReactNode) - (Optional) Additional information corresponding to the step. * `icon` (React.ReactNode) - (Optional) Replaces the standard step icon from the status indicator.",
-    "src/steps/interfaces.ts:36"
-   ],
-   [
-    "header",
-    "React.ReactNode",
-    "예",
-    "",
-    "src/steps/interfaces.ts:37"
-   ],
-   [
-    "details",
-    "React.ReactNode",
-    "아니오",
-    "",
-    "src/steps/interfaces.ts:38"
-   ],
-   [
-    "icon",
-    "React.ReactNode",
-    "아니오",
-    "",
-    "src/steps/interfaces.ts:39"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Provides an `aria-label` to the progress steps container. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/steps/interfaces.ts:45"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Sets the `aria-labelledby` property on the progress steps container. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/steps/interfaces.ts:51"
-   ],
-   [
-    "ariaDescribedby",
-    "string",
-    "아니오",
-    "Sets the `aria-describedby` property on the progress steps container.",
-    "src/steps/interfaces.ts:55"
-   ]
-  ],
-  "source": "src/steps/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "StepsProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "steps",
+      "ReadonlyArray<StepsProps.Step>",
+      "예",
+      "An array of individual steps Each step definition has the following properties: * `status` (string) - Status of the step corresponding to a status indicator. * `statusIconAriaLabel` - (string) - (Optional) Alternative text for the status icon. * `header` (ReactNode) - Summary corresponding to the step. * `details` (ReactNode) - (Optional) Additional information corresponding to the step. * `annotation` (ReactNode) - (Optional) Content rendered at the start of the step, before the icon. Typically a timestamp in a timeline view.",
+      "src/steps/interfaces.ts:17"
+     ],
+     [
+      "orientation",
+      "StepsProps.Orientation",
+      "아니오",
+      "The visual orientation of the steps (vertical or horizontal). By default the orientation is vertical.",
+      "src/steps/interfaces.ts:22"
+     ],
+     [
+      "connectorLines",
+      "StepsProps.ConnectorLinesVariant",
+      "아니오",
+      "Determines whether the connector lines between steps are displayed. The following variants are available: * `visible` - Shows connector lines between consecutive steps. * `none` - Hides the connector lines between steps.",
+      "src/steps/interfaces.ts:28"
+     ],
+     [
+      "renderStep",
+      "(step: StepsProps.Step) => {",
+      "아니오",
+      "Render a step. This overrides the default icon, header, and details provided by the component. The function is called for each step and should return an object with the following keys: * `header` (React.ReactNode) - Summary corresponding to the step. * `details` (React.ReactNode) - (Optional) Additional information corresponding to the step. * `icon` (React.ReactNode) - (Optional) Replaces the standard step icon from the status indicator.",
+      "src/steps/interfaces.ts:36"
+     ],
+     [
+      "header",
+      "React.ReactNode",
+      "예",
+      "",
+      "src/steps/interfaces.ts:37"
+     ],
+     [
+      "details",
+      "React.ReactNode",
+      "아니오",
+      "",
+      "src/steps/interfaces.ts:38"
+     ],
+     [
+      "icon",
+      "React.ReactNode",
+      "아니오",
+      "",
+      "src/steps/interfaces.ts:39"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Provides an `aria-label` to the progress steps container. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/steps/interfaces.ts:45"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Sets the `aria-labelledby` property on the progress steps container. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/steps/interfaces.ts:51"
+     ],
+     [
+      "ariaDescribedby",
+      "string",
+      "아니오",
+      "Sets the `aria-describedby` property on the progress steps container.",
+      "src/steps/interfaces.ts:55"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

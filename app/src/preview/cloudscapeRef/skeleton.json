@@ -1,71 +1,77 @@
 {
  "slug": "skeleton",
  "title": "Skeleton",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "components-examples",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Cards from '~components/cards';\nimport Checkbox from '~components/checkbox';\nimport ColumnLayout from '~components/column-layout';\nimport Container from '~components/container';\nimport Header from '~components/header';\nimport KeyValuePairs from '~components/key-value-pairs';\nimport Link from '~components/link';\nimport List from '~components/list';\nimport Skeleton from '~components/skeleton';\nimport SpaceBetween from '~components/space-between';\n\nimport { SimplePage } from '../app/templates';\n\ninterface DataItem {\n  id: string;\n  name: string;\n  description: string;\n  status: string;\n  date: string;\n}\n\nconst sampleData: DataItem[] = [\n  {\n    id: 'item-1',\n    name: 'Production Database',\n    description: 'Primary production database instance with automated backups and high availability configuration',\n    status: 'Active',\n    date: '2026-04-15',\n  },\n  {\n    id: 'item-2',\n    name: 'Development Environment',\n    description: 'Testing and development environment for new features',\n    status: 'Active',\n    date: '2026-04-14',\n  },\n  {\n    id: 'item-3',\n    name: 'Analytics Pipeline',\n    description: 'Data processing pipeline for analytics and reporting',\n    status: 'Pending',\n    date: '2026-04-13',\n  },\n  {\n    id: 'item-4',\n    name: 'Backup Server',\n    description: 'Secondary backup server for disaster recovery',\n    status: 'Active',\n    date: '2026-04-12',\n  },\n];\n\nexport default function SkeletonComponentsExamples() {\n  const [isLoading, setIsLoading] = useState(true);\n\n  return (\n    <SimplePage\n      title=\"Skeleton Component Examples\"\n      subtitle=\"Demonstrates skeleton loading patterns across different components to minimize layout shift\"\n      settings={\n        <Checkbox checked={isLoading} onChange={({ detail }) => setIsLoading(detail.checked)}>\n          Show loading state (Skeleton)\n        </Checkbox>\n      }\n      screenshotArea={{ disableAnimations: true }}\n    >\n      <SpaceBetween size=\"l\">\n        {/* Cards Example */}\n        <Container header={<Header variant=\"h2\">Cards with Skeleton</Header>}>\n          <Cards\n            cardDefinition={{\n              header: item => (isLoading ? <Skeleton width=\"200px\" /> : item.name),\n              sections: [\n                {\n                  id: 'description',\n                  header: 'Description',\n                  content: item => (isLoading ? <Skeleton /> : item.description),\n                },\n                {\n                  id: 'status',\n                  header: 'Status',\n                  content: item => (isLoading ? <Skeleton width=\"80px\" /> : item.status),\n                  width: 50,\n                },\n                {\n                  id: 'date',\n                  header: 'Date',\n                  content: item => (isLoading ? <Skeleton width=\"100px\" /> : item.date),\n                  width: 50,\n                },\n              ],\n            }}\n            items={isLoading ? Array(4).fill({}) : sampleData}\n            cardsPerRow={[{ cards: 1 }, { minWidth: 768, cards: 2 }]}\n          />\n        </Container>\n\n        {/* Key-Value Pairs Example */}\n        <Container header={<Header variant=\"h2\">Key-Value Pairs with Skeleton</Header>}>\n          <KeyValuePairs\n            columns={2}\n            items={\n              isLoading\n                ? [\n                    {\n                      type: 'group',\n                      title: 'Resource Information',\n                      items: [\n                        {\n                          label: 'Resource ID',\n                          value: <Skeleton width=\"200px\" />,\n                        },\n                        {\n                          label: 'Name',\n                          value: <Skeleton width=\"180px\" />,\n                        },\n                        {\n                          label: 'Type',\n                          value: <Skeleton width=\"120px\" />,\n                        },\n                        {\n                          label: 'Created',\n                          value: <Skeleton width=\"150px\" />,\n                        },\n                      ],\n                    },\n                    {\n                      type: 'group',\n                      title: 'Configuration',\n                      items: [\n                        {\n                          label: 'Region',\n                          value: <Skeleton width=\"100px\" />,\n                        },\n                        {\n                          label: 'Availability Zone',\n                          value: <Skeleton width=\"80px\" />,\n                        },\n                        {\n                          label: 'Status',\n                          value: <Skeleton width=\"90px\" />,\n                        },\n                        {\n                          label: 'Endpoint',\n                          value: <Skeleton width=\"250px\" />,\n                        },\n                      ],\n                    },\n                  ]\n                : [\n                    {\n                      type: 'group',\n                      title: 'Resource Information',\n                      items: [\n                        {\n                          label: 'Resource ID',\n                          value: 'res-abc123def456',\n                        },\n                        {\n                          label: 'Name',\n                          value: 'Production Database',\n                        },\n                        {\n                          label: 'Type',\n                          value: 'RDS Instance',\n                        },\n                        {\n                          label: 'Created',\n                          value: 'April 15, 2026',\n                        },\n                      ],\n                    },\n                    {\n                      type: 'group',\n                      title: 'Configuration',\n                      items: [\n                        {\n                          label: 'Region',\n                          value: 'us-east-1',\n                        },\n                        {\n                          label: 'Availability Zone',\n                          value: 'us-east-1a',\n                        },\n                        {\n                          label: 'Status',\n                          value: 'Available',\n                        },\n                        {\n                          label: 'Endpoint',\n                          value: 'db.example.us-east-1.rds.amazonaws.com',\n                        },\n                      ],\n                    },\n                  ]\n            }\n          />\n        </Container>\n\n        {/* List Example */}\n        <Container header={<Header variant=\"h2\">List with Skeleton</Header>}>\n          <List\n            items={\n              isLoading\n                ? Array(4)\n                    .fill(null)\n                    .map((_, i) => ({ id: `loading-${i + 1}` }) as DataItem)\n                : sampleData\n            }\n            renderItem={item =>\n              isLoading\n                ? {\n                    id: item.id,\n                    content: <Skeleton width=\"200px\" />,\n                    secondaryContent: <Skeleton width=\"50%\" variant=\"text-body-s\" display=\"inline-block\" />,\n                    actions: <Skeleton width=\"80px\" variant=\"text-body-s\" />,\n                  }\n                : {\n                    id: item.id,\n                    content: <Link fontSize=\"inherit\">{item.name}</Link>,\n                    secondaryContent: <Box variant=\"small\">{item.description}</Box>,\n                    actions: (\n                      <SpaceBetween size=\"xs\" direction=\"horizontal\" alignItems=\"center\">\n                        <Box variant=\"small\">{item.date}</Box>\n                        <Button variant=\"inline-icon\" iconName=\"external\" ariaLabel=\"Open\" />\n                      </SpaceBetween>\n                    ),\n                  }\n            }\n          />\n        </Container>\n\n        {/* Container with Complex Layout */}\n        <Container\n          header={\n            isLoading ? (\n              <Box variant=\"h2\" tagOverride=\"div\">\n                <Skeleton width=\"200px\" />\n                <Skeleton width=\"250px\" variant=\"text-body-m\" />\n              </Box>\n            ) : (\n              <Header variant=\"h2\" description=\"Detailed resource information and metrics\">\n                Resource Details\n              </Header>\n            )\n          }\n        >\n          <SpaceBetween size=\"l\">\n            <ColumnLayout columns={3} variant=\"text-grid\">\n              <div>\n                <Box variant=\"awsui-key-label\">CPU Utilization</Box>\n                <Box fontSize=\"display-l\">{isLoading ? <Skeleton width=\"80px\" /> : '45%'}</Box>\n              </div>\n              <div>\n                <Box variant=\"awsui-key-label\">Memory Usage</Box>\n                <Box fontSize=\"display-l\">{isLoading ? <Skeleton width=\"80px\" /> : '62%'}</Box>\n              </div>\n              <div>\n                <Box variant=\"awsui-key-label\">Network I/O</Box>\n                <Box fontSize=\"display-l\">{isLoading ? <Skeleton width=\"80px\" /> : '1.2 GB/s'}</Box>\n              </div>\n            </ColumnLayout>\n\n            <Box variant=\"p\">\n              {isLoading ? (\n                <Skeleton tagOverride=\"span\" />\n              ) : (\n                <>\n                  This resource is operating within normal parameters. All health checks are passing and no issues have\n                  been detected. The current configuration supports up to 1000 concurrent connections with automatic\n                  scaling enabled.\n                </>\n              )}\n            </Box>\n          </SpaceBetween>\n        </Container>\n\n        {/* Text Content Skeleton */}\n        <Container header={<Header variant=\"h2\">Text Content with Skeleton</Header>}>\n          <>\n            {isLoading ? (\n              <Box variant=\"h3\" tagOverride=\"div\">\n                <Skeleton width=\"200px\" />\n              </Box>\n            ) : (\n              <Header variant=\"h3\">Getting Started</Header>\n            )}\n            <Box variant=\"p\">\n              {isLoading ? (\n                <>\n                  <Skeleton tagOverride=\"span\" />\n                  <Skeleton tagOverride=\"span\" width=\"88%\" />\n                </>\n              ) : (\n                <>\n                  Welcome to the Skeleton component examples page. This page demonstrates how to use skeleton loading\n                  states effectively across different components in your application. Skeleton screens help reduce\n                  perceived loading time and minimize layout shift by showing placeholder content that matches the\n                  structure of your actual content.\n                </>\n              )}\n            </Box>\n            {isLoading ? (\n              <Box variant=\"h3\" tagOverride=\"div\">\n                <Skeleton width=\"200px\" />\n              </Box>\n            ) : (\n              <Header variant=\"h3\">Best practices</Header>\n            )}\n            <Box variant=\"p\">\n              {isLoading ? (\n                <>\n                  <Skeleton tagOverride=\"span\" />\n                  <Skeleton tagOverride=\"span\" width=\"88%\" />\n                </>\n              ) : (\n                <>\n                  When implementing skeleton screens, ensure that the skeleton elements closely match the dimensions and\n                  layout of your actual content. This prevents jarring layout shifts when the real content loads.\n                </>\n              )}\n            </Box>\n          </>\n        </Container>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/skeleton/components-examples.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Skeleton, { SkeletonProps } from '~components/skeleton';\n\nimport { SimplePage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\n\nconst permutations = createPermutations<SkeletonProps>([\n  // Test all variants with default display and reasonable width\n  {\n    variant: [\n      undefined,\n      'dynamic',\n      'text-body-s',\n      'text-body-m',\n      'text-heading-xs',\n      'text-heading-s',\n      'text-heading-m',\n      'text-heading-l',\n      'text-heading-xl',\n      'text-display-l',\n    ],\n    width: [undefined, '200px'],\n  },\n  // Test display options with default variant\n  {\n    display: ['block', 'inline-block', 'inline'],\n    width: [undefined, '150px'],\n    height: [undefined, '2em'],\n  },\n  // Test height variations with default variant\n  {\n    height: ['50px', '100px', '2em'],\n    width: [undefined, '200px'],\n  },\n  // Test variant combinations with custom dimensions\n  {\n    variant: ['text-body-m', 'text-heading-m', 'text-display-l'],\n    height: ['100px'],\n    width: ['250px'],\n  },\n]);\n\nexport default function SkeletonPermutations() {\n  return (\n    <SimplePage title=\"Skeleton permutations\" screenshotArea={{ disableAnimations: true }}>\n      <PermutationsView\n        permutations={permutations}\n        render={permutation => (\n          <div style={{ marginBottom: '16px' }}>\n            <Skeleton {...permutation} />\n          </div>\n        )}\n      />\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/skeleton/permutations.page.tsx"
-  }
- ],
- "props": {
-  "name": "SkeletonProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "variant",
-    "SkeletonProps.Variant",
-    "아니오",
-    "Specifies the variant of the skeleton to match Box fontSize options. The default value, `dynamic`, matches skeleton height to the surrounding font size. * `text-body-s` - Skeleton with height matching body-s line-height. * `text-body-m` - Skeleton with height matching body-m line-height. * `text-heading-xs` - Skeleton with height matching heading-xs line-height. * `text-heading-s` - Skeleton with height matching heading-s line-height. * `text-heading-m` - Skeleton with height matching heading-m line-height. * `text-heading-l` - Skeleton with height matching heading-l line-height. * `text-heading-xl` - Skeleton with height matching heading-xl line-height. * `text-display-l` - Skeleton with height matching display-l line-height.",
-    "src/skeleton/interfaces.ts:18"
-   ],
-   [
-    "display",
-    "'block' | 'inline-block' | 'inline'",
-    "아니오",
-    "Specifies the CSS `display` of the skeleton.",
-    "src/skeleton/interfaces.ts:23"
-   ],
-   [
-    "tagOverride",
-    "string",
-    "아니오",
-    "Overrides the default HTML tag used by the component.",
-    "src/skeleton/interfaces.ts:28"
-   ],
-   [
-    "height",
-    "string",
-    "아니오",
-    "Specifies the height of the skeleton. Accepts any valid CSS value (for example, `\"100px\"`, `\"3em\"`). By default the height is determined by the `variant`.",
-    "src/skeleton/interfaces.ts:34"
-   ],
-   [
-    "width",
-    "string",
-    "아니오",
-    "Specifies the width of the skeleton. Accepts any valid CSS value (for example, `\"200px\"`, `\"100%\"`).",
-    "src/skeleton/interfaces.ts:39"
-   ]
-  ],
-  "source": "src/skeleton/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "SkeletonProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "variant",
+      "SkeletonProps.Variant",
+      "아니오",
+      "Specifies the variant of the skeleton to match Box fontSize options. The default value, `dynamic`, matches skeleton height to the surrounding font size. * `text-body-s` - Skeleton with height matching body-s line-height. * `text-body-m` - Skeleton with height matching body-m line-height. * `text-heading-xs` - Skeleton with height matching heading-xs line-height. * `text-heading-s` - Skeleton with height matching heading-s line-height. * `text-heading-m` - Skeleton with height matching heading-m line-height. * `text-heading-l` - Skeleton with height matching heading-l line-height. * `text-heading-xl` - Skeleton with height matching heading-xl line-height. * `text-display-l` - Skeleton with height matching display-l line-height.",
+      "src/skeleton/interfaces.ts:18"
+     ],
+     [
+      "display",
+      "'block' | 'inline-block' | 'inline'",
+      "아니오",
+      "Specifies the CSS `display` of the skeleton.",
+      "src/skeleton/interfaces.ts:23"
+     ],
+     [
+      "tagOverride",
+      "string",
+      "아니오",
+      "Overrides the default HTML tag used by the component.",
+      "src/skeleton/interfaces.ts:28"
+     ],
+     [
+      "height",
+      "string",
+      "아니오",
+      "Specifies the height of the skeleton. Accepts any valid CSS value (for example, `\"100px\"`, `\"3em\"`). By default the height is determined by the `variant`.",
+      "src/skeleton/interfaces.ts:34"
+     ],
+     [
+      "width",
+      "string",
+      "아니오",
+      "Specifies the width of the skeleton. Accepts any valid CSS value (for example, `\"200px\"`, `\"100%\"`).",
+      "src/skeleton/interfaces.ts:39"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "skeleton"
 }

@@ -1,133 +1,339 @@
 {
  "slug": "form-field",
  "title": "Form Field",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "character-count",
+   "key": "chat",
+   "name": "Chat",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport FormField from '~components/form-field';\nimport Input from '~components/input';\n\nconst maxCharacterCount = 20;\n\nexport default function FormFieldCharacterCountPage() {\n  const [value, setValue] = useState('');\n\n  return (\n    <>\n      <h1>Form field character count debouncing</h1>\n      <FormField\n        label=\"Name\"\n        constraintText=\"Name must be 1 to 10 characters.\"\n        characterCountText={`Character count: ${value.length}/${maxCharacterCount}`}\n        errorText={value.length > maxCharacterCount && 'The name has too many characters.'}\n      >\n        <Input value={value} onChange={event => setValue(event.detail.value)} />\n      </FormField>\n    </>\n  );\n}\n",
-   "source": "pages/form-field/character-count.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/chat/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chat-components · @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "form-field-columns",
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport ColumnLayout from '~components/column-layout';\nimport FormField, { FormFieldProps } from '~components/form-field';\nimport Input, { InputProps } from '~components/input';\nimport TextContent from '~components/text-content';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst defaultInputProps = {\n  value: '',\n  onChange: () => {},\n};\n\nconst primaryControl = (props: Partial<InputProps>) => <Input {...defaultInputProps} {...props} />;\n\n// TODO: Replace this with Select\nconst secondaryControl = (props: Partial<InputProps>) => (\n  <Input {...defaultInputProps} {...props} ariaLabel=\"Label for the secondary\" />\n);\n\nconst primaryMultiControl = (props: Partial<InputProps>) => {\n  return (\n    <ColumnLayout columns={2}>\n      {primaryControl(props)}\n      {secondaryControl(props)}\n    </ColumnLayout>\n  );\n};\n\ninterface Scenario {\n  columns?: number;\n  label?: string;\n  control: (props: Partial<InputProps>) => JSX.Element;\n  secondaryControl?: (props: Partial<InputProps>) => JSX.Element;\n  stretch?: boolean;\n}\n\nconst scenarios: Array<Scenario> = [\n  { label: 'Default primary', control: primaryControl, stretch: undefined },\n  {\n    label: 'Default primary and secondary',\n    control: primaryControl,\n    secondaryControl: secondaryControl,\n    stretch: undefined,\n  },\n  { label: 'Primary stretched', control: primaryControl, stretch: true },\n  {\n    label: 'Primary and secondary stretched',\n    control: primaryControl,\n    secondaryControl: secondaryControl,\n    stretch: true,\n  },\n  {\n    label: 'Primary contains a column layout, no secondary control',\n    control: primaryMultiControl,\n    stretch: undefined,\n  },\n  {\n    label: 'Primary contains a column layout',\n    control: primaryMultiControl,\n    secondaryControl: secondaryControl,\n    stretch: undefined,\n  },\n  { columns: 1, label: 'Default primary inside a column layout', control: primaryControl, stretch: undefined },\n  {\n    columns: 1,\n    label: 'Default primary and secondary inside a column layout',\n    control: primaryControl,\n    secondaryControl: secondaryControl,\n    stretch: undefined,\n  },\n  { columns: 2, label: 'Default primary inside a multi column layout', control: primaryControl, stretch: undefined },\n  {\n    columns: 2,\n    label: 'Default primary and secondary inside a multi column layout',\n    control: primaryControl,\n    secondaryControl: secondaryControl,\n    stretch: undefined,\n  },\n  {\n    columns: 2,\n    label: 'Default primary inside a multi column layout, no-stretch explicitly defined',\n    control: primaryControl,\n    stretch: false,\n  },\n  {\n    columns: 2,\n    label: 'Default primary and secondary inside a multi column layout, no-stretch explicitly defined',\n    control: primaryControl,\n    secondaryControl: secondaryControl,\n    stretch: false,\n  },\n  {\n    label: 'Default primary inside a column layout',\n    control: primaryControl,\n    secondaryControl: () => <Button>VeryLongAndUglyTextWithNoSpaces</Button>,\n    stretch: undefined,\n  },\n];\n\nexport default function FormFieldControlScenario() {\n  const nested = (props: InputProps) => (\n    <FormField secondaryControl={secondaryControl({})} label=\"Nested primary label\">\n      {primaryControl(props)}\n    </FormField>\n  );\n  const nestedStretch = (props: FormFieldProps) => (\n    <FormField\n      secondaryControl={secondaryControl({})}\n      stretch={true}\n      label=\"Nested secondary label (stretch)\"\n      {...props}\n    >\n      {primaryControl({})}\n    </FormField>\n  );\n\n  const nestedScenarios = [\n    { label: 'Nested form fields: stretch outer', control: nested, secondaryControl: nestedStretch, stretch: true },\n    { label: 'Nested form fields', control: nested, secondaryControl: nestedStretch, stretch: undefined },\n  ];\n\n  const formField = (scenario: Scenario, key: string) => {\n    let secondaryControl = null;\n    if (scenario.secondaryControl) {\n      secondaryControl = scenario.secondaryControl({});\n    }\n\n    return (\n      <FormField\n        label={scenario.label}\n        constraintText=\"Some constraint text.\"\n        description=\"A detailed description.\"\n        secondaryControl={secondaryControl}\n        stretch={scenario.stretch}\n        key={key}\n      >\n        {primaryControl({})}\n      </FormField>\n    );\n  };\n\n  const columnLayout = (scenario: Scenario, idx: number, key: string) => {\n    const formFields = [];\n    for (let i = 0; i < scenario.columns!; i++) {\n      formFields.push(formField(scenario, `scenario-${idx}-column-${i}`));\n    }\n\n    return (\n      <ColumnLayout columns={scenario.columns} key={key}>\n        {formFields}\n      </ColumnLayout>\n    );\n  };\n\n  const createScenarios = () => {\n    return scenarios.map((scenario, idx) => {\n      return scenario.columns ? columnLayout(scenario, idx, `scenario-${idx}`) : formField(scenario, `scenario-${idx}`);\n    });\n  };\n\n  const createNestedScenarios = () =>\n    nestedScenarios.map((scenario, idx) => {\n      const controlId = `nested-scenario-${idx}`;\n\n      return (\n        <FormField\n          label={scenario.label}\n          constraintText=\"Some constraint text.\"\n          description=\"A detailed description\"\n          stretch={scenario.stretch}\n          key={controlId}\n          secondaryControl={\n            <FormField secondaryControl={secondaryControl({})} stretch={true} label=\"Nested secondary label (stretch)\">\n              {primaryControl({})}\n            </FormField>\n          }\n        >\n          <FormField secondaryControl={secondaryControl({})} label=\"Nested primary label\">\n            {primaryControl({})}\n          </FormField>\n        </FormField>\n      );\n    });\n\n  return (\n    <div>\n      <TextContent>\n        <h1>Form fields in multiple columns</h1>\n        <ul>\n          <li>Primary control consumes 9 columns (8 in refresh) out of 12 by default</li>\n          <li>Primary control consumes 12 columns out of 12 on small screens</li>\n          <li>Secondary control consumes 3 columns (4 in refresh) out of 12 by default</li>\n          <li>Secondary control consumes 12 columns out of 12 on small screens, stacks below the primary</li>\n          <li>\n            Primary control consumes 12 columns out of 12 when it is a multi column layout or stretch is explicitly set,\n            and secondary control stacks if defined\n          </li>\n          <li>Both stretch when the form field is placed inside a multi column layout</li>\n        </ul>\n      </TextContent>\n\n      <ScreenshotArea>\n        {createScenarios()}\n        {createNestedScenarios()}\n      </ScreenshotArea>\n    </div>\n  );\n}\n",
-   "source": "pages/form-field/form-field-columns.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "edit",
+   "name": "Edit resource",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Checkbox from '~components/checkbox';\nimport FormField, { FormFieldProps } from '~components/form-field';\nimport Icon from '~components/icon';\nimport Input from '~components/input';\nimport Link from '~components/link';\nimport RadioGroup from '~components/radio-group';\nimport Textarea from '~components/textarea';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\n/* eslint-disable react/jsx-key */\nconst permutations = createPermutations<FormFieldProps>([\n  {\n    label: ['Very long label description oh wow', 'Normal label', 'short'],\n    i18nStrings: [{ errorIconAriaLabel: 'Error' }],\n    errorText: [\n      null,\n      'An application with that name already exists',\n      <div>\n        Some <b>bold</b> validation message\n      </div>,\n    ],\n    constraintText: [\n      null,\n      'Only normal characters are allowed',\n      <div>\n        Some <b>bold</b> instructional message\n      </div>,\n    ],\n    description: [null, 'Enter your name'],\n    children: ['Some control here'],\n  },\n  {\n    label: ['Very long label description oh wow'],\n    i18nStrings: [{ warningIconAriaLabel: 'Warning' }],\n    warningText: [\n      'Value contains prefix/trailing empty character',\n      <div>\n        Some <b>bold</b> instructional message\n      </div>,\n    ],\n    constraintText: [null, 'Only normal characters are allowed'],\n    description: ['Enter your name'],\n    children: ['Some control here'],\n  },\n  {\n    label: ['Normal label'],\n    i18nStrings: [{ errorIconAriaLabel: 'Error' }],\n    errorText: [null, 'An application with that name already exists'],\n    constraintText: [null, 'Only normal characters are allowed'],\n    description: [null, 'Enter your name'],\n    info: [<Link variant=\"info\">info</Link>],\n    children: [\n      <div>Some plain text</div>,\n      <Input value=\"\" onChange={() => {}} placeholder=\"Main Instance\" />,\n      <Textarea value=\"\" onChange={() => {}} placeholder=\"Sample JSON\" />,\n      <Checkbox checked={false} onChange={() => {}}>\n        Use Elastic IP\n      </Checkbox>,\n      <RadioGroup\n        value={null}\n        onChange={() => {}}\n        items={[\n          { label: 'First Item', value: 'first' },\n          { label: 'Second Item', value: 'second' },\n        ]}\n      />,\n    ],\n  },\n  {\n    label: ['Normal label'],\n    i18nStrings: [{ warningIconAriaLabel: 'Warning' }],\n    warningText: ['Value contains prefix/trailing empty character'],\n    constraintText: ['Only normal characters are allowed'],\n    description: ['Enter your name'],\n    info: [<Link variant=\"info\">info</Link>],\n    children: [\n      <div>Some plain text</div>,\n      <Input value=\"\" onChange={() => {}} placeholder=\"Main Instance\" />,\n      <Textarea value=\"\" onChange={() => {}} placeholder=\"Sample JSON\" />,\n      <Checkbox checked={false} onChange={() => {}}>\n        Use Elastic IP\n      </Checkbox>,\n      <RadioGroup\n        value={null}\n        onChange={() => {}}\n        items={[\n          { label: 'First Item', value: 'first' },\n          { label: 'Second Item', value: 'second' },\n        ]}\n      />,\n    ],\n  },\n  {\n    label: ['Very long label description oh wow'],\n    i18nStrings: [{ errorIconAriaLabel: 'Error', warningIconAriaLabel: 'Warning' }],\n    warningText: ['Value contains prefix/trailing empty character'],\n    errorText: ['An application with that name already exists'],\n    constraintText: ['Only normal characters are allowed'],\n    description: ['Enter your name'],\n    children: [<Input value=\"\" onChange={() => {}} placeholder=\"Main Instance\" />],\n  },\n  {\n    label: ['Normal label'],\n    errorText: [null],\n    i18nStrings: [{ errorIconAriaLabel: 'Error' }],\n    constraintText: [null],\n    description: [\n      <div>\n        Icon at end of description{' '}\n        <Link variant=\"primary\" fontSize=\"body-s\" external={true} href=\"#\">\n          External link\n        </Link>\n      </div>,\n      <>\n        <Icon name=\"external\" size=\"small\" /> Icon at start of description\n      </>,\n      <div>\n        Icon in the middle of description{' '}\n        <Link variant=\"primary\" fontSize=\"body-s\" external={true}>\n          External link\n        </Link>{' '}\n        Icon in the middle of description\n      </div>,\n      <>\n        Icon in the middle of long description. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n        laboris nisi ut aliquip ex ea commodo consequat.\n        <Link variant=\"primary\" fontSize=\"body-s\" external={true} href=\"#\">\n          External link\n        </Link>{' '}\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur\n        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n      </>,\n    ],\n    children: [<div>Some plain text</div>],\n  },\n  {\n    label: ['Normal label'],\n    errorText: [null],\n    i18nStrings: [{ errorIconAriaLabel: 'Error' }],\n    constraintText: [null],\n    description: [<div>Some plain text</div>],\n    children: [\n      'LongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableTextLongUnbreakableText',\n    ],\n  },\n]);\n/* eslint-enable react/jsx-key */\n\nexport default function FormFieldPermutations() {\n  return (\n    <>\n      <h1>FormField permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView permutations={permutations} render={permutation => <FormField {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/form-field/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/edit/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-date-filter",
+   "name": "Table view with date range picker filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-date-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "read-from-s3",
+   "name": "Read from Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/read-from-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "write-to-s3",
+   "name": "Write to Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/write-to-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "dashboard",
+   "name": "Service dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "FormFieldProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "controlId",
-    "string",
-    "아니오",
-    "The ID of the primary form control. You can use this to set the `for` attribute of a label for accessibility. If you don't set this property, the control group automatically sets the label to the ID of an inner form control (for example, an [input](/components/input) component). This only works well if you're using a single control in the form field.",
-    "src/form-field/interfaces.ts:17"
-   ],
-   [
-    "stretch",
-    "boolean",
-    "아니오",
-    "Determines whether the primary control should expand to 12 columns. By default (or when this property is set to `false`), the primary control occupies 9 columns. The secondary control uses the remaining 3 columns. On smaller viewports, both components occupy 12 columns and stack on top of each other. If this property is set to `true`, the primary control uses the full 12 columns. The secondary control (if present) also uses 12 columns, and the two controls stack on top of each other.",
-    "src/form-field/interfaces.ts:30"
-   ],
-   [
-    "label",
-    "React.ReactNode",
-    "아니오",
-    "The main label for the form field.",
-    "src/form-field/interfaces.ts:35"
-   ],
-   [
-    "i18nStrings",
-    "FormFieldProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/form-field/interfaces.ts:41"
-   ],
-   [
-    "info",
-    "React.ReactNode",
-    "아니오",
-    "Use to display an 'Info' link next to the label.",
-    "src/form-field/interfaces.ts:46"
-   ],
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "The primary form control (for example, input, textarea, etc.). @displayname control",
-    "src/form-field/interfaces.ts:52"
-   ],
-   [
-    "secondaryControl",
-    "React.ReactNode",
-    "아니오",
-    "A secondary control. You can use this for custom actions and content.",
-    "src/form-field/interfaces.ts:57"
-   ],
-   [
-    "description",
-    "React.ReactNode",
-    "아니오",
-    "Detailed information about the form field that's displayed below the label.",
-    "src/form-field/interfaces.ts:62"
-   ],
-   [
-    "constraintText",
-    "React.ReactNode",
-    "아니오",
-    "Constraint text that's displayed below the control. Use this to provide additional information about valid formats, etc.",
-    "src/form-field/interfaces.ts:68"
-   ],
-   [
-    "characterCountText",
-    "string",
-    "아니오",
-    "Character count constraint displayed adjacent to the constraintText. Use this to provide an updated character count on each keypress that is debounced for screen reader users.",
-    "src/form-field/interfaces.ts:75"
-   ],
-   [
-    "errorText",
-    "React.ReactNode",
-    "아니오",
-    "Text that displays as a validation error message. If this is set to a non-empty string, it will render the form field as invalid.",
-    "src/form-field/interfaces.ts:81"
-   ],
-   [
-    "warningText",
-    "React.ReactNode",
-    "아니오",
-    "Text that displays as a validation warning message. If this is set to a non-empty string, it will render the form field in a warning state.",
-    "src/form-field/interfaces.ts:87"
-   ],
-   [
-    "analyticsMetadata",
-    "FormFieldProps.AnalyticsMetadata",
-    "아니오",
-    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `errorContext` - Identifies the error category and sub-category. @analytics",
-    "src/form-field/interfaces.ts:95"
-   ]
-  ],
-  "source": "src/form-field/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "chat",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "FormFieldProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "controlId",
+      "string",
+      "아니오",
+      "The ID of the primary form control. You can use this to set the `for` attribute of a label for accessibility. If you don't set this property, the control group automatically sets the label to the ID of an inner form control (for example, an [input](/components/input) component). This only works well if you're using a single control in the form field.",
+      "src/form-field/interfaces.ts:17"
+     ],
+     [
+      "stretch",
+      "boolean",
+      "아니오",
+      "Determines whether the primary control should expand to 12 columns. By default (or when this property is set to `false`), the primary control occupies 9 columns. The secondary control uses the remaining 3 columns. On smaller viewports, both components occupy 12 columns and stack on top of each other. If this property is set to `true`, the primary control uses the full 12 columns. The secondary control (if present) also uses 12 columns, and the two controls stack on top of each other.",
+      "src/form-field/interfaces.ts:30"
+     ],
+     [
+      "label",
+      "React.ReactNode",
+      "아니오",
+      "The main label for the form field.",
+      "src/form-field/interfaces.ts:35"
+     ],
+     [
+      "i18nStrings",
+      "FormFieldProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/form-field/interfaces.ts:41"
+     ],
+     [
+      "info",
+      "React.ReactNode",
+      "아니오",
+      "Use to display an 'Info' link next to the label.",
+      "src/form-field/interfaces.ts:46"
+     ],
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "The primary form control (for example, input, textarea, etc.). @displayname control",
+      "src/form-field/interfaces.ts:52"
+     ],
+     [
+      "secondaryControl",
+      "React.ReactNode",
+      "아니오",
+      "A secondary control. You can use this for custom actions and content.",
+      "src/form-field/interfaces.ts:57"
+     ],
+     [
+      "description",
+      "React.ReactNode",
+      "아니오",
+      "Detailed information about the form field that's displayed below the label.",
+      "src/form-field/interfaces.ts:62"
+     ],
+     [
+      "constraintText",
+      "React.ReactNode",
+      "아니오",
+      "Constraint text that's displayed below the control. Use this to provide additional information about valid formats, etc.",
+      "src/form-field/interfaces.ts:68"
+     ],
+     [
+      "characterCountText",
+      "string",
+      "아니오",
+      "Character count constraint displayed adjacent to the constraintText. Use this to provide an updated character count on each keypress that is debounced for screen reader users.",
+      "src/form-field/interfaces.ts:75"
+     ],
+     [
+      "errorText",
+      "React.ReactNode",
+      "아니오",
+      "Text that displays as a validation error message. If this is set to a non-empty string, it will render the form field as invalid.",
+      "src/form-field/interfaces.ts:81"
+     ],
+     [
+      "warningText",
+      "React.ReactNode",
+      "아니오",
+      "Text that displays as a validation warning message. If this is set to a non-empty string, it will render the form field in a warning state.",
+      "src/form-field/interfaces.ts:87"
+     ],
+     [
+      "analyticsMetadata",
+      "FormFieldProps.AnalyticsMetadata",
+      "아니오",
+      "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `errorContext` - Identifies the error category and sub-category. @analytics",
+      "src/form-field/interfaces.ts:95"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

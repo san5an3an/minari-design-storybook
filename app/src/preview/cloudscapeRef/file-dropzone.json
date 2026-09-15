@@ -1,18 +1,47 @@
 {
  "slug": "file-dropzone",
  "title": "File Dropzone",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "container",
+   "key": "chat",
+   "name": "Chat",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport { Box, Button, Checkbox, Container, FileInput, Header, SpaceBetween, Table } from '~components';\nimport FileDropzone, { useFilesDragging } from '~components/file-dropzone';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    onlyVisibleOnDrag: boolean;\n  }>\n>;\n\nexport default function FileDropzoneContainer() {\n  const [files, setFiles] = useState<File[]>([]);\n\n  const [selectedItems, setSelectedItems] = useState<any>([]);\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const { onlyVisibleOnDrag } = urlParams;\n\n  const handleFilesChange = (newFiles: File[]) => {\n    const newValue = [...files, ...newFiles];\n    setFiles(newValue);\n  };\n\n  const removeFiles = () => {\n    const newValue = files.filter(file => !selectedItems.includes(file));\n    setFiles(newValue);\n\n    setSelectedItems([]);\n  };\n\n  const { areFilesDragging } = useFilesDragging();\n\n  return (\n    <ScreenshotArea>\n      <SpaceBetween size=\"xl\">\n        <Header variant=\"h1\">File dropzone: in container</Header>\n        <Checkbox checked={onlyVisibleOnDrag} onChange={() => setUrlParams({ onlyVisibleOnDrag: !onlyVisibleOnDrag })}>\n          Only visible on file drag\n        </Checkbox>\n        <Container\n          header={\n            <Header\n              actions={\n                <Button disabled={selectedItems.length === 0} onClick={removeFiles}>\n                  {selectedItems.length > 1 ? 'Remove files' : 'Remove file'}\n                </Button>\n              }\n            >\n              Attachments\n            </Header>\n          }\n        >\n          <SpaceBetween size=\"l\">\n            {!onlyVisibleOnDrag && (\n              <FileDropzone onChange={(event: any) => handleFilesChange(event.detail.value)}>\n                <Box color=\"inherit\">Drop files here or select from below</Box>\n                <FileInput\n                  multiple={true}\n                  value={files}\n                  onChange={(event: any) => handleFilesChange(event.detail.value)}\n                >\n                  Choose files\n                </FileInput>\n              </FileDropzone>\n            )}\n            {areFilesDragging && onlyVisibleOnDrag ? (\n              <FileDropzone onChange={(event: any) => handleFilesChange(event.detail.value)}>\n                <Box color=\"inherit\">Drop files here or select from below</Box>\n                <FileInput\n                  multiple={true}\n                  value={files}\n                  onChange={(event: any) => handleFilesChange(event.detail.value)}\n                >\n                  Choose files\n                </FileInput>\n              </FileDropzone>\n            ) : (\n              <Table\n                variant=\"embedded\"\n                empty={'No files uploaded'}\n                selectionType={'multi'}\n                onSelectionChange={({ detail }) => setSelectedItems(detail.selectedItems)}\n                selectedItems={selectedItems}\n                trackBy=\"name\"\n                columnDefinitions={[\n                  {\n                    id: 'file-name',\n                    header: 'File name',\n                    cell: item => item.name || '-',\n                    sortingField: 'name',\n                    isRowHeader: true,\n                  },\n                  {\n                    id: 'file-type',\n                    header: 'File type',\n                    cell: item => item.type || '-',\n                    sortingField: 'alt',\n                  },\n                  {\n                    id: 'file-size',\n                    header: 'File size',\n                    cell: item => item.size || '-',\n                  },\n                ]}\n                enableKeyboardNavigation={true}\n                ariaLabels={{\n                  selectionGroupLabel: 'group label',\n                  allItemsSelectionLabel: ({ selectedItems }) => `${selectedItems.length} item selected`,\n                  itemSelectionLabel: ({ selectedItems }, item) =>\n                    `${item.name} is ${selectedItems.indexOf(item) < 0 ? 'not ' : ''}selected`,\n                }}\n                items={files}\n                loadingText=\"Loading resources\"\n                sortingDisabled={true}\n              />\n            )}\n          </SpaceBetween>\n        </Container>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/file-dropzone/container.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/chat/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chat-components · @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   }
  ],
- "props": null,
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "chat",
+  "reason": null
+ },
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "not-imported",
+  "reason": "src/file-dropzone/interfaces.ts 에서 FileDropzoneProps 행을 추출기가 뽑지 못했다 — 공식 사이트 API 표는 닫힌 소스(노트 칸 6)",
+  "tables": []
+ },
+ "tokenGroup": null
 }

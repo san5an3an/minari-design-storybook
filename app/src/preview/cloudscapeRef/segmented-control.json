@@ -1,102 +1,84 @@
 {
  "slug": "segmented-control",
  "title": "Segmented Control",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "disabled-reason",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Input from '~components/input';\nimport SegmentedControl from '~components/segmented-control';\n\nexport default function SegmentedControlPage() {\n  const [selectedId, setSelectedId] = useState<string | null>('seg-4');\n  return (\n    <article>\n      <h1>SegmentedControl with disabled reason</h1>\n      <Input ariaLabel=\"Input Label\" value=\"\" readOnly={true} />\n      <SegmentedControl\n        options={[\n          { text: 'Segment-1', iconName: 'settings', id: 'seg-1', disabled: false },\n          { text: 'Segment-2', iconName: 'settings', id: 'seg-2', disabled: true },\n          { text: 'Segment-3', iconName: 'settings', id: 'seg-3', disabled: true, disabledReason: 'disabled reason' },\n          { text: 'Segment-4', iconName: 'settings', id: 'seg-4', disabled: false },\n          { text: 'Segment-5', iconName: 'settings', id: 'seg-5', disabled: false },\n        ]}\n        onChange={event => setSelectedId(event.detail.selectedId)}\n        selectedId={selectedId}\n        label=\"Segmented Control Label\"\n      />\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/disabled-reason.page.tsx"
-  },
-  {
-   "name": "edge-case",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport SegmentedControl from '~components/segmented-control';\n\nexport default function SegmentedControlEdgeCase() {\n  return (\n    <article>\n      <h1>SegmentedControl Edge Case</h1>\n      <SegmentedControl\n        options={[\n          { text: 'Segment-1', iconName: 'settings', id: 'seg-1', disabled: false },\n          { text: 'Segment-2', iconName: 'settings', id: 'seg-2', disabled: true },\n          { text: 'Segment-3', iconName: 'settings', id: 'seg-3', disabled: false },\n          { text: 'Segment-4', iconName: 'settings', id: 'seg-4', disabled: false },\n          { text: 'Segment-5', iconName: 'settings', id: 'seg-5', disabled: false },\n        ]}\n        selectedId=\"seg-5\"\n        label=\"Segmented Control Label\"\n      />\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/edge-case.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport SegmentedControl, { SegmentedControlProps } from '~components/segmented-control';\n\nimport img from '../icon/custom-icon.png';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst iconSvg = (\n  <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n    <circle cx=\"8\" cy=\"8\" r=\"7\" />\n    <circle cx=\"8\" cy=\"8\" r=\"3\" />\n  </svg>\n);\n\nconst permutations = createPermutations<SegmentedControlProps>([\n  {\n    selectedId: ['seg-1', ''],\n    options: [\n      [\n        { text: 'First segment', iconName: 'settings', id: 'seg-1', disabled: false },\n        { text: 'Second longer segment', iconName: 'settings', id: 'seg-2', disabled: true },\n        { text: 'Third even longer segment', iconName: 'settings', id: 'seg-3', disabled: false },\n        { text: 'Segment-4', iconName: 'settings', id: 'seg-4', disabled: false },\n      ],\n      [\n        { text: 'First segment', id: 'seg-1', disabled: false },\n        { text: '', iconAlt: 'Alternative text', iconName: 'settings', id: 'seg-2', disabled: true },\n        { text: 'Third even longer segment', iconSvg, id: 'seg-3', disabled: false },\n        {\n          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Whatever.',\n          iconUrl: img,\n          iconAlt: 'Amazon',\n          id: 'seg-4',\n          disabled: false,\n        },\n      ],\n      [\n        { text: 'First segment', iconSvg, id: 'seg-1' },\n        { iconSvg, id: 'seg-2', iconAlt: 'Second segment' },\n        { text: 'Third segment', iconSvg, id: 'seg-3', disabled: true },\n        { iconSvg, id: 'seg-4', iconAlt: 'Fourth segment', disabled: true },\n      ],\n    ],\n    label: ['Segmented Control Label'],\n  },\n]);\n\nexport default function SegmentedControlScenario() {\n  return (\n    <article>\n      <h1>SegmentedControl permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <SegmentedControl {...permutation} />} />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/permutations.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Input from '~components/input';\nimport SegmentedControl from '~components/segmented-control';\n\nexport default function SegmentedControlPage() {\n  const [selectedId, setSelectedId] = useState<string | null>('seg-4');\n  return (\n    <article>\n      <h1>SegmentedControl demo</h1>\n      <Input ariaLabel=\"Input Label\" value=\"\" readOnly={true} />\n      <SegmentedControl\n        options={[\n          { text: 'Segment-1', iconName: 'settings', id: 'seg-1', disabled: false },\n          { text: 'Segment-2', iconName: 'settings', id: 'seg-2', disabled: true },\n          { text: 'Segment-3', iconName: 'settings', id: 'seg-3', disabled: false },\n          { text: 'Segment-4', iconName: 'settings', id: 'seg-4', disabled: false },\n          { text: 'Segment-5', iconName: 'settings', id: 'seg-5', disabled: false },\n        ]}\n        onChange={event => setSelectedId(event.detail.selectedId)}\n        selectedId={selectedId}\n        label=\"Segmented Control Label\"\n      />\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/simple.page.tsx"
-  },
-  {
-   "name": "style-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport SegmentedControl, { SegmentedControlProps } from '~components/segmented-control';\n\nimport img from '../icon/custom-icon.png';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst style1: SegmentedControlProps['style'] = {\n  root: {\n    borderRadius: '12px',\n  },\n  segment: {\n    borderRadius: '10px',\n    paddingBlock: '12px',\n    paddingInline: '20px',\n    fontSize: '15px',\n    background: {\n      active: 'light-dark(#5f6ac3, #7c3aed)',\n      default: 'light-dark(#f7fafc, #1a202c)',\n      disabled: 'light-dark(#e2e8f0, #2d3748)',\n      hover: 'light-dark(#edf2f7, #2d3748)',\n    },\n    color: {\n      active: 'light-dark(#ffffff, #ffffff)',\n      default: 'light-dark(#2d3748, #e2e8f0)',\n      disabled: 'light-dark(#a0aec0, #718096)',\n      hover: 'light-dark(#1a202c, #f7fafc)',\n    },\n    focusRing: {\n      borderColor: 'light-dark(#5f6ac3, #7c3aed)',\n      borderRadius: '12px',\n      borderWidth: '2px',\n    },\n  },\n};\n\nconst iconSvg = (\n  <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n    <circle cx=\"8\" cy=\"8\" r=\"7\" />\n    <circle cx=\"8\" cy=\"8\" r=\"3\" />\n  </svg>\n);\n\nconst permutations = createPermutations<SegmentedControlProps>([\n  {\n    style: [style1],\n    selectedId: ['seg-1', ''],\n    options: [\n      [\n        { text: 'First segment', iconName: 'settings', id: 'seg-1', disabled: false },\n        { text: 'Second longer segment', iconName: 'settings', id: 'seg-2', disabled: true },\n        { text: 'Third even longer segment', iconName: 'settings', id: 'seg-3', disabled: false },\n        { text: 'Segment-4', iconName: 'settings', id: 'seg-4', disabled: false },\n      ],\n      [\n        { text: 'First segment', id: 'seg-1', disabled: false },\n        { text: '', iconAlt: 'Alternative text', iconName: 'settings', id: 'seg-2', disabled: true },\n        { text: 'Third even longer segment', iconSvg, id: 'seg-3', disabled: false },\n        {\n          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Whatever.',\n          iconUrl: img,\n          iconAlt: 'Amazon',\n          id: 'seg-4',\n          disabled: false,\n        },\n      ],\n    ],\n    label: ['Segmented Control Label'],\n  },\n]);\n\nexport default function SegmentedControlScenario() {\n  return (\n    <article>\n      <h1>SegmentedControl Custom Style Permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <SegmentedControl {...permutation} />} />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/style-permutations.page.tsx"
-  },
-  {
-   "name": "two-segment",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useRef } from 'react';\n\nimport Input from '~components/input';\nimport SegmentedControl from '~components/segmented-control';\n\nimport AppContext, { AppContextType } from '../app/app-context';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    selectedId: 'seg-1' | 'seg-2';\n  }>\n>;\n\nexport default function SegmentedControlPage() {\n  const firstInputRef = useRef<HTMLInputElement>(null);\n\n  const {\n    urlParams: { selectedId = 'seg-1' },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n\n  return (\n    <article>\n      <h1>SegmentedControl demo</h1>\n      <Input id=\"focus-target\" ref={firstInputRef} ariaLabel=\"Input Label\" value=\"\" readOnly={true} />\n      <SegmentedControl\n        options={[\n          { text: 'Segment-1', iconName: 'settings', id: 'seg-1', disabled: false },\n          { text: 'Segment-2', iconName: 'settings', id: 'seg-2', disabled: false },\n        ]}\n        onChange={event => setUrlParams({ selectedId: event.detail.selectedId as any })}\n        selectedId={selectedId}\n        label=\"Segmented Control Label\"\n      />\n      <Input ariaLabel=\"Input Label\" value=\"\" readOnly={true} onFocus={() => firstInputRef.current?.focus()} />\n    </article>\n  );\n}\n",
-   "source": "pages/segmented-control/two-segment.page.tsx"
-  }
- ],
- "props": {
-  "name": "SegmentedControlProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "selectedId",
-    "string | null",
-    "예",
-    "ID of the selected option. If you want to clear the selection, use `null`.",
-    "src/segmented-control/interfaces.ts:13"
-   ],
-   [
-    "options",
-    "ReadonlyArray<SegmentedControlProps.Option>",
-    "아니오",
-    "An array of objects representing options. Only up to 6 options are supported. Each segment has the following properties: - `id` (string) - The ID of the segment. - `disabled` [boolean] - (Optional) Determines whether the segment is disabled, which prevents the user from selecting it. - `disabledReason` (string) - (Optional) Displays tooltip near the segment when disabled. Use to provide additional context. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`, or `iconName` without `text`. This is required when you use an icon without `text`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `text` (string) - (Optional) Specifies the text of the segment.",
-    "src/segmented-control/interfaces.ts:29"
-   ],
-   [
-    "label",
-    "string",
-    "아니오",
-    "Defines the label of the entire segmented control. In the standard view (that is, all individual segments are visible), this label is used as `aria-label` on the group of segments. In a narrow container, where this component is displayed as a select component, the label is visible and attached to the select component, unless `ariaLabelledBy` is defined. Don't use `label` and `ariaLabelledBy` at the same time.",
-    "src/segmented-control/interfaces.ts:36"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Adds aria-labelledby to the component. Create a visually hidden element with an ID and set this property to that ID. If you don't want the label to be visible in narrow containers, use this property instead of `label`.",
-    "src/segmented-control/interfaces.ts:41"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<SegmentedControlProps.ChangeDetail>",
-    "아니오",
-    "Called when the user selects a different segment.",
-    "src/segmented-control/interfaces.ts:46"
-   ],
-   [
-    "style",
-    "SegmentedControlProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the segmented control's visual appearance. Refer to the [style](/components/segmented-control/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/segmented-control/interfaces.ts:53"
-   ]
-  ],
-  "source": "src/segmented-control/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "SegmentedControlProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "selectedId",
+      "string | null",
+      "예",
+      "ID of the selected option. If you want to clear the selection, use `null`.",
+      "src/segmented-control/interfaces.ts:13"
+     ],
+     [
+      "options",
+      "ReadonlyArray<SegmentedControlProps.Option>",
+      "아니오",
+      "An array of objects representing options. Only up to 6 options are supported. Each segment has the following properties: - `id` (string) - The ID of the segment. - `disabled` [boolean] - (Optional) Determines whether the segment is disabled, which prevents the user from selecting it. - `disabledReason` (string) - (Optional) Displays tooltip near the segment when disabled. Use to provide additional context. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`, or `iconName` without `text`. This is required when you use an icon without `text`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `text` (string) - (Optional) Specifies the text of the segment.",
+      "src/segmented-control/interfaces.ts:29"
+     ],
+     [
+      "label",
+      "string",
+      "아니오",
+      "Defines the label of the entire segmented control. In the standard view (that is, all individual segments are visible), this label is used as `aria-label` on the group of segments. In a narrow container, where this component is displayed as a select component, the label is visible and attached to the select component, unless `ariaLabelledBy` is defined. Don't use `label` and `ariaLabelledBy` at the same time.",
+      "src/segmented-control/interfaces.ts:36"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Adds aria-labelledby to the component. Create a visually hidden element with an ID and set this property to that ID. If you don't want the label to be visible in narrow containers, use this property instead of `label`.",
+      "src/segmented-control/interfaces.ts:41"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<SegmentedControlProps.ChangeDetail>",
+      "아니오",
+      "Called when the user selects a different segment.",
+      "src/segmented-control/interfaces.ts:46"
+     ],
+     [
+      "style",
+      "SegmentedControlProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the segmented control's visual appearance. Refer to the [style](/components/segmented-control/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/segmented-control/interfaces.ts:53"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }
