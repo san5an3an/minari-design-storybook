@@ -1,0 +1,109 @@
+{
+  "slug": "picker",
+  "title": "Picker",
+  "group": "Pickers",
+  "heading": "Picker",
+  "description": null,
+  "sharedImports": "import {Flex} from '@react-spectrum/layout';\nimport {Picker, Item, Section} from '@react-spectrum/picker';\nimport Book from '@spectrum-icons/workflow/Book';\nimport BulkEditUsers from '@spectrum-icons/workflow/BulkEditUsers';\nimport Draw from '@spectrum-icons/workflow/Draw';\nimport {Text} from '@react-spectrum/text';\nimport {Avatar} from \"@react-spectrum/avatar\";",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<Picker label=\"Choose frequency\">\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Aardvark'},\n    {id: 2, name: 'Cat'},\n    {id: 3, name: 'Dog'},\n    {id: 4, name: 'Kangaroo'},\n    {id: 5, name: 'Koala'},\n    {id: 6, name: 'Penguin'},\n    {id: 7, name: 'Snake'},\n    {id: 8, name: 'Turtle'},\n    {id: 9, name: 'Wombat'}\n  ];\n  let [animalId, setAnimalId] = React.useState(null);\n\n  return (\n    <>\n      <Picker label=\"Pick an animal\" items={options} onSelectionChange={setAnimalId}>\n        {item => <Item>{item.name}</Item>}\n      </Picker>\n      <p>Animal id: {animalId}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Picker label=\"Choose frequency\" isRequired necessityIndicator=\"icon\">\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Picker label=\"Choose frequency\" isRequired necessityIndicator=\"label\">\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Picker label=\"Choose frequency\" necessityIndicator=\"label\">\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Selection",
+      "code": "import type {Key} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let options = [\n    {name: 'Koala'},\n    {name: 'Kangaroo'},\n    {name: 'Platypus'},\n    {name: 'Bald Eagle'},\n    {name: 'Bison'},\n    {name: 'Skunk'}\n  ];\n  let [animal, setAnimal] = React.useState<Key>(\"Bison\");\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <Picker\n        label=\"Pick an animal (uncontrolled)\"\n        items={options}\n        defaultSelectedKey=\"Bison\">\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </Picker>\n\n      <Picker\n        label=\"Pick an animal (controlled)\"\n        items={options}\n        selectedKey={animal}\n        onSelectionChange={selected => setAnimal(selected)}>\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </Picker>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<Picker\n  label=\"Favorite Animal\"\n  ///- begin highlight -///\n  name=\"favoriteAnimalId\"\n  ///- end highlight -///\n>\n  <Item key=\"panda\">Panda</Item>\n  <Item key=\"cat\">Cat</Item>\n  <Item key=\"dog\">Dog</Item>\n</Picker>"
+    },
+    {
+      "name": "Links",
+      "code": "<Picker label=\"Project\">\n  <Item href=\"https://example.com/\" target=\"_blank\">Create new…</Item>\n  <Item>Proposal</Item>\n  <Item>Budget</Item>\n  <Item>Onboarding</Item>\n</Picker>"
+    },
+    {
+      "name": "Static items",
+      "code": "<Picker label=\"Pick your favorite\">\n  <Section title=\"Animals\">\n    <Item key=\"Aardvark\">Aardvark</Item>\n    <Item key=\"Kangaroo\">Kangaroo</Item>\n    <Item key=\"Snake\">Snake</Item>\n  </Section>\n  <Section title=\"People\">\n    <Item key=\"Danni\">Danni</Item>\n    <Item key=\"Devon\">Devon</Item>\n    <Item key=\"Ross\">Ross</Item>\n  </Section>\n</Picker>"
+    },
+    {
+      "name": "Dynamic items",
+      "code": "function Example() {\n  let options = [\n    {name: 'Australian', children: [\n      {id: 2, name: 'Koala'},\n      {id: 3, name: 'Kangaroo'},\n      {id: 4, name: 'Platypus'}\n    ]},\n    {name: 'American', children: [\n      {id: 6, name: 'Bald Eagle'},\n      {id: 7, name: 'Bison'},\n      {id: 8, name: 'Skunk'}\n    ]}\n  ];\n\n  return (\n    <Picker label=\"Pick an animal\" items={options} onSelectionChange={selected => alert(selected)}>\n      {item => (\n        <Section key={item.name} items={item.children} title={item.name}>\n          {item => <Item>{item.name}</Item>}\n        </Section>\n      )}\n    </Picker>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "function StaticExample() {\n  let [frequency, setFrequency] = React.useState(null);\n\n  return (\n    <>\n      <Picker label=\"Choose frequency\" onSelectionChange={selected => setFrequency(selected)}>\n        <Item key=\"Rarely\">Rarely</Item>\n        <Item key=\"Sometimes\">Sometimes</Item>\n        <Item key=\"Always\">Always</Item>\n      </Picker>\n      <p>You selected {frequency}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "function DynamicExample() {\n  let [animalId, setAnimalId] = React.useState(null);\n  let options = [\n    {id: 1, name: 'Aardvark'},\n    {id: 2, name: 'Cat'},\n    {id: 3, name: 'Dog'},\n    {id: 4, name: 'Kangaroo'},\n    {id: 5, name: 'Koala'},\n    {id: 6, name: 'Penguin'},\n    {id: 7, name: 'Snake'},\n    {id: 8, name: 'Turtle'},\n    {id: 9, name: 'Wombat'}\n  ];\n\n  return (\n    <>\n      <Picker label=\"Pick an animal\" items={options} onSelectionChange={selected => setAnimalId(selected)}>\n        {item => <Item>{item.name}</Item>}\n      </Picker>\n      <p>Your favorite animal has id: {animalId}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Complex items",
+      "code": "<Picker label=\"Options\">\n  <Section title=\"Permission\">\n    <Item textValue=\"Read\">\n      <Book size=\"S\" />\n      <Text>Read</Text>\n      <Text slot=\"description\">Read Only</Text>\n    </Item>\n    <Item textValue=\"Write\">\n      <Draw size=\"S\" />\n      <Text>Write</Text>\n      <Text slot=\"description\">Read and Write Only</Text>\n    </Item>\n    <Item textValue=\"Admin\">\n      <BulkEditUsers size=\"S\" />\n      <Text>Admin</Text>\n      <Text slot=\"description\">Full access</Text>\n    </Item>\n  </Section>\n</Picker>"
+    },
+    {
+      "name": "With avatars",
+      "code": "<Picker label=\"Select a user\">\n  <Item textValue=\"User 1\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 1</Text>\n  </Item>\n  <Item textValue=\"User 2\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 2</Text>\n  </Item>\n  <Item textValue=\"User 3\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 3</Text>\n  </Item>\n  <Item textValue=\"User 4\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 4</Text>\n  </Item>\n</Picker>"
+    },
+    {
+      "name": "Asynchronous loading",
+      "code": "import {useAsyncList} from '@react-stately/data';\n\ninterface Pokemon {\n  name: string\n}\n\nfunction AsyncLoadingExample() {\n  let list = useAsyncList<Pokemon>({\n    async load({signal, cursor}) {\n      // If no cursor is available, then we're loading the first page.\n      // Otherwise, the cursor is the next URL to load, as returned from the previous page.\n      let res = await fetch(cursor || 'https://pokeapi.co/api/v2/pokemon', {signal});\n      let json = await res.json();\n      return {\n        items: json.results,\n        cursor: json.next\n      };\n    }\n  });\n\n  return (\n    <Picker\n      label=\"Pick a Pokemon\"\n      items={list.items}\n      isLoading={list.isLoading}\n      onLoadMore={list.loadMore}>\n      {item => <Item key={item.name}>{item.name}</Item>}\n    </Picker>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <Picker label=\"Favorite animal\" name=\"animal\" isRequired>\n  {/*- end highlight -*/}\n    <Item>Aardvark</Item>\n    <Item>Cat</Item>\n    <Item>Dog</Item>\n    <Item>Kangaroo</Item>\n    <Item>Panda</Item>\n    <Item>Snake</Item>\n  </Picker>\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<Picker label=\"Choose frequency\" labelPosition=\"side\" labelAlign=\"end\">\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<Picker label=\"Choose frequency\" isQuiet>\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<Picker label=\"Choose frequency\" isDisabled>\n  <Item key=\"rarely\">Rarely</Item>\n  <Item key=\"sometimes\">Sometimes</Item>\n  <Item key=\"always\">Always</Item>\n</Picker>"
+    },
+    {
+      "name": "Help text",
+      "code": "function Example() {\n    let [animalId, setAnimalId] = React.useState(null);\n    let options = [\n      {id: 1, name: 'Aardvark'},\n      {id: 2, name: 'Cat'},\n      {id: 3, name: 'Dog'},\n      {id: 4, name: 'Kangaroo'},\n      {id: 5, name: 'Koala'},\n      {id: 6, name: 'Penguin'},\n      {id: 7, name: 'Snake'},\n      {id: 8, name: 'Turtle'},\n      {id: 9, name: 'Wombat'}\n    ];\n  let isValid = React.useMemo(() => animalId !== 2 && animalId !== 7, [animalId]);\n\n  return (\n    <Picker\n      isInvalid={!isValid}\n      label=\"Favorite animal\"\n      description=\"Pick your favorite animal, you will be judged.\"\n      errorMessage={animalId === 2 ? 'The author of this example is a dog person.' : 'Oh no it\\'s a snake! Choose anything else.'}\n      items={options}\n      selectedKey={animalId}\n      onSelectionChange={selected => setAnimalId(selected)}>\n      {item => <Item>{item.name}</Item>}\n    </Picker>\n  );\n}"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<Picker\n  label=\"Engineering major\"\n  contextualHelp={\n    <ContextualHelp variant=\"info\">\n      <Heading>Major changes</Heading>\n      <Content>Once you have changed your major, you cannot change it back.</Content>\n    </ContextualHelp>\n  }>\n  <Item>Aerospace</Item>\n  <Item>Mechanical</Item>\n  <Item>Civil</Item>\n  <Item>Nuclear</Item>\n  <Item>Industrial</Item>\n  <Item>Chemical</Item>\n  <Item>Agricultural</Item>\n  <Item>Electrical</Item>\n</Picker>"
+    },
+    {
+      "name": "Custom widths",
+      "code": "<Flex direction=\"column\" rowGap=\"size-150\">\n  <Picker label=\"Choose frequency\" width=\"size-3600\" maxWidth=\"100%\">\n    <Item key=\"rarely\">Rarely</Item>\n    <Item key=\"sometimes\">Sometimes</Item>\n    <Item key=\"always\">Always</Item>\n  </Picker>\n\n  <Picker label=\"Choose animal\" menuWidth=\"size-6000\">\n    <Item key=\"Emu\">Emu</Item>\n    <Item key=\"Kangaroo\">Kangaroo</Item>\n    <Item key=\"Platypus\">Platypus</Item>\n  </Picker>\n</Flex>"
+    },
+    {
+      "name": "Align and direction",
+      "code": "<Flex direction=\"column\" gap=\"size-150\">\n  <Picker label=\"Choose frequency\" align=\"end\" menuWidth=\"size-3000\">\n    <Item key=\"rarely\">Rarely</Item>\n    <Item key=\"sometimes\">Sometimes</Item>\n    <Item key=\"always\">Always</Item>\n  </Picker>\n\n  <Picker label=\"Choose animal\" direction=\"top\">\n    <Item key=\"Emu\">Emu</Item>\n    <Item key=\"Kangaroo\">Kangaroo</Item>\n    <Item key=\"Platypus\">Platypus</Item>\n  </Picker>\n</Flex>"
+    },
+    {
+      "name": "Menu state",
+      "code": "function Example() {\n  let [open, setOpen] = React.useState(false);\n\n  return (\n    <Picker\n      label=\"Frequency\"\n      isOpen={open}\n      onOpenChange={setOpen}>\n      <Item key=\"rarely\">Rarely</Item>\n      <Item key=\"sometimes\">Sometimes</Item>\n      <Item key=\"always\">Always</Item>\n    </Picker>\n  );\n}"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/picker/",
+  "source": "packages/@adobe/react-spectrum/docs/picker/Picker.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/Picker.html"
+}

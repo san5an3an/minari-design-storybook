@@ -1,0 +1,97 @@
+{
+  "slug": "search-autocomplete",
+  "title": "SearchAutocomplete",
+  "group": "Pickers",
+  "heading": "SearchAutocomplete",
+  "description": null,
+  "sharedImports": "import {SearchAutocomplete, Section, Item} from '@react-spectrum/autocomplete';\nimport {useFilter} from '@react-aria/i18n';\nimport Email from '@spectrum-icons/workflow/Email';\nimport Document from '@spectrum-icons/workflow/Document';\nimport WebPages from '@spectrum-icons/workflow/WebPages';\nimport SocialNetwork from '@spectrum-icons/workflow/SocialNetwork';\nimport ShoppingCart from '@spectrum-icons/workflow/ShoppingCart';\nimport Folder from '@spectrum-icons/workflow/Folder';\nimport {Text} from '@react-spectrum/text';\nimport {Avatar} from \"@react-spectrum/avatar\";",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<SearchAutocomplete label=\"Search with Autocomplete\">\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Aerospace'},\n    {id: 2, name: 'Mechanical'},\n    {id: 3, name: 'Civil'},\n    {id: 4, name: 'Biomedical'},\n    {id: 5, name: 'Nuclear'},\n    {id: 6, name: 'Industrial'},\n    {id: 7, name: 'Chemical'},\n    {id: 8, name: 'Agricultural'},\n    {id: 9, name: 'Electrical'}\n  ];\n\n  return (\n    <SearchAutocomplete\n      label=\"Search engineering majors\"\n      defaultItems={options}>\n      {item => <Item>{item.name}</Item>}\n    </SearchAutocomplete>\n  );\n}"
+    },
+    {
+      "name": "Labeling",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" isRequired necessityIndicator=\"icon\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" isRequired necessityIndicator=\"label\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" necessityIndicator=\"label\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Links",
+      "code": "<SearchAutocomplete label=\"Tech company websites\">\n  <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n  <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n  <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n  <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Static items",
+      "code": "<SearchAutocomplete label=\"Preferred fruit or vegetable\">\n  <Section title=\"Fruit\">\n    <Item key=\"Apple\">Apple</Item>\n    <Item key=\"Banana\">Banana</Item>\n    <Item key=\"Orange\">Orange</Item>\n    <Item key=\"Honeydew\">Honeydew</Item>\n    <Item key=\"Grapes\">Grapes</Item>\n    <Item key=\"Watermelon\">Watermelon</Item>\n    <Item key=\"Cantaloupe\">Cantaloupe</Item>\n    <Item key=\"Pear\">Pear</Item>\n  </Section>\n  <Section title=\"Vegetable\">\n    <Item key=\"Cabbage\">Cabbage</Item>\n    <Item key=\"Broccoli\">Broccoli</Item>\n    <Item key=\"Carrots\">Carrots</Item>\n    <Item key=\"Lettuce\">Lettuce</Item>\n    <Item key=\"Spinach\">Spinach</Item>\n    <Item key=\"Bok Choy\">Bok Choy</Item>\n    <Item key=\"Cauliflower\">Cauliflower</Item>\n    <Item key=\"Potatoes\">Potatoes</Item>\n  </Section>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Dynamic items",
+      "code": "function Example() {\n  let options = [\n    {name: 'Fruit', children: [\n      {name: 'Apple'},\n      {name: 'Banana'},\n      {name: 'Orange'},\n      {name: 'Honeydew'},\n      {name: 'Grapes'},\n      {name: 'Watermelon'},\n      {name: 'Cantaloupe'},\n      {name: 'Pear'}\n    ]},\n    {name: 'Vegetable', children: [\n      {name: 'Cabbage'},\n      {name: 'Broccoli'},\n      {name: 'Carrots'},\n      {name: 'Lettuce'},\n      {name: 'Spinach'},\n      {name: 'Bok Choy'},\n      {name: 'Cauliflower'},\n      {name: 'Potatoes'}\n    ]}\n  ];\n\n  return (\n    <SearchAutocomplete label=\"Preferred fruit or vegetable\" defaultItems={options}>\n      {item => (\n        <Section key={item.name} items={item.children} title={item.name}>\n          {item => <Item key={item.name}>{item.name}</Item>}\n        </Section>\n      )}\n    </SearchAutocomplete>\n  );\n}"
+    },
+    {
+      "name": "Complex items",
+      "code": "<SearchAutocomplete label=\"Search apps\">\n  <Section title=\"Productivity\">\n    <Item textValue=\"Mail\">\n      <Email size=\"S\" />\n      <Text>Mail</Text>\n      <Text slot=\"description\">Send and receive emails</Text>\n    </Item>\n    <Item textValue=\"File Explorer\">\n      <Folder size=\"S\" />\n      <Text>File Explorer</Text>\n      <Text slot=\"description\">Navigate directories and open files</Text>\n    </Item>\n    <Item textValue=\"Document Editor\">\n      <Document size=\"S\" />\n      <Text>Document Editor</Text>\n      <Text slot=\"description\">Edit documents</Text>\n    </Item>\n  </Section>\n  <Section title=\"Internet\">\n    <Item textValue=\"Web Browser\">\n      <WebPages size=\"S\" />\n      <Text>Web Browser</Text>\n      <Text slot=\"description\">Browse the internet</Text>\n    </Item>\n    <Item textValue=\"Social Media\">\n      <SocialNetwork size=\"S\" />\n      <Text>Social Media</Text>\n      <Text slot=\"description\">Connect with friends</Text>\n    </Item>\n    <Item textValue=\"Shopping\">\n      <ShoppingCart size=\"S\" />\n      <Text>Shopping</Text>\n      <Text slot=\"description\">Shop online</Text>\n    </Item>\n  </Section>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "With avatars",
+      "code": "<SearchAutocomplete label=\"Search users\">\n  <Item textValue=\"User 1\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 1</Text>\n  </Item>\n  <Item textValue=\"User 2\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 2</Text>\n  </Item>\n  <Item textValue=\"User 3\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 3</Text>\n  </Item>\n  <Item textValue=\"User 4\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>User 4</Text>\n  </Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Asynchronous loading",
+      "code": "import {useAsyncList} from '@react-stately/data';\n\ninterface Character {\n  name: string\n}\n\nfunction AsyncLoadingExample() {\n  let list = useAsyncList<Character>({\n    async load({signal, cursor, filterText}) {\n      if (cursor) {\n        cursor = cursor.replace(/^http:\\/\\//i, 'https://');\n      }\n\n      // If no cursor is available, then we're loading the first page,\n      // filtering the results returned via a query string that\n      // mirrors the SearchAutocomplete input text.\n      // Otherwise, the cursor is the next URL to load,\n      // as returned from the previous page.\n      let res = await fetch(cursor || `https://swapi.py4e.com/api/people/?search=${filterText}`, {signal});\n      let json = await res.json();\n\n      return {\n        items: json.results,\n        cursor: json.next\n      };\n    }\n  });\n\n  return (\n    <SearchAutocomplete\n      label=\"Star Wars Character Lookup\"\n      items={list.items}\n      inputValue={list.filterText}\n      onInputChange={list.setFilterText}\n      loadingState={list.loadingState}\n      onLoadMore={list.loadMore}>\n      {item => <Item key={item.name}>{item.name}</Item>}\n    </SearchAutocomplete>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <SearchAutocomplete label=\"Favorite animal\" name=\"animal\" isRequired>\n  {/*- end highlight -*/}\n    <Item>Aardvark</Item>\n    <Item>Cat</Item>\n    <Item>Dog</Item>\n    <Item>Kangaroo</Item>\n    <Item>Panda</Item>\n    <Item>Snake</Item>\n  </SearchAutocomplete>\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Custom Filtering",
+      "code": "function Example() {\n  let options = [\n    {id: 1, email: 'fake@email.com'},\n    {id: 2, email: 'anotherfake@email.com'},\n    {id: 3, email: 'bob@email.com'},\n    {id: 4, email: 'joe@email.com'},\n    {id: 5, email: 'yourEmail@email.com'},\n    {id: 6, email: 'valid@email.com'},\n    {id: 7, email: 'spam@email.com'},\n    {id: 8, email: 'newsletter@email.com'},\n    {id: 9, email: 'subscribe@email.com'}\n  ];\n\n  let [showAll, setShowAll] = React.useState(false);\n  let [filterValue, setFilterValue] = React.useState('');\n  let {startsWith} = useFilter({sensitivity: 'base'});\n  let filteredItems = React.useMemo(() => options.filter(item => startsWith(item.email, filterValue)), [options, filterValue]);\n\n  return (\n    <SearchAutocomplete\n      onOpenChange={(isOpen, menuTrigger) => {\n        // Show all items if menu is opened manually\n        // i.e. by the arrow keys or trigger button\n        if (menuTrigger === 'manual' && isOpen) {\n          setShowAll(true);\n        }\n      }}\n      width=\"size-3000\"\n      label=\"Search Email Addresses\"\n      items={showAll ? options : filteredItems}\n      inputValue={filterValue}\n      onInputChange={(value) => {\n        setShowAll(false);\n        setFilterValue(value);\n      }}>\n      {item => <Item>{item.email}</Item>}\n    </SearchAutocomplete>\n  );\n}"
+    },
+    {
+      "name": "Trigger options",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" menuTrigger=\"focus\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Trigger options",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" menuTrigger=\"manual\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" labelPosition=\"side\" labelAlign=\"end\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" isQuiet>\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" isDisabled>\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Read only",
+      "code": "<SearchAutocomplete label=\"Search Animals\" isReadOnly>\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Custom widths",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" width=\"size-6000\" maxWidth=\"100%\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    },
+    {
+      "name": "Menu direction",
+      "code": "<SearchAutocomplete label=\"Favorite Animal\" direction=\"top\">\n  <Item>Red Panda</Item>\n  <Item>Cat</Item>\n  <Item>Dog</Item>\n  <Item>Aardvark</Item>\n  <Item>Kangaroo</Item>\n  <Item>Snake</Item>\n</SearchAutocomplete>"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/autocomplete/SearchAutocomplete.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/SearchAutocomplete.html"
+}
