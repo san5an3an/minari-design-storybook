@@ -58,9 +58,9 @@ export interface BaseRefDoc {
   master: { rule: "official-mark" | "doc-order-first"; key: string | null; reason: string | null };
   // 산문 섹션 렌더링. title이 null이면 원본에 제목이 없다는 뜻이며 지어내지 않음
   prose: { title: string | null; text: string; format: "md" | "html" | "text" }[];
-  parts: { presence: Presence; columns: string[]; rows: string[][] };
+  parts: { presence: Presence; reason?: string | null; columns: string[]; rows: string[][] };
   // 공식 표 여러 개 지원. 열 구성은 공식 표 그대로 유지
-  api: { presence: Presence; tables: { name: string | null; columns: string[]; rows: string[][] }[] };
+  api: { presence: Presence; reason?: string | null; tables: { name: string | null; columns: string[]; rows: string[][] }[] };
   // --component-<이름>-* 그룹, 이름 대응 없으면 null
   tokenGroup: string | null;
 }
