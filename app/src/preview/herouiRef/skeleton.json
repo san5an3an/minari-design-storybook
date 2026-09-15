@@ -1,0 +1,149 @@
+{
+ "slug": "skeleton",
+ "title": "Skeleton",
+ "description": "Skeleton is a placeholder to show a loading state and the expected shape of a component.",
+ "group": "Feedback",
+ "links": {
+  "sourceFile": "skeleton/skeleton.tsx",
+  "styles": "skeleton.css",
+  "storybook": "Components/Feedback/Skeleton",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Skeleton } from '@heroui/react';\n```\n\n<ComponentPreview \n  name=\"skeleton-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:11"
+  },
+  {
+   "name": "Examples",
+   "body": "### Text Content\n\n<ComponentPreview \n  name=\"skeleton-text-content\"\n/>\n\n### User Profile\n\n<ComponentPreview \n  name=\"skeleton-user-profile\"\n/>\n\n### List Items\n\n<ComponentPreview\n  name=\"skeleton-list\"\n/>\n\n### Grid\n\n<ComponentPreview\n  name=\"skeleton-grid\"\n/>\n\n### Single Shimmer\n\nA synchronized shimmer effect that passes over all skeleton elements at once. Apply the `skeleton--shimmer` class to a parent container and set `animationType=\"none\"` on child skeletons.\n\n<ComponentPreview\n  name=\"skeleton-single-shimmer\"\n  style={{'contain': 'none'}}\n/>\n\n### Animation Types\n\n<ComponentPreview\n  name=\"skeleton-animation-types\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:21"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"skeleton-custom-styles\" />\n\n### Global CSS\n\nTo customize the Skeleton component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  /* Base skeleton styles */\n  .skeleton {\n    @apply bg-surface-secondary/50; /* Change base background */\n  }\n\n  /* Shimmer animation gradient */\n  .skeleton--shimmer:before {\n    @apply viasurface; /* Change shimmer gradient color */\n  }\n\n  /* Pulse animation */\n  .skeleton--pulse {\n    @apply animate-pulse opacity-75; /* Customize pulse animation */\n  }\n\n  /* No animation variant */\n  .skeleton--none {\n    @apply opacity-50; /* Style for static skeleton */\n  }\n}\n```\n\n### Global Animation Configuration\n\nYou can set a default animation type for all Skeleton components in your application by defining the `--skeleton-animation` CSS variable:\n\n```css\n/* In your global CSS file */\n:root {\n  /* Possible values: shimmer, pulse, none */\n  --skeleton-animation: pulse;\n}\n\n/* You can also set different values for light/dark themes */\n.light, [data-theme=\"light\"] {\n  --skeleton-animation: shimmer;\n}\n\n.dark, [data-theme=\"dark\"] {\n  --skeleton-animation: pulse;\n}\n```\n\nThis global setting will be overridden by the `animationType` prop when specified on individual components.",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:62"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Skeleton component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/skeleton.css)):\n\n#### Base Class [!toc]\n`.skeleton` - Base skeleton styles with background and rounded corners\n\n#### Animation Variant Classes [!toc]\n- `.skeleton--shimmer` - Adds shimmer animation with gradient effect (default)\n- `.skeleton--pulse` - Adds pulse animation using Tailwind's animate-pulse\n- `.skeleton--none` - No animation, static skeleton\n\n### Animation\n\nThe Skeleton component supports three animation types, each with different visual effects:\n\n#### Shimmer Animation [!toc]\nThe shimmer effect creates a gradient that moves across the skeleton element:\n\n```css\n.skeleton--shimmer:before {\n  @apply animate-skeleton via-surface-3 absolute inset-0 -translate-x-full\n         bg-gradient-to-r from-transparent to-transparent content-[''];\n}\n```\n\nThe shimmer animation is defined in the theme using:\n```css\n@theme inline {\n  --animate-skeleton: skeleton 2s linear infinite;\n\n  @keyframes skeleton {\n    100% {\n      transform: translateX(200%);\n    }\n  }\n}\n```\n\n#### Pulse Animation [!toc]\nThe pulse animation uses Tailwind's built-in `animate-pulse` utility:\n\n```css\n.skeleton--pulse {\n  @apply animate-pulse;\n}\n```\n\n#### No Animation [!toc]\nFor static skeletons without any animation:\n\n```css\n.skeleton--none {\n  /* No animation styles applied */\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:120"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Skeleton\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `animationType` | `\"shimmer\" \\| \"pulse\" \\| \"none\"` | `\"shimmer\"` or CSS variable | The animation type for the skeleton. Can be globally configured via `--skeleton-animation` CSS variable |\n| `className` | `string` | - | Additional CSS classes |",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:181"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"skeleton\" />",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:190"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "skeleton-basic",
+   "source": "apps/docs/src/demos/en/skeleton/basic.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <div className=\"shadow-panel w-[250px] space-y-5 rounded-lg bg-transparent p-4\">\n      <Skeleton className=\"h-32 rounded-lg\" />\n      <div className=\"space-y-3\">\n        <Skeleton className=\"h-3 w-3/5 rounded-lg\" />\n        <Skeleton className=\"h-3 w-4/5 rounded-lg\" />\n        <Skeleton className=\"h-3 w-2/5 rounded-lg\" />\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Text Content",
+   "section": "Examples",
+   "key": "skeleton-text-content",
+   "source": "apps/docs/src/demos/en/skeleton/text-content.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function TextContent() {\n  return (\n    <div className=\"w-full max-w-md space-y-3\">\n      <Skeleton className=\"h-4 w-full rounded\" />\n      <Skeleton className=\"h-4 w-5/6 rounded\" />\n      <Skeleton className=\"h-4 w-4/6 rounded\" />\n      <Skeleton className=\"h-4 w-full rounded\" />\n      <Skeleton className=\"h-4 w-3/6 rounded\" />\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "User Profile",
+   "section": "Examples",
+   "key": "skeleton-user-profile",
+   "source": "apps/docs/src/demos/en/skeleton/user-profile.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function UserProfile() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <Skeleton className=\"h-10 w-10 shrink-0 rounded-full\" />\n      <div className=\"flex-1 space-y-2\">\n        <Skeleton className=\"h-3 w-36 rounded-lg\" />\n        <Skeleton className=\"h-3 w-24 rounded-lg\" />\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "List Items",
+   "section": "Examples",
+   "key": "skeleton-list",
+   "source": "apps/docs/src/demos/en/skeleton/list.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function List() {\n  return (\n    <div className=\"w-full max-w-sm space-y-4\">\n      {Array.from({length: 3}).map((_, index) => (\n        <div key={index} className=\"flex items-center gap-3\">\n          <Skeleton className=\"h-10 w-10 shrink-0 rounded-lg\" />\n          <div className=\"flex-1 space-y-2\">\n            <Skeleton className=\"h-3 w-full rounded\" />\n            <Skeleton className=\"h-3 w-4/5 rounded\" />\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Grid",
+   "section": "Examples",
+   "key": "skeleton-grid",
+   "source": "apps/docs/src/demos/en/skeleton/grid.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function Grid() {\n  return (\n    <div className=\"grid w-full max-w-xl grid-cols-3 gap-4\">\n      <Skeleton className=\"h-24 rounded-xl\" />\n      <Skeleton className=\"h-24 rounded-xl\" />\n      <Skeleton className=\"h-24 rounded-xl\" />\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Single Shimmer",
+   "section": "Examples",
+   "key": "skeleton-single-shimmer",
+   "source": "apps/docs/src/demos/en/skeleton/single-shimmer.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function SingleShimmer() {\n  return (\n    <div className=\"skeleton--shimmer relative grid w-full max-w-xl grid-cols-3 gap-4 overflow-hidden rounded-xl\">\n      <Skeleton animationType=\"none\" className=\"h-24 rounded-xl\" />\n      <Skeleton animationType=\"none\" className=\"h-24 rounded-xl\" />\n      <Skeleton animationType=\"none\" className=\"h-24 rounded-xl\" />\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Animation Types",
+   "section": "Examples",
+   "key": "skeleton-animation-types",
+   "source": "apps/docs/src/demos/en/skeleton/animation-types.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nexport function AnimationTypes() {\n  return (\n    <div className=\"grid w-full max-w-xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3\">\n      <div className=\"space-y-2\">\n        <p className=\"truncate text-xs text-muted\">Shimmer</p>\n        <div className=\"shadow-panel space-y-3 rounded-lg bg-transparent p-4\">\n          <Skeleton animationType=\"shimmer\" className=\"h-20 rounded-lg\" />\n          <Skeleton animationType=\"shimmer\" className=\"h-3 w-3/5 rounded-lg\" />\n          <Skeleton animationType=\"shimmer\" className=\"h-3 w-4/5 rounded-lg\" />\n        </div>\n      </div>\n\n      <div className=\"space-y-2\">\n        <p className=\"truncate text-xs text-muted\">Pulse</p>\n        <div className=\"shadow-panel space-y-3 rounded-lg bg-transparent p-4\">\n          <Skeleton animationType=\"pulse\" className=\"h-20 rounded-lg\" />\n          <Skeleton animationType=\"pulse\" className=\"h-3 w-3/5 rounded-lg\" />\n          <Skeleton animationType=\"pulse\" className=\"h-3 w-4/5 rounded-lg\" />\n        </div>\n      </div>\n\n      <div className=\"space-y-2\">\n        <p className=\"truncate text-xs text-muted\">None</p>\n        <div className=\"shadow-panel space-y-3 rounded-lg bg-transparent p-4\">\n          <Skeleton animationType=\"none\" className=\"h-20 rounded-lg\" />\n          <Skeleton animationType=\"none\" className=\"h-3 w-3/5 rounded-lg\" />\n          <Skeleton animationType=\"none\" className=\"h-3 w-4/5 rounded-lg\" />\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "skeleton-custom-styles",
+   "source": "apps/docs/src/demos/en/skeleton/custom-styles.tsx",
+   "code": "import {Skeleton} from \"@heroui/react\";\n\nconst bone = \"animate-shine rounded-lg bg-neutral-200/90 dark:bg-neutral-800/90\";\n\nexport function CustomStyles() {\n  return (\n    <div className=\"w-[250px] space-y-5 rounded-xl border border-border/80 bg-surface p-4 shadow-sm ring-1 ring-black/5 dark:ring-white/10\">\n      <Skeleton className={`h-32 ${bone}`} />\n      <div className=\"space-y-3\">\n        <Skeleton className={`h-3 w-3/5 ${bone}`} />\n        <Skeleton className={`h-3 w-4/5 ${bone}`} />\n        <Skeleton className={`h-3 w-2/5 ${bone}`} />\n      </div>\n    </div>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Skeleton",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`animationType`",
+     "`\"shimmer\" | \"pulse\" | \"none\"`",
+     "`\"shimmer\"` or CSS variable",
+     "The animation type for the skeleton. Can be globally configured via `--skeleton-animation` CSS variable",
+     "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:187"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:188"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:183",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`animationType`",
+   "prop": "animationType",
+   "values": [
+    "shimmer",
+    "pulse",
+    "none"
+   ],
+   "other": [],
+   "default": "`\"shimmer\"` or CSS variable",
+   "owner": "Skeleton",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/skeleton.mdx:187"
+  }
+ ]
+}

@@ -1,0 +1,721 @@
+{
+ "slug": "time-field",
+ "title": "TimeField",
+ "description": "Time input field with labels, descriptions, and validation built on React Aria TimeField",
+ "group": "Date And Time",
+ "links": {
+  "rac": "TimeField",
+  "sourceFile": "time-field/time-field.tsx",
+  "styles": "time-field.css",
+  "storybook": "Components/Date and Time/TimeField"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { TimeField } from '@heroui/react';\n```\n\n<ComponentPreview name=\"time-field-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:11"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {TimeField, Label, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <TimeField>\n    <Label />\n    <TimeField.Group>\n      <TimeField.Input>\n        {(segment) => <TimeField.Segment segment={segment} />}\n      </TimeField.Input>\n    </TimeField.Group>\n    <Description />\n    <FieldError />\n  </TimeField>\n)\n```\n\n> **TimeField** combines label, time input, description, and error into a single accessible component.",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:19"
+  },
+  {
+   "name": "Examples",
+   "body": "### With Icons\n\nAdd prefix or suffix icons to enhance the time field.\n\n<ComponentPreview name=\"time-field-with-prefix-icon\" />\n\n<ComponentPreview name=\"time-field-with-suffix-icon\" />\n\n<ComponentPreview name=\"time-field-with-prefix-and-suffix\" />\n\n### On Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` on TimeField.Group to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"time-field-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"time-field-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"time-field-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"time-field-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"time-field-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"time-field-invalid\" />\n\n### Controlled\n\nControl the value to synchronize with other components or state management.\n\n<ComponentPreview name=\"time-field-controlled\" />\n\n### Form Example\n\nComplete form example with validation and submission handling.\n\n<ComponentPreview name=\"time-field-form-example\" />\n\n### With Validation\n\nTimeField supports validation with `minValue`, `maxValue`, and custom validation logic.\n\n<ComponentPreview name=\"time-field-with-validation\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"time-field-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:40"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"time-field-custom-styles\" />\n\n### Global CSS\n\nTimeField has minimal default styling. Override the `.time-field` class to customize the container styling.\n\n```css\n@layer components {\n  .time-field {\n    @apply flex flex-col gap-1;\n\n    &[data-invalid=\"true\"],\n    &[aria-invalid=\"true\"] {\n      [data-slot=\"description\"] {\n        @apply hidden;\n      }\n    }\n\n    [data-slot=\"label\"] {\n      @apply w-fit;\n    }\n\n    [data-slot=\"description\"] {\n      @apply px-1;\n    }\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:104"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n- `.time-field` – Root container with minimal styling (`flex flex-col gap-1`)\n\n> **Note:** Child components ([Label](/docs/components/label), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options. TimeField.Group styling is documented below in the API Reference section.\n\n### Interactive States\n\nTimeField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Required**: `[data-required=\"true\"]` - Applied when `isRequired` is true\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when any child input is focused",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:137"
+  },
+  {
+   "name": "API Reference",
+   "body": "### TimeField\n\nTimeField inherits all props from React Aria's [TimeField](https://react-aria.adobe.com/TimeField) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: TimeFieldRenderProps) => React.ReactNode` | - | Child components (Label, TimeField.Group, etc.) or render function. |\n| `className` | `string \\| (values: TimeFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: TimeFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the time field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TimeFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `TimeValue \\| null` | - | Current value (controlled). Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `defaultValue` | `TimeValue \\| null` | - | Default value (uncontrolled). Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `onChange` | `(value: TimeValue \\| null) => void` | - | Handler called when the value changes. |\n| `placeholderValue` | `TimeValue \\| null` | - | Placeholder time that influences the format of the placeholder. Defaults to 12:00 AM or 00:00 depending on the hour cycle. |\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `minValue` | `TimeValue \\| null` | - | The minimum allowed time that a user may select. Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `maxValue` | `TimeValue \\| null` | - | The maximum allowed time that a user may select. Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `validate` | `(value: TimeValue) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n\n#### Format Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `granularity` | `'hour' \\| 'minute' \\| 'second'` | `'minute'` | Determines the smallest unit displayed in the time picker. |\n| `hourCycle` | `12 \\| 24` | - | Whether to display time in 12 or 24 hour format. By default, determined by locale. |\n| `hideTimeZone` | `boolean` | `false` | Whether to hide the time zone abbreviation. |\n| `shouldForceLeadingZeros` | `boolean` | - | Whether to always show leading zeros in the hour field. By default, determined by locale. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. Submits as ISO 8601 string. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nTimeField works with these separate components that should be imported and used directly:\n\n- **Label** - Field label component from `@heroui/react`\n- **TimeField.Group** - Time input group component (documented below)\n- **TimeField.Input** - Input component with segmented editing from `@heroui/react`\n- **TimeField.Segment** - Individual time segment (hour, minute, second, etc.)\n- **TimeField.Prefix** / **TimeField.Suffix** - Prefix and suffix slots for the input group\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within TimeField for composition:\n\n```tsx\nimport {parseTime} from '@internationalized/date';\nimport {TimeField, Label, Description, FieldError} from '@heroui/react';\n\n<TimeField\n  isRequired\n  isInvalid={hasError}\n  minValue={parseTime('09:00')}\n  maxValue={parseTime('17:00')}\n  value={time}\n  onChange={setTime}\n>\n  <Label>Appointment Time</Label>\n  <TimeField.Group>\n    <TimeField.Input>\n      {(segment) => <TimeField.Segment segment={segment} />}\n    </TimeField.Input>\n  </TimeField.Group>\n  <Description>Select a time between 9:00 AM and 5:00 PM.</Description>\n  <FieldError>Please select a valid time.</FieldError>\n</TimeField>\n```\n\n### TimeValue Types\n\nTimeField uses types from [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/):\n\n- `Time` - Time only (hour, minute, second)\n- `CalendarDateTime` - Date with time but no timezone (TimeField displays only the time portion)\n- `ZonedDateTime` - Date with time and timezone (TimeField displays only the time portion)\n\nExample:\n\n```tsx\nimport {parseTime, Time, getLocalTimeZone, now} from '@internationalized/date';\n\n// Parse from string\nconst time = parseTime('14:30');\n\n// Create from current time\nconst currentTime = now(getLocalTimeZone());\nconst timeValue = new Time(currentTime.hour, currentTime.minute, currentTime.second);\n\n// Use in TimeField\n<TimeField value={time} onChange={setTime}>\n  {/* ... */}\n</TimeField>\n```\n\n> **Note:** TimeField uses the [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) package for time manipulation, parsing, and type definitions. See the [Internationalized Date documentation](https://react-aria.adobe.com/internationalized/date/) for more information about available types and functions.\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused. |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |\n\n### TimeField.Group\n\nTimeField.Group accepts all props from React Aria's `Group` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\n### TimeField.Input\n\nTimeField.Input accepts all props from React Aria's `DateInput` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\nThe `TimeField.Input` component accepts a render prop function that receives date segments. Each segment represents a part of the time (hour, minute, second, etc.).\n\n### TimeField.Segment\n\nTimeField.Segment accepts all props from React Aria's `DateSegment` component:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `segment` | `DateSegment` | - | The date segment object from the TimeField.Input render prop. |\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n\n### TimeField.Prefix\n\nTimeField.Prefix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the prefix slot. |\n\n### TimeField.Suffix\n\nTimeField.Suffix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the suffix slot. |",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:156"
+  },
+  {
+   "name": "TimeField.Group Styling",
+   "body": "### Customizing the component classes\n\nThe base classes power every instance. Override them once with `@layer components`.\n\n```css\n@layer components {\n  .date-input-group {\n    @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none;\n\n    &:hover,\n    &[data-hovered=\"true\"] {\n      @apply bg-field-hover;\n    }\n\n    &[data-focus-within=\"true\"],\n    &:focus-within {\n      @apply status-focused-field;\n    }\n\n    &[data-invalid=\"true\"] {\n      @apply status-invalid-field;\n    }\n\n    &[data-disabled=\"true\"],\n    &[aria-disabled=\"true\"] {\n      @apply status-disabled;\n    }\n  }\n\n  .date-input-group__input {\n    @apply flex flex-1 items-center gap-px rounded-none border-0 bg-transparent px-3 py-2 shadow-none outline-none;\n  }\n\n  .date-input-group__segment {\n    @apply inline-block rounded-md px-0.5 text-end tabular-nums outline-none;\n\n    &:focus,\n    &[data-focused=\"true\"] {\n      @apply bg-accent-soft text-accent-soft-foreground;\n    }\n  }\n\n  .date-input-group__prefix,\n  .date-input-group__suffix {\n    @apply pointer-events-none shrink-0 text-field-placeholder flex items-center;\n  }\n}\n```\n\n### TimeField.Group CSS Classes\n\n- `.date-input-group` – Root container styling\n- `.date-input-group__input` – Input wrapper styling\n- `.date-input-group__segment` – Individual time segment styling\n- `.date-input-group__prefix` – Prefix element styling\n- `.date-input-group__suffix` – Suffix element styling\n\n### TimeField.Group Interactive States\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Focus Within**: `[data-focus-within=\"true\"]` or `:focus-within`\n- **Invalid**: `[data-invalid=\"true\"]` (also syncs with `aria-invalid`)\n- **Disabled**: `[data-disabled=\"true\"]` or `[aria-disabled=\"true\"]`\n- **Segment Focus**: `:focus` or `[data-focused=\"true\"]` on segment elements\n- **Segment Placeholder**: `[data-placeholder=\"true\"]` on segment elements",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:351"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"timefield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:419"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "time-field-basic",
+   "source": "apps/docs/src/demos/en/time-field/basic.tsx",
+   "code": "\"use client\";\n\nimport {Label, TimeField} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <TimeField className=\"w-[256px]\" name=\"time\">\n      <Label>Time</Label>\n      <TimeField.Group>\n        <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n      </TimeField.Group>\n    </TimeField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "time-field-with-prefix-icon",
+   "source": "apps/docs/src/demos/en/time-field/with-prefix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Clock} from \"@gravity-ui/icons\";\nimport {Label, TimeField} from \"@heroui/react\";\n\nexport function WithPrefixIcon() {\n  return (\n    <TimeField className=\"w-[256px]\" name=\"time\">\n      <Label>Time</Label>\n      <TimeField.Group>\n        <TimeField.Prefix>\n          <Clock className=\"size-4 text-muted\" />\n        </TimeField.Prefix>\n        <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n      </TimeField.Group>\n    </TimeField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "time-field-with-suffix-icon",
+   "source": "apps/docs/src/demos/en/time-field/with-suffix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Clock} from \"@gravity-ui/icons\";\nimport {Label, TimeField} from \"@heroui/react\";\n\nexport function WithSuffixIcon() {\n  return (\n    <TimeField className=\"w-[256px]\" name=\"time\">\n      <Label>Time</Label>\n      <TimeField.Group>\n        <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        <TimeField.Suffix>\n          <Clock className=\"size-4 text-muted\" />\n        </TimeField.Suffix>\n      </TimeField.Group>\n    </TimeField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "time-field-with-prefix-and-suffix",
+   "source": "apps/docs/src/demos/en/time-field/with-prefix-and-suffix.tsx",
+   "code": "\"use client\";\n\nimport {ChevronDown, Clock} from \"@gravity-ui/icons\";\nimport {Description, Label, TimeField} from \"@heroui/react\";\n\nexport function WithPrefixAndSuffix() {\n  return (\n    <TimeField className=\"w-[256px]\" name=\"time\">\n      <Label>Time</Label>\n      <TimeField.Group>\n        <TimeField.Prefix>\n          <Clock className=\"size-4 text-muted\" />\n        </TimeField.Prefix>\n        <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        <TimeField.Suffix>\n          <ChevronDown className=\"size-4 text-muted\" />\n        </TimeField.Suffix>\n      </TimeField.Group>\n      <Description>Enter a time</Description>\n    </TimeField>\n  );\n}\n"
+  },
+  {
+   "name": "On Surface",
+   "section": "Examples",
+   "key": "time-field-on-surface",
+   "source": "apps/docs/src/demos/en/time-field/on-surface.tsx",
+   "code": "\"use client\";\n\nimport {Clock} from \"@gravity-ui/icons\";\nimport {Description, Label, Surface, TimeField} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"flex w-full max-w-sm flex-col gap-4 rounded-3xl p-6\">\n      <TimeField className=\"w-full\" name=\"time\">\n        <Label>Time</Label>\n        <TimeField.Group variant=\"secondary\">\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Enter a time</Description>\n      </TimeField>\n      <TimeField className=\"w-full\" name=\"time-2\">\n        <Label>Appointment time</Label>\n        <TimeField.Group variant=\"secondary\">\n          <TimeField.Prefix>\n            <Clock className=\"size-4 text-muted\" />\n          </TimeField.Prefix>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Enter a time for your appointment</Description>\n      </TimeField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "time-field-with-description",
+   "source": "apps/docs/src/demos/en/time-field/with-description.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, TimeField} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField className=\"w-[256px]\" name=\"time\">\n        <Label>Start time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Enter the start time</Description>\n      </TimeField>\n      <TimeField className=\"w-[256px]\" name=\"end-time\">\n        <Label>End time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Enter the end time</Description>\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "time-field-required",
+   "source": "apps/docs/src/demos/en/time-field/required.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, TimeField} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField isRequired className=\"w-[256px]\" name=\"time\">\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n      </TimeField>\n      <TimeField isRequired className=\"w-[256px]\" name=\"appointment-time\">\n        <Label>Appointment time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Required field</Description>\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "time-field-disabled",
+   "source": "apps/docs/src/demos/en/time-field/disabled.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, TimeField} from \"@heroui/react\";\nimport {Time, getLocalTimeZone, now} from \"@internationalized/date\";\n\nexport function Disabled() {\n  const currentTime = now(getLocalTimeZone());\n  const timeValue = new Time(currentTime.hour, currentTime.minute, currentTime.second);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField isDisabled className=\"w-[256px]\" name=\"time\" value={timeValue}>\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>This time field is disabled</Description>\n      </TimeField>\n      <TimeField isDisabled className=\"w-[256px]\" name=\"time-empty\">\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>This time field is disabled</Description>\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "time-field-full-width",
+   "source": "apps/docs/src/demos/en/time-field/full-width.tsx",
+   "code": "\"use client\";\n\nimport {ChevronDown, Clock} from \"@gravity-ui/icons\";\nimport {Label, TimeField} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <TimeField fullWidth name=\"time\">\n        <Label>Time</Label>\n        <TimeField.Group fullWidth>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n      </TimeField>\n      <TimeField fullWidth name=\"time-icons\">\n        <Label>Time</Label>\n        <TimeField.Group fullWidth>\n          <TimeField.Prefix>\n            <Clock className=\"size-4 text-muted\" />\n          </TimeField.Prefix>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n          <TimeField.Suffix>\n            <ChevronDown className=\"size-4 text-muted\" />\n          </TimeField.Suffix>\n        </TimeField.Group>\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "time-field-invalid",
+   "source": "apps/docs/src/demos/en/time-field/invalid.tsx",
+   "code": "\"use client\";\n\nimport {FieldError, Label, TimeField} from \"@heroui/react\";\n\nexport function Invalid() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField isInvalid isRequired className=\"w-[256px]\" name=\"time\">\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <FieldError>Please enter a valid time</FieldError>\n      </TimeField>\n      <TimeField isInvalid className=\"w-[256px]\" name=\"invalid-time\">\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <FieldError>Time must be within business hours</FieldError>\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "time-field-controlled",
+   "source": "apps/docs/src/demos/en/time-field/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {TimeValue} from \"@heroui/react\";\n\nimport {Button, Description, Label, TimeField} from \"@heroui/react\";\nimport {Time, getLocalTimeZone, now} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = useState<TimeValue | null>(null);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField className=\"w-[256px]\" name=\"time\" value={value} onChange={setValue}>\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        <Description>Current value: {value ? value.toString() : \"(empty)\"}</Description>\n      </TimeField>\n      <div className=\"flex gap-2\">\n        <Button\n          variant=\"tertiary\"\n          onPress={() => {\n            const currentTime = now(getLocalTimeZone());\n\n            setValue(new Time(currentTime.hour, currentTime.minute, currentTime.second));\n          }}\n        >\n          Set now\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(null)}>\n          Clear\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "time-field-form-example",
+   "source": "apps/docs/src/demos/en/time-field/form-example.tsx",
+   "code": "\"use client\";\n\nimport type {Time} from \"@internationalized/date\";\n\nimport {Clock} from \"@gravity-ui/icons\";\nimport {Button, Description, FieldError, Form, Label, TimeField} from \"@heroui/react\";\nimport {parseTime} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = useState<Time | null>(null);\n  const [isSubmitting, setIsSubmitting] = useState(false);\n  const minTime = parseTime(\"09:00\");\n  const maxTime = parseTime(\"17:00\");\n  const isInvalid = value !== null && (value.compare(minTime) < 0 || value.compare(maxTime) > 0);\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n\n    if (!value || isInvalid) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    // Simulate API call\n    setTimeout(() => {\n      console.log(\"Time submitted:\", {time: value});\n      setValue(null);\n      setIsSubmitting(false);\n    }, 1500);\n  };\n\n  return (\n    <Form className=\"flex w-[280px] flex-col gap-4\" onSubmit={handleSubmit}>\n      <TimeField\n        isRequired\n        className=\"w-full\"\n        isInvalid={isInvalid}\n        maxValue={maxTime}\n        minValue={minTime}\n        name=\"time\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Appointment time</Label>\n        <TimeField.Group>\n          <TimeField.Prefix>\n            <Clock className=\"size-4 text-muted\" />\n          </TimeField.Prefix>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        {isInvalid ? (\n          <FieldError>Time must be between 9:00 AM and 5:00 PM</FieldError>\n        ) : (\n          <Description>Enter a time between 9:00 AM and 5:00 PM</Description>\n        )}\n      </TimeField>\n      <Button\n        className=\"w-full\"\n        isDisabled={!value || isInvalid}\n        isPending={isSubmitting}\n        type=\"submit\"\n        variant=\"primary\"\n      >\n        {isSubmitting ? \"Submitting...\" : \"Submit\"}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "With Validation",
+   "section": "Examples",
+   "key": "time-field-with-validation",
+   "source": "apps/docs/src/demos/en/time-field/with-validation.tsx",
+   "code": "\"use client\";\n\nimport type {Time} from \"@internationalized/date\";\n\nimport {Description, FieldError, Label, TimeField} from \"@heroui/react\";\nimport {parseTime} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function WithValidation() {\n  const [value, setValue] = useState<Time | null>(null);\n  const minTime = parseTime(\"09:00\");\n  const maxTime = parseTime(\"17:00\");\n  const isInvalid = value !== null && (value.compare(minTime) < 0 || value.compare(maxTime) > 0);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TimeField\n        isRequired\n        className=\"w-[256px]\"\n        isInvalid={isInvalid}\n        maxValue={maxTime}\n        minValue={minTime}\n        name=\"time\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Time</Label>\n        <TimeField.Group>\n          <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n        </TimeField.Group>\n        {isInvalid ? (\n          <FieldError>Time must be between 9:00 AM and 5:00 PM</FieldError>\n        ) : (\n          <Description>Enter a time between 9:00 AM and 5:00 PM</Description>\n        )}\n      </TimeField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "time-field-render-function",
+   "source": "apps/docs/src/demos/en/time-field/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Label, TimeField} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <TimeField\n      className=\"w-[256px]\"\n      name=\"time\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>Time</Label>\n      <TimeField.Group>\n        <TimeField.Input>{(segment) => <TimeField.Segment segment={segment} />}</TimeField.Input>\n      </TimeField.Group>\n    </TimeField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "time-field-custom-styles",
+   "source": "apps/docs/src/demos/en/time-field/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, TimeField} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <TimeField className=\"w-full max-w-48 gap-1.5\" name=\"reminder\">\n      <Label className=\"font-medium text-foreground\">Reminder time</Label>\n      <Description>Daily check-in notification.</Description>\n      <TimeField.Group className=\"rounded-xl border border-border/80 bg-surface px-2 py-1 shadow-sm ring-1 ring-accent/5 focus-within:border-accent/25 focus-within:ring-2 focus-within:ring-accent/15\">\n        <TimeField.Input>\n          {(segment) => <TimeField.Segment className=\"text-foreground\" segment={segment} />}\n        </TimeField.Input>\n      </TimeField.Group>\n    </TimeField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: TimeFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, TimeField.Group, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:166"
+    ],
+    [
+     "`className`",
+     "`string | (values: TimeFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:167"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: TimeFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:168"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the time field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:169"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:170"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TimeFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:171"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`TimeValue | null`",
+     "-",
+     "Current value (controlled). Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:177"
+    ],
+    [
+     "`defaultValue`",
+     "`TimeValue | null`",
+     "-",
+     "Default value (uncontrolled). Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:178"
+    ],
+    [
+     "`onChange`",
+     "`(value: TimeValue | null) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:179"
+    ],
+    [
+     "`placeholderValue`",
+     "`TimeValue | null`",
+     "-",
+     "Placeholder time that influences the format of the placeholder. Defaults to 12:00 AM or 00:00 depending on the hour cycle.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:180"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:186"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:187"
+    ],
+    [
+     "`minValue`",
+     "`TimeValue | null`",
+     "-",
+     "The minimum allowed time that a user may select. Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:188"
+    ],
+    [
+     "`maxValue`",
+     "`TimeValue | null`",
+     "-",
+     "The maximum allowed time that a user may select. Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:189"
+    ],
+    [
+     "`validate`",
+     "`(value: TimeValue) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:190"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:191"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`granularity`",
+     "`'hour' | 'minute' | 'second'`",
+     "`'minute'`",
+     "Determines the smallest unit displayed in the time picker.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:197"
+    ],
+    [
+     "`hourCycle`",
+     "`12 | 24`",
+     "-",
+     "Whether to display time in 12 or 24 hour format. By default, determined by locale.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:198"
+    ],
+    [
+     "`hideTimeZone`",
+     "`boolean`",
+     "`false`",
+     "Whether to hide the time zone abbreviation.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:199"
+    ],
+    [
+     "`shouldForceLeadingZeros`",
+     "`boolean`",
+     "-",
+     "Whether to always show leading zeros in the hour field. By default, determined by locale.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:200"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:206"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:207"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission. Submits as ISO 8601 string.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:213"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:214"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:220"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:221"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:222"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:223"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:296"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:297"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:298"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:299"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:300"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:301"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:302"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:290",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField.Group",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:310"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:311"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:304",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField.Input",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:319"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:320"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:313",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField.Segment",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`segment`",
+     "`DateSegment`",
+     "-",
+     "The date segment object from the TimeField.Input render prop.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:330"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:331"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:324",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField.Prefix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:339"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the prefix slot.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:340"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:333",
+   "section": "API Reference"
+  },
+  {
+   "name": "TimeField.Suffix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:348"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the suffix slot.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:349"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:342",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "TimeField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:191"
+  },
+  {
+   "name": "`granularity`",
+   "prop": "granularity",
+   "values": [
+    "hour",
+    "minute",
+    "second"
+   ],
+   "other": [],
+   "default": "`'minute'`",
+   "owner": "TimeField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:197"
+  },
+  {
+   "name": "`hourCycle`",
+   "prop": "hourCycle",
+   "values": [
+    "12",
+    "24"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "TimeField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:198"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "TimeField.Group",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:311"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "TimeField.Input",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/time-field.mdx:320"
+  }
+ ]
+}

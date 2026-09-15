@@ -1,0 +1,347 @@
+{
+ "slug": "tabs",
+ "title": "Tabs",
+ "description": "Tabs organize content into multiple sections and allow users to navigate between them.",
+ "group": "Navigation",
+ "links": {
+  "rac": "Tabs",
+  "sourceFile": "tabs/tabs.tsx",
+  "styles": "tabs.css",
+  "storybook": "Components/Navigation/Tabs",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Tabs } from '@heroui/react';\n```\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:13"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Tabs } from '@heroui/react';\n\nexport default () => (\n  <Tabs>\n    <Tabs.ListContainer>\n      <Tabs.List aria-label=\"Options\">\n        <Tabs.Tab>\n          <Tabs.Separator /> {/* Optional */}\n          <Tabs.Indicator />\n        </Tabs.Tab>\n      </Tabs.List>\n    </Tabs.ListContainer>\n    <Tabs.Panel/>\n  </Tabs>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:24"
+  },
+  {
+   "name": "Examples",
+   "body": "### Vertical\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-vertical\"\n/>\n\n### Overflow\n\nWhen the tab list exceeds the available space, `Tabs.ListContainer` automatically renders scroll chevrons and fading edges so users can navigate the hidden tabs. This works the same way for both horizontal and vertical orientations.\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-overflow\"\n/>\n\n### Disabled Tab\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-disabled\"\n/>\n\n### With Separator\n\nAdd `<Tabs.Separator />` inside each `<Tabs.Tab>` (except the first) to display separator lines between tabs.\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-with-separator\"\n/>\n\n### Secondary Variant\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-secondary\"\n/>\n\n### Secondary Variant Vertical\n\n<ComponentPreview\n  isBgSolid\n  name=\"tabs-secondary-vertical\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"tabs-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:44"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"tabs-custom-styles\" />\n\n### Global CSS\n\nTo customize the Tabs component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .tabs__list {\n    @apply rounded-xl border border-border bg-surface p-1;\n  }\n\n  .tabs__tab {\n    @apply rounded-lg font-medium;\n  }\n\n  .tabs__indicator {\n    @apply rounded-lg bg-foreground shadow-sm;\n  }\n\n  .tabs--secondary > .tabs__list-container > .tabs__list {\n    @apply border-b border-border bg-transparent p-0;\n  }\n\n  .tabs--secondary > .tabs__list-container .tabs__indicator {\n    @apply rounded-none bg-accent;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:98"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Tabs component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/tabs.css)):\n\n#### Base Classes [!toc]\n- `.tabs` - Base tabs container\n- `.tabs__list-container` - Tab list container wrapper\n- `.tabs__list-container__scroller` - Scrollable wrapper around the tab list (handles overflow and fading edges)\n- `.tabs__list-container__scroll-prev` - Scroll chevron button for the previous (left / up) direction\n- `.tabs__list-container__scroll-next` - Scroll chevron button for the next (right / down) direction\n- `.tabs__list` - Tab list container\n- `.tabs__tab` - Individual tab button\n- `.tabs__separator` - Separator between tabs\n- `.tabs__panel` - Tab panel content\n- `.tabs__indicator` - Tab indicator\n\n#### Orientation Attributes [!toc]\n- `.tabs[data-orientation=\"horizontal\"]` - Horizontal tab layout (default)\n- `.tabs[data-orientation=\"vertical\"]` - Vertical tab layout\n\n#### Variant Classes [!toc]\n- `.tabs--secondary` - Secondary variant with underline indicator\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes:\n\n- **Selected**: `[aria-selected=\"true\"]`\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]`\n- **Disabled**: `[aria-disabled=\"true\"]`",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:133"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Tabs\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual style variant. Primary uses a filled indicator, secondary uses an underline indicator |\n| `orientation` | `\"horizontal\" \\| \"vertical\"` | `\"horizontal\"` | Tab layout orientation |\n| `selectedKey` | `string` | - | Controlled selected tab key |\n| `defaultSelectedKey` | `string` | - | Default selected tab key |\n| `onSelectionChange` | `(key: Key) => void` | - | Selection change handler |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabsRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Tabs.List\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label for tab list |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabListRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Tabs.Tab\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `id` | `string` | - | Unique tab identifier |\n| `isDisabled` | `boolean` | `false` | Whether tab is disabled |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Tabs.Separator\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n\n### Tabs.Panel\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `id` | `string` | - | Panel identifier matching tab id |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabPanelRenderProps>` | - | Overrides the default DOM element with a custom render function.|",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:169"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"Tabs\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:214"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"tabs\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:218"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "tabs-basic",
+   "source": "apps/docs/src/demos/en/tabs/basic.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <Tabs className=\"w-full max-w-md\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Options\">\n          <Tabs.Tab id=\"overview\">\n            Overview\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"analytics\">\n            Analytics\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"reports\">\n            Reports\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-4\" id=\"overview\">\n        <p>View your project overview and recent activity.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"analytics\">\n        <p>Track your metrics and analyze performance data.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"reports\">\n        <p>Generate and download detailed reports.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Vertical",
+   "section": "Examples",
+   "key": "tabs-vertical",
+   "source": "apps/docs/src/demos/en/tabs/vertical.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function Vertical() {\n  return (\n    <Tabs className=\"w-full max-w-lg\" orientation=\"vertical\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Vertical tabs\">\n          <Tabs.Tab id=\"account\">\n            Account\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"security\">\n            Security\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"notifications\">\n            Notifications\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"billing\">\n            Billing\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"px-4\" id=\"account\">\n        <h3 className=\"mb-2 font-semibold\">Account Settings</h3>\n        <p className=\"text-sm text-muted\">Manage your account information and preferences.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"security\">\n        <h3 className=\"mb-2 font-semibold\">Security Settings</h3>\n        <p className=\"text-sm text-muted\">\n          Configure two-factor authentication and password settings.\n        </p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"notifications\">\n        <h3 className=\"mb-2 font-semibold\">Notification Preferences</h3>\n        <p className=\"text-sm text-muted\">Choose how and when you want to receive notifications.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"billing\">\n        <h3 className=\"mb-2 font-semibold\">Billing Information</h3>\n        <p className=\"text-sm text-muted\">View and manage your subscription and payment methods.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Overflow",
+   "section": "Examples",
+   "key": "tabs-overflow",
+   "source": "apps/docs/src/demos/en/tabs/overflow.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nconst items = [\n  {id: \"overview\", label: \"Overview\"},\n  {id: \"analytics\", label: \"Analytics\"},\n  {id: \"reports\", label: \"Reports\"},\n  {id: \"performance\", label: \"Performance\"},\n  {id: \"engagement\", label: \"Engagement\"},\n  {id: \"audience\", label: \"Audience\"},\n  {id: \"acquisition\", label: \"Acquisition\"},\n  {id: \"retention\", label: \"Retention\"},\n  {id: \"settings\", label: \"Settings\"},\n];\n\nexport function Overflow() {\n  return (\n    <div className=\"w-[400px]\">\n      <Tabs>\n        <Tabs.ListContainer>\n          <Tabs.List aria-label=\"Overflow options\">\n            {items.map((item) => (\n              <Tabs.Tab key={item.id} id={item.id}>\n                {item.label}\n                <Tabs.Indicator />\n              </Tabs.Tab>\n            ))}\n          </Tabs.List>\n        </Tabs.ListContainer>\n        {items.map((item) => (\n          <Tabs.Panel key={item.id} className=\"pt-4\" id={item.id}>\n            <p>{item.label} panel content.</p>\n          </Tabs.Panel>\n        ))}\n      </Tabs>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled Tab",
+   "section": "Examples",
+   "key": "tabs-disabled",
+   "source": "apps/docs/src/demos/en/tabs/disabled.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <Tabs className=\"w-full max-w-md\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Tabs with disabled\">\n          <Tabs.Tab id=\"active\">\n            Active\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab isDisabled id=\"disabled\">\n            Disabled\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"available\">\n            Available\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-4\" id=\"active\">\n        <p>This tab is active and can be selected.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"disabled\">\n        <p>This content cannot be accessed.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"available\">\n        <p>This tab is also available for selection.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "With Separator",
+   "section": "Examples",
+   "key": "tabs-with-separator",
+   "source": "apps/docs/src/demos/en/tabs/with-separator.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function WithSeparator() {\n  return (\n    <Tabs className=\"w-full max-w-md\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Options\">\n          <Tabs.Tab id=\"overview\">\n            Overview\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"analytics\">\n            <Tabs.Separator />\n            Analytics\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"reports\">\n            <Tabs.Separator />\n            Reports\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-4\" id=\"overview\">\n        <p>View your project overview and recent activity.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"analytics\">\n        <p>Track your metrics and analyze performance data.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"reports\">\n        <p>Generate and download detailed reports.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Secondary Variant",
+   "section": "Examples",
+   "key": "tabs-secondary",
+   "source": "apps/docs/src/demos/en/tabs/secondary.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function Secondary() {\n  return (\n    <Tabs className=\"w-full max-w-md\" variant=\"secondary\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Options\">\n          <Tabs.Tab id=\"overview\">\n            Overview\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"analytics\">\n            Analytics\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"reports\">\n            Reports\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-4\" id=\"overview\">\n        <p>View your project overview and recent activity.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"analytics\">\n        <p>Track your metrics and analyze performance data.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"reports\">\n        <p>Generate and download detailed reports.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Secondary Variant Vertical",
+   "section": "Examples",
+   "key": "tabs-secondary-vertical",
+   "source": "apps/docs/src/demos/en/tabs/secondary-vertical.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nexport function SecondaryVertical() {\n  return (\n    <Tabs className=\"w-full max-w-lg\" orientation=\"vertical\" variant=\"secondary\">\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Vertical tabs\">\n          <Tabs.Tab id=\"account\">\n            Account\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"security\">\n            Security\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"notifications\">\n            Notifications\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"billing\">\n            Billing\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"px-4\" id=\"account\">\n        <h3 className=\"mb-2 font-semibold\">Account Settings</h3>\n        <p className=\"text-sm text-muted\">Manage your account information and preferences.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"security\">\n        <h3 className=\"mb-2 font-semibold\">Security Settings</h3>\n        <p className=\"text-sm text-muted\">\n          Configure two-factor authentication and password settings.\n        </p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"notifications\">\n        <h3 className=\"mb-2 font-semibold\">Notification Preferences</h3>\n        <p className=\"text-sm text-muted\">Choose how and when you want to receive notifications.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"px-4\" id=\"billing\">\n        <h3 className=\"mb-2 font-semibold\">Billing Information</h3>\n        <p className=\"text-sm text-muted\">View and manage your subscription and payment methods.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "tabs-render-function",
+   "source": "apps/docs/src/demos/en/tabs/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Tabs} from \"@heroui/react\";\nimport Link from \"next/link\";\n\nexport function RenderFunction() {\n  return (\n    <Tabs className=\"w-full max-w-md\" render={(props) => <div {...props} data-custom=\"foo\" />}>\n      <Tabs.ListContainer>\n        <Tabs.List aria-label=\"Options\">\n          <Tabs.Tab\n            href=\"/docs/react/getting-started\"\n            id=\"getting-started\"\n            render={(domProps: any) => <Link {...domProps} />}\n          >\n            Getting Started\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab\n            href=\"/docs/react/components\"\n            id=\"components\"\n            render={(domProps: any) => <Link {...domProps} />}\n          >\n            Components\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab\n            href=\"/docs/react/releases\"\n            id=\"releases\"\n            render={(domProps: any) => <Link {...domProps} />}\n          >\n            Releases\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-4\" id=\"overview\">\n        <p>View your project overview and recent activity.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"analytics\">\n        <p>Track your metrics and analyze performance data.</p>\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-4\" id=\"reports\">\n        <p>Generate and download detailed reports.</p>\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "tabs-custom-styles",
+   "source": "apps/docs/src/demos/en/tabs/custom-styles.tsx",
+   "code": "import {Tabs} from \"@heroui/react\";\n\nconst listClassName = [\n  \"rounded-xl border border-accent/10 bg-accent-soft/30 p-1\",\n  \"**:data-[slot=tabs-tab]:rounded-lg\",\n  \"**:data-[slot=tabs-tab]:bg-transparent\",\n  \"**:data-[slot=tabs-tab]:text-muted\",\n  \"**:data-[slot=tabs-tab]:opacity-100\",\n  \"**:data-[slot=tabs-tab]:transition-colors\",\n  \"**:data-[slot=tabs-tab]:data-[hovered=true]:not-data-[selected=true]:bg-accent-soft\",\n  \"**:data-[slot=tabs-tab]:data-[hovered=true]:not-data-[selected=true]:text-accent-soft-foreground\",\n  \"**:data-[slot=tabs-tab]:data-[pressed=true]:not-data-[selected=true]:bg-accent-soft-hover\",\n  \"**:data-[slot=tabs-tab]:data-[focus-visible=true]:ring-2\",\n  \"**:data-[slot=tabs-tab]:data-[focus-visible=true]:ring-accent/15\",\n  \"**:data-[slot=tabs-tab]:data-[selected=true]:font-medium\",\n  \"**:data-[slot=tabs-tab]:data-[selected=true]:text-accent-foreground\",\n  \"**:data-[slot=tabs-tab]:shadow-none\",\n  \"**:data-[slot=tabs-indicator]:rounded-lg\",\n  \"**:data-[slot=tabs-indicator]:bg-accent\",\n  \"**:data-[slot=tabs-indicator]:shadow-none\",\n].join(\" \");\n\nexport function CustomStyles() {\n  return (\n    <Tabs className=\"w-full max-w-sm\">\n      <Tabs.ListContainer className=\"rounded-none bg-transparent\">\n        <Tabs.List aria-label=\"Billing cycle\" className={listClassName}>\n          <Tabs.Tab id=\"monthly\">\n            Monthly\n            <Tabs.Indicator />\n          </Tabs.Tab>\n          <Tabs.Tab id=\"yearly\">\n            Yearly\n            <Tabs.Indicator />\n          </Tabs.Tab>\n        </Tabs.List>\n      </Tabs.ListContainer>\n      <Tabs.Panel className=\"pt-3 text-sm text-muted\" id=\"monthly\">\n        Billed monthly, cancel anytime.\n      </Tabs.Panel>\n      <Tabs.Panel className=\"pt-3 text-sm text-muted\" id=\"yearly\">\n        Save 20% with annual billing.\n      </Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Tabs",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual style variant. Primary uses a filled indicator, secondary uses an underline indicator",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:175"
+    ],
+    [
+     "`orientation`",
+     "`\"horizontal\" | \"vertical\"`",
+     "`\"horizontal\"`",
+     "Tab layout orientation",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:176"
+    ],
+    [
+     "`selectedKey`",
+     "`string`",
+     "-",
+     "Controlled selected tab key",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:177"
+    ],
+    [
+     "`defaultSelectedKey`",
+     "`string`",
+     "-",
+     "Default selected tab key",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:178"
+    ],
+    [
+     "`onSelectionChange`",
+     "`(key: Key) => void`",
+     "-",
+     "Selection change handler",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:179"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:180"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabsRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:181"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:171",
+   "section": "API Reference"
+  },
+  {
+   "name": "Tabs.List",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label for tab list",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:187"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:188"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabListRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:189"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:183",
+   "section": "API Reference"
+  },
+  {
+   "name": "Tabs.Tab",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "Unique tab identifier",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:195"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether tab is disabled",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:196"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:197"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:198"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:191",
+   "section": "API Reference"
+  },
+  {
+   "name": "Tabs.Separator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:204"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:200",
+   "section": "API Reference"
+  },
+  {
+   "name": "Tabs.Panel",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "Panel identifier matching tab id",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:210"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:211"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabPanelRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:212"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:206",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Tabs",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:175"
+  },
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "`\"horizontal\"`",
+   "owner": "Tabs",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/tabs.mdx:176"
+  }
+ ]
+}

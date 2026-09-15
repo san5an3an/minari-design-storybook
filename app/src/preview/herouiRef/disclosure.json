@@ -1,0 +1,253 @@
+{
+ "slug": "disclosure",
+ "title": "Disclosure",
+ "description": "A disclosure is a collapsible section with a header containing a heading and a trigger button, and a panel that wraps the content.",
+ "group": "Navigation",
+ "links": {
+  "rac": "Disclosure",
+  "sourceFile": "disclosure/disclosure.tsx",
+  "styles": "disclosure.css",
+  "storybook": "Components/Navigation/Disclosure",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Disclosure } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"disclosure-basic\"\n  minHeight=\"440px\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Disclosure } from '@heroui/react';\n\nexport default () => (\n  <Disclosure>\n    <Disclosure.Heading>\n      <Disclosure.Trigger>\n        <Disclosure.Indicator />\n      </Disclosure.Trigger>\n    </Disclosure.Heading>\n    <Disclosure.Content/>\n  </Disclosure>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:23"
+  },
+  {
+   "name": "Examples",
+   "body": "### Render Function\n\n<ComponentPreview\n  name=\"disclosure-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:40"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"disclosure-custom-styles\" />\n\n### Global CSS\n\nTo customize the Disclosure component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .disclosure {\n    @apply relative;\n  }\n\n  .disclosure__trigger {\n    @apply cursor-pointer;\n  }\n\n  .disclosure__indicator {\n    @apply transition-transform duration-300;\n  }\n\n  .disclosure__content {\n    @apply overflow-hidden transition-all;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:48"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Disclosure component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/disclosure.css)):\n\n#### Base Classes [!toc]\n- `.disclosure` - Base container styles\n- `.disclosure__heading` - Heading wrapper\n- `.disclosure__trigger` - Trigger button styles\n- `.disclosure__indicator` - Chevron indicator styles\n- `.disclosure__content` - Content container with animations\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Expanded**: `[data-expanded=\"true\"]` on indicator for rotation\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` on trigger\n- **Disabled**: `:disabled` or `[aria-disabled=\"true\"]` on trigger\n- **Hidden**: `[aria-hidden=\"false\"]` on content for visibility",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:79"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Disclosure\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isExpanded` | `boolean` | `false` | Controls the expanded state |\n| `onExpandedChange` | `(isExpanded: boolean) => void` | - | Callback when expanded state changes |\n| `isDisabled` | `boolean` | `false` | Whether the disclosure is disabled |\n| `children` | `ReactNode \\| RenderFunction` | - | Content to render |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, DisclosureRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### DisclosureTrigger\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode \\| RenderFunction` | - | Trigger content |\n| `className` | `string` | - | Additional CSS classes |\n\n### DisclosureContent\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | - | Content to show/hide |\n| `className` | `string` | - | Additional CSS classes |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, DisclosureContentRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Render Props\n\nWhen using the render prop pattern, these values are provided:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isExpanded` | `boolean` | Current expanded state |\n| `isDisabled` | `boolean` | Whether disclosure is disabled |",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:103"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"Disclosure\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:140"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"disclosure\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:144"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "disclosure-basic",
+   "source": "apps/docs/src/demos/en/disclosure/basic.tsx",
+   "code": "\"use client\";\n\nimport {QrCode} from \"@gravity-ui/icons\";\nimport {Button, Disclosure} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport React from \"react\";\n\nexport function Basic() {\n  const [isExpanded, setIsExpanded] = React.useState(true);\n\n  return (\n    <div className=\"w-full max-w-md text-center\">\n      <Disclosure isExpanded={isExpanded} onExpandedChange={setIsExpanded}>\n        <Disclosure.Heading>\n          <Button slot=\"trigger\" variant=\"secondary\">\n            <QrCode />\n            Preview HeroUI Native\n            <Disclosure.Indicator />\n          </Button>\n        </Disclosure.Heading>\n        <Disclosure.Content>\n          <Disclosure.Body className=\"shadow-panel flex flex-col items-center rounded-3xl bg-surface p-4 text-center\">\n            <p className=\"text-sm text-muted\">\n              Scan this QR code with your camera app to preview the HeroUI native components.\n            </p>\n            <img\n              alt=\"Expo Go QR Code\"\n              className=\"aspect-square w-full max-w-54 object-cover\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png\"\n            />\n            <p className=\"text-sm text-muted\">Expo must be installed on your device.</p>\n            <Button className=\"mt-4\" variant=\"primary\">\n              <Icon icon=\"tabler:brand-apple-filled\" />\n              Download on App Store\n            </Button>\n          </Disclosure.Body>\n        </Disclosure.Content>\n      </Disclosure>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "disclosure-render-function",
+   "source": "apps/docs/src/demos/en/disclosure/render-function.tsx",
+   "code": "\"use client\";\n\nimport {QrCode} from \"@gravity-ui/icons\";\nimport {Button, Disclosure} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport React from \"react\";\n\nexport function RenderFunction() {\n  const [isExpanded, setIsExpanded] = React.useState(true);\n\n  return (\n    <div className=\"w-full max-w-md text-center\">\n      <Disclosure\n        isExpanded={isExpanded}\n        render={(props) => <div {...props} data-custom=\"foo\" />}\n        onExpandedChange={setIsExpanded}\n      >\n        <Disclosure.Heading>\n          <Button slot=\"trigger\" variant=\"secondary\">\n            <QrCode />\n            Preview HeroUI Native\n            <Disclosure.Indicator />\n          </Button>\n        </Disclosure.Heading>\n        <Disclosure.Content render={(props) => <div data-custom=\"bar\" {...props} />}>\n          <Disclosure.Body className=\"shadow-panel flex flex-col items-center rounded-3xl bg-surface p-4 text-center\">\n            <p className=\"text-sm text-muted\">\n              Scan this QR code with your camera app to preview the HeroUI native components.\n            </p>\n            <img\n              alt=\"Expo Go QR Code\"\n              className=\"aspect-square w-full max-w-54 object-cover\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/images/qr-code-native.png\"\n            />\n            <p className=\"text-sm text-muted\">Expo must be installed on your device.</p>\n            <Button className=\"mt-4\" variant=\"primary\">\n              <Icon icon=\"tabler:brand-apple-filled\" />\n              Download on App Store\n            </Button>\n          </Disclosure.Body>\n        </Disclosure.Content>\n      </Disclosure>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "disclosure-custom-styles",
+   "source": "apps/docs/src/demos/en/disclosure/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {ShoppingBag} from \"@gravity-ui/icons\";\nimport {Button, Disclosure} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function CustomStyles() {\n  const [isExpanded, setIsExpanded] = useState(false);\n\n  return (\n    <div className=\"w-full max-w-sm\">\n      <Disclosure isExpanded={isExpanded} onExpandedChange={setIsExpanded}>\n        <Disclosure.Heading>\n          <Button\n            className=\"w-full justify-between rounded-xl border border-border/70 bg-linear-to-b from-neutral-50/90 to-white px-4 py-3 font-medium text-foreground shadow-sm ring-1 ring-black/5 hover:bg-muted/30 dark:from-neutral-900/80 dark:to-neutral-900 dark:ring-white/10\"\n            slot=\"trigger\"\n            variant=\"ghost\"\n          >\n            <span className=\"flex items-center gap-2\">\n              <ShoppingBag className=\"size-4 text-muted\" />\n              Shipping details\n            </span>\n            <Disclosure.Indicator className=\"text-muted\" />\n          </Button>\n        </Disclosure.Heading>\n        <Disclosure.Content>\n          <Disclosure.Body className=\"mt-2 rounded-xl border border-border/70 bg-surface/50 p-4 text-sm leading-relaxed text-muted dark:bg-neutral-900/50\">\n            Orders ship within 2 business days. Standard delivery takes 3–5 days; express is\n            available at checkout.\n          </Disclosure.Body>\n        </Disclosure.Content>\n      </Disclosure>\n    </div>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Disclosure",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isExpanded`",
+     "`boolean`",
+     "`false`",
+     "Controls the expanded state",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:109"
+    ],
+    [
+     "`onExpandedChange`",
+     "`(isExpanded: boolean) => void`",
+     "-",
+     "Callback when expanded state changes",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:110"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether the disclosure is disabled",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:111"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Content to render",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:112"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:113"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, DisclosureRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:114"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:105",
+   "section": "API Reference"
+  },
+  {
+   "name": "DisclosureTrigger",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Trigger content",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:120"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:121"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:116",
+   "section": "API Reference"
+  },
+  {
+   "name": "DisclosureContent",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to show/hide",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:127"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:128"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, DisclosureContentRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:129"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:123",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isExpanded`",
+     "`boolean`",
+     "Current expanded state",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:137"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether disclosure is disabled",
+     "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:138"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:131",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Disclosure",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:112"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "DisclosureTrigger",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/disclosure.mdx:120"
+  }
+ ]
+}

@@ -1,0 +1,595 @@
+{
+ "slug": "select",
+ "title": "Select",
+ "description": "A select displays a collapsible list of options and allows a user to select one of them",
+ "group": "Pickers",
+ "links": {
+  "rac": "Select",
+  "sourceFile": "select/select.tsx",
+  "styles": "select.css",
+  "storybook": "Components/Pickers/Select"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Select } from \"@heroui/react\";\n```\n\n<ComponentPreview name=\"select-default\" />",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {Select, Label, Description, Header, ListBox, Separator} from \"@heroui/react\";\n\nexport default () => (\n  <Select>\n    <Label />\n    <Select.Trigger>\n      <Select.Value />\n      <Select.Indicator />\n    </Select.Trigger>\n    <Description />\n    <Select.Popover>\n      <ListBox>\n        <ListBox.Item>\n          <Label />\n          <Description />\n          <ListBox.ItemIndicator />\n        </ListBox.Item>\n        <ListBox.Section>\n          <Header />\n          <ListBox.Item>\n            <Label />\n          </ListBox.Item>\n        </ListBox.Section>\n      </ListBox>\n    </Select.Popover>\n  </Select>\n);\n```",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nThe Select component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"select-variants\" />\n\n### Full Width\n\n<ComponentPreview name=\"select-full-width\" />\n\n### With Description\n\n<ComponentPreview name=\"select-with-description\" />\n\n### Required\n\n<ComponentPreview name=\"select-required\" />\n\n### Disabled\n\n<ComponentPreview name=\"select-disabled\" />\n\n### With Disabled Options\n\n<ComponentPreview name=\"select-with-disabled-options\" />\n\n### Multiple Select\n\n<ComponentPreview name=\"select-multiple-select\" />\n\n### With Sections\n\n<ComponentPreview name=\"select-with-sections\" />\n\n### Controlled\n\n<ComponentPreview name=\"select-controlled\" />\n\n### Controlled Multiple\n\n<ComponentPreview name=\"select-controlled-multiple\" />\n\n### Controlled Open State\n\n<ComponentPreview name=\"select-controlled-open-state\" />\n\n### Asynchronous Loading\n\n<ComponentPreview name=\"select-asynchronous-loading\" />\n\n### Custom Indicator\n\n<ComponentPreview name=\"select-custom-indicator\" />\n\n### Custom Value\n\n<ComponentPreview name=\"select-custom-value\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"select-render-function\"\n/>\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"select-on-surface\" />",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:52"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"select-custom-styles\" />\n\n### Global CSS\n\nTo customize the Select component classes, you can use the `@layer components` directive.\n\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .select {\n    @apply flex flex-col gap-1;\n  }\n\n  .select__trigger {\n    @apply rounded-lg border border-border bg-surface p-2;\n  }\n\n  .select__value {\n    @apply text-current;\n  }\n\n  .select__indicator {\n    @apply text-muted;\n  }\n\n  .select__popover {\n    @apply rounded-lg border border-border bg-surface p-2;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:127"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Select component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/select.css)):\n\n#### Base Classes [!toc]\n\n- `.select` - Base select container\n- `.select__trigger` - The button that triggers the select\n- `.select__value` - The displayed value or placeholder\n- `.select__indicator` - The dropdown indicator icon\n- `.select__popover` - The popover container\n\n#### Variant Classes [!toc]\n\n- `.select--primary` - Primary variant with shadow (default)\n- `.select--secondary` - Secondary variant without shadow, suitable for use in surfaces\n\n#### State Classes [!toc]\n\n- `.select[data-invalid=\"true\"]` - Invalid state\n- `.select__trigger[data-focus-visible=\"true\"]` - Focused trigger state\n- `.select__trigger[data-disabled=\"true\"]` - Disabled trigger state\n- `.select__value[data-placeholder=\"true\"]` - Placeholder state\n- `.select__indicator[data-open=\"true\"]` - Open indicator state\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` on trigger\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` on trigger\n- **Disabled**: `:disabled` or `[data-disabled=\"true\"]` on select\n- **Open**: `[data-open=\"true\"]` on indicator",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:163"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Select\n\n| Prop            | Type                                    | Default            | Description                                              |\n| --------------- | --------------------------------------- | ------------------ | -------------------------------------------------------- |\n| `placeholder`   | `string`                                | `'Select an item'` | Temporary text that occupies the select when it is empty |\n| `selectionMode` | `\"single\" \\| \"multiple\"`                | `\"single\"`         | Whether single or multiple selection is enabled          |\n| `isOpen`        | `boolean`                               | -                  | Sets the open state of the menu (controlled)             |\n| `defaultOpen`   | `boolean`                               | -                  | Sets the default open state of the menu (uncontrolled)   |\n| `onOpenChange`  | `(isOpen: boolean) => void`             | -                  | Handler called when the open state changes               |\n| `disabledKeys`  | `Iterable<Key>`                         | -                  | Keys of disabled items                                   |\n| `isDisabled`    | `boolean`                               | -                  | Whether the select is disabled                           |\n| `value`         | `Key \\| Key[] \\| null`                  | -                  | Current value (controlled)                               |\n| `defaultValue`  | `Key \\| Key[] \\| null`                  | -                  | Default value (uncontrolled)                             |\n| `onChange`      | `(value: Key \\| Key[] \\| null) => void` | -                  | Handler called when the value changes                    |\n| `isRequired`    | `boolean`                               | -                  | Whether user input is required                           |\n| `isInvalid`     | `boolean`                               | -                  | Whether the select value is invalid                      |\n| `name`          | `string`                                | -                  | The name of the input, used when submitting an HTML form |\n| `autoComplete`  | `string`                                | -                  | Describes the type of autocomplete functionality         |\n| `fullWidth`     | `boolean`                               | `false`             | Whether the select should take full width of its container |\n| `variant`       | `\"primary\" \\| \"secondary\"`             | `\"primary\"`         | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `className`     | `string`                                | -                  | Additional CSS classes                                   |\n| `children`      | `ReactNode \\| RenderFunction`           | -                  | Select content or render function                        |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SelectRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Select.Trigger\n\n| Prop        | Type                          | Default | Description                        |\n| ----------- | ----------------------------- | ------- | ---------------------------------- |\n| `className` | `string`                      | -       | Additional CSS classes             |\n| `children`  | `ReactNode \\| RenderFunction` | -       | Trigger content or render function |\n\n### Select.Value\n\n| Prop        | Type                          | Default | Description                      |\n| ----------- | ----------------------------- | ------- | -------------------------------- |\n| `className` | `string`                      | -       | Additional CSS classes           |\n| `children`  | `ReactNode \\| RenderFunction` | -       | Value content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SelectValueRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Select.Indicator\n\n| Prop        | Type        | Default | Description              |\n| ----------- | ----------- | ------- | ------------------------ |\n| `className` | `string`    | -       | Additional CSS classes   |\n| `children`  | `ReactNode` | -       | Custom indicator content |\n\n### Select.Popover\n\n| Prop        | Type                                                                                                                                                                                                                                                                                                                     | Default    | Description                                      |\n| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | ------------------------------------------------ |\n| `placement` | `\"bottom\" \\| \"bottom left\" \\| \"bottom right\" \\| \"bottom start\" \\| \"bottom end\" \\| \"top\" \\| \"top left\" \\| \"top right\" \\| \"top start\" \\| \"top end\" \\| \"left\" \\| \"left top\" \\| \"left bottom\" \\| \"start\" \\| \"start top\" \\| \"start bottom\" \\| \"right\" \\| \"right top\" \\| \"right bottom\" \\| \"end\" \\| \"end top\" \\| \"end bottom\"` | `\"bottom\"` | Placement of the popover relative to the trigger |\n| `className` | `string`                                                                                                                                                                                                                                                                                                                 | -          | Additional CSS classes                           |\n| `children`  | `ReactNode`                                                                                                                                                                                                                                                                                                              | -          | Content children                                 |\n\n### Render Props\n\nWhen using render functions with Select.Value, these values are provided:\n\n| Prop              | Type          | Description                        |\n| ----------------- | ------------- | ---------------------------------- |\n| `defaultChildren` | `ReactNode`   | The default rendered value         |\n| `isPlaceholder`   | `boolean`     | Whether the value is a placeholder |\n| `state`           | `SelectState` | The state of the select            |\n| `selectedItems`   | `Node[]`      | The currently selected items       |",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:201"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The Select component implements the ARIA listbox pattern and provides:\n\n- Full keyboard navigation support\n- Screen reader announcements for selection changes\n- Proper focus management\n- Support for disabled states\n- Typeahead search functionality\n- HTML form integration\n\nFor more information, see the [React Aria Select documentation](https://react-spectrum.adobe.com/react-aria/Select.html).",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:268"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"select\" />",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:281"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "select-default",
+   "source": "apps/docs/src/demos/en/select/default.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select one\">\n      <Label>State</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Item id=\"florida\" textValue=\"Florida\">\n            Florida\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n            Delaware\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"california\" textValue=\"California\">\n            California\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"texas\" textValue=\"Texas\">\n            Texas\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"new-york\" textValue=\"New York\">\n            New York\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"washington\" textValue=\"Washington\">\n            Washington\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "select-variants",
+   "source": "apps/docs/src/demos/en/select/variants.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <Select className=\"w-[256px]\" placeholder=\"Select one\" variant=\"primary\">\n        <Label>Primary variant</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"option1\" textValue=\"Option 1\">\n              Option 1\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"option2\" textValue=\"Option 2\">\n              Option 2\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n      <Select className=\"w-[256px]\" placeholder=\"Select one\" variant=\"secondary\">\n        <Label>Secondary variant</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"option1\" textValue=\"Option 1\">\n              Option 1\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"option2\" textValue=\"Option 2\">\n              Option 2\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "select-full-width",
+   "source": "apps/docs/src/demos/en/select/full-width.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <Select fullWidth placeholder=\"Select one\">\n        <Label>Favorite Animal</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"cat\" textValue=\"Cat\">\n              Cat\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"dog\" textValue=\"Dog\">\n              Dog\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"bird\" textValue=\"Bird\">\n              Bird\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "select-with-description",
+   "source": "apps/docs/src/demos/en/select/with-description.tsx",
+   "code": "import {Description, Label, ListBox, Select} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select one\">\n      <Label>State</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Item id=\"florida\" textValue=\"Florida\">\n            Florida\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n            Delaware\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"california\" textValue=\"California\">\n            California\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"texas\" textValue=\"Texas\">\n            Texas\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"new-york\" textValue=\"New York\">\n            New York\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"washington\" textValue=\"Washington\">\n            Washington\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n      <Description>Select your state of residence</Description>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Required",
+   "section": "Examples",
+   "key": "select-required",
+   "source": "apps/docs/src/demos/en/select/required.tsx",
+   "code": "\"use client\";\n\nimport {Button, FieldError, Form, Label, ListBox, Select} from \"@heroui/react\";\n\nexport function Required() {\n  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {\n    e.preventDefault();\n    const formData = new FormData(e.currentTarget);\n    const data: Record<string, string> = {};\n\n    // Convert FormData to plain object\n    formData.forEach((value, key) => {\n      data[key] = value.toString();\n    });\n\n    alert(\"Form submitted successfully!\");\n  };\n\n  return (\n    <Form className=\"flex w-[256px] flex-col gap-4\" onSubmit={onSubmit}>\n      <Select isRequired className=\"w-full\" name=\"state\" placeholder=\"Select one\">\n        <Label>State</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"florida\" textValue=\"Florida\">\n              Florida\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n              Delaware\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"california\" textValue=\"California\">\n              California\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"texas\" textValue=\"Texas\">\n              Texas\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"new-york\" textValue=\"New York\">\n              New York\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"washington\" textValue=\"Washington\">\n              Washington\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n        <FieldError />\n      </Select>\n      <Select isRequired className=\"w-full\" name=\"country\" placeholder=\"Select a country\">\n        <Label>Country</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"usa\" textValue=\"United States\">\n              United States\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"canada\" textValue=\"Canada\">\n              Canada\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"mexico\" textValue=\"Mexico\">\n              Mexico\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"uk\" textValue=\"United Kingdom\">\n              United Kingdom\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"france\" textValue=\"France\">\n              France\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"germany\" textValue=\"Germany\">\n              Germany\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n        <FieldError />\n      </Select>\n      <Button type=\"submit\">Submit</Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "select-disabled",
+   "source": "apps/docs/src/demos/en/select/disabled.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <Select isDisabled className=\"w-[256px]\" defaultValue=\"california\" placeholder=\"Select one\">\n        <Label>State</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"florida\" textValue=\"Florida\">\n              Florida\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n              Delaware\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"california\" textValue=\"California\">\n              California\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"texas\" textValue=\"Texas\">\n              Texas\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"new-york\" textValue=\"New York\">\n              New York\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"washington\" textValue=\"Washington\">\n              Washington\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n      <Select\n        isDisabled\n        className=\"w-[256px]\"\n        defaultValue={[\"argentina\", \"japan\", \"france\"]}\n        placeholder=\"Select countries\"\n        selectionMode=\"multiple\"\n      >\n        <Label>Countries to Visit</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"argentina\" textValue=\"Argentina\">\n              Argentina\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"venezuela\" textValue=\"Venezuela\">\n              Venezuela\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"japan\" textValue=\"Japan\">\n              Japan\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"france\" textValue=\"France\">\n              France\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"italy\" textValue=\"Italy\">\n              Italy\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"spain\" textValue=\"Spain\">\n              Spain\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Disabled Options",
+   "section": "Examples",
+   "key": "select-with-disabled-options",
+   "source": "apps/docs/src/demos/en/select/with-disabled-options.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function WithDisabledOptions() {\n  return (\n    <Select className=\"w-[256px]\" disabledKeys={[\"cat\", \"kangaroo\"]} placeholder=\"Select an animal\">\n      <Label>Animal</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Item id=\"dog\" textValue=\"Dog\">\n            Dog\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"cat\" textValue=\"Cat\">\n            Cat\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"bird\" textValue=\"Bird\">\n            Bird\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"kangaroo\" textValue=\"Kangaroo\">\n            Kangaroo\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"elephant\" textValue=\"Elephant\">\n            Elephant\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"tiger\" textValue=\"Tiger\">\n            Tiger\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Multiple Select",
+   "section": "Examples",
+   "key": "select-multiple-select",
+   "source": "apps/docs/src/demos/en/select/multiple-select.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function MultipleSelect() {\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select countries\" selectionMode=\"multiple\">\n      <Label>Countries to Visit</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox selectionMode=\"multiple\">\n          <ListBox.Item id=\"argentina\" textValue=\"Argentina\">\n            Argentina\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"venezuela\" textValue=\"Venezuela\">\n            Venezuela\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"japan\" textValue=\"Japan\">\n            Japan\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"france\" textValue=\"France\">\n            France\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"italy\" textValue=\"Italy\">\n            Italy\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"spain\" textValue=\"Spain\">\n            Spain\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"thailand\" textValue=\"Thailand\">\n            Thailand\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"new-zealand\" textValue=\"New Zealand\">\n            New Zealand\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"iceland\" textValue=\"Iceland\">\n            Iceland\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "With Sections",
+   "section": "Examples",
+   "key": "select-with-sections",
+   "source": "apps/docs/src/demos/en/select/with-sections.tsx",
+   "code": "import {Header, Label, ListBox, Select, Separator} from \"@heroui/react\";\n\nexport function WithSections() {\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select a country\">\n      <Label>Country</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Section>\n            <Header>North America</Header>\n            <ListBox.Item id=\"usa\" textValue=\"United States\">\n              United States\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"canada\" textValue=\"Canada\">\n              Canada\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"mexico\" textValue=\"Mexico\">\n              Mexico\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox.Section>\n          <Separator />\n          <ListBox.Section>\n            <Header>Europe</Header>\n            <ListBox.Item id=\"uk\" textValue=\"United Kingdom\">\n              United Kingdom\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"france\" textValue=\"France\">\n              France\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"germany\" textValue=\"Germany\">\n              Germany\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"spain\" textValue=\"Spain\">\n              Spain\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"italy\" textValue=\"Italy\">\n              Italy\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox.Section>\n          <Separator />\n          <ListBox.Section>\n            <Header>Asia</Header>\n            <ListBox.Item id=\"japan\" textValue=\"Japan\">\n              Japan\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"china\" textValue=\"China\">\n              China\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"india\" textValue=\"India\">\n              India\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"south-korea\" textValue=\"South Korea\">\n              South Korea\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox.Section>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "select-controlled",
+   "source": "apps/docs/src/demos/en/select/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {Key} from \"@heroui/react\";\n\nimport {Label, ListBox, Select} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const states = [\n    {\n      id: \"california\",\n      name: \"California\",\n    },\n    {\n      id: \"texas\",\n      name: \"Texas\",\n    },\n    {\n      id: \"florida\",\n      name: \"Florida\",\n    },\n    {\n      id: \"new-york\",\n      name: \"New York\",\n    },\n    {\n      id: \"illinois\",\n      name: \"Illinois\",\n    },\n    {\n      id: \"pennsylvania\",\n      name: \"Pennsylvania\",\n    },\n  ];\n\n  const [state, setState] = useState<Key | null>(\"california\");\n\n  const selectedState = states.find((s) => s.id === state);\n\n  return (\n    <div className=\"space-y-2\">\n      <Select\n        className=\"w-[256px]\"\n        placeholder=\"Select a state\"\n        value={state}\n        onChange={(value) => setState(value)}\n      >\n        <Label>State (controlled)</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            {states.map((state) => (\n              <ListBox.Item key={state.id} id={state.id} textValue={state.name}>\n                {state.name}\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            ))}\n          </ListBox>\n        </Select.Popover>\n      </Select>\n      <p className=\"text-sm text-muted\">Selected: {selectedState?.name || \"None\"}</p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled Multiple",
+   "section": "Examples",
+   "key": "select-controlled-multiple",
+   "source": "apps/docs/src/demos/en/select/controlled-multiple.tsx",
+   "code": "\"use client\";\n\nimport type {Key} from \"@heroui/react\";\n\nimport {Label, ListBox, Select} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function ControlledMultiple() {\n  const [selected, setSelected] = React.useState<Key[]>([\"california\", \"texas\"]);\n\n  return (\n    <div className=\"space-y-4\">\n      <Select\n        className=\"w-[256px]\"\n        placeholder=\"Select states\"\n        selectionMode=\"multiple\"\n        value={selected}\n        onChange={(keys) => setSelected(keys as Key[])}\n      >\n        <Label>States (controlled multiple)</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox selectionMode=\"multiple\">\n            <ListBox.Item id=\"california\" textValue=\"California\">\n              California\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"texas\" textValue=\"Texas\">\n              Texas\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"florida\" textValue=\"Florida\">\n              Florida\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"new-york\" textValue=\"New York\">\n              New York\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"illinois\" textValue=\"Illinois\">\n              Illinois\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"pennsylvania\" textValue=\"Pennsylvania\">\n              Pennsylvania\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n      <p className=\"text-sm text-muted\">\n        Selected: {selected.length > 0 ? selected.join(\", \") : \"None\"}\n      </p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled Open State",
+   "section": "Examples",
+   "key": "select-controlled-open-state",
+   "source": "apps/docs/src/demos/en/select/controlled-open-state.tsx",
+   "code": "\"use client\";\n\nimport {Button, Label, ListBox, Select} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function ControlledOpenState() {\n  const [isOpen, setIsOpen] = useState(false);\n\n  return (\n    <div className=\"space-y-4\">\n      <Select\n        className=\"w-[256px]\"\n        isOpen={isOpen}\n        placeholder=\"Select one\"\n        onOpenChange={setIsOpen}\n      >\n        <Label>State</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            <ListBox.Item id=\"florida\" textValue=\"Florida\">\n              Florida\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n              Delaware\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"california\" textValue=\"California\">\n              California\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"texas\" textValue=\"Texas\">\n              Texas\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"new-york\" textValue=\"New York\">\n              New York\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n            <ListBox.Item id=\"washington\" textValue=\"Washington\">\n              Washington\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          </ListBox>\n        </Select.Popover>\n      </Select>\n      <Button onPress={() => setIsOpen(!isOpen)}>{isOpen ? \"Close\" : \"Open\"} Select</Button>\n      <p className=\"text-sm text-muted\">Select is {isOpen ? \"open\" : \"closed\"}</p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Asynchronous Loading",
+   "section": "Examples",
+   "key": "select-asynchronous-loading",
+   "source": "apps/docs/src/demos/en/select/asynchronous-loading.tsx",
+   "code": "\"use client\";\n\nimport {Label, ListBox, Select, Spinner} from \"@heroui/react\";\nimport {useAsyncList} from \"@react-stately/data\";\nimport {Collection, ListBoxLoadMoreItem} from \"react-aria-components\";\n\ninterface Pokemon {\n  name: string;\n}\n\nexport function AsynchronousLoading() {\n  const list = useAsyncList<Pokemon>({\n    async load({cursor, signal}) {\n      const res = await fetch(cursor || `https://pokeapi.co/api/v2/pokemon`, {signal});\n      const json = await res.json();\n\n      return {\n        cursor: json.next,\n        items: json.results,\n      };\n    },\n  });\n\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select a Pokemon\">\n      <Label>Pick a Pokemon</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <Collection items={list.items}>\n            {(item: Pokemon) => (\n              <ListBox.Item id={item.name} textValue={item.name}>\n                {item.name}\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            )}\n          </Collection>\n          <ListBoxLoadMoreItem\n            isLoading={list.loadingState === \"loadingMore\"}\n            onLoadMore={list.loadMore}\n          >\n            <div className=\"flex items-center justify-center gap-2 py-2\">\n              <Spinner size=\"sm\" />\n              <span className=\"text-sm text-muted\">Loading more...</span>\n            </div>\n          </ListBoxLoadMoreItem>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Indicator",
+   "section": "Examples",
+   "key": "select-custom-indicator",
+   "source": "apps/docs/src/demos/en/select/custom-indicator.tsx",
+   "code": "import {ChevronsExpandVertical} from \"@gravity-ui/icons\";\nimport {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function CustomIndicator() {\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select one\">\n      <Label>State</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator className=\"size-3\">\n          <ChevronsExpandVertical />\n        </Select.Indicator>\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Item id=\"florida\" textValue=\"Florida\">\n            Florida\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n            Delaware\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"california\" textValue=\"California\">\n            California\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"texas\" textValue=\"Texas\">\n            Texas\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"new-york\" textValue=\"New York\">\n            New York\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"washington\" textValue=\"Washington\">\n            Washington\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Value",
+   "section": "Examples",
+   "key": "select-custom-value",
+   "source": "apps/docs/src/demos/en/select/custom-value.tsx",
+   "code": "\"use client\";\n\nimport {\n  Avatar,\n  AvatarFallback,\n  AvatarImage,\n  Description,\n  Label,\n  ListBox,\n  Select,\n} from \"@heroui/react\";\n\nexport function CustomValue() {\n  const users = [\n    {\n      avatarUrl: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\",\n      email: \"bob@heroui.com\",\n      fallback: \"B\",\n      id: \"1\",\n      name: \"Bob\",\n    },\n    {\n      avatarUrl: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\",\n      email: \"fred@heroui.com\",\n      fallback: \"F\",\n      id: \"2\",\n      name: \"Fred\",\n    },\n    {\n      avatarUrl: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\",\n      email: \"martha@heroui.com\",\n      fallback: \"M\",\n      id: \"3\",\n      name: \"Martha\",\n    },\n    {\n      avatarUrl: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg\",\n      email: \"john@heroui.com\",\n      fallback: \"J\",\n      id: \"4\",\n      name: \"John\",\n    },\n    {\n      avatarUrl: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg\",\n      email: \"jane@heroui.com\",\n      fallback: \"J\",\n      id: \"5\",\n      name: \"Jane\",\n    },\n  ];\n\n  return (\n    <Select className=\"w-[256px]\" placeholder=\"Select a user\">\n      <Label>User</Label>\n      <Select.Trigger>\n        <Select.Value>\n          {({defaultChildren, isPlaceholder, state}) => {\n            if (isPlaceholder || state.selectedItems.length === 0) {\n              return defaultChildren;\n            }\n\n            const selectedItems = state.selectedItems;\n\n            if (selectedItems.length > 1) {\n              return `${selectedItems.length} users selected`;\n            }\n\n            const selectedItem = users.find((user) => user.id === selectedItems[0]?.key);\n\n            if (!selectedItem) {\n              return defaultChildren;\n            }\n\n            return (\n              <div className=\"flex items-center gap-2\">\n                <Avatar className=\"size-4\" size=\"sm\">\n                  <AvatarImage src={selectedItem.avatarUrl} />\n                  <AvatarFallback>{selectedItem.fallback}</AvatarFallback>\n                </Avatar>\n                <span>{selectedItem.name}</span>\n              </div>\n            );\n          }}\n        </Select.Value>\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          {users.map((user) => (\n            <ListBox.Item key={user.id} id={user.id} textValue={user.name}>\n              <Avatar size=\"sm\">\n                <AvatarImage src={user.avatarUrl} />\n                <AvatarFallback>{user.fallback}</AvatarFallback>\n              </Avatar>\n              <div className=\"flex flex-col\">\n                <Label>{user.name}</Label>\n                <Description>{user.email}</Description>\n              </div>\n              <ListBox.ItemIndicator />\n            </ListBox.Item>\n          ))}\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "select-render-function",
+   "source": "apps/docs/src/demos/en/select/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Label, ListBox, Select} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <Select\n      className=\"w-[256px]\"\n      placeholder=\"Select one\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>State</Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover>\n        <ListBox>\n          <ListBox.Item id=\"florida\" textValue=\"Florida\">\n            Florida\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n            Delaware\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"california\" textValue=\"California\">\n            California\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"texas\" textValue=\"Texas\">\n            Texas\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"new-york\" textValue=\"New York\">\n            New York\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item id=\"washington\" textValue=\"Washington\">\n            Washington\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "select-on-surface",
+   "source": "apps/docs/src/demos/en/select/on-surface.tsx",
+   "code": "\"use client\";\n\nimport {Button, FieldError, Form, Label, ListBox, Select, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {\n    e.preventDefault();\n    const formData = new FormData(e.currentTarget);\n    const data: Record<string, string> = {};\n\n    // Convert FormData to plain object\n    formData.forEach((value, key) => {\n      data[key] = value.toString();\n    });\n\n    alert(\"Form submitted successfully!\");\n  };\n\n  return (\n    <Surface className=\"w-[320px] rounded-3xl p-6\">\n      <Form className=\"flex w-full flex-col gap-4\" onSubmit={onSubmit}>\n        <Select\n          isRequired\n          className=\"w-full\"\n          name=\"state\"\n          placeholder=\"Select one\"\n          variant=\"secondary\"\n        >\n          <Label>State</Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Indicator />\n          </Select.Trigger>\n          <Select.Popover>\n            <ListBox>\n              <ListBox.Item id=\"florida\" textValue=\"Florida\">\n                Florida\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"delaware\" textValue=\"Delaware\">\n                Delaware\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"california\" textValue=\"California\">\n                California\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"texas\" textValue=\"Texas\">\n                Texas\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"new-york\" textValue=\"New York\">\n                New York\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"washington\" textValue=\"Washington\">\n                Washington\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            </ListBox>\n          </Select.Popover>\n          <FieldError />\n        </Select>\n        <Select\n          isRequired\n          className=\"w-full\"\n          name=\"country\"\n          placeholder=\"Select a country\"\n          variant=\"secondary\"\n        >\n          <Label>Country</Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Indicator />\n          </Select.Trigger>\n          <Select.Popover>\n            <ListBox>\n              <ListBox.Item id=\"usa\" textValue=\"United States\">\n                United States\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"canada\" textValue=\"Canada\">\n                Canada\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"mexico\" textValue=\"Mexico\">\n                Mexico\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"uk\" textValue=\"United Kingdom\">\n                United Kingdom\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"france\" textValue=\"France\">\n                France\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n              <ListBox.Item id=\"germany\" textValue=\"Germany\">\n                Germany\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            </ListBox>\n          </Select.Popover>\n          <FieldError />\n        </Select>\n        <Button type=\"submit\">Submit</Button>\n      </Form>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "select-custom-styles",
+   "source": "apps/docs/src/demos/en/select/custom-styles.tsx",
+   "code": "import {Label, ListBox, Select} from \"@heroui/react\";\n\nconst itemClass =\n  \"rounded-lg data-[focused=true]:bg-accent/10 data-[selected=true]:text-foreground\";\n\nexport function CustomStyles() {\n  return (\n    <Select className=\"w-56\" placeholder=\"Pick a plan\" variant=\"secondary\">\n      <Label className=\"font-medium text-foreground\">Plan</Label>\n      <Select.Trigger className=\"rounded-xl bg-default\">\n        <Select.Value />\n        <Select.Indicator />\n      </Select.Trigger>\n      <Select.Popover className=\"rounded-xl border border-border bg-surface p-1 shadow-lg\">\n        <ListBox>\n          <ListBox.Item className={itemClass} id=\"free\" textValue=\"Free\">\n            Free\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n          <ListBox.Item className={itemClass} id=\"pro\" textValue=\"Pro\">\n            Pro\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        </ListBox>\n      </Select.Popover>\n    </Select>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Select",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`placeholder`",
+     "`string`",
+     "`'Select an item'`",
+     "Temporary text that occupies the select when it is empty",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:207"
+    ],
+    [
+     "`selectionMode`",
+     "`\"single\" | \"multiple\"`",
+     "`\"single\"`",
+     "Whether single or multiple selection is enabled",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:208"
+    ],
+    [
+     "`isOpen`",
+     "`boolean`",
+     "-",
+     "Sets the open state of the menu (controlled)",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:209"
+    ],
+    [
+     "`defaultOpen`",
+     "`boolean`",
+     "-",
+     "Sets the default open state of the menu (uncontrolled)",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:210"
+    ],
+    [
+     "`onOpenChange`",
+     "`(isOpen: boolean) => void`",
+     "-",
+     "Handler called when the open state changes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:211"
+    ],
+    [
+     "`disabledKeys`",
+     "`Iterable<Key>`",
+     "-",
+     "Keys of disabled items",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:212"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the select is disabled",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:213"
+    ],
+    [
+     "`value`",
+     "`Key | Key[] | null`",
+     "-",
+     "Current value (controlled)",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:214"
+    ],
+    [
+     "`defaultValue`",
+     "`Key | Key[] | null`",
+     "-",
+     "Default value (uncontrolled)",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:215"
+    ],
+    [
+     "`onChange`",
+     "`(value: Key | Key[] | null) => void`",
+     "-",
+     "Handler called when the value changes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:216"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "-",
+     "Whether user input is required",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:217"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the select value is invalid",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:218"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "The name of the input, used when submitting an HTML form",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:219"
+    ],
+    [
+     "`autoComplete`",
+     "`string`",
+     "-",
+     "Describes the type of autocomplete functionality",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:220"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the select should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:221"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:222"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:223"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Select content or render function",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:224"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SelectRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:225"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:203",
+   "section": "API Reference"
+  },
+  {
+   "name": "Select.Trigger",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:231"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Trigger content or render function",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:232"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:227",
+   "section": "API Reference"
+  },
+  {
+   "name": "Select.Value",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:238"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Value content or render function",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:239"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SelectValueRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:240"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:234",
+   "section": "API Reference"
+  },
+  {
+   "name": "Select.Indicator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:246"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Custom indicator content",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:247"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:242",
+   "section": "API Reference"
+  },
+  {
+   "name": "Select.Popover",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`placement`",
+     "`\"bottom\" | \"bottom left\" | \"bottom right\" | \"bottom start\" | \"bottom end\" | \"top\" | \"top left\" | \"top right\" | \"top start\" | \"top end\" | \"left\" | \"left top\" | \"left bottom\" | \"start\" | \"start top\" | \"start bottom\" | \"right\" | \"right top\" | \"right bottom\" | \"end\" | \"end top\" | \"end bottom\"`",
+     "`\"bottom\"`",
+     "Placement of the popover relative to the trigger",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:253"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:254"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content children",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:255"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:249",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`defaultChildren`",
+     "`ReactNode`",
+     "The default rendered value",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:263"
+    ],
+    [
+     "`isPlaceholder`",
+     "`boolean`",
+     "Whether the value is a placeholder",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:264"
+    ],
+    [
+     "`state`",
+     "`SelectState`",
+     "The state of the select",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:265"
+    ],
+    [
+     "`selectedItems`",
+     "`Node[]`",
+     "The currently selected items",
+     "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:266"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:257",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`selectionMode`",
+   "prop": "selectionMode",
+   "values": [
+    "single",
+    "multiple"
+   ],
+   "other": [],
+   "default": "`\"single\"`",
+   "owner": "Select",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:208"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Select",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:222"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Select",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:224"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Select.Trigger",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:232"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Select.Value",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:239"
+  },
+  {
+   "name": "`placement`",
+   "prop": "placement",
+   "values": [
+    "bottom",
+    "bottom left",
+    "bottom right",
+    "bottom start",
+    "bottom end",
+    "top",
+    "top left",
+    "top right",
+    "top start",
+    "top end",
+    "left",
+    "left top",
+    "left bottom",
+    "start",
+    "start top",
+    "start bottom",
+    "right",
+    "right top",
+    "right bottom",
+    "end",
+    "end top",
+    "end bottom"
+   ],
+   "other": [],
+   "default": "`\"bottom\"`",
+   "owner": "Select.Popover",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(pickers)/select.mdx:253"
+  }
+ ]
+}
