@@ -68,7 +68,8 @@ export const theme: Theme = {
   "colorBorderStatusError": "#ffb4ad",
   "colorBorderStatusSuccess": "#99dda7",
   "colorBorderStatusWarning": "#e8c57b",
-  "colorBorderStatusInfo": "#f4bc86"
+  "colorBorderStatusInfo": "#f4bc86",
+  "borderRadiusButton": "12px"
 },
 };
 
@@ -138,7 +139,8 @@ export const darkTheme: Theme = {
   "colorBorderStatusError": "#782826",
   "colorBorderStatusSuccess": "#0e5627",
   "colorBorderStatusWarning": "#5b4300",
-  "colorBorderStatusInfo": "#b9844f"
+  "colorBorderStatusInfo": "#b9844f",
+  "borderRadiusButton": "12px"
 },
 };
 
@@ -208,7 +210,8 @@ export const highContrastTheme: Theme = {
   "colorBorderStatusError": "#b96a64",
   "colorBorderStatusSuccess": "#558f62",
   "colorBorderStatusWarning": "#9b7d3c",
-  "colorBorderStatusInfo": "#ac753b"
+  "colorBorderStatusInfo": "#ac753b",
+  "borderRadiusButton": "12px"
 },
 };
 
