@@ -1,98 +1,98 @@
 {
  "slug": "toggle-button",
  "title": "Toggle Button",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ToggleButton, { ToggleButtonProps } from '~components/toggle-button';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ToggleButtonProps>([\n  {\n    variant: ['normal'],\n    children: ['Favorite', undefined],\n    iconName: ['star'],\n    ariaLabel: ['Favorite'],\n    pressedIconName: ['star-filled'],\n    pressed: [false, true],\n    disabled: [false, true],\n  },\n  {\n    variant: ['icon'],\n    iconName: ['star'],\n    ariaLabel: ['Favorite'],\n    pressedIconName: ['star-filled'],\n    pressed: [false, true],\n    disabled: [false, true],\n  },\n  {\n    variant: ['icon', 'normal'],\n    iconName: ['star'],\n    ariaLabel: ['Favorite'],\n    pressedIconName: ['star-filled'],\n    pressed: [false, true],\n    disabled: [true],\n    disabledReason: ['disabled reason'],\n  },\n]);\n\nexport default function ToggleButtonPermutations() {\n  return (\n    <>\n      <h1>Toggle button permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <ToggleButton {...permutation} />} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/toggle-button/permutations.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport ToggleButton from '~components/toggle-button';\n\nexport default function ToggleButtonSimpleScenario() {\n  const [pressed, setPressed] = useState(false);\n\n  return (\n    <>\n      <h1>Toggle button demo</h1>\n      <ToggleButton\n        pressed={pressed}\n        iconName=\"star\"\n        pressedIconName=\"star-filled\"\n        onChange={event => {\n          setPressed(event.detail.pressed);\n        }}\n      >\n        Toggle button\n      </ToggleButton>\n    </>\n  );\n}\n",
-   "source": "pages/toggle-button/simple.page.tsx"
-  },
-  {
-   "name": "test-hover",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ToggleButton, { ToggleButtonProps } from '~components/toggle-button';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ToggleButtonProps>([\n  {\n    variant: ['normal'],\n    children: ['Favorite'],\n    iconName: ['star'],\n    pressedIconName: ['star-filled'],\n    pressed: [false, true],\n  },\n  {\n    variant: ['icon'],\n    iconName: ['star'],\n    ariaLabel: ['Favorite'],\n    pressedIconName: ['star-filled'],\n    pressed: [false, true],\n  },\n]);\n\nexport default function ToggleButtonTestHover() {\n  return (\n    <>\n      <h1>Toggle button test hover</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => {\n            const testId = `variant-${permutation.variant ?? 'normal'}-${permutation.pressed ? 'pressed' : 'not-pressed'}`;\n            return <ToggleButton {...permutation} data-testid={testId} />;\n          }}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/toggle-button/test-hover.page.tsx"
-  }
- ],
- "props": {
-  "name": "ToggleButtonProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "variant",
-    "ToggleButtonProps.Variant",
-    "아니오",
-    "Determines the general styling of the toggle button as follows: * `normal` for secondary buttons. * `icon` to display an icon only (no text). Defaults to `normal` if not specified.",
-    "src/toggle-button/interfaces.ts:17"
-   ],
-   [
-    "iconName",
-    "IconProps.Name",
-    "아니오",
-    "Displays an icon next to the text.",
-    "src/toggle-button/interfaces.ts:22"
-   ],
-   [
-    "pressedIconName",
-    "IconProps.Name",
-    "아니오",
-    "Displays an icon next to the text in pressed state.",
-    "src/toggle-button/interfaces.ts:27"
-   ],
-   [
-    "pressedIconUrl",
-    "string",
-    "아니오",
-    "Specifies the URL of a custom icon in pressed state. Use this property if the icon needed for your use case isn't available. `pressedIconSvg` will take precedence if you set both `pressedIconUrl` and `pressedIconSvg`.",
-    "src/toggle-button/interfaces.ts:34"
-   ],
-   [
-    "pressedIconSvg",
-    "React.ReactNode",
-    "아니오",
-    "Specifies the SVG of a custom icon in pressed state. Use this property if you want your custom icon to inherit colors dictated by variant or hover states. When this property is set, the component will be decorated with `aria-hidden=\"true\"`. Ensure that the `svg` element: - has attribute `focusable=\"false\"` - has `viewBox=\"0 0 16 16\"` If you set the `svg` element as the root node of the slot, the component will automatically: - set `stroke=\"currentColor\"`, `fill=\"none\"`, and `vertical-align=\"top\"`. - set the stroke width based on the size of the icon. - set the width and height of the SVG element based on the size of the icon. If you don't want these styles to be automatically set, wrap the `svg` element into a `span`. You can still set the stroke to `currentColor` to inherit the color of the surrounding elements. If you set both `pressedIconUrl` and `pressedIconSvg`, `pressedIconSvg` will take precedence. *Note:* Remember to remove any additional elements (for example: `defs`) and related CSS classes from SVG files exported from design software. In most cases, they aren't needed, as the `svg` element inherits styles from the icon component.",
-    "src/toggle-button/interfaces.ts:56"
-   ],
-   [
-    "pressed",
-    "boolean",
-    "예",
-    "Sets the toggle button to pressed state.",
-    "src/toggle-button/interfaces.ts:61"
-   ],
-   [
-    "disabledReason",
-    "string",
-    "아니오",
-    "Provides a reason why the button is disabled (only when `disabled` is `true`). If provided, the button becomes focusable. Applicable only for the normal variant.",
-    "src/toggle-button/interfaces.ts:68"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<ToggleButtonProps.ChangeDetail>",
-    "아니오",
-    "Called when the user changes their selection. The event `detail` contains the current value for the `pressed` property.",
-    "src/toggle-button/interfaces.ts:74"
-   ]
-  ],
-  "source": "src/toggle-button/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "ToggleButtonProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "variant",
+      "ToggleButtonProps.Variant",
+      "아니오",
+      "Determines the general styling of the toggle button as follows: * `normal` for secondary buttons. * `icon` to display an icon only (no text). Defaults to `normal` if not specified.",
+      "src/toggle-button/interfaces.ts:17"
+     ],
+     [
+      "iconName",
+      "IconProps.Name",
+      "아니오",
+      "Displays an icon next to the text.",
+      "src/toggle-button/interfaces.ts:22"
+     ],
+     [
+      "pressedIconName",
+      "IconProps.Name",
+      "아니오",
+      "Displays an icon next to the text in pressed state.",
+      "src/toggle-button/interfaces.ts:27"
+     ],
+     [
+      "pressedIconUrl",
+      "string",
+      "아니오",
+      "Specifies the URL of a custom icon in pressed state. Use this property if the icon needed for your use case isn't available. `pressedIconSvg` will take precedence if you set both `pressedIconUrl` and `pressedIconSvg`.",
+      "src/toggle-button/interfaces.ts:34"
+     ],
+     [
+      "pressedIconSvg",
+      "React.ReactNode",
+      "아니오",
+      "Specifies the SVG of a custom icon in pressed state. Use this property if you want your custom icon to inherit colors dictated by variant or hover states. When this property is set, the component will be decorated with `aria-hidden=\"true\"`. Ensure that the `svg` element: - has attribute `focusable=\"false\"` - has `viewBox=\"0 0 16 16\"` If you set the `svg` element as the root node of the slot, the component will automatically: - set `stroke=\"currentColor\"`, `fill=\"none\"`, and `vertical-align=\"top\"`. - set the stroke width based on the size of the icon. - set the width and height of the SVG element based on the size of the icon. If you don't want these styles to be automatically set, wrap the `svg` element into a `span`. You can still set the stroke to `currentColor` to inherit the color of the surrounding elements. If you set both `pressedIconUrl` and `pressedIconSvg`, `pressedIconSvg` will take precedence. *Note:* Remember to remove any additional elements (for example: `defs`) and related CSS classes from SVG files exported from design software. In most cases, they aren't needed, as the `svg` element inherits styles from the icon component.",
+      "src/toggle-button/interfaces.ts:56"
+     ],
+     [
+      "pressed",
+      "boolean",
+      "예",
+      "Sets the toggle button to pressed state.",
+      "src/toggle-button/interfaces.ts:61"
+     ],
+     [
+      "disabledReason",
+      "string",
+      "아니오",
+      "Provides a reason why the button is disabled (only when `disabled` is `true`). If provided, the button becomes focusable. Applicable only for the normal variant.",
+      "src/toggle-button/interfaces.ts:68"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<ToggleButtonProps.ChangeDetail>",
+      "아니오",
+      "Called when the user changes their selection. The event `detail` contains the current value for the `pressed` property.",
+      "src/toggle-button/interfaces.ts:74"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

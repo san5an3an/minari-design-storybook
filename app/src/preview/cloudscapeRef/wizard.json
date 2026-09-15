@@ -1,156 +1,141 @@
 {
  "slug": "wizard",
  "title": "Wizard",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "custom-primary-actions",
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { SpaceBetween } from '~components';\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport Header from '~components/header';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: (\n      <>\n        <Container header={<Header>Step 1, substep one</Header>}></Container>\n        <Container header={<Header>Step 1, substep two</Header>}></Container>\n      </>\n    ),\n  },\n  {\n    title: 'Step 2',\n    content: (\n      <>\n        <Container header={<Header>Step 2, substep one</Header>}></Container>\n        <Container header={<Header>Step 2, substep two</Header>}></Container>\n      </>\n    ),\n    isOptional: true,\n  },\n  {\n    title: 'Step 3',\n    content: (\n      <>\n        <Container header={<Header>Step 3, substep one</Header>}></Container>\n        <Container header={<Header>Step 3, substep two</Header>}></Container>\n      </>\n    ),\n  },\n];\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState(0);\n\n  const onNext = () => {\n    if (activeStepIndex >= steps.length) {\n      return;\n    }\n    setActiveStepIndex(activeStepIndex + 1);\n  };\n\n  const onPrevious = () => {\n    if (activeStepIndex <= 0) {\n      return;\n    }\n    setActiveStepIndex(activeStepIndex - 1);\n  };\n\n  const onFinish = () => {\n    alert('Finish');\n  };\n\n  const customPrimaryActions = (\n    <SpaceBetween size=\"xs\" direction=\"horizontal\">\n      {activeStepIndex > 0 && (\n        <Button variant=\"normal\" onClick={onPrevious}>\n          Custom Previous\n        </Button>\n      )}\n      {activeStepIndex < steps.length - 1 && (\n        <Button variant=\"primary\" onClick={onNext}>\n          Custom Next\n        </Button>\n      )}\n      {activeStepIndex === steps.length - 1 && (\n        <Button variant=\"primary\" onClick={onFinish}>\n          Custom Finish\n        </Button>\n      )}\n    </SpaceBetween>\n  );\n\n  return (\n    <Wizard\n      id=\"wizard\"\n      steps={steps}\n      i18nStrings={i18nStrings}\n      activeStepIndex={activeStepIndex}\n      onNavigate={e => setActiveStepIndex(e.detail.requestedStepIndex)}\n      secondaryActions={activeStepIndex === 2 ? <Button>Save as draft</Button> : null}\n      customPrimaryActions={customPrimaryActions}\n    />\n  );\n}\n",
-   "source": "pages/wizard/custom-primary-actions.page.tsx"
-  },
-  {
-   "name": "navigation",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Link from '~components/link';\nimport Toggle from '~components/toggle';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nimport styles from './styles.scss';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 1</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 2',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 2</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 3',\n    info: <Link variant=\"info\">Info</Link>,\n    content: (\n      <div className={styles['step-content']}>\n        {Array.from(Array(15).keys()).map(key => (\n          <div key={key} className={styles['content-item']}>\n            Item {key}\n          </div>\n        ))}\n      </div>\n    ),\n  },\n];\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState(0);\n  const [renderWizard, setRenderWizard] = useState<boolean>(true);\n  return (\n    <div>\n      <Toggle checked={renderWizard} ariaLabel={'toggle'} onChange={({ detail }) => setRenderWizard(detail.checked)} />\n      <input id=\"focus-reset\" aria-label=\"input\" />\n      {renderWizard && (\n        <Wizard\n          id=\"wizard\"\n          steps={steps}\n          i18nStrings={i18nStrings}\n          activeStepIndex={activeStepIndex}\n          onNavigate={e => setActiveStepIndex(e.detail.requestedStepIndex)}\n          secondaryActions={activeStepIndex === 2 ? <Button>Save as draft</Button> : null}\n        />\n      )}\n    </div>\n  );\n}\n",
-   "source": "pages/wizard/navigation.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Button from '~components/button';\nimport Link from '~components/link';\nimport Toggle from '~components/toggle';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nimport styles from './styles.scss';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 1</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 2',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 2</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 3',\n    info: <Link variant=\"info\">Info</Link>,\n    content: (\n      <div className={styles['step-content']}>\n        {Array.from(Array(15).keys()).map(key => (\n          <div key={key} className={styles['content-item']}>\n            Item {key}\n          </div>\n        ))}\n      </div>\n    ),\n  },\n];\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState(0);\n  const [scrollableContainer, setScrollableContainer] = useState<boolean>(false);\n  return (\n    <div>\n      <Toggle\n        checked={scrollableContainer}\n        ariaLabel={'toggle'}\n        onChange={({ detail }) => setScrollableContainer(detail.checked)}\n      />\n      <input id=\"focus-reset\" aria-label=\"input\" />\n      <div id=\"scrollable-container\" className={scrollableContainer ? styles['scrollable-container'] : ''}>\n        <Wizard\n          id=\"wizard\"\n          steps={steps}\n          i18nStrings={i18nStrings}\n          activeStepIndex={activeStepIndex}\n          onNavigate={e => setActiveStepIndex(e.detail.requestedStepIndex)}\n          secondaryActions={activeStepIndex === 2 ? <Button>Save as draft</Button> : null}\n        />\n      </div>\n    </div>\n  );\n}\n",
-   "source": "pages/wizard/simple.page.tsx"
-  },
-  {
-   "name": "skip-to",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Checkbox, NonCancelableCustomEvent, SpaceBetween } from '~components';\nimport Box from '~components/box';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nimport styles from './styles.scss';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 1</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 2',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 2</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 3',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 3</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 4',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 4</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 5',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 5</div>\n      </div>\n    ),\n  },\n];\n\nconst skipToButtonLabel = (targetStep: WizardProps.Step, targetStepNumber: number) =>\n  targetStepNumber === 5 ? 'Skip to end' : `Skip to ${targetStep.title}`;\n\nexport default function WizardPage() {\n  const [allowSkipTo, setAllowSkipTo] = useState(true);\n  const [requiredSteps, setRequiredSteps] = useState<{ [key: string]: boolean }>({});\n  const [eventLog, setEventLog] = useState<WizardProps.NavigateDetail[]>([]);\n\n  return (\n    <Box margin=\"xxxl\">\n      <SpaceBetween direction=\"vertical\" size=\"m\">\n        <SpaceBetween direction=\"horizontal\" size=\"m\">\n          <Checkbox id=\"allow-skip-to\" checked={allowSkipTo} onChange={e => setAllowSkipTo(e.detail.checked)}>\n            Allow skipping through steps\n          </Checkbox>\n\n          {steps.map((step, index) => (\n            <Checkbox\n              key={step.title}\n              id={`step-${index + 1}-optional`}\n              checked={!!requiredSteps[step.title]}\n              onChange={e => setRequiredSteps(prev => ({ ...prev, [step.title]: e.detail.checked }))}\n            >\n              {step.title} required\n            </Checkbox>\n          ))}\n        </SpaceBetween>\n\n        <Wizard\n          id=\"wizard\"\n          steps={steps.map(step => ({ ...step, isOptional: !requiredSteps[step.title] }))}\n          i18nStrings={{ ...i18nStrings, skipToButtonLabel }}\n          allowSkipTo={allowSkipTo}\n          onCancel={() => alert('Cancelled!')}\n          onSubmit={() => alert('Created!')}\n          onNavigate={(event: NonCancelableCustomEvent<WizardProps.NavigateDetail>) =>\n            setEventLog(prev => [...prev, event.detail])\n          }\n        />\n\n        <div style={{ display: 'flex', flexDirection: 'column' }}>\n          {eventLog.map((event, index) => (\n            <div key={index}>\n              {event.requestedStepIndex} - {event.reason}\n            </div>\n          ))}\n        </div>\n      </SpaceBetween>\n    </Box>\n  );\n}\n",
-   "source": "pages/wizard/skip-to.page.tsx"
-  },
-  {
-   "name": "with-loading",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Toggle from '~components/toggle';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nimport styles from './styles.scss';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 1</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 2',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 2</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 3',\n    isOptional: true,\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 3</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 4',\n    isOptional: true,\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 4</div>\n      </div>\n    ),\n  },\n  {\n    title: 'Step 5',\n    content: (\n      <div className={styles['step-content']}>\n        <div id=\"content-text\">Content 5</div>\n      </div>\n    ),\n  },\n];\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState(0);\n  const [simulateApiCall, setSimulateApiCall] = useState(true);\n  const [loadingNextStep, setLoadingNextStep] = useState(false);\n  return (\n    <div>\n      <div style={{ padding: 20 }}>\n        <Toggle checked={simulateApiCall} onChange={e => setSimulateApiCall(e.detail.checked)}>\n          Simulate slow API call when clicking &quot;Next&quot;\n        </Toggle>\n        <Toggle checked={loadingNextStep} onChange={e => setLoadingNextStep(e.detail.checked)}>\n          Is loading next step\n        </Toggle>\n      </div>\n\n      <div style={{ maxWidth: 900, margin: '20px auto 0' }}>\n        <Wizard\n          steps={steps}\n          isLoadingNextStep={loadingNextStep}\n          allowSkipTo={true}\n          i18nStrings={i18nStrings}\n          activeStepIndex={activeStepIndex}\n          onNavigate={e => {\n            if (e.detail.reason === 'next' && simulateApiCall) {\n              setLoadingNextStep(true);\n              setTimeout(() => {\n                setActiveStepIndex(e.detail.requestedStepIndex);\n                setLoadingNextStep(false);\n              }, 2000);\n            } else {\n              setActiveStepIndex(e.detail.requestedStepIndex);\n            }\n          }}\n        />\n      </div>\n    </div>\n  );\n}\n",
-   "source": "pages/wizard/with-loading.page.tsx"
-  },
-  {
-   "name": "with-validation",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Container, FormField, Header, Input, Link, Wizard, WizardProps } from '~components';\n\nimport { i18nStrings } from './common';\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState(0);\n  const [value, setValue] = useState('');\n  const [attemptedToSubmit, setAttemptedToSubmit] = useState(false);\n  const [counter, setCounter] = useState(1);\n\n  const steps: WizardProps['steps'] = [\n    {\n      title: 'Step 1',\n      content: (\n        <Container header={<Header>A container for step 1</Header>}>\n          <FormField\n            key=\"1\"\n            label=\"Form field in step 1\"\n            errorText={attemptedToSubmit && value.length > 4 ? 'The text must not be longer than 4 letters' : undefined}\n            constraintText=\"Maximum length: 4 letters\"\n          >\n            <Input value={value} onChange={e => setValue(e.detail.value)} />\n          </FormField>\n        </Container>\n      ),\n    },\n    {\n      title: 'Step 2',\n      content: (\n        <>\n          <Container header={<Header>A container for step 2</Header>}>\n            <FormField\n              key=\"2\"\n              label=\"Form field in step 2\"\n              errorText={\n                attemptedToSubmit && value.length > 4 ? 'The text must not be longer than 4 letters' : undefined\n              }\n              constraintText=\"Maximum length: 4 letters\"\n            >\n              <Input value={value} onChange={e => setValue(e.detail.value)} />\n            </FormField>\n          </Container>\n          <button onClick={() => setCounter(counter + 1)}>Add container</button>\n          <button onClick={() => setCounter(counter - 1)}>Remove container</button>\n          {Array.from(Array(counter).keys()).map(i => (\n            <Container key={i} header={<Header>Another container for step 2</Header>}>\n              This one is almost empty.\n            </Container>\n          ))}\n        </>\n      ),\n    },\n    {\n      title: 'Step 3',\n      info: <Link variant=\"info\">Info</Link>,\n      content: (\n        <>\n          {Array.from(Array(5).keys()).map(key => (\n            <div key={key}>Item {key}</div>\n          ))}\n          <Container header={<Header>A container for step 3</Header>}>This one is almost empty.</Container>\n          <Container header={<Header>A container for step 3</Header>}>This one is almost empty.</Container>\n        </>\n      ),\n    },\n  ];\n\n  return (\n    <Wizard\n      steps={steps}\n      i18nStrings={i18nStrings}\n      activeStepIndex={activeStepIndex}\n      onNavigate={e => {\n        setAttemptedToSubmit(true);\n        if (value.length > 4 && e.detail.requestedStepIndex > activeStepIndex) {\n          return;\n        }\n        setAttemptedToSubmit(false);\n        setActiveStepIndex(e.detail.requestedStepIndex);\n      }}\n    />\n  );\n}\n",
-   "source": "pages/wizard/with-validation.page.tsx"
-  },
-  {
-   "name": "wizard-form",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport { i18nStrings } from './common';\n\nconst StepContent = () => {\n  const [counter, setCounter] = useState(0);\n  return (\n    <div>\n      <div id=\"counter\">{counter}</div>\n      <button id=\"increase-counter\" onClick={() => setCounter(counter + 1)}>\n        Increase counter\n      </button>\n    </div>\n  );\n};\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: <StepContent />,\n  },\n];\n\nexport default function WizardPage() {\n  const [isLoading, setIsLoading] = useState<boolean>(false);\n  return (\n    <div>\n      <button id=\"set-loading\" onClick={() => setIsLoading(true)}>\n        Set loading\n      </button>\n      <Wizard id=\"wizard\" steps={steps} i18nStrings={i18nStrings} isLoadingNextStep={isLoading} />\n    </div>\n  );\n}\n",
-   "source": "pages/wizard/wizard-form.page.tsx"
-  },
-  {
-   "name": "wizard-screenshot",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\nimport repeat from 'lodash/repeat';\n\nimport Link from '~components/link';\nimport Wizard, { WizardProps } from '~components/wizard';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './common';\n\nconst steps: WizardProps.Step[] = [\n  {\n    title: 'Step 1',\n    content: 'Content 1',\n    info: <Link variant=\"info\">Info</Link>,\n    errorText: 'Page error',\n    isOptional: true,\n    description: 'Description of the step',\n  },\n  {\n    title: 'Step 2 - reallylongsteptitlewithoutspacestowraptonextline',\n    content: (\n      <>\n        <p>{repeat('Really long text to wrap. ', 10)}</p>\n        <p>{repeat('textwithoutspacestowrap', 10)}</p>\n      </>\n    ),\n    isOptional: true,\n  },\n  {\n    title: 'Step 3',\n    content: 'Content 3',\n  },\n];\n\nconst skipToButtonLabel = (targetStep: WizardProps.Step) => `Skip to ${targetStep.title} Long Text`;\n\nexport default function WizardPage() {\n  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);\n  return (\n    <div>\n      <button\n        id=\"next\"\n        onClick={() => {\n          setActiveStepIndex(1);\n        }}\n      >\n        Next\n      </button>\n      <ScreenshotArea disableAnimations={true}>\n        <Wizard\n          activeStepIndex={activeStepIndex}\n          steps={steps}\n          i18nStrings={{ ...i18nStrings, nextButton: 'Next Button With Long Long Long Text', skipToButtonLabel }}\n          isLoadingNextStep={activeStepIndex === 1}\n          onNavigate={() => {}}\n          allowSkipTo={true}\n        />\n      </ScreenshotArea>\n    </div>\n  );\n}\n",
-   "source": "pages/wizard/wizard-screenshot.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "WizardProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "analyticsMetadata",
-    "WizardProps.AnalyticsMetadata",
-    "아니오",
-    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `flowType` - Identifies the type of flow represented by the component. * `resourceType` - Identifies the type of resource represented by the flow. **Note:** This API is currently experimental. @analytics",
-    "src/wizard/interfaces.ts:26"
-   ],
-   [
-    "steps",
-    "ReadonlyArray<WizardProps.Step>",
-    "예",
-    "Array of step objects. Each object represents a step in the wizard with the following properties: - `title` (string) - Text that's displayed as the title in the navigation pane and form header. - `info` (ReactNode) - (Optional) Area for a page level info link that's displayed in the form header. The page level info link should trigger the default help panel content for the step. Use the [link component](/components/link/) to display the link. - `description` (ReactNode) - (Optional) Area below the form header for a page level description text to further explain the purpose, goal, or main actions of the step. - `content` (ReactNode) - Main content area to display form sections, form fields, and controls. - `errorText` (ReactNode) - (Optional) Error text that's displayed in a page level error alert. Use this for rendering actionable server-side validation failure messages. - `isOptional` (boolean) - Specifies whether the step is optional or required. If set to `true`, the text from `i18nStrings.optional` is rendered next to the `title` in the navigation step label and the form header title. - `analyticsMetadata` (WizardProps.StepAnalyticsMetadata) - (Optional) Specifies additional analytics-related metadata. @analytics",
-    "src/wizard/interfaces.ts:43"
-   ],
-   [
-    "activeStepIndex",
-    "number",
-    "아니오",
-    "Index of the step that's currently displayed. The first step has an index of zero (0). If you don't set this property, the component starts on the first step and switches step automatically when a user navigates using the buttons or an enabled step link in the navigation pane (that is, uncontrolled behavior). If you provide a value for this property, you must also set an `onNavigate` listener to update the property when a user navigates (that is, controlled behavior). If you set it to a value that exceeds the maximum value (that is, the number of steps minus 1), its value is ignored and the component uses the maximum value.",
-    "src/wizard/interfaces.ts:56"
-   ],
-   [
-    "i18nStrings",
-    "WizardProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. - `stepNumberLabel` ((stepNumber: number) => string) - A function that accepts a number (1-based indexing), and returns a human-readable, localized string displaying the step number in the navigation pane. For example, \"Step 1\" or \"Step 2\". - `collapsedStepsLabel` ((stepNumber: number, stepsCount: number) => string) - A function that accepts two number parameters (1-based indexing), and returns a string responsible for the navigation summary on smaller screens. For example, \"Step 1 of 3\". The parameters are as follows: - `stepNumber` (number) - The step number that the user is currently on. - `stepsCount` (number) - The total number of steps in the wizard. - `skipToButtonLabel`: ((targetStep: WizardProps.Step, targetStepNumber: number) => string) - An optional function that accepts the target step object and the target step number (1-based indexing), and returns a string to be used as the *skip-to* button label. For example, \"Skip to Step 2\" or \"Skip to end\". - `navigationAriaLabel` (string) - The aria label for the navigation pane. - `cancelButton` (string) - The text of the button that enables the user to exit the flow. - `previousButton` (string) - The text of the button that enables the user to return to the previous step. - `nextButton` (string) - The text of the button that enables the user to move to the next step. - `submitButton` (string) - The text of the button that enables the user to submit the form. **Deprecated**, replaced by the `submitButtonText` component property. `submitButton` is not supported by the I18nProvider. - `optional` (string) - The text displayed next to the step title and form header title when a step is declared optional. - `nextButtonLoadingAnnouncement` (string) - The text that a screen reader announces when the *next* button is in a loading state. - `submitButtonLoadingAnnouncement` (string) - The text that a screen reader announces when the *submit* button is in a loading state. @i18n",
-    "src/wizard/interfaces.ts:79"
-   ],
-   [
-    "submitButtonText",
-    "string",
-    "아니오",
-    "The text of the button that enables the user to submit the form.",
-    "src/wizard/interfaces.ts:84"
-   ],
-   [
-    "isLoadingNextStep",
-    "boolean",
-    "아니오",
-    "Renders the *next* or *submit* button in a loading state. Use this if you need to wait for a response from the server before the user can proceed to the next step, such as during server-side validation or retrieving the next step's information.",
-    "src/wizard/interfaces.ts:91"
-   ],
-   [
-    "allowSkipTo",
-    "boolean",
-    "아니오",
-    "When set to `false`, the *skip-to* button is never shown. When set to `true`, the *skip-to* button may appear to offer faster navigation for the user. The *skip-to* button only allows to skip optional steps. It is shown when there is one or more optional steps ahead having no required steps in-between. Note: the *skip-to* button requires the function i18nStrings.skipToButtonLabel to be defined. Defaults to `false`.",
-    "src/wizard/interfaces.ts:104"
-   ],
-   [
-    "customPrimaryActions",
-    "React.ReactNode",
-    "아니오",
-    "Specifies right-aligned custom primary actions for the wizard. Overwrites existing buttons (e.g. Cancel, Next, Finish).",
-    "src/wizard/interfaces.ts:109"
-   ],
-   [
-    "secondaryActions",
-    "React.ReactNode",
-    "아니오",
-    "Specifies left-aligned secondary actions for the wizard. Use a button dropdown if multiple actions are required.",
-    "src/wizard/interfaces.ts:114"
-   ],
-   [
-    "onCancel",
-    "NonCancelableEventHandler",
-    "아니오",
-    "Called when a user clicks the *cancel* button. If a user has entered data in the form, you should prompt the user with a modal before exiting the wizard flow.",
-    "src/wizard/interfaces.ts:120"
-   ],
-   [
-    "onSubmit",
-    "NonCancelableEventHandler",
-    "아니오",
-    "Called when a user clicks the *submit* button.",
-    "src/wizard/interfaces.ts:125"
-   ],
-   [
-    "onNavigate",
-    "NonCancelableEventHandler<WizardProps.NavigateDetail>",
-    "아니오",
-    "Called when a user clicks the *next* button, the *previous* button, or an enabled step link in the navigation pane. The event `detail` includes the following: - `requestedStepIndex` - The index of the requested step. - `reason` - The user action that triggered the navigation event. It can be `next` (when the user clicks the *next* button), `previous` (when the user clicks the *previous* button), `step` (an enabled step link in the navigation pane), or `skip` (when navigated using navigation pane or the *skip-to* button to the previously unvisited step).",
-    "src/wizard/interfaces.ts:136"
-   ]
-  ],
-  "source": "src/wizard/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "wizard",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "WizardProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "analyticsMetadata",
+      "WizardProps.AnalyticsMetadata",
+      "아니오",
+      "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. * `flowType` - Identifies the type of flow represented by the component. * `resourceType` - Identifies the type of resource represented by the flow. **Note:** This API is currently experimental. @analytics",
+      "src/wizard/interfaces.ts:26"
+     ],
+     [
+      "steps",
+      "ReadonlyArray<WizardProps.Step>",
+      "예",
+      "Array of step objects. Each object represents a step in the wizard with the following properties: - `title` (string) - Text that's displayed as the title in the navigation pane and form header. - `info` (ReactNode) - (Optional) Area for a page level info link that's displayed in the form header. The page level info link should trigger the default help panel content for the step. Use the [link component](/components/link/) to display the link. - `description` (ReactNode) - (Optional) Area below the form header for a page level description text to further explain the purpose, goal, or main actions of the step. - `content` (ReactNode) - Main content area to display form sections, form fields, and controls. - `errorText` (ReactNode) - (Optional) Error text that's displayed in a page level error alert. Use this for rendering actionable server-side validation failure messages. - `isOptional` (boolean) - Specifies whether the step is optional or required. If set to `true`, the text from `i18nStrings.optional` is rendered next to the `title` in the navigation step label and the form header title. - `analyticsMetadata` (WizardProps.StepAnalyticsMetadata) - (Optional) Specifies additional analytics-related metadata. @analytics",
+      "src/wizard/interfaces.ts:43"
+     ],
+     [
+      "activeStepIndex",
+      "number",
+      "아니오",
+      "Index of the step that's currently displayed. The first step has an index of zero (0). If you don't set this property, the component starts on the first step and switches step automatically when a user navigates using the buttons or an enabled step link in the navigation pane (that is, uncontrolled behavior). If you provide a value for this property, you must also set an `onNavigate` listener to update the property when a user navigates (that is, controlled behavior). If you set it to a value that exceeds the maximum value (that is, the number of steps minus 1), its value is ignored and the component uses the maximum value.",
+      "src/wizard/interfaces.ts:56"
+     ],
+     [
+      "i18nStrings",
+      "WizardProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. - `stepNumberLabel` ((stepNumber: number) => string) - A function that accepts a number (1-based indexing), and returns a human-readable, localized string displaying the step number in the navigation pane. For example, \"Step 1\" or \"Step 2\". - `collapsedStepsLabel` ((stepNumber: number, stepsCount: number) => string) - A function that accepts two number parameters (1-based indexing), and returns a string responsible for the navigation summary on smaller screens. For example, \"Step 1 of 3\". The parameters are as follows: - `stepNumber` (number) - The step number that the user is currently on. - `stepsCount` (number) - The total number of steps in the wizard. - `skipToButtonLabel`: ((targetStep: WizardProps.Step, targetStepNumber: number) => string) - An optional function that accepts the target step object and the target step number (1-based indexing), and returns a string to be used as the *skip-to* button label. For example, \"Skip to Step 2\" or \"Skip to end\". - `navigationAriaLabel` (string) - The aria label for the navigation pane. - `cancelButton` (string) - The text of the button that enables the user to exit the flow. - `previousButton` (string) - The text of the button that enables the user to return to the previous step. - `nextButton` (string) - The text of the button that enables the user to move to the next step. - `submitButton` (string) - The text of the button that enables the user to submit the form. **Deprecated**, replaced by the `submitButtonText` component property. `submitButton` is not supported by the I18nProvider. - `optional` (string) - The text displayed next to the step title and form header title when a step is declared optional. - `nextButtonLoadingAnnouncement` (string) - The text that a screen reader announces when the *next* button is in a loading state. - `submitButtonLoadingAnnouncement` (string) - The text that a screen reader announces when the *submit* button is in a loading state. @i18n",
+      "src/wizard/interfaces.ts:79"
+     ],
+     [
+      "submitButtonText",
+      "string",
+      "아니오",
+      "The text of the button that enables the user to submit the form.",
+      "src/wizard/interfaces.ts:84"
+     ],
+     [
+      "isLoadingNextStep",
+      "boolean",
+      "아니오",
+      "Renders the *next* or *submit* button in a loading state. Use this if you need to wait for a response from the server before the user can proceed to the next step, such as during server-side validation or retrieving the next step's information.",
+      "src/wizard/interfaces.ts:91"
+     ],
+     [
+      "allowSkipTo",
+      "boolean",
+      "아니오",
+      "When set to `false`, the *skip-to* button is never shown. When set to `true`, the *skip-to* button may appear to offer faster navigation for the user. The *skip-to* button only allows to skip optional steps. It is shown when there is one or more optional steps ahead having no required steps in-between. Note: the *skip-to* button requires the function i18nStrings.skipToButtonLabel to be defined. Defaults to `false`.",
+      "src/wizard/interfaces.ts:104"
+     ],
+     [
+      "customPrimaryActions",
+      "React.ReactNode",
+      "아니오",
+      "Specifies right-aligned custom primary actions for the wizard. Overwrites existing buttons (e.g. Cancel, Next, Finish).",
+      "src/wizard/interfaces.ts:109"
+     ],
+     [
+      "secondaryActions",
+      "React.ReactNode",
+      "아니오",
+      "Specifies left-aligned secondary actions for the wizard. Use a button dropdown if multiple actions are required.",
+      "src/wizard/interfaces.ts:114"
+     ],
+     [
+      "onCancel",
+      "NonCancelableEventHandler",
+      "아니오",
+      "Called when a user clicks the *cancel* button. If a user has entered data in the form, you should prompt the user with a modal before exiting the wizard flow.",
+      "src/wizard/interfaces.ts:120"
+     ],
+     [
+      "onSubmit",
+      "NonCancelableEventHandler",
+      "아니오",
+      "Called when a user clicks the *submit* button.",
+      "src/wizard/interfaces.ts:125"
+     ],
+     [
+      "onNavigate",
+      "NonCancelableEventHandler<WizardProps.NavigateDetail>",
+      "아니오",
+      "Called when a user clicks the *next* button, the *previous* button, or an enabled step link in the navigation pane. The event `detail` includes the following: - `requestedStepIndex` - The index of the requested step. - `reason` - The user action that triggered the navigation event. It can be `next` (when the user clicks the *next* button), `previous` (when the user clicks the *previous* button), `step` (an enabled step link in the navigation pane), or `skip` (when navigated using navigation pane or the *skip-to* button to the previously unvisited step).",
+      "src/wizard/interfaces.ts:136"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

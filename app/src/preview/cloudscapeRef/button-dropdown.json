@@ -1,329 +1,420 @@
 {
  "slug": "button-dropdown",
  "title": "Button Dropdown",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "checkboxes",
+   "key": "details",
+   "name": "Details page",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst getItems = (firstChecked: boolean, secondChecked: boolean, thirdChecked: boolean, fourthChecked: boolean) => {\n  const items: ButtonDropdownProps.Items = [\n    {\n      id: 'id1',\n      text: 'Option with checkbox',\n      checked: firstChecked,\n      itemType: 'checkbox',\n    },\n    {\n      id: 'id2',\n      text: 'Disabled option with checkbox',\n      disabled: true,\n      checked: secondChecked,\n      itemType: 'checkbox',\n    },\n    {\n      id: 'id3',\n      text: 'Option with checkbox and icon',\n      checked: thirdChecked,\n      iconName: 'gen-ai',\n      itemType: 'checkbox',\n    },\n    {\n      id: 'id4',\n      text: 'Disabled option with checkbox and icon',\n      disabled: true,\n      checked: fourthChecked,\n      iconName: 'gen-ai',\n      itemType: 'checkbox',\n    },\n    {\n      id: 'id5',\n      text: 'Option without checkbox',\n    },\n    {\n      id: 'id6',\n      text: 'Disabled option with secondaryText',\n      secondaryText: 'This is a secondary text',\n      disabled: true,\n    },\n    {\n      id: 'id7',\n      text: 'Option with icon and secondaryText',\n      iconName: 'gen-ai',\n      secondaryText: 'This is a secondary text',\n    },\n    {\n      id: 'id8',\n      text: 'Option with checkbox, icon, and secondaryText',\n      iconName: 'gen-ai',\n      secondaryText: 'This is a secondary text',\n      checked: thirdChecked,\n      itemType: 'checkbox',\n    },\n    {\n      id: 'id8',\n      text: 'Option with checkbox, icon, labelTag, and secondaryText',\n      iconName: 'gen-ai',\n      secondaryText: 'This is a secondary text',\n      checked: thirdChecked,\n      itemType: 'checkbox',\n      labelTag: 'Ctrl + L',\n    },\n  ];\n  return items;\n};\n\nfunction ButtonDropdownComponent({ variant }: { variant: 'normal' | 'nested' | 'expandable' }) {\n  const [firstChecked, setFirstChecked] = React.useState(true);\n  const [secondChecked, setSecondChecked] = React.useState(true);\n  const [thirdChecked, setThirdChecked] = React.useState(true);\n  const [fourthChecked, setFourthChecked] = React.useState(true);\n\n  const onClick = React.useCallback(({ detail }: { detail: ButtonDropdownProps.ItemClickDetails }) => {\n    if (detail.checked === undefined) {\n      return;\n    }\n    switch (detail.id) {\n      case 'id1':\n        setFirstChecked(detail.checked);\n        break;\n\n      case 'id2':\n        setSecondChecked(detail.checked);\n        break;\n\n      case 'id3':\n        setThirdChecked(detail.checked);\n        break;\n\n      case 'id4':\n        setFourthChecked(detail.checked);\n        break;\n    }\n  }, []);\n\n  return (\n    <ButtonDropdown\n      items={\n        variant === 'normal'\n          ? getItems(firstChecked, secondChecked, thirdChecked, fourthChecked)\n          : [\n              { items: getItems(firstChecked, secondChecked, thirdChecked, fourthChecked), text: 'Category' },\n              {\n                text: 'Non selectable category',\n                items: [\n                  { text: 'Option 1', id: 'option-1' },\n                  { text: 'Option 2', id: 'option-2' },\n                ],\n              },\n            ]\n      }\n      onItemClick={onClick}\n      expandableGroups={variant === 'expandable'}\n    >\n      {variant}\n    </ButtonDropdown>\n  );\n}\n\nexport default function ButtonDropdownPage() {\n  return (\n    <ScreenshotArea\n      disableAnimations={true}\n      style={{\n        // extra space to include dropdown in the screenshot area\n        paddingBottom: 100,\n      }}\n    >\n      <article>\n        <h1>ButtonDropdown with checkboxes</h1>\n        <div className={styles.container}>\n          <ButtonDropdownComponent variant=\"normal\" />\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdownComponent variant=\"nested\" />\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdownComponent variant=\"expandable\" />\n        </div>\n      </article>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/checkboxes.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "custom-render-item",
+   "key": "details-hub",
+   "name": "Details page as hub",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { Toggle } from '~components';\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\nimport { spaceOptionPaddingHorizontal, spaceOptionPaddingVertical } from '~design-tokens';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nconst itemsWithGroups: ButtonDropdownProps['items'] = [\n  {\n    id: 'item',\n    text: 'Default Item',\n    secondaryText: 'Secondary Text',\n    labelTag: 'Label Tag',\n  },\n  {\n    id: 'item2',\n    text: 'Custom Item',\n    secondaryText: 'Secondary Text',\n    labelTag: 'Label Tag',\n  },\n  {\n    id: 'checked-checkbox',\n    text: 'Checked Checkbox',\n    secondaryText: 'Secondary Text',\n    labelTag: 'Label Tag',\n    itemType: 'checkbox',\n    checked: true,\n  },\n  {\n    id: 'unchecked-checkbox',\n    text: 'Unchecked Checkbox',\n    secondaryText: 'Secondary Text',\n    labelTag: 'Label Tag',\n    itemType: 'checkbox',\n    checked: false,\n  },\n  {\n    id: 'group',\n    text: 'Simple Group',\n    items: [\n      {\n        id: 'option',\n        text: 'Option',\n      },\n      {\n        id: 'disabled-option',\n        text: 'Disabled Option',\n        disabled: true,\n      },\n      {\n        id: 'checked-option',\n        text: 'Option Checkbox',\n        itemType: 'checkbox',\n        checked: true,\n      },\n      {\n        id: 'external-option',\n        text: 'External Option',\n        secondaryText: '',\n        labelTag: 'Ctrl + P',\n        external: true,\n        href: '/#/light/',\n      },\n    ],\n  },\n];\n\ntype PageContext = React.Context<\n  AppContextType<{\n    expandableGroups?: boolean;\n  }>\n>;\n\nexport default function ButtonDropdownPage() {\n  const { urlParams, setUrlParams } = React.useContext(AppContext as PageContext);\n  const expandableGroups = urlParams.expandableGroups ?? false;\n\n  const renderItem: ButtonDropdownProps.ItemRenderer = ({ item }) => {\n    if (item.option.id === 'item') {\n      return null;\n    }\n    if (item.option.id === 'item2') {\n      return (\n        <div style={{ paddingBlock: spaceOptionPaddingVertical, paddingInline: spaceOptionPaddingHorizontal }}>\n          Padded item: {item.option.text}\n        </div>\n      );\n    }\n    if (item.type === 'group') {\n      return <div>Group: {item.option.text}</div>;\n    } else if (item.type === 'checkbox') {\n      return <div>Checkbox: {item.option.text}</div>;\n    } else {\n      return <div>Item: {item.option.text}</div>;\n    }\n  };\n\n  return (\n    <SimplePage\n      title=\"Button Dropdown with custom item renderer\"\n      settings={\n        <Toggle\n          checked={!!urlParams.expandableGroups}\n          onChange={({ detail }) => setUrlParams({ expandableGroups: detail.checked })}\n        >\n          Expandable Groups\n        </Toggle>\n      }\n      screenshotArea={{\n        style: {\n          padding: 10,\n        },\n      }}\n    >\n      <div style={{ maxInlineSize: '400px', blockSize: '650px' }}>\n        <ButtonDropdown items={itemsWithGroups} expandableGroups={expandableGroups} renderItem={renderItem}>\n          Expandable Groups\n        </ButtonDropdown>\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/button-dropdown/custom-render-item.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-hub/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "disabled-reason",
+   "key": "details-tabs",
+   "name": "Details page with tabs",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { ButtonDropdown, ButtonDropdownProps } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst actionsItems: ButtonDropdownProps.Items = [\n  { id: 'connect', text: 'Connect', disabledReason: 'Instance must be running.', disabled: true, labelTag: 'Disabled' },\n  {\n    id: 'details',\n    text: 'View details',\n    disabledReason: 'A single instance needs to be selected.',\n    disabled: true,\n  },\n  {\n    id: 'manage-state',\n    text: 'Manage instance state',\n    disabledReason: 'Instance state must not be pending or stopping.',\n    disabled: true,\n  },\n  {\n    text: 'Instance Settings',\n    id: 'settings',\n    items: [\n      {\n        id: 'auto-scaling',\n        text: 'Attach to Auto Scaling Group',\n        secondaryText: 'Manage the Instance to Auto Scaling Group',\n        disabledReason: 'Instance must be running and not already be attached to an Auto Scaling Group.',\n        disabled: true,\n      },\n      {\n        id: 'termination-protection',\n        text: 'Change termination protections',\n      },\n      {\n        id: 'stop-protection',\n        text: 'Change stop protection',\n      },\n      {\n        id: 'shutdown-behavior',\n        text: 'Change shutdown behavior',\n        disabledReason: \"Instance can't be a spot instance.\",\n        disabled: true,\n        labelTag: 'Ctrl + D',\n      },\n    ],\n  },\n  {\n    text: 'Networking',\n    items: [\n      { id: 'network-interface', text: 'Attach network interface' },\n      {\n        id: 'detach',\n        text: 'Detach network interface',\n        disabledReason: 'Instance must be attached to at least one network interface',\n        disabled: true,\n      },\n    ],\n  },\n  {\n    text: 'Security',\n    items: [\n      {\n        id: 'security-groups',\n        text: 'Change security groups',\n        disabledReason: 'Instance must be a VPC (non-classic) instance and must not be terminated.',\n        disabled: true,\n      },\n      {\n        id: 'windows-password',\n        text: 'Get windows password',\n        disabledReason: 'Instance must be a Windows instance.',\n        disabled: true,\n      },\n      {\n        id: 'iam-role',\n        text: 'Modify IAM role',\n        disabledReason: 'Instance must be running or stopped.',\n        disabled: true,\n      },\n    ],\n  },\n  {\n    id: 'classic-link',\n    text: 'ClassicLink',\n    items: [],\n    disabledReason: 'Requires a classic-enabled accounts.',\n    disabled: true,\n  },\n  {\n    text: 'Image and templates',\n    items: [\n      {\n        id: 'create-image',\n        text: 'Create image',\n        disabledReason: 'Instance must be running, stopped or stopping.',\n        disabled: true,\n      },\n      {\n        id: 'create-template',\n        text: 'Create template from instance',\n      },\n    ],\n  },\n  { text: 'Monitor and troubleshoot', items: [{ id: 'system-log', text: 'Get System log' }] },\n];\n\nexport const selectableGroupItems: ButtonDropdownProps.Items = [\n  {\n    text: 'Settings group',\n    id: 'setting-group',\n    items: [\n      {\n        text: 'Setting',\n        id: 'setting',\n        itemType: 'checkbox',\n        checked: true,\n        disabled: false,\n      },\n      {\n        text: 'Disabled setting',\n        id: 'setting',\n        itemType: 'checkbox',\n        checked: true,\n        disabled: true,\n        disabledReason: 'disabled reason',\n      },\n    ],\n  },\n  { text: 'Action', id: 'action', disabled: false },\n];\n\nexport default function DescriptionPage() {\n  const [isRightAligned, setIsRightAligned] = useState(false);\n  return (\n    <>\n      <h1>Descriptions in ButtonDropdown</h1>\n      <label>\n        <input\n          type=\"checkbox\"\n          checked={isRightAligned}\n          data-testid=\"alignment\"\n          onChange={() => setIsRightAligned(val => !val)}\n        />\n        Right Align\n      </label>\n      <ScreenshotArea disableAnimations={true}>\n        <div style={{ float: isRightAligned ? 'right' : undefined, marginBottom: '100px' }}>\n          <ButtonDropdown items={actionsItems} expandableGroups={true} data-testid=\"buttonDropdown\">\n            Actions\n          </ButtonDropdown>\n        </div>\n        <div style={{ float: isRightAligned ? 'right' : undefined, marginBottom: '100px' }}>\n          <ButtonDropdown items={actionsItems} expandableGroups={true} disabled={true} disabledReason=\"disabled reason\">\n            Actions\n          </ButtonDropdown>\n        </div>\n        <div style={{ float: isRightAligned ? 'right' : undefined, marginBottom: '100px' }}>\n          <ButtonDropdown\n            items={actionsItems}\n            ariaLabel=\"Instance actions\"\n            mainAction={{ text: 'Launch instance', disabled: true, disabledReason: 'disabled reason' }}\n            variant=\"primary\"\n          />\n        </div>\n        <div style={{ float: isRightAligned ? 'right' : undefined, marginBottom: '100px' }}>\n          <ButtonDropdown\n            items={actionsItems}\n            ariaLabel=\"Instance actions\"\n            variant=\"icon\"\n            disabled={true}\n            disabledReason=\"disabled reason\"\n          />\n        </div>\n        <div style={{ float: isRightAligned ? 'right' : undefined, marginBottom: '100px' }}>\n          <ButtonDropdown items={selectableGroupItems} data-testid=\"buttonDropdownSelectableItems\">\n            Selectable example\n          </ButtonDropdown>\n        </div>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/button-dropdown/disabled-reason.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-tabs/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "events",
+   "key": "server-side-table",
+   "name": "Table view (server-side)",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport styles from './styles.scss';\n\nconst dropdownItems = [\n  {\n    text: 'enabled category',\n    items: [\n      {\n        id: 'c1long1',\n        text: 'VeryLongOptionTextValueHereToTestTheCaseWithThisDropdown',\n        secondaryText: 'Very long option',\n      },\n      { id: 'c1_disabled_item', text: 'disabled item', disabled: true, secondaryText: 'Disabled option' },\n      { id: 'c1_enabled_item', text: 'option2' },\n      {\n        id: 'c1long2',\n        text: 'VeryLongOptionTextValueHereToTestTheCaseWithThisDropdown',\n        disabled: true,\n        secondaryText: 'Very long option',\n      },\n      { id: 'c1i3', text: 'option3', secondaryText: 'option 3' },\n      { id: 'c1i4', text: 'option4', secondaryText: 'option 4' },\n    ],\n  },\n  {\n    text: 'disabled category',\n    disabled: true,\n    items: [\n      {\n        id: 'dci1',\n        text: 'VeryLongOptionTextValueHereToTestTheCaseWithThisDropdown',\n        secondaryText: 'Very long option',\n      },\n      { id: 'item_in_disabled_category', text: 'option4' },\n      { id: 'dci5', text: 'option5' },\n    ],\n  },\n  {\n    id: 'individual_enabled_item',\n    text: 'Individual enabled item',\n  },\n  {\n    id: 'individual_disabled_item',\n    text: 'VeryLongOptionTextValueHereToTestTheCaseWithThisDropdown',\n    disabled: true,\n    labelTag: 'Disabled',\n  },\n  {\n    id: 'plain_href',\n    text: 'option6',\n    href: '#',\n    labelTag: 'Link',\n  },\n  {\n    id: 'plain_href_prevented',\n    text: 'option6',\n    href: '#',\n  },\n];\n\nexport default function ButtonDropdownScenario() {\n  const [message, setMessage] = useState('');\n\n  return (\n    <div className={styles.container}>\n      <article>\n        <h1>Complex actions menu</h1>\n        <ButtonDropdown\n          id=\"testDropdown\"\n          onItemClick={event => setMessage(`The action with id ${event.detail.id} has been selected`)}\n          items={dropdownItems}\n          onItemFollow={event => {\n            if (event.detail.id === 'plain_href_prevented') {\n              event.preventDefault();\n            }\n          }}\n        >\n          Dropdown Test\n        </ButtonDropdown>\n        <div id=\"testDropdownMessage\">{message}</div>\n      </article>\n    </div>\n  );\n}\n",
-   "source": "pages/button-dropdown/events.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "expandable",
+   "key": "server-side-table-property-filter",
+   "name": "Table property filter (server-side)",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\n\nimport styles from './styles.scss';\n\nexport const items: ButtonDropdownProps['items'] = [\n  {\n    id: 'category1',\n    text: 'category1',\n    items: [...Array(2)].map((_, index) => ({\n      id: 'category1Subitem' + index,\n      text: 'Sub item ' + index,\n    })),\n  },\n  {\n    id: 'category2',\n    text: 'category2',\n    items: [...Array(50)].map((_, index) => ({\n      id: 'category2Subitem' + index,\n      text: 'Cat 2 Sub item ' + index,\n      secondaryText: `Option ${index}`,\n    })),\n  },\n  ...[...Array(10)].map((_, index) => ({\n    id: 'item' + index,\n    text: 'Item ' + index,\n    secondaryText: `Option ${index}`,\n  })),\n  {\n    id: 'category3',\n    text: 'category3',\n    items: [...Array(50)].map((_, index) => ({\n      id: 'category3Subitem' + index,\n      text: 'Sub item ' + index,\n    })),\n  },\n  {\n    id: 'category4',\n    text: 'category4',\n    items: [{ id: 'category4Subitem', text: 'Sub item 4' }],\n    disabled: true,\n  },\n  {\n    id: 'item10',\n    text: 'Item 10',\n    secondaryText: 'This is the last option',\n  },\n];\n\nexport default function ButtonDropdownScenario() {\n  const [expandToViewport, setExpandToViewport] = useState(false);\n  const [expandableGroups, setExpandableGroups] = useState(true);\n  return (\n    <div className={styles.container}>\n      <article>\n        <h1>Expandable dropdown scenarios</h1>\n        <SpaceBetween size=\"m\" direction=\"horizontal\">\n          <label>\n            <input\n              id=\"expandToViewport\"\n              type=\"checkbox\"\n              checked={expandToViewport}\n              onChange={e => setExpandToViewport(!!e.target.checked)}\n            />{' '}\n            expandToViewport\n          </label>\n          <label>\n            <input\n              id=\"expandableGroups\"\n              type=\"checkbox\"\n              checked={expandableGroups}\n              onChange={e => setExpandableGroups(!!e.target.checked)}\n            />{' '}\n            expandableGroups\n          </label>\n        </SpaceBetween>\n\n        <div className={styles['wide-container']}>\n          <div className={styles.row}>\n            <ButtonDropdown\n              id=\"topLeftDropdown\"\n              expandToViewport={expandToViewport}\n              expandableGroups={expandableGroups}\n              className=\"bd-top-left\"\n              items={items}\n            >\n              Dropdown items 1\n            </ButtonDropdown>\n            <ButtonDropdown\n              id=\"topRightDropdown\"\n              expandToViewport={expandToViewport}\n              expandableGroups={expandableGroups}\n              className=\"bd-top-right\"\n              items={items}\n            >\n              Dropdown items 2\n            </ButtonDropdown>\n          </div>\n          <div className={styles.row}>\n            <ButtonDropdown\n              id=\"bottomLeftDropdown\"\n              expandToViewport={expandToViewport}\n              expandableGroups={expandableGroups}\n              className=\"bd-bottom-left\"\n              items={items}\n            >\n              Dropdown items 3\n            </ButtonDropdown>\n            <ButtonDropdown\n              id=\"bottomRightDropdown\"\n              expandToViewport={expandToViewport}\n              expandableGroups={expandableGroups}\n              className=\"bd-bottom-right\"\n              items={items}\n            >\n              Dropdown items 4\n            </ButtonDropdown>\n          </div>\n        </div>\n      </article>\n    </div>\n  );\n}\n",
-   "source": "pages/button-dropdown/expandable.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "filtering",
+   "key": "table-property-filter",
+   "name": "Table property filter",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Checkbox } from '~components';\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\n\nimport { SimplePage } from '../app/templates';\n\nimport styles from './styles.scss';\n\nconst flatItems: ButtonDropdownProps['items'] = [\n  { id: 'cut', text: 'Cut', labelTag: 'Ctrl+X' },\n  { id: 'copy', text: 'Copy', labelTag: 'Ctrl+C' },\n  { id: 'paste', text: 'Paste', labelTag: 'Ctrl+V' },\n  { id: 'undo', text: 'Undo', labelTag: 'Ctrl+Z' },\n  { id: 'redo', text: 'Redo', labelTag: 'Ctrl+Y' },\n  { id: 'select-all', text: 'Select all', labelTag: 'Ctrl+A' },\n  { id: 'find', text: 'Find and replace', secondaryText: 'Search within document', labelTag: 'Ctrl+H' },\n  { id: 'preferences', text: 'Preferences', secondaryText: 'Configure editor settings' },\n];\n\nconst groupedItems: ButtonDropdownProps['items'] = [\n  {\n    text: 'File',\n    items: [\n      { id: 'new', text: 'New file' },\n      { id: 'open', text: 'Open file', secondaryText: 'Open an existing file' },\n      { id: 'save', text: 'Save', labelTag: 'Ctrl+S' },\n      { id: 'save-as', text: 'Save as...', labelTag: 'Ctrl+Shift+S' },\n      { id: 'export', text: 'Export', secondaryText: 'Export to different format' },\n    ],\n  },\n  {\n    text: 'Edit',\n    items: [\n      { id: 'cut', text: 'Cut', labelTag: 'Ctrl+X' },\n      { id: 'copy', text: 'Copy', labelTag: 'Ctrl+C' },\n      { id: 'paste', text: 'Paste', labelTag: 'Ctrl+V' },\n      { id: 'find', text: 'Find and replace', labelTag: 'Ctrl+H' },\n    ],\n  },\n  {\n    text: 'View',\n    items: [\n      { id: 'zoom-in', text: 'Zoom in', labelTag: 'Ctrl++' },\n      { id: 'zoom-out', text: 'Zoom out', labelTag: 'Ctrl+-' },\n      { id: 'fullscreen', text: 'Fullscreen', labelTag: 'F11' },\n      { id: 'sidebar', text: 'Toggle sidebar' },\n    ],\n  },\n];\n\nconst expandableGroupedItems: ButtonDropdownProps['items'] = [\n  { id: 'connect', text: 'Connect', secondaryText: 'Connect to instance' },\n  { id: 'password', text: 'Get password' },\n  {\n    id: 'instance-state',\n    text: 'Instance state',\n    items: [\n      { id: 'start', text: 'Start' },\n      { id: 'stop', text: 'Stop', disabled: true, disabledReason: 'Instance is already stopped' },\n      { id: 'hibernate', text: 'Hibernate' },\n      { id: 'reboot', text: 'Reboot' },\n      { id: 'terminate', text: 'Terminate', secondaryText: 'Permanently delete instance' },\n    ],\n  },\n  {\n    id: 'networking',\n    text: 'Networking',\n    items: [\n      { id: 'attach-eni', text: 'Attach network interface' },\n      { id: 'detach-eni', text: 'Detach network interface' },\n      { id: 'manage-ip', text: 'Manage IP addresses' },\n      { id: 'elastic-ip', text: 'Associate Elastic IP address' },\n    ],\n  },\n  {\n    id: 'security',\n    text: 'Security',\n    items: [\n      { id: 'change-sg', text: 'Change security groups' },\n      { id: 'modify-iam', text: 'Modify IAM role' },\n    ],\n  },\n];\n\nconst expandableWithRegularGroups: ButtonDropdownProps['items'] = [\n  { id: 'connect', text: 'Connect', secondaryText: 'Connect to instance' },\n  {\n    id: 'instance-state',\n    text: 'Instance state',\n    items: [\n      { id: 'start', text: 'Start' },\n      { id: 'stop', text: 'Stop', disabled: true, disabledReason: 'Instance is already stopped' },\n      { id: 'reboot', text: 'Reboot' },\n    ],\n  },\n  {\n    id: 'monitoring',\n    text: 'Monitoring and troubleshooting',\n    items: [\n      {\n        text: 'CloudWatch',\n        items: [\n          { id: 'detailed-monitoring', text: 'Enable detailed monitoring' },\n          { id: 'view-metrics', text: 'View CloudWatch metrics' },\n        ],\n      },\n      {\n        text: 'Diagnostics',\n        items: [\n          { id: 'system-log', text: 'Get system log' },\n          { id: 'screenshot', text: 'Get instance screenshot' },\n        ],\n      },\n    ],\n  },\n  {\n    id: 'networking',\n    text: 'Networking',\n    items: [\n      {\n        text: 'Interfaces',\n        items: [\n          { id: 'attach-eni', text: 'Attach network interface' },\n          { id: 'detach-eni', text: 'Detach network interface' },\n        ],\n      },\n      {\n        text: 'IP addresses',\n        items: [\n          { id: 'manage-ip', text: 'Manage IP addresses' },\n          { id: 'elastic-ip', text: 'Associate Elastic IP address' },\n        ],\n      },\n    ],\n  },\n];\n\nconst withDisabledItems: ButtonDropdownProps['items'] = [\n  { id: 'create', text: 'Create resource' },\n  { id: 'update', text: 'Update resource' },\n  { id: 'delete', text: 'Delete resource', disabled: true, disabledReason: 'Resource is protected' },\n  { id: 'clone', text: 'Clone resource' },\n  { id: 'archive', text: 'Archive resource', disabled: true },\n];\n\nconst withCheckboxItems: ButtonDropdownProps['items'] = [\n  { id: 'action-1', text: 'Run build' },\n  { id: 'action-2', text: 'Deploy' },\n  { itemType: 'checkbox', id: 'notifications', text: 'Notifications', checked: true },\n  { itemType: 'checkbox', id: 'auto-deploy', text: 'Auto-deploy on commit', checked: false },\n  { itemType: 'checkbox', id: 'verbose-logs', text: 'Verbose logging', checked: true },\n];\n\nexport default function ButtonDropdownFilteringPage() {\n  const [expandToViewport, setExpandToViewport] = useState(false);\n\n  const [checkboxItems, setCheckboxItems] = useState(withCheckboxItems);\n  const filteringResultsText = (matches: number, total: number) => `${matches} out of ${total} matches`;\n  const onItemClick = (event: CustomEvent<ButtonDropdownProps.ItemClickDetails>) => console.log(event.detail);\n\n  return (\n    <SimplePage title=\"Button dropdown with filtering\">\n      <SpaceBetween size=\"xl\">\n        <Checkbox\n          checked={expandToViewport}\n          onChange={event => setExpandToViewport(event.detail.checked)}\n          data-testid=\"expand-to-viewport\"\n        >\n          Expand to viewport\n        </Checkbox>\n\n        <div className={styles.container}>\n          <h2>Flat items</h2>\n          <ButtonDropdown\n            id=\"filtering-flat\"\n            data-testid=\"filtering-flat\"\n            items={flatItems}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search actions\"\n            filteringAriaLabel=\"Filter actions\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Actions\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>Grouped items (non-expandable)</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-grouped\"\n            items={groupedItems}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search menu\"\n            filteringAriaLabel=\"Filter menu items\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Menu\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>Expandable groups (collapse to flat when searching)</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-expandable\"\n            items={expandableGroupedItems}\n            expandableGroups={true}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search instance actions\"\n            filteringAriaLabel=\"Filter instance actions\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Instance actions\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>Expandable groups containing regular (nested) groups</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-expandable-with-groups\"\n            items={expandableWithRegularGroups}\n            expandableGroups={true}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search instance actions\"\n            filteringAriaLabel=\"Filter instance actions\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Instance actions\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>With disabled items and disabled reasons</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-disabled\"\n            items={withDisabledItems}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search actions\"\n            filteringAriaLabel=\"Filter actions\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Resource actions\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>With checkbox items</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-checkboxes\"\n            items={checkboxItems}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search\"\n            filteringAriaLabel=\"Filter items\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={event => {\n              onItemClick(event);\n              if (event.detail.checked !== undefined) {\n                setCheckboxItems(prev =>\n                  prev.map(item => (item.id === event.detail.id ? { ...item, checked: event.detail.checked! } : item))\n                );\n              }\n            }}\n          >\n            Pipeline\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>Custom empty state</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-custom-empty\"\n            items={flatItems}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search actions\"\n            filteringAriaLabel=\"Filter actions\"\n            noMatch={<span>No actions match your search. Try a different keyword.</span>}\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          >\n            Actions (custom empty)\n          </ButtonDropdown>\n        </div>\n\n        <div className={styles.container}>\n          <h2>Split button (with main action) and filtering</h2>\n          <ButtonDropdown\n            data-testid=\"filtering-split-button\"\n            items={expandableGroupedItems}\n            expandableGroups={true}\n            variant=\"primary\"\n            mainAction={{ text: 'Launch instance', onClick: () => void 0 }}\n            filteringType=\"auto\"\n            filteringPlaceholder=\"Search instance actions\"\n            filteringAriaLabel=\"Filter instance actions\"\n            ariaLabel=\"Instance actions\"\n            expandToViewport={expandToViewport}\n            filteringResultsText={filteringResultsText}\n            onItemClick={onItemClick}\n          />\n        </div>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/button-dropdown/filtering.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "icon-expandable",
+   "key": "table-select-filter",
+   "name": "Table with select filter",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport img from '../icon/custom-icon.png';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport const items: ButtonDropdownProps['items'] = [\n  {\n    id: 'category1',\n    text: 'category1',\n    iconName: 'gen-ai',\n    items: [...Array(2)].map((_, index) => ({\n      id: 'category1Subitem' + index,\n      text: 'Sub item ' + index,\n      secondaryText: `Option ${index}`,\n    })),\n  },\n  {\n    id: 'category2',\n    text: 'category2',\n    //New source for iconUrl\n    iconUrl: img,\n    items: [...Array(2)].map((_, index) => ({\n      id: 'category2Subitem' + index,\n      text: 'Cat 2 Sub item ' + index,\n    })),\n  },\n  {\n    id: 'item1',\n    text: 'Item 1',\n    iconName: 'settings',\n    secondaryText: 'Option 1',\n  },\n  {\n    id: 'category3',\n    text: 'category3',\n    iconSvg: (\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" focusable=\"false\">\n        <path\n          d=\"M2 4V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V6C14 5.44772 13.5523 5 13 5H8L6 3H3C2.44772 3 2 3.44772 2 4Z\"\n          fill=\"currentColor\"\n        />\n      </svg>\n    ),\n    items: [...Array(2)].map((_, index) => ({\n      id: 'category3Subitem' + index,\n      text: 'Sub item ' + index,\n      labelTag: ' Number ' + index,\n    })),\n  },\n];\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    expandableGroups: boolean;\n  }>\n>;\n\nexport default function IconExpandableButtonDropdown() {\n  const {\n    urlParams: { expandableGroups = true },\n    setUrlParams,\n  } = useContext(AppContext as DemoContext);\n\n  return (\n    <div className={styles.container}>\n      <article>\n        <h1>Icon Expandable Dropdown</h1>\n        <SpaceBetween size=\"m\">\n          <label>\n            <input\n              id=\"expandableGroups\"\n              type=\"checkbox\"\n              checked={expandableGroups}\n              onChange={e => setUrlParams({ expandableGroups: !!e.target.checked })}\n            />{' '}\n            expandableGroups\n          </label>\n          <ScreenshotArea\n            style={{\n              paddingBlockStart: 10,\n              paddingBlockEnd: 300,\n              paddingInlineStart: 10,\n              paddingInlineEnd: 100,\n              display: 'inline-block',\n            }}\n          >\n            <ButtonDropdown expandableGroups={expandableGroups} items={items}>\n              Dropdown with Icons\n            </ButtonDropdown>\n          </ScreenshotArea>\n        </SpaceBetween>\n      </article>\n    </div>\n  );\n}\n",
-   "source": "pages/button-dropdown/icon-expandable.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-select-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "item-element.permutations",
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Box from '~components/box';\nimport { ItemProps } from '~components/button-dropdown/internal-interfaces';\nimport ItemElement from '~components/button-dropdown/item-element';\n\nimport img from '../icon/custom-icon.png';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst permutations = createPermutations<ItemProps>([\n  {\n    item: [{ id: '1', text: 'Option' }],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false, true],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  {\n    item: [{ id: '1', text: 'Child option' }],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [true],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  {\n    item: [\n      { id: '1', text: 'Link option', href: '#' },\n      {\n        id: '1',\n        text: 'External link option',\n        href: '#',\n        external: true,\n        externalIconAriaLabel: ' (opens in new tab)',\n      },\n    ],\n    disabled: [false, true],\n    highlighted: [false],\n    hasCategoryHeader: [false, true],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n\n  // With secondaryText\n  {\n    item: [\n      { id: '1', text: 'Option', secondaryText: 'This is the first option' },\n      { id: '2', text: 'Option 2', secondaryText: 'This is the second option' },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // With labelTag\n  {\n    item: [\n      { id: '1', text: 'Option', labelTag: 'This is a label tag' },\n      { id: '2', text: 'Option 2', secondaryText: 'This is the second option', labelTag: 'This is a label tag' },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // With icons\n  {\n    item: [\n      { id: '1', text: 'Option with icon', iconName: 'settings' },\n      { id: '1', text: 'Option with custom icon', iconUrl: img, iconAlt: 'letter A' },\n      {\n        id: '1',\n        text: 'Option with custom SVG',\n        iconSvg: (\n          <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n            <circle cx=\"8\" cy=\"8\" r=\"7\" />\n            <circle cx=\"8\" cy=\"8\" r=\"3\" />\n          </svg>\n        ),\n      },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  {\n    item: [\n      {\n        id: '1',\n        text: 'External link with icon',\n        iconName: 'settings',\n        href: '#',\n        external: true,\n        externalIconAriaLabel: ' (opens in new tab)',\n      },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // Navigation variant\n  {\n    item: [{ id: '1', text: 'Navigation option' }],\n    variant: ['navigation'],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false, true],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  {\n    item: [\n      { id: '1', text: 'Navigation link', href: '#' },\n      {\n        id: '1',\n        text: 'External navigation link',\n        href: '#',\n        external: true,\n        externalIconAriaLabel: ' (opens in new tab)',\n      },\n    ],\n    variant: ['navigation'],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // keyboard nav\n  {\n    item: [{ id: '1', text: 'keyboard nav' }],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n    isKeyboardHighlighted: [true],\n  },\n  {\n    item: [{ id: '1', text: 'Option' }],\n    variant: ['icon', 'inline-icon', 'navigation', 'normal', 'primary'],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // With checkbox without icon\n  {\n    item: [\n      { id: '1', text: 'Option', checked: true, itemType: 'checkbox' },\n      { id: '1', text: 'Option', checked: false, itemType: 'checkbox' },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false, true],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // With checkbox with icon\n  {\n    item: [\n      { id: '1', text: 'Option', checked: true, itemType: 'checkbox', iconName: 'gen-ai' },\n      { id: '1', text: 'Option', checked: false, itemType: 'checkbox', iconName: 'gen-ai' },\n    ],\n    disabled: [false, true],\n    highlighted: [false, true],\n    hasCategoryHeader: [false],\n    showDivider: [false, true],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n  },\n  // with link style\n  {\n    item: [{ id: '1', text: 'Option' }],\n    disabled: [false],\n    highlighted: [false],\n    hasCategoryHeader: [false],\n    showDivider: [false],\n    onItemActivate: [() => {}],\n    highlightItem: [() => {}],\n    linkStyle: [true],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <h1>Button dropdown item permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Box margin={{ bottom: 'xxl' }} className={styles['dropdown-permutation']}>\n              <div role=\"menu\">{<ItemElement {...permutation} />}</div>\n            </Box>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/button-dropdown/item-element.permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "main-action",
+   "key": "table",
+   "name": "Table view",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Box, Button, ButtonDropdown, SpaceBetween } from '~components';\nimport InternalButtonDropdown from '~components/button-dropdown/internal';\n\nexport default function ButtonDropdownPage() {\n  const [clickedButton, setClickedButton] = useState('');\n  return (\n    <>\n      <Box margin=\"m\">\n        <h1>Button dropdown with main action</h1>\n        <SpaceBetween size=\"m\">\n          <Button data-testid=\"focus-before\" variant=\"inline-link\">\n            focus before\n          </Button>\n\n          <ButtonDropdown\n            data-testid=\"with-main-action-and-dropdown\"\n            items={[\n              {\n                text: 'Launch instance from template',\n                id: 'launch-instance-from-template',\n                secondaryText: 'Use the existing templates',\n              },\n            ]}\n            onItemClick={() => setClickedButton('Launch instance from template')}\n            mainAction={{ text: 'Launch instance', onClick: () => setClickedButton('Launch instance') }}\n            ariaLabel=\"More launch options\"\n            variant=\"primary\"\n          />\n\n          <InternalButtonDropdown\n            data-testid=\"with-main-action-only\"\n            items={[]}\n            mainAction={{\n              text: 'Launch instance (main action only)',\n              onClick: () => setClickedButton('Launch instance (main action only)'),\n            }}\n            showMainActionOnly={true}\n          />\n\n          <div id=\"clicked\">{clickedButton}</div>\n        </SpaceBetween>\n      </Box>\n    </>\n  );\n}\n",
-   "source": "pages/button-dropdown/main-action.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations-main-action",
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { Box, SpaceBetween } from '~components';\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst launchInstanceItem = {\n  text: 'Launch instance',\n  iconName: 'add-plus',\n} as const;\n\nconst launchInstanceFromTemplateItem = {\n  text: 'Launch instance from template',\n  iconName: 'file',\n  secondaryText: 'Use an existing template',\n} as const;\n\nconst viewInstancesItem = {\n  text: 'View instances',\n  href: 'https://instances.com',\n  external: true,\n  externalIconAriaLabel: '(opens in new tab)',\n} as const;\n\nconst permutations = createPermutations<ButtonDropdownProps>([\n  {\n    mainAction: [\n      { ...launchInstanceItem },\n      { ...launchInstanceItem, disabled: true },\n      { ...launchInstanceItem, loading: true, loadingText: 'Loading' },\n      { iconName: 'add-plus', ariaLabel: 'Add resource' },\n    ],\n    items: [\n      [\n        { id: '1', ...launchInstanceFromTemplateItem },\n        { id: '2', ...viewInstancesItem },\n      ],\n    ],\n    disabled: [false, true],\n    loading: [false, true],\n    variant: ['primary', 'normal'],\n    children: ['Trigger', null],\n    fullWidth: [false, true],\n  },\n  {\n    mainAction: [{ ...viewInstancesItem }, { ...viewInstancesItem, disabled: true }],\n    items: [\n      [\n        { id: '1', ...launchInstanceItem },\n        { id: '2', ...launchInstanceFromTemplateItem },\n      ],\n    ],\n    variant: ['primary', 'normal'],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <Box variant=\"h1\">ButtonDropdown with main action permutations</Box>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={({ items, ...rest }) => {\n            const propertyKeys = Object.keys(rest) as (keyof Omit<ButtonDropdownProps, 'items'>)[];\n            const propertiesString = propertyKeys.map(key => `${key}=${JSON.stringify(rest[key])}`).join(', ');\n            return (\n              <SpaceBetween size=\"s\">\n                <Box variant=\"code\">\n                  <span style={{ whiteSpace: 'nowrap' }}>{propertiesString}</span>\n                </Box>\n                <Box>\n                  <ButtonDropdown\n                    variant=\"primary\"\n                    ariaLabel=\"Instance actions\"\n                    loadingText=\"Loading\"\n                    items={items}\n                    {...rest}\n                  />\n                </Box>\n              </SpaceBetween>\n            );\n          }}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/button-dropdown/permutations-main-action.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "table-expandable",
+   "name": "Table view with expandable rows",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ButtonDropdownProps>([\n  {\n    disabled: [false, true],\n    loading: [false, true],\n    items: [[]],\n    variant: ['normal', 'primary'],\n    fullWidth: [false, true],\n  },\n  {\n    disabled: [false, true],\n    loading: [false, true],\n    items: [[]],\n    variant: ['icon', 'inline-icon'],\n    ariaLabel: ['Button dropdown'],\n    fullWidth: [false, true],\n  },\n  // Custom trigger icon\n  {\n    items: [[]],\n    variant: ['icon', 'inline-icon'],\n    ariaLabel: ['Button dropdown'],\n    iconName: [undefined, 'settings'],\n    iconSvg: [\n      undefined,\n      <svg key=\"custom-icon\" focusable=\"false\" viewBox=\"0 0 16 16\">\n        <circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"currentColor\" fill=\"none\" strokeWidth=\"2\" />\n      </svg>,\n    ],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <h1>ButtonDropdown permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <span>{<ButtonDropdown {...permutation}>Button Dropdown</ButtonDropdown>}</span>}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/button-dropdown/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-expandable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "scenarios-container",
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\nimport clsx from 'clsx';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport buttonDropdownItems from './utils/button-dropdown-items';\n\nimport styles from './styles.scss';\n\nexport default function ButtonDropdownScenario() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>ButtonDropdown in a scrollable container</h1>\n      <div className={clsx(styles['overflow-container'], styles.scroll)} id=\"scrollable-container\">\n        <div />\n        <div id=\"inner\" className={styles['inner-container']}>\n          <ButtonDropdown id=\"ButtonDropdown\" items={buttonDropdownItems}>\n            Dropdown items\n          </ButtonDropdown>\n        </div>\n        <div />\n      </div>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/scenarios-container.page.tsx"
-  },
-  {
-   "name": "scenarios-expandable",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport buttonDropdownItems, { largeGroupItems, nestedExpandableGroupItems } from './utils/button-dropdown-items';\n\nimport styles from './styles.scss';\n\nexport default function ButtonDropdownScenario() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <div className={styles.container}>\n        <article>\n          <h1>Expandable dropdown scenarios</h1>\n          <div className={styles['wide-container']}>\n            <div className={styles.row}>\n              <ButtonDropdown expandableGroups={true} className=\"bd-top-left\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n              <ButtonDropdown expandableGroups={true} className=\"bd-top-right\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n            </div>\n            <div className={styles.row}>\n              <ButtonDropdown expandableGroups={true} className=\"bd-bottom-left\" items={nestedExpandableGroupItems}>\n                Dropdown items\n              </ButtonDropdown>\n              <ButtonDropdown expandableGroups={true} className=\"bd-bottom-right\" items={largeGroupItems}>\n                Dropdown items\n              </ButtonDropdown>\n            </div>\n          </div>\n        </article>\n      </div>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/scenarios-expandable.page.tsx"
-  },
-  {
-   "name": "scenarios-overflow-container",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\nimport clsx from 'clsx';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport buttonDropdownItems from './utils/button-dropdown-items';\n\nimport styles from './styles.scss';\n\nexport default function ButtonDropdownScenario() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>ButtonDropdown expandToViewport in overflow: !visible containers</h1>\n      <div className={styles['layout-wrapper']}>\n        <div className={clsx(styles['overflow-container'], styles.scroll)} id=\"scroll-container\">\n          <div>Scroll</div>\n          <div className={styles['inner-container']}>\n            <ButtonDropdown\n              id=\"button-dropdown-scroll\"\n              expandToViewport={true}\n              expandableGroups={true}\n              items={buttonDropdownItems}\n            >\n              Dropdown items\n            </ButtonDropdown>\n          </div>\n          <div />\n        </div>\n        <div className={clsx(styles['overflow-container'], styles.hidden)} id=\"hidden-container\">\n          <div>Hidden</div>\n          <div className={styles['inner-container']}>\n            <ButtonDropdown\n              id=\"button-dropdown-hidden\"\n              expandToViewport={true}\n              expandableGroups={true}\n              items={buttonDropdownItems}\n            >\n              Dropdown items\n            </ButtonDropdown>\n          </div>\n          <div />\n        </div>\n        <div className={clsx(styles['overflow-container'], styles.auto)} id=\"auto-container\">\n          <div>Auto</div>\n          <div className={styles['inner-container']}>\n            <ButtonDropdown\n              id=\"button-dropdown-auto\"\n              expandToViewport={true}\n              expandableGroups={true}\n              items={buttonDropdownItems}\n            >\n              Dropdown items\n            </ButtonDropdown>\n          </div>\n          <div />\n        </div>\n      </div>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/scenarios-overflow-container.page.tsx"
-  },
-  {
-   "name": "scenarios-positioning",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport buttonDropdownItems from './utils/button-dropdown-items';\n\nimport styles from './styles.scss';\n\nexport default function ButtonDropdownScenario() {\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <div className={styles.container}>\n        <article>\n          <h1>Expandable dropdown scenarios</h1>\n          <div className={styles['wide-container']}>\n            <div className={styles.row}>\n              <ButtonDropdown className=\"bd-top-left\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n              <ButtonDropdown className=\"bd-top-right\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n            </div>\n            <div className={styles.row}>\n              <ButtonDropdown className=\"bd-bottom-left\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n              <ButtonDropdown className=\"bd-bottom-right\" items={buttonDropdownItems}>\n                Dropdown items\n              </ButtonDropdown>\n            </div>\n          </div>\n        </article>\n      </div>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/scenarios-positioning.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown, { ButtonDropdownProps } from '~components/button-dropdown';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nconst items: ButtonDropdownProps['items'] = [\n  {\n    id: 'id1',\n    text: 'Option 1',\n  },\n  {\n    id: 'id2',\n    text: 'Link option with some longer text inside it',\n    disabled: true,\n    href: '#',\n  },\n  {\n    id: 'id3',\n    text: 'Option 3',\n    href: '#',\n    external: true,\n    externalIconAriaLabel: '(opens in new tab)',\n  },\n  {\n    id: 'id4',\n    text: 'Option 4',\n    disabled: true,\n  },\n  {\n    id: 'id5',\n    text: 'Option 5',\n  },\n  {\n    id: 'id6',\n    text: 'Option 6',\n    disabled: true,\n  },\n  {\n    id: 'id7',\n    text: 'Option 7',\n    secondaryText: 'This is option 7',\n  },\n  {\n    id: 'id8',\n    text: 'Option 8',\n    labelTag: 'Ctrl + 8',\n  },\n  {\n    id: 'id9',\n    text: 'Option 9',\n    secondaryText: 'This is option 9',\n    labelTag: 'Ctrl + 9',\n  },\n];\n\nconst withNestedOptions: ButtonDropdownProps['items'] = [\n  {\n    text: 'Instances',\n    items: [\n      {\n        id: '1',\n        text: 'Destroy',\n        secondaryText: 'This is the Destroy option',\n        labelTag: 'Ctrl + D',\n      },\n      {\n        id: '2',\n        text: 'Restart',\n        secondaryText: 'This is the Restart option',\n        labelTag: 'Ctrl + R',\n      },\n    ],\n  },\n  {\n    id: 'id',\n    text: 'SSH',\n    disabled: true,\n    items: [\n      {\n        id: '5',\n        text: 'Destroy',\n      },\n      {\n        id: '9',\n        text: 'Restart',\n      },\n    ],\n  },\n];\n\nconst withExpandedGroups: ButtonDropdownProps['items'] = [\n  {\n    id: 'connect',\n    text: 'Connect',\n    secondaryText: 'This is the Connect option',\n    labelTag: 'Ctrl + C',\n  },\n  {\n    id: 'password',\n    text: 'Get password',\n    secondaryText: 'This is the Get password option',\n  },\n  {\n    id: 'states',\n    text: 'Instance State',\n    items: [\n      {\n        id: 'start',\n        text: 'Start',\n      },\n      {\n        id: 'stop',\n        text: 'Stop',\n        disabled: true,\n      },\n      {\n        id: 'hibernate',\n        text: 'Hibernate',\n        disabled: true,\n      },\n      {\n        id: 'reboot',\n        text: 'Reboot',\n        secondaryText: 'This is the Reboot Option',\n        labelTag: 'Ctrl + B',\n        disabled: true,\n      },\n      {\n        id: 'terminate',\n        text: 'Terminate',\n        secondaryText: 'This is the Terminate Option',\n      },\n      {\n        id: 'external',\n        text: 'Root Page',\n        secondaryText: '',\n        labelTag: 'Ctrl + P',\n        external: true,\n        href: '/#/light/',\n      },\n    ],\n  },\n];\n\nconst withDisabledItems: ButtonDropdownProps['items'] = [\n  {\n    id: 'connect',\n    text: 'Connect',\n  },\n  {\n    id: 'troubleshoot',\n    text: 'Monitoring and troubleshoot',\n    disabled: true,\n    items: [\n      {\n        id: 'screenshot',\n        text: 'Get instance screenshot',\n        disabled: true,\n      },\n      {\n        id: 'serial',\n        text: 'EC2 Serial console',\n        disabled: true,\n      },\n    ],\n  },\n];\n\nexport default function ButtonDropdownPage() {\n  return (\n    <ScreenshotArea\n      disableAnimations={true}\n      style={{\n        // extra space to include dropdown in the screenshot area\n        paddingBlockEnd: 100,\n      }}\n    >\n      <article>\n        <h1>Simple ButtonDropdown</h1>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown1\" items={items}>\n            Two\n          </ButtonDropdown>\n          <ButtonDropdown id=\"ButtonDropdown2\" items={items}>\n            ButtonDropdowns\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown3\" items={withNestedOptions}>\n            With nested options\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown4\" expandableGroups={true} items={withExpandedGroups}>\n            With expandable groups\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown5\" items={items} disabled={true}>\n            Disabled\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown6\" items={items} disabled={true} loading={true}>\n            Disabled and loading\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown7\" variant=\"primary\" items={items}>\n            Primary dropdown\n          </ButtonDropdown>\n        </div>\n        <div className={styles.container}>\n          <ButtonDropdown id=\"ButtonDropdown8\" expandableGroups={true} items={withDisabledItems}>\n            With expandable groups and disabled items\n          </ButtonDropdown>\n        </div>\n      </article>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/button-dropdown/simple.page.tsx"
-  },
-  {
-   "name": "word-wrap",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown from '~components/button-dropdown';\n\nimport styles from './styles.scss';\n\nconst dropdownItems = [\n  {\n    id: 'categoryId1',\n    text: 'category long text',\n    items: [\n      {\n        id: 'id0',\n        text: 'a very long text that may overflow horizontally as in this example that is unnecessarily longer just to exemplify a long text',\n        secondaryText:\n          'A very long text that may overflow horizontally as in this example that is unnecessarily longer just to exemplify a long text',\n        labelTag: 'Label',\n      },\n      { id: 'id1', text: 'option1', disabled: true },\n      { id: 'id2', text: 'option2' },\n      { id: 'id3', text: 'option3', disabled: true },\n    ],\n  },\n  {\n    id: 'categoryId2',\n    text: 'category long no spaces',\n    disabled: false,\n    items: [\n      {\n        id: 'id5',\n        text: 'AVeryLongWordThatMayOverflowHorizontallyAsInThisExampleThatIsUnnecessarilyLongerJustToExemplifyALongWord',\n        labelTag: 'Label',\n      },\n      { id: 'id6', text: 'option4' },\n    ],\n  },\n  {\n    id: 'categoryId3',\n    text: 'disabled category',\n    disabled: true,\n    items: [\n      { id: 'id7', text: 'option7' },\n      { id: 'id8', text: 'option8' },\n    ],\n  },\n  {\n    id: 'id9',\n    text: 'option9',\n    secondaryText: 'This is a disabled option',\n    disabled: true,\n  },\n  {\n    id: 'id10',\n    text: 'option10',\n  },\n];\n\nexport default function ButtonDropdownScenario() {\n  return (\n    <div className={styles.container}>\n      <article>\n        <h1>Text wrapping in expandable dropdowns</h1>\n        <div className={styles['restricting-container']}>\n          <div className={styles['positioning-container']}>\n            <ButtonDropdown expandableGroups={true} items={dropdownItems}>\n              Dropdown items\n            </ButtonDropdown>\n          </div>\n        </div>\n      </article>\n    </div>\n  );\n}\n",
-   "source": "pages/button-dropdown/word-wrap.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
   }
  ],
- "props": {
-  "name": "ButtonDropdownProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "items",
-    "ReadonlyArray<ButtonDropdownProps.ItemOrGroup>",
-    "예",
-    "Array of objects with a number of supported types. The following properties are supported across all types: - `type` (string) - The type of the item. Can be `action`, `group`, `checkbox`. Defaults to `action` if `items` undefined and `group` otherwise. - `id` (string) - allows to identify the item that the user clicked on. Mandatory for individual items, optional for categories. - `text` (string) - description shown in the menu for this item. Mandatory for individual items, optional for categories. - `lang` (string) - (Optional) The language of the item, provided as a BCP 47 language tag. - `disabled` (boolean) - whether the item is disabled. Disabled items are not clickable, but they can be highlighted with the keyboard to make them accessible. - `disabledReason` (string) - (Optional) Displays text near the `text` property when item is disabled. Use to provide additional context. - `description` (string) - additional data that will be passed to a `data-description` attribute. **Deprecated**, has no effect. - `ariaLabel` (string) - (Optional) - ARIA label of the item element. - `dataAttributes` (Record<string, string>) - (Optional) Custom data attributes for the item element. Attribute names are automatically prefixed with \"data-\". The \"testid\" key is reserved. ### action - `href` (string) - (Optional) Defines the target URL of the menu item, turning it into a link. - `download` (boolean | string) - (Optional) Indicates that the link should be downloaded when clicked. Only works when `href` is also provided. If set to `true`, the browser will use the filename from the URL. If set to a string, that string will be used as the suggested filename. - `external` (boolean) - Marks a menu item as external by adding an icon after the menu item text. The link will open in a new tab when clicked. Note that this only works when `href` is also provided. - `externalIconAriaLabel` (string) - Adds an `aria-label` to the external icon. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `secondaryText` (string) - (Optional) Further information about the action that appears below the label. - `labelTag` (string) - (Optional) - A label tag that provides additional guidance, shown next to the label. ### checkbox When `type` is set to \"checkbox\", the values set to `href`, `external` and `externalIconAriaLabel` will be ignored. - `checked` (boolean) - Controls the state of the checkbox item. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `secondaryText` (string) - (Optional) Further information about the action that appears below the label. - `labelTag` (string) - (Optional) - A label tag that provides additional guidance, shown next to the label. ### group - `items` (ReadonlyArray<Item>) - an array of item objects. Items will be rendered as nested menu items but only for the first nesting level, multi-nesting is not supported. An item which belongs to nested group has the following properties: `id`, `text`, `disabled`, and `description`.",
-    "src/button-dropdown/interfaces.ts:62"
-   ],
-   [
-    "renderItem",
-    "ButtonDropdownProps.ItemRenderer",
-    "아니오",
-    "Specifies a render function to render custom options in the dropdown menu. The item inside the props has a different shape depending on its type: ### action - `type` ('action') - The item type. - `index` (number) - The item's position relative to its parent. - `option` (Item) - The original item configuration. - `highlighted` (boolean) - Whether the item is currently highlighted. - `disabled` (boolean) - Whether the item is disabled. - `parent` (GroupRenderItem | null) - The parent group item, if any. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. ### checkbox - `type` ('checkbox') - The item type. - `index` (number) - The item's position relative to its parent. - `option` (CheckboxItem) - The original item configuration. - `disabled` (boolean) - Whether the item is disabled. - `highlighted` (boolean) - Whether the item is currently highlighted. - `checked` (boolean) - Controls the state of the checkbox item. - `parent` (GroupRenderItem | null) - The parent group item, if any. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. ### group - `type` ('group') - The item type. - `index` (number) - The item's position in the list. - `option` (ItemGroup) - The original item configuration. - `disabled` (boolean) - Whether the item is disabled. - `highlighted` (boolean) - Whether the item is currently highlighted. - `expanded` (boolean) - Whether the group is expanded. - `expandDirection` ('vertical' | 'horizontal') - The direction in which the group expands. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. When providing a custom `renderItem` implementation, it fully replaces the default visual rendering and content for that item. The component still manages focus, keyboard interactions, and selection state, but it no longer applies its default item layout or typography. When returning `null`, the default styling will be applied.",
-    "src/button-dropdown/interfaces.ts:107"
-   ],
-   [
-    "disabled",
-    "boolean",
-    "아니오",
-    "Determines whether the button dropdown is disabled. Users cannot interact with the control if it's disabled.",
-    "src/button-dropdown/interfaces.ts:112"
-   ],
-   [
-    "disabledReason",
-    "string",
-    "아니오",
-    "Provides a reason why the button dropdown is disabled (only when `disabled` is `true`). If provided, the disabled button becomes focusable.",
-    "src/button-dropdown/interfaces.ts:117"
-   ],
-   [
-    "loading",
-    "boolean",
-    "아니오",
-    "Renders the button as being in a loading state. It takes precedence over the `disabled` if both are set to `true`. It prevents clicks.",
-    "src/button-dropdown/interfaces.ts:122"
-   ],
-   [
-    "loadingText",
-    "string",
-    "아니오",
-    "Specifies the text that screen reader announces when the button dropdown is in a loading state.",
-    "src/button-dropdown/interfaces.ts:126"
-   ],
-   [
-    "variant",
-    "ButtonDropdownProps.Variant",
-    "아니오",
-    "Determines the general styling of the button dropdown. * `primary` for primary buttons * `normal` for secondary buttons * `icon` for icon buttons * `inline-icon` for icon buttons with no outer padding",
-    "src/button-dropdown/interfaces.ts:133"
-   ],
-   [
-    "iconName",
-    "IconProps.Name",
-    "아니오",
-    "Specifies the name of the icon used in the button dropdown trigger, used with the [icon component](/components/icon/). Defaults to `ellipsis`. Applies to the `icon` and `inline-icon` variants only.",
-    "src/button-dropdown/interfaces.ts:138"
-   ],
-   [
-    "iconAlt",
-    "string",
-    "아니오",
-    "Specifies alternate text for a custom icon, for use with `iconUrl`. Applies to the `icon` and `inline-icon` variants only.",
-    "src/button-dropdown/interfaces.ts:142"
-   ],
-   [
-    "iconUrl",
-    "string",
-    "아니오",
-    "Specifies the URL of a custom icon. Applies to the `icon` and `inline-icon` variants only. If you set both `iconUrl` and `iconSvg`, `iconSvg` will take precedence.",
-    "src/button-dropdown/interfaces.ts:148"
-   ],
-   [
-    "iconSvg",
-    "React.ReactNode",
-    "아니오",
-    "Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). Applies to the `icon` and `inline-icon` variants only. If you set both `iconUrl` and `iconSvg`, `iconSvg` will take precedence.",
-    "src/button-dropdown/interfaces.ts:155"
-   ],
-   [
-    "expandableGroups",
-    "boolean",
-    "아니오",
-    "Controls expandability of the item groups.",
-    "src/button-dropdown/interfaces.ts:159"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Adds `aria-label` to the button dropdown trigger. Use this to provide an accessible name for buttons that don't have visible text.",
-    "src/button-dropdown/interfaces.ts:164"
-   ],
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "Text displayed in the button dropdown trigger. @displayname text",
-    "src/button-dropdown/interfaces.ts:169"
-   ],
-   [
-    "onItemClick",
-    "CancelableEventHandler<ButtonDropdownProps.ItemClickDetails>",
-    "아니오",
-    "Called when the user clicks on an item, and the item is not disabled. The event detail object contains the id of the clicked item.",
-    "src/button-dropdown/interfaces.ts:173"
-   ],
-   [
-    "onItemFollow",
-    "CancelableEventHandler<ButtonDropdownProps.ItemClickDetails>",
-    "아니오",
-    "Called when the user clicks on an item with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META), and the item has an `href` set.",
-    "src/button-dropdown/interfaces.ts:178"
-   ],
-   [
-    "mainAction",
-    "ButtonDropdownProps.MainAction",
-    "아니오",
-    "A standalone action that is shown prior to the dropdown trigger. Use it with \"primary\" and \"normal\" variant only. Main action properties: * `text` (string) - Specifies the text shown in the main action. * `external` (boolean) - Marks the main action as external by adding an icon after the text. The link will open in a new tab when clicked. Note that this only works when `href` is also provided. * `externalIconAriaLabel` (string) - Adds an ARIA label to the external icon. The main action also supports the following properties of the [button](/components/button/?tabId=api) component: `ariaLabel`, `disabled`, `loading`, `loadingText`, `href`, `target`, `rel`, `download`, `iconAlt`, `iconName`, `iconUrl`, `iconSvg`, `onClick`, `onFollow`.",
-    "src/button-dropdown/interfaces.ts:191"
-   ],
-   [
-    "fullWidth",
-    "boolean",
-    "아니오",
-    "Sets the button width to be 100% of the parent container width. Button content is centered.",
-    "src/button-dropdown/interfaces.ts:196"
-   ],
-   [
-    "filteringType",
-    "ButtonDropdownProps.FilteringType",
-    "아니오",
-    "Enables filtering of the dropdown items. When set to `auto`, a search input is rendered inside the dropdown and the items are filtered as the user types. Items are matched client-side using a case-insensitive substring match against their `text`, `secondaryText`, and `labelTag`.",
-    "src/button-dropdown/interfaces.ts:205"
-   ],
-   [
-    "filteringPlaceholder",
-    "string",
-    "아니오",
-    "Specifies the placeholder to display in the filtering input. Only relevant when filtering is enabled.",
-    "src/button-dropdown/interfaces.ts:210"
-   ],
-   [
-    "filteringAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the filtering input. Only relevant when filtering is enabled.",
-    "src/button-dropdown/interfaces.ts:215"
-   ],
-   [
-    "filteringClearAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the clear button inside the filtering input. Only relevant when filtering is enabled. @i18n",
-    "src/button-dropdown/interfaces.ts:221"
-   ],
-   [
-    "filteringResultsText",
-    "(matchesCount: number, totalCount: number) => string",
-    "아니오",
-    "Specifies the text to display with the number of matches at the bottom of the dropdown menu while filtering. @i18n",
-    "src/button-dropdown/interfaces.ts:227"
-   ],
-   [
-    "noMatch",
-    "React.ReactNode",
-    "아니오",
-    "Displayed when filtering is enabled and there are no matches for the filtering input.",
-    "src/button-dropdown/interfaces.ts:232"
-   ],
-   [
-    "i18nStrings",
-    "ButtonDropdownProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/button-dropdown/interfaces.ts:238"
-   ],
-   [
-    "nativeTriggerAttributes",
-    "NativeAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>",
-    "아니오",
-    "Attributes to add to the native `button` element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
-    "src/button-dropdown/interfaces.ts:250"
-   ],
-   [
-    "nativeMainActionAttributes",
-    "{",
-    "아니오",
-    "Attributes to add to the native element of the `mainAction`. Specify either `button` for a standard main action, or `anchor` if `html` is set. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
-    "src/button-dropdown/interfaces.ts:265"
-   ],
-   [
-    "button",
-    "NativeAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>",
-    "아니오",
-    "",
-    "src/button-dropdown/interfaces.ts:266"
-   ],
-   [
-    "anchor",
-    "NativeAttributes<React.AnchorHTMLAttributes<HTMLAnchorElement>>",
-    "아니오",
-    "",
-    "src/button-dropdown/interfaces.ts:267"
-   ]
-  ],
-  "source": "src/button-dropdown/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "details",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "ButtonDropdownProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "items",
+      "ReadonlyArray<ButtonDropdownProps.ItemOrGroup>",
+      "예",
+      "Array of objects with a number of supported types. The following properties are supported across all types: - `type` (string) - The type of the item. Can be `action`, `group`, `checkbox`. Defaults to `action` if `items` undefined and `group` otherwise. - `id` (string) - allows to identify the item that the user clicked on. Mandatory for individual items, optional for categories. - `text` (string) - description shown in the menu for this item. Mandatory for individual items, optional for categories. - `lang` (string) - (Optional) The language of the item, provided as a BCP 47 language tag. - `disabled` (boolean) - whether the item is disabled. Disabled items are not clickable, but they can be highlighted with the keyboard to make them accessible. - `disabledReason` (string) - (Optional) Displays text near the `text` property when item is disabled. Use to provide additional context. - `description` (string) - additional data that will be passed to a `data-description` attribute. **Deprecated**, has no effect. - `ariaLabel` (string) - (Optional) - ARIA label of the item element. - `dataAttributes` (Record<string, string>) - (Optional) Custom data attributes for the item element. Attribute names are automatically prefixed with \"data-\". The \"testid\" key is reserved. ### action - `href` (string) - (Optional) Defines the target URL of the menu item, turning it into a link. - `download` (boolean | string) - (Optional) Indicates that the link should be downloaded when clicked. Only works when `href` is also provided. If set to `true`, the browser will use the filename from the URL. If set to a string, that string will be used as the suggested filename. - `external` (boolean) - Marks a menu item as external by adding an icon after the menu item text. The link will open in a new tab when clicked. Note that this only works when `href` is also provided. - `externalIconAriaLabel` (string) - Adds an `aria-label` to the external icon. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `secondaryText` (string) - (Optional) Further information about the action that appears below the label. - `labelTag` (string) - (Optional) - A label tag that provides additional guidance, shown next to the label. ### checkbox When `type` is set to \"checkbox\", the values set to `href`, `external` and `externalIconAriaLabel` will be ignored. - `checked` (boolean) - Controls the state of the checkbox item. - `iconName` (string) - (Optional) Specifies the name of the icon, used with the [icon component](/components/icon/). - `iconAlt` (string) - (Optional) Specifies alternate text for the icon when using `iconUrl`. - `iconUrl` (string) - (Optional) Specifies the URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). - `secondaryText` (string) - (Optional) Further information about the action that appears below the label. - `labelTag` (string) - (Optional) - A label tag that provides additional guidance, shown next to the label. ### group - `items` (ReadonlyArray<Item>) - an array of item objects. Items will be rendered as nested menu items but only for the first nesting level, multi-nesting is not supported. An item which belongs to nested group has the following properties: `id`, `text`, `disabled`, and `description`.",
+      "src/button-dropdown/interfaces.ts:62"
+     ],
+     [
+      "renderItem",
+      "ButtonDropdownProps.ItemRenderer",
+      "아니오",
+      "Specifies a render function to render custom options in the dropdown menu. The item inside the props has a different shape depending on its type: ### action - `type` ('action') - The item type. - `index` (number) - The item's position relative to its parent. - `option` (Item) - The original item configuration. - `highlighted` (boolean) - Whether the item is currently highlighted. - `disabled` (boolean) - Whether the item is disabled. - `parent` (GroupRenderItem | null) - The parent group item, if any. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. ### checkbox - `type` ('checkbox') - The item type. - `index` (number) - The item's position relative to its parent. - `option` (CheckboxItem) - The original item configuration. - `disabled` (boolean) - Whether the item is disabled. - `highlighted` (boolean) - Whether the item is currently highlighted. - `checked` (boolean) - Controls the state of the checkbox item. - `parent` (GroupRenderItem | null) - The parent group item, if any. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. ### group - `type` ('group') - The item type. - `index` (number) - The item's position in the list. - `option` (ItemGroup) - The original item configuration. - `disabled` (boolean) - Whether the item is disabled. - `highlighted` (boolean) - Whether the item is currently highlighted. - `expanded` (boolean) - Whether the group is expanded. - `expandDirection` ('vertical' | 'horizontal') - The direction in which the group expands. - `filterText` (string) - The current value of the filtering input, when filtering is enabled. When providing a custom `renderItem` implementation, it fully replaces the default visual rendering and content for that item. The component still manages focus, keyboard interactions, and selection state, but it no longer applies its default item layout or typography. When returning `null`, the default styling will be applied.",
+      "src/button-dropdown/interfaces.ts:107"
+     ],
+     [
+      "disabled",
+      "boolean",
+      "아니오",
+      "Determines whether the button dropdown is disabled. Users cannot interact with the control if it's disabled.",
+      "src/button-dropdown/interfaces.ts:112"
+     ],
+     [
+      "disabledReason",
+      "string",
+      "아니오",
+      "Provides a reason why the button dropdown is disabled (only when `disabled` is `true`). If provided, the disabled button becomes focusable.",
+      "src/button-dropdown/interfaces.ts:117"
+     ],
+     [
+      "loading",
+      "boolean",
+      "아니오",
+      "Renders the button as being in a loading state. It takes precedence over the `disabled` if both are set to `true`. It prevents clicks.",
+      "src/button-dropdown/interfaces.ts:122"
+     ],
+     [
+      "loadingText",
+      "string",
+      "아니오",
+      "Specifies the text that screen reader announces when the button dropdown is in a loading state.",
+      "src/button-dropdown/interfaces.ts:126"
+     ],
+     [
+      "variant",
+      "ButtonDropdownProps.Variant",
+      "아니오",
+      "Determines the general styling of the button dropdown. * `primary` for primary buttons * `normal` for secondary buttons * `icon` for icon buttons * `inline-icon` for icon buttons with no outer padding",
+      "src/button-dropdown/interfaces.ts:133"
+     ],
+     [
+      "iconName",
+      "IconProps.Name",
+      "아니오",
+      "Specifies the name of the icon used in the button dropdown trigger, used with the [icon component](/components/icon/). Defaults to `ellipsis`. Applies to the `icon` and `inline-icon` variants only.",
+      "src/button-dropdown/interfaces.ts:138"
+     ],
+     [
+      "iconAlt",
+      "string",
+      "아니오",
+      "Specifies alternate text for a custom icon, for use with `iconUrl`. Applies to the `icon` and `inline-icon` variants only.",
+      "src/button-dropdown/interfaces.ts:142"
+     ],
+     [
+      "iconUrl",
+      "string",
+      "아니오",
+      "Specifies the URL of a custom icon. Applies to the `icon` and `inline-icon` variants only. If you set both `iconUrl` and `iconSvg`, `iconSvg` will take precedence.",
+      "src/button-dropdown/interfaces.ts:148"
+     ],
+     [
+      "iconSvg",
+      "React.ReactNode",
+      "아니오",
+      "Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/). Applies to the `icon` and `inline-icon` variants only. If you set both `iconUrl` and `iconSvg`, `iconSvg` will take precedence.",
+      "src/button-dropdown/interfaces.ts:155"
+     ],
+     [
+      "expandableGroups",
+      "boolean",
+      "아니오",
+      "Controls expandability of the item groups.",
+      "src/button-dropdown/interfaces.ts:159"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Adds `aria-label` to the button dropdown trigger. Use this to provide an accessible name for buttons that don't have visible text.",
+      "src/button-dropdown/interfaces.ts:164"
+     ],
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "Text displayed in the button dropdown trigger. @displayname text",
+      "src/button-dropdown/interfaces.ts:169"
+     ],
+     [
+      "onItemClick",
+      "CancelableEventHandler<ButtonDropdownProps.ItemClickDetails>",
+      "아니오",
+      "Called when the user clicks on an item, and the item is not disabled. The event detail object contains the id of the clicked item.",
+      "src/button-dropdown/interfaces.ts:173"
+     ],
+     [
+      "onItemFollow",
+      "CancelableEventHandler<ButtonDropdownProps.ItemClickDetails>",
+      "아니오",
+      "Called when the user clicks on an item with the left mouse button without pressing modifier keys (that is, CTRL, ALT, SHIFT, META), and the item has an `href` set.",
+      "src/button-dropdown/interfaces.ts:178"
+     ],
+     [
+      "mainAction",
+      "ButtonDropdownProps.MainAction",
+      "아니오",
+      "A standalone action that is shown prior to the dropdown trigger. Use it with \"primary\" and \"normal\" variant only. Main action properties: * `text` (string) - Specifies the text shown in the main action. * `external` (boolean) - Marks the main action as external by adding an icon after the text. The link will open in a new tab when clicked. Note that this only works when `href` is also provided. * `externalIconAriaLabel` (string) - Adds an ARIA label to the external icon. The main action also supports the following properties of the [button](/components/button/?tabId=api) component: `ariaLabel`, `disabled`, `loading`, `loadingText`, `href`, `target`, `rel`, `download`, `iconAlt`, `iconName`, `iconUrl`, `iconSvg`, `onClick`, `onFollow`.",
+      "src/button-dropdown/interfaces.ts:191"
+     ],
+     [
+      "fullWidth",
+      "boolean",
+      "아니오",
+      "Sets the button width to be 100% of the parent container width. Button content is centered.",
+      "src/button-dropdown/interfaces.ts:196"
+     ],
+     [
+      "filteringType",
+      "ButtonDropdownProps.FilteringType",
+      "아니오",
+      "Enables filtering of the dropdown items. When set to `auto`, a search input is rendered inside the dropdown and the items are filtered as the user types. Items are matched client-side using a case-insensitive substring match against their `text`, `secondaryText`, and `labelTag`.",
+      "src/button-dropdown/interfaces.ts:205"
+     ],
+     [
+      "filteringPlaceholder",
+      "string",
+      "아니오",
+      "Specifies the placeholder to display in the filtering input. Only relevant when filtering is enabled.",
+      "src/button-dropdown/interfaces.ts:210"
+     ],
+     [
+      "filteringAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the filtering input. Only relevant when filtering is enabled.",
+      "src/button-dropdown/interfaces.ts:215"
+     ],
+     [
+      "filteringClearAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the clear button inside the filtering input. Only relevant when filtering is enabled. @i18n",
+      "src/button-dropdown/interfaces.ts:221"
+     ],
+     [
+      "filteringResultsText",
+      "(matchesCount: number, totalCount: number) => string",
+      "아니오",
+      "Specifies the text to display with the number of matches at the bottom of the dropdown menu while filtering. @i18n",
+      "src/button-dropdown/interfaces.ts:227"
+     ],
+     [
+      "noMatch",
+      "React.ReactNode",
+      "아니오",
+      "Displayed when filtering is enabled and there are no matches for the filtering input.",
+      "src/button-dropdown/interfaces.ts:232"
+     ],
+     [
+      "i18nStrings",
+      "ButtonDropdownProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/button-dropdown/interfaces.ts:238"
+     ],
+     [
+      "nativeTriggerAttributes",
+      "NativeAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>",
+      "아니오",
+      "Attributes to add to the native `button` element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+      "src/button-dropdown/interfaces.ts:250"
+     ],
+     [
+      "nativeMainActionAttributes",
+      "{",
+      "아니오",
+      "Attributes to add to the native element of the `mainAction`. Specify either `button` for a standard main action, or `anchor` if `html` is set. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+      "src/button-dropdown/interfaces.ts:265"
+     ],
+     [
+      "button",
+      "NativeAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>",
+      "아니오",
+      "",
+      "src/button-dropdown/interfaces.ts:266"
+     ],
+     [
+      "anchor",
+      "NativeAttributes<React.AnchorHTMLAttributes<HTMLAnchorElement>>",
+      "아니오",
+      "",
+      "src/button-dropdown/interfaces.ts:267"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

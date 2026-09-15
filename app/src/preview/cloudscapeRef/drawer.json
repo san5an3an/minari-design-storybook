@@ -1,207 +1,189 @@
 {
  "slug": "drawer",
  "title": "Drawer",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "drawer-position-absolute",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext } from 'react';\nimport { capitalize, range } from 'lodash';\n\nimport { Checkbox, SpaceBetween } from '~components';\nimport Drawer, { DrawerProps } from '~components/drawer';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nconst accentColor = '#6237a7';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    backdrops?: string;\n  }>\n>;\n\nexport default function () {\n  const {\n    urlParams: { backdrops: backdropsStr = 'top' },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  const backdrops = backdropsStr.split(',').map(id => id.trim());\n  const hasBackdrop = (id: string) => backdrops.includes(id);\n  return (\n    <SimplePage\n      title=\"Drawer position: absolute\"\n      subtitle=\"This page demonstrates drawers with absolute position.\"\n      i18n={{}}\n      screenshotArea={{}}\n      settings={\n        <SpaceBetween size=\"xs\" direction=\"horizontal\">\n          {['top', 'start', 'end', 'bottom-1', 'bottom-2'].map(id => (\n            <Checkbox\n              key={id}\n              checked={hasBackdrop(id)}\n              onChange={({ detail }) => {\n                const next = detail.checked ? [...backdrops, id] : backdrops.filter(b => b !== id);\n                setUrlParams({ backdrops: next.join(',') });\n              }}\n            >\n              Show {id} backdrop\n            </Checkbox>\n          ))}\n        </SpaceBetween>\n      }\n    >\n      <div style={{ border: `1px solid ${accentColor}`, position: 'relative' }}>\n        <div style={{ flex: 1, padding: 16 }}>\n          {range(0, 50).map(i => (\n            <div key={i}>Line {i + 1}</div>\n          ))}\n        </div>\n        <AbsoluteDrawer\n          header=\"Top\"\n          placement=\"top\"\n          offset={{ start: 200, end: 200 }}\n          zIndex={1}\n          contentHeight={200}\n          backdrop={hasBackdrop('top')}\n        />\n        <AbsoluteDrawer\n          header=\"Start\"\n          placement=\"start\"\n          offset={{ bottom: 200 }}\n          zIndex={2}\n          contentWidth={200}\n          backdrop={hasBackdrop('start')}\n        />\n        <AbsoluteDrawer\n          header=\"End\"\n          placement=\"end\"\n          offset={{ bottom: 200 }}\n          zIndex={3}\n          contentWidth={200}\n          backdrop={hasBackdrop('end')}\n        />\n        <AbsoluteDrawer\n          header=\"Bottom 1\"\n          placement=\"bottom\"\n          offset={{}}\n          zIndex={4}\n          contentHeight={200}\n          backdrop={hasBackdrop('bottom-1')}\n        />\n        <AbsoluteDrawer\n          header=\"Bottom 2\"\n          placement=\"bottom\"\n          offset={{}}\n          zIndex={5}\n          contentHeight={140}\n          backdrop={hasBackdrop('bottom-2')}\n        />\n      </div>\n    </SimplePage>\n  );\n}\n\nfunction AbsoluteDrawer({\n  header,\n  placement,\n  offset,\n  zIndex,\n  contentWidth,\n  contentHeight,\n  backdrop,\n}: DrawerProps & { contentWidth?: number; contentHeight?: number }) {\n  const sizeStr = contentHeight ? `height=${contentHeight}px` : `width=${contentWidth}px`;\n  const formatOffset = (offset?: DrawerProps.Offset) => JSON.stringify(offset, null, 2).replace(/\"/g, '');\n  return (\n    <Drawer\n      header={header}\n      position=\"absolute\"\n      placement={placement}\n      disableContentPaddings={true}\n      offset={offset}\n      zIndex={zIndex}\n      backdrop={backdrop}\n    >\n      <div style={{ boxSizing: 'border-box', padding: 16, width: contentWidth, height: contentHeight }}>\n        {capitalize(placement)} drawer with content {sizeStr}, {`offset=${formatOffset(offset)}`}, and zIndex=\n        {zIndex}\n      </div>\n    </Drawer>\n  );\n}\n",
-   "source": "pages/drawer/drawer-position-absolute.page.tsx"
-  },
-  {
-   "name": "drawer-position-fixed",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext, useState } from 'react';\nimport { capitalize, range } from 'lodash';\n\nimport { Box, Button, Checkbox, Select, SpaceBetween } from '~components';\nimport Drawer, { DrawerProps } from '~components/drawer';\nimport { colorBackgroundCellShaded as contentBackgroundColor } from '~design-tokens';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    offsets?: boolean;\n    backdrop?: boolean;\n    placement?: DrawerProps.Placement;\n  }>\n>;\n\nconst placementOptions = [{ value: 'top' }, { value: 'bottom' }, { value: 'start' }, { value: 'end' }];\n\nexport default function () {\n  const {\n    urlParams: { offsets = false, backdrop = false, placement = 'bottom' },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  const [open, setOpen] = useState(true);\n  const offset = offsets ? { start: 50, end: 50, top: 50, bottom: 50 } : {};\n  return (\n    <SimplePage\n      title=\"Drawer position: fixed\"\n      subtitle=\"This page demonstrates drawers with fixed position.\"\n      i18n={{}}\n      screenshotArea={{}}\n    >\n      <Button onClick={() => setOpen(true)}>Open drawer</Button>\n\n      <div>\n        {range(0, 50).map(i => (\n          <div key={i}>Line {i + 1}</div>\n        ))}\n      </div>\n\n      <FixedDrawer\n        open={open}\n        onClose={() => setOpen(false)}\n        placement={placement}\n        disableContentPaddings={true}\n        offset={offset}\n        backdrop={backdrop}\n      >\n        <Checkbox checked={offsets} onChange={({ detail }) => setUrlParams({ offsets: detail.checked })}>\n          Use offsets\n        </Checkbox>\n        <Checkbox checked={backdrop} onChange={({ detail }) => setUrlParams({ backdrop: detail.checked })}>\n          Show backdrop\n        </Checkbox>\n        <Select\n          inlineLabelText=\"Placement\"\n          options={placementOptions}\n          selectedOption={placementOptions.find(o => o.value === placement) ?? null}\n          onChange={({ detail }) => setUrlParams({ placement: detail.selectedOption.value as DrawerProps.Placement })}\n        />\n      </FixedDrawer>\n    </SimplePage>\n  );\n}\n\nfunction FixedDrawer({ placement, offset, children, ...rest }: DrawerProps) {\n  const formatOffset = (offset?: DrawerProps.Offset) => JSON.stringify(offset, null, 2).replace(/\"/g, '');\n  return (\n    <Drawer position=\"fixed\" placement={placement} offset={offset} disableContentPaddings={true} {...rest}>\n      <div\n        style={{ boxSizing: 'border-box', padding: 16, width: 300, height: 300, background: contentBackgroundColor }}\n      >\n        <SpaceBetween size=\"xs\">\n          <Box>\n            {capitalize(placement)} drawer with 300px/300px content and {`offset=${formatOffset(offset)}`}\n          </Box>\n          {children}\n        </SpaceBetween>\n      </div>\n    </Drawer>\n  );\n}\n",
-   "source": "pages/drawer/drawer-position-fixed.page.tsx"
-  },
-  {
-   "name": "drawer-position-static",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext } from 'react';\n\nimport { Box, Button, ColumnLayout, SpaceBetween, Tabs } from '~components';\nimport Drawer, { DrawerProps } from '~components/drawer';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nconst accentColor = '#6237a7';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    tabId?: string;\n  }>\n>;\n\nfunction createTab(label: string, content: React.ReactNode) {\n  return { id: label, label, content };\n}\n\nexport default function () {\n  const {\n    urlParams: { tabId = 'Features' },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  return (\n    <SimplePage\n      title=\"Drawer position: static\"\n      subtitle=\"This page demonstrates drawers with static (default) position.\"\n      i18n={{}}\n      screenshotArea={{}}\n    >\n      <Tabs\n        activeTabId={tabId}\n        onChange={({ detail }) => setUrlParams({ tabId: detail.activeTabId })}\n        tabs={[createTab('Features', <DrawerFeaturesTab />), createTab('Custom placement', <CustomPlacementTab />)]}\n      />\n    </SimplePage>\n  );\n}\n\nfunction DrawerFeaturesTab() {\n  return (\n    <SpaceBetween size=\"s\">\n      <Box>Note: all examples in this tab use a custom wrapper around the drawer to render visible borders.</Box>\n      <hr />\n      <ColumnLayout columns={2}>\n        <Box variant=\"p\">Drawer with content and disabled content paddings.</Box>\n        <DrawerWithBorder disableContentPaddings={true}>\n          <SpaceBetween size=\"m\">\n            <Box>Content line 1</Box>\n            <Box>Content line 2</Box>\n            <Box>Content line 3</Box>\n          </SpaceBetween>\n        </DrawerWithBorder>\n\n        <Box variant=\"p\">Drawer with header, content, and footer.</Box>\n        <DrawerWithBorder header=\"Header A\" footer=\"Footer\" closeAction={{ ariaLabel: 'Close drawer' }}>\n          Content\n        </DrawerWithBorder>\n\n        <Box variant=\"p\">Drawer with header actions.</Box>\n        <DrawerWithBorder header=\"Header B\" headerActions={<Button>Action</Button>} hideCloseAction={true}>\n          Content\n        </DrawerWithBorder>\n      </ColumnLayout>\n    </SpaceBetween>\n  );\n}\n\nfunction CustomPlacementTab() {\n  return (\n    <SpaceBetween size=\"s\">\n      <Box>\n        Statically positioned drawers can be arranged into custom layouts and wrapped into elements with absolute,\n        sticky, or fixed position. In that case, the drawer borders are rendered by the consumers.\n      </Box>\n      <hr />\n      <ColumnLayout columns={2}>\n        <Box variant=\"p\">Static drawers around content with custom flex layout.</Box>\n        <div style={{ border: `2px solid ${accentColor}` }}>\n          <div style={{ display: 'flex' }}>\n            <div style={{ border: `2px solid ${accentColor}`, margin: `-2px 0 -2px -2px` }}>\n              <Drawer header=\"Left\">Left content</Drawer>\n            </div>\n            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>\n              Container content\n            </div>\n            <div style={{ border: `2px solid ${accentColor}`, margin: '-2px -2px -2px 0' }}>\n              <Drawer header=\"Right\">Right content</Drawer>\n            </div>\n          </div>\n          <div style={{ border: `2px solid ${accentColor}`, margin: '0 -2px -2px -2px' }}>\n            <Drawer header=\"Bottom\">Bottom content</Drawer>\n          </div>\n        </div>\n\n        <Box variant=\"p\">Custom sticky drawer at the bottom.</Box>\n        <div style={{ border: `2px solid ${accentColor}` }}>\n          <div style={{ height: 300, padding: 16 }}>Container content</div>\n          <div style={{ borderTop: `2px solid ${accentColor}`, position: 'sticky', bottom: 0 }}>\n            <Drawer header=\"Drawer\">I am a static drawer inside a sticky wrapper.</Drawer>\n          </div>\n        </div>\n      </ColumnLayout>\n    </SpaceBetween>\n  );\n}\n\nfunction DrawerWithBorder(props: DrawerProps) {\n  return (\n    <div style={{ padding: 2, background: accentColor }}>\n      <Drawer {...props} />\n    </div>\n  );\n}\n",
-   "source": "pages/drawer/drawer-position-static.page.tsx"
-  },
-  {
-   "name": "drawer-position-sticky",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext } from 'react';\nimport { range } from 'lodash';\n\nimport { Box, Checkbox, SpaceBetween } from '~components';\nimport Drawer from '~components/drawer';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\nconst accentColor = '#6237a7';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    offsets?: boolean;\n    stickyOffsets?: boolean;\n  }>\n>;\n\nexport default function () {\n  const {\n    urlParams: { offsets = false, stickyOffsets = false },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  const offset = offsets ? { start: 50, end: 50, top: 20, bottom: 20 } : undefined;\n  const stickyOffset = stickyOffsets ? { top: 50, bottom: 50 } : undefined;\n  const offsetProps = { offset, stickyOffset };\n  return (\n    <SimplePage\n      title=\"Drawer position: sticky\"\n      subtitle=\"This page demonstrates drawers with sticky position. Drawers in sticky position only support top and bottom placements.\"\n      i18n={{}}\n      screenshotArea={{}}\n      settings={\n        <SpaceBetween size=\"s\">\n          <Checkbox checked={offsets} onChange={({ detail }) => setUrlParams({ offsets: detail.checked })}>\n            Use offsets {offset && <Box variant=\"awsui-inline-code\">{JSON.stringify(offset, null, 2)}</Box>}\n          </Checkbox>\n          <Checkbox checked={stickyOffsets} onChange={({ detail }) => setUrlParams({ stickyOffsets: detail.checked })}>\n            Use sticky offsets{' '}\n            {stickyOffset && <Box variant=\"awsui-inline-code\">{JSON.stringify(stickyOffset, null, 2)}</Box>}\n          </Checkbox>\n        </SpaceBetween>\n      }\n    >\n      <div style={{ border: `1px solid ${accentColor}` }}>\n        <Drawer header=\"Sticky top drawer\" footer=\"Footer\" position=\"sticky\" placement=\"top\" {...offsetProps}>\n          Content\n        </Drawer>\n        <div style={{ flex: 1, padding: 16 }}>\n          {range(0, 100).map(i => (\n            <div key={i}>Line {i + 1}</div>\n          ))}\n        </div>\n        <Drawer header=\"Sticky bottom drawer\" footer=\"Footer\" position=\"sticky\" placement=\"bottom\" {...offsetProps}>\n          Content\n        </Drawer>\n      </div>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/drawer/drawer-position-sticky.page.tsx"
-  },
-  {
-   "name": "drawer-visibility-controlled",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext, useRef, useState } from 'react';\n\nimport { Button, Checkbox, Header, SpaceBetween } from '~components';\nimport Drawer, { DrawerProps } from '~components/drawer';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { SimplePage } from '../app/templates';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    backdrop?: boolean;\n  }>\n>;\n\nexport default function () {\n  const {\n    urlParams: { backdrop = false },\n    setUrlParams,\n  } = useContext(AppContext as PageContext);\n  const drawerRef = useRef<DrawerProps.Ref>(null);\n  const [isOpen, setOpen] = useState(false);\n  return (\n    <SimplePage\n      title=\"Drawer visibility: controlled\"\n      subtitle=\"This page demonstrates accessible dynamic drawer visibility in controlled mode.\"\n      screenshotArea={{}}\n      settings={\n        <Checkbox checked={backdrop} onChange={({ detail }) => setUrlParams({ backdrop: detail.checked })}>\n          Show backdrop\n        </Checkbox>\n      }\n    >\n      <SpaceBetween size=\"m\">\n        <Button\n          onClick={() => {\n            setOpen(true);\n            // When drawer is already open when the button is pressed - move the focus inside.\n            drawerRef.current?.focus();\n          }}\n        >\n          Open drawer\n        </Button>\n        <Drawer\n          ref={drawerRef}\n          position=\"fixed\"\n          placement=\"end\"\n          backdrop={backdrop}\n          closeAction={{ ariaLabel: 'Close' }}\n          open={isOpen}\n          onClose={() => setOpen(false)}\n          header={<Header variant=\"h3\">Header</Header>}\n          footer={\n            <div style={{ float: 'inline-end' }}>\n              <Button onClick={() => setOpen(false)}>Close</Button>\n            </div>\n          }\n        >\n          <div style={{ width: 300 }}>Content</div>\n        </Drawer>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/drawer/drawer-visibility-controlled.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React from 'react';\n\nimport { Button } from '~components';\nimport Drawer, { DrawerProps } from '~components/drawer';\n\nimport { SimplePage } from '../app/templates';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\n\nconst permutations = createPermutations<DrawerProps>([\n  // Paddings and slots\n  {\n    disableContentPaddings: [true, false],\n    header: [null, <h2 key=\"header\">Header</h2>],\n    children: [null, <>Dummy content</>],\n    footer: [null, <>Footer content</>],\n  },\n  // Loading state\n  { loading: [true], i18nStrings: [{ loadingText: 'Loading' }, {}] },\n  // Header actions\n  {\n    header: [<h2 key=\"header\">Header with actions</h2>],\n    headerActions: [<Button key=\"action\">Action</Button>],\n    hideCloseAction: [false, true],\n    children: [<>Dummy content</>],\n  },\n  // Header close action\n  {\n    header: [<h2 key=\"header\">Header close action</h2>],\n    closeAction: [{ ariaLabel: 'Close drawer' }],\n    hideCloseAction: [false, true],\n    children: [<>Dummy content</>],\n  },\n  // Header actions and close action\n  {\n    header: [<h2 key=\"header\">Header with actions and close action</h2>],\n    headerActions: [<Button key=\"action\">Action</Button>],\n    closeAction: [{ ariaLabel: 'Close drawer', iconName: 'angle-right' }],\n    hideCloseAction: [false, true],\n    children: [<>Dummy content</>],\n  },\n]);\n\nexport default function () {\n  return (\n    <SimplePage title=\"Drawer permutations\" screenshotArea={{ disableAnimations: true }}>\n      <PermutationsView\n        permutations={permutations}\n        render={permutation => (\n          <>\n            {!permutation.header && !permutation.children && !permutation.loading && <p>(empty permutation)</p>}\n            {/* add visible border to capture component paddings */}\n            <div style={{ border: '1px solid red' }}>\n              <Drawer {...permutation} />\n            </div>\n          </>\n        )}\n      />\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/drawer/permutations.page.tsx"
-  }
- ],
- "props": {
-  "name": "DrawerProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "header",
-    "React.ReactNode",
-    "아니오",
-    "Header of the drawer. It should contain the only `h2` used in the drawer.",
-    "src/drawer/interfaces.ts:16"
-   ],
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "Main content of the drawer.",
-    "src/drawer/interfaces.ts:21"
-   ],
-   [
-    "loading",
-    "boolean",
-    "아니오",
-    "Renders the drawer in a loading state. We recommend that you also set a `i18nStrings.loadingText`.",
-    "src/drawer/interfaces.ts:26"
-   ],
-   [
-    "disableContentPaddings",
-    "boolean",
-    "아니오",
-    "Determines whether the drawer content has padding. If `true`, removes the default padding from the content area.",
-    "src/drawer/interfaces.ts:31"
-   ],
-   [
-    "i18nStrings",
-    "DrawerProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. - `loadingText` - The text that's displayed when the drawer is in a loading state. @i18n",
-    "src/drawer/interfaces.ts:38"
-   ],
-   [
-    "headerActions",
-    "React.ReactNode",
-    "아니오",
-    "Actions for the header. Available only if you specify the `header` property.",
-    "src/drawer/interfaces.ts:43"
-   ],
-   [
-    "footer",
-    "React.ReactNode",
-    "아니오",
-    "Sticky footer content that remains visible at the bottom during scroll. Automatically becomes non-sticky when scrollable content area is too small to ensure content remains accessible (not covered by the footer).",
-    "src/drawer/interfaces.ts:51"
-   ],
-   [
-    "role",
-    "'region' | 'presentation'",
-    "아니오",
-    "Sets the ARIA role of the drawer. - `\"region\"` (default for non-`static` positions) — exposes the drawer as a landmark region. The drawer receives focus when opened. - `\"presentation\"` (default for `position=\"static\"`) — removes landmark semantics from the drawer body. Use this when the containing element already provides the appropriate semantic role (e.g. a wrapping `<nav>` or `<aside>`). The drawer does not receive focus when opened.",
-    "src/drawer/interfaces.ts:62"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Sets the `aria-label` on the drawer body. By default the body is labelled by the drawer's `header` content. Use this when you need a different or more specific label (e.g. to include additional context or exclude parts of the header). Does not apply when `role=\"presentation\"`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/drawer/interfaces.ts:70"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Sets the `aria-labelledby` on the drawer body. By default the body is labelled by the drawer's `header` content. Use this when you need a different or more specific label (e.g. to include additional context or exclude parts of the header). Does not apply when `role=\"presentation\"`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/drawer/interfaces.ts:78"
-   ],
-   [
-    "position",
-    "DrawerProps.Position",
-    "아니오",
-    "Specifies the CSS positioning mode of the drawer, and supports the following options: * `static` (default) - The drawer is positioned in the normal document flow. * `sticky` - The drawer sticks to its nearest scrolling ancestor. Only meaningful with `placement=\"top\"` or `placement=\"bottom\"`. Using `sticky` with `placement=\"start\"` or `placement=\"end\"` falls back to `static`. * `absolute` - The drawer is positioned relative to its nearest positioned ancestor. * `fixed` - The drawer is positioned relative to the viewport. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:90"
-   ],
-   [
-    "placement",
-    "DrawerProps.Placement",
-    "아니오",
-    "Specifies which edge of its container the drawer is anchored to, and supports these options: * `start` - Anchored to the inline-start edge. * `end` - (default) Anchored to the inline-end edge. * `top` - Anchored to the top edge. * `bottom` - Anchored to the bottom edge. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:101"
-   ],
-   [
-    "offset",
-    "DrawerProps.Offset",
-    "아니오",
-    "Specifies the distance in pixels between the drawer and the edges of its container. Applicable when using `position=\"absolute\"` or `position=\"fixed\"`. Supported properties: * `start` - Distance from the inline-start edge. Not applicable when `placement` is `\"end\"`. * `end` - Distance from the inline-end edge. Not applicable when `placement` is `\"start\"`. * `top` - Distance from the top edge. Not applicable when `placement` is `\"bottom\"`. * `bottom` - Distance from the bottom edge. Not applicable when `placement` is `\"top\"`. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:114"
-   ],
-   [
-    "stickyOffset",
-    "DrawerProps.StickyOffset",
-    "아니오",
-    "Specifies the distance in pixels from the top or bottom edge of the scrolling container at which the drawer sticks. Applicable only when using `position=\"sticky\"` with `placement=\"top\"` or `placement=\"bottom\"`. * Supported properties: * `top` - Distance from the top of the scrolling container. * `bottom` - Distance from the bottom of the scrolling container. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:125"
-   ],
-   [
-    "zIndex",
-    "number",
-    "아니오",
-    "Sets the CSS `z-index` of the drawer. Use this to control stacking order when the drawer overlaps other positioned elements on the page. Applicable when using `position=\"sticky\"`, `position=\"absolute\"`, or `position=\"fixed\"`. Defaults to 830. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:135"
-   ],
-   [
-    "closeAction",
-    "DrawerProps.CloseActionProps",
-    "아니오",
-    "When defined, renders a close button in the header with the provided configuration. The close button fires the `onClose` event with method `'close-action'` when clicked. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:144"
-   ],
-   [
-    "hideCloseAction",
-    "boolean",
-    "아니오",
-    "Hides the close action slot next to the header actions, which is present even when close action is not set. Use it when a close action is not needed, or a custom close action implementation is used. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:153"
-   ],
-   [
-    "onClose",
-    "NonCancelableEventHandler<DrawerProps.CloseDetail>",
-    "아니오",
-    "Called when the user performs a close action. The `event.detail.method` indicates the trigger: * `'close-action'` - The close button was clicked. * `'backdrop-click'` - The backdrop was clicked (only when `backdrop=true`). * `'escape'` - The Escape key was pressed (only when `backdrop=true`). Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:163"
-   ],
-   [
-    "open",
-    "boolean",
-    "아니오",
-    "Drawer open state. Set to `true` to show the drawer, `false` to hide it. Handle the `onClose` event to update this value when the user requests to close the drawer. When the property is unset - the drawer is always visible, and the built-in focus in/out behaviors are disabled. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:173"
-   ],
-   [
-    "backdrop",
-    "boolean",
-    "아니오",
-    "Shows a semi-transparent backdrop behind the drawer when open. Used with `absolute` and `fixed` positions. When a backdrop is set, the keyboard focus is trapped inside the drawer by default to prevent it from moving to elements covered by the backdrop. This can be overridden with `focusBehavior.trapFocus`. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:185"
-   ],
-   [
-    "focusBehavior",
-    "DrawerProps.FocusBehavior",
-    "아니오",
-    "Customizes focus-related behavior: - `autoFocus` - Whether focus moves into the drawer when `open` changes from `false` to `true`, and captures the previously focused element for default return-focus on close. Defaults to `true`. Set to `false` to manage focus-in manually via `ref.current.focus()`. - `trapFocus` - Whether keyboard focus is constrained to elements inside the drawer. Defaults to `true` when `backdrop` is set, `false` otherwise. - `returnFocus` - Called instead of the default return-focus behavior when the drawer closes. Use this to override where focus lands on close (e.g. a specific trigger element). If omitted, focus returns to the element that was focused when the drawer opened. If that element is no longer in the DOM, the behavior silently no-ops. Do not use this property when using drawers inside app layout.",
-    "src/drawer/interfaces.ts:204"
-   ]
-  ],
-  "source": "src/drawer/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "DrawerProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "header",
+      "React.ReactNode",
+      "아니오",
+      "Header of the drawer. It should contain the only `h2` used in the drawer.",
+      "src/drawer/interfaces.ts:16"
+     ],
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "Main content of the drawer.",
+      "src/drawer/interfaces.ts:21"
+     ],
+     [
+      "loading",
+      "boolean",
+      "아니오",
+      "Renders the drawer in a loading state. We recommend that you also set a `i18nStrings.loadingText`.",
+      "src/drawer/interfaces.ts:26"
+     ],
+     [
+      "disableContentPaddings",
+      "boolean",
+      "아니오",
+      "Determines whether the drawer content has padding. If `true`, removes the default padding from the content area.",
+      "src/drawer/interfaces.ts:31"
+     ],
+     [
+      "i18nStrings",
+      "DrawerProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. - `loadingText` - The text that's displayed when the drawer is in a loading state. @i18n",
+      "src/drawer/interfaces.ts:38"
+     ],
+     [
+      "headerActions",
+      "React.ReactNode",
+      "아니오",
+      "Actions for the header. Available only if you specify the `header` property.",
+      "src/drawer/interfaces.ts:43"
+     ],
+     [
+      "footer",
+      "React.ReactNode",
+      "아니오",
+      "Sticky footer content that remains visible at the bottom during scroll. Automatically becomes non-sticky when scrollable content area is too small to ensure content remains accessible (not covered by the footer).",
+      "src/drawer/interfaces.ts:51"
+     ],
+     [
+      "role",
+      "'region' | 'presentation'",
+      "아니오",
+      "Sets the ARIA role of the drawer. - `\"region\"` (default for non-`static` positions) — exposes the drawer as a landmark region. The drawer receives focus when opened. - `\"presentation\"` (default for `position=\"static\"`) — removes landmark semantics from the drawer body. Use this when the containing element already provides the appropriate semantic role (e.g. a wrapping `<nav>` or `<aside>`). The drawer does not receive focus when opened.",
+      "src/drawer/interfaces.ts:62"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Sets the `aria-label` on the drawer body. By default the body is labelled by the drawer's `header` content. Use this when you need a different or more specific label (e.g. to include additional context or exclude parts of the header). Does not apply when `role=\"presentation\"`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/drawer/interfaces.ts:70"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Sets the `aria-labelledby` on the drawer body. By default the body is labelled by the drawer's `header` content. Use this when you need a different or more specific label (e.g. to include additional context or exclude parts of the header). Does not apply when `role=\"presentation\"`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/drawer/interfaces.ts:78"
+     ],
+     [
+      "position",
+      "DrawerProps.Position",
+      "아니오",
+      "Specifies the CSS positioning mode of the drawer, and supports the following options: * `static` (default) - The drawer is positioned in the normal document flow. * `sticky` - The drawer sticks to its nearest scrolling ancestor. Only meaningful with `placement=\"top\"` or `placement=\"bottom\"`. Using `sticky` with `placement=\"start\"` or `placement=\"end\"` falls back to `static`. * `absolute` - The drawer is positioned relative to its nearest positioned ancestor. * `fixed` - The drawer is positioned relative to the viewport. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:90"
+     ],
+     [
+      "placement",
+      "DrawerProps.Placement",
+      "아니오",
+      "Specifies which edge of its container the drawer is anchored to, and supports these options: * `start` - Anchored to the inline-start edge. * `end` - (default) Anchored to the inline-end edge. * `top` - Anchored to the top edge. * `bottom` - Anchored to the bottom edge. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:101"
+     ],
+     [
+      "offset",
+      "DrawerProps.Offset",
+      "아니오",
+      "Specifies the distance in pixels between the drawer and the edges of its container. Applicable when using `position=\"absolute\"` or `position=\"fixed\"`. Supported properties: * `start` - Distance from the inline-start edge. Not applicable when `placement` is `\"end\"`. * `end` - Distance from the inline-end edge. Not applicable when `placement` is `\"start\"`. * `top` - Distance from the top edge. Not applicable when `placement` is `\"bottom\"`. * `bottom` - Distance from the bottom edge. Not applicable when `placement` is `\"top\"`. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:114"
+     ],
+     [
+      "stickyOffset",
+      "DrawerProps.StickyOffset",
+      "아니오",
+      "Specifies the distance in pixels from the top or bottom edge of the scrolling container at which the drawer sticks. Applicable only when using `position=\"sticky\"` with `placement=\"top\"` or `placement=\"bottom\"`. * Supported properties: * `top` - Distance from the top of the scrolling container. * `bottom` - Distance from the bottom of the scrolling container. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:125"
+     ],
+     [
+      "zIndex",
+      "number",
+      "아니오",
+      "Sets the CSS `z-index` of the drawer. Use this to control stacking order when the drawer overlaps other positioned elements on the page. Applicable when using `position=\"sticky\"`, `position=\"absolute\"`, or `position=\"fixed\"`. Defaults to 830. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:135"
+     ],
+     [
+      "closeAction",
+      "DrawerProps.CloseActionProps",
+      "아니오",
+      "When defined, renders a close button in the header with the provided configuration. The close button fires the `onClose` event with method `'close-action'` when clicked. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:144"
+     ],
+     [
+      "hideCloseAction",
+      "boolean",
+      "아니오",
+      "Hides the close action slot next to the header actions, which is present even when close action is not set. Use it when a close action is not needed, or a custom close action implementation is used. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:153"
+     ],
+     [
+      "onClose",
+      "NonCancelableEventHandler<DrawerProps.CloseDetail>",
+      "아니오",
+      "Called when the user performs a close action. The `event.detail.method` indicates the trigger: * `'close-action'` - The close button was clicked. * `'backdrop-click'` - The backdrop was clicked (only when `backdrop=true`). * `'escape'` - The Escape key was pressed (only when `backdrop=true`). Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:163"
+     ],
+     [
+      "open",
+      "boolean",
+      "아니오",
+      "Drawer open state. Set to `true` to show the drawer, `false` to hide it. Handle the `onClose` event to update this value when the user requests to close the drawer. When the property is unset - the drawer is always visible, and the built-in focus in/out behaviors are disabled. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:173"
+     ],
+     [
+      "backdrop",
+      "boolean",
+      "아니오",
+      "Shows a semi-transparent backdrop behind the drawer when open. Used with `absolute` and `fixed` positions. When a backdrop is set, the keyboard focus is trapped inside the drawer by default to prevent it from moving to elements covered by the backdrop. This can be overridden with `focusBehavior.trapFocus`. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:185"
+     ],
+     [
+      "focusBehavior",
+      "DrawerProps.FocusBehavior",
+      "아니오",
+      "Customizes focus-related behavior: - `autoFocus` - Whether focus moves into the drawer when `open` changes from `false` to `true`, and captures the previously focused element for default return-focus on close. Defaults to `true`. Set to `false` to manage focus-in manually via `ref.current.focus()`. - `trapFocus` - Whether keyboard focus is constrained to elements inside the drawer. Defaults to `true` when `backdrop` is set, `false` otherwise. - `returnFocus` - Called instead of the default return-focus behavior when the drawer closes. Use this to override where focus lands on close (e.g. a specific trigger element). If omitted, focus returns to the element that was focused when the drawer opened. If that element is no longer in the DOM, the behavior silently no-ops. Do not use this property when using drawers inside app layout.",
+      "src/drawer/interfaces.ts:204"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "drawer"
 }

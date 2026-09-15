@@ -1,105 +1,105 @@
 {
  "slug": "token-group",
  "title": "Token Group",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "index",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport TokenGroup, { TokenGroupProps } from '~components/token-group';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst generateItems = (numberOfItems: number) => {\n  return [...new Array(numberOfItems)].map((item, index) => ({\n    label: `Item ${index + 1}`,\n    description: `Description ${index + 1}`,\n    iconName: 'settings',\n    labelTag: '128Gb',\n    tags: ['2-CPU', '2Gb RAM', 'Stuff', 'More stuff', 'A lot'],\n    disabled: index === 1,\n    dismissLabel: `Remove item ${index + 1}`,\n  })) as TokenGroupProps.Item[];\n};\n\nexport default function TokenGroupPage() {\n  const [items, setItems] = useState(generateItems(3));\n\n  const onDismiss = (event: { detail: { itemIndex: number } }) => {\n    const newItems = [...items];\n    newItems.splice(event.detail.itemIndex, 1);\n    setItems(newItems);\n  };\n\n  return (\n    <>\n      <h1>Token Group integration test page</h1>\n      <ScreenshotArea>\n        <input className=\"focus-element\" aria-label=\"focus element\" />\n        <TokenGroup alignment=\"vertical\" items={items} onDismiss={onDismiss} id=\"test\" />\n        <h2>Token group without outer padding</h2>\n        <TokenGroup items={items} disableOuterPadding={true} onDismiss={() => {}} />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/token-group/index.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport TokenGroup, { TokenGroupProps } from '~components/token-group';\n\nimport img from '../icon/custom-icon.png';\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst i18nStrings: TokenGroupProps.I18nStrings = {\n  limitShowFewer: 'Show less',\n  limitShowMore: 'Show more',\n};\n\nconst permutations = createPermutations<TokenGroupProps>([\n  {\n    i18nStrings: [i18nStrings],\n    limit: [undefined, 3],\n    alignment: ['horizontal', 'vertical'],\n    items: [\n      [\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          description: 'This is item 1',\n          tags: [\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n          ],\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconName: 'calendar',\n          disabled: true,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconName: 'calendar',\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Simple and basic',\n          disabled: true,\n          dismissLabel: 'dismiss',\n        },\n      ],\n      [\n        {\n          label:\n            'AVeryLongWordLabelEnoughToWrapTheTabLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          labelTag: 'Small label tag',\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Small label',\n          labelTag:\n            'AVeryLongWordLabelTagEnoughToWrapTheTabLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          dismissLabel: 'dismiss',\n        },\n        {\n          label:\n            'A very long label, long enough to wrap the label. Ut eleifend nisi non dui imperdiet iaculis. Vestibulum volutpat est mi, nec luctus augue eleifend vel. Ut tellus nisl, ultrices mattis leo non, faucibus aliquet est. Ut eleifend nisi non dui imperdiet iaculis.',\n          labelTag:\n            'A very long label tag, long enough to wrap the tag label. Ut eleifend nisi non dui imperdiet iaculis. Vestibulum volutpat est mi, nec luctus augue eleifend vel. Ut tellus nisl, ultrices mattis leo non, faucibus aliquet est. Ut eleifend nisi non dui imperdiet iaculis.',\n          dismissLabel: 'dismiss',\n        },\n        {\n          label:\n            'AVeryLongWordLabelEnoughToWrapTheLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          labelTag:\n            'AVeryLongWordLabelTagEnoughToWrapTheTagLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          dismissLabel: 'dismiss',\n        },\n      ],\n      [\n        {\n          label: 'Small label',\n          labelTag:\n            'AVeryLongWordLabelTagEnoughToWrapTheLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          dismissLabel: 'dismiss',\n        },\n        {\n          label:\n            'AVeryLongWordLabelEnoughToWrapTheTagLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          labelTag: 'Small label tag',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          dismissLabel: 'dismiss',\n        },\n        {\n          label:\n            'A very long label, long enough to wrap the label. Ut eleifend nisi non dui imperdiet iaculis. Vestibulum volutpat est mi, nec luctus augue eleifend vel. Ut tellus nisl, ultrices mattis leo non, faucibus aliquet est. Ut eleifend nisi non dui imperdiet iaculis.',\n          labelTag:\n            'A very long label tag, long enough to wrap the tag label. Ut eleifend nisi non dui imperdiet iaculis. Vestibulum volutpat est mi, nec luctus augue eleifend vel. Ut tellus nisl, ultrices mattis leo non, faucibus aliquet est. Ut eleifend nisi non dui imperdiet iaculis.',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          dismissLabel: 'dismiss',\n        },\n        {\n          label:\n            'AVeryLongWordLabelEnoughToWrapTheLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          labelTag:\n            'AVeryLongWordLabelTagEnoughToWrapTheTabLabelUtEleifendNisiNonDuiImperdietIaculisVestibulumVolutpatEstMiNecLuctusAugueEleifendVelUtTellusNislUltricesMattisLeoNonFaucibusAliquetEstUtEleifendNisiNonDuiImperdietIaculis',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          dismissLabel: 'dismiss',\n        },\n      ],\n      [\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconSvg: (\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\" key=\"0\">\n              <g>\n                <line x1=\"5.5\" y1=\"12\" x2=\"5.5\" y2=\"15\" />\n                <line x1=\"0.5\" y1=\"15\" x2=\"10.5\" y2=\"15\" />\n                <rect x=\"1\" y=\"5\" width=\"9\" height=\"7\" />\n                <polyline points=\"5 4 5 1 14 1 14 8 10 8\" />\n              </g>\n            </svg>\n          ),\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconSvg: (\n            <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\" focusable=\"false\">\n              <circle cx=\"8\" cy=\"8\" r=\"7\" />\n              <circle cx=\"8\" cy=\"8\" r=\"3\" />\n            </svg>\n          ),\n          disabled: true,\n          dismissLabel: 'dismiss',\n        },\n      ],\n    ],\n  },\n  {\n    i18nStrings: [i18nStrings],\n    limit: [undefined],\n    readOnly: [true],\n    alignment: ['horizontal'],\n    items: [\n      [\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconAlt: 'amazon-logo',\n          iconUrl: img,\n          description: 'This is item 1',\n          tags: ['CPU-v2', '2Gb RAM'],\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          description: 'This is item 1',\n          tags: [\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n            'CPU-v2',\n            '2Gb RAM',\n          ],\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconName: 'calendar',\n          disabled: true,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Item 1',\n          labelTag: '128Gb',\n          iconName: 'calendar',\n          disabled: false,\n          dismissLabel: 'dismiss',\n        },\n        {\n          label: 'Simple and basic',\n          disabled: true,\n          dismissLabel: 'dismiss',\n        },\n      ],\n    ],\n  },\n]);\n\nexport default function TokenGroupPermutations() {\n  return (\n    <>\n      <h1>TokenGroup permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <TokenGroup\n              onDismiss={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/token-group/permutations.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Checkbox from '~components/checkbox';\nimport TokenGroup, { TokenGroupProps } from '~components/token-group';\n\nconst generateItems = (numberOfItems: number) => {\n  return [...new Array(numberOfItems)].map((_item, index) => ({\n    label: `Item ${index + 1}`,\n    disabled: index === 1,\n    dismissLabel: `Remove item ${index + 1}`,\n  })) as TokenGroupProps.Item[];\n};\n\nconst i18nStrings: TokenGroupProps.I18nStrings = {\n  limitShowMore: 'Show more chosen options',\n  limitShowFewer: 'Show fewer chosen options',\n};\n\nexport default function TokenGroupPage() {\n  const [items, setItems] = useState(generateItems(10));\n  const [readOnly, setReadOnly] = useState(false);\n\n  const onDismiss = (event: { detail: { itemIndex: number } }) => {\n    const newItems = [...items];\n    newItems.splice(event.detail.itemIndex, 1);\n    setItems(newItems);\n  };\n\n  return (\n    <Box padding=\"xl\">\n      <h1>Token Group</h1>\n      <Checkbox checked={readOnly} onChange={({ detail }) => setReadOnly(detail.checked)}>\n        Read-only\n      </Checkbox>\n      <br />\n      <TokenGroup items={items} onDismiss={onDismiss} i18nStrings={i18nStrings} limit={5} readOnly={readOnly} />\n    </Box>\n  );\n}\n",
-   "source": "pages/token-group/simple.page.tsx"
-  }
- ],
- "props": {
-  "name": "TokenGroupProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "i18nStrings",
-    "TokenGroupProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/token-group/interfaces.ts:14"
-   ],
-   [
-    "limit",
-    "number",
-    "아니오",
-    "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
-    "src/token-group/interfaces.ts:19"
-   ],
-   [
-    "alignment",
-    "TokenGroupProps.Alignment",
-    "아니오",
-    "Specifies the direction in which tokens are aligned (`horizontal | vertical`).",
-    "src/token-group/interfaces.ts:24"
-   ],
-   [
-    "disableOuterPadding",
-    "boolean",
-    "아니오",
-    "Removes any outer padding from the component. We recommend to always enable this property.",
-    "src/token-group/interfaces.ts:30"
-   ],
-   [
-    "items",
-    "ReadonlyArray<TokenGroupProps.Item>",
-    "아니오",
-    "An array of objects representing token items. Each token has the following properties: - `label` (string) - Title text of the token. - `description` (string) - (Optional) Further information about the token that appears below the label. - `disabled` [boolean] - (Optional) Determines whether the token is disabled. - `labelTag` (string) - (Optional) A label tag that provides additional guidance, shown next to the label. - `tags` [string[]] - (Optional) A list of tags giving further guidance about the token. - `dismissLabel` (string) - (Optional) Adds an `aria-label` to the dismiss button. - `iconName` (string) - (Optional) Specifies the name of an [icon](/components/icon/) to display in the token. - `iconAlt` (string) - (Optional) Specifies alternate text for a custom icon, for use with `iconUrl`. - `iconUrl` (string) - (Optional) URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/).",
-    "src/token-group/interfaces.ts:47"
-   ],
-   [
-    "onDismiss",
-    "NonCancelableEventHandler<TokenGroupProps.DismissDetail>",
-    "아니오",
-    "Called when the user clicks on the dismiss button. The token won't be automatically removed. Make sure that you add a listener to this event to update your application state.",
-    "src/token-group/interfaces.ts:52"
-   ],
-   [
-    "limitShowFewerAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the \"Show fewer\" button. Use to assign unique labels when there are multiple token groups with the same `limitShowFewer` label on one page.",
-    "src/token-group/interfaces.ts:57"
-   ],
-   [
-    "limitShowMoreAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the \"Show more\" button. Use to assign unique labels when there are multiple token groups with the same `limitShowMore` label on one page.",
-    "src/token-group/interfaces.ts:62"
-   ],
-   [
-    "readOnly",
-    "boolean",
-    "아니오",
-    "Specifies if the control is read-only, which prevents the user from modifying the value. A read-only control is still focusable.",
-    "src/token-group/interfaces.ts:67"
-   ]
-  ],
-  "source": "src/token-group/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "TokenGroupProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "i18nStrings",
+      "TokenGroupProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/token-group/interfaces.ts:14"
+     ],
+     [
+      "limit",
+      "number",
+      "아니오",
+      "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
+      "src/token-group/interfaces.ts:19"
+     ],
+     [
+      "alignment",
+      "TokenGroupProps.Alignment",
+      "아니오",
+      "Specifies the direction in which tokens are aligned (`horizontal | vertical`).",
+      "src/token-group/interfaces.ts:24"
+     ],
+     [
+      "disableOuterPadding",
+      "boolean",
+      "아니오",
+      "Removes any outer padding from the component. We recommend to always enable this property.",
+      "src/token-group/interfaces.ts:30"
+     ],
+     [
+      "items",
+      "ReadonlyArray<TokenGroupProps.Item>",
+      "아니오",
+      "An array of objects representing token items. Each token has the following properties: - `label` (string) - Title text of the token. - `description` (string) - (Optional) Further information about the token that appears below the label. - `disabled` [boolean] - (Optional) Determines whether the token is disabled. - `labelTag` (string) - (Optional) A label tag that provides additional guidance, shown next to the label. - `tags` [string[]] - (Optional) A list of tags giving further guidance about the token. - `dismissLabel` (string) - (Optional) Adds an `aria-label` to the dismiss button. - `iconName` (string) - (Optional) Specifies the name of an [icon](/components/icon/) to display in the token. - `iconAlt` (string) - (Optional) Specifies alternate text for a custom icon, for use with `iconUrl`. - `iconUrl` (string) - (Optional) URL of a custom icon. - `iconSvg` (ReactNode) - (Optional) Custom SVG icon. Equivalent to the `svg` slot of the [icon component](/components/icon/).",
+      "src/token-group/interfaces.ts:47"
+     ],
+     [
+      "onDismiss",
+      "NonCancelableEventHandler<TokenGroupProps.DismissDetail>",
+      "아니오",
+      "Called when the user clicks on the dismiss button. The token won't be automatically removed. Make sure that you add a listener to this event to update your application state.",
+      "src/token-group/interfaces.ts:52"
+     ],
+     [
+      "limitShowFewerAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the \"Show fewer\" button. Use to assign unique labels when there are multiple token groups with the same `limitShowFewer` label on one page.",
+      "src/token-group/interfaces.ts:57"
+     ],
+     [
+      "limitShowMoreAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the \"Show more\" button. Use to assign unique labels when there are multiple token groups with the same `limitShowMore` label on one page.",
+      "src/token-group/interfaces.ts:62"
+     ],
+     [
+      "readOnly",
+      "boolean",
+      "아니오",
+      "Specifies if the control is read-only, which prevents the user from modifying the value. A read-only control is still focusable.",
+      "src/token-group/interfaces.ts:67"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

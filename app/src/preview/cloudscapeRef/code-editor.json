@@ -1,184 +1,183 @@
 {
  "slug": "code-editor",
  "title": "Code Editor",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "controllable-height",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './base-props';\nimport { sayHelloSample } from './code-samples';\n\nexport default function () {\n  const [ace, setAce] = useState<CodeEditorProps['ace']>();\n  const [value, setValue] = useState(sayHelloSample);\n  const [loading, setLoading] = useState(true);\n  const [resizingHeight, setResizingHeight] = useState(240);\n  useEffect(() => {\n    import('ace-builds').then(ace => {\n      ace.config.set('basePath', './ace/');\n      ace.config.set('themePath', './ace/');\n      ace.config.set('modePath', './ace/');\n      ace.config.set('workerPath', './ace/');\n      ace.config.set('useStrictCSP', true);\n      setAce(ace);\n      setLoading(false);\n    });\n  }, []);\n\n  return (\n    <article>\n      <h1>Code Editor - controllable Height</h1>\n      <ScreenshotArea style={{ maxWidth: 960 }}>\n        <CodeEditor\n          ace={ace}\n          value={value}\n          language=\"javascript\"\n          onDelayedChange={event => setValue(event.detail.value)}\n          onPreferencesChange={() => {}}\n          loading={loading}\n          i18nStrings={i18nStrings}\n          editorContentHeight={resizingHeight}\n          onEditorContentResize={event => setResizingHeight(event.detail.height)}\n          id={'code-editor-controlled'}\n        />\n        <div id=\"event-content\">current Height : {resizingHeight}</div>\n\n        <CodeEditor\n          ace={ace}\n          value={value}\n          language=\"javascript\"\n          onDelayedChange={event => setValue(event.detail.value)}\n          onPreferencesChange={() => {}}\n          loading={loading}\n          i18nStrings={i18nStrings}\n          editorContentHeight={10}\n          onEditorContentResize={() => {}}\n          id={'editor-minheight'}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/controllable-height.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "error",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport CodeEditor from '~components/code-editor';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './base-props';\n\nexport default function () {\n  return (\n    <article>\n      <h1>Code Editor - error</h1>\n      <ScreenshotArea style={{ maxWidth: 960 }}>\n        <CodeEditor\n          ace={null}\n          value=\"\"\n          i18nStrings={i18nStrings}\n          language=\"javascript\"\n          onPreferencesChange={() => {}}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/error.page.tsx"
-  },
-  {
-   "name": "loading",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport CodeEditor from '~components/code-editor';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './base-props';\n\nexport default function () {\n  return (\n    <article>\n      <h1>Code Editor - loading</h1>\n      <ScreenshotArea style={{ maxWidth: 960 }} disableAnimations={true}>\n        <CodeEditor\n          ace={null}\n          value=\"\"\n          loading={true}\n          i18nStrings={i18nStrings}\n          language=\"javascript\"\n          onPreferencesChange={() => {}}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/loading.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings, themes } from './base-props';\n\nconst language = 'javascript';\n\nconst codeWithErrorsAndWarnings = `con st pi = 3.14;\n\nfunction start sdsd() {\n    \n}\nfunction correct () {\n    \n}\nsdsdasd\n.`;\n\nconst codeWithLongLines = `// Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nconst functionWithVeryLongNameButWhichDoesSomethingVerySimple = (firstParameterWithVeryLongName, secondParameterWithVeryLongName, thirdParameterWithVeryLongName) => {\n  // Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n  return { firstParameterWithVeryLongName, secondParameterWithVeryLongName, thirdParameterWithVeryLongName }\n}\n`;\n\nconst themesToTest = [...(themes.light as CodeEditorProps.Theme[]), ...(themes.dark as CodeEditorProps.Theme[])];\n\nconst permutations = createPermutations<{ theme: CodeEditorProps.Theme; value: string; wrapLines?: boolean }>([\n  {\n    theme: themesToTest,\n    value: [codeWithLongLines],\n    wrapLines: [true, false],\n  },\n  {\n    theme: themesToTest,\n    value: [codeWithErrorsAndWarnings],\n  },\n]);\n\nexport default function CodeEditorPermutations() {\n  const [ace, setAce] = useState<any>();\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    async function loadAce() {\n      const ace = await import('ace-builds');\n      ace.config.set('basePath', './ace/');\n      ace.config.set('themePath', './ace/');\n      ace.config.set('modePath', './ace/');\n      ace.config.set('workerPath', './ace/');\n      ace.config.set('useStrictCSP', true);\n      return ace;\n    }\n\n    loadAce()\n      .then(ace => setAce(ace))\n      .finally(() => setLoading(false));\n  }, []);\n  return (\n    <article>\n      <h1>Code editor permutations</h1>\n      <ScreenshotArea style={{ maxWidth: 960 }}>\n        <PermutationsView\n          permutations={permutations}\n          render={({ theme, value, wrapLines }) => (\n            <CodeEditor\n              ace={ace}\n              value={value}\n              language={language}\n              preferences={{ theme, wrapLines }}\n              onPreferencesChange={() => null}\n              i18nStrings={i18nStrings}\n              loading={loading}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/permutations.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings, themes } from './base-props';\nimport { awsTemplateSample, buildSample } from './code-samples';\n\ninterface IState {\n  ace: any;\n  value: string;\n  language: CodeEditorProps.Language;\n  preferences?: CodeEditorProps.Preferences;\n  loading: boolean;\n}\n\nexport default class App extends React.PureComponent<null, IState> {\n  initialValue = 'const pi = 3.14;';\n\n  constructor(props: null) {\n    super(props);\n    this.state = {\n      ace: undefined,\n      value: this.initialValue,\n      language: 'javascript',\n      preferences: undefined,\n      loading: true,\n    };\n  }\n\n  componentDidMount() {\n    this.setState({ loading: true });\n\n    import('ace-builds').then(ace => {\n      ace.config.set('basePath', './ace/');\n      ace.config.set('themePath', './ace/');\n      ace.config.set('modePath', './ace/');\n      ace.config.set('workerPath', './ace/');\n      ace.config.set('useStrictCSP', true);\n      this.setState({ ace, loading: false });\n    });\n  }\n\n  onPreferencesChange(preferences: CodeEditorProps.Preferences) {\n    this.setState({ preferences });\n  }\n\n  render() {\n    return (\n      <article>\n        <h1>Code Editor - simple page</h1>\n        <ScreenshotArea style={{ maxWidth: 960 }}>\n          <CodeEditor\n            ace={this.state.ace}\n            value={this.state.value}\n            language={this.state.language}\n            onDelayedChange={e => this.setState({ value: e.detail.value })}\n            preferences={this.state.preferences}\n            onPreferencesChange={e => this.onPreferencesChange(e.detail)}\n            loading={this.state.loading}\n            i18nStrings={i18nStrings}\n            themes={themes}\n          />\n        </ScreenshotArea>\n\n        <SpaceBetween direction=\"horizontal\" size=\"xs\">\n          <Button\n            id=\"javascript_sample_button\"\n            onClick={() => this.setState({ language: 'javascript', value: buildSample })}\n          >\n            JavaScript Sample\n          </Button>\n          <Button onClick={() => this.setState({ language: 'yaml', value: awsTemplateSample })}>YAML Sample</Button>\n          <Button onClick={() => this.setState({ value: this.initialValue })}>Reset value</Button>\n        </SpaceBetween>\n      </article>\n    );\n  }\n}\n",
-   "source": "pages/code-editor/simple.page.tsx"
-  },
-  {
-   "name": "themes",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './base-props';\nimport { sayHelloSample } from './code-samples';\n\nimport 'ace-builds/css/ace.css';\nimport 'ace-builds/css/theme/dawn.css';\nimport 'ace-builds/css/theme/tomorrow_night_bright.css';\nimport 'ace-builds/css/theme/cloud_editor.css';\nimport 'ace-builds/css/theme/cloud_editor_dark.css';\n\nfunction DemoCodeEditor({\n  ace,\n  loading,\n  themes,\n  preferences,\n}: {\n  ace: any;\n  loading: boolean;\n  themes: CodeEditorProps.AvailableThemes;\n  preferences?: CodeEditorProps.Preferences;\n}) {\n  return (\n    <CodeEditor\n      ace={ace}\n      value={sayHelloSample}\n      language=\"javascript\"\n      preferences={preferences}\n      onPreferencesChange={() => {}}\n      loading={loading}\n      themes={themes}\n      i18nStrings={i18nStrings}\n    />\n  );\n}\n\nexport default function ThemesPage() {\n  const [ace, setAce] = useState<any>();\n\n  useEffect(() => {\n    import('ace-builds').then(loadedAce => {\n      loadedAce.config.set('basePath', './ace/');\n      loadedAce.config.set('themePath', './ace/');\n      loadedAce.config.set('modePath', './ace/');\n      loadedAce.config.set('workerPath', './ace/');\n      loadedAce.config.set('useStrictCSP', true);\n      setAce(loadedAce);\n    });\n  }, []);\n\n  return (\n    <article>\n      <h1>Code Editor - themes</h1>\n      <ScreenshotArea style={{ maxWidth: 960 }}>\n        <SpaceBetween size=\"xs\">\n          {/* Default (dawn/tomorrow_night_bright) */}\n          <DemoCodeEditor\n            ace={ace}\n            loading={!ace}\n            themes={{ light: ['dawn', 'github'], dark: ['tomorrow_night_bright', 'dracula'] }}\n          />\n\n          {/* Default if cloud editor themes are provided (cloud_editor/cloud_editor_dark) */}\n          <DemoCodeEditor\n            ace={ace}\n            loading={!ace}\n            themes={{ light: ['cloud_editor', 'dawn'], dark: ['cloud_editor_dark', 'tomorrow_night_bright'] }}\n          />\n\n          {/* Invalid theme value */}\n          <DemoCodeEditor\n            ace={ace}\n            loading={!ace}\n            themes={{ light: ['cloud_editor'], dark: ['cloud_editor_dark'] }}\n            preferences={{ theme: 'ambiance', wrapLines: true }}\n          />\n        </SpaceBetween>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/themes.page.tsx"
-  },
-  {
-   "name": "vertical-scroll",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport Box from '~components/box';\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\n\nimport { i18nStrings } from './base-props';\nimport { sayHelloSample } from './code-samples';\n\nimport 'ace-builds/css/ace.css';\nimport 'ace-builds/css/theme/dawn.css';\nimport 'ace-builds/css/theme/tomorrow_night_bright.css';\n\nexport default function () {\n  const [ace, setAce] = useState<CodeEditorProps['ace']>();\n  const [value, setValue] = useState(sayHelloSample);\n  const [loading, setLoading] = useState(true);\n  useEffect(() => {\n    import('ace-builds').then(ace => {\n      ace.config.set('basePath', './ace/');\n      ace.config.set('themePath', './ace/');\n      ace.config.set('modePath', './ace/');\n      ace.config.set('workerPath', './ace/');\n      ace.config.set('useStrictCSP', true);\n      setAce(ace);\n      setLoading(false);\n    });\n  }, []);\n\n  return (\n    <article>\n      <Box padding=\"m\">\n        <h1>Code Editor - Vertical scroll</h1>\n        <div style={{ blockSize: 600 }}>\n          <p>Scroll the page below to see the code editor</p>\n        </div>\n        <CodeEditor\n          ace={ace}\n          value={value}\n          language=\"javascript\"\n          onDelayedChange={event => setValue(event.detail.value)}\n          // not present in this demo\n          onPreferencesChange={() => {}}\n          loading={loading}\n          i18nStrings={i18nStrings}\n        />\n        <div style={{ blockSize: 400 }}>\n          <p>Extra empty content</p>\n        </div>\n      </Box>\n    </article>\n  );\n}\n",
-   "source": "pages/code-editor/vertical-scroll.page.tsx"
-  },
-  {
-   "name": "with-errors-no-warnings",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Button from '~components/button';\nimport CodeEditor, { CodeEditorProps } from '~components/code-editor';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings, themes } from './base-props';\nimport { awsTemplateSample, buildSample } from './code-samples';\n\ninterface IState {\n  ace: any;\n  value: string;\n  language: CodeEditorProps.Language;\n  preferences?: CodeEditorProps.Preferences;\n  loading: boolean;\n}\n\nexport default class App extends React.PureComponent<null, IState> {\n  constructor(props: null) {\n    super(props);\n    this.state = {\n      ace: undefined,\n      value: `con st pi = 3.14;\n\nfunction start sdsd() {\n    \n}\nfunction correct () {\n    \n}\nsdsdasd\n.\n\n\n`,\n      language: 'javascript',\n      preferences: undefined,\n      loading: true,\n    };\n  }\n\n  componentDidMount() {\n    this.setState({ loading: true });\n\n    import('ace-builds').then(ace => {\n      ace.config.set('basePath', './ace/');\n      ace.config.set('themePath', './ace/');\n      ace.config.set('modePath', './ace/');\n      ace.config.set('workerPath', './ace/');\n      ace.config.set('useStrictCSP', true);\n      this.setState({ ace, loading: false });\n    });\n  }\n\n  onPreferencesChange(preferences: CodeEditorProps.Preferences) {\n    this.setState({ preferences });\n  }\n\n  render() {\n    return (\n      <article>\n        <h1>Code Editor - with Errors no warnings</h1>\n        <ScreenshotArea style={{ maxWidth: 960 }}>\n          <CodeEditor\n            ace={this.state.ace}\n            value={this.state.value}\n            language={this.state.language}\n            onChange={e => this.setState({ value: e.detail.value })}\n            preferences={this.state.preferences}\n            onPreferencesChange={e => this.onPreferencesChange(e.detail)}\n            loading={this.state.loading}\n            i18nStrings={i18nStrings}\n            themes={themes}\n          />\n        </ScreenshotArea>\n\n        <SpaceBetween direction=\"horizontal\" size=\"xs\">\n          <Button onClick={() => this.setState({ language: 'javascript', value: buildSample })}>\n            JavaScript Sample\n          </Button>\n          <Button onClick={() => this.setState({ language: 'yaml', value: awsTemplateSample })}>YAML Sample</Button>\n        </SpaceBetween>\n      </article>\n    );\n  }\n}\n",
-   "source": "pages/code-editor/with-errors-no-warnings.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "CodeEditorProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "ace",
-    "any",
-    "예",
-    "The ace object.",
-    "src/code-editor/interfaces.ts:18"
-   ],
-   [
-    "value",
-    "string",
-    "예",
-    "Specifies the content that's displayed in the code editor.",
-    "src/code-editor/interfaces.ts:23"
-   ],
-   [
-    "language",
-    "CodeEditorProps.Language",
-    "예",
-    "Specifies the programming language. You can use any of the programming languages supported by the `ace` object that you provide. Alternatively, this can be used to set a language that is not supported by the default `language` list. Make sure you've added the highlighting support for this language to the Ace instance. For more info on custom languages, see the [Code editor API](/components/code-editor?tabId=api) page.",
-    "src/code-editor/interfaces.ts:30"
-   ],
-   [
-    "languageLabel",
-    "string",
-    "아니오",
-    "Specifies a custom label language. If set, it overrides the default language label.",
-    "src/code-editor/interfaces.ts:35"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<CodeEditorProps.ChangeDetail>",
-    "아니오",
-    "An event handler called when the value changes. The event `detail` contains the current value of the code editor content. **Deprecated** Replaced by `onDelayedChange`.",
-    "src/code-editor/interfaces.ts:42"
-   ],
-   [
-    "onDelayedChange",
-    "NonCancelableEventHandler<CodeEditorProps.ChangeDetail>",
-    "아니오",
-    "An event handler called when the value changes. The event `detail` contains the current value of the code editor content. A user interaction can cause multiple change events to be emitted by the Ace editor. They are batched together into a single `onDelayedChange` event to avoid bugs when controlling the `value` field.",
-    "src/code-editor/interfaces.ts:49"
-   ],
-   [
-    "onValidate",
-    "NonCancelableEventHandler<CodeEditorProps.ValidateDetail>",
-    "아니오",
-    "Annotations returned from Ace syntax checker after code validation.",
-    "src/code-editor/interfaces.ts:54"
-   ],
-   [
-    "preferences",
-    "Partial<CodeEditorProps.Preferences>",
-    "아니오",
-    "Specifies the component preferences. If set to `undefined`, the component uses the following default value: ``` { wrapLines: true, theme: 'dawn' } ``` You can use any theme provided by Ace.",
-    "src/code-editor/interfaces.ts:70"
-   ],
-   [
-    "themes",
-    "CodeEditorProps.AvailableThemes",
-    "아니오",
-    "List of Ace themes available for selection in preferences dialog. Make sure you include at least one light and at least one dark theme. If not set explicitly, it will render all Ace themes available for selection, except \"cloud_editor\" and \"cloud_editor_dark\".",
-    "src/code-editor/interfaces.ts:77"
-   ],
-   [
-    "onPreferencesChange",
-    "NonCancelableEventHandler<CodeEditorProps.Preferences>",
-    "예",
-    "Called when any of the preferences change. The event `detail` contains the value of all the preferences as submitted by the user.",
-    "src/code-editor/interfaces.ts:84"
-   ],
-   [
-    "loading",
-    "boolean",
-    "아니오",
-    "Renders the code editor in a loading state.",
-    "src/code-editor/interfaces.ts:89"
-   ],
-   [
-    "onRecoveryClick",
-    "NonCancelableEventHandler<void>",
-    "아니오",
-    "Called when the user clicks the recovery button in the error state. Use this to retry loading the code editor or to provide another option for the user to recover from the error.",
-    "src/code-editor/interfaces.ts:95"
-   ],
-   [
-    "i18nStrings",
-    "CodeEditorProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. The object should contain, among others: * `loadingState` - Specifies the text to display while the component is loading. * `errorState` - Specifies the text to display if there is an error loading Ace. * `errorStateRecovery`: Specifies the text for the recovery button that's displayed next to the error text. Use the `recoveryClick` event to do a recovery action (for example, retrying the request). @i18n",
-    "src/code-editor/interfaces.ts:107"
-   ],
-   [
-    "editorContentHeight",
-    "number",
-    "아니오",
-    "Specifies the height of the code editor document.",
-    "src/code-editor/interfaces.ts:112"
-   ],
-   [
-    "onEditorContentResize",
-    "NonCancelableEventHandler<CodeEditorProps.ResizeDetail>",
-    "아니오",
-    "Called when the user resizes the editor by dragging the resize icon. The event `detail` contains the new height of the editor in pixels.",
-    "src/code-editor/interfaces.ts:118"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Adds `aria-label` to the code editor's textarea element.",
-    "src/code-editor/interfaces.ts:123"
-   ]
-  ],
-  "source": "src/code-editor/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "CodeEditorProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "ace",
+      "any",
+      "예",
+      "The ace object.",
+      "src/code-editor/interfaces.ts:18"
+     ],
+     [
+      "value",
+      "string",
+      "예",
+      "Specifies the content that's displayed in the code editor.",
+      "src/code-editor/interfaces.ts:23"
+     ],
+     [
+      "language",
+      "CodeEditorProps.Language",
+      "예",
+      "Specifies the programming language. You can use any of the programming languages supported by the `ace` object that you provide. Alternatively, this can be used to set a language that is not supported by the default `language` list. Make sure you've added the highlighting support for this language to the Ace instance. For more info on custom languages, see the [Code editor API](/components/code-editor?tabId=api) page.",
+      "src/code-editor/interfaces.ts:30"
+     ],
+     [
+      "languageLabel",
+      "string",
+      "아니오",
+      "Specifies a custom label language. If set, it overrides the default language label.",
+      "src/code-editor/interfaces.ts:35"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<CodeEditorProps.ChangeDetail>",
+      "아니오",
+      "An event handler called when the value changes. The event `detail` contains the current value of the code editor content. **Deprecated** Replaced by `onDelayedChange`.",
+      "src/code-editor/interfaces.ts:42"
+     ],
+     [
+      "onDelayedChange",
+      "NonCancelableEventHandler<CodeEditorProps.ChangeDetail>",
+      "아니오",
+      "An event handler called when the value changes. The event `detail` contains the current value of the code editor content. A user interaction can cause multiple change events to be emitted by the Ace editor. They are batched together into a single `onDelayedChange` event to avoid bugs when controlling the `value` field.",
+      "src/code-editor/interfaces.ts:49"
+     ],
+     [
+      "onValidate",
+      "NonCancelableEventHandler<CodeEditorProps.ValidateDetail>",
+      "아니오",
+      "Annotations returned from Ace syntax checker after code validation.",
+      "src/code-editor/interfaces.ts:54"
+     ],
+     [
+      "preferences",
+      "Partial<CodeEditorProps.Preferences>",
+      "아니오",
+      "Specifies the component preferences. If set to `undefined`, the component uses the following default value: ``` { wrapLines: true, theme: 'dawn' } ``` You can use any theme provided by Ace.",
+      "src/code-editor/interfaces.ts:70"
+     ],
+     [
+      "themes",
+      "CodeEditorProps.AvailableThemes",
+      "아니오",
+      "List of Ace themes available for selection in preferences dialog. Make sure you include at least one light and at least one dark theme. If not set explicitly, it will render all Ace themes available for selection, except \"cloud_editor\" and \"cloud_editor_dark\".",
+      "src/code-editor/interfaces.ts:77"
+     ],
+     [
+      "onPreferencesChange",
+      "NonCancelableEventHandler<CodeEditorProps.Preferences>",
+      "예",
+      "Called when any of the preferences change. The event `detail` contains the value of all the preferences as submitted by the user.",
+      "src/code-editor/interfaces.ts:84"
+     ],
+     [
+      "loading",
+      "boolean",
+      "아니오",
+      "Renders the code editor in a loading state.",
+      "src/code-editor/interfaces.ts:89"
+     ],
+     [
+      "onRecoveryClick",
+      "NonCancelableEventHandler<void>",
+      "아니오",
+      "Called when the user clicks the recovery button in the error state. Use this to retry loading the code editor or to provide another option for the user to recover from the error.",
+      "src/code-editor/interfaces.ts:95"
+     ],
+     [
+      "i18nStrings",
+      "CodeEditorProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. The object should contain, among others: * `loadingState` - Specifies the text to display while the component is loading. * `errorState` - Specifies the text to display if there is an error loading Ace. * `errorStateRecovery`: Specifies the text for the recovery button that's displayed next to the error text. Use the `recoveryClick` event to do a recovery action (for example, retrying the request). @i18n",
+      "src/code-editor/interfaces.ts:107"
+     ],
+     [
+      "editorContentHeight",
+      "number",
+      "아니오",
+      "Specifies the height of the code editor document.",
+      "src/code-editor/interfaces.ts:112"
+     ],
+     [
+      "onEditorContentResize",
+      "NonCancelableEventHandler<CodeEditorProps.ResizeDetail>",
+      "아니오",
+      "Called when the user resizes the editor by dragging the resize icon. The event `detail` contains the new height of the editor in pixels.",
+      "src/code-editor/interfaces.ts:118"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Adds `aria-label` to the code editor's textarea element.",
+      "src/code-editor/interfaces.ts:123"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

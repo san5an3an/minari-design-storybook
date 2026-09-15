@@ -1,166 +1,197 @@
 {
  "slug": "file-upload",
  "title": "File Upload",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "permutations",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box } from '~components';\nimport FileUpload, { FileUploadProps } from '~components/file-upload';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { i18nStrings } from './shared';\n\nconst permutations = createPermutations<Omit<FileUploadProps, 'dismissAriaLabel' | 'i18nStrings'>>([\n  {\n    value: [[]],\n    constraintText: [null, 'File size must not exceed 1 MB'],\n  },\n  {\n    value: [[new File([new Blob(['demo content'])], 'demo file', { type: 'image/*' })]],\n    errorText: [null, 'File size is above 1 MB'],\n    warningText: [null, 'File type is image'],\n    constraintText: ['File size must not exceed 1 MB'],\n  },\n  {\n    multiple: [true],\n    value: [\n      [\n        new File([new Blob(['demo content 1'])], 'demo file 1', { type: 'image/*' }),\n        new File([new Blob(['demo content 2'])], 'demo file 2 with long file name', { type: 'image/*' }),\n      ],\n    ],\n    showFileSize: [true],\n    showFileLastModified: [true],\n    showFileThumbnail: [false, true],\n    errorText: [null, 'Files have errors'],\n    warningText: [null, 'Files have warnings'],\n    constraintText: ['File size must not exceed 1 MB'],\n    fileErrors: [undefined, ['File size is above 1 MB', 'File size is above 1 MB']],\n    fileWarnings: [undefined, ['File type is image', 'File type is image']],\n    fileTokenAlignment: ['vertical', 'horizontal'],\n  },\n]);\n\nexport default function FileUploadPermutations() {\n  return (\n    <>\n      <h1>FileUpload permutations</h1>\n      <ScreenshotArea>\n        <Box id=\"file-upload-label\" margin={{ bottom: 'm' }}>\n          File upload label (required when using outside form-field)\n        </Box>\n\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <FileUpload\n              ariaLabelledby=\"file-upload-label\"\n              i18nStrings={{\n                ...i18nStrings,\n                formatFileSize: () => `1.01 MB`,\n                formatFileLastModified: () => '2020-01-01T00:00:00',\n              }}\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/file-upload/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "scenario-form-instant",
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { FormEvent, useEffect, useRef, useState } from 'react';\n\nimport { Alert, Box, Button, Checkbox, FileUpload, FileUploadProps, Form, FormField, Header, Input } from '~components';\nimport SpaceBetween from '~components/space-between';\n\nimport { PageNotifications, useContractFilesForm } from './page-helpers';\nimport { i18nStrings } from './shared';\nimport { validateContractFiles, validateContractFilesInForm } from './validations';\n\nexport default function FileUploadScenarioFormInstant() {\n  const contractsRef = useRef<FileUploadProps.Ref>(null);\n  const [acceptMultiple, setAcceptMultiple] = useState(true);\n  const formState = useContractFilesForm();\n\n  const contractsValidationErrors = validateContractFiles(formState.files);\n  const contractsErrors = contractsValidationErrors ?? formState.fileErrors;\n\n  const hasError = formState.status === 'error';\n  useEffect(() => {\n    if (hasError) {\n      contractsRef.current?.focus();\n    }\n  }, [hasError]);\n\n  const onSubmit = (event: FormEvent) => {\n    event.preventDefault();\n\n    const filesError = validateContractFilesInForm(formState.files);\n    const nameError = formState.name.trim().length === 0 ? 'Name must not be empty' : '';\n\n    formState.onSubmitForm(filesError, nameError);\n  };\n\n  return (\n    <Box margin=\"xl\">\n      <SpaceBetween size=\"xl\">\n        <Header variant=\"h1\">File upload scenario: In form with instant upload</Header>\n\n        <Alert statusIconAriaLabel=\"Info\" header=\"Scenario description\">\n          File upload is used in a form as one of two required files. The component supports synchronous client-side\n          validation as per constraints. Additionally, the component imitates server-side validation triggered for image\n          files. The upload and server-side validation is triggered upon files selection.\n        </Alert>\n\n        <PageNotifications status={formState.status} />\n\n        <Checkbox checked={acceptMultiple} onChange={event => setAcceptMultiple(event.detail.checked)}>\n          Accept multiple files\n        </Checkbox>\n\n        <form onSubmit={onSubmit}>\n          <Form\n            actions={\n              <Button variant=\"primary\" formAction=\"submit\" loading={formState.status === 'uploading'}>\n                Upload\n              </Button>\n            }\n          >\n            <SpaceBetween size=\"m\">\n              <FormField\n                label={acceptMultiple ? 'Contracts' : 'Contract'}\n                description={acceptMultiple ? 'Upload your contract with all amendments' : 'Upload your contract'}\n              >\n                <FileUpload\n                  ref={contractsRef}\n                  ariaRequired={true}\n                  multiple={acceptMultiple}\n                  tokenLimit={3}\n                  value={formState.files}\n                  onChange={event => {\n                    formState.onFilesChange(event.detail.value);\n                    formState.onUploadFiles(!validateContractFiles(event.detail.value) ? event.detail.value : []);\n                  }}\n                  accept=\"application/pdf, image/png, image/jpeg\"\n                  showFileSize={true}\n                  showFileLastModified={true}\n                  showFileThumbnail={true}\n                  i18nStrings={i18nStrings}\n                  {...contractsErrors}\n                  constraintText=\"File size must not exceed 250 KB. Combined file size must not exceed 750 KB\"\n                />\n              </FormField>\n\n              <FormField label=\"Name\" description=\"Enter your name\" errorText={formState.nameError}>\n                <Input\n                  ariaRequired={true}\n                  value={formState.name}\n                  onChange={e => formState.onNameChange(e.detail.value)}\n                />\n              </FormField>\n            </SpaceBetween>\n          </Form>\n        </form>\n      </SpaceBetween>\n    </Box>\n  );\n}\n",
-   "source": "pages/file-upload/scenario-form-instant.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "scenario-form-mixed",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { FormEvent, useEffect, useRef, useState } from 'react';\n\nimport { Alert, Box, Button, Checkbox, FileUpload, FileUploadProps, Form, FormField, Header, Input } from '~components';\nimport SpaceBetween from '~components/space-between';\n\nimport { PageNotifications, useContractFilesForm } from './page-helpers';\nimport { i18nStrings } from './shared';\nimport { validateContractFiles, validateContractFilesInForm } from './validations';\n\nexport default function FileUploadScenarioFormMixed() {\n  const contractsRef = useRef<FileUploadProps.Ref>(null);\n  const [acceptMultiple, setAcceptMultiple] = useState(true);\n  const formState = useContractFilesForm();\n\n  const contractsValidationErrors = validateContractFiles(formState.files);\n  const contractsErrors = contractsValidationErrors ?? formState.fileErrors;\n\n  const hasError = formState.status === 'error';\n  useEffect(() => {\n    if (hasError) {\n      contractsRef.current?.focus();\n    }\n  }, [hasError]);\n\n  const onSubmit = (event: FormEvent) => {\n    event.preventDefault();\n\n    const filesError = validateContractFilesInForm(formState.files);\n    const nameError = formState.name.trim().length === 0 ? 'Name must not be empty' : '';\n    const isFormValid = !filesError && !nameError;\n\n    formState.onSubmitForm(filesError, nameError);\n    formState.onUploadFiles(isFormValid ? formState.files : []);\n  };\n\n  return (\n    <Box margin=\"xl\">\n      <SpaceBetween size=\"xl\">\n        <Header variant=\"h1\">File upload scenario: In form with mixed validation</Header>\n\n        <Alert statusIconAriaLabel=\"Info\" header=\"Scenario description\">\n          File upload is used in a form as one of two required files. The component supports synchronous client-side\n          validation as per constraints. Additionally, the component imitates server-side validation triggered for image\n          files. The upload and server-side validation is triggered upon form submission.\n        </Alert>\n\n        <PageNotifications status={formState.status} />\n\n        <Checkbox checked={acceptMultiple} onChange={event => setAcceptMultiple(event.detail.checked)}>\n          Accept multiple files\n        </Checkbox>\n\n        <form onSubmit={onSubmit}>\n          <Form\n            actions={\n              <Button variant=\"primary\" formAction=\"submit\" loading={formState.status === 'uploading'}>\n                Upload\n              </Button>\n            }\n          >\n            <SpaceBetween size=\"m\">\n              <FormField\n                label={acceptMultiple ? 'Contracts' : 'Contract'}\n                description={acceptMultiple ? 'Upload your contract with all amendments' : 'Upload your contract'}\n              >\n                <FileUpload\n                  ref={contractsRef}\n                  ariaRequired={true}\n                  multiple={acceptMultiple}\n                  tokenLimit={3}\n                  value={formState.files}\n                  onChange={event => formState.onFilesChange(event.detail.value)}\n                  accept=\"application/pdf, image/png, image/jpeg\"\n                  showFileSize={true}\n                  showFileLastModified={true}\n                  showFileThumbnail={true}\n                  i18nStrings={i18nStrings}\n                  {...contractsErrors}\n                  constraintText=\"File size must not exceed 250 KB. Combined file size must not exceed 750 KB\"\n                />\n              </FormField>\n\n              <FormField label=\"Name\" description=\"Enter your name\" errorText={formState.nameError}>\n                <Input\n                  ariaRequired={true}\n                  value={formState.name}\n                  onChange={e => formState.onNameChange(e.detail.value)}\n                />\n              </FormField>\n            </SpaceBetween>\n          </Form>\n        </form>\n      </SpaceBetween>\n    </Box>\n  );\n}\n",
-   "source": "pages/file-upload/scenario-form-mixed.page.tsx"
-  },
-  {
-   "name": "scenario-standalone",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useRef, useState } from 'react';\n\nimport { Alert, Box, Checkbox, FileUpload, FileUploadProps, FormField, Header } from '~components';\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport SpaceBetween from '~components/space-between';\n\nimport { PageNotifications, useContractFilesForm } from './page-helpers';\nimport { validateContractFiles } from './validations';\n\nexport default function FileUploadScenarioStandalone() {\n  const contractsRef = useRef<FileUploadProps.Ref>(null);\n  const [acceptMultiple, setAcceptMultiple] = useState(true);\n  const [verticalAlignment, setVerticalAlignment] = useState(true);\n  const formState = useContractFilesForm();\n\n  const contractsValidationErrors = validateContractFiles(formState.files);\n  const contractsErrors = contractsValidationErrors ?? formState.fileErrors;\n\n  const hasError = formState.status === 'error';\n  useEffect(() => {\n    if (hasError) {\n      contractsRef.current?.focus();\n    }\n  }, [hasError]);\n\n  return (\n    <I18nProvider messages={[messages]} locale=\"en\">\n      <Box margin=\"xl\">\n        <SpaceBetween size=\"xl\">\n          <Header variant=\"h1\">File upload scenario: Standalone</Header>\n\n          <Alert statusIconAriaLabel=\"Info\" header=\"Scenario description\">\n            File upload is used as a standalone component. It supports synchronous client-side validation as per\n            constraints. Additionally, the component imitates server-side validation triggered for image files.\n          </Alert>\n\n          <PageNotifications status={formState.status} />\n\n          <Checkbox checked={acceptMultiple} onChange={event => setAcceptMultiple(event.detail.checked)}>\n            Accept multiple files\n          </Checkbox>\n\n          <Checkbox checked={verticalAlignment} onChange={event => setVerticalAlignment(event.detail.checked)}>\n            Vertical alignment\n          </Checkbox>\n\n          <FormField\n            label={acceptMultiple ? 'Contracts' : 'Contract'}\n            description={acceptMultiple ? 'Upload your contract with all amendments' : 'Upload your contract'}\n          >\n            <FileUpload\n              fileTokenAlignment={verticalAlignment ? 'vertical' : 'horizontal'}\n              ref={contractsRef}\n              multiple={acceptMultiple}\n              tokenLimit={3}\n              value={formState.files}\n              onChange={event => {\n                formState.onFilesChange(event.detail.value);\n                formState.onUploadFiles(!validateContractFiles(event.detail.value) ? event.detail.value : []);\n              }}\n              accept=\"application/pdf, image/png, image/jpeg\"\n              showFileSize={true}\n              showFileLastModified={true}\n              showFileThumbnail={true}\n              {...contractsErrors}\n              constraintText=\"File size must not exceed 250 KB. Combined file size must not exceed 750 KB\"\n            />\n          </FormField>\n        </SpaceBetween>\n      </Box>\n    </I18nProvider>\n  );\n}\n",
-   "source": "pages/file-upload/scenario-standalone.page.tsx"
-  },
-  {
-   "name": "test",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { FileUpload, Header } from '~components';\nimport SpaceBetween from '~components/space-between';\n\nimport { i18nStrings } from './shared';\n\nexport default function FileUploadTestPage() {\n  const [contractFiles, setContractFiles] = useState([\n    new File([new Blob(['demo content 1'], { type: 'text/plain' })], 'contract-1.pdf'),\n    new File([new Blob(['demo content 2'], { type: 'text/plain' })], 'contract-2.pdf'),\n  ]);\n\n  return (\n    <SpaceBetween size=\"m\">\n      <Header variant=\"h1\">File upload integration test page</Header>\n      <button type=\"button\" id=\"focus-target\">\n        focus target\n      </button>\n      <FileUpload\n        multiple={true}\n        value={contractFiles}\n        onChange={event => setContractFiles(event.detail.value)}\n        accept=\"application/pdf, image/png, image/jpeg\"\n        showFileSize={true}\n        showFileLastModified={true}\n        showFileThumbnail={true}\n        i18nStrings={i18nStrings}\n      />\n    </SpaceBetween>\n  );\n}\n",
-   "source": "pages/file-upload/test.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "FileUploadProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "accept",
-    "string",
-    "아니오",
-    "Specifies the native file input `accept` attribute to describe the allow-list of file types.",
-    "src/file-upload/interfaces.ts:12"
-   ],
-   [
-    "ariaRequired",
-    "boolean",
-    "아니오",
-    "Specifies whether to add aria-required to the file upload control.",
-    "src/file-upload/interfaces.ts:16"
-   ],
-   [
-    "showFileSize",
-    "boolean",
-    "아니오",
-    "Show file size in the token. Use `i18nStrings.formatFileSize` to customize it.",
-    "src/file-upload/interfaces.ts:20"
-   ],
-   [
-    "showFileLastModified",
-    "boolean",
-    "아니오",
-    "Show file last modified timestamp in the token. Use `i18nStrings.formatFileLastModified` to customize it.",
-    "src/file-upload/interfaces.ts:24"
-   ],
-   [
-    "showFileThumbnail",
-    "boolean",
-    "아니오",
-    "Show file thumbnail in the token. Only supported for images.",
-    "src/file-upload/interfaces.ts:28"
-   ],
-   [
-    "multiple",
-    "boolean",
-    "아니오",
-    "Specifies the native file input `multiple` attribute to allow users entering more than one file.",
-    "src/file-upload/interfaces.ts:32"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<FileUploadProps.ChangeDetail>",
-    "아니오",
-    "Called when the user selects new file(s), or removes a file. The event `detail` contains the current value of the component.",
-    "src/file-upload/interfaces.ts:37"
-   ],
-   [
-    "value",
-    "ReadonlyArray<File>",
-    "예",
-    "Specifies the currently selected file(s). If you want to clear the selection, use empty array.",
-    "src/file-upload/interfaces.ts:42"
-   ],
-   [
-    "tokenLimit",
-    "number",
-    "아니오",
-    "Specifies the maximum number of displayed file tokens. If the property isn't set, all of the tokens are displayed.",
-    "src/file-upload/interfaces.ts:46"
-   ],
-   [
-    "constraintText",
-    "React.ReactNode",
-    "아니오",
-    "Constraint text that is displayed below the control. Use this to provide additional information about file size limit, etc.",
-    "src/file-upload/interfaces.ts:50"
-   ],
-   [
-    "errorText",
-    "React.ReactNode",
-    "아니오",
-    "Text that displays as a validation error message.",
-    "src/file-upload/interfaces.ts:54"
-   ],
-   [
-    "warningText",
-    "React.ReactNode",
-    "아니오",
-    "Text that displays as a validation warning message.",
-    "src/file-upload/interfaces.ts:58"
-   ],
-   [
-    "fileErrors",
-    "ReadonlyArray<null | string>",
-    "아니오",
-    "An array of file errors corresponding to the files in the `value`.",
-    "src/file-upload/interfaces.ts:62"
-   ],
-   [
-    "fileWarnings",
-    "ReadonlyArray<null | string>",
-    "아니오",
-    "An array of file warnings corresponding to the files in the `value`.",
-    "src/file-upload/interfaces.ts:66"
-   ],
-   [
-    "fileTokenAlignment",
-    "FileUploadProps.FileTokenAlignment",
-    "아니오",
-    "Alignment of the file tokens. Defaults to \"vertical\".",
-    "src/file-upload/interfaces.ts:70"
-   ],
-   [
-    "i18nStrings",
-    "FileUploadProps.I18nStrings",
-    "아니오",
-    "An object containing all the localized strings required by the component: * `uploadButtonText` (function): A function to render the text of the file upload button. It takes `multiple` attribute to define plurality. * `dropzoneText` (function): A function to render the text shown in the dropzone. It takes `multiple` attribute to define plurality. * `removeFileAriaLabel` (function): A function to render the ARIA label for file token remove button. * `limitShowFewer` (string): The text of the show more tokens button. * `limitShowMore` (string): The text of the show fewer tokens button. * `errorIconAriaLabel` (string): The ARIA label to be shown on the error file icon. * `warningIconAriaLabel` (string): The ARIA label to be shown on the warning file icon. * `formatFileSize` (function): (Optional) A function that takes file size in bytes, and produces a formatted string. * `formatFileLastModified` (function): (Optional) A function that takes the files last modified date, and produces a formatted string.",
-    "src/file-upload/interfaces.ts:83"
-   ]
-  ],
-  "source": "src/file-upload/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "FileUploadProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "accept",
+      "string",
+      "아니오",
+      "Specifies the native file input `accept` attribute to describe the allow-list of file types.",
+      "src/file-upload/interfaces.ts:12"
+     ],
+     [
+      "ariaRequired",
+      "boolean",
+      "아니오",
+      "Specifies whether to add aria-required to the file upload control.",
+      "src/file-upload/interfaces.ts:16"
+     ],
+     [
+      "showFileSize",
+      "boolean",
+      "아니오",
+      "Show file size in the token. Use `i18nStrings.formatFileSize` to customize it.",
+      "src/file-upload/interfaces.ts:20"
+     ],
+     [
+      "showFileLastModified",
+      "boolean",
+      "아니오",
+      "Show file last modified timestamp in the token. Use `i18nStrings.formatFileLastModified` to customize it.",
+      "src/file-upload/interfaces.ts:24"
+     ],
+     [
+      "showFileThumbnail",
+      "boolean",
+      "아니오",
+      "Show file thumbnail in the token. Only supported for images.",
+      "src/file-upload/interfaces.ts:28"
+     ],
+     [
+      "multiple",
+      "boolean",
+      "아니오",
+      "Specifies the native file input `multiple` attribute to allow users entering more than one file.",
+      "src/file-upload/interfaces.ts:32"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<FileUploadProps.ChangeDetail>",
+      "아니오",
+      "Called when the user selects new file(s), or removes a file. The event `detail` contains the current value of the component.",
+      "src/file-upload/interfaces.ts:37"
+     ],
+     [
+      "value",
+      "ReadonlyArray<File>",
+      "예",
+      "Specifies the currently selected file(s). If you want to clear the selection, use empty array.",
+      "src/file-upload/interfaces.ts:42"
+     ],
+     [
+      "tokenLimit",
+      "number",
+      "아니오",
+      "Specifies the maximum number of displayed file tokens. If the property isn't set, all of the tokens are displayed.",
+      "src/file-upload/interfaces.ts:46"
+     ],
+     [
+      "constraintText",
+      "React.ReactNode",
+      "아니오",
+      "Constraint text that is displayed below the control. Use this to provide additional information about file size limit, etc.",
+      "src/file-upload/interfaces.ts:50"
+     ],
+     [
+      "errorText",
+      "React.ReactNode",
+      "아니오",
+      "Text that displays as a validation error message.",
+      "src/file-upload/interfaces.ts:54"
+     ],
+     [
+      "warningText",
+      "React.ReactNode",
+      "아니오",
+      "Text that displays as a validation warning message.",
+      "src/file-upload/interfaces.ts:58"
+     ],
+     [
+      "fileErrors",
+      "ReadonlyArray<null | string>",
+      "아니오",
+      "An array of file errors corresponding to the files in the `value`.",
+      "src/file-upload/interfaces.ts:62"
+     ],
+     [
+      "fileWarnings",
+      "ReadonlyArray<null | string>",
+      "아니오",
+      "An array of file warnings corresponding to the files in the `value`.",
+      "src/file-upload/interfaces.ts:66"
+     ],
+     [
+      "fileTokenAlignment",
+      "FileUploadProps.FileTokenAlignment",
+      "아니오",
+      "Alignment of the file tokens. Defaults to \"vertical\".",
+      "src/file-upload/interfaces.ts:70"
+     ],
+     [
+      "i18nStrings",
+      "FileUploadProps.I18nStrings",
+      "아니오",
+      "An object containing all the localized strings required by the component: * `uploadButtonText` (function): A function to render the text of the file upload button. It takes `multiple` attribute to define plurality. * `dropzoneText` (function): A function to render the text shown in the dropzone. It takes `multiple` attribute to define plurality. * `removeFileAriaLabel` (function): A function to render the ARIA label for file token remove button. * `limitShowFewer` (string): The text of the show more tokens button. * `limitShowMore` (string): The text of the show fewer tokens button. * `errorIconAriaLabel` (string): The ARIA label to be shown on the error file icon. * `warningIconAriaLabel` (string): The ARIA label to be shown on the warning file icon. * `formatFileSize` (function): (Optional) A function that takes file size in bytes, and produces a formatted string. * `formatFileLastModified` (function): (Optional) A function that takes the files last modified date, and produces a formatted string.",
+      "src/file-upload/interfaces.ts:83"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

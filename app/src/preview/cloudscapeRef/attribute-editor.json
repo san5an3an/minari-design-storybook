@@ -1,191 +1,190 @@
 {
  "slug": "attribute-editor",
  "title": "Attribute Editor",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "buttons",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';\n\nimport { Box, ButtonDropdown, ButtonDropdownProps, Input, InputProps, Link } from '~components';\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\n\ninterface Tag {\n  key?: string;\n  value?: string;\n}\n\ninterface ControlProps extends InputProps {\n  index: number;\n  setItems: React.Dispatch<React.SetStateAction<Tag[]>>;\n  prop: keyof Tag;\n}\n\nconst labelProps = {\n  addButtonText: 'Add new item',\n  removeButtonText: 'Remove',\n  empty: 'No tags associated to the resource',\n  i18nStrings: { itemRemovedAriaLive: 'An item was removed.' },\n} as AttributeEditorProps<unknown>;\n\nconst tagLimit = 50;\n\nconst Control = React.memo(\n  React.forwardRef<HTMLInputElement, ControlProps>(({ value, index, setItems, prop }, ref) => {\n    return (\n      <Input\n        ref={ref}\n        value={value}\n        onChange={({ detail }) => {\n          setItems(items => {\n            const updatedItems = [...items];\n            updatedItems[index] = { ...updatedItems[index], [prop]: detail.value };\n            return updatedItems;\n          });\n        }}\n      />\n    );\n  })\n);\n\nexport default function AttributeEditorPage() {\n  const [items, setItems] = useState<Tag[]>([\n    { key: 'bla', value: 'foo' },\n    { key: 'bar', value: 'yam' },\n  ]);\n  const ref = useRef<AttributeEditorProps.Ref>(null);\n\n  const definition: AttributeEditorProps.FieldDefinition<Tag>[] = useMemo(\n    () => [\n      {\n        label: 'Key label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ key = '' }, itemIndex) => (\n          <Control\n            prop=\"key\"\n            value={key}\n            index={itemIndex}\n            setItems={setItems}\n            ref={ref => (keyInputRefs.current[itemIndex] = ref)}\n          />\n        ),\n      },\n      {\n        label: 'Value label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ value = '' }, itemIndex) => (\n          <Control prop=\"value\" value={value} index={itemIndex} setItems={setItems} />\n        ),\n      },\n    ],\n    []\n  );\n\n  const buttonRefs = useRef<Array<ButtonDropdownProps.Ref | null>>([]);\n  const keyInputRefs = useRef<Array<InputProps.Ref | null>>([]);\n  const focusEventRef = useRef<() => void>();\n\n  useLayoutEffect(() => {\n    focusEventRef.current?.apply(undefined);\n    focusEventRef.current = undefined;\n  });\n\n  const onAddButtonClick = useCallback(() => {\n    setItems(items => {\n      const newItems = [...items, {}];\n      focusEventRef.current = () => {\n        keyInputRefs.current[newItems.length - 1]?.focus();\n      };\n      return newItems;\n    });\n  }, []);\n\n  const onRemoveButtonClick = useCallback((itemIndex: number) => {\n    setItems(items => {\n      const newItems = items.slice();\n      newItems.splice(itemIndex, 1);\n\n      if (newItems.length === 0) {\n        ref.current?.focusAddButton();\n      }\n      if (itemIndex === items.length - 1) {\n        buttonRefs.current[items.length - 2]?.focus();\n      }\n\n      return newItems;\n    });\n  }, []);\n  const moveRow = useCallback((itemIndex: number, direction: string) => {\n    const newIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1;\n    setItems(items => {\n      const newItems = items.slice();\n      newItems.splice(newIndex, 0, newItems.splice(itemIndex, 1)[0]);\n      buttonRefs.current[newIndex]?.focusDropdownTrigger();\n      return newItems;\n    });\n  }, []);\n\n  const additionalInfo = useMemo(() => `You can add ${tagLimit - items.length} more tags.`, [items.length]);\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Custom row actions</h1>\n      <AttributeEditor<Tag>\n        ref={ref}\n        {...labelProps}\n        additionalInfo={additionalInfo}\n        items={items}\n        definition={definition}\n        onAddButtonClick={onAddButtonClick}\n        customRowActions={({ itemIndex }) => (\n          <ButtonDropdown\n            ref={ref => {\n              buttonRefs.current[itemIndex] = ref;\n            }}\n            items={[\n              { text: 'Move up', id: 'up', disabled: itemIndex === 0 },\n              { text: 'Move down', id: 'down', disabled: itemIndex === items.length - 1 },\n            ]}\n            ariaLabel={`More actions for row ${itemIndex + 1}`}\n            mainAction={{\n              text: 'Delete row',\n              ariaLabel: `Delete row ${itemIndex + 1}`,\n              onClick: () => onRemoveButtonClick(itemIndex),\n            }}\n            onItemClick={e => moveRow(itemIndex, e.detail.id)}\n          />\n        )}\n      />\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/buttons.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "class-component",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\nimport Box from '~components/box';\nimport Input, { InputProps } from '~components/input';\nimport Link from '~components/link';\nimport { NonCancelableEventHandler } from '~components/types/events';\n\ninterface Item {\n  key?: string;\n  value?: string;\n}\n\ninterface StateProps {\n  items: Item[];\n}\n\ninterface OnRemoveClickEvent {\n  detail: AttributeEditorProps.RemoveButtonClickDetail;\n}\n\nexport default class AttributeEditorPage extends React.Component<any, StateProps> {\n  private definition: AttributeEditorProps<Item>['definition'];\n  private maxItems = 5;\n\n  constructor(props: any) {\n    super(props);\n\n    this.onAddButtonClick = this.onAddButtonClick.bind(this);\n    this.onRemoveButtonClick = this.onRemoveButtonClick.bind(\n      this\n    ) as NonCancelableEventHandler<AttributeEditorProps.RemoveButtonClickDetail>;\n\n    const onFieldChange =\n      (fieldName: string, index: number) =>\n      ({ detail }: { detail: InputProps.ChangeDetail }) => {\n        const updatedItem: Item = {\n          ...this.state.items[index],\n          [fieldName]: detail.value,\n        };\n\n        const items = [...this.state.items.slice(0, index), updatedItem, ...this.state.items.slice(index + 1)];\n        this.setState({ items });\n      };\n\n    this.definition = [\n      {\n        label: 'Key label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: (item: Item, itemIndex: number) => (\n          <Input value={item.key || ''} onChange={onFieldChange('key', itemIndex)} />\n        ),\n        errorText: (item: Item) => (item.key && item.key.match(/^AWS/i) ? 'Key cannot start with \"AWS\"' : null),\n        warningText: (item: Item) => (item.key && item.key.includes(' ') ? 'Key has empty characters' : null),\n      },\n      {\n        label: 'Value label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: (item: Item, itemIndex: number) => (\n          <Input value={item.value || ''} onChange={onFieldChange('value', itemIndex)} />\n        ),\n        errorText: (item: Item) =>\n          item.value && item.value.length > 5 ? (\n            <span>\n              Value {item.value} is longer than 5 characters, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n        warningText: (item: Item) =>\n          item.value && item.value.includes(' ') ? (\n            <span>\n              Value has empty characters, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n      },\n    ];\n\n    this.state = {\n      items: [\n        { key: 'bla', value: 'foo' },\n        { key: 'bar', value: 'yam' },\n      ],\n    };\n  }\n\n  onAddButtonClick() {\n    this.setState({ items: [...this.state.items, {}] });\n  }\n\n  onRemoveButtonClick({ detail }: OnRemoveClickEvent) {\n    const { itemIndex } = detail;\n    const items = [...this.state.items];\n    items.splice(itemIndex, 1);\n    this.setState({ items });\n  }\n\n  limitReached() {\n    return this.state.items.length >= this.maxItems;\n  }\n\n  additionalInfo() {\n    if (this.limitReached()) {\n      return `You have reached the limit of ${this.maxItems} items.`;\n    }\n\n    return `You can add up to ${this.maxItems - this.state.items.length} more items.`;\n  }\n\n  render() {\n    return (\n      <Box margin=\"xl\">\n        <h1>Attribute Editor</h1>\n        <AttributeEditor\n          addButtonText=\"Add new item\"\n          removeButtonText=\"Remove\"\n          empty=\"No items associated with the resource.\"\n          disableAddButton={this.limitReached()}\n          items={this.state.items}\n          additionalInfo={this.additionalInfo()}\n          definition={this.definition}\n          onAddButtonClick={this.onAddButtonClick}\n          onRemoveButtonClick={this.onRemoveButtonClick}\n        />\n      </Box>\n    );\n  }\n}\n",
-   "source": "pages/attribute-editor/class-component.page.tsx"
-  },
-  {
-   "name": "customizable-footer",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Box, Button, Input, SpaceBetween } from '~components';\nimport AttributeEditor from '~components/attribute-editor';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function AttributeEditorPage() {\n  const [items] = useState([\n    { key: 'example', value: 'value' },\n    { key: 'example 2', value: 'value 2' },\n  ]);\n\n  const definition = [\n    {\n      label: 'Key',\n      control: ({ key = '' }) => <Input value={key} readOnly={true} />,\n    },\n    {\n      label: 'Value',\n      control: ({ value = '' }) => <Input value={value} readOnly={true} />,\n    },\n  ];\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Additional Actions</h1>\n      <ScreenshotArea>\n        <SpaceBetween size=\"m\">\n          <AttributeEditor\n            addButtonText={'Add Item'}\n            hideAddButton={false}\n            additionalActions={[\n              <Button key=\"import\" variant=\"normal\">\n                Import\n              </Button>,\n              <Button key=\"export\" variant=\"normal\">\n                Export\n              </Button>,\n              <Button key=\"long-text\" variant=\"normal\">\n                A very long button text to try out wrapping to a second row\n              </Button>,\n            ]}\n            items={items}\n            definition={definition}\n            removeButtonText=\"Remove\"\n            empty=\"No items\"\n          />\n          <AttributeEditor\n            addButtonText={'Add Item'}\n            hideAddButton={true}\n            additionalActions={[\n              <Button key=\"import\" variant=\"primary\">\n                Import\n              </Button>,\n              <Button key=\"export\" variant=\"normal\">\n                Export\n              </Button>,\n              <Button key=\"long-text\" variant=\"normal\">\n                A very long button text to try out wrapping to a second row\n              </Button>,\n            ]}\n            items={items}\n            definition={definition}\n            removeButtonText=\"Remove\"\n            empty=\"No items\"\n          />\n          <AttributeEditor\n            addButtonText={'Add Item'}\n            hideAddButton={true}\n            items={items}\n            definition={definition}\n            removeButtonText=\"Remove\"\n            empty=\"No items\"\n          />\n        </SpaceBetween>\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/customizable-footer.page.tsx"
-  },
-  {
-   "name": "form-field-label",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useMemo, useState } from 'react';\n\nimport { Box, FormField, Input, InputProps, NonCancelableCustomEvent } from '~components';\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\n\ninterface Tag {\n  key?: string;\n  value?: string;\n}\n\ninterface ControlProps extends InputProps {\n  index: number;\n  setItems: React.Dispatch<React.SetStateAction<Tag[]>>;\n  prop: keyof Tag;\n}\n\nconst i18nStrings = {\n  addButtonText: 'Add new user',\n  removeButtonText: 'Remove',\n  empty: 'No secondary owners assigned to this resource.',\n};\n\nconst Control = React.memo(({ value, index, setItems, prop }: ControlProps) => {\n  return (\n    <Input\n      value={value}\n      ariaLabel=\"Secondary owner username\"\n      ariaLabelledby=\"\"\n      onChange={({ detail }) => {\n        setItems(items => {\n          const updatedItems = [...items];\n          updatedItems[index] = { ...updatedItems[index], [prop]: detail.value };\n          return updatedItems;\n        });\n      }}\n    />\n  );\n});\n\nexport default function AttributeEditorPage() {\n  const [items, setItems] = useState<Tag[]>([{ key: '' }]);\n\n  const definition: AttributeEditorProps.FieldDefinition<Tag>[] = useMemo(\n    () => [\n      {\n        control: ({ key = '' }, itemIndex) => <Control prop=\"key\" value={key} index={itemIndex} setItems={setItems} />,\n      },\n    ],\n    []\n  );\n\n  const onAddButtonClick = useCallback(() => {\n    setItems(items => [...items, {}]);\n  }, []);\n\n  const onRemoveButtonClick = useCallback(\n    ({ detail: { itemIndex } }: NonCancelableCustomEvent<AttributeEditorProps.RemoveButtonClickDetail>) => {\n      setItems(items => {\n        const newItems = items.slice();\n        newItems.splice(itemIndex, 1);\n        return newItems;\n      });\n    },\n    []\n  );\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Using a form field label</h1>\n      <FormField label=\"Secondary owners\" description=\"Secondary owners can edit this profile.\">\n        <AttributeEditor\n          {...i18nStrings}\n          items={items}\n          definition={definition}\n          onAddButtonClick={onAddButtonClick}\n          onRemoveButtonClick={onRemoveButtonClick}\n        />\n      </FormField>\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/form-field-label.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\nimport Box from '~components/box';\nimport Input from '~components/input';\nimport StatusIndicator from '~components/status-indicator';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\ninterface Item {\n  key: string;\n  value: string;\n}\n\nconst definition4 = [\n  {\n    label: 'Key label',\n    control: (item: Item) => <Input value={item.key} placeholder=\"Enter key\" onChange={() => {}} />,\n  },\n  {\n    label: 'Value label',\n    control: (item: Item) => <Input value={item.value} placeholder=\"Enter value\" onChange={() => {}} />,\n  },\n  {\n    label: 'Value label 2',\n    control: (item: Item) => <Input value={item.value} placeholder=\"Enter value\" onChange={() => {}} />,\n  },\n  {\n    label: 'Value label 3',\n    control: (item: Item) => <Input value={item.value} placeholder=\"Enter value\" onChange={() => {}} />,\n  },\n];\nconst definition2 = definition4.slice(0, 2);\nconst definition3 = definition4.slice(0, 3);\n\nconst validationDefinitions = [\n  {\n    label: 'Key label',\n    control: (item: Item) => <Input value={item.key} placeholder=\"Enter key\" onChange={() => {}} />,\n    warningText: (item: Item) => (item.key.includes(' ') ? 'Key contains empty characters' : null),\n    errorText: (item: Item) => (item.key.length < 10 ? 'Key should be longer than 10 characters' : null),\n  },\n  {\n    label: 'Value label 4',\n    control: (item: Item) => <Input value={item.value} placeholder=\"Enter value\" onChange={() => {}} />,\n    warningText: (item: Item) => (item.value.includes(' ') ? 'Value contains empty characters' : null),\n    errorText: (item: Item) => (item.value.length < 10 ? 'Value should be longer than 10 characters' : null),\n  },\n];\n\nconst defaultItems: Item[] = [\n  {\n    key: '',\n    value: '',\n  },\n  {\n    key: 'attr1',\n    value: 'The first value',\n  },\n  {\n    key: 'attr2 ',\n    value: 'The second value',\n  },\n  {\n    key: 'Quite a long key name that might be longer than the input',\n    value: 'An even longer attribute value that should overflow text boxes',\n  },\n];\n\nexport const permutations = createPermutations<AttributeEditorProps<Item>>([\n  {\n    definition: [definition2],\n    items: [[]],\n    empty: ['No items'],\n    addButtonText: ['Add item'],\n    removeButtonText: ['Remove item'],\n  },\n  {\n    definition: [definition2],\n    items: [defaultItems],\n    addButtonText: ['Add item'],\n    isItemRemovable: [() => true, item => item.key !== 'attr1'],\n    removeButtonText: ['Remove item'],\n  },\n  {\n    definition: [definition2],\n    items: [defaultItems],\n    addButtonText: ['Longer add item text with more characters than the others so that it might wrap'],\n    removeButtonText: ['Longer delete item text so that it wraps'],\n    isItemRemovable: [() => true, item => item.key !== 'attr1'],\n  },\n  {\n    definition: [definition2],\n    items: [defaultItems],\n    addButtonText: ['Add item'],\n    removeButtonText: ['Remove item'],\n    disableAddButton: [false, true],\n  },\n  {\n    definition: [definition2],\n    items: [defaultItems],\n    addButtonText: ['Add item'],\n    removeButtonText: ['Remove item'],\n    additionalInfo: [\n      'You have reached your maximum',\n      <StatusIndicator key={0} type=\"error\">\n        You have reached your maximum\n      </StatusIndicator>,\n    ],\n  },\n  {\n    definition: [definition3, definition4],\n    items: [defaultItems],\n    addButtonText: ['Add item'],\n    removeButtonText: ['Remove item'],\n  },\n  {\n    definition: [definition4],\n    gridLayout: [\n      [\n        { rows: [[2, 1, 3, 1]], breakpoint: 'l' },\n        {\n          rows: [\n            [2, 1],\n            [3, 1],\n          ],\n        },\n      ],\n      [{ rows: [[2, 1, 3, 1]], removeButton: { width: 'auto' } }],\n      [{ rows: [[2, 1, 3, 1]], removeButton: { ownRow: true } }],\n    ],\n    items: [defaultItems],\n    addButtonText: ['Add item (grid)'],\n    removeButtonText: ['Remove item (grid)'],\n  },\n  {\n    definition: [validationDefinitions],\n    i18nStrings: [{ errorIconAriaLabel: 'Error', warningIconAriaLabel: 'Warning' }],\n    items: [defaultItems],\n    addButtonText: ['Add item'],\n    removeButtonText: ['Remove item'],\n  },\n]);\n\nexport default function AttributeEditorPermutations() {\n  return (\n    <Box padding=\"l\">\n      <h1>Attribute Editor permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView permutations={permutations} render={permutation => <AttributeEditor {...permutation} />} />\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/permutations.page.tsx"
-  },
-  {
-   "name": "select-with-long-value",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, Input, Select } from '~components';\nimport AttributeEditor from '~components/attribute-editor';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst longOptions = [\n  { label: 'Thisisaverylonglonglonglonglonglonglonglonglonglonglonglonglonglabel', value: '0' },\n  {\n    label: 'This is a very longlonglonglong longlonglonglonglong longlonglonglonglabel with spaces',\n    value: '1',\n  },\n];\n\nconst shortOptions = [\n  { label: 'Short', value: '0' },\n  {\n    label: 'Short value 1',\n    value: '1',\n  },\n];\n\nexport default function AttributeEditorSelect() {\n  const [items, setItems] = React.useState([\n    {\n      key: 'some-key-1',\n      value: 'some-value-1',\n      longSelect: longOptions[0],\n      shortSelect: shortOptions[0],\n    },\n    {\n      key: 'some-key-2',\n      value: 'some-value-2',\n      longSelect: longOptions[1],\n      shortSelect: shortOptions[1],\n    },\n  ]);\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Long select</h1>\n      <ScreenshotArea>\n        <AttributeEditor\n          items={items}\n          hideAddButton={true}\n          onRemoveButtonClick={({ detail: { itemIndex } }) => {\n            const tmpItems = [...items];\n            tmpItems.splice(itemIndex, 1);\n            setItems(tmpItems);\n          }}\n          addButtonText=\"Add new item\"\n          removeButtonText=\"Remove\"\n          definition={[\n            {\n              label: 'Key',\n              control: item => <Input value={item.key} placeholder=\"Enter key\" onChange={() => {}} />,\n            },\n            {\n              label: 'Long select',\n              control: item => <Select selectedOption={item.longSelect} options={longOptions} />,\n            },\n            {\n              label: 'Short select',\n              control: item => <Select selectedOption={item.shortSelect} options={shortOptions} />,\n            },\n          ]}\n        />\n      </ScreenshotArea>\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/select-with-long-value.page.tsx"
-  },
-  {
-   "name": "simple-grid",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useMemo, useState } from 'react';\n\nimport { Box, Button, Input, InputProps, Link } from '~components';\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\n\ninterface Tag {\n  key?: string;\n  value?: string;\n}\n\ninterface ControlProps extends InputProps {\n  index: number;\n  setItems: React.Dispatch<React.SetStateAction<Tag[]>>;\n  prop: keyof Tag;\n}\n\nconst labelProps = {\n  addButtonText: 'Add new item',\n  removeButtonText: 'Remove',\n  empty: 'No tags associated to the resource',\n  i18nStrings: { itemRemovedAriaLive: 'An item was removed.' },\n} as AttributeEditorProps<unknown>;\n\nconst tagLimit = 50;\n\nconst Control = React.memo(({ value, index, setItems, prop }: ControlProps) => {\n  return (\n    <Input\n      value={value}\n      onChange={({ detail }) => {\n        setItems((items: Tag[]) => {\n          const updatedItems = [...items];\n          updatedItems[index] = { ...updatedItems[index], [prop]: detail.value };\n          return updatedItems;\n        });\n      }}\n    />\n  );\n});\n\nexport default function AttributeEditorPage() {\n  const [items, setItems] = useState<Tag[]>([\n    { key: 'bla', value: 'foo' },\n    { key: 'bar', value: 'yam' },\n  ]);\n\n  const definition: AttributeEditorProps.FieldDefinition<Tag>[] = useMemo(\n    () => [\n      {\n        label: 'Key label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ key = '' }, itemIndex) => <Control prop=\"key\" value={key} index={itemIndex} setItems={setItems} />,\n        errorText: (item: Tag) => (item.key && item.key.match(/^AWS/i) ? 'Key cannot start with \"AWS\"' : null),\n        warningText: (item: Tag) => (item.key && item.key.includes(' ') ? 'Key has empty character' : null),\n      },\n      {\n        label: 'Value label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ value = '' }, itemIndex) => (\n          <Control prop=\"value\" value={value} index={itemIndex} setItems={setItems} />\n        ),\n        errorText: (item: Tag) =>\n          item.value && item.value.length > 5 ? (\n            <span>\n              Value {item.value} is longer than 5 characters, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n        warningText: (item: Tag) =>\n          item.value && item.value.includes('*') ? (\n            <span>\n              Value {item.value} includes wildcard, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n      },\n    ],\n    []\n  );\n\n  const onAddButtonClick = useCallback(() => {\n    setItems(items => [...items, {}]);\n  }, []);\n\n  const onRemoveButtonClick = useCallback(({ detail: { itemIndex } }: { detail: { itemIndex: number } }) => {\n    setItems(items => {\n      const newItems = items.slice();\n      newItems.splice(itemIndex, 1);\n      return newItems;\n    });\n  }, []);\n\n  const additionalInfo = useMemo(() => `You can add ${tagLimit - items.length} more tags.`, [items.length]);\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Grid</h1>\n      <h2>Non-responsive 2:3:auto layout</h2>\n      <AttributeEditor<Tag>\n        {...labelProps}\n        additionalInfo={additionalInfo}\n        items={items}\n        definition={definition}\n        onAddButtonClick={onAddButtonClick}\n        onRemoveButtonClick={onRemoveButtonClick}\n        gridLayout={[{ rows: [[2, 3]], removeButton: { width: 'auto' } }]}\n      />\n      <h2>Non-responsive 4:1 - 2:2 layout</h2>\n      <AttributeEditor<Tag>\n        {...labelProps}\n        additionalInfo={additionalInfo}\n        items={items}\n        definition={[...definition, ...definition]}\n        onAddButtonClick={onAddButtonClick}\n        onRemoveButtonClick={onRemoveButtonClick}\n        gridLayout={[\n          {\n            rows: [\n              [4, 1],\n              [2, 2],\n            ],\n          },\n        ]}\n      />\n      <h2>Responsive layout</h2>\n      <AttributeEditor<Tag>\n        {...labelProps}\n        additionalInfo={additionalInfo}\n        items={items}\n        definition={[...definition, ...definition]}\n        customRowActions={({ breakpoint, item, itemIndex }) => {\n          const clickHandler = () => {\n            onRemoveButtonClick({ detail: { itemIndex } });\n          };\n          const ariaLabel = `Remove ${item.key}`;\n          if (breakpoint === 'xl') {\n            return <Button iconName=\"remove\" variant=\"icon\" ariaLabel={ariaLabel} onClick={clickHandler} />;\n          }\n          return (\n            <Button ariaLabel={ariaLabel} onClick={clickHandler}>\n              Remove\n            </Button>\n          );\n        }}\n        onAddButtonClick={onAddButtonClick}\n        onRemoveButtonClick={onRemoveButtonClick}\n        gridLayout={[\n          {\n            breakpoint: 'xl',\n            rows: [[4, 1, 2, 2]],\n            removeButton: {\n              width: 'auto',\n            },\n          },\n          {\n            breakpoint: 'l',\n            rows: [[4, 1, 2, 2]],\n            removeButton: {\n              ownRow: true,\n            },\n          },\n          {\n            breakpoint: 's',\n            rows: [\n              [3, 1],\n              [2, 2],\n            ],\n          },\n          {\n            rows: [[1], [1], [1], [1]],\n          },\n        ]}\n      />\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/simple-grid.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useMemo, useState } from 'react';\n\nimport { Box, Input, InputProps, Link, NonCancelableCustomEvent } from '~components';\nimport AttributeEditor, { AttributeEditorProps } from '~components/attribute-editor';\n\ninterface Tag {\n  key?: string;\n  value?: string;\n}\n\ninterface ControlProps extends InputProps {\n  index: number;\n  setItems: React.Dispatch<React.SetStateAction<Tag[]>>;\n  prop: keyof Tag;\n}\n\nconst labelProps = {\n  addButtonText: 'Add new item',\n  removeButtonText: 'Remove',\n  empty: 'No tags associated to the resource',\n  i18nStrings: { itemRemovedAriaLive: 'An item was removed.' },\n} as AttributeEditorProps<unknown>;\n\nconst tagLimit = 50;\n\nconst Control = React.memo(({ value, index, setItems, prop }: ControlProps) => {\n  return (\n    <Input\n      value={value}\n      onChange={({ detail }) => {\n        setItems(items => {\n          const updatedItems = [...items];\n          updatedItems[index] = { ...updatedItems[index], [prop]: detail.value };\n          return updatedItems;\n        });\n      }}\n    />\n  );\n});\n\nexport default function AttributeEditorPage() {\n  const [items, setItems] = useState<Tag[]>([\n    { key: 'bla', value: 'foo' },\n    { key: 'bar', value: 'yam' },\n  ]);\n\n  const definition: AttributeEditorProps.FieldDefinition<Tag>[] = useMemo(\n    () => [\n      {\n        label: 'Key label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ key = '' }, itemIndex) => <Control prop=\"key\" value={key} index={itemIndex} setItems={setItems} />,\n        errorText: (item: Tag) => (item.key && item.key.match(/^AWS/i) ? 'Key cannot start with \"AWS\"' : null),\n        warningText: (item: Tag) => (item.key && item.key.includes(' ') ? 'Key has empty character' : null),\n      },\n      {\n        label: 'Value label',\n        info: <Link variant=\"info\">Info</Link>,\n        control: ({ value = '' }, itemIndex) => (\n          <Control prop=\"value\" value={value} index={itemIndex} setItems={setItems} />\n        ),\n        errorText: (item: Tag) =>\n          item.value && item.value.length > 5 ? (\n            <span>\n              Value {item.value} is longer than 5 characters, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n        warningText: (item: Tag) =>\n          item.value && item.value.includes('*') ? (\n            <span>\n              Value {item.value} includes wildcard, <Link variant=\"info\">Info</Link>\n            </span>\n          ) : null,\n      },\n    ],\n    []\n  );\n\n  const onAddButtonClick = useCallback(() => {\n    setItems(items => [...items, {}]);\n  }, []);\n\n  const onRemoveButtonClick = useCallback(\n    ({ detail: { itemIndex } }: NonCancelableCustomEvent<AttributeEditorProps.RemoveButtonClickDetail>) => {\n      setItems(items => {\n        const newItems = items.slice();\n        newItems.splice(itemIndex, 1);\n        return newItems;\n      });\n    },\n    []\n  );\n\n  const additionalInfo = useMemo(() => `You can add ${tagLimit - items.length} more tags.`, [items.length]);\n\n  return (\n    <Box margin=\"xl\">\n      <h1>Attribute Editor - Functional</h1>\n      <AttributeEditor<Tag>\n        {...labelProps}\n        additionalInfo={additionalInfo}\n        items={items}\n        definition={definition}\n        onAddButtonClick={onAddButtonClick}\n        onRemoveButtonClick={onRemoveButtonClick}\n      />\n    </Box>\n  );\n}\n",
-   "source": "pages/attribute-editor/simple.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "AttributeEditorProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "empty",
-    "React.ReactNode",
-    "아니오",
-    "Displayed when there are no items to display.",
-    "src/attribute-editor/interfaces.ts:104"
-   ],
-   [
-    "additionalInfo",
-    "React.ReactNode",
-    "아니오",
-    "Displayed below the add button. Use it for additional information related to the attribute editor.",
-    "src/attribute-editor/interfaces.ts:109"
-   ],
-   [
-    "addButtonText",
-    "string",
-    "예",
-    "Specifies the text that's displayed in the add button.",
-    "src/attribute-editor/interfaces.ts:114"
-   ],
-   [
-    "removeButtonText",
-    "string",
-    "아니오",
-    "Specifies the text that's displayed in the remove button. @i18n",
-    "src/attribute-editor/interfaces.ts:120"
-   ],
-   [
-    "removeButtonAriaLabel",
-    "(item: T) => string",
-    "아니오",
-    "Adds an `aria-label` to the remove button.",
-    "src/attribute-editor/interfaces.ts:125"
-   ],
-   [
-    "items",
-    "ReadonlyArray<T>",
-    "아니오",
-    "Specifies the items that serve as the data source for all rows. The display of a row is handled by the `definition` property.",
-    "src/attribute-editor/interfaces.ts:131"
-   ],
-   [
-    "isItemRemovable",
-    "AttributeEditorProps.IsItemRemovableFunction<T>",
-    "아니오",
-    "Function that determines whether an item is removable. When this function returns `false`, the remove button is not rendered and the user can't remove the item. By default, all items are removable.",
-    "src/attribute-editor/interfaces.ts:138"
-   ],
-   [
-    "disableAddButton",
-    "boolean",
-    "아니오",
-    "Determines whether the add button is disabled.",
-    "src/attribute-editor/interfaces.ts:143"
-   ],
-   [
-    "hideAddButton",
-    "boolean",
-    "아니오",
-    "Determines whether the add button is hidden",
-    "src/attribute-editor/interfaces.ts:148"
-   ],
-   [
-    "additionalActions",
-    "React.ReactNode",
-    "아니오",
-    "Specifies additional actions displayed next to the add-button (or instead of the add-button if hidden).",
-    "src/attribute-editor/interfaces.ts:153"
-   ],
-   [
-    "addButtonVariant",
-    "AttributeEditorProps.AddButtonVariant",
-    "아니오",
-    "Specifies the variant to use for the add button. By default a normal button is used. Use `inline-link` when using an attribute editor nested inside complex attribute editing with expandable sections.",
-    "src/attribute-editor/interfaces.ts:160"
-   ],
-   [
-    "definition",
-    "ReadonlyArray<AttributeEditorProps.FieldDefinition<T>>",
-    "예",
-    "Defines the editor configuration. Each object in the array represents one form field in the row. If more than 6 attributes are specified, a `gridLayout` must be provided. * `label` (ReactNode) - Text label for the form field. * `description` (ReactNode) - Additional description for the form field. * `info` (ReactNode) - Info link for the form field. * `errorText` ((item, itemIndex) => ReactNode) - Error message text to display as a control validation message. It renders the form field as invalid if the returned value is not `null` or `undefined`. * `warningText` ((item, itemIndex) => ReactNode) - Warning message text to display as a control validation message. It renders the form field in a warning state if the returned value is not `null` or `undefined`. * `constraintText` ((item, itemIndex) => ReactNode) - Text to display as a constraint message below the field. * `control` ((item, itemIndex) => ReactNode) - A control to use as the input for the field.",
-    "src/attribute-editor/interfaces.ts:176"
-   ],
-   [
-    "gridLayout",
-    "ReadonlyArray<AttributeEditorProps.GridLayout>",
-    "아니오",
-    "Optionally specifies the layout of the attributes. By default, all attributes will be equally spaced and wrapped into multiple rows on smaller viewports. A `gridLayout` is an array of breakpoint definitions. Each definition consists of: - `rows` (`number[][]`): the rows in which to display the attributes. Each row consists of a list of numbers indicating the relative width of each attribute. For example, `[[1, 1, 1, 1]]` is a single row of four evenly-spaced attributes, or `[[1, 2], [1, 1, 1]]` splits five attributes onto two rows. - `breakpoint` (`string`): optionally specifies that the given entry should only be used when at least that much width is available. - `removeButton`: optionally configures the remove (or row action) button placement. If this is not provided, the button will be placed at the end of a single row, or below if multiple rows are present. The `removeButton` property supports contains two properties: - `ownRow` (`boolean`): forces the remove button onto its own row. - `width` (`number | 'auto'`): a number indicating the relative width (equivalent to a `rows` entry), or 'auto' to fit to the button width.",
-    "src/attribute-editor/interfaces.ts:192"
-   ],
-   [
-    "customRowActions",
-    "(props: AttributeEditorProps.RowActionsProps<T>) => React.ReactNode",
-    "아니오",
-    "Specifies a custom action trigger for each row, in place of the remove button. Only button and button dropdown components are supported. If you provide this, `removeButtonText`, `removeButtonAriaLabel`, and `onRemoveButtonClick` will be ignored. The trigger must be given the provided `ref` in order for `focusRemoveButton` to work. The function receives the following properties: - `item`: The item being rendered in the current row. - `itemIndex` (`number`): The index of the item. - `ref` (`ReactRef`): A React ref that should be passed to the rendered button. - `breakpoint` (`Breakpoint`): The current breakpoint, for responsive behavior. - `ownRow` (`boolean`): Whether the button is rendered on its own row.",
-    "src/attribute-editor/interfaces.ts:208"
-   ],
-   [
-    "onAddButtonClick",
-    "NonCancelableEventHandler",
-    "아니오",
-    "Called when add button is clicked.",
-    "src/attribute-editor/interfaces.ts:213"
-   ],
-   [
-    "onRemoveButtonClick",
-    "NonCancelableEventHandler<AttributeEditorProps.RemoveButtonClickDetail>",
-    "아니오",
-    "Called when remove button is clicked. The event `detail` contains the index of the corresponding item.",
-    "src/attribute-editor/interfaces.ts:219"
-   ],
-   [
-    "i18nStrings",
-    "AttributeEditorProps.I18nStrings<T>",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/attribute-editor/interfaces.ts:225"
-   ]
-  ],
-  "source": "src/attribute-editor/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "AttributeEditorProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "empty",
+      "React.ReactNode",
+      "아니오",
+      "Displayed when there are no items to display.",
+      "src/attribute-editor/interfaces.ts:104"
+     ],
+     [
+      "additionalInfo",
+      "React.ReactNode",
+      "아니오",
+      "Displayed below the add button. Use it for additional information related to the attribute editor.",
+      "src/attribute-editor/interfaces.ts:109"
+     ],
+     [
+      "addButtonText",
+      "string",
+      "예",
+      "Specifies the text that's displayed in the add button.",
+      "src/attribute-editor/interfaces.ts:114"
+     ],
+     [
+      "removeButtonText",
+      "string",
+      "아니오",
+      "Specifies the text that's displayed in the remove button. @i18n",
+      "src/attribute-editor/interfaces.ts:120"
+     ],
+     [
+      "removeButtonAriaLabel",
+      "(item: T) => string",
+      "아니오",
+      "Adds an `aria-label` to the remove button.",
+      "src/attribute-editor/interfaces.ts:125"
+     ],
+     [
+      "items",
+      "ReadonlyArray<T>",
+      "아니오",
+      "Specifies the items that serve as the data source for all rows. The display of a row is handled by the `definition` property.",
+      "src/attribute-editor/interfaces.ts:131"
+     ],
+     [
+      "isItemRemovable",
+      "AttributeEditorProps.IsItemRemovableFunction<T>",
+      "아니오",
+      "Function that determines whether an item is removable. When this function returns `false`, the remove button is not rendered and the user can't remove the item. By default, all items are removable.",
+      "src/attribute-editor/interfaces.ts:138"
+     ],
+     [
+      "disableAddButton",
+      "boolean",
+      "아니오",
+      "Determines whether the add button is disabled.",
+      "src/attribute-editor/interfaces.ts:143"
+     ],
+     [
+      "hideAddButton",
+      "boolean",
+      "아니오",
+      "Determines whether the add button is hidden",
+      "src/attribute-editor/interfaces.ts:148"
+     ],
+     [
+      "additionalActions",
+      "React.ReactNode",
+      "아니오",
+      "Specifies additional actions displayed next to the add-button (or instead of the add-button if hidden).",
+      "src/attribute-editor/interfaces.ts:153"
+     ],
+     [
+      "addButtonVariant",
+      "AttributeEditorProps.AddButtonVariant",
+      "아니오",
+      "Specifies the variant to use for the add button. By default a normal button is used. Use `inline-link` when using an attribute editor nested inside complex attribute editing with expandable sections.",
+      "src/attribute-editor/interfaces.ts:160"
+     ],
+     [
+      "definition",
+      "ReadonlyArray<AttributeEditorProps.FieldDefinition<T>>",
+      "예",
+      "Defines the editor configuration. Each object in the array represents one form field in the row. If more than 6 attributes are specified, a `gridLayout` must be provided. * `label` (ReactNode) - Text label for the form field. * `description` (ReactNode) - Additional description for the form field. * `info` (ReactNode) - Info link for the form field. * `errorText` ((item, itemIndex) => ReactNode) - Error message text to display as a control validation message. It renders the form field as invalid if the returned value is not `null` or `undefined`. * `warningText` ((item, itemIndex) => ReactNode) - Warning message text to display as a control validation message. It renders the form field in a warning state if the returned value is not `null` or `undefined`. * `constraintText` ((item, itemIndex) => ReactNode) - Text to display as a constraint message below the field. * `control` ((item, itemIndex) => ReactNode) - A control to use as the input for the field.",
+      "src/attribute-editor/interfaces.ts:176"
+     ],
+     [
+      "gridLayout",
+      "ReadonlyArray<AttributeEditorProps.GridLayout>",
+      "아니오",
+      "Optionally specifies the layout of the attributes. By default, all attributes will be equally spaced and wrapped into multiple rows on smaller viewports. A `gridLayout` is an array of breakpoint definitions. Each definition consists of: - `rows` (`number[][]`): the rows in which to display the attributes. Each row consists of a list of numbers indicating the relative width of each attribute. For example, `[[1, 1, 1, 1]]` is a single row of four evenly-spaced attributes, or `[[1, 2], [1, 1, 1]]` splits five attributes onto two rows. - `breakpoint` (`string`): optionally specifies that the given entry should only be used when at least that much width is available. - `removeButton`: optionally configures the remove (or row action) button placement. If this is not provided, the button will be placed at the end of a single row, or below if multiple rows are present. The `removeButton` property supports contains two properties: - `ownRow` (`boolean`): forces the remove button onto its own row. - `width` (`number | 'auto'`): a number indicating the relative width (equivalent to a `rows` entry), or 'auto' to fit to the button width.",
+      "src/attribute-editor/interfaces.ts:192"
+     ],
+     [
+      "customRowActions",
+      "(props: AttributeEditorProps.RowActionsProps<T>) => React.ReactNode",
+      "아니오",
+      "Specifies a custom action trigger for each row, in place of the remove button. Only button and button dropdown components are supported. If you provide this, `removeButtonText`, `removeButtonAriaLabel`, and `onRemoveButtonClick` will be ignored. The trigger must be given the provided `ref` in order for `focusRemoveButton` to work. The function receives the following properties: - `item`: The item being rendered in the current row. - `itemIndex` (`number`): The index of the item. - `ref` (`ReactRef`): A React ref that should be passed to the rendered button. - `breakpoint` (`Breakpoint`): The current breakpoint, for responsive behavior. - `ownRow` (`boolean`): Whether the button is rendered on its own row.",
+      "src/attribute-editor/interfaces.ts:208"
+     ],
+     [
+      "onAddButtonClick",
+      "NonCancelableEventHandler",
+      "아니오",
+      "Called when add button is clicked.",
+      "src/attribute-editor/interfaces.ts:213"
+     ],
+     [
+      "onRemoveButtonClick",
+      "NonCancelableEventHandler<AttributeEditorProps.RemoveButtonClickDetail>",
+      "아니오",
+      "Called when remove button is clicked. The event `detail` contains the index of the corresponding item.",
+      "src/attribute-editor/interfaces.ts:219"
+     ],
+     [
+      "i18nStrings",
+      "AttributeEditorProps.I18nStrings<T>",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/attribute-editor/interfaces.ts:225"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

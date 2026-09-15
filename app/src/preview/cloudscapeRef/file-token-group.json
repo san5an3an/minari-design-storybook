@@ -1,107 +1,137 @@
 {
  "slug": "file-token-group",
  "title": "File Token Group",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "permutations",
+   "key": "chat",
+   "name": "Chat",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport FileTokenGroup, { FileTokenGroupProps } from '~components/file-token-group';\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst file1 = new File([new Blob(['demo content 1'])], 'demo file 1', { type: 'image/*' });\nconst file2 = new File([new Blob(['demo content 2'])], 'demo file 2 long name here test', { type: 'image/*' });\n\nconst permutations = createPermutations<Omit<FileTokenGroupProps, 'onDismiss'>>([\n  {\n    items: [[{ file: file1 }]],\n    showFileLastModified: [true, false],\n    showFileSize: [true, false],\n    alignment: ['horizontal', 'vertical'],\n  },\n  {\n    items: [[{ file: file1 }, { file: file2, loading: true }]],\n    showFileLastModified: [true, false],\n    showFileSize: [true, false],\n    alignment: ['horizontal', 'vertical'],\n  },\n  {\n    items: [\n      [\n        { file: file1, errorText: 'Error' },\n        { file: file2, warningText: 'Warning' },\n      ],\n    ],\n    showFileLastModified: [true, false],\n    showFileSize: [true, false],\n    alignment: ['horizontal', 'vertical'],\n    limit: [undefined, 0],\n  },\n  {\n    items: [[{ file: file1 }, { file: file2 }]],\n    readOnly: [true],\n    alignment: ['horizontal', 'vertical'],\n  },\n]);\n\nexport default function FileTokenGroupPermutations() {\n  return (\n    <I18nProvider messages={[messages]} locale=\"en\">\n      <h1>FileTokenGroup permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <FileTokenGroup\n              onDismiss={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              i18nStrings={{\n                formatFileLastModified: () => '2020-01-01T00:00:00',\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </I18nProvider>\n  );\n}\n",
-   "source": "pages/file-token-group/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/chat/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chat-components · @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   }
  ],
- "props": {
-  "name": "FileTokenGroupProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "showFileSize",
-    "boolean",
-    "아니오",
-    "Show file size in the token. Use `i18nStrings.formatFileSize` to customize it.",
-    "src/file-token-group/interfaces.ts:10"
-   ],
-   [
-    "showFileLastModified",
-    "boolean",
-    "아니오",
-    "Show file last modified timestamp in the token. Use `i18nStrings.formatFileLastModified` to customize it.",
-    "src/file-token-group/interfaces.ts:15"
-   ],
-   [
-    "showFileThumbnail",
-    "boolean",
-    "아니오",
-    "Show file thumbnail in the token. Only supported for images.",
-    "src/file-token-group/interfaces.ts:20"
-   ],
-   [
-    "onDismiss",
-    "NonCancelableEventHandler<FileTokenGroupProps.DismissDetail>",
-    "예",
-    "Called when the user clicks on the dismiss button. The token won't be automatically removed. Make sure that you add a listener to this event to update your application state.",
-    "src/file-token-group/interfaces.ts:25"
-   ],
-   [
-    "limit",
-    "number",
-    "아니오",
-    "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
-    "src/file-token-group/interfaces.ts:30"
-   ],
-   [
-    "alignment",
-    "FileTokenGroupProps.Alignment",
-    "아니오",
-    "Specifies the direction in which tokens are aligned (`horizontal | vertical`).",
-    "src/file-token-group/interfaces.ts:34"
-   ],
-   [
-    "items",
-    "ReadonlyArray<FileTokenGroupProps.Item>",
-    "예",
-    "An array of objects representing token items. Each token has the following properties: - `file` (string) - File value. - `loading` (boolean) - (Optional) Determine whether the token is loading. - `errorText` (string) - (Optional) Text that displays as a validation error message. - `warningText` (string) - (Optional) - Text that displays as a validation warning message.",
-    "src/file-token-group/interfaces.ts:45"
-   ],
-   [
-    "limitShowFewerAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the \"Show fewer\" button. Use to assign unique labels when there are multiple file token groups with the same `limitShowFewer` label on one page.",
-    "src/file-token-group/interfaces.ts:50"
-   ],
-   [
-    "limitShowMoreAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` to the \"Show more\" button. Use to assign unique labels when there are multiple file token groups with the same `limitShowMore` label on one page.",
-    "src/file-token-group/interfaces.ts:55"
-   ],
-   [
-    "readOnly",
-    "boolean",
-    "아니오",
-    "Specifies if the control is read-only, which prevents the user from modifying the value. A read-only control is still focusable.",
-    "src/file-token-group/interfaces.ts:60"
-   ],
-   [
-    "i18nStrings",
-    "FileTokenGroupProps.I18nStrings",
-    "아니오",
-    "An object containing all the localized strings required by the component: * `removeFileAriaLabel` (function): A function to render the ARIA label for file token remove button. Receives file index and file name. * `errorIconAriaLabel` (string): The ARIA label to be shown on the error file icon. * `warningIconAriaLabel` (string): The ARIA label to be shown on the warning file icon. * `formatFileSize` (function): (Optional) A function that takes file size in bytes, and produces a formatted string. * `formatFileLastModified` (function): (Optional) A function that takes the files last modified date, and produces a formatted string.",
-    "src/file-token-group/interfaces.ts:69"
-   ]
-  ],
-  "source": "src/file-token-group/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "chat",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "FileTokenGroupProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "showFileSize",
+      "boolean",
+      "아니오",
+      "Show file size in the token. Use `i18nStrings.formatFileSize` to customize it.",
+      "src/file-token-group/interfaces.ts:10"
+     ],
+     [
+      "showFileLastModified",
+      "boolean",
+      "아니오",
+      "Show file last modified timestamp in the token. Use `i18nStrings.formatFileLastModified` to customize it.",
+      "src/file-token-group/interfaces.ts:15"
+     ],
+     [
+      "showFileThumbnail",
+      "boolean",
+      "아니오",
+      "Show file thumbnail in the token. Only supported for images.",
+      "src/file-token-group/interfaces.ts:20"
+     ],
+     [
+      "onDismiss",
+      "NonCancelableEventHandler<FileTokenGroupProps.DismissDetail>",
+      "예",
+      "Called when the user clicks on the dismiss button. The token won't be automatically removed. Make sure that you add a listener to this event to update your application state.",
+      "src/file-token-group/interfaces.ts:25"
+     ],
+     [
+      "limit",
+      "number",
+      "아니오",
+      "Specifies the maximum number of displayed tokens. If the property isn't set, all of the tokens are displayed.",
+      "src/file-token-group/interfaces.ts:30"
+     ],
+     [
+      "alignment",
+      "FileTokenGroupProps.Alignment",
+      "아니오",
+      "Specifies the direction in which tokens are aligned (`horizontal | vertical`).",
+      "src/file-token-group/interfaces.ts:34"
+     ],
+     [
+      "items",
+      "ReadonlyArray<FileTokenGroupProps.Item>",
+      "예",
+      "An array of objects representing token items. Each token has the following properties: - `file` (string) - File value. - `loading` (boolean) - (Optional) Determine whether the token is loading. - `errorText` (string) - (Optional) Text that displays as a validation error message. - `warningText` (string) - (Optional) - Text that displays as a validation warning message.",
+      "src/file-token-group/interfaces.ts:45"
+     ],
+     [
+      "limitShowFewerAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the \"Show fewer\" button. Use to assign unique labels when there are multiple file token groups with the same `limitShowFewer` label on one page.",
+      "src/file-token-group/interfaces.ts:50"
+     ],
+     [
+      "limitShowMoreAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` to the \"Show more\" button. Use to assign unique labels when there are multiple file token groups with the same `limitShowMore` label on one page.",
+      "src/file-token-group/interfaces.ts:55"
+     ],
+     [
+      "readOnly",
+      "boolean",
+      "아니오",
+      "Specifies if the control is read-only, which prevents the user from modifying the value. A read-only control is still focusable.",
+      "src/file-token-group/interfaces.ts:60"
+     ],
+     [
+      "i18nStrings",
+      "FileTokenGroupProps.I18nStrings",
+      "아니오",
+      "An object containing all the localized strings required by the component: * `removeFileAriaLabel` (function): A function to render the ARIA label for file token remove button. Receives file index and file name. * `errorIconAriaLabel` (string): The ARIA label to be shown on the error file icon. * `warningIconAriaLabel` (string): The ARIA label to be shown on the warning file icon. * `formatFileSize` (function): (Optional) A function that takes file size in bytes, and produces a formatted string. * `formatFileLastModified` (function): (Optional) A function that takes the files last modified date, and produces a formatted string.",
+      "src/file-token-group/interfaces.ts:69"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

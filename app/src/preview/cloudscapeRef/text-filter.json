@@ -1,112 +1,273 @@
 {
  "slug": "text-filter",
  "title": "Text Filter",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "count-text",
+   "key": "cards",
+   "name": "Card view",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { I18nProvider } from '~components/i18n';\nimport messages from '~components/i18n/messages/all.en';\nimport SpaceBetween from '~components/space-between';\nimport TextFilter, { TextFilterProps } from '~components/text-filter';\n\nexport default function () {\n  const [filteringText, setFilteringText] = React.useState('Hello World');\n  const [countText, setCountText] = React.useState('');\n  const [loading, setLoading] = React.useState(false);\n  const textFilterRef = React.useRef<TextFilterProps.Ref>(null);\n\n  return (\n    <I18nProvider messages={[messages]} locale=\"en\">\n      <h1>Demo page for countText live announcement testing</h1>\n      <SpaceBetween size=\"l\">\n        <SpaceBetween direction=\"horizontal\" size=\"s\" key=\"settings\">\n          <span>Count Text:</span>\n          {['18 matches', '36 matches', ''].map((countText, index) => (\n            <label key={index}>\n              <input type=\"radio\" name=\"count-text\" value={countText} onChange={() => setCountText(countText)} />{' '}\n              {countText !== '' ? countText : '[Empty]'}\n            </label>\n          ))}\n        </SpaceBetween>\n        <label htmlFor=\"loading-state-toggle\" key=\"loadingStateToggle\">\n          <input id=\"loading-state-toggle\" type=\"checkbox\" onChange={event => setLoading(event.target.checked)} />{' '}\n          Loading\n        </label>\n        <TextFilter\n          filteringText={filteringText}\n          filteringPlaceholder=\"Find instances\"\n          filteringAriaLabel=\"Filter instances\"\n          loading={loading}\n          countText={countText}\n          onChange={({ detail }) => setFilteringText(detail.filteringText)}\n          ref={textFilterRef}\n        />\n      </SpaceBetween>\n    </I18nProvider>\n  );\n}\n",
-   "source": "pages/text-filter/count-text.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/cards/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "delete-with-simple-confirmation",
+   "name": "Delete with simple confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport TextFilter, { TextFilterProps } from '~components/text-filter';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TextFilterProps>([\n  {\n    disabled: [true, false],\n    countText: [undefined, 'N matches'],\n    filteringText: ['', 'query'],\n    filteringPlaceholder: [undefined, 'Filter instances...'],\n  },\n]);\n\nexport default function () {\n  return (\n    <>\n      <h1>Text filter permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <TextFilter {...permutation} filteringClearAriaLabel=\"Clear\" filteringAriaLabel=\"filtering example\" />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/text-filter/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-simple-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "style-permutations",
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport TextFilter, { TextFilterProps } from '~components/text-filter';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst style1 = {\n  root: {\n    borderColor: {\n      default: '#f59e0b',\n      hover: '#b45309',\n      focus: '#d97706',\n      disabled: '#fcd34d',\n      readonly: '#fcd34d',\n    },\n    borderWidth: '2px',\n    borderRadius: '16px',\n    backgroundColor: {\n      default: '#fde68a',\n      hover: '#fcd34d',\n      focus: '#fcd34d',\n      disabled: '#fcd34d',\n      readonly: '#fef3c7',\n    },\n    boxShadow: {\n      default: '0 2px 8px rgba(245, 158, 11, 0.15)',\n      hover: '0 6px 16px rgba(245, 158, 11, 0.25)',\n      focus: '0 0 0 4px rgba(245, 158, 11, 0.25), 0 6px 16px rgba(245, 158, 11, 0.3)',\n      disabled: 'none',\n      readonly: '0 2px 8px rgba(245, 158, 11, 0.15)',\n    },\n    color: {\n      default: '#78350f',\n      hover: '#78350f',\n      focus: '#78350f',\n      disabled: '#78350f',\n      readonly: '#92400e',\n    },\n  },\n};\n\nconst permutations = createPermutations<TextFilterProps>([\n  {\n    disabled: [true, false],\n    countText: [undefined, 'N matches'],\n    filteringText: ['', 'query'],\n    filteringPlaceholder: [undefined, 'Filter instances...'],\n    style: [style1],\n  },\n]);\n\nexport default function TextFilterStylePermutations() {\n  return (\n    <>\n      <h1>TextFilter Style permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <TextFilter filteringClearAriaLabel=\"Clear\" filteringAriaLabel=\"Filter field\" {...permutation} />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/text-filter/style-permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "details",
+   "name": "Details page",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "details-tabs",
+   "name": "Details page with tabs",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-tabs/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "server-side-table",
+   "name": "Table view (server-side)",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table",
+   "name": "Table view",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "split-panel-multiple",
+   "name": "Split view",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/split-panel-multiple/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "split-panel-comparison",
+   "name": "Split view with details comparison",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/split-panel-comparison/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "TextFilterProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "filteringText",
-    "string",
-    "예",
-    "The current value of the filtering input.",
-    "src/text-filter/interfaces.ts:12"
-   ],
-   [
-    "filteringPlaceholder",
-    "string",
-    "아니오",
-    "Placeholder for the filtering input.",
-    "src/text-filter/interfaces.ts:17"
-   ],
-   [
-    "filteringClearAriaLabel",
-    "string",
-    "아니오",
-    "Label for the filtering input clear button.",
-    "src/text-filter/interfaces.ts:22"
-   ],
-   [
-    "countText",
-    "string",
-    "아니오",
-    "Accepts a human-readable, localized string that indicates the number of results. For example, \"1 match\" or \"165 matches.\" If the total number of results is unknown, also include an indication that there may be more results than the number listed. For example, \"25+ matches.\" The count text is only displayed when `filteringText` isn't empty. When the `countText` or `filteringText` changes, it will be announced to assistive technologies.",
-    "src/text-filter/interfaces.ts:32"
-   ],
-   [
-    "loading",
-    "boolean",
-    "아니오",
-    "Set to `true` while the related collection is loading (e.g. during an async filtering action). If set to `true`, the live announcement of countText by assistive technologies will be paused until it changes back to `false`.",
-    "src/text-filter/interfaces.ts:38"
-   ],
-   [
-    "disabled",
-    "boolean",
-    "아니오",
-    "Specifies if the filtering input is disabled. For example, you can use it if you are fetching new items upon filtering change in order to prevent the user from changing the filtering text.",
-    "src/text-filter/interfaces.ts:45"
-   ],
-   [
-    "filteringAriaLabel",
-    "string",
-    "아니오",
-    "Adds an `aria-label` on the filtering input.",
-    "src/text-filter/interfaces.ts:50"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<TextFilterProps.ChangeDetail>",
-    "아니오",
-    "Called when a change in filtering is caused by a user interaction. The event `detail` contains the current `filteringText`.",
-    "src/text-filter/interfaces.ts:55"
-   ],
-   [
-    "onDelayedChange",
-    "NonCancelableEventHandler<TextFilterProps.ChangeDetail>",
-    "아니오",
-    "Called after the user changes the value of the filtering input field and stops typing for a certain period of time. If you want a delayed handler to invoke a filtering API call, you can use this event in addition to `onChange`.",
-    "src/text-filter/interfaces.ts:61"
-   ],
-   [
-    "style",
-    "TextFilterProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the text filter's visual appearance. Refer to the [style](/components/text-filter/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/text-filter/interfaces.ts:68"
-   ]
-  ],
-  "source": "src/text-filter/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "cards",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "TextFilterProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "filteringText",
+      "string",
+      "예",
+      "The current value of the filtering input.",
+      "src/text-filter/interfaces.ts:12"
+     ],
+     [
+      "filteringPlaceholder",
+      "string",
+      "아니오",
+      "Placeholder for the filtering input.",
+      "src/text-filter/interfaces.ts:17"
+     ],
+     [
+      "filteringClearAriaLabel",
+      "string",
+      "아니오",
+      "Label for the filtering input clear button.",
+      "src/text-filter/interfaces.ts:22"
+     ],
+     [
+      "countText",
+      "string",
+      "아니오",
+      "Accepts a human-readable, localized string that indicates the number of results. For example, \"1 match\" or \"165 matches.\" If the total number of results is unknown, also include an indication that there may be more results than the number listed. For example, \"25+ matches.\" The count text is only displayed when `filteringText` isn't empty. When the `countText` or `filteringText` changes, it will be announced to assistive technologies.",
+      "src/text-filter/interfaces.ts:32"
+     ],
+     [
+      "loading",
+      "boolean",
+      "아니오",
+      "Set to `true` while the related collection is loading (e.g. during an async filtering action). If set to `true`, the live announcement of countText by assistive technologies will be paused until it changes back to `false`.",
+      "src/text-filter/interfaces.ts:38"
+     ],
+     [
+      "disabled",
+      "boolean",
+      "아니오",
+      "Specifies if the filtering input is disabled. For example, you can use it if you are fetching new items upon filtering change in order to prevent the user from changing the filtering text.",
+      "src/text-filter/interfaces.ts:45"
+     ],
+     [
+      "filteringAriaLabel",
+      "string",
+      "아니오",
+      "Adds an `aria-label` on the filtering input.",
+      "src/text-filter/interfaces.ts:50"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<TextFilterProps.ChangeDetail>",
+      "아니오",
+      "Called when a change in filtering is caused by a user interaction. The event `detail` contains the current `filteringText`.",
+      "src/text-filter/interfaces.ts:55"
+     ],
+     [
+      "onDelayedChange",
+      "NonCancelableEventHandler<TextFilterProps.ChangeDetail>",
+      "아니오",
+      "Called after the user changes the value of the filtering input field and stops typing for a certain period of time. If you want a delayed handler to invoke a filtering API call, you can use this event in addition to `onChange`.",
+      "src/text-filter/interfaces.ts:61"
+     ],
+     [
+      "style",
+      "TextFilterProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the text filter's visual appearance. Refer to the [style](/components/text-filter/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/text-filter/interfaces.ts:68"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

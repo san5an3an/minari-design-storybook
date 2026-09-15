@@ -1,90 +1,175 @@
 {
  "slug": "column-layout",
  "title": "Column Layout",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "alignment",
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ColumnLayout from '~components/column-layout';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function ColumnLayoutPage() {\n  return (\n    <>\n      <h1>Border alignment test</h1>\n      <p>\n        The vertical border line drawn between items should be in the center of the component, i.e. it must line up with\n        where the two coloured bars meet below.\n      </p>\n      <ScreenshotArea>\n        <ColumnLayout variant=\"text-grid\" columns={2} minColumnWidth={150}>\n          <div>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\n            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex\n            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat\n            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit\n            anim id est laborum.\n          </div>\n          <div>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\n            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex\n            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat\n            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit\n            anim id est laborum.\n          </div>\n        </ColumnLayout>\n\n        <div style={{ display: 'flex', marginTop: 10 }}>\n          <div style={{ width: '50%', background: 'blue', height: '10px' }}></div>\n          <div style={{ width: '50%', background: 'orange', height: '10px' }}></div>\n        </div>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/column-layout/alignment.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "min-width.permutations",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\nimport range from 'lodash/range';\n\nimport ColumnLayout, { ColumnLayoutProps } from '~components/column-layout';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ColumnLayoutProps>([\n  {\n    variant: ['default'],\n    disableGutters: [false, true],\n    columns: [1, 2, 3, 4],\n    minColumnWidth: [150],\n  },\n  {\n    variant: ['text-grid'],\n    columns: [1, 2, 3, 4],\n    minColumnWidth: [200],\n  },\n  {\n    variant: ['default', 'text-grid'],\n    columns: [5, 6, 7, 8],\n    minColumnWidth: [undefined, 100, 200],\n  },\n]);\n\nexport default function ColumnLayoutPermutationsPage() {\n  return (\n    <>\n      <h1>Column layout (minColumnWidth) permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div>\n              {range(0, (permutation.columns ?? 0) * 2).map(j => (\n                <div key={j} style={{ margin: '1rem', border: '1px solid #000000' }}>\n                  <ColumnLayout {...permutation}>\n                    {range(0, j + 2).map(k => (\n                      <span key={k}>\n                        {permutation.columns}-col {permutation.variant}, col #{k + 1}.\n                      </span>\n                    ))}\n                  </ColumnLayout>\n                </div>\n              ))}\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/column-layout/min-width.permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ColumnLayout, { ColumnLayoutProps } from '~components/column-layout';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nfunction range(start: number, end: number) {\n  const array = [];\n  for (let i = start; i < end; i++) {\n    array.push(i);\n  }\n  return array;\n}\n\nconst permutations = createPermutations<ColumnLayoutProps>([\n  {\n    variant: ['default'],\n    borders: ['horizontal', 'vertical', 'all'],\n    columns: [1, 2, 3, 4],\n  },\n  {\n    variant: ['text-grid'],\n    columns: [1, 2, 3, 4],\n  },\n]);\n\nexport default function ColumnLayoutPermutationsPage() {\n  return (\n    <>\n      <h1>Column layout permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div>\n              {range(0, (permutation.columns ?? 0) * 2).map(j => (\n                <div key={j} style={{ margin: '1rem', border: '1px solid #000000' }}>\n                  <ColumnLayout {...permutation}>\n                    {range(0, j + 1).map(k => (\n                      <span key={k}>\n                        {permutation.columns}-col {permutation.variant}, col #{k + 1}.\n                      </span>\n                    ))}\n                  </ColumnLayout>\n                </div>\n              ))}\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/column-layout/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "simple",
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ColumnLayout from '~components/column-layout';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function ColumnLayoutPage() {\n  return (\n    <>\n      <h1>Column layout demo</h1>\n      <ScreenshotArea\n        style={{\n          // text-grid variant has -2rem outer margins that we need to accommodate\n          padding: '2rem',\n        }}\n      >\n        <h2>With borders</h2>\n        {[1, 2].map(i => (\n          <ColumnLayout key={i} columns={4} borders=\"all\">\n            <div>One</div>\n            <div>Two</div>\n            <div>Three</div>\n            <div>Four</div>\n            <div>Five</div>\n            <div>Six</div>\n            <div>Seven</div>\n            <div>Eight</div>\n          </ColumnLayout>\n        ))}\n\n        <h2>With gutters disabled</h2>\n        {[1, 2].map(i => (\n          <ColumnLayout key={i} columns={4} borders=\"all\" disableGutters={true}>\n            <div>One</div>\n            <div>Two</div>\n            <div>Three</div>\n            <div>Four</div>\n            <div>Five</div>\n            <div>Six</div>\n            <div>Seven</div>\n            <div>Eight</div>\n          </ColumnLayout>\n        ))}\n\n        <h2>text-grid variant</h2>\n\n        <ColumnLayout variant=\"text-grid\" borders=\"none\" columns={3}>\n          <div>a</div>\n          <div>b</div>\n          <div>c</div>\n          <div>a</div>\n          <div>b</div>\n          <div>c</div>\n        </ColumnLayout>\n\n        <h2>Nested with borders</h2>\n\n        <ColumnLayout columns={3} borders=\"vertical\">\n          <div>a</div>\n          <ColumnLayout columns={2}>\n            <div>b</div>\n            <div>b</div>\n          </ColumnLayout>\n          <div>a</div>\n        </ColumnLayout>\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/column-layout/simple.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "dashboard",
+   "name": "Service dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
   }
  ],
- "props": {
-  "name": "ColumnLayoutProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "columns",
-    "number",
-    "아니오",
-    "Specifies the number of columns in each grid row. When `minColumnWidth` is not set, only up to 4 columns are supported.",
-    "src/column-layout/interfaces.ts:12"
-   ],
-   [
-    "variant",
-    "ColumnLayoutProps.Variant",
-    "아니오",
-    "Specifies the content type. This determines the spacing of the grid.",
-    "src/column-layout/interfaces.ts:17"
-   ],
-   [
-    "borders",
-    "ColumnLayoutProps.Borders",
-    "아니오",
-    "Controls whether dividers are placed between rows and columns. Note: This is not supported when used with `minColumnWidth`.",
-    "src/column-layout/interfaces.ts:24"
-   ],
-   [
-    "disableGutters",
-    "boolean",
-    "아니오",
-    "Determines whether the default gutters between columns are removed.",
-    "src/column-layout/interfaces.ts:29"
-   ],
-   [
-    "minColumnWidth",
-    "number",
-    "아니오",
-    "Use together with `columns` to specify the desired minimum width for each column in pixels. The number of columns is determined by the value of this property, the available space, and the maximum number of columns as defined by the `columns` property.",
-    "src/column-layout/interfaces.ts:37"
-   ],
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "The columns to render.",
-    "src/column-layout/interfaces.ts:42"
-   ]
-  ],
-  "source": "src/column-layout/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "delete-with-additional-confirmation",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "ColumnLayoutProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "columns",
+      "number",
+      "아니오",
+      "Specifies the number of columns in each grid row. When `minColumnWidth` is not set, only up to 4 columns are supported.",
+      "src/column-layout/interfaces.ts:12"
+     ],
+     [
+      "variant",
+      "ColumnLayoutProps.Variant",
+      "아니오",
+      "Specifies the content type. This determines the spacing of the grid.",
+      "src/column-layout/interfaces.ts:17"
+     ],
+     [
+      "borders",
+      "ColumnLayoutProps.Borders",
+      "아니오",
+      "Controls whether dividers are placed between rows and columns. Note: This is not supported when used with `minColumnWidth`.",
+      "src/column-layout/interfaces.ts:24"
+     ],
+     [
+      "disableGutters",
+      "boolean",
+      "아니오",
+      "Determines whether the default gutters between columns are removed.",
+      "src/column-layout/interfaces.ts:29"
+     ],
+     [
+      "minColumnWidth",
+      "number",
+      "아니오",
+      "Use together with `columns` to specify the desired minimum width for each column in pixels. The number of columns is determined by the value of this property, the available space, and the maximum number of columns as defined by the `columns` property.",
+      "src/column-layout/interfaces.ts:37"
+     ],
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "The columns to render.",
+      "src/column-layout/interfaces.ts:42"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

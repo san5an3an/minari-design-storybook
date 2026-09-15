@@ -1,30 +1,86 @@
 {
  "slug": "tag-editor",
  "title": "Tag Editor",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "integ",
+   "key": "delete-one-click",
+   "name": "One-click delete",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useRef, useState } from 'react';\n\nimport { NonCancelableCustomEvent } from '~components';\nimport TagEditor, { TagEditorProps } from '~components/tag-editor';\n\nimport { I18N_STRINGS } from './shared';\n\ninterface PendingRequest {\n  resolve: (data: ReadonlyArray<string>) => void;\n  reject: () => void;\n  data: Record<string, string>;\n}\n\ninterface LocaleChangeEvent extends CustomEvent {\n  detail: {\n    value: 'en' | 'de';\n  };\n}\n\nconst pendingKeyRequests: PendingRequest[] = ((window as any).__pendingKeyRequests = []);\nconst pendingValueRequests: PendingRequest[] = ((window as any).__pendingValueRequests = []);\n\nconst onKeyRequest = (data: Record<string, string>): Promise<ReadonlyArray<string>> =>\n  new Promise((resolve, reject) => {\n    pendingKeyRequests.push({ resolve, reject, data });\n  });\n\nconst onValueRequest = (data: Record<string, string>): Promise<ReadonlyArray<string>> =>\n  new Promise((resolve, reject) => {\n    pendingValueRequests.push({ resolve, reject, data });\n  });\n\nconst initialTags = [\n  { key: 'key-1', value: 'value-1', existing: true },\n  { key: 'key-2', value: 'value-2', existing: true, markedForRemoval: true },\n  { key: '', value: '', existing: false },\n  { key: 'key-3', value: '', existing: false },\n];\n\nexport const localizedI18nStrings = {\n  en: I18N_STRINGS,\n  de: {\n    ...I18N_STRINGS,\n    keyHeader: 'Key2',\n    valueHeader: 'Value2',\n    keysSuggestionLoading: 'Loading key values2',\n    valuesSuggestionLoading: 'Loading tag values2',\n  },\n};\n\nexport default function Page() {\n  const tagEditorRef = useRef<TagEditorProps.Ref | null>(null);\n  const [tags, setTags] = useState<ReadonlyArray<TagEditorProps.Tag>>(initialTags);\n  const [locale, setLocale] = useState<'en' | 'de'>('en');\n\n  document.addEventListener('onlocalechange', (({ detail }: LocaleChangeEvent) => {\n    setLocale(detail.value);\n  }) as EventListener);\n\n  const onChange = useCallback((event: NonCancelableCustomEvent<TagEditorProps.ChangeDetail>) => {\n    setTags(event.detail.tags);\n  }, []);\n\n  return (\n    <>\n      <h1>Tag editor</h1>\n      <button id=\"btnFocus\" onClick={() => tagEditorRef.current?.focus()}>\n        Focus Tag Editor\n      </button>\n      <TagEditor\n        ref={tagEditorRef}\n        i18nStrings={localizedI18nStrings[locale]}\n        tagLimit={4}\n        tags={tags}\n        loading={false}\n        onChange={onChange}\n        keysRequest={key => onKeyRequest({ key })}\n        valuesRequest={(key: string, value: string) => onValueRequest({ key, value })}\n      />\n    </>\n  );\n}\n",
-   "source": "pages/tag-editor/integ.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-one-click/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "permutations",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport TagEditor, { TagEditorProps } from '~components/tag-editor';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { I18N_STRINGS } from './shared';\n\nconst permutations = createPermutations<TagEditorProps>([\n  {\n    loading: [true, false],\n    tags: [[]],\n    i18nStrings: [I18N_STRINGS],\n    keysRequest: [() => Promise.resolve([])],\n    valuesRequest: [() => Promise.resolve([])],\n  },\n  {\n    tags: [\n      [\n        { key: 'key-1', value: 'value-1', existing: true },\n        { key: 'key-2', value: 'value-2', existing: true },\n      ],\n      [\n        { key: 'key-1', value: 'value-1', existing: true },\n        { key: 'key-2', value: 'value-2', existing: true, markedForRemoval: true },\n      ],\n    ],\n    i18nStrings: [I18N_STRINGS],\n    keysRequest: [() => Promise.resolve([])],\n    valuesRequest: [() => Promise.resolve([])],\n  },\n  {\n    tags: [\n      [\n        { key: 'key-1', value: 'value-1', existing: true },\n        { key: 'key-2', value: 'value-2', existing: true },\n        { key: 'key-3', value: 'value-3', existing: true },\n      ],\n    ],\n    tagLimit: [3, 2],\n    i18nStrings: [I18N_STRINGS],\n    keysRequest: [() => Promise.resolve([])],\n    valuesRequest: [() => Promise.resolve([])],\n  },\n]);\n\nexport default function TagEditorPermutations() {\n  return (\n    <>\n      <h1>Tad Editor permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <div>\n              <TagEditor {...permutation} />\n              <hr />\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/tag-editor/permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "simple",
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useCallback, useEffect, useRef, useState } from 'react';\nimport range from 'lodash/range';\n\nimport { NonCancelableCustomEvent } from '~components';\nimport Button from '~components/button';\nimport TagEditor, { TagEditorProps } from '~components/tag-editor';\n\nimport { I18N_STRINGS } from './shared';\n\nconst KEYS = range(15).map(i => `Tag ${i + 1}`);\nconst VALUES = range(15).map(i => `Value ${i + 1}`);\n\nasync function requestKeys(input: string): Promise<string[]> {\n  await new Promise(resolve => setTimeout(resolve, 2000));\n  return KEYS.filter(key => key.indexOf(input) !== -1);\n}\n\nasync function requestValues(key: string, input: string): Promise<string[]> {\n  if (!key) {\n    return Promise.reject();\n  }\n  await new Promise(resolve => setTimeout(resolve, 2000));\n  return VALUES.map(value => `${key} - ${value}`).filter(value => value.indexOf(input) !== -1);\n}\n\nexport default function () {\n  const tagEditorRef = useRef<TagEditorProps.Ref | null>(null);\n\n  const [loading, setLoading] = useState(true);\n\n  const [tags, setTags] = useState<ReadonlyArray<TagEditorProps.Tag>>(() => [\n    ...range(10).map(i => ({ key: `Tag ${i + 1}`, value: `Tag ${i + 1} - Value ${i + 1}`, existing: true })),\n    ...range(20).map(i => ({ key: `Tag ${i + 21}`, value: `Tag ${i + 21} - Value ${i + 21}`, existing: false })),\n  ]);\n\n  const onChange = useCallback((event: NonCancelableCustomEvent<TagEditorProps.ChangeDetail>) => {\n    setTags(event.detail.tags);\n  }, []);\n\n  const onButtonClick = useCallback(() => {\n    tagEditorRef.current?.focus();\n  }, []);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setLoading(false), 1000);\n    return () => clearTimeout(timer);\n  });\n\n  return (\n    <>\n      <h1>Tag editor</h1>\n      <Button onClick={onButtonClick}>Focus first error</Button>\n      <TagEditor\n        ref={tagEditorRef}\n        i18nStrings={I18N_STRINGS}\n        tagLimit={100}\n        tags={tags}\n        loading={loading}\n        onChange={onChange}\n        keysRequest={requestKeys}\n        valuesRequest={requestValues}\n      />\n    </>\n  );\n}\n",
-   "source": "pages/tag-editor/simple.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "manage-tags",
+   "name": "Manage tags",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/manage-tags/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": null,
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "delete-one-click",
+  "reason": null
+ },
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "not-imported",
+  "reason": "src/tag-editor/interfaces.ts 에서 TagEditorProps 행을 추출기가 뽑지 못했다 — 공식 사이트 API 표는 닫힌 소스(노트 칸 6)",
+  "tables": []
+ },
+ "tokenGroup": null
 }

@@ -1,161 +1,538 @@
 {
  "slug": "container",
  "title": "Container",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "content-overflow",
+   "key": "cards",
+   "name": "Card view",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useContext } from 'react';\n\nimport {\n  Alert,\n  BarChart,\n  Box,\n  Checkbox,\n  ColumnLayout,\n  Container,\n  ContainerProps,\n  FormField,\n  Header,\n  KeyValuePairs,\n  Link,\n  Slider,\n  SpaceBetween,\n  Table,\n} from '~components';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport {\n  barChartInstructions,\n  commonProps as barChartCommonProps,\n  data3 as barChartData,\n} from '../mixed-line-bar-chart/common';\nimport { generateItems } from '../table/generate-data';\nimport { ARIA_LABELS, columnsConfig } from '../table/shared-configs';\nimport ScreenshotArea from '../utils/screenshot-area';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    hideHeaders: boolean;\n    hideFooters: boolean;\n    customSpacing: boolean;\n    height: string;\n    columns: string;\n  }>\n>;\n\nconst instances = generateItems(10);\n\nfunction useSettings() {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const hideHeaders = urlParams.hideHeaders ?? false;\n  const hideFooters = urlParams.hideFooters ?? false;\n  const customSpacing = urlParams.customSpacing ?? false;\n  const height = parseInt(urlParams.height ?? '') || 225;\n  const columns = parseInt(urlParams.columns ?? '') || 4;\n  return { hideHeaders, hideFooters, customSpacing, height, columns, setUrlParams };\n}\n\nfunction ContainerPlayground(props: ContainerProps) {\n  const settings = useSettings();\n  return (\n    <div style={{ blockSize: settings.height }}>\n      <Container\n        {...props}\n        fitHeight={true}\n        header={settings.hideHeaders ? null : <Header headingTagOverride=\"h2\">{props.header}</Header>}\n        footer={settings.hideFooters ? null : 'Footer'}\n        disableContentPaddings={settings.customSpacing}\n      >\n        {settings.customSpacing ? (\n          <Box padding={{ horizontal: 'l', top: 'xxs', bottom: 'l' }}>{props.children}</Box>\n        ) : (\n          props.children\n        )}\n      </Container>\n    </div>\n  );\n}\n\nexport default function () {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  const columns = parseInt(urlParams.columns ?? '') || 3;\n  const blockSize = parseInt(urlParams.height ?? '') || 225;\n  return (\n    <Box margin=\"m\">\n      <h1>Container content overflow demo</h1>\n\n      <Box margin={{ bottom: 'm' }}>\n        <SpaceBetween size=\"s\">\n          <SpaceBetween size=\"s\" direction=\"horizontal\">\n            <Checkbox\n              checked={urlParams.hideHeaders ?? false}\n              onChange={event => setUrlParams({ hideHeaders: event.detail.checked })}\n            >\n              Hide headers\n            </Checkbox>\n\n            <Checkbox\n              checked={urlParams.hideFooters ?? false}\n              onChange={event => setUrlParams({ hideFooters: event.detail.checked })}\n            >\n              Hide footers\n            </Checkbox>\n\n            <Checkbox\n              checked={urlParams.customSpacing ?? false}\n              onChange={event => setUrlParams({ customSpacing: event.detail.checked })}\n            >\n              Custom spacing\n            </Checkbox>\n          </SpaceBetween>\n\n          <FormField label=\"Height\">\n            <Slider\n              value={blockSize}\n              onChange={({ detail }) => setUrlParams({ height: detail.value.toString() })}\n              min={50}\n              max={700}\n            />\n          </FormField>\n\n          <FormField label=\"Columns\">\n            <Slider\n              value={columns}\n              onChange={({ detail }) => setUrlParams({ columns: detail.value.toString() })}\n              min={1}\n              max={4}\n            />\n          </FormField>\n        </SpaceBetween>\n      </Box>\n\n      <ScreenshotArea gutters={false}>\n        <ColumnLayout columns={columns}>\n          <ContainerPlayground header=\"Paragraph\">\n            <p>\n              Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex\n              ea commodo consequat. Duis aute irure dolor in\n              reprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitesse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui\n              officia deserunt mollit anim id est <Link>laborum</Link>.\n            </p>\n          </ContainerPlayground>\n\n          <ContainerPlayground header=\"Key-value pairs\">\n            <ServiceOverview />\n          </ContainerPlayground>\n\n          <ContainerPlayground header=\"Alert\">\n            <Alert statusIconAriaLabel=\"Info\">\n              Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex\n              ea commodo consequat. Duis aute irure dolor in\n              reprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitessereprehenderitinvoluptatevelitesse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui\n              officia deserunt mollit anim id est <Link>laborum</Link>.\n            </Alert>\n          </ContainerPlayground>\n\n          <ContainerPlayground header=\"Table\">\n            <InstancesTable label=\"Instances 1\" />\n          </ContainerPlayground>\n\n          <ContainerPlayground header=\"Bar chart\">\n            <CaloriesBarChart />\n          </ContainerPlayground>\n        </ColumnLayout>\n      </ScreenshotArea>\n    </Box>\n  );\n}\n\nfunction ServiceOverview() {\n  return (\n    <KeyValuePairs\n      columns={4}\n      items={[\n        {\n          label: 'Running instances',\n          value: (\n            <Link variant=\"awsui-value-large\" href=\"#\" ariaLabel=\"Running instances (14)\">\n              14\n            </Link>\n          ),\n        },\n        {\n          label: 'Volumes',\n          value: (\n            <Link variant=\"awsui-value-large\" href=\"#\" ariaLabel=\"Volumes (126)\">\n              126\n            </Link>\n          ),\n        },\n        {\n          label: 'Security groups',\n          value: (\n            <Link variant=\"awsui-value-large\" href=\"#\" ariaLabel=\"Security groups (116)\">\n              116\n            </Link>\n          ),\n        },\n        {\n          label: 'Load balancers',\n          value: (\n            <Link variant=\"awsui-value-large\" href=\"#\" ariaLabel=\"Load balancers (28)\">\n              28\n            </Link>\n          ),\n        },\n      ]}\n    />\n  );\n}\n\nfunction InstancesTable({ label }: { label: string }) {\n  return (\n    <Table\n      ariaLabels={{ ...ARIA_LABELS, tableLabel: label }}\n      variant=\"borderless\"\n      columnDefinitions={columnsConfig}\n      items={instances}\n    />\n  );\n}\n\nfunction CaloriesBarChart() {\n  return (\n    <BarChart\n      {...barChartCommonProps}\n      height={200}\n      fitHeight={true}\n      hideFilter={true}\n      hideLegend={true}\n      series={[\n        { title: 'Calories', type: 'bar', data: barChartData },\n        { title: 'Threshold', type: 'threshold', y: 400 },\n      ]}\n      xDomain={['Potatoes', 'Tangerines', 'Chocolate', 'Apples', 'Oranges']}\n      yDomain={[0, 700]}\n      xTitle=\"Food\"\n      yTitle=\"Calories (kcal)\"\n      xScaleType=\"categorical\"\n      ariaLabel=\"Bar chart\"\n      ariaDescription={barChartInstructions}\n    />\n  );\n}\n",
-   "source": "pages/container/content-overflow.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/cards/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "fit-height",
+   "key": "chat",
+   "name": "Chat",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport ColumnLayout from '~components/column-layout';\nimport Container, { ContainerProps } from '~components/container';\nimport Grid from '~components/grid';\nimport Header from '~components/header';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './fit-height.scss';\n\ntype DemoContext = React.Context<AppContextType<{ hideFooters: boolean; disableContentPaddings: boolean }>>;\n\nfunction ContainerPlayground(props: ContainerProps) {\n  const { urlParams } = useContext(AppContext as DemoContext);\n  return (\n    <Container\n      {...props}\n      disableContentPaddings={urlParams.disableContentPaddings}\n      footer={urlParams.hideFooters ? null : props.footer}\n    />\n  );\n}\n\nfunction SmallContainer() {\n  return (\n    <ContainerPlayground fitHeight={true} header={<Header>Short</Header>} footer=\"footer\">\n      <p>One line of text</p>\n    </ContainerPlayground>\n  );\n}\n\nfunction MediumContainer() {\n  return (\n    <ContainerPlayground fitHeight={true} header={<Header>Mid size</Header>} footer=\"footer\">\n      <p>Content placeholder</p>\n      <div style={{ blockSize: 100 }} className={styles.placeholder}></div>\n    </ContainerPlayground>\n  );\n}\n\nfunction LargeContainer() {\n  return (\n    <ContainerPlayground fitHeight={true} header={<Header>Large</Header>} footer=\"footer\">\n      <p>\n        This container overflows available space. <Link href=\"#\">Learn more</Link>.\n      </p>\n      <div style={{ blockSize: 400 }} className={styles.placeholder}></div>\n    </ContainerPlayground>\n  );\n}\n\nexport default function () {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  return (\n    <article>\n      <h1>Fit height property demo</h1>\n      <SpaceBetween size=\"s\" direction=\"horizontal\">\n        <label>\n          <input\n            type=\"checkbox\"\n            checked={urlParams.hideFooters ?? false}\n            onChange={event => setUrlParams({ hideFooters: event.target.checked })}\n          />{' '}\n          Hide footers\n        </label>\n        <label>\n          <input\n            type=\"checkbox\"\n            checked={urlParams.disableContentPaddings ?? false}\n            onChange={event => setUrlParams({ disableContentPaddings: event.target.checked })}\n          />{' '}\n          Disable content paddings\n        </label>\n      </SpaceBetween>\n      <ScreenshotArea>\n        <h2>Inside display:grid</h2>\n        <div className={styles.grid}>\n          <SmallContainer />\n          <MediumContainer />\n          <LargeContainer />\n        </div>\n        <h2>Inside column layout</h2>\n        <ColumnLayout columns={3}>\n          <SmallContainer />\n          <MediumContainer />\n          <LargeContainer />\n        </ColumnLayout>\n        <h2>Inside grid</h2>\n        <Grid gridDefinition={[{ colspan: 6 }, { colspan: 3 }, { colspan: 3 }]}>\n          <SmallContainer />\n          <MediumContainer />\n          <LargeContainer />\n        </Grid>\n        <h2>Container inside height limit</h2>\n        <div className={styles.heightLimit}>\n          <LargeContainer />\n        </div>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/container/fit-height.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/chat/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chat-components · @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "media-side-permutations",
+   "key": "delete-one-click",
+   "name": "One-click delete",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { ContainerProps } from '~components/container';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { PermutationContainer, PermutationIframe } from './common';\nimport image43 from './images/4-3.png';\nimport image916 from './images/9-16.png';\nimport image169 from './images/16-9.png';\nimport imageVideo from './images/video.png';\n\nconst permutations = createPermutations<ContainerProps.Media>([\n  {\n    content: [\n      <img key={'image169'} src={image169} alt=\"placeholder\" />,\n      <img key={'image43'} src={image43} alt=\"placeholder\" />,\n      <img key={'image916'} src={image916} alt=\"placeholder\" />,\n      <img key={'imageVideo'} src={imageVideo} alt=\"placeholder\" />,\n      <PermutationIframe key=\"iframe\" />,\n    ],\n    width: ['', '33%', '50%'],\n  },\n]);\n\nexport default function MediaPermutations() {\n  return (\n    <>\n      <h1>Media permutations - side</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <PermutationContainer permutation={{ ...permutation, position: 'side' }} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/container/media-side-permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-one-click/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "media-top-permutations",
+   "key": "delete-with-simple-confirmation",
+   "name": "Delete with simple confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport { ContainerProps } from '~components/container';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { PermutationContainer, PermutationIframe } from './common';\nimport image43 from './images/4-3.png';\nimport image916 from './images/9-16.png';\nimport image169 from './images/16-9.png';\nimport imageVideo from './images/video.png';\n\nconst permutations = createPermutations<ContainerProps.Media>([\n  {\n    content: [\n      <img key={'image169'} src={image169} alt=\"placeholder\" />,\n      <img key={'image43'} src={image43} alt=\"placeholder\" />,\n      <img key={'image916'} src={image916} alt=\"placeholder\" />,\n      <img key={'imageVideo'} src={imageVideo} alt=\"placeholder\" />,\n      <PermutationIframe key=\"iframe\" />,\n    ],\n    height: ['', 100, 200, 300],\n  },\n]);\n\nexport default function MediaPermutations() {\n  return (\n    <>\n      <h1>Media permutations - top</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => <PermutationContainer permutation={{ ...permutation, position: 'top' }} />}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/container/media-top-permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-simple-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "media",
+   "key": "delete-with-additional-confirmation",
+   "name": "Delete with additional confirmation",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport { ContainerProps } from '~components/container';\nimport Container from '~components/container';\nimport FormField from '~components/form-field';\nimport Header from '~components/header';\nimport Input from '~components/input';\nimport Link from '~components/link';\nimport RadioGroup from '~components/radio-group';\nimport SpaceBetween from '~components/space-between';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport image43 from './images/4-3.png';\nimport image916 from './images/9-16.png';\nimport image169 from './images/16-9.png';\n\nimport styles from './media.scss';\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    width: string;\n    height: string;\n    position: 'top' | 'side';\n    content: '16-9' | '4-3' | '9-16';\n  }>\n>;\n\nfunction ContainerPlayground(props: ContainerProps) {\n  const { urlParams } = useContext(AppContext as DemoContext);\n\n  return (\n    <Container\n      {...props}\n      media={{\n        content: (\n          <img\n            src={urlParams.content === '4-3' ? image43 : urlParams.content === '9-16' ? image916 : image169}\n            alt=\"A fun, accessible image\"\n          />\n        ),\n        width: urlParams.width,\n        height: urlParams.height,\n        position: urlParams.position,\n      }}\n    />\n  );\n}\n\nfunction SettingsForm() {\n  const { urlParams, setUrlParams } = useContext(AppContext as DemoContext);\n  return (\n    <SpaceBetween direction=\"horizontal\" size=\"m\">\n      <FormField description=\"Only valid for 'side' position.\" label=\"Media width\">\n        <Input\n          placeholder={'example: 30%'}\n          value={urlParams.width}\n          onChange={event => setUrlParams({ width: event.detail.value })}\n        />\n      </FormField>\n      <FormField description=\"Only valid for 'top' position.\" label=\"Media height\">\n        <Input\n          placeholder={'example: 200px'}\n          value={urlParams.height}\n          onChange={event => setUrlParams({ height: event.detail.value })}\n        />\n      </FormField>\n      <FormField label=\"Media position\">\n        <RadioGroup\n          items={[\n            {\n              value: 'top',\n              label: 'Top',\n            },\n            {\n              value: 'side',\n              label: 'Side',\n            },\n          ]}\n          onChange={({ detail }) => setUrlParams({ position: detail.value as 'top' | 'side' })}\n          value={urlParams.position}\n        />\n      </FormField>\n      <FormField label=\"Content\">\n        <RadioGroup\n          items={[\n            {\n              value: '16-9',\n              label: '16:9 (landscape) image',\n            },\n            {\n              value: '4-3',\n              label: '4:3 (squareish) image',\n            },\n            {\n              value: '9-16',\n              label: '9:16 (portrait) image',\n            },\n          ]}\n          onChange={({ detail }) => setUrlParams({ content: detail.value as '16-9' | '4-3' | '9-16' })}\n          value={urlParams.content}\n        />\n      </FormField>\n    </SpaceBetween>\n  );\n}\n\nexport default function MediaContainers() {\n  return (\n    <article>\n      <h1>Media containers</h1>\n\n      <SpaceBetween size=\"l\">\n        <SettingsForm />\n        <ScreenshotArea>\n          <SpaceBetween size=\"l\">\n            <ContainerPlayground\n              header={\n                <Header\n                  variant=\"h2\"\n                  headingTagOverride=\"h1\"\n                  description={\n                    <>\n                      Some additional text{' '}\n                      <Link fontSize=\"inherit\" variant=\"primary\">\n                        with a link\n                      </Link>\n                      .\n                    </>\n                  }\n                  info={<Link variant=\"info\">Info</Link>}\n                >\n                  <Link fontSize=\"heading-m\" href=\"\" variant=\"primary\">\n                    Secondary link\n                  </Link>\n                </Header>\n              }\n              footer={<Link>Learn more</Link>}\n            >\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam\n              dui tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n            </ContainerPlayground>\n            <ContainerPlayground header=\"ContainerPlayground plain text in header\">\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam\n              dui tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n            </ContainerPlayground>\n            <div className={styles.grid}>\n              <ContainerPlayground\n                fitHeight={true}\n                header={<Header variant=\"h2\">Fixed Height Container</Header>}\n                footer=\"Footer\"\n              >\n                Content area takes the available vertical space, fixed height of 400px\n              </ContainerPlayground>\n            </div>\n          </SpaceBetween>\n        </ScreenshotArea>\n      </SpaceBetween>\n    </article>\n  );\n}\n",
-   "source": "pages/container/media.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/delete-with-additional-confirmation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "simple",
+   "key": "details",
+   "name": "Details page",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Container from '~components/container';\nimport ExpandableSection from '~components/expandable-section';\nimport Header from '~components/header';\nimport Link from '~components/link';\nimport SpaceBetween from '~components/space-between';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function SimpleContainers() {\n  return (\n    <article>\n      <h1>Simple containers</h1>\n      <ScreenshotArea>\n        <SpaceBetween size=\"l\">\n          <Container\n            header={\n              <Header\n                variant=\"h2\"\n                headingTagOverride=\"h1\"\n                description={\n                  <>\n                    Some additional text{' '}\n                    <Link fontSize=\"inherit\" variant=\"primary\">\n                      with a link\n                    </Link>\n                    .\n                  </>\n                }\n                info={<Link variant=\"info\">Info</Link>}\n              >\n                Container with tag override\n              </Header>\n            }\n          >\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui\n            tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n          </Container>\n          <Container header=\"Container plain text in header\">\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui\n            tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n          </Container>\n          <Container header={<Header variant=\"h2\">Container header</Header>}>\n            This container uses a semantically correct h2 in the header. Lorem ipsum dolor sit amet, consectetur\n            adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui tortor, mollis vitae molestie sed,\n            malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui tortor, mollis vitae molestie sed.\n            Phasellus tincidunt suscipit varius.\n          </Container>\n\n          <Container header={<Header variant=\"h2\">With footer</Header>} footer=\"Some footer text\">\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui\n            tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n          </Container>\n          <Container\n            header={<Header variant=\"h2\">With expandable footer</Header>}\n            footer={\n              <ExpandableSection headerText=\"Additional settings\" variant=\"footer\">\n                Place additional form fields here.\n              </ExpandableSection>\n            }\n          >\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui\n            tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n          </Container>\n          <Container>\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui\n            tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius.\n          </Container>\n          <Container>\n            ContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrappingContainerWithASuperLongWordToTestWordWrapping\n          </Container>\n          <Container disableContentPaddings={true}>Content without gutters</Container>\n          <Container disableHeaderPaddings={true} disableContentPaddings={true} header=\"Spaceless container header\">\n            Content without gutters\n          </Container>\n          <Container disableHeaderPaddings={true} header=\"Spaceless container header\">\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.\n          </Container>\n          <Container disableFooterPaddings={true} footer=\"Spaceless container footer\">\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n            tortor, mollis vitae molestie sed, malesuada.\n          </Container>\n          <div>\n            <Container variant=\"stacked\" header=\"Stacked Container 1\">\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.\n            </Container>\n            <Container variant=\"stacked\" header=\"Stacked Container 2\">\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.\n            </Container>\n            <Container variant=\"stacked\" header=\"Stacked Container 3\">\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.\n            </Container>\n          </div>\n          <div style={{ display: 'grid', minBlockSize: 300 }}>\n            <Container fitHeight={true} header={<Header variant=\"h2\">Fixed Height Container</Header>} footer=\"Footer\">\n              Content area takes the available vertical space\n            </Container>\n          </div>\n          <Container\n            disableContentPaddings={true}\n            header={<Header variant=\"h2\">Container Without Content</Header>}\n          ></Container>\n        </SpaceBetween>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/container/simple.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "stacked-components",
+   "key": "details-hub",
+   "name": "Details page as hub",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Container from '~components/container';\nimport ExpandableSection from '~components/expandable-section';\nimport Header from '~components/header';\nimport SpaceBetween from '~components/space-between';\nimport Tabs from '~components/tabs';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nfunction StackedContainer() {\n  return (\n    <Container header={<Header>Container header</Header>} variant=\"stacked\">\n      Container content\n    </Container>\n  );\n}\n\nfunction StackedExpandableSection({ defaultExpanded }: { defaultExpanded?: boolean }) {\n  return (\n    <ExpandableSection headerText=\"Expandable section\" variant=\"stacked\" defaultExpanded={defaultExpanded}>\n      Container content\n    </ExpandableSection>\n  );\n}\n\nfunction StackedTabs() {\n  return (\n    <Tabs\n      variant=\"stacked\"\n      tabs={[\n        { label: 'First tab', id: 'first', content: 'First tab content', href: '#first' },\n        { label: 'Second tab', id: 'second', href: '#second' },\n        { label: 'Third tab', id: 'third', href: '#third' },\n      ]}\n    />\n  );\n}\n\nfunction StackedComponent({ component }: { component: number }) {\n  switch (component) {\n    case 1:\n      return <StackedContainer />;\n    case 2:\n      return <StackedExpandableSection />;\n    case 3:\n      return <StackedExpandableSection defaultExpanded={true} />;\n    default:\n      return <StackedTabs />;\n  }\n}\n\nfunction StackedPermutation({ order }: { order: Array<number> }) {\n  return (\n    <div>\n      <StackedComponent component={order[0]} />\n      <StackedComponent component={order[1]} />\n      <StackedComponent component={order[2]} />\n      <StackedComponent component={order[3]} />\n    </div>\n  );\n}\n\nexport default function StackedComponents() {\n  return (\n    <article>\n      <h1>Stacked container-like components</h1>\n      <ScreenshotArea>\n        <SpaceBetween size=\"l\">\n          <StackedPermutation order={[1, 2, 3, 4]} />\n          <StackedPermutation order={[2, 3, 4, 1]} />\n          <StackedPermutation order={[3, 4, 1, 2]} />\n          <StackedPermutation order={[4, 1, 2, 3]} />\n        </SpaceBetween>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/container/stacked-components.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-hub/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "sticky-permutations",
+   "key": "details-tabs",
+   "name": "Details page with tabs",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext } from 'react';\n\nimport Alert from '~components/alert';\nimport AppLayout from '~components/app-layout';\nimport Header from '~components/header';\nimport SpaceBetween from '~components/space-between';\nimport Table, { TableProps } from '~components/table';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport { Breadcrumbs, Notifications } from '../app-layout/utils/content-blocks';\nimport labels from '../app-layout/utils/labels';\nimport { generateItems, Instance } from '../table/generate-data';\nimport { columnsConfig } from '../table/shared-configs';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst items = generateItems(100);\n\ntype DemoContext = React.Context<\n  AppContextType<{\n    tableVariant?: TableProps['variant'];\n    highContrast?: boolean;\n    hasAlert?: boolean;\n    hasNotifications?: boolean;\n    hasBreadcrumbs?: boolean;\n  }>\n>;\n\nconst TableComponent = () => {\n  const { urlParams } = useContext(AppContext as DemoContext);\n\n  return (\n    <Table<Instance>\n      header={<Header variant=\"awsui-h1-sticky\">Sticky Scrollbar Example</Header>}\n      stickyHeader={true}\n      variant={urlParams.tableVariant || 'full-page'}\n      columnDefinitions={columnsConfig}\n      items={items}\n    />\n  );\n};\n\nexport default function () {\n  const { urlParams } = useContext(AppContext as DemoContext);\n  return (\n    <ScreenshotArea gutters={false}>\n      <AppLayout\n        ariaLabels={labels}\n        breadcrumbs={urlParams.hasBreadcrumbs && <Breadcrumbs />}\n        navigationHide={true}\n        toolsHide={true}\n        contentType=\"table\"\n        headerVariant={urlParams.highContrast ? 'high-contrast' : undefined}\n        notifications={urlParams.hasNotifications && <Notifications />}\n        stickyNotifications={urlParams.hasNotifications}\n        content={\n          urlParams.hasAlert ? (\n            <SpaceBetween size=\"l\">\n              <Alert>Alert</Alert>\n              <TableComponent />\n            </SpaceBetween>\n          ) : (\n            <TableComponent />\n          )\n        }\n      />\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/container/sticky-permutations.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-tabs/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "sticky-with-app-layout",
+   "key": "edit",
+   "name": "Edit resource",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport AppLayout from '~components/app-layout';\nimport Container from '~components/container/internal';\nimport Flashbar from '~components/flashbar';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function () {\n  const [isSticky, setSticky] = useState(true);\n\n  return (\n    <ScreenshotArea gutters={false}>\n      <AppLayout\n        stickyNotifications={isSticky}\n        notifications={\n          <Flashbar\n            items={[\n              {\n                type: 'success',\n                header: 'Success message',\n                buttonText: 'Toggle sticky notifications',\n                statusIconAriaLabel: 'success',\n                onButtonClick: () => setSticky(sticky => !sticky),\n              },\n            ]}\n          />\n        }\n        content={\n          <article>\n            <h1>Sticky container</h1>\n\n            <Container disableHeaderPaddings={true} header={'Header content'} __stickyHeader={true} id=\"inside-body\">\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui\n              tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam\n              dui tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius. Lorem ipsum dolor sit amet,\n              consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui tortor, mollis vitae\n              molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui tortor, mollis\n              vitae molestie sed. Phasellus tincidunt suscipit varius. Lorem ipsum dolor sit amet, consectetur\n              adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui tortor, mollis vitae molestie sed,\n              malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui tortor, mollis vitae molestie\n              sed. Phasellus tincidunt suscipit varius.\n            </Container>\n            <div style={{ inlineSize: '100%', minBlockSize: '100px', overflow: 'auto' }} id=\"scrollable-div\">\n              <Container disableHeaderPaddings={true} header={'Header content'} __stickyHeader={true} id=\"inside-div\">\n                {/* Dummy button to have a focusable element inside the scrollable container to\n                  stop axe from reporting 'scrollable-region-focusable' */}\n                <button>Dummy</button>\n                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam\n                dui tortor, mollis vitae molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing.\n                Nullam dui tortor, mollis vitae molestie sed. Phasellus tincidunt suscipit varius. Lorem ipsum dolor sit\n                amet, consectetur adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui tortor, mollis vitae\n                molestie sed, malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui tortor, mollis\n                vitae molestie sed. Phasellus tincidunt suscipit varius. Lorem ipsum dolor sit amet, consectetur\n                adipisicing elit. Phasellus tincidunt suscipit varius. Nullam dui tortor, mollis vitae molestie sed,\n                malesuada.Lorem ipsum dolor sit amet, consectetur adipiscing. Nullam dui tortor, mollis vitae molestie\n                sed. Phasellus tincidunt suscipit varius.\n              </Container>\n            </div>\n\n            <div style={{ inlineSize: '100%', blockSize: '1000px' }}></div>\n          </article>\n        }\n        navigationHide={true}\n        toolsHide={true}\n      />\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/container/sticky-with-app-layout.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/edit/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "style-custom",
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { Box, Container, SpaceBetween } from '~components';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport image43 from './images/4-3.png';\n\nexport default function CustomContainer() {\n  const background = 'light-dark(#fcfcfc, #000)';\n\n  return (\n    <ScreenshotArea>\n      <h1>Custom Container</h1>\n\n      <SpaceBetween size=\"m\" direction=\"horizontal\">\n        <Container\n          style={{\n            root: {\n              background,\n              borderColor: 'green',\n              borderRadius: '8px',\n              borderWidth: '4px',\n              boxShadow: '0px 5px 5px red',\n            },\n            content: {\n              paddingBlock: '0px',\n              paddingInline: '0px',\n            },\n          }}\n        >\n          Container content\n        </Container>\n\n        <Container\n          header=\"Container header\"\n          style={{\n            root: {\n              background,\n              borderColor: 'magenta',\n              borderRadius: '0px',\n              borderWidth: '1px',\n              boxShadow: '0px 5px 5px green',\n            },\n            content: {\n              paddingBlock: '20px',\n              paddingInline: '40px',\n            },\n            header: {\n              paddingBlock: '20px',\n              paddingInline: '40px',\n            },\n          }}\n        >\n          Container content\n        </Container>\n\n        <Container\n          footer=\"Container footer\"\n          style={{\n            root: {\n              background,\n              borderColor: '#000',\n              borderRadius: '20px',\n              borderWidth: '3px',\n              boxShadow: '0px 5px 5px blue',\n            },\n            content: {\n              paddingBlock: '40px',\n              paddingInline: '40px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '40px',\n                paddingInline: '40px',\n              },\n              divider: {\n                borderColor: '#000',\n                borderWidth: '3px',\n              },\n            },\n          }}\n        >\n          Container content\n        </Container>\n\n        <Container\n          header=\"Container header\"\n          footer=\"Container footer\"\n          style={{\n            root: {\n              background,\n              borderColor: 'blue',\n              borderRadius: '40px',\n              borderWidth: '4px',\n              boxShadow: '5px 5px 5px pink',\n            },\n            header: {\n              paddingBlock: '60px',\n              paddingInline: '10px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '60px',\n                paddingInline: '10px',\n              },\n              divider: {\n                borderWidth: '0px',\n              },\n            },\n          }}\n        />\n\n        <Container\n          header=\"Container header\"\n          footer=\"Container footer\"\n          style={{\n            root: {\n              background,\n              borderColor: 'purple',\n              borderRadius: '240px',\n              borderWidth: '6px',\n              boxShadow: '0px 5px 5px orange',\n            },\n            content: {\n              paddingBlock: '20px',\n              paddingInline: '140px',\n            },\n            header: {\n              paddingBlock: '20px 0px',\n              paddingInline: '140px',\n            },\n            footer: {\n              root: {\n                paddingBlock: '40px',\n                paddingInline: '140px',\n              },\n              divider: {\n                borderColor: 'purple',\n                borderWidth: '6px',\n              },\n            },\n          }}\n        >\n          Container content\n        </Container>\n        <Box>\n          <Container\n            header=\"Header content\"\n            variant=\"stacked\"\n            style={{\n              root: {\n                borderColor: 'green',\n                borderWidth: '2px',\n              },\n            }}\n          >\n            Container content\n          </Container>\n\n          <Container\n            header=\"Header content\"\n            variant=\"stacked\"\n            style={{\n              root: {\n                borderColor: 'purple',\n                borderWidth: '10px',\n              },\n            }}\n          >\n            Container content\n          </Container>\n        </Box>\n\n        <Container\n          header=\"Header content\"\n          media={{\n            content: <img src={image43} alt=\"placeholder\" />,\n            height: 200,\n            position: 'top',\n          }}\n          style={{\n            root: {\n              borderColor: 'green',\n              borderWidth: '1px',\n              borderRadius: '40px',\n            },\n          }}\n        >\n          Container content\n        </Container>\n\n        <Container\n          header=\"Header content\"\n          media={{\n            content: <img src={image43} alt=\"placeholder\" />,\n            width: 200,\n            position: 'side',\n          }}\n          style={{\n            root: {\n              borderColor: 'green',\n              borderWidth: '1px',\n              borderRadius: '40px',\n            },\n          }}\n        >\n          Container content\n        </Container>\n\n        <Container\n          header={\n            <>\n              <Box color=\"inherit\">{`<Box color=\"inherit\" />`}</Box> Plain text\n            </>\n          }\n          footer={\n            <>\n              <Box color=\"inherit\">{`<Box color=\"inherit\" />`}</Box> Plain text\n            </>\n          }\n          style={{\n            root: {\n              background: 'light-dark(#1a1f6e, #bbc2f4)',\n              color: 'light-dark(#ffffff, #000000)',\n            },\n            content: {\n              paddingBlock: '12px',\n            },\n          }}\n        >\n          <>\n            <Box color=\"inherit\">{`<Box color=\"inherit\" />`}</Box> Plain text\n          </>\n        </Container>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/container/style-custom.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-unsaved-changes",
+   "name": "Communicate unsaved changes",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-unsaved-changes/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "product-detail-page",
+   "name": "Product detail page",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/product-detail-page/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "server-side-table",
+   "name": "Table view (server-side)",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "server-side-table-property-filter",
+   "name": "Table property filter (server-side)",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/server-side-table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-property-filter",
+   "name": "Table property filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-property-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-select-filter",
+   "name": "Table with select filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-select-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-date-filter",
+   "name": "Table view with date range picker filter",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-date-filter/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-saved-filters",
+   "name": "Table view with saved filter sets",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-saved-filters/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table",
+   "name": "Table view",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-editable",
+   "name": "Table view with inline editing",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-editable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "table-expandable",
+   "name": "Table view with expandable rows",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/table-expandable/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "manage-tags",
+   "name": "Manage tags",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/manage-tags/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "read-from-s3",
+   "name": "Read from Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/read-from-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "write-to-s3",
+   "name": "Write to Amazon S3",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/write-to-s3/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "wizard",
+   "name": "Multipage create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/wizard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "dashboard",
+   "name": "Service dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
+  },
+  {
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "ContainerProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "analyticsMetadata",
-    "ContainerProps.AnalyticsMetadata",
-    "아니오",
-    "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. @analytics",
-    "src/container/interfaces.ts:13"
-   ],
-   [
-    "header",
-    "React.ReactNode",
-    "아니오",
-    "Heading element of the container. Use the [header component](/components/header/).",
-    "src/container/interfaces.ts:18"
-   ],
-   [
-    "disableHeaderPaddings",
-    "boolean",
-    "아니오",
-    "Determines whether the container header has padding. If `true`, removes the default padding from the header.",
-    "src/container/interfaces.ts:23"
-   ],
-   [
-    "media",
-    "ContainerProps.Media",
-    "아니오",
-    "Use this slot to render a media element. Supported element types are 'img', 'video', and 'picture'. You can define different positions and sizes for the media element within the container. * `content` - Use this slot to render your media element. We support `img`, `video`, `picture`, and `iframe` elements. * `position` - Defines the media slot's position within the container. Defaults to `top`. * `width` - Defines the width of the media slot when positioned on the side. Corresponds to the `width` CSS-property. When this value is set, media elements larger than the defined width may be cropped, with 'object-fit: cover' centering it. Note: This value is considered only when `position` is set to `side`. If no width is provided, the media slot will take a maximum of 66% of the container's width. * `height` - Defines the height of the media slot when position on the top. Corresponds to the `height` CSS-property. When this value is set, media elements larger than the defined width may be cropped, with 'object-fit: cover' centering it. * Note: This value is only considered if `position` is set to `top`. If no height is provided, the media slot will be displayed at its full height.",
-    "src/container/interfaces.ts:44"
-   ],
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "Main content of the container.",
-    "src/container/interfaces.ts:49"
-   ],
-   [
-    "disableContentPaddings",
-    "boolean",
-    "아니오",
-    "Determines whether the container content has padding. If `true`, removes the default padding from the content area.",
-    "src/container/interfaces.ts:54"
-   ],
-   [
-    "fitHeight",
-    "boolean",
-    "아니오",
-    "Enabling this property will make the container to fit into available height. If content is too short, the container will stretch, if too long, the container will shrink and show vertical scrollbar. Use this property to align heights of multiple containers displayed in a single row. It is recommended to stretch all containers to the height of the longest one, to avoid extra vertical scroll areas.",
-    "src/container/interfaces.ts:63"
-   ],
-   [
-    "footer",
-    "React.ReactNode",
-    "아니오",
-    "Footer of the container.",
-    "src/container/interfaces.ts:68"
-   ],
-   [
-    "disableFooterPaddings",
-    "boolean",
-    "아니오",
-    "Determines whether the container footer has padding. If `true`, removes the default padding from the footer.",
-    "src/container/interfaces.ts:73"
-   ],
-   [
-    "variant",
-    "'default' | 'stacked'",
-    "아니오",
-    "Specify a container variant with one of the following: * `default` - Use this variant in standalone context. * `stacked` - Use this variant adjacent to other stacked containers (such as a container, table). @visualrefresh `stacked` variant",
-    "src/container/interfaces.ts:82"
-   ],
-   [
-    "style",
-    "ContainerProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the container's visual appearance. Refer to the [style](/components/container/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/container/interfaces.ts:89"
-   ]
-  ],
-  "source": "src/container/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "cards",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "ContainerProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "analyticsMetadata",
+      "ContainerProps.AnalyticsMetadata",
+      "아니오",
+      "Specifies additional analytics-related metadata. * `instanceIdentifier` - A unique string that identifies this component instance in your application. @analytics",
+      "src/container/interfaces.ts:13"
+     ],
+     [
+      "header",
+      "React.ReactNode",
+      "아니오",
+      "Heading element of the container. Use the [header component](/components/header/).",
+      "src/container/interfaces.ts:18"
+     ],
+     [
+      "disableHeaderPaddings",
+      "boolean",
+      "아니오",
+      "Determines whether the container header has padding. If `true`, removes the default padding from the header.",
+      "src/container/interfaces.ts:23"
+     ],
+     [
+      "media",
+      "ContainerProps.Media",
+      "아니오",
+      "Use this slot to render a media element. Supported element types are 'img', 'video', and 'picture'. You can define different positions and sizes for the media element within the container. * `content` - Use this slot to render your media element. We support `img`, `video`, `picture`, and `iframe` elements. * `position` - Defines the media slot's position within the container. Defaults to `top`. * `width` - Defines the width of the media slot when positioned on the side. Corresponds to the `width` CSS-property. When this value is set, media elements larger than the defined width may be cropped, with 'object-fit: cover' centering it. Note: This value is considered only when `position` is set to `side`. If no width is provided, the media slot will take a maximum of 66% of the container's width. * `height` - Defines the height of the media slot when position on the top. Corresponds to the `height` CSS-property. When this value is set, media elements larger than the defined width may be cropped, with 'object-fit: cover' centering it. * Note: This value is only considered if `position` is set to `top`. If no height is provided, the media slot will be displayed at its full height.",
+      "src/container/interfaces.ts:44"
+     ],
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "Main content of the container.",
+      "src/container/interfaces.ts:49"
+     ],
+     [
+      "disableContentPaddings",
+      "boolean",
+      "아니오",
+      "Determines whether the container content has padding. If `true`, removes the default padding from the content area.",
+      "src/container/interfaces.ts:54"
+     ],
+     [
+      "fitHeight",
+      "boolean",
+      "아니오",
+      "Enabling this property will make the container to fit into available height. If content is too short, the container will stretch, if too long, the container will shrink and show vertical scrollbar. Use this property to align heights of multiple containers displayed in a single row. It is recommended to stretch all containers to the height of the longest one, to avoid extra vertical scroll areas.",
+      "src/container/interfaces.ts:63"
+     ],
+     [
+      "footer",
+      "React.ReactNode",
+      "아니오",
+      "Footer of the container.",
+      "src/container/interfaces.ts:68"
+     ],
+     [
+      "disableFooterPaddings",
+      "boolean",
+      "아니오",
+      "Determines whether the container footer has padding. If `true`, removes the default padding from the footer.",
+      "src/container/interfaces.ts:73"
+     ],
+     [
+      "variant",
+      "'default' | 'stacked'",
+      "아니오",
+      "Specify a container variant with one of the following: * `default` - Use this variant in standalone context. * `stacked` - Use this variant adjacent to other stacked containers (such as a container, table). @visualrefresh `stacked` variant",
+      "src/container/interfaces.ts:82"
+     ],
+     [
+      "style",
+      "ContainerProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the container's visual appearance. Refer to the [style](/components/container/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/container/interfaces.ts:89"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

@@ -1,144 +1,126 @@
 {
  "slug": "tree-view",
  "title": "Tree View",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
- "examples": [
-  {
-   "name": "basic",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\nimport clsx from 'clsx';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Checkbox from '~components/checkbox';\nimport Container from '~components/container';\nimport FormField from '~components/form-field';\nimport Grid from '~components/grid';\nimport Icon from '~components/icon';\nimport Select, { SelectProps } from '~components/select';\nimport TreeView, { TreeViewProps } from '~components/tree-view';\n\nimport ScreenshotArea from '../utils/screenshot-area';\nimport { Actions } from './common';\nimport { items } from './items/basic-page-items';\n\nimport styles from './styles.scss';\n\nexport default function BasicTreeView() {\n  const [expandedItems, setExpandedItems] = useState<Array<string>>(['1', '4.1']);\n  const [toggleIconType, setToggleIconType] = useState<SelectProps.Option>({\n    label: 'Default',\n    value: 'default',\n  });\n  const [showConnectorLines, setShowConnectorLines] = useState(true);\n\n  const renderItemToggleIcon = ({ expanded }: TreeViewProps.ItemToggleRenderIconData) => {\n    if (toggleIconType.value === 'custom') {\n      return <Icon size=\"small\" name={expanded ? 'treeview-collapse' : 'treeview-expand'} ariaLabel=\"Toggle\" />;\n    }\n\n    if (toggleIconType.value === 'custom-with-slow-animation') {\n      return (\n        <Icon\n          size=\"small\"\n          name=\"angle-down\"\n          className={clsx(styles.animation, expanded && styles['animation-expanded'])}\n        />\n      );\n    }\n  };\n\n  return (\n    <ScreenshotArea>\n      <h1>Basic tree view</h1>\n\n      <Grid gridDefinition={[{ colspan: { m: 7, xs: 12 } }]}>\n        <div>\n          <Checkbox checked={showConnectorLines} onChange={({ detail }) => setShowConnectorLines(detail.checked)}>\n            Show connector lines\n          </Checkbox>\n\n          <br />\n\n          <FormField label=\"Toggle icon\" stretch={true}>\n            <Select\n              selectedOption={toggleIconType}\n              onChange={({ detail }) => setToggleIconType(detail.selectedOption)}\n              options={[\n                {\n                  label: 'Default',\n                  value: 'default',\n                },\n                {\n                  label: 'Custom',\n                  value: 'custom',\n                },\n                {\n                  label: 'Custom with slow animation',\n                  value: 'custom-with-slow-animation',\n                },\n              ]}\n            />\n          </FormField>\n\n          <br />\n\n          <Container>\n            <TreeView\n              ariaLabel=\"Basic tree view\"\n              items={items}\n              renderItem={item => {\n                return {\n                  icon: item.hideIcon ? undefined : (\n                    <Icon name={expandedItems.includes(item.id) ? 'folder-open' : 'folder'} ariaLabel=\"folder\" />\n                  ),\n                  content: item.content,\n                  secondaryContent: item.details && (\n                    <Box color=\"text-body-secondary\" fontSize=\"body-s\">\n                      {item.details}\n                    </Box>\n                  ),\n                  actions: item.hasActions ? (\n                    <Actions\n                      actionType=\"inline-button-dropdown\"\n                      itemLabel={item.announcementLabel ?? (item.content as string)}\n                    />\n                  ) : undefined,\n                };\n              }}\n              getItemId={item => item.id}\n              getItemChildren={item => item.children}\n              onItemToggle={({ detail }: any) =>\n                setExpandedItems(prev =>\n                  detail.expanded ? [...prev, detail.item.id] : prev.filter(id => id !== detail.item.id)\n                )\n              }\n              expandedItems={expandedItems}\n              i18nStrings={{\n                expandButtonLabel: () => 'Expand item',\n                collapseButtonLabel: () => 'Collapse item',\n              }}\n              renderItemToggleIcon={renderItemToggleIcon}\n              connectorLines={showConnectorLines ? 'vertical' : undefined}\n            />\n          </Container>\n        </div>\n      </Grid>\n\n      <div style={{ marginTop: '10px' }}>Expanded items: {expandedItems.map(id => `Item ${id}`).join(', ')}</div>\n\n      <Button>Element to focus for testing single tab stop</Button>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/tree-view/basic.page.tsx"
-  },
-  {
-   "name": "dynamic-items",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, SpaceBetween } from '~components';\nimport Box from '~components/box';\nimport Icon from '~components/icon';\nimport TreeView from '~components/tree-view';\n\nimport { Actions, Content } from './common';\nimport { allItems, items } from './items/dynamic-items';\n\nconst allExpandableItemIds = allItems.filter(item => item.children && item.children.length > 0).map(item => item.id);\n\nexport default function DynamicItemsPage() {\n  const [expandedItems, setExpandedItems] = useState<Array<string>>([]);\n\n  return (\n    <>\n      <h1>Dynamic items page</h1>\n\n      <SpaceBetween size=\"s\">\n        <Button\n          onClick={() => {\n            setExpandedItems(allExpandableItemIds);\n            console.time('expand-all');\n            requestAnimationFrame(() => console.timeEnd('expand-all'));\n          }}\n        >\n          Expand all\n        </Button>\n\n        <Button\n          onClick={() => {\n            setExpandedItems([]);\n            console.time('collapse-all');\n            requestAnimationFrame(() => console.timeEnd('collapse-all'));\n          }}\n        >\n          Collapse all\n        </Button>\n      </SpaceBetween>\n\n      <Box padding=\"xl\">\n        <TreeView\n          items={items}\n          renderItem={item => {\n            const isExpanded = expandedItems.includes(item.id);\n            return {\n              icon: <Icon name={isExpanded ? 'folder-open' : 'folder'} />,\n              content: <Content {...item} />,\n              actions: item.hasActions ? <Actions actionType=\"button-group\" itemLabel={item.name} /> : undefined,\n              secondaryContent: item.tagName ? (\n                <Box color=\"text-status-inactive\">\n                  <SpaceBetween size=\"xxs\" direction=\"horizontal\">\n                    <Icon name=\"ticket\" />\n                    <span>{item.tagName}</span>\n                  </SpaceBetween>\n                </Box>\n              ) : undefined,\n              announcementLabel: item.name,\n            };\n          }}\n          getItemId={item => item.id}\n          getItemChildren={item => item.children}\n          onItemToggle={({ detail }) => {\n            if (detail.expanded) {\n              const logName = `expand-item-${detail.item.name}`;\n              console.time(logName);\n              requestAnimationFrame(() => console.timeEnd(logName));\n              return setExpandedItems(prev => [...prev, detail.id]);\n            } else {\n              const logName = `collapse-item-${detail.item.name}`;\n              console.time(logName);\n              requestAnimationFrame(() => console.timeEnd(logName));\n              return setExpandedItems(prev => prev.filter(id => id !== detail.id));\n            }\n          }}\n          expandedItems={expandedItems}\n          i18nStrings={{\n            expandButtonLabel: () => 'Expand item',\n            collapseButtonLabel: () => 'Collapse item',\n          }}\n        />\n      </Box>\n    </>\n  );\n}\n",
-   "source": "pages/tree-view/dynamic-items.page.tsx"
-  },
-  {
-   "name": "keyboard-navigation",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { SpaceBetween } from '~components';\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport Grid from '~components/grid';\nimport ToggleButton from '~components/toggle-button';\nimport TreeView from '~components/tree-view';\n\nimport {\n  Item as KeyboardNavigationItem,\n  nonStsnRegisteredItems,\n  stsnRegisteredItems,\n} from './items/keyboard-navigation-page-items';\nimport { textItems } from './items/permutations-items';\n\nfunction TreeViewGrid({ children }: { children: React.ReactNode }) {\n  return <Grid gridDefinition={[{ colspan: { m: 7, xs: 12 } }]}>{children}</Grid>;\n}\n\nexport default function TreeViewKeyboardNavigation() {\n  const [pressedItems, setPressedItems] = useState<ReadonlyArray<string>>([]);\n\n  return (\n    <SpaceBetween size=\"m\">\n      <h1>TreeView keyboard navigation</h1>\n\n      <Button>Focus here</Button>\n\n      <TreeViewGrid>\n        <Container header={<h2>No focusable elements inside tree-item</h2>}>\n          <TreeView\n            ariaLabel=\"Tree view without focusable elements inside\"\n            items={textItems}\n            renderItem={item => item}\n            getItemId={item => item.id}\n            getItemChildren={item => item.children}\n            i18nStrings={{\n              expandButtonLabel: () => 'Expand item',\n              collapseButtonLabel: () => 'Collapse item',\n            }}\n          />\n        </Container>\n      </TreeViewGrid>\n\n      <Button>Focus here</Button>\n\n      <TreeViewGrid>\n        <Container header={<h2>Focusable registered elements inside tree-item</h2>}>\n          <TreeView<KeyboardNavigationItem>\n            ariaLabel=\"Tree view with focusable registered elements inside\"\n            items={stsnRegisteredItems}\n            renderItem={item => ({\n              icon: item.hasToggleButton ? (\n                <ToggleButton\n                  onChange={({ detail }: any) => {\n                    if (detail.pressed) {\n                      setPressedItems(prev => [...prev, item.id]);\n                    } else {\n                      setPressedItems(prev => prev.filter(id => id !== item.id));\n                    }\n                  }}\n                  pressed={pressedItems.includes(item.id)}\n                  ariaLabel={`Favorite ${item.id}`}\n                  iconName=\"star\"\n                  pressedIconName=\"star-filled\"\n                  variant=\"icon\"\n                />\n              ) : undefined,\n              content: item.content,\n              secondaryContent: item.secondaryContent ? (\n                <Box color=\"text-status-inactive\">{item.secondaryContent}</Box>\n              ) : undefined,\n              announcementLabel: item.announcementLabel,\n              actions: item.actions,\n            })}\n            getItemId={item => item.id}\n            getItemChildren={item => item.children}\n            i18nStrings={{\n              expandButtonLabel: () => 'Expand item',\n              collapseButtonLabel: () => 'Collapse item',\n            }}\n          />\n        </Container>\n      </TreeViewGrid>\n\n      <Button>Focus here</Button>\n\n      <TreeViewGrid>\n        <Container header={<h2>Focusable non-registered elements inside tree-item</h2>}>\n          <TreeView\n            ariaLabel=\"Tree view with focusable non-registered elements inside\"\n            items={nonStsnRegisteredItems}\n            renderItem={item => item}\n            getItemId={item => item.id}\n            getItemChildren={item => item.children}\n            i18nStrings={{\n              expandButtonLabel: () => 'Expand item',\n              collapseButtonLabel: () => 'Collapse item',\n            }}\n          />\n        </Container>\n      </TreeViewGrid>\n    </SpaceBetween>\n  );\n}\n",
-   "source": "pages/tree-view/keyboard-navigation.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport Box from '~components/box';\nimport Checkbox from '~components/checkbox';\nimport TreeView from '~components/tree-view';\n\nimport AppContext, { AppContextType } from '../app/app-context';\nimport ScreenshotArea from '../utils/screenshot-area';\nimport {\n  getAllExpandableItemIds,\n  Item,\n  longTextItems,\n  statusIndicatorItems,\n  textItems,\n} from './items/permutations-items';\n\ntype PageContext = React.Context<\n  AppContextType<{\n    expandAll?: boolean;\n    showConnectorLines?: boolean;\n  }>\n>;\n\ninterface Permutation {\n  title: string;\n  items: Item[];\n}\n\nconst textPermutation: Permutation = {\n  title: 'Tree view with only text',\n  items: textItems,\n};\n\nconst longTextPermutation: Permutation = {\n  title: 'Tree view with long text',\n  items: longTextItems,\n};\n\nconst statusIndicatorPermutation: Permutation = {\n  title: 'Tree view with status indicators',\n  items: statusIndicatorItems,\n};\n\nexport default function TreeViewPermuations() {\n  const { urlParams, setUrlParams } = useContext(AppContext as PageContext);\n\n  return (\n    <ScreenshotArea disableAnimations={true}>\n      <h1>Tree view permutations</h1>\n\n      <Checkbox\n        checked={urlParams.expandAll ?? false}\n        onChange={event => {\n          setUrlParams({ expandAll: event.detail.checked });\n          window.location.reload();\n        }}\n      >\n        Expand all\n      </Checkbox>\n\n      <Checkbox\n        checked={urlParams.showConnectorLines ?? false}\n        onChange={event => {\n          setUrlParams({ showConnectorLines: event.detail.checked });\n        }}\n      >\n        Show connector lines\n      </Checkbox>\n\n      {[textPermutation, longTextPermutation, statusIndicatorPermutation].map((permutation, index) => (\n        <Permutation\n          key={index}\n          {...permutation}\n          expandAll={urlParams.expandAll}\n          showConnectorLines={urlParams.showConnectorLines}\n        />\n      ))}\n    </ScreenshotArea>\n  );\n}\n\nfunction Permutation({\n  title,\n  items,\n  expandAll,\n  showConnectorLines,\n}: Permutation & { expandAll?: boolean; showConnectorLines?: boolean }) {\n  const [expandedItems, setExpandedItems] = useState(expandAll ? getAllExpandableItemIds(items) : []);\n\n  return (\n    <div>\n      <h2>{title}</h2>\n      <TreeView\n        ariaLabel={title}\n        items={items}\n        renderItem={item => ({\n          ...item,\n          secondaryContent: item.secondaryContent ? (\n            <Box color=\"text-status-inactive\">{item.secondaryContent}</Box>\n          ) : undefined,\n        })}\n        getItemId={item => item.id}\n        getItemChildren={item => item.children}\n        i18nStrings={{\n          expandButtonLabel: () => 'Expand item',\n          collapseButtonLabel: () => 'Collapse item',\n        }}\n        expandedItems={expandedItems}\n        onItemToggle={({ detail }: any) => {\n          if (detail.expanded) {\n            return setExpandedItems(prev => [...prev, detail.item.id]);\n          } else {\n            return setExpandedItems(prev => prev.filter(id => id !== detail.item.id));\n          }\n        }}\n        connectorLines={showConnectorLines ? 'vertical' : undefined}\n      />\n    </div>\n  );\n}\n",
-   "source": "pages/tree-view/permutations.page.tsx"
-  },
-  {
-   "name": "removable-elements",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Button from '~components/button';\nimport Container from '~components/container';\nimport Grid from '~components/grid';\nimport SpaceBetween from '~components/space-between';\nimport TreeView from '~components/tree-view';\n\nimport { Item, stsnRegisteredItems } from './items/keyboard-navigation-page-items';\n\ninterface FlattenedItem extends Item {\n  parentId: string;\n  noActionButton?: boolean;\n}\n\nconst flattenItems = (items: Item[]) => {\n  const allItems: FlattenedItem[] = [];\n\n  const pushItem = (item: Item, parentId: string) => {\n    allItems.push({ ...item, parentId });\n    if (item.children) {\n      item.children.forEach(i => pushItem(i, item.id));\n    }\n  };\n\n  items.forEach(i => pushItem(i, 'root'));\n\n  return allItems;\n};\n\nfunction TreeViewWithRemovableItems() {\n  const [items, setItems] = useState(flattenItems(stsnRegisteredItems));\n  const [expandedItems, setExpandedItems] = useState<string[]>([]);\n\n  const removeItem = (itemId: string) => {\n    setItems(currentItems => currentItems.filter(item => item.id !== itemId));\n    setExpandedItems(currentExpandedItems => currentExpandedItems.filter(id => id !== itemId));\n  };\n\n  return (\n    <Grid gridDefinition={[{ colspan: { m: 7, xs: 12 } }]}>\n      <Container header={<h2>Tree view with removable items</h2>}>\n        <TreeView<FlattenedItem>\n          ariaLabel=\"Tree view with removable items\"\n          data-testid=\"removable-items-tree\"\n          items={items.filter(i => i.parentId === 'root')}\n          renderItem={item => ({\n            content: item.content,\n            actions: (\n              <Button ariaLabel={`${item.announcementLabel ?? item.content}`} onClick={() => removeItem(item.id)}>\n                Remove item\n              </Button>\n            ),\n            announcementLabel: item.announcementLabel,\n            secondaryContent: item.secondaryContent ? (\n              <Box color=\"text-status-inactive\">{item.secondaryContent}</Box>\n            ) : undefined,\n          })}\n          getItemId={item => item.id}\n          getItemChildren={item => items.filter(i => i.parentId === item.id)}\n          i18nStrings={{\n            expandButtonLabel: () => 'Expand item',\n            collapseButtonLabel: () => 'Collapse item',\n          }}\n          expandedItems={expandedItems}\n          onItemToggle={({ detail }: any) =>\n            setExpandedItems(prev =>\n              detail.expanded ? [...prev, detail.item.id] : prev.filter(id => id !== detail.item.id)\n            )\n          }\n        />\n      </Container>\n    </Grid>\n  );\n}\n\nfunction TreeViewWithRemovableActionButtons() {\n  const [items, setItems] = useState(flattenItems(stsnRegisteredItems));\n\n  const removeButton = (itemId: string) => {\n    setItems(currentItems => currentItems.map(item => (item.id === itemId ? { ...item, noActionButton: true } : item)));\n  };\n\n  return (\n    <Grid gridDefinition={[{ colspan: { m: 7, xs: 12 } }]}>\n      <Container header={<h2>Tree view with removable action buttons</h2>}>\n        <TreeView<FlattenedItem>\n          ariaLabel=\"Tree view with removable action buttons\"\n          data-testid=\"removable-action-buttons-tree\"\n          items={items.filter(i => i.parentId === 'root')}\n          renderItem={item => ({\n            content: item.content,\n            actions: !item.noActionButton && (\n              <Button ariaLabel={`${item.announcementLabel ?? item.content}`} onClick={() => removeButton(item.id)}>\n                Remove button\n              </Button>\n            ),\n            announcementLabel: item.announcementLabel,\n            secondaryContent: item.secondaryContent ? (\n              <Box color=\"text-status-inactive\">{item.secondaryContent}</Box>\n            ) : undefined,\n          })}\n          getItemId={item => `removable-actions-${item.id}`}\n          getItemChildren={item => items.filter(i => i.parentId === item.id)}\n          i18nStrings={{\n            expandButtonLabel: () => 'Expand item',\n            collapseButtonLabel: () => 'Collapse item',\n          }}\n        />\n      </Container>\n    </Grid>\n  );\n}\n\nfunction TreeViewWithRegularAndRemovableActionButtons() {\n  const [items, setItems] = useState(flattenItems(stsnRegisteredItems));\n\n  const removeButton = (itemId: string) => {\n    setItems(currentItems => currentItems.map(item => (item.id === itemId ? { ...item, noActionButton: true } : item)));\n  };\n\n  return (\n    <Grid gridDefinition={[{ colspan: { m: 7, xs: 12 } }]}>\n      <Container header={<h2>Tree view with removable action buttons and regular buttons</h2>}>\n        <TreeView<FlattenedItem>\n          ariaLabel=\"Tree view with removable action buttons and regular buttons\"\n          data-testid=\"regular-removable-action-buttons-tree\"\n          items={items.filter(i => i.parentId === 'root')}\n          renderItem={item => ({\n            content: item.content,\n            actions: (\n              <SpaceBetween size=\"xs\" direction=\"horizontal\">\n                {!item.noActionButton && (\n                  <Button\n                    data-testid=\"remove-button\"\n                    ariaLabel={`${item.announcementLabel ?? item.content}`}\n                    onClick={() => removeButton(item.id)}\n                  >\n                    Remove button\n                  </Button>\n                )}\n                <Button data-testid=\"regular-button\">Button</Button>\n              </SpaceBetween>\n            ),\n            announcementLabel: item.announcementLabel,\n            secondaryContent: item.secondaryContent ? (\n              <Box color=\"text-status-inactive\">{item.secondaryContent}</Box>\n            ) : undefined,\n          })}\n          getItemId={item => `regular-removable-actions-${item.id}`}\n          getItemChildren={item => items.filter(i => i.parentId === item.id)}\n          i18nStrings={{\n            expandButtonLabel: () => 'Expand item',\n            collapseButtonLabel: () => 'Collapse item',\n          }}\n        />\n      </Container>\n    </Grid>\n  );\n}\n\nexport default function TreeViewWithRemovableElements() {\n  return (\n    <SpaceBetween size=\"m\">\n      <h1>Tree view with removable elements</h1>\n\n      <Button data-testid=\"focus-button\">Focus here</Button>\n\n      <TreeViewWithRemovableItems />\n\n      <Button data-testid=\"focus-button2\">Focus here</Button>\n\n      <TreeViewWithRemovableActionButtons />\n\n      <Button data-testid=\"focus-button3\">Focus here</Button>\n\n      <TreeViewWithRegularAndRemovableActionButtons />\n    </SpaceBetween>\n  );\n}\n",
-   "source": "pages/tree-view/removable-elements.page.tsx"
-  },
-  {
-   "name": "with-horizontal-scroll",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Box from '~components/box';\nimport Container from '~components/container';\nimport TreeView from '~components/tree-view';\n\nimport { items } from './items/deeply-nested-items';\n\nexport default function TreeViewWithHorizontalScroll() {\n  const [expandedItems, setExpandedItems] = useState<Array<string>>(items.map(i => i.id));\n\n  return (\n    <Box margin=\"m\">\n      <h1>Tree view with deep nesting</h1>\n\n      {/* restrict the space the treeview can use */}\n      <div style={{ maxWidth: '300px' }}>\n        <Container>\n          <div role=\"region\" tabIndex={0} aria-label=\"TreeView container\" style={{ overflowX: 'auto' }}>\n            <div style={{ minWidth: '350px' }}>\n              <TreeView\n                ariaLabel=\"TreeView with deep nesting\"\n                items={items.filter(item => !item.parent)}\n                renderItem={item => ({ content: item.content })}\n                getItemId={item => item.id}\n                getItemChildren={item => items.filter(i => i.parent === item.id)}\n                expandedItems={expandedItems}\n                onItemToggle={({ detail }: any) =>\n                  setExpandedItems(prev =>\n                    detail.expanded ? [...prev, detail.item.id] : prev.filter(id => id !== detail.item.id)\n                  )\n                }\n                i18nStrings={{\n                  expandButtonLabel: () => 'Expand item',\n                  collapseButtonLabel: () => 'Collapse item',\n                }}\n              />\n            </div>\n          </div>\n        </Container>\n      </div>\n    </Box>\n  );\n}\n",
-   "source": "pages/tree-view/with-horizontal-scroll.page.tsx"
-  }
- ],
- "props": {
-  "name": "TreeViewProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "items",
-    "ReadonlyArray<T>",
-    "예",
-    "Specifies the top-level items to display in the tree view. Use `getItemChildren` to provide nested items.",
-    "src/tree-view/interfaces.ts:12"
-   ],
-   [
-    "renderItem",
-    "(item: T, index: number) => TreeViewProps.TreeItem",
-    "예",
-    "Use this property to map your data to tree view items. This property must return an object with the following properties: * `content` (ReactNode) - The content of the item. * `icon` (ReactNode) - (Optional) The icon of the item. * `secondaryContent` (ReactNode) - (Optional) Secondary content of the item, such as a description of the item. * `actions` (ReactNode) - (Optional) Actions related to the item. Use [button](/components/button/?tabId=playground&example=inline-icon-button) with inline-icon or inline-link variants. For items with multiple actions, use [button dropdown](/components/button-dropdown/?tabId=playground&example=inline-icon-button-dropdown) with the inline-icon variant. * `announcementLabel` (string) - (Optional) An announcement label for the item, used for labeling the toggle button. By default, the `content` is used. Make sure to provide the `announcementLabel` if `content` is not a string.",
-    "src/tree-view/interfaces.ts:22"
-   ],
-   [
-    "getItemId",
-    "(item: T, index: number) => string",
-    "예",
-    "Provides a unique identifier for each tree view item.",
-    "src/tree-view/interfaces.ts:27"
-   ],
-   [
-    "getItemChildren",
-    "(item: T, index: number) => ReadonlyArray<T> | undefined",
-    "예",
-    "Specifies the nested items that are displayed when a tree view item gets expanded.",
-    "src/tree-view/interfaces.ts:32"
-   ],
-   [
-    "expandedItems",
-    "ReadonlyArray<string>",
-    "아니오",
-    "Provides the IDs of the expanded tree view items. It controls whether an item is expanded or collapsed.",
-    "src/tree-view/interfaces.ts:37"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Provides an `aria-label` to the tree view that screen readers can read (for accessibility). Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/tree-view/interfaces.ts:43"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Sets the `aria-labelledby` property on the tree view. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/tree-view/interfaces.ts:50"
-   ],
-   [
-    "ariaDescribedby",
-    "string",
-    "아니오",
-    "Sets the `aria-describedby` property on the tree view.",
-    "src/tree-view/interfaces.ts:55"
-   ],
-   [
-    "connectorLines",
-    "TreeViewProps.ConnectorLinesVariant",
-    "아니오",
-    "Shows connector lines highlighting hierarchy between parent and child items.",
-    "src/tree-view/interfaces.ts:60"
-   ],
-   [
-    "onItemToggle",
-    "NonCancelableEventHandler<TreeViewProps.ItemToggleDetail<T>>",
-    "아니오",
-    "Called when an item expands or collapses.",
-    "src/tree-view/interfaces.ts:65"
-   ],
-   [
-    "i18nStrings",
-    "TreeViewProps.I18nStrings<T>",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/tree-view/interfaces.ts:71"
-   ],
-   [
-    "renderItemToggleIcon",
-    "(data: TreeViewProps.ItemToggleRenderIconData) => React.ReactNode",
-    "아니오",
-    "Use this property to display a custom icon in the toggle button.",
-    "src/tree-view/interfaces.ts:76"
-   ]
-  ],
-  "source": "src/tree-view/interfaces.ts"
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+  "rule": "doc-order-first",
+  "key": null,
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "TreeViewProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "items",
+      "ReadonlyArray<T>",
+      "예",
+      "Specifies the top-level items to display in the tree view. Use `getItemChildren` to provide nested items.",
+      "src/tree-view/interfaces.ts:12"
+     ],
+     [
+      "renderItem",
+      "(item: T, index: number) => TreeViewProps.TreeItem",
+      "예",
+      "Use this property to map your data to tree view items. This property must return an object with the following properties: * `content` (ReactNode) - The content of the item. * `icon` (ReactNode) - (Optional) The icon of the item. * `secondaryContent` (ReactNode) - (Optional) Secondary content of the item, such as a description of the item. * `actions` (ReactNode) - (Optional) Actions related to the item. Use [button](/components/button/?tabId=playground&example=inline-icon-button) with inline-icon or inline-link variants. For items with multiple actions, use [button dropdown](/components/button-dropdown/?tabId=playground&example=inline-icon-button-dropdown) with the inline-icon variant. * `announcementLabel` (string) - (Optional) An announcement label for the item, used for labeling the toggle button. By default, the `content` is used. Make sure to provide the `announcementLabel` if `content` is not a string.",
+      "src/tree-view/interfaces.ts:22"
+     ],
+     [
+      "getItemId",
+      "(item: T, index: number) => string",
+      "예",
+      "Provides a unique identifier for each tree view item.",
+      "src/tree-view/interfaces.ts:27"
+     ],
+     [
+      "getItemChildren",
+      "(item: T, index: number) => ReadonlyArray<T> | undefined",
+      "예",
+      "Specifies the nested items that are displayed when a tree view item gets expanded.",
+      "src/tree-view/interfaces.ts:32"
+     ],
+     [
+      "expandedItems",
+      "ReadonlyArray<string>",
+      "아니오",
+      "Provides the IDs of the expanded tree view items. It controls whether an item is expanded or collapsed.",
+      "src/tree-view/interfaces.ts:37"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Provides an `aria-label` to the tree view that screen readers can read (for accessibility). Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/tree-view/interfaces.ts:43"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Sets the `aria-labelledby` property on the tree view. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/tree-view/interfaces.ts:50"
+     ],
+     [
+      "ariaDescribedby",
+      "string",
+      "아니오",
+      "Sets the `aria-describedby` property on the tree view.",
+      "src/tree-view/interfaces.ts:55"
+     ],
+     [
+      "connectorLines",
+      "TreeViewProps.ConnectorLinesVariant",
+      "아니오",
+      "Shows connector lines highlighting hierarchy between parent and child items.",
+      "src/tree-view/interfaces.ts:60"
+     ],
+     [
+      "onItemToggle",
+      "NonCancelableEventHandler<TreeViewProps.ItemToggleDetail<T>>",
+      "아니오",
+      "Called when an item expands or collapses.",
+      "src/tree-view/interfaces.ts:65"
+     ],
+     [
+      "i18nStrings",
+      "TreeViewProps.I18nStrings<T>",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/tree-view/interfaces.ts:71"
+     ],
+     [
+      "renderItemToggleIcon",
+      "(data: TreeViewProps.ItemToggleRenderIconData) => React.ReactNode",
+      "아니오",
+      "Use this property to display a custom icon in the toggle button.",
+      "src/tree-view/interfaces.ts:76"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
 }

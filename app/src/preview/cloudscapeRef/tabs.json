@@ -1,174 +1,172 @@
 {
  "slug": "tabs",
  "title": "Tabs",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "actions",
+   "key": "details",
+   "name": "Details page",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, Container, Header, Popover } from '~components';\nimport ButtonDropdown from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\nimport Tabs, { TabsProps } from '~components/tabs';\n\nexport default function TabsDemoPage() {\n  const [tabsDismissibles, setTabDismissibles] = useState(\n    (): Array<TabsProps.Tab> => [\n      {\n        label: 'First tab',\n        id: 'first',\n        dismissible: true,\n        dismissLabel: 'Dismiss first tab (dismissibles variant)',\n        onDismiss: () => setTabDismissibles(prevTabs => prevTabs.slice(1)),\n        content: (\n          <>\n            Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos\n            et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem\n            ipsum dolor sit amet.,\n          </>\n        ),\n      },\n      {\n        label: 'Second tab',\n        id: 'second',\n        dismissible: true,\n        dismissLabel: 'Dismiss second tab (dismissibles variant)',\n        onDismiss: () => setTabDismissibles(prevTabs => prevTabs.filter(tab => tab.id !== 'second')),\n        content: (\n          <>\n            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Diam nonumy eirmod tempor\n            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo\n            dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Stet\n            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.,\n          </>\n        ),\n      },\n    ]\n  );\n\n  const tabsNoActions: Array<TabsProps.Tab> = [\n    {\n      label: 'First tab',\n      id: 'first',\n      content:\n        'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Second tab',\n      id: 'second',\n      content:\n        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n  ];\n  const [tabsXORActions, setTabsXORActions] = useState(\n    (): Array<TabsProps.Tab> => [\n      {\n        label: 'First tab',\n        id: 'first',\n        dismissible: true,\n        dismissLabel: 'Dismiss first tab (xor actions variant)',\n        onDismiss: () => setTabsXORActions(prevTabs => prevTabs.slice(1)),\n        content: (\n          <>\n            Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos\n            et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem\n            ipsum dolor sit ameta.,\n          </>\n        ),\n      },\n      {\n        label: 'Second tab',\n        id: 'second',\n        action: <Button iconName=\"copy\" variant=\"icon\" ariaLabel=\"Action button for the Second tab\" />,\n        content:\n          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n      },\n    ]\n  );\n\n  const [tabsBoth, setTabsBoth] = useState(\n    (): Array<TabsProps.Tab> => [\n      {\n        id: 'first',\n        label: 'Tab w/ action',\n        action: (\n          <ButtonDropdown\n            variant=\"icon\"\n            ariaLabel=\"Query actions for first tab (Hybrid component)\"\n            items={[\n              { id: 'save', text: 'Save', disabled: true },\n              { id: 'saveAs', text: 'Save as' },\n              { id: 'rename', text: 'Rename', disabled: true },\n              { id: 'delete', text: 'Delete', disabled: true },\n            ]}\n            expandToViewport={true}\n          />\n        ),\n        content: <p>First tab content</p>,\n      },\n      {\n        id: 'second',\n        label: 'Second tab label',\n        content: <p>Second tab content</p>,\n      },\n      {\n        id: 'third',\n        label: 'Athena-like tab',\n        dismissible: true,\n        dismissLabel: 'Dismiss third button (combined tabs variant)',\n        onDismiss: () => setTabsBoth(prevTabs => prevTabs.slice(0, 2)),\n        action: (\n          <ButtonDropdown\n            variant=\"icon\"\n            ariaLabel=\"Query actions for third tab (Hybrid component)\"\n            items={[\n              { id: 'save', text: 'Save', disabled: true },\n              { id: 'saveAs', text: 'Save as' },\n              { id: 'rename', text: 'Rename', disabled: true },\n              { id: 'delete', text: 'Delete', disabled: true },\n            ]}\n            expandToViewport={true}\n          />\n        ),\n        content: (\n          <Container\n            header={\n              <Header variant=\"h2\" description=\"Container description\">\n                Container title\n              </Header>\n            }\n          >\n            Container content\n          </Container>\n        ),\n      },\n    ]\n  );\n\n  const tabsPopoverActions = [\n    {\n      id: 'first',\n      label: 'First tab label',\n      action: (\n        <Popover header=\"Header\" content=\"Description\">\n          <span data-testid=\"popover1\">Popover 1</span>\n        </Popover>\n      ),\n      content: <p>First tab content</p>,\n    },\n    {\n      id: 'second',\n      label: 'Second tab label',\n      action: (\n        <Popover header=\"Header\" content=\"Description\">\n          <span data-testid=\"popover2\">Popover 2</span>\n        </Popover>\n      ),\n      content: <p>Second tab content</p>,\n    },\n    {\n      id: 'third',\n      label: 'Third tab label',\n      action: (\n        <Popover header=\"Header\" content=\"Description\">\n          <span data-testid=\"popover3\">Popover 3</span>\n        </Popover>\n      ),\n      content: <p>Third tab content</p>,\n    },\n  ];\n\n  return (\n    <>\n      <h1>Tabs</h1>\n\n      <SpaceBetween size=\"xs\">\n        <div>\n          <h2>Tabs with dismissibles</h2>\n          <Tabs\n            tabs={tabsDismissibles}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n        <div>\n          <h2>Tabs with no actions</h2>\n          <Tabs\n            tabs={tabsNoActions}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n        <div>\n          <h2>Tabs with action or dismissible</h2>\n          <Tabs\n            tabs={tabsXORActions}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n        <div>\n          <h2>Tabs with actions and dismissibles</h2>\n          <Tabs\n            tabs={tabsBoth}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n        <div>\n          <h2>Tabs with popover actions</h2>\n          <Tabs\n            tabs={tabsPopoverActions}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n      </SpaceBetween>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/actions.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/code-view 가 설치돼 있지 않다"
+   }
   },
   {
-   "name": "content-render-strategy-integ",
+   "key": "details-tabs",
+   "name": "Details page with tabs",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useEffect, useState } from 'react';\n\nimport { FormField, Input } from '~components';\nimport SpaceBetween from '~components/space-between';\nimport Tabs, { TabsProps } from '~components/tabs';\n\nimport { IframeWrapper } from '../utils/iframe-wrapper';\n\nconst TabWithState = () => {\n  const [value, setValue] = useState('');\n  return (\n    <FormField label=\"Input\">\n      <Input value={value} onChange={e => setValue(e.detail.value)} />\n    </FormField>\n  );\n};\n\nconst TabWithLoading = ({ id }: { id: string }) => {\n  const [loaded, setLoaded] = useState(false);\n  useEffect(() => {\n    setTimeout(() => setLoaded(true), 1000);\n  }, []);\n  return <div id={id}>{loaded ? 'Loaded' : 'Loading...'}</div>;\n};\n\nexport default function TabsDemoPage() {\n  const tabs: Array<TabsProps.Tab> = [\n    {\n      label: 'Tab with state',\n      id: 'state',\n      content: <TabWithState />,\n      contentRenderStrategy: 'lazy',\n    },\n    {\n      label: 'Tab with state (not retained)',\n      id: 'state2',\n      content: <TabWithState />,\n      contentRenderStrategy: 'active',\n    },\n    {\n      label: 'Lazy loading',\n      id: 'lazy',\n      content: <TabWithLoading id=\"loading-lazy\" />,\n      contentRenderStrategy: 'lazy',\n    },\n    {\n      label: 'Eager loading',\n      id: 'eager',\n      content: <TabWithLoading id=\"loading-eager\" />,\n      contentRenderStrategy: 'eager',\n    },\n    {\n      label: 'Eager loading iframe',\n      id: 'eager-iframe',\n      content: <IframeWrapper id=\"iframe\" AppComponent={() => <TabWithState />} />,\n      contentRenderStrategy: 'eager',\n    },\n  ];\n  return (\n    <>\n      <h1>Tabs</h1>\n\n      <SpaceBetween size=\"xs\">\n        <div>\n          <h2>Content render strategy</h2>\n          <Tabs\n            tabs={tabs}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n      </SpaceBetween>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/content-render-strategy-integ.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/details-tabs/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   },
   {
-   "name": "controllability",
+   "key": "onboarding",
+   "name": "Hands-on tutorials",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport { Button, SpaceBetween, Tabs, TabsProps } from '~components';\n\nimport { SimplePage } from '../app/templates';\n\nexport default function TabsDemoPage() {\n  const tabs: Array<TabsProps.Tab> = [\n    {\n      label: 'First tab',\n      id: 'first',\n      content:\n        'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Second tab',\n      id: 'second',\n      content:\n        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n  ];\n  const [selectedTab, setSelectedTab] = useState(tabs[0].id);\n  return (\n    <SimplePage title=\"Tabs\">\n      <SpaceBetween size=\"xs\">\n        <div>\n          <h2>Controlled component</h2>\n          <SpaceBetween direction=\"horizontal\" size=\"xs\">\n            <Button onClick={() => setSelectedTab(tabs[0].id)}>Select first tab</Button>\n            <Button onClick={() => setSelectedTab(tabs[1].id)}>Select second tab</Button>\n          </SpaceBetween>\n          <Tabs\n            tabs={tabs}\n            activeTabId={selectedTab}\n            onChange={event => setSelectedTab(event.detail.activeTabId)}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n        <div>\n          <h2>Uncontrolled component</h2>\n          <Tabs\n            tabs={tabs}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n      </SpaceBetween>\n    </SimplePage>\n  );\n}\n",
-   "source": "pages/tabs/controllability.page.tsx"
-  },
-  {
-   "name": "disabled-reason",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport SpaceBetween from '~components/space-between';\nimport Tabs, { TabsProps } from '~components/tabs';\n\nconst tabs: Array<TabsProps.Tab> = [\n  {\n    label: 'First tab',\n    id: 'first',\n    content:\n      'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n  },\n  {\n    label: 'Disabled with reason',\n    id: 'second',\n    disabled: true,\n    disabledReason: 'disabled reason',\n    content:\n      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n  },\n  {\n    label: 'Disabled',\n    id: 'third',\n    disabled: true,\n    content:\n      'Third Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n  },\n  {\n    label: 'Fourth tab',\n    id: 'fourth',\n    content:\n      'Fourth Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n  },\n];\n\nexport default function TabsDemoPage() {\n  return (\n    <>\n      <h1>Disabled with reason Tabs</h1>\n\n      <SpaceBetween size=\"xs\">\n        <div>\n          <Tabs\n            tabs={tabs}\n            i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n          />\n        </div>\n      </SpaceBetween>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/disabled-reason.page.tsx"
-  },
-  {
-   "name": "in-app-layout-help-panel",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport AppLayout from '~components/app-layout';\nimport Tabs from '~components/tabs';\n\nexport default function TabsInHelpPanelDemoPage() {\n  const [toolsOpen, setToolsOpen] = useState(true);\n  return (\n    <AppLayout\n      content={<h1>Tabs in help panel</h1>}\n      navigationHide={true}\n      ariaLabels={{\n        tools: 'Tools',\n        toolsToggle: 'Open tools',\n        toolsClose: 'Close tools',\n      }}\n      toolsWidth={330}\n      toolsOpen={toolsOpen}\n      onToolsChange={({ detail }) => setToolsOpen(detail.open)}\n      tools={\n        <Tabs\n          tabs={[\n            { id: 'help-panel', label: 'Info', content: 'Info' },\n            {\n              id: 'tutorials-panel',\n              label: 'Tutorials',\n              content: 'Tutorials',\n            },\n          ]}\n          i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n        />\n      }\n    />\n  );\n}\n",
-   "source": "pages/tabs/in-app-layout-help-panel.page.tsx"
-  },
-  {
-   "name": "integration-test",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Tabs from '~components/tabs';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function TabsScenario() {\n  const embeddedTabs = [\n    {\n      id: 'first',\n      label: 'Tab one',\n      content: (\n        <span>\n          This is the <b>content</b> of the tab.\n        </span>\n      ),\n    },\n  ];\n\n  const content = <Tabs tabs={embeddedTabs} variant=\"container\" />;\n\n  const tabs = [\n    {\n      id: 'first',\n      label: 'Tab one',\n      content,\n    },\n    {\n      id: 'second',\n      label: 'Tab two',\n      content,\n    },\n    {\n      id: 'third',\n      label: 'Tab three',\n      content,\n    },\n    {\n      id: 'fourth',\n      label: 'Tab four',\n      content,\n    },\n    {\n      id: 'fifth',\n      label: 'Tab five',\n      content,\n    },\n    {\n      id: 'sixth',\n      label: 'Tab six',\n      content,\n    },\n  ];\n\n  return (\n    <div id=\"test\" style={{ padding: 10 }}>\n      <h1>Tabs integration test page</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <div id=\"click-this\" tabIndex={0} style={{ blockSize: 10 }} />\n        <Tabs\n          id=\"first-tabs\"\n          tabs={tabs}\n          i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n        />\n        <div id=\"click-this-2\" tabIndex={0} style={{ blockSize: 10 }} />\n\n        <Tabs\n          tabs={tabs}\n          variant=\"container\"\n          i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n        />\n      </ScreenshotArea>\n    </div>\n  );\n}\n",
-   "source": "pages/tabs/integration-test.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport Button from '~components/button';\nimport ButtonDropdown from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\nimport Tabs, { TabsProps } from '~components/tabs';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'second'],\n    variant: ['default', 'container'],\n    tabs: [\n      [\n        { label: 'First tab', id: 'first', content: 'First content', href: '#first' },\n        { label: 'Second tab', id: 'second', href: '#second' },\n      ],\n      [\n        {\n          label: 'First tab',\n          id: 'first',\n          content: (\n            <p>\n              Long text, long enough to wrap. Shoulder tail brisket sausage, shank biltong pork fatback chicken\n              hamburger doner andouille ham hock. Picanha meatball leberkas, turkey andouille boudin tongue frankfurter.\n              Fatback tenderloin brisket cow leberkas. Ball tip short loin brisket andouille. Flank turkey drumstick\n              cow, prosciutto hamburger bresaola pork.\n            </p>\n          ),\n        },\n        { label: 'Second tab', id: 'second', disabled: true },\n        {\n          label: 'Third tab',\n          id: 'third',\n          content: \"Third tab's content\",\n        },\n      ],\n    ],\n  },\n  {\n    variant: ['default', 'container', 'stacked'],\n    tabs: [\n      ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eight'].map(id => ({\n        label: `${id} tab`,\n        id,\n        content: `${id} content`,\n        href: `#${id}`,\n      })),\n    ],\n    disableContentPaddings: [false, true],\n  },\n  {\n    variant: ['default'],\n    tabs: [\n      [\n        {\n          label: (\n            <>\n              First tab <i>new</i>\n            </>\n          ),\n          id: 'first',\n          content: 'First content',\n          href: '#first',\n        },\n        {\n          label: (\n            <>\n              Second tab <i>new</i>\n            </>\n          ),\n          id: 'second',\n          href: '#second',\n        },\n      ],\n    ],\n  },\n]);\n\nconst fitHeightPermutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'second'],\n    variant: ['default', 'container'],\n    fitHeight: [true],\n    tabs: [\n      [\n        {\n          label: 'First tab',\n          id: 'first',\n          content: new Array(10).fill('').map((_, index) => <p key={index}>First content</p>),\n        },\n        {\n          label: 'Second tab',\n          id: 'second',\n          content: <div style={{ blockSize: '100%', display: 'flex', alignItems: 'flex-end' }}>Second content</div>,\n        },\n      ],\n    ],\n  },\n]);\n\nconst tabActionPermutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'second'],\n    variant: ['default', 'container'],\n    actions: [\n      undefined,\n      <Button key=\"button\">Add</Button>,\n      <SpaceBetween key=\"space-between\" size=\"s\" direction=\"horizontal\">\n        <Button>Add</Button>\n        <Button>Add2</Button>\n      </SpaceBetween>,\n    ],\n    tabs: [\n      [\n        {\n          label: 'First tab',\n          id: 'first',\n          content: 'First content',\n          href: '#first',\n          dismissible: true,\n          dismissLabel: 'Dismiss first tab',\n        },\n        { label: 'Second tab', id: 'second', href: '#second' },\n      ],\n      [\n        {\n          label: 'First tab',\n          id: 'first',\n          content: (\n            <p>\n              Long text, long enough to wrap. Shoulder tail brisket sausage, shank biltong pork fatback chicken\n              hamburger doner andouille ham hock. Picanha meatball leberkas, turkey andouille boudin tongue frankfurter.\n              Fatback tenderloin brisket cow leberkas. Ball tip short loin brisket andouille. Flank turkey drumstick\n              cow, prosciutto hamburger bresaola pork.\n            </p>\n          ),\n          action: (\n            <ButtonDropdown\n              variant=\"icon\"\n              ariaLabel=\"Query actions for first tab\"\n              items={[\n                { id: 'save', text: 'Save', disabled: true },\n                { id: 'saveAs', text: 'Save as' },\n                { id: 'rename', text: 'Rename', disabled: true },\n                { id: 'delete', text: 'Delete', disabled: true },\n              ]}\n              expandToViewport={true}\n            />\n          ),\n        },\n        { label: 'Second tab', id: 'second', disabled: true },\n        {\n          label: 'Third tab',\n          id: 'third',\n          content: \"Third tab's content\",\n          action: (\n            <ButtonDropdown\n              variant=\"icon\"\n              ariaLabel=\"Query actions for third tab\"\n              items={[\n                { id: 'save', text: 'Save', disabled: true },\n                { id: 'saveAs', text: 'Save as' },\n                { id: 'rename', text: 'Rename', disabled: true },\n                { id: 'delete', text: 'Delete', disabled: true },\n              ]}\n              expandToViewport={true}\n            />\n          ),\n          dismissible: true,\n          dismissLabel: 'Dismiss third tab',\n        },\n        {\n          label: 'fourth tab',\n          id: 'fourth',\n          dismissible: true,\n          dismissLabel: 'Dismiss fourth tab',\n        },\n      ],\n    ],\n  },\n  {\n    variant: ['default', 'container', 'stacked'],\n    tabs: [\n      ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eight'].map(id => ({\n        label: `${id} tab`,\n        id,\n        content: `${id} content`,\n        href: `#${id}`,\n      })),\n    ],\n    disableContentPaddings: [false, true],\n  },\n]);\n\nconst tabActionFitHeightPermutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'second'],\n    variant: ['default', 'container'],\n    fitHeight: [true],\n    tabs: [\n      [\n        {\n          label: 'First tab',\n          id: 'first',\n          dismissible: true,\n          dismissLabel: 'Dismiss first tab',\n          content: new Array(10).fill('').map((_, index) => <p key={index}>First content</p>),\n        },\n        {\n          label: 'Second tab',\n          id: 'second',\n          action: (\n            <ButtonDropdown\n              variant=\"icon\"\n              ariaLabel=\"Query actions for second tab\"\n              items={[\n                { id: 'save', text: 'Save', disabled: true },\n                { id: 'saveAs', text: 'Save as' },\n                { id: 'rename', text: 'Rename', disabled: true },\n                { id: 'delete', text: 'Delete', disabled: true },\n              ]}\n              expandToViewport={true}\n            />\n          ),\n          content: <div style={{ blockSize: '100%', display: 'flex', alignItems: 'flex-end' }}>Second content</div>,\n        },\n      ],\n    ],\n  },\n]);\n\nexport default function TabsPermutations() {\n  return (\n    <>\n      <h1>Tabs permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Tabs\n              {...permutation}\n              activeTabId={permutation.activeTabId}\n              i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n            />\n          )}\n        />\n        <PermutationsView\n          permutations={fitHeightPermutations}\n          render={fitHeightPermutation => (\n            <div style={{ blockSize: '200px' }}>\n              <Tabs\n                {...fitHeightPermutation}\n                activeTabId={fitHeightPermutation.activeTabId}\n                i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n              />\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n      <h1>Actionable Tabs permutations</h1>\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={tabActionPermutations}\n          render={tabActionPermutation => (\n            <Tabs\n              {...tabActionPermutation}\n              activeTabId={tabActionPermutation.activeTabId}\n              i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n            />\n          )}\n        />\n        <PermutationsView\n          permutations={tabActionFitHeightPermutations}\n          render={tabActionFitHeightPermutation => (\n            <div style={{ blockSize: '200px' }}>\n              <Tabs\n                {...tabActionFitHeightPermutation}\n                activeTabId={tabActionFitHeightPermutation.activeTabId}\n                i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n              />\n            </div>\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/permutations.page.tsx"
-  },
-  {
-   "name": "responsive-integ",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useContext, useState } from 'react';\n\nimport { ButtonDropdown, Select } from '~components';\nimport Tabs, { TabsProps } from '~components/tabs';\n\nimport AppContext, { AppContextType } from '../app/app-context';\n\nimport styles from './responsive.scss';\n\ntype TabsContext = React.Context<\n  AppContextType<{\n    keyboardActivationMode: TabsProps['keyboardActivationMode'];\n  }>\n>;\n\nexport default function TabsDemoPage() {\n  const {\n    urlParams: { keyboardActivationMode = 'automatic' },\n    setUrlParams,\n  } = useContext(AppContext as TabsContext);\n\n  const defaultTabs: Array<TabsProps.Tab> = [\n    {\n      label: 'First tab',\n      id: 'first',\n      content:\n        'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Second tab',\n      id: 'second',\n      href: '/second',\n      content:\n        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Third tab',\n      id: 'third',\n      content:\n        'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n      dismissible: true,\n      dismissLabel: 'Dismiss third tab',\n    },\n    {\n      label: 'Fourth tab',\n      id: 'fourth',\n      content:\n        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Fifth tab',\n      id: 'fifth',\n      disabled: true,\n      content:\n        'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n    },\n    {\n      label: 'Sixth tab',\n      id: 'sixth',\n      content:\n        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n      action: (\n        <ButtonDropdown\n          variant=\"icon\"\n          ariaLabel=\"Query actions for Sixth Tab\"\n          items={[\n            { id: 'save', text: 'Save', disabled: true },\n            { id: 'saveAs', text: 'Save as' },\n            { id: 'rename', text: 'Rename', disabled: true },\n            { id: 'delete', text: 'Delete', disabled: true },\n          ]}\n          expandToViewport={true}\n        />\n      ),\n      dismissible: true,\n      dismissLabel: 'Dismiss sixth tab',\n      onDismiss: () => console.log('I have been clicked!'),\n    },\n  ];\n\n  const [tabsDismissibles, setTabDismissibles] = useState(\n    (): Array<TabsProps.Tab> => [\n      {\n        label: 'First tab',\n        id: 'first',\n        dismissible: true,\n        dismissLabel: 'Dismiss first tab',\n        onDismiss: () => setTabDismissibles(prevTabs => prevTabs.slice(1)),\n        content: (\n          <>\n            Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos\n            et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem\n            ipsum dolor sit amet.,\n          </>\n        ),\n      },\n      {\n        label: 'Second tab',\n        id: 'second',\n        disabled: true,\n        dismissible: true,\n        dismissLabel: 'Dismiss second tab (disabled)',\n        dismissDisabled: true,\n        action: (\n          <ButtonDropdown\n            variant=\"icon\"\n            ariaLabel=\"Query actions for second tab\"\n            items={[\n              { id: 'save', text: 'Save', disabled: true },\n              { id: 'saveAs', text: 'Save as' },\n              { id: 'rename', text: 'Rename', disabled: true },\n              { id: 'delete', text: 'Delete', disabled: true },\n            ]}\n            expandToViewport={true}\n            disabled={true}\n          />\n        ),\n        content:\n          'Diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n      },\n      {\n        label: 'Third tab',\n        id: 'third',\n        dismissible: true,\n        dismissLabel: 'Dismiss third tab',\n        onDismiss: () => setTabDismissibles(prevTabs => prevTabs.filter(tab => tab.id !== 'third')),\n        content: (\n          <>\n            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Diam nonumy eirmod tempor\n            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo\n            dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Stet\n            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.,\n          </>\n        ),\n      },\n      {\n        label: 'Forth tab',\n        id: 'forth',\n        dismissible: true,\n        dismissLabel: 'Dismiss forth tab',\n        onDismiss: () => setTabDismissibles(prevTabs => prevTabs.filter(tab => tab.id !== 'forth')),\n        content: (\n          <>\n            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Stet clita kasd\n            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.,\n          </>\n        ),\n      },\n    ]\n  );\n\n  const extraTab: TabsProps.Tab = {\n    label: 'Seventh tab',\n    id: 'seventh',\n    content:\n      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',\n  };\n  const [selectedTab, setSelectedTab] = useState(defaultTabs[0].id);\n  const [small, setSmall] = useState(false);\n  const [tabs, setTabs] = useState(defaultTabs);\n\n  return (\n    <div id=\"container\" className={small ? styles.small : ''}>\n      <h1>Tabs</h1>\n      <Select\n        options={[{ value: 'automatic' }, { value: 'manual' }]}\n        selectedOption={{ value: keyboardActivationMode }}\n        onChange={e =>\n          setUrlParams({ keyboardActivationMode: e.detail.selectedOption.value as TabsProps['keyboardActivationMode'] })\n        }\n        inlineLabelText=\"Activation mode\"\n      />\n      <input type=\"text\" id=\"before\" aria-label=\"before\" />\n      <form action=\"/\">\n        <Tabs\n          id=\"responsive-tabs\"\n          ariaLabel=\"General Tabs\"\n          tabs={tabs}\n          activeTabId={selectedTab}\n          onChange={event => setSelectedTab(event.detail.activeTabId)}\n          keyboardActivationMode={keyboardActivationMode}\n          i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n        />\n      </form>\n      <input type=\"text\" id=\"after\" aria-label=\"after\" />\n      <button id=\"size-toggle\" onClick={() => setSmall(!small)}>\n        Toggle\n      </button>\n      <button id=\"add-tab\" onClick={() => setTabs(tabs.concat([extraTab]))}>\n        Add tab\n      </button>\n      <Tabs\n        id=\"dismiss-tabs\"\n        ariaLabel=\"Dismissible Tabs\"\n        tabs={tabsDismissibles}\n        keyboardActivationMode={keyboardActivationMode}\n        i18nStrings={{\n          scrollLeftAriaLabel: 'Scroll left (Dismissible Tabs)',\n          scrollRightAriaLabel: 'Scroll right (Dismissible Tabs)',\n        }}\n      />\n    </div>\n  );\n}\n",
-   "source": "pages/tabs/responsive-integ.page.tsx"
-  },
-  {
-   "name": "responsive-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport * as React from 'react';\n\nimport ButtonDropdown from '~components/button-dropdown';\nimport SpaceBetween from '~components/space-between';\nimport Tabs, { TabsProps } from '~components/tabs';\nimport { colorBackgroundLayoutMain } from '~design-tokens';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'fourth', 'tenth'],\n    tabs: [\n      [\n        {\n          label:\n            'This tab has a long header with several words in it so that I can test how the text wraps - with href',\n          id: 'first',\n          href: '/first',\n        },\n        {\n          label:\n            'This tab has a long header with several words in it so that I can test how the text wraps - without href',\n          id: 'second',\n        },\n        { label: 'Third tab', id: 'third' },\n        { label: 'Fourth tab', id: 'fourth', href: '/fourth' },\n        { label: 'Fifth tab', id: 'fifth', href: '/fifth' },\n        { label: 'Sixth tab', id: 'sixth' },\n        { label: 'Seventh tab', id: 'seventh' },\n        { label: 'Eighth tab', id: 'eighth' },\n        {\n          label: 'ThistabhasalongheaderwithseveralwordswithoutspacesinitsothatIcantesthowthetextwrapswithhref',\n          id: 'ninth',\n          href: '/ninth',\n        },\n        {\n          label: 'ThistabhasalongheaderwithseveralwordswithoutspacesinitsothatIcantesthowthetextwrapswithouthref',\n          id: 'tenth',\n        },\n      ],\n    ],\n  },\n]);\n\nconst tabActionPermutations = createPermutations<TabsProps>([\n  {\n    activeTabId: ['first', 'fourth', 'sixth'],\n    tabs: [\n      [\n        {\n          label:\n            'This tab has a long header with several words in it so that I can test how the text wraps - with href',\n          id: 'first',\n          href: '/first',\n        },\n        {\n          label:\n            'This tab has a long header with several words in it so that I can test how the text wraps - without href',\n          id: 'second',\n        },\n        { label: 'Third tab', id: 'third', disabled: true },\n        {\n          label: 'Fourth tab',\n          id: 'fourth',\n          href: '/fourth',\n          dismissible: true,\n          dismissLabel: 'Dismiss fourth tab',\n        },\n        { label: 'Fifth tab', id: 'fifth', dismissible: true, dismissLabel: 'Dismiss fifth tab', disabled: true },\n        {\n          label: 'Sixth tab',\n          id: 'sixth',\n          action: (\n            <ButtonDropdown\n              variant=\"icon\"\n              ariaLabel=\"Query actions for sixth tab\"\n              items={[\n                { id: 'save', text: 'Save', disabled: true },\n                { id: 'saveAs', text: 'Save as' },\n                { id: 'rename', text: 'Rename', disabled: true },\n                { id: 'delete', text: 'Delete', disabled: true },\n              ]}\n              expandToViewport={true}\n            />\n          ),\n          dismissible: true,\n          dismissLabel: 'Dismiss sixth tab',\n        },\n        {\n          label: 'ThistabhasalongheaderwithseveralwordswithoutspacesinitsothatIcantesthowthetextwrapswithhref',\n          id: 'seventh',\n          href: '/seventh',\n          action: (\n            <ButtonDropdown\n              variant=\"icon\"\n              ariaLabel=\"Query actions for seventh tab\"\n              items={[\n                { id: 'save', text: 'Save', disabled: true },\n                { id: 'saveAs', text: 'Save as' },\n                { id: 'rename', text: 'Rename', disabled: true },\n                { id: 'delete', text: 'Delete', disabled: true },\n              ]}\n              expandToViewport={true}\n            />\n          ),\n        },\n        {\n          label: 'ThistabhasalongheaderwithseveralwordswithoutspacesinitsothatIcantesthowthetextwrapswithouthref',\n          id: 'eighth',\n        },\n      ],\n    ],\n  },\n]);\n\nexport default function ResponsiveTabsPermutations() {\n  return (\n    <>\n      <h1>Tabs permutations - small container</h1>\n      <div style={{ maxInlineSize: 700 }}>\n        <ScreenshotArea>\n          <SpaceBetween size=\"xs\">\n            <PermutationsView\n              permutations={permutations}\n              render={permutation => (\n                <Tabs\n                  {...permutation}\n                  i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                />\n              )}\n            />\n            <div style={{ backgroundColor: colorBackgroundLayoutMain }}>\n              <PermutationsView\n                permutations={permutations}\n                render={permutation => (\n                  <Tabs\n                    {...permutation}\n                    i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                  />\n                )}\n              />\n            </div>\n            <PermutationsView\n              permutations={permutations}\n              render={permutation => (\n                <Tabs\n                  {...permutation}\n                  variant=\"container\"\n                  i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                />\n              )}\n            />\n          </SpaceBetween>\n        </ScreenshotArea>\n      </div>\n      <h1>Actionable Tabs permutations - small container</h1>\n      <div style={{ maxInlineSize: 700 }}>\n        <ScreenshotArea>\n          <SpaceBetween size=\"xs\">\n            <PermutationsView\n              permutations={tabActionPermutations}\n              render={tabActionPermutation => (\n                <Tabs\n                  {...tabActionPermutation}\n                  i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                />\n              )}\n            />\n            <div style={{ backgroundColor: colorBackgroundLayoutMain }}>\n              <PermutationsView\n                permutations={tabActionPermutations}\n                render={tabActionPermutation => (\n                  <Tabs\n                    {...tabActionPermutation}\n                    i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                  />\n                )}\n              />\n            </div>\n            <PermutationsView\n              permutations={tabActionPermutations}\n              render={tabActionPermutation => (\n                <Tabs\n                  {...tabActionPermutation}\n                  variant=\"container\"\n                  i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n                />\n              )}\n            />\n          </SpaceBetween>\n        </ScreenshotArea>\n      </div>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/responsive-permutations.page.tsx"
-  },
-  {
-   "name": "style-permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Tabs, { TabsProps } from '~components/tabs';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\n// Rounded with background\nconst style1 = {\n  container: {\n    // container styling is tested in pages/container/style-custom.page.tsx\n    root: {\n      borderRadius: '0px',\n    },\n  },\n  tab: {\n    backgroundColor: {\n      default: 'light-dark(#f1f5f9, #1e293b)',\n      hover: 'light-dark(#dbeafe, #1e3a8a)',\n      active: 'light-dark(#2563eb, #1d4ed8)',\n      disabled: 'light-dark(#f8fafc, #1e293b)',\n    },\n    borderColor: {\n      default: 'lightblue',\n      hover: 'lightblue',\n      active: 'lightblue',\n      disabled: 'lightblue',\n    },\n    borderWidth: '2px',\n    borderRadius: '40px',\n    color: {\n      default: 'light-dark(#475569, #94a3b8)',\n      hover: 'light-dark(#1e3a8a, #dbeafe)',\n      active: 'light-dark(#ffffff, #ffffff)',\n      disabled: 'light-dark(#cbd5e1, #64748b)',\n    },\n    fontSize: '14px',\n    fontWeight: '600',\n    paddingBlock: '10px',\n    paddingInline: '24px',\n    focusRing: {\n      borderColor: 'light-dark(#f97316, #fb923c)',\n      borderRadius: '22px',\n      borderWidth: '2px',\n    },\n    activeIndicator: {\n      color: 'transparent',\n    },\n  },\n  tabSeparator: {\n    color: 'light-dark(#e2e8f0, #334155)',\n    width: '1px',\n  },\n  header: {\n    borderColor: 'light-dark(#cbd5e1, #475569)',\n    borderWidth: '2px',\n  },\n};\n\n// Border colors with background\nconst style2 = {\n  tab: {\n    backgroundColor: {\n      default: 'light-dark(#fef3c7, #422006)',\n      hover: 'light-dark(#fde68a, #713f12)',\n      active: 'light-dark(#fbbf24, #d97706)',\n      disabled: 'light-dark(#fef9e7, #78350f)',\n    },\n    borderColor: {\n      default: 'transparent',\n      hover: 'transparent',\n      active: 'transparent',\n      disabled: 'transparent',\n    },\n    borderWidth: '0px',\n    borderRadius: '8px 8px 0 0',\n    color: {\n      default: 'light-dark(#92400e, #fef3c7)',\n      hover: 'light-dark(#78350f, #fef9e7)',\n      active: 'light-dark(#451a03, #ffffff)',\n      disabled: 'light-dark(#cbd5e1, #b5b1a3ff)',\n    },\n    fontSize: '14px',\n    fontWeight: '600',\n    paddingBlock: '12px',\n    paddingInline: '20px',\n    focusRing: {\n      borderColor: 'light-dark(#f59e0b, #fbbf24)',\n      borderRadius: '8px',\n      borderWidth: '2px',\n    },\n    activeIndicator: {\n      color: 'light-dark(#f59e0b, #fbbf24)',\n      width: '4px',\n      borderRadius: '4px',\n    },\n  },\n  tabSeparator: {\n    color: 'light-dark(#fde68a, #78350f)',\n    width: '2px',\n  },\n};\n\nconst permutations = createPermutations<TabsProps>([\n  {\n    tabs: [\n      [\n        { id: 'first', label: 'First tab', content: 'First tab content' },\n        { id: 'second', label: 'Second tab', content: 'Second tab content' },\n        { id: 'third', label: 'Third tab', content: 'Third tab content', disabled: true },\n      ],\n    ],\n    activeTabId: ['first', 'second'],\n    variant: ['default', 'container', 'stacked'],\n    disableContentPaddings: [false, true],\n    style: [style1, style2],\n  },\n]);\n\nexport default function TabsStylePermutations() {\n  return (\n    <>\n      <h1>Tabs Style Permutations</h1>\n\n      <ScreenshotArea disableAnimations={true}>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Tabs\n              {...permutation}\n              i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/style-permutations.page.tsx"
-  },
-  {
-   "name": "with-iframe",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\n\nimport React, { useState } from 'react';\n\nimport { Box, Button, Link } from '~components';\nimport Tabs from '~components/tabs';\n\nimport { IframeWrapper } from '../utils/iframe-wrapper';\n\nexport default function () {\n  return (\n    <Box margin=\"m\">\n      <h1>Tabs in iframe</h1>\n\n      <IframeWrapper id=\"iframe\" AppComponent={DemoTabs} />\n    </Box>\n  );\n}\n\nfunction DemoTabs() {\n  const [selectedTab, setSelectedTab] = useState('first');\n  return (\n    <>\n      <Link id=\"before\">Focus before</Link>\n\n      <Tabs\n        tabs={[\n          {\n            label: 'First tab',\n            id: 'first',\n            content: <Button id=\"tab-content-button\">Interactive content</Button>,\n          },\n          {\n            label: 'Second tab',\n            id: 'second',\n            content: 'Non-interactive content',\n          },\n        ]}\n        activeTabId={selectedTab}\n        onChange={event => setSelectedTab(event.detail.activeTabId)}\n        i18nStrings={{ scrollLeftAriaLabel: 'Scroll left', scrollRightAriaLabel: 'Scroll right' }}\n      />\n\n      <Link id=\"after\">Focus after</Link>\n    </>\n  );\n}\n",
-   "source": "pages/tabs/with-iframe.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/onboarding/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
   }
  ],
- "props": {
-  "name": "TabsProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "tabs",
-    "ReadonlyArray<TabsProps.Tab>",
-    "예",
-    "Specifies the tabs to display. Each tab object has the following properties: - `id` (string) - The tab identifier. This value needs to be passed to the Tabs component as `activeTabId` to select this tab. - `label` (ReactNode) - Tab label shown in the UI. - `content` (ReactNode) - (Optional) Tab content to render in the container. - `disabled` (boolean) - (Optional) Specifies if this tab is disabled. - `disabledReason` (string) - (Optional) Displays tooltip near the tab when disabled. Use to provide additional context. - `dismissible` (boolean) - (Optional) Determines whether the tab includes a dismiss icon button. By default, the dismiss button is not included. - `dismissLabel` (boolean) - (Optional) Specifies an aria-label for the dismiss icon button. - `dismissDisabled` (boolean) - (Optional) Determines whether the dismiss button is disabled. - `action` (ReactNode) - (Optional) Action for the tab, rendered next to its corresponding label. Although it is technically possible to insert any content, our UX guidelines only allow you to add an icon button or icon button dropdown. - `onDismiss` (ButtonProps['onClick']) - (Optional) Called when a user clicks on the dismiss button. - `href` (string) - (Optional) You can use this parameter to change the default `href` of the internal tab anchor. The `click` event default behavior is prevented, unless the user clicks the tab with a key modifier (that is, CTRL, ALT, SHIFT, META). This enables the user to open new browser tabs with an initially selected component tab, if your application routing can handle such deep links. You can manually update routing on the current page using the `activeTabHref` property of the `change` event's detail. - `contentRenderStrategy` (string) - (Optional) Determines when tab content is rendered: - `'eager'`: Always render tab content (hidden when the tab is not active). - `'lazy'`: Like 'eager', but content is only rendered after the tab is first activated.",
-    "src/tabs/interfaces.ts:35"
-   ],
-   [
-    "actions",
-    "React.ReactNode",
-    "아니오",
-    "Actions for the tabs header, displayed next to the list of tabs. Use this to add a button or button dropdown that performs actions on the entire tab list. We recommend a maximum of one interactive element to minimize the number of keyboard tab stops between the tab list and content.",
-    "src/tabs/interfaces.ts:43"
-   ],
-   [
-    "variant",
-    "TabsProps.Variant",
-    "아니오",
-    "The possible visual variants of tabs are the following: * `default` - Use in any context. * `container` - Use this variant to have the tabs displayed within a container header. * `stacked` - Use this variant directly adjacent to other stacked containers (such as a container, table). @visualrefresh `stacked` variant",
-    "src/tabs/interfaces.ts:52"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<TabsProps.ChangeDetail>",
-    "아니오",
-    "Called whenever the user selects a different tab. The event's `detail` contains the new `activeTabId`.",
-    "src/tabs/interfaces.ts:58"
-   ],
-   [
-    "activeTabId",
-    "string",
-    "아니오",
-    "The `id` of the currently active tab. * If you don't set this property, the component activates the first tab and switches tabs automatically when a tab header is clicked (that is, uncontrolled behavior). * If you explicitly set this property, you must set define an `onChange` handler to update the property when a tab header is clicked (that is, controlled behavior).",
-    "src/tabs/interfaces.ts:65"
-   ],
-   [
-    "ariaLabel",
-    "string",
-    "아니오",
-    "Provides an `aria-label` to the tab container. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/tabs/interfaces.ts:71"
-   ],
-   [
-    "ariaLabelledby",
-    "string",
-    "아니오",
-    "Sets the `aria-labelledby` property on the tab container. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
-    "src/tabs/interfaces.ts:78"
-   ],
-   [
-    "disableContentPaddings",
-    "boolean",
-    "아니오",
-    "Determines whether the tab content has padding. If `true`, removes the default padding from the tab content area.",
-    "src/tabs/interfaces.ts:83"
-   ],
-   [
-    "i18nStrings",
-    "TabsProps.I18nStrings",
-    "아니오",
-    "An object containing all the necessary localized strings required by the component. @i18n",
-    "src/tabs/interfaces.ts:89"
-   ],
-   [
-    "fitHeight",
-    "boolean",
-    "아니오",
-    "Enabling this property makes the tab content fit to the available height. If the tab content is too short, it will stretch. If the tab content is too long, a vertical scrollbar will be shown.",
-    "src/tabs/interfaces.ts:94"
-   ],
-   [
-    "keyboardActivationMode",
-    "'automatic' | 'manual'",
-    "아니오",
-    "Determines how the active tab is switched when navigating using the keyboard. The options are: - 'automatic' (default): the active tab is switched using the arrow keys. - 'manual': a tab must be explicitly activated using the enter/space key. We recommend using 'automatic' in most situations to provide consistent and quick switching between tabs. Use 'manual' only if there is a specific need to introduce friction to the switching of tabs.",
-    "src/tabs/interfaces.ts:104"
-   ],
-   [
-    "style",
-    "TabsProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the tabs' visual appearance. Refer to the [style](/components/tabs/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/tabs/interfaces.ts:111"
-   ]
-  ],
-  "source": "src/tabs/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "details",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "TabsProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "tabs",
+      "ReadonlyArray<TabsProps.Tab>",
+      "예",
+      "Specifies the tabs to display. Each tab object has the following properties: - `id` (string) - The tab identifier. This value needs to be passed to the Tabs component as `activeTabId` to select this tab. - `label` (ReactNode) - Tab label shown in the UI. - `content` (ReactNode) - (Optional) Tab content to render in the container. - `disabled` (boolean) - (Optional) Specifies if this tab is disabled. - `disabledReason` (string) - (Optional) Displays tooltip near the tab when disabled. Use to provide additional context. - `dismissible` (boolean) - (Optional) Determines whether the tab includes a dismiss icon button. By default, the dismiss button is not included. - `dismissLabel` (boolean) - (Optional) Specifies an aria-label for the dismiss icon button. - `dismissDisabled` (boolean) - (Optional) Determines whether the dismiss button is disabled. - `action` (ReactNode) - (Optional) Action for the tab, rendered next to its corresponding label. Although it is technically possible to insert any content, our UX guidelines only allow you to add an icon button or icon button dropdown. - `onDismiss` (ButtonProps['onClick']) - (Optional) Called when a user clicks on the dismiss button. - `href` (string) - (Optional) You can use this parameter to change the default `href` of the internal tab anchor. The `click` event default behavior is prevented, unless the user clicks the tab with a key modifier (that is, CTRL, ALT, SHIFT, META). This enables the user to open new browser tabs with an initially selected component tab, if your application routing can handle such deep links. You can manually update routing on the current page using the `activeTabHref` property of the `change` event's detail. - `contentRenderStrategy` (string) - (Optional) Determines when tab content is rendered: - `'eager'`: Always render tab content (hidden when the tab is not active). - `'lazy'`: Like 'eager', but content is only rendered after the tab is first activated.",
+      "src/tabs/interfaces.ts:35"
+     ],
+     [
+      "actions",
+      "React.ReactNode",
+      "아니오",
+      "Actions for the tabs header, displayed next to the list of tabs. Use this to add a button or button dropdown that performs actions on the entire tab list. We recommend a maximum of one interactive element to minimize the number of keyboard tab stops between the tab list and content.",
+      "src/tabs/interfaces.ts:43"
+     ],
+     [
+      "variant",
+      "TabsProps.Variant",
+      "아니오",
+      "The possible visual variants of tabs are the following: * `default` - Use in any context. * `container` - Use this variant to have the tabs displayed within a container header. * `stacked` - Use this variant directly adjacent to other stacked containers (such as a container, table). @visualrefresh `stacked` variant",
+      "src/tabs/interfaces.ts:52"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<TabsProps.ChangeDetail>",
+      "아니오",
+      "Called whenever the user selects a different tab. The event's `detail` contains the new `activeTabId`.",
+      "src/tabs/interfaces.ts:58"
+     ],
+     [
+      "activeTabId",
+      "string",
+      "아니오",
+      "The `id` of the currently active tab. * If you don't set this property, the component activates the first tab and switches tabs automatically when a tab header is clicked (that is, uncontrolled behavior). * If you explicitly set this property, you must set define an `onChange` handler to update the property when a tab header is clicked (that is, controlled behavior).",
+      "src/tabs/interfaces.ts:65"
+     ],
+     [
+      "ariaLabel",
+      "string",
+      "아니오",
+      "Provides an `aria-label` to the tab container. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/tabs/interfaces.ts:71"
+     ],
+     [
+      "ariaLabelledby",
+      "string",
+      "아니오",
+      "Sets the `aria-labelledby` property on the tab container. If there's a visible label element that you can reference, use this instead of `ariaLabel`. Don't use `ariaLabel` and `ariaLabelledby` at the same time.",
+      "src/tabs/interfaces.ts:78"
+     ],
+     [
+      "disableContentPaddings",
+      "boolean",
+      "아니오",
+      "Determines whether the tab content has padding. If `true`, removes the default padding from the tab content area.",
+      "src/tabs/interfaces.ts:83"
+     ],
+     [
+      "i18nStrings",
+      "TabsProps.I18nStrings",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/tabs/interfaces.ts:89"
+     ],
+     [
+      "fitHeight",
+      "boolean",
+      "아니오",
+      "Enabling this property makes the tab content fit to the available height. If the tab content is too short, it will stretch. If the tab content is too long, a vertical scrollbar will be shown.",
+      "src/tabs/interfaces.ts:94"
+     ],
+     [
+      "keyboardActivationMode",
+      "'automatic' | 'manual'",
+      "아니오",
+      "Determines how the active tab is switched when navigating using the keyboard. The options are: - 'automatic' (default): the active tab is switched using the arrow keys. - 'manual': a tab must be explicitly activated using the enter/space key. We recommend using 'automatic' in most situations to provide consistent and quick switching between tabs. Use 'manual' only if there is a specific need to introduce friction to the switching of tabs.",
+      "src/tabs/interfaces.ts:104"
+     ],
+     [
+      "style",
+      "TabsProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the tabs' visual appearance. Refer to the [style](/components/tabs/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/tabs/interfaces.ts:111"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "tabs"
 }

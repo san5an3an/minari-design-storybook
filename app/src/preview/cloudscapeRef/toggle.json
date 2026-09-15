@@ -1,82 +1,88 @@
 {
  "slug": "toggle",
  "title": "Toggle",
- "description": null,
- "descriptionSource": null,
+ "lead": null,
+ "leadFormat": null,
  "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
  "examples": [
   {
-   "name": "focus-test",
+   "key": "configurable-dashboard",
+   "name": "Configurable dashboard",
+   "axis": null,
+   "kind": "example",
    "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport Toggle from '~components/toggle';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function ToggleFocusScenario() {\n  const [checked, setChecked] = useState(false);\n  return (\n    <article>\n      <h1>Toggle test</h1>\n      <p>Toggles should be focused using the correct highlight</p>\n      <p>\n        Click here to focus so we can tab to the content below{' '}\n        <button type=\"button\" id=\"focus-target\">\n          focus\n        </button>\n      </p>\n      <ScreenshotArea>\n        <Toggle checked={checked} onChange={event => setChecked(event.detail.checked)}>\n          Toggle label\n        </Toggle>\n      </ScreenshotArea>\n    </article>\n  );\n}\n",
-   "source": "pages/toggle/focus-test.page.tsx"
-  },
-  {
-   "name": "labels-highlight",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Toggle from '~components/toggle';\n\nimport ScreenshotArea from '../utils/screenshot-area';\n\nimport styles from './styles.scss';\n\nexport default function ToggleLabelWidthScenario() {\n  return (\n    <div>\n      <h1>Labels width check</h1>\n      <p>Labels (green) should not take 100% of parent width, but only space needed for its content</p>\n      <ScreenshotArea className={styles.highlightLabels}>\n        <Toggle checked={false} onChange={() => {}}>\n          Sample toggle\n        </Toggle>\n        <Toggle checked={true} onChange={() => {}}>\n          Checked toggle\n        </Toggle>\n      </ScreenshotArea>\n    </div>\n  );\n}\n",
-   "source": "pages/toggle/labels-highlight.page.tsx"
-  },
-  {
-   "name": "permutations",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport Link from '~components/link';\nimport Toggle, { ToggleProps } from '~components/toggle';\n\nimport createPermutations from '../utils/permutations';\nimport PermutationsView from '../utils/permutations-view';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nconst permutations = createPermutations<ToggleProps>([\n  {\n    checked: [false],\n    children: [\n      '',\n      'Short label',\n      'Long label.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n    ],\n    description: [\n      '',\n      'Short description',\n      'Long description.  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',\n      <>\n        Link at end of description{' '}\n        <Link fontSize=\"body-s\" variant=\"primary\" external={true} externalIconAriaLabel=\"(External)\">\n          learn more\n        </Link>\n      </>,\n      <>\n        Icon in the middle of long description. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n        laboris nisi ut aliquip ex ea commodo consequat.{' '}\n        <Link fontSize=\"body-s\" variant=\"primary\" external={true} externalIconAriaLabel=\"(External)\">\n          learn more\n        </Link>{' '}\n        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur\n        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n      </>,\n    ],\n  },\n  {\n    disabled: [false, true],\n    checked: [false, true],\n    readOnly: [false, true],\n    children: ['Some label'],\n    description: ['', 'Short description'],\n  },\n]);\n\nexport default function TogglePermutations() {\n  return (\n    <>\n      <h1>Toggle permutations</h1>\n      <ScreenshotArea>\n        <PermutationsView\n          permutations={permutations}\n          render={permutation => (\n            <Toggle\n              ariaLabel=\"toggle\"\n              onChange={() => {\n                /*empty handler to suppress react controlled property warning*/\n              }}\n              {...permutation}\n            />\n          )}\n        />\n      </ScreenshotArea>\n    </>\n  );\n}\n",
-   "source": "pages/toggle/permutations.page.tsx"
-  },
-  {
-   "name": "simple",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React, { useState } from 'react';\n\nimport FormField from '~components/form-field';\nimport Toggle from '~components/toggle';\n\nexport default function ToggleSimpleScenario() {\n  const [checked, setChecked] = useState(false);\n  return (\n    <>\n      <h1>Toggle demo</h1>\n      <FormField description=\"This is a description.\" label=\"Form field label\" id=\"formfield-with-toggle\">\n        <Toggle\n          checked={checked}\n          onChange={event => {\n            setChecked(event.detail.checked);\n          }}\n        >\n          Toggle within Formfield\n        </Toggle>\n      </FormField>\n    </>\n  );\n}\n",
-   "source": "pages/toggle/simple.page.tsx"
-  },
-  {
-   "name": "style-custom",
-   "description": null,
-   "code": "// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n// SPDX-License-Identifier: Apache-2.0\nimport React from 'react';\n\nimport { SpaceBetween, Toggle } from '~components';\n\nimport { palette } from '../app/themes/style-api';\nimport ScreenshotArea from '../utils/screenshot-area';\n\nexport default function CustomToggle() {\n  const style = {\n    input: {\n      background: {\n        checked: palette.teal80,\n        default: palette.teal80,\n        disabled: palette.teal40,\n        readOnly: palette.teal40,\n      },\n      handle: {\n        background: {\n          checked: palette.neutral10,\n          default: palette.neutral10,\n          disabled: palette.neutral10,\n          readOnly: palette.neutral80,\n        },\n      },\n      focusRing: {\n        borderColor: palette.teal80,\n        borderRadius: '4px',\n        borderWidth: '3px',\n      },\n    },\n    label: {\n      color: {\n        checked: `light-dark(${palette.neutral100}, ${palette.neutral10})`,\n        default: `light-dark(${palette.neutral100}, ${palette.neutral10})`,\n        disabled: `light-dark(${palette.neutral90}, ${palette.neutral40})`,\n        readOnly: `light-dark(${palette.neutral100}, ${palette.neutral10})`,\n      },\n    },\n  };\n\n  return (\n    <ScreenshotArea>\n      <h1>Custom Toggle</h1>\n\n      <SpaceBetween size=\"m\" direction=\"vertical\">\n        <SpaceBetween size=\"m\" direction=\"horizontal\">\n          <Toggle checked={false} style={style} data-testid=\"1\">\n            Toggle\n          </Toggle>\n\n          <Toggle checked={false} disabled={true} readOnly={false} style={style}>\n            Toggle\n          </Toggle>\n\n          <Toggle checked={false} disabled={false} readOnly={true} style={style}>\n            Toggle\n          </Toggle>\n        </SpaceBetween>\n\n        <SpaceBetween size=\"m\" direction=\"horizontal\">\n          <Toggle checked={true} style={style}>\n            Toggle\n          </Toggle>\n\n          <Toggle checked={true} disabled={true} readOnly={false} style={style}>\n            Toggle\n          </Toggle>\n\n          <Toggle checked={true} disabled={false} readOnly={true} style={style}>\n            Toggle\n          </Toggle>\n        </SpaceBetween>\n      </SpaceBetween>\n    </ScreenshotArea>\n  );\n}\n",
-   "source": "pages/toggle/style-custom.page.tsx"
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/configurable-dashboard/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": {
+    "code": "package-missing",
+    "detail": "이 데모가 부르는 @cloudscape-design/board-components · @cloudscape-design/chart-components · @cloudscape-design/design-tokens 가 설치돼 있지 않다"
+   }
   }
  ],
- "props": {
-  "name": "ToggleProps",
-  "columns": [
-   "이름",
-   "타입",
-   "필수",
-   "설명",
-   "출처"
-  ],
-  "rows": [
-   [
-    "children",
-    "React.ReactNode",
-    "아니오",
-    "The control's label that's displayed next to the toggle. Clicking this will invoke a state change. @displayname label",
-    "src/toggle/interfaces.ts:17"
-   ],
-   [
-    "onChange",
-    "NonCancelableEventHandler<ToggleProps.ChangeDetail>",
-    "아니오",
-    "Called when the user changes their selection. The event `detail` contains the current value for the `checked` property.",
-    "src/toggle/interfaces.ts:23"
-   ],
-   [
-    "style",
-    "ToggleProps.Style",
-    "아니오",
-    "An object containing CSS properties to customize the toggle's visual appearance. Refer to the [style](/components/toggle/?tabId=style) tab for more details. @awsuiSystem core",
-    "src/toggle/interfaces.ts:30"
-   ],
-   [
-    "nativeInputAttributes",
-    "NativeAttributes<React.InputHTMLAttributes<HTMLInputElement>>",
-    "아니오",
-    "Attributes to add to the native `input` element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
-    "src/toggle/interfaces.ts:42"
-   ]
-  ],
-  "source": "src/toggle/interfaces.ts"
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "configurable-dashboard",
+  "reason": null
  },
- "version": "3.0.1365",
- "sourceRepo": "https://github.com/cloudscape-design/components/tree/3.0.1365"
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "ToggleProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "children",
+      "React.ReactNode",
+      "아니오",
+      "The control's label that's displayed next to the toggle. Clicking this will invoke a state change. @displayname label",
+      "src/toggle/interfaces.ts:17"
+     ],
+     [
+      "onChange",
+      "NonCancelableEventHandler<ToggleProps.ChangeDetail>",
+      "아니오",
+      "Called when the user changes their selection. The event `detail` contains the current value for the `checked` property.",
+      "src/toggle/interfaces.ts:23"
+     ],
+     [
+      "style",
+      "ToggleProps.Style",
+      "아니오",
+      "An object containing CSS properties to customize the toggle's visual appearance. Refer to the [style](/components/toggle/?tabId=style) tab for more details. @awsuiSystem core",
+      "src/toggle/interfaces.ts:30"
+     ],
+     [
+      "nativeInputAttributes",
+      "NativeAttributes<React.InputHTMLAttributes<HTMLInputElement>>",
+      "아니오",
+      "Attributes to add to the native `input` element. Some attributes will be automatically combined with internal attribute values: - `className` will be appended. - Event handlers will be chained, unless the default is prevented. We do not support using this attribute to apply custom styling. @awsuiSystem core",
+      "src/toggle/interfaces.ts:42"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": "toggle"
 }
