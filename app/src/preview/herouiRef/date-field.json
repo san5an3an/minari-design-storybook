@@ -1,0 +1,770 @@
+{
+ "slug": "date-field",
+ "title": "DateField",
+ "description": "Date input field with labels, descriptions, and validation built on React Aria DateField",
+ "group": "Date And Time",
+ "links": {
+  "rac": "DateField",
+  "sourceFile": "date-field/date-field.tsx",
+  "styles": "date-field.css",
+  "storybook": "Components/Date and Time/DateField"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { DateField } from '@heroui/react';\n```\n\n<ComponentPreview name=\"date-field-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {DateField, Label, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <DateField>\n    <Label />\n    <DateField.Group>\n      <DateField.Input>\n        {(segment) => <DateField.Segment segment={segment} />}\n      </DateField.Input>\n    </DateField.Group>\n    <Description />\n    <FieldError />\n  </DateField>\n)\n```\n\n> **DateField** combines label, date input, description, and error into a single accessible component.",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### With Icons\n\nAdd prefix or suffix icons to enhance the date field.\n\n<ComponentPreview name=\"date-field-with-prefix-icon\" />\n\n<ComponentPreview name=\"date-field-with-suffix-icon\" />\n\n<ComponentPreview name=\"date-field-with-prefix-and-suffix\" />\n\n### Variants\n\nThe DateField.Group component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"date-field-variants\" />\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` on DateField.Group to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"date-field-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"date-field-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"date-field-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"date-field-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"date-field-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"date-field-invalid\" />\n\n### Granularity\n\n<ComponentPreview name=\"date-field-granularity\" />\n\n### Controlled\n\nControl the value to synchronize with other components or state management.\n\n<ComponentPreview name=\"date-field-controlled\" />\n\n### Form Example\n\nComplete form example with validation and submission handling.\n\n<ComponentPreview name=\"date-field-form-example\" />\n\n### With Validation\n\nDateField supports validation with `minValue`, `maxValue`, and custom validation logic.\n\n<ComponentPreview name=\"date-field-with-validation\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"date-field-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:41"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"date-field-custom-styles\" />\n\n### Global CSS\n\nDateField has minimal default styling. Override the `.date-field` class to customize the container styling.\n\n```css\n@layer components {\n  .date-field {\n    @apply flex flex-col gap-1;\n\n    &[data-invalid=\"true\"],\n    &[aria-invalid=\"true\"] {\n      [data-slot=\"description\"] {\n        @apply hidden;\n      }\n    }\n\n    [data-slot=\"label\"] {\n      @apply w-fit;\n    }\n\n    [data-slot=\"description\"] {\n      @apply px-1;\n    }\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:118"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n- `.date-field` – Root container with minimal styling (`flex flex-col gap-1`)\n\n> **Note:** Child components ([Label](/docs/components/label), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options. DateField.Group styling is documented below in the API Reference section.\n\n### Interactive States\n\nDateField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Required**: `[data-required=\"true\"]` - Applied when `isRequired` is true\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when any child input is focused",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:151"
+  },
+  {
+   "name": "API Reference",
+   "body": "### DateField\n\nDateField inherits all props from React Aria's [DateField](https://react-aria.adobe.com/DateField.md) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: DateFieldRenderProps) => React.ReactNode` | - | Child components (Label, DateField.Group, etc.) or render function. |\n| `className` | `string \\| (values: DateFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: DateFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the date field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, DateFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `DateValue \\| null` | - | Current value (controlled). Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `defaultValue` | `DateValue \\| null` | - | Default value (uncontrolled). Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `onChange` | `(value: DateValue \\| null) => void` | - | Handler called when the value changes. |\n| `placeholderValue` | `DateValue \\| null` | - | Placeholder date that influences the format of the placeholder. |\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `minValue` | `DateValue \\| null` | - | The minimum allowed date that a user may select. Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `maxValue` | `DateValue \\| null` | - | The maximum allowed date that a user may select. Uses [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) types. |\n| `isDateUnavailable` | `(date: DateValue) => boolean` | - | Callback that is called for each date. If it returns true, the date is unavailable. |\n| `validate` | `(value: DateValue) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n\n#### Format Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `granularity` | `Granularity` | - | Determines the smallest unit displayed. Defaults to `\"day\"` for dates, `\"minute\"` for times. |\n| `hourCycle` | `12 \\| 24` | - | Whether to display time in 12 or 24 hour format. By default, determined by locale. |\n| `hideTimeZone` | `boolean` | `false` | Whether to hide the time zone abbreviation. |\n| `shouldForceLeadingZeros` | `boolean` | - | Whether to always show leading zeros in month, day, and hour fields. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. Submits as ISO 8601 string. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n| `autoComplete` | `string` | - | Type of autocomplete functionality the input should provide. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nDateField works with these separate components that should be imported and used directly:\n\n- **Label** - Field label component from `@heroui/react`\n- **DateField.Group** - Date input group component (documented below)\n- **DateField.Input** - Input component with segmented editing from `@heroui/react`\n- **DateField.InputContainer** - Scrollable container for grouping multiple inputs (e.g. start/end range inputs) with horizontal overflow\n- **DateField.Segment** - Individual date segment (year, month, day, etc.)\n- **DateField.Prefix** / **DateField.Suffix** - Prefix and suffix slots for the input group\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within DateField for composition:\n\n```tsx\nimport {parseDate} from '@internationalized/date';\nimport {DateField, Label, Description, FieldError} from '@heroui/react';\n\n<DateField\n  isRequired\n  isInvalid={hasError}\n  minValue={today(getLocalTimeZone())}\n  value={date}\n  onChange={setDate}\n>\n  <Label>Appointment Date</Label>\n  <DateField.Group>\n    <DateField.Input>\n      {(segment) => <DateField.Segment segment={segment} />}\n    </DateField.Input>\n  </DateField.Group>\n  <Description>Select a date from today onwards.</Description>\n  <FieldError>Please select a valid date.</FieldError>\n</DateField>\n```\n\n### DateValue Types\n\nDateField uses types from [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/):\n\n- `CalendarDate` - Date without time or timezone\n- `CalendarDateTime` - Date with time but no timezone\n- `ZonedDateTime` - Date with time and timezone\n- `Time` - Time only\n\nExample:\n\n```tsx\nimport {parseDate, today, getLocalTimeZone} from '@internationalized/date';\n\n// Parse from string\nconst date = parseDate('2024-01-15');\n\n// Today's date\nconst todayDate = today(getLocalTimeZone());\n\n// Use in DateField\n<DateField value={date} onChange={setDate}>\n  {/* ... */}\n</DateField>\n```\n\n> **Note:** DateField uses the [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) package for date manipulation, parsing, and type definitions. See the [Internationalized Date documentation](https://react-aria.adobe.com/internationalized/date/) for more information about available types and functions.\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused. |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |\n\n### DateField.Group\n\nDateField.Group accepts all props from React Aria's `Group` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `fullWidth` | `boolean` | `false` | Whether the date input group should take full width of its container |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\n### DateField.Input\n\nDateField.Input accepts all props from React Aria's `DateInput` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\nThe `DateField.Input` component accepts a render prop function that receives date segments. Each segment represents a part of the date (year, month, day, etc.).\n\n### DateField.Segment\n\nDateField.Segment accepts all props from React Aria's `DateSegment` component:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `segment` | `DateSegment` | - | The date segment object from the DateField.Input render prop. |\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n\n### DateField.InputContainer\n\nDateField.InputContainer accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display inside the scrollable container (typically multiple `DateField.Input` components). |\n\n### DateField.Prefix\n\nDateField.Prefix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the prefix slot. |\n\n### DateField.Suffix\n\nDateField.Suffix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the suffix slot. |",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:170"
+  },
+  {
+   "name": "DateField.Group Styling",
+   "body": "### Customizing the component classes\n\nThe base classes power every instance. Override them once with `@layer components`.\n\n```css\n@layer components {\n  .date-input-group {\n    @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none;\n\n    &:hover,\n    &[data-hovered=\"true\"] {\n      @apply bg-field-hover;\n    }\n\n    &[data-focus-within=\"true\"],\n    &:focus-within {\n      @apply status-focused-field;\n    }\n\n    &[data-invalid=\"true\"] {\n      @apply status-invalid-field;\n    }\n\n    &[data-disabled=\"true\"],\n    &[aria-disabled=\"true\"] {\n      @apply status-disabled;\n    }\n  }\n\n  .date-input-group__input {\n    @apply flex flex-1 items-center gap-px rounded-none border-0 bg-transparent px-3 py-2 shadow-none outline-none;\n  }\n\n  .date-input-group__segment {\n    @apply inline-block rounded-md px-0.5 text-end tabular-nums outline-none;\n\n    &:focus,\n    &[data-focused=\"true\"] {\n      @apply bg-accent-soft text-accent-soft-foreground;\n    }\n  }\n\n  .date-input-group__input-container {\n    @apply flex flex-1 items-center;\n    overflow-x: auto;\n    overflow-y: clip;\n    scrollbar-width: none;\n  }\n\n  .date-input-group__prefix,\n  .date-input-group__suffix {\n    @apply pointer-events-none shrink-0 text-field-placeholder flex items-center;\n  }\n}\n```\n\n### DateField.Group CSS Classes\n\n- `.date-input-group` – Root container styling\n- `.date-input-group__input` – Input wrapper styling\n- `.date-input-group__input-container` – Scrollable container for grouping multiple inputs\n- `.date-input-group__segment` – Individual date segment styling\n- `.date-input-group__prefix` – Prefix element styling\n- `.date-input-group__suffix` – Suffix element styling\n\n### DateField.Group Interactive States\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Focus Within**: `[data-focus-within=\"true\"]` or `:focus-within`\n- **Invalid**: `[data-invalid=\"true\"]` (also syncs with `aria-invalid`)\n- **Disabled**: `[data-disabled=\"true\"]` or `[aria-disabled=\"true\"]`\n- **Segment Focus**: `:focus` or `[data-focused=\"true\"]` on segment elements\n- **Segment Placeholder**: `[data-placeholder=\"true\"]` on segment elements",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:377"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"datefield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:453"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "date-field-basic",
+   "source": "apps/docs/src/demos/en/date-field/basic.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <DateField className=\"w-[256px]\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n      </DateField.Group>\n    </DateField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "date-field-with-prefix-icon",
+   "source": "apps/docs/src/demos/en/date-field/with-prefix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@gravity-ui/icons\";\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function WithPrefixIcon() {\n  return (\n    <DateField className=\"w-[256px]\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group>\n        <DateField.Prefix>\n          <Calendar className=\"size-4 text-muted\" />\n        </DateField.Prefix>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n      </DateField.Group>\n    </DateField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "date-field-with-suffix-icon",
+   "source": "apps/docs/src/demos/en/date-field/with-suffix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@gravity-ui/icons\";\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function WithSuffixIcon() {\n  return (\n    <DateField className=\"w-[256px]\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <Calendar className=\"size-4 text-muted\" />\n        </DateField.Suffix>\n      </DateField.Group>\n    </DateField>\n  );\n}\n"
+  },
+  {
+   "name": "With Icons",
+   "section": "Examples",
+   "key": "date-field-with-prefix-and-suffix",
+   "source": "apps/docs/src/demos/en/date-field/with-prefix-and-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, ChevronDown} from \"@gravity-ui/icons\";\nimport {DateField, Description, Label} from \"@heroui/react\";\n\nexport function WithPrefixAndSuffix() {\n  return (\n    <DateField className=\"w-[256px]\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group>\n        <DateField.Prefix>\n          <Calendar className=\"size-4 text-muted\" />\n        </DateField.Prefix>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <ChevronDown className=\"size-4 text-muted\" />\n        </DateField.Suffix>\n      </DateField.Group>\n      <Description>Enter a date</Description>\n    </DateField>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "date-field-variants",
+   "source": "apps/docs/src/demos/en/date-field/variants.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField className=\"w-[256px]\" name=\"primary-date\">\n        <Label>Primary variant</Label>\n        <DateField.Group variant=\"primary\">\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n      </DateField>\n      <DateField className=\"w-[256px]\" name=\"secondary-date\">\n        <Label>Secondary variant</Label>\n        <DateField.Group variant=\"secondary\">\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "date-field-on-surface",
+   "source": "apps/docs/src/demos/en/date-field/on-surface.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@gravity-ui/icons\";\nimport {DateField, Description, Label, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"flex w-full max-w-sm flex-col gap-4 rounded-3xl p-6\">\n      <DateField className=\"w-full\" name=\"date\">\n        <Label>Date</Label>\n        <DateField.Group variant=\"secondary\">\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Enter a date</Description>\n      </DateField>\n      <DateField className=\"w-full\" name=\"date-2\">\n        <Label>Appointment date</Label>\n        <DateField.Group variant=\"secondary\">\n          <DateField.Prefix>\n            <Calendar className=\"size-4 text-muted\" />\n          </DateField.Prefix>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Enter a date for your appointment</Description>\n      </DateField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "date-field-with-description",
+   "source": "apps/docs/src/demos/en/date-field/with-description.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Description, Label} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField className=\"w-[256px]\" name=\"date\">\n        <Label>Birth date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Enter your date of birth</Description>\n      </DateField>\n      <DateField className=\"w-[256px]\" name=\"appointment-date\">\n        <Label>Appointment date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Enter a date for your appointment</Description>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "date-field-required",
+   "source": "apps/docs/src/demos/en/date-field/required.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Description, Label} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField isRequired className=\"w-[256px]\" name=\"date\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n      </DateField>\n      <DateField isRequired className=\"w-[256px]\" name=\"start-date\">\n        <Label>Start date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Required field</Description>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "date-field-disabled",
+   "source": "apps/docs/src/demos/en/date-field/disabled.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Description, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField isDisabled className=\"w-[256px]\" name=\"date\" value={today(getLocalTimeZone())}>\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>This date field is disabled</Description>\n      </DateField>\n      <DateField isDisabled className=\"w-[256px]\" name=\"date-empty\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>This date field is disabled</Description>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "date-field-full-width",
+   "source": "apps/docs/src/demos/en/date-field/full-width.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, ChevronDown} from \"@gravity-ui/icons\";\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <DateField fullWidth name=\"date\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n      </DateField>\n      <DateField fullWidth name=\"date-icons\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Prefix>\n            <Calendar className=\"size-4 text-muted\" />\n          </DateField.Prefix>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n          <DateField.Suffix>\n            <ChevronDown className=\"size-4 text-muted\" />\n          </DateField.Suffix>\n        </DateField.Group>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "date-field-invalid",
+   "source": "apps/docs/src/demos/en/date-field/invalid.tsx",
+   "code": "\"use client\";\n\nimport {DateField, FieldError, Label} from \"@heroui/react\";\n\nexport function Invalid() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField isInvalid isRequired className=\"w-[256px]\" name=\"date\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <FieldError>Please enter a valid date</FieldError>\n      </DateField>\n      <DateField isInvalid className=\"w-[256px]\" name=\"invalid-date\">\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <FieldError>Date must be in the future</FieldError>\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Granularity",
+   "section": "Examples",
+   "key": "date-field-granularity",
+   "source": "apps/docs/src/demos/en/date-field/granularity.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {CircleQuestion} from \"@gravity-ui/icons\";\nimport {DateField, Label, ListBox, Select, Tooltip} from \"@heroui/react\";\nimport {parseDate, parseZonedDateTime} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function Granularity() {\n  const granularityOptions = [\n    {id: \"day\", label: \"Day\"},\n    {id: \"hour\", label: \"Hour\"},\n    {id: \"minute\", label: \"Minute\"},\n    {id: \"second\", label: \"Second\"},\n  ] as const;\n\n  const [granularity, setGranularity] = useState<\"day\" | \"hour\" | \"minute\" | \"second\">(\"day\");\n\n  // Determine appropriate default value based on granularity\n  let defaultValue: DateValue;\n\n  if (granularity === \"day\") {\n    defaultValue = parseDate(\"2025-02-03\");\n  } else {\n    // hour, minute, second\n    defaultValue = parseZonedDateTime(\"2025-02-03T08:45:00[America/Los_Angeles]\");\n  }\n\n  return (\n    <div className=\"flex gap-4\">\n      <DateField\n        className=\"w-[256px]\"\n        defaultValue={defaultValue}\n        granularity={granularity}\n        name=\"granularity-date\"\n      >\n        <Label>Appointment Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n      </DateField>\n      <div className=\"flex flex-col gap-1\">\n        <div className=\"flex items-center gap-2\">\n          <Label>Granularity</Label>\n          <Tooltip delay={0}>\n            <Tooltip.Trigger aria-label=\"Granularity information\">\n              <CircleQuestion className=\"size-4 text-muted\" />\n            </Tooltip.Trigger>\n            <Tooltip.Content placement=\"bottom start\">\n              <p>\n                Determines the smallest unit displayed in the date picker. By default, this is \"day\"\n                for dates, and \"minute\" for times.\n              </p>\n            </Tooltip.Content>\n          </Tooltip>\n        </div>\n        <Select\n          className=\"w-[110px]\"\n          placeholder=\"Select granularity\"\n          value={granularity}\n          variant=\"secondary\"\n          onChange={(value) => setGranularity(value as typeof granularity)}\n        >\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Indicator />\n          </Select.Trigger>\n          <Select.Popover>\n            <ListBox>\n              {granularityOptions.map((option) => (\n                <ListBox.Item key={option.id} id={option.id} textValue={option.label}>\n                  {option.label}\n                  <ListBox.ItemIndicator />\n                </ListBox.Item>\n              ))}\n            </ListBox>\n          </Select.Popover>\n        </Select>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "date-field-controlled",
+   "source": "apps/docs/src/demos/en/date-field/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Button, DateField, Description, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = useState<DateValue | null>(null);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField className=\"w-[256px]\" name=\"date\" value={value} onChange={setValue}>\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        <Description>Current value: {value ? value.toString() : \"(empty)\"}</Description>\n      </DateField>\n      <div className=\"flex gap-2\">\n        <Button variant=\"tertiary\" onPress={() => setValue(today(getLocalTimeZone()))}>\n          Set today\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(null)}>\n          Clear\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "date-field-form-example",
+   "source": "apps/docs/src/demos/en/date-field/form-example.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Calendar} from \"@gravity-ui/icons\";\nimport {Button, DateField, Description, FieldError, Form, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = useState<DateValue | null>(null);\n  const [isSubmitting, setIsSubmitting] = useState(false);\n  const todayDate = today(getLocalTimeZone());\n  const isInvalid = value !== null && value.compare(todayDate) < 0;\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n\n    if (!value || isInvalid) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    // Simulate API call\n    setTimeout(() => {\n      console.log(\"Date submitted:\", {date: value});\n      setValue(null);\n      setIsSubmitting(false);\n    }, 1500);\n  };\n\n  return (\n    <Form className=\"flex w-[280px] flex-col gap-4\" onSubmit={handleSubmit}>\n      <DateField\n        isRequired\n        className=\"w-full\"\n        isInvalid={isInvalid}\n        minValue={todayDate}\n        name=\"date\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Appointment date</Label>\n        <DateField.Group>\n          <DateField.Prefix>\n            <Calendar className=\"size-4 text-muted\" />\n          </DateField.Prefix>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        {isInvalid ? (\n          <FieldError>Date must be today or in the future</FieldError>\n        ) : (\n          <Description>Enter a date from today onwards</Description>\n        )}\n      </DateField>\n      <Button\n        className=\"w-full\"\n        isDisabled={!value || isInvalid}\n        isPending={isSubmitting}\n        type=\"submit\"\n        variant=\"primary\"\n      >\n        {isSubmitting ? \"Submitting...\" : \"Submit\"}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "With Validation",
+   "section": "Examples",
+   "key": "date-field-with-validation",
+   "source": "apps/docs/src/demos/en/date-field/with-validation.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {DateField, Description, FieldError, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function WithValidation() {\n  const [value, setValue] = useState<DateValue | null>(null);\n  const todayDate = today(getLocalTimeZone());\n  const isInvalid = value !== null && value.compare(todayDate) < 0;\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DateField\n        isRequired\n        className=\"w-[256px]\"\n        isInvalid={isInvalid}\n        minValue={todayDate}\n        name=\"date\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Date</Label>\n        <DateField.Group>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        </DateField.Group>\n        {isInvalid ? (\n          <FieldError>Date must be today or in the future</FieldError>\n        ) : (\n          <Description>Enter a date from today onwards</Description>\n        )}\n      </DateField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "date-field-render-function",
+   "source": "apps/docs/src/demos/en/date-field/render-function.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <DateField\n      className=\"w-[256px]\"\n      name=\"date\"\n      render={(props) => <div {...props} data-custom=\"date-field\" />}\n    >\n      <Label render={(props) => <span {...props} data-custom=\"date-field-label\" />}>Date</Label>\n      <DateField.Group render={(props) => <div {...props} data-custom=\"date-field-group\" />}>\n        <DateField.Input render={(props) => <div {...props} data-custom=\"date-field-input\" />}>\n          {(segment) => <DateField.Segment segment={segment} />}\n        </DateField.Input>\n      </DateField.Group>\n    </DateField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "date-field-custom-styles",
+   "source": "apps/docs/src/demos/en/date-field/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {DateField, Label} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <DateField className=\"w-64\" name=\"due-date\">\n      <Label>Due date</Label>\n      <DateField.Group\n        className=\"rounded-xl border border-border/80 bg-default shadow-sm\"\n        variant=\"secondary\"\n      >\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n      </DateField.Group>\n    </DateField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: DateFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, DateField.Group, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:180"
+    ],
+    [
+     "`className`",
+     "`string | (values: DateFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:181"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: DateFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:182"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the date field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:183"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:184"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, DateFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:185"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`DateValue | null`",
+     "-",
+     "Current value (controlled). Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:191"
+    ],
+    [
+     "`defaultValue`",
+     "`DateValue | null`",
+     "-",
+     "Default value (uncontrolled). Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:192"
+    ],
+    [
+     "`onChange`",
+     "`(value: DateValue | null) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:193"
+    ],
+    [
+     "`placeholderValue`",
+     "`DateValue | null`",
+     "-",
+     "Placeholder date that influences the format of the placeholder.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:194"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:200"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:201"
+    ],
+    [
+     "`minValue`",
+     "`DateValue | null`",
+     "-",
+     "The minimum allowed date that a user may select. Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:202"
+    ],
+    [
+     "`maxValue`",
+     "`DateValue | null`",
+     "-",
+     "The maximum allowed date that a user may select. Uses `@internationalized/date` types.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:203"
+    ],
+    [
+     "`isDateUnavailable`",
+     "`(date: DateValue) => boolean`",
+     "-",
+     "Callback that is called for each date. If it returns true, the date is unavailable.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:204"
+    ],
+    [
+     "`validate`",
+     "`(value: DateValue) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:205"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:206"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`granularity`",
+     "`Granularity`",
+     "-",
+     "Determines the smallest unit displayed. Defaults to `\"day\"` for dates, `\"minute\"` for times.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:212"
+    ],
+    [
+     "`hourCycle`",
+     "`12 | 24`",
+     "-",
+     "Whether to display time in 12 or 24 hour format. By default, determined by locale.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:213"
+    ],
+    [
+     "`hideTimeZone`",
+     "`boolean`",
+     "`false`",
+     "Whether to hide the time zone abbreviation.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:214"
+    ],
+    [
+     "`shouldForceLeadingZeros`",
+     "`boolean`",
+     "-",
+     "Whether to always show leading zeros in month, day, and hour fields.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:215"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:221"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:222"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission. Submits as ISO 8601 string.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:228"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:229"
+    ],
+    [
+     "`autoComplete`",
+     "`string`",
+     "-",
+     "Type of autocomplete functionality the input should provide.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:230"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:236"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:237"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:238"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:239"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:172",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:312"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:313"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:314"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:315"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:316"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:317"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:318"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:306",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.Group",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:326"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the date input group should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:327"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:328"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:320",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.Input",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:336"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:337"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:330",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.Segment",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`segment`",
+     "`DateSegment`",
+     "-",
+     "The date segment object from the DateField.Input render prop.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:347"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:348"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:341",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.InputContainer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:356"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display inside the scrollable container (typically multiple `DateField.Input` components).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:357"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:350",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.Prefix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:365"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the prefix slot.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:366"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:359",
+   "section": "API Reference"
+  },
+  {
+   "name": "DateField.Suffix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:374"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the suffix slot.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:375"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:368",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "DateField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:206"
+  },
+  {
+   "name": "`hourCycle`",
+   "prop": "hourCycle",
+   "values": [
+    "12",
+    "24"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "DateField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:213"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "DateField.Group",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:328"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "DateField.Input",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-field.mdx:337"
+  }
+ ]
+}

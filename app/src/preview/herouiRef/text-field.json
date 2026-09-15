@@ -1,0 +1,459 @@
+{
+ "slug": "text-field",
+ "title": "TextField",
+ "description": "Composition-friendly text fields with labels, descriptions, and inline validation",
+ "group": "Forms",
+ "links": {
+  "rac": "TextField",
+  "sourceFile": "textfield/textfield.tsx",
+  "styles": "textfield.css",
+  "storybook": "Components/Forms/TextField",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { TextField } from '@heroui/react';\n```\n\n<ComponentPreview name=\"textfield-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {TextField, Label, Input, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <TextField>\n    <Label />\n    <Input />\n    <Description />\n    <FieldError />\n  </TextField>\n)\n```\n\n>  **TextField** combines label, input, description, and error into a single accessible component.\nFor standalone inputs, use **[Input](/docs/components/input)** or **[TextArea](/docs/components/textarea)**.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` on Input or TextArea components to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"textfield-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"textfield-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"textfield-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"textfield-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"textfield-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"textfield-validation\" />\n\n### Controlled\n\nControl the value to synchronize counters, previews, or formatting.\n\n<ComponentPreview name=\"textfield-controlled\" />\n\n### Error Message\n\n<ComponentPreview name=\"textfield-with-error\" />\n\n### TextArea\n\nUse [TextArea](/docs/components/textarea) instead of [Input](/docs/components/input) for multiline content.\n\n<ComponentPreview name=\"textfield-textarea\" />\n\n### Input Types\n\n<ComponentPreview name=\"textfield-input-types\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"textfield-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:38"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"text-field-custom-styles\" />\n\n### Global CSS\n\nTextField has minimal default styling. Override the `.textfield` class to customize the container styling.\n\n```css\n@layer components {\n  .textfield {\n    @apply flex flex-col gap-1;\n  }\n\n  /* When invalid, the description is hidden automatically */\n  .textfield[data-invalid=\"true\"] [data-slot=\"description\"],\n  .textfield[aria-invalid=\"true\"] [data-slot=\"description\"] {\n    @apply hidden;\n  }\n\n  /* Description has default padding */\n  .textfield [data-slot=\"description\"] {\n    @apply px-1;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:94"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n- `.textfield` – Root container with minimal styling (`flex flex-col gap-1`)\n\n> **Note:** Child components ([Label](/docs/components/label), [Input](/docs/components/input), [TextArea](/docs/components/textarea), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options.\n\n### Interactive States\n\nTextField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when any child input is focused\n- **Focus Visible**: `[data-focus-visible=\"true\"]` - Applied when focus is visible (keyboard navigation)\n\nAdditional attributes are available through render props (see TextFieldRenderProps below).",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:123"
+  },
+  {
+   "name": "API Reference",
+   "body": "### TextField\n\nTextField inherits all props from React Aria's [TextField](https://react-spectrum.adobe.com/react-aria/TextField.html) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: TextFieldRenderProps) => React.ReactNode` | - | Child components (Label, Input, etc.) or render function. |\n| `className` | `string \\| (values: TextFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: TextFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the text field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TextFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `validate` | `(value: string) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n| `validationErrors` | `string[]` | - | Server-side validation errors. |\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `string` | - | Current value (controlled). |\n| `defaultValue` | `string` | - | Default value (uncontrolled). |\n| `onChange` | `(value: string) => void` | - | Handler called when the value changes. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nTextField works with these separate components that should be imported and used directly:\n\n- **Label** - Field label component from `@heroui/react`\n- **Input** - Single-line text input from `@heroui/react`\n- **TextArea** - Multi-line text input from `@heroui/react`\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within TextField for composition:\n\n```tsx\n<TextField isRequired isInvalid={hasError}>\n  <Label>Email Address</Label>\n  <Input type=\"email\" value={email} onChange={(e) => setEmail(e.target.value)} />\n  <Description>We'll never share your email.</Description>\n  <FieldError>Please enter a valid email address.</FieldError>\n</TextField>\n```\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused (DEPRECATED - use `isFocusWithin`). |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:144"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"TextField\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:237"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"textfield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:241"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "textfield-basic",
+   "source": "apps/docs/src/demos/en/textfield/basic.tsx",
+   "code": "import {Input, Label, TextField} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <TextField className=\"w-full max-w-64\" name=\"email\" type=\"email\">\n      <Label>Email</Label>\n      <Input placeholder=\"Enter your email\" />\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "textfield-on-surface",
+   "source": "apps/docs/src/demos/en/textfield/on-surface.tsx",
+   "code": "import {Description, Input, Label, Surface, TextArea, TextField} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"flex w-full min-w-[340px] flex-col gap-4 rounded-3xl p-6\">\n      <TextField name=\"name\" variant=\"secondary\">\n        <Label>Your name</Label>\n        <Input className=\"w-full\" placeholder=\"John\" />\n        <Description>We'll never share this with anyone else</Description>\n      </TextField>\n      <TextField name=\"email\" type=\"email\" variant=\"secondary\">\n        <Label>Email</Label>\n        <Input className=\"w-full\" placeholder=\"john@example.com\" />\n      </TextField>\n      <TextField name=\"bio\" variant=\"secondary\">\n        <Label>Bio</Label>\n        <TextArea className=\"w-full\" placeholder=\"Tell us about yourself...\" rows={4} />\n        <Description>Minimum 4 rows</Description>\n      </TextField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "textfield-with-description",
+   "source": "apps/docs/src/demos/en/textfield/with-description.tsx",
+   "code": "import {Description, Input, Label, TextField} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <TextField className=\"w-full max-w-64\" name=\"username\">\n      <Label>Username</Label>\n      <Input placeholder=\"Enter username\" />\n      <Description>Choose a unique username for your account</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "textfield-required",
+   "source": "apps/docs/src/demos/en/textfield/required.tsx",
+   "code": "import {Description, Input, Label, TextField} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <TextField isRequired className=\"w-full max-w-64\" name=\"fullName\">\n      <Label>Full Name</Label>\n      <Input placeholder=\"John Doe\" />\n      <Description>This field is required</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "textfield-disabled",
+   "source": "apps/docs/src/demos/en/textfield/disabled.tsx",
+   "code": "import {Description, Input, Label, TextField} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <TextField isDisabled className=\"w-full max-w-64\" name=\"accountId\" value=\"USR-12345\">\n      <Label>Account ID</Label>\n      <Input placeholder=\"Auto-generated\" />\n      <Description>This field cannot be edited</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "textfield-full-width",
+   "source": "apps/docs/src/demos/en/textfield/full-width.tsx",
+   "code": "import {FieldError, Input, Label, TextField} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <TextField fullWidth name=\"name\">\n        <Label>Your name</Label>\n        <Input placeholder=\"John\" />\n      </TextField>\n      <TextField fullWidth isInvalid isRequired name=\"password\" type=\"password\">\n        <Label>Password</Label>\n        <Input />\n        <FieldError>Password must be longer than 8 characters</FieldError>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "textfield-validation",
+   "source": "apps/docs/src/demos/en/textfield/validation.tsx",
+   "code": "\"use client\";\n\nimport {Description, FieldError, Input, Label, TextArea, TextField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Validation() {\n  const [username, setUsername] = React.useState(\"\");\n  const [bio, setBio] = React.useState(\"\");\n\n  const isUsernameInvalid = username.length > 0 && username.length < 3;\n  const isBioInvalid = bio.length > 0 && bio.length < 20;\n\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <TextField\n        isRequired\n        isInvalid={isUsernameInvalid}\n        name=\"username\"\n        value={username}\n        onChange={setUsername}\n      >\n        <Label>Username</Label>\n        <Input placeholder=\"jane_doe\" />\n        {isUsernameInvalid ? (\n          <FieldError>Username must be at least 3 characters.</FieldError>\n        ) : (\n          <Description>Choose a unique username for your profile.</Description>\n        )}\n      </TextField>\n\n      <TextField isRequired isInvalid={isBioInvalid} name=\"bio\" value={bio} onChange={setBio}>\n        <Label>Bio</Label>\n        <TextArea placeholder=\"Tell us about yourself...\" />\n        {isBioInvalid ? (\n          <FieldError>Bio must contain at least 20 characters.</FieldError>\n        ) : (\n          <Description>Minimum 20 characters ({bio.length}/20).</Description>\n        )}\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "textfield-controlled",
+   "source": "apps/docs/src/demos/en/textfield/controlled.tsx",
+   "code": "\"use client\";\n\nimport {Description, Input, Label, TextArea, TextField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Controlled() {\n  const [name, setName] = React.useState(\"\");\n  const [bio, setBio] = React.useState(\"\");\n\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <TextField name=\"name\" value={name} onChange={setName}>\n        <Label>Display name</Label>\n        <Input placeholder=\"Jane\" />\n        <Description>Characters: {name.length}</Description>\n      </TextField>\n      <TextField name=\"bio\" value={bio} onChange={setBio}>\n        <Label>Bio</Label>\n        <TextArea placeholder=\"Tell us about yourself...\" />\n        <Description>Characters: {bio.length} / 200</Description>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Error Message",
+   "section": "Examples",
+   "key": "textfield-with-error",
+   "source": "apps/docs/src/demos/en/textfield/with-error.tsx",
+   "code": "import {FieldError, Input, Label, TextField} from \"@heroui/react\";\n\nexport function WithError() {\n  return (\n    <TextField isInvalid className=\"w-full max-w-64\" name=\"email\" type=\"email\">\n      <Label>Email</Label>\n      <Input placeholder=\"user@example.com\" />\n      <FieldError>Please enter a valid email address</FieldError>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "TextArea",
+   "section": "Examples",
+   "key": "textfield-textarea",
+   "source": "apps/docs/src/demos/en/textfield/textarea.tsx",
+   "code": "import {Description, Label, TextArea, TextField} from \"@heroui/react\";\n\nexport function TextAreaExample() {\n  return (\n    <TextField className=\"w-full max-w-64\" name=\"message\">\n      <Label>Message</Label>\n      <TextArea placeholder=\"Write your message here...\" rows={4} />\n      <Description>Maximum 500 characters</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Input Types",
+   "section": "Examples",
+   "key": "textfield-input-types",
+   "source": "apps/docs/src/demos/en/textfield/input-types.tsx",
+   "code": "import {Input, Label, TextField} from \"@heroui/react\";\n\nexport function InputTypes() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <TextField name=\"password\" type=\"password\">\n        <Label>Password</Label>\n        <Input placeholder=\"••••••••\" />\n      </TextField>\n\n      <TextField name=\"age\" type=\"number\">\n        <Label>Age</Label>\n        <Input max=\"150\" min=\"0\" placeholder=\"21\" />\n      </TextField>\n\n      <TextField name=\"email\" type=\"email\">\n        <Label>Email</Label>\n        <Input placeholder=\"user@example.com\" />\n      </TextField>\n\n      <TextField name=\"website\" type=\"url\">\n        <Label>Website</Label>\n        <Input placeholder=\"https://example.com\" />\n      </TextField>\n\n      <TextField name=\"phone\" type=\"tel\">\n        <Label>Phone</Label>\n        <Input placeholder=\"+1 (555) 000-0000\" />\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "textfield-render-function",
+   "source": "apps/docs/src/demos/en/textfield/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Input, Label, TextField} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <TextField\n      className=\"w-full max-w-64\"\n      name=\"email\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n      type=\"email\"\n    >\n      <Label>Email</Label>\n      <Input placeholder=\"Enter your email\" />\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "text-field-custom-styles",
+   "source": "apps/docs/src/demos/en/textfield/custom-styles.tsx",
+   "code": "import {Input, Label, TextField} from \"@heroui/react\";\n\nconst fieldClass =\n  \"rounded-xl border border-border/80 bg-surface shadow-sm ring-1 ring-black/5 transition-[box-shadow,border-color] focus-visible:ring-2 focus-visible:ring-neutral-400/25 dark:ring-white/10 dark:focus-visible:ring-neutral-500/30\";\n\nexport function CustomStyles() {\n  return (\n    <TextField className=\"w-full max-w-64 gap-1.5\" name=\"email\" type=\"email\">\n      <Label className=\"font-medium text-neutral-800 dark:text-neutral-100\">Email</Label>\n      <Input\n        className={`text-sm text-neutral-800 placeholder:text-neutral-400 dark:text-neutral-100 dark:placeholder:text-neutral-500 ${fieldClass}`}\n        placeholder=\"you@email.com\"\n      />\n    </TextField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: TextFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, Input, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:154"
+    ],
+    [
+     "`className`",
+     "`string | (values: TextFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:155"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: TextFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:156"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the text field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:157"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:158"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, TextFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:159"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:165"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:166"
+    ],
+    [
+     "`validate`",
+     "`(value: string) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:167"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:168"
+    ],
+    [
+     "`validationErrors`",
+     "`string[]`",
+     "-",
+     "Server-side validation errors.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:169"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:175"
+    ],
+    [
+     "`defaultValue`",
+     "`string`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:176"
+    ],
+    [
+     "`onChange`",
+     "`(value: string) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:177"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:183"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:184"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:190"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:191"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "TextField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:197"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:198"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:199"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:200"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:146",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:229"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:230"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:231"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:232"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused (DEPRECATED - use `isFocusWithin`).",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:233"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:234"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:235"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:223",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "TextField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/text-field.mdx:168"
+  }
+ ]
+}

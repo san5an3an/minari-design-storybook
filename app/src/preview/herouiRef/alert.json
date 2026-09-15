@@ -1,0 +1,228 @@
+{
+ "slug": "alert",
+ "title": "Alert",
+ "description": "Display important messages and notifications to users with status indicators",
+ "group": "Feedback",
+ "links": {
+  "sourceFile": "alert/alert.tsx",
+  "styles": "alert.css",
+  "storybook": "Components/Feedback/Alert",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Alert } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"alert-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:11"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Alert } from '@heroui/react';\n\nexport default () => (\n  <Alert>\n    <Alert.Indicator />\n    <Alert.Content>\n      <Alert.Title />\n      <Alert.Description />\n    </Alert.Content>\n  </Alert>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:21"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"alert-custom-styles\" />\n\n### Global CSS\n\nTo customize the Alert component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .alert {\n    @apply rounded-2xl shadow-lg;\n  }\n\n  .alert__title {\n    @apply font-bold text-lg;\n  }\n\n  .alert--danger {\n    @apply border-l-4 border-red-600;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:37"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Alert component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/alert.css)):\n\n#### Base Classes [!toc]\n- `.alert` - Base alert container\n- `.alert__indicator` - Icon/indicator container\n- `.alert__content` - Content wrapper for title and description\n- `.alert__title` - Alert title text\n- `.alert__description` - Alert description text\n\n#### Status Variant Classes [!toc]\n- `.alert--default` - Default gray status\n- `.alert--accent` - Accent blue status\n- `.alert--success` - Success green status\n- `.alert--warning` - Warning yellow/orange status\n- `.alert--danger` - Danger red status\n\n### Interactive States\n\nThe Alert component is primarily informational and doesn't have interactive states on the base component. However, it can contain interactive elements like buttons or close buttons.",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:64"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Alert\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `status` | `\"default\" \\| \"accent\" \\| \"success\" \\| \"warning\" \\| \"danger\"` | `\"default\"` | The visual status of the alert |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | The alert content |\n\n### Alert.Indicator\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Custom indicator icon (defaults to status icon) |\n\n### Alert.Content\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Content (typically Title and Description) |\n\n### Alert.Title\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | The alert title text |\n\n### Alert.Description\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | The alert description text |",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:90"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"alert\" />",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:128"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "alert-basic",
+   "source": "apps/docs/src/demos/en/alert/basic.tsx",
+   "code": "import {Alert, Button, CloseButton, Spinner} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Basic() {\n  return (\n    <div className=\"grid w-full max-w-xl gap-4\">\n      {/* Default - General information */}\n      <Alert>\n        <Alert.Indicator />\n        <Alert.Content>\n          <Alert.Title>New features available</Alert.Title>\n          <Alert.Description>\n            Check out our latest updates including dark mode support and improved accessibility\n            features.\n          </Alert.Description>\n        </Alert.Content>\n      </Alert>\n\n      {/* Accent - Important information with action */}\n      <Alert status=\"accent\">\n        <Alert.Indicator />\n        <Alert.Content>\n          <Alert.Title>Update available</Alert.Title>\n          <Alert.Description>\n            A new version of the application is available. Please refresh to get the latest features\n            and bug fixes.\n          </Alert.Description>\n          <Button className=\"mt-2 sm:hidden\" size=\"sm\" variant=\"primary\">\n            Refresh\n          </Button>\n        </Alert.Content>\n        <Button className=\"hidden sm:block\" size=\"sm\" variant=\"primary\">\n          Refresh\n        </Button>\n      </Alert>\n\n      {/* Danger - Error with detailed steps */}\n      <Alert status=\"danger\">\n        <Alert.Indicator />\n        <Alert.Content>\n          <Alert.Title>Unable to connect to server</Alert.Title>\n          <Alert.Description>\n            We're experiencing connection issues. Please try the following:\n            <ul className=\"mt-2 list-inside list-disc space-y-1 text-sm\">\n              <li>Check your internet connection</li>\n              <li>Refresh the page</li>\n              <li>Clear your browser cache</li>\n            </ul>\n          </Alert.Description>\n          <Button className=\"mt-2 sm:hidden\" size=\"sm\" variant=\"danger\">\n            Retry\n          </Button>\n        </Alert.Content>\n        <Button className=\"hidden sm:block\" size=\"sm\" variant=\"danger\">\n          Retry\n        </Button>\n      </Alert>\n\n      {/* Without description */}\n      <Alert status=\"success\">\n        <Alert.Indicator />\n        <Alert.Content>\n          <Alert.Title>Profile updated successfully</Alert.Title>\n        </Alert.Content>\n        <CloseButton />\n      </Alert>\n\n      {/* Custom indicator - Loading state */}\n      <Alert status=\"accent\">\n        <Alert.Indicator>\n          <Spinner size=\"sm\" />\n        </Alert.Indicator>\n        <Alert.Content>\n          <Alert.Title>Processing your request</Alert.Title>\n          <Alert.Description>\n            Please wait while we sync your data. This may take a few moments.\n          </Alert.Description>\n        </Alert.Content>\n      </Alert>\n\n      {/* Without close button */}\n      <Alert status=\"warning\">\n        <Alert.Indicator />\n        <Alert.Content>\n          <Alert.Title>Scheduled maintenance</Alert.Title>\n          <Alert.Description>\n            Our services will be unavailable on Sunday, March 15th from 2:00 AM to 6:00 AM UTC for\n            scheduled maintenance.\n          </Alert.Description>\n        </Alert.Content>\n      </Alert>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "alert-custom-styles",
+   "source": "apps/docs/src/demos/en/alert/custom-styles.tsx",
+   "code": "import {Alert, Button, CloseButton} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <div className=\"w-full max-w-xl\">\n      <Alert\n        className=\"relative overflow-hidden rounded-xl border border-warning/20 bg-linear-to-br from-warning/10 via-surface to-surface-secondary shadow-sm dark:border-warning/30 dark:from-warning/15 dark:via-surface dark:to-warning/5\"\n        status=\"warning\"\n      >\n        <div\n          aria-hidden=\"true\"\n          className=\"pointer-events-none absolute -top-8 -right-8 size-28 rounded-full bg-warning/15 blur-2xl dark:bg-warning/25\"\n        />\n        <Alert.Indicator className=\"relative text-warning\" />\n        <Alert.Content className=\"relative\">\n          <Alert.Title>Payment method expires soon</Alert.Title>\n          <Alert.Description>\n            Your Visa ending in 4242 expires on March 28. Update billing to avoid interrupting your\n            Pro subscription.\n          </Alert.Description>\n          <Button className=\"mt-3 sm:hidden\" size=\"sm\" variant=\"tertiary\">\n            Update billing\n          </Button>\n        </Alert.Content>\n        <Button className=\"relative hidden shrink-0 sm:inline-flex\" size=\"sm\" variant=\"tertiary\">\n          Update billing\n        </Button>\n        <CloseButton className=\"relative\" />\n      </Alert>\n    </div>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Alert",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`status`",
+     "`\"default\" | \"accent\" | \"success\" | \"warning\" | \"danger\"`",
+     "`\"default\"`",
+     "The visual status of the alert",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:96"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:97"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "The alert content",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:98"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:92",
+   "section": "API Reference"
+  },
+  {
+   "name": "Alert.Indicator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:104"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Custom indicator icon (defaults to status icon)",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:105"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:100",
+   "section": "API Reference"
+  },
+  {
+   "name": "Alert.Content",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:111"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content (typically Title and Description)",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:112"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:107",
+   "section": "API Reference"
+  },
+  {
+   "name": "Alert.Title",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:118"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "The alert title text",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:119"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:114",
+   "section": "API Reference"
+  },
+  {
+   "name": "Alert.Description",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:125"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "The alert description text",
+     "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:126"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:121",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`status`",
+   "prop": "status",
+   "values": [
+    "default",
+    "accent",
+    "success",
+    "warning",
+    "danger"
+   ],
+   "other": [],
+   "default": "`\"default\"`",
+   "owner": "Alert",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(feedback)/alert.mdx:96"
+  }
+ ]
+}
