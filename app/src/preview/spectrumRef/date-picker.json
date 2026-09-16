@@ -1,0 +1,125 @@
+{
+  "slug": "date-picker",
+  "title": "DatePicker",
+  "group": "Date and Time",
+  "heading": "DatePicker",
+  "description": null,
+  "sharedImports": "import {DatePicker} from '@react-spectrum/datepicker';\nimport {Flex} from '@react-spectrum/layout';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<DatePicker label=\"Event date\" />"
+    },
+    {
+      "name": "Value",
+      "code": "import {parseDate} from '@internationalized/date';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseDate('2020-02-03'));\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <DatePicker\n        label=\"Date (uncontrolled)\"\n        defaultValue={parseDate('2020-02-03')} />\n      <DatePicker\n        label=\"Date (controlled)\"\n        value={value}\n        onChange={setValue} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseZonedDateTime} from '@internationalized/date';\n\n<DatePicker\n  label=\"Event date\"\n  defaultValue={parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]')} />"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseAbsoluteToLocal} from '@internationalized/date';\n\n<DatePicker\n  label=\"Event date\"\n  defaultValue={parseAbsoluteToLocal('2021-11-07T07:45:00Z')}\n/>"
+    },
+    {
+      "name": "Granularity",
+      "code": "function Example() {\n  let [date, setDate] = React.useState(parseAbsoluteToLocal('2021-04-07T18:45:22Z'));\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <DatePicker\n        label=\"Date and time\"\n        granularity=\"second\"\n        value={date}\n        onChange={setDate} />\n      <DatePicker\n        label=\"Date\"\n        granularity=\"day\"\n        value={date}\n        onChange={setDate} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Granularity",
+      "code": "import {now} from '@internationalized/date';\n\n<Flex gap=\"size-150\" wrap>\n  <DatePicker\n    label=\"Event date\"\n    granularity=\"second\" />\n  <DatePicker\n    label=\"Event date\"\n    placeholderValue={now('America/New_York')}\n    granularity=\"second\" />\n</Flex>"
+    },
+    {
+      "name": "International calendars",
+      "code": "import {Provider} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(null);\n  return (\n    <Provider locale=\"hi-IN-u-ca-indian\">\n      <DatePicker label=\"Date\" value={date} onChange={setDate} />\n      <p>Selected date: {date?.toString()}</p>\n    </Provider>\n  );\n}"
+    },
+    {
+      "name": "Custom calendar systems",
+      "code": "import {GregorianCalendar} from '@internationalized/date';\n\nfunction Example() {\n  return <DatePicker createCalendar={() => new Custom454()} />;\n}\n\nclass Custom454 extends GregorianCalendar {\n  // See @internationalized/date docs linked above...\n  ///- begin collapse -///\n  weekPattern = [4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4];\n  getDaysInMonth(date) {\n    return this.weekPattern[date.month - 1] * 7;\n  }\n\n  fromJulianDay(jd: number): CalendarDate {\n    let gregorian = super.fromJulianDay(jd);\n\n    let monthStart = startOfWeek(new CalendarDate(gregorian.year, 1, 1), 'en');\n    for (let months = 0; months < this.weekPattern.length; months++) {\n      let weeksInMonth = this.weekPattern[months];\n      let monthEnd = monthStart.add({weeks: weeksInMonth});\n      if (monthEnd.compare(gregorian) > 0) {\n        let days = gregorian.compare(monthStart);\n        return new CalendarDate(this, monthStart.year, months + 1, days + 1);\n      }\n      monthStart = monthEnd;\n    }\n\n    throw Error('Date is not in any month somehow!');\n  }\n\n  toJulianDay(date: AnyCalendarDate): number {\n    let monthStart = startOfWeek(new CalendarDate(date.year, 1, 1), 'en');\n    for (let month = 1; month < date.month; month++) {\n      monthStart = monthStart.add({weeks: this.weekPattern[month - 1]});\n    }\n\n    let gregorian = monthStart.add({days: date.day - 1});\n    return super.toJulianDay(gregorian);\n  }\n\n  getFormattableMonth(date) {\n    let gregorian = toCalendar(date, new GregorianCalendar());\n    return gregorian.set({month: date.month, day: 1});\n  }\n\n  isEqual(other) {\n    return other instanceof Custom454;\n  }\n ///- end collapse -///\n}"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<DatePicker label=\"Birth date\" name=\"birthday\" />"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Flex gap=\"size-150\" wrap>\n  <DatePicker label=\"Birth date\" />\n  <DatePicker label=\"Birth date\" isRequired necessityIndicator=\"icon\" />\n  <DatePicker label=\"Birth date\" isRequired necessityIndicator=\"label\" />\n  <DatePicker label=\"Birth date\" necessityIndicator=\"label\" />\n</Flex>"
+    },
+    {
+      "name": "Events",
+      "code": "import {getLocalTimeZone} from '@internationalized/date';\nimport {useDateFormatter} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(parseDate('1985-07-03'));\n  let formatter = useDateFormatter({dateStyle: 'full'});\n\n  return (\n    <>\n      <DatePicker label=\"Birth date\" value={date} onChange={setDate} />\n      <p>Selected date: {date ? formatter.format(date.toDate(getLocalTimeZone())) : '--'}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <DatePicker label=\"Appointment date\" name=\"date\" isRequired />\n  {/*- end highlight -*/}\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Minimum and maximum values",
+      "code": "import {today} from '@internationalized/date';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  <DatePicker\n    label=\"Appointment date\"\n    /*- begin highlight -*/\n    minValue={today(getLocalTimeZone())}\n    /*- end highlight -*/\n    defaultValue={parseDate('2022-02-03')} />\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Unavailable dates",
+      "code": "import {today, isWeekend} from '@internationalized/date';\nimport {useLocale} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let now = today(getLocalTimeZone());\n  let disabledRanges = [\n    [now, now.add({days: 5})],\n    [now.add({days: 14}), now.add({days: 16})],\n    [now.add({days: 23}), now.add({days: 24})],\n  ];\n\n  let {locale} = useLocale();\n  return (\n    <DatePicker\n      label=\"Appointment date\"\n      minValue={today(getLocalTimeZone())}\n      /*- begin highlight -*/\n      isDateUnavailable={date => isWeekend(date, locale) || disabledRanges.some((interval) => date.compare(interval[0]) >= 0 && date.compare(interval[1]) <= 0)}\n      /*- end highlight -*/\n      validationBehavior=\"native\" />\n  );\n}"
+    },
+    {
+      "name": "Custom validation",
+      "code": "import {isWeekend} from '@internationalized/date';\nimport {useLocale} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let {locale} = useLocale();\n\n  return (\n    <Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n      <DatePicker\n        label=\"Appointment date\"\n        /*- begin highlight -*/\n        validate={date => date && isWeekend(date, locale) ? 'We are closed on weekends.' : null}\n        /*- end highlight -*/\n        defaultValue={parseDate('2023-10-28')} />\n      <ButtonGroup>\n        <Button type=\"submit\" variant=\"primary\">Submit</Button>\n        <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n      </ButtonGroup>\n    </Form>\n  );\n}"
+    },
+    {
+      "name": "Quiet",
+      "code": "<DatePicker label=\"Birth date\" isQuiet />"
+    },
+    {
+      "name": "Disabled",
+      "code": "<DatePicker label=\"Birth date\" isDisabled />"
+    },
+    {
+      "name": "Read only",
+      "code": "<DatePicker label=\"Birth date\" value={today(getLocalTimeZone())} isReadOnly />"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<DatePicker label=\"Birth date\" labelPosition=\"side\" labelAlign=\"end\" />"
+    },
+    {
+      "name": "Help text",
+      "code": "<Flex gap=\"size-100\" wrap>\n  <DatePicker label=\"Date\" defaultValue={today(getLocalTimeZone())} validationState=\"valid\" description=\"Select a meeting date.\" />\n  <DatePicker label=\"Date\" validationState=\"invalid\" errorMessage=\"Empty input is not allowed.\" />\n</Flex>"
+    },
+    {
+      "name": "Help text",
+      "code": "<DatePicker label=\"Birth date\" showFormatHelpText />"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<DatePicker\n  label=\"Appointment date\"\n  contextualHelp={\n    <ContextualHelp variant=\"info\">\n      <Heading>Appointment changes</Heading>\n      <Content>Your appointment date cannot be changed once it is scheduled.</Content>\n    </ContextualHelp>\n  } />"
+    },
+    {
+      "name": "Placeholder value",
+      "code": "import {CalendarDate} from '@internationalized/date';\n\n<DatePicker label=\"Birth date\" placeholderValue={new CalendarDate(1980, 1, 1)} />"
+    },
+    {
+      "name": "Maximum visible months",
+      "code": "<DatePicker label=\"Appointment date\" maxVisibleMonths={3} />"
+    },
+    {
+      "name": "Page behavior",
+      "code": "<DatePicker label=\"Appointment date\" maxVisibleMonths={3} pageBehavior=\"single\" />"
+    },
+    {
+      "name": "Hide time zone",
+      "code": "<DatePicker\n  label=\"Appointment time\"\n  defaultValue={parseZonedDateTime('2022-11-07T10:45[America/Los_Angeles]')}\n  hideTimeZone />"
+    },
+    {
+      "name": "Hour cycle",
+      "code": "<DatePicker\n  label=\"Appointment time\"\n  granularity=\"minute\"\n  hourCycle={24} />"
+    },
+    {
+      "name": "Custom first day of week",
+      "code": "<DatePicker label=\"Appointment date\" firstDayOfWeek=\"mon\" />"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/datepicker/DatePicker.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/DatePicker.html"
+}

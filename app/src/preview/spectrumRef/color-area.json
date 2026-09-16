@@ -1,0 +1,53 @@
+{
+  "slug": "color-area",
+  "title": "ColorArea",
+  "group": "Color",
+  "heading": "ColorArea",
+  "description": null,
+  "sharedImports": "import {ColorArea, ColorSlider, ColorWheel} from '@react-spectrum/color';\nimport {Flex, Grid} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\nimport {View} from '@react-spectrum/view';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<ColorArea defaultValue=\"#7f0000\" />"
+    },
+    {
+      "name": "Value",
+      "code": "import {ColorArea} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\nimport {parseColor} from '@react-stately/color';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseColor('hsl(0, 100%, 50%)'));\n  return (\n    <Flex gap=\"size-300\" wrap>\n      <div>\n        <Label id=\"hsl-uncontrolled-id\">x: Saturation, y: Lightness (uncontrolled)</Label>\n        <ColorArea\n          aria-labelledby=\"hsl-uncontrolled-id\"\n          defaultValue={value}\n          xChannel=\"saturation\"\n          yChannel=\"lightness\" />\n      </div>\n      <div>\n        <Label id=\"hsl-controlled-id\">x: Saturation, y: Lightness (controlled)</Label>\n        <ColorArea\n          aria-labelledby=\"hsl-controlled-id\"\n          value={value}\n          onChange={setValue}\n          xChannel=\"saturation\"\n          yChannel=\"lightness\" />\n      </div>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<ColorArea xName=\"red\" yName=\"green\" />"
+    },
+    {
+      "name": "Labeling",
+      "code": "import {ColorArea} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\n\n<Flex gap=\"size-300\" wrap alignItems=\"end\">\n  <ColorArea\n    aria-label=\"Background color\"\n    defaultValue=\"hsl(0, 100%, 50%)\"\n    xChannel=\"saturation\"\n    yChannel=\"lightness\" />\n  <div>\n    <Label\n      id=\"hsl-aria-labelledby-id\">Background color</Label>\n    <ColorArea\n      aria-labelledby=\"hsl-aria-labelledby-id\"\n      defaultValue=\"hsl(0, 100%, 50%)\"\n      xChannel=\"saturation\"\n      yChannel=\"lightness\" />\n  </div>\n</Flex>"
+    },
+    {
+      "name": "Events",
+      "code": "import {ColorArea} from '@react-spectrum/color';\nimport {parseColor} from '@react-stately/color';\n\nfunction Example() {\n  let [currentValue, setCurrentValue] = React.useState(parseColor('hsl(50, 100%, 50%)'));\n  let [finalValue, setFinalValue] = React.useState(parseColor('hsl(50, 100%, 50%)'));\n\n  return (\n    <div>\n      <ColorArea\n        value={currentValue}\n        onChange={setCurrentValue}\n        onChangeEnd={setFinalValue} />\n      <pre>Current value: {currentValue.toString('hsl')}</pre>\n      <pre>Final value: {finalValue.toString('hsl')}</pre>\n    </div>\n  );\n}"
+    },
+    {
+      "name": "RGBA",
+      "code": "import {ColorArea, ColorSlider} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\nimport {parseColor} from '@react-stately/color';\n\nfunction Example() {\n  let [color, setColor] = React.useState(parseColor('#ff00ff'));\n  let [redChannel, greenChannel, blueChannel] = color.getColorChannels();\n  return (\n    <fieldset style={{border: 0}}>\n      <legend>{color.getColorSpace().toUpperCase()}A Example</legend>\n      <Flex direction=\"column\">\n        <ColorArea xChannel={redChannel} yChannel={greenChannel} value={color} onChange={setColor} />\n        <ColorSlider channel={blueChannel} value={color} onChange={setColor} />\n        <ColorSlider channel=\"alpha\" value={color} onChange={setColor} />\n        <p>Current value: {color.toString('css')}</p>\n      </Flex>\n    </fieldset>\n  );\n}"
+    },
+    {
+      "name": "HSLA",
+      "code": "import {ColorArea, ColorSlider, ColorWheel} from '@react-spectrum/color';\nimport {Flex, Grid} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\nimport {parseColor} from '@react-stately/color';\nimport {View} from '@react-spectrum/view';\n\nfunction Example() {\n  let [color, setColor] = React.useState(parseColor('hsla(0, 100%, 50%, 0.5)'));\n  let [, saturationChannel, lightnessChannel] = color.getColorChannels();\n  return (\n    <fieldset style={{border: 0}}>\n      <legend>HSLA Example</legend>\n      <Flex\n        direction=\"column\">\n        <View\n          position=\"relative\"\n          width=\"size-2400\">\n          <Grid\n            position=\"absolute\"\n            justifyContent=\"center\"\n            alignContent=\"center\"\n            width=\"100%\"\n            height=\"100%\">\n            <ColorArea\n              xChannel={saturationChannel}\n              yChannel={lightnessChannel}\n              value={color}\n              onChange={setColor}\n              size=\"size-1200\" />\n          </Grid>\n          <ColorWheel\n            value={color}\n            onChange={setColor}\n            size=\"size-2400\" />\n        </View>\n        <ColorSlider channel=\"alpha\" value={color} onChange={setColor} />\n        <p>Current value: {color.toString('hsla')}</p>\n      </Flex>\n    </fieldset>\n  );\n}"
+    },
+    {
+      "name": "HSBA",
+      "code": "import {ColorArea, ColorSlider, ColorWheel} from '@react-spectrum/color';\nimport {Flex, Grid} from '@react-spectrum/layout';\nimport {Label} from '@react-spectrum/label';\nimport {parseColor} from '@react-stately/color';\nimport {View} from '@react-spectrum/view';\n\nfunction Example() {\n  let [color, setColor] = React.useState(parseColor('hsba(0, 100%, 50%, 0.5)'));\n  let [, saturationChannel, brightnessChannel] = color.getColorChannels();\n  return (\n    <fieldset style={{border: 0}}>\n      <legend>HSBA Example</legend>\n      <Flex\n        direction=\"column\">\n        <View\n          position=\"relative\"\n          width=\"size-2400\">\n          <Grid\n            position=\"absolute\"\n            justifyContent=\"center\"\n            alignContent=\"center\"\n            width=\"100%\"\n            height=\"100%\">\n            <ColorArea\n              xChannel={saturationChannel}\n              yChannel={brightnessChannel}\n              value={color}\n              onChange={setColor}\n              size=\"size-1200\" />\n          </Grid>\n          <ColorWheel\n            value={color}\n            onChange={setColor}\n            size=\"size-2400\" />\n        </View>\n        <ColorSlider channel=\"alpha\" value={color} onChange={setColor} />\n        <p>Current value: {color.toString('hsba')}</p>\n      </Flex>\n    </fieldset>\n  );\n}"
+    },
+    {
+      "name": "Disabled",
+      "code": "import {ColorArea} from '@react-spectrum/color';\n\n<ColorArea defaultValue=\"#7f0000\" isDisabled />"
+    },
+    {
+      "name": "Custom Size",
+      "code": "import {ColorArea} from '@react-spectrum/color';\nimport {Flex} from '@react-spectrum/layout';\n\n<Flex direction=\"column\" gap=\"size-300\">\n  <ColorArea defaultValue=\"#7f0000\" size=\"size-3600\" maxWidth=\"100%\" />\n</Flex>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/color-area/",
+  "source": "packages/@adobe/react-spectrum/docs/color/ColorArea.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ColorArea.html"
+}

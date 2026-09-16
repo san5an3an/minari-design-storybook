@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "node:path";
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 
@@ -12,6 +13,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: ROOT,
     resolveAlias: { "@": path.join(ROOT, "app", "src") },
+    rules: {
+      "*.mdx": [{ condition: { path: /[\\/](carbon)Ref[\\/]demos[\\/]_src[\\/]/ }, type: "ecmascript" }],
+      "*.md": [{ condition: { path: /[\\/](carbon|fluent)Ref[\\/]demos[\\/]_src[\\/]/ }, type: "ecmascript" }],
+    },
   },
 
   webpack: (config) => {
@@ -21,4 +26,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);

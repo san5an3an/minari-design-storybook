@@ -1,0 +1,114 @@
+{
+ "slug": "Loading",
+ "title": "Loading",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Canvas, Story, Meta } from '@storybook/addon-docs/blocks';\nimport Loading from '../Loading';\nimport * as LoadingStories from './Loading.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Loading\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Loading)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/loading/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/loading/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Overlay loading](#overlay-loading)\n  - [Overlay loading behind a modal](#overlay-loading-behind-a-modal)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\n<Canvas\n  of={LoadingStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(LoadingStories.Default),\n    },\n  ]}\n/>\n\n## Overlay loading\n\nSetting `withOverlay` renders the indicator on top of a full-screen overlay that\nblocks interaction with the content behind it. When the overlay is active and no\nrecognized modal is layered above it, focus moves to the loading dialog and\nstays there. When loading finishes, focus returns to the previously focused\nelement when it is still available, or to a suitable fallback when possible.\n\nSelect **Start** to trigger a two second loading state.\n\n<Canvas\n  of={LoadingStories.OverlayLoading}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(LoadingStories.OverlayLoading),\n    },\n  ]}\n/>\n\n### Overlay loading behind a modal\n\nWhen a modal dialog is already active above the loading overlay, the overlay\ndoes not take focus from the modal.\n\nOpen the modal and select **Save** to trigger a two second loading state behind\nit. Focus remains on **Save**, and `Tab` continues cycling through the modal\ninstead of moving to the overlay underneath.\n\n<Canvas\n  of={LoadingStories.OverlayLoadingBehindModal}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(LoadingStories.OverlayLoadingBehindModal),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Loading/Loading.mdx).\n",
+   "source": "packages/react/src/components/Loading/Loading.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Loading/Loading.mdx:18"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Loading/Loading.mdx:28"
+    },
+    {
+     "name": "Overlay loading",
+     "source": "packages/react/src/components/Loading/Loading.mdx:40"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Loading/Loading.mdx:80"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Loading/Loading.mdx:84"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-loading--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Loading/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Loading/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  return <Loading className={'some-class'} {...args} />;\n};\n\nDefault.args = {\n  active: true,\n  withOverlay: false,\n  small: false,\n  description: 'Loading account settings',\n};\n\nconst sharedArgTypes = {\n  active: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  withOverlay: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  small: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  description: {\n    control: {\n      type: 'text',\n    },\n  },\n};\n\nDefault.argTypes = { ...sharedArgTypes };\n\nconst OVERLAY_LOADING_DURATION_MS = 2000;\n\nconst useStartLoading = () => {\n  const [isActive, setIsActive] = useState(false);\n  const timeoutRef = useRef(null);\n\n  const startLoading = () => {\n    clearTimeout(timeoutRef.current);\n    setIsActive(true);\n    timeoutRef.current = setTimeout(\n      () => setIsActive(false),\n      OVERLAY_LOADING_DURATION_MS\n    );\n  };\n\n  useEffect(() => {\n    return () => clearTimeout(timeoutRef.current);\n  }, []);\n\n  return { isActive, startLoading };\n};\n",
+   "source": "packages/react/src/components/Loading/Loading.stories.js:28"
+  },
+  {
+   "name": "OverlayLoading",
+   "description": null,
+   "code": "export const OverlayLoading = (args) => {\n  const { isActive, startLoading } = useStartLoading();\n\n  return (\n    <main>\n      <Button onClick={startLoading}>Start</Button>\n      <Loading {...args} active={isActive} withOverlay />\n    </main>\n  );\n};\n\nOverlayLoading.argTypes = {\n  small: sharedArgTypes.small,\n  description: sharedArgTypes.description,\n};\n",
+   "source": "packages/react/src/components/Loading/Loading.stories.js:86"
+  },
+  {
+   "name": "OverlayLoadingBehindModal",
+   "description": null,
+   "code": "export const OverlayLoadingBehindModal = (args) => {\n  const [isModalOpen, setIsModalOpen] = useState(false);\n  const launcherButtonRef = useRef(null);\n\n  const { isActive: isLoadingActive, startLoading } = useStartLoading();\n\n  return (\n    <main>\n      <Button ref={launcherButtonRef} onClick={() => setIsModalOpen(true)}>\n        Open modal\n      </Button>\n      <Modal\n        open={isModalOpen}\n        onRequestClose={() => setIsModalOpen(false)}\n        onRequestSubmit={startLoading}\n        launcherButtonRef={launcherButtonRef}\n        modalHeading=\"Account settings\"\n        primaryButtonText=\"Save\"\n        secondaryButtonText=\"Cancel\">\n        <p>\n          Select <strong>Save</strong> to trigger a two second loading state\n          behind this modal. The overlay is the layer below, so it leaves focus\n          alone. Focus stays on <strong>Save</strong> and Tab keeps cycling\n          through the modal instead of moving to the overlay.\n        </p>\n      </Modal>\n      <Loading {...args} active={isLoadingActive} withOverlay />\n    </main>\n  );\n};\n\nOverlayLoadingBehindModal.storyName = 'Overlay Loading Behind Modal';\n\nOverlayLoadingBehindModal.argTypes = {\n  small: sharedArgTypes.small,\n  description: sharedArgTypes.description,\n};\n",
+   "source": "packages/react/src/components/Loading/Loading.stories.js:102"
+  }
+ ],
+ "props": {
+  "name": "Loading.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "active",
+    "PropTypes.bool",
+    "Specify whether you want the loading indicator to be spinning or not",
+    "packages/react/src/components/Loading/Loading.tsx:257"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Provide an optional className to be applied to the containing node",
+    "packages/react/src/components/Loading/Loading.tsx:262"
+   ],
+   [
+    "description",
+    "PropTypes.string",
+    "Specify a description that would be used to best describe the loading state",
+    "packages/react/src/components/Loading/Loading.tsx:267"
+   ],
+   [
+    "id",
+    "deprecate(PropTypes.string, `\\nThe prop \\`id\\` is no longer needed.`)",
+    "Provide an `id` to uniquely identify the label",
+    "packages/react/src/components/Loading/Loading.tsx:272"
+   ],
+   [
+    "small",
+    "PropTypes.bool",
+    "Specify whether you would like the small variant of <Loading>",
+    "packages/react/src/components/Loading/Loading.tsx:277"
+   ],
+   [
+    "withOverlay",
+    "PropTypes.bool",
+    "Specify whether you want the loader to be applied with an overlay",
+    "packages/react/src/components/Loading/Loading.tsx:282"
+   ]
+  ],
+  "source": "packages/react/src/components/Loading/Loading.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

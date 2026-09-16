@@ -1,0 +1,47 @@
+{
+  "slug": "slider",
+  "title": "Slider",
+  "group": "Components/Slider",
+  "package": "react-slider",
+  "description": "A Slider represents an input that allows user to choose a value from within a specific range.",
+  "bestPractices": "## Best practices\n\n### Layout\n\n- Don't use a slider for binary settings.\n- Don't use a continuous slider if the range of values is large.\n- Don't use for a range with fewer than three values.\n- Sliders are typically horizontal but can be vertical, when needed.\n\n### Content\n\n- Use step points if you don't want the slider to allow arbitrary values between minimum and maximum.",
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderDefault.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider } from '@fluentui/react-components';\n\nexport const Default = (): JSXElement => {\n  const id = useId();\n  return (\n    <>\n      <Label htmlFor={id}>Basic Example</Label>\n      <Slider defaultValue={20} id={id} />\n    </>\n  );\n};\n\nDefault.parameters = {\n  docs: {\n    description: {\n      story: 'A default slider',\n    },\n  },\n};"
+    },
+    {
+      "name": "Size",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderSize.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider } from '@fluentui/react-components';\n\nexport const Size = (): JSXElement => {\n  const smallId = useId('small');\n  const mediumId = useId('medium');\n  return (\n    <>\n      <Label htmlFor={mediumId}>Medium Slider</Label>\n      <Slider size=\"medium\" defaultValue={20} id={mediumId} />\n\n      <Label htmlFor={smallId}>Small Slider</Label>\n      <Slider size=\"small\" defaultValue={20} id={smallId} />\n    </>\n  );\n};\n\nSize.parameters = {\n  docs: {\n    description: {\n      story: `A slider comes in both medium and small size. Medium is the default.`,\n    },\n  },\n};"
+    },
+    {
+      "name": "Controlled",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderControlled.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Button, Label, Slider } from '@fluentui/react-components';\nimport type { SliderProps } from '@fluentui/react-components';\n\nexport const Controlled = (): JSXElement => {\n  const id = useId();\n  const [sliderValue, setSliderValue] = React.useState(160);\n  const onSliderChange: SliderProps['onChange'] = (_, data) => setSliderValue(data.value);\n  const resetSlider = () => setSliderValue(0);\n  return (\n    <>\n      <Label htmlFor={id}>Control Slider [ Current Value: {sliderValue} ]</Label>\n      <Slider\n        aria-valuetext={`Value is ${sliderValue}`}\n        value={sliderValue}\n        min={20}\n        max={200}\n        onChange={onSliderChange}\n        id={id}\n      />\n      <Button onClick={resetSlider}>Reset</Button>\n    </>\n  );\n};\n\nControlled.parameters = {\n  docs: {\n    description: {\n      story: `A slider can be a controlled input where the slider value is stored in state\n      and updated with \\`onChange\\`. This is also useful for setting custom aria-valuetext`,\n    },\n  },\n};"
+    },
+    {
+      "name": "Step",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderStep.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider } from '@fluentui/react-components';\n\nexport const Step = (): JSXElement => {\n  const id = useId();\n  return (\n    <>\n      <Label htmlFor={id}>Step Example</Label>\n      <Slider defaultValue={6} step={3} min={0} max={12} id={id} />\n    </>\n  );\n};\n\nStep.parameters = {\n  docs: {\n    description: {\n      story: `You can define the step value of a slider so that the value will always be a mutiple of that step`,\n    },\n  },\n};"
+    },
+    {
+      "name": "MinMax",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderMinMax.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider, makeStyles } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  wrapper: {\n    display: 'flex',\n    alignItems: 'center',\n  },\n});\n\nexport const MinMax = (): JSXElement => {\n  const styles = useStyles();\n  const id = useId();\n  const min = 10;\n  const max = 50;\n  return (\n    <>\n      <Label htmlFor={id}>Min/Max Example</Label>\n      <div className={styles.wrapper}>\n        <Label aria-hidden>{min}</Label>\n        <Slider min={min} max={max} defaultValue={20} id={id} />\n        <Label aria-hidden>{max}</Label>\n      </div>\n    </>\n  );\n};\n\nMinMax.parameters = {\n  docs: {\n    description: {\n      story: 'A slider with min and max values displayed',\n    },\n  },\n};"
+    },
+    {
+      "name": "Vertical",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderVertical.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider } from '@fluentui/react-components';\n\nexport const Vertical = (): JSXElement => {\n  const id = useId();\n  return (\n    <>\n      <Label htmlFor={id}>Vertical Example</Label>\n      <Slider vertical step={2} defaultValue={6} min={0} max={10} id={id} />\n    </>\n  );\n};\n\nVertical.parameters = {\n  docs: {\n    description: {\n      story: `A slider can be oriented vertically where the max value is at the top of the slider.`,\n    },\n  },\n};"
+    },
+    {
+      "name": "Disabled",
+      "file": "packages/react-components/react-slider/stories/src/Slider/SliderDisabled.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { useId, Label, Slider } from '@fluentui/react-components';\n\nexport const Disabled = (): JSXElement => {\n  const id = useId();\n  return (\n    <>\n      <Label htmlFor={id}>Disabled Example</Label>\n      <Slider defaultValue={30} disabled id={id} />\n    </>\n  );\n};\n\nDisabled.parameters = {\n  docs: {\n    description: {\n      story: 'A disabled slider will not change or fire events on click or keyboard press.',\n    },\n  },\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-slider--docs"
+}

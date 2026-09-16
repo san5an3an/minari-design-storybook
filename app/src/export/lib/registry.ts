@@ -1,3 +1,11 @@
+import { GROMMET } from "./grommet";
+import { CLOUDSCAPE } from "./cloudscape";
+import { PRIMEREACT } from "./primereact";
+import { HEROUI } from "./heroui";
+import { BLUEPRINT } from "./blueprint";
+import { FLUENT } from "./fluent";
+
+// 저장소 안 파일 하나를 그룹으로 그대로 옮기는 지시
 export interface LibExtra {
   // 저장소 뿌리 기준 경로
   from: string;
@@ -19,14 +27,16 @@ export interface LibSpec {
   title: string;
   // 필수 설치 항목
   packages: string[];
-  // generated/{slug}/base/{여기}/theme.ts 경로
+  // generated/{slug}/base/{여기}/theme.{themeExt} 경로
   themeDir: string;
+  themeExt?: "ts" | "css";
   // 컴포넌트 임포트 예시: import { Button } from "antd"
   importFrom: string;
   // 공식 메타를 preview/{slug}.json에 저장하기
   refDir: string;
   // 함께 싣는 저장소 파일 목록
   extras: LibExtra[];
+  compiledTheme?: (slug: string) => LibExtra[];
   parse(json: unknown): { componentName: string; props: LibProp[]; dropped: string[] };
   provider: string;
 }
@@ -209,6 +219,12 @@ export function Providers({
 export const LIB_BASES: Readonly<Record<string, LibSpec>> = {
   antd: ANTD,
   mui: MUI,
+  grommet: GROMMET,
+  cloudscape: CLOUDSCAPE,
+  primereact: PRIMEREACT,
+  heroui: HEROUI,
+  blueprint: BLUEPRINT,
+  fluent: FLUENT,
 };
 
 // 베이스의 라이브러리 export 경로 사용 여부

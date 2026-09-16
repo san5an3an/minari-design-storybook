@@ -1,0 +1,267 @@
+{
+ "slug": "segmented_control",
+ "title": "SegmentedControl",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/SegmentedControl",
+  "id": "segmented_control",
+  "name": "SegmentedControl",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-segmentedcontrol--default",
+    "code": "() => (\n  <SegmentedControl aria-label=\"File view\">\n    <SegmentedControl.Button defaultSelected>Preview</SegmentedControl.Button>\n    <SegmentedControl.Button>Raw</SegmentedControl.Button>\n    <SegmentedControl.Button>Blame</SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--with-icons",
+    "code": "() => (\n  <SegmentedControl aria-label=\"File view\">\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--controlled",
+    "code": "() => {\n  const [selectedIndex, setSelectedIndex] = useState(0)\n  const handleChange = (i: number) => {\n    setSelectedIndex(i)\n  }\n  return (\n    <SegmentedControl aria-label=\"File view\" onChange={handleChange}>\n      <SegmentedControl.Button selected={selectedIndex === 0}>\n        Preview\n      </SegmentedControl.Button>\n      <SegmentedControl.Button selected={selectedIndex === 1}>\n        Raw\n      </SegmentedControl.Button>\n      <SegmentedControl.Button selected={selectedIndex === 2}>\n        Blame\n      </SegmentedControl.Button>\n    </SegmentedControl>\n  )\n}"
+   },
+   {
+    "id": "components-segmentedcontrol-features--variant-narrow-hide-labels",
+    "code": "() => (\n  <SegmentedControl\n    aria-label=\"File view\"\n    variant={{\n      narrow: 'hideLabels',\n      regular: 'default',\n      wide: 'default',\n    }}\n  >\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--variant-narrow-action-menu",
+    "code": "() => (\n  <SegmentedControl\n    aria-label=\"File view\"\n    variant={{\n      narrow: 'dropdown',\n      regular: 'default',\n      wide: 'default',\n    }}\n  >\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--variant-narrow-action-menu-with-action",
+    "code": "() => {\n  const initialViews = [\n    {\n      id: 'all',\n      label: 'All',\n    },\n    {\n      id: 'active',\n      label: 'Active',\n    },\n    {\n      id: 'review-requests',\n      label: 'Review requests',\n    },\n    {\n      id: 'done',\n      label: 'Done',\n    },\n  ]\n  const [views, setViews] = useState(initialViews)\n  const [selectedViewId, setSelectedViewId] = useState(initialViews[0].id)\n  const handleAddView = () => {\n    setViews((currentViews) => {\n      const viewNumber = currentViews.length - 3\n      return [\n        ...currentViews,\n        {\n          id: `new-view-${viewNumber}`,\n          label: `New view ${viewNumber}`,\n        },\n      ]\n    })\n  }\n  const handleChange = (index: number) => {\n    const nextSelectedViewId = views.at(index)?.id\n    if (nextSelectedViewId) setSelectedViewId(nextSelectedViewId)\n  }\n  const handleReset = () => {\n    setViews(initialViews)\n    setSelectedViewId(initialViews[0].id)\n  }\n  return (\n    <>\n      <SegmentedControl\n        aria-label=\"View\"\n        onChange={handleChange}\n        variant={{\n          narrow: 'dropdown',\n          regular: 'subtle',\n          wide: 'subtle',\n        }}\n      >\n        {views.flatMap((view) => [\n          ...(view.label === 'Active'\n            ? [<SegmentedControl.Divider key={`${view.label}-divider`} />]\n            : []),\n          <SegmentedControl.Button\n            key={view.id}\n            selected={view.id === selectedViewId}\n          >\n            {view.label}\n          </SegmentedControl.Button>,\n        ])}\n        <SegmentedControl.Action\n          label=\"Add view\"\n          icon={PlusIcon}\n          onClick={handleAddView}\n        />\n      </SegmentedControl>\n      <Button\n        className={classes.ResetButton}\n        size=\"small\"\n        onClick={handleReset}\n      >\n        Reset views\n      </Button>\n    </>\n  )\n}"
+   },
+   {
+    "id": "components-segmentedcontrol-features--fullwidth-narrow",
+    "code": "() => (\n  <SegmentedControl\n    aria-label=\"File view\"\n    fullWidth={{\n      narrow: true,\n      regular: false,\n      wide: false,\n    }}\n  >\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--fullwidth-regular",
+    "code": "() => (\n  <SegmentedControl\n    aria-label=\"File view\"\n    fullWidth={{\n      narrow: false,\n      regular: true,\n      wide: false,\n    }}\n  >\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--fullwidth-all",
+    "code": "() => (\n  <SegmentedControl aria-label=\"File view\" fullWidth>\n    <SegmentedControl.Button\n      defaultSelected\n      aria-label={'Preview'}\n      leadingVisual={EyeIcon}\n    >\n      Preview\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Raw'} leadingVisual={FileCodeIcon}>\n      Raw\n    </SegmentedControl.Button>\n    <SegmentedControl.Button aria-label={'Blame'} leadingVisual={PeopleIcon}>\n      Blame\n    </SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--icon-only",
+    "code": "() => (\n  <SegmentedControl aria-label=\"File view\">\n    <SegmentedControl.IconButton\n      defaultSelected\n      aria-label={'Preview'}\n      icon={EyeIcon}\n    />\n    <SegmentedControl.IconButton aria-label={'Raw'} icon={FileCodeIcon} />\n    <SegmentedControl.IconButton aria-label={'Blame'} icon={PeopleIcon} />\n  </SegmentedControl>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--associated-with-a-label-and-caption",
+    "code": "() => (\n  <div className={classes.LabelAndCaptionContainer}>\n    <div className={classes.LabelAndCaption}>\n      <Text\n        className={classes.TextLargeBold}\n        id=\"scLabel-vert\"\n        style={{\n          display: 'block',\n        }}\n      >\n        File view\n      </Text>\n      <Text\n        className={classes.TextMediumSubtle}\n        id=\"scCaption-vert\"\n        style={{\n          display: 'block',\n        }}\n      >\n        Change the way the file is viewed\n      </Text>\n    </div>\n    <SegmentedControl\n      aria-labelledby=\"scLabel-vert\"\n      aria-describedby=\"scCaption-vert\"\n    >\n      <SegmentedControl.Button defaultSelected>Preview</SegmentedControl.Button>\n      <SegmentedControl.Button>Raw</SegmentedControl.Button>\n      <SegmentedControl.Button>Blame</SegmentedControl.Button>\n    </SegmentedControl>\n  </div>\n)"
+   },
+   {
+    "id": "components-segmentedcontrol-features--variant-subtle",
+    "code": "() => (\n  <SegmentedControl aria-label=\"View\" variant=\"subtle\">\n    <SegmentedControl.Button defaultSelected count={5}>\n      All\n    </SegmentedControl.Button>\n    <SegmentedControl.Divider />\n    <SegmentedControl.Button count={3}>Active</SegmentedControl.Button>\n    <SegmentedControl.Button count={10}>\n      Review requests\n    </SegmentedControl.Button>\n    <SegmentedControl.Divider />\n    <SegmentedControl.Button count={2}>Done</SegmentedControl.Button>\n  </SegmentedControl>\n)"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "aria-label",
+    "type": "string",
+    "defaultValue": "",
+    "description": ""
+   },
+   {
+    "name": "aria-labelledby",
+    "type": "string",
+    "defaultValue": "",
+    "description": ""
+   },
+   {
+    "name": "aria-describedby",
+    "type": "string",
+    "defaultValue": "",
+    "description": ""
+   },
+   {
+    "name": "fullWidth",
+    "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+    "defaultValue": "",
+    "description": "Whether the control fills the width of its parent"
+   },
+   {
+    "name": "onChange",
+    "type": "(selectedIndex?: number) => void",
+    "defaultValue": "",
+    "description": "The handler that gets called when a segment is selected"
+   },
+   {
+    "name": "variant",
+    "type": "| 'default' | 'subtle' | { narrow?: 'hideLabels' | 'dropdown' | 'default' | 'subtle' regular?: 'hideLabels' | 'dropdown' | 'default' | 'subtle' wide?: 'hideLabels' | 'dropdown' | 'default' | 'subtle' }",
+    "defaultValue": "'default'",
+    "description": "Configure the control's visual treatment or responsive behavior in tight spaces."
+   },
+   {
+    "name": "size",
+    "type": "'small' | 'medium'",
+    "description": "The size of the buttons",
+    "defaultValue": ""
+   },
+   {
+    "name": "ref",
+    "type": "React.RefObject<HTMLDivElement>"
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "SegmentedControl.Button",
+    "props": [
+     {
+      "name": "leadingVisual",
+      "type": "Component",
+      "defaultValue": "",
+      "description": "The leading visual comes before item label"
+     },
+     {
+      "name": "leadingIcon",
+      "deprecated": true,
+      "type": "Component",
+      "defaultValue": "",
+      "description": "Deprecated: use `leadingVisual` instead. The leading icon comes before item label."
+     },
+     {
+      "name": "selected",
+      "type": "boolean",
+      "defaultValue": "",
+      "description": "Whether the segment is selected. This is used for controlled SegmentedControls, and needs to be updated using the onChange handler on SegmentedControl."
+     },
+     {
+      "name": "defaultSelected",
+      "type": "boolean",
+      "defaultValue": "",
+      "description": "Whether the segment is selected. This is used for uncontrolled SegmentedControls to pick one SegmentedControlButton that is selected on the initial render."
+     },
+     {
+      "name": "count",
+      "type": "number | string",
+      "defaultValue": "",
+      "description": "The number to display in the counter label."
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLButtonElement>"
+     }
+    ]
+   },
+   {
+    "name": "SegmentedControl.IconButton",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string",
+      "defaultValue": "",
+      "required": true,
+      "description": ""
+     },
+     {
+      "name": "icon",
+      "type": "Component",
+      "defaultValue": "",
+      "required": true,
+      "description": "The icon that represents the segmented control item"
+     },
+     {
+      "name": "selected",
+      "type": "boolean",
+      "defaultValue": "",
+      "description": "Whether the segment is selected. This is used for controlled SegmentedControls, and needs to be updated using the onChange handler on SegmentedControl."
+     },
+     {
+      "name": "size",
+      "type": "'small' | 'medium'",
+      "defaultValue": "",
+      "description": "The size of the buttons"
+     },
+     {
+      "name": "defaultSelected",
+      "type": "boolean",
+      "defaultValue": "",
+      "description": "Whether the segment is selected. This is used for uncontrolled SegmentedControls to pick one SegmentedControlButton that is selected on the initial render."
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLButtonElement>"
+     },
+     {
+      "name": "tooltipDirection",
+      "type": "'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'",
+      "required": false
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "description": "If `description` is provided, we will use a Tooltip to describe the button. Then `aria-label` is used to label the button.",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "SegmentedControl.Divider",
+    "props": [
+     {
+      "name": "className",
+      "type": "string",
+      "required": false
+     },
+     {
+      "name": "style",
+      "type": "React.CSSProperties",
+      "required": false
+     }
+    ]
+   },
+   {
+    "name": "SegmentedControl.Action",
+    "props": [
+     {
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "description": "Accessible label for the action icon button."
+     },
+     {
+      "name": "icon",
+      "type": "Component",
+      "required": true,
+      "description": "The icon rendered by the action button."
+     },
+     {
+      "name": "onClick",
+      "type": "() => void",
+      "description": "The handler that gets called when the action button is clicked."
+     },
+     {
+      "name": "disabled",
+      "type": "boolean",
+      "description": "Whether the action is disabled."
+     },
+     {
+      "name": "loading",
+      "type": "boolean",
+      "description": "Whether the action is in a loading state."
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:6174",
+ "name": "segmented_control",
+ "sourceKey": "$.components.segmented_control",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "Button",
+  "EyeIcon",
+  "FileCodeIcon",
+  "PeopleIcon",
+  "PlusIcon",
+  "SegmentedControl",
+  "Text"
+ ]
+}

@@ -1,0 +1,29 @@
+// @ts-nocheck
+
+import React from 'react';
+import { BreadCrumb } from 'primereact/breadcrumb';
+
+export default function TemplateDemo() {
+    const iconItemTemplate = (item, options) => {
+        return (
+            <a className={options.className}>
+                <span className={item.icon}></span>
+            </a>
+        );
+    };
+
+    const items = [
+        { icon: 'pi pi-sitemap', template: iconItemTemplate },
+        { icon: 'pi pi-book', template: iconItemTemplate },
+        { icon: 'pi pi-wallet', template: iconItemTemplate },
+        { icon: 'pi pi-shopping-bag', template: iconItemTemplate },
+        { icon: 'pi pi-calculator', template: iconItemTemplate }
+    ];
+
+    const home = { icon: 'pi pi-home', url: 'https://www.primereact.org' };
+
+    return (
+        <BreadCrumb model={items} home={home} />
+    )
+}
+        

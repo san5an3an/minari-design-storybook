@@ -1,0 +1,254 @@
+{
+ "slug": "form_control",
+ "title": "FormControl",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/FormControl",
+  "id": "form_control",
+  "name": "FormControl",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-formcontrol--default",
+    "code": "() => (\n  <FormControl required={true}>\n    <FormControl.Label>Form Input Label</FormControl.Label>\n    <FormControl.Caption>This is a caption</FormControl.Caption>\n    <Checkbox />\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-complex-inputs",
+    "code": "() => {\n  const [tokens, setTokens] = useState([...mockTokens])\n  const onTokenRemove = (tokenId: string | number) => {\n    setTokens(\n      tokens.filter((token: { id: string | number }) => token.id !== tokenId),\n    )\n  }\n  return (\n    <div className={classes.GridContainer}>\n      <FormControl>\n        <FormControl.Label id=\"form-label\">\n          TextInputWithTokens\n        </FormControl.Label>\n        <TextInputWithTokens onTokenRemove={onTokenRemove} tokens={tokens} />\n      </FormControl>\n      <FormControl>\n        <FormControl.Label id=\"autocomplete-label\">\n          Autocomplete\n        </FormControl.Label>\n        <Autocomplete>\n          <Autocomplete.Input block />\n          <Autocomplete.Overlay>\n            <Autocomplete.Menu\n              aria-labelledby=\"autocomplete-label\"\n              items={[\n                {\n                  text: 'css',\n                  id: '0',\n                },\n                {\n                  text: 'css-in-js',\n                  id: '1',\n                },\n                {\n                  text: 'styled-system',\n                  id: '2',\n                },\n                {\n                  text: 'javascript',\n                  id: '3',\n                },\n                {\n                  text: 'typescript',\n                  id: '4',\n                },\n                {\n                  text: 'react',\n                  id: '5',\n                },\n                {\n                  text: 'design-systems',\n                  id: '6',\n                },\n              ]}\n              selectedItemIds={[]}\n            />\n          </Autocomplete.Overlay>\n        </Autocomplete>\n      </FormControl>\n      <FormControl>\n        <FormControl.Label>Select</FormControl.Label>\n        <Select>\n          <Select.Option value=\"figma\">Figma</Select.Option>\n          <Select.Option value=\"css\">Primer CSS</Select.Option>\n          <Select.Option value=\"prc\">Primer React components</Select.Option>\n          <Select.Option value=\"pvc\">Primer ViewComponents</Select.Option>\n        </Select>\n      </FormControl>\n      <FormControl>\n        <FormControl.Label>Textarea</FormControl.Label>\n        <Textarea />\n      </FormControl>\n    </div>\n  )\n}"
+   },
+   {
+    "id": "components-formcontrol-features--with-custom-input",
+    "code": "() => {\n  const [value, setValue] = React.useState('mona lisa')\n  const [validationResult, setValidationResult] = React.useState('')\n  const doesValueContainSpaces = (inputValue: string) => /\\s/g.test(inputValue)\n  const handleInputChange = (e: {\n    currentTarget: {\n      value: React.SetStateAction<string>\n    }\n  }) => {\n    setValue(e.currentTarget.value)\n  }\n  React.useEffect(() => {\n    if (doesValueContainSpaces(value)) {\n      // eslint-disable-next-line react-hooks/set-state-in-effect, react-you-might-not-need-an-effect/no-chain-state-updates\n      setValidationResult('noSpaces')\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler\n    } else if (value) {\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-chain-state-updates\n      setValidationResult('validName')\n    }\n  }, [value])\n  return (\n    <div className={classes.GridContainer}>\n      <FormControl>\n        <FormControl.Label htmlFor=\"custom-input\">\n          GitHub handle\n        </FormControl.Label>\n        <CustomTextInput\n          id=\"custom-input\"\n          aria-describedby=\"custom-input-validation custom-input-caption\"\n          aria-invalid={validationResult === 'noSpaces'}\n          onChange={handleInputChange}\n        />\n        {validationResult === 'noSpaces' && (\n          <FormControl.Validation id=\"custom-input-validation\" variant=\"error\">\n            GitHub handles cannot contain spaces\n          </FormControl.Validation>\n        )}\n        {validationResult === 'validName' && (\n          <FormControl.Validation\n            id=\"custom-input-validation\"\n            variant=\"success\"\n          >\n            Valid name\n          </FormControl.Validation>\n        )}\n        <FormControl.Caption id=\"custom-input-caption\">\n          With or without &quot;@&quot;. For example &quot;monalisa&quot; or\n          &quot;@monalisa&quot;\n        </FormControl.Caption>\n      </FormControl>\n\n      <CheckboxGroup>\n        <CheckboxGroup.Label>Checkboxes</CheckboxGroup.Label>\n        <FormControl layout=\"horizontal\">\n          <CustomCheckboxInput\n            id=\"custom-checkbox-one\"\n            aria-describedby=\"custom-checkbox-one-caption\"\n            value=\"checkOne\"\n          />\n          <FormControl.Label htmlFor=\"custom-checkbox-one\">\n            Checkbox one\n          </FormControl.Label>\n          <FormControl.Caption id=\"custom-checkbox-one-caption\">\n            Hint text for checkbox one\n          </FormControl.Caption>\n        </FormControl>\n        <FormControl layout=\"horizontal\">\n          <CustomCheckboxInput\n            id=\"custom-checkbox-two\"\n            aria-describedby=\"custom-checkbox-two-caption\"\n            value=\"checkTwo\"\n          />\n          <FormControl.Label htmlFor=\"custom-checkbox-two\">\n            Checkbox two\n          </FormControl.Label>\n          <FormControl.Caption id=\"custom-checkbox-two-caption\">\n            Hint text for checkbox two\n          </FormControl.Caption>\n        </FormControl>\n      </CheckboxGroup>\n    </div>\n  )\n}"
+   },
+   {
+    "id": "components-formcontrol-features--with-checkbox-and-radio-inputs",
+    "code": "() => {\n  return (\n    <div className={classes.GapContainer}>\n      <CheckboxGroup>\n        <CheckboxGroup.Label>Checkboxes</CheckboxGroup.Label>\n        <FormControl>\n          <Checkbox value=\"checkOne\" />\n          <FormControl.Label>Checkbox one</FormControl.Label>\n        </FormControl>\n        <FormControl>\n          <Checkbox value=\"checkTwo\" />\n          <FormControl.Label>Checkbox two</FormControl.Label>\n        </FormControl>\n        <FormControl>\n          <Checkbox value=\"checkThree\" />\n          <FormControl.Label>Checkbox three</FormControl.Label>\n        </FormControl>\n      </CheckboxGroup>\n\n      <RadioGroup name={''}>\n        <RadioGroup.Label>Radios</RadioGroup.Label>\n        <FormControl>\n          <Radio name=\"radioChoices\" value=\"radioOne\" />\n          <FormControl.Label>Radio one</FormControl.Label>\n        </FormControl>\n        <FormControl>\n          <Radio name=\"radioChoices\" value=\"radioTwo\" />\n          <FormControl.Label>Radio two</FormControl.Label>\n        </FormControl>\n        <FormControl>\n          <Radio name=\"radioChoices\" value=\"radioThree\" />\n          <FormControl.Label>Radio three</FormControl.Label>\n        </FormControl>\n      </RadioGroup>\n    </div>\n  )\n}"
+   },
+   {
+    "id": "components-formcontrol-features--single-input",
+    "code": "({\n  label = 'Input',\n  caption = '',\n  required = false,\n  disabled = false,\n}: ArgTypes) => (\n  <FormControl required={required} disabled={disabled}>\n    <FormControl.Label>{label}</FormControl.Label>\n    <TextInput />\n    {caption && <FormControl.Caption>{caption}</FormControl.Caption>}\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--validation-example",
+    "code": "() => {\n  const [value, setValue] = React.useState('mona lisa')\n  const [validationResult, setValidationResult] = React.useState('')\n  const doesValueContainSpaces = (inputValue: string) => /\\s/g.test(inputValue)\n  const handleInputChange = (e: {\n    currentTarget: {\n      value: React.SetStateAction<string>\n    }\n  }) => {\n    setValue(e.currentTarget.value)\n  }\n  React.useEffect(() => {\n    if (doesValueContainSpaces(value)) {\n      // eslint-disable-next-line react-hooks/set-state-in-effect, react-you-might-not-need-an-effect/no-chain-state-updates\n      setValidationResult('noSpaces')\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler\n    } else if (value) {\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-chain-state-updates\n      setValidationResult('validName')\n    }\n  }, [value])\n  return (\n    <FormControl>\n      <FormControl.Label>GitHub handle</FormControl.Label>\n      <TextInput block value={value} onChange={handleInputChange} />\n      {validationResult === 'noSpaces' && (\n        <FormControl.Validation variant=\"error\">\n          GitHub handles cannot contain spaces\n        </FormControl.Validation>\n      )}\n      {validationResult === 'validName' && (\n        <FormControl.Validation variant=\"success\">\n          Valid name\n        </FormControl.Validation>\n      )}\n      <FormControl.Caption>\n        With or without &quot;@&quot;. For example &quot;monalisa&quot; or\n        &quot;@monalisa&quot;\n      </FormControl.Caption>\n    </FormControl>\n  )\n}"
+   },
+   {
+    "id": "components-formcontrol-features--with-select-panel",
+    "code": "() => {\n  const [selected, setSelected] = React.useState<ItemInput[]>([\n    items[0],\n    items[1],\n  ])\n  const [filter, setFilter] = React.useState('')\n  const filteredItems = items.filter((item) =>\n    item.text?.toLowerCase().startsWith(filter.toLowerCase()),\n  )\n  const [open, setOpen] = useState(false)\n  return (\n    <FormControl required>\n      <FormControl.Label id=\"select_panel_label\">\n        Select Labels\n      </FormControl.Label>\n      <SelectPanel\n        title=\"Select labels\"\n        subtitle=\"Use labels to organize issues and pull requests\"\n        renderAnchor={({ children, id, ...anchorProps }) => (\n          <Button\n            trailingAction={TriangleDownIcon}\n            aria-labelledby={`select_panel_label selectpanel_wrapper`}\n            id={id}\n            {...anchorProps}\n            aria-haspopup=\"dialog\"\n          >\n            <span id=\"selectpanel_wrapper\">{children ?? 'Select Labels'}</span>\n          </Button>\n        )}\n        open={open}\n        onOpenChange={setOpen}\n        items={filteredItems}\n        selected={selected}\n        onSelectedChange={setSelected}\n        onFilterChange={setFilter}\n      />\n    </FormControl>\n  )\n}"
+   },
+   {
+    "id": "components-formcontrol-features--with-leading-visual",
+    "code": "() => (\n  <Stack gap=\"none\">\n    <FormControl>\n      <FormControl.Label>Option one</FormControl.Label>\n      <FormControl.LeadingVisual>\n        <MarkGithubIcon />\n      </FormControl.LeadingVisual>\n      <Checkbox />\n    </FormControl>\n\n    <FormControl>\n      <FormControl.Label>Option two</FormControl.Label>\n      <FormControl.LeadingVisual>\n        <MarkGithubIcon />\n      </FormControl.LeadingVisual>\n      <Checkbox />\n      <FormControl.Caption>This one has a caption</FormControl.Caption>\n    </FormControl>\n\n    <FormControl disabled>\n      <FormControl.Label>Option three</FormControl.Label>\n      <FormControl.LeadingVisual>\n        <MarkGithubIcon />\n      </FormControl.LeadingVisual>\n      <Checkbox />\n    </FormControl>\n\n    <FormControl disabled>\n      <FormControl.Label>Option four</FormControl.Label>\n      <FormControl.LeadingVisual>\n        <MarkGithubIcon />\n      </FormControl.LeadingVisual>\n      <Checkbox />\n      <FormControl.Caption>This one has a caption</FormControl.Caption>\n    </FormControl>\n  </Stack>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--disabled-inputs",
+    "code": "() => (\n  <div className={classes.FlexColumnGapContainer}>\n    <FormControl disabled>\n      <FormControl.Label>Disabled checkbox</FormControl.Label>\n      <Checkbox />\n    </FormControl>\n    <FormControl disabled>\n      <FormControl.Label>Disabled input</FormControl.Label>\n      <TextInput />\n    </FormControl>\n    <FormControl disabled>\n      <FormControl.Label>Disabled select</FormControl.Label>\n      <Select>\n        <Select.Option value=\"figma\">Figma</Select.Option>\n        <Select.Option value=\"css\">Primer CSS</Select.Option>\n        <Select.Option value=\"prc\">Primer React components</Select.Option>\n        <Select.Option value=\"pvc\">Primer ViewComponents</Select.Option>\n      </Select>\n    </FormControl>\n  </div>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--custom-required",
+    "code": "() => (\n  <div className={classes.FlexColumnGapContainer}>\n    <FormControl required={true}>\n      <FormControl.Label requiredText=\"(required)\">\n        Form Input Label\n      </FormControl.Label>\n      <FormControl.Caption>\n        This is a form field with a custom required indicator\n      </FormControl.Caption>\n      <TextInput />\n    </FormControl>\n\n    <Text className={classes.RequiredFieldsNote}>\n      Required fields are marked with an asterisk (*)\n    </Text>\n    <FormControl required={true}>\n      <FormControl.Label requiredIndicator={false}>\n        Form Input Label\n      </FormControl.Label>\n      <FormControl.Caption>\n        This is a form field with a required indicator that is hidden in the\n        accessibility tree\n      </FormControl.Caption>\n      <TextInput />\n    </FormControl>\n\n    <FormControl required={false}>\n      <FormControl.Label requiredText=\"(optional)\" requiredIndicator={false}>\n        Form Input Label\n      </FormControl.Label>\n      <FormControl.Caption>\n        This is a form field that is marked as optional, it is not required\n      </FormControl.Caption>\n      <TextInput />\n    </FormControl>\n  </div>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-caption",
+    "code": "() => (\n  <FormControl>\n    <FormControl.Label>Example label</FormControl.Label>\n    <TextInput />\n    <FormControl.Caption>Example caption</FormControl.Caption>\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-caption-and-disabled",
+    "code": "() => (\n  <FormControl disabled>\n    <FormControl.Label>Example label</FormControl.Label>\n    <TextInput />\n    <FormControl.Caption>Example caption</FormControl.Caption>\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-hidden-label",
+    "code": "() => (\n  <FormControl>\n    <FormControl.Label visuallyHidden>Example label</FormControl.Label>\n    <TextInput />\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-required-indicator",
+    "code": "() => (\n  <FormControl required>\n    <FormControl.Label requiredIndicator>Example label</FormControl.Label>\n    <TextInput />\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-success-validation",
+    "code": "() => (\n  <FormControl required>\n    <FormControl.Label requiredIndicator>Example label</FormControl.Label>\n    <TextInput defaultValue=\"Input value\" />\n    <FormControl.Validation variant=\"success\">\n      Example success validation message\n    </FormControl.Validation>\n  </FormControl>\n)"
+   },
+   {
+    "id": "components-formcontrol-features--with-error-validation",
+    "code": "() => (\n  <FormControl required>\n    <FormControl.Label requiredIndicator>Example label</FormControl.Label>\n    <TextInput defaultValue=\"Input value\" />\n    <FormControl.Validation variant=\"error\">\n      Example error validation message\n    </FormControl.Validation>\n  </FormControl>\n)"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "children",
+    "type": "FormControl.Label | FormControl.Caption | FormControl.Validation | Autocomplete | TextInput | TextInputWithTokens | Select",
+    "defaultValue": "",
+    "required": true,
+    "description": ""
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "defaultValue": "false",
+    "description": "Whether the control allows user input"
+   },
+   {
+    "name": "id",
+    "type": "string",
+    "defaultValue": "a generated string",
+    "description": "The unique identifier for this control. Used to associate the label, validation text, and caption text"
+   },
+   {
+    "name": "required",
+    "type": "boolean",
+    "defaultValue": "false",
+    "description": "If true, the user must specify a value for the input before the owning form can be submitted"
+   },
+   {
+    "name": "id",
+    "type": "string",
+    "description": "The unique identifier for this control. Used to associate the label, validation text, and caption text",
+    "defaultValue": ""
+   },
+   {
+    "name": "layout",
+    "type": "'vertical' | 'horizontal'",
+    "description": "The direction the content flows.\nVertical layout is used by default, and horizontal layout is used for checkbox and radio inputs.",
+    "defaultValue": "vertical"
+   },
+   {
+    "name": "className",
+    "type": "string",
+    "description": "Class name(s) for custom styling.",
+    "defaultValue": ""
+   },
+   {
+    "name": "ref",
+    "type": "React.RefObject<HTMLDivElement>"
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "FormControl.Label",
+    "props": [
+     {
+      "name": "visuallyHidden",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether the label should be visually hidden"
+     },
+     {
+      "name": "as",
+      "type": "'label' | 'legend' | 'span'",
+      "defaultValue": "'label'",
+      "description": "The label element can be changed to a 'legend' when it's being used to label a fieldset, or a 'span' when it's being used to label an element that is not a form input. For example: when using a FormControl to render a labeled SegementedControl, the label should be a 'span'"
+     },
+     {
+      "name": "requiredText",
+      "type": "string",
+      "defaultValue": "'*'",
+      "description": "The text to display when the field is required"
+     },
+     {
+      "name": "requiredIndicator",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "Whether to show or hide the required text in the accessibility tree, the required text is still shown visually."
+     },
+     {
+      "name": "htmlFor",
+      "type": "string",
+      "description": "This prop may be used to override the `htmlFor` set from FormControl's React Context.\nThe unique identifier for the associated input",
+      "defaultValue": ""
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "description": "When `as` prop is 'label', it may be used to override the `htmlFor` given to the `<label>` element by FormControl's React Context.\nWhen 'as' prop is 'legend' or 'span', it is used as the `id` for the element."
+     },
+     {
+      "name": "className",
+      "type": "string",
+      "description": "Class name(s) for custom styling.",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "FormControl.Caption",
+    "props": [
+     {
+      "name": "id",
+      "type": "string",
+      "description": "Custom ID to override the ID set by FormControl's React Context",
+      "defaultValue": ""
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "defaultValue": "",
+      "description": "The content (usually just text) that is rendered to give contextual info about the field"
+     }
+    ]
+   },
+   {
+    "name": "FormControl.Validation",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "defaultValue": "",
+      "description": "The content (usually just text) that is rendered to give contextual info about the validation result for the field"
+     },
+     {
+      "name": "variant",
+      "type": "'error' | 'success'",
+      "defaultValue": "",
+      "required": true,
+      "description": "Changes the visual style to match the validation status"
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "description": "May be used to override the ID assigned by FormControl's React Context",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "FormControl.LeadingVisual",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "defaultValue": "",
+      "description": "The visual to render before the choice input's label"
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:3455",
+ "name": "form_control",
+ "sourceKey": "$.components.form_control",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "Autocomplete",
+  "Button",
+  "Checkbox",
+  "CheckboxGroup",
+  "CustomCheckboxInput",
+  "CustomTextInput",
+  "FormControl",
+  "ItemInput",
+  "MarkGithubIcon",
+  "Radio",
+  "RadioGroup",
+  "Select",
+  "SelectPanel",
+  "Stack",
+  "Text",
+  "TextInput",
+  "TextInputWithTokens",
+  "Textarea",
+  "TriangleDownIcon"
+ ]
+}

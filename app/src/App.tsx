@@ -78,9 +78,7 @@ function parseHash: Route | null {
   // 알 수 없는 베이스, 색이면 주소 무시. 없는 조합의 빈 화면 방지
   if (!(rawBase in BASES)) return null;
   if (!SYSTEMS.some((s) => s.slug === rawSlug)) return null;
-  const officialHasType =
-    (rawBase === "antd" && isAntdSlug("typography")) ||
-    (rawBase === "mui" && isMuiSlug("typography"));
+  const officialHasType = MIRRORS[rawBase]?.isSlug("typography") ?? false;
   const legacy = rawSection === "typography" && !officialHasType ? TYPE : null;
   const section = legacy ?? (rawSection ? (ROUTE_ALIAS[rawSection] ?? rawSection) : COLORS);
   return { base: rawBase, slug: rawSlug, section };
@@ -126,8 +124,8 @@ function useTheme(mode: Mode) {
 }
 
 function drawnCount(baseKey: string, impl: Record<string, unknown>): number {
-  if (baseKey === "antd") return ANTD_INDEX.length;
-  if (baseKey === "mui") return MUI_INDEX.length;
+  const mirror = MIRRORS[baseKey];
+  if (mirror) return mirror.INDEX.length;
   return Object.keys(impl).length;
 }
 
@@ -236,6 +234,25 @@ function BasePicker({
 const ANTD_TITLE = new Map(ANTD_INDEX.map((c) => [c.slug, c.title]));
 const MUI_TITLE = new Map(MUI_INDEX.map((c) => [c.slug, c.title]));
 
+type MirrorEntry = {
+  // 베이스의 슬러그 실제 보유 여부. 목록 기준 확인
+  isSlug: (slug: string) => boolean;
+  // 화면 렌더링 목록, 여기서는 drawnCount 개수만 사용
+  INDEX: readonly unknown[];
+  // 공식 사이드바 그룹, 순서 재정렬 없이 유지
+  GROUPS?: Record<string, string[]>;
+  // 슬러그를 공식 이름과 연결. Record가 아니라 Map임
+  TITLE?: Map<string, string>;
+  Reference: React.LazyExoticComponent<
+    React.ComponentType<React.ComponentProps<typeof AntdReference>>
+  >;
+};
+
+const MIRRORS: Record<string, MirrorEntry> = {
+  antd: { isSlug: isAntdSlug, INDEX: ANTD_INDEX, GROUPS: ANTD_GROUPS, TITLE: ANTD_TITLE, Reference: AntdReference },
+  mui: { isSlug: isMuiSlug, INDEX: MUI_INDEX, GROUPS: MUI_GROUPS, TITLE: MUI_TITLE, Reference: MuiReference },
+};
+
 type NavItem = { key: string; label: string };
 type NavSpec = {
   label: string;
@@ -316,16 +333,16 @@ function PageNav({
 }) {
   const q = query.trim.toLowerCase;
 
+  const mirror = MIRRORS[system.baseKey];
   const specs: NavSpec[] = [
     { label: "Main", items: MAIN.map((m) => ({ key: m.key, label: m.label })) },
     { label: "Foundations", items: FOUNDATIONS.map((f) => ({ key: f.key, label: f.label })) },
-    ...(system.baseKey === "antd" || system.baseKey === "mui"
+    ...(mirror
       ? [
           componentSpec(system, "이 어댑터"),
-          ...officialSpecs(
-            system.baseKey === "antd" ? ANTD_GROUPS : MUI_GROUPS,
-            system.baseKey === "antd" ? ANTD_TITLE : MUI_TITLE,
-          ),
+          ...(mirror.GROUPS && mirror.TITLE
+            ? officialSpecs(mirror.GROUPS, mirror.TITLE)
+            : []),
         ]
       : [componentSpec(system, "Components")]),
   ];
@@ -518,16 +535,14 @@ export function App {
 
   // 베이스 변경해도 섹션 구성 유지. 컴포넌트 없으면 "아직 없어요" 표시
 
-  const official = system.baseKey === "antd" ? ANTD_TITLE
-    : system.baseKey === "mui" ? MUI_TITLE
-    : null;
+  const mirror = MIRRORS[system.baseKey];
+  // TITLE 없는 미러는 slug 그대로 표시. 제목 없는 출처는 bare로 대체되는 방식임
+  const official = mirror?.TITLE ?? null;
   // 접두어 없어 벗길 것 없음, 이름 그대로 사용
   const bare = section;
 
   // 공식 문서 화면 여부 확인
-  const isOfficialSection =
-    (system.baseKey === "antd" && isAntdSlug(section)) ||
-    (system.baseKey === "mui" && isMuiSlug(section));
+  const isOfficialSection = mirror?.isSlug(section) ?? false;
   // MAIN도 함께 확인. 누락되면 상단바에 __usage__ 내부 키가 그대로 남음
   const here = MAIN.find((m) => m.key === section)?.label
     ?? FOUNDATIONS.find((f) => f.key === section)?.label
@@ -660,14 +675,9 @@ export function App {
             />
           ) : (
             // 접두사 없으면 슬러그 실제 보유 여부로 구분. 이름 충돌에도 안전
-            system.baseKey === "antd" && isAntdSlug(section) ? (
+            isOfficialSection && mirror ? (
               <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
-                <AntdReference slug={section} system={system}
-                  active={mode} />
-              </React.Suspense>
-            ) : system.baseKey === "mui" && isMuiSlug(section) ? (
-              <React.Suspense fallback={<ReferenceLoading title={system.baseTitle} />}>
-                <MuiReference slug={section} system={system}
+                <mirror.Reference slug={section} system={system}
                   active={mode} />
               </React.Suspense>
             ) : (

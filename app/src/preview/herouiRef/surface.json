@@ -1,0 +1,133 @@
+{
+ "slug": "surface",
+ "title": "Surface",
+ "description": "Container component that provides surface-level styling and context for child components",
+ "group": "Layout",
+ "links": {
+  "sourceFile": "surface/surface.tsx",
+  "styles": "surface.css",
+  "storybook": "surface"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Surface } from '@heroui/react';\n```\n\n<ComponentPreview name=\"surface-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:10"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nSurface comes in semantic variants that describe their prominence level:\n\n- **`default`** - Standard surface appearance (bg-surface)\n- **`secondary`** - Medium prominence (bg-surface-secondary)\n- **`tertiary`** - Higher prominence (bg-surface-tertiary)\n\n<ComponentPreview name=\"surface-variants\" />\n\n### With Form Components\n\nWhen using form components inside a Surface, use the `variant=\"secondary\"` prop to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"surface-with-form-components\" />",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:18"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"surface-custom-styles\" />\n\n### Global CSS\n\nTo customize the Surface component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .surface {\n    @apply rounded-2xl border border-border;\n  }\n\n  .surface--secondary {\n    @apply bg-gradient-to-br from-blue-50 to-purple-50;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:36"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Surface component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/surface.css)):\n\n#### Base Classes [!toc]\n- `.surface` - Base surface container\n\n#### Variant Classes [!toc]\n- `.surface--default` - Default surface variant (bg-surface)\n- `.surface--secondary` - Secondary surface variant (bg-surface-secondary)\n- `.surface--tertiary` - Tertiary surface variant (bg-surface-tertiary)",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:59"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Surface\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | ` \"transparent\" \\| \"default\" \\| \"secondary\" \\| \"tertiary\"` | `\"default\"` | The visual variant of the surface |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | The surface content |",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:75"
+  },
+  {
+   "name": "Context API",
+   "body": "### SurfaceContext\n\nChild components can access the Surface context to get the current variant:\n\n```tsx\nimport { useContext } from 'react';\nimport { SurfaceContext } from '@heroui/react';\n\nfunction MyComponent() {\n  const { variant } = useContext(SurfaceContext);\n  // variant will be \"transparent\" | \"default\" | \"secondary\" | \"tertiary\" | undefined\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:85"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"surface\" />",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:101"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "surface-basic",
+   "source": "apps/docs/src/demos/en/surface/basic.tsx",
+   "code": "import {Surface} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <Surface className=\"flex min-w-[320px] flex-col gap-3 rounded-3xl p-6\" variant=\"default\">\n      <h3 className=\"text-base font-semibold text-foreground\">Surface Content</h3>\n      <p className=\"text-sm text-muted\">\n        This is a default surface variant. It uses bg-surface styling.\n      </p>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "surface-variants",
+   "source": "apps/docs/src/demos/en/surface/variants.tsx",
+   "code": "import {Surface} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Default</p>\n        <Surface className=\"flex min-w-[320px] flex-col gap-3 rounded-3xl p-6\" variant=\"default\">\n          <h3 className=\"text-base font-semibold text-foreground\">Surface Content</h3>\n          <p className=\"text-sm text-muted\">\n            This is a default surface variant. It uses bg-surface styling.\n          </p>\n        </Surface>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Secondary</p>\n        <Surface className=\"flex min-w-[320px] flex-col gap-3 rounded-3xl p-6\" variant=\"secondary\">\n          <h3 className=\"text-base font-semibold text-foreground\">Surface Content</h3>\n          <p className=\"text-sm text-muted\">\n            This is a secondary surface variant. It uses bg-surface-secondary styling.\n          </p>\n        </Surface>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Tertiary</p>\n        <Surface className=\"flex min-w-[320px] flex-col gap-3 rounded-3xl p-6\" variant=\"tertiary\">\n          <h3 className=\"text-base font-semibold text-foreground\">Surface Content</h3>\n          <p className=\"text-sm text-muted\">\n            This is a tertiary surface variant. It uses bg-surface-tertiary styling.\n          </p>\n        </Surface>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Transparent</p>\n        <Surface\n          className=\"flex min-w-[320px] flex-col gap-3 rounded-3xl border p-6\"\n          variant=\"transparent\"\n        >\n          <h3 className=\"text-base font-semibold text-foreground\">Surface Content</h3>\n          <p className=\"text-sm text-muted\">\n            This is a transparent surface variant. It has no background, suitable for overlays and\n            cards with custom backgrounds.\n          </p>\n        </Surface>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Form Components",
+   "section": "Examples",
+   "key": "surface-with-form-components",
+   "source": "apps/docs/src/demos/en/surface/with-form-components.tsx",
+   "code": "\"use client\";\n\nimport {Input, Surface, TextArea} from \"@heroui/react\";\n\nexport function WithFormComponents() {\n  return (\n    <Surface className=\"flex min-w-[320px] flex-col gap-4 rounded-3xl p-6\" variant=\"default\">\n      <Input placeholder=\"Input with secondary variant\" variant=\"secondary\" />\n      <TextArea placeholder=\"TextArea with secondary variant\" variant=\"secondary\" />\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "surface-custom-styles",
+   "source": "apps/docs/src/demos/en/surface/custom-styles.tsx",
+   "code": "import {Surface} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <Surface\n      className=\"w-full max-w-sm rounded-xl border border-accent/15 bg-linear-to-br from-accent/8 via-surface to-surface-secondary p-4\"\n      variant=\"default\"\n    >\n      <h3 className=\"text-sm font-semibold text-foreground\">Billing overview</h3>\n      <p className=\"text-sm text-muted\">View invoices and payment methods in one place.</p>\n    </Surface>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Surface",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "` \"transparent\" | \"default\" | \"secondary\" | \"tertiary\"`",
+     "`\"default\"`",
+     "The visual variant of the surface",
+     "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:81"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:82"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "The surface content",
+     "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:83"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:77",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "transparent",
+    "default",
+    "secondary",
+    "tertiary"
+   ],
+   "other": [],
+   "default": "`\"default\"`",
+   "owner": "Surface",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(layout)/surface.mdx:81"
+  }
+ ]
+}

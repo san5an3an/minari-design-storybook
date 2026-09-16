@@ -1,0 +1,104 @@
+{
+ "slug": "InlineLoading",
+ "title": "InlineLoading",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Canvas, Story, Meta } from '@storybook/addon-docs/blocks';\nimport InlineLoading from '../InlineLoading';\nimport * as InlineLoadingStories from './InlineLoading.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# InlineLoading\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/InlineLoading)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/inline-loading/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/inline-loading/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\n<Canvas\n  of={InlineLoadingStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(InlineLoadingStories.Default),\n    },\n  ]}\n/>\n\n<Canvas\n  of={InlineLoadingStories.UxExample}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(InlineLoadingStories.UxExample),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/InlineLoading/InlineLoading.mdx).\n",
+   "source": "packages/react/src/components/InlineLoading/InlineLoading.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/InlineLoading/InlineLoading.mdx:18"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/InlineLoading/InlineLoading.mdx:26"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/InlineLoading/InlineLoading.mdx:48"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/InlineLoading/InlineLoading.mdx:52"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-inlineloading--default',\n    },\n    {\n      label: 'Ux Example',\n      variant: 'components-inlineloading--ux-example',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/InlineLoading/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/InlineLoading/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "UxExample",
+   "description": null,
+   "code": "export const UxExample = () => {\n  function MockSubmission({ children }) {\n    const [isSubmitting, setIsSubmitting] = React.useState(false);\n    const [success, setSuccess] = React.useState(false);\n    const [description, setDescription] = React.useState('Submitting...');\n    const [ariaLive, setAriaLive] = React.useState('off');\n    const handleSubmit = () => {\n      setIsSubmitting(true);\n      setAriaLive('assertive');\n\n      // Instead of making a real request, we mock it with a timer\n      setTimeout(() => {\n        setIsSubmitting(false);\n        setSuccess(true);\n        setDescription('Submitted!');\n\n        // To make submittable again, we reset the state after a bit so the user gets completion feedback\n        setTimeout(() => {\n          setSuccess(false);\n          setDescription('Submitting...');\n          setAriaLive('off');\n        }, 1500);\n      }, 2000);\n    };\n\n    return children({\n      handleSubmit,\n      isSubmitting,\n      success,\n      description,\n      ariaLive,\n    });\n  }\n\n  return (\n    <MockSubmission>\n      {({ handleSubmit, isSubmitting, success, description, ariaLive }) => (\n        <div style={{ display: 'flex', width: '300px' }}>\n          <Button kind=\"secondary\" disabled={isSubmitting || success}>\n            Cancel\n          </Button>\n          {isSubmitting || success ? (\n            <InlineLoading\n              style={{ marginLeft: '1rem' }}\n              description={description}\n              status={success ? 'finished' : 'active'}\n              aria-live={ariaLive}\n            />\n          ) : (\n            <Button onClick={handleSubmit}>Submit</Button>\n          )}\n        </div>\n      )}\n    </MockSubmission>\n  );\n};\n",
+   "source": "packages/react/src/components/InlineLoading/InlineLoading.stories.js:56"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => <InlineLoading {...args} />;\n\nDefault.args = {\n  description: 'Loading',\n  iconDescription: 'Loading data...',\n  status: 'active',\n  onSuccess: action('onSuccess'),\n  'aria-live': 'assertive',\n};\n\nDefault.parameters = {\n  controls: {\n    exclude: ['successDelay'],\n  },\n};\n\nDefault.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/InlineLoading/InlineLoading.stories.js:113"
+  }
+ ],
+ "props": {
+  "name": "InlineLoading.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "className",
+    "PropTypes.string",
+    "Specify a custom className to be applied to the container node",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:153"
+   ],
+   [
+    "description",
+    "PropTypes.node",
+    "Specify the description for the inline loading text",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:158"
+   ],
+   [
+    "iconDescription",
+    "PropTypes.string",
+    "Specify the description for the inline loading text",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:163"
+   ],
+   [
+    "onSuccess",
+    "PropTypes.func",
+    "Provide an optional handler to be invoked when <InlineLoading> is successful",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:169"
+   ],
+   [
+    "status",
+    "PropTypes.oneOf(['inactive', 'active', 'finished', 'error'])",
+    "Specify the loading status",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:174"
+   ],
+   [
+    "successDelay",
+    "PropTypes.number",
+    "Provide a delay for the `setTimeout` for success",
+    "packages/react/src/components/InlineLoading/InlineLoading.tsx:179"
+   ]
+  ],
+  "source": "packages/react/src/components/InlineLoading/InlineLoading.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

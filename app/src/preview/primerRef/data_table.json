@@ -1,0 +1,479 @@
+{
+ "slug": "data_table",
+ "title": "DataTable",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/DataTable",
+  "id": "data_table",
+  "name": "DataTable",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "experimental-components-datatable--default",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-title",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-title-and-subtitle",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-sorting",
+    "code": "() => {\n  const rows = Array.from(data).sort((a, b) => {\n    return b.updatedAt - a.updatedAt\n  })\n  return (\n    <Table.Container>\n      <Table.Title as=\"h2\" id=\"repositories\">\n        Repositories\n      </Table.Title>\n      <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n        A subtitle could appear here to give extra context to the data.\n      </Table.Subtitle>\n      <DataTable\n        aria-labelledby=\"repositories\"\n        aria-describedby=\"repositories-subtitle\"\n        data={rows}\n        columns={[\n          {\n            header: 'Repository',\n            field: 'name',\n            rowHeader: true,\n            sortBy: 'alphanumeric',\n          },\n          {\n            header: 'Type',\n            field: 'type',\n            renderCell: (row) => {\n              return <Label>{uppercase(row.type)}</Label>\n            },\n          },\n          {\n            header: 'Updated',\n            field: 'updatedAt',\n            sortBy: 'datetime',\n            renderCell: (row) => {\n              return <RelativeTime date={new Date(row.updatedAt)} />\n            },\n          },\n          {\n            header: 'Dependabot',\n            field: 'securityFeatures.dependabot',\n            renderCell: (row) => {\n              return row.securityFeatures.dependabot.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.dependabot.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n          {\n            header: 'Code scanning',\n            field: 'securityFeatures.codeScanning',\n            renderCell: (row) => {\n              return row.securityFeatures.codeScanning.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.codeScanning.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n        ]}\n        initialSortColumn=\"updatedAt\"\n        initialSortDirection=\"DESC\"\n      />\n    </Table.Container>\n  )\n}"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-actions",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Actions>\n      <IconButton\n        aria-label=\"Download\"\n        icon={DownloadIcon}\n        variant=\"invisible\"\n      />\n      <IconButton aria-label=\"Add row\" icon={PlusIcon} variant=\"invisible\" />\n    </Table.Actions>\n    <Table.Divider />\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-action",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Actions>\n      <Button>Action</Button>\n    </Table.Actions>\n    <Table.Divider />\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-row-action",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          id: 'actions',\n          header: () => <VisuallyHidden>Actions</VisuallyHidden>,\n          renderCell: (row) => {\n            return (\n              <IconButton\n                aria-label={`Download: ${row.name}`}\n                title={`Download: ${row.name}`}\n                icon={DownloadIcon}\n                variant=\"invisible\"\n                onClick={() => {\n                  action('Download')(row)\n                }}\n              />\n            )\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-row-actions",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          id: 'actions',\n          header: () => <VisuallyHidden>Actions</VisuallyHidden>,\n          renderCell: (row) => {\n            return (\n              <>\n                <IconButton\n                  aria-label={`Edit: ${row.name}`}\n                  title={`Edit: ${row.name}`}\n                  icon={PencilIcon}\n                  variant=\"invisible\"\n                  onClick={() => {\n                    action('Edit')(row)\n                  }}\n                />\n                <IconButton\n                  aria-label={`Delete: ${row.name}`}\n                  title={`Delete: ${row.name}`}\n                  icon={TrashIcon}\n                  variant=\"invisible\"\n                  onClick={() => {\n                    action('Delete')(row)\n                  }}\n                />\n              </>\n            )\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-row-action-menu",
+    "code": "() => (\n  <Table.Container>\n    <Table.Title as=\"h2\" id=\"repositories\">\n      Repositories\n    </Table.Title>\n    <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n      A subtitle could appear here to give extra context to the data.\n    </Table.Subtitle>\n    <DataTable\n      aria-labelledby=\"repositories\"\n      aria-describedby=\"repositories-subtitle\"\n      data={data}\n      columns={[\n        {\n          header: 'Repository',\n          field: 'name',\n          rowHeader: true,\n        },\n        {\n          header: 'Type',\n          field: 'type',\n          renderCell: (row) => {\n            return <Label>{uppercase(row.type)}</Label>\n          },\n        },\n        {\n          header: 'Updated',\n          field: 'updatedAt',\n          renderCell: (row) => {\n            return <RelativeTime date={new Date(row.updatedAt)} />\n          },\n        },\n        {\n          header: 'Dependabot',\n          field: 'securityFeatures.dependabot',\n          renderCell: (row) => {\n            return row.securityFeatures.dependabot.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.dependabot.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          header: 'Code scanning',\n          field: 'securityFeatures.codeScanning',\n          renderCell: (row) => {\n            return row.securityFeatures.codeScanning.length > 0 ? (\n              <LabelGroup>\n                {row.securityFeatures.codeScanning.map((feature) => {\n                  return <Label key={feature}>{uppercase(feature)}</Label>\n                })}\n              </LabelGroup>\n            ) : null\n          },\n        },\n        {\n          id: 'actions',\n          header: () => <VisuallyHidden>Actions</VisuallyHidden>,\n          renderCell: (row) => {\n            return (\n              <ActionMenu>\n                <ActionMenu.Anchor>\n                  <IconButton\n                    aria-label={`Actions: ${row.name}`}\n                    title={`Actions: ${row.name}`}\n                    icon={KebabHorizontalIcon}\n                    variant=\"invisible\"\n                  />\n                </ActionMenu.Anchor>\n                <ActionMenu.Overlay>\n                  <ActionList>\n                    <ActionList.Item\n                      onSelect={() => {\n                        action('Copy')(row)\n                      }}\n                    >\n                      Copy row\n                    </ActionList.Item>\n                    <ActionList.Item>Edit row</ActionList.Item>\n                    <ActionList.Item>Export row as CSV</ActionList.Item>\n                    <ActionList.Divider />\n                    <ActionList.Item variant=\"danger\">\n                      Delete row\n                    </ActionList.Item>\n                  </ActionList>\n                </ActionMenu.Overlay>\n              </ActionMenu>\n            )\n          },\n        },\n      ]}\n    />\n  </Table.Container>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-custom-heading",
+    "code": "() => (\n  <>\n    <Heading as=\"h2\" id=\"repositories\">\n      Security coverage\n    </Heading>\n    <p id=\"repositories-subtitle\">\n      Organization members can only see data for the most recently-updated\n      repositories. To see all repositories, talk to your organization\n      administrator about becoming a security manager.\n    </p>\n    <Table.Container>\n      <DataTable\n        aria-labelledby=\"repositories\"\n        aria-describedby=\"repositories-subtitle\"\n        data={data}\n        columns={[\n          {\n            header: 'Repository',\n            field: 'name',\n            rowHeader: true,\n          },\n          {\n            header: 'Type',\n            field: 'type',\n            renderCell: (row) => {\n              return <Label>{uppercase(row.type)}</Label>\n            },\n          },\n          {\n            header: 'Updated',\n            field: 'updatedAt',\n            renderCell: (row) => {\n              return <RelativeTime date={new Date(row.updatedAt)} />\n            },\n          },\n          {\n            header: 'Dependabot',\n            field: 'securityFeatures.dependabot',\n            renderCell: (row) => {\n              return row.securityFeatures.dependabot.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.dependabot.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n          {\n            header: 'Code scanning',\n            field: 'securityFeatures.codeScanning',\n            renderCell: (row) => {\n              return row.securityFeatures.codeScanning.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.codeScanning.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n        ]}\n      />\n    </Table.Container>\n  </>\n)"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-no-content",
+    "code": "() => {\n  const exampleEmptyData: Array<Repo> = []\n  return exampleEmptyData.length === 0 ? (\n    <Blankslate border>\n      <Blankslate.Visual>\n        <BookIcon size=\"medium\" />\n      </Blankslate.Visual>\n      <Blankslate.Heading>Blankslate heading</Blankslate.Heading>\n      <Blankslate.Description>\n        Use it to provide information when no dynamic content exists.\n      </Blankslate.Description>\n      <Blankslate.PrimaryAction href=\"#\">\n        Primary action\n      </Blankslate.PrimaryAction>\n      <Blankslate.SecondaryAction href=\"#\">\n        Secondary action link\n      </Blankslate.SecondaryAction>\n    </Blankslate>\n  ) : (\n    <Table.Container>\n      <Table.Title as=\"h2\" id=\"repositories\">\n        Repositories\n      </Table.Title>\n      <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n        A subtitle could appear here to give extra context to the data.\n      </Table.Subtitle>\n      <DataTable\n        aria-labelledby=\"repositories\"\n        aria-describedby=\"repositories-subtitle\"\n        data={exampleEmptyData}\n        columns={[\n          {\n            header: 'Repository',\n            field: 'name',\n            rowHeader: true,\n          },\n          {\n            header: 'Type',\n            field: 'type',\n            renderCell: (row) => {\n              return <Label>{uppercase(row.type)}</Label>\n            },\n          },\n          {\n            header: 'Updated',\n            field: 'updatedAt',\n            renderCell: (row) => {\n              return <RelativeTime date={new Date(row.updatedAt)} />\n            },\n          },\n          {\n            header: 'Dependabot',\n            field: 'securityFeatures.dependabot',\n            renderCell: (row) => {\n              return row.securityFeatures.dependabot.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.dependabot.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n          {\n            header: 'Code scanning',\n            field: 'securityFeatures.codeScanning',\n            renderCell: (row) => {\n              return row.securityFeatures.codeScanning.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.codeScanning.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n        ]}\n      />\n    </Table.Container>\n  )\n}"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-loading",
+    "code": "() => {\n  const [loading] = React.useState(true)\n  return (\n    <Table.Container>\n      <Table.Title as=\"h2\" id=\"repositories\">\n        Repositories\n      </Table.Title>\n      <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n        A subtitle could appear here to give extra context to the data.\n      </Table.Subtitle>\n      {loading ? (\n        <Table.Skeleton\n          aria-labelledby=\"repositories\"\n          aria-describedby=\"repositories-subtitle\"\n          columns={columns}\n          rows={10}\n        />\n      ) : (\n        <DataTable\n          aria-labelledby=\"repositories\"\n          aria-describedby=\"repositories-subtitle\"\n          data={data}\n          columns={columns}\n        />\n      )}\n    </Table.Container>\n  )\n}"
+   },
+   {
+    "id": "experimental-components-datatable-features--with-pagination",
+    "code": "() => {\n  const pageSize = 10\n  const [pageIndex, setPageIndex] = React.useState(0)\n  const start = pageIndex * pageSize\n  const end = start + pageSize\n  const rows = repos.slice(start, end)\n  return (\n    <Table.Container>\n      <Table.Title as=\"h2\" id=\"repositories\">\n        Repositories\n      </Table.Title>\n      <Table.Subtitle as=\"p\" id=\"repositories-subtitle\">\n        A subtitle could appear here to give extra context to the data.\n      </Table.Subtitle>\n      <DataTable\n        aria-labelledby=\"repositories\"\n        aria-describedby=\"repositories-subtitle\"\n        data={rows}\n        columns={[\n          {\n            header: 'Repository',\n            field: 'name',\n            rowHeader: true,\n          },\n          {\n            header: 'Type',\n            field: 'type',\n            renderCell: (row) => {\n              return <Label>{uppercase(row.type)}</Label>\n            },\n          },\n          {\n            header: 'Updated',\n            field: 'updatedAt',\n            renderCell: (row) => {\n              return <RelativeTime date={new Date(row.updatedAt)} />\n            },\n          },\n          {\n            header: 'Dependabot',\n            field: 'securityFeatures.dependabot',\n            renderCell: (row) => {\n              return row.securityFeatures.dependabot.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.dependabot.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n          {\n            header: 'Code scanning',\n            field: 'securityFeatures.codeScanning',\n            renderCell: (row) => {\n              return row.securityFeatures.codeScanning.length > 0 ? (\n                <LabelGroup>\n                  {row.securityFeatures.codeScanning.map((feature) => {\n                    return <Label key={feature}>{uppercase(feature)}</Label>\n                  })}\n                </LabelGroup>\n              ) : null\n            },\n          },\n        ]}\n      />\n      <Table.Pagination\n        aria-label=\"Pagination for Repositories\"\n        pageSize={pageSize}\n        totalCount={repos.length}\n        onChange={({ pageIndex }) => {\n          setPageIndex(pageIndex)\n        }}\n      />\n    </Table.Container>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react/experimental",
+  "props": [
+   {
+    "name": "aria-describedby",
+    "type": "string",
+    "description": "Provide an id to an element which uniquely describes this table"
+   },
+   {
+    "name": "aria-labelledby",
+    "type": "string",
+    "description": "Provide an id to an element which uniquely labels this table"
+   },
+   {
+    "name": "data",
+    "type": "Array<Data>",
+    "description": "Provide a collection of the rows which will be rendered inside of the table"
+   },
+   {
+    "name": "columns",
+    "type": "Array<Column<Data>>",
+    "description": "Provide the columns for the table and the fields in `data` to which they correspond"
+   },
+   {
+    "name": "cellPadding",
+    "type": "'condensed' | 'normal' | 'spacious'",
+    "description": "Specify the amount of space that should be available around the contents of a cell"
+   },
+   {
+    "name": "aria-describedby",
+    "type": "string",
+    "required": false,
+    "description": "Provide an id to an element which uniquely describes this table",
+    "defaultValue": ""
+   },
+   {
+    "name": "aria-labelledby",
+    "type": "string",
+    "required": false,
+    "description": "Provide an id to an element which uniquely labels this table",
+    "defaultValue": ""
+   },
+   {
+    "name": "initialSortColumn",
+    "type": "string | number",
+    "required": false,
+    "description": "Provide the id or field of the column by which the table is sorted. When\nusing this `prop`, the input data must be sorted by this column in\nascending order",
+    "defaultValue": ""
+   },
+   {
+    "name": "initialSortDirection",
+    "type": "'ASC' | 'DESC'",
+    "required": false,
+    "description": "Provide the sort direction that the table should be sorted by on the\ncurrently sorted column",
+    "defaultValue": ""
+   },
+   {
+    "name": "externalSorting",
+    "type": "boolean",
+    "required": false,
+    "description": "Indicate whether the sorting of the table is managed externally. When `true`, the table will not sort the data internally when a column header is clicked. The `onToggleSort` callback will still be invoked when a column header is clicked.",
+    "defaultValue": "false"
+   },
+   {
+    "name": "onToggleSort",
+    "type": "(columnId: ObjectPaths<Data> | string | number, direction: 'ASC' | 'DESC') => void",
+    "required": false,
+    "description": "Fires every time the user clicks a sortable column header. It reports the column id that is now sorted and the direction after the toggle (never 'NONE').",
+    "defaultValue": ""
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "Table",
+    "props": [
+     {
+      "name": "aria-describedby",
+      "type": "string",
+      "description": "Provide an id to an element which uniquely describes this table"
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string",
+      "description": "Provide an id to an element which uniquely labels this table"
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     },
+     {
+      "name": "cellPadding",
+      "type": "'condensed' | 'normal' | 'spacious'",
+      "description": "Specify the amount of space that should be available around the contents of a cell"
+     }
+    ]
+   },
+   {
+    "name": "Table.Head",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Actions",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Body",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Row",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Header",
+    "props": [
+     {
+      "name": "align",
+      "type": "'end' | 'start'",
+      "required": false,
+      "description": "The horizontal alignment of the cell's content",
+      "defaultValue": ""
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Cell",
+    "props": [
+     {
+      "name": "align",
+      "type": "'end' | 'start'",
+      "required": false,
+      "description": "The horizontal alignment of the cell's content",
+      "defaultValue": ""
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     },
+     {
+      "name": "scope",
+      "type": "'row'",
+      "description": "Provide the scope for a table cell, useful for defining a row header using `scope=\"row\"`"
+     }
+    ]
+   },
+   {
+    "name": "Table.CellPlaceholder",
+    "props": []
+   },
+   {
+    "name": "Table.Container",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   },
+   {
+    "name": "Table.Divider",
+    "props": []
+   },
+   {
+    "name": "Table.Title",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Provide a unique id for the table subtitle. This should be used along with\n`aria-labelledby` on `DataTable`"
+     }
+    ]
+   },
+   {
+    "name": "Table.Subtitle",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Provide a unique id for the table subtitle. This should be used along with\n`aria-describedby` on `DataTable`"
+     }
+    ]
+   },
+   {
+    "name": "Table.Skeleton",
+    "props": [
+     {
+      "name": "cellPadding",
+      "type": "'condensed' | 'normal' | 'spacious'",
+      "description": "Specify the amount of space that should be available around the contents of a cell",
+      "defaultValue": "normal"
+     },
+     {
+      "name": "columns",
+      "required": true,
+      "type": "Array<Column<Data>>"
+     },
+     {
+      "name": "rows",
+      "type": "number",
+      "description": "Optionally specify the number of rows which should be included in the skeleton state of the component",
+      "defaultValue": "10"
+     }
+    ]
+   },
+   {
+    "name": "Table.Pagination",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string",
+      "required": true,
+      "description": "Defines a string value that labels the current element.\nProvide a label for the navigation landmark rendered by this component\n@see aria-labelledby."
+     },
+     {
+      "name": "defaultPageIndex",
+      "type": "string",
+      "description": "Provide an optional index to specify the default selected page"
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "description": "Optionally provide an `id` that is placed on the navigation landmark\nrendered by this component"
+     },
+     {
+      "name": "onChange",
+      "type": "({ pageIndex }: { pageIndex: number }) => void",
+      "description": "Optionally provide a handler that is called whenever the pagination state\nis updated"
+     },
+     {
+      "name": "pageSize",
+      "type": "number",
+      "description": "Optionally specify the number of items within a page",
+      "defaultValue": "25"
+     },
+     {
+      "name": "totalCount",
+      "type": "number",
+      "required": true,
+      "description": "Specify the total number of items within the collection"
+     },
+     {
+      "name": "showPages",
+      "type": "boolean | { narrow?: boolean; regular?: boolean; wide?: boolean; }",
+      "required": false,
+      "description": "Whether to show the page numbers",
+      "defaultValue": "{narrow: false}"
+     }
+    ]
+   },
+   {
+    "name": "Table.ErrorDialog",
+    "props": [
+     {
+      "name": "children",
+      "required": true,
+      "type": "React.ReactNode",
+      "description": "The content of the dialog. This is usually a message explaining the error."
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "defaultValue": "'Error'",
+      "description": "The title of the dialog. This is usually a short description of the error."
+     },
+     {
+      "name": "onRetry",
+      "type": "() => void",
+      "description": "Event handler called when the user clicks the retry button."
+     },
+     {
+      "name": "onDismiss",
+      "type": "() => void",
+      "description": "Event handler called when the dialog is dismissed."
+     }
+    ]
+   },
+   {
+    "name": "Table.SortHeader",
+    "props": [
+     {
+      "name": "direction",
+      "type": "'ASC' | 'DESC' | 'NONE'",
+      "required": true,
+      "description": "Specify the sort direction for the TableHeader",
+      "defaultValue": ""
+     },
+     {
+      "name": "onToggleSort",
+      "type": "() => void",
+      "required": true,
+      "description": "Provide a handler that is called when the sortable TableHeader is\ninteracted with via a click or keyboard interaction",
+      "defaultValue": ""
+     },
+     {
+      "name": "align",
+      "type": "'end' | 'start'",
+      "description": "The horizontal alignment of the cell's content",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "Column options",
+    "props": [
+     {
+      "name": "align",
+      "type": "'start' | 'end'",
+      "description": "The horizontal alignment of the column's content"
+     },
+     {
+      "name": "field",
+      "type": "ObjectPaths<Data>",
+      "description": "Optionally provide a field to render for this column. This may be the key of the object or a string that accesses nested objects through `.`. For example: `field: a.b.c`\nAlternatively, you may provide a `renderCell` for this column to render the field in a row"
+     },
+     {
+      "name": "header",
+      "type": "string | (() => React.ReactNode)",
+      "required": true,
+      "description": "Provide the name of the column. This will be rendered as a table header within the table itself"
+     },
+     {
+      "name": "maxWidth",
+      "type": "React.CSSProperties['maxWidth']",
+      "description": "The maximum width the column can grow to"
+     },
+     {
+      "name": "minWidth",
+      "type": "React.CSSProperties['minWidth']",
+      "description": "The minimum width the column can grow to"
+     },
+     {
+      "name": "renderCell",
+      "type": "(data: Data) => React.ReactNode",
+      "description": "Provide a custom component or render prop to render the data for this column in a row"
+     },
+     {
+      "name": "rowHeader",
+      "type": "boolean",
+      "description": "Specify if the value of this column for a row should be treated as a row header"
+     },
+     {
+      "name": "sortBy",
+      "type": "boolean | 'alphanumeric' | 'basic' | 'datetime' | (a: Data, b: Data) => number",
+      "description": "Specify if the table should sort by this column and, if applicable, a specific sort strategy or custom sort strategy"
+     },
+     {
+      "name": "width",
+      "defaultValue": "'grow'",
+      "type": "'grow' | 'growCollapse' | 'auto' | React.CSSProperties['width']",
+      "description": "Controls the width of the column.\n\n- 'grow': Stretch to fill available space, and min width is the width of the widest cell in the column\n- 'growCollapse': Stretch to fill available space or shrink to fit in the available space. Allows the column to shrink smaller than the cell content's width.\n- 'auto': The column is the width of it’s widest cell. Not intended for use with columns who’s content length varies a lot because a layout shift will occur when the content changes\n- explicit width: Will be exactly that width and will not grow or shrink to fill the parent"
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:2681",
+ "name": "data_table",
+ "sourceKey": "$.components.data_table",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "ActionList",
+  "ActionMenu",
+  "Blankslate",
+  "BookIcon",
+  "Button",
+  "DataTable",
+  "DownloadIcon",
+  "Heading",
+  "IconButton",
+  "KebabHorizontalIcon",
+  "Label",
+  "LabelGroup",
+  "PencilIcon",
+  "PlusIcon",
+  "RelativeTime",
+  "Repo",
+  "Table",
+  "TrashIcon",
+  "VisuallyHidden"
+ ]
+}

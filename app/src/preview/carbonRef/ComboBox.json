@@ -1,0 +1,364 @@
+{
+ "slug": "ComboBox",
+ "title": "ComboBox",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as ComboBoxStories from './ComboBox.stories.js';\nimport ComboBox from '../ComboBox';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# ComboBox\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ComboBox)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/dropdown/usage#combo-box)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/dropdown/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Disabled](#disabled)\n- [Combobox uses Downshift](#combobox-uses-downshift)\n  - [`downshiftProps`](#downshiftprops)\n- [typeahead Prop](#typeahead-prop)\n  - [Autocomplete with typeahead](#autocomplete-with-typeahead)\n  - [Combobox `downshiftActions`](#combobox-downshiftactions)\n    - [`downshiftActions` Usage](#downshiftactions-usage)\n- [Placeholders and Labeling](#placeholders-and-labeling)\n- [`initialSelectedItem`](#initialselecteditem)\n- [`selectedItem`](#selecteditem)\n- [`itemToElement`](#itemtoelement)\n- [`itemToString`](#itemtostring)\n- [`shouldFilterItem`](#shouldfilteritem)\n- [`allowCustomValue`](#allowcustomvalue)\n- [`inputProps`](#inputprops)\n  - [Using `maxLength`](#using-maxlength)\n- [With AI Label](#with-ai-label)\n- [With Layer](#with-layer)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nA combobox allows the user to make a selection from a predefined list of options\nand is typically used when there are a large amount of options to choose from.\n\n<Canvas\n  of={ComboBoxStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ComboBoxStories.Default),\n    },\n  ]}\n/>\n\n## Disabled\n\nA disabled combobox is available but should not be used as the sole means of\nconveying information. For example, if the user must complete a previous form\ninput before moving on to the combobox, make sure to make that clear to the user\nvia an error state on the previous form element in addition to disabling the\nnext element.\n\n```jsx\n<Combobox disabled />\n```\n\n## Combobox uses Downshift\n\nOur `Combobox` component utilizes [Downshift](https://www.downshift-js.com/)\nunder the hood to help provide complex yet accessible custom dropdown\ncomponents.\n\n### `downshiftProps`\n\n`downshiftProps` is made available as a passthrough to the underlying downshift\n`useCombobox` hook.\n\n**Use with caution:** anything you define here overrides the components'\ninternal handling of that prop. Downshift internals are subject to change, and\nin some cases they can not be shimmed to shield you from potentially breaking\nchanges.\n\nFor more information, checkout the Downshift `useCombobox` props\n[documentation](https://github.com/downshift-js/downshift/tree/v9.0.7/src/hooks/useCombobox#basic-props)\n\n## typeahead Prop\n\nThe `typeahead` prop enables predictive text and autocomplete functionality in\nthe ComboBox. When enabled, it displays inline suggestions as you type, using a\nbuilt-in prefix-matching filter that ignores the `shouldFilterItem` prop.\nPressing `Tab` will complete the input with the first matching suggestion, while\narrow keys can still be used to navigate through filtered options.\n\nWhen combined with the `allowCustomValue` prop, the ComboBox supports both\ncustom values and typeahead suggestions.\n\n### Autocomplete with typeahead\n\n<Canvas\n  of={ComboBoxStories.AutocompleteWithTypeahead}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ComboBoxStories.AutocompleteWithTypeahead),\n    },\n  ]}\n/>\n\n### Combobox `downshiftActions`\n\nThe downshift action methods are made available through the `downshiftActions`\nprop. While not recommended, this prop allows you to modify downshift's internal\nstate without having to fully control the component.\n\n**Use with caution:** calling these actions modifies the internal state of\ndownshift. It may conflict with or override the state management used within\nCombobox. Downshift APIs and internals are subject to change, and in some cases\nthey can not be shimmed by Carbon to shield you from potentially breaking\nchanges.\n\n#### `downshiftActions` Usage\n\nProvide a ref that will be mutated to contain an object of downshift action\nfunctions. These can be called to change the internal state of the downshift\nuseCombobox hook.\n\n```\nconst downshiftActions = useRef();\n\nreturn (\n  <ComboBox\n    ...\n    downshiftActions={downshiftActions}\n    downshiftProps={{\n      onStateChange: (changes) => {\n        if (changes.selectedItem === null) {\n          downshiftActions?.current?.openMenu?.();\n          return;\n        }\n      },\n    }}\n  />\n);\n```\n\nFor more information, checkout the Downshift `useCombobox` action functions\n[documentation](https://github.com/downshift-js/downshift/tree/v9.0.7/src/hooks/useCombobox#actions)\n\n## Placeholders and Labeling\n\nThe placeholder is not a replacement for a label under any circumstances\nincluding space restraints. Placeholders should be used to provide additive\ninformation regarding the format of the input. In all cases a label is required\n_in addition to_ a placeholder.\n\n## `initialSelectedItem`\n\nIf you want the Combobox to render with a value already selected, but do not\nwant to fully control the component, you can use `initialSelectedItem`\n\n```jsx\nconst items = ['Option 1', 'Option 2', 'Option 3']\n\n<Combobox initialSelectedItem={items[2]} onChange={() => {}} />\n```\n\n## `selectedItem`\n\nYou can use `selectedItem` for a fully controlled component.\n\n<Canvas\n  of={ComboBoxStories.Controlled}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ComboBoxStories.Controlled),\n    },\n  ]}\n/>\n\n```jsx\nconst options = [\n  {\n    id: 'option-1',\n    text: 'Option 1',\n  },\n  {\n    id: 'option-2',\n    text: 'Option 2',\n  },\n  {\n    id: 'option-3',\n    text: 'Option 3',\n  },\n];\nconst [value, setValue] = useState(options[0]);\n\nconst onChange = ({ selectedItem }) => {\n  setValue(selectedItem);\n};\n\nreturn (\n  <div>\n    <ComboBox\n      onChange={onChange}\n      id=\"carbon-combobox\"\n      items={options}\n      selectedItem={value}\n      itemToString={(item) => (item ? item.text : '')}\n      titleText=\"Label\"\n      helperText=\"Helper text\"\n    />\n    <div\n      style={{\n        display: 'flex',\n        alignItems: 'center',\n        justifyContent: 'space-between',\n      }}>\n      <Button onClick={() => setValue(null)}>Reset</Button>\n      <Button onClick={() => setValue(options[0])}>Option 1</Button>\n      <Button onClick={() => setValue(options[1])}>Option 2</Button>\n      <Button onClick={() => setValue(options[2])}>Option 3</Button>\n    </div>\n  </div>\n);\n```\n\n## `itemToElement`\n\nThe Combobox takes in an `items` array and can then be formatted by\n`itemToElement` and `itemToString`. `itemToElement` allows you to wrap each\ndropdown item in a custom element.\n\n```jsx\n<Combobox\n  onChange={() => {}}\n  items={[\n    { id: 'option-0', text: 'Option 0' },\n    { id: 'option-1', text: 'Option 1' },\n    { id: 'option-2', text: 'Option 2' },\n  ]}\n  itemToElement={(item) =>\n    item ? (\n      <span className=\"test\" style={{ color: 'red' }}>\n        {item.text} 🔥\n      </span>\n    ) : (\n      ''\n    )\n  }\n  label=\"Select an option...\"\n/>\n```\n\n## `itemToString`\n\nIf the `items` array is not an array of strings, you'll need to use\n`itemToString` to grab the text to be used as the `Combobox` item text.\n\n```jsx\n<Combobox\n  items={[\n    { id: 'option-0', text: 'Option 0' },\n    { id: 'option-1', text: 'Option 1' },\n    { id: 'option-2', text: 'Option 2' },\n  ]}\n  itemToString={(item) => (item ? item.text : '')}\n  onChange={() => {}}\n/>\n```\n\n## `shouldFilterItem`\n\nBy default, the Combobox will _not_ filter out items that do not match the input\nstring. If you would like to hide items that do not match what the user is\ntyping, you can pass in your own filtering function to the `shouldFilterItem`\nprop.\n\n```jsx\nconst filterItems = (menu) => {\n  return menu?.item?.toLowerCase().includes(menu?.inputValue?.toLowerCase());\n};\n\n<Combobox\n  titleText=\"Label\"\n  helperText=\"Helper text\"\n  items={['Apple', 'Orange', 'Banana']}\n  shouldFilterItem={filterItems}\n  onChange={() => {}}\n/>;\n```\n\n## `allowCustomValue`\n\nBy default, if text is entered into the `Combobox` and it does not match an\nitem, it will be cleared on blur. However, you can change this behavior by\npassing in the `allowCustomValue` prop. This will allow a user to close the menu\nand accept a custom value by pressing `Enter` as well as retain the value on\nblur. The `inputValue` is provided as a second argument to the `onChange`\ncallback.\n\n```js\n{selectedItem: undefined, inputValue: 'Apple'}\n```\n\n<Canvas\n  of={ComboBoxStories.AllowCustomValue}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ComboBoxStories.AllowCustomValue),\n    },\n  ]}\n/>\n\n## `inputProps`\n\nUse `inputProps` to specify native input attributes to place on the `<input>`.\nThese are passed to\n[Downshift's `getInputProps()`](https://github.com/downshift-js/downshift?tab=readme-ov-file#getinputprops)\nand will override the internal input props.\n\n### Using `maxLength`\n\nThe native `maxLength` attribute can be included in `inputProps` to define the\nmaximum string length that the user can enter into the input.\n\nWhen using `maxLength`, ensure the limit is communicated to the user through\nboth `helperText` and `invalidText`/`warnText`.\n\n```jsx\n<ComboBox\n  inputProps={{ maxLength: 5 }}\n  titleText=\"Abbreviation\"\n  helperText=\"Provide an abbreviation that is 5 characters or less\"\n  invalidText=\"Abbreviations must be 5 characters or less\"\n  warnText=\"Abbreviations must be 5 characters or less\"\n/>\n```\n\n## With AI Label\n\n<Canvas\n  of={ComboBoxStories.withAILabel}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ComboBoxStories.withAILabel),\n    },\n  ]}\n/>\n\n## With Layer\n\n<Canvas of={ComboBoxStories._WithLayer} />\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve these docs by\n[editing this file on GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/ComboBox/ComboBox.mdx)\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:18"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:44"
+    },
+    {
+     "name": "Disabled",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:59"
+    },
+    {
+     "name": "Combobox uses Downshift",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:71"
+    },
+    {
+     "name": "typeahead Prop",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:90"
+    },
+    {
+     "name": "Placeholders and Labeling",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:154"
+    },
+    {
+     "name": "`initialSelectedItem`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:161"
+    },
+    {
+     "name": "`selectedItem`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:172"
+    },
+    {
+     "name": "`itemToElement`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:233"
+    },
+    {
+     "name": "`itemToString`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:260"
+    },
+    {
+     "name": "`shouldFilterItem`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:277"
+    },
+    {
+     "name": "`allowCustomValue`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:298"
+    },
+    {
+     "name": "`inputProps`",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:321"
+    },
+    {
+     "name": "With AI Label",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:346"
+    },
+    {
+     "name": "With Layer",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:358"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:362"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/ComboBox/ComboBox.mdx:366"
+    }
+   ]
+  },
+  {
+   "markdown": "import { Meta, Canvas } from '@storybook/addon-docs/blocks';\nimport * as ComboBoxFeatureflagStories from './ComboBox.featureflag.stories.js';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta title=\"Components/ComboBox/Feature Flag\" name=\"Flag details\" />\n\n# Dynamically set floating styles\n\nComponents with `autoAlign` use the\n[`floating-ui`](https://github.com/floating-ui/floating-ui) library to handle\nthe dynamic positioning of floating elements relative to their trigger / anchor\nelement. This also includes collision detection that repositions the floating\nelement as necessary to keep it visible within the viewport. In the majority of\ncases, the styling from the `floating-ui` 'fixed' positioning strategy prevents\nthe floating element from being\n[clipped](https://floating-ui.com/docs/misc#clipping) by an ancestor element.\n\nThe `enable-v12-dynamic-floating-styles` flag enables this dynamic styling\nwithout the collision detection.\n\n**Note**: The flag has no effect when used with `autoAlign` because `autoAlign`\nincludes both the dynamic positioning styles and collision detection.\n\nTo use `autoAlign` your project needs to be using React v17+, see\nhttps://github.com/carbon-design-system/carbon/issues/18714.\n\n## Enable dynamic setting of floating styles\n\n```js\n<FeatureFlags enableV12DynamicFloatingStyles>\n  <ComboBox\n    onChange={() => {}}\n    id=\"carbon-combobox\"\n    items={comboBoxItems}\n    itemToString={(item) => (item ? item.text : '')}\n    titleText=\"Label\"\n    helperText=\"Helper text\"\n    {...args}\n  />\n</FeatureFlags>\n```\n\n<Canvas\n  of={ComboBoxFeatureflagStories.FloatingStyles}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ComboBoxFeatureflagStories.FloatingStyles),\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ComboBox/Combobox.DynamicStyles.featureflag.mdx",
+   "sections": [
+    {
+     "name": "Enable dynamic setting of floating styles",
+     "source": "packages/react/src/components/ComboBox/Combobox.DynamicStyles.featureflag.mdx:27"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  tall\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-combobox--default',\n    },\n    {\n      label: 'Fluid (unstable)',\n      variant: 'experimental-unstable-fluidcombobox--default',\n    },\n    {\n      label: 'Fluid Condensed (unstable)',\n      variant: 'experimental-unstable-fluidcombobox--condensed',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ComboBox/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/ComboBox/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "FloatingStyles",
+   "description": null,
+   "code": "export const FloatingStyles = (args) => {\n  const comboBoxItems = [\n    {\n      id: 'option-0',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'option-1',\n      text: 'Option 1',\n    },\n    {\n      id: 'option-2',\n      text: 'Option 2',\n    },\n    {\n      id: 'option-3',\n      text: 'Option 3',\n      disabled: true,\n    },\n    {\n      id: 'option-4',\n      text: 'Option 4',\n    },\n    {\n      id: 'option-5',\n      text: 'Option 5',\n    },\n  ];\n  return (\n    <div style={{ width: 300 }}>\n      <ComboBox\n        onChange={() => {}}\n        id=\"carbon-combobox\"\n        items={comboBoxItems}\n        itemToString={(item) => (item ? item.text : '')}\n        titleText=\"Label\"\n        helperText=\"Helper text\"\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nFloatingStyles.args = {\n  direction: 'bottom',\n};\n\nFloatingStyles.argTypes = {\n  direction: {\n    options: ['top', 'bottom'],\n    control: {\n      type: 'radio',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.featureflag.stories.js:28"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const items = [\n    {\n      id: 'option-0',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'option-1',\n      text: 'Option 1',\n    },\n    {\n      id: 'option-2',\n      text: 'Option 2',\n    },\n    {\n      id: 'option-3',\n      text: 'Option 3',\n      disabled: true,\n    },\n    {\n      id: 'option-4',\n      text: 'Option 4',\n    },\n    {\n      id: 'option-5',\n      text: 'Option 5',\n    },\n  ];\n  return (\n    <div style={{ width: 300 }}>\n      <ComboBox\n        id=\"carbon-combobox\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        titleText=\"Label\"\n        helperText=\"Helper text\"\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        onChange={action('onChange')}\n        {...args}\n      />\n    </div>\n  );\n};\n\nDefault.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:98"
+  },
+  {
+   "name": "AllowCustomValue",
+   "description": null,
+   "code": "export const AllowCustomValue = (args) => {\n  const filterItems = (menu) => {\n    return menu?.item?.toLowerCase().includes(menu?.inputValue?.toLowerCase());\n  };\n  return (\n    <div style={{ width: 300 }}>\n      <ComboBox\n        allowCustomValue\n        shouldFilterItem={filterItems}\n        id=\"carbon-combobox\"\n        items={['Apple', 'Orange', 'Banana', 'Pineapple', 'Raspberry', 'Lime']}\n        titleText=\"Label\"\n        helperText=\"Helper text\"\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nAllowCustomValue.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:145"
+  },
+  {
+   "name": "AutocompleteWithTypeahead",
+   "description": null,
+   "code": "export const AutocompleteWithTypeahead = (args) => {\n  return (\n    <div style={{ width: 300 }}>\n      <ComboBox\n        helperText=\"Helper text\"\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        id=\"carbon-combobox\"\n        items={[\n          'Apple',\n          'Apricot',\n          'Avocado',\n          'Banana',\n          'Blackberry',\n          'Blueberry',\n          'Cantaloupe',\n        ]}\n        titleText=\"Label\"\n        {...args}\n        typeahead\n      />\n    </div>\n  );\n};\n\nAutocompleteWithTypeahead.argTypes = {\n  ...sharedArgTypes,\n  onChange: { action: 'onChange' },\n};\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:168"
+  },
+  {
+   "name": "ExperimentalAutoAlign",
+   "description": null,
+   "code": "export const ExperimentalAutoAlign = (args) => (\n  <div style={{ width: 400 }}>\n    <div style={{ height: 300 }}></div>\n    <ComboBox\n      onChange={() => {}}\n      id=\"carbon-combobox\"\n      invalidText=\"Error message goes here\"\n      warnText=\"Warning message goes here\"\n      items={items}\n      itemToString={(item) => (item ? item.text : '')}\n      titleText=\"Label\"\n      helperText=\"Helper text\"\n      autoAlign={true}\n      {...args}\n    />\n    <div style={{ height: 800 }}></div>\n  </div>\n);\n\nExperimentalAutoAlign.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:198"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <div style={{ width: 300 }}>\n        <ComboBox\n          invalidText=\"Error message goes here\"\n          warnText=\"Warning message goes here\"\n          onChange={() => {}}\n          id={`carbon-combobox-${layer}`}\n          items={items}\n          itemToString={(item) => (item ? item.text : '')}\n          titleText=\"Label\"\n          helperText=\"Helper text\"\n          {...args}\n        />\n      </div>\n    )}\n  </WithLayer>\n);\n\n_WithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:219"
+  },
+  {
+   "name": "withAILabel",
+   "description": null,
+   "code": "export const withAILabel = (args) => {\n  const aiLabel = (\n    <AILabel className=\"ai-label-container\">\n      <AILabelContent>\n        <div>\n          <p className=\"secondary\">AI Explained</p>\n          <h2 className=\"ai-label-heading\">84%</h2>\n          <p className=\"secondary bold\">Confidence score</p>\n          <p className=\"secondary\">\n            Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed\n            do eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.\n          </p>\n          <hr />\n          <p className=\"secondary\">Model type</p>\n          <p className=\"bold\">Foundation model</p>\n        </div>\n        <AILabelActions>\n          <IconButton kind=\"ghost\" label=\"View\">\n            <View />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Open Folder\">\n            <FolderOpen />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Folders\">\n            <Folders />\n          </IconButton>\n          <Button>View details</Button>\n        </AILabelActions>\n      </AILabelContent>\n    </AILabel>\n  );\n  const items = [\n    {\n      id: 'option-0',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'option-1',\n      text: 'Option 1',\n    },\n    {\n      id: 'option-2',\n      text: 'Option 2',\n    },\n    {\n      id: 'option-3',\n      text: 'Option 3',\n      disabled: true,\n    },\n    {\n      id: 'option-4',\n      text: 'Option 4',\n    },\n    {\n      id: 'option-5',\n      text: 'Option 5',\n    },\n  ];\n  return (\n    <div style={{ width: 300 }}>\n      <ComboBox\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        onChange={action('onChange')}\n        id=\"carbon-combobox\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        titleText=\"Label\"\n        helperText=\"Helper text\"\n        decorator={aiLabel}\n        {...args}\n      />\n    </div>\n  );\n};\n\nwithAILabel.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:241"
+  },
+  {
+   "name": "Controlled",
+   "description": null,
+   "code": "export const Controlled = (args) => {\n  const options = [\n    {\n      id: 'option-1',\n      text: 'Option 1',\n    },\n    {\n      id: 'option-2',\n      text: 'Option 2',\n    },\n    {\n      id: 'option-3',\n      text: 'Option 3',\n    },\n  ];\n  const [value, setValue] = React.useState(options[0]);\n  const onChange = ({ selectedItem }) => {\n    setValue(selectedItem);\n  };\n\n  return (\n    <div>\n      <ComboBox\n        {...args}\n        invalidText=\"Error message goes here\"\n        warnText=\"Warning message goes here\"\n        onChange={onChange}\n        id=\"carbon-combobox\"\n        items={options}\n        selectedItem={value}\n        itemToString={(item) => (item ? item.text : '')}\n        titleText=\"Label\"\n        helperText=\"Helper text\"\n      />\n      <div\n        style={{\n          display: 'flex',\n          alignItems: 'center',\n          justifyContent: 'space-between',\n        }}>\n        <Button onClick={() => setValue(null)}>Clear</Button>\n        <Button onClick={() => setValue(options[0])}>Option 1</Button>\n        <Button onClick={() => setValue(options[1])}>Option 2</Button>\n        <Button onClick={() => setValue(options[2])}>Option 3</Button>\n      </div>\n    </div>\n  );\n};\n\nControlled.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ComboBox/ComboBox.stories.js:319"
+  }
+ ],
+ "props": {
+  "name": "ComboBox.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "allowCustomValue",
+    "PropTypes.bool",
+    "Specify whether or not the ComboBox should allow a value that is not in the list to be entered in the input",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1329"
+   ],
+   [
+    "ariaLabel",
+    "deprecate(",
+    "'aria-label' of the ListBox component. Specify a label to be read by screen readers on the container node Deprecated, please use `aria-label` instead. Specify a label to be read by screen readers on the container note. 'aria-label' of the ListBox component.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1342"
+   ],
+   [
+    "autoAlign",
+    "PropTypes.bool",
+    "**Experimental**: Will attempt to automatically align the floating element to avoid collisions with the viewport and being clipped by ancestor elements. Requires React v17+ @see https://github.com/carbon-design-system/carbon/issues/18714",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1352"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "An optional className to add to the container node",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1357"
+   ],
+   [
+    "decorator",
+    "PropTypes.node",
+    "**Experimental**: Provide a decorator component to be rendered inside the `ComboBox` component",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1362"
+   ],
+   [
+    "direction",
+    "PropTypes.oneOf(['top', 'bottom'])",
+    "Specify the direction of the combobox dropdown. Can be either top or bottom.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1367"
+   ],
+   [
+    "disabled",
+    "PropTypes.bool",
+    "Specify if the control should be disabled, or not",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1372"
+   ],
+   [
+    "downshiftProps",
+    "PropTypes.object as PropTypes.Validator<",
+    "Additional props passed to Downshift. **Use with caution:** anything you define here overrides the components' internal handling of that prop. Downshift APIs and internals are subject to change, and in some cases they can not be shimmed by Carbon to shield you from potentially breaking changes.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1382"
+   ],
+   [
+    "downshiftActions",
+    "PropTypes.exact({ current: PropTypes.any })",
+    "Provide a ref that will be mutated to contain an object of downshift action functions. These can be called to change the internal state of the downshift useCombobox hook. **Use with caution:** calling these actions modifies the internal state of downshift. It may conflict with or override the state management used within Combobox. Downshift APIs and internals are subject to change, and in some cases they can not be shimmed by Carbon to shield you from potentially breaking changes.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1397"
+   ],
+   [
+    "helperText",
+    "PropTypes.node",
+    "Provide helper text that is used alongside the control label for additional help",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1403"
+   ],
+   [
+    "id",
+    "PropTypes.string.isRequired",
+    "Specify a custom `id` for the input",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1408"
+   ],
+   [
+    "initialSelectedItem",
+    "PropTypes.oneOfType([",
+    "Allow users to pass in an arbitrary item or a string (in case their items are an array of strings) from their collection that are pre-selected",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1414"
+   ],
+   [
+    "invalid",
+    "PropTypes.bool",
+    "Specify if the currently selected value is invalid.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1423"
+   ],
+   [
+    "invalidText",
+    "PropTypes.node",
+    "Message which is displayed if the value is invalid.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1428"
+   ],
+   [
+    "itemToElement",
+    "PropTypes.func",
+    "Renders an item as a custom React node instead of a string.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1433"
+   ],
+   [
+    "itemToString",
+    "PropTypes.func",
+    "Helper function passed to downshift that allows the library to render a given item to a string label. By default, it extracts the `label` field from a given item to serve as the item label in the list",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1440"
+   ],
+   [
+    "items",
+    "PropTypes.array.isRequired",
+    "We try to stay as generic as possible here to allow individuals to pass in a collection of whatever kind of data structure they prefer",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1446"
+   ],
+   [
+    "light",
+    "deprecate(",
+    "should use \"light theme\" (white background)?",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1451"
+   ],
+   [
+    "onChange",
+    "PropTypes.func.isRequired",
+    "`onChange` is a utility for this controlled component to communicate to a consuming component when a specific dropdown item is selected. `({ selectedItem }) => void` @param {{ selectedItem }}",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1463"
+   ],
+   [
+    "onInputChange",
+    "PropTypes.func",
+    "Callback function to notify consumer when the text input changes. This provides support to change available items based on the text. `(inputText) => void` @param {string} inputText",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1471"
+   ],
+   [
+    "onToggleClick",
+    "PropTypes.func",
+    "Callback function that fires when the combobox menu toggle is clicked `(evt) => void` @param {MouseEvent} event",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1478"
+   ],
+   [
+    "placeholder",
+    "PropTypes.string",
+    "Used to provide a placeholder text node before a user enters any input. This is only present if the control has no items selected",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1484"
+   ],
+   [
+    "readOnly",
+    "PropTypes.bool",
+    "Is the ComboBox readonly?",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1489"
+   ],
+   [
+    "selectedItem",
+    "PropTypes.oneOfType([",
+    "For full control of the selection",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1494"
+   ],
+   [
+    "shouldFilterItem",
+    "PropTypes.func",
+    "Specify your own filtering logic by passing in a `shouldFilterItem` function that takes in the current input and an item and passes back whether or not the item should be filtered. this prop will be ignored if `typeahead` prop is enabled",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1506"
+   ],
+   [
+    "size",
+    "ListBoxSizePropType",
+    "Specify the size of the ListBox. Currently supports either `xs`, `sm`, `md` or `lg` as an option.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1511"
+   ],
+   [
+    "slug",
+    "deprecate(",
+    "",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1513"
+   ],
+   [
+    "titleText",
+    "PropTypes.node",
+    "Provide text to be used in a `<label>` element that is tied to the combobox via ARIA attributes.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1522"
+   ],
+   [
+    "translateWithId",
+    "PropTypes.func",
+    "Translates component strings using your i18n tool.",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1527"
+   ],
+   [
+    "typeahead",
+    "PropTypes.bool",
+    "**Experimental**: will enable autocomplete and typeahead for the input field",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1532"
+   ],
+   [
+    "warn",
+    "PropTypes.bool",
+    "Specify whether the control is currently in warning state",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1537"
+   ],
+   [
+    "warnText",
+    "PropTypes.node",
+    "Provide the text that is displayed when the control is in warning state",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1542"
+   ],
+   [
+    "inputProps",
+    "PropTypes.object",
+    "Specify native input attributes to place on the `<input>`, like maxLength. These are passed to downshift's getInputProps() and will override the internal input props. https://github.com/downshift-js/downshift?tab=readme-ov-file#getinputprops",
+    "packages/react/src/components/ComboBox/ComboBox.tsx:1550"
+   ]
+  ],
+  "source": "packages/react/src/components/ComboBox/ComboBox.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

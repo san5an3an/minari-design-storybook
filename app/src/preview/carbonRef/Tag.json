@@ -1,0 +1,194 @@
+{
+ "slug": "Tag",
+ "title": "Tag",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as TagStories from './Tag.stories';\nimport * as InteractiveTagStories from './InteractiveTag.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Tag\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Tag)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/tag/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/tag/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Read Only](#read-only)\n- [Dismissible](#dismissible)\n- [Selectable](#selectable)\n- [Operational](#operational)\n- [With AI Label](#with-ai-label)\n- [Skeleton](#skeleton)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nTags can be used to categorize items. Use short labels for easy scanning. Use\ntwo words only if necessary to describe the status and differentiate it from\nother tags.\n\n## Read Only\n\nRead-only tags are used to categorize, are used for labeling, and do not have\ninteractive functionality. Read-only tags come in several color choices and can\nuse optional decorative icons to delineate between multiple categories.\n\n<Canvas\n  of={TagStories.ReadOnly}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(TagStories.ReadOnly),\n    },\n  ]}\n/>\n\n## Dismissible\n\nDismissible tags are used to remove tags that can be filtered out by the user.\n\nWhen to use:\n\n- Use DismissibleTag when you want to allow users to easily clear or dismiss\n  specific filters applied to items.\n\n<Canvas\n  of={InteractiveTagStories.Dismissible}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(InteractiveTagStories.Dismissible),\n    },\n  ]}\n/>\n\nHere it is a sample code to help you get started.\n\n```js\nconst tags = [\n  {\n    type: 'red',\n    text: 'Tag content with a long text description',\n    tagTitle: 'Provide a custom title to the tag',\n  },\n  {\n    type: 'magenta',\n    text: 'Tag content 1',\n  },\n  {\n    type: 'purple',\n    text: 'Tag content 2',\n  },\n];\n\nconst [renderedTags, setRenderedTags] = useState(tags);\n\nconst handleClose = (removedTag) => {\n  const newTags = renderedTags.filter((tag) => tag !== removedTag);\n  setRenderedTags(newTags);\n};\n\nconst resetTabs = () => {\n  setRenderedTags(tags);\n};\n\nreturn (\n  <>\n    <Button style={{ marginBottom: '3rem' }} onClick={resetTabs}>\n      Reset\n    </Button>\n    <br />\n    <div aria-label=\"Dismissible tags\" role=\"group\">\n      {renderedTags.map((tag, index) => (\n        <DismissibleTag\n          key={index}\n          type={tag.type}\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text={tag.text}\n          tagTitle={tag.tagTitle}\n          title=\"Dismiss\"\n          onClose={(e) => {\n            e.preventDefault();\n            handleClose(tag);\n          }}\n          {...args}\n        />\n      ))}\n    </div>\n  </>\n);\n```\n\n## Selectable\n\nSelectable tags are used to select or unselect single or multiple items.\nSelectable tags can also be used in filtering by label scenarios when they do\nnot need to be dismissed.\n\nWhen to use:\n\n- Use selectable tags to toggle between a selected or unselected state.\n- Use when needing to filter without an explicit dismissable functionality. (We\n  need to be a little more specific around filtering for selectable versus\n  dismissable tags).\n\n<Canvas\n  of={InteractiveTagStories.Selectable}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(InteractiveTagStories.Selectable),\n    },\n  ]}\n/>\n\nHere it is a sample code to help you get started.\n\n```js\nconst tags = [\n  {\n    id: 1,\n    text: 'Tag content with a long text description',\n  },\n  {\n    id: 2,\n    text: 'Tag content 1',\n  },\n  {\n    id: 3,\n    text: 'Tag content 2',\n  },\n  {\n    id: 4,\n    text: 'Tag content 3',\n  },\n];\n\nconst [selectedTags, setSelectedTags] = useState([\n  {\n    id: 2,\n    text: 'Tag content 1',\n  },\n]);\n\nconst handleChange = (tag, selected) => {\n  const nextSelectedTags = selected\n    ? [...selectedTags, tag]\n    : selectedTags.filter((t) => t.id !== tag.id);\n\n  console.log('Selected tags array: ', nextSelectedTags);\n  setSelectedTags(nextSelectedTags);\n};\n\nreturn (\n  <div aria-label=\"Selectable tags\" role=\"group\">\n    {tags.map((tag, index) => (\n      <SelectableTag\n        key={index}\n        renderIcon={Asleep}\n        text={tag.text}\n        className=\"some-class\"\n        selected={selectedTags.find((t) => t.id === tag.id)}\n        onChange={(selected) => handleChange(tag, selected)}\n        {...args}\n      />\n    ))}\n  </div>\n);\n```\n\n## Operational\n\nOperational tags enable the user to view a list of all items associated with a\ngiven tag in different ways.\n\nWhen to use:\n\n- Use to view a list of items with the same tag in a popover, or breadcrumb\n  detail view.\n\nWhen not to use:\n\n- Do not use operational tags as a replacement for links that direct you to an\n  entirely different page or launch you out to another tab.\n- Do not use in combination with Dismissable tags. Instead, consider letting the\n  user enter an \"edit mode\" to dismiss tags.\n\n<Canvas\n  of={InteractiveTagStories.Operational}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(InteractiveTagStories.Operational),\n    },\n  ]}\n/>\n\n## With AI Label\n\nTag with AI label is now stable for Read Only tags. This addition changes the\nvisual appearance of the component and introduces an AI explainability feature\nwhen AI is present in the component.\n\n<Canvas\n  of={TagStories.withAILabel}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(TagStories.withAILabel),\n    },\n  ]}\n/>\n\n## Skeleton\n\n<Canvas\n  of={TagStories.Skeleton}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(TagStories.Skeleton),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/blob/main/packages/react/src/components/Tag/Tag.tsx).\n",
+   "source": "packages/react/src/components/Tag/Tag.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Tag/Tag.mdx:18"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Tag/Tag.mdx:32"
+    },
+    {
+     "name": "Read Only",
+     "source": "packages/react/src/components/Tag/Tag.mdx:38"
+    },
+    {
+     "name": "Dismissible",
+     "source": "packages/react/src/components/Tag/Tag.mdx:54"
+    },
+    {
+     "name": "Selectable",
+     "source": "packages/react/src/components/Tag/Tag.mdx:131"
+    },
+    {
+     "name": "Operational",
+     "source": "packages/react/src/components/Tag/Tag.mdx:209"
+    },
+    {
+     "name": "With AI Label",
+     "source": "packages/react/src/components/Tag/Tag.mdx:236"
+    },
+    {
+     "name": "Skeleton",
+     "source": "packages/react/src/components/Tag/Tag.mdx:252"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Tag/Tag.mdx:264"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Tag/Tag.mdx:268"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Read Only',\n      variant: 'components-tag--read-only',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Tag/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Tag/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Selectable",
+   "description": null,
+   "code": "export const Selectable = (args) => {\n  const tags = [\n    {\n      id: 1,\n      text: 'Tag content with a long text description',\n    },\n    {\n      id: 2,\n      text: 'Tag content 1',\n    },\n    {\n      id: 3,\n      text: 'Tag content 2',\n    },\n    {\n      id: 4,\n      text: 'Tag content 3',\n    },\n  ];\n\n  const [selectedTags, setSelectedTags] = React.useState([\n    {\n      id: 2,\n      text: 'Tag content 1',\n    },\n  ]);\n\n  const handleChange = (tag, selected) => {\n    const nextSelectedTags = selected\n      ? [...selectedTags, tag]\n      : selectedTags.filter((t) => t.id !== tag.id);\n\n    console.log('Selected tags array: ', nextSelectedTags);\n    setSelectedTags(nextSelectedTags);\n  };\n\n  return (\n    <div aria-label=\"Selectable tags\" role=\"group\">\n      {tags.map((tag, index) => (\n        <SelectableTag\n          key={index}\n          renderIcon={Asleep}\n          text={tag.text}\n          className=\"some-class\"\n          selected={selectedTags.find((t) => t.id === tag.id)}\n          onChange={(selected) => handleChange(tag, selected)}\n          {...args}\n        />\n      ))}\n    </div>\n  );\n};\n\nSelectable.args = {\n  disabled: false,\n};\n\nSelectable.parameters = {\n  controls: {\n    exclude: ['type', 'filter', 'title'],\n  },\n};\n\nSelectable.argTypes = {\n  selected: {\n    control: 'false',\n    description: 'Specify the state of the selectable tag.',\n  },\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n  id: {\n    control: false,\n  },\n  renderIcon: {\n    control: false,\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/InteractiveTag.stories.js:30"
+  },
+  {
+   "name": "Operational",
+   "description": null,
+   "code": "export const Operational = (args) => {\n  const [open, setOpen] = React.useState(false);\n  const [openHighContrast, setOpenHighContrast] = React.useState(false);\n\n  return (\n    <>\n      <div\n        aria-label=\"Operational tags\"\n        role=\"group\"\n        style={{ marginBottom: '1rem' }}>\n        <OperationalTag\n          type=\"red\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content with a long text description\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"magenta\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"purple\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"blue\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"cyan\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"teal\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"green\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"gray\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"cool-gray\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n        <OperationalTag\n          type=\"warm-gray\"\n          className=\"some-class\"\n          renderIcon={Asleep}\n          text=\"Tag content\"\n          {...args}\n        />\n      </div>\n\n      <h4>Interactive examples</h4>\n      <div\n        id=\"operational-tag\"\n        style={{\n          display: 'flex',\n          justifyContent: 'flex-start',\n          marginTop: '1rem',\n        }}\n        aria-label=\"Operational tags with Popover\"\n        role=\"group\">\n        {/* High contrast example */}\n        <Popover open={openHighContrast} highContrast>\n          <OperationalTag\n            onClick={() => {\n              setOpenHighContrast(!openHighContrast);\n            }}\n            aria-expanded={openHighContrast}\n            renderIcon={Asleep}\n            text=\"Tag content\"\n            className=\"some-class\"\n            {...args}\n          />\n          <PopoverContent className=\"popover-content\">\n            <p>Tag 1 name</p>\n            <p>Tag 2 name</p>\n            <p>Tag 3 name</p>\n            <p>Tag 4 name</p>\n            <p>Tag 5 name</p>\n          </PopoverContent>\n        </Popover>\n\n        <Popover open={open}>\n          <OperationalTag\n            onClick={() => {\n              setOpen(!open);\n            }}\n            aria-expanded={open}\n            renderIcon={Asleep}\n            text=\"Tag content\"\n            className=\"some-class\"\n            {...args}\n          />\n          <PopoverContent>\n            <div\n              style={{\n                display: 'flex',\n                flexDirection: 'column',\n                padding: '1rem',\n              }}>\n              <Tag type=\"blue\" className=\"some-class\" {...args}>\n                {'Tag 1 name'}\n              </Tag>\n              <Tag type=\"blue\" className=\"some-class\" {...args}>\n                {'Tag 2 name'}\n              </Tag>\n              <Tag type=\"blue\" className=\"some-class\" {...args}>\n                {'Tag 3 name'}\n              </Tag>\n              <Tag type=\"blue\" className=\"some-class\" {...args}>\n                {'Tag 4 name'}\n              </Tag>\n              <Tag type=\"blue\" className=\"some-class\" {...args}>\n                {'Tag 5 name'}\n              </Tag>\n            </div>\n          </PopoverContent>\n        </Popover>\n      </div>\n    </>\n  );\n};\n\nOperational.args = {\n  disabled: false,\n  size: 'md',\n};\n\nOperational.parameters = {\n  controls: {\n    exclude: ['filter', 'title', 'selected'],\n  },\n};\n\nOperational.argTypes = {\n  id: {\n    control: false,\n  },\n  children: {\n    control: false,\n  },\n  className: {\n    control: false,\n  },\n  type: {\n    control: false,\n  },\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n  renderIcon: {\n    control: false,\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/InteractiveTag.stories.js:112"
+  },
+  {
+   "name": "Dismissible",
+   "description": null,
+   "code": "export const Dismissible = (args) => {\n  const tags = [\n    {\n      type: 'red',\n      text: 'Tag content with a long text description',\n      tagTitle: 'Provide a custom title to the tag',\n    },\n    {\n      type: 'magenta',\n      text: 'Tag content 1',\n    },\n    {\n      type: 'purple',\n      text: 'Tag content 2',\n    },\n    {\n      type: 'blue',\n      text: 'Tag content 3',\n    },\n    {\n      type: 'cyan',\n      text: 'Tag content 4',\n    },\n    {\n      type: 'teal',\n      text: 'Tag content 5',\n    },\n    {\n      type: 'green',\n      text: 'Tag content 6',\n    },\n    {\n      type: 'gray',\n      text: 'Tag content 7',\n    },\n    {\n      type: 'cool-gray',\n      text: 'Tag content 8',\n    },\n    {\n      type: 'warm-gray',\n      text: 'Tag content 9',\n    },\n    {\n      type: 'high-contrast',\n      text: 'Tag content 10',\n    },\n    {\n      type: 'outline',\n      text: 'Tag content 11',\n    },\n  ];\n\n  const [renderedTags, setRenderedTags] = React.useState(tags);\n\n  const handleClose = (removedTag) => {\n    const newTags = renderedTags.filter((tag) => tag !== removedTag);\n    setRenderedTags(newTags);\n  };\n\n  const resetTabs = () => {\n    setRenderedTags(tags);\n  };\n\n  return (\n    <>\n      <Button\n        // aria-label=\"Re-render all tags in the screen\"\n        style={{ marginBottom: '3rem' }}\n        onClick={resetTabs}>\n        Reset\n      </Button>\n      <br />\n      <div aria-label=\"Dismissible tags\" role=\"group\">\n        {renderedTags.map((tag, index) => (\n          <DismissibleTag\n            key={index}\n            type={tag.type}\n            className=\"some-class\"\n            renderIcon={Asleep}\n            text={tag.text}\n            tagTitle={tag.tagTitle}\n            title=\"Dismiss\"\n            dismissTooltipAlignment={args.dismissTooltipAlignment}\n            onClose={(e) => {\n              e.preventDefault();\n              handleClose(tag);\n            }}\n            {...args}\n          />\n        ))}\n      </div>\n    </>\n  );\n};\n\nDismissible.args = {\n  disabled: false,\n  size: 'md',\n  dismissTooltipAlignment: 'bottom',\n};\n\nDismissible.parameters = {\n  controls: {\n    exclude: ['filter', 'selected'],\n  },\n};\nDismissible.argTypes = {\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n  dismissTooltipAlignment: {\n    options: [\n      'top',\n      'top-start',\n      'top-end',\n      'bottom',\n      'bottom-start',\n      'bottom-end',\n      'left',\n      'left-start',\n      'left-end',\n      'right',\n      'right-start',\n      'right-end',\n    ],\n    control: { type: 'select' },\n    description: 'Specify the tooltip alignment for the dismiss button',\n    table: {\n      defaultValue: { summary: 'bottom' },\n    },\n  },\n  id: {\n    control: false,\n  },\n  renderIcon: {\n    control: false,\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/InteractiveTag.stories.js:301"
+  },
+  {
+   "name": "ReadOnly",
+   "description": null,
+   "code": "export const ReadOnly = (args) => {\n  return (\n    <>\n      <Tag className=\"some-class\" type=\"red\" {...args}>\n        {'Tag content with a long text description'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"magenta\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"purple\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"blue\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"cyan\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"teal\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"green\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"gray\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"cool-gray\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"warm-gray\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"high-contrast\" {...args}>\n        {'Tag content'}\n      </Tag>\n      <Tag className=\"some-class\" type=\"outline\" {...args}>\n        {'Tag content'}\n      </Tag>\n    </>\n  );\n};\n\nReadOnly.args = {\n  disabled: false,\n  filter: false,\n  size: 'md',\n  title: 'Clear filter',\n};\n\nReadOnly.argTypes = {\n  children: {\n    control: false,\n  },\n  className: {\n    control: false,\n  },\n  disabled: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  filter: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  id: {\n    control: false,\n  },\n  renderIcon: {\n    control: false,\n  },\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n  title: {\n    control: {\n      type: 'text',\n    },\n  },\n  type: {\n    options: [\n      'red',\n      'blue',\n      'cyan',\n      'teal',\n      'green',\n      'gray',\n      'high-contrast',\n      'outline',\n    ],\n    control: {\n      type: 'select',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/Tag.stories.js:30"
+  },
+  {
+   "name": "Skeleton",
+   "description": null,
+   "code": "export const Skeleton = (args) => (\n  <div>\n    <TagSkeleton {...args} />\n  </div>\n);\n\nSkeleton.args = {\n  size: 'md',\n};\n\nSkeleton.parameters = {\n  controls: {\n    exclude: ['disabled', 'filter', 'id', 'renderIcon', 'title', 'type'],\n  },\n};\n\nSkeleton.argTypes = {\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/Tag.stories.js:131"
+  },
+  {
+   "name": "withAILabel",
+   "description": null,
+   "code": "export const withAILabel = (args) => {\n  const aiLabel = (\n    <AILabel className=\"ai-label-container\">\n      <AILabelContent>\n        <div>\n          <p className=\"secondary\">AI Explained</p>\n          <h2 className=\"ai-label-heading\">84%</h2>\n          <p className=\"secondary bold\">Confidence score</p>\n          <p className=\"secondary\">\n            Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed\n            do eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.\n          </p>\n          <hr />\n          <p className=\"secondary\">Model type</p>\n          <p className=\"bold\">Foundation model</p>\n        </div>\n        <AILabelActions>\n          <IconButton kind=\"ghost\" label=\"View\">\n            <View />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Open Folder\">\n            <FolderOpen />\n          </IconButton>\n          <IconButton kind=\"ghost\" label=\"Folders\">\n            <Folders />\n          </IconButton>\n          <Button>View details</Button>\n        </AILabelActions>\n      </AILabelContent>\n    </AILabel>\n  );\n\n  return (\n    <div style={{ marginBottom: '4rem' }}>\n      <Tag\n        decorator={aiLabel}\n        className=\"some-class\"\n        type=\"red\"\n        title=\"Clear Filter\"\n        {...args}>\n        {args.text}\n      </Tag>\n\n      <DismissibleTag\n        decorator={aiLabel}\n        className=\"some-class\"\n        type=\"purple\"\n        title=\"Clear Filter\"\n        {...args}></DismissibleTag>\n\n      <Tag\n        renderIcon={Asleep}\n        decorator={aiLabel}\n        className=\"some-class\"\n        type=\"blue\"\n        title=\"Clear Filter\"\n        {...args}>\n        {args.text}\n      </Tag>\n\n      <DismissibleTag\n        renderIcon={Asleep}\n        decorator={aiLabel}\n        className=\"some-class\"\n        type=\"green\"\n        title=\"Clear Filter\"\n        {...args}></DismissibleTag>\n    </div>\n  );\n};\n\nwithAILabel.args = {\n  disabled: false,\n  size: 'md',\n  text: 'Tag content',\n};\n\nwithAILabel.argTypes = {\n  children: {\n    control: false,\n  },\n  className: {\n    control: false,\n  },\n  decorator: {\n    control: false,\n  },\n  disabled: {\n    control: {\n      type: 'boolean',\n    },\n  },\n  filter: {\n    control: false,\n  },\n  id: {\n    control: false,\n  },\n  renderIcon: {\n    control: false,\n  },\n  size: {\n    options: ['sm', 'md', 'lg'],\n    control: {\n      type: 'select',\n    },\n  },\n  title: {\n    control: {\n      type: 'text',\n    },\n  },\n  type: {\n    options: [\n      'red',\n      'blue',\n      'cyan',\n      'teal',\n      'green',\n      'gray',\n      'high-contrast',\n      'outline',\n    ],\n    control: {\n      type: 'select',\n    },\n  },\n  text: {\n    control: {\n      type: 'text',\n    },\n  },\n};\n\nwithAILabel.parameters = {\n  controls: {\n    exclude: ['filter'],\n  },\n};\n",
+   "source": "packages/react/src/components/Tag/Tag.stories.js:156"
+  }
+ ],
+ "props": {
+  "name": "Tag.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "as",
+    "PropTypes.elementType",
+    "Provide an alternative tag or component to use instead of the default wrapping element",
+    "packages/react/src/components/Tag/Tag.tsx:331"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "Provide content to be rendered inside of a `Tag`",
+    "packages/react/src/components/Tag/Tag.tsx:336"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Provide a custom className that is applied to the containing <span>",
+    "packages/react/src/components/Tag/Tag.tsx:341"
+   ],
+   [
+    "decorator",
+    "PropTypes.node",
+    "**Experimental:** Provide a `decorator` component to be rendered inside the `Tag` component",
+    "packages/react/src/components/Tag/Tag.tsx:346"
+   ],
+   [
+    "disabled",
+    "PropTypes.bool",
+    "Specify if the `Tag` is disabled",
+    "packages/react/src/components/Tag/Tag.tsx:351"
+   ],
+   [
+    "filter",
+    "deprecate(",
+    "Determine if `Tag` is a filter/chip",
+    "packages/react/src/components/Tag/Tag.tsx:356"
+   ],
+   [
+    "id",
+    "PropTypes.string",
+    "Specify the id for the tag.",
+    "packages/react/src/components/Tag/Tag.tsx:364"
+   ],
+   [
+    "onClose",
+    "deprecate(",
+    "Click handler for filter tag close button.",
+    "packages/react/src/components/Tag/Tag.tsx:369"
+   ],
+   [
+    "renderIcon",
+    "PropTypes.oneOfType([PropTypes.func, PropTypes.object])",
+    "A component used to render an icon.",
+    "packages/react/src/components/Tag/Tag.tsx:377"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(Object.keys(SIZES))",
+    "Specify the size of the Tag. Currently supports either `sm`, `md` (default) or `lg` sizes.",
+    "packages/react/src/components/Tag/Tag.tsx:383"
+   ],
+   [
+    "slug",
+    "deprecate(",
+    "**Experimental:** Provide a `Slug` component to be rendered inside the `Tag` component",
+    "packages/react/src/components/Tag/Tag.tsx:388"
+   ],
+   [
+    "title",
+    "deprecate(",
+    "Text to show on clear filters",
+    "packages/react/src/components/Tag/Tag.tsx:396"
+   ],
+   [
+    "type",
+    "PropTypes.oneOf(Object.keys(TYPES))",
+    "Specify the type of the `Tag`",
+    "packages/react/src/components/Tag/Tag.tsx:404"
+   ]
+  ],
+  "source": "packages/react/src/components/Tag/Tag.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

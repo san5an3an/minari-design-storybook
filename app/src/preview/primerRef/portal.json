@@ -1,0 +1,55 @@
+{
+ "slug": "portal",
+ "title": "Portal",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/Portal",
+  "id": "portal",
+  "name": "Portal",
+  "status": "alpha",
+  "a11yReviewed": false,
+  "stories": [
+   {
+    "id": "behaviors-portal--default",
+    "code": "() => (\n  <>\n    Root position\n    <div className={clsx(classes.PortalContainer, classes.OuterContainer)}>\n      Outer container\n      <div className={clsx(classes.PortalContainer, classes.InnerContainer)}>\n        Inner container\n        <Portal>\n          Portaled content rendered at <code>&lt;BaseStyles&gt;</code> root.\n        </Portal>\n      </div>\n    </div>\n  </>\n)"
+   },
+   {
+    "id": "behaviors-portal-features--custom-portal-root-by-id",
+    "code": "() => (\n  <>\n    Root position\n    <div\n      className={clsx(classes.PortalContainer, classes.OuterContainer)}\n      id=\"__primerPortalRoot__\"\n    >\n      Outer container\n      <div className={clsx(classes.PortalContainer, classes.InnerContainer)}>\n        Inner container\n        <Portal>Portaled content rendered at the outer container.</Portal>\n      </div>\n    </div>\n  </>\n)"
+   },
+   {
+    "id": "behaviors-portal-features--custom-portal-root-by-registration",
+    "code": "() => {\n  const outerContainerRef = React.useRef<HTMLDivElement>(null)\n  const [mounted, setMounted] = React.useState(false)\n  React.useEffect(() => {\n    if (outerContainerRef.current instanceof HTMLElement) {\n      registerPortalRoot(outerContainerRef.current)\n      // eslint-disable-next-line react-you-might-not-need-an-effect/no-initialize-state\n      setMounted(true)\n    }\n  }, [])\n  return (\n    <>\n      Root position\n      <div\n        className={clsx(classes.PortalContainer, classes.OuterContainer)}\n        ref={outerContainerRef}\n      >\n        {mounted ? (\n          <>\n            Outer container\n            <div\n              className={clsx(classes.PortalContainer, classes.InnerContainer)}\n            >\n              Inner container\n              <Portal>Portaled content rendered at the outer container.</Portal>\n            </div>\n          </>\n        ) : null}\n      </div>\n    </>\n  )\n}"
+   },
+   {
+    "id": "behaviors-portal-features--multiple-portal-roots",
+    "code": "() => {\n  const outerContainerRef = React.useRef<HTMLDivElement>(null)\n  const innerContainerRef = React.useRef<HTMLDivElement>(null)\n  const [mounted, setMounted] = React.useState(false)\n  React.useEffect(() => {\n    if (\n      outerContainerRef.current instanceof HTMLElement &&\n      innerContainerRef.current instanceof HTMLElement\n    ) {\n      registerPortalRoot(outerContainerRef.current, 'outer')\n      registerPortalRoot(innerContainerRef.current, 'inner')\n      setMounted(true)\n    }\n  }, [outerContainerRef])\n  return (\n    <>\n      Root position\n      <div\n        className={clsx(classes.PortalContainer, classes.OuterContainer)}\n        ref={outerContainerRef}\n      >\n        Outer container\n        <div\n          className={clsx(classes.PortalContainer, classes.InnerContainer)}\n          ref={innerContainerRef}\n        >\n          {mounted ? (\n            <>\n              <Portal containerName=\"outer\">\n                Portaled content rendered at the outer container.\n              </Portal>\n              <Portal containerName=\"inner\">\n                Portaled content rendered at the end of the inner container.\n              </Portal>\n              <Portal>\n                Portaled content rendered at <code>&lt;BaseStyles&gt;</code>{' '}\n                root.\n              </Portal>\n            </>\n          ) : null}\n          Inner container\n        </div>\n      </div>\n    </>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "onMount",
+    "type": "function",
+    "defaultValue": "",
+    "description": "Called when this portal is added to the DOM"
+   },
+   {
+    "name": "containerName",
+    "type": "string",
+    "defaultValue": "",
+    "description": "Renders the portal children into the container registered with the given name. If omitted, children are rendered into the default portal root."
+   }
+  ],
+  "subcomponents": []
+ },
+ "source": "generated/components.json:5676",
+ "name": "portal",
+ "sourceKey": "$.components.portal",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "HTMLDivElement",
+  "Portal"
+ ]
+}

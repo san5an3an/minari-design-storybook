@@ -1,0 +1,540 @@
+{
+ "slug": "modal",
+ "title": "Modal",
+ "description": "Dialog overlay for focused user interactions and important content",
+ "group": "Overlays",
+ "links": {
+  "rac": "Modal",
+  "sourceFile": "modal/modal.tsx",
+  "styles": "modal.css",
+  "storybook": "modal"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Modal } from \"@heroui/react\";\n```\n\n<ComponentPreview name=\"modal-default\" />",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:11"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {Modal, Button} from \"@heroui/react\";\n\nexport default () => (\n  <Modal>\n    <Button>Open Modal</Button>\n    <Modal.Backdrop>\n      <Modal.Container>\n        <Modal.Dialog>\n          <Modal.CloseTrigger /> {/* Optional: Close button */}\n          <Modal.Header>\n            <Modal.Icon /> {/* Optional: Icon */}\n            <Modal.Heading />\n          </Modal.Header>\n          <Modal.Body />\n          <Modal.Footer />\n        </Modal.Dialog>\n      </Modal.Container>\n    </Modal.Backdrop>\n  </Modal>\n);\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:19"
+  },
+  {
+   "name": "Examples",
+   "body": "### Sizes\n\n<ComponentPreview name=\"modal-sizes\" />\n\n### Placement\n\n<ComponentPreview name=\"modal-placements\" />\n\n### Scroll Behavior\n\n<ComponentPreview name=\"modal-scroll-comparison\" />\n\n### Controlled State\n\n<ComponentPreview name=\"modal-controlled\" />\n\n### With Form\n\n<ComponentPreview name=\"modal-with-form\" />\n\n### Custom Trigger\n\n<ComponentPreview name=\"modal-custom-trigger\" />\n\n### Backdrop Variants\n\n<ComponentPreview name=\"modal-backdrop-variants\" />\n\n### Custom Backdrop\n\n<ComponentPreview name=\"modal-custom-backdrop\" />\n\n### Dismiss Behavior\n\n<ComponentPreview name=\"modal-dismiss-behavior\" />\n\n### Close Methods\n\n<ComponentPreview name=\"modal-close-methods\" />\n\n### Custom Animations\n\n<ComponentPreview name=\"modal-custom-animations\" />\n\n### Custom Portal\n\n<ComponentPreview name=\"modal-custom-portal\" />",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:44"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"modal-custom-styles\" />\n\n### Global CSS\n\nTo customize the Modal component classes, you can use the `@layer components` directive.\n\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .modal__backdrop {\n    @apply bg-gradient-to-br from-black/50 to-black/70;\n  }\n\n  .modal__dialog {\n    @apply rounded-2xl border border-white/10 shadow-2xl;\n  }\n\n  .modal__header {\n    @apply text-center;\n  }\n\n  .modal__close-trigger {\n    @apply rounded-full bg-white/10 hover:bg-white/20;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:94"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Modal component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/modal.css)):\n\n#### Base Classes [!toc]\n\n- `.modal__trigger` - Trigger element that opens the modal\n- `.modal__backdrop` - Overlay backdrop behind the modal\n- `.modal__container` - Positioning wrapper with placement support\n- `.modal__dialog` - Modal content container\n- `.modal__header` - Header section for titles and icons\n- `.modal__body` - Main content area\n- `.modal__footer` - Footer section for actions\n- `.modal__close-trigger` - Close button element\n\n#### Backdrop Variants [!toc]\n\n- `.modal__backdrop--opaque` - Opaque colored backdrop (default)\n- `.modal__backdrop--blur` - Blurred backdrop with glass effect\n- `.modal__backdrop--transparent` - Transparent backdrop (no overlay)\n\n#### Scroll Variants [!toc]\n\n- `.modal__container--scroll-outside` - Enables scrolling the entire modal\n- `.modal__dialog--scroll-inside` - Constrains modal height for body scrolling\n- `.modal__body--scroll-inside` - Makes only the body scrollable\n- `.modal__body--scroll-outside` - Allows full-page scrolling\n\n### Interactive States\n\nThe component supports these interactive states:\n\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` - Applied to trigger, dialog, and close button\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` - Applied to close button on hover\n- **Active**: `:active` or `[data-pressed=\"true\"]` - Applied to close button when pressed\n- **Entering**: `[data-entering]` - Applied during modal opening animation\n- **Exiting**: `[data-exiting]` - Applied during modal closing animation\n- **Placement**: `[data-placement=\"*\"]` - Applied based on modal position (auto, top, center, bottom)",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:126"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Modal\n\n| Prop       | Type        | Default | Description                    |\n| ---------- | ----------- | ------- | ------------------------------ |\n| `children` | `ReactNode` | -       | Trigger and container elements |\n\n### Modal.Trigger\n\n| Prop        | Type        | Default | Description            |\n| ----------- | ----------- | ------- | ---------------------- |\n| `children`  | `ReactNode` | -       | Custom trigger content |\n| `className` | `string`    | -       | CSS classes            |\n\n### Modal.Backdrop\n\n| Prop                        | Type                                  | Default    | Description               |\n| --------------------------- | ------------------------------------- | ---------- | ------------------------- |\n| `variant`                   | `\"opaque\" \\| \"blur\" \\| \"transparent\"` | `\"opaque\"` | Backdrop overlay style    |\n| `isDismissable`             | `boolean`                             | `true`     | Close on backdrop click   |\n| `isKeyboardDismissDisabled` | `boolean`                             | `false`    | Disable ESC key to close  |\n| `isOpen`                    | `boolean`                             | -          | Controlled open state     |\n| `onOpenChange`              | `(isOpen: boolean) => void`           | -          | Open state change handler |\n| `className`                 | `string \\| (values) => string`        | -          | Backdrop CSS classes      |\n| `UNSTABLE_portalContainer`  | `HTMLElement`                         | -          | Custom portal container   |\n\n### Modal.Container\n\n| Prop        | Type                                      | Default    | Description               |\n| ----------- | ----------------------------------------- | ---------- | ------------------------- |\n| `placement` | `\"auto\" \\| \"center\" \\| \"top\" \\| \"bottom\"` | `\"auto\"`   | Modal position on screen  |\n| `scroll`    | `\"inside\" \\| \"outside\"`                   | `\"inside\"` | Scroll behavior           |\n| `size`      | `\"xs\" \\| \"sm\" \\| \"md\" \\| \"lg\" \\| \"cover\" \\| \"full\"` | `\"md\"` | Modal size variant        |\n| `className` | `string \\| (values) => string`            | -          | Container CSS classes     |\n\n### Modal.Dialog\n\n| Prop               | Type                                  | Default    | Description                |\n| ------------------ | ------------------------------------- | ---------- | -------------------------- |\n| `children`         | `ReactNode \\| ({close}) => ReactNode` | -          | Content or render function |\n| `className`        | `string \\| (values) => string`        | -          | CSS classes                |\n| `role`             | `string`                              | `\"dialog\"` | ARIA role                  |\n| `aria-label`       | `string`                              | -          | Accessibility label        |\n| `aria-labelledby`  | `string`                              | -          | ID of label element        |\n| `aria-describedby` | `string`                              | -          | ID of description element  |\n\n### Modal.Header\n\n| Prop        | Type        | Default | Description    |\n| ----------- | ----------- | ------- | -------------- |\n| `children`  | `ReactNode` | -       | Header content |\n| `className` | `string`    | -       | CSS classes    |\n\n### Modal.Body\n\n| Prop        | Type        | Default | Description  |\n| ----------- | ----------- | ------- | ------------ |\n| `children`  | `ReactNode` | -       | Body content |\n| `className` | `string`    | -       | CSS classes  |\n\n### Modal.Footer\n\n| Prop        | Type        | Default | Description    |\n| ----------- | ----------- | ------- | -------------- |\n| `children`  | `ReactNode` | -       | Footer content |\n| `className` | `string`    | -       | CSS classes    |\n\n### Modal.CloseTrigger\n\n| Prop        | Type                           | Default | Description         |\n| ----------- | ------------------------------ | ------- | ------------------- |\n| `children`  | `ReactNode`                    | -       | Custom close button |\n| `className` | `string \\| (values) => string` | -       | CSS classes         |\n\n### useOverlayState Hook\n\n```tsx\nimport {useOverlayState} from \"@heroui/react\";\n\nconst state = useOverlayState({\n  defaultOpen: false,\n  onOpenChange: (isOpen) => console.log(isOpen),\n});\n\nstate.isOpen; // Current state\nstate.open(); // Open modal\nstate.close(); // Close modal\nstate.toggle(); // Toggle state\nstate.setOpen(); // Set state directly\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:169"
+  },
+  {
+   "name": "Accessibility",
+   "body": "Implements [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/):\n\n- **Focus trap**: Focus locked within modal\n- **Keyboard**: `ESC` closes (when enabled), `Tab` cycles elements\n- **Screen readers**: Proper ARIA attributes\n- **Scroll lock**: Body scroll disabled when open",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:261"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"modal\" />",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:270"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "modal-default",
+   "source": "apps/docs/src/demos/en/modal/default.tsx",
+   "code": "\"use client\";\n\nimport {Rocket} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <Modal>\n      <Button variant=\"secondary\">Open Modal</Button>\n      <Modal.Backdrop>\n        <Modal.Container>\n          <Modal.Dialog className=\"sm:max-w-[360px]\">\n            <Modal.CloseTrigger />\n            <Modal.Header>\n              <Modal.Icon className=\"bg-default text-foreground\">\n                <Rocket className=\"size-5\" />\n              </Modal.Icon>\n              <Modal.Heading>Welcome to HeroUI</Modal.Heading>\n            </Modal.Header>\n            <Modal.Body>\n              <p>\n                A beautiful, fast, and modern React UI library for building accessible and\n                customizable web applications with ease.\n              </p>\n            </Modal.Body>\n            <Modal.Footer>\n              <Button className=\"w-full\" slot=\"close\">\n                Continue\n              </Button>\n            </Modal.Footer>\n          </Modal.Dialog>\n        </Modal.Container>\n      </Modal.Backdrop>\n    </Modal>\n  );\n}\n"
+  },
+  {
+   "name": "Sizes",
+   "section": "Examples",
+   "key": "modal-sizes",
+   "source": "apps/docs/src/demos/en/modal/sizes.tsx",
+   "code": "\"use client\";\n\nimport {Rocket} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function Sizes() {\n  const sizes = [\"xs\", \"sm\", \"md\", \"lg\", \"cover\", \"full\"] as const;\n\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      {sizes.map((size) => (\n        <Modal key={size}>\n          <Button variant=\"secondary\">{size.charAt(0).toUpperCase() + size.slice(1)}</Button>\n          <Modal.Backdrop>\n            <Modal.Container size={size}>\n              <Modal.Dialog>\n                <Modal.CloseTrigger />\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-default text-foreground\">\n                    <Rocket className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>\n                    Size: {size.charAt(0).toUpperCase() + size.slice(1)}\n                  </Modal.Heading>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    {size === \"cover\" ? (\n                      <>\n                        This modal uses the <code>cover</code> size variant. It spans the full\n                        screen with margins: 16px on mobile and 40px on desktop. Maintains rounded\n                        corners and standard padding. Perfect for cover-style content that needs\n                        maximum width while preserving modal aesthetics.\n                      </>\n                    ) : size === \"full\" ? (\n                      <>\n                        This modal uses the <code>full</code> size variant. It occupies the entire\n                        viewport without any margins, rounded corners, or shadows, creating a true\n                        fullscreen experience. Ideal for immersive content or full-page\n                        interactions.\n                      </>\n                    ) : (\n                      <>\n                        This modal uses the <code>{size}</code> size variant. On mobile devices, all\n                        sizes adapt to near full-width for optimal viewing. On desktop, each size\n                        provides a different maximum width to suit various content needs.\n                      </>\n                    )}\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button slot=\"close\" variant=\"secondary\">\n                    Cancel\n                  </Button>\n                  <Button slot=\"close\">Confirm</Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      ))}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Placement",
+   "section": "Examples",
+   "key": "modal-placements",
+   "source": "apps/docs/src/demos/en/modal/placements.tsx",
+   "code": "\"use client\";\n\nimport {Rocket} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function Placements() {\n  const placements = [\"auto\", \"top\", \"center\", \"bottom\"] as const;\n\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      {placements.map((placement) => (\n        <Modal key={placement}>\n          <Button variant=\"secondary\">\n            {placement.charAt(0).toUpperCase() + placement.slice(1)}\n          </Button>\n          <Modal.Backdrop>\n            <Modal.Container placement={placement}>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                <Modal.CloseTrigger />\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-default text-foreground\">\n                    <Rocket className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>\n                    Placement: {placement.charAt(0).toUpperCase() + placement.slice(1)}\n                  </Modal.Heading>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    This modal uses the <code>{placement}</code> placement option. Try different\n                    placements to see how the modal positions itself on the screen.\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button className=\"w-full\" slot=\"close\">\n                    Continue\n                  </Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      ))}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Scroll Behavior",
+   "section": "Examples",
+   "key": "modal-scroll-comparison",
+   "source": "apps/docs/src/demos/en/modal/scroll-comparison.tsx",
+   "code": "\"use client\";\n\nimport {Button, Modal, Radio, RadioGroup} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function ScrollComparison() {\n  const [scroll, setScroll] = useState<\"inside\" | \"outside\">(\"inside\");\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <RadioGroup\n        orientation=\"horizontal\"\n        value={scroll}\n        onChange={(value) => setScroll(value as \"inside\" | \"outside\")}\n      >\n        <Radio value=\"inside\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Inside\n          </Radio.Content>\n        </Radio>\n        <Radio value=\"outside\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Outside\n          </Radio.Content>\n        </Radio>\n      </RadioGroup>\n\n      <Modal>\n        <Button variant=\"secondary\">\n          Open Modal ({scroll.charAt(0).toUpperCase() + scroll.slice(1)})\n        </Button>\n        <Modal.Backdrop>\n          <Modal.Container scroll={scroll}>\n            <Modal.Dialog className=\"sm:max-w-[360px]\">\n              <Modal.Header>\n                <Modal.Heading>\n                  Scroll: {scroll.charAt(0).toUpperCase() + scroll.slice(1)}\n                </Modal.Heading>\n                <p className=\"text-sm leading-5 text-muted\">\n                  Compare scroll behaviors - inside keeps content scrollable within the modal,\n                  outside allows page scrolling\n                </p>\n              </Modal.Header>\n              <Modal.Body>\n                {Array.from({length: 30}).map((_, i) => (\n                  <p key={i} className=\"mb-3\">\n                    Paragraph {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n                    Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet\n                    hendrerit risus, sed porttitor quam.\n                  </p>\n                ))}\n              </Modal.Body>\n              <Modal.Footer>\n                <Button slot=\"close\" variant=\"secondary\">\n                  Cancel\n                </Button>\n                <Button slot=\"close\">Confirm</Button>\n              </Modal.Footer>\n              <Modal.CloseTrigger />\n            </Modal.Dialog>\n          </Modal.Container>\n        </Modal.Backdrop>\n      </Modal>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled State",
+   "section": "Examples",
+   "key": "modal-controlled",
+   "source": "apps/docs/src/demos/en/modal/controlled.tsx",
+   "code": "\"use client\";\n\nimport {CircleCheck} from \"@gravity-ui/icons\";\nimport {Button, Modal, useOverlayState} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Controlled() {\n  const [isOpen, setIsOpen] = React.useState(false);\n\n  const state = useOverlayState();\n\n  return (\n    <div className=\"flex max-w-md flex-col gap-8\">\n      <div className=\"flex flex-col gap-3\">\n        <h3 className=\"text-lg font-semibold text-foreground\">With React.useState()</h3>\n        <p className=\"text-sm leading-relaxed text-pretty text-muted\">\n          Control the modal using React's <code className=\"text-foreground\">useState</code> hook for\n          simple state management. Perfect for basic use cases.\n        </p>\n        <div className=\"flex flex-col items-start gap-3 rounded-2xl bg-surface p-4 shadow-sm\">\n          <div className=\"flex w-full items-center justify-between\">\n            <p className=\"text-xs text-muted\">\n              Status:{\" \"}\n              <span className=\"font-mono font-medium text-foreground\">\n                {isOpen ? \"open\" : \"closed\"}\n              </span>\n            </p>\n          </div>\n          <div className=\"flex gap-2\">\n            <Button size=\"sm\" variant=\"secondary\" onPress={() => setIsOpen(true)}>\n              Open Modal\n            </Button>\n            <Button size=\"sm\" variant=\"tertiary\" onPress={() => setIsOpen(!isOpen)}>\n              Toggle\n            </Button>\n          </div>\n        </div>\n\n        <Modal.Backdrop isOpen={isOpen} onOpenChange={setIsOpen}>\n          <Modal.Container>\n            <Modal.Dialog className=\"sm:max-w-[360px]\">\n              <Modal.CloseTrigger />\n              <Modal.Header>\n                <Modal.Icon className=\"bg-accent-soft text-accent-soft-foreground\">\n                  <CircleCheck className=\"size-5\" />\n                </Modal.Icon>\n                <Modal.Heading>Controlled with useState()</Modal.Heading>\n              </Modal.Header>\n              <Modal.Body>\n                <p>\n                  This modal is controlled by React's <code>useState</code> hook. Pass{\" \"}\n                  <code>isOpen</code> and <code>onOpenChange</code> props to manage the modal state\n                  externally.\n                </p>\n              </Modal.Body>\n              <Modal.Footer>\n                <Button slot=\"close\" variant=\"secondary\">\n                  Cancel\n                </Button>\n                <Button slot=\"close\">Confirm</Button>\n              </Modal.Footer>\n            </Modal.Dialog>\n          </Modal.Container>\n        </Modal.Backdrop>\n      </div>\n\n      <div className=\"flex flex-col gap-3\">\n        <h3 className=\"text-lg font-semibold text-foreground\">With useOverlayState()</h3>\n        <p className=\"text-sm leading-relaxed text-pretty text-muted\">\n          Use the <code className=\"text-foreground\">useOverlayState</code> hook for a cleaner API\n          with convenient methods like <code>open()</code>, <code>close()</code>, and{\" \"}\n          <code>toggle()</code>.\n        </p>\n        <div className=\"flex flex-col items-start gap-3 rounded-2xl bg-surface p-4 shadow-sm\">\n          <div className=\"flex w-full items-center justify-between\">\n            <p className=\"text-xs text-muted\">\n              Status:{\" \"}\n              <span className=\"font-mono font-medium text-foreground\">\n                {state.isOpen ? \"open\" : \"closed\"}\n              </span>\n            </p>\n          </div>\n          <div className=\"flex gap-2\">\n            <Button size=\"sm\" variant=\"secondary\" onPress={state.open}>\n              Open Modal\n            </Button>\n            <Button size=\"sm\" variant=\"tertiary\" onPress={state.toggle}>\n              Toggle\n            </Button>\n          </div>\n        </div>\n\n        <Modal.Backdrop isOpen={state.isOpen} onOpenChange={state.setOpen}>\n          <Modal.Container>\n            <Modal.Dialog className=\"sm:max-w-[360px]\">\n              <Modal.CloseTrigger />\n              <Modal.Header>\n                <Modal.Icon className=\"bg-success-soft text-success-soft-foreground\">\n                  <CircleCheck className=\"size-5\" />\n                </Modal.Icon>\n                <Modal.Heading>Controlled with useOverlayState()</Modal.Heading>\n              </Modal.Header>\n              <Modal.Body>\n                <p>\n                  The <code>useOverlayState</code> hook provides dedicated methods for common\n                  operations. No need to manually create callbacks—just use{\" \"}\n                  <code>state.open()</code>, <code>state.close()</code>, or{\" \"}\n                  <code>state.toggle()</code>.\n                </p>\n              </Modal.Body>\n              <Modal.Footer>\n                <Button slot=\"close\" variant=\"secondary\">\n                  Cancel\n                </Button>\n                <Button slot=\"close\">Confirm</Button>\n              </Modal.Footer>\n            </Modal.Dialog>\n          </Modal.Container>\n        </Modal.Backdrop>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Form",
+   "section": "Examples",
+   "key": "modal-with-form",
+   "source": "apps/docs/src/demos/en/modal/with-form.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Button, Input, Label, Modal, Surface, TextField} from \"@heroui/react\";\n\nexport function WithForm() {\n  return (\n    <Modal>\n      <Button variant=\"secondary\">Open Contact Form</Button>\n      <Modal.Backdrop>\n        <Modal.Container placement=\"auto\">\n          <Modal.Dialog className=\"sm:max-w-md\">\n            <Modal.CloseTrigger />\n            <Modal.Header>\n              <Modal.Icon className=\"bg-accent-soft text-accent-soft-foreground\">\n                <Envelope className=\"size-5\" />\n              </Modal.Icon>\n              <Modal.Heading>Contact Us</Modal.Heading>\n              <p className=\"mt-1.5 text-sm leading-5 text-muted\">\n                Fill out the form below and we'll get back to you. The modal adapts automatically\n                when the keyboard appears on mobile.\n              </p>\n            </Modal.Header>\n            <Modal.Body className=\"p-6\">\n              <Surface variant=\"default\">\n                <form className=\"flex flex-col gap-4\">\n                  <TextField className=\"w-full\" name=\"name\" type=\"text\" variant=\"secondary\">\n                    <Label>Name</Label>\n                    <Input placeholder=\"Enter your name\" />\n                  </TextField>\n                  <TextField className=\"w-full\" name=\"email\" type=\"email\" variant=\"secondary\">\n                    <Label>Email</Label>\n                    <Input placeholder=\"Enter your email\" />\n                  </TextField>\n                  <TextField className=\"w-full\" name=\"phone\" type=\"tel\" variant=\"secondary\">\n                    <Label>Phone</Label>\n                    <Input placeholder=\"Enter your phone number\" />\n                  </TextField>\n                  <TextField className=\"w-full\" name=\"company\" variant=\"secondary\">\n                    <Label>Company</Label>\n                    <Input placeholder=\"Enter your company name\" />\n                  </TextField>\n                  <TextField className=\"w-full\" name=\"message\" variant=\"secondary\">\n                    <Label>Message</Label>\n                    <Input placeholder=\"Enter your message\" />\n                  </TextField>\n                </form>\n              </Surface>\n            </Modal.Body>\n            <Modal.Footer>\n              <Button slot=\"close\" variant=\"secondary\">\n                Cancel\n              </Button>\n              <Button slot=\"close\">Send Message</Button>\n            </Modal.Footer>\n          </Modal.Dialog>\n        </Modal.Container>\n      </Modal.Backdrop>\n    </Modal>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Trigger",
+   "section": "Examples",
+   "key": "modal-custom-trigger",
+   "source": "apps/docs/src/demos/en/modal/custom-trigger.tsx",
+   "code": "\"use client\";\n\nimport {Gear} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function CustomTrigger() {\n  return (\n    <Modal>\n      <Modal.Trigger className=\"group flex items-center gap-3 rounded-2xl bg-surface p-4 shadow-xs select-none hover:bg-surface-secondary\">\n        <div className=\"flex size-12 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent-soft-foreground\">\n          <Gear className=\"size-6\" />\n        </div>\n        <div className=\"flex flex-1 flex-col gap-0.5\">\n          <p className=\"text-sm font-semibold\">Settings</p>\n          <p className=\"text-xs text-muted\">Manage your preferences</p>\n        </div>\n      </Modal.Trigger>\n      <Modal.Backdrop>\n        <Modal.Container>\n          <Modal.Dialog className=\"sm:max-w-[360px]\">\n            <Modal.CloseTrigger />\n            <Modal.Header>\n              <Modal.Icon className=\"bg-accent-soft text-accent-soft-foreground\">\n                <Gear className=\"size-5\" />\n              </Modal.Icon>\n              <Modal.Heading>Settings</Modal.Heading>\n            </Modal.Header>\n            <Modal.Body>\n              <p>\n                Use <code>Modal.Trigger</code> to create custom trigger elements beyond standard\n                buttons. This example shows a card-style trigger with icons and descriptive text.\n              </p>\n            </Modal.Body>\n            <Modal.Footer>\n              <Button slot=\"close\" variant=\"secondary\">\n                Cancel\n              </Button>\n              <Button slot=\"close\">Save</Button>\n            </Modal.Footer>\n          </Modal.Dialog>\n        </Modal.Container>\n      </Modal.Backdrop>\n    </Modal>\n  );\n}\n"
+  },
+  {
+   "name": "Backdrop Variants",
+   "section": "Examples",
+   "key": "modal-backdrop-variants",
+   "source": "apps/docs/src/demos/en/modal/backdrop-variants.tsx",
+   "code": "\"use client\";\n\nimport {Rocket} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function BackdropVariants() {\n  const variants = [\"opaque\", \"blur\", \"transparent\"] as const;\n\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      {variants.map((variant) => (\n        <Modal key={variant}>\n          <Button variant=\"secondary\">{variant.charAt(0).toUpperCase() + variant.slice(1)}</Button>\n          <Modal.Backdrop variant={variant}>\n            <Modal.Container>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                <Modal.CloseTrigger />\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-default text-foreground\">\n                    <Rocket className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>\n                    Backdrop: {variant.charAt(0).toUpperCase() + variant.slice(1)}\n                  </Modal.Heading>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    This modal uses the <code>{variant}</code> backdrop variant. Compare the\n                    different visual effects: opaque provides full opacity, blur adds a backdrop\n                    filter, and transparent removes the background.\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button className=\"w-full\" slot=\"close\">\n                    Continue\n                  </Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      ))}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Backdrop",
+   "section": "Examples",
+   "key": "modal-custom-backdrop",
+   "source": "apps/docs/src/demos/en/modal/custom-backdrop.tsx",
+   "code": "\"use client\";\n\nimport {Sparkles} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function CustomBackdrop() {\n  return (\n    <Modal>\n      <Button variant=\"secondary\">Custom Backdrop</Button>\n      <Modal.Backdrop\n        className=\"bg-linear-to-t from-black/80 via-black/40 to-transparent dark:from-zinc-800/80 dark:via-zinc-800/40\"\n        variant=\"blur\"\n      >\n        <Modal.Container>\n          <Modal.Dialog className=\"sm:max-w-[360px]\">\n            <Modal.Header className=\"items-center text-center\">\n              <Modal.Icon className=\"bg-accent-soft text-accent-soft-foreground\">\n                <Sparkles className=\"size-5\" />\n              </Modal.Icon>\n              <Modal.Heading>Premium Backdrop</Modal.Heading>\n            </Modal.Header>\n            <Modal.Body>\n              <p>\n                This backdrop features a sophisticated gradient that transitions from a dark color\n                at the bottom to complete transparency at the top, combined with a smooth blur\n                effect. The gradient automatically adapts its intensity for optimal contrast in both\n                light and dark modes.\n              </p>\n            </Modal.Body>\n            <Modal.Footer className=\"flex-col-reverse\">\n              <Button className=\"w-full\" slot=\"close\">\n                Amazing!\n              </Button>\n              <Button className=\"w-full\" slot=\"close\" variant=\"secondary\">\n                Close\n              </Button>\n            </Modal.Footer>\n            <Modal.CloseTrigger />\n          </Modal.Dialog>\n        </Modal.Container>\n      </Modal.Backdrop>\n    </Modal>\n  );\n}\n"
+  },
+  {
+   "name": "Dismiss Behavior",
+   "section": "Examples",
+   "key": "modal-dismiss-behavior",
+   "source": "apps/docs/src/demos/en/modal/dismiss-behavior.tsx",
+   "code": "\"use client\";\n\nimport {CircleInfo} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function DismissBehavior() {\n  return (\n    <div className=\"flex max-w-sm flex-col gap-6\">\n      <div className=\"flex flex-col gap-2\">\n        <h3 className=\"text-lg font-semibold\">isDismissable</h3>\n        <p className=\"text-sm text-muted\">\n          Controls whether the modal can be dismissed by clicking the overlay backdrop. Defaults to{\" \"}\n          <code>true</code>. Set to <code>false</code> to require explicit close action.\n        </p>\n        <Modal>\n          <Button variant=\"secondary\">Open Modal</Button>\n          <Modal.Backdrop isDismissable={false}>\n            <Modal.Container>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                <Modal.CloseTrigger />\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-default text-foreground\">\n                    <CircleInfo className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>isDismissable = false</Modal.Heading>\n                  <p className=\"text-sm leading-5 text-muted\">\n                    Clicking the backdrop won't close this modal\n                  </p>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    Try clicking outside this modal on the overlay - it won't close. You must use\n                    the close button or press ESC to dismiss it.\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button className=\"w-full\" slot=\"close\">\n                    Close\n                  </Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <h3 className=\"text-lg font-semibold\">isKeyboardDismissDisabled</h3>\n        <p className=\"text-sm text-muted\">\n          Controls whether the ESC key can dismiss the modal. When set to <code>true</code>, the ESC\n          key will be disabled and users must use explicit close actions.\n        </p>\n        <Modal>\n          <Button variant=\"secondary\">Open Modal</Button>\n          <Modal.Backdrop isKeyboardDismissDisabled>\n            <Modal.Container>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                <Modal.CloseTrigger />\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-default text-foreground\">\n                    <CircleInfo className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>isKeyboardDismissDisabled = true</Modal.Heading>\n                  <p className=\"text-sm leading-5 text-muted\">ESC key is disabled</p>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    Press ESC - nothing happens. You must use the close button or click the overlay\n                    backdrop to dismiss this modal.\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button className=\"w-full\" slot=\"close\">\n                    Close\n                  </Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Close Methods",
+   "section": "Examples",
+   "key": "modal-close-methods",
+   "source": "apps/docs/src/demos/en/modal/close-methods.tsx",
+   "code": "\"use client\";\n\nimport {CircleCheck, CircleInfo} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function CloseMethods() {\n  return (\n    <div className=\"flex max-w-2xl flex-col gap-8\">\n      <div className=\"flex flex-col gap-2\">\n        <h3 className=\"text-lg font-semibold\">Using slot=\"close\"</h3>\n        <p className=\"text-sm text-muted\">\n          The simplest way to close a modal. Add <code>slot=\"close\"</code> to any Button component\n          within the modal. When clicked, it will automatically close the modal.\n        </p>\n        <Modal>\n          <Button variant=\"secondary\">Open Modal</Button>\n          <Modal.Backdrop>\n            <Modal.Container>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                <Modal.Header>\n                  <Modal.Icon className=\"bg-accent-soft text-accent-soft-foreground\">\n                    <CircleInfo className=\"size-5\" />\n                  </Modal.Icon>\n                  <Modal.Heading>Using slot=\"close\"</Modal.Heading>\n                </Modal.Header>\n                <Modal.Body>\n                  <p>\n                    Click either button below - both have <code>slot=\"close\"</code> and will close\n                    the modal automatically.\n                  </p>\n                </Modal.Body>\n                <Modal.Footer>\n                  <Button slot=\"close\" variant=\"secondary\">\n                    Cancel\n                  </Button>\n                  <Button slot=\"close\">Confirm</Button>\n                </Modal.Footer>\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <h3 className=\"text-lg font-semibold\">Using Dialog render props</h3>\n        <p className=\"text-sm text-muted\">\n          Access the <code>close</code> method from the Dialog's render props. This gives you full\n          control over when and how to close the modal, allowing you to add custom logic before\n          closing.\n        </p>\n        <Modal>\n          <Button variant=\"secondary\">Open Modal</Button>\n          <Modal.Backdrop>\n            <Modal.Container>\n              <Modal.Dialog className=\"sm:max-w-[360px]\">\n                {(renderProps) => (\n                  <>\n                    <Modal.Header>\n                      <Modal.Icon className=\"bg-success-soft text-success-soft-foreground\">\n                        <CircleCheck className=\"size-5\" />\n                      </Modal.Icon>\n                      <Modal.Heading>Using Dialog render props</Modal.Heading>\n                    </Modal.Header>\n                    <Modal.Body>\n                      <p>\n                        The buttons below use the <code>close</code> method from render props. You\n                        can add validation or other logic before calling{\" \"}\n                        <code>renderProps.close()</code>.\n                      </p>\n                    </Modal.Body>\n                    <Modal.Footer>\n                      <Button variant=\"secondary\" onPress={() => renderProps.close()}>\n                        Cancel\n                      </Button>\n                      <Button onPress={() => renderProps.close()}>Confirm</Button>\n                    </Modal.Footer>\n                  </>\n                )}\n              </Modal.Dialog>\n            </Modal.Container>\n          </Modal.Backdrop>\n        </Modal>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Animations",
+   "section": "Examples",
+   "key": "modal-custom-animations",
+   "source": "apps/docs/src/demos/en/modal/custom-animations.tsx",
+   "code": "\"use client\";\n\nimport {ArrowUpFromLine, Sparkles} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\nimport React from \"react\";\n\nconst iconMap: Record<string, React.ComponentType<{className?: string}>> = {\n  \"gravity-ui:arrow-up-from-line\": ArrowUpFromLine,\n  \"gravity-ui:sparkles\": Sparkles,\n};\n\nexport function CustomAnimations() {\n  const animations = [\n    {\n      classNames: {\n        backdrop: [\n          \"data-[entering]:duration-400\",\n          \"data-[entering]:ease-[cubic-bezier(0.16,1,0.3,1)]\",\n          \"data-[exiting]:duration-200\",\n          \"data-[exiting]:ease-[cubic-bezier(0.7,0,0.84,0)]\",\n        ].join(\" \"),\n        container: [\n          \"data-[entering]:animate-in\",\n          \"data-[entering]:fade-in-0\",\n          \"data-[entering]:zoom-in-95\",\n          \"data-[entering]:duration-400\",\n          \"data-[entering]:ease-[cubic-bezier(0.16,1,0.3,1)]\",\n          \"data-[exiting]:animate-out\",\n          \"data-[exiting]:fade-out-0\",\n          \"data-[exiting]:zoom-out-95\",\n          \"data-[exiting]:duration-200\",\n          \"data-[exiting]:ease-[cubic-bezier(0.7,0,0.84,0)]\",\n        ].join(\" \"),\n      },\n      description:\n        \"Physics-based elastic scaling. Simulates a high-damping spring system with fast transient response and prolonged settling time. Ideal for Modals and Popovers.\",\n      icon: \"gravity-ui:sparkles\",\n      name: \"Kinematic Scale\",\n    },\n    {\n      classNames: {\n        backdrop: [\n          \"data-[entering]:duration-500\",\n          \"data-[entering]:ease-[cubic-bezier(0.25,1,0.5,1)]\",\n          \"data-[exiting]:duration-200\",\n          \"data-[exiting]:ease-[cubic-bezier(0.5,0,0.75,0)]\",\n        ].join(\" \"),\n        container: [\n          \"data-[entering]:animate-in\",\n          \"data-[entering]:fade-in-0\",\n          \"data-[entering]:slide-in-from-bottom-4\",\n          \"data-[entering]:duration-500\",\n          \"data-[entering]:ease-[cubic-bezier(0.25,1,0.5,1)]\",\n          \"data-[exiting]:animate-out\",\n          \"data-[exiting]:fade-out-0\",\n          \"data-[exiting]:slide-out-to-bottom-2\",\n          \"data-[exiting]:duration-200\",\n          \"data-[exiting]:ease-[cubic-bezier(0.5,0,0.75,0)]\",\n        ].join(\" \"),\n      },\n      description:\n        \"Simulates movement through a medium with fluid resistance. Eliminates mechanical linearity for a natural, grounded feel. Perfect for Bottom Sheets or Toasts.\",\n      icon: \"gravity-ui:arrow-up-from-line\",\n      name: \"Fluid Slide\",\n    },\n  ];\n\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      {animations.map(({classNames, description, icon, name}) => {\n        const IconComponent = iconMap[icon];\n\n        return (\n          <Modal key={name}>\n            <Button variant=\"secondary\">{name}</Button>\n            <Modal.Backdrop className={classNames.backdrop}>\n              <Modal.Container className={classNames.container}>\n                <Modal.Dialog className=\"sm:max-w-[360px]\">\n                  <Modal.CloseTrigger />\n                  <Modal.Header>\n                    <Modal.Icon className=\"bg-default text-foreground\">\n                      {!!IconComponent && <IconComponent className=\"size-5\" />}\n                    </Modal.Icon>\n                    <Modal.Heading>{name} Animation</Modal.Heading>\n                  </Modal.Header>\n                  <Modal.Body>\n                    <p className=\"mt-1\">{description}</p>\n                  </Modal.Body>\n                  <Modal.Footer>\n                    <Button slot=\"close\" variant=\"tertiary\">\n                      Close\n                    </Button>\n                    <Button slot=\"close\">Try Again</Button>\n                  </Modal.Footer>\n                </Modal.Dialog>\n              </Modal.Container>\n            </Modal.Backdrop>\n          </Modal>\n        );\n      })}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Portal",
+   "section": "Examples",
+   "key": "modal-custom-portal",
+   "source": "apps/docs/src/demos/en/modal/custom-portal.tsx",
+   "code": "\"use client\";\n\nimport {Button, Modal} from \"@heroui/react\";\nimport {useCallback, useRef, useState} from \"react\";\n\nexport function CustomPortal() {\n  const portalRef = useRef<HTMLDivElement>(null);\n  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);\n\n  const setPortalRef = useCallback((node: HTMLDivElement | null) => {\n    portalRef.current = node;\n    setPortalContainer(node);\n  }, []);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <div>\n        <p className=\"text-sm\">\n          Render modals inside a custom container instead of <code>document.body</code>\n        </p>\n        <p className=\"text-sm text-muted\">\n          Apply <code className=\"rounded px-1 py-0.5 text-xs\">transform: translateZ(0)</code> to the\n          container to create a new stacking context.\n        </p>\n      </div>\n      <div\n        ref={setPortalRef}\n        className=\"relative flex h-[380px] items-center justify-center overflow-hidden rounded bg-muted/20\"\n        // new stacking context\n        style={{transform: \"translate(0)\"}}\n      >\n        {!!portalContainer && (\n          <Modal>\n            <Button>Open Modal</Button>\n            <Modal.Backdrop className=\"h-full\" UNSTABLE_portalContainer={portalContainer}>\n              <Modal.Container className=\"h-full max-h-full\">\n                <Modal.Dialog className=\"h-full max-h-full sm:max-w-md\">\n                  <Modal.CloseTrigger />\n                  <Modal.Header>\n                    <Modal.Heading>Custom Portal</Modal.Heading>\n                  </Modal.Header>\n                  <Modal.Body>\n                    <p className=\"text-sm text-muted\">\n                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\n                      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n                      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n                    </p>\n                    <p className=\"text-sm text-muted\">\n                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\n                      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n                      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n                    </p>\n                    <p className=\"text-sm text-muted\">\n                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor\n                      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n                      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n                    </p>\n                  </Modal.Body>\n                  <Modal.Footer>\n                    <Button slot=\"close\" variant=\"secondary\">\n                      Close\n                    </Button>\n                  </Modal.Footer>\n                </Modal.Dialog>\n              </Modal.Container>\n            </Modal.Backdrop>\n          </Modal>\n        )}\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "modal-custom-styles",
+   "source": "apps/docs/src/demos/en/modal/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {CircleCheck} from \"@gravity-ui/icons\";\nimport {Button, Modal} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <Modal>\n      <Button variant=\"secondary\">Open</Button>\n      <Modal.Backdrop className=\"bg-overlay/50 dark:bg-overlay/65\" variant=\"blur\">\n        <Modal.Container>\n          <Modal.Dialog className=\"relative overflow-hidden border border-border/80 bg-surface/90 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl sm:max-w-[340px] dark:border-border/90 dark:bg-surface/85 dark:ring-white/10\">\n            <div\n              aria-hidden=\"true\"\n              className=\"pointer-events-none absolute inset-x-0 top-0 h-20 bg-linear-to-b from-neutral-500/8 to-transparent dark:from-neutral-400/10\"\n            />\n            <div\n              aria-hidden=\"true\"\n              className=\"pointer-events-none absolute inset-x-10 top-0 h-px bg-linear-to-r from-transparent via-neutral-400/40 to-transparent dark:via-neutral-500/35\"\n            />\n            <Modal.CloseTrigger />\n            <Modal.Header className=\"relative\">\n              <Modal.Icon className=\"bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200\">\n                <CircleCheck className=\"size-5\" />\n              </Modal.Icon>\n              <Modal.Heading>Changes saved</Modal.Heading>\n            </Modal.Header>\n            <Modal.Body className=\"relative\">\n              <p className=\"text-sm text-muted\">Your draft is synced across devices.</p>\n            </Modal.Body>\n            <Modal.Footer>\n              <Button className=\"w-full\" slot=\"close\">\n                Done\n              </Button>\n            </Modal.Footer>\n          </Modal.Dialog>\n        </Modal.Container>\n      </Modal.Backdrop>\n    </Modal>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Modal",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Trigger and container elements",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:175"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:171",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Trigger",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Custom trigger content",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:181"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:182"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:177",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Backdrop",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "`\"opaque\" | \"blur\" | \"transparent\"`",
+     "`\"opaque\"`",
+     "Backdrop overlay style",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:188"
+    ],
+    [
+     "`isDismissable`",
+     "`boolean`",
+     "`true`",
+     "Close on backdrop click",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:189"
+    ],
+    [
+     "`isKeyboardDismissDisabled`",
+     "`boolean`",
+     "`false`",
+     "Disable ESC key to close",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:190"
+    ],
+    [
+     "`isOpen`",
+     "`boolean`",
+     "-",
+     "Controlled open state",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:191"
+    ],
+    [
+     "`onOpenChange`",
+     "`(isOpen: boolean) => void`",
+     "-",
+     "Open state change handler",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:192"
+    ],
+    [
+     "`className`",
+     "`string | (values) => string`",
+     "-",
+     "Backdrop CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:193"
+    ],
+    [
+     "`UNSTABLE_portalContainer`",
+     "`HTMLElement`",
+     "-",
+     "Custom portal container",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:194"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:184",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Container",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`placement`",
+     "`\"auto\" | \"center\" | \"top\" | \"bottom\"`",
+     "`\"auto\"`",
+     "Modal position on screen",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:200"
+    ],
+    [
+     "`scroll`",
+     "`\"inside\" | \"outside\"`",
+     "`\"inside\"`",
+     "Scroll behavior",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:201"
+    ],
+    [
+     "`size`",
+     "`\"xs\" | \"sm\" | \"md\" | \"lg\" | \"cover\" | \"full\"`",
+     "`\"md\"`",
+     "Modal size variant",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:202"
+    ],
+    [
+     "`className`",
+     "`string | (values) => string`",
+     "-",
+     "Container CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:203"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:196",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Dialog",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode | ({close}) => ReactNode`",
+     "-",
+     "Content or render function",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:209"
+    ],
+    [
+     "`className`",
+     "`string | (values) => string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:210"
+    ],
+    [
+     "`role`",
+     "`string`",
+     "`\"dialog\"`",
+     "ARIA role",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:211"
+    ],
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:212"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of label element",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:213"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of description element",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:214"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:205",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Header",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Header content",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:220"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:221"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:216",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Body",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Body content",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:227"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:228"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:223",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.Footer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Footer content",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:234"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:235"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:230",
+   "section": "API Reference"
+  },
+  {
+   "name": "Modal.CloseTrigger",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Custom close button",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:241"
+    ],
+    [
+     "`className`",
+     "`string | (values) => string`",
+     "-",
+     "CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:242"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:237",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "opaque",
+    "blur",
+    "transparent"
+   ],
+   "other": [],
+   "default": "`\"opaque\"`",
+   "owner": "Modal.Backdrop",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:188"
+  },
+  {
+   "name": "`placement`",
+   "prop": "placement",
+   "values": [
+    "auto",
+    "center",
+    "top",
+    "bottom"
+   ],
+   "other": [],
+   "default": "`\"auto\"`",
+   "owner": "Modal.Container",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:200"
+  },
+  {
+   "name": "`scroll`",
+   "prop": "scroll",
+   "values": [
+    "inside",
+    "outside"
+   ],
+   "other": [],
+   "default": "`\"inside\"`",
+   "owner": "Modal.Container",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:201"
+  },
+  {
+   "name": "`size`",
+   "prop": "size",
+   "values": [
+    "xs",
+    "sm",
+    "md",
+    "lg",
+    "cover",
+    "full"
+   ],
+   "other": [],
+   "default": "`\"md\"`",
+   "owner": "Modal.Container",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/modal.mdx:202"
+  }
+ ]
+}

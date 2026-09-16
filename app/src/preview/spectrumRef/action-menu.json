@@ -1,0 +1,65 @@
+{
+  "slug": "action-menu",
+  "title": "ActionMenu",
+  "group": "Collections",
+  "heading": "ActionMenu",
+  "description": null,
+  "sharedImports": "import {ActionMenu, Item, Section} from '@react-spectrum/menu';\nimport Copy from '@spectrum-icons/workflow/Copy';\nimport Cut from '@spectrum-icons/workflow/Cut';\nimport {Flex} from '@react-spectrum/layout';\nimport Paste from '@spectrum-icons/workflow/Paste';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<ActionMenu>\n  <Item>Cut</Item>\n  <Item>Copy</Item>\n  <Item>Paste</Item>\n</ActionMenu>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let actionMenuItems = [\n    {name: 'Cut'},\n    {name: 'Copy'},\n    {name: 'Paste'},\n    {name: 'Select All'}\n  ];\n\n  return (\n    <ActionMenu items={actionMenuItems}>\n      {item => <Item key={item.name}>{item.name}</Item>}\n    </ActionMenu>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "function Example() {\n  let [action, setAction] = React.useState(null);\n\n  return (\n    <>\n      <ActionMenu onAction={setAction}>\n        <Item key=\"cut\">Cut</Item>\n        <Item key=\"copy\">Copy</Item>\n        <Item key=\"paste\">Paste</Item>\n      </ActionMenu>\n      <p>Action: {action}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Links",
+      "code": "<ActionMenu>\n  <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n  <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n  <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n  <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n</ActionMenu>"
+    },
+    {
+      "name": "Static Items",
+      "code": "<ActionMenu>\n  <Section title=\"File\">\n    <Item key=\"new\">New</Item>\n    <Item key=\"open\">Open...</Item>\n  </Section>\n  <Section title=\"Save\">\n    <Item key=\"save\">Save</Item>\n    <Item key=\"saveAs\">Save As...</Item>\n    <Item key=\"saveAll\">Save All</Item>\n  </Section>\n</ActionMenu>"
+    },
+    {
+      "name": "Dynamic Items",
+      "code": "function Example() {\n  let openWindows = [\n    {\n      name: 'Reversion',\n      id: 'reversion',\n      children: [\n        {id: 'undo', name: 'Undo'},\n        {id: 'redo', name: 'Redo'}\n      ]\n    },\n    {\n      name: 'Clipboard',\n      id: 'clipboard',\n      children: [\n        {id: 'cut', name: 'Cut'},\n        {id: 'copy', name: 'Copy'},\n        {id: 'paste', name: 'Paste'}\n      ]\n    }\n  ];\n\n  return (\n    <ActionMenu\n      items={openWindows}>\n      {item => (\n        <Section items={item.children} title={item.name}>\n          {item => <Item>{item.name}</Item>}\n        </Section>\n      )}\n    </ActionMenu>\n  );\n}"
+    },
+    {
+      "name": "Complex Menu Items",
+      "code": "import {Keyboard, Text} from '@react-spectrum/text';\n<ActionMenu>\n  <Item key=\"cut\" textValue=\"cut\">\n    <Cut />\n    <Text>Cut</Text>\n    <Keyboard>⌘X</Keyboard>\n  </Item>\n  <Item key=\"copy\" textValue=\"copy\">\n    <Copy />\n    <Text>Copy</Text>\n    <Keyboard>⌘C</Keyboard>\n  </Item>\n  <Item key=\"paste\" textValue=\"paste\">\n    <Paste />\n    <Text>Paste</Text>\n    <Keyboard>⌘V</Keyboard>\n  </Item>\n</ActionMenu>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<ActionMenu\n  isQuiet\n  items={[\n    {name: 'Cut', id: 'cut'},\n    {name: 'Copy', id: 'copy'},\n    {name: 'Paste', id: 'paste'}\n  ]}>\n  {item => <Item>{item.name}</Item>}\n</ActionMenu>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<ActionMenu\n  items={[\n    {name: 'Undo', id: 'undo'},\n    {name: 'Redo', id: 'redo'},\n    {name: 'Cut', id: 'cut'},\n    {name: 'Copy', id: 'copy'},\n    {name: 'Paste', id: 'paste'}\n  ]}\n  isDisabled>\n  {item => <Item>{item.name}</Item>}\n</ActionMenu>"
+    },
+    {
+      "name": "Disabled items",
+      "code": "<ActionMenu\n  items={[\n    {name: 'Undo', id: 'undo'},\n    {name: 'Redo', id: 'redo'},\n    {name: 'Cut', id: 'cut'},\n    {name: 'Copy', id: 'copy'},\n    {name: 'Paste', id: 'paste'}\n  ]}\n  disabledKeys={['redo', 'paste']}>\n  {item => <Item>{item.name}</Item>}\n</ActionMenu>"
+    },
+    {
+      "name": "Align and direction",
+      "code": "<Flex gap=\"size-100\">\n  <ActionMenu align=\"start\">\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n  <ActionMenu align=\"end\" direction=\"top\" shouldFlip={false}>\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n  <ActionMenu direction=\"start\" align=\"start\">\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n  <ActionMenu direction=\"end\" align=\"end\">\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n</Flex>"
+    },
+    {
+      "name": "Flipping",
+      "code": "<Flex gap=\"size-100\">\n  <ActionMenu shouldFlip>\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n  <ActionMenu shouldFlip={false}>\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n  </ActionMenu>\n</Flex>"
+    },
+    {
+      "name": "Open",
+      "code": "function Example() {\n  let [open, setOpen] = React.useState(false);\n\n  return (\n    <ActionMenu\n      isOpen={open}\n      onOpenChange={setOpen}>\n      <Item key=\"cut\">Cut</Item>\n      <Item key=\"copy\">Copy</Item>\n      <Item key=\"paste\">Paste</Item>\n    </ActionMenu>\n  );\n}"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/popover/",
+  "source": "packages/@adobe/react-spectrum/docs/menu/ActionMenu.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ActionMenu.html"
+}

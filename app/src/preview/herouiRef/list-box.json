@@ -1,0 +1,519 @@
+{
+ "slug": "list-box",
+ "title": "ListBox",
+ "description": "A listbox displays a list of options and allows a user to select one or more of them",
+ "group": "Collections",
+ "links": {
+  "rac": "ListBox",
+  "sourceFile": "list-box/list-box.tsx",
+  "styles": "list-box.css",
+  "storybook": "Components/Collections/ListBox"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { ListBox } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"list-box-default\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:11"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { ListBox, Label, Description, Header } from '@heroui/react';\n\nexport default () => (\n  <ListBox>\n    <ListBox.Item>\n      <Label />\n      <Description />\n      <ListBox.ItemIndicator />\n    </ListBox.Item>\n    <ListBox.Section>\n      <Header />\n      <ListBox.Item>\n        <Label />\n      </ListBox.Item>\n    </ListBox.Section>\n  </ListBox>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:21"
+  },
+  {
+   "name": "Examples",
+   "body": "### With Disabled Items\n\n<ComponentPreview\n  name=\"list-box-with-disabled-items\"\n/>\n\n### With Sections\n\n<ComponentPreview\n  name=\"list-box-with-sections\"\n/>\n\n### Multi Select\n\n<ComponentPreview\n  name=\"list-box-multi-select\"\n/>\n\n### Controlled\n\n<ComponentPreview\n  name=\"list-box-controlled\"\n/>\n\n### Virtualization\n\nListBox supports virtualization through [Virtualizer](https://react-aria.adobe.com/Virtualizer), enabling efficient rendering of large datasets by displaying only the rows visible within the viewport.\n\n<ComponentPreview \n  name=\"list-box-virtualization\"\n/>\n\n### Custom Check Icon\n\n<ComponentPreview\n  name=\"list-box-custom-check-icon\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"list-box-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:43"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"list-box-custom-styles\" />\n\n### Global CSS\n\nTo customize the ListBox component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .list-box {\n    @apply rounded-lg border border-border bg-surface p-2;\n  }\n\n  .list-box-item {\n    @apply rounded px-2 py-1 cursor-pointer;\n  }\n\n  .list-box-item--danger {\n    @apply text-danger;\n  }\n\n  .list-box-item__indicator {\n    @apply text-accent;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:89"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe ListBox component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/list-box.css)):\n\n#### Base Classes [!toc]\n- `.list-box` - Base listbox container\n- `.list-box-item` - Individual listbox item\n- `.list-box-item__indicator` - Selection indicator icon\n- `.list-box-section` - Section container for grouping items\n\n#### Variant Classes [!toc]\n- `.list-box--default` - Default variant styling\n- `.list-box--danger` - Danger variant styling\n- `.list-box-item--default` - Default item variant\n- `.list-box-item--danger` - Danger item variant\n\n#### State Classes [!toc]\n- `.list-box-item[data-selected=\"true\"]` - Selected item state\n- `.list-box-item[data-focus-visible=\"true\"]` - Focused item state\n- `.list-box-item[data-disabled=\"true\"]` - Disabled item state\n- `.list-box-item__indicator[data-visible=\"true\"]` - Visible indicator state\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` on item\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` on item\n- **Selected**: `[data-selected=\"true\"]` on item\n- **Disabled**: `:disabled` or `[data-disabled=\"true\"]` on item",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:120"
+  },
+  {
+   "name": "API Reference",
+   "body": "### ListBox\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label for the listbox |\n| `aria-labelledby` | `string` | - | ID of element that labels the listbox |\n| `selectionMode` | `\"none\" \\| \"single\" \\| \"multiple\"` | `\"single\"` | Selection behavior |\n| `selectedKeys` | `Selection` | - | Controlled selected keys |\n| `defaultSelectedKeys` | `Selection` | - | Initial selected keys |\n| `onSelectionChange` | `(keys: Selection) => void` | - | Handler called when selection changes |\n| `disabledKeys` | `Iterable<Key>` | - | Keys of disabled items |\n| `onAction` | `(key: Key) => void` | - | Handler called when an item is activated |\n| `variant` | `\"default\" \\| \"danger\"` | `\"default\"` | Visual variant |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | ListBox items and sections |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, ListBoxRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### ListBox.Item\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `id` | `Key` | - | Unique identifier for the item |\n| `textValue` | `string` | - | Text value for accessibility and typeahead |\n| `isDisabled` | `boolean` | `false` | Whether this item is disabled |\n| `variant` | `\"default\" \\| \"danger\"` | `\"default\"` | Visual variant |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Item content or render function |\n| `render` | `(props: DetailedHTMLProps<LinkWithRequiredHref, HTMLAnchorElement> \\| React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements], renderProps: ListBoxItemRenderProps) => ReactElement` | - | Overrides the default DOM element with a custom render function.|\n\n### ListBox.ItemIndicator\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Custom indicator content or render function |\n\n### ListBox.Section\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Section content including Header and Items |\n\n### Render Props\n\nWhen using render functions with ListBox.Item or ListBox.ItemIndicator, these values are provided:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isSelected` | `boolean` | Whether the item is selected |\n| `isFocused` | `boolean` | Whether the item is focused |\n| `isDisabled` | `boolean` | Whether the item is disabled |\n| `isPressed` | `boolean` | Whether the item is being pressed |\n\n### ListLayout\n\n| Name | Type | Default | Description |\n|------|------|---------|-------------|\n| `rowHeight` | `number \\| undefined` | 48 | The fixed height of a row in px. |\n| `estimatedRowHeight` | `number \\| undefined` | — | The estimated height of a row, when row heights are variable. |\n| `headingHeight` | `number \\| undefined` | 48 | The fixed height of a section header in px. |\n| `estimatedHeadingHeight` | `number \\| undefined` | — | The estimated height of a section header, when the height is variable. |\n| `loaderHeight` | `number \\| undefined` | 48 | The fixed height of a loader element in px. This loader is specifically for \"load more\" elements rendered when loading more rows at the root level or inside nested row/sections. |\n| `dropIndicatorThickness` | `number \\| undefined` | 2 | The thickness of the drop indicator. |\n| `gap` | `number \\| undefined` | 0 | The gap between items. |\n| `padding` | `number \\| undefined` | 0 | The padding around the list. |",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:155"
+  },
+  {
+   "name": "Examples",
+   "body": "### Basic Usage\n\n```tsx\nimport { ListBox, Label, Description } from '@heroui/react';\n\n<ListBox aria-label=\"Users\" selectionMode=\"single\">\n  <ListBox.Item id=\"1\" textValue=\"Bob\">\n    <Label>Bob</Label>\n    <Description>bob@heroui.com</Description>\n  </ListBox.Item>\n  <ListBox.Item id=\"2\" textValue=\"Alice\">\n    <Label>Alice</Label>\n    <Description>alice@heroui.com</Description>\n  </ListBox.Item>\n</ListBox>\n```\n\n### With Sections\n\n```tsx\nimport { ListBox, Header, Separator } from '@heroui/react';\n\n<ListBox aria-label=\"Actions\" selectionMode=\"none\" onAction={(key) => console.log(key)}>\n  <ListBox.Section>\n    <Header>Actions</Header>\n    <ListBox.Item id=\"new\" textValue=\"New file\">New file</ListBox.Item>\n    <ListBox.Item id=\"edit\" textValue=\"Edit file\">Edit file</ListBox.Item>\n  </ListBox.Section>\n  <Separator />\n  <ListBox.Section>\n    <Header>Danger zone</Header>\n    <ListBox.Item id=\"delete\" textValue=\"Delete\" variant=\"danger\">Delete</ListBox.Item>\n  </ListBox.Section>\n</ListBox>\n```\n\n### Controlled Selection\n\n```tsx\nimport { ListBox, Selection } from '@heroui/react';\nimport { useState } from 'react';\n\nfunction ControlledListBox() {\n  const [selected, setSelected] = useState<Selection>(new Set([\"1\"]));\n\n  return (\n    <ListBox\n      aria-label=\"Options\"\n      selectedKeys={selected}\n      selectionMode=\"multiple\"\n      onSelectionChange={setSelected}\n    >\n      <ListBox.Item id=\"1\" textValue=\"Option 1\">Option 1</ListBox.Item>\n      <ListBox.Item id=\"2\" textValue=\"Option 2\">Option 2</ListBox.Item>\n      <ListBox.Item id=\"3\" textValue=\"Option 3\">Option 3</ListBox.Item>\n    </ListBox>\n  );\n}\n```\n\n### Custom Indicator\n\n```tsx\nimport { ListBox, ListBoxItemIndicator } from '@heroui/react';\nimport { Icon } from '@iconify/react';\n\n<ListBox aria-label=\"Options\" selectionMode=\"multiple\">\n  <ListBox.Item id=\"1\" textValue=\"Option 1\">\n    Option 1\n    <ListBox.ItemIndicator>\n      {({isSelected}) =>\n        isSelected ? <Icon icon=\"gravity-ui:check\" /> : null\n      }\n    </ListBox.ItemIndicator>\n  </ListBox.Item>\n</ListBox>\n```",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:224"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The ListBox component implements the ARIA listbox pattern and provides:\n\n- Full keyboard navigation support\n- Screen reader announcements for selection changes\n- Proper focus management\n- Support for disabled states\n- Typeahead search functionality\n\nFor more information, see the [React Aria ListBox documentation](https://react-spectrum.adobe.com/react-aria/ListBox.html).",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:304"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"list-box\" />",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:316"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "list-box-default",
+   "source": "apps/docs/src/demos/en/list-box/default.tsx",
+   "code": "import {Avatar, Description, Label, ListBox} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <ListBox aria-label=\"Users\" className=\"w-[220px]\" selectionMode=\"single\">\n      <ListBox.Item id=\"1\" textValue=\"Bob\">\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Bob\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n          />\n          <Avatar.Fallback>B</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Bob</Label>\n          <Description>bob@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n      <ListBox.Item id=\"2\" textValue=\"Fred\">\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Fred\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n          />\n          <Avatar.Fallback>F</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Fred</Label>\n          <Description>fred@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n      <ListBox.Item id=\"3\" textValue=\"Martha\">\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Martha\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\"\n          />\n          <Avatar.Fallback>M</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Martha</Label>\n          <Description>martha@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n    </ListBox>\n  );\n}\n"
+  },
+  {
+   "name": "With Disabled Items",
+   "section": "Examples",
+   "key": "list-box-with-disabled-items",
+   "source": "apps/docs/src/demos/en/list-box/with-disabled-items.tsx",
+   "code": "\"use client\";\n\nimport {Pencil, SquarePlus, TrashBin} from \"@gravity-ui/icons\";\nimport {Description, Header, Kbd, Label, ListBox, Separator, Surface} from \"@heroui/react\";\n\nexport function WithDisabledItems() {\n  return (\n    <Surface className=\"w-[256px] rounded-3xl shadow-surface\">\n      <ListBox\n        aria-label=\"File actions\"\n        className=\"w-full p-2\"\n        disabledKeys={[\"delete-file\"]}\n        selectionMode=\"none\"\n        onAction={(key) => alert(`Selected item: ${key}`)}\n      >\n        <ListBox.Section>\n          <Header>Actions</Header>\n          <ListBox.Item id=\"new-file\" textValue=\"New file\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <SquarePlus className=\"size-4 shrink-0 text-muted\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>New file</Label>\n              <Description>Create a new file</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Content>N</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n          <ListBox.Item id=\"edit-file\" textValue=\"Edit file\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <Pencil className=\"size-4 shrink-0 text-muted\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>Edit file</Label>\n              <Description>Make changes</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Content>E</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n        </ListBox.Section>\n        <Separator />\n        <ListBox.Section>\n          <Header>Danger zone</Header>\n          <ListBox.Item id=\"delete-file\" textValue=\"Delete file\" variant=\"danger\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <TrashBin className=\"size-4 shrink-0 text-danger\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>Delete file</Label>\n              <Description>Move to trash</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Abbr keyValue=\"shift\" />\n              <Kbd.Content>D</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n        </ListBox.Section>\n      </ListBox>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Sections",
+   "section": "Examples",
+   "key": "list-box-with-sections",
+   "source": "apps/docs/src/demos/en/list-box/with-sections.tsx",
+   "code": "\"use client\";\n\nimport {Pencil, SquarePlus, TrashBin} from \"@gravity-ui/icons\";\nimport {Description, Header, Kbd, Label, ListBox, Separator, Surface} from \"@heroui/react\";\n\nexport function WithSections() {\n  return (\n    <Surface className=\"w-[256px] rounded-3xl shadow-surface\">\n      <ListBox\n        aria-label=\"File actions\"\n        className=\"w-full p-2\"\n        selectionMode=\"none\"\n        onAction={(key) => alert(`Selected item: ${key}`)}\n      >\n        <ListBox.Section>\n          <Header>Actions</Header>\n          <ListBox.Item id=\"new-file\" textValue=\"New file\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <SquarePlus className=\"size-4 shrink-0 text-muted\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>New file</Label>\n              <Description>Create a new file</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Content>N</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n          <ListBox.Item id=\"edit-file\" textValue=\"Edit file\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <Pencil className=\"size-4 shrink-0 text-muted\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>Edit file</Label>\n              <Description>Make changes</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Content>E</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n        </ListBox.Section>\n        <Separator />\n        <ListBox.Section>\n          <Header>Danger zone</Header>\n          <ListBox.Item id=\"delete-file\" textValue=\"Delete file\" variant=\"danger\">\n            <div className=\"flex h-8 items-start justify-center pt-px\">\n              <TrashBin className=\"size-4 shrink-0 text-danger\" />\n            </div>\n            <div className=\"flex flex-col\">\n              <Label>Delete file</Label>\n              <Description>Move to trash</Description>\n            </div>\n            <Kbd className=\"ms-auto\" variant=\"light\">\n              <Kbd.Abbr keyValue=\"command\" />\n              <Kbd.Abbr keyValue=\"shift\" />\n              <Kbd.Content>D</Kbd.Content>\n            </Kbd>\n          </ListBox.Item>\n        </ListBox.Section>\n      </ListBox>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Multi Select",
+   "section": "Examples",
+   "key": "list-box-multi-select",
+   "source": "apps/docs/src/demos/en/list-box/multi-select.tsx",
+   "code": "import {Avatar, Description, Label, ListBox, Surface} from \"@heroui/react\";\n\nexport function MultiSelect() {\n  return (\n    <Surface className=\"w-[256px] rounded-3xl shadow-surface\">\n      <ListBox aria-label=\"Users\" selectionMode=\"multiple\">\n        <ListBox.Item id=\"1\" textValue=\"Bob\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Bob\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n            />\n            <Avatar.Fallback>B</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Bob</Label>\n            <Description>bob@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator />\n        </ListBox.Item>\n        <ListBox.Item id=\"2\" textValue=\"Fred\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Fred\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n            />\n            <Avatar.Fallback>F</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Fred</Label>\n            <Description>fred@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator />\n        </ListBox.Item>\n        <ListBox.Item id=\"3\" textValue=\"Martha\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Martha\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\"\n            />\n            <Avatar.Fallback>M</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Martha</Label>\n            <Description>martha@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator />\n        </ListBox.Item>\n      </ListBox>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "list-box-controlled",
+   "source": "apps/docs/src/demos/en/list-box/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {Selection} from \"@heroui/react\";\n\nimport {Check} from \"@gravity-ui/icons\";\nimport {Avatar, Description, Label, ListBox, Surface} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const [selected, setSelected] = useState<Selection>(new Set([\"1\"]));\n\n  const selectedItems = Array.from(selected);\n\n  return (\n    <div className=\"space-y-4\">\n      <Surface className=\"w-[256px] rounded-3xl shadow-surface\">\n        <ListBox\n          aria-label=\"Users\"\n          selectedKeys={selected}\n          selectionMode=\"multiple\"\n          onSelectionChange={setSelected}\n        >\n          <ListBox.Item id=\"1\" textValue=\"Bob\">\n            <Avatar size=\"sm\">\n              <Avatar.Image\n                alt=\"Bob\"\n                src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n              />\n              <Avatar.Fallback>B</Avatar.Fallback>\n            </Avatar>\n            <div className=\"flex flex-col\">\n              <Label>Bob</Label>\n              <Description>bob@heroui.com</Description>\n            </div>\n            <ListBox.ItemIndicator>\n              {({isSelected}) =>\n                isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n              }\n            </ListBox.ItemIndicator>\n          </ListBox.Item>\n          <ListBox.Item id=\"2\" textValue=\"Fred\">\n            <Avatar size=\"sm\">\n              <Avatar.Image\n                alt=\"Fred\"\n                src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n              />\n              <Avatar.Fallback>F</Avatar.Fallback>\n            </Avatar>\n            <div className=\"flex flex-col\">\n              <Label>Fred</Label>\n              <Description>fred@heroui.com</Description>\n            </div>\n            <ListBox.ItemIndicator>\n              {({isSelected}) =>\n                isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n              }\n            </ListBox.ItemIndicator>\n          </ListBox.Item>\n          <ListBox.Item id=\"3\" textValue=\"Martha\">\n            <Avatar size=\"sm\">\n              <Avatar.Image\n                alt=\"Martha\"\n                src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\"\n              />\n              <Avatar.Fallback>M</Avatar.Fallback>\n            </Avatar>\n            <div className=\"flex flex-col\">\n              <Label>Martha</Label>\n              <Description>martha@heroui.com</Description>\n            </div>\n            <ListBox.ItemIndicator>\n              {({isSelected}) =>\n                isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n              }\n            </ListBox.ItemIndicator>\n          </ListBox.Item>\n        </ListBox>\n      </Surface>\n      <p className=\"text-sm text-muted\">\n        Selected: {selectedItems.length > 0 ? selectedItems.join(\", \") : \"None\"}\n      </p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Virtualization",
+   "section": "Examples",
+   "key": "list-box-virtualization",
+   "source": "apps/docs/src/demos/en/list-box/virtualization.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, ListBox, ListLayout, Virtualizer} from \"@heroui/react\";\n\ninterface User {\n  id: number;\n  name: string;\n  email: string;\n}\n\nexport function Virtualization() {\n  const firstNames = [\n    \"Emma\",\n    \"Liam\",\n    \"Olivia\",\n    \"Noah\",\n    \"Ava\",\n    \"James\",\n    \"Sophia\",\n    \"Oliver\",\n    \"Isabella\",\n    \"Lucas\",\n    \"Mia\",\n    \"Ethan\",\n    \"Charlotte\",\n    \"Mason\",\n    \"Amelia\",\n    \"Logan\",\n    \"Harper\",\n    \"Alexander\",\n    \"Ella\",\n    \"Benjamin\",\n  ];\n\n  const lastNames = [\n    \"Smith\",\n    \"Johnson\",\n    \"Williams\",\n    \"Brown\",\n    \"Jones\",\n    \"Garcia\",\n    \"Miller\",\n    \"Davis\",\n    \"Rodriguez\",\n    \"Martinez\",\n    \"Anderson\",\n    \"Taylor\",\n    \"Thomas\",\n    \"Jackson\",\n    \"White\",\n    \"Harris\",\n    \"Clark\",\n    \"Lewis\",\n    \"Robinson\",\n    \"Walker\",\n  ];\n\n  function generateUsers(n: number): User[] {\n    const users: User[] = [];\n\n    for (let i = 0; i < n; i++) {\n      const firstName = firstNames[i % firstNames.length];\n      const lastName = lastNames[Math.floor(i / firstNames.length) % lastNames.length];\n      const name = `${firstName} ${lastName}`;\n\n      users.push({\n        email: `${firstName?.toLowerCase()}.${lastName?.toLowerCase()}@acme.com`,\n        id: i + 1,\n        name,\n      });\n    }\n\n    return users;\n  }\n\n  const users = generateUsers(1000);\n\n  return (\n    <Virtualizer layout={ListLayout} layoutOptions={{rowHeight: 50}}>\n      <ListBox\n        aria-label=\"Virtualized list with 1000 items\"\n        className=\"h-[400px] w-[300px] overflow-y-auto\"\n        items={users}\n      >\n        {(user) => (\n          <ListBox.Item id={user.id} textValue={user.name}>\n            <div className=\"flex flex-col\">\n              <Label>{user.name}</Label>\n              <Description>{user.email}</Description>\n            </div>\n            <ListBox.ItemIndicator />\n          </ListBox.Item>\n        )}\n      </ListBox>\n    </Virtualizer>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Check Icon",
+   "section": "Examples",
+   "key": "list-box-custom-check-icon",
+   "source": "apps/docs/src/demos/en/list-box/custom-check-icon.tsx",
+   "code": "\"use client\";\n\nimport {Check} from \"@gravity-ui/icons\";\nimport {Avatar, Description, Label, ListBox, Surface} from \"@heroui/react\";\n\nexport function CustomCheckIcon() {\n  return (\n    <Surface className=\"w-[256px] rounded-3xl shadow-surface\">\n      <ListBox aria-label=\"Users\" selectionMode=\"multiple\">\n        <ListBox.Item id=\"1\" textValue=\"Bob\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Bob\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n            />\n            <Avatar.Fallback>B</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Bob</Label>\n            <Description>bob@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator>\n            {({isSelected}) =>\n              isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n            }\n          </ListBox.ItemIndicator>\n        </ListBox.Item>\n        <ListBox.Item id=\"2\" textValue=\"Fred\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Fred\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n            />\n            <Avatar.Fallback>F</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Fred</Label>\n            <Description>fred@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator>\n            {({isSelected}) =>\n              isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n            }\n          </ListBox.ItemIndicator>\n        </ListBox.Item>\n        <ListBox.Item id=\"3\" textValue=\"Martha\">\n          <Avatar size=\"sm\">\n            <Avatar.Image\n              alt=\"Martha\"\n              src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\"\n            />\n            <Avatar.Fallback>M</Avatar.Fallback>\n          </Avatar>\n          <div className=\"flex flex-col\">\n            <Label>Martha</Label>\n            <Description>martha@heroui.com</Description>\n          </div>\n          <ListBox.ItemIndicator>\n            {({isSelected}) =>\n              isSelected ? <Check className=\"size-4 text-accent-soft-foreground\" /> : null\n            }\n          </ListBox.ItemIndicator>\n        </ListBox.Item>\n      </ListBox>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "list-box-render-function",
+   "source": "apps/docs/src/demos/en/list-box/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Avatar, Description, Label, ListBox} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <ListBox\n      aria-label=\"Users\"\n      className=\"w-[220px]\"\n      render={(props) => <div {...props} data-custom=\"true\" />}\n      selectionMode=\"single\"\n    >\n      <ListBox.Item\n        id=\"1\"\n        render={(props) => <span {...props} data-custom=\"foo\" />}\n        textValue=\"Bob\"\n      >\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Bob\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n          />\n          <Avatar.Fallback>B</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Bob</Label>\n          <Description>bob@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n      <ListBox.Item\n        id=\"2\"\n        render={(props) => <span {...props} data-custom=\"bar\" />}\n        textValue=\"Fred\"\n      >\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Fred\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n          />\n          <Avatar.Fallback>F</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Fred</Label>\n          <Description>fred@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n      <ListBox.Item\n        id=\"3\"\n        render={(props) => <span {...props} data-custom=\"baz\" />}\n        textValue=\"Martha\"\n      >\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Martha\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\"\n          />\n          <Avatar.Fallback>M</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Martha</Label>\n          <Description>martha@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n    </ListBox>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "list-box-custom-styles",
+   "source": "apps/docs/src/demos/en/list-box/custom-styles.tsx",
+   "code": "import {Avatar, Description, Label, ListBox} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <ListBox\n      aria-label=\"Assignee\"\n      className=\"w-56 rounded-xl border border-border/80 bg-surface p-1 shadow-sm\"\n      selectionMode=\"single\"\n    >\n      <ListBox.Item\n        className=\"rounded-lg data-[focused=true]:bg-accent/10 data-[selected=true]:bg-accent/5\"\n        id=\"1\"\n        textValue=\"Bob\"\n      >\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Bob\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\"\n          />\n          <Avatar.Fallback>B</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Bob</Label>\n          <Description>bob@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n      <ListBox.Item\n        className=\"rounded-lg data-[focused=true]:bg-accent/10 data-[selected=true]:bg-accent/5\"\n        id=\"2\"\n        textValue=\"Fred\"\n      >\n        <Avatar size=\"sm\">\n          <Avatar.Image\n            alt=\"Fred\"\n            src=\"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\"\n          />\n          <Avatar.Fallback>F</Avatar.Fallback>\n        </Avatar>\n        <div className=\"flex flex-col\">\n          <Label>Fred</Label>\n          <Description>fred@heroui.com</Description>\n        </div>\n        <ListBox.ItemIndicator />\n      </ListBox.Item>\n    </ListBox>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "ListBox",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label for the listbox",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:161"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of element that labels the listbox",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:162"
+    ],
+    [
+     "`selectionMode`",
+     "`\"none\" | \"single\" | \"multiple\"`",
+     "`\"single\"`",
+     "Selection behavior",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:163"
+    ],
+    [
+     "`selectedKeys`",
+     "`Selection`",
+     "-",
+     "Controlled selected keys",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:164"
+    ],
+    [
+     "`defaultSelectedKeys`",
+     "`Selection`",
+     "-",
+     "Initial selected keys",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:165"
+    ],
+    [
+     "`onSelectionChange`",
+     "`(keys: Selection) => void`",
+     "-",
+     "Handler called when selection changes",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:166"
+    ],
+    [
+     "`disabledKeys`",
+     "`Iterable<Key>`",
+     "-",
+     "Keys of disabled items",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:167"
+    ],
+    [
+     "`onAction`",
+     "`(key: Key) => void`",
+     "-",
+     "Handler called when an item is activated",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:168"
+    ],
+    [
+     "`variant`",
+     "`\"default\" | \"danger\"`",
+     "`\"default\"`",
+     "Visual variant",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:169"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:170"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "ListBox items and sections",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:171"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, ListBoxRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:172"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:157",
+   "section": "API Reference"
+  },
+  {
+   "name": "ListBox.Item",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`id`",
+     "`Key`",
+     "-",
+     "Unique identifier for the item",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:178"
+    ],
+    [
+     "`textValue`",
+     "`string`",
+     "-",
+     "Text value for accessibility and typeahead",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:179"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether this item is disabled",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:180"
+    ],
+    [
+     "`variant`",
+     "`\"default\" | \"danger\"`",
+     "`\"default\"`",
+     "Visual variant",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:181"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:182"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Item content or render function",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:183"
+    ],
+    [
+     "`render`",
+     "`(props: DetailedHTMLProps<LinkWithRequiredHref, HTMLAnchorElement> | React.JSX.IntrinsicElements[keyof React.JSX.IntrinsicElements], renderProps: ListBoxItemRenderProps) => ReactElement`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:184"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:174",
+   "section": "API Reference"
+  },
+  {
+   "name": "ListBox.ItemIndicator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:190"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Custom indicator content or render function",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:191"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:186",
+   "section": "API Reference"
+  },
+  {
+   "name": "ListBox.Section",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:197"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Section content including Header and Items",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:198"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:193",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isSelected`",
+     "`boolean`",
+     "Whether the item is selected",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:206"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the item is focused",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:207"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the item is disabled",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:208"
+    ],
+    [
+     "`isPressed`",
+     "`boolean`",
+     "Whether the item is being pressed",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:209"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:200",
+   "section": "API Reference"
+  },
+  {
+   "name": "ListLayout",
+   "columns": [
+    "Name",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`rowHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a row in px.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:215"
+    ],
+    [
+     "`estimatedRowHeight`",
+     "`number | undefined`",
+     "—",
+     "The estimated height of a row, when row heights are variable.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:216"
+    ],
+    [
+     "`headingHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a section header in px.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:217"
+    ],
+    [
+     "`estimatedHeadingHeight`",
+     "`number | undefined`",
+     "—",
+     "The estimated height of a section header, when the height is variable.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:218"
+    ],
+    [
+     "`loaderHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a loader element in px. This loader is specifically for \"load more\" elements rendered when loading more rows at the root level or inside nested row/sections.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:219"
+    ],
+    [
+     "`dropIndicatorThickness`",
+     "`number | undefined`",
+     "2",
+     "The thickness of the drop indicator.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:220"
+    ],
+    [
+     "`gap`",
+     "`number | undefined`",
+     "0",
+     "The gap between items.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:221"
+    ],
+    [
+     "`padding`",
+     "`number | undefined`",
+     "0",
+     "The padding around the list.",
+     "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:222"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:211",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`selectionMode`",
+   "prop": "selectionMode",
+   "values": [
+    "none",
+    "single",
+    "multiple"
+   ],
+   "other": [],
+   "default": "`\"single\"`",
+   "owner": "ListBox",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:163"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "default",
+    "danger"
+   ],
+   "other": [],
+   "default": "`\"default\"`",
+   "owner": "ListBox",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:169"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "default",
+    "danger"
+   ],
+   "other": [],
+   "default": "`\"default\"`",
+   "owner": "ListBox.Item",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:181"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ListBox.Item",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:183"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ListBox.ItemIndicator",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(collections)/list-box.mdx:191"
+  }
+ ]
+}

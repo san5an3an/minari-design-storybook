@@ -1,0 +1,178 @@
+{
+  "slug": "list",
+  "title": "List",
+  "lead": "The List is a component for rendering set of vertically stacked items (other layouts are being discussed). These items can be focusable, selectable, have one primary action and one or more secondary actions.\n\nThere are 2 basic use cases for List, based on the elements it contains:\n\n(TL;DR at the end)\n\n## Non-interactive list\n\nA simple list with non-interactive elements inside of it. Imagine a list of ingredients for a dish or a list of requirements for a project.\n\nGenerally these items would not be focusable, since they don't provide any actions.\n\n## Interactive lists\n\nAn interactive list is a List where each of its items has at least one action attached to it. Imagine a list of emails (clicking will open in), a list of contacts (clicking will open a conversation) or a list of installed apps (clicking will open it's details.)\n\nTo make the list interactive and navigable, the `navigationMode` should can be passed. Proper accessibility roles and keyboard navigation is used based on the navigation mode `items` or `composite`. More on this later.\n\n### Adding an action\n\nTo add an action on the List Item, use `onAction` callback, which will be called when user clicks the list item,\npresses `Enter` or `Space` (when selection is not enabled).\n\nUsing the `onAction` callback instead of `onClick` has multiple advantages, namely:\n\n- you get the support of `Enter` and `Space` key for free\n- when selection is enabled, only `Enter` triggers the action, and `Space` toggles selection\n\n### Selection\n\nSelection is a common feature for single and multi action list items. It's behavior is consistent across both use scenarios. Selection can be enabled by passing `selectionMode` property to the `List`.\n\n**Selection can be toggled by clicking the checkbox or pressing `Space` on selected list item.**\n\nWhen selection is enabled, the **selection is also the primary action** of the list item, which can be **triggered by mouse click or Enter**.\n\nThis behavior for Enter and click can be overriden by passing a custom `onAction` where `event.preventDefault()` is called and custom primary action can be triggered.\nIn this case, `Space` will still be used to toggle selection, but `Enter` and `click` will trigger the custom action.\n\n**The `navigationMode` in case the selection is enabled defaults to `items`. If there are focusable elements inside each list item, make sure to change this to `composite` to get proper accessibility and keyboard navigation.**\n\nThe interactive lists can then be further divided into 2 different categories. The selection behavior is common for both of these.\n\n### List items with a single action\n\nA list item with single action is a list item which doesn't contain any focusable child elements. It can be selectable.\n\nTo ensure proper keyboard navigation and accessibility roles, pass the `navigationMode=\"items\"` prop to the `List` This way the items will be made focusable and user will be able to navigate with up and down arrows.\n\n### List items with multiple actions\n\nIf the list needs to support more than single click action, you can render additional focusable elements inside of the List Item.\n\nTo tell the List component that it should enable navigation inside of the items, pass the `navigationMode=\"composite\"` property to it.\n\nThis makes sure the list is navigable with up and down arrows and user can enter the group (`ListItem`) to select the action they want to take with the list. It also switches the default roles to `grid` and `row`.\n\n**When multiple actions are present on the list item, the list item roles should be `grid`, and `row` (this is automatic when `navigationMode=\"composite\"` is passed). You also need to make sure each direct child of the `ListItem` component has a role `gridcell` to adhere to the a11y roles used.** You will get a warning in the console during development if this requirement is not fulfilled.\n\nWhen List has multiple actions inside of the list item, the user can press **left and right arrow keys** to navigate inside of the list item. Pressing **up and down** arrow keys will move focus to the previous/next immediate list item.\n\n**To summarize the navigation patterns:**\n\nIn the most complex scenario, user will be navigating a **selectable** list with a **custom primary action** and multiple **secondary actions**.\n\n- When a list item is focused:\n  - `Space` toggles the selection\n  - `Enter` triggers the primary action\n  - `Up/Down arrows` arrows move to previous/next list item\n  - `Right arrow` enters the first focusable element **inside** the current list item\n  - `Tab` goes to the next focusable item after the List\n- When one of the element inside of the list item is focused:\n  - `Up/Down arrows` moves focus to the previous/next list item\n  - `Left/Rigth arrows` navigate among the secondary options in the list item. If the leftmost item is focused already and left arrow key is pressed, the parent list item is focused.\n  - `Esc` focuses the parent list item\n\n## TL;DR\n\n- Use `navigationMode` prop to enable focusability of items and keyboard navigation\n- Keyboard navigation and proper accessibility roles are inferred from the `navigationMode` prop:\n  - `undefined` - no focusable items, no keyboard navigation, roles are `listitem` and `list`.\n  - `items` - items are focusable, up and down arrow keys navigate between them. Default role is `list` and `listitem`, when selection is enabled, it is `listbox` and `option`.\n  - `composite` - use when there are other focusable elements inside of the list items. This enables up/down arrow keys to move between items and right/left arrow keys to focus on the items inside.\n    - composite navigation switches to role `grid` and `row`. **It is important for each direct child of `ListItem` in this case to have `gridcell` role, otherwise the screen readers get confused.**\n- use `onAction` instead of `onClick` callback to register `click` mouse event and `Enter` / `Space` keyboard events\n- Selection can be enabled with `selectionMode` property. When selectionMode is enabled, the List automatically behaves as if it was passed `navigationMode=\"single` and this doesn't have to be passed. Do not forget to set this to `composite`, if there are focusable elements inside.\n- When Selection is enabled:\n  - `Spacebar` and checkbox `click` always toggle selection\n  - `Enter` and list item `click` toggle selection unless this behavior has been prevented in the `onAction` callback",
+  "leadFormat": "md",
+  "group": "Components",
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-list--docs",
+  "docSource": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/index.stories.tsx",
+  "examples": [
+    {
+      "key": "Default",
+      "name": "Default",
+      "axis": "Stories",
+      "kind": "example",
+      "description": null,
+      "descFormat": null,
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/ListDefault.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "SingleAction",
+      "name": "Single Action",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "When the list item should have a custom primary action on it, you can pass the `onAction` prop to the `ListItem` component.\nThis callback will also be automatically called when the user presses the Enter or Space key on the list item.\n\nTo learn more about what event triggered the action, you can check the `event.details.originalEvent`.\n\nTo enable keyboard navigation between the list items, the `navigationMode` prop should be set to `items`.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/SingleAction.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "SingleActionSelection",
+      "name": "Single Action Selection",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "Any List can be selectable. You have an option to control the selection state yourself or let the List manage it for you.\n\nYou can pass `selectionMode` prop with value \"single\" or \"multiselect\" to the List component to get support for selection.\nThe items can be toggled by clicking on the list item, or pressing `Spacebar` or `Enter` when the item is focused. Keyboard navigation is automatically enabled and `navigationMode` is set to `items`.\n\nAlso this example only has one action in the list item, and it's for toggling the selection. The roles for this one are listbox and option.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/SingleActionSelection.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "SingleActionSelectionControlled",
+      "name": "Single Action Selection Controlled",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "This example shows how to use the `selectedItems` and `onSelectionChange`\nprops to control the selection state of the List and keep track of it in the parent component.\n\nThis is more in line with how we expect the selection to be used in production environment.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/SingleActionSelectionControlled.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "SingleActionSelectionDifferentPrimary",
+      "name": "Single Action Selection Different Primary",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "This example is similar to the previous one, but it implements a custom primary action on `ListItem`,\nallowing us to trigger a\n__different action than the selection when the user clicks on the list item or presses Enter__\n. This is useful when you want to have a primary action on the list item, but still want \nto allow the user to select it.\n\nTo change the default action on the `ListItem` (when user clicks on it or presses Enter), you can use the\n`onAction` prop. By calling `event.preventDefault()` in the `onAction` callback, you can prevent the default\naction (toggling the selection) from happening. This way, you can perform a completely custom action.\nIn this example, the custom action is an alert that triggers when the user\nclicks on the list item or presses Enter.\n\n__The selection can still be toggled by clicking on the checkbox or pressing `Space` when the item is focused.__",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/SingleActionSelectionDifferentPrimary.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "MultipleActionsWithPrimary",
+      "name": "Multiple Actions With Primary",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "Base item with multiple actions. Doesn't support selection, but the list items have a primary action \nthat can be triggered by clicking on the item or pressing Enter.\n\n__To make the navigation work properly, the `navigationMode` prop should be set to `composite`.__\nThis will allow the user to navigate inside of the list items by pressing the `Right Arrow` key.\nIt also sets the `grid` role automatically to the list.\n\n> ⚠️ _In cases where `grid` role is used, it is important that every direct children of `ListItem`_\n_has role `gridcell`. Also each focusable item should be in its own \"gridcell\". This makes sure the _\n_screen readers work properly._",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/MultipleActionsWithPrimary.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "MultipleActionsSelection",
+      "name": "Multiple Actions Selection",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "Item with multiple actions. It has selection enabled, which is also it's primary action.\nThe selection can be toggled by clicking on the item or pressing the `Space` key.\n\nBecause the selection is the action on the item, to properly narrate the state of selection\nwe are using the role grid / row / gridcell here to properly announce when the selection on the\nitem is toggled.\n\nTo enable the user to navigate inside of the list items by pressing the `RightArrow` key,\nthe `navigationMode` prop should be set to `composite`.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/MultipleActionsSelection.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "MultipleActionsDifferentPrimary",
+      "name": "Multiple Actions Different Primary",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "Similar to previous example, but this one implements a custom `onAction` prop on the `ListItem`, \nallowing us to trigger a different action than the selection when the user clicks \non the list item or presses Enter.\n\nThe primary action can be triggered by clicking on the list item or pressing `Enter`.\n\nThe selection can be toggled by clicking on the checkbox or pressing `Space` when the item is focused.\n\nTo focus on the secondary actions, you can navigate between them by using left and right arrows.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/MultipleActionsDifferentPrimary.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "VirtualizedList",
+      "name": "Virtualized List",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "When creating a list of large size, one way of making sure you are getting the best performance\nis to use virtualization. In this example we are leveraging the `react-window` package.\n\nPlease note that if the virtualized list contains non-actionable list items, scrolling should be achieved\nby using the `tabIndex={0}` property on the List.\n\n> ⚠️ _It is important to manually set `aria-setsize` and `aria-posinset` attributes on the list items, since_\n_the virualization will only render the visible items. Relying on the DOM state for these attributes will not work._",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/VirtualizedList.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "VirtualizedListWithActionableItems",
+      "name": "Virtualized List With Actionable Items",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "Virtualized list can also be used with interactive elements.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/VirtualizedListWithActionableItems.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    },
+    {
+      "key": "ListActiveElement",
+      "name": "List Active Element",
+      "axis": "Stories",
+      "kind": "example",
+      "description": "You can use selection and custom styles to show the active element in a different way. This is useful for scenarios where you want to show the details of the selected item, for example.\n\nIn this example, we are also demonstrating how the `onFocus` prop can be utilized to change the selected item immediately upon receiving focus. This allows us to show the details of the selected item in the right panel as user navigates through the list with the keyboard.",
+      "descFormat": "md",
+      "source": "microsoft/fluentui@@fluentui/react-components_v9.74.6:packages/react-components/react-list/stories/src/List/ListActiveElement.stories.tsx",
+      "stage": "inline",
+      "iframeHeight": null,
+      "providerProps": null,
+      "args": null
+    }
+  ],
+  "emptyReason": null,
+  "master": {
+    "rule": "official-mark",
+    "key": null,
+    "reason": "공식 기본 예제 「Default」를 세우지 못했어요 — 이 컴포넌트의 공식 index.stories.tsx 가 함께 부르는 파일이 미설치 패키지를 불러요 — react-window (packages/react-components/react-list/stories/src/List/VirtualizedListWithActionableItems.stories.tsx)"
+  },
+  "prose": [
+    {
+      "title": null,
+      "text": "## Best practices\n\n### Do\n\n- Use `tabIndex={0}` property on the `List` where the items have no actionable elements inside.\n- Use `navigationMode=\"items\"` property on the `ListItem` when the list items should be focusable.\n- Use `navigationMode=\"composite\"` property on the `ListItem` when the list items should be and there are other focusable elements inside of them.\n- use `onAction` callback to register primary action (click or `Enter` key)\n- Use `aria-label` property on the `ListItem` for custom screen reader label.\n- Rely on default accessibility roles, which are switched based on the `navigationMode` prop.\n- When `navigationMode` is `composite`, wrap each interactive item in `ListItem` in its own element with `role=\"gridcell\"`.\n\n### Don't\n\n- Don't use `tabIndex` on the `ListItem`, use `navigationMode` to get proper accessibility and keyboard navigation.\n- Don't use `navigationMode` on the `ListItem` if the list items have zero actionable elements, use `tabIndex={0}` on the `List` instead.\n  This way the list itself is focusable and users can scroll by using up and down arrows after focusing it.\n- Don't use `onClick` for the list action, use `onAction` instead which adds automatic support for `Enter` and `Spacebar` keys\n  and works well with selection (`Enter`/`click` triggers the `onAction` callback, `Space` or checkbox click trigger selection)",
+      "format": "md"
+    }
+  ],
+  "parts": {
+    "presence": "absent-in-official",
+    "columns": [],
+    "rows": []
+  },
+  "api": {
+    "presence": "not-imported",
+    "reason": "공식 API 표는 storybook 이 빌드할 때 만드는 docgen(`__docgenInfo`)으로 그려져 저장소에 원천 파일이 없어요 — 타입 선언(d.ts)에서 뽑을지는 판정 대기예요.",
+    "tables": []
+  },
+  "tokenGroup": null
+}

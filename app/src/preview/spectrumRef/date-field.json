@@ -1,0 +1,105 @@
+{
+  "slug": "date-field",
+  "title": "DateField",
+  "group": "Date and Time",
+  "heading": "DateField",
+  "description": null,
+  "sharedImports": "import {DateField} from '@react-spectrum/datepicker';\nimport {Flex} from '@react-spectrum/layout';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<DateField label=\"Event date\" />"
+    },
+    {
+      "name": "Value",
+      "code": "import {parseDate} from '@internationalized/date';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseDate('2020-02-03'));\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <DateField\n        label=\"Date (uncontrolled)\"\n        defaultValue={parseDate('2020-02-03')} />\n      <DateField\n        label=\"Date (controlled)\"\n        value={value}\n        onChange={setValue} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseZonedDateTime} from '@internationalized/date';\n\n<DateField\n  label=\"Event date\"\n  defaultValue={parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]')} />"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseAbsoluteToLocal} from '@internationalized/date';\n\n<DateField\n  label=\"Event date\"\n  defaultValue={parseAbsoluteToLocal('2021-11-07T07:45:00Z')}\n/>"
+    },
+    {
+      "name": "Granularity",
+      "code": "function Example() {\n  let [date, setDate] = React.useState(parseAbsoluteToLocal('2021-04-07T18:45:22Z'));\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <DateField\n        label=\"Date and time\"\n        granularity=\"second\"\n        value={date}\n        onChange={setDate} />\n      <DateField\n        label=\"Date\"\n        granularity=\"day\"\n        value={date}\n        onChange={setDate} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Granularity",
+      "code": "import {now} from '@internationalized/date';\n\n<Flex gap=\"size-150\" wrap>\n  <DateField\n    label=\"Event date\"\n    granularity=\"second\" />\n  <DateField\n    label=\"Event date\"\n    placeholderValue={now('America/New_York')}\n    granularity=\"second\" />\n</Flex>"
+    },
+    {
+      "name": "International calendars",
+      "code": "import {Provider} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(null);\n  return (\n    <Provider locale=\"hi-IN-u-ca-indian\">\n      <DateField label=\"Date\" value={date} onChange={setDate} />\n      <p>Selected date: {date?.toString()}</p>\n    </Provider>\n  );\n}"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<DateField label=\"Birth date\" name=\"birthday\" />"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Flex gap=\"size-150\" wrap>\n  <DateField label=\"Birth date\" />\n  <DateField label=\"Birth date\" isRequired necessityIndicator=\"icon\" />\n  <DateField label=\"Birth date\" isRequired necessityIndicator=\"label\" />\n  <DateField label=\"Birth date\" necessityIndicator=\"label\" />\n</Flex>"
+    },
+    {
+      "name": "Events",
+      "code": "import {getLocalTimeZone} from '@internationalized/date';\nimport {useDateFormatter} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(parseDate('1985-07-03'));\n  let formatter = useDateFormatter({dateStyle: 'full'});\n\n  return (\n    <>\n      <DateField label=\"Birth date\" value={date} onChange={setDate} />\n      <p>Selected date: {date ? formatter.format(date.toDate(getLocalTimeZone())): '--'}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <DateField label=\"Appointment date\" name=\"date\" isRequired />\n  {/*- end highlight -*/}\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Minimum and maximum values",
+      "code": "import {today} from '@internationalized/date';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  <DateField\n    label=\"Appointment date\"\n    /*- begin highlight -*/\n    minValue={today(getLocalTimeZone())}\n    /*- end highlight -*/\n    defaultValue={parseDate('2022-02-03')} />\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Custom validation",
+      "code": "import {isWeekend} from '@internationalized/date';\nimport {useLocale} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let {locale} = useLocale();\n\n  return (\n    <Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n      <DateField\n        label=\"Appointment date\"\n        /*- begin highlight -*/\n        validate={date => date && isWeekend(date, locale) ? 'We are closed on weekends.' : null}\n        /*- end highlight -*/\n        defaultValue={parseDate('2023-10-28')} />\n      <ButtonGroup>\n        <Button type=\"submit\" variant=\"primary\">Submit</Button>\n        <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n      </ButtonGroup>\n    </Form>\n  );\n}"
+    },
+    {
+      "name": "Quiet",
+      "code": "<DateField label=\"Birth date\" isQuiet />"
+    },
+    {
+      "name": "Disabled",
+      "code": "<DateField label=\"Birth date\" isDisabled />"
+    },
+    {
+      "name": "Read only",
+      "code": "<DateField label=\"Birth date\" value={today(getLocalTimeZone())} isReadOnly />"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<DateField label=\"Birth date\" labelPosition=\"side\" labelAlign=\"end\" />"
+    },
+    {
+      "name": "Help text",
+      "code": "<Flex gap=\"size-100\" wrap>\n  <DateField label=\"Date\" defaultValue={today(getLocalTimeZone())} validationState=\"valid\" description=\"Select a meeting date.\" />\n  <DateField label=\"Date\" validationState=\"invalid\" errorMessage=\"Empty input is not allowed.\" />\n</Flex>"
+    },
+    {
+      "name": "Help text",
+      "code": "<DateField label=\"Birth date\" showFormatHelpText />"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<DateField\n  label=\"Appointment date\"\n  contextualHelp={\n    <ContextualHelp variant=\"info\">\n      <Heading>Appointment changes</Heading>\n      <Content>Your appointment date cannot be changed once it is scheduled.</Content>\n    </ContextualHelp>\n  } />"
+    },
+    {
+      "name": "Placeholder value",
+      "code": "import {CalendarDate} from '@internationalized/date';\n\n<DateField label=\"Birth date\" placeholderValue={new CalendarDate(1980, 1, 1)} />"
+    },
+    {
+      "name": "Hide time zone",
+      "code": "<DateField\n  label=\"Appointment time\"\n  defaultValue={parseZonedDateTime('2022-11-07T10:45[America/Los_Angeles]')}\n  hideTimeZone />"
+    },
+    {
+      "name": "Hour cycle",
+      "code": "<DateField\n  label=\"Appointment time\"\n  granularity=\"minute\"\n  hourCycle={24} />"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/datepicker/DateField.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/DateField.html"
+}

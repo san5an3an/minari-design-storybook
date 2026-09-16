@@ -1,0 +1,263 @@
+{
+ "slug": "date-picker",
+ "title": "DatePicker",
+ "description": "Composable date picker built on React Aria DatePicker with DateField and Calendar composition",
+ "group": "Date And Time",
+ "links": {
+  "rac": "DatePicker",
+  "sourceFile": "date-picker/date-picker.tsx",
+  "styles": "date-picker.css",
+  "storybook": "Components/Date and Time/DatePicker",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { DatePicker, DateField, Calendar, Label } from '@heroui/react';\n```\n\n<ComponentPreview name=\"date-picker-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:13"
+  },
+  {
+   "name": "Anatomy",
+   "body": "`DatePicker` follows a composition-first API. Compose `DateField` and `Calendar` explicitly to control structure and styling.\n\n```tsx\nimport {Calendar, DateField, DatePicker, Label} from '@heroui/react';\n\nexport default () => (\n  <DatePicker>\n    <Label />\n    <DateField.Group>\n      <DateField.Input>\n        {(segment) => <DateField.Segment segment={segment} />}\n      </DateField.Input>\n      <DateField.Suffix>\n        <DatePicker.Trigger>\n          <DatePicker.TriggerIndicator />\n        </DatePicker.Trigger>\n      </DateField.Suffix>\n    </DateField.Group>\n    <DatePicker.Popover>\n      <Calendar aria-label=\"Choose date\">\n        <Calendar.Header>\n          <Calendar.YearPickerTrigger>\n            <Calendar.YearPickerTriggerHeading />\n            <Calendar.YearPickerTriggerIndicator />\n          </Calendar.YearPickerTrigger>\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n    </DatePicker.Popover>\n  </DatePicker>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:21"
+  },
+  {
+   "name": "Examples",
+   "body": "### Disabled\n\n<ComponentPreview name=\"date-picker-disabled\" />\n\n### Controlled\n\n<ComponentPreview name=\"date-picker-controlled\" />\n\n### Validation\n\n<ComponentPreview name=\"date-picker-with-validation\" />\n\n### Format Options\n\nControl how DatePicker values are displayed with props such as `granularity`, `hourCycle`, `hideTimeZone`, and `shouldForceLeadingZeros`.\n\n<ComponentPreview name=\"date-picker-format-options\" />\n\n### Form Example\n\n<ComponentPreview name=\"date-picker-form-example\" />\n\n### Custom Indicator\n\n`DatePicker.TriggerIndicator` renders the default `IconCalendar` when no children are provided. Pass children to replace it.\n\n<ComponentPreview name=\"date-picker-with-custom-indicator\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"date-picker-render-function\"\n/>\n\n### International Calendar\n\nBy default, DatePicker displays dates using the calendar system for the user's locale. You can override this by wrapping your DatePicker with `I18nProvider` and setting the [Unicode calendar locale extension](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar#adding_a_calendar_in_the_locale_string).\n\nThe example below shows the Indian calendar system:\n\n<ComponentPreview name=\"date-picker-international-calendar\" />\n\n**Note:** The `onChange` event always returns a date in the same calendar system as the `value` or `defaultValue` (Gregorian if no value is provided), regardless of the displayed locale. This ensures your application logic works consistently with a single calendar system while still displaying dates in the user's preferred format.\n\nFor a complete list of supported calendar systems and their identifiers, see:\n- [React Aria Calendar Implementations](https://react-aria.adobe.com/internationalized/date/Calendar#implementations)\n- [React Aria International Calendars](https://react-aria.adobe.com/Calendar#international-calendars)",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:63"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"date-picker-custom-styles\" />\n\n### Global CSS\n\nTo customize DatePicker base classes, use `@layer components`.\n\n```css\n@layer components {\n  .date-picker {\n    @apply inline-flex flex-col gap-1;\n  }\n\n  .date-picker__trigger {\n    @apply inline-flex items-center justify-between;\n  }\n\n  .date-picker__trigger-indicator {\n    @apply text-muted;\n  }\n\n  .date-picker__popover {\n    @apply min-w-[var(--trigger-width)] p-0;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:113"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows [BEM](https://getbem.com/) naming for reusable customization.\n\n### CSS Classes\n\nDatePicker uses these classes in `packages/styles/components/date-picker.css`:\n\n- `.date-picker` - Root wrapper.\n- `.date-picker__trigger` - Trigger part that opens the popover.\n- `.date-picker__trigger-indicator` - Default/custom indicator slot.\n- `.date-picker__popover` - Popover content wrapper.\n\n### Interactive States\n\nDatePicker supports React Aria data attributes and pseudo states:\n\n- **Open**: `[data-open=\"true\"]` on trigger.\n- **Disabled**: `[data-disabled=\"true\"]` or `[aria-disabled=\"true\"]` on trigger.\n- **Focus visible**: `:focus-visible` or `[data-focus-visible=\"true\"]` on trigger.\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` on trigger.",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:143"
+  },
+  {
+   "name": "API Reference",
+   "body": "### DatePicker\n\nDatePicker inherits all props from React Aria [DatePicker](https://react-aria.adobe.com/DatePicker.md).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `DateValue \\| null` | - | Controlled selected date value. |\n| `defaultValue` | `DateValue \\| null` | - | Default selected value in uncontrolled mode. |\n| `onChange` | `(value: DateValue \\| null) => void` | - | Called when selected date changes. |\n| `isOpen` | `boolean` | - | Controlled popover open state. |\n| `defaultOpen` | `boolean` | `false` | Initial popover open state. |\n| `onOpenChange` | `(isOpen: boolean) => void` | - | Called when popover open state changes. |\n| `isDisabled` | `boolean` | `false` | Disables date selection and trigger interactions. |\n| `isInvalid` | `boolean` | - | Marks the field as invalid for validation state. |\n| `minValue` | `DateValue` | - | Minimum selectable date. |\n| `maxValue` | `DateValue` | - | Maximum selectable date. |\n| `name` | `string` | - | Name used for HTML form submission. |\n| `children` | `ReactNode \\| (values: DatePickerRenderProps) => ReactNode` | - | Composed content or render function. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, DatePickerRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Composition Parts\n\n| Component | Description |\n|-----------|-------------|\n| `DatePicker.Root` | Root date picker container and state owner. |\n| `DatePicker.Trigger` | Trigger button, usually rendered inside `DateField.Suffix`. |\n| `DatePicker.TriggerIndicator` | Indicator slot with default calendar icon. |\n| `DatePicker.Popover` | Popover wrapper for `Calendar` content. |\n\n### Related packages\n- [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) — date types (`CalendarDate`, `CalendarDateTime`, `ZonedDateTime`) and utilities used by all date components\n- [`I18nProvider`](https://react-aria.adobe.com/I18nProvider) — override locale for a subtree\n- [`useLocale`](https://react-aria.adobe.com/useLocale) — read the current locale and layout direction",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:165"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"datepicker\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:201"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "date-picker-basic",
+   "source": "apps/docs/src/demos/en/date-picker/basic.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Label} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <DatePicker className=\"w-72\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group fullWidth>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger>\n            <DatePicker.TriggerIndicator />\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <DatePicker.Popover>\n        <Calendar aria-label=\"Event date\">\n          <Calendar.Header>\n            <Calendar.YearPickerTrigger>\n              <Calendar.YearPickerTriggerHeading />\n              <Calendar.YearPickerTriggerIndicator />\n            </Calendar.YearPickerTrigger>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n          <Calendar.YearPickerGrid>\n            <Calendar.YearPickerGridBody>\n              {({year}) => <Calendar.YearPickerCell year={year} />}\n            </Calendar.YearPickerGridBody>\n          </Calendar.YearPickerGrid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "date-picker-disabled",
+   "source": "apps/docs/src/demos/en/date-picker/disabled.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Description, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\n\nexport function Disabled() {\n  return (\n    <DatePicker isDisabled className=\"w-72\" name=\"date\" value={today(getLocalTimeZone())}>\n      <Label>Date</Label>\n      <DateField.Group fullWidth>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger>\n            <DatePicker.TriggerIndicator />\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <Description>This date picker is disabled.</Description>\n      <DatePicker.Popover>\n        <Calendar aria-label=\"Event date\">\n          <Calendar.Header>\n            <Calendar.YearPickerTrigger>\n              <Calendar.YearPickerTriggerHeading />\n              <Calendar.YearPickerTriggerIndicator />\n            </Calendar.YearPickerTrigger>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n          <Calendar.YearPickerGrid>\n            <Calendar.YearPickerGridBody>\n              {({year}) => <Calendar.YearPickerCell year={year} />}\n            </Calendar.YearPickerGridBody>\n          </Calendar.YearPickerGrid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "date-picker-controlled",
+   "source": "apps/docs/src/demos/en/date-picker/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Button, Calendar, DateField, DatePicker, Description, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = useState<DateValue | null>(today(getLocalTimeZone()));\n\n  return (\n    <div className=\"flex w-72 flex-col gap-4\">\n      <DatePicker name=\"date\" value={value} onChange={setValue}>\n        <Label>Date</Label>\n        <DateField.Group fullWidth>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n          <DateField.Suffix>\n            <DatePicker.Trigger>\n              <DatePicker.TriggerIndicator />\n            </DatePicker.Trigger>\n          </DateField.Suffix>\n        </DateField.Group>\n        <DatePicker.Popover>\n          <Calendar aria-label=\"Event date\">\n            <Calendar.Header>\n              <Calendar.YearPickerTrigger>\n                <Calendar.YearPickerTriggerHeading />\n                <Calendar.YearPickerTriggerIndicator />\n              </Calendar.YearPickerTrigger>\n              <Calendar.NavButton slot=\"previous\" />\n              <Calendar.NavButton slot=\"next\" />\n            </Calendar.Header>\n            <Calendar.Grid>\n              <Calendar.GridHeader>\n                {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n              </Calendar.GridHeader>\n              <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n            </Calendar.Grid>\n            <Calendar.YearPickerGrid>\n              <Calendar.YearPickerGridBody>\n                {({year}) => <Calendar.YearPickerCell year={year} />}\n              </Calendar.YearPickerGridBody>\n            </Calendar.YearPickerGrid>\n          </Calendar>\n        </DatePicker.Popover>\n      </DatePicker>\n      <Description>Current value: {value ? value.toString() : \"(empty)\"}</Description>\n      <div className=\"flex gap-2\">\n        <Button variant=\"tertiary\" onPress={() => setValue(today(getLocalTimeZone()))}>\n          Set today\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(null)}>\n          Clear\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "date-picker-with-validation",
+   "source": "apps/docs/src/demos/en/date-picker/with-validation.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Calendar, DateField, DatePicker, FieldError, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function WithValidation() {\n  const [value, setValue] = useState<DateValue | null>(null);\n  const currentDate = today(getLocalTimeZone());\n  const isInvalid = value != null && value.compare(currentDate) < 0;\n\n  return (\n    <DatePicker\n      isRequired\n      className=\"w-72\"\n      isInvalid={isInvalid}\n      minValue={currentDate}\n      name=\"date\"\n      value={value}\n      onChange={setValue}\n    >\n      <Label>Appointment date</Label>\n      <DateField.Group fullWidth>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger>\n            <DatePicker.TriggerIndicator />\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <FieldError>Date must be today or in the future.</FieldError>\n      <DatePicker.Popover>\n        <Calendar aria-label=\"Event date\">\n          <Calendar.Header>\n            <Calendar.YearPickerTrigger>\n              <Calendar.YearPickerTriggerHeading />\n              <Calendar.YearPickerTriggerIndicator />\n            </Calendar.YearPickerTrigger>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n          <Calendar.YearPickerGrid>\n            <Calendar.YearPickerGridBody>\n              {({year}) => <Calendar.YearPickerCell year={year} />}\n            </Calendar.YearPickerGridBody>\n          </Calendar.YearPickerGrid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  },
+  {
+   "name": "Format Options",
+   "section": "Examples",
+   "key": "date-picker-format-options",
+   "source": "apps/docs/src/demos/en/date-picker/format-options.tsx",
+   "code": "\"use client\";\n\nimport type {TimeValue} from \"@heroui/react\";\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {\n  Calendar,\n  DateField,\n  DatePicker,\n  Label,\n  ListBox,\n  Select,\n  Switch,\n  TimeField,\n} from \"@heroui/react\";\nimport {getLocalTimeZone, parseDate, parseZonedDateTime} from \"@internationalized/date\";\nimport {useMemo, useState} from \"react\";\n\ntype Granularity = \"day\" | \"hour\" | \"minute\" | \"second\";\ntype HourCycle = 12 | 24;\nconst granularityOptions: {label: string; value: Granularity}[] = [\n  {label: \"Day\", value: \"day\"},\n  {label: \"Hour\", value: \"hour\"},\n  {label: \"Minute\", value: \"minute\"},\n  {label: \"Second\", value: \"second\"},\n];\nconst hourCycleOptions: {label: string; value: HourCycle}[] = [\n  {label: \"12-hour\", value: 12},\n  {label: \"24-hour\", value: 24},\n];\n\nexport function FormatOptions() {\n  const [granularity, setGranularity] = useState<Granularity>(\"minute\");\n  const [hourCycle, setHourCycle] = useState<HourCycle>(12);\n  const [hideTimeZone, setHideTimeZone] = useState(false);\n  const [shouldForceLeadingZeros, setShouldForceLeadingZeros] = useState(false);\n  const timeGranularity = granularity !== \"day\" ? granularity : undefined;\n  const showTimeField = !!timeGranularity;\n  const defaultValue = useMemo<DateValue>(() => {\n    const localTimeZone = getLocalTimeZone();\n\n    if (granularity === \"day\") {\n      return parseDate(\"2026-02-03\");\n    }\n\n    return parseZonedDateTime(`2026-02-03T08:45:00[${localTimeZone}]`);\n  }, [granularity]);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <DatePicker\n        key={granularity}\n        className=\"w-fit min-w-72\"\n        defaultValue={defaultValue}\n        granularity={granularity}\n        hideTimeZone={hideTimeZone}\n        hourCycle={hourCycle}\n        name=\"date\"\n        shouldForceLeadingZeros={shouldForceLeadingZeros}\n      >\n        {({state}) => (\n          <>\n            <Label>Date and time</Label>\n            <DateField.Group fullWidth>\n              <DateField.Input>\n                {(segment) => <DateField.Segment segment={segment} />}\n              </DateField.Input>\n              <DateField.Suffix>\n                <DatePicker.Trigger>\n                  <DatePicker.TriggerIndicator />\n                </DatePicker.Trigger>\n              </DateField.Suffix>\n            </DateField.Group>\n            <DatePicker.Popover className=\"flex flex-col gap-3\">\n              <Calendar aria-label=\"Event date\">\n                <Calendar.Header>\n                  <Calendar.YearPickerTrigger>\n                    <Calendar.YearPickerTriggerHeading />\n                    <Calendar.YearPickerTriggerIndicator />\n                  </Calendar.YearPickerTrigger>\n                  <Calendar.NavButton slot=\"previous\" />\n                  <Calendar.NavButton slot=\"next\" />\n                </Calendar.Header>\n                <Calendar.Grid>\n                  <Calendar.GridHeader>\n                    {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n                  </Calendar.GridHeader>\n                  <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n                </Calendar.Grid>\n                <Calendar.YearPickerGrid>\n                  <Calendar.YearPickerGridBody>\n                    {({year}) => <Calendar.YearPickerCell year={year} />}\n                  </Calendar.YearPickerGridBody>\n                </Calendar.YearPickerGrid>\n              </Calendar>\n              {!!showTimeField && (\n                <div className=\"flex items-center justify-between\">\n                  <Label>Time</Label>\n                  <TimeField\n                    aria-label=\"Time\"\n                    granularity={timeGranularity}\n                    hideTimeZone={hideTimeZone}\n                    hourCycle={hourCycle}\n                    name=\"time\"\n                    shouldForceLeadingZeros={shouldForceLeadingZeros}\n                    value={state.timeValue}\n                    onChange={(v) => state.setTimeValue(v as TimeValue)}\n                  >\n                    <TimeField.Group variant=\"secondary\">\n                      <TimeField.Input>\n                        {(segment) => <TimeField.Segment segment={segment} />}\n                      </TimeField.Input>\n                    </TimeField.Group>\n                  </TimeField>\n                </div>\n              )}\n            </DatePicker.Popover>\n          </>\n        )}\n      </DatePicker>\n\n      <div className=\"flex flex-wrap gap-4\">\n        <div className=\"flex flex-col gap-1\">\n          <Select\n            className=\"w-[120px]\"\n            value={granularity}\n            variant=\"secondary\"\n            onChange={(value) => setGranularity(value as Granularity)}\n          >\n            <Label>Granularity</Label>\n            <Select.Trigger>\n              <Select.Value />\n              <Select.Indicator />\n            </Select.Trigger>\n            <Select.Popover>\n              <ListBox>\n                {granularityOptions.map((option) => (\n                  <ListBox.Item key={option.value} id={option.value} textValue={option.label}>\n                    {option.label}\n                    <ListBox.ItemIndicator />\n                  </ListBox.Item>\n                ))}\n              </ListBox>\n            </Select.Popover>\n          </Select>\n        </div>\n\n        <div className=\"flex flex-col gap-1\">\n          <Select\n            className=\"w-[120px]\"\n            value={hourCycle}\n            variant=\"secondary\"\n            onChange={(value) => setHourCycle(Number(value) as HourCycle)}\n          >\n            <Label>Hour cycle</Label>\n            <Select.Trigger>\n              <Select.Value />\n              <Select.Indicator />\n            </Select.Trigger>\n            <Select.Popover>\n              <ListBox>\n                {hourCycleOptions.map((option) => (\n                  <ListBox.Item key={option.value} id={option.value} textValue={option.label}>\n                    {option.label}\n                    <ListBox.ItemIndicator />\n                  </ListBox.Item>\n                ))}\n              </ListBox>\n            </Select.Popover>\n          </Select>\n        </div>\n      </div>\n\n      <div className=\"flex min-w-80 flex-col gap-2\">\n        <Switch isSelected={hideTimeZone} onChange={setHideTimeZone}>\n          <Switch.Content>\n            <Switch.Control>\n              <Switch.Thumb />\n            </Switch.Control>\n            Hide timezone\n          </Switch.Content>\n        </Switch>\n        <Switch isSelected={shouldForceLeadingZeros} onChange={setShouldForceLeadingZeros}>\n          <Switch.Content>\n            <Switch.Control>\n              <Switch.Thumb />\n            </Switch.Control>\n            Force leading zeros\n          </Switch.Content>\n        </Switch>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "date-picker-form-example",
+   "source": "apps/docs/src/demos/en/date-picker/form-example.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {\n  Button,\n  Calendar,\n  DateField,\n  DatePicker,\n  Description,\n  FieldError,\n  Form,\n  Label,\n} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = useState<DateValue | null>(null);\n  const [isSubmitting, setIsSubmitting] = useState(false);\n  const currentDate = today(getLocalTimeZone());\n  const isInvalid = value != null && value.compare(currentDate) < 0;\n\n  const handleSubmit = (event: React.FormEvent) => {\n    event.preventDefault();\n\n    if (!value || isInvalid) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    setTimeout(() => {\n      setValue(null);\n      setIsSubmitting(false);\n    }, 1200);\n  };\n\n  return (\n    <Form className=\"flex w-72 flex-col gap-3\" onSubmit={handleSubmit}>\n      <DatePicker\n        isRequired\n        isInvalid={isInvalid}\n        minValue={currentDate}\n        name=\"appointmentDate\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Appointment date</Label>\n        <DateField.Group fullWidth>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n          <DateField.Suffix>\n            <DatePicker.Trigger>\n              <DatePicker.TriggerIndicator />\n            </DatePicker.Trigger>\n          </DateField.Suffix>\n        </DateField.Group>\n        {isInvalid ? (\n          <FieldError>Date must be today or in the future.</FieldError>\n        ) : (\n          <Description>Choose a valid appointment date.</Description>\n        )}\n        <DatePicker.Popover>\n          <Calendar aria-label=\"Event date\">\n            <Calendar.Header>\n              <Calendar.YearPickerTrigger>\n                <Calendar.YearPickerTriggerHeading />\n                <Calendar.YearPickerTriggerIndicator />\n              </Calendar.YearPickerTrigger>\n              <Calendar.NavButton slot=\"previous\" />\n              <Calendar.NavButton slot=\"next\" />\n            </Calendar.Header>\n            <Calendar.Grid>\n              <Calendar.GridHeader>\n                {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n              </Calendar.GridHeader>\n              <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n            </Calendar.Grid>\n            <Calendar.YearPickerGrid>\n              <Calendar.YearPickerGridBody>\n                {({year}) => <Calendar.YearPickerCell year={year} />}\n              </Calendar.YearPickerGridBody>\n            </Calendar.YearPickerGrid>\n          </Calendar>\n        </DatePicker.Popover>\n      </DatePicker>\n      <Button\n        className=\"w-full\"\n        isDisabled={!value || isInvalid}\n        isPending={isSubmitting}\n        type=\"submit\"\n      >\n        {isSubmitting ? \"Submitting...\" : \"Submit\"}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Indicator",
+   "section": "Examples",
+   "key": "date-picker-with-custom-indicator",
+   "source": "apps/docs/src/demos/en/date-picker/with-custom-indicator.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Description, Label} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\n\nexport function WithCustomIndicator() {\n  return (\n    <DatePicker className=\"w-72\" name=\"date\">\n      <Label>Date</Label>\n      <DateField.Group fullWidth>\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger>\n            <DatePicker.TriggerIndicator>\n              <Icon className=\"size-4\" icon=\"gravity-ui:chevron-down\" />\n            </DatePicker.TriggerIndicator>\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <Description>Replace the default calendar icon by passing custom children.</Description>\n      <DatePicker.Popover>\n        <Calendar aria-label=\"Event date\">\n          <Calendar.Header>\n            <Calendar.YearPickerTrigger>\n              <Calendar.YearPickerTriggerHeading />\n              <Calendar.YearPickerTriggerIndicator />\n            </Calendar.YearPickerTrigger>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n          <Calendar.YearPickerGrid>\n            <Calendar.YearPickerGridBody>\n              {({year}) => <Calendar.YearPickerCell year={year} />}\n            </Calendar.YearPickerGridBody>\n          </Calendar.YearPickerGrid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "date-picker-render-function",
+   "source": "apps/docs/src/demos/en/date-picker/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Label} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <DatePicker\n      className=\"w-72\"\n      name=\"date\"\n      render={(props) => <div {...props} data-custom=\"date-picker\" />}\n    >\n      <Label render={(props) => <span {...props} data-custom=\"date-picker-label\" />}>Date</Label>\n      <DateField.Group\n        fullWidth\n        render={(props) => <div {...props} data-custom=\"date-field-group\" />}\n      >\n        <DateField.Input render={(props) => <div {...props} data-custom=\"date-field-input\" />}>\n          {(segment) => (\n            <DateField.Segment\n              render={(props) => <span {...props} data-custom=\"date-field-segment\" />}\n              segment={segment}\n            />\n          )}\n        </DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger\n            render={(props) => <button {...props} data-custom=\"date-picker-trigger\" />}\n          >\n            <DatePicker.TriggerIndicator />\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <DatePicker.Popover>\n        <Calendar aria-label=\"Event date\">\n          <Calendar.Header>\n            <Calendar.YearPickerTrigger>\n              <Calendar.YearPickerTriggerHeading />\n              <Calendar.YearPickerTriggerIndicator />\n            </Calendar.YearPickerTrigger>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n          <Calendar.YearPickerGrid>\n            <Calendar.YearPickerGridBody>\n              {({year}) => <Calendar.YearPickerCell year={year} />}\n            </Calendar.YearPickerGridBody>\n          </Calendar.YearPickerGrid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  },
+  {
+   "name": "International Calendar",
+   "section": "Examples",
+   "key": "date-picker-international-calendar",
+   "source": "apps/docs/src/demos/en/date-picker/international-calendar.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Label} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {I18nProvider} from \"react-aria-components\";\n\nexport function InternationalCalendar() {\n  return (\n    <I18nProvider locale=\"hi-IN-u-ca-indian\">\n      <DatePicker\n        className=\"w-72\"\n        defaultValue={today(getLocalTimeZone())}\n        name=\"international-date\"\n      >\n        <Label>Event date</Label>\n        <DateField.Group fullWidth>\n          <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n          <DateField.Suffix>\n            <DatePicker.Trigger>\n              <DatePicker.TriggerIndicator />\n            </DatePicker.Trigger>\n          </DateField.Suffix>\n        </DateField.Group>\n        <DatePicker.Popover>\n          <Calendar aria-label=\"Event date\">\n            <Calendar.Header>\n              <Calendar.YearPickerTrigger>\n                <Calendar.YearPickerTriggerHeading />\n                <Calendar.YearPickerTriggerIndicator />\n              </Calendar.YearPickerTrigger>\n              <Calendar.NavButton slot=\"previous\" />\n              <Calendar.NavButton slot=\"next\" />\n            </Calendar.Header>\n            <Calendar.Grid>\n              <Calendar.GridHeader>\n                {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n              </Calendar.GridHeader>\n              <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n            </Calendar.Grid>\n            <Calendar.YearPickerGrid>\n              <Calendar.YearPickerGridBody>\n                {({year}) => <Calendar.YearPickerCell year={year} />}\n              </Calendar.YearPickerGridBody>\n            </Calendar.YearPickerGrid>\n          </Calendar>\n        </DatePicker.Popover>\n      </DatePicker>\n    </I18nProvider>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "date-picker-custom-styles",
+   "source": "apps/docs/src/demos/en/date-picker/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, DateField, DatePicker, Label} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <DatePicker className=\"w-72\" name=\"event-date\">\n      <Label>Event date</Label>\n      <DateField.Group\n        fullWidth\n        className=\"rounded-xl border border-border/80 bg-default shadow-sm\"\n        variant=\"secondary\"\n      >\n        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>\n        <DateField.Suffix>\n          <DatePicker.Trigger className=\"text-muted\">\n            <DatePicker.TriggerIndicator />\n          </DatePicker.Trigger>\n        </DateField.Suffix>\n      </DateField.Group>\n      <DatePicker.Popover className=\"border border-border/80 shadow-sm\">\n        <Calendar aria-label=\"Event date\" className=\"rounded-2xl bg-surface p-2\">\n          <Calendar.Header>\n            <Calendar.Heading className=\"font-medium text-foreground\" />\n            <Calendar.NavButton className=\"text-muted hover:bg-default\" slot=\"previous\" />\n            <Calendar.NavButton className=\"text-muted hover:bg-default\" slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => (\n                <Calendar.HeaderCell className=\"text-xs text-muted\">{day}</Calendar.HeaderCell>\n              )}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>\n              {(date) => (\n                <Calendar.Cell\n                  className=\"rounded-lg data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground\"\n                  date={date}\n                />\n              )}\n            </Calendar.GridBody>\n          </Calendar.Grid>\n        </Calendar>\n      </DatePicker.Popover>\n    </DatePicker>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "DatePicker",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`DateValue | null`",
+     "-",
+     "Controlled selected date value.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:173"
+    ],
+    [
+     "`defaultValue`",
+     "`DateValue | null`",
+     "-",
+     "Default selected value in uncontrolled mode.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:174"
+    ],
+    [
+     "`onChange`",
+     "`(value: DateValue | null) => void`",
+     "-",
+     "Called when selected date changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:175"
+    ],
+    [
+     "`isOpen`",
+     "`boolean`",
+     "-",
+     "Controlled popover open state.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:176"
+    ],
+    [
+     "`defaultOpen`",
+     "`boolean`",
+     "`false`",
+     "Initial popover open state.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:177"
+    ],
+    [
+     "`onOpenChange`",
+     "`(isOpen: boolean) => void`",
+     "-",
+     "Called when popover open state changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:178"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Disables date selection and trigger interactions.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:179"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Marks the field as invalid for validation state.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:180"
+    ],
+    [
+     "`minValue`",
+     "`DateValue`",
+     "-",
+     "Minimum selectable date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:181"
+    ],
+    [
+     "`maxValue`",
+     "`DateValue`",
+     "-",
+     "Maximum selectable date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:182"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name used for HTML form submission.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:183"
+    ],
+    [
+     "`children`",
+     "`ReactNode | (values: DatePickerRenderProps) => ReactNode`",
+     "-",
+     "Composed content or render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:184"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, DatePickerRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:185"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:167",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Parts",
+   "columns": [
+    "Component",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`DatePicker.Root`",
+     "Root date picker container and state owner.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:191"
+    ],
+    [
+     "`DatePicker.Trigger`",
+     "Trigger button, usually rendered inside `DateField.Suffix`.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:192"
+    ],
+    [
+     "`DatePicker.TriggerIndicator`",
+     "Indicator slot with default calendar icon.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:193"
+    ],
+    [
+     "`DatePicker.Popover`",
+     "Popover wrapper for `Calendar` content.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:194"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/date-picker.mdx:187",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": []
+}
