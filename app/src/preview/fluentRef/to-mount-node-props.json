@@ -1,0 +1,17 @@
+{
+  "slug": "to-mount-node-props",
+  "title": "toMountNodeProps",
+  "group": "Components/Portal/toMountNodeProps",
+  "package": "react-portal",
+  "description": "Fluent UI uses a wrapper component called `Portal` to render portals using [`ReactDOM.createPortal()`](https://react.dev/reference/react-dom/createPortal).\n`Portal` component accepts a `mountNode` prop that can be used to specify the DOM node where the portal should be rendered. That prop also accepts an object that allows to configure rendering of a mount node.\n\nFor example, you can pass `className` to add a class to the mount node:\n\n```tsx\nimport { Portal } from '@fluentui/react-components';\n\nconst MyComponent = () => (\n  <Portal\n    mountNode={{\n      className: 'my-mount-node',\n    }}\n  >\n    <div>Portal content</div>\n  </Portal>\n);\n```\n\nTo ensure that props normalization is consistent across all components, we use `toMountNodeProps` function to normalize `mountNode` prop.\n\n```tsx\nimport { toMountNodeProps } from '@fluentui/react-components';\n\ntoMountNodeProps(element); // { element: element }\ntoMountNodeProps({ className: 'my-mount-node' }); // { className: 'my-mount-node' }\n```\n\nThis function is used internally by `Portal` component, but it can be also used to build custom components that accept `mountNode` prop.",
+  "bestPractices": null,
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-portal/stories/src/toMountNodeProps/Default.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\n\nimport { Button, makeStyles, mergeClasses, Portal, tokens, toMountNodeProps } from '@fluentui/react-components';\nimport type { PortalProps } from '@fluentui/react-components';\n\nconst useClasses = makeStyles({\n  message: {\n    backgroundColor: tokens.colorNeutralBackground1,\n    border: `${tokens.strokeWidthThick} solid ${tokens.colorStatusSuccessBorder1}`,\n    padding: '20px',\n\n    fontSize: tokens.fontSizeBase600,\n\n    position: 'fixed',\n    top: '0',\n    left: '0',\n  },\n\n  // Heads up!\n  // Overrides Portal's default z-index\n  portal: {\n    zIndex: 1,\n  },\n});\n\nconst CustomMessage: React.FC<{ children: React.ReactNode } & Pick<PortalProps, 'mountNode'>> = props => {\n  const classes = useClasses();\n\n  const mountNodeProps = toMountNodeProps(props.mountNode);\n  mountNodeProps.className = mergeClasses(classes.portal, mountNodeProps.className);\n\n  return (\n    <Portal mountNode={mountNodeProps}>\n      <div className={classes.message}>{props.children}</div>\n    </Portal>\n  );\n};\n\nexport const Default = (): JSXElement => {\n  const [open, setOpen] = React.useState(false);\n\n  return (\n    <>\n      <Button onClick={() => setOpen(v => !v)}>Toggle message</Button>\n      {open && <CustomMessage>This message is rendered in a custom mount node</CustomMessage>}\n    </>\n  );\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-to-mount-node-props--docs"
+}

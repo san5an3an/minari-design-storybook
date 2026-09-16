@@ -1,0 +1,47 @@
+{
+  "slug": "progress-bar",
+  "title": "ProgressBar",
+  "group": "Components/ProgressBar",
+  "package": "react-progress",
+  "description": "A ProgressBar provides a visual representation of content being loaded or processed.",
+  "bestPractices": "## Best practices\n\n### Do\n\n- Use an `indeterminate` `ProgressBar` when the total units to completion is unknown\n- Provide a clear description of the progress operation\n- Show text above and/or below the bar\n- Combine steps of a single operation into one bar\n- Use `Field` to add a `validationMessage` and `hint` message for the `indeterminate` `ProgressBar` when `reduced-motion` is active\n\n### Don't\n\n- Use only a single word description\n- Show text to the right or left of the bar\n- 'Rewind' progress to show new steps",
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarDefault.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement, ProgressBarProps } from '@fluentui/react-components';\nimport { Field, ProgressBar } from '@fluentui/react-components';\n\nexport const Default = (props: Partial<ProgressBarProps>): JSXElement => {\n  return (\n    <Field validationMessage=\"Default ProgressBar\" validationState=\"none\">\n      <ProgressBar {...props} value={0.5} />\n    </Field>\n  );\n};"
+    },
+    {
+      "name": "Color",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarColor.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Field, ProgressBar, makeStyles } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  container: {\n    display: 'flex',\n    flexDirection: 'column',\n    rowGap: '20px',\n  },\n});\n\nexport const Color = (): JSXElement => {\n  const styles = useStyles();\n  return (\n    <div className={styles.container}>\n      <Field validationMessage=\"Error ProgressBar\">\n        <ProgressBar value={0.75} color=\"error\" />\n      </Field>\n\n      <Field validationMessage=\"Warning ProgressBar\" validationState=\"warning\">\n        <ProgressBar value={0.95} color=\"warning\" />\n      </Field>\n\n      <Field validationMessage=\"Success ProgressBar\" validationState=\"success\">\n        <ProgressBar value={1} color=\"success\" />\n      </Field>\n    </div>\n  );\n};\n\nColor.parameters = {\n  docs: {\n    name: 'Validation State',\n    description: {\n      story:\n        'The `color` prop can be used to indicate a `\"brand\"` state (default), `\"error\"` state (red), `\"warning\"` state (orange), ' +\n        'or `\"success\"` state (green).',\n    },\n  },\n};"
+    },
+    {
+      "name": "Indeterminate",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarIndeterminate.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Field, ProgressBar } from '@fluentui/react-components';\n\nexport const Indeterminate = (): JSXElement => {\n  return (\n    <Field validationMessage=\"Indeterminate ProgressBar\" validationState=\"none\">\n      <ProgressBar />\n    </Field>\n  );\n};\n\nIndeterminate.parameters = {\n  docs: {\n    description: {\n      story: `ProgressBar is indeterminate when 'value' is undefined.\n      Indeterminate ProgressBar is best used to show that an operation is being executed.`,\n    },\n  },\n};"
+    },
+    {
+      "name": "MotionCustom",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarMotionCustom.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { createMotionComponent, Field, ProgressBar } from '@fluentui/react-components';\n\n// A custom motion component that swings between left and right, instead of always moving to the right.\n// The reduced motion version of the animation moves more slowly, with no acceleration, using a gentler gradient.\nconst SwingMotion = createMotionComponent({\n  // translate percentages are relative to the element's own width, not the container's.\n  // The indeterminate bar is ~33% the width of its container, so:\n  //   translate: '-100%' === left: '-33%' (one bar-width off-screen to the left)\n  //   translate: '300%'  === left: '100%' (3 × bar-width ≈ full container width, off-screen to the right)\n  keyframes: [{ translate: '-100%' }, { translate: '300%' }],\n  duration: 2000,\n  easing: 'ease-in-out',\n  direction: 'alternate', // loop by reversing direction\n  iterations: Infinity,\n\n  reducedMotion: {\n    // The gradient bar is 100% of the container for reduced motion, which is 3x wider\n    keyframes: [{ translate: '-100%' }, { translate: '100%' }],\n    duration: 6000, // slower speed\n    easing: 'linear', // no acceleration\n  },\n});\n\nexport const MotionCustom = (): JSXElement => (\n  <Field validationMessage=\"Custom indeterminate animation\" validationState=\"none\">\n    <ProgressBar\n      indeterminateMotion={{\n        children: (_, motionProps) => <SwingMotion {...motionProps} />,\n      }}\n    />\n  </Field>\n);\n\nMotionCustom.parameters = {\n  docs: {\n    description: {\n      story:\n        'The indeterminate animation can be customized using the [Motion APIs](?path=/docs/motion-apis-createmotioncomponent--docs), together with the `indeterminateMotion` slot.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Max",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarMax.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Field, ProgressBar } from '@fluentui/react-components';\n\nconst intervalDelay = 100;\nconst intervalIncrement = 1;\n\nexport const Max = (): JSXElement => {\n  const [value, setValue] = React.useState(0);\n\n  React.useEffect(() => {\n    const id = setInterval(() => {\n      setValue(value < 42 ? intervalIncrement + value : 0);\n    }, intervalDelay);\n    return () => {\n      clearInterval(id);\n    };\n  });\n  return (\n    <Field validationMessage={`There have been ${value} files downloaded`} validationState=\"none\">\n      <ProgressBar max={42} value={value} />\n    </Field>\n  );\n};\n\nMax.parameters = {\n  docs: {\n    description: {\n      story: `You can specify the maximum value of the determinate ProgressBar.\n      This is useful for instances where you want to show capacity, or how much of a total has been\n      uploaded/downloaded.`,\n    },\n  },\n};"
+    },
+    {
+      "name": "Shape",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarShape.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Field, ProgressBar, makeStyles } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  container: {\n    margin: '20px 0px',\n  },\n});\n\nexport const Shape = (): JSXElement => {\n  const styles = useStyles();\n\n  return (\n    <div>\n      <Field validationMessage=\"Rounded ProgressBar\" validationState=\"none\">\n        <ProgressBar className={styles.container} shape=\"rounded\" thickness=\"large\" value={0.5} />\n      </Field>\n      <Field validationMessage=\"Square ProgressBar\" validationState=\"none\">\n        <ProgressBar className={styles.container} shape=\"square\" thickness=\"large\" value={0.5} />\n      </Field>\n    </div>\n  );\n};\n\nShape.parameters = {\n  docs: {\n    description: {\n      story: 'The `shape` prop affects the corners of the bar. It can be `rounded` (default) or `square`.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Thickness",
+      "file": "packages/react-components/react-progress/stories/src/ProgressBar/ProgressBarThickness.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Field, ProgressBar, makeStyles } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  container: {\n    margin: '20px 0px',\n  },\n});\n\nexport const Thickness = (): JSXElement => {\n  const styles = useStyles();\n\n  return (\n    <div>\n      <Field validationMessage=\"Medium ProgressBar\" validationState=\"none\">\n        <ProgressBar className={styles.container} thickness=\"medium\" value={0.7} />\n      </Field>\n\n      <Field validationMessage=\"Large ProgressBar\" validationState=\"none\">\n        <ProgressBar className={styles.container} thickness=\"large\" value={0.7} />\n      </Field>\n    </div>\n  );\n};\n\nThickness.parameters = {\n  docs: {\n    description: {\n      story: 'The `thickness` prop affects the size of the bar. It can be `medium` (default) or `large`.',\n    },\n  },\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-progress-bar--docs"
+}
