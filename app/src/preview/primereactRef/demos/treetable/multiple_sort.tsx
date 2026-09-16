@@ -1,0 +1,27 @@
+// @ts-nocheck
+
+import React, { useState, useEffect } from 'react';
+import { TreeTable } from 'primereact/treetable';
+import { Column } from 'primereact/column';
+import { NodeService } from '../_src/service/NodeService.js';
+
+export default function MultipleColumnsDemo() {
+    const [nodes, setNodes] = useState([]);
+
+    useEffect(() => {
+        NodeService.getTreeTableNodes().then((data) => {
+            setNodes(data);
+        });
+    }, []);
+
+    return (
+        <div className="card">
+            <TreeTable value={nodes} sortMode="multiple" tableStyle={{ minWidth: '50rem' }}>
+                <Column field="name" header="Name" expander sortable></Column>
+                <Column field="size" header="Size" sortable></Column>
+                <Column field="type" header="Type" sortable></Column>
+            </TreeTable>
+        </div>
+    );
+}
+        
