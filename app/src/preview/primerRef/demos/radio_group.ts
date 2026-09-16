@@ -1,0 +1,18 @@
+// @ts-nocheck
+import { composeStory } from "../../storybookCompose";
+import * as m0 from "./_src/src/RadioGroup/RadioGroup.stories__Default";
+import * as m1 from "./_src/src/RadioGroup/RadioGroup.features.stories__VisuallyHiddenLabel";
+import * as m2 from "./_src/src/RadioGroup/RadioGroup.features.stories__WithExternalLabel";
+import * as m3 from "./_src/src/RadioGroup/RadioGroup.features.stories__Error";
+import * as m4 from "./_src/src/RadioGroup/RadioGroup.features.stories__Success";
+import * as m5 from "./_src/src/RadioGroup/RadioGroup.features.stories__Caption";
+export const demos = {
+  "Default": composeStory(m0.default, m0["Default"], "Default"),
+  "VisuallyHiddenLabel": composeStory(m1.default, m1["VisuallyHiddenLabel"], "VisuallyHiddenLabel"),
+  "WithExternalLabel": composeStory(m2.default, m2["WithExternalLabel"], "WithExternalLabel"),
+  "Error": composeStory(m3.default, m3["Error"], "Error"),
+  "Success": composeStory(m4.default, m4["Success"], "Success"),
+  "Caption": composeStory(m5.default, m5["Caption"], "Caption"),
+};
+export const skipped = {
+};
