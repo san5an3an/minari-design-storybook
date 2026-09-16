@@ -3,6 +3,8 @@ import type { BaseRefAdapter, BaseRefDoc, BaseRefExample, BaseRefProviderProps, 
 import INDEX_JSON from "./index.json";
 // 템플릿 동적 import 금지. fetcher 생성 명시 목록만 호출
 import { DOCS } from "./_docs";
+import { LOAD } from "./demos/_load";
+import { THEMES } from "./_themes";
 
 type RawExample = BaseRefExample & { skip: { code: SkipCode; detail: string } | null };
 type RawDoc = Omit<BaseRefDoc, "examples"> & { examples: RawExample[] };
@@ -54,18 +56,41 @@ export const cloudscapeAdapter: BaseRefAdapter = {
   },
   loadDemos(slug) {
     const f = SLUGS.has(slug) ? DOCS[slug] : undefined;
-    return f
-      ? f.then((m) => {
-          const raw = m.default as RawDoc;
-          const demos: Record<string, DemoValue> = {};
-          const skipped: Record<string, { code: SkipCode; detail: string }> = {};
-          for (const ex of raw.examples) {
-            if (ex.skip) skipped[ex.key] = ex.skip;
-            else demos[ex.key] = IframePending;
-          }
-          return { demos, skipped };
-        })
-      : null;
+    if (!f) return null;
+    return f.then(async (m) => {
+      const raw = m.default as RawDoc;
+      const demos: Record<string, DemoValue> = {};
+      const skipped: Record<string, { code: SkipCode; detail: string }> = {};
+      const load = LOAD[slug];
+      const built = load ? (await load).default : null;
+      for (const ex of raw.examples) {
+        if (ex.skip) skipped[ex.key] = ex.skip;
+        else if (ex.stage === "inline" && built) demos[ex.key] = built;
+        else demos[ex.key] = IframePending;
+      }
+      return { demos, skipped };
+    });
   },
   Provider: CloudscapeRefProvider,
+  mountTheme(system, mode, _doc) {
+    let alive = true;
+    let reset: ( => void) | null = null;
+    const load = THEMES[system.slug];
+    if (load) {
+      load
+        .then(async (m) => {
+          if (!alive) return;
+          const theme = m.byMode[mode];
+          if (!theme) return;
+          const { applyTheme } = await import("@cloudscape-design/components/theming");
+          if (!alive) return;
+          reset = applyTheme({ theme: theme as never }).reset;
+        })
+        .catch( => { /* 못 실으면 cloudscape가 기본 테마로 즉시 렌더링 */ });
+    }
+    return  => {
+      alive = false;
+      reset?.;
+    };
+  },
 };
