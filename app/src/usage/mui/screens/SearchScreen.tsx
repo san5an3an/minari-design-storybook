@@ -4,6 +4,7 @@ import {
   Rating, Select, Slider, Stack, ToggleButton, ToggleButtonGroup, Typography,
   useMediaQuery, useTheme,
 } from "@mui/material";
+import { alpha, darken } from "@mui/material/styles";
 import BathtubOutlined from "@mui/icons-material/BathtubOutlined";
 import DirectionsCarOutlined from "@mui/icons-material/DirectionsCarOutlined";
 import DirectionsSubwayOutlined from "@mui/icons-material/DirectionsSubwayOutlined";
@@ -54,6 +55,44 @@ function PhotoSlot({ height = 168 }: { height?: number }) {
   );
 }
 
+const SEARCH_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1200&q=60";
+
+function SearchHero {
+  const theme = useTheme;
+  return (
+    <Box
+      sx={{
+        alignItems: "flex-start",
+        backgroundImage:
+          `linear-gradient(120deg, ${alpha(darken(theme.palette.primary.main, 0.62), 0.94)} 0%, `
+          + `${alpha(darken(theme.palette.primary.main, 0.5), 0.85)} 70%), url("${SEARCH_HERO_IMAGE}")`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        borderRadius: 1,
+        boxShadow: "var(--semantic-shadow-raised)",
+        display: "flex",
+        gap: 0.5,
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        minHeight: 144,
+        p: { xs: 2, sm: 2.5 },
+      }}
+    >
+      <Typography
+        variant="h6"
+        component="h2"
+        sx={{ color: theme.palette.common.white }}
+      >
+        마포구에서 다음 집을 찾아보세요
+      </Typography>
+      <Typography variant="body2" sx={{ color: theme.palette.common.white }}>
+        조건을 좁혀 가며 고르는 화면. 지도와 목록이 같은 매물을 표시.
+      </Typography>
+    </Box>
+  );
+}
+
 // 스펙 항목 하나, 아이콘과 값으로 구성. 넷이 한 행에서 줄바꿈 없이 고정
 function Spec({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -90,6 +129,8 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
 
   return (
     <Stack spacing={2}>
+      <SearchHero />
+
       <Stack
         direction="row"
         spacing={1.5}

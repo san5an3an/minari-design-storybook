@@ -29,6 +29,40 @@ const AUTH_KEY = SCREENS.find((s) => s.fullBleed)?.key ?? "authentication";
 // 목업 사용자 정보 단일 관리. 따로 적으면 표시가 불일치하는 문제 있음
 const USER = { name: "김하늘", email: "hn.kim@example.com", initial: "김" } as const;
 
+const SIDEBAR_PROMO_IMAGE =
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=480&q=60";
+
+// 접히면 숨김. 폭이 아이콘 한 줄(48px)뿐이라 사진, 텍스트 공간이 없음
+function SidebarPromo {
+  return (
+    <div
+      aria-hidden
+      className="group-data-[collapsible=icon]:hidden flex flex-col justify-end gap-1 overflow-hidden p-3"
+      style={{
+        borderRadius: "var(--semantic-radius-container)",
+        minHeight: "6.5rem",
+        backgroundImage:
+          `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-brand-default) 20%, transparent) 0%, ` +
+          `color-mix(in oklch, var(--semantic-bg-brand-default) 78%, black) 100%), url("${SIDEBAR_PROMO_IMAGE}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <span
+        style={{
+          color: "var(--semantic-fg-on-brand-default)",
+          fontSize: "var(--semantic-text-body-sm)",
+          lineHeight: "var(--semantic-line-height-tight)",
+        }}
+      >
+        작은 진행이 쌓여
+        <br />
+        완성으로 이어져요.
+      </span>
+    </div>
+  );
+}
+
 // 아바타, 이름, 메일 그룹화해 사이드바 하단, 메뉴 상단, NavUser에 동일 사용
 function UserBlock({ trailing }: { trailing?: React.ReactNode }) {
   return (
@@ -103,10 +137,19 @@ const SIDEBAR_TOKEN_BRIDGE = {
 
 const SHELL = "ods-usage-shell";
 
+const SHELL_HEIGHT = "max(20rem, calc(100dvh - 9rem))";
+
 const SHELL_CSS = `
+.${SHELL} {
+  height: ${SHELL_HEIGHT};
+}
+.${SHELL} [data-slot="sidebar-wrapper"] {
+  min-height: 0;
+  height: 100%;
+}
 .${SHELL} [data-slot="sidebar-gap"] { display: none; }
 .${SHELL} [data-slot="sidebar"] {
-  height: auto;
+  height: 100%;
   align-self: stretch;
 }
 .${SHELL} [data-slot="sidebar-container"] {
@@ -115,6 +158,10 @@ const SHELL_CSS = `
   border-inline-end: var(--semantic-border-width-default) solid var(--component-sidebar-border);
 }
 .${SHELL} [data-slot="sidebar-rail"] { z-index: 20; }
+.${SHELL} [data-slot="sidebar-inset"] {
+  min-height: 0;
+  overflow-y: auto;
+}
 `;
 
 export function ShadcnUsage({ system }: UsageDashboardProps) {
@@ -130,7 +177,8 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
     <>
       {chromeless ? null : (
       <header
-        className="flex flex-wrap items-center gap-3 px-4 py-3"
+        // shrink-0, sticky 적용. 본문이 자체 스크롤되므로 상단바 고정이 필수임
+        className="flex shrink-0 flex-wrap items-center gap-3 px-4 py-3 sticky top-0 z-10"
         style={{
           borderBottom:
             "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
@@ -181,7 +229,9 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
       )}
 
       {/* 로그인 화면 fullBleed 렌더링. 여백 주면 구분선이 뜬 것처럼 보임 */}
-      <div className={screen.fullBleed ? undefined : "p-4 sm:p-5"}>
+      <div
+        className={`flex-1 overflow-y-auto${screen.fullBleed ? "" : " p-4 sm:p-5"}`}
+      >
         {/* 화면 간 이동 경로 제공. 로그인 화면이 이걸로 대시보드로 복귀하기 */}
         <Screen onNavigate={setScreenKey} />
       </div>
@@ -197,8 +247,12 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
   };
 
   if (!showNav) {
+    // flex flex-col 지정. 없으면 상단바 shrink-0, 본문 flex-1 min-h-0가 의도대로 동작하지 않음
     return (
-      <div className={frame} style={frameStyle}>
+      <div
+        className={`${frame} flex flex-col`}
+        style={{ ...frameStyle, height: SHELL_HEIGHT, minHeight: 0 }}
+      >
         {body}
       </div>
     );
@@ -259,6 +313,8 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
           </Sidebar.Menu>
         }
         footer={
+          <>
+          <SidebarPromo />
           <Sidebar.Menu>
             <Sidebar.MenuItem>
               <Menu
@@ -287,6 +343,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
               />
             </Sidebar.MenuItem>
           </Sidebar.Menu>
+          </>
         }
       >
         {body}

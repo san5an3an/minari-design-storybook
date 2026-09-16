@@ -23,13 +23,16 @@ export function AntdUsage({ system }: UsageDashboardProps) {
       <div
         className="overflow-hidden"
         style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "max(20rem, calc(100dvh - 9rem))",
           border:
             "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
           borderRadius: "var(--semantic-radius-container)",
           boxShadow: "var(--semantic-shadow-raised)",
         }}
       >
-        <Layout style={{ background: token.colorBgLayout }}>
+        <Layout style={{ background: token.colorBgLayout, flex: 1, minHeight: 0 }}>
           {/* lineHeight, height 고정, antd 헤더 CSS와 맞춰 지정 */}
           {/* flexWrap 없으면 좁은 화면서 페이지가 가로로 밀릴 수 있음 */}
           <Layout.Header
@@ -105,6 +108,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                 style={{
                   background: token.colorBgContainer,
                   borderInlineEnd: `1px solid ${token.colorBorderSecondary}`,
+                  overflowY: "auto",
                 }}
               >
                 {/* Menu selectedKeys를 상태와 연결. 안 하면 코드 변경이 화면에 반영되지 않음 */}
@@ -117,7 +121,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
               </Layout.Sider>
             ) : null}
 
-            <Layout.Content style={{ padding: 20, minInlineSize: 0 }}>
+            <Layout.Content style={{ padding: 20, minInlineSize: 0, overflowY: "auto" }}>
               <Space orientation="vertical" size={16} style={{ display: "flex" }}>
                 {/* 빵부스러기 사용 금지 */}
                 <Space orientation="vertical" size={2} style={{ display: "flex", minInlineSize: 0 }}>

@@ -46,6 +46,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         boxShadow: "var(--semantic-shadow-raised)",
         display: "flex",
         flexDirection: "column",
+        height: "max(20rem, calc(100dvh - 9rem))",
         overflow: "hidden",
       }}
     >
@@ -53,7 +54,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         position="static"
         color="default"
         elevation={0}
-        sx={{ borderBottom: 1, borderColor: "divider" }}
+        sx={{ borderBottom: 1, borderColor: "divider", flexShrink: 0 }}
       >
         <Toolbar sx={{ flexWrap: "wrap", gap: 1.5, minHeight: "auto !important", py: 1 }}>
           <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
@@ -129,7 +130,8 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         ) : null}
       </AppBar>
 
-      <Box sx={{ minWidth: 0, p: { xs: 2, sm: 2.5 } }}>
+      {/* 내부 스크롤 영역. minHeight 0 없으면 오토스크롤이 동작하지 않음 */}
+      <Box sx={{ minWidth: 0, flex: 1, minHeight: 0, overflowY: "auto", p: { xs: 2, sm: 2.5 } }}>
         <Stack spacing={2}>
           <Stack spacing={0.25}>
             <Typography variant="h6" component="h2">{screen.label}</Typography>
@@ -151,7 +153,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
           value={screenKey}
           onChange={(_, v: string) => setScreenKey(v)}
           showLabels
-          sx={{ borderTop: 1, borderColor: "divider" }}
+          sx={{ borderTop: 1, borderColor: "divider", flexShrink: 0 }}
         >
           {SCREENS.map((s) => (
             <BottomNavigationAction
