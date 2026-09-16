@@ -1,0 +1,34 @@
+{
+ "slug": "drop-zone",
+ "title": "Drop Zone",
+ "docs": [
+  {
+   "repoPath": "ui/components/drop-zone/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/drop-zone/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/drop-zone/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/drop-zone/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/drop-zone/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * Screen building elements that surround areas where components can be placed.\n * Drop Zones visually indicate to users where they may drag and drop components onto a page.\n *\n * @summary Screen building element to indicate to users where components may be dragged and dropped.\n *\n * @base\n * @name drop-zone\n * @selector .slds-drop-zone\n * @category experience\n * @type layout\n * @support dev-ready\n * @synonyms builder, screens, screen building\n */\n"
+   },
+   {
+    "source": "scss/components/drop-zone/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Creates a drop-zone component for screen building\n * @name base\n * @selector .slds-drop-zone\n * @restrict div\n * @support dev-ready\n * @variant\n */\n.slds-drop-zone {\n  position: relative;\n\n  &:after {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    border: $border-width-thin dotted var(--slds-g-color-neutral-base-30, #{$color-gray-11});\n    outline: $border-width-thin dotted var(--slds-g-color-neutral-base-100, #{$color-gray-1});\n  }\n\n  /**\n  * @name drag over\n  * @summary Modifier used to indicate that component may be dropped in container\n  * @selector .slds-drop-zone_drag\n  * @restrict .slds-drop-zone\n  * @modifier\n  * @group interaction\n  */\n  &.slds-drop-zone_drag {\n\n    &:after {\n      border: $border-width-thin solid var(--slds-g-color-success-base-50, #{$color-background-success-dark});\n      outline: 0;\n    }\n  }\n}\n\n/**\n  * @summary Top label of drop zone\n  * @selector .slds-drop-zone__label\n  * @restrict .slds-drop-zone div\n  */\n.slds-drop-zone__label {\n  color: var(--slds-g-color-neutral-base-100, #{$color-text-inverse});\n  background: var(--slds-g-color-success-base-50, #{$color-background-success-dark});\n  border-radius: $border-radius-medium $border-radius-medium 0 0;\n  padding: $spacing-xx-small $spacing-x-small;\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, -100%);\n\n  /**\n  * @summary Top of populated label of drop zone\n  * @selector .slds-drop-zone__label_container\n  * @restrict .slds-drop-zone__label\n  */\n  &.slds-drop-zone__label_container {\n    opacity: 0;\n    background: var(--slds-g-color-brand-base-50, #{$color-background-brand-primary});\n  }\n\n  .slds-media__body {\n    flex-basis: auto; // Fix IE11 bug\n  }\n}\n\n/**\n  * @summary Button within drop zone label\n  * @selector .slds-drop-zone__label_button\n  * @restrict .slds-drop-zone__label button\n  */\n.slds-drop-zone__label_button {\n\n  border-radius: 0; // to prevent travis error\n\n  &:hover,\n  &:focus {\n    text-decoration: underline;\n    outline: none;\n  }\n}\n\n/**\n  * @summary Insertion point of drop zone\n  * @selector .slds-drop-zone_drag__slot\n  * @restrict .slds-drop-zone_drag div\n  */\n.slds-drop-zone_drag__slot {\n  border: $border-width-thin solid var(--slds-g-color-neutral-base-100, #{$color-gray-1});\n  border-left-width: $border-width-thick;\n  border-right-width: $border-width-thick;\n  background: var(--slds-g-color-success-base-50, #{$color-background-success-dark});\n  width: 100%;\n  height: $drop-zone-slot-height;\n}\n\n/**\n  * @summary Populated region within drop zone\n  * @selector .slds-drop-zone__container\n  * @restrict .slds-drop-zone div\n  */\n.slds-drop-zone__container {\n\n  position: relative;\n  z-index: $z-index-overlay;\n\n  &:after {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    bottom: 0;\n    right: 0;\n  }\n\n  /**\n    * @name item-hovered\n    * @summary Hover state for a component within a drop zone\n    * @selector .slds-is-hovered\n    * @restrict .slds-drop-zone div\n    * @notes Class should be applied via Javascript\n    * @modifier\n    * @group interactions\n    */\n  &.slds-is-hovered,\n  &:hover {\n\n    .slds-drop-zone__label_container,\n    .slds-drop-zone__actions {\n      opacity: 1;\n      z-index: $z-index-overlay;\n    }\n\n    &:after {\n      border: $border-width-thin solid var(--slds-g-color-brand-base-60, #{$color-border-brand-primary});\n    }\n  }\n\n  &:active {\n\n    &:after {\n      border: $border-width-thick solid var(--slds-g-color-brand-base-20, #{$color-border-brand-primary-active});\n    }\n\n    .slds-drop-zone__label {\n      background-color: var(--slds-g-color-brand-base-20, #{$color-background-brand-primary-active});\n    }\n  }\n\n  &:focus-within {\n\n    .slds-drop-zone__label_container,\n    .slds-drop-zone__actions {\n      opacity: 1;\n      z-index: $z-index-overlay;\n    }\n\n    outline: none;\n\n    &:after {\n      border: $border-width-thick solid var(--slds-g-color-brand-base-50, #{$color-border-brand-primary-focus});\n    }\n\n    .slds-drop-zone__label {\n      background-color: var(--slds-g-color-brand-base-30, #{$color-background-brand-primary-focus});\n    }\n  }\n}\n\n/**\n  * @summary Action buttons within drop zone\n  * @selector .slds-drop-zone__actions\n  * @restrict .slds-drop-zone div\n  */\n.slds-drop-zone__actions {\n  opacity: 0;\n  background: var(--slds-g-color-brand-base-50, #{$color-background-brand-primary});\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n"
+   }
+  ],
+  "source": "scss/components/drop-zone"
+ },
+ "stylingHooks": null,
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

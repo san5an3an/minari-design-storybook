@@ -1,0 +1,495 @@
+{
+ "slug": "color-slider",
+ "title": "ColorSlider",
+ "description": "A color slider allows users to adjust an individual channel of a color value",
+ "group": "Colors",
+ "links": {
+  "rac": "ColorSlider",
+  "sourceFile": "color-slider/color-slider.tsx",
+  "styles": "color-slider.css",
+  "storybook": "Components/Colors/ColorSlider",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { ColorSlider, Label } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"color-slider-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:13"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { ColorSlider, Label } from '@heroui/react';\n\nexport default () => (\n  <ColorSlider channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n    <Label>Hue</Label>\n    <ColorSlider.Output />\n    <ColorSlider.Track>\n      <ColorSlider.Thumb />\n    </ColorSlider.Track>\n  </ColorSlider>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:23"
+  },
+  {
+   "name": "Examples",
+   "body": "### Disabled\n\n<ComponentPreview\n  name=\"color-slider-disabled\"\n/>\n\n### Vertical\n\n<ComponentPreview\n  name=\"color-slider-vertical\"\n/>\n\n### Controlled\n\n<ComponentPreview\n  name=\"color-slider-controlled\"\n/>\n\n### HSL Channels\n\nUse multiple ColorSliders to control different channels of a color value. The sliders can share the same color value to create a complete color picker.\n\n<ComponentPreview\n  name=\"color-slider-channels\"\n/>\n\n### Alpha Channel\n\nThe alpha channel slider shows a transparency checkerboard pattern to help visualize the transparency level.\n\n<ComponentPreview\n  name=\"color-slider-alpha-channel\"\n/>\n\n### RGB Channels\n\nYou can also use RGB color space with red, green, and blue channels.\n\n<ComponentPreview\n  name=\"color-slider-rgb-channels\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"color-slider-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:38"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"color-slider-custom-styles\" />\n\n### Global CSS\n\nTo customize the ColorSlider component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .color-slider {\n    @apply flex flex-col gap-2;\n  }\n\n  .color-slider__output {\n    @apply text-muted text-sm;\n  }\n\n  .color-slider__track {\n    @apply relative h-5 w-full rounded-full;\n  }\n\n  .color-slider__thumb {\n    @apply size-4 rounded-full border-3 border-white shadow-overlay;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:88"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe ColorSlider component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/color-slider.css)):\n\n#### Base Classes [!toc]\n- `.color-slider` - Base slider container\n- `.color-slider__output` - Output element displaying current value\n- `.color-slider__track` - Track element with color gradient\n- `.color-slider__thumb` - Thumb element showing current color\n\n#### State Classes [!toc]\n- `.color-slider[data-disabled=\"true\"]` - Disabled slider state\n- `.color-slider[data-orientation=\"vertical\"]` - Vertical orientation\n- `.color-slider__thumb[data-dragging=\"true\"]` - Thumb being dragged\n- `.color-slider__thumb[data-focus-visible=\"true\"]` - Thumb keyboard focused\n- `.color-slider__thumb[data-disabled=\"true\"]` - Disabled thumb state\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` on thumb\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` on thumb\n- **Dragging**: `[data-dragging=\"true\"]` on thumb\n- **Disabled**: `:disabled` or `[data-disabled=\"true\"]` on slider or thumb",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:119"
+  },
+  {
+   "name": "API Reference",
+   "body": "### ColorSlider\n\nInherits from [React Aria ColorSlider](https://react-spectrum.adobe.com/react-aria/ColorSlider.html).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `channel` | `ColorChannel` | - | The color channel that the slider manipulates (hue, saturation, lightness, brightness, alpha, red, green, blue) |\n| `colorSpace` | `ColorSpace` | - | The color space (hsl, hsb, rgb). Defaults to the color space of the value |\n| `value` | `string \\| Color` | - | The current color value (controlled) |\n| `defaultValue` | `string \\| Color` | - | The default color value (uncontrolled) |\n| `onChange` | `(value: Color) => void` | - | Handler called when the value changes during dragging |\n| `onChangeEnd` | `(value: Color) => void` | - | Handler called when dragging ends |\n| `orientation` | `\"horizontal\" \\| \"vertical\"` | `\"horizontal\"` | The orientation of the slider |\n| `isDisabled` | `boolean` | - | Whether the slider is disabled |\n| `name` | `string` | - | The name of the input element for form submission |\n| `aria-label` | `string` | - | Accessibility label for the slider |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Slider content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, ColorSliderRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### ColorSlider.Output\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Output content or render function |\n\n### ColorSlider.Track\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `style` | `CSSProperties \\| RenderFunction` | - | Inline styles or render function |\n| `children` | `ReactNode \\| RenderFunction` | - | Track content or render function |\n\n### ColorSlider.Thumb\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `style` | `CSSProperties \\| RenderFunction` | - | Inline styles or render function |\n| `children` | `ReactNode \\| RenderFunction` | - | Thumb content or render function |\n\n### Render Props\n\nWhen using render functions, these values are provided:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `state` | `ColorSliderState` | The state of the color slider |\n| `color` | `Color` | The current color value |\n| `orientation` | `\"horizontal\" \\| \"vertical\"` | The orientation of the slider |\n| `isDisabled` | `boolean` | Whether the slider is disabled |",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:149"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The ColorSlider component implements the ARIA slider pattern and provides:\n\n- Full keyboard navigation support (Arrow keys, Home, End, Page Up/Down)\n- Screen reader announcements for value changes\n- Proper focus management\n- Support for disabled states\n- HTML form integration via hidden input elements\n- Internationalization support with locale-aware value formatting\n\nFor more information, see the [React Aria ColorSlider documentation](https://react-spectrum.adobe.com/react-aria/ColorSlider.html).",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:205"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"color-slider\" />",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:218"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "color-slider-basic",
+   "source": "apps/docs/src/demos/en/color-slider/basic.tsx",
+   "code": "import {ColorSlider, Label} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <ColorSlider channel=\"hue\" className=\"w-full max-w-xs\" defaultValue=\"hsl(0, 100%, 50%)\">\n      <Label>Hue</Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track>\n        <ColorSlider.Thumb />\n      </ColorSlider.Track>\n    </ColorSlider>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "color-slider-disabled",
+   "source": "apps/docs/src/demos/en/color-slider/disabled.tsx",
+   "code": "import {ColorSlider, Label} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <ColorSlider\n      isDisabled\n      channel=\"hue\"\n      className=\"w-full max-w-xs\"\n      defaultValue=\"hsl(200, 100%, 50%)\"\n    >\n      <Label>Hue</Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track>\n        <ColorSlider.Thumb />\n      </ColorSlider.Track>\n    </ColorSlider>\n  );\n}\n"
+  },
+  {
+   "name": "Vertical",
+   "section": "Examples",
+   "key": "color-slider-vertical",
+   "source": "apps/docs/src/demos/en/color-slider/vertical.tsx",
+   "code": "import {ColorSlider} from \"@heroui/react\";\n\nexport function Vertical() {\n  return (\n    <div className=\"flex h-48 gap-4\">\n      <ColorSlider\n        aria-label=\"Hue\"\n        channel=\"hue\"\n        defaultValue=\"hsl(0, 100%, 50%)\"\n        orientation=\"vertical\"\n      >\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider\n        aria-label=\"Saturation\"\n        channel=\"saturation\"\n        defaultValue=\"hsl(0, 100%, 50%)\"\n        orientation=\"vertical\"\n      >\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider\n        aria-label=\"Lightness\"\n        channel=\"lightness\"\n        defaultValue=\"hsl(0, 100%, 50%)\"\n        orientation=\"vertical\"\n      >\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "color-slider-controlled",
+   "source": "apps/docs/src/demos/en/color-slider/controlled.tsx",
+   "code": "\"use client\";\n\nimport {ColorSlider, ColorSwatch, Label} from \"@heroui/react\";\nimport {useState} from \"react\";\nimport {parseColor} from \"react-aria-components\";\n\nexport function Controlled() {\n  const [color, setColor] = useState(parseColor(\"hsl(200, 100%, 50%)\"));\n\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-4\">\n      <ColorSlider channel=\"hue\" value={color} onChange={setColor}>\n        <Label>Hue</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <div className=\"flex items-center gap-2\">\n        <ColorSwatch color={color} size=\"sm\" />\n        <p className=\"text-sm text-muted\">\n          Current color: <code className=\"font-mono\">{color.toString(\"hsl\")}</code>\n        </p>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "HSL Channels",
+   "section": "Examples",
+   "key": "color-slider-channels",
+   "source": "apps/docs/src/demos/en/color-slider/channels.tsx",
+   "code": "\"use client\";\n\nimport {ColorSlider, ColorSwatch, Label} from \"@heroui/react\";\nimport {useState} from \"react\";\nimport {parseColor} from \"react-aria-components\";\n\nexport function Channels() {\n  const [color, setColor] = useState(parseColor(\"hsl(0, 100%, 50%)\"));\n\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-4\">\n      <ColorSlider channel=\"hue\" value={color} onChange={setColor}>\n        <Label>Hue</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider channel=\"saturation\" value={color} onChange={setColor}>\n        <Label>Saturation</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider channel=\"lightness\" value={color} onChange={setColor}>\n        <Label>Lightness</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <div className=\"flex items-center gap-2\">\n        <ColorSwatch color={color} size=\"sm\" />\n        <p className=\"text-sm text-muted\">\n          Current color: <code className=\"font-mono\">{color.toString(\"hsl\")}</code>\n        </p>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Alpha Channel",
+   "section": "Examples",
+   "key": "color-slider-alpha-channel",
+   "source": "apps/docs/src/demos/en/color-slider/alpha-channel.tsx",
+   "code": "import {ColorSlider, Label} from \"@heroui/react\";\n\nexport function AlphaChannel() {\n  return (\n    <ColorSlider channel=\"alpha\" className=\"w-full max-w-xs\" defaultValue=\"hsla(0, 100%, 50%, 0.5)\">\n      <Label>Alpha</Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track>\n        <ColorSlider.Thumb />\n      </ColorSlider.Track>\n    </ColorSlider>\n  );\n}\n"
+  },
+  {
+   "name": "RGB Channels",
+   "section": "Examples",
+   "key": "color-slider-rgb-channels",
+   "source": "apps/docs/src/demos/en/color-slider/rgb-channels.tsx",
+   "code": "\"use client\";\n\nimport {ColorSlider, ColorSwatch, Label} from \"@heroui/react\";\nimport {useState} from \"react\";\nimport {parseColor} from \"react-aria-components\";\n\nexport function RGBChannels() {\n  const [color, setColor] = useState(parseColor(\"rgb(255, 100, 50)\"));\n\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-4\">\n      <ColorSlider channel=\"red\" value={color} onChange={setColor}>\n        <Label>Red</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider channel=\"green\" value={color} onChange={setColor}>\n        <Label>Green</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <ColorSlider channel=\"blue\" value={color} onChange={setColor}>\n        <Label>Blue</Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider>\n      <div className=\"flex items-center gap-2\">\n        <ColorSwatch color={color} size=\"sm\" />\n        <p className=\"text-sm text-muted\">\n          Current color: <code className=\"font-mono\">{color.toString(\"rgb\")}</code>\n        </p>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "color-slider-render-function",
+   "source": "apps/docs/src/demos/en/color-slider/render-function.tsx",
+   "code": "\"use client\";\n\nimport {ColorSlider, Label} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <ColorSlider\n      channel=\"hue\"\n      className=\"w-full max-w-xs\"\n      defaultValue=\"hsl(0, 100%, 50%)\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>Hue</Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track>\n        <ColorSlider.Thumb />\n      </ColorSlider.Track>\n    </ColorSlider>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "color-slider-custom-styles",
+   "source": "apps/docs/src/demos/en/color-slider/custom-styles.tsx",
+   "code": "import {ColorSlider, Label} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <ColorSlider channel=\"hue\" className=\"w-full max-w-sm\" defaultValue=\"hsl(220, 70%, 50%)\">\n      <Label className=\"font-medium text-foreground\">Hue</Label>\n      <ColorSlider.Output className=\"text-muted tabular-nums\" />\n      <ColorSlider.Track className=\"h-4! rounded-none! ring-1 ring-border [&::after]:rounded-r-sm! [&::before]:rounded-l-sm!\">\n        <ColorSlider.Thumb className=\"size-4 rounded-sm! border-2 border-background shadow-md ring-1 ring-black/10 dark:ring-white/20\" />\n      </ColorSlider.Track>\n    </ColorSlider>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "ColorSlider",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`channel`",
+     "`ColorChannel`",
+     "-",
+     "The color channel that the slider manipulates (hue, saturation, lightness, brightness, alpha, red, green, blue)",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:157"
+    ],
+    [
+     "`colorSpace`",
+     "`ColorSpace`",
+     "-",
+     "The color space (hsl, hsb, rgb). Defaults to the color space of the value",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:158"
+    ],
+    [
+     "`value`",
+     "`string | Color`",
+     "-",
+     "The current color value (controlled)",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:159"
+    ],
+    [
+     "`defaultValue`",
+     "`string | Color`",
+     "-",
+     "The default color value (uncontrolled)",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:160"
+    ],
+    [
+     "`onChange`",
+     "`(value: Color) => void`",
+     "-",
+     "Handler called when the value changes during dragging",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:161"
+    ],
+    [
+     "`onChangeEnd`",
+     "`(value: Color) => void`",
+     "-",
+     "Handler called when dragging ends",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:162"
+    ],
+    [
+     "`orientation`",
+     "`\"horizontal\" | \"vertical\"`",
+     "`\"horizontal\"`",
+     "The orientation of the slider",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:163"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the slider is disabled",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:164"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "The name of the input element for form submission",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:165"
+    ],
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label for the slider",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:166"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:167"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Slider content or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:168"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, ColorSliderRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:169"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:151",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorSlider.Output",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:175"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Output content or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:176"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:171",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorSlider.Track",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:182"
+    ],
+    [
+     "`style`",
+     "`CSSProperties | RenderFunction`",
+     "-",
+     "Inline styles or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:183"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Track content or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:184"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:178",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorSlider.Thumb",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:190"
+    ],
+    [
+     "`style`",
+     "`CSSProperties | RenderFunction`",
+     "-",
+     "Inline styles or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:191"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Thumb content or render function",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:192"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:186",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`state`",
+     "`ColorSliderState`",
+     "The state of the color slider",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:200"
+    ],
+    [
+     "`color`",
+     "`Color`",
+     "The current color value",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:201"
+    ],
+    [
+     "`orientation`",
+     "`\"horizontal\" | \"vertical\"`",
+     "The orientation of the slider",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:202"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the slider is disabled",
+     "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:203"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:194",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`value`",
+   "prop": "value",
+   "values": [
+    "string",
+    "Color"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:159"
+  },
+  {
+   "name": "`defaultValue`",
+   "prop": "defaultValue",
+   "values": [
+    "string",
+    "Color"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:160"
+  },
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "`\"horizontal\"`",
+   "owner": "ColorSlider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:163"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:168"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider.Output",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:176"
+  },
+  {
+   "name": "`style`",
+   "prop": "style",
+   "values": [
+    "CSSProperties",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider.Track",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:183"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider.Track",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:184"
+  },
+  {
+   "name": "`style`",
+   "prop": "style",
+   "values": [
+    "CSSProperties",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider.Thumb",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:191"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "ColorSlider.Thumb",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:192"
+  },
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "—",
+   "owner": "Render Props",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-slider.mdx:202"
+  }
+ ]
+}

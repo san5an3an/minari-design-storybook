@@ -1,0 +1,224 @@
+{
+ "slug": "link",
+ "title": "Link",
+ "description": "A styled anchor component for navigation with built-in icon support",
+ "group": "Navigation",
+ "links": {
+  "rac": "Link",
+  "sourceFile": "link/link.tsx",
+  "styles": "link.css",
+  "storybook": "Components/Navigation/Link",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Link } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"link-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Link } from '@heroui/react';\n\nexport default () => (\n  <Link href=\"#\">\n    Call to action\n    <Link.Icon />\n  </Link>\n);\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:22"
+  },
+  {
+   "name": "Examples",
+   "body": "### Icon Placement\n\n<ComponentPreview\n  name=\"link-icon-placement\"\n/>\n\n### Text Decoration with Tailwind CSS\n\nLink is underlined on hover by default. Use Tailwind CSS text-decoration utilities to make the underline always visible, remove it entirely, or customize its color, style, thickness, and offset.\n\n<ComponentPreview\n  name=\"link-underline-and-offset\"\n/>\n\n**Text Decoration Line:**\n- `underline` - Always visible underline\n- `no-underline` - Remove underline\n- default `Link` styles - Underline appears on hover\n\n**Text Decoration Color:**\n- `decoration-accent`, `decoration-muted`, etc. - Set underline color using theme colors\n- `decoration-muted/50` - Use opacity modifiers for semi-transparent underlines\n\n**Text Decoration Style:**\n- `decoration-solid` - Solid line (default)\n- `decoration-double` - Double line\n- `decoration-dotted` - Dotted line\n- `decoration-dashed` - Dashed line\n- `decoration-wavy` - Wavy line\n\n**Text Decoration Thickness:**\n- `decoration-1`, `decoration-2`, `decoration-4`, etc. - Control underline thickness\n\n**Underline Offset:**\n- `underline-offset-1`, `underline-offset-2`, `underline-offset-4`, etc. - Adjust spacing between text and underline\n\nFor more details, see the Tailwind CSS documentation:\n- [text-decoration-line](https://tailwindcss.com/docs/text-decoration-line)\n- [text-decoration-color](https://tailwindcss.com/docs/text-decoration-color)\n- [text-decoration-style](https://tailwindcss.com/docs/text-decoration-style)\n- [text-decoration-thickness](https://tailwindcss.com/docs/text-decoration-thickness)\n- [text-underline-offset](https://tailwindcss.com/docs/text-underline-offset)\n\nAvailable BEM classes:\n- Base: `link`\n- Icon: `link__icon`\n\n### Custom Icon\n\n<ComponentPreview\n  name=\"link-custom-icon\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"link-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:35"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"link-custom-styles\" />\n\n### Global CSS\n\nTo customize the Link component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .link {\n    @apply font-semibold no-underline hover:underline;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:96"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Link component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/link.css)):\n\n#### Base Classes [!toc]\n- `.link` - Base link styles\n- `.link__icon` - Link icon styles\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]`\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Pressed**: `:active` or `[data-pressed=\"true\"]`\n- **Disabled**: `:disabled` or `[aria-disabled=\"true\"]`",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:115"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Link\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `href` | `string` | - | Destination URL for the anchor |\n| `target` | `string` | `\"_self\"` | Controls where to open the linked document |\n| `rel` | `string` | - | Relationship between the current and linked documents |\n| `download` | `boolean \\| string` | - | Prompts file download instead of navigation |\n| `isDisabled` | `boolean` | `false` | Disables pointer and keyboard interaction |\n| `className` | `string` | - | Custom classes merged with the default styles |\n| `children` | `React.ReactNode` | - | Content rendered inside the link |\n| `onPress` | `(e: PressEvent) => void` | - | Fired when the link is activated |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, LinkRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Link.Icon\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | - | Custom icon element; defaults to the built-in arrow icon when omitted |\n| `className` | `string` | - | Additional CSS classes |\n\n### Using with Routing Libraries\n\nUse variant functions to style framework-specific links like Next.js:\n\n```tsx\nimport { Link } from '@heroui/react';\nimport { linkVariants } from '@heroui/styles';\nimport NextLink from 'next/link';\n\nexport default function Demo() {\n  const slots = linkVariants();\n\n  return (\n    <NextLink className={slots.base()} href=\"/about\">\n      About Page\n      <Link.Icon className={slots.icon()} />\n    </NextLink>\n  );\n}\n```\n\n### Direct Class Application\n\nSince HeroUI uses [BEM](https://getbem.com/) classes, you can apply Link styles directly to any link element:\n\n```tsx\nimport NextLink from 'next/link';\n\n// Apply classes directly with Tailwind utilities\nexport default function Demo() {\n  return (\n    <NextLink href=\"/about\" className=\"link hover:underline underline-offset-2\">\n      About Page\n    </NextLink>\n  );\n}\n\n// Or with a native anchor\nexport default function NativeLink() {\n  return (\n    <a href=\"/about\" className=\"link underline decoration-accent underline-offset-4\">\n      About Page\n      <Link.Icon className=\"link__icon\" />\n    </a>\n  );\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:136"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"link\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:208"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "link-basic",
+   "source": "apps/docs/src/demos/en/link/basic.tsx",
+   "code": "import {Link} from \"@heroui/react\";\n\nexport function LinkBasic() {\n  return (\n    <Link href=\"#\">\n      Call to action\n      <Link.Icon />\n    </Link>\n  );\n}\n"
+  },
+  {
+   "name": "Icon Placement",
+   "section": "Examples",
+   "key": "link-icon-placement",
+   "source": "apps/docs/src/demos/en/link/icon-placement.tsx",
+   "code": "import {Link} from \"@heroui/react\";\n\nexport function LinkIconPlacement() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      <Link href=\"#\">\n        Icon at end (default)\n        <Link.Icon />\n      </Link>\n      <Link className=\"gap-1\" href=\"#\">\n        <Link.Icon />\n        Icon at start\n      </Link>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Text Decoration with Tailwind CSS",
+   "section": "Examples",
+   "key": "link-underline-and-offset",
+   "source": "apps/docs/src/demos/en/link/underline-and-offset.tsx",
+   "code": "import {Link} from \"@heroui/react\";\n\nexport function LinkUnderlineAndOffset() {\n  return (\n    <div className=\"flex flex-col gap-6\">\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Default hover underline</p>\n        <Link href=\"#\">\n          Hover to see the underline\n          <Link.Icon />\n        </Link>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Always visible underline</p>\n        <Link className=\"underline\" href=\"#\">\n          Underline always visible\n          <Link.Icon />\n        </Link>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">No underline</p>\n        <Link className=\"no-underline\" href=\"#\">\n          Link without any underline\n          <Link.Icon />\n        </Link>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Changing the underline offset</p>\n        <div className=\"flex flex-col gap-3\">\n          <Link className=\"underline-offset-1\" href=\"#\">\n            Offset 1 (1px space)\n            <Link.Icon />\n          </Link>\n          <Link className=\"underline-offset-2\" href=\"#\">\n            Offset 2 (2px space)\n            <Link.Icon />\n          </Link>\n          <Link className=\"underline-offset-3\" href=\"#\">\n            Offset 3 (3px space)\n            <Link.Icon />\n          </Link>\n          <Link className=\"underline-offset-4\" href=\"#\">\n            Offset 4 (4px space)\n            <Link.Icon />\n          </Link>\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Icon",
+   "section": "Examples",
+   "key": "link-custom-icon",
+   "source": "apps/docs/src/demos/en/link/custom-icon.tsx",
+   "code": "import {ArrowUpRightFromSquare, Link as LinkIcon} from \"@gravity-ui/icons\";\nimport {Link} from \"@heroui/react\";\n\nexport function LinkCustomIcon() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      <Link href=\"#\">\n        External link\n        <Link.Icon className=\"ms-1.5 size-3\">\n          <ArrowUpRightFromSquare />\n        </Link.Icon>\n      </Link>\n      <Link className=\"gap-1\" href=\"#\">\n        Go to page\n        <Link.Icon className=\"size-3\">\n          <LinkIcon />\n        </Link.Icon>\n      </Link>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "link-render-function",
+   "source": "apps/docs/src/demos/en/link/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Link} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <Link href=\"#\" render={(props) => <span {...props} data-custom=\"foo\" />}>\n      Call to action\n      <Link.Icon />\n    </Link>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "link-custom-styles",
+   "source": "apps/docs/src/demos/en/link/custom-styles.tsx",
+   "code": "import {Link} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <Link\n      className=\"font-medium text-neutral-700 underline decoration-neutral-300/80 underline-offset-4 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:decoration-neutral-600/80 dark:hover:text-neutral-100\"\n      href=\"#\"\n    >\n      Call to action\n      <Link.Icon />\n    </Link>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Link",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`href`",
+     "`string`",
+     "-",
+     "Destination URL for the anchor",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:142"
+    ],
+    [
+     "`target`",
+     "`string`",
+     "`\"_self\"`",
+     "Controls where to open the linked document",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:143"
+    ],
+    [
+     "`rel`",
+     "`string`",
+     "-",
+     "Relationship between the current and linked documents",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:144"
+    ],
+    [
+     "`download`",
+     "`boolean | string`",
+     "-",
+     "Prompts file download instead of navigation",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:145"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Disables pointer and keyboard interaction",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:146"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Custom classes merged with the default styles",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:147"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Content rendered inside the link",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:148"
+    ],
+    [
+     "`onPress`",
+     "`(e: PressEvent) => void`",
+     "-",
+     "Fired when the link is activated",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:149"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:150"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, LinkRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:151"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:138",
+   "section": "API Reference"
+  },
+  {
+   "name": "Link.Icon",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Custom icon element; defaults to the built-in arrow icon when omitted",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:157"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:158"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:153",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`download`",
+   "prop": "download",
+   "values": [
+    "boolean",
+    "string"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Link",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/link.mdx:145"
+  }
+ ]
+}

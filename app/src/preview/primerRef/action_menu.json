@@ -1,0 +1,165 @@
+{
+ "slug": "action_menu",
+ "title": "ActionMenu",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/ActionMenu",
+  "id": "action_menu",
+  "name": "ActionMenu",
+  "status": "beta",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-actionmenu--default",
+    "code": "() => (\n  <ActionMenu>\n    <ActionMenu.Button>Open menu</ActionMenu.Button>\n    <ActionMenu.Overlay width=\"medium\">\n      <ActionList>\n        <ActionList.Item onSelect={() => alert('Copy link clicked')}>\n          Copy link\n          <ActionList.TrailingVisual>⌘C</ActionList.TrailingVisual>\n        </ActionList.Item>\n        <ActionList.Item onSelect={() => alert('Quote reply clicked')}>\n          Quote reply\n          <ActionList.TrailingVisual>⌘Q</ActionList.TrailingVisual>\n        </ActionList.Item>\n        <ActionList.Item onSelect={() => alert('Edit comment clicked')}>\n          Edit comment\n          <ActionList.TrailingVisual>⌘E</ActionList.TrailingVisual>\n        </ActionList.Item>\n        <ActionList.Divider />\n        <ActionList.Item\n          variant=\"danger\"\n          onSelect={() => alert('Delete file clicked')}\n        >\n          Delete file\n          <ActionList.TrailingVisual>⌘D</ActionList.TrailingVisual>\n        </ActionList.Item>\n      </ActionList>\n    </ActionMenu.Overlay>\n  </ActionMenu>\n)"
+   },
+   {
+    "id": "components-actionmenu-features--links-and-actions",
+    "code": "() => (\n  <ActionMenu>\n    <ActionMenu.Button>Open menu</ActionMenu.Button>\n    <ActionMenu.Overlay width=\"auto\">\n      <ActionList>\n        <ActionList.Item onSelect={() => alert('Workflows clicked')}>\n          Workflows\n          <ActionList.LeadingVisual>\n            <WorkflowIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Item onSelect={() => alert('Archived items clicked')}>\n          Archived items\n          <ActionList.LeadingVisual>\n            <ArchiveIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.LinkItem href=\"/\">\n          Settings\n          <ActionList.LeadingVisual>\n            <GearIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.LinkItem>\n        <ActionList.Item onSelect={() => alert('Make a copy clicked')}>\n          Make a copy\n          <ActionList.LeadingVisual>\n            <CopyIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Divider />\n        <ActionList.Group>\n          <ActionList.GroupHeading>GitHub projects</ActionList.GroupHeading>\n          <ActionList.LinkItem href=\"/\">\n            What&apos;s new\n            <ActionList.LeadingVisual>\n              <RocketIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            Give feedback\n            <ActionList.LeadingVisual>\n              <CommentIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            GitHub Docs\n            <ActionList.LeadingVisual>\n              <BookIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n        </ActionList.Group>\n      </ActionList>\n    </ActionMenu.Overlay>\n  </ActionMenu>\n)"
+   },
+   {
+    "id": "components-actionmenu-features--single-select",
+    "code": "() => {\n  const options = [\n    {\n      name: 'Fast forward',\n    },\n    {\n      name: 'Recursive',\n    },\n    {\n      name: 'Ours',\n    },\n    {\n      name: 'Octopus',\n    },\n    {\n      name: 'Resolve',\n    },\n    {\n      name: 'Subtree',\n    },\n  ]\n  const [selectedIndex, setSelectedIndex] = React.useState(0)\n  const selectedType = options[selectedIndex]\n  return (\n    <ActionMenu>\n      <ActionMenu.Button>\n        <span className={classes.MutedText}>Options:</span> {selectedType.name}\n      </ActionMenu.Button>\n      <ActionMenu.Overlay width=\"auto\">\n        <ActionList selectionVariant=\"single\">\n          {options.map((options, index) => (\n            <ActionList.Item\n              key={index}\n              selected={index === selectedIndex}\n              onSelect={() => setSelectedIndex(index)}\n            >\n              {options.name}\n            </ActionList.Item>\n          ))}\n        </ActionList>\n      </ActionMenu.Overlay>\n    </ActionMenu>\n  )\n}"
+   },
+   {
+    "id": "components-actionmenu-features--multi-select",
+    "code": "() => {\n  type Option = {\n    name: string\n    selected: boolean\n  }\n  const [options, setOptions] = React.useState<Option[]>([\n    {\n      name: 'Show code folding buttons',\n      selected: true,\n    },\n    {\n      name: 'Wrap lines',\n      selected: false,\n    },\n    {\n      name: 'Center content',\n      selected: false,\n    },\n  ])\n  const toggle = (name: string) => {\n    setOptions(\n      options.map((option) => {\n        if (option.name === name) option.selected = !option.selected\n        return option\n      }),\n    )\n  }\n  return (\n    <ActionMenu>\n      <ActionMenu.Button>Display</ActionMenu.Button>\n      <ActionMenu.Overlay width=\"auto\">\n        <ActionList selectionVariant=\"multiple\">\n          {options.map((options) => (\n            <ActionList.Item\n              key={options.name}\n              selected={options.selected}\n              onSelect={() => toggle(options.name)}\n            >\n              {options.name}\n            </ActionList.Item>\n          ))}\n        </ActionList>\n      </ActionMenu.Overlay>\n    </ActionMenu>\n  )\n}"
+   },
+   {
+    "id": "components-actionmenu-features--inactive-items",
+    "code": "() => (\n  <ActionMenu>\n    <ActionMenu.Button>Open menu</ActionMenu.Button>\n    <ActionMenu.Overlay width=\"auto\">\n      <ActionList>\n        <ActionList.Item\n          onSelect={() => alert('Workflows clicked')}\n          inactiveText=\"Unavailable due to an outage\"\n        >\n          Workflows\n          <ActionList.LeadingVisual>\n            <WorkflowIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Item\n          onSelect={() => alert('Archived items clicked')}\n          inactiveText=\"Unavailable due to an outage\"\n        >\n          Archived items\n          <ActionList.LeadingVisual>\n            <ArchiveIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.LinkItem\n          href=\"/\"\n          inactiveText=\"Unavailable due to an outage\"\n        >\n          Settings\n          <ActionList.LeadingVisual>\n            <GearIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.LinkItem>\n        <ActionList.Item\n          onSelect={() => alert('Make a copy clicked')}\n          inactiveText=\"Unavailable due to an outage\"\n        >\n          Make a copy\n          <ActionList.LeadingVisual>\n            <CopyIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Divider />\n        <ActionList.Group>\n          <ActionList.GroupHeading>Github projects</ActionList.GroupHeading>\n          <ActionList.LinkItem href=\"/\">\n            What&apos;s new\n            <ActionList.LeadingVisual>\n              <RocketIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            Give feedback\n            <ActionList.LeadingVisual>\n              <CommentIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            GitHub Docs\n            <ActionList.LeadingVisual>\n              <BookIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n        </ActionList.Group>\n      </ActionList>\n    </ActionMenu.Overlay>\n  </ActionMenu>\n)"
+   },
+   {
+    "id": "components-actionmenu-features--loading-items",
+    "code": "() => (\n  <ActionMenu>\n    <ActionMenu.Button>Open menu</ActionMenu.Button>\n    <ActionMenu.Overlay width=\"auto\">\n      <ActionList>\n        <ActionList.Item onSelect={() => alert('Workflows clicked')} loading>\n          Workflows\n          <ActionList.LeadingVisual>\n            <WorkflowIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Item\n          onSelect={() => alert('Archived items clicked')}\n          loading\n        >\n          Archived items\n          <ActionList.LeadingVisual>\n            <ArchiveIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Item onSelect={() => alert('Make a copy clicked')} loading>\n          Make a copy\n          <ActionList.LeadingVisual>\n            <CopyIcon />\n          </ActionList.LeadingVisual>\n        </ActionList.Item>\n        <ActionList.Divider />\n        <ActionList.Group>\n          <ActionList.GroupHeading>Github projects</ActionList.GroupHeading>\n          <ActionList.LinkItem href=\"/\">\n            What&apos;s new\n            <ActionList.LeadingVisual>\n              <RocketIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            Give feedback\n            <ActionList.LeadingVisual>\n              <CommentIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n          <ActionList.LinkItem href=\"/\">\n            GitHub Docs\n            <ActionList.LeadingVisual>\n              <BookIcon />\n            </ActionList.LeadingVisual>\n          </ActionList.LinkItem>\n        </ActionList.Group>\n      </ActionList>\n    </ActionMenu.Overlay>\n  </ActionMenu>\n)"
+   },
+   {
+    "id": "components-actionmenu-features--submenus",
+    "code": "() => (\n  <ActionMenu>\n    <ActionMenu.Button>Edit</ActionMenu.Button>\n    <ActionMenu.Overlay>\n      <ActionList>\n        <ActionList.Item>Cut</ActionList.Item>\n        <ActionList.Item>Copy</ActionList.Item>\n        <ActionList.Item>Paste</ActionList.Item>\n        <ActionMenu>\n          <ActionMenu.Anchor>\n            <ActionList.Item>\n              <ActionList.LeadingVisual>\n                <SparkleFillIcon />\n              </ActionList.LeadingVisual>\n              Paste special\n            </ActionList.Item>\n          </ActionMenu.Anchor>\n          <ActionMenu.Overlay>\n            <ActionList>\n              <ActionList.Item>Paste plain text</ActionList.Item>\n              <ActionList.Item>Paste formulas</ActionList.Item>\n              <ActionList.Item>Paste with formatting</ActionList.Item>\n              <ActionMenu>\n                <ActionMenu.Anchor>\n                  <ActionList.Item>Paste from</ActionList.Item>\n                </ActionMenu.Anchor>\n                <ActionMenu.Overlay>\n                  <ActionList>\n                    <ActionList.Item>Current clipboard</ActionList.Item>\n                    <ActionList.Item>History</ActionList.Item>\n                    <ActionList.Item>Another device</ActionList.Item>\n                  </ActionList>\n                </ActionMenu.Overlay>\n              </ActionMenu>\n            </ActionList>\n          </ActionMenu.Overlay>\n        </ActionMenu>\n      </ActionList>\n    </ActionMenu.Overlay>\n  </ActionMenu>\n)"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "children",
+    "type": "React.ReactElement[]",
+    "defaultValue": "",
+    "required": true,
+    "description": "Recommended: `ActionMenu.Button` or `ActionMenu.Anchor` with `ActionMenu.Overlay`"
+   },
+   {
+    "name": "open",
+    "type": "boolean",
+    "defaultValue": "false",
+    "description": "If defined, will control the open/closed state of the overlay. Must be used in conjuction with `onOpenChange`."
+   },
+   {
+    "name": "onOpenChange",
+    "type": "(open: boolean) => void",
+    "defaultValue": "",
+    "description": "If defined, will control the open/closed state of the overlay. Must be used in conjuction with `open`."
+   },
+   {
+    "name": "anchorRef",
+    "type": "React.RefObject<HTMLElement>",
+    "defaultValue": "",
+    "description": "Useful for defining an external anchor"
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "ActionMenu.Button",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactElement",
+      "defaultValue": "",
+      "required": true,
+      "description": ""
+     }
+    ],
+    "passthrough": {
+     "element": "Button",
+     "url": "/react/Button"
+    }
+   },
+   {
+    "name": "ActionMenu.Anchor",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactElement",
+      "defaultValue": "",
+      "required": true,
+      "description": "Accepts a single child element"
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "description": "",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "ActionMenu.Overlay",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "defaultValue": "",
+      "required": true,
+      "description": ""
+     },
+     {
+      "name": "align",
+      "type": "start | center | end",
+      "defaultValue": "start",
+      "description": ""
+     },
+     {
+      "name": "side",
+      "type": "| 'inside-top' | 'inside-bottom' | 'inside-left' | 'inside-right' | 'inside-center' | 'outside-top' | 'outside-bottom' | 'outside-left' | 'outside-right'",
+      "defaultValue": "'outside-bottom'",
+      "description": "Controls which side of the anchor the menu will appear"
+     },
+     {
+      "name": "onPositionChange",
+      "type": "({ position }: { position: AnchorPosition }) => void",
+      "defaultValue": "",
+      "description": "Callback that is called when the position of the overlay changes"
+     },
+     {
+      "name": "data-test-id",
+      "type": "unknown",
+      "required": false,
+      "description": "ID to use for React testing utilities.",
+      "defaultValue": ""
+     }
+    ],
+    "passthrough": {
+     "element": "Overlay",
+     "url": "/react/Overlay"
+    }
+   }
+  ]
+ },
+ "source": "generated/components.json:688",
+ "name": "action_menu",
+ "sourceKey": "$.components.action_menu",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "ActionList",
+  "ActionMenu",
+  "ArchiveIcon",
+  "BookIcon",
+  "CommentIcon",
+  "CopyIcon",
+  "GearIcon",
+  "Option",
+  "RocketIcon",
+  "SparkleFillIcon",
+  "WorkflowIcon"
+ ]
+}

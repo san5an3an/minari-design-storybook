@@ -1,0 +1,207 @@
+{
+ "slug": "modals",
+ "title": "Modals",
+ "docs": [
+  {
+   "repoPath": "ui/components/modals/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/modals/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/modals/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/modals/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/modals/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @base\n * @name modals\n * @selector .slds-modal\n * @support dev-ready\n * @category structure\n * @type layout\n * @role modal-dialog\n * @s1 false\n * @layout adaptive\n * @scroller\n * @styling-hooks\n */\n"
+   },
+   {
+    "source": "scss/components/modals/base/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * Originally this deprecate file was not being imported, therefore the\n * below rule was not outputted. Commenting out to keep existing behavior\n * since this is deprecated and nothing broke with its absence.\n */\n// @include deprecate('4.0.0', 'Please use slds-backdrop instead') {\n\n//   .slds-modal-backdrop {\n//     @include backdrop;\n//   }\n// }\n\n@include deprecate('4.0.0', 'Please use slds-modal__content instead') {\n  /**\n   * Creates the shaded menu area for the modal.\n   *\n   * @selector .slds-modal__menu\n   * @restrict .slds-modal div\n   * @notes Either `.slds-modal__menu` or `.slds-modal__content` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__header`.\n   * @required\n   * @deprecated\n   */\n  .slds-modal__menu {\n    position: relative;\n    border-radius: $border-radius-medium;\n    padding: $spacing-medium;\n    background-color: var(--slds-g-color-neutral-base-95, #{$color-background});\n\n    @include mq-medium-max {\n\n      .slds-button {\n        width: 100%;\n        margin: $spacing-xxx-small 0;\n      }\n    }\n  }\n}\n\n@include deprecate('4.0.0', 'Please move slds-modal__close outside modal header') {\n\n  .slds-modal__header .slds-modal__close {\n    position: absolute;\n    top: ($square-icon-medium-boundary * -1.25);\n    right: 0;\n    margin-left: 0;\n    bottom: 0;\n  }\n}\n\n@include deprecate('4.0.0', 'Empty modal header no longer necessary') {\n  /**\n  * Use when modal header has no content\n  *\n  * @selector .slds-modal__header_empty\n  * @restrict .slds-modal__header\n  * @deprecated\n  */\n  .slds-modal__header_empty,\n  .slds-modal__header--empty {\n    /*! @css-var-fallback padding-top */\n    --sds-c-modal-header-spacing-block-start: 0;\n\n    /*! @css-var-fallback padding-bottom */\n    --sds-c-modal-header-spacing-block-end: 0;\n\n    /*! @css-var-fallback padding-left */\n    --sds-c-modal-header-spacing-inline-start: 0;\n\n    /*! @css-var-fallback padding-right */\n    --sds-c-modal-header-spacing-inline-end: 0;\n\n    /*! @css-var-fallback border-bottom */\n    --slds-c-modal-sizing-border: 0;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/modals/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n\n/**\n * @name base\n * @selector .slds-modal\n * @restrict section\n * @support dev-ready\n * @variant\n */\n.slds-modal {\n  opacity: 0;\n  visibility: hidden;\n  transition:\n    transform $duration-quickly linear,\n    opacity $duration-quickly linear;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: ($z-index-modal + 1);\n\n  /**\n    * Modal title (optional)\n    *\n    * @selector .slds-modal__title\n    * @restrict .slds-modal__header h1, .slds-modal__header h2, .slds-modal__header h3, .slds-modal__header h4, .slds-modal__header h5\n    */\n  .slds-modal__title {\n    font-weight: var(--slds-c-modal-heading-font-weight, var(--sds-c-modal-heading-font-weight));\n    font-size: var(--slds-c-modal-heading-font-size, var(--sds-c-modal-heading-font-size, $font-size-7));\n    line-height: var(--slds-c-modal-heading-line-height, var(--sds-c-modal-heading-line-height, $line-height-heading));\n  }\n}\n\n/**\n  * Centers and sizes the modal horizontally and confines modal within viewport height\n  *\n  * @selector .slds-modal__container\n  * @restrict .slds-modal div\n  * @notes This should be nested immediately inside `.slds-modal` with nothing else nested on the same level.\n  * @required\n  */\n.slds-modal__container {\n  position: relative;\n  transform: translate(0, 0);\n  transition:\n    transform $duration-quickly linear,\n    opacity $duration-quickly linear;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  margin: 0 $spacing-x-large;\n  height: 100%;\n  padding: $square-icon-large-boundary 0 $square-icon-large-boundary-alt 0;\n  border-radius: $border-radius-medium;\n\n  @include mq-medium-min {\n    margin: 0 auto;\n    width: 50%;\n    max-width: 40rem; // TODO: Tokenize\n    min-width: 20rem; // TODO: Tokenize\n  }\n}\n\n/**\n  * Creates the Modal Header container.\n  *\n  * @selector .slds-modal__header\n  * @restrict .slds-modal header\n  * @notes This should be nested immediately inside `.slds-modal__container` as the first element.\n  * @required\n  */\n.slds-modal__header {\n  position: relative;\n  border-top-right-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-top-left-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-bottom-width: var(--slds-c-modal-sizing-border, var(--sds-c-modal-sizing-border, $border-width-thick));\n  border-bottom-style: solid;\n  border-bottom-color: var(--slds-c-modal-color-border, var(--sds-c-modal-color-border, var(--slds-g-color-border-base-1, #{$color-border})));\n  background-color: var(--slds-c-modal-header-color-background, var(--sds-c-modal-header-color-background, var(--slds-c-modal-color-background, var(--sds-c-modal-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-alt})))));\n  color: var(--slds-c-modal-header-text-color, var(--sds-c-modal-header-text-color, var(--sds-c-modal-text-color)));\n  flex-shrink: 0;\n  padding-top: var(--slds-c-modal-header-spacing-block-start, var(--slds-c-modal-header-spacing-blockstart, var(--sds-c-modal-header-spacing-block-start, $spacing-medium)));\n  padding-right: var(--slds-c-modal-header-spacing-inline-end, var(--slds-c-modal-header-spacing-inlineend, var(--sds-c-modal-header-spacing-inline-end, $spacing-medium)));\n  padding-bottom: var(--slds-c-modal-header-spacing-block-end, var(--slds-c-modal-header-spacing-blockend, var(--sds-c-modal-header-spacing-block-end, $spacing-medium)));\n  padding-left: var(--slds-c-modal-header-spacing-inline-start, var(--slds-c-modal-header-spacing-inlinestart, var(--sds-c-modal-header-spacing-inline-start, $spacing-medium)));\n  text-align: center;\n\n  + .slds-modal__menu {\n    border-top-right-radius: 0;\n    border-top-left-radius: 0;\n  }\n}\n\n\n/**\n  * Headless modal styling\n  *\n  * @selector .slds-modal__content_headless\n  * @restrict .slds-modal__content\n  */\n.slds-modal__content_headless,\n.slds-modal__header_empty + .slds-modal__content,\n.slds-modal__header--empty + .slds-modal__content {\n  border-top-right-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-top-left-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n}\n\n/**\n  * Creates the scrollable content area for the modal.\n  *\n  * @selector .slds-modal__content\n  * @restrict .slds-modal div\n  * @required\n  */\n.slds-modal__content {\n  background-color: var(--slds-c-modal-content-color-background, var(--sds-c-modal-content-color-background, var(--slds-c-modal-color-background, var(--sds-c-modal-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-alt})))));\n  color: var(--slds-c-modal-content-text-color, var(--sds-c-modal-content-text-color, var(--slds-c-modal-text-color, var(--sds-c-modal-text-color))));\n  overflow: hidden;\n  overflow-y: auto;\n}\n\n/**\n  * Footless modal styling\n  *\n  * @selector .slds-modal__content_footless\n  * @restrict .slds-modal__content\n  */\n.slds-modal__content_footless,\n.slds-modal__container > .slds-modal__content:last-child,\n.slds-modal__content_has-hidden-footer {\n  border-bottom-right-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-bottom-left-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  box-shadow: var(--slds-c-modal-shadow, var(--sds-c-modal-shadow, $shadow-drop-down));\n}\n\n/**\n  * Creates the Modal Footer container.\n  *\n  * @selector .slds-modal__footer\n  * @restrict .slds-modal footer\n  * @notes This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__container`. Nothing should follow it. Note that by default, elements will be aligned to the right.\n  * @required\n  */\n.slds-modal__footer {\n  border-bottom-right-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-bottom-left-radius: var(--slds-c-modal-radius-border, var(--sds-c-modal-radius-border, $border-radius-medium));\n  border-top-width: var(--slds-c-modal-sizing-border, var(--sds-c-modal-sizing-border, $border-width-thick));\n  border-top-style: solid;\n  border-top-color: var(--slds-c-modal-color-border, var(--sds-c-modal-color-border, var(--slds-g-color-border-base-1, #{$color-border})));\n  background-color: var(--slds-c-modal-footer-color-background, var(--sds-c-modal-footer-color-background, var(--slds-c-modal-color-background, var(--sds-c-modal-color-background, var(--slds-g-color-neutral-base-95, #{$color-background})))));\n  color: var(--slds-c-modal-footer-text-color, var(--sds-c-modal-footer-text-color, var(--slds-c-modal-text-color, var(--sds-c-modal-text-color))));\n  flex-shrink: 0;\n  padding-top: var(--slds-c-modal-footer-spacing-block-start, var(--slds-c-modal-footer-spacing-blockstart, var(--sds-c-modal-footer-spacing-block-start, $spacing-small)));\n  padding-right: var(--slds-c-modal-footer-spacing-inline-end, var(--slds-c-modal-footer-spacing-inlineend, var(--sds-c-modal-footer-spacing-inline-end, $spacing-medium)));\n  padding-bottom: var(--slds-c-modal-footer-spacing-block-end, var(--slds-c-modal-footer-spacing-blockend, var(--sds-c-modal-footer-spacing-block-end, $spacing-small)));\n  padding-left: var(--slds-c-modal-footer-spacing-inline-start, var(--slds-c-modal-footer-spacing-inlinestart, var(--sds-c-modal-footer-spacing-inline-start, $spacing-medium)));\n  text-align: right;\n  box-shadow: var(--slds-c-modal-shadow, var(--sds-c-modal-shadow, $shadow-drop-down));\n\n  .slds-button + .slds-button {\n    margin-left: $spacing-x-small;\n  }\n}\n\n/**\n  * Makes buttons inside the footer spread to both left and right.\n  *\n  * @selector .slds-modal__footer_directional\n  * @restrict .slds-modal__footer\n  * @notes This is only needed when you have two buttons that indicate a back and forward navigation.\n  * @modifier\n  * @group direction\n  */\n.slds-modal__footer_directional .slds-button:first-child,\n.slds-modal__footer--directional .slds-button:first-child {\n  float: left;\n}\n\n/**\n  * Positions the close button to the top right outside of the modal.\n  *\n  * @selector .slds-modal__close\n  * @restrict .slds-modal button\n  * @notes Either `.slds-modal__content` or `.slds-modal__menu` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container`.\n  * @required\n  */\n.slds-modal__close {\n  @include square($square-icon-medium-boundary);\n  margin-left: auto;\n  position: relative;\n  bottom: $spacing-x-small;\n  background-color: var(--slds-g-color-neutral-base-100, #{$palette-neutral-100});\n\n  &:active {\n    background-color: var(--slds-g-color-neutral-base-95, #{$palette-neutral-95});\n    border: none;\n  }\n\n  &:focus,\n  &:focus-visible {\n    box-shadow: var(--slds-g-shadow-inset-inverse-focus-1);\n    outline: 0;\n  }\n}\n\n@mixin backdrop {\n  // Mixin created to not have to paste this again into the new class it's being renamed to (see below)\n  @include duration-slowly;\n  @include square(100%);\n  opacity: 0;\n  visibility: hidden;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: var(--slds-c-backdrop-color-background, var(--sds-c-backdrop-color-background, var(--slds-s-backdrop-color-background, \n    var(--slds-g-color-neutral-10-opacity-50, #{$color-background-temp-modal-tint}))));\n  z-index: $z-index-modal;\n\n  /**\n   * Allows the backdrop to be visible.\n   *\n   * @selector .slds-backdrop_open\n   * @restrict .slds-backdrop\n   * @notes Apply this class to a modal backdrop with JavaScript to make it visible.\n   * @modifier\n   * @required\n   */\n  &_open,\n  &--open {\n    visibility: visible;\n    opacity: 1;\n    transition: opacity $duration-slowly linear;\n  }\n}\n\n/**\n * @summary Widens the modal to take more horizontal space than default\n * @name small\n * @selector .slds-modal_small\n * @restrict .slds-modal\n * @modifier\n * @group size\n */\n.slds-modal_small {\n\n  .slds-modal__container {\n    @include mq-medium-min {\n      width: 60%;\n      max-width: 52.0625rem; // This value taken from welcome mat modal\n      min-width: 40rem; // TODO: Tokenize\n    }\n  }\n}\n\n/**\n * @summary Widens the modal to take more horizontal space than small\n * @name medium\n * @selector .slds-modal_medium\n * @restrict .slds-modal\n * @modifier\n * @group size\n */\n.slds-modal_medium {\n\n  .slds-modal__container {\n    @include mq-medium-min {\n      width: 70%;\n      max-width: 75rem;\n      min-width: 40rem; // TODO: Tokenize\n    }\n  }\n}\n\n/**\n * @summary Widens the modal to take more horizontal space than large\n * @name large\n * @selector .slds-modal_large\n * @restrict .slds-modal\n * @modifier\n * @group size\n */\n.slds-modal_large .slds-modal__container,\n.slds-modal--large .slds-modal__container {\n  @include mq-medium-min {\n    width: 90%;\n    max-width: none;\n    min-width: 40rem; // TODO: Tokenize\n  }\n}\n\n/**\n * @summary Makes the modal full screen in small viewports\n * @name full\n * @selector .slds-modal_full\n * @restrict .slds-modal\n * @modifier\n * @group size\n */\n.slds-modal_full {\n\n  // Behaves like large size when not in a small viewport\n  .slds-modal__container {\n    @include mq-medium-min {\n      width: 90%;\n      max-width: none;\n      min-width: 40rem;\n    }\n  }\n\n  // We use mq-small-max since modal was originally designed as desktop first;\n  // This saves us from having to duplicate code for the full modifier.\n  @include mq-small-max {\n    // Account for iOS safe areas so our modal doesn't load underneath iOS elements.\n    top: env(safe-area-inset-top, 0);\n    // Override slds-modal's bottom: 0 so we can make the height dynamic.\n    bottom: auto;\n    // Viewport may be dynamic, e.g., iOS Safari toolbar hiding behavior, so we use dvh. Safe areas may not be required here.\n    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));\n\n    .slds-modal__header {\n      grid-area: header;\n      border-top-left-radius: 0;\n      border-top-right-radius: 0;\n    }\n\n    .slds-modal__container {\n      width: 100%;\n      max-width: none;\n      min-width: 0;\n      margin: 0;\n      padding: $spacing-medium 0 0 0;\n      // Only __content used to get background color, we want entire modal to get it since we're fullscreen\n      background-color: var(--slds-c-modal-header-color-background, var(--slds-c-modal-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-alt})));\n      border-radius: 0;\n      /* Establishes the main layout of the modal. Grid is defined by grid-template-areas\n      which explicitly defines the grid and allows optional elements to be omitted like\n      the header or footer. */\n      display: grid;\n      height: 100dvh;\n      grid-template-rows: min-content min-content 1fr min-content;\n      grid-template-areas:\n        \"close\"\n        \"header\"\n        \"content\"\n        \"footer\";\n      grid-template-columns: minmax(0, 1fr);\n    }\n\n    /**\n    * Footless modal styling\n    */\n    .slds-modal__content_footless,\n    .slds-modal__container > .slds-modal__content:last-child,\n    .slds-modal__content_has-hidden-footer {\n      border-bottom-right-radius: 0;\n      border-bottom-left-radius: 0;\n      box-shadow: none;\n    }\n\n    .slds-modal__close {\n      grid-area: close;\n      right: $spacing-medium;\n\n      // A few things going on here:\n      // - We want to avoid a markup change for a single modifier so we reassign/override.\n      // - Button icon doesn't have component level hooks (yet), so we don't include them here\n      //   and we have to override the CSS property instead of reassign.\n      // - States on button have a bug, they override instead of reassign hooks\n      //   so the values of empty hooks default to initial values. In the case\n      //   of background colors, the background will disappear (initial = transparent).\n      --slds-c-button-color-background: var(--slds-g-color-neutral-base-100, #{$button-color-background-primary});\n      --slds-c-button-color-background-active: var(--slds-g-color-neutral-base-100, #{$button-color-background-primary});\n      color: var(--slds-g-color-neutral-base-50, #{$color-text-icon-default});\n    }\n\n    .slds-modal__close:hover,\n    .slds-modal__:focus {\n      color: $brand-accessible-active;\n    }\n\n    .slds-modal__content {\n      grid-area: content;\n    }\n\n    .slds-modal__footer {\n      grid-area: footer;\n      border-bottom-right-radius: 0;\n      border-bottom-left-radius: 0;\n      box-shadow: none;\n    }\n  }\n\n  /**\n   * INTERNAL USE ONLY - SUBJECT TO CHANGE AND REMOVAL\n   *\n   * SLDS Blueprint <> LBC Parity Patch\n   *\n   * SLDS blueprints and LBC implementation are not 1:1. This patch is needed to\n   * account for the differences introduced in the LBC implementation. Location\n   * of this code would ideally live within the LBC component CSS module but\n   * synthetic shadow and how LBC deconstructs the modal into individual components\n   * makes this not feasible. Not ideal, but this is the best solution for now.\n   * Selectors are scoped to lightning-* to avoid any potential outside conflicts.\n   */\n  lightning-modal,\n  lightning-modal-header,\n  lightning-modal-body,\n  lightning-modal-footer {\n      display: contents;\n  }\n}\n\n/**\n * Creates the shaded backdrop used behind the modal.\n *\n * @selector .slds-backdrop\n * @restrict .slds-modal ~ div\n * @notes This should follow after the `.slds-modal` as an empty element.\n * @required\n */\n.slds-backdrop {\n  // new class\n  @include backdrop;\n}\n\n/**\n * Allows the modal to be visible.\n *\n * @selector .slds-fade-in-open\n * @restrict .slds-modal\n * @notes Apply this class to a modal with JavaScript to make it visible.\n * @modifier\n * @group animation\n */\n.slds-fade-in-open {\n  opacity: 1;\n  visibility: visible;\n  transition: opacity $duration-quickly linear;\n\n  .slds-modal__container-reset {\n    opacity: 1;\n    visibility: visible;\n    transform: translate(0, 0);\n  }\n}\n\n/**\n *\n *\n * @selector .slds-slide-up-open\n * @restrict .slds-modal\n * @modifier\n * @group animation\n */\n.slds-slide-up-open {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, 0);\n  transition:\n    opacity $duration-quickly linear,\n    transform $duration-promptly linear;\n\n  .slds-modal__container-reset {\n    opacity: 0;\n    visibility: hidden;\n    transform: translate(0, $spacing-medium);\n    transition:\n      opacity $duration-promptly linear,\n      transform $duration-promptly linear;\n  }\n}\n\n/**\n *\n *\n * @selector .slds-slide-up-saving\n * @restrict .slds-modal\n * @modifier\n * @group animation\n */\n.slds-slide-up-saving {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, -$spacing-medium);\n}\n\n/**\n *\n *\n * @selector .slds-slide-down-cancel\n * @restrict .slds-modal\n * @modifier\n * @group animation\n */\n.slds-slide-down-cancel {\n  opacity: 1;\n  visibility: visible;\n  transform: translate(0, $spacing-medium);\n}\n"
+   },
+   {
+    "source": "scss/components/modals/base/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-modal {\n\n  .slds-modal__title {\n    font-weight: $font-weight-bold;\n  }\n}\n\n.slds-modal__close {\n  @include square($height-tappable);\n}\n\n.slds-modal__header .slds-modal__close {\n  top: -$height-tappable;\n  right: 0;\n}\n"
+   }
+  ],
+  "source": "scss/components/modals"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-modal-heading-font-weight",
+    "",
+    "Text",
+    "String, Number",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-heading-font-size",
+    "1.25rem",
+    "Font",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-heading-line-height",
+    "1.25",
+    "Text",
+    "Number",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-radius-border",
+    "0.25rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-sizing-border",
+    "2px",
+    "Sizing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-color-border",
+    "1, rgb(229, 229, 229)",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-text-color",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-spacing-block-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-spacing-block-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-header-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-content-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-content-text-color",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-shadow",
+    "0 2px 3px 0 rgba(0, 0, 0, 0.16)",
+    "Box Shadow",
+    "String",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-color-background",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-text-color",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-spacing-block-start",
+    "0.75rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-spacing-block-end",
+    "0.75rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-modal-footer-spacing-inline-start",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/modals/styling-hooks.json"
+   ],
+   [
+    "--slds-c-backdrop-color-background",
+    "10-opacity-50, rgba(8, 7, 7, 0.6)",
+    "Color",
+    "Color",
+    "metadata/components/modals/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/modals/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

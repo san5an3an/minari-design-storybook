@@ -1,0 +1,88 @@
+{
+  "slug": "context-menu",
+  "title": "Context Menu",
+  "kind": "component",
+  "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: Context Menu\n---\n\n# Context Menu\n\n**Context menus** present the user with a list of actions when right-clicking on a target element.\nThey essentially generate an opinionated [**PopoverNext**](#core/components/popover-next) instance configured\nwith the appropriate interaction handlers.\n\n## Import\n\n```ts copy\nimport { ContextMenu } from \"@blueprintjs/core\";\n```\n\n@reactExample ContextMenuExample\n\n## Usage\n\nCreate a context menu using the simple function component:\n\n```tsx\nimport { ContextMenu, Menu, MenuItem } from \"@blueprintjs/core\";\n\nexport default function ContextMenuExample() {\n    return (\n        <ContextMenu\n            content={\n                <Menu>\n                    <MenuItem text=\"Save\" />\n                    <MenuItem text=\"Save as...\" />\n                    <MenuItem text=\"Delete...\" intent=\"danger\" />\n                </Menu>\n            }\n        >\n            <div className=\"my-context-menu-target\">Right click me!</div>\n        </ContextMenu>\n    );\n}\n```\n\n`<ContextMenu>` will render a `<div>` wrapper element around its children. You can treat this\ncomponent as a `<div>`, since extra props will be forwarded down to the DOM element. For example,\nyou can add an `onClick` handler. You may also customize the tag name of the generated wrapper\nelement using the `tagName` prop. Note that the generated popover will be rendered as a _sibling_\nof this wrapper element.\n\n### Advanced usage\n\nBy default, `<ContextMenu>` will render a wrapper element around its children to attach an event handler\nand get a DOM ref for theme detection. If this wrapper element breaks your HTML and/or CSS layout in\nsome way and you wish to omit it, you may do so by utilizing ContextMenu's advanced rendering API\nwhich uses a `children` render function. If you use this approach, you must take care to properly use\nall the render props supplied to the `children()` function:\n\n```tsx\nimport classNames from \"classnames\";\nimport { ContextMenu, ContextMenuChildrenProps, Menu, MenuItem } from \"@blueprintjs/core\";\n\nexport default function AdvancedContextMenuExample() {\n    return (\n        <ContextMenu\n            content={\n                <Menu>\n                    <MenuItem text=\"Save\" />\n                    <MenuItem text=\"Save as...\" />\n                    <MenuItem text=\"Delete...\" intent=\"danger\" />\n                </Menu>\n            }\n        >\n            {(ctxMenuProps: ContextMenuChildrenProps) => (\n                <div\n                    className={classNames(\"my-context-menu-target\", ctxMenuProps.className)}\n                    onContextMenu={ctxMenuProps.onContextMenu}\n                    ref={ctxMenuProps.ref}\n                >\n                    {ctxMenuProps.popover}\n                    Right click me!\n                </div>\n            )}\n        </ContextMenu>\n    );\n}\n```\n\nBoth `content` and `children` props support the [render prop](https://reactjs.org/docs/render-props.html)\npattern, so you may use information about the context menu's state (such as `isOpen: boolean`) in your\nrender code.\n\n## Props interface\n\nTo enable/disable the context menu popover, use the `disabled` prop. Note that it is inadvisable to change\nthe value of this prop inside the `onContextMenu` callback for this component; doing so can lead to unpredictable\nbehavior.\n\n@interface ContextMenuProps\n",
+  "lines": 98,
+  "frontMatter": {
+    "title": "Context Menu"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Context Menu",
+      "at": 29,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:5",
+      "name": "Context Menu"
+    },
+    {
+      "level": 2,
+      "text": "Import",
+      "at": 298,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:11",
+      "name": "Import"
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 408,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:19",
+      "name": "Usage"
+    },
+    {
+      "level": 3,
+      "text": "Advanced usage",
+      "at": 1409,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:49",
+      "name": "Advanced usage"
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 3050,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:91",
+      "name": "Props interface"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { ContextMenu } from \"@blueprintjs/core\";\n",
+      "at": 320,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:14",
+      "name": "import { ContextMenu } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { ContextMenu, Menu, MenuItem } from \"@blueprintjs/core\";\n\nexport default function ContextMenuExample() {\n    return (\n        <ContextMenu\n            content={\n                <Menu>\n                    <MenuItem text=\"Save\" />\n                    <MenuItem text=\"Save as...\" />\n                    <MenuItem text=\"Delete...\" intent=\"danger\" />\n                </Menu>\n            }\n        >\n            <div className=\"my-context-menu-target\">Right click me!</div>\n        </ContextMenu>\n    );\n}\n",
+      "at": 485,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:24",
+      "name": "import { ContextMenu, Menu, MenuItem } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import classNames from \"classnames\";\nimport { ContextMenu, ContextMenuChildrenProps, Menu, MenuItem } from \"@blueprintjs/core\";\n\nexport default function AdvancedContextMenuExample() {\n    return (\n        <ContextMenu\n            content={\n                <Menu>\n                    <MenuItem text=\"Save\" />\n                    <MenuItem text=\"Save as...\" />\n                    <MenuItem text=\"Delete...\" intent=\"danger\" />\n                </Menu>\n            }\n        >\n            {(ctxMenuProps: ContextMenuChildrenProps) => (\n                <div\n                    className={classNames(\"my-context-menu-target\", ctxMenuProps.className)}\n                    onContextMenu={ctxMenuProps.onContextMenu}\n                    ref={ctxMenuProps.ref}\n                >\n                    {ctxMenuProps.popover}\n                    Right click me!\n                </div>\n            )}\n        </ContextMenu>\n    );\n}\n",
+      "at": 1903,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:58",
+      "name": "import classNames from \"classnames\";"
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "ContextMenuExample",
+      "at": 374,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:17"
+    },
+    {
+      "name": "interface",
+      "arg": "ContextMenuProps",
+      "at": 3302,
+      "source": "node_modules/@blueprintjs/core/src/components/context-menu/context-menu.mdx:97"
+    }
+  ]
+}

@@ -1,0 +1,679 @@
+{
+ "slug": "search-field",
+ "title": "SearchField",
+ "description": "Search input field with clear button and search icon",
+ "group": "Forms",
+ "links": {
+  "rac": "SearchField",
+  "sourceFile": "search-field/search-field.tsx",
+  "styles": "search-field.css",
+  "storybook": "Components/Forms/SearchField",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { SearchField } from '@heroui/react';\n```\n\n<ComponentPreview name=\"search-field-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {SearchField, Label, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <SearchField>\n    <Label />\n    <SearchField.Group>\n      <SearchField.SearchIcon />\n      <SearchField.Input />\n      <SearchField.ClearButton />\n    </SearchField.Group>\n    <Description />\n    <FieldError />\n  </SearchField>\n)\n```\n\n> **SearchField** allows users to enter and clear a search query. It includes a search icon and an optional clear button for easy reset.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nThe SearchField component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"search-field-variants\" />\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"search-field-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"search-field-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"search-field-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"search-field-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"search-field-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"search-field-validation\" />\n\n### Controlled\n\nControl the value to synchronize with other components or perform custom formatting.\n\n<ComponentPreview name=\"search-field-controlled\" />\n\n### Form Example\n\nComplete form integration with validation and submission handling.\n\n<ComponentPreview name=\"search-field-form-example\" />\n\n### With Validation\n\nImplement custom validation logic with controlled values.\n\n<ComponentPreview name=\"search-field-with-validation\" />\n\n### Custom Icons\n\nCustomize the search icon and clear button icons.\n\n<ComponentPreview name=\"search-field-custom-icons\" />\n\n### With Keyboard Shortcut\n\nAdd keyboard shortcuts to quickly focus the search field.\n\n<ComponentPreview name=\"search-field-with-keyboard-shortcut\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"search-field-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:41"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"search-field-custom-styles\" />\n\n### Global CSS\n\nSearchField uses CSS classes that can be customized. Override the component classes to match your design system.\n\n```css\n@layer components {\n  .search-field {\n    @apply flex flex-col gap-1;\n  }\n\n  /* When invalid, the description is hidden automatically */\n  .search-field[data-invalid],\n  .search-field[aria-invalid] {\n    [data-slot=\"description\"] {\n      @apply hidden;\n    }\n  }\n\n  .search-field__group {\n    @apply bg-field text-field-foreground shadow-field rounded-field inline-flex h-9 items-center overflow-hidden border;\n  }\n\n  .search-field__input {\n    @apply flex-1 rounded-none border-0 bg-transparent px-3 py-2 shadow-none outline-none;\n  }\n\n  .search-field__search-icon {\n    @apply text-field-placeholder pointer-events-none shrink-0 ml-3 mr-0 size-4;\n  }\n\n  .search-field__clear-button {\n    @apply mr-1 shrink-0;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:116"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n#### Base Classes [!toc]\n\n- `.search-field` – Root container with minimal styling (`flex flex-col gap-1`)\n- `.search-field__group` – Container for search icon, input, and clear button with border and background styling\n- `.search-field__input` – The search input field\n- `.search-field__search-icon` – The search icon displayed on the left\n- `.search-field__clear-button` – Button to clear the search field\n\n#### Variant Classes [!toc]\n\n- `.search-field--primary` – Primary variant with shadow (default)\n- `.search-field--secondary` – Secondary variant without shadow, suitable for use in surfaces\n\n> **Note:** Child components ([Label](/docs/components/label), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options.\n\n### Interactive States\n\nSearchField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when the input is focused\n- **Focus Visible**: `[data-focus-visible=\"true\"]` - Applied when focus is visible (keyboard navigation)\n- **Hovered**: `[data-hovered=\"true\"]` - Applied when hovering over the group\n- **Empty**: `[data-empty=\"true\"]` - Applied when the field is empty (hides clear button)\n\nAdditional attributes are available through render props (see SearchFieldRenderProps below).",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:158"
+  },
+  {
+   "name": "API Reference",
+   "body": "### SearchField\n\nSearchField inherits all props from React Aria's [SearchField](https://react-spectrum.adobe.com/react-aria/SearchField.html) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: SearchFieldRenderProps) => React.ReactNode` | - | Child components (Label, Group, Input, etc.) or render function. |\n| `className` | `string \\| (values: SearchFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: SearchFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the search field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SearchFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `string` | - | Current value (controlled). |\n| `defaultValue` | `string` | - | Default value (uncontrolled). |\n| `onChange` | `(value: string) => void` | - | Handler called when the value changes. |\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `validate` | `(value: string) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n| `validationErrors` | `string[]` | - | Server-side validation errors. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n\n#### Event Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `onSubmit` | `(value: string) => void` | - | Handler called when the user submits the search (Enter key). |\n| `onClear` | `() => void` | - | Handler called when the clear button is pressed. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nSearchField works with these separate components that should be imported and used directly:\n\n- **SearchField.Group** - Container for search icon, input, and clear button\n- **SearchField.Input** - The search input field\n- **SearchField.SearchIcon** - The search icon displayed on the left\n- **SearchField.ClearButton** - Button to clear the search field\n- **Label** - Field label component from `@heroui/react`\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within SearchField for composition:\n\n```tsx\n<SearchField isRequired isInvalid={hasError} value={value} onChange={setValue}>\n  <Label>Search</Label>\n  <SearchField.Group>\n    <SearchField.SearchIcon />\n    <SearchField.Input placeholder=\"Search...\" />\n    <SearchField.ClearButton />\n  </SearchField.Group>\n  <Description>Enter keywords to search</Description>\n  <FieldError>Search query is required</FieldError>\n</SearchField>\n```\n\n#### SearchField.Group Props\n\nSearchField.Group inherits props from React Aria's [Group](https://react-spectrum.adobe.com/react-aria/Group.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: GroupRenderProps) => React.ReactNode` | - | Child components (SearchIcon, Input, ClearButton) or render function. |\n| `className` | `string \\| (values: GroupRenderProps) => string` | - | CSS classes for styling. |\n\n#### SearchField.Input Props\n\nSearchField.Input inherits props from React Aria's [Input](https://react-spectrum.adobe.com/react-aria/Input.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | CSS classes for styling. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `placeholder` | `string` | - | Placeholder text displayed when the input is empty. |\n| `type` | `string` | `\"search\"` | Input type (automatically set to \"search\"). |\n\n#### SearchField.SearchIcon Props\n\nSearchField.SearchIcon is a custom component that renders the search icon.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | `<IconSearch />` | Custom icon element. Defaults to search icon. |\n| `className` | `string` | - | CSS classes for styling. |\n\n#### SearchField.ClearButton Props\n\nSearchField.ClearButton inherits props from React Aria's [Button](https://react-spectrum.adobe.com/react-aria/Button.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | `<CloseButton icon />` | Icon or content for the button. Defaults to close icon. |\n| `className` | `string` | - | CSS classes for styling. |\n| `slot` | `\"clear\"` | `\"clear\"` | Must be set to \"clear\" (automatically set). |\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused (DEPRECATED - use `isFocusWithin`). |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |\n| `value` | `string` | Current value. |\n| `isEmpty` | `boolean` | Whether the field is empty. |",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:192"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"SearchField\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:340"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"searchfield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:344"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "search-field-basic",
+   "source": "apps/docs/src/demos/en/search-field/basic.tsx",
+   "code": "import {Label, SearchField} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <SearchField name=\"search\">\n      <Label>Search</Label>\n      <SearchField.Group>\n        <SearchField.SearchIcon />\n        <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n        <SearchField.ClearButton />\n      </SearchField.Group>\n    </SearchField>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "search-field-variants",
+   "source": "apps/docs/src/demos/en/search-field/variants.tsx",
+   "code": "import {Label, SearchField} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField name=\"primary-search\" variant=\"primary\">\n        <Label>Primary variant</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n      </SearchField>\n      <SearchField name=\"secondary-search\" variant=\"secondary\">\n        <Label>Secondary variant</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "search-field-on-surface",
+   "source": "apps/docs/src/demos/en/search-field/on-surface.tsx",
+   "code": "import {Description, Label, SearchField, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"flex w-full max-w-sm flex-col gap-4 rounded-3xl p-6\">\n      <SearchField name=\"search\" variant=\"secondary\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-full\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Enter keywords to search</Description>\n      </SearchField>\n      <SearchField name=\"search-2\" variant=\"secondary\">\n        <Label>Advanced search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-full\" placeholder=\"Advanced search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Use filters to refine your search</Description>\n      </SearchField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "search-field-with-description",
+   "source": "apps/docs/src/demos/en/search-field/with-description.tsx",
+   "code": "import {Description, Label, SearchField} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField name=\"search\">\n        <Label>Search products</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search products...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Enter keywords to search for products</Description>\n      </SearchField>\n      <SearchField name=\"search-users\">\n        <Label>Search users</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search users...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Search by name, email, or username</Description>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "search-field-required",
+   "source": "apps/docs/src/demos/en/search-field/required.tsx",
+   "code": "import {Description, Label, SearchField} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField isRequired name=\"search\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n      </SearchField>\n      <SearchField isRequired name=\"search-query\">\n        <Label>Search query</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Enter search query...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Minimum 3 characters required</Description>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "search-field-disabled",
+   "source": "apps/docs/src/demos/en/search-field/disabled.tsx",
+   "code": "import {Description, Label, SearchField} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField isDisabled name=\"search\" value=\"Disabled search\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>This search field is disabled</Description>\n      </SearchField>\n      <SearchField isDisabled name=\"search-empty\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>This search field is disabled</Description>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "search-field-full-width",
+   "source": "apps/docs/src/demos/en/search-field/full-width.tsx",
+   "code": "import {Label, SearchField} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <SearchField fullWidth name=\"search\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "search-field-validation",
+   "source": "apps/docs/src/demos/en/search-field/validation.tsx",
+   "code": "import {FieldError, Label, SearchField} from \"@heroui/react\";\n\nexport function Validation() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField isInvalid isRequired name=\"search\" value=\"ab\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <FieldError>Search query must be at least 3 characters</FieldError>\n      </SearchField>\n      <SearchField isInvalid name=\"search-invalid\">\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" value=\"invalid@query\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <FieldError>Invalid characters in search query</FieldError>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "search-field-controlled",
+   "source": "apps/docs/src/demos/en/search-field/controlled.tsx",
+   "code": "\"use client\";\n\nimport {Button, Description, Label, SearchField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = React.useState(\"\");\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField name=\"search\" value={value} onChange={setValue}>\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        <Description>Current value: {value || \"(empty)\"}</Description>\n      </SearchField>\n      <div className=\"flex gap-2\">\n        <Button variant=\"tertiary\" onPress={() => setValue(\"\")}>\n          Clear\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(\"example query\")}>\n          Set example\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "search-field-form-example",
+   "source": "apps/docs/src/demos/en/search-field/form-example.tsx",
+   "code": "\"use client\";\n\nimport {Button, Description, FieldError, Form, Label, SearchField, Spinner} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = React.useState(\"\");\n  const [isSubmitting, setIsSubmitting] = React.useState(false);\n  const MIN_LENGTH = 3;\n  const isInvalid = value.length > 0 && value.length < MIN_LENGTH;\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n\n    if (value.length < MIN_LENGTH) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    // Simulate API call\n    setTimeout(() => {\n      console.log(\"Search submitted:\", {query: value});\n      setValue(\"\");\n      setIsSubmitting(false);\n    }, 1500);\n  };\n\n  return (\n    <Form className=\"flex w-[280px] flex-col gap-4\" onSubmit={handleSubmit}>\n      <SearchField isRequired isInvalid={isInvalid} name=\"search\" value={value} onChange={setValue}>\n        <Label>Search products</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-full\" placeholder=\"Search products...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        {isInvalid ? (\n          <FieldError>Search query must be at least {MIN_LENGTH} characters</FieldError>\n        ) : (\n          <Description>Enter at least {MIN_LENGTH} characters to search</Description>\n        )}\n      </SearchField>\n      <Button\n        className=\"w-full\"\n        isDisabled={value.length < MIN_LENGTH}\n        isPending={isSubmitting}\n        type=\"submit\"\n        variant=\"primary\"\n      >\n        {isSubmitting ? (\n          <>\n            <Spinner color=\"current\" size=\"sm\" />\n            Searching...\n          </>\n        ) : (\n          \"Search\"\n        )}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "With Validation",
+   "section": "Examples",
+   "key": "search-field-with-validation",
+   "source": "apps/docs/src/demos/en/search-field/with-validation.tsx",
+   "code": "\"use client\";\n\nimport {Description, FieldError, Label, SearchField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function WithValidation() {\n  const [value, setValue] = React.useState(\"\");\n  const isInvalid = value.length > 0 && value.length < 3;\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField isRequired isInvalid={isInvalid} name=\"search\" value={value} onChange={setValue}>\n        <Label>Search</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon />\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton />\n        </SearchField.Group>\n        {isInvalid ? (\n          <FieldError>Search query must be at least 3 characters</FieldError>\n        ) : (\n          <Description>Enter at least 3 characters to search</Description>\n        )}\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Icons",
+   "section": "Examples",
+   "key": "search-field-custom-icons",
+   "source": "apps/docs/src/demos/en/search-field/custom-icons.tsx",
+   "code": "import {Description, Label, SearchField} from \"@heroui/react\";\n\nexport function CustomIcons() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SearchField name=\"search-custom\">\n        <Label>Search (Custom Icons)</Label>\n        <SearchField.Group>\n          <SearchField.SearchIcon>\n            <svg height=\"16\" viewBox=\"0 0 16 16\" width=\"16\" xmlns=\"http://www.w3.org/2000/svg\">\n              <path\n                clipRule=\"evenodd\"\n                d=\"M12.5 4c0 .174-.071.513-.885.888S9.538 5.5 8 5.5s-2.799-.237-3.615-.612C3.57 4.513 3.5 4.174 3.5 4s.071-.513.885-.888S6.462 2.5 8 2.5s2.799.237 3.615.612c.814.375.885.714.885.888m-1.448 2.66C10.158 6.888 9.115 7 8 7s-2.158-.113-3.052-.34l1.98 2.905c.21.308.322.672.322 1.044v3.37q.088.02.25.021c.422 0 .749-.14.95-.316c.185-.162.3-.38.3-.684v-2.39c0-.373.112-.737.322-1.045zM8 1c3.314 0 6 1 6 3a3.24 3.24 0 0 1-.563 1.826l-3.125 4.584a.35.35 0 0 0-.062.2V13c0 1.5-1.25 2.5-2.75 2.5s-1.75-1-1.75-1v-3.89a.35.35 0 0 0-.061-.2L2.563 5.826A3.24 3.24 0 0 1 2 4c0-2 2.686-3 6-3m-.88 12.936q-.015-.008-.013-.01z\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </SearchField.SearchIcon>\n          <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n          <SearchField.ClearButton>\n            <svg height=\"16\" viewBox=\"0 0 16 16\" width=\"16\" xmlns=\"http://www.w3.org/2000/svg\">\n              <path\n                clipRule=\"evenodd\"\n                d=\"M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14M6.53 5.47a.75.75 0 0 0-1.06 1.06L6.94 8L5.47 9.47a.75.75 0 1 0 1.06 1.06L8 9.06l1.47 1.47a.75.75 0 1 0 1.06-1.06L9.06 8l1.47-1.47a.75.75 0 1 0-1.06-1.06L8 6.94z\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </SearchField.ClearButton>\n        </SearchField.Group>\n        <Description>Custom icon children</Description>\n      </SearchField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Keyboard Shortcut",
+   "section": "Examples",
+   "key": "search-field-with-keyboard-shortcut",
+   "source": "apps/docs/src/demos/en/search-field/with-keyboard-shortcut.tsx",
+   "code": "\"use client\";\n\nimport {Description, Kbd, Label, SearchField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function WithKeyboardShortcut() {\n  const inputRef = React.useRef<HTMLInputElement>(null);\n  const [value, setValue] = React.useState(\"\");\n\n  React.useEffect(() => {\n    const handleKeyDown = (e: KeyboardEvent) => {\n      // Check for Shift+S\n      if (e.shiftKey && e.key === \"S\" && !e.metaKey && !e.ctrlKey && !e.altKey) {\n        e.preventDefault();\n        inputRef.current?.focus();\n      }\n      // Check for ESC key to blur the input\n      if (e.key === \"Escape\" && document.activeElement === inputRef.current) {\n        inputRef.current?.blur();\n      }\n    };\n\n    // Add global event listener\n    window.addEventListener(\"keydown\", handleKeyDown);\n\n    // Cleanup on unmount\n    return () => {\n      window.removeEventListener(\"keydown\", handleKeyDown);\n    };\n  }, []);\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <div>\n        <SearchField name=\"search\" value={value} onChange={setValue}>\n          <Label>Search</Label>\n          <SearchField.Group>\n            <SearchField.SearchIcon />\n            <SearchField.Input ref={inputRef} className=\"w-[280px]\" placeholder=\"Search...\" />\n            <SearchField.ClearButton />\n          </SearchField.Group>\n          <Description>Use keyboard shortcut to quickly focus this field</Description>\n        </SearchField>\n      </div>\n      <div className=\"text-default-500 flex items-center gap-2 text-sm\">\n        <span>Press</span>\n        <Kbd>\n          <Kbd.Abbr keyValue=\"shift\" />\n          <Kbd.Content>S</Kbd.Content>\n        </Kbd>\n        <span>to focus the search field</span>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "search-field-render-function",
+   "source": "apps/docs/src/demos/en/search-field/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Label, SearchField} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <SearchField name=\"search\" render={(props) => <div {...props} data-custom=\"foo\" />}>\n      <Label>Search</Label>\n      <SearchField.Group>\n        <SearchField.SearchIcon />\n        <SearchField.Input className=\"w-[280px]\" placeholder=\"Search...\" />\n        <SearchField.ClearButton />\n      </SearchField.Group>\n    </SearchField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "search-field-custom-styles",
+   "source": "apps/docs/src/demos/en/search-field/custom-styles.tsx",
+   "code": "import {Label, SearchField} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <SearchField className=\"w-full max-w-64\" name=\"docs\" variant=\"secondary\">\n      <Label className=\"font-medium text-foreground\">Search docs</Label>\n      <SearchField.Group className=\"rounded-xl bg-default\">\n        <SearchField.SearchIcon className=\"text-muted\" />\n        <SearchField.Input className=\"placeholder:text-muted\" placeholder=\"Components, guides...\" />\n        <SearchField.ClearButton className=\"text-muted\" />\n      </SearchField.Group>\n    </SearchField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: SearchFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, Group, Input, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:202"
+    ],
+    [
+     "`className`",
+     "`string | (values: SearchFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:203"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: SearchFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:204"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the search field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:205"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:206"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:207"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SearchFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:208"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:214"
+    ],
+    [
+     "`defaultValue`",
+     "`string`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:215"
+    ],
+    [
+     "`onChange`",
+     "`(value: string) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:216"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:222"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:223"
+    ],
+    [
+     "`validate`",
+     "`(value: string) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:224"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:225"
+    ],
+    [
+     "`validationErrors`",
+     "`string[]`",
+     "-",
+     "Server-side validation errors.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:226"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:232"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:233"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:239"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:240"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`onSubmit`",
+     "`(value: string) => void`",
+     "-",
+     "Handler called when the user submits the search (Enter key).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:246"
+    ],
+    [
+     "`onClear`",
+     "`() => void`",
+     "-",
+     "Handler called when the clear button is pressed.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:247"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "SearchField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:253"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:254"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:255"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:256"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: GroupRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (SearchIcon, Input, ClearButton) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:291"
+    ],
+    [
+     "`className`",
+     "`string | (values: GroupRenderProps) => string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:292"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:258",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:300"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:301"
+    ],
+    [
+     "`placeholder`",
+     "`string`",
+     "-",
+     "Placeholder text displayed when the input is empty.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:302"
+    ],
+    [
+     "`type`",
+     "`string`",
+     "`\"search\"`",
+     "Input type (automatically set to \"search\").",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:303"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:258",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "`<IconSearch />`",
+     "Custom icon element. Defaults to search icon.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:311"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:312"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:258",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "`<CloseButton icon />`",
+     "Icon or content for the button. Defaults to close icon.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:320"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:321"
+    ],
+    [
+     "`slot`",
+     "`\"clear\"`",
+     "`\"clear\"`",
+     "Must be set to \"clear\" (automatically set).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:322"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:258",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:330"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:331"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:332"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:333"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused (DEPRECATED - use `isFocusWithin`).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:334"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:335"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:336"
+    ],
+    [
+     "`value`",
+     "`string`",
+     "Current value.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:337"
+    ],
+    [
+     "`isEmpty`",
+     "`boolean`",
+     "Whether the field is empty.",
+     "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:338"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:324",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "SearchField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:207"
+  },
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "SearchField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:225"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Composition Components",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/search-field.mdx:301"
+  }
+ ]
+}

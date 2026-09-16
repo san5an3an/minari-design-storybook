@@ -1,0 +1,260 @@
+{
+ "slug": "select_panel_v2",
+ "title": "SelectPanel",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/experimental/SelectPanel2",
+  "id": "select_panel_v2",
+  "docsId": "select_panel",
+  "name": "SelectPanel",
+  "status": "deprecated",
+  "a11yReviewed": false,
+  "stories": [
+   {
+    "id": "deprecated-components-selectpanel--default",
+    "code": "() => {\n  const initialSelectedLabels = data.issue.labelIds // mock initial state: has selected labels\n  const [selectedLabelIds, setSelectedLabelIds] = React.useState<string[]>(\n    initialSelectedLabels,\n  )\n\n  /* Selection */\n  const onLabelSelect = (labelId: string) => {\n    if (!selectedLabelIds.includes(labelId))\n      setSelectedLabelIds([...selectedLabelIds, labelId])\n    else setSelectedLabelIds(selectedLabelIds.filter((id) => id !== labelId))\n  }\n  const onClearSelection = () => {\n    setSelectedLabelIds([])\n  }\n  const onSubmit = () => {\n    data.issue.labelIds = selectedLabelIds // pretending to persist changes\n  }\n  const onCancel = () => {\n    setSelectedLabelIds(initialSelectedLabels)\n  }\n\n  /* Filtering */\n  const [filteredLabels, setFilteredLabels] = React.useState(data.labels)\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    setQuery(query)\n    if (query === '') setFilteredLabels(data.labels)\n    else {\n      setFilteredLabels(\n        data.labels\n          .map((label) => {\n            if (label.name.toLowerCase().startsWith(query))\n              return {\n                priority: 1,\n                label,\n              }\n            else if (label.name.toLowerCase().includes(query))\n              return {\n                priority: 2,\n                label,\n              }\n            else if (label.description?.toLowerCase().includes(query))\n              return {\n                priority: 3,\n                label,\n              }\n            else\n              return {\n                priority: -1,\n                label,\n              }\n          })\n          .filter((result) => result.priority > 0)\n          .map((result) => result.label),\n      )\n    }\n  }\n  const sortingFn = (\n    itemA: {\n      id: string\n    },\n    itemB: {\n      id: string\n    },\n  ) => {\n    const initialSelectedIds = data.issue.labelIds\n    if (\n      initialSelectedIds.includes(itemA.id) &&\n      initialSelectedIds.includes(itemB.id)\n    )\n      return 1\n    else if (initialSelectedIds.includes(itemA.id)) return -1\n    else if (initialSelectedIds.includes(itemB.id)) return 1\n    else return 1\n  }\n  const itemsToShow = query ? filteredLabels : data.labels.sort(sortingFn)\n  return (\n    <>\n      <SelectPanel\n        title=\"Select labels\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n        onClearSelection={onClearSelection}\n      >\n        <SelectPanel.Button>Assign label</SelectPanel.Button>\n\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput\n            aria-label=\"Search\"\n            onChange={onSearchInputChange}\n          />\n        </SelectPanel.Header>\n\n        {itemsToShow.length === 0 ? (\n          <SelectPanel.Message\n            variant=\"empty\"\n            title={`No labels found for \"${query}\"`}\n          >\n            Try a different search term\n          </SelectPanel.Message>\n        ) : (\n          <ActionList>\n            {itemsToShow.map((label) => (\n              <ActionList.Item\n                key={label.id}\n                onSelect={() => onLabelSelect(label.id)}\n                selected={selectedLabelIds.includes(label.id)}\n              >\n                <ActionList.LeadingVisual>\n                  <div\n                    className={sharedClasses.Circle}\n                    style={{\n                      backgroundColor: `#${label.color}`,\n                    }}\n                  />\n                </ActionList.LeadingVisual>\n                {label.name}\n                <ActionList.Description variant=\"block\">\n                  {label.description}\n                </ActionList.Description>\n              </ActionList.Item>\n            ))}\n          </ActionList>\n        )}\n\n        <SelectPanel.Footer>\n          <SelectPanel.SecondaryAction variant=\"button\">\n            Edit labels\n          </SelectPanel.SecondaryAction>\n        </SelectPanel.Footer>\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--minimal",
+    "code": "() => {\n  const initialSelectedLabels = data.issue.labelIds // mock initial state: has selected labels\n  const [selectedLabelIds, setSelectedLabelIds] = React.useState<string[]>(\n    initialSelectedLabels,\n  )\n\n  /* Selection */\n  const onLabelSelect = (labelId: string) => {\n    if (!selectedLabelIds.includes(labelId))\n      setSelectedLabelIds([...selectedLabelIds, labelId])\n    else setSelectedLabelIds(selectedLabelIds.filter((id) => id !== labelId))\n  }\n  const onSubmit = () => {\n    data.issue.labelIds = selectedLabelIds // pretending to persist changes\n\n    // eslint-disable-next-line no-console\n    console.log('form submitted')\n  }\n  const onCancel = () => {\n    setSelectedLabelIds(initialSelectedLabels)\n  }\n  const sortingFn = (\n    itemA: {\n      id: string\n    },\n    itemB: {\n      id: string\n    },\n  ) => {\n    const initialSelectedIds = data.issue.labelIds\n    if (\n      initialSelectedIds.includes(itemA.id) &&\n      initialSelectedIds.includes(itemB.id)\n    )\n      return 1\n    else if (initialSelectedIds.includes(itemA.id)) return -1\n    else if (initialSelectedIds.includes(itemB.id)) return 1\n    else return 1\n  }\n  const itemsToShow = data.labels.sort(sortingFn)\n  return (\n    <>\n      <h1>Minimal SelectPanel</h1>\n\n      <SelectPanel\n        title=\"Select labels\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n      >\n        <SelectPanel.Button>Assign label</SelectPanel.Button>\n\n        <ActionList>\n          {itemsToShow.map((label) => (\n            <ActionList.Item\n              key={label.id}\n              onSelect={() => onLabelSelect(label.id)}\n              selected={selectedLabelIds.includes(label.id)}\n            >\n              <ActionList.LeadingVisual>\n                {getCircle(label.color)}\n              </ActionList.LeadingVisual>\n              {label.name}\n              <ActionList.Description variant=\"block\">\n                {label.description}\n              </ActionList.Description>\n            </ActionList.Item>\n          ))}\n        </ActionList>\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--short-select-panel",
+    "code": "() => {\n  const initialChannels = {\n    GitHub: false,\n    Email: false,\n  }\n  const [channels, setChannels] = React.useState(initialChannels)\n  const [onlyFailures, setOnlyFailures] = React.useState(false)\n  const onSubmit = () => {\n    // eslint-disable-next-line no-console\n    console.log('form submitted')\n  }\n  const onCancel = () => {\n    setChannels(initialChannels)\n  }\n  const toggleChannel = (channel: keyof typeof channels) => {\n    setChannels({\n      ...channels,\n      [channel]: !channels[channel],\n    })\n  }\n  const channelsEnabled = channels.GitHub || channels.Email\n  return (\n    <>\n      <h1>Short SelectPanel</h1>\n      <p>\n        Use <code>height=fit-content</code> to match height of contents\n      </p>\n      <SelectPanel\n        title=\"Select notification channels\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n      >\n        <SelectPanel.Button>\n          <Text className={classes.TextMuted}>Notify me:</Text>{' '}\n          {Object.keys(channels)\n            .filter((channel) => channels[channel as keyof typeof channels])\n            .join(', ') || 'Never'}\n          {onlyFailures && channelsEnabled && ' (Failed workflows only)'}\n        </SelectPanel.Button>\n\n        <ActionList>\n          <ActionList.Item\n            selected={channels.GitHub}\n            onSelect={() => toggleChannel('GitHub')}\n          >\n            On GitHub\n          </ActionList.Item>\n          <ActionList.Item\n            selected={channels.Email}\n            onSelect={() => toggleChannel('Email')}\n          >\n            Email\n          </ActionList.Item>\n          <div\n            role=\"none\"\n            className={`${classes.TransitionBox} ${channelsEnabled ? classes.TransitionBoxVisible : classes.TransitionBoxHidden}`}\n          >\n            <ActionList.Divider />\n            <ActionList.Item\n              selected={onlyFailures}\n              onSelect={() => setOnlyFailures(!onlyFailures)}\n            >\n              Only notify for failed workflows\n            </ActionList.Item>\n          </div>\n        </ActionList>\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-features--instant-selection-variant",
+    "code": "() => {\n  const [selectedTag, setSelectedTag] = React.useState<string>()\n  const onSubmit = () => {\n    if (!selectedTag) return\n    data.ref = selectedTag // pretending to persist changes\n  }\n  const itemsToShow = data.tags\n  return (\n    <>\n      <h1>Instant selection variant</h1>\n\n      <SelectPanel\n        title=\"Choose a tag\"\n        selectionVariant=\"instant\"\n        onSubmit={onSubmit}\n      >\n        <SelectPanel.Button leadingVisual={TagIcon}>\n          {selectedTag || 'Choose a tag'}\n        </SelectPanel.Button>\n\n        <ActionList>\n          {itemsToShow.map((tag) => (\n            <ActionList.Item\n              key={tag.id}\n              onSelect={() => setSelectedTag(tag.id)}\n              selected={selectedTag === tag.id}\n            >\n              {tag.name}\n            </ActionList.Item>\n          ))}\n        </ActionList>\n        <SelectPanel.Footer>\n          <SelectPanel.SecondaryAction variant=\"button\">\n            Edit tags\n          </SelectPanel.SecondaryAction>\n        </SelectPanel.Footer>\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-features--with-warning",
+    "code": "() => {\n  /* Selection */\n\n  const initialAssigneeIds = data.issue.assigneeIds // mock initial state\n  const [selectedAssigneeIds, setSelectedAssigneeIds] =\n    React.useState<string[]>(initialAssigneeIds)\n  const MAX_LIMIT = 3\n  const onCollaboratorSelect = (colloratorId: string) => {\n    if (!selectedAssigneeIds.includes(colloratorId))\n      setSelectedAssigneeIds([...selectedAssigneeIds, colloratorId])\n    else\n      setSelectedAssigneeIds(\n        selectedAssigneeIds.filter((id) => id !== colloratorId),\n      )\n  }\n  const onClearSelection = () => setSelectedAssigneeIds([])\n  const onSubmit = () => {\n    data.issue.assigneeIds = selectedAssigneeIds // pretending to persist changes\n  }\n  const onCancel = () => {\n    setSelectedAssigneeIds(initialAssigneeIds)\n  }\n\n  /* Filtering */\n  const [filteredUsers, setFilteredUsers] = React.useState(data.collaborators)\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    setQuery(query)\n    if (query === '') setFilteredUsers(data.collaborators)\n    else {\n      setFilteredUsers(\n        data.collaborators\n          .map((collaborator) => {\n            if (collaborator.login.toLowerCase().startsWith(query))\n              return {\n                priority: 1,\n                collaborator,\n              }\n            else if (collaborator.name.startsWith(query))\n              return {\n                priority: 2,\n                collaborator,\n              }\n            else if (collaborator.login.toLowerCase().includes(query))\n              return {\n                priority: 3,\n                collaborator,\n              }\n            else if (collaborator.name.toLowerCase().includes(query))\n              return {\n                priority: 4,\n                collaborator,\n              }\n            else\n              return {\n                priority: -1,\n                collaborator,\n              }\n          })\n          .filter((result) => result.priority > 0)\n          .map((result) => result.collaborator),\n      )\n    }\n  }\n  const sortingFn = (\n    itemA: {\n      id: string\n    },\n    itemB: {\n      id: string\n    },\n  ) => {\n    const initialSelectedIds = data.issue.assigneeIds\n    if (\n      initialSelectedIds.includes(itemA.id) &&\n      initialSelectedIds.includes(itemB.id)\n    )\n      return 1\n    else if (initialSelectedIds.includes(itemA.id)) return -1\n    else if (initialSelectedIds.includes(itemB.id)) return 1\n    else return 1\n  }\n  const itemsToShow = query ? filteredUsers : data.collaborators.sort(sortingFn)\n  return (\n    <>\n      <h1>SelectPanel with warning</h1>\n\n      <SelectPanel\n        title=\"Set assignees\"\n        description={`Select up to ${MAX_LIMIT} people`}\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n        onClearSelection={onClearSelection}\n      >\n        <SelectPanel.Button\n          variant=\"invisible\"\n          trailingAction={GearIcon}\n          className={classes.ButtonCustom}\n        >\n          Assignees\n        </SelectPanel.Button>\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput\n            onChange={onSearchInputChange}\n            aria-label=\"Search\"\n          />\n        </SelectPanel.Header>\n\n        {selectedAssigneeIds.length >= MAX_LIMIT ? (\n          <SelectPanel.Message variant=\"warning\" size=\"inline\">\n            You have reached the limit of {MAX_LIMIT} assignees on your free\n            account. <Link href=\"/upgrade\">Upgrade your account.</Link>\n          </SelectPanel.Message>\n        ) : null}\n\n        {itemsToShow.length === 0 ? (\n          <SelectPanel.Message\n            variant=\"empty\"\n            title={`No labels found for \"${query}\"`}\n          >\n            Try a different search term\n          </SelectPanel.Message>\n        ) : (\n          <ActionList>\n            {itemsToShow.map((collaborator) => (\n              <ActionList.Item\n                key={collaborator.id}\n                onSelect={() => onCollaboratorSelect(collaborator.id)}\n                selected={selectedAssigneeIds.includes(collaborator.id)}\n                disabled={\n                  selectedAssigneeIds.length >= MAX_LIMIT &&\n                  !selectedAssigneeIds.includes(collaborator.id)\n                }\n              >\n                <ActionList.LeadingVisual>\n                  <Avatar\n                    src={`https://github.com/${collaborator.login}.png`}\n                  />\n                </ActionList.LeadingVisual>\n                {collaborator.login}\n                <ActionList.Description>\n                  {collaborator.login}\n                </ActionList.Description>\n              </ActionList.Item>\n            ))}\n          </ActionList>\n        )}\n\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--open-from-menu",
+    "code": "() => {\n  /* Open state */\n  const [menuOpen, setMenuOpen] = React.useState(false)\n  const [selectPanelOpen, setSelectPanelOpen] = React.useState(false)\n\n  /* Selection */\n  const [selectedSetting, setSelectedSetting] =\n    React.useState<string>('All activity')\n  const initialCustomEvents: string[] = []\n  const [selectedCustomEvents, setSelectedCustomEvents] =\n    React.useState<string[]>(initialCustomEvents)\n  const onEventSelect = (event: string) => {\n    if (!selectedCustomEvents.includes(event))\n      setSelectedCustomEvents([...selectedCustomEvents, event])\n    else\n      setSelectedCustomEvents(\n        selectedCustomEvents.filter((name) => name !== event),\n      )\n  }\n  const itemsToShow = [\n    'Issues',\n    'Pull requests',\n    'Releases',\n    'Discussions',\n    'Security alerts',\n  ]\n  return (\n    <>\n      <h1>Open in modal from ActionMenu</h1>\n\n      <ActionMenu open={menuOpen} onOpenChange={(value) => setMenuOpen(value)}>\n        <ActionMenu.Button leadingVisual={EyeIcon}>\n          {selectedSetting === 'Ignore' ? 'Watch' : 'Unwatch'}\n        </ActionMenu.Button>\n        <ActionMenu.Overlay width=\"medium\">\n          <ActionList selectionVariant=\"single\">\n            <ActionList.Item\n              selected={selectedSetting === 'Participating and @mentions'}\n              onSelect={() => setSelectedSetting('Participating and @mentions')}\n            >\n              Participating and @mentions\n              <ActionList.Description variant=\"block\">\n                Only receive notifications from this repository when\n                participating or @mentioned.\n              </ActionList.Description>\n            </ActionList.Item>\n            <ActionList.Item\n              selected={selectedSetting === 'All activity'}\n              onSelect={() => setSelectedSetting('All activity')}\n            >\n              All activity\n              <ActionList.Description variant=\"block\">\n                Notified of all notifications on this repository.\n              </ActionList.Description>\n            </ActionList.Item>\n            <ActionList.Item\n              selected={selectedSetting === 'Ignore'}\n              onSelect={() => setSelectedSetting('Ignore')}\n            >\n              Ignore\n              <ActionList.Description variant=\"block\">\n                Never be notified.\n              </ActionList.Description>\n            </ActionList.Item>\n            <ActionList.Item\n              selected={selectedSetting === 'Custom'}\n              onSelect={() => {\n                setMenuOpen(false)\n                setSelectPanelOpen(true)\n              }}\n            >\n              Custom\n              <ActionList.TrailingVisual>\n                <ArrowRightIcon />\n              </ActionList.TrailingVisual>\n              <ActionList.Description variant=\"block\">\n                Select events you want to be notified of in addition to\n                participating and @mentions.\n              </ActionList.Description>\n            </ActionList.Item>\n          </ActionList>\n        </ActionMenu.Overlay>\n      </ActionMenu>\n      <SelectPanel\n        variant=\"modal\"\n        title=\"Custom\"\n        open={selectPanelOpen}\n        onSubmit={() => {\n          setSelectedSetting('Custom')\n          setSelectPanelOpen(false)\n          setMenuOpen(false)\n        }}\n        onCancel={() => {\n          setSelectedCustomEvents(initialCustomEvents)\n          setSelectPanelOpen(false)\n          setMenuOpen(true)\n        }}\n      >\n        <ActionList>\n          {itemsToShow.map((item) => (\n            <ActionList.Item\n              key={item}\n              onSelect={() => onEventSelect(item)}\n              selected={selectedCustomEvents.includes(item)}\n            >\n              {item}\n            </ActionList.Item>\n          ))}\n        </ActionList>\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--with-groups",
+    "code": "() => {\n  /* Selection */\n  const initialAssigneeIds = data.issue.assigneeIds // mock initial state\n  const [selectedAssigneeIds, setSelectedAssigneeIds] =\n    React.useState<string[]>(initialAssigneeIds)\n  const onCollaboratorSelect = (collaboratorId: string) => {\n    if (!selectedAssigneeIds.includes(collaboratorId))\n      setSelectedAssigneeIds([...selectedAssigneeIds, collaboratorId])\n    else\n      setSelectedAssigneeIds(\n        selectedAssigneeIds.filter((id) => id !== collaboratorId),\n      )\n  }\n  const onClearSelection = () => setSelectedAssigneeIds([])\n  const onSubmit = () => {\n    data.issue.assigneeIds = selectedAssigneeIds // pretending to persist changes\n  }\n  const onCancel = () => {\n    setSelectedAssigneeIds(initialAssigneeIds)\n  }\n\n  /* Filtering */\n  const [filteredUsers, setFilteredUsers] = React.useState(data.collaborators)\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    setQuery(query)\n    if (query === '') setFilteredUsers(data.collaborators)\n    else {\n      setFilteredUsers(\n        data.collaborators\n          .map((collaborator) => {\n            if (collaborator.login.toLowerCase().startsWith(query))\n              return {\n                priority: 1,\n                collaborator,\n              }\n            else if (collaborator.name.startsWith(query))\n              return {\n                priority: 2,\n                collaborator,\n              }\n            else if (collaborator.login.toLowerCase().includes(query))\n              return {\n                priority: 3,\n                collaborator,\n              }\n            else if (collaborator.name.toLowerCase().includes(query))\n              return {\n                priority: 4,\n                collaborator,\n              }\n            else\n              return {\n                priority: -1,\n                collaborator,\n              }\n          })\n          .filter((result) => result.priority > 0)\n          .map((result) => result.collaborator),\n      )\n    }\n  }\n  const sortingFn = (\n    itemA: {\n      id: string\n    },\n    itemB: {\n      id: string\n    },\n  ) => {\n    const initialSelectedIds = data.issue.assigneeIds\n    if (\n      initialSelectedIds.includes(itemA.id) &&\n      initialSelectedIds.includes(itemB.id)\n    )\n      return 1\n    else if (initialSelectedIds.includes(itemA.id)) return -1\n    else if (initialSelectedIds.includes(itemB.id)) return 1\n    else return 1\n  }\n  const itemsToShow = query ? filteredUsers : data.collaborators.sort(sortingFn)\n  return (\n    <>\n      <h1>SelectPanel with groups</h1>\n\n      <SelectPanel\n        title=\"Request up to 100 reviewers\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n        onClearSelection={onClearSelection}\n      >\n        <SelectPanel.Button\n          variant=\"invisible\"\n          trailingAction={GearIcon}\n          style={{\n            width: '200px',\n          }}\n          className={classes.ButtonContentStartJustify}\n        >\n          Reviewers\n        </SelectPanel.Button>\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput onChange={onSearchInputChange} />\n        </SelectPanel.Header>\n\n        {itemsToShow.length === 0 ? (\n          <SelectPanel.Message\n            variant=\"empty\"\n            title={`No labels found for \"${query}\"`}\n          >\n            Try a different search term\n          </SelectPanel.Message>\n        ) : (\n          <ActionList>\n            <ActionList.Group>\n              <ActionList.GroupHeading variant=\"filled\">\n                Suggestions\n              </ActionList.GroupHeading>\n              {itemsToShow\n                .filter((collaborator) => collaborator.recommended)\n                .map((collaborator) => (\n                  <ActionList.Item\n                    key={collaborator.id}\n                    onSelect={() => onCollaboratorSelect(collaborator.id)}\n                    selected={selectedAssigneeIds.includes(collaborator.id)}\n                  >\n                    <ActionList.LeadingVisual>\n                      <Avatar\n                        src={`https://github.com/${collaborator.login}.png`}\n                      />\n                    </ActionList.LeadingVisual>\n                    {collaborator.login}\n                    <ActionList.Description>\n                      {collaborator.login}\n                    </ActionList.Description>\n                  </ActionList.Item>\n                ))}\n            </ActionList.Group>\n            <ActionList.Group>\n              <ActionList.GroupHeading variant=\"filled\">\n                Everyone else\n              </ActionList.GroupHeading>\n              {itemsToShow\n                .filter((collaborator) => !collaborator.recommended)\n                .map((collaborator) => (\n                  <ActionList.Item\n                    key={collaborator.id}\n                    onSelect={() => onCollaboratorSelect(collaborator.id)}\n                    selected={selectedAssigneeIds.includes(collaborator.id)}\n                  >\n                    <ActionList.LeadingVisual>\n                      <Avatar\n                        src={`https://github.com/${collaborator.login}.png`}\n                      />\n                    </ActionList.LeadingVisual>\n                    {collaborator.login}\n                    <ActionList.Description>\n                      {collaborator.login}\n                    </ActionList.Description>\n                  </ActionList.Item>\n                ))}\n            </ActionList.Group>\n          </ActionList>\n        )}\n\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--async-search-with-use-transition",
+    "code": "() => {\n  const [isPending, startTransition] = React.useTransition()\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    startTransition(() => setQuery(query))\n  }\n\n  /* Selection */\n  const initialAssigneeIds: string[] = data.issue.assigneeIds\n  const [selectedUserIds, setSelectedUserIds] =\n    React.useState<string[]>(initialAssigneeIds)\n  const onUserSelect = (userId: string) => {\n    if (!selectedUserIds.includes(userId))\n      setSelectedUserIds([...selectedUserIds, userId])\n    else setSelectedUserIds(selectedUserIds.filter((id) => id !== userId))\n  }\n  const onSubmit = () => {\n    data.issue.assigneeIds = selectedUserIds // pretending to persist changes\n    // eslint-disable-next-line no-console\n    console.log('form submitted')\n  }\n  const onCancel = () => {\n    setSelectedUserIds(initialAssigneeIds)\n  }\n  return (\n    <>\n      <h1>Async: search with useTransition</h1>\n      <p>Fetching items on every keystroke search (like github users)</p>\n\n      <SelectPanel\n        title=\"Select collaborators\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n      >\n        <SelectPanel.Button>Select assignees</SelectPanel.Button>\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput\n            loading={isPending}\n            onChange={onSearchInputChange}\n          />\n        </SelectPanel.Header>\n\n        <SearchableUserList\n          query={query}\n          initialAssigneeIds={initialAssigneeIds}\n          selectedUserIds={selectedUserIds}\n          onUserSelect={onUserSelect}\n        />\n        <SelectPanel.Footer />\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--async-with-suspended-list",
+    "code": "() => {\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    setQuery(query)\n  }\n  return (\n    <>\n      <h1>Async: Suspended list</h1>\n      <p>\n        Fetching items once when the panel is opened (like repo labels)\n        <br />\n        Note: Save and Cancel is not implemented in this demo\n      </p>\n\n      <SelectPanel title=\"Select labels\">\n        <SelectPanel.Button>Assign label</SelectPanel.Button>\n\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput onChange={onSearchInputChange} />\n        </SelectPanel.Header>\n\n        <React.Suspense\n          fallback={\n            <SelectPanel.Loading>Fetching labels...</SelectPanel.Loading>\n          }\n        >\n          <SuspendedActionList query={query} />\n          <SelectPanel.Footer>\n            <SelectPanel.SecondaryAction variant=\"link\" href=\"/settings\">\n              Edit labels\n            </SelectPanel.SecondaryAction>\n          </SelectPanel.Footer>\n        </React.Suspense>\n      </SelectPanel>\n    </>\n  )\n}"
+   },
+   {
+    "id": "deprecated-components-selectpanel-examples--with-filter-buttons",
+    "code": "() => {\n  const [selectedFilter, setSelectedFilter] = React.useState<\n    'branches' | 'tags'\n  >('branches')\n\n  /* Selection */\n  const [savedInitialRef, setSavedInitialRef] = React.useState(data.ref)\n  const [selectedRef, setSelectedRef] = React.useState(savedInitialRef)\n  const onSubmit = () => {\n    setSavedInitialRef(selectedRef)\n    data.ref = selectedRef // pretending to persist changes\n\n    // eslint-disable-next-line no-console\n    console.log('form submitted')\n  }\n  const onCancel = () => {\n    setSelectedRef(savedInitialRef)\n  }\n\n  /* Filter */\n  const [query, setQuery] = React.useState('')\n  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = (\n    event,\n  ) => {\n    const query = event.currentTarget.value\n    setQuery(query)\n  }\n  const [filteredRefs, setFilteredRefs] = React.useState(data.branches)\n  const setSearchResults = (\n    query: string,\n    selectedFilter: 'branches' | 'tags',\n  ) => {\n    if (query === '') setFilteredRefs(data[selectedFilter])\n    else {\n      setFilteredRefs(\n        data[selectedFilter]\n          .map((item) => {\n            if (item.name.toLowerCase().startsWith(query))\n              return {\n                priority: 1,\n                item,\n              }\n            else if (item.name.toLowerCase().includes(query))\n              return {\n                priority: 2,\n                item,\n              }\n            else\n              return {\n                priority: -1,\n                item,\n              }\n          })\n          .filter((result) => result.priority > 0)\n          .map((result) => result.item),\n      )\n    }\n  }\n  React.useEffect(\n    function updateSearchResults() {\n      // eslint-disable-next-line react-hooks/set-state-in-effect, react-you-might-not-need-an-effect/no-derived-state\n      setSearchResults(query, selectedFilter)\n    },\n    [query, selectedFilter],\n  )\n  const sortingFn = (ref: { id: string }) => {\n    if (ref.id === savedInitialRef) return -1\n    else return 1\n  }\n  const itemsToShow = query\n    ? filteredRefs\n    : data[selectedFilter].sort(sortingFn)\n  return (\n    <>\n      <h1>With Filter Buttons {savedInitialRef}</h1>\n\n      <SelectPanel\n        title=\"Switch branches/tags\"\n        onSubmit={onSubmit}\n        onCancel={onCancel}\n      >\n        <SelectPanel.Button\n          leadingVisual={GitBranchIcon}\n          trailingVisual={TriangleDownIcon}\n        >\n          {savedInitialRef}\n        </SelectPanel.Button>\n\n        <SelectPanel.Header>\n          <SelectPanel.SearchInput onChange={onSearchInputChange} />\n\n          <div id=\"filters\" className={classes.FilterButtons}>\n            <Button\n              variant=\"invisible\"\n              style={{\n                fontWeight:\n                  selectedFilter === 'branches'\n                    ? 'var(--base-text-weight-medium)'\n                    : 'var(--base-text-weight-normal)',\n                color: 'var(--fgColor-default)',\n              }}\n              onClick={() => setSelectedFilter('branches')}\n              count={20}\n            >\n              Branches\n            </Button>\n            <Button\n              variant=\"invisible\"\n              style={{\n                fontWeight:\n                  selectedFilter === 'tags'\n                    ? 'var(--base-text-weight-medium)'\n                    : 'var(--base-text-weight-normal)',\n                color: 'var(--fgColor-default)',\n              }}\n              onClick={() => setSelectedFilter('tags')}\n              count={8}\n            >\n              Tags\n            </Button>\n          </div>\n        </SelectPanel.Header>\n\n        {itemsToShow.length === 0 ? (\n          <SelectPanel.Message\n            variant=\"empty\"\n            title={`No labels found for \"${query}\"`}\n          >\n            Try a different search term\n          </SelectPanel.Message>\n        ) : (\n          <ActionList>\n            {itemsToShow.map((item) => (\n              <ActionList.Item\n                key={item.id}\n                selected={selectedRef === item.id}\n                onSelect={() => setSelectedRef(item.id)}\n              >\n                {item.name}\n                <ActionList.TrailingVisual>\n                  {item.trailingInfo}\n                </ActionList.TrailingVisual>\n              </ActionList.Item>\n            ))}\n          </ActionList>\n        )}\n\n        <SelectPanel.Footer>\n          <SelectPanel.SecondaryAction\n            variant=\"link\"\n            href={`/${selectedFilter}`}\n          >\n            View all {selectedFilter}\n          </SelectPanel.SecondaryAction>\n        </SelectPanel.Footer>\n      </SelectPanel>\n    </>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react/experimental",
+  "props": [
+   {
+    "name": "title",
+    "type": "string",
+    "required": true,
+    "description": "A descriptive title for the panel"
+   },
+   {
+    "name": "defaultOpen",
+    "type": "boolean",
+    "description": "",
+    "defaultValue": "false"
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "description": "When provided, a description is displayed below the title"
+   },
+   {
+    "name": "variant",
+    "type": "'anchored' | 'modal'",
+    "defaultValue": "anchored"
+   },
+   {
+    "name": "selectionVariant",
+    "type": "'multiple' | 'single' | 'instant'",
+    "defaultValue": "multiple"
+   },
+   {
+    "name": "onSubmit",
+    "type": "(event: React.FormEvent) => void",
+    "description": "Function that will be called when the panel is closed"
+   },
+   {
+    "name": "onCancel",
+    "type": "() => void",
+    "description": "Function that will be called when the selection is submitted"
+   },
+   {
+    "name": "onClearSelection",
+    "type": "() => void",
+    "description": "Function that will be called when the clear selection is selection"
+   },
+   {
+    "name": "anchorRef",
+    "type": "React.RefObject<HTMLButtonElement>",
+    "description": "Useful for defining an external anchor"
+   },
+   {
+    "name": "open",
+    "type": "boolean",
+    "defaultValue": "false",
+    "description": "If defined, will control the open/closed state of the panel."
+   },
+   {
+    "name": "children",
+    "type": "React.ReactNode[]",
+    "description": "Recommended: `SelectPanel.Button`, `SelectPanel.Header`, `ActionList`, `SelectPanel.Loading`, `SelectPanel.Message`, `SelectPanel.Footer`"
+   },
+   {
+    "name": "width",
+    "type": "| 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'auto'",
+    "defaultValue": "'medium'",
+    "description": "Sets the width of the Dialog, pick from our set list of widths, or pass `auto` to automatically set the width based on the contents. `small` corresponds to `256px`, `medium` corresponds to `320px`, `large` corresponds to `480px`, `xlarge` corresponds to `640px`, `xxlarge` corresponds to `960px`."
+   },
+   {
+    "name": "height",
+    "type": "| 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'fit-content'",
+    "defaultValue": "'large'",
+    "description": "Sets the height of the `Dialog`, pick from our set list of heights, or pass `fit-content` to set the height based on the contents. `xsmall` corresponds to `192px`, `small` corresponds to `256px`, `medium` corresponds to `320px`, `large` corresponds to `432px`, `xlarge` corresponds to `600px`."
+   },
+   {
+    "name": "maxHeight",
+    "type": "'small' | 'large' | 'medium' | 'fit-content' | 'xlarge'",
+    "description": "",
+    "defaultValue": "'large'"
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "SelectPanel.Button",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactElement",
+      "required": true,
+      "defaultValue": ""
+     }
+    ],
+    "passthrough": {
+     "element": "Button",
+     "url": "/react/Button"
+    }
+   },
+   {
+    "name": "SelectPanel.Header",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "Rendered before the list. Recommended: `SelectPanel.SearchInput`"
+     },
+     {
+      "name": "onBack",
+      "type": "() => void",
+      "description": "",
+      "defaultValue": ""
+     }
+    ]
+   },
+   {
+    "name": "SelectPanel.SearchInput",
+    "props": [
+     {
+      "name": "onChange",
+      "type": "React.ChangeEventHandler<HTMLInputElement>",
+      "description": "Callback when input text changes, use this for search/filter"
+     },
+     {
+      "name": "loading",
+      "type": "boolean",
+      "description": "Useful for subtle loading states while fetching items asynchronously"
+     }
+    ],
+    "passthrough": {
+     "element": "TextInput",
+     "url": "/react/TextInput"
+    }
+   },
+   {
+    "name": "SelectPanel.Footer",
+    "props": [
+     {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "Optional: `<SelectPanel.SecondaryButton>`"
+     }
+    ]
+   },
+   {
+    "name": "SelectPanel.SecondaryAction",
+    "props": [
+     {
+      "name": "variant",
+      "type": "'button' | 'link' | 'checkbox'"
+     }
+    ]
+   },
+   {
+    "name": "SelectPanel.Loading",
+    "props": [
+     {
+      "name": "children",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "name": "SelectPanel.Message",
+    "props": [
+     {
+      "name": "variant",
+      "type": "'warning' | 'error' | 'empty'"
+     },
+     {
+      "name": "size",
+      "type": "'inline' | 'full'"
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "description": "`inline` variant does not accept `title`"
+     },
+     {
+      "name": "children",
+      "type": "React.ReactNode"
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:9471",
+ "name": "select_panel_v2",
+ "sourceKey": "$.components.select_panel_v2",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "ActionList",
+  "ActionMenu",
+  "ArrowRightIcon",
+  "Avatar",
+  "Button",
+  "EyeIcon",
+  "GearIcon",
+  "GitBranchIcon",
+  "HTMLInputElement",
+  "Link",
+  "React",
+  "SearchableUserList",
+  "SelectPanel",
+  "SuspendedActionList",
+  "TagIcon",
+  "Text",
+  "TriangleDownIcon"
+ ]
+}

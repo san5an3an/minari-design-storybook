@@ -1,0 +1,401 @@
+{
+ "slug": "pagination",
+ "title": "Pagination",
+ "description": "Page navigation with composable page links, previous/next buttons, and ellipsis indicators",
+ "group": "Navigation",
+ "links": {
+  "sourceFile": "pagination/pagination.tsx",
+  "styles": "pagination.css",
+  "storybook": "Components/Navigation/Pagination"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Pagination } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"pagination-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:10"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Pagination } from '@heroui/react';\n\nexport default () => (\n  <Pagination>\n    <Pagination.Summary>Showing 1-10 of 100 results</Pagination.Summary>\n    <Pagination.Content>\n      <Pagination.Item>\n        <Pagination.Previous>\n          <Pagination.PreviousIcon />\n          <span>Previous</span>\n        </Pagination.Previous>\n      </Pagination.Item>\n      <Pagination.Item>\n        <Pagination.Link isActive>1</Pagination.Link>\n      </Pagination.Item>\n      <Pagination.Item>\n        <Pagination.Ellipsis />\n      </Pagination.Item>\n      <Pagination.Item>\n        <Pagination.Link>10</Pagination.Link>\n      </Pagination.Item>\n      <Pagination.Item>\n        <Pagination.Next>\n          <span>Next</span>\n          <Pagination.NextIcon />\n        </Pagination.Next>\n      </Pagination.Item>\n    </Pagination.Content>\n  </Pagination>\n);\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### Sizes\n\n<ComponentPreview\n  name=\"pagination-sizes\"\n/>\n\n### Disabled\n\n<ComponentPreview\n  name=\"pagination-disabled\"\n/>\n\n### Simple (Previous / Next)\n\n<ComponentPreview\n  name=\"pagination-simple-prev-next\"\n/>\n\n### Controlled\n\n<ComponentPreview\n  name=\"pagination-controlled\"\n/>\n\n### With Ellipsis\n\n<ComponentPreview\n  name=\"pagination-with-ellipsis\"\n/>\n\n### With Summary\n\n<ComponentPreview\n  name=\"pagination-with-summary\"\n/>\n\n### Custom Icons\n\nYou can replace the default chevron icons by passing custom children to `PreviousIcon` and `NextIcon`.\n\n<ComponentPreview\n  name=\"pagination-custom-icons\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:55"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"pagination-custom-styles\" />\n\n### Global CSS\n\nTo customize the Pagination component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .pagination {\n    @apply gap-8;\n  }\n\n  .pagination__link {\n    @apply rounded-md;\n  }\n\n  .pagination__summary {\n    @apply text-xs font-semibold;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:101"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Pagination component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/pagination.css)):\n\n#### Base & Layout Classes [!toc]\n- `.pagination` - Root navigation container with flex layout\n- `.pagination__summary` - Left-side info text container\n- `.pagination__content` - Container for pagination items\n- `.pagination__item` - Individual item wrapper\n- `.pagination__link` - Page number button (ghost button style)\n- `.pagination__link--nav` - Navigation button modifier (Previous/Next)\n- `.pagination__ellipsis` - Ellipsis indicator\n\n#### Size Classes [!toc]\n- `.pagination--sm` - Small size variant\n- `.pagination--md` - Medium size variant (default)\n- `.pagination--lg` - Large size variant\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Active page**: `[data-active=\"true\"]` or `[aria-current=\"page\"]`\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]`\n- **Disabled**: `:disabled` or `[aria-disabled=\"true\"]`\n- **Pressed**: `:active` or `[data-pressed=\"true\"]`",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:128"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Pagination\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `size` | `\"sm\" \\| \"md\" \\| \"lg\"` | `\"md\"` | Size of the pagination items |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Pagination parts (Summary, Content) |\n\n### Pagination.Summary\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Summary content (e.g., \"Showing 1-10 of 120\") |\n\n### Pagination.Content\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Pagination items |\n\n### Pagination.Item\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Item content (Link, Previous, Next, or Ellipsis) |\n\n### Pagination.Link\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isActive` | `boolean` | `false` | Whether this is the current page |\n| `isDisabled` | `boolean` | `false` | Whether the link is disabled |\n| `onPress` | `(e: PressEvent) => void` | - | Press handler (from React Aria) |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Page number content |\n\n### Pagination.Previous / Pagination.Next\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | `false` | Whether the button is disabled |\n| `onPress` | `(e: PressEvent) => void` | - | Press handler (from React Aria) |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Button content (compose with PreviousIcon/NextIcon) |\n\n### Pagination.PreviousIcon / Pagination.NextIcon\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | Default chevron SVG | Custom icon to replace the default chevron |\n\n### Pagination.Ellipsis\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:160"
+  },
+  {
+   "name": "Note",
+   "body": "Pagination buttons use `onPress` instead of `onClick`. The `onPress` handler from React Aria normalizes press behavior across pointer types and provides accessibility improvements out of the box.",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:223"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The Pagination component is built on [React Aria's Button](https://react-spectrum.adobe.com/react-aria/Button.html) primitive for all interactive elements, providing:\n\n- Semantic `<nav>` element with `aria-label=\"pagination\"` and `role=\"navigation\"`\n- Active page indicated via `aria-current=\"page\"` on the current link\n- Keyboard navigation via Tab key through all interactive elements\n- Press events handled across mouse, touch, and keyboard interactions via React Aria\n- Focus ring on keyboard navigation via `:focus-visible`\n- Ellipsis marked with `aria-hidden=\"true\"` to avoid screen reader confusion\n- Disabled states properly communicated to assistive technology via `isDisabled`",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:227"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"pagination\" />",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:239"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "pagination-basic",
+   "source": "apps/docs/src/demos/en/pagination/basic.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationBasic() {\n  const [page, setPage] = useState(1);\n  const totalPages = 3;\n\n  return (\n    <Pagination className=\"justify-center\">\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon />\n            <span>Previous</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (\n          <Pagination.Item key={p}>\n            <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n              {p}\n            </Pagination.Link>\n          </Pagination.Item>\n        ))}\n        <Pagination.Item>\n          <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n            <span>Next</span>\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "Sizes",
+   "section": "Examples",
+   "key": "pagination-sizes",
+   "source": "apps/docs/src/demos/en/pagination/sizes.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nfunction SizePagination({size}: {size: \"sm\" | \"md\" | \"lg\"}) {\n  const [page, setPage] = useState(1);\n  const totalPages = 3;\n\n  return (\n    <div className=\"flex flex-col gap-2\">\n      <span className=\"text-xs font-medium text-muted capitalize\">{size}</span>\n      <Pagination className=\"justify-center\" size={size}>\n        <Pagination.Content>\n          <Pagination.Item>\n            <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n              <Pagination.PreviousIcon />\n              <span>Previous</span>\n            </Pagination.Previous>\n          </Pagination.Item>\n          {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (\n            <Pagination.Item key={p}>\n              <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n                {p}\n              </Pagination.Link>\n            </Pagination.Item>\n          ))}\n          <Pagination.Item>\n            <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n              <span>Next</span>\n              <Pagination.NextIcon />\n            </Pagination.Next>\n          </Pagination.Item>\n        </Pagination.Content>\n      </Pagination>\n    </div>\n  );\n}\n\nexport function PaginationSizes() {\n  return (\n    <div className=\"flex flex-col gap-6\">\n      {([\"sm\", \"md\", \"lg\"] as const).map((size) => (\n        <SizePagination key={size} size={size} />\n      ))}\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "pagination-disabled",
+   "source": "apps/docs/src/demos/en/pagination/disabled.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationDisabled() {\n  const [page, setPage] = useState(1);\n  const totalPages = 3;\n\n  return (\n    <Pagination className=\"justify-center\">\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon />\n            <span>Previous</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (\n          <Pagination.Item key={p}>\n            <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n              {p}\n            </Pagination.Link>\n          </Pagination.Item>\n        ))}\n        <Pagination.Item>\n          <Pagination.Next isDisabled onPress={() => setPage((p) => p + 1)}>\n            <span>Next</span>\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "Simple (Previous / Next)",
+   "section": "Examples",
+   "key": "pagination-simple-prev-next",
+   "source": "apps/docs/src/demos/en/pagination/simple-prev-next.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationSimplePrevNext() {\n  const [page, setPage] = useState(1);\n  const totalPages = 10;\n  const itemsPerPage = 5;\n  const totalItems = 50;\n\n  const startItem = (page - 1) * itemsPerPage + 1;\n  const endItem = Math.min(page * itemsPerPage, totalItems);\n\n  return (\n    <Pagination className=\"w-full\">\n      <Pagination.Summary>\n        {startItem} to {endItem} of {totalItems} invoices\n      </Pagination.Summary>\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon />\n            <span>Prev</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        <Pagination.Item>\n          <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n            <span>Next</span>\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "pagination-controlled",
+   "source": "apps/docs/src/demos/en/pagination/controlled.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationControlled() {\n  const [page, setPage] = useState(1);\n  const totalPages = 12;\n  const itemsPerPage = 10;\n  const totalItems = 120;\n\n  const getPageNumbers = () => {\n    const pages: (number | \"ellipsis\")[] = [];\n\n    if (totalPages <= 7) {\n      for (let i = 1; i <= totalPages; i++) {\n        pages.push(i);\n      }\n    } else {\n      pages.push(1);\n\n      if (page > 3) {\n        pages.push(\"ellipsis\");\n      }\n\n      const start = Math.max(2, page - 1);\n      const end = Math.min(totalPages - 1, page + 1);\n\n      for (let i = start; i <= end; i++) {\n        pages.push(i);\n      }\n\n      if (page < totalPages - 2) {\n        pages.push(\"ellipsis\");\n      }\n\n      pages.push(totalPages);\n    }\n\n    return pages;\n  };\n\n  const startItem = (page - 1) * itemsPerPage + 1;\n  const endItem = Math.min(page * itemsPerPage, totalItems);\n\n  return (\n    <Pagination>\n      <Pagination.Summary>\n        Showing {startItem}-{endItem} of {totalItems} results\n      </Pagination.Summary>\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon />\n            <span>Previous</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        {getPageNumbers().map((p, i) =>\n          p === \"ellipsis\" ? (\n            <Pagination.Item key={`ellipsis-${i}`}>\n              <Pagination.Ellipsis />\n            </Pagination.Item>\n          ) : (\n            <Pagination.Item key={p}>\n              <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n                {p}\n              </Pagination.Link>\n            </Pagination.Item>\n          ),\n        )}\n        <Pagination.Item>\n          <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n            <span>Next</span>\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "With Ellipsis",
+   "section": "Examples",
+   "key": "pagination-with-ellipsis",
+   "source": "apps/docs/src/demos/en/pagination/with-ellipsis.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationWithEllipsis() {\n  const [page, setPage] = useState(1);\n  const totalPages = 12;\n\n  const getPageNumbers = () => {\n    const pages: (number | \"ellipsis\")[] = [];\n\n    pages.push(1);\n\n    if (page > 3) {\n      pages.push(\"ellipsis\");\n    }\n\n    const start = Math.max(2, page - 1);\n    const end = Math.min(totalPages - 1, page + 1);\n\n    for (let i = start; i <= end; i++) {\n      pages.push(i);\n    }\n\n    if (page < totalPages - 2) {\n      pages.push(\"ellipsis\");\n    }\n\n    pages.push(totalPages);\n\n    return pages;\n  };\n\n  return (\n    <div className=\"w-full max-w-2xs overflow-x-auto sm:max-w-full\">\n      <Pagination className=\"justify-center\">\n        <Pagination.Content>\n          <Pagination.Item>\n            <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n              <Pagination.PreviousIcon />\n              <span>Previous</span>\n            </Pagination.Previous>\n          </Pagination.Item>\n          {getPageNumbers().map((p, i) =>\n            p === \"ellipsis\" ? (\n              <Pagination.Item key={`ellipsis-${i}`}>\n                <Pagination.Ellipsis />\n              </Pagination.Item>\n            ) : (\n              <Pagination.Item key={p}>\n                <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n                  {p}\n                </Pagination.Link>\n              </Pagination.Item>\n            ),\n          )}\n          <Pagination.Item>\n            <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n              <span>Next</span>\n              <Pagination.NextIcon />\n            </Pagination.Next>\n          </Pagination.Item>\n        </Pagination.Content>\n      </Pagination>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Summary",
+   "section": "Examples",
+   "key": "pagination-with-summary",
+   "source": "apps/docs/src/demos/en/pagination/with-summary.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PaginationWithSummary() {\n  const [page, setPage] = useState(1);\n  const totalPages = 12;\n  const itemsPerPage = 10;\n  const totalItems = 120;\n\n  const getPageNumbers = () => {\n    const pages: (number | \"ellipsis\")[] = [];\n\n    pages.push(1);\n\n    if (page > 3) {\n      pages.push(\"ellipsis\");\n    }\n\n    const start = Math.max(2, page - 1);\n    const end = Math.min(totalPages - 1, page + 1);\n\n    for (let i = start; i <= end; i++) {\n      pages.push(i);\n    }\n\n    if (page < totalPages - 2) {\n      pages.push(\"ellipsis\");\n    }\n\n    pages.push(totalPages);\n\n    return pages;\n  };\n\n  const startItem = (page - 1) * itemsPerPage + 1;\n  const endItem = Math.min(page * itemsPerPage, totalItems);\n\n  return (\n    <Pagination className=\"w-full\">\n      <Pagination.Summary>\n        Showing {startItem}-{endItem} of {totalItems} results\n      </Pagination.Summary>\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon />\n            <span>Previous</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        {getPageNumbers().map((p, i) =>\n          p === \"ellipsis\" ? (\n            <Pagination.Item key={`ellipsis-${i}`}>\n              <Pagination.Ellipsis />\n            </Pagination.Item>\n          ) : (\n            <Pagination.Item key={p}>\n              <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n                {p}\n              </Pagination.Link>\n            </Pagination.Item>\n          ),\n        )}\n        <Pagination.Item>\n          <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n            <span>Next</span>\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Icons",
+   "section": "Examples",
+   "key": "pagination-custom-icons",
+   "source": "apps/docs/src/demos/en/pagination/custom-icons.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport {useState} from \"react\";\n\nexport function PaginationCustomIcons() {\n  const [page, setPage] = useState(1);\n  const totalPages = 3;\n\n  return (\n    <Pagination className=\"justify-center\">\n      <Pagination.Content>\n        <Pagination.Item>\n          <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>\n            <Pagination.PreviousIcon>\n              <Icon icon=\"gravity-ui:arrow-left\" />\n            </Pagination.PreviousIcon>\n            <span>Back</span>\n          </Pagination.Previous>\n        </Pagination.Item>\n        {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (\n          <Pagination.Item key={p}>\n            <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n              {p}\n            </Pagination.Link>\n          </Pagination.Item>\n        ))}\n        <Pagination.Item>\n          <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>\n            <span>Forward</span>\n            <Pagination.NextIcon>\n              <Icon icon=\"gravity-ui:arrow-right\" />\n            </Pagination.NextIcon>\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "pagination-custom-styles",
+   "source": "apps/docs/src/demos/en/pagination/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {Pagination} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nconst linkClass = \"text-muted hover:bg-surface hover:text-foreground\";\nconst activeClass = \"bg-accent text-accent-foreground hover:bg-accent-hover\";\n\nexport function CustomStyles() {\n  const [page, setPage] = useState(2);\n\n  return (\n    <Pagination className=\"justify-center\">\n      <Pagination.Content className=\"gap-1 rounded-xl bg-default p-1\">\n        <Pagination.Item>\n          <Pagination.Previous\n            className={linkClass}\n            isDisabled={page === 1}\n            onPress={() => setPage((p) => p - 1)}\n          >\n            <Pagination.PreviousIcon />\n          </Pagination.Previous>\n        </Pagination.Item>\n        {[1, 2, 3].map((p) => (\n          <Pagination.Item key={p}>\n            <Pagination.Link\n              className={p === page ? activeClass : linkClass}\n              isActive={p === page}\n              onPress={() => setPage(p)}\n            >\n              {p}\n            </Pagination.Link>\n          </Pagination.Item>\n        ))}\n        <Pagination.Item>\n          <Pagination.Next\n            className={linkClass}\n            isDisabled={page === 3}\n            onPress={() => setPage((p) => p + 1)}\n          >\n            <Pagination.NextIcon />\n          </Pagination.Next>\n        </Pagination.Item>\n      </Pagination.Content>\n    </Pagination>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Pagination",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`size`",
+     "`\"sm\" | \"md\" | \"lg\"`",
+     "`\"md\"`",
+     "Size of the pagination items",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:166"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:167"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Pagination parts (Summary, Content)",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:168"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:162",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Summary",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:174"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Summary content (e.g., \"Showing 1-10 of 120\")",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:175"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:170",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Content",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:181"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Pagination items",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:182"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:177",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Item",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:188"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Item content (Link, Previous, Next, or Ellipsis)",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:189"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:184",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Link",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isActive`",
+     "`boolean`",
+     "`false`",
+     "Whether this is the current page",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:195"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether the link is disabled",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:196"
+    ],
+    [
+     "`onPress`",
+     "`(e: PressEvent) => void`",
+     "-",
+     "Press handler (from React Aria)",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:197"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:198"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Page number content",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:199"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:191",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Previous / Pagination.Next",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether the button is disabled",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:205"
+    ],
+    [
+     "`onPress`",
+     "`(e: PressEvent) => void`",
+     "-",
+     "Press handler (from React Aria)",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:206"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:207"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Button content (compose with PreviousIcon/NextIcon)",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:208"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.PreviousIcon / Pagination.NextIcon",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:214"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "Default chevron SVG",
+     "Custom icon to replace the default chevron",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:215"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:210",
+   "section": "API Reference"
+  },
+  {
+   "name": "Pagination.Ellipsis",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:221"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:217",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`size`",
+   "prop": "size",
+   "values": [
+    "sm",
+    "md",
+    "lg"
+   ],
+   "other": [],
+   "default": "`\"md\"`",
+   "owner": "Pagination",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(navigation)/pagination.mdx:166"
+  }
+ ]
+}

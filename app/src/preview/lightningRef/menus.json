@@ -1,0 +1,191 @@
+{
+ "slug": "menus",
+ "title": "Menus",
+ "docs": [
+  {
+   "repoPath": "ui/components/menus/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/menus/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/menus/dropdown/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/menus/dropdown/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/menus/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n/**\n * The unordered menu list with `[role=\"menu\"]` should be contained in a `<div>`\n * with the class `.slds-dropdown`. The exception to this is the **Action\n * Overflow for Touch**, which is not a dropdown menu.\n *\n * The target HTML element and dropdown need to be wrapped in the class `.slds-dropdown-trigger dropdown-trigger_click`.\n *\n * By default, dropdown menus do not display a nubbin (the little cute triangle\n * pointing at your target). If you want to apply one, you can add the class\n * that defines the nubbin position and `.slds-nubbin_top` to the `.slds-dropdown`\n * HTML element.\n *\n * **Submenu Variant**\n *\n * To create a menu with a submenu, add the `slds-has-submenu` class to the list item, `<li>`, that will open the submenu. In order to open the submenu, set `aria-expanded` to `true` on the `<a>` within the `<li>` when the user clicks or hovers over the list item, or presses enter while focused on the list item.\n *\n * To open the submenu to the right of the main menu, add `slds-dropdown_submenu-right` to the `<div>` with the `slds-dropdown_submenu` class. To add it to the left, add `slds-dropdown_submenu-left`.\n *\n * **Accessibility**\n *\n * The main thing that distinguishes menus from other popover blocks is keyboard\n * navigation: elsewhere, users press the Tab key to navigate through actionable\n * items, but in a menu, users press the arrow keys to navigate.\n *\n * **Expected markup:**\n *\n * - Menu trigger is a focusable element (`<a>` or `<button>`) with `aria-haspopup=\"true\"`\n * - Menu has `role=\"menu\"` and an `aria-labelledby` attribute whose value is the id of the menu trigger\n * - Menu items have `role=\"menuitem\"`, `role=\"menuitemcheckbox\"`, or `role=\"menuitemradio\"`\n * - Menu items that open a submenu have both `aria-haspop=\"true\"` and `aria-expanded` set to true or false on the `<a>` within the `<li>`, depending if the submenu is open or closed\n * - Submenu has `role=\"menu\"` and an `aria-labelledby` attribute whose value matches the name of the `<li>` that opened the submenu\n *\n * **Expected keyboard interactions:**\n *\n * - Arrow keys cycle focus through menu items (you should use JS to disable focus for any disabled items)\n * - If a menu item opens a submenu, pressing enter or the right arrow key opens the submenu and focus goes to the first item in the submenu\n * - If a submenu is open, pressing the left arrow key or Esc key closes the submenu and puts focus back on the menu item that opened the submenu\n * - Tab key closes menu and moves focus to the next focusable element on the page\n * - Esc key closes menu and moves focus back to the menu trigger\n * - Any character key moves focus to the next menu item that starts with that character, if applicable\n *\n * @summary A Menu offers a list of actions or functions that a user can access.\n *\n * @base\n * @name menus\n * @selector .slds-dropdown-trigger\n * @support dev-ready\n * @category experience\n * @type navigation\n * @role menu\n * @s1 false\n * @scroller\n */\n"
+   },
+   {
+    "source": "scss/components/menus/action-overflow/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n.slds-dropdown_actions a,\n.slds-dropdown--actions a {\n  color: $brand-text-link;\n}\n"
+   },
+   {
+    "source": "scss/components/menus/dropdown/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@include deprecate('4.0.0', 'Use .slds-dropdown-trigger--hover instead') {\n\n  .slds-dropdown-trigger {\n\n    .slds-dropdown {\n      visibility: hidden;\n      opacity: 0;\n      transition: opacity $duration-quickly linear, visibility $duration-quickly linear;\n    }\n\n    &:hover,\n    &:focus {\n      outline: 0;\n\n      .slds-dropdown {\n        visibility: visible;\n        opacity: 1;\n        transition: opacity $duration-quickly linear, visibility $duration-quickly linear;\n      }\n    }\n  }\n}\n\n@include deprecate('4.0.0', 'Please use slds-nubbin-{position} instead') {\n\n  .slds-dropdown_nubbin-top,\n  .slds-dropdown--nubbin-top {\n    @include nubbin(top, 'before', $color: var(--slds-g-color-neutral-base-100, #{$color-background-alt}));\n    @include nubbin(top, $color: var(--slds-g-color-neutral-base-100, #{$color-background-alt}));\n    margin-top: ($nubbin-size-default * 0.5);\n\n    &:before {\n      background: var(--slds-g-color-neutral-base-100, #{$color-background-alt});\n    }\n\n    &:after {\n      background: var(--slds-g-color-neutral-base-100, #{$color-background-alt});\n      box-shadow: -1px -1px 0 0 rgba(0, 0, 0, 0.16);\n      z-index: -1;\n    }\n\n    &.slds-dropdown_left,\n    &.slds-dropdown--left {\n      left: ($spacing-medium * -1);\n\n      &:before,\n      &:after {\n        left: $spacing-large;\n        margin-left: 0;\n      }\n    }\n\n    &.slds-dropdown_right,\n    &.slds-dropdown--right {\n      right: ($spacing-medium * -1);\n\n      &:before,\n      &:after {\n        left: auto;\n        right: $spacing-large;\n        margin-left: 0;\n      }\n    }\n  }\n}\n\n@include deprecate('4.0.0', 'Icon should be used in the html to create space') {\n\n  .slds-dropdown__item {\n\n    .slds-has-icon {\n      position: relative;\n\n      .slds-icon {\n        @include square($square-icon-medium-content);\n        position: absolute;\n        top: 50%;\n        margin-top: (($square-icon-medium-content * 0.5) * -1);\n        fill: var(--slds-g-color-neutral-base-50, #{$color-text-icon-default});\n      }\n\n      .slds-icon_left,\n      .slds-icon--left {\n        left: $spacing-small;\n      }\n\n      .slds-icon_right,\n      .slds-icon--right {\n        right: $spacing-small;\n      }\n    }\n\n    .slds-has-icon_left > a,\n    .slds-has-icon--left > a,\n    .slds-has-icon_left > span,\n    .slds-has-icon--left > span {\n      padding-left: $spacing-x-large;\n    }\n\n    .slds-has-icon_right > a,\n    .slds-has-icon--right > a,\n    .slds-has-icon_right > span,\n    .slds-has-icon--right > span {\n      padding-right: $spacing-x-large;\n    }\n\n    .slds-has-icon_left-right > a,\n    .slds-has-icon--left-right > a,\n    .slds-has-icon_left-right > span,\n    .slds-has-icon--left-right > span {\n      padding: {\n        left: $spacing-x-large;\n        right: $spacing-x-large;\n      }\n    }\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/menus/dropdown/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n@import '../mixins/index';\n\n/**\n *\n * @summary Initializes a trigger element around the dropdown\n * @name dropdown\n * @selector .slds-dropdown-trigger\n * @restrict div, span, li\n * @support dev-ready\n * @variant\n * @lwc\n */\n.slds-dropdown-trigger {\n  position: relative;\n  display: inline-block;\n\n  .slds-dropdown {\n    top: 100%;\n  }\n\n  .slds-dropdown_bottom,\n  .slds-dropdown--bottom {\n    top: auto;\n  }\n\n  // Deal with positioning when target is just an icon\n  > [class*=\"slds-button_icon\"],\n  > [class*=\"slds-button--icon\"] {\n\n    ~ .slds-dropdown_left[class*=\"slds-nubbin\"],\n    ~ .slds-dropdown--left[class*=\"slds-nubbin\"] {\n      left: ($spacing-x-small * -1);\n    }\n\n    ~ .slds-dropdown_right[class*=\"slds-nubbin\"],\n    ~ .slds-dropdown--right[class*=\"slds-nubbin\"] {\n      right: ($spacing-x-small * -1);\n    }\n  }\n}\n\n/**\n  * @summary If someone is using javascript for click to toggle - this modifier will help\n  * @selector .slds-dropdown-trigger_hover\n  * @restrict .slds-dropdown-trigger\n  */\n.slds-dropdown-trigger_hover,\n.slds-dropdown-trigger--hover {\n\n  .slds-dropdown {\n    visibility: hidden;\n    opacity: 0;\n    transition: opacity $duration-quickly linear, visibility $duration-quickly linear;\n  }\n\n  &:hover,\n  &:focus {\n    outline: 0;\n\n    .slds-dropdown {\n      visibility: visible;\n      opacity: 1;\n      transition: opacity $duration-quickly linear, visibility $duration-quickly linear;\n    }\n  }\n}\n\n/**\n* @summary If someone is using javascript for click to toggle - this modifier will help\n* @selector .slds-dropdown-trigger_click\n* @restrict .slds-dropdown-trigger\n*/\n.slds-dropdown-trigger_click,\n.slds-dropdown-trigger--click {\n\n  .slds-dropdown,\n  &:hover .slds-dropdown {\n    display: none;\n  }\n\n  /**\n  * @summary Opens dropdown menu when invoked on click\n  * @selector .slds-is-open\n  * @restrict .slds-dropdown-trigger_click\n  * @modifier\n  * @group visibility\n  */\n  &.slds-is-open .slds-dropdown {\n    display: block;\n    visibility: visible;\n    opacity: 1;\n  }\n}\n\n/**\n * @summary Initializes dropdown\n * @selector .slds-dropdown\n * @restrict .slds-dropdown-trigger div, .slds-dropdown-trigger ul, .slds-docked-composer_overflow div\n * @notes Applies positioning and container styles, by default, dropdown appears below and center of target\n */\n.slds-dropdown {\n  position: absolute;\n  z-index: $z-index-dropdown;\n  left: 50%;\n  float: left;\n  min-width: $size-xx-small;\n  max-width: $size-medium;\n  width: max-content; /* This is needed as replacement for legacy `white-space: nowrap;` from the inner menu-item */\n  margin-top: $spacing-xxx-small;\n  margin-bottom: $spacing-xxx-small;\n  border: $border-width-thin solid var(--slds-g-color-border-base-4, #{$color-border});\n  border-radius: $border-radius-medium;\n  padding: $spacing-xx-small 0;\n  font-family: var(--slds-c-dropdown-font-family);\n  font-size: var(--slds-c-dropdown-font-size, $font-size-2);\n  font-weight: var(--slds-c-dropdown-font-weight);\n  font-style: var(--slds-c-dropdown-font-style);\n  text-decoration: var(--slds-c-dropdown-font-decoration);\n  line-height: var(--slds-c-dropdown-font-lineheight);\n  letter-spacing: var(--slds-c-dropdown-letter-spacing);\n  background: var(--slds-g-color-neutral-base-100, #{$color-background-alt});\n  box-shadow: $shadow-drop-down;\n  transform: translateX(-50%);\n  color: var(--slds-c-dropdown-color, var(--slds-g-color-neutral-base-10, #{$color-text-default}));\n\n  // Typeahead stuff\n  mark {\n    font-weight: $font-weight-bold;\n    background-color: transparent;\n    color: inherit;\n  }\n\n  // Adjust position of dropdown with top nubbin\n  &[class*=\"slds-nubbin_top\"],\n  &[class*=\"slds-nubbin--top\"] {\n    margin-top: ($nubbin-size-default * 0.5);\n  }\n\n  // Adjust position of dropdown with bottom nubbin\n  &[class*=\"slds-nubbin_bottom\"],\n  &[class*=\"slds-nubbin--bottom\"] {\n    margin-bottom: ($nubbin-size-default * 0.5);\n  }\n}\n\n/**\n  * @summary Theme\n  * @selector .slds-dropdown_inverse\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group theme\n  */\n.slds-dropdown_inverse,\n.slds-dropdown--inverse {\n  background: var(--slds-g-color-brand-base-10, #{$color-background-inverse});\n  border-color: var(--slds-g-color-brand-base-10, #{$color-border-inverse});\n  color: var(--slds-g-color-neutral-base-100, #{$color-text-inverse});\n\n  .slds-dropdown__item > a {\n    color: var(--slds-g-color-neutral-base-100, #{$color-text-inverse});\n\n    &:hover,\n    &:focus {\n      color: var(--slds-g-color-neutral-100-opacity-75, #{$color-text-link-inverse-hover});\n      background-color: transparent;\n    }\n\n    &:focus {\n      box-shadow: var(--slds-g-shadow-inset-focus-1, #{$shadow-button-focus});\n      outline: 0;\n    }\n\n    &:active {\n      color: var(--slds-g-color-neutral-100-opacity-50, #{$color-text-link-inverse-active});\n      background-color: transparent;\n    }\n\n    &[aria-disabled=\"true\"] {\n      color: var(--slds-g-color-neutral-100-opacity-25, #{$color-text-link-inverse-disabled});\n      cursor: default;\n\n      &:hover {\n        background-color: transparent;\n      }\n    }\n  }\n}\n\n/**\n  * @summary Adds padding to area above dropdown menu list\n  * @selector .slds-dropdown__header\n  * @restrict .slds-dropdown li\n  */\n.slds-dropdown__header {\n  @include text-title;\n  padding: $spacing-x-small $spacing-small;\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-inset-focus-1);\n    outline: 0;\n  }\n}\n\n/**\n  * @summary Initializes dropdown item\n  * @selector .slds-dropdown__item\n  * @restrict .slds-dropdown li\n  * @required\n  */\n.slds-dropdown__item {\n  line-height: $line-height-text;\n  font-weight: $font-weight-regular;\n\n  > a {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: $spacing-x-small $spacing-small;\n    background-color: var(--slds-c-dropdown-item-color-background);\n    color: var(--slds-c-dropdown-item-color, var(--slds-g-color-neutral-base-10, #{$color-text-default}));\n    text-decoration: none;\n    cursor: pointer;\n\n    &:hover,\n    &:focus {\n      outline: 0;\n      text-decoration: none;\n    }\n\n    &:hover {\n      background-color: var(--slds-c-dropdown-item-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-row-hover}));\n      color: var(--slds-c-dropdown-item-color-hover);\n    }\n\n    &:focus {\n      background-color: var(--slds-c-dropdown-item-color-background-focus, var(--slds-g-color-neutral-base-95, #{$color-background-row-hover}));\n      box-shadow: var(--slds-g-shadow-inset-focus-1, #{$shadow-button-focus});\n      color: var(--slds-c-dropdown-item-color-focus);\n    }\n\n    &.slds-has-success,\n    &.slds-has-warning,\n    &.slds-has-error {\n\n      &:focus {\n        box-shadow: var(--slds-g-shadow-inset-inverse-focus-1);\n      }\n    }\n\n    &:active {\n      text-decoration: none;\n      background-color: var(--slds-c-dropdown-item-color-background-active, var(--slds-g-color-neutral-base-95, #{$color-background-row-active}));\n      color: var(--slds-c-dropdown-item-color-active);\n    }\n\n    &[aria-disabled=\"true\"] {\n      cursor: default;\n\n      &,\n      &:hover,\n      &:active,\n      &:focus {\n        background-color: var(--slds-c-dropdown-item-color-background-disabled, transparent);\n        color: var(--slds-c-dropdown-item-color-disabled, var(--slds-g-color-neutral-base-80, #{$color-text-button-default-disabled}));\n      }\n\n      &:focus {\n        box-shadow: none;\n      }\n\n      &:focus-visible {\n        outline: 2px solid var(--slds-g-color-on-disabled-2);\n        outline-offset: -4px;\n      }\n\n      .slds-icon {\n        fill: var(--slds-g-color-neutral-base-80, #{$color-text-button-default-disabled});\n      }\n    }\n\n    /**\n      * @summary Places a menu item into an errored state\n      *\n      * @selector .slds-has-error\n      * @restrict .slds-dropdown__item > a\n      * @modifier\n      * @group notification\n      */\n    &.slds-has-error {\n      background: var(--slds-g-color-error-base-40, #{$color-background-destructive});\n    }\n\n    /**\n      * @summary Places a menu item into a success state\n      *\n      * @selector .slds-has-success\n      * @restrict .slds-dropdown__item > a\n      * @modifier\n      * @group notification\n      */\n    &.slds-has-success {\n      background: var(--slds-g-color-success-base-50, #{$color-background-success-dark});\n    }\n\n    &.slds-has-error,\n    &.slds-has-success {\n      color: var(--slds-g-color-neutral-base-100, #{$color-gray-1});\n    }\n\n    /**\n      * @summary Places a menu item into a warning state\n      *\n      * @selector .slds-has-warning\n      * @restrict .slds-dropdown__item > a\n      * @modifier\n      * @group notification\n      */\n    &.slds-has-warning {\n      background: var(--slds-g-color-warning-base-60, #{$color-background-warning});\n\n      .slds-indicator_unread {\n        background-color: currentColor;\n      }\n\n      .slds-indicator_unsaved {\n        color: currentColor;\n      }\n    }\n\n    &.slds-has-error,\n    &.slds-has-success,\n    &.slds-has-warning {\n\n      &:hover,\n      &:focus {\n        text-decoration: underline;\n      }\n    }\n  }\n\n  /**\n    * @summary If menu contains menuitemcheckbox then this toggles the selected icon when it is selected\n    * @selector .slds-icon_selected\n    * @restrict .slds-dropdown__item svg\n    */\n  .slds-icon_selected,\n  .slds-icon--selected {\n    opacity: 0;\n    transition: opacity $duration-immediately ease;\n  }\n\n  /**\n    * @summary If menu contains menuitemcheckbox then this handles the selected states\n    * @selector .slds-is-selected\n    * @restrict .slds-dropdown__item\n    * @modifier\n    */\n  &.slds-is-selected .slds-icon_selected,\n  &.slds-is-selected .slds-icon--selected {\n    opacity: 1;\n  }\n\n  &.slds-has-notification .slds-indicator_unsaved {\n    top: rem(-6px);\n  }\n}\n\n/**\n  * @summary Positions dropdown to left side of target\n  * @selector .slds-dropdown_left\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group menu position\n  */\n.slds-dropdown_left,\n.slds-dropdown--left {\n  left: 0;\n  right: auto;\n  transform: translateX(0);\n\n  &.slds-nubbin_top-left:before,\n  &.slds-nubbin_top-left:after,\n  &.slds-nubbin--top-left:before,\n  &.slds-nubbin--top-left:after,\n  &.slds-nubbin_bottom-left:before,\n  &.slds-nubbin_bottom-left:after,\n  &.slds-nubbin--bottom-left:before,\n  &.slds-nubbin--bottom-left:after {\n    @include rtl() {\n      /*! @noflip */\n      right: $spacing-large;\n    }\n  }\n}\n\n/**\n  * @summary Positions dropdown to right side of target\n  * @selector .slds-dropdown_right\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group menu position\n  */\n.slds-dropdown_right,\n.slds-dropdown--right {\n  left: auto;\n  right: 0;\n  transform: translateX(0);\n\n  &.slds-nubbin_top-right:before,\n  &.slds-nubbin_top-right:after,\n  &.slds-nubbin--top-right:before,\n  &.slds-nubbin--top-right:after,\n  &.slds-nubbin_bottom-right:before,\n  &.slds-nubbin_bottom-right:after,\n  &.slds-nubbin--bottom-right:before,\n  &.slds-nubbin--bottom-right:after {\n    @include rtl() {\n      /*! @noflip */\n      right: auto;\n\n      /*! @noflip */\n      left: $spacing-large;\n\n      /*! @noflip */\n      margin-left: (($nubbin-size-default * 0.5) * -1);\n    }\n  }\n}\n\n/**\n  * @summary Positions dropdown to above target\n  * @selector .slds-dropdown_bottom\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group menu position\n  */\n.slds-dropdown_bottom,\n.slds-dropdown--bottom {\n  bottom: 100%;\n}\n\n/**\n  * @summary Sets min-width of 6rem/96px\n  * @selector .slds-dropdown_xx-small\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_xx-small,\n.slds-dropdown--xx-small {\n  min-width: $size-xx-small;\n}\n\n/**\n  * @summary Sets min-width of 12rem/192px\n  * @selector .slds-dropdown_x-small\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_x-small,\n.slds-dropdown--x-small {\n  min-width: $size-x-small;\n}\n\n/**\n  * @summary Sets min-width of 15rem/240px\n  * @selector .slds-dropdown_small\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_small,\n.slds-dropdown--small {\n  min-width: $size-small;\n}\n\n/**\n  * @summary Sets min-width of 20rem/320px\n  * @selector .slds-dropdown_medium\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_medium,\n.slds-dropdown--medium {\n  min-width: $size-medium;\n}\n\n/**\n  * @summary Sets min-width of 25rem/400px\n  * @selector .slds-dropdown_large\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_large,\n.slds-dropdown--large {\n  min-width: $size-large;\n  max-width: $max-width-action-overflow-menu;\n}\n\n/**\n  * @summary Sets width equal to input\n  * @selector .slds-dropdown_fluid\n  * @restrict .slds-dropdown\n  * @modifier\n  * @group width\n  */\n.slds-dropdown_fluid,\n.slds-dropdown--fluid {\n  min-width: $size-x-small; // Prevents menu from being illegible when input's width is small\n  max-width: 100%;\n  width: 100%;\n}\n\n/**\n  * @summary Forces overflow scrolling after 5 list items\n  * @selector .slds-dropdown_length-5\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-5,\n.slds-dropdown--length-5 {\n  @include dropdown-overflow-length(5);\n}\n\n/**\n  * @summary Forces overflow scrolling after 7 list items\n  * @selector .slds-dropdown_length-7\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-7,\n.slds-dropdown--length-7 {\n  @include dropdown-overflow-length(7);\n}\n\n/**\n  * @summary Forces overflow scrolling after 10 list items\n  * @selector .slds-dropdown_length-10\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-10,\n.slds-dropdown--length-10 {\n  @include dropdown-overflow-length(10);\n}\n\n/**\n  * @summary Forces overflow scrolling after 5 list items with an icon\n  * @selector .slds-dropdown_length-with-icon-5\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-with-icon-5,\n.slds-dropdown--length-with-icon-5 {\n  @include dropdown-overflow-length(5, $icon-size: $square-icon-small-boundary);\n}\n\n/**\n  * @summary Forces overflow scrolling after 7 list items with an icon\n  * @selector .slds-dropdown_length-with-icon-7\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-with-icon-7,\n.slds-dropdown--length-with-icon-7 {\n  @include dropdown-overflow-length(7, $icon-size: $square-icon-small-boundary);\n}\n\n/**\n  * @summary Forces overflow scrolling after 10 list items with an icon\n  * @selector .slds-dropdown_length-with-icon-10\n  * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox\n  * @modifier\n  * @group height\n  */\n.slds-dropdown_length-with-icon-10,\n.slds-dropdown--length-with-icon-10 {\n  @include dropdown-overflow-length(10, $icon-size: $square-icon-small-boundary);\n}\n\n.slds-dropdown_center,\n.slds-dropdown--center {\n  @include rtl() {\n    left: auto;\n    right: auto;\n    transform: translateX(calc(50% - (0.875rem / 2)));\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/menus/dropdown/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-dropdown {\n  padding: 0;\n  font-size: $font-size-5;\n}\n\n.slds-dropdown__item {\n\n  > a {\n    line-height: border-box-line-height($height-tappable, 0);\n    padding: 0 $spacing-small;\n  }\n}\n\n.slds-dropdown__header {\n  font-size: $font-size-5;\n}\n"
+   },
+   {
+    "source": "scss/components/menus/mixins/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/// Calculate max-height of dropdown length for list overflow\n///\n/// @require $length, $font-size, $line-height, $padding\n/// @param $length {Integer} Number of items to show before overlow\n/// @param $font-size {String} Font-size of list items\n/// @param $line-height {String} Line-height of list items\n/// @param $padding {String} Vertical padding of list items\n/// @param $icon {String} Size of icon in list items\n@mixin dropdown-overflow-length(\n  $length,\n  $font-size: $font-size-5,\n  $line-height: $line-height-text,\n  $padding: $spacing-medium,\n  $icon-size: null\n) {\n  @include enable-ios-momentum-scrolling;\n\n  // Calculate icon and padding since icon will always be taller than line height of text\n  @if $icon-size != null {\n    max-height: calc((#{$icon-size} + #{$padding}) * #{$length});\n  }\n  // Calculate text height and padding\n  @else {\n    max-height: calc(((#{$font-size} * #{$line-height}) + #{$padding}) * #{$length});\n  }\n  overflow-y: auto;\n}\n"
+   },
+   {
+    "source": "scss/components/menus/submenu/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @name submenu\n * @summary\n * @selector .slds-has-submenu\n * @restrict .slds-dropdown__item\n * @release 2.5.0\n */\n.slds-has-submenu {\n  position: relative;\n\n  /**\n   * @summary\n   * @selector .slds-dropdown_submenu\n   * @restrict .slds-has-submenu div\n   */\n  .slds-dropdown_submenu {\n    top: 0;\n    transform: none;\n  }\n\n  /**\n   * @summary Open submenu to the left of the parent menu item\n   * @selector .slds-dropdown_submenu-left\n   * @restrict .slds-dropdown_submenu\n   * @modifier\n   * @group submenu position\n   */\n  .slds-dropdown_submenu-left {\n    left: auto;\n    right: 100%;\n    margin-right: $spacing-xx-small;\n  }\n\n  /**\n   * @summary Open submenu to the right of the parent menu item\n   * @selector .slds-dropdown_submenu-right\n   * @restrict .slds-dropdown_submenu\n   * @modifier\n   * @group submenu position\n   */\n  .slds-dropdown_submenu-right {\n    left: 100%;\n    margin-left: $spacing-xx-small;\n  }\n\n  /**\n   * @summary Open submenu along the bottom of the parent menu item\n   * @selector .slds-dropdown_submenu-bottom\n   * @restrict .slds-dropdown_submenu\n   */\n  .slds-dropdown_submenu-bottom {\n    top: auto;\n    bottom: 0;\n    margin-bottom: ($spacing-xx-small * -1);\n  }\n\n  &.slds-dropdown__item {\n\n    .slds-dropdown_submenu {\n      display: none;\n    }\n  }\n\n  [role=\"menuitem\"][aria-expanded=\"true\"] + .slds-dropdown_submenu {\n    display: block;\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/menus"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-dropdown-font-family",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-font-size",
+    "0.75rem",
+    "Font",
+    "Dimension",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-font-weight",
+    "",
+    "Text",
+    "String, Number",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-font-style",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-font-decoration",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-font-lineheight",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-letter-spacing",
+    "",
+    "Spacing",
+    "Dimension",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-color",
+    "10, rgb(24, 24, 24)",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-background",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color",
+    "10, rgb(24, 24, 24)",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-hover",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-background-focus",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-focus",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-background-active",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-active",
+    "",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-background-disabled",
+    "transparent",
+    "Color",
+    "Color",
+    "metadata/components/menus/styling-hooks.json"
+   ],
+   [
+    "--slds-c-dropdown-item-color-disabled",
+    "80, rgb(201, 201, 201)",
+    null,
+    null,
+    "metadata/components/menus/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/menus/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

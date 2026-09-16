@@ -1,0 +1,85 @@
+{
+  "slug": "form",
+  "title": "Form",
+  "group": "Forms",
+  "heading": "Form",
+  "description": null,
+  "sharedImports": "import {Checkbox} from '@react-spectrum/checkbox';\n import {Form} from '@react-spectrum/form';\n import {Radio, RadioGroup} from '@react-spectrum/radio';\n import {TextField} from '@react-spectrum/textfield';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<Form maxWidth=\"size-3600\">\n  <TextField label=\"Email\" />\n  <TextField label=\"Password\" />\n  <Checkbox>Remember me</Checkbox>\n</Form>"
+    },
+    {
+      "name": "Content",
+      "code": "<Form maxWidth=\"size-3600\" isRequired necessityIndicator=\"label\">\n  <TextField label=\"Name\" />\n  <TextField label=\"Email\" />\n  <TextField label=\"Address\" isRequired={false} />\n</Form>"
+    },
+    {
+      "name": "Accessibility",
+      "code": "<h3 id=\"label-3\">Personal Information</h3>\n<Form maxWidth=\"size-3600\" aria-labelledby=\"label-3\">\n  <TextField label=\"First Name\" />\n  <TextField label=\"Last Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n    <Radio value=\"dragons\">Dragons</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Validation",
+      "code": "<Form validationErrors={{username: 'Sorry, this username is taken.'}} maxWidth=\"size-3000\">\n  <TextField label=\"Username\" name=\"username\" />\n</Form>"
+    },
+    {
+      "name": "Validation behavior",
+      "code": "import {ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  <TextField label=\"Email\" name=\"email\" type=\"email\" isRequired />\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Focus management",
+      "code": "import {InlineAlert, Heading, Content} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [isInvalid, setInvalid] = React.useState(false);\n\n  return (\n    <Form\n      validationBehavior=\"native\"\n      /*- begin highlight -*/\n      onInvalid={e => {\n        e.preventDefault();\n        setInvalid(true);\n      }}\n      /*- end highlight -*/\n      onSubmit={e => {\n        e.preventDefault();\n        setInvalid(false);\n      }}\n      onReset={() => setInvalid(false)}\n      maxWidth=\"size-3600\">\n      {isInvalid &&\n        /*- begin highlight -*/\n        <InlineAlert variant=\"negative\" autoFocus>\n        {/*- end highlight -*/}\n          <Heading>Unable to submit</Heading>\n          <Content>\n            Please fix the validation errors below, and re-submit the form.\n          </Content>\n        </InlineAlert>\n      }\n      <TextField label=\"First Name\" isRequired />\n      <TextField label=\"Last Name\" isRequired />\n      <ButtonGroup>\n        <Button type=\"submit\" variant=\"primary\">Submit</Button>\n        <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n      </ButtonGroup>\n    </Form>\n  );\n}"
+    },
+    {
+      "name": "Label position and alignment",
+      "code": "<Form\n  labelPosition=\"top\"\n  labelAlign=\"start\"\n  aria-label=\"Top position, start alignment example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Label position and alignment",
+      "code": "<Form\n  labelPosition=\"side\"\n  labelAlign=\"start\"\n  aria-label=\"Side position, start alignment example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Label position and alignment",
+      "code": "<Form\n  labelPosition=\"side\"\n  labelAlign=\"end\"\n  aria-label=\"Side position, end alignment example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<Form\n  isQuiet\n  aria-label=\"Quiet example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <TextField label=\"Address\" />\n</Form>"
+    },
+    {
+      "name": "Emphasized",
+      "code": "<Form\n  isEmphasized\n  aria-label=\"Emphasized example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\"/>\n  <RadioGroup label=\"Favorite pet\" defaultValue=\"dogs\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<Form\n  isDisabled\n  aria-label=\"Disabled example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Required and necessity indicator",
+      "code": "<Form\n  necessityIndicator=\"label\"\n  aria-label=\"Optional with label example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Required and necessity indicator",
+      "code": "<Form\n  isRequired\n  necessityIndicator=\"label\"\n  aria-label=\"Required with label example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Required and necessity indicator",
+      "code": "<Form\n  isRequired\n  necessityIndicator=\"icon\"\n  aria-label=\"Required with asterisk example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Read only",
+      "code": "<Form\n  isReadOnly\n  aria-label=\"isReadOnly example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" value=\"John Smith\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Validation state",
+      "code": "<Form\n  validationState=\"invalid\"\n  aria-label=\"Invalid validationState example\"\n  maxWidth=\"size-3600\"\n  marginBottom=\"size-300\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    },
+    {
+      "name": "Validation state",
+      "code": "<Form\n  validationState=\"valid\"\n  aria-label=\"Valid validationState example\"\n  maxWidth=\"size-3600\">\n  <TextField label=\"Name\" />\n  <RadioGroup label=\"Favorite pet\">\n    <Radio value=\"dogs\">Dogs</Radio>\n    <Radio value=\"cats\">Cats</Radio>\n  </RadioGroup>\n</Form>"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/form/Form.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/Form.html"
+}

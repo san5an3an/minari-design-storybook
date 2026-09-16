@@ -1,0 +1,164 @@
+{
+ "slug": "Menu",
+ "title": "Menu",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';\nimport Menu from '../Menu';\nimport * as MenuStories from './Menu.stories';\n\n<Meta isTemplate />\n\n# Menu\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Menu)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Positioning](#positioning)\n- [Subcomponents](#subcomponents)\n  - [MenuItem](#menuitem)\n  - [MenuItemDivider](#menuitemdivider)\n  - [MenuItemGroup](#menuitemgroup)\n  - [MenuItemSelectable](#menuitemselectable)\n  - [MenuItemRadioGroup](#menuitemradiogroup)\n- [Context menu (right-click menu)](#context-menu-right-click-menu)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\n`Menu` is a versatile component that can be used in a variety of situations. It\nimplements the\n[menu design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/) defined\nin the ARIA Authoring Practices Guide (APG).\n\nThe `Menu` component's `children` must be a collection of any of these\nsubcomponents:\n\n- [MenuItem](#menuitem)\n- [MenuItemDivider](#menuitemdivider)\n- [MenuItemGroup](#menuitemgroup)\n- [MenuItemSelectable](#menuitemselectable)\n- [MenuItemRadioGroup](#menuitemradiogroup)\n\n## Positioning\n\nYou must provide a reference point for the `Menu` to position itself at. The\nprops `x` and `y` either accept a single number each or an array of two numbers.\n\nThe latter option is used to specify the trigger boundaries. For example, Carbon\nuses this for the\n[next version of OverflowMenu](/story/experimental-feature-flags-overflowmenu--overflow-menu)\nwhere we pass `[x, x + width]` and `[y, y + height]` of the trigger button. This\nway, the `Menu` is able to automatically determine its ideal position on the\nscreen (which side to open at and in which direction) while always staying\nvisually attached to the trigger. Each `MenuItem` that has `children` and\ntherefore a submenu uses the same approach under the hood to correctly position\nthe submenu.\n\n## Subcomponents\n\n### MenuItem\n\nA `MenuItem` renders a basic menu item with a label an optionally a shortcut\nhint (_note: the component only renders this hint and doesn't actually register\nthe shortcut in the browser_). Each `MenuItem` can be clicked unless it's marked\nas `disabled`. If it triggers a destructive action, you can pass it\n`kind=\"danger\"` to highlight it specially on hover and focus.\n\n```jsx\n<Menu open>\n  <MenuItem label=\"Copy\" shortcut=\"⌘C\" />\n  <MenuItem label=\"Paste\" shortcut=\"⌘V\" disabled />\n  <MenuItem label=\"Delete\" kind=\"danger\" />\n</Menu>\n```\n\nIn order to render a submenu, you can pass any of the above mentioned\nsubcomponents as `children` of a `MenuItem`.\n\n```jsx\n<Menu open>\n  <MenuItem label=\"Open\" />\n  <MenuItem label=\"Save\" />\n  <MenuItem label=\"Import\">\n    <MenuItem label=\"Image\" />\n    <MenuItem label=\"Movie\" />\n    <MenuItem label=\"Text\" />\n  </MenuItem>\n</Menu>\n```\n\n### MenuItemDivider\n\nThe `MenuItemDivider` renders a thin dividing line, visually separating menu\nitems. Use this to enhance grouping of related items.\n\n```jsx\n<Menu open>\n  <MenuItem label=\"Cut\" />\n  <MenuItem label=\"Copy\" />\n  <MenuItem label=\"Paste\" />\n  <MenuItemDivider />\n  <MenuItem label=\"Delete\" kind=\"danger\" />\n</Menu>\n```\n\n### MenuItemGroup\n\nYou can logically group multiple menu items by wrapping them inside a\n`MenuItemGroup`. This doesn't affect the visual rendering but can tremendously\nimprove the experience for assistive technology users. You'll always want to use\na `MenuItemGroup` if you have multiple\n[`MenuItemSelectable`](#menuitemselectable) that are related to each other.\n\n### MenuItemSelectable\n\n`MenuItemSelectable` is a checkbox in a menu context. Each `MenuItemSelectable`\ncan be checked and unchecked unrelated to other items. If multiple items are\nrelated to each other, you'll want to wrap them in a `MenuItemGroup` for\nimproved accessibility.\n\n```jsx\n<Menu open>\n  <MenuItemGroup label=\"Font style\">\n    <MenuItemSelectable label=\"Bold\" selected />\n    <MenuItemSelectable label=\"Italic\" />\n  </MenuItemGroup>\n</Menu>\n```\n\n### MenuItemRadioGroup\n\n`MenuItemRadioGroup` is a radio button group in a menu context. Only one item\ncan be selected at a time. The component automatically wraps itself in a\n`MenuItemGroup`, so you won't have to nest it manually.\n\n```jsx\n<Menu open>\n  <MenuItemRadioGroup\n    label=\"Font family\"\n    items={['Sans', 'Serif', 'Mono']}\n    selectedItem=\"Sans\"\n  />\n  <MenuItemDivider />\n  <MenuItemRadioGroup\n    label=\"Text decoration\"\n    items={['None', 'Overline', 'Line-through', 'Underline']}\n    selectedItem=\"None\"\n  />\n</Menu>\n```\n\nThe `items` prop is designed to accept arbitrary items to best match your data\nstructure. If you pass your items as anything that doesn't support `.toString()`\nout of the box, you'll need to pass a custom `itemToString` function that will\nbe used for rendering the labels.\n\n```jsx\nconst items = [\n  { weight: 100, label: 'Thin' },\n  { weight: 200, label: 'Extralight' },\n  { weight: 300, label: 'Light' },\n  { weight: 400, label: 'Regular' },\n  { weight: 500, label: 'Medium' },\n  { weight: 600, label: 'Semibold' },\n  { weight: 700, label: 'Bold' },\n];\n\n<MenuItemRadioGroup\n  label=\"Font weight\"\n  items={items}\n  selectedItem={items[3]}\n  itemToString={(item) => item.label}\n/>;\n```\n\n## Context menu (right-click menu)\n\nThe `Menu` component is suited to be used as a context menu for complex web\napplications. To make this easy, Carbon provides a\n[`useContextMenu`](/story/hooks-usecontextmenu--use-context-menu) react hook.\nPlease refer to the\n[hook's documentation](/docs/hooks-usecontextmenu--use-context-menu) for more\ndetails.\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Menu/Menu.mdx).\n",
+   "source": "packages/react/src/components/Menu/Menu.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Menu/Menu.mdx:13"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Menu/Menu.mdx:29"
+    },
+    {
+     "name": "Positioning",
+     "source": "packages/react/src/components/Menu/Menu.mdx:45"
+    },
+    {
+     "name": "Subcomponents",
+     "source": "packages/react/src/components/Menu/Menu.mdx:60"
+    },
+    {
+     "name": "Context menu (right-click menu)",
+     "source": "packages/react/src/components/Menu/Menu.mdx:178"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Menu/Menu.mdx:187"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Menu/Menu.mdx:191"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  tall\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-menu--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Menu/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Menu/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const itemOnClick = action('onClick (MenuItem)');\n  const selectableOnChange = action('onChange (MenuItemSelectable)');\n  const radioOnChange = action('onChange (MenuItemRadioGroup)');\n\n  const target = document.getElementById('storybook-root');\n\n  return (\n    <Menu {...args} target={target} x={document?.dir === 'rtl' ? 250 : 0}>\n      <MenuItem label=\"Share with\" renderIcon={FolderShared}>\n        <MenuItemRadioGroup\n          label=\"Share with\"\n          items={['None', 'Product team', 'Organization', 'Company']}\n          defaultSelectedItem=\"Product team\"\n          onChange={radioOnChange}\n        />\n      </MenuItem>\n      <MenuItemDivider />\n      <MenuItem\n        label=\"Cut\"\n        shortcut=\"⌘X\"\n        onClick={itemOnClick}\n        renderIcon={Cut}\n      />\n      <MenuItem\n        label=\"Copy\"\n        shortcut=\"⌘C\"\n        onClick={itemOnClick}\n        renderIcon={Copy}\n      />\n      <MenuItem\n        label=\"Paste\"\n        shortcut=\"⌘V\"\n        disabled\n        onClick={itemOnClick}\n        renderIcon={Paste}\n      />\n      <MenuItemDivider />\n      <MenuItemGroup label=\"Font style\">\n        <MenuItemSelectable\n          label=\"Bold\"\n          shortcut=\"⌘B\"\n          defaultSelected\n          onChange={selectableOnChange}\n          renderIcon={TextBold}\n        />\n        <MenuItemSelectable\n          label=\"Italic\"\n          shortcut=\"⌘I\"\n          onChange={selectableOnChange}\n          renderIcon={TextItalic}\n        />\n      </MenuItemGroup>\n      <MenuItemDivider />\n      <MenuItemRadioGroup\n        label=\"Text decoration\"\n        items={['None', 'Overline', 'Line-through', 'Underline']}\n        defaultSelectedItem=\"None\"\n        onChange={radioOnChange}\n      />\n      <MenuItemDivider />\n      <MenuItem\n        label=\"Delete\"\n        shortcut=\"⌫\"\n        kind=\"danger\"\n        onClick={itemOnClick}\n        renderIcon={TrashCan}\n      />\n    </Menu>\n  );\n};\n\nDefault.args = {\n  onClose: action('onClose'),\n  open: true,\n};\n",
+   "source": "packages/react/src/components/Menu/Menu.stories.js:56"
+  }
+ ],
+ "props": {
+  "name": "Menu.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "backgroundToken",
+    "PropTypes.oneOf(['layer', 'background'])",
+    "Specify the background token to use. Default is 'layer'.",
+    "packages/react/src/components/Menu/Menu.tsx:492"
+   ],
+   [
+    "border",
+    "PropTypes.bool",
+    "Specify whether a border should be rendered on the menu",
+    "packages/react/src/components/Menu/Menu.tsx:497"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "A collection of MenuItems to be rendered within this Menu.",
+    "packages/react/src/components/Menu/Menu.tsx:502"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Additional CSS class names.",
+    "packages/react/src/components/Menu/Menu.tsx:507"
+   ],
+   [
+    "label",
+    "PropTypes.string",
+    "A label describing the Menu.",
+    "packages/react/src/components/Menu/Menu.tsx:512"
+   ],
+   [
+    "menuAlignment",
+    "PropTypes.string",
+    "Specify how the menu should align with the button element",
+    "packages/react/src/components/Menu/Menu.tsx:517"
+   ],
+   [
+    "mode",
+    "deprecate(",
+    "**Deprecated**: Menus now always support both icons as well as selectable items and nesting. The mode of this menu. Defaults to full. `full` supports nesting and selectable menu items, but no icons. `basic` supports icons but no nesting or selectable menu items. **This prop is not intended for use and will be set by the respective implementation (like useContextMenu, MenuButton, and ComboButton).",
+    "packages/react/src/components/Menu/Menu.tsx:527"
+   ],
+   [
+    "onClose",
+    "PropTypes.func",
+    "Provide an optional function to be called when the Menu should be closed, including if the Menu is blurred, the user presses escape, or the Menu is a submenu and the user presses ArrowLeft.",
+    "packages/react/src/components/Menu/Menu.tsx:537"
+   ],
+   [
+    "onOpen",
+    "PropTypes.func",
+    "Provide an optional function to be called when the Menu is opened.",
+    "packages/react/src/components/Menu/Menu.tsx:542"
+   ],
+   [
+    "open",
+    "PropTypes.bool",
+    "Whether the Menu is open or not.",
+    "packages/react/src/components/Menu/Menu.tsx:547"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['xs', 'sm', 'md', 'lg'])",
+    "Specify the size of the Menu.",
+    "packages/react/src/components/Menu/Menu.tsx:552"
+   ],
+   [
+    "target",
+    "PropTypes.object",
+    "Specify a DOM node where the Menu should be rendered in. Defaults to document.body.",
+    "packages/react/src/components/Menu/Menu.tsx:557"
+   ],
+   [
+    "x",
+    "PropTypes.oneOfType([",
+    "Specify the x position of the Menu. Either pass a single number or an array with two numbers describing your activator's boundaries ([x1, x2])",
+    "packages/react/src/components/Menu/Menu.tsx:562"
+   ],
+   [
+    "y",
+    "PropTypes.oneOfType([",
+    "Specify the y position of the Menu. Either pass a single number or an array with two numbers describing your activator's boundaries ([y1, y2])",
+    "packages/react/src/components/Menu/Menu.tsx:570"
+   ],
+   [
+    "legacyAutoalign",
+    "PropTypes.bool",
+    "@deprecated Internal compatibility flag. Use `false` to enable auto-alignment behavior.",
+    "packages/react/src/components/Menu/Menu.tsx:578"
+   ]
+  ],
+  "source": "packages/react/src/components/Menu/Menu.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

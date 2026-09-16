@@ -1,0 +1,57 @@
+{
+ "slug": "ContextMenu",
+ "title": "useContextMenu",
+ "docs": [
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  tall\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'hooks-usecontextmenu--use-context-menu',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ContextMenu/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/ContextMenu/docs/overview.mdx:1"
+    }
+   ]
+  },
+  {
+   "markdown": "import { Meta, Canvas } from '@storybook/addon-docs/blocks';\nimport * as useContextMenu from './useContextMenu.stories.js';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# useContextMenu\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ContextMenu)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nThe `useContextMenu` hook is meant to be used in conjunction with `Menu` (see\nthis [component's documentation](/docs/components-menu--default) for more\ndetails). It provides an easy way to generate the necessary props for `Menu`.\n\nBy default, it will listen to the `contextmenu` event on `document`. In most\ncases you'll want to restrict a context menu to a certain element or group of\nelements only. You can pass that element as the argument for `useContextMenu`.\n\n```jsx\nfunction SomeComponent() {\n  const el = useRef(null);\n  const menuProps = useContextMenu(el);\n\n  return (\n    <>\n      <div ref={el}>…</div>\n\n      <Menu {...menuProps}>\n        <MenuItem label=\"Cut\" />\n        <MenuItem label=\"Copy\" />\n        <MenuItem label=\"Paste\" />\n      </Menu>\n    </>\n  );\n}\n```\n\n<Canvas\n  of={useContextMenu.SpecificElement}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(useContextMenu.SpecificElement),\n    },\n  ]}\n/>\n\nBe aware that the following props are not set by `useContextMenu` and can\ntherefore be configured by the user:\n\n- className\n- label\n- size\n- target\n\n<Canvas\n  of={useContextMenu._useContextMenu}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(useContextMenu._useContextMenu),\n    },\n  ]}\n/>\n\n## Component API\n\n```js\n// returns an object with 'x', 'y', 'open' and 'onClose' set accordingly intended\n// to be passed as pros to the <Menu> component.\nconst menuProps = useContextMenu(\n  // the DOM element or react ref the \"contextmenu\" event should be attached to.\n  // defaults to document.\n  trigger\n);\n```\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/ContextMenu/useContextMenu.mdx).\n",
+   "source": "packages/react/src/components/ContextMenu/useContextMenu.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/ContextMenu/useContextMenu.mdx:13"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/ContextMenu/useContextMenu.mdx:21"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/ContextMenu/useContextMenu.mdx:78"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/ContextMenu/useContextMenu.mdx:90"
+    }
+   ]
+  }
+ ],
+ "group": "Hooks",
+ "examples": [
+  {
+   "name": "_useContextMenu",
+   "description": null,
+   "code": "export const _useContextMenu = () => {\n  const onClick = action('onClick (MenuItem)');\n  const onChange = action('onClick (MenuItemRadioGroup)');\n\n  const menuProps = useContextMenu();\n\n  return (\n    <>\n      <Text />\n      <Menu {...menuProps}>\n        <MenuItem label=\"Share with\">\n          <MenuItemRadioGroup\n            label=\"Share with\"\n            items={['None', 'Product team', 'Organization', 'Company']}\n            defaultSelectedItem=\"Product team\"\n            onChange={onChange}\n          />\n        </MenuItem>\n        <MenuItemDivider />\n        <MenuItem label=\"Cut\" shortcut=\"⌘X\" onClick={onClick} />\n        <MenuItem label=\"Copy\" shortcut=\"⌘C\" onClick={onClick} />\n        <MenuItem label=\"Copy path\" shortcut=\"⌥⌘C\" onClick={onClick} />\n        <MenuItem label=\"Paste\" disabled shortcut=\"⌘V\" onClick={onClick} />\n        <MenuItem label=\"Duplicate\" onClick={onClick} />\n        <MenuItemDivider />\n        <MenuItem label=\"Rename\" onClick={onClick} />\n        <MenuItem label=\"Delete\" shortcut=\"⌫\" kind=\"danger\" onClick={onClick} />\n      </Menu>\n    </>\n  );\n};\n",
+   "source": "packages/react/src/components/ContextMenu/useContextMenu.stories.js:67"
+  },
+  {
+   "name": "SpecificElement",
+   "description": null,
+   "code": "export const SpecificElement = () => {\n  const prefix = usePrefix();\n\n  const el = useRef(null);\n  const menuProps = useContextMenu(el);\n\n  return (\n    <>\n      <div\n        ref={el}\n        style={{\n          cursor: 'context-menu',\n          display: 'inline',\n          padding: '0.5rem 1rem',\n          backgroundColor: `var(--${prefix}-layer-01)`,\n        }}>\n        Right click this element\n      </div>\n      <Menu {...menuProps}>\n        <MenuItem label=\"Edit\" />\n        <MenuItem label=\"Delete\" kind=\"danger\" />\n      </Menu>\n    </>\n  );\n};\n",
+   "source": "packages/react/src/components/ContextMenu/useContextMenu.stories.js:99"
+  }
+ ],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

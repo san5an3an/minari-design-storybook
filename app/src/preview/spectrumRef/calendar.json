@@ -1,0 +1,65 @@
+{
+  "slug": "calendar",
+  "title": "Calendar",
+  "group": "Date and Time",
+  "heading": "Calendar",
+  "description": null,
+  "sharedImports": "import {Calendar} from '@react-spectrum/calendar';\nimport {Flex} from '@react-spectrum/layout';\nimport {ActionButton} from '@adobe/react-spectrum';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<Calendar aria-label=\"Event date\" />"
+    },
+    {
+      "name": "Value",
+      "code": "import {parseDate} from '@internationalized/date';\n\nfunction Example() {\n  let [value, setValue] = React.useState(parseDate('2020-02-03'));\n\n  return (\n    <Flex gap=\"size-300\" wrap>\n      <Calendar\n        aria-label=\"Date (uncontrolled)\"\n        defaultValue={parseDate('2020-02-03')} />\n      <Calendar\n        aria-label=\"Date (controlled)\"\n        value={value}\n        onChange={setValue} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "International calendars",
+      "code": "import {Provider} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(null);\n  return (\n    <Provider locale=\"hi-IN-u-ca-indian\">\n      <Calendar aria-label=\"Date\" value={date} onChange={setDate} />\n      <p>Selected date: {date?.toString()}</p>\n    </Provider>\n  );\n}"
+    },
+    {
+      "name": "Custom calendar systems",
+      "code": "import {GregorianCalendar} from '@internationalized/date';\n\nfunction Example() {\n  return <Calendar firstDayOfWeek=\"sun\" createCalendar={() => new Custom454()} />;\n}\n\nclass Custom454 extends GregorianCalendar {\n  // See @internationalized/date docs linked above...\n  ///- begin collapse -///\n  weekPattern = [4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4];\n  getDaysInMonth(date) {\n    return this.weekPattern[date.month - 1] * 7;\n  }\n\n  fromJulianDay(jd: number): CalendarDate {\n    let gregorian = super.fromJulianDay(jd);\n\n    let monthStart = startOfWeek(new CalendarDate(gregorian.year, 1, 1), 'en');\n    for (let months = 0; months < this.weekPattern.length; months++) {\n      let weeksInMonth = this.weekPattern[months];\n      let monthEnd = monthStart.add({weeks: weeksInMonth});\n      if (monthEnd.compare(gregorian) > 0) {\n        let days = gregorian.compare(monthStart);\n        return new CalendarDate(this, monthStart.year, months + 1, days + 1);\n      }\n      monthStart = monthEnd;\n    }\n\n    throw Error('Date is not in any month somehow!');\n  }\n\n  toJulianDay(date: AnyCalendarDate): number {\n    let monthStart = startOfWeek(new CalendarDate(date.year, 1, 1), 'en');\n    for (let month = 1; month < date.month; month++) {\n      monthStart = monthStart.add({weeks: this.weekPattern[month - 1]});\n    }\n\n    let gregorian = monthStart.add({days: date.day - 1});\n    return super.toJulianDay(gregorian);\n  }\n\n  getFormattableMonth(date) {\n    let gregorian = toCalendar(date, new GregorianCalendar());\n    return gregorian.set({month: date.month, day: 1});\n  }\n\n  isEqual(other) {\n    return other instanceof Custom454;\n  }\n ///- end collapse -///\n}"
+    },
+    {
+      "name": "Events",
+      "code": "import {getLocalTimeZone} from '@internationalized/date';\nimport {useDateFormatter} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(parseDate('2022-07-04'));\n  let formatter = useDateFormatter({dateStyle: 'full'});\n\n  return (\n    <>\n      <Calendar aria-label=\"Event date\" value={date} onChange={setDate} />\n      <p>Selected date: {formatter.format(date.toDate(getLocalTimeZone()))}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {today} from '@internationalized/date';\n\n<Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} />"
+    },
+    {
+      "name": "Unavailable dates",
+      "code": "import {today, isWeekend} from '@internationalized/date';\nimport {useLocale} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let now = today(getLocalTimeZone());\n  let disabledRanges = [\n    [now, now.add({days: 5})],\n    [now.add({days: 14}), now.add({days: 16})],\n    [now.add({days: 23}), now.add({days: 24})],\n  ];\n\n  let {locale} = useLocale();\n  let isDateUnavailable = (date) => isWeekend(date, locale) || disabledRanges.some((interval) => date.compare(interval[0]) >= 0 && date.compare(interval[1]) <= 0);\n\n  return <Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} isDateUnavailable={isDateUnavailable} />\n}"
+    },
+    {
+      "name": "Controlling the focused date",
+      "code": "import {CalendarDate} from '@internationalized/date';\n\nfunction Example() {\n  let defaultDate = new CalendarDate(2021, 7, 1);\n  let [focusedDate, setFocusedDate] = React.useState(defaultDate);\n\n  return (\n    <Flex direction=\"column\" alignItems=\"start\" gap=\"size-200\">\n      <ActionButton onPress={() => setFocusedDate(defaultDate)}>Reset focused date</ActionButton>\n      <Calendar focusedValue={focusedDate} onFocusChange={setFocusedDate} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Disabled",
+      "code": "<Calendar aria-label=\"Event date\" isDisabled />"
+    },
+    {
+      "name": "Read only",
+      "code": "<Calendar aria-label=\"Event date\" value={today(getLocalTimeZone())} isReadOnly />"
+    },
+    {
+      "name": "Visible months",
+      "code": "<div style={{maxWidth: '100%', overflow: 'auto'}}>\n  <Calendar aria-label=\"Event date\" visibleMonths={3} />\n</div>"
+    },
+    {
+      "name": "Page behavior",
+      "code": "<div style={{maxWidth: '100%', overflow: 'auto'}}>\n  <Calendar aria-label=\"Event date\" visibleMonths={3} pageBehavior=\"single\" />\n</div>"
+    },
+    {
+      "name": "Custom first day of week",
+      "code": "<div style={{maxWidth: '100%', overflow: 'auto'}}>\n  <Calendar aria-label=\"Event date\" firstDayOfWeek=\"mon\" />\n</div>"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/calendar/Calendar.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/Calendar.html"
+}

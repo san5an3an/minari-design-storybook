@@ -1,0 +1,625 @@
+{
+ "slug": "color-field",
+ "title": "ColorField",
+ "description": "Color input field with labels, descriptions, and validation built on React Aria ColorField",
+ "group": "Colors",
+ "links": {
+  "rac": "ColorField",
+  "sourceFile": "color-field/color-field.tsx",
+  "styles": "color-field.css",
+  "storybook": "Components/Colors/ColorField"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { ColorField, parseColor } from '@heroui/react';\n```\n\n<ComponentPreview name=\"color-field-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:11"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@heroui/react';\n\nexport default () => (\n  <ColorField>\n    <Label />\n    <ColorField.Group>\n      <ColorField.Prefix>\n        <ColorSwatch color=\"#000000\" />\n      </ColorField.Prefix>\n      <ColorField.Input />\n    </ColorField.Group>\n    <Description />\n    <FieldError />\n  </ColorField>\n)\n```\n\n> **ColorField** combines label, color input, description, and error into a single accessible component.",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:19"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nThe ColorField.Group component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"color-field-variants\" />\n\n### On Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` on ColorField.Group to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"color-field-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"color-field-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"color-field-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"color-field-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"color-field-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"color-field-invalid\" />\n\n### Channel Editing\n\nColorField supports editing individual color channels (hue, saturation, lightness, red, green, blue, alpha) by setting the `colorSpace` and `channel` props.\n\n<ComponentPreview name=\"color-field-channel-editing\" />\n\n### Controlled\n\nControl the value to synchronize with other components or state management.\n\n<ComponentPreview name=\"color-field-controlled\" />\n\n### Form Example\n\nComplete form example with validation and submission handling.\n\n<ComponentPreview name=\"color-field-form-example\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"color-field-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:41"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"color-field-custom-styles\" />\n\n### Global CSS\n\nColorField has minimal default styling. Override the `.color-field` class to customize the container styling.\n\n```css\n@layer components {\n  .color-field {\n    @apply flex flex-col gap-1;\n\n    &[data-invalid=\"true\"],\n    &[aria-invalid=\"true\"] {\n      [data-slot=\"description\"] {\n        @apply hidden;\n      }\n    }\n\n    [data-slot=\"label\"] {\n      @apply w-fit;\n    }\n\n    [data-slot=\"description\"] {\n      @apply px-1;\n    }\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:104"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n- `.color-field` – Root container with minimal styling (`flex flex-col gap-1`)\n\n> **Note:** Child components ([Label](/docs/components/label), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options. ColorField.Group styling is documented below in the API Reference section.\n\n### Interactive States\n\nColorField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Required**: `[data-required=\"true\"]` - Applied when `isRequired` is true\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when any child input is focused",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:137"
+  },
+  {
+   "name": "API Reference",
+   "body": "### ColorField\n\nColorField inherits all props from React Aria's [ColorField](https://react-aria.adobe.com/ColorField.md) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: ColorFieldRenderProps) => React.ReactNode` | - | Child components (Label, ColorField.Group, etc.) or render function. |\n| `className` | `string \\| (values: ColorFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: ColorFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the color field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, ColorFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `Color \\| null` | - | Current value (controlled). |\n| `defaultValue` | `Color \\| null` | - | Default value (uncontrolled). |\n| `onChange` | `(color: Color \\| null) => void` | - | Handler called when the value changes. |\n\n#### Channel Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `colorSpace` | `ColorSpace` | - | The color space that the color field operates in when `channel` is provided. |\n| `channel` | `ColorChannel` | - | The color channel to edit. If not provided, edits hex value. |\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `validate` | `(value: Color) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n| `isWheelDisabled` | `boolean` | - | Whether to disable changing the value with scroll. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nColorField works with these separate components that should be imported and used directly:\n\n- **Label** - Field label component from `@heroui/react`\n- **ColorField.Group** - Color input group component (documented below)\n- **ColorField.Input** - Input element within ColorField.Group\n- **ColorField.Prefix** / **ColorField.Suffix** - Prefix and suffix slots for the input group\n- **ColorSwatch** - Color preview component from `@heroui/react`\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within ColorField for composition:\n\n```tsx\nimport {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@heroui/react';\n\n<ColorField\n  isRequired\n  isInvalid={hasError}\n  value={color}\n  onChange={setColor}\n>\n  <Label>Brand Color</Label>\n  <ColorField.Group>\n    <ColorField.Prefix>\n      <ColorSwatch color={color?.toString(\"hex\") || \"#E4E4E7\"} />\n    </ColorField.Prefix>\n    <ColorField.Input />\n  </ColorField.Group>\n  <Description>Select your brand's primary color.</Description>\n  <FieldError>Please enter a valid color.</FieldError>\n</ColorField>\n```\n\n### Color Types\n\nColorField uses `Color` objects from React Aria Components:\n\n```tsx\nimport {parseColor} from '@heroui/react';\n\n// Parse from hex string\nconst color = parseColor('#3B82F6');\n\n// Get hex string from color\nconst hex = color.toString('hex'); // \"#3b82f6\"\n\n// Get RGB values\nconst rgb = color.toString('rgb'); // \"rgb(59, 130, 246)\"\n\n// Use in ColorField\n<ColorField value={color} onChange={setColor}>\n  {/* ... */}\n</ColorField>\n```\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused. |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |\n\n### ColorField.Group\n\nColorField.Group accepts all props from React Aria's `Group` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `fullWidth` | `boolean` | `false` | Whether the color input group should take full width of its container |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, GroupRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### ColorField.Input\n\nColorField.Input accepts all props from React Aria's `Input` component plus the following:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `placeholder` | `string` | - | Placeholder text shown when empty. |\n\n### ColorField.Prefix\n\nColorField.Prefix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the prefix slot. |\n\n### ColorField.Suffix\n\nColorField.Suffix accepts standard HTML `div` attributes:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Tailwind classes merged with the component styles. |\n| `children` | `ReactNode` | - | Content to display in the suffix slot. |",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:156"
+  },
+  {
+   "name": "ColorField.Group Styling",
+   "body": "### Customizing the component classes\n\nThe base classes power every instance. Override them once with `@layer components`.\n\n```css\n@layer components {\n  .color-input-group {\n    @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none;\n\n    &:hover,\n    &[data-hovered=\"true\"] {\n      @apply bg-field-hover;\n    }\n\n    &[data-focus-within=\"true\"],\n    &:focus-within {\n      @apply status-focused-field;\n    }\n\n    &[data-invalid=\"true\"] {\n      @apply status-invalid-field;\n    }\n\n    &[data-disabled=\"true\"],\n    &[aria-disabled=\"true\"] {\n      @apply status-disabled;\n    }\n  }\n\n  .color-input-group__input {\n    @apply flex flex-1 items-center rounded-none border-0 bg-transparent px-3 py-2 shadow-none outline-none;\n  }\n\n  .color-input-group__prefix,\n  .color-input-group__suffix {\n    @apply shrink-0 text-field-placeholder flex items-center;\n  }\n}\n```\n\n### ColorField.Group CSS Classes\n\n- `.color-input-group` – Root container styling\n- `.color-input-group__input` – Input wrapper styling\n- `.color-input-group__prefix` – Prefix element styling\n- `.color-input-group__suffix` – Suffix element styling\n\n### ColorField.Group Interactive States\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]`\n- **Focus Within**: `[data-focus-within=\"true\"]` or `:focus-within`\n- **Invalid**: `[data-invalid=\"true\"]` (also syncs with `aria-invalid`)\n- **Disabled**: `[data-disabled=\"true\"]` or `[aria-disabled=\"true\"]`",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:330"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"colorfield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:386"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "color-field-basic",
+   "source": "apps/docs/src/demos/en/color-field/basic.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {ColorField, ColorSwatch, Label, parseColor} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function Basic() {\n  const [color, setColor] = useState<Color | null>(parseColor(\"#0485F7\"));\n\n  return (\n    <ColorField className=\"w-[280px]\" name=\"color\" value={color} onChange={setColor}>\n      <Label>Color</Label>\n      <ColorField.Group>\n        <ColorField.Prefix>\n          <ColorSwatch color={color ?? undefined} size=\"xs\" />\n        </ColorField.Prefix>\n        <ColorField.Input />\n      </ColorField.Group>\n    </ColorField>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "color-field-variants",
+   "source": "apps/docs/src/demos/en/color-field/variants.tsx",
+   "code": "import {ColorField, Label} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField className=\"w-[280px]\" defaultValue=\"#0485F7\" name=\"primary-color\">\n        <Label>Primary variant</Label>\n        <ColorField.Group variant=\"primary\">\n          <ColorField.Input />\n        </ColorField.Group>\n      </ColorField>\n      <ColorField className=\"w-[280px]\" defaultValue=\"#F43F5E\" name=\"secondary-color\">\n        <Label>Secondary variant</Label>\n        <ColorField.Group variant=\"secondary\">\n          <ColorField.Input />\n        </ColorField.Group>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "On Surface",
+   "section": "Examples",
+   "key": "color-field-on-surface",
+   "source": "apps/docs/src/demos/en/color-field/on-surface.tsx",
+   "code": "import {ColorField, Description, Label, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"w-[320px] p-4\">\n      <ColorField defaultValue=\"#3B82F6\" name=\"color\">\n        <Label>Theme Color</Label>\n        <ColorField.Group variant=\"secondary\">\n          <ColorField.Input />\n        </ColorField.Group>\n        <Description>Select your theme color</Description>\n      </ColorField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "color-field-with-description",
+   "source": "apps/docs/src/demos/en/color-field/with-description.tsx",
+   "code": "import {ColorField, Description, Label} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField className=\"w-[280px]\" defaultValue=\"#3B82F6\" name=\"color\">\n        <Label>Primary Color</Label>\n        <ColorField.Group>\n          <ColorField.Input />\n        </ColorField.Group>\n        <Description>Enter your brand's primary color</Description>\n      </ColorField>\n      <ColorField className=\"w-[280px]\" defaultValue=\"#F59E0B\" name=\"accent-color\">\n        <Label>Accent Color</Label>\n        <ColorField.Group>\n          <ColorField.Input />\n        </ColorField.Group>\n        <Description>Used for highlights and CTAs</Description>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "color-field-required",
+   "source": "apps/docs/src/demos/en/color-field/required.tsx",
+   "code": "import {ColorField, Description, Label} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField isRequired className=\"w-[280px]\" name=\"color\">\n        <Label>Brand Color</Label>\n        <ColorField.Group>\n          <ColorField.Input placeholder=\"#000000\" />\n        </ColorField.Group>\n      </ColorField>\n      <ColorField isRequired className=\"w-[280px]\" name=\"theme-color\">\n        <Label>Theme Color</Label>\n        <ColorField.Group>\n          <ColorField.Input placeholder=\"#000000\" />\n        </ColorField.Group>\n        <Description>Required field</Description>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "color-field-disabled",
+   "source": "apps/docs/src/demos/en/color-field/disabled.tsx",
+   "code": "\"use client\";\n\nimport {ColorField, Description, Label} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField isDisabled className=\"w-[280px]\" defaultValue=\"#0485F7\" name=\"color\">\n        <Label>Color</Label>\n        <ColorField.Group>\n          <ColorField.Input />\n        </ColorField.Group>\n        <Description>This color field is disabled</Description>\n      </ColorField>\n      <ColorField isDisabled className=\"w-[280px]\" name=\"color-empty\">\n        <Label>Color</Label>\n        <ColorField.Group>\n          <ColorField.Input placeholder=\"#000000\" />\n        </ColorField.Group>\n        <Description>This color field is disabled</Description>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "color-field-full-width",
+   "source": "apps/docs/src/demos/en/color-field/full-width.tsx",
+   "code": "import {ColorField, Label} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <ColorField fullWidth defaultValue=\"#10B981\" name=\"color\">\n        <Label>Brand Color</Label>\n        <ColorField.Group>\n          <ColorField.Input />\n        </ColorField.Group>\n      </ColorField>\n      <ColorField fullWidth defaultValue=\"#8B5CF6\" name=\"color-with-suffix\">\n        <Label>Theme Color</Label>\n        <ColorField.Group>\n          <ColorField.Input />\n        </ColorField.Group>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "color-field-invalid",
+   "source": "apps/docs/src/demos/en/color-field/invalid.tsx",
+   "code": "import {ColorField, FieldError, Label} from \"@heroui/react\";\n\nexport function Invalid() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField isInvalid isRequired className=\"w-[280px]\" name=\"color\">\n        <Label>Color</Label>\n        <ColorField.Group>\n          <ColorField.Input placeholder=\"#000000\" />\n        </ColorField.Group>\n        <FieldError>Please enter a valid hex color</FieldError>\n      </ColorField>\n      <ColorField isInvalid className=\"w-[280px]\" name=\"invalid-color\">\n        <Label>Background Color</Label>\n        <ColorField.Group>\n          <ColorField.Input defaultValue=\"not-a-color\" />\n        </ColorField.Group>\n        <FieldError>Invalid color format. Use hex (e.g., #FF5733)</FieldError>\n      </ColorField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Channel Editing",
+   "section": "Examples",
+   "key": "color-field-channel-editing",
+   "source": "apps/docs/src/demos/en/color-field/channel-editing.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {ColorField, ColorSwatch, Label, parseColor} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function ChannelEditing() {\n  const [color, setColor] = useState<Color | null>(parseColor(\"#7F007F\"));\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <p className=\"text-sm text-muted\">Edit individual HSL channels:</p>\n      <div className=\"flex gap-4\">\n        <ColorField\n          channel=\"hue\"\n          className=\"w-[100px]\"\n          colorSpace=\"hsl\"\n          name=\"hue\"\n          value={color}\n          onChange={setColor}\n        >\n          <Label>Hue</Label>\n          <ColorField.Group>\n            <ColorField.Input />\n          </ColorField.Group>\n        </ColorField>\n        <ColorField\n          channel=\"saturation\"\n          className=\"w-[100px]\"\n          colorSpace=\"hsl\"\n          name=\"saturation\"\n          value={color}\n          onChange={setColor}\n        >\n          <Label>Saturation</Label>\n          <ColorField.Group>\n            <ColorField.Input />\n            <ColorField.Suffix>\n              <span className=\"text-sm text-muted\">%</span>\n            </ColorField.Suffix>\n          </ColorField.Group>\n        </ColorField>\n        <ColorField\n          channel=\"lightness\"\n          className=\"w-[100px]\"\n          colorSpace=\"hsl\"\n          name=\"lightness\"\n          value={color}\n          onChange={setColor}\n        >\n          <Label>Lightness</Label>\n          <ColorField.Group>\n            <ColorField.Input />\n            <ColorField.Suffix>\n              <span className=\"text-sm text-muted\">%</span>\n            </ColorField.Suffix>\n          </ColorField.Group>\n        </ColorField>\n      </div>\n      <div className=\"flex items-center gap-2\">\n        <ColorSwatch color={color ?? undefined} size=\"md\" />\n        <span className=\"text-sm\">Current: {color ? color.toString(\"hex\") : \"(empty)\"}</span>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "color-field-controlled",
+   "source": "apps/docs/src/demos/en/color-field/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {Button, ColorField, ColorSwatch, Description, Label, parseColor} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = useState<Color | null>(parseColor(\"#0485F7\"));\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <ColorField className=\"w-[280px]\" name=\"color\" value={value} onChange={setValue}>\n        <Label>Color</Label>\n        <ColorField.Group>\n          <ColorField.Prefix>\n            <ColorSwatch color={value ?? undefined} size=\"xs\" />\n          </ColorField.Prefix>\n          <ColorField.Input />\n        </ColorField.Group>\n        <Description>Current value: {value ? value.toString(\"hex\") : \"(empty)\"}</Description>\n      </ColorField>\n      <div className=\"flex gap-2\">\n        <Button variant=\"tertiary\" onPress={() => setValue(parseColor(\"#EF4444\"))}>\n          Set Red\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(parseColor(\"#10B981\"))}>\n          Set Green\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(null)}>\n          Clear\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "color-field-form-example",
+   "source": "apps/docs/src/demos/en/color-field/form-example.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {Button, ColorField, ColorSwatch, Description, Form, Label} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = useState<Color | null>(null);\n  const [isSubmitting, setIsSubmitting] = useState(false);\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n\n    if (!value) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    // Simulate API call\n    setTimeout(() => {\n      console.log(\"Color submitted:\", {color: value.toString(\"hex\")});\n      setValue(null);\n      setIsSubmitting(false);\n    }, 1500);\n  };\n\n  return (\n    <Form className=\"flex w-[280px] flex-col gap-4\" onSubmit={handleSubmit}>\n      <ColorField\n        fullWidth\n        isRequired\n        className=\"w-full\"\n        name=\"brand-color\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Brand Color</Label>\n        <ColorField.Group>\n          <ColorField.Prefix>\n            <ColorSwatch color={value ?? undefined} size=\"xs\" />\n          </ColorField.Prefix>\n          <ColorField.Input placeholder=\"#000000\" />\n        </ColorField.Group>\n        <Description>Choose your brand's primary color</Description>\n      </ColorField>\n      <Button\n        className=\"w-full\"\n        isDisabled={!value}\n        isPending={isSubmitting}\n        type=\"submit\"\n        variant=\"primary\"\n      >\n        {isSubmitting ? \"Saving...\" : \"Save Color\"}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "color-field-render-function",
+   "source": "apps/docs/src/demos/en/color-field/render-function.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {ColorField, ColorSwatch, Label, parseColor} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function RenderFunction() {\n  const [color, setColor] = useState<Color | null>(parseColor(\"#0485F7\"));\n\n  return (\n    <ColorField\n      className=\"w-[280px]\"\n      name=\"color\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n      value={color}\n      onChange={setColor}\n    >\n      <Label>Color</Label>\n      <ColorField.Group render={(props) => <div {...props} data-custom=\"foo\" />}>\n        <ColorField.Prefix>\n          <ColorSwatch color={color ?? undefined} size=\"xs\" />\n        </ColorField.Prefix>\n        <ColorField.Input />\n      </ColorField.Group>\n    </ColorField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "color-field-custom-styles",
+   "source": "apps/docs/src/demos/en/color-field/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport type {Color} from \"@heroui/react\";\n\nimport {ColorField, ColorSwatch, Description, Label, parseColor} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function CustomStyles() {\n  const [color, setColor] = useState<Color | null>(parseColor(\"#6366F1\"));\n\n  return (\n    <ColorField\n      className=\"w-full max-w-xs gap-1.5\"\n      name=\"accent-color\"\n      value={color}\n      onChange={setColor}\n    >\n      <Label className=\"font-medium text-foreground\">Accent color</Label>\n      <Description>Applied to buttons, links, and focus rings.</Description>\n      <ColorField.Group\n        className=\"rounded-xl bg-default shadow-none focus-within:ring-2 focus-within:ring-accent/15\"\n        variant=\"secondary\"\n      >\n        <ColorField.Prefix>\n          <ColorSwatch className=\"rounded-md\" color={color ?? undefined} size=\"xs\" />\n        </ColorField.Prefix>\n        <ColorField.Input className=\"font-mono text-sm text-foreground placeholder:text-muted\" />\n      </ColorField.Group>\n    </ColorField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: ColorFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, ColorField.Group, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:166"
+    ],
+    [
+     "`className`",
+     "`string | (values: ColorFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:167"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: ColorFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:168"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the color field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:169"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:170"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, ColorFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:171"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`Color | null`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:177"
+    ],
+    [
+     "`defaultValue`",
+     "`Color | null`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:178"
+    ],
+    [
+     "`onChange`",
+     "`(color: Color | null) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:179"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`colorSpace`",
+     "`ColorSpace`",
+     "-",
+     "The color space that the color field operates in when `channel` is provided.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:185"
+    ],
+    [
+     "`channel`",
+     "`ColorChannel`",
+     "-",
+     "The color channel to edit. If not provided, edits hex value.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:186"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:192"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:193"
+    ],
+    [
+     "`validate`",
+     "`(value: Color) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:194"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:195"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:201"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:202"
+    ],
+    [
+     "`isWheelDisabled`",
+     "`boolean`",
+     "-",
+     "Whether to disable changing the value with scroll.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:203"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:209"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:210"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:216"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:217"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:218"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:219"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:284"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:285"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:286"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:287"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:288"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:289"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:290"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:278",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField.Group",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:298"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the color input group should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:299"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:300"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, GroupRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:301"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:292",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField.Input",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:309"
+    ],
+    [
+     "`placeholder`",
+     "`string`",
+     "-",
+     "Placeholder text shown when empty.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:310"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:303",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField.Prefix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:318"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the prefix slot.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:319"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:312",
+   "section": "API Reference"
+  },
+  {
+   "name": "ColorField.Suffix",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Tailwind classes merged with the component styles.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:327"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content to display in the suffix slot.",
+     "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:328"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:321",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "ColorField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:195"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "ColorField.Group",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(colors)/color-field.mdx:300"
+  }
+ ]
+}

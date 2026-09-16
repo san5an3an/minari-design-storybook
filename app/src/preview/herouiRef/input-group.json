@@ -1,0 +1,577 @@
+{
+ "slug": "input-group",
+ "title": "InputGroup",
+ "description": "Group related input controls with prefix and suffix elements for enhanced form fields",
+ "group": "Forms",
+ "links": {
+  "rac": "Group",
+  "sourceFile": "input-group/input-group.tsx",
+  "styles": "input-group.css",
+  "storybook": "Components/Forms/InputGroup",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { InputGroup } from '@heroui/react';\n```\n\n<ComponentPreview name=\"input-group-default\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {InputGroup, TextField, Label} from '@heroui/react';\n\nexport default () => (\n  <TextField>\n    <Label />\n    <InputGroup>\n      <InputGroup.Prefix />\n      <InputGroup.Input /> {/* Or use InputGroup.TextArea for multiline input */}\n      <InputGroup.Suffix />\n    </InputGroup>\n  </TextField>\n)\n```\n\n> **InputGroup** wraps an input field with optional prefix and suffix elements, creating a visually cohesive group. It's typically used within **[TextField](/docs/components/text-field)** to add icons, text, buttons, or other elements before or after the input. Use **InputGroup.Input** for single-line inputs or **InputGroup.TextArea** for multiline text inputs.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nThe InputGroup component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"input-group-variants\" />\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"input-group-on-surface\" />\n\n### Loading State\n\nShow a loading spinner in the suffix to indicate processing.\n\n<ComponentPreview name=\"input-group-with-loading-suffix\" />\n\n### Required Field\n\nInputGroup respects the required state from its parent TextField.\n\n<ComponentPreview name=\"input-group-required\" />\n\n### Disabled State\n\nInputGroup respects the disabled state from its parent TextField.\n\n<ComponentPreview name=\"input-group-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"input-group-full-width\" />\n\n### Text Prefix\n\nUse text as a prefix, such as currency symbols or protocol prefixes.\n\n<ComponentPreview name=\"input-group-with-text-prefix\" />\n\n### Text Suffix\n\nUse text as a suffix, such as domain extensions or units.\n\n<ComponentPreview name=\"input-group-with-text-suffix\" />\n\n### Icon Prefix and Text Suffix\n\nCombine an icon prefix with a text suffix.\n\n<ComponentPreview name=\"input-group-with-icon-prefix-and-text-suffix\" />\n\n### Copy Button Suffix\n\nAdd an interactive button in the suffix, such as a copy button.\n\n<ComponentPreview name=\"input-group-with-copy-suffix\" />\n\n### Icon Prefix and Copy Button\n\nCombine an icon prefix with an interactive button suffix.\n\n<ComponentPreview name=\"input-group-with-icon-prefix-and-copy-suffix\" />\n\n### Password Toggle\n\nUse a button in the suffix to toggle password visibility.\n\n<ComponentPreview name=\"input-group-password-with-toggle\" />\n\n### Keyboard Shortcut\n\nDisplay keyboard shortcuts using the [Kbd](/docs/components/kbd) component.\n\n<ComponentPreview name=\"input-group-with-keyboard-shortcut\" />\n\n### Badge Suffix\n\nAdd a badge or chip in the suffix to show status or labels.\n\n<ComponentPreview name=\"input-group-with-badge-suffix\" />\n\n### Validation\n\nInputGroup automatically reflects invalid state from its parent TextField.\n\n<ComponentPreview name=\"input-group-invalid\" />\n\n### With Prefix Icon\n\nAdd an icon before the input field.\n\n<ComponentPreview name=\"input-group-with-prefix-icon\" />\n\n### With Suffix Icon\n\nAdd an icon after the input field.\n\n<ComponentPreview name=\"input-group-with-suffix-icon\" />\n\n### With Prefix and Suffix\n\nCombine both prefix and suffix elements.\n\n<ComponentPreview name=\"input-group-with-prefix-and-suffix\" />\n\n### With TextArea\n\nUse **InputGroup.TextArea** for multiline text inputs with prefix and suffix elements. When a textarea is present, the container automatically adjusts its height to accommodate the content and aligns prefix/suffix elements to the top.\n\n<ComponentPreview name=\"input-group-with-textarea\" />\n\n### Usage Example\n\n```tsx\nimport {InputGroup, TextField, Label, Button} from '@heroui/react';\nimport {Icon} from '@iconify/react';\n\nfunction Example() {\n  return (\n    <TextField>\n      <Label>Email</Label>\n      <InputGroup>\n        <InputGroup.Prefix>\n          <Icon icon=\"gravity-ui:envelope\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input placeholder=\"name@email.com\" />\n        <InputGroup.Suffix>\n          <Button isIconOnly aria-label=\"Confirm\" size=\"sm\" variant=\"ghost\">\n            <Icon icon=\"gravity-ui:check\" />\n          </Button>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n```\n\n### TextArea Usage Example\n\n```tsx\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Description, FieldError, InputGroup, Label, TextField} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nfunction TextAreaExample() {\n  const [feedback, setFeedback] = useState(\"\");\n\n  return (\n    <TextField fullWidth isInvalid={feedback.length > 500} name=\"feedback\" onChange={setFeedback}>\n      <Label>Your Feedback</Label>\n      <InputGroup fullWidth>\n        <InputGroup.Prefix>\n          <Envelope className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.TextArea\n          className=\"resize-none\"\n          placeholder=\"Share your thoughts, suggestions, or issues...\"\n          rows={5}\n          value={feedback}\n        />\n      </InputGroup>\n      <Description className=\"flex w-full items-center justify-between px-1\">\n        <span>Maximum 500 characters.</span>\n        <span className=\"ml-auto\">{feedback.length}/500</span>\n      </Description>\n      <FieldError>Feedback must be less than 500 characters</FieldError>\n    </TextField>\n  );\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:39"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"input-group-custom-styles\" />\n\n### Global CSS\n\nInputGroup uses CSS classes that can be customized. Override the component classes to match your design system.\n\n```css\n@layer components {\n  .input-group {\n    @apply bg-field text-field-foreground shadow-field rounded-field inline-flex min-h-9 items-center overflow-hidden border text-sm outline-none;\n  }\n\n  .input-group__input {\n    @apply flex-1 rounded-none border-0 bg-transparent px-3 py-2 shadow-none outline-none;\n  }\n\n  .input-group__prefix {\n    @apply text-field-placeholder rounded-l-field flex h-full items-center justify-center rounded-r-none bg-transparent px-3;\n  }\n\n  .input-group__suffix {\n    @apply text-field-placeholder rounded-r-field flex h-full items-center justify-center rounded-l-none bg-transparent px-3;\n  }\n\n  /* Secondary variant */\n  .input-group--secondary {\n    @apply shadow-none;\n    background-color: var(--color-default);\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:216"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n#### Base Classes [!toc]\n\n- `.input-group` – Root container with border, background, and flex layout. Uses `min-h-9` for flexible height and `items-center` by default, switching to `items-start` when a textarea is present.\n- `.input-group__input` – Input element with transparent background and no border. Also used as the base class for textarea elements.\n- `.input-group__prefix` – Prefix container with left border radius. Aligns to top when used with textarea.\n- `.input-group__suffix` – Suffix container with right border radius. Aligns to top when used with textarea.\n\n#### Variant Classes [!toc]\n\n- `.input-group--primary` – Primary variant with shadow (default)\n- `.input-group--secondary` – Secondary variant without shadow, suitable for use in surfaces\n\n**Note**: When using `InputGroup.TextArea`, the container automatically switches from `items-center` to `items-start` alignment and uses `height: auto` instead of a fixed height. Prefix and suffix elements align to the top with additional padding to match the textarea's vertical padding. The textarea uses the same `.input-group__input` base class with textarea-specific styles (minimum height and vertical resize) applied via the `[data-slot=\"input-group-textarea\"]` attribute selector.\n\n### Interactive States\n\nInputGroup automatically manages these data attributes based on its state:\n\n- **Hover**: `[data-hovered]` - Applied when hovering over the group\n- **Focus Within**: `[data-focus-within]` - Applied when the input is focused\n- **Invalid**: `[data-invalid]` - Applied when parent TextField is invalid\n- **Disabled**: `[data-disabled]` or `[aria-disabled]` - Applied when parent TextField is disabled",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:252"
+  },
+  {
+   "name": "API Reference",
+   "body": "### InputGroup\n\nInputGroup inherits all props from React Aria's [Group](https://react-spectrum.adobe.com/react-aria/Group.html) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: GroupRenderProps) => React.ReactNode` | - | Child components (Input, TextArea, Prefix, Suffix) or render function. |\n| `className` | `string \\| (values: GroupRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: GroupRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the input group should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n\n#### Variant Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this group. |\n| `aria-describedby` | `string` | - | ID of elements that describe this group. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n| `role` | `'group' \\| 'region' \\| 'presentation'` | `'group'` | Accessibility role for the group. Use 'region' for important content, 'presentation' for visual-only grouping. |\n\n### Composition Components\n\nInputGroup works with these subcomponents:\n\n- **InputGroup.Root** - Root container (also available as `InputGroup`)\n- **InputGroup.Input** - Single-line input element component\n- **InputGroup.TextArea** - Multiline textarea element component\n- **InputGroup.Prefix** - Prefix container component\n- **InputGroup.Suffix** - Suffix container component\n\n#### InputGroup.Input Props\n\nInputGroup.Input inherits all props from React Aria's [Input](https://react-spectrum.adobe.com/react-aria/Input.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | CSS classes for styling. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `type` | `string` | `'text'` | Input type (text, password, email, etc.). |\n| `value` | `string` | - | Current value (controlled). |\n| `defaultValue` | `string` | - | Default value (uncontrolled). |\n| `placeholder` | `string` | - | Placeholder text. |\n| `disabled` | `boolean` | - | Whether the input is disabled. |\n| `readOnly` | `boolean` | - | Whether the input is read-only. |\n\n#### InputGroup.TextArea Props\n\nInputGroup.TextArea inherits all props from React Aria's [TextArea](https://react-spectrum.adobe.com/react-aria/TextArea.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | CSS classes for styling. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the textarea. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `value` | `string` | - | Current value (controlled). |\n| `defaultValue` | `string` | - | Default value (uncontrolled). |\n| `placeholder` | `string` | - | Placeholder text. |\n| `rows` | `number` | - | Number of visible text lines. |\n| `disabled` | `boolean` | - | Whether the textarea is disabled. |\n| `readOnly` | `boolean` | - | Whether the textarea is read-only. |\n\n#### InputGroup.Prefix Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | - | Content to display in the prefix (icons, text, etc.). |\n| `className` | `string` | - | CSS classes for styling. |\n\n#### InputGroup.Suffix Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | - | Content to display in the suffix (icons, buttons, badges, etc.). |\n| `className` | `string` | - | CSS classes for styling. |",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:281"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"InputGroup\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:367"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"inputgroup\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:371"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "input-group-default",
+   "source": "apps/docs/src/demos/en/input-group/default.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" name=\"email\">\n      <Label>Email address</Label>\n      <InputGroup>\n        <InputGroup.Prefix>\n          <Envelope className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "input-group-variants",
+   "source": "apps/docs/src/demos/en/input-group/variants.tsx",
+   "code": "import {Envelope} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TextField className=\"w-[280px]\" name=\"primary\">\n        <Label>Primary variant</Label>\n        <InputGroup variant=\"primary\">\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input placeholder=\"name@email.com\" />\n        </InputGroup>\n      </TextField>\n      <TextField className=\"w-[280px]\" name=\"secondary\">\n        <Label>Secondary variant</Label>\n        <InputGroup variant=\"secondary\">\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input placeholder=\"name@email.com\" />\n        </InputGroup>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "input-group-on-surface",
+   "source": "apps/docs/src/demos/en/input-group/on-surface.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Description, InputGroup, Label, Surface, TextField} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"rounded-2xl p-6\">\n      <TextField className=\"w-full max-w-[280px]\" name=\"email\">\n        <Label>Email address</Label>\n        <InputGroup variant=\"secondary\">\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n        </InputGroup>\n        <Description>We'll never share this with anyone else</Description>\n      </TextField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Loading State",
+   "section": "Examples",
+   "key": "input-group-with-loading-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-loading-suffix.tsx",
+   "code": "\"use client\";\n\nimport {InputGroup, Spinner, TextField} from \"@heroui/react\";\n\nexport function WithLoadingSuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"Sending...\" name=\"status\">\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        <InputGroup.Suffix>\n          <Spinner className=\"size-4\" />\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "input-group-required",
+   "source": "apps/docs/src/demos/en/input-group/required.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Description, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TextField isRequired className=\"w-full max-w-[280px]\" name=\"email\">\n        <Label>Email address</Label>\n        <InputGroup>\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n        </InputGroup>\n      </TextField>\n      <TextField isRequired className=\"w-full max-w-[280px]\" name=\"price\">\n        <Label>Set a price</Label>\n        <InputGroup>\n          <InputGroup.Prefix>$</InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[200px]\" placeholder=\"0\" type=\"number\" />\n          <InputGroup.Suffix>USD</InputGroup.Suffix>\n        </InputGroup>\n        <Description>What customers would pay</Description>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "input-group-disabled",
+   "source": "apps/docs/src/demos/en/input-group/disabled.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TextField\n        isDisabled\n        className=\"w-full max-w-[280px]\"\n        defaultValue=\"name@email.com\"\n        name=\"email\"\n      >\n        <Label>Email address</Label>\n        <InputGroup>\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        </InputGroup>\n      </TextField>\n      <TextField isDisabled className=\"w-full max-w-[280px]\" defaultValue=\"10\" name=\"price\">\n        <Label>Set a price</Label>\n        <InputGroup>\n          <InputGroup.Prefix>$</InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[200px]\" type=\"number\" />\n          <InputGroup.Suffix>USD</InputGroup.Suffix>\n        </InputGroup>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "input-group-full-width",
+   "source": "apps/docs/src/demos/en/input-group/full-width.tsx",
+   "code": "import {Envelope, Eye} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <TextField fullWidth name=\"email\">\n        <Label>Email address</Label>\n        <InputGroup fullWidth>\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input placeholder=\"name@email.com\" />\n        </InputGroup>\n      </TextField>\n      <TextField fullWidth name=\"password\">\n        <Label>Password</Label>\n        <InputGroup fullWidth>\n          <InputGroup.Input placeholder=\"Enter password\" type=\"password\" />\n          <InputGroup.Suffix>\n            <Eye className=\"size-4 text-muted\" />\n          </InputGroup.Suffix>\n        </InputGroup>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Text Prefix",
+   "section": "Examples",
+   "key": "input-group-with-text-prefix",
+   "source": "apps/docs/src/demos/en/input-group/with-text-prefix.tsx",
+   "code": "\"use client\";\n\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithTextPrefix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"heroui.com\" name=\"website\">\n      <Label>Website</Label>\n      <InputGroup>\n        <InputGroup.Prefix>https://</InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Text Suffix",
+   "section": "Examples",
+   "key": "input-group-with-text-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-text-suffix.tsx",
+   "code": "\"use client\";\n\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithTextSuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"heroui\" name=\"website\">\n      <Label>Website</Label>\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        <InputGroup.Suffix>.com</InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Icon Prefix and Text Suffix",
+   "section": "Examples",
+   "key": "input-group-with-icon-prefix-and-text-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-icon-prefix-and-text-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Globe} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithIconPrefixAndTextSuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"heroui\" name=\"website\">\n      <Label>Website</Label>\n      <InputGroup>\n        <InputGroup.Prefix>\n          <Globe className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        <InputGroup.Suffix>.com</InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Copy Button Suffix",
+   "section": "Examples",
+   "key": "input-group-with-copy-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-copy-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Copy} from \"@gravity-ui/icons\";\nimport {Button, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithCopySuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"heroui.com\" name=\"website\">\n      <Label>Website</Label>\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        <InputGroup.Suffix className=\"pe-0\">\n          <Button isIconOnly aria-label=\"Copy\" size=\"sm\" variant=\"ghost\">\n            <Copy className=\"size-4\" />\n          </Button>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Icon Prefix and Copy Button",
+   "section": "Examples",
+   "key": "input-group-with-icon-prefix-and-copy-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-icon-prefix-and-copy-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Copy, Globe} from \"@gravity-ui/icons\";\nimport {Button, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithIconPrefixAndCopySuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"heroui.com\" name=\"website\">\n      <Label>Website</Label>\n      <InputGroup>\n        <InputGroup.Prefix>\n          <Globe className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" />\n        <InputGroup.Suffix className=\"pe-0\">\n          <Button isIconOnly aria-label=\"Copy\" size=\"sm\" variant=\"ghost\">\n            <Copy className=\"size-4\" />\n          </Button>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Password Toggle",
+   "section": "Examples",
+   "key": "input-group-password-with-toggle",
+   "source": "apps/docs/src/demos/en/input-group/password-with-toggle.tsx",
+   "code": "\"use client\";\n\nimport {Eye, EyeSlash} from \"@gravity-ui/icons\";\nimport {Button, InputGroup, Label, TextField} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function PasswordWithToggle() {\n  const [isVisible, setIsVisible] = useState(false);\n\n  return (\n    <TextField className=\"w-full max-w-[280px]\" name=\"password\">\n      <Label>Password</Label>\n      <InputGroup>\n        <InputGroup.Input\n          className=\"w-full max-w-[280px]\"\n          type={isVisible ? \"text\" : \"password\"}\n          value={isVisible ? \"87$2h.3diua\" : \"••••••••\"}\n        />\n        <InputGroup.Suffix className=\"pe-0\">\n          <Button\n            isIconOnly\n            aria-label={isVisible ? \"Hide password\" : \"Show password\"}\n            size=\"sm\"\n            variant=\"ghost\"\n            onPress={() => setIsVisible(!isVisible)}\n          >\n            {isVisible ? <Eye className=\"size-4\" /> : <EyeSlash className=\"size-4\" />}\n          </Button>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Keyboard Shortcut",
+   "section": "Examples",
+   "key": "input-group-with-keyboard-shortcut",
+   "source": "apps/docs/src/demos/en/input-group/with-keyboard-shortcut.tsx",
+   "code": "\"use client\";\n\nimport {InputGroup, Kbd, TextField} from \"@heroui/react\";\n\nexport function WithKeyboardShortcut() {\n  return (\n    <TextField aria-label=\"Command\" className=\"w-full max-w-[280px]\" name=\"command\">\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"Command\" />\n        <InputGroup.Suffix className=\"pe-2\">\n          <Kbd>\n            <Kbd.Abbr keyValue=\"command\" />\n            <Kbd.Content>K</Kbd.Content>\n          </Kbd>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Badge Suffix",
+   "section": "Examples",
+   "key": "input-group-with-badge-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-badge-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Chip, InputGroup, TextField} from \"@heroui/react\";\n\nexport function WithBadgeSuffix() {\n  return (\n    <TextField aria-label=\"Email address\" className=\"w-full max-w-[280px]\" name=\"email\">\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"Email address\" />\n        <InputGroup.Suffix className=\"pe-2\">\n          <Chip color=\"accent\" size=\"md\" variant=\"soft\">\n            Pro\n          </Chip>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "input-group-invalid",
+   "source": "apps/docs/src/demos/en/input-group/invalid.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {FieldError, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function Invalid() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <TextField isInvalid isRequired className=\"w-full max-w-[280px]\" name=\"email\">\n        <Label>Email address</Label>\n        <InputGroup>\n          <InputGroup.Prefix>\n            <Envelope className=\"size-4 text-muted\" />\n          </InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n        </InputGroup>\n        <FieldError>Please enter a valid email address</FieldError>\n      </TextField>\n      <TextField isInvalid isRequired className=\"w-full max-w-[280px]\" name=\"price\">\n        <Label>Set a price</Label>\n        <InputGroup>\n          <InputGroup.Prefix>$</InputGroup.Prefix>\n          <InputGroup.Input className=\"w-full max-w-[200px]\" placeholder=\"0\" type=\"number\" />\n          <InputGroup.Suffix>USD</InputGroup.Suffix>\n        </InputGroup>\n        <FieldError>Price must be greater than 0</FieldError>\n      </TextField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Prefix Icon",
+   "section": "Examples",
+   "key": "input-group-with-prefix-icon",
+   "source": "apps/docs/src/demos/en/input-group/with-prefix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Description, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithPrefixIcon() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" name=\"email\">\n      <Label>Email address</Label>\n      <InputGroup>\n        <InputGroup.Prefix>\n          <Envelope className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n      </InputGroup>\n      <Description>We'll never share this with anyone else</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "With Suffix Icon",
+   "section": "Examples",
+   "key": "input-group-with-suffix-icon",
+   "source": "apps/docs/src/demos/en/input-group/with-suffix-icon.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {Description, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithSuffixIcon() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" name=\"email\">\n      <Label>Email address</Label>\n      <InputGroup>\n        <InputGroup.Input className=\"w-full max-w-[280px]\" placeholder=\"name@email.com\" />\n        <InputGroup.Suffix>\n          <Envelope className=\"size-4 text-muted\" />\n        </InputGroup.Suffix>\n      </InputGroup>\n      <Description>We don't send spam</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "With Prefix and Suffix",
+   "section": "Examples",
+   "key": "input-group-with-prefix-and-suffix",
+   "source": "apps/docs/src/demos/en/input-group/with-prefix-and-suffix.tsx",
+   "code": "\"use client\";\n\nimport {Description, InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function WithPrefixAndSuffix() {\n  return (\n    <TextField className=\"w-full max-w-[280px]\" defaultValue=\"10\" name=\"price\">\n      <Label>Set a price</Label>\n      <InputGroup>\n        <InputGroup.Prefix>$</InputGroup.Prefix>\n        <InputGroup.Input className=\"w-full max-w-[200px]\" type=\"number\" />\n        <InputGroup.Suffix>USD</InputGroup.Suffix>\n      </InputGroup>\n      <Description>What customers would pay</Description>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "With TextArea",
+   "section": "Examples",
+   "key": "input-group-with-textarea",
+   "source": "apps/docs/src/demos/en/input-group/with-textarea.tsx",
+   "code": "\"use client\";\n\nimport {ArrowUp, At, Microphone, PlugConnection, Plus} from \"@gravity-ui/icons\";\nimport {Button, InputGroup, Kbd, Spinner, TextField, Tooltip} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function WithTextArea() {\n  const [value, setValue] = useState(\"\");\n  const [isSubmitting, setIsSubmitting] = useState(false);\n\n  const handleSubmit = () => {\n    if (!value.trim()) return;\n\n    setIsSubmitting(true);\n\n    setTimeout(() => {\n      setIsSubmitting(false);\n      setValue(\"\");\n    }, 1000);\n  };\n\n  return (\n    <TextField\n      fullWidth\n      aria-label=\"Prompt input\"\n      className=\"flex w-sm flex-col sm:w-lg\"\n      name=\"prompt\"\n    >\n      <InputGroup fullWidth className=\"flex flex-col gap-2 rounded-3xl py-2\">\n        <InputGroup.Prefix className=\"px-3 py-0\">\n          <Button aria-label=\"Add context\" size=\"sm\" variant=\"outline\">\n            <At />\n            Add Context\n          </Button>\n        </InputGroup.Prefix>\n        <InputGroup.TextArea\n          className=\"w-full resize-none px-3.5 py-0\"\n          placeholder=\"Assign tasks or ask anything...\"\n          rows={5}\n          value={value}\n          onChange={(event) => setValue(event.target.value)}\n        />\n        <InputGroup.Suffix className=\"flex w-full items-center gap-1.5 px-3 py-0\">\n          <Tooltip delay={0}>\n            <Button isIconOnly aria-label=\"Attach file\" size=\"sm\" variant=\"tertiary\">\n              <Plus />\n            </Button>\n            <Tooltip.Content>\n              <p className=\"text-xs\">Add a files and more</p>\n            </Tooltip.Content>\n          </Tooltip>\n          <Tooltip delay={0}>\n            <Button isIconOnly aria-label=\"Connect Apps\" size=\"sm\" variant=\"tertiary\">\n              <PlugConnection />\n            </Button>\n            <Tooltip.Content>\n              <p className=\"text-xs\">Connect apps</p>\n            </Tooltip.Content>\n          </Tooltip>\n          <div className=\"ms-auto flex items-center gap-1.5\">\n            <Tooltip delay={0}>\n              <Button isIconOnly aria-label=\"Voice input\" size=\"sm\" variant=\"ghost\">\n                <Microphone />\n              </Button>\n              <Tooltip.Content>\n                <p className=\"text-xs\">Voice input</p>\n              </Tooltip.Content>\n            </Tooltip>\n            <Tooltip delay={0}>\n              <Button\n                isIconOnly\n                aria-label=\"Send prompt\"\n                isDisabled={!value.trim()}\n                isPending={isSubmitting}\n                onPress={handleSubmit}\n              >\n                {({isPending}) => (isPending ? <Spinner color=\"current\" size=\"sm\" /> : <ArrowUp />)}\n              </Button>\n              <Tooltip.Content className=\"flex items-center gap-1\">\n                <p className=\"text-xs\">Send</p>\n                <Kbd className=\"h-4 rounded-sm px-1\">\n                  <Kbd.Abbr keyValue=\"enter\" />\n                </Kbd>\n              </Tooltip.Content>\n            </Tooltip>\n          </div>\n        </InputGroup.Suffix>\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "input-group-custom-styles",
+   "source": "apps/docs/src/demos/en/input-group/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {Envelope} from \"@gravity-ui/icons\";\nimport {InputGroup, Label, TextField} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <TextField className=\"w-full max-w-xs\" name=\"email\">\n      <Label>Work email</Label>\n      <InputGroup className=\"rounded-xl border border-border/80 bg-default shadow-sm\">\n        <InputGroup.Prefix>\n          <Envelope className=\"size-4 text-muted\" />\n        </InputGroup.Prefix>\n        <InputGroup.Input placeholder=\"you@company.com\" />\n      </InputGroup>\n    </TextField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "InputGroup",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: GroupRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Input, TextArea, Prefix, Suffix) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:291"
+    ],
+    [
+     "`className`",
+     "`string | (values: GroupRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:292"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: GroupRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:293"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the input group should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:294"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:295"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:283",
+   "section": "API Reference"
+  },
+  {
+   "name": "InputGroup",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:301"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:283",
+   "section": "API Reference"
+  },
+  {
+   "name": "InputGroup",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:307"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this group.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:308"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this group.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:309"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:310"
+    ],
+    [
+     "`role`",
+     "`'group' | 'region' | 'presentation'`",
+     "`'group'`",
+     "Accessibility role for the group. Use 'region' for important content, 'presentation' for visual-only grouping.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:311"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:283",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:329"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:330"
+    ],
+    [
+     "`type`",
+     "`string`",
+     "`'text'`",
+     "Input type (text, password, email, etc.).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:331"
+    ],
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:332"
+    ],
+    [
+     "`defaultValue`",
+     "`string`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:333"
+    ],
+    [
+     "`placeholder`",
+     "`string`",
+     "-",
+     "Placeholder text.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:334"
+    ],
+    [
+     "`disabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:335"
+    ],
+    [
+     "`readOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input is read-only.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:336"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:313",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:344"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the textarea. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:345"
+    ],
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:346"
+    ],
+    [
+     "`defaultValue`",
+     "`string`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:347"
+    ],
+    [
+     "`placeholder`",
+     "`string`",
+     "-",
+     "Placeholder text.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:348"
+    ],
+    [
+     "`rows`",
+     "`number`",
+     "-",
+     "Number of visible text lines.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:349"
+    ],
+    [
+     "`disabled`",
+     "`boolean`",
+     "-",
+     "Whether the textarea is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:350"
+    ],
+    [
+     "`readOnly`",
+     "`boolean`",
+     "-",
+     "Whether the textarea is read-only.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:351"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:313",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Content to display in the prefix (icons, text, etc.).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:357"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:358"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:313",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Content to display in the suffix (icons, buttons, badges, etc.).",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:364"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:365"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:313",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "InputGroup",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:301"
+  },
+  {
+   "name": "`role`",
+   "prop": "role",
+   "values": [
+    "group",
+    "region",
+    "presentation"
+   ],
+   "other": [],
+   "default": "`'group'`",
+   "owner": "InputGroup",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:311"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Composition Components",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:330"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Composition Components",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/input-group.mdx:345"
+  }
+ ]
+}

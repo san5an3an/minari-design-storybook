@@ -1,0 +1,139 @@
+// @ts-nocheck
+import { RelativeTime } from '@primer/react';
+
+
+const meta: Meta = {
+  title: 'Components/RelativeTime/Features',
+  component: RelativeTime,
+  parameters: {
+    layout: 'fullscreen',
+    controls: {
+      // StoryBook infers from type info of the component which includes CE Lifecycle,
+      // SX props, and methods we want to otherwise ignore
+      exclude: /^(getFormatted.*|datetime|as|theme|forwardedAs|.*Callback|update)$/g,
+    },
+  },
+  args: {
+    date: new Date('2020-01-01T00:00:00Z'),
+    second: '',
+    minute: '',
+    hour: '',
+    weekday: '',
+    day: 'numeric',
+    month: 'short',
+    year: '',
+    timeZoneName: '',
+  },
+  argTypes: {
+    hour: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    minute: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    second: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    weekday: {
+      type: {
+        name: 'enum',
+        value: ['', 'short', 'long', 'narrow'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    day: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    month: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit', 'long', 'short', 'narrow'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    year: {
+      type: {
+        name: 'enum',
+        value: ['', 'numeric', '2-digit'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    timeZoneName: {
+      type: {
+        name: 'enum',
+        value: ['', 'long', 'short', 'longOffset', 'shortOffset', 'longGeneric', 'shortGeneric'],
+      },
+      control: {
+        type: 'select',
+        labels: {
+          '': '(None)',
+        },
+      },
+    },
+    date: {
+      control: 'date',
+    },
+    format: {
+      control: 'text',
+    },
+  },
+}
+
+export const RecentTime: StoryFn = args => {
+  const {...rest} = args
+  return <RelativeTime noTitle={true} {...rest} date={new Date()} />
+}
+RecentTime.argTypes = {date: {control: false}}
+
+export default meta

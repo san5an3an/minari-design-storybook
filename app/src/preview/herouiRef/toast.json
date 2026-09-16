@@ -1,0 +1,670 @@
+{
+ "slug": "toast",
+ "title": "Toast",
+ "description": "Display temporary notifications and messages to users with automatic dismissal and customizable placement",
+ "group": "Overlays",
+ "links": {
+  "rac": "Toast",
+  "sourceFile": "toast/toast.tsx",
+  "styles": "toast.css",
+  "storybook": "Components/Feedback/Toast",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Toast, toast } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"toast-default\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\n<Toast.Provider>\n  <Toast>\n    <Toast.Indicator />\n    <Toast.Content>\n      <Toast.Title />\n      <Toast.Description />\n    </Toast.Content>\n    <Toast.ActionButton />\n    <Toast.CloseButton />\n  </Toast>\n</Toast.Provider>\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:22"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\n<ComponentPreview\n  name=\"toast-variants\"\n/>\n\n### Placements\n\n<ComponentPreview\n  name=\"toast-placements\"\n/>\n\n### Simple Toasts\n\n<ComponentPreview\n  name=\"toast-simple\"\n/>\n\n### Custom Indicators\n\n<ComponentPreview\n  name=\"toast-custom-indicator\"\n/>\n\n### Custom Toast Rendering\n\n<ComponentPreview\n  name=\"toast-custom-toast\"\n/>\n\n### Promise & Loading\n\n<ComponentPreview\n  name=\"toast-promise\"\n/>\n\n### Callbacks\n\n<ComponentPreview\n  name=\"toast-callbacks\"\n/>\n\n### Custom Queues\n\n<ComponentPreview\n  name=\"toast-custom-queue\"\n/>\n\n### Setup\n\nRender the provider in the root of your app.\n\n```tsx\nimport { Toast, Button, toast } from '@heroui/react';\n\nfunction App() {\n  return (\n    <div>\n      <Toast.Provider />\n      <Button onPress={() => toast(\"Simple message\")}>\n        Show toast\n      </Button>\n    </div>\n  );\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:38"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"toast-custom-styles\" />\n\n### Global CSS\n\nTo customize the Toast component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .toast {\n    @apply rounded-xl shadow-lg;\n  }\n\n  .toast__content {\n    @apply gap-2;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:107"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Toast component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/toast.css)):\n\n#### Base Classes [!toc]\n- `.toast` - Base toast container\n- `.toast__region` - Toast region container\n- `.toast__content` - Content wrapper for title and description\n- `.toast__indicator` - Icon/indicator container\n- `.toast__title` - Toast title text\n- `.toast__description` - Toast description text\n- `.toast__action` - Action button container\n- `.toast__close` - Close button container\n\n#### Variant Classes [!toc]\n- `.toast--default` - Default gray variant\n- `.toast--accent` - Accent blue variant\n- `.toast--success` - Success green variant\n- `.toast--warning` - Warning yellow/orange variant\n- `.toast--danger` - Danger red variant\n\n### Interactive States\n\nThe component supports various states:\n\n- **Frontmost**: `[data-frontmost]` - Applied to the topmost visible toast\n- **Index**: `[data-index]` - Applied based on toast position in stack\n- **Placement**: `[data-placement=\"*\"]` - Applied based on toast region placement",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:130"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Toast.Provider\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `placement` | `\"top start\" \\| \"top\" \\| \"top end\" \\| \"bottom start\" \\| \"bottom\" \\| \"bottom end\"` | `\"bottom\"` | Placement of the toast region |\n| `gap` | `number` | `12` | The gap between toasts in pixels |\n| `maxVisibleToasts` | `number` | `3` | Maximum number of toasts to display at once |\n| `scaleFactor` | `number` | `0.05` | Scale factor for stacked toasts (0-1) |\n| `width` | `number \\| string` | `460` | Width of the toast in pixels or CSS value |\n| `queue` | `ToastQueue<T>` | - | Custom toast queue instance |\n| `children` | `ReactNode \\| ((props: {toast: QueuedToast<T>}) => ReactNode)` | - | Custom render function or children |\n| `className` | `string` | - | Additional CSS classes |\n\n### Toast\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `toast` | `QueuedToast<T>` | - | Toast data from queue (required) |\n| `variant` | `\"default\" \\| \"accent\" \\| \"success\" \\| \"warning\" \\| \"danger\"` | `\"default\"` | Visual variant of the toast |\n| `placement` | `ToastVariants[\"placement\"]` | - | Placement (inherited from Provider) |\n| `scaleFactor` | `number` | - | Scale factor (inherited from Provider) |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode` | - | Toast content (ToastContent, ToastIndicator, etc.) |\n\n### Toast.Content\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | - | Content (typically ToastTitle and ToastDescription) |\n| `className` | `string` | - | Additional CSS classes |\n\n### Toast.Indicator\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `ToastVariants[\"variant\"]` | - | Variant for default icon |\n| `children` | `ReactNode` | - | Custom indicator icon (defaults to variant icon) |\n| `className` | `string` | - | Additional CSS classes |\n\n### Toast.Title\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | - | Title text |\n| `className` | `string` | - | Additional CSS classes |\n\n### Toast.Description\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | - | Description text |\n| `className` | `string` | - | Additional CSS classes |\n\n### Toast.ActionButton\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | - | Action button content |\n| `className` | `string` | - | Additional CSS classes |\n| All `Button` props | - | - | Accepts all Button component props |\n\n### Toast.CloseButton\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| All `CloseButton` props | - | - | Accepts all CloseButton component props |\n\n### ToastQueue\n\nA `ToastQueue` manages the state for a `<Toast.Provider>`. The state is stored outside React so you can trigger toasts from anywhere in your application.\n\n#### Constructor Options\n\n| Option | Type | Default | Description |\n|--------|------|---------|-------------|\n| `maxVisibleToasts` | `number` | `3` | Maximum number of toasts to display at once (visual only) |\n| `wrapUpdate` | `(fn: () => void) => void` | - | Function to wrap state updates (e.g., for view transitions) |\n\n#### Methods\n\n| Method | Parameters | Returns | Description |\n|--------|------------|---------|-------------|\n| `add` | `(content: T, options?: ToastOptions)` | `string` | Add a toast to the queue, returns toast key |\n| `close` | `(key: string)` | `void` | Close a toast by its key |\n| `pauseAll` | `()` | `void` | Pause all toast timers |\n| `resumeAll` | `()` | `void` | Resume all toast timers |\n| `clear` | `()` | `void` | Close all toasts |\n| `subscribe` | `(fn: () => void)` | `() => void` | Subscribe to queue changes, returns unsubscribe function |\n\n### toast Function\n\nThe default `toast` function provides convenient methods for showing toasts:\n\n```tsx\nimport { toast } from '@heroui/react';\n\n// Basic toast (auto-dismisses after 4 seconds by default)\ntoast(\"Event has been created\");\n\n// Variant methods (also auto-dismiss after 4 seconds by default)\ntoast.success(\"File saved\");\ntoast.info(\"New update available\");\ntoast.warning(\"Please check your settings\");\ntoast.danger(\"Something went wrong\");\n\n// With options\ntoast(\"Event has been created\", {\n  description: \"Your event has been scheduled for tomorrow\",\n  variant: \"default\",\n  timeout: 5000, // Custom timeout: 5 seconds\n  onClose: () => console.log(\"Closed\"),\n  actionProps: {\n    children: \"View\",\n    onPress: () => {},\n  },\n  indicator: <CustomIcon />,\n});\n\n// Promise support (automatically shows loading spinner)\ntoast.promise(\n  uploadFile(),\n  {\n    loading: \"Uploading file...\",\n    success: (data) => `File ${data.filename} uploaded`,\n    error: \"Failed to upload file\",\n  }\n);\n\n// Manual loading state (persistent toast - no auto-dismiss)\nconst loadingId = toast(\"Creating event...\", {\n  isLoading: true,\n  timeout: 0, // Persistent toast that doesn't auto-dismiss\n});\n\n// Later, close and show result\ntoast.close(loadingId);\ntoast.success(\"Event created\");\n\n// Queue methods\ntoast.close(key);\ntoast.clear();\ntoast.pauseAll();\ntoast.resumeAll();\n```\n\n#### toast Options\n\n| Option | Type | Default | Description |\n|--------|------|---------|-------------|\n| `title` | `ReactNode` | - | Toast title (first parameter for variant methods) |\n| `description` | `ReactNode` | - | Optional description text |\n| `variant` | `\"default\" \\| \"accent\" \\| \"success\" \\| \"warning\" \\| \"danger\"` | `\"default\"` | Visual variant |\n| `indicator` | `ReactNode` | - | Custom indicator icon (null to hide) |\n| `actionProps` | `ButtonProps` | - | Props for action button |\n| `isLoading` | `boolean` | `false` | Show loading spinner instead of indicator |\n| `timeout` | `number` | `4000` | Auto-dismiss timeout in milliseconds. Defaults to 4000ms (4 seconds). Set to `0` for persistent toasts that don't auto-dismiss |\n| `onClose` | `() => void` | - | Callback when toast is closed |\n\n#### toast.promise Options\n\n| Option | Type | Default | Description |\n|--------|------|---------|-------------|\n| `loading` | `ReactNode` | - | Message shown while promise is pending |\n| `success` | `ReactNode \\| ((data: T) => ReactNode)` | - | Message shown on success (can be function) |\n| `error` | `ReactNode \\| ((error: Error) => ReactNode)` | - | Message shown on error (can be function) |",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:163"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"toast\" />",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:332"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "toast-default",
+   "source": "apps/docs/src/demos/en/toast/default.tsx",
+   "code": "\"use client\";\n\nimport {Persons} from \"@gravity-ui/icons\";\nimport {Button, toast} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <div className=\"flex h-full max-w-xl flex-col items-center justify-center\">\n      <Button\n        size=\"sm\"\n        variant=\"secondary\"\n        onPress={() => {\n          toast(\"You have been invited to join a team\", {\n            actionProps: {\n              children: \"Dismiss\",\n              onPress: () => toast.clear(),\n              variant: \"tertiary\",\n            },\n            description: \"Bob sent you an invitation to join HeroUI team\",\n            indicator: <Persons />,\n            variant: \"default\",\n          });\n        }}\n      >\n        Show toast\n      </Button>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "toast-variants",
+   "source": "apps/docs/src/demos/en/toast/variants.tsx",
+   "code": "\"use client\";\n\nimport {HardDrive, Persons} from \"@gravity-ui/icons\";\nimport {Button, toast} from \"@heroui/react\";\n\nconst noop = () => {};\n\nexport function Variants() {\n  return (\n    <div className=\"flex h-full max-w-xl flex-col items-center justify-center\">\n      <div className=\"flex w-full flex-wrap items-center justify-center gap-4\">\n        <Button\n          size=\"sm\"\n          variant=\"tertiary\"\n          onPress={() => {\n            toast(\"You have been invited to join a team\", {\n              actionProps: {\n                children: \"Dismiss\",\n                onPress: () => toast.clear(),\n                variant: \"tertiary\",\n              },\n              description: \"Bob sent you an invitation to join HeroUI team\",\n              indicator: <Persons />,\n              variant: \"default\",\n            });\n          }}\n        >\n          Default toast\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() =>\n            toast.info(\"You have 2 credits left\", {\n              actionProps: {children: \"Upgrade\", onPress: noop},\n              description: \"Get a paid plan for more credits\",\n            })\n          }\n        >\n          Accent toast\n        </Button>\n        <Button\n          className=\"text-success-soft-foreground\"\n          size=\"sm\"\n          variant=\"tertiary\"\n          onPress={() =>\n            toast.success(\"You have upgraded your plan\", {\n              actionProps: {\n                children: \"Billing\",\n                className: \"bg-success text-success-foreground\",\n                onPress: noop,\n              },\n              description: \"You can continue using HeroUI Chat\",\n            })\n          }\n        >\n          Success toast\n        </Button>\n        <Button\n          className=\"text-warning-soft-foreground\"\n          size=\"sm\"\n          variant=\"tertiary\"\n          onPress={() =>\n            toast.warning(\"You have no credits left\", {\n              actionProps: {\n                children: \"Upgrade\",\n                className: \"bg-warning text-warning-foreground\",\n                onPress: noop,\n              },\n              description: \"Upgrade to a paid plan to continue\",\n            })\n          }\n        >\n          Warning toast\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"danger-soft\"\n          onPress={() =>\n            toast.danger(\"Storage is full\", {\n              actionProps: {children: \"Remove\", onPress: noop, variant: \"danger\"},\n              description:\n                \"Remove files to release space. Adding more text to demonstrate longer content display\",\n              indicator: <HardDrive />,\n            })\n          }\n        >\n          Danger toast\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Placements",
+   "section": "Examples",
+   "key": "toast-placements",
+   "source": "apps/docs/src/demos/en/toast/placements.tsx",
+   "code": "\"use client\";\n\nimport type {ToastVariants} from \"@heroui/react\";\n\nimport {Button, Toast, ToastQueue} from \"@heroui/react\";\n\ntype Placement = NonNullable<ToastVariants[\"placement\"]>;\n\nconst placements = [\"top start\", \"top\", \"top end\", \"bottom start\", \"bottom\", \"bottom end\"] as const;\n\n// Create a separate queue for each placement\nconst placementQueues = Object.fromEntries(\n  placements.map((p) => [p, new ToastQueue({maxVisibleToasts: 3})]),\n) as Record<Placement, ToastQueue>;\n\nexport function Placements() {\n  const showToast = (placement: Placement) => {\n    placementQueues[placement].add({\n      description: \"Event has been created\",\n      title: \"Event created\",\n      variant: \"default\",\n    });\n  };\n\n  return (\n    <div className=\"flex h-full flex-col items-center justify-center gap-6\">\n      {/* Render a ToastProvider for each placement */}\n      {placements.map((p) => (\n        <Toast.Provider key={p} placement={p} queue={placementQueues[p]} />\n      ))}\n      <div className=\"flex max-w-xs flex-wrap justify-center gap-2\">\n        {placements.map((p) => (\n          <Button key={p} size=\"sm\" variant=\"secondary\" onPress={() => showToast(p)}>\n            {p}\n          </Button>\n        ))}\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Simple Toasts",
+   "section": "Examples",
+   "key": "toast-simple",
+   "source": "apps/docs/src/demos/en/toast/simple.tsx",
+   "code": "\"use client\";\n\nimport {Button, toast} from \"@heroui/react\";\n\nexport function Simple() {\n  return (\n    <div className=\"flex h-full max-w-xl flex-col items-center justify-center\">\n      <div className=\"flex w-full flex-wrap items-center justify-center gap-4\">\n        <Button size=\"sm\" variant=\"secondary\" onPress={() => toast(\"Simple message\")}>\n          Default\n        </Button>\n        <Button size=\"sm\" variant=\"secondary\" onPress={() => toast.success(\"Operation completed\")}>\n          Success\n        </Button>\n        <Button size=\"sm\" variant=\"secondary\" onPress={() => toast.info(\"New update available\")}>\n          Info\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => toast.warning(\"Please check your settings\")}\n        >\n          Warning\n        </Button>\n        <Button size=\"sm\" variant=\"secondary\" onPress={() => toast.danger(\"Something went wrong\")}>\n          Error\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Indicators",
+   "section": "Examples",
+   "key": "toast-custom-indicator",
+   "source": "apps/docs/src/demos/en/toast/custom-indicator.tsx",
+   "code": "\"use client\";\n\nimport {Star} from \"@gravity-ui/icons\";\nimport {Button, toast} from \"@heroui/react\";\n\nexport function CustomIndicator() {\n  return (\n    <div className=\"flex h-full max-w-xl flex-col items-center justify-center\">\n      <Button\n        size=\"sm\"\n        variant=\"secondary\"\n        onPress={() =>\n          toast(\"Custom icon indicator\", {\n            indicator: <Star />,\n          })\n        }\n      >\n        Custom indicator\n      </Button>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Toast Rendering",
+   "section": "Examples",
+   "key": "toast-custom-toast",
+   "source": "apps/docs/src/demos/en/toast/custom-toast.tsx",
+   "code": "\"use client\";\n\nimport type {ToastContentValue} from \"@heroui/react\";\n\nimport {\n  Button,\n  Toast,\n  ToastContent,\n  ToastDescription,\n  ToastIndicator,\n  ToastQueue,\n  ToastTitle,\n} from \"@heroui/react\";\n\nexport function CustomToast() {\n  const customQueue = new ToastQueue();\n\n  return (\n    <div className=\"flex h-full max-w-xl flex-col items-center justify-center\">\n      <Toast.Provider placement=\"bottom\" queue={customQueue}>\n        {({toast: toastItem}) => {\n          const content = toastItem.content as ToastContentValue;\n\n          return (\n            <Toast\n              className=\"rounded-xl border border-border\"\n              toast={toastItem}\n              variant={content.variant}\n            >\n              <ToastContent>\n                <div className=\"flex items-center gap-2\">\n                  <ToastIndicator\n                    className=\"text-accent-soft-foreground\"\n                    variant={content.variant}\n                  />\n                  <div className=\"flex flex-col pe-6\">\n                    {content.title ? (\n                      <ToastTitle className=\"text-accent-soft-foreground\">\n                        {content.title}\n                      </ToastTitle>\n                    ) : null}\n                    {content.description ? (\n                      <ToastDescription>{content.description}</ToastDescription>\n                    ) : null}\n                  </div>\n                </div>\n              </ToastContent>\n              <Toast.CloseButton className=\"absolute end-2 top-1/2 -translate-y-1/2 border-none bg-transparent opacity-100 [&>svg]:size-4\" />\n            </Toast>\n          );\n        }}\n      </Toast.Provider>\n      <Button\n        size=\"sm\"\n        variant=\"secondary\"\n        onPress={() => {\n          customQueue.add({\n            description: \"This uses a custom render function\",\n            title: \"Custom layout toast\",\n            variant: \"default\",\n          });\n        }}\n      >\n        Custom toast\n      </Button>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Promise & Loading",
+   "section": "Examples",
+   "key": "toast-promise",
+   "source": "apps/docs/src/demos/en/toast/promise.tsx",
+   "code": "\"use client\";\n\nimport {Button, toast} from \"@heroui/react\";\n\nconst uploadFile = (): Promise<{filename: string; size: number}> => {\n  return new Promise<{filename: string; size: number}>((resolve) => {\n    setTimeout(() => resolve({filename: \"document.pdf\", size: 1024}), 2000);\n  });\n};\n\nconst createEvent = (): Promise<never> => {\n  return new Promise<never>((_, reject) => {\n    setTimeout(() => reject(new Error(\"Network error. Please try again.\")), 2000);\n  });\n};\n\nconst saveData = (): Promise<{count: number}> => {\n  return new Promise<{count: number}>((resolve, reject) => {\n    setTimeout(() => {\n      if (Math.random() > 0.5) {\n        resolve({count: 42});\n      } else {\n        reject(new Error(\"Failed to save data\"));\n      }\n    }, 2000);\n  });\n};\n\nconst fetchUser = (): Promise<{name: string; email: string}> => {\n  return new Promise<{name: string; email: string}>((resolve) => {\n    setTimeout(() => resolve({email: \"john@example.com\", name: \"John Doe\"}), 2000);\n  });\n};\n\nexport function PromiseDemo() {\n  return (\n    <div className=\"flex h-full max-w-2xl flex-col items-center justify-center gap-8\">\n      {/* Promise API Section */}\n      <div className=\"w-full space-y-3\">\n        <div className=\"text-center\">\n          <h3 className=\"text-sm font-medium\">Using toast.promise()</h3>\n          <p className=\"text-xs text-muted\">\n            Automatically handles loading, success, and error states\n          </p>\n        </div>\n        <div className=\"flex w-full flex-wrap items-center justify-center gap-4\">\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              toast.promise(uploadFile(), {\n                error: \"Failed to upload file\",\n                loading: \"Uploading file...\",\n                success: (data) => `File ${data.filename} uploaded (${data.size}KB)`,\n              });\n            }}\n          >\n            Upload file\n          </Button>\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              toast.promise(createEvent(), {\n                error: (err) => err.message,\n                loading: \"Creating event...\",\n                success: \"Event created\",\n              });\n            }}\n          >\n            Create event (error)\n          </Button>\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              toast.promise(saveData(), {\n                error: (err) => err.message,\n                loading: \"Saving changes...\",\n                success: (data) => `Saved ${data.count} items`,\n              });\n            }}\n          >\n            Save data (random)\n          </Button>\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              toast.promise(fetchUser(), {\n                error: \"Failed to fetch user\",\n                loading: \"Loading user...\",\n                success: (data) => `Welcome back, ${data.name}!`,\n              });\n            }}\n          >\n            Fetch user\n          </Button>\n        </div>\n      </div>\n\n      {/* Manual Loading Section */}\n      <div className=\"w-full space-y-3\">\n        <div className=\"text-center\">\n          <h3 className=\"text-sm font-medium\">Manual Loading State</h3>\n          <p className=\"text-xs text-muted\">Manually control loading state with isLoading prop</p>\n        </div>\n        <div className=\"flex w-full flex-wrap items-center justify-center gap-4\">\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              const loadingId = toast(\"Uploading file...\", {\n                description: \"Please wait while we upload your file\",\n                isLoading: true,\n                timeout: 0,\n              });\n\n              setTimeout(() => {\n                toast.close(loadingId);\n                toast.success(\"File uploaded\", {\n                  description: \"Your file has been uploaded successfully\",\n                });\n              }, 3000);\n            }}\n          >\n            Upload with loading\n          </Button>\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              const loadingId = toast(\"Processing payment...\", {\n                isLoading: true,\n                timeout: 0,\n              });\n\n              setTimeout(() => {\n                toast.close(loadingId);\n                toast.success(\"Payment processed\", {\n                  description: \"Your payment has been processed successfully\",\n                });\n              }, 2500);\n            }}\n          >\n            Payment processing\n          </Button>\n          <Button\n            size=\"sm\"\n            variant=\"secondary\"\n            onPress={() => {\n              const loadingId = toast(\"Saving changes...\", {\n                isLoading: true,\n                timeout: 0,\n              });\n\n              setTimeout(() => {\n                toast.close(loadingId);\n                toast.danger(\"Failed to save\", {\n                  description: \"Please try again\",\n                });\n              }, 2000);\n            }}\n          >\n            Loading to error\n          </Button>\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Callbacks",
+   "section": "Examples",
+   "key": "toast-callbacks",
+   "source": "apps/docs/src/demos/en/toast/callbacks.tsx",
+   "code": "\"use client\";\n\nimport {Button, toast} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Callbacks() {\n  const [closedHistory, setClosedHistory] = React.useState<Array<{message: string; time: string}>>(\n    [],\n  );\n\n  const addToHistory = (message: string) => {\n    const time = new Date().toLocaleTimeString();\n\n    setClosedHistory((prev) => [{message, time}, ...prev].slice(0, 5));\n  };\n\n  return (\n    <div className=\"flex h-full max-w-2xl flex-col items-center justify-center gap-6\">\n      {/* Toast Buttons */}\n      <div className=\"flex w-full flex-wrap items-center justify-center gap-4\">\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() =>\n            toast(\"File saved\", {\n              onClose: () => {\n                addToHistory(\"File saved (closed after 3 seconds)\");\n              },\n              timeout: 3000,\n            })\n          }\n        >\n          Custom timeout (3s)\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() =>\n            toast(\"Changes saved\", {\n              onClose: () => {\n                addToHistory(\"Changes saved (closed after 10 seconds)\");\n              },\n              timeout: 10000,\n            })\n          }\n        >\n          Custom timeout (10s)\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() =>\n            toast.success(\"Event created\", {\n              onClose: () => {\n                addToHistory(\"Event created (closed after default timeout)\");\n              },\n            })\n          }\n        >\n          With onClose callback\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() =>\n            toast(\"Important notification\", {\n              description: \"This toast will stay until dismissed\",\n              onClose: () => {\n                addToHistory(\"Important notification (manually closed)\");\n              },\n              timeout: 0,\n            })\n          }\n        >\n          Persistent toast\n        </Button>\n      </div>\n\n      {/* Closed History Panel */}\n      <div className=\"w-full space-y-2\">\n        <div className=\"flex items-center justify-between\">\n          <h3 className=\"text-sm font-medium\">Closed History</h3>\n          {closedHistory.length > 0 && (\n            <Button\n              className=\"h-6 text-xs\"\n              size=\"sm\"\n              variant=\"tertiary\"\n              onPress={() => setClosedHistory([])}\n            >\n              Clear\n            </Button>\n          )}\n        </div>\n        <div className=\"min-h-[120px] space-y-2 rounded-lg border border-border bg-surface p-4\">\n          {closedHistory.length === 0 ? (\n            <p className=\"text-sm text-muted\">No toasts closed yet. Try closing one above!</p>\n          ) : (\n            closedHistory.map((item, index) => (\n              <div\n                key={`${item.time}-${index}`}\n                className=\"flex animate-in items-start justify-between gap-3 rounded-md border border-border bg-default px-3 py-2 text-sm duration-200 fade-in slide-in-from-top-2\"\n                style={{\n                  animationDelay: `${index * 50}ms`,\n                }}\n              >\n                <div className=\"flex-1\">\n                  <span className=\"font-medium\">{item.message}</span>\n                  <span className=\"ms-2 text-xs text-muted\">({item.time})</span>\n                </div>\n                <div className=\"flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/10 text-success-soft-foreground\">\n                  <svg\n                    className=\"size-3\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    strokeWidth=\"2\"\n                    viewBox=\"0 0 24 24\"\n                  >\n                    <path d=\"M5 13l4 4L19 7\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n                  </svg>\n                </div>\n              </div>\n            ))\n          )}\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Queues",
+   "section": "Examples",
+   "key": "toast-custom-queue",
+   "source": "apps/docs/src/demos/en/toast/custom-queue.tsx",
+   "code": "\"use client\";\n\nimport {Button, Toast, ToastQueue} from \"@heroui/react\";\n\nexport function CustomQueue() {\n  const notificationQueue = new ToastQueue({maxVisibleToasts: 2});\n  const errorQueue = new ToastQueue({maxVisibleToasts: 3});\n  const successQueue = new ToastQueue({maxVisibleToasts: 1});\n\n  return (\n    <div className=\"flex h-full max-w-4xl items-center justify-center gap-4\">\n      {/* Notification Queue */}\n      <Toast.Provider placement=\"bottom\" queue={notificationQueue} />\n      <div className=\"flex justify-center gap-2\">\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => {\n            notificationQueue.add({\n              description: \"You have a new message\",\n              title: \"New notification\",\n              variant: \"default\",\n            });\n          }}\n        >\n          Add notification (max 2)\n        </Button>\n      </div>\n\n      {/* Error Queue */}\n      <Toast.Provider placement=\"bottom start\" queue={errorQueue} />\n      <div className=\"flex justify-center gap-2\">\n        <Button\n          size=\"sm\"\n          variant=\"danger-soft\"\n          onPress={() => {\n            errorQueue.add({\n              description: \"Failed to save changes\",\n              title: \"Error occurred\",\n              variant: \"danger\",\n            });\n          }}\n        >\n          Add error (max 3)\n        </Button>\n      </div>\n\n      {/* Success Queue */}\n      <Toast.Provider placement=\"bottom end\" queue={successQueue} />\n      <div className=\"flex justify-center gap-2\">\n        <Button\n          className=\"text-success-soft-foreground\"\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => {\n            successQueue.add({\n              description: `Operation ${Date.now()}`,\n              title: \"Success!\",\n              variant: \"success\",\n            });\n          }}\n        >\n          Add success (max 1)\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "toast-custom-styles",
+   "source": "apps/docs/src/demos/en/toast/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport type {ToastContentValue} from \"@heroui/react\";\n\nimport {\n  Button,\n  Toast,\n  ToastContent,\n  ToastDescription,\n  ToastIndicator,\n  ToastQueue,\n  ToastTitle,\n} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  const queue = new ToastQueue();\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Toast.Provider placement=\"bottom\" queue={queue}>\n        {({toast: toastItem}) => {\n          const content = toastItem.content as ToastContentValue;\n\n          return (\n            <Toast\n              className=\"rounded-xl border border-border/80 bg-surface shadow-lg ring-1 ring-black/5 dark:ring-white/10\"\n              toast={toastItem}\n              variant={content.variant}\n            >\n              <ToastContent>\n                <div className=\"flex items-center gap-2.5\">\n                  <ToastIndicator\n                    className=\"text-neutral-600 dark:text-neutral-400\"\n                    variant={content.variant}\n                  />\n                  <div className=\"flex flex-col gap-0.5\">\n                    {content.title ? (\n                      <ToastTitle className=\"text-sm font-medium text-neutral-900 dark:text-neutral-50\">\n                        {content.title}\n                      </ToastTitle>\n                    ) : null}\n                    {content.description ? (\n                      <ToastDescription className=\"text-sm text-neutral-600 dark:text-neutral-400\">\n                        {content.description}\n                      </ToastDescription>\n                    ) : null}\n                  </div>\n                </div>\n              </ToastContent>\n            </Toast>\n          );\n        }}\n      </Toast.Provider>\n      <Button\n        size=\"sm\"\n        variant=\"secondary\"\n        onPress={() => {\n          queue.add({\n            description: \"Draft synced\",\n            title: \"Saved\",\n            variant: \"default\",\n          });\n        }}\n      >\n        Show toast\n      </Button>\n    </div>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Toast.Provider",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`placement`",
+     "`\"top start\" | \"top\" | \"top end\" | \"bottom start\" | \"bottom\" | \"bottom end\"`",
+     "`\"bottom\"`",
+     "Placement of the toast region",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:169"
+    ],
+    [
+     "`gap`",
+     "`number`",
+     "`12`",
+     "The gap between toasts in pixels",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:170"
+    ],
+    [
+     "`maxVisibleToasts`",
+     "`number`",
+     "`3`",
+     "Maximum number of toasts to display at once",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:171"
+    ],
+    [
+     "`scaleFactor`",
+     "`number`",
+     "`0.05`",
+     "Scale factor for stacked toasts (0-1)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:172"
+    ],
+    [
+     "`width`",
+     "`number | string`",
+     "`460`",
+     "Width of the toast in pixels or CSS value",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:173"
+    ],
+    [
+     "`queue`",
+     "`ToastQueue<T>`",
+     "-",
+     "Custom toast queue instance",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:174"
+    ],
+    [
+     "`children`",
+     "`ReactNode | ((props: {toast: QueuedToast<T>}) => ReactNode)`",
+     "-",
+     "Custom render function or children",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:175"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:176"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:165",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`toast`",
+     "`QueuedToast<T>`",
+     "-",
+     "Toast data from queue (required)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:182"
+    ],
+    [
+     "`variant`",
+     "`\"default\" | \"accent\" | \"success\" | \"warning\" | \"danger\"`",
+     "`\"default\"`",
+     "Visual variant of the toast",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:183"
+    ],
+    [
+     "`placement`",
+     "`ToastVariants[\"placement\"]`",
+     "-",
+     "Placement (inherited from Provider)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:184"
+    ],
+    [
+     "`scaleFactor`",
+     "`number`",
+     "-",
+     "Scale factor (inherited from Provider)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:185"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:186"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Toast content (ToastContent, ToastIndicator, etc.)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:187"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:178",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.Content",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Content (typically ToastTitle and ToastDescription)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:193"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:194"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:189",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.Indicator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "`ToastVariants[\"variant\"]`",
+     "-",
+     "Variant for default icon",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:200"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Custom indicator icon (defaults to variant icon)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:201"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:202"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:196",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.Title",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Title text",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:208"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:209"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:204",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.Description",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Description text",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:215"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:216"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:211",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.ActionButton",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "Action button content",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:222"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:223"
+    ],
+    [
+     "All `Button` props",
+     "-",
+     "-",
+     "Accepts all Button component props",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:224"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:218",
+   "section": "API Reference"
+  },
+  {
+   "name": "Toast.CloseButton",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:230"
+    ],
+    [
+     "All `CloseButton` props",
+     "-",
+     "-",
+     "Accepts all CloseButton component props",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:231"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:226",
+   "section": "API Reference"
+  },
+  {
+   "name": "ToastQueue",
+   "columns": [
+    "Option",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`maxVisibleToasts`",
+     "`number`",
+     "`3`",
+     "Maximum number of toasts to display at once (visual only)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:241"
+    ],
+    [
+     "`wrapUpdate`",
+     "`(fn: () => void) => void`",
+     "-",
+     "Function to wrap state updates (e.g., for view transitions)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:242"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:233",
+   "section": "API Reference"
+  },
+  {
+   "name": "ToastQueue",
+   "columns": [
+    "Method",
+    "Parameters",
+    "Returns",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`add`",
+     "`(content: T, options?: ToastOptions)`",
+     "`string`",
+     "Add a toast to the queue, returns toast key",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:248"
+    ],
+    [
+     "`close`",
+     "`(key: string)`",
+     "`void`",
+     "Close a toast by its key",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:249"
+    ],
+    [
+     "`pauseAll`",
+     "`()`",
+     "`void`",
+     "Pause all toast timers",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:250"
+    ],
+    [
+     "`resumeAll`",
+     "`()`",
+     "`void`",
+     "Resume all toast timers",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:251"
+    ],
+    [
+     "`clear`",
+     "`()`",
+     "`void`",
+     "Close all toasts",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:252"
+    ],
+    [
+     "`subscribe`",
+     "`(fn: () => void)`",
+     "`() => void`",
+     "Subscribe to queue changes, returns unsubscribe function",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:253"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:233",
+   "section": "API Reference"
+  },
+  {
+   "name": "toast Function",
+   "columns": [
+    "Option",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`title`",
+     "`ReactNode`",
+     "-",
+     "Toast title (first parameter for variant methods)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:315"
+    ],
+    [
+     "`description`",
+     "`ReactNode`",
+     "-",
+     "Optional description text",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:316"
+    ],
+    [
+     "`variant`",
+     "`\"default\" | \"accent\" | \"success\" | \"warning\" | \"danger\"`",
+     "`\"default\"`",
+     "Visual variant",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:317"
+    ],
+    [
+     "`indicator`",
+     "`ReactNode`",
+     "-",
+     "Custom indicator icon (null to hide)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:318"
+    ],
+    [
+     "`actionProps`",
+     "`ButtonProps`",
+     "-",
+     "Props for action button",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:319"
+    ],
+    [
+     "`isLoading`",
+     "`boolean`",
+     "`false`",
+     "Show loading spinner instead of indicator",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:320"
+    ],
+    [
+     "`timeout`",
+     "`number`",
+     "`4000`",
+     "Auto-dismiss timeout in milliseconds. Defaults to 4000ms (4 seconds). Set to `0` for persistent toasts that don't auto-dismiss",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:321"
+    ],
+    [
+     "`onClose`",
+     "`() => void`",
+     "-",
+     "Callback when toast is closed",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:322"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:255",
+   "section": "API Reference"
+  },
+  {
+   "name": "toast Function",
+   "columns": [
+    "Option",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`loading`",
+     "`ReactNode`",
+     "-",
+     "Message shown while promise is pending",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:328"
+    ],
+    [
+     "`success`",
+     "`ReactNode | ((data: T) => ReactNode)`",
+     "-",
+     "Message shown on success (can be function)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:329"
+    ],
+    [
+     "`error`",
+     "`ReactNode | ((error: Error) => ReactNode)`",
+     "-",
+     "Message shown on error (can be function)",
+     "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:330"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:255",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`placement`",
+   "prop": "placement",
+   "values": [
+    "top start",
+    "top",
+    "top end",
+    "bottom start",
+    "bottom",
+    "bottom end"
+   ],
+   "other": [],
+   "default": "`\"bottom\"`",
+   "owner": "Toast.Provider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:169"
+  },
+  {
+   "name": "`width`",
+   "prop": "width",
+   "values": [
+    "number",
+    "string"
+   ],
+   "other": [],
+   "default": "`460`",
+   "owner": "Toast.Provider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:173"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "default",
+    "accent",
+    "success",
+    "warning",
+    "danger"
+   ],
+   "other": [],
+   "default": "`\"default\"`",
+   "owner": "Toast",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(overlays)/toast.mdx:183"
+  }
+ ]
+}

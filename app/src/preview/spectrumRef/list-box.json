@@ -1,0 +1,65 @@
+{
+  "slug": "list-box",
+  "title": "ListBox",
+  "group": "Collections",
+  "heading": "ListBox",
+  "description": null,
+  "sharedImports": "import {ListBox, Section, Item} from '@react-spectrum/listbox';\nimport {Flex} from '@react-spectrum/layout';\nimport Book from '@spectrum-icons/workflow/Book';\nimport BulkEditUsers from '@spectrum-icons/workflow/BulkEditUsers';\nimport Draw from '@spectrum-icons/workflow/Draw';\nimport {Text} from '@react-spectrum/text';\nimport {Avatar} from \"@react-spectrum/avatar\";",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<ListBox width=\"size-2400\" aria-label=\"Alignment\">\n  <Item>Left</Item>\n  <Item>Middle</Item>\n  <Item>Right</Item>\n</ListBox>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let options = [\n    {id: 1, name: 'Aardvark'},\n    {id: 2, name: 'Cat'},\n    {id: 3, name: 'Dog'},\n    {id: 4, name: 'Kangaroo'},\n    {id: 5, name: 'Koala'},\n    {id: 6, name: 'Penguin'},\n    {id: 7, name: 'Snake'},\n    {id: 8, name: 'Turtle'},\n    {id: 9, name: 'Wombat'}\n  ];\n  let [animalId, setAnimalId] = React.useState(null);\n\n  return (\n    <>\n      <ListBox width=\"size-2400\" aria-label=\"Animals\" items={options} selectionMode=\"single\" onSelectionChange={setAnimalId}>\n        {item => <Item>{item.name}</Item>}\n      </ListBox>\n      <p>Animal id: {animalId}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Selection",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let options = [\n    {name: 'Koala'},\n    {name: 'Kangaroo'},\n    {name: 'Platypus'},\n    {name: 'Bald Eagle'},\n    {name: 'Bison'},\n    {name: 'Skunk'}\n  ];\n  let [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set(['Bison']));\n\n  return (\n    <Flex direction=\"row\" gap=\"size-350\">\n      <ListBox\n        selectionMode=\"multiple\"\n        aria-label=\"Pick an animal\"\n        items={options}\n        defaultSelectedKeys={['Bison', 'Koala']}\n        width=\"size-2400\">\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </ListBox>\n\n      <ListBox\n        selectionMode=\"multiple\"\n        aria-label=\"Pick an animal\"\n        items={options}\n        selectedKeys={selectedKeys}\n        onSelectionChange={setSelectedKeys}\n        width=\"size-2400\">\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </ListBox>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Links",
+      "code": "<ListBox aria-label=\"Links\">\n  <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n  <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n  <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n  <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n</ListBox>"
+    },
+    {
+      "name": "Static Items",
+      "code": "<ListBox width=\"size-2400\" aria-label=\"Pick your favorite\" selectionMode=\"single\">\n  <Section title=\"Animals\">\n    <Item key=\"Aardvark\">Aardvark</Item>\n    <Item key=\"Kangaroo\">Kangaroo</Item>\n    <Item key=\"Snake\">Snake</Item>\n  </Section>\n  <Section title=\"People\">\n    <Item key=\"Danni\">Danni</Item>\n    <Item key=\"Devon\">Devon</Item>\n    <Item key=\"Ross\">Ross</Item>\n  </Section>\n</ListBox>"
+    },
+    {
+      "name": "Dynamic Items",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let options = [\n    {name: 'Australian', children: [\n      {id: 2, name: 'Koala'},\n      {id: 3, name: 'Kangaroo'},\n      {id: 4, name: 'Platypus'}\n    ]},\n    {name: 'American', children: [\n      {id: 6, name: 'Bald Eagle'},\n      {id: 7, name: 'Bison'},\n      {id: 8, name: 'Skunk'}\n    ]}\n  ];\n  let [selected, setSelected] = React.useState<Selection>(new Set());\n\n  return (\n    <ListBox\n      aria-label=\"Pick an animal\"\n      items={options}\n      selectedKeys={selected}\n      selectionMode=\"single\"\n      onSelectionChange={setSelected}\n      width=\"size-2400\">\n      {item => (\n        <Section key={item.name} items={item.children} title={item.name}>\n          {item => <Item>{item.name}</Item>}\n        </Section>\n      )}\n    </ListBox>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction StaticExample() {\n  let [frequency, setFrequency] = React.useState<Selection>(new Set());\n\n  return (\n    <>\n      <ListBox\n        aria-label=\"Choose frequency\"\n        selectionMode=\"single\"\n        onSelectionChange={selected => setFrequency(selected)}\n        width=\"size-2400\">\n        <Item key=\"Rarely\">Rarely</Item>\n        <Item key=\"Sometimes\">Sometimes</Item>\n        <Item key=\"Always\">Always</Item>\n      </ListBox>\n      <p>You selected: {[...frequency][0]}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction DynamicExample() {\n  let [animalId, setAnimalId] = React.useState<Selection>(new Set());\n  let options = [\n    {id: 1, name: 'Aardvark'},\n    {id: 2, name: 'Cat'},\n    {id: 3, name: 'Dog'},\n    {id: 4, name: 'Kangaroo'},\n    {id: 5, name: 'Koala'},\n    {id: 6, name: 'Penguin'},\n    {id: 7, name: 'Snake'},\n    {id: 8, name: 'Turtle'},\n    {id: 9, name: 'Wombat'}\n  ];\n\n  return (\n    <>\n      <ListBox\n        selectionMode=\"single\"\n        aria-label=\"Pick an animal\"\n        items={options}\n        onSelectionChange={selected => setAnimalId(selected)}\n        width=\"size-2400\">\n        {item => <Item>{item.name}</Item>}\n      </ListBox>\n      <p>Your favorite animal has id: {[...animalId][0]}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Complex Items",
+      "code": "<ListBox width=\"size-2400\" aria-label=\"Options\" selectionMode=\"single\">\n  <Section title=\"Permission\">\n    <Item textValue=\"Read\">\n      <Book size=\"S\" />\n      <Text>Read</Text>\n      <Text slot=\"description\">Read Only</Text>\n    </Item>\n    <Item textValue=\"Write\">\n      <Draw size=\"S\" />\n      <Text>Write</Text>\n      <Text slot=\"description\">Read and Write Only</Text>\n    </Item>\n    <Item textValue=\"Admin\">\n      <BulkEditUsers size=\"S\" />\n      <Text>Admin</Text>\n      <Text slot=\"description\">Full access</Text>\n    </Item>\n  </Section>\n</ListBox>"
+    },
+    {
+      "name": "With avatars",
+      "code": "<ListBox width=\"size-2400\" aria-label=\"Options\" selectionMode=\"single\">\n  <Section title=\"Users\">\n    <Item textValue=\"User 1\">\n      <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n      <Text>User 1</Text>\n    </Item>\n    <Item textValue=\"User 2\">\n      <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n      <Text>User 2</Text>\n    </Item>\n    <Item textValue=\"User 3\">\n      <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n      <Text>User 3</Text>\n    </Item>\n    <Item textValue=\"User 4\">\n      <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n      <Text>User 4</Text>\n    </Item>\n  </Section>\n</ListBox>"
+    },
+    {
+      "name": "Asynchronous loading",
+      "code": "import {useAsyncList} from '@react-stately/data';\n\ninterface Pokemon {\n  name: string\n}\n\nfunction AsyncLoadingExample() {\n  let list = useAsyncList<Pokemon>({\n    async load({signal, cursor}) {\n      // If no cursor is available, then we're loading the first page.\n      // Otherwise, the cursor is the next URL to load, as returned from the previous page.\n      let res = await fetch(cursor || 'https://pokeapi.co/api/v2/pokemon', {signal});\n      let json = await res.json();\n      return {\n        items: json.results,\n        cursor: json.next\n      };\n    }\n  });\n\n  return (\n    <Flex maxHeight=\"size-2400\">\n      <ListBox\n        aria-label=\"Pick a Pokemon\"\n        items={list.items}\n        isLoading={list.isLoading}\n        onLoadMore={list.loadMore}\n        width=\"size-2400\">\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </ListBox>\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Loading",
+      "code": "<ListBox\n  isLoading\n  aria-label=\"Choose frequency\"\n  selectionMode=\"single\"\n  width=\"size-1200\">\n  {[]}\n</ListBox>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<ListBox width=\"size-2400\" aria-label=\"Pick your favorite\" disabledKeys={[\"Snake\", \"Ross\"]} selectionMode=\"single\">\n  <Section title=\"Animals\">\n    <Item key=\"Aardvark\">Aardvark</Item>\n    <Item key=\"Kangaroo\">Kangaroo</Item>\n    <Item key=\"Snake\">Snake</Item>\n  </Section>\n  <Section title=\"People\">\n    <Item key=\"Danni\">Danni</Item>\n    <Item key=\"Devon\">Devon</Item>\n    <Item key=\"Ross\">Ross</Item>\n  </Section>\n</ListBox>"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/listbox/ListBox.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/ListBox.html"
+}

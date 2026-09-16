@@ -1,0 +1,32 @@
+{
+  "slug": "info-label",
+  "title": "InfoLabel",
+  "group": "Components/InfoLabel",
+  "package": "react-infolabel",
+  "description": "An InfoLabel is a Label with an InfoButton at the end, properly handling layout and accessibility properties.\nIt can be used as a drop-in replacement for Label when an InfoButton is also needed.",
+  "bestPractices": "## Best practices\n\n### Do\n\n- Use the medium (default) or large sizes when possible to ensure the InfoButton meets the [minimum target size requirement](https://w3c.github.io/wcag/understanding/target-size-minimum.html).\n- When using the small size, ensure one of the following is true:\n  - The InfoButton has at least 2px of space between it and the closest interactive control on all sides (this is already guaranteed if using a small InfoLabel with a small Field component).\n  - Only use the small variant if the end user has chosen a compact/small layout (i.e. not as the default layout)\n\n### Don't\n\n- Because the Popover isn't always visible, don't include information in the `info` prop that people must know in order to complete the field.",
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-infolabel/stories/src/InfoLabel/InfoLabelDefault.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement, InfoLabelProps } from '@fluentui/react-components';\n\nimport { InfoLabel, Link } from '@fluentui/react-components';\n\nexport const Default = (props: Partial<InfoLabelProps>): JSXElement => (\n  <InfoLabel\n    info={\n      <>\n        This is example information for an InfoLabel. <Link href=\"https://react.fluentui.dev\">Learn more</Link>\n      </>\n    }\n    {...props}\n  >\n    Example label\n  </InfoLabel>\n);"
+    },
+    {
+      "name": "Required",
+      "file": "packages/react-components/react-infolabel/stories/src/InfoLabel/InfoLabelRequired.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\n\nimport { InfoLabel } from '@fluentui/react-components';\n\nexport const Required = (): JSXElement => (\n  <InfoLabel info=\"Example info\" required>\n    Required label\n  </InfoLabel>\n);\n\nRequired.parameters = {\n  docs: {\n    description: {\n      story: 'When marked `required`, the indicator asterisk is placed before the InfoButton.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Size",
+      "file": "packages/react-components/react-infolabel/stories/src/InfoLabel/InfoLabelSize.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\n\nimport { InfoLabel, makeStyles, tokens } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  container: {\n    alignItems: 'start',\n    display: 'flex',\n    flexDirection: 'column',\n    rowGap: tokens.spacingVerticalL,\n  },\n});\n\nexport const Size = (): JSXElement => {\n  const styles = useStyles();\n\n  return (\n    <div className={styles.container}>\n      <InfoLabel size=\"small\" info=\"Example small InfoLabel\">\n        Small label\n      </InfoLabel>\n      <InfoLabel size=\"medium\" info=\"Example medium InfoLabel\">\n        Medium label\n      </InfoLabel>\n      <InfoLabel size=\"large\" info=\"Example large InfoLabel\">\n        Large label\n      </InfoLabel>\n    </div>\n  );\n};\n\nSize.parameters = {\n  docs: {\n    description: {\n      story:\n        \"InfoLabel's `size` prop affects the size of the Label and InfoButton. The default size is medium. \" +\n        \"The small size only meets WCAG's minimum target size requirement if it has at least 2px of non-interactive space on all sides.\",\n    },\n  },\n};"
+    },
+    {
+      "name": "InField",
+      "file": "packages/react-components/react-infolabel/stories/src/InfoLabel/InfoLabelInField.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement, LabelProps } from '@fluentui/react-components';\n\nimport { Field, InfoLabel, Input } from '@fluentui/react-components';\n\nexport const InField = (): JSXElement => (\n  <Field\n    label={{\n      children: (_: unknown, props: LabelProps) => (\n        <InfoLabel {...props} info=\"Example info\">\n          Field with info label\n        </InfoLabel>\n      ),\n    }}\n  >\n    <Input />\n  </Field>\n);\n\nInField.storyName = 'In a Field';\nInField.parameters = {\n  docs: {\n    description: {\n      story:\n        'An `InfoLabel` can be used in a `Field` by rendering the label prop as an InfoLabel. This uses the slot ' +\n        '[render function]' +\n        '(./?path=/docs/concepts-developer-customizing-components-with-slots--docs#replacing-the-entire-slot) ' +\n        'support. See the code from this story for an example.',\n    },\n  },\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-info-label--docs"
+}

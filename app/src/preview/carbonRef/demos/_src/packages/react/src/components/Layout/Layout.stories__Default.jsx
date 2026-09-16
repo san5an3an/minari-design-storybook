@@ -1,0 +1,70 @@
+import { Accordion, AccordionItem } from '@carbon/react';
+import { Button } from '@carbon/react';
+import { Tag } from '@carbon/react';
+import { HStack, VStack } from '@carbon/react';
+import { TextInput } from '@carbon/react';
+import { preview_Layout as Layout } from '@carbon/react';
+import { LayoutConstraint } from '@carbon/react/es/components/Layout/index.js';
+import mdx from './Layout.mdx';
+
+
+export default {
+  title: 'Preview/preview__Layout',
+  component: Layout,
+  subcomponents: {
+    LayoutConstraint,
+  },
+  parameters: {
+    docs: {
+      page: mdx,
+    },
+  },
+};
+
+const Demo = () => (
+  <VStack gap={6}>
+    <HStack>
+      <TextInput labelText="<TextInput />" placeholder="Placeholder" />
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Button>&lt;Button /&gt;</Button>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Tag>&lt;Tag /&gt;</Tag>
+      </div>
+      <TextInput
+        labelText='<TextInput size="sm" />'
+        size="sm"
+        placeholder="Placeholder"
+      />
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Button size="sm">&lt;Button size=&quot;sm&quot; /&gt;</Button>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Tag size="sm">&lt;Tag size&quot;sm&quot; /&gt;</Tag>
+      </div>
+    </HStack>
+    <Accordion>
+      <AccordionItem title="<AccordionItem />">Content</AccordionItem>
+    </Accordion>
+  </VStack>
+);
+
+export const Default = (args) => {
+  return (
+    <VStack gap={10}>
+      <h1>Layout demo</h1>
+      <div>
+        <h2>Outside of &lt;Layout&gt;</h2>
+        <br />
+        <Demo />
+      </div>
+      <div>
+        <h2>Inside of &lt;Layout&gt;</h2>
+        <br />
+        <Layout {...args}>
+          <Demo />
+        </Layout>
+      </div>
+    </VStack>
+  );
+};

@@ -1,0 +1,135 @@
+{
+ "slug": "alert-dialog",
+ "title": "alert-dialog",
+ "registryPath": "registry/base-nova/ui/alert-dialog.tsx",
+ "source": "registry/base-nova/ui/alert-dialog.tsx",
+ "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { AlertDialog as AlertDialogPrimitive } from \"@base-ui/react/alert-dialog\"\nimport { cn } from \"cn\"\n\nimport { Button } from \"@/registry/base-nova/ui/button\"\n\nfunction AlertDialog({ ...props }: AlertDialogPrimitive.Root.Props) {\n  return <AlertDialogPrimitive.Root data-slot=\"alert-dialog\" {...props} />\n}\n\nfunction AlertDialogTrigger({ ...props }: AlertDialogPrimitive.Trigger.Props) {\n  return (\n    <AlertDialogPrimitive.Trigger data-slot=\"alert-dialog-trigger\" {...props} />\n  )\n}\n\nfunction AlertDialogPortal({ ...props }: AlertDialogPrimitive.Portal.Props) {\n  return (\n    <AlertDialogPrimitive.Portal data-slot=\"alert-dialog-portal\" {...props} />\n  )\n}\n\nfunction AlertDialogOverlay({\n  className,\n  ...props\n}: AlertDialogPrimitive.Backdrop.Props) {\n  return (\n    <AlertDialogPrimitive.Backdrop\n      data-slot=\"alert-dialog-overlay\"\n      className={cn(\n        \"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogContent({\n  className,\n  size = \"default\",\n  ...props\n}: AlertDialogPrimitive.Popup.Props & {\n  size?: \"default\" | \"sm\"\n}) {\n  return (\n    <AlertDialogPortal>\n      <AlertDialogOverlay />\n      <AlertDialogPrimitive.Popup\n        data-slot=\"alert-dialog-content\"\n        data-size={size}\n        className={cn(\n          \"group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95\",\n          className\n        )}\n        {...props}\n      />\n    </AlertDialogPortal>\n  )\n}\n\nfunction AlertDialogHeader({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-dialog-header\"\n      className={cn(\n        \"grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-4 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogFooter({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-dialog-footer\"\n      className={cn(\n        \"-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogMedia({\n  className,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"alert-dialog-media\"\n      className={cn(\n        \"mb-2 inline-flex size-10 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogTitle({\n  className,\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {\n  return (\n    <AlertDialogPrimitive.Title\n      data-slot=\"alert-dialog-title\"\n      className={cn(\n        \"cn-font-heading text-base font-medium sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogDescription({\n  className,\n  ...props\n}: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {\n  return (\n    <AlertDialogPrimitive.Description\n      data-slot=\"alert-dialog-description\"\n      className={cn(\n        \"text-sm text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogAction({\n  className,\n  ...props\n}: React.ComponentProps<typeof Button>) {\n  return (\n    <Button\n      data-slot=\"alert-dialog-action\"\n      className={cn(className)}\n      {...props}\n    />\n  )\n}\n\nfunction AlertDialogCancel({\n  className,\n  variant = \"outline\",\n  size = \"default\",\n  ...props\n}: AlertDialogPrimitive.Close.Props &\n  Pick<React.ComponentProps<typeof Button>, \"variant\" | \"size\">) {\n  return (\n    <AlertDialogPrimitive.Close\n      data-slot=\"alert-dialog-cancel\"\n      className={cn(className)}\n      render={<Button variant={variant} size={size} />}\n      {...props}\n    />\n  )\n}\n\nexport {\n  AlertDialog,\n  AlertDialogAction,\n  AlertDialogCancel,\n  AlertDialogContent,\n  AlertDialogDescription,\n  AlertDialogFooter,\n  AlertDialogHeader,\n  AlertDialogMedia,\n  AlertDialogOverlay,\n  AlertDialogPortal,\n  AlertDialogTitle,\n  AlertDialogTrigger,\n}\n",
+ "license": "MIT",
+ "lines": 187,
+ "style": "base-nova",
+ "dependencies": [
+  "cn"
+ ],
+ "registryDependencies": [
+  "button"
+ ],
+ "links": {
+  "docs": "https://ui.shadcn.com/docs/components/base/alert-dialog",
+  "examples": "https://ui.shadcn.com/code/apps/v4/registry/bases/base/examples/alert-dialog-example.tsx",
+  "api": "https://base-ui.com/react/components/alert-dialog.md"
+ },
+ "exports": [
+  {
+   "name": "AlertDialog",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:9"
+  },
+  {
+   "name": "AlertDialogAction",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:144"
+  },
+  {
+   "name": "AlertDialogCancel",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:157"
+  },
+  {
+   "name": "AlertDialogContent",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:41"
+  },
+  {
+   "name": "AlertDialogDescription",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:128"
+  },
+  {
+   "name": "AlertDialogFooter",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:80"
+  },
+  {
+   "name": "AlertDialogHeader",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:64"
+  },
+  {
+   "name": "AlertDialogMedia",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:96"
+  },
+  {
+   "name": "AlertDialogOverlay",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:25"
+  },
+  {
+   "name": "AlertDialogPortal",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:19"
+  },
+  {
+   "name": "AlertDialogTitle",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:112"
+  },
+  {
+   "name": "AlertDialogTrigger",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:13"
+  }
+ ],
+ "imports": [
+  "@/registry/base-nova/ui/button",
+  "@base-ui/react/alert-dialog",
+  "cn",
+  "react"
+ ],
+ "dataSlots": [
+  {
+   "name": "alert-dialog",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:10"
+  },
+  {
+   "name": "alert-dialog-action",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:150"
+  },
+  {
+   "name": "alert-dialog-cancel",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:166"
+  },
+  {
+   "name": "alert-dialog-content",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:52"
+  },
+  {
+   "name": "alert-dialog-description",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:134"
+  },
+  {
+   "name": "alert-dialog-footer",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:86"
+  },
+  {
+   "name": "alert-dialog-header",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:70"
+  },
+  {
+   "name": "alert-dialog-media",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:102"
+  },
+  {
+   "name": "alert-dialog-overlay",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:31"
+  },
+  {
+   "name": "alert-dialog-portal",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:21"
+  },
+  {
+   "name": "alert-dialog-title",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:118"
+  },
+  {
+   "name": "alert-dialog-trigger",
+   "source": "registry/base-nova/ui/alert-dialog.tsx:15"
+  }
+ ],
+ "usesCva": false,
+ "variants": {},
+ "defaultVariants": {},
+ "semanticTokens": [
+  "foreground",
+  "muted",
+  "popover"
+ ]
+}

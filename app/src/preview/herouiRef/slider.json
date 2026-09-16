@@ -1,0 +1,502 @@
+{
+ "slug": "slider",
+ "title": "Slider",
+ "description": "A slider allows a user to select one or more values within a range",
+ "group": "Controls",
+ "links": {
+  "rac": "Slider",
+  "sourceFile": "slider/slider.tsx",
+  "styles": "slider.css",
+  "storybook": "Components/Controls/Slider"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Slider } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"slider-default\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Slider, Label } from '@heroui/react';\n\nexport default () => (\n  <Slider>\n    <Label />\n    <Slider.Output />\n    <Slider.Track>\n      <Slider.Fill />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:22"
+  },
+  {
+   "name": "Examples",
+   "body": "### Disabled\n\n<ComponentPreview\n  name=\"slider-disabled\"\n/>\n\n### Range Slider Anatomy\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\nexport default () => (\n  <Slider defaultValue={[25, 75]}>\n    <Label />\n    <Slider.Output />\n    <Slider.Track>\n      {({state}) => (\n        <>\n          <Slider.Fill />\n          {state.values.map((_, i) => (\n            <Slider.Thumb key={i} index={i} />\n          ))}\n        </>\n      )}\n    </Slider.Track>\n  </Slider>\n)\n```\n\n### Vertical\n\n<ComponentPreview\n  name=\"slider-vertical\"\n/>\n\n### Range\n\n<ComponentPreview\n  name=\"slider-range\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"slider-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:39"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"slider-custom-styles\" />\n\n### Global CSS\n\nTo customize the Slider component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .slider {\n    @apply flex flex-col gap-2;\n  }\n\n  .slider__output {\n    @apply text-muted-fg text-sm;\n  }\n\n  .slider-track {\n    @apply relative h-2 w-full rounded-full bg-surface-secondary;\n  }\n\n  .slider-fill {\n    @apply absolute h-full rounded-full bg-accent;\n  }\n\n  .slider-thumb {\n    @apply size-4 rounded-full bg-accent border-2 border-background;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:88"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Slider component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/slider.css)):\n\n#### Base Classes [!toc]\n- `.slider` - Base slider container\n- `.slider__output` - Output element displaying current value(s)\n- `.slider-track` - Track element containing fill and thumbs\n- `.slider-fill` - Fill element showing selected range\n- `.slider-thumb` - Individual thumb element\n\n#### State Classes [!toc]\n- `.slider[data-disabled=\"true\"]` - Disabled slider state\n- `.slider[data-orientation=\"vertical\"]` - Vertical orientation\n- `.slider-thumb[data-dragging=\"true\"]` - Thumb being dragged\n- `.slider-thumb[data-focus-visible=\"true\"]` - Thumb keyboard focused\n- `.slider-thumb[data-disabled=\"true\"]` - Disabled thumb state\n- `.slider-track[data-fill-start=\"true\"]` - Fill starts at beginning\n- `.slider-track[data-fill-end=\"true\"]` - Fill ends at end\n\n### Interactive States\n\nThe component supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` on thumb\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` on thumb\n- **Dragging**: `[data-dragging=\"true\"]` on thumb\n- **Disabled**: `:disabled` or `[data-disabled=\"true\"]` on slider or thumb",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:123"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Slider\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `number \\| number[]` | - | The current value (controlled) |\n| `defaultValue` | `number \\| number[]` | - | The default value (uncontrolled) |\n| `onChange` | `(value: number \\| number[]) => void` | - | Handler called when the value changes |\n| `onChangeEnd` | `(value: number \\| number[]) => void` | - | Handler called when dragging ends |\n| `minValue` | `number` | `0` | The slider's minimum value |\n| `maxValue` | `number` | `100` | The slider's maximum value |\n| `step` | `number` | `1` | The slider's step value |\n| `formatOptions` | `Intl.NumberFormatOptions` | - | The display format of the value label |\n| `orientation` | `\"horizontal\" \\| \"vertical\"` | `\"horizontal\"` | The orientation of the slider |\n| `isDisabled` | `boolean` | - | Whether the slider is disabled |\n| `aria-label` | `string` | - | Accessibility label for the slider |\n| `aria-labelledby` | `string` | - | ID of element that labels the slider |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Slider content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Slider.Output\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Output content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderOutputRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Slider.Track\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Track content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderTrackRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Slider.Fill\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `style` | `CSSProperties` | - | Inline styles |\n\n### Slider.Thumb\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `index` | `number` | `0` | Index of the thumb within the slider |\n| `isDisabled` | `boolean` | - | Whether this thumb is disabled |\n| `name` | `string` | - | The name of the input element, used when submitting an HTML form |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| RenderFunction` | - | Thumb content or render function |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderThumbRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Render Props\n\nWhen using render functions with Slider.Output or Slider.Track, these values are provided:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `state` | `SliderState` | The state of the slider |\n| `values` | `number[]` | Values managed by the slider by thumb index |\n| `getThumbValueLabel` | `(index: number) => string` | Returns the string label for the specified thumb's value |\n| `orientation` | `\"horizontal\" \\| \"vertical\"` | The orientation of the slider |\n| `isDisabled` | `boolean` | Whether the slider is disabled |",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:156"
+  },
+  {
+   "name": "Examples",
+   "body": "### Basic Usage\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\n<Slider defaultValue={30}>\n  <Label>Volume</Label>\n  <Slider.Output />\n  <Slider.Track>\n    <Slider.Fill />\n    <Slider.Thumb />\n  </Slider.Track>\n</Slider>\n```\n\n### Range Slider\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\n<Slider\n  defaultValue={[100, 500]}\n  formatOptions={{style: \"currency\", currency: \"USD\"}}\n  maxValue={1000}\n  minValue={0}\n  step={50}\n>\n  <Label>Price Range</Label>\n  <Slider.Output />\n  <Slider.Track>\n    {({state}) => (\n      <>\n        <Slider.Fill />\n        {state.values.map((_, i) => (\n          <Slider.Thumb key={i} index={i} />\n        ))}\n      </>\n    )}\n  </Slider.Track>\n</Slider>\n```\n\n### Controlled Value\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\nimport { useState } from 'react';\n\nfunction ControlledSlider() {\n  const [value, setValue] = useState(25);\n\n  return (\n    <>\n      <Slider value={value} onChange={setValue}>\n        <Label>Volume</Label>\n        <Slider.Output />\n        <Slider.Track>\n          <Slider.Fill />\n          <Slider.Thumb />\n        </Slider.Track>\n      </Slider>\n      <p>Current value: {value}</p>\n    </>\n  );\n}\n```\n\n### Custom Value Formatting\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\n<Slider\n  defaultValue={60}\n  formatOptions={{style: \"currency\", currency: \"USD\"}}\n>\n  <Label>Price</Label>\n  <Slider.Output />\n  <Slider.Track>\n    <Slider.Fill />\n    <Slider.Thumb />\n  </Slider.Track>\n</Slider>\n```\n\n### Vertical Orientation\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\n<Slider defaultValue={30} orientation=\"vertical\" aria-label=\"Volume\">\n  <Label>Volume</Label>\n  <Slider.Output />\n  <Slider.Track>\n    <Slider.Fill />\n    <Slider.Thumb />\n  </Slider.Track>\n</Slider>\n```\n\n### Custom Output Display\n\n```tsx\nimport { Slider, Label } from '@heroui/react';\n\n<Slider defaultValue={[25, 75]}>\n  <Label>Range</Label>\n  <Slider.Output>\n    {({state}) =>\n      state.values.map((_, i) => state.getThumbValueLabel(i)).join(' – ')\n    }\n  </Slider.Output>\n  <Slider.Track>\n    {({state}) => (\n      <>\n        <Slider.Fill />\n        {state.values.map((_, i) => (\n          <Slider.Thumb key={i} index={i} />\n        ))}\n      </>\n    )}\n  </Slider.Track>\n</Slider>\n```",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:224"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The Slider component implements the ARIA slider pattern and provides:\n\n- Full keyboard navigation support (Arrow keys, Home, End, Page Up/Down)\n- Screen reader announcements for value changes\n- Proper focus management\n- Support for disabled states\n- HTML form integration via hidden input elements\n- Internationalization support with locale-aware value formatting\n- Right-to-left (RTL) language support\n\nFor more information, see the [React Aria Slider documentation](https://react-spectrum.adobe.com/react-aria/Slider.html).",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:351"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"slider\" />",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:365"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "slider-default",
+   "source": "apps/docs/src/demos/en/slider/default.tsx",
+   "code": "import {Label, Slider} from \"@heroui/react\";\n\nexport function Default() {\n  return (\n    <Slider className=\"w-full max-w-xs\" defaultValue={30}>\n      <Label>Volume</Label>\n      <Slider.Output />\n      <Slider.Track>\n        <Slider.Fill />\n        <Slider.Thumb />\n      </Slider.Track>\n    </Slider>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "slider-disabled",
+   "source": "apps/docs/src/demos/en/slider/disabled.tsx",
+   "code": "import {Label, Slider} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <Slider isDisabled className=\"w-full max-w-xs\" defaultValue={30}>\n      <Label>Volume</Label>\n      <Slider.Output />\n      <Slider.Track>\n        <Slider.Fill />\n        <Slider.Thumb />\n      </Slider.Track>\n    </Slider>\n  );\n}\n"
+  },
+  {
+   "name": "Vertical",
+   "section": "Examples",
+   "key": "slider-vertical",
+   "source": "apps/docs/src/demos/en/slider/vertical.tsx",
+   "code": "import {Label, Slider} from \"@heroui/react\";\n\nexport function Vertical() {\n  return (\n    <div className=\"flex h-64 items-center justify-center\">\n      <Slider className=\"h-full\" defaultValue={30} orientation=\"vertical\">\n        <Label>Volume</Label>\n        <Slider.Output />\n        <Slider.Track>\n          <Slider.Fill />\n          <Slider.Thumb />\n        </Slider.Track>\n      </Slider>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Range",
+   "section": "Examples",
+   "key": "slider-range",
+   "source": "apps/docs/src/demos/en/slider/range.tsx",
+   "code": "\"use client\";\n\nimport {Label, Slider} from \"@heroui/react\";\n\nexport function Range() {\n  return (\n    <Slider\n      className=\"w-full max-w-xs\"\n      defaultValue={[100, 500]}\n      formatOptions={{currency: \"USD\", style: \"currency\"}}\n      maxValue={1000}\n      minValue={0}\n      step={50}\n    >\n      <Label>Price Range</Label>\n      <Slider.Output />\n      <Slider.Track>\n        {({state}) => (\n          <>\n            <Slider.Fill />\n            {state.values.map((_, i) => (\n              <Slider.Thumb key={i} index={i} />\n            ))}\n          </>\n        )}\n      </Slider.Track>\n    </Slider>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "slider-render-function",
+   "source": "apps/docs/src/demos/en/slider/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Label, Slider} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <Slider\n      className=\"w-full max-w-xs\"\n      defaultValue={30}\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>Volume</Label>\n      <Slider.Output />\n      <Slider.Track>\n        <Slider.Fill />\n        <Slider.Thumb />\n      </Slider.Track>\n    </Slider>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "slider-custom-styles",
+   "source": "apps/docs/src/demos/en/slider/custom-styles.tsx",
+   "code": "import {Label, Slider} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <Slider className=\"w-full max-w-xs\" defaultValue={40}>\n      <Label className=\"font-medium text-foreground\">Brightness</Label>\n      <Slider.Output className=\"text-xs text-muted tabular-nums\" />\n      <Slider.Track className=\"bg-default\">\n        <Slider.Fill className=\"bg-accent\" />\n        <Slider.Thumb className=\"bg-accent after:bg-accent-foreground\" />\n      </Slider.Track>\n    </Slider>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Slider",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`number | number[]`",
+     "-",
+     "The current value (controlled)",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:162"
+    ],
+    [
+     "`defaultValue`",
+     "`number | number[]`",
+     "-",
+     "The default value (uncontrolled)",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:163"
+    ],
+    [
+     "`onChange`",
+     "`(value: number | number[]) => void`",
+     "-",
+     "Handler called when the value changes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:164"
+    ],
+    [
+     "`onChangeEnd`",
+     "`(value: number | number[]) => void`",
+     "-",
+     "Handler called when dragging ends",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:165"
+    ],
+    [
+     "`minValue`",
+     "`number`",
+     "`0`",
+     "The slider's minimum value",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:166"
+    ],
+    [
+     "`maxValue`",
+     "`number`",
+     "`100`",
+     "The slider's maximum value",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:167"
+    ],
+    [
+     "`step`",
+     "`number`",
+     "`1`",
+     "The slider's step value",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:168"
+    ],
+    [
+     "`formatOptions`",
+     "`Intl.NumberFormatOptions`",
+     "-",
+     "The display format of the value label",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:169"
+    ],
+    [
+     "`orientation`",
+     "`\"horizontal\" | \"vertical\"`",
+     "`\"horizontal\"`",
+     "The orientation of the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:170"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the slider is disabled",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:171"
+    ],
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label for the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:172"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of element that labels the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:173"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:174"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Slider content or render function",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:175"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:176"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:158",
+   "section": "API Reference"
+  },
+  {
+   "name": "Slider.Output",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:182"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Output content or render function",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:183"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderOutputRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:184"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:178",
+   "section": "API Reference"
+  },
+  {
+   "name": "Slider.Track",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:190"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Track content or render function",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:191"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderTrackRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:192"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:186",
+   "section": "API Reference"
+  },
+  {
+   "name": "Slider.Fill",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:198"
+    ],
+    [
+     "`style`",
+     "`CSSProperties`",
+     "-",
+     "Inline styles",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:199"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:194",
+   "section": "API Reference"
+  },
+  {
+   "name": "Slider.Thumb",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`index`",
+     "`number`",
+     "`0`",
+     "Index of the thumb within the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:205"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether this thumb is disabled",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:206"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "The name of the input element, used when submitting an HTML form",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:207"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:208"
+    ],
+    [
+     "`children`",
+     "`ReactNode | RenderFunction`",
+     "-",
+     "Thumb content or render function",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:209"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderThumbRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:210"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`state`",
+     "`SliderState`",
+     "The state of the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:218"
+    ],
+    [
+     "`values`",
+     "`number[]`",
+     "Values managed by the slider by thumb index",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:219"
+    ],
+    [
+     "`getThumbValueLabel`",
+     "`(index: number) => string`",
+     "Returns the string label for the specified thumb's value",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:220"
+    ],
+    [
+     "`orientation`",
+     "`\"horizontal\" | \"vertical\"`",
+     "The orientation of the slider",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:221"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the slider is disabled",
+     "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:222"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:212",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "`\"horizontal\"`",
+   "owner": "Slider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:170"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Slider",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:175"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Slider.Output",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:183"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Slider.Track",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:191"
+  },
+  {
+   "name": "`children`",
+   "prop": "children",
+   "values": [
+    "ReactNode",
+    "RenderFunction"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Slider.Thumb",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:209"
+  },
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "—",
+   "owner": "Render Props",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(controls)/slider.mdx:221"
+  }
+ ]
+}

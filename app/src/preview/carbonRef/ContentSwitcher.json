@@ -1,0 +1,156 @@
+{
+ "slug": "ContentSwitcher",
+ "title": "Content Switcher",
+ "docs": [
+  {
+   "markdown": "import {\n  Story,\n  ArgTypes,\n  Canvas,\n  Meta,\n  Unstyled,\n} from '@storybook/addon-docs/blocks';\nimport { ContentSwitcher } from '../ContentSwitcher';\nimport Switch from '../Switch';\nimport * as ContentSwitcherStories from './ContentSwitcher.stories.js';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Content Switcher\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ContentSwitcher)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/content-switcher/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/content-switcher/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Icon Only](#icon-only)\n- [Icon Only With Layer](#icon-only-with-layer)\n- [With Layer](#with-layer)\n- [Component API](#component-api)\n  - [ContentSwitcher `className`](#contentswitcher-classname)\n  - [ContentSwitcher `light`](#contentswitcher-light)\n  - [ContentSwitcher `onChange`](#contentswitcher-onchange)\n  - [ContentSwitcher `selectedIndex`](#contentswitcher-selectedindex)\n  - [ContentSwitcher `selectionMode`](#contentswitcher-selectionmode)\n  - [Switch `className`](#switch-classname)\n  - [Switch `disabled`](#switch-disabled)\n  - [Switch `index`, `name` and `text`](#switch-index-name-and-text)\n- [References](#references)\n  - [Accessibility concerns](#accessibility-concerns)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nContent switchers allow users to toggle between two or more content sections\nwithin the same space on screen. Only one content section is shown at a time.\nCreate Switch components for each section in the content switcher.\n\n<Canvas\n  of={ContentSwitcherStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContentSwitcherStories.Default),\n    },\n  ]}\n/>\n\n## Icon Only\n\n<Canvas\n  of={ContentSwitcherStories.IconOnly}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContentSwitcherStories.IconOnly),\n    },\n  ]}\n/>\n\n## Icon Only With Layer\n\n<Canvas of={ContentSwitcherStories.IconOnlyWithLayer} />\n\n## With Layer\n\n<Canvas of={ContentSwitcherStories._WithLayer} />\n\n## Component API\n\n<ArgTypes />\n\n### ContentSwitcher `className`\n\nThe className prop passed into `ContentSwitcher` will be forwarded along to the\nunderlying wrapper `div.cds--content-switcher` element. This is useful for\nspecifying a custom class name for layout.\n\n```jsx\n<ContentSwitcher className=\"some-class\">...</ContentSwitcher>\n```\n\n### ContentSwitcher `light`\n\nIn certain circumstances, a `ContentSwitcher` will exist on a container element\nwith the same background color. To improve contrast, set the `light` property to\ntoggle the light variant of the `ContentSwitcher`.\n\n```jsx\n<ContentSwitcher light onChange={() => {}}>\n  ...\n</ContentSwitcher>\n```\n\n### ContentSwitcher `onChange`\n\nThis required prop specifies a function to run when the selection of the\n`ContentSwitcher` changes.\n\n```jsx\n<ContentSwitcher\n  onChange={() => {\n    /* Code to run on change */\n  }}>\n  ...\n</ContentSwitcher>\n```\n\n### ContentSwitcher `selectedIndex`\n\nThis prop specifies which `ContentSwitcher` index should be selected. This\nnumber defaults to `0`, and updates to this prop will update the selected\nswitch.\n\n<Unstyled style={{ padding: '1rem', background: 'var(--cds-background)' }}>\n  <ContentSwitcher selectedIndex={2} onChange={() => {}}>\n    <Switch name=\"one\" text=\"First section\" />\n    <Switch name=\"two\" text=\"Second section\" />\n    <Switch name=\"three\" text=\"Third section\" />\n  </ContentSwitcher>\n</Unstyled>\n\n```jsx\n<ContentSwitcher selectedIndex={2} onChange={() => {}}>\n  <Switch name=\"one\" text=\"First section\" />\n  <Switch name=\"two\" text=\"Second section\" />\n  <Switch name=\"three\" text=\"Third section\" />\n</ContentSwitcher>\n```\n\n### ContentSwitcher `selectionMode`\n\nBy default, when a `ContentSwitcher` is focused and an arrow key is pressed, the\nselection is updated immediately and the `onChange` is fired. In some cases, it\nis preferable to change `selectedIndex` only once a selection has been made. To\ndo this, set `selectionMode` to `manual`, and the `onChange` will only fire when\na selection is made.\n\n<Unstyled style={{ padding: '1rem', background: 'var(--cds-background)' }}>\n  <ContentSwitcher\n    selectionMode=\"manual\"\n    onChange={() => {\n      console.log('change');\n    }}>\n    <Switch name=\"one\" text=\"First section\" />\n    <Switch name=\"two\" text=\"Second section\" />\n    <Switch name=\"three\" text=\"Third section\" />\n  </ContentSwitcher>\n</Unstyled>\n\n```jsx\n<ContentSwitcher\n  selectionMode=\"manual\"\n  onChange={() => {\n    console.log('change');\n  }}>\n  <Switch name=\"one\" text=\"First section\" />\n  <Switch name=\"two\" text=\"Second section\" />\n  <Switch name=\"three\" text=\"Third section\" />\n</ContentSwitcher>\n```\n\n### Switch `className`\n\nThe className prop passed into `Switch` will be forwarded along to the\nunderlying wrapper `button` element.\n\n```jsx\n<ContentSwitcher onChange={() => {}}>\n  <Switch className=\"switch-one\" />\n  <Switch className=\"switch-two \" />\n</ContentSwitcher>\n```\n\n### Switch `disabled`\n\nThe `ContentSwitcher` can be disabled by passing `disabled` to the `Switch`\nelements directly.\n\n<Unstyled style={{ padding: '1rem', background: 'var(--cds-background)' }}>\n  <ContentSwitcher onChange={() => {}}>\n    <Switch disabled name=\"one\" text=\"First section\" />\n    <Switch disabled name=\"two\" text=\"Second section\" />\n    <Switch disabled name=\"three\" text=\"Third section\" />\n  </ContentSwitcher>\n</Unstyled>\n\n```jsx\n<ContentSwitcher onChange={() => {}}>\n  <Switch disabled name=\"one\" text=\"First section\" />\n  <Switch disabled name=\"two\" text=\"Second section\" />\n  <Switch disabled name=\"three\" text=\"Third section\" />\n</ContentSwitcher>\n```\n\n### Switch `index`, `name` and `text`\n\nThese are the values that will be returned in the `onChange` call.\n\n<Unstyled style={{ padding: '1rem', background: 'var(--cds-background)' }}>\n  <ContentSwitcher\n    onChange={(obj) => {\n      const { index, name, text } = obj;\n      alert(`index: ${index} ||  name: ${name} || text: ${text}`);\n    }}>\n    <Switch name=\"one\" text=\"First section\" />\n    <Switch name=\"two\" text=\"Second section\" />\n    <Switch name=\"three\" text=\"Third section\" />\n  </ContentSwitcher>\n</Unstyled>\n\n```jsx\n<ContentSwitcher\n  onChange={(obj) => {\n    let { index, name, text } = obj;\n    alert(`index: ${index} ||  name: ${name} || text: ${text}`);\n  }}>\n  <Switch name=\"one\" text=\"First section\" />\n  <Switch name=\"two\" text=\"Second section\" />\n  <Switch name=\"three\" text=\"Third section\" />\n</ContentSwitcher>\n```\n\n## References\n\n### Accessibility concerns\n\nEach content switcher tab must have a unique title that clearly describes the\ncontent panel. This is particularly helpful for users of assistive technologies\nso they have the necessary information to efficiently navigate the content.\n\nContent authors need to ensure the content that is added to the tab panel is\naccessible. For example, if you add an image to the panel you need to include\nalternative text to pass accessibility testing.\n\n[W3C WAI-ARIA Tab Design Pattern](https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel)\ncovers the usage of ARIA names, state and roles, as well as the expected\nkeyboard interactions.\n\n[Carbon Usage Guidelines](https://www.carbondesignsystem.com/components/content-switcher/usage/)\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions, and\nleaving any other comments on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx).\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:25"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:46"
+    },
+    {
+     "name": "Icon Only",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:62"
+    },
+    {
+     "name": "Icon Only With Layer",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:74"
+    },
+    {
+     "name": "With Layer",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:78"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:82"
+    },
+    {
+     "name": "References",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:237"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.mdx:255"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  wide\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-contentswitcher--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ContentSwitcher/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/ContentSwitcher/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = ({ disabled, ...args }) => (\n  <ContentSwitcher {...args}>\n    <Switch name=\"one\" text=\"First section\" disabled={disabled} />\n    <Switch name=\"two\" text=\"Second section\" disabled={disabled} />\n    <Switch name=\"three\" text=\"Third section\" disabled={disabled} />\n  </ContentSwitcher>\n);\n\nDefault.args = { ...sharedArgs };\nDefault.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:96"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = ({ disabled, ...args }) => (\n  <WithLayer>\n    <ContentSwitcher {...args}>\n      <Switch name=\"one\" text=\"First section\" disabled={disabled} />\n      <Switch name=\"two\" text=\"Second section\" disabled={disabled} />\n      <Switch name=\"three\" text=\"Third section\" disabled={disabled} />\n    </ContentSwitcher>\n  </WithLayer>\n);\n\n_WithLayer.args = { ...sharedArgs };\n_WithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:107"
+  },
+  {
+   "name": "IconOnly",
+   "description": null,
+   "code": "export const IconOnly = ({ disabled, ...args }) => (\n  <ContentSwitcher {...args}>\n    <IconSwitch name=\"one\" text=\"Table of Contents\" disabled={disabled}>\n      <TableOfContents />\n    </IconSwitch>\n    <IconSwitch name=\"two\" text=\"Workspace Test\" disabled={disabled}>\n      <Workspace />\n    </IconSwitch>\n    <IconSwitch name=\"three\" text=\"View Mode\" disabled={disabled}>\n      <ViewMode_2 />\n    </IconSwitch>\n  </ContentSwitcher>\n);\n\nIconOnly.args = { ...sharedArgs };\nIconOnly.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:120"
+  },
+  {
+   "name": "IconOnlyWithLayer",
+   "description": null,
+   "code": "export const IconOnlyWithLayer = ({ disabled, ...args }) => (\n  <WithLayer>\n    <ContentSwitcher {...args}>\n      <IconSwitch name=\"one\" text=\"Table of Contents\" disabled={disabled}>\n        <TableOfContents />\n      </IconSwitch>\n      <IconSwitch name=\"two\" text=\"Workspace Test\" disabled={disabled}>\n        <Workspace />\n      </IconSwitch>\n      <IconSwitch name=\"three\" text=\"View Mode\" disabled={disabled}>\n        <ViewMode_2 />\n      </IconSwitch>\n    </ContentSwitcher>\n  </WithLayer>\n);\n\nIconOnlyWithLayer.args = { ...sharedArgs };\nIconOnlyWithLayer.argTypes = { ...sharedArgTypes };\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:137"
+  },
+  {
+   "name": "lowContrast",
+   "description": null,
+   "code": "export const lowContrast = ({ disabled, ...args }) => (\n  <ContentSwitcher {...args}>\n    <Switch name=\"one\" text=\"First section\" disabled={disabled} />\n    <Switch name=\"two\" text=\"Second section\" disabled={disabled} />\n    <Switch name=\"three\" text=\"Third section\" disabled={disabled} />\n  </ContentSwitcher>\n);\n\nlowContrast.args = {\n  ...sharedArgs,\n  lowContrast: true,\n};\nlowContrast.argTypes = {\n  ...sharedArgTypes,\n  lowContrast: {\n    ...sharedArgTypes.lowContrast,\n    table: {\n      ...sharedArgTypes.lowContrast.table,\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:156"
+  },
+  {
+   "name": "lowContrastIconOnly",
+   "description": null,
+   "code": "export const lowContrastIconOnly = ({ disabled, ...args }) => (\n  <ContentSwitcher {...args}>\n    <IconSwitch name=\"one\" text=\"Table of Contents\" disabled={disabled}>\n      <TableOfContents />\n    </IconSwitch>\n    <IconSwitch name=\"two\" text=\"Workspace Test\" disabled={disabled}>\n      <Workspace />\n    </IconSwitch>\n    <IconSwitch name=\"three\" text=\"View Mode\" disabled={disabled}>\n      <ViewMode_2 />\n    </IconSwitch>\n  </ContentSwitcher>\n);\n\nlowContrastIconOnly.args = {\n  ...sharedArgs,\n  lowContrast: true,\n};\nlowContrastIconOnly.argTypes = {\n  ...sharedArgTypes,\n  lowContrast: {\n    ...sharedArgTypes.lowContrast,\n    table: {\n      ...sharedArgTypes.lowContrast.table,\n      readonly: true,\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.stories.js:179"
+  }
+ ],
+ "props": {
+  "name": "ContentSwitcher.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "children",
+    "PropTypes.node",
+    "Pass in Switch components to be rendered in the ContentSwitcher",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:219"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Specify an optional className to be added to the container node",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:224"
+   ],
+   [
+    "light",
+    "deprecate(",
+    "`true` to use the light variant.",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:229"
+   ],
+   [
+    "lowContrast",
+    "PropTypes.bool",
+    "`true` to use the low contrast version.",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:238"
+   ],
+   [
+    "onChange",
+    "PropTypes.func.isRequired",
+    "Specify an `onChange` handler that is called whenever the ContentSwitcher changes which item is selected",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:244"
+   ],
+   [
+    "selectedIndex",
+    "PropTypes.number",
+    "Specify a selected index for the initially selected content",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:249"
+   ],
+   [
+    "selectionMode",
+    "PropTypes.oneOf(['automatic', 'manual'])",
+    "Choose whether or not to automatically change selection on focus when left/right arrow pressed. Defaults to 'automatic'",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:254"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['sm', 'md', 'lg'])",
+    "Specify the size of the Content Switcher. Currently supports either `sm`, `md` (default) or `lg` as an option.",
+    "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx:259"
+   ]
+  ],
+  "source": "packages/react/src/components/ContentSwitcher/ContentSwitcher.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "use-overlay-stack",
+  "title": "useOverlayStack",
+  "kind": "guide",
+  "source": "node_modules/@blueprintjs/core/src/hooks/overlays/use-overlay-stack.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: useOverlayStack\n---\n\n# useOverlayStack\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Internal API</h5>\n\nThis hook is mainly intended to be an internal Blueprint API used by the **Overlay2** component.\nIts usage outside of `@blueprintjs/` packages is not fully supported.\n\n</div>\n\nThe `useOverlayStack()` hook allows Blueprint components to interact with the global overlay stack\nin an application. Compared to the deprecated [**Overlay**](#core/components/overlay) component,\nthis hook avoids storing global state at the JS module level.\n\n## Usage\n\nFirst, make sure [**OverlaysProvider**](#core/context/overlays-provider) is configured correctly at\nthe root of your React application.\n\nThen, use the hook to interact with the global overlay stack:\n\n```tsx\nimport { OverlayInstance, OverlayProps, Portal, useOverlayStack, usePrevious } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nexport function Example(props: OverlayProps) {\n    const { autoFocus, children, enforceFocus, hasBackdrop, isOpen, usePortal } = props;\n    const { openOverlay, closeOverlay } = useOverlayStack();\n\n    const containerElement = React.useRef<HTMLDivElement>(null);\n\n    const bringFocusInsideOverlay = React.useCallback(() => {\n        // TODO: implement\n    }, []);\n\n    const handleDocumentFocus = React.useCallback((e: FocusEvent) => {\n        // TODO: implement\n    }, []);\n\n    const id = React.useId();\n    const instance = React.useMemo<OverlayInstance>(\n        () => ({\n            bringFocusInsideOverlay,\n            containerElement,\n            handleDocumentFocus,\n            id,\n            props: {\n                autoFocus,\n                enforceFocus,\n                hasBackdrop,\n                usePortal,\n            },\n        }),\n        [autoFocus, bringFocusInsideOverlay, enforceFocus, handleDocumentFocus, hasBackdrop, id, usePortal],\n    );\n\n    const prevIsOpen = usePrevious(isOpen) ?? false;\n    React.useEffect(() => {\n        if (!prevIsOpen && isOpen) {\n            // just opened\n            openOverlay(instance);\n        }\n\n        if (prevIsOpen && !isOpen) {\n            // just closed\n            closeOverlay(instance);\n        }\n    }, [isOpen, openOverlay, closeOverlay, prevIsOpen, instance]);\n\n    // run once on unmount\n    React.useEffect(() => {\n        return () => {\n            if (isOpen) {\n                closeOverlay(instance);\n            }\n        };\n        // eslint-disable-next-line react-hooks/exhaustive-deps\n    }, []);\n\n    return usePortal ? <Portal>{children}</Portal> : children;\n}\n```\n",
+  "lines": 87,
+  "frontMatter": {
+    "title": "useOverlayStack"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "useOverlayStack",
+      "at": 32,
+      "source": "node_modules/@blueprintjs/core/src/hooks/overlays/use-overlay-stack.mdx:5",
+      "name": "useOverlayStack"
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 629,
+      "source": "node_modules/@blueprintjs/core/src/hooks/overlays/use-overlay-stack.mdx:19",
+      "name": "Usage"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "tsx",
+      "code": "import { OverlayInstance, OverlayProps, Portal, useOverlayStack, usePrevious } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nexport function Example(props: OverlayProps) {\n    const { autoFocus, children, enforceFocus, hasBackdrop, isOpen, usePortal } = props;\n    const { openOverlay, closeOverlay } = useOverlayStack();\n\n    const containerElement = React.useRef<HTMLDivElement>(null);\n\n    const bringFocusInsideOverlay = React.useCallback(() => {\n        // TODO: implement\n    }, []);\n\n    const handleDocumentFocus = React.useCallback((e: FocusEvent) => {\n        // TODO: implement\n    }, []);\n\n    const id = React.useId();\n    const instance = React.useMemo<OverlayInstance>(\n        () => ({\n            bringFocusInsideOverlay,\n            containerElement,\n            handleDocumentFocus,\n            id,\n            props: {\n                autoFocus,\n                enforceFocus,\n                hasBackdrop,\n                usePortal,\n            },\n        }),\n        [autoFocus, bringFocusInsideOverlay, enforceFocus, handleDocumentFocus, hasBackdrop, id, usePortal],\n    );\n\n    const prevIsOpen = usePrevious(isOpen) ?? false;\n    React.useEffect(() => {\n        if (!prevIsOpen && isOpen) {\n            // just opened\n            openOverlay(instance);\n        }\n\n        if (prevIsOpen && !isOpen) {\n            // just closed\n            closeOverlay(instance);\n        }\n    }, [isOpen, openOverlay, closeOverlay, prevIsOpen, instance]);\n\n    // run once on unmount\n    React.useEffect(() => {\n        return () => {\n            if (isOpen) {\n                closeOverlay(instance);\n            }\n        };\n        // eslint-disable-next-line react-hooks/exhaustive-deps\n    }, []);\n\n    return usePortal ? <Portal>{children}</Portal> : children;\n}\n",
+      "at": 846,
+      "source": "node_modules/@blueprintjs/core/src/hooks/overlays/use-overlay-stack.mdx:27",
+      "name": "import { OverlayInstance, OverlayProps, Portal, useOverlayStack, usePrevious } from \"@blueprintjs/core\";"
+    }
+  ],
+  "exampleRefs": []
+}

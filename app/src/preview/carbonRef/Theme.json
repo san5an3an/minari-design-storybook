@@ -1,0 +1,91 @@
+{
+ "slug": "Theme",
+ "title": "Theme",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Story, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as ThemeStories from './Theme.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Theme\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Theme)\n\n{/* prettier-ignore-start */}\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Setting the global theme](#setting-the-global-theme)\n- [Setting an inline theme](#setting-an-inline-theme)\n- [Getting the current theme in a component](#getting-the-current-theme-in-a-component)\n- [Component API](#component-api)\n  - [Theme as](#theme-as)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n{/* prettier-ignore-end */}\n\n## Overview\n\nThe `GlobalTheme` and `Theme` components allow you to specify the theme for a\npage, or for a part of a page, respectively. `Theme` is most often used to\nimplement inline theming where you can style a portion of your page with a\nparticular theme.\n\nIn order for the styles of `Theme` to be correctly applied in your project, you\nneed to make sure that you have included `@carbon/react/scss/zone` in your Sass\nfiles by writing:\n\n```scss\n@use '@carbon/react/scss/zone';\n```\n\nYou also get this file when you import `@carbon/react` directly in your Sass.\n\n<Canvas\n  of={ThemeStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ThemeStories.Default),\n    },\n  ]}\n/>\n\n## Setting the global theme\n\nTo the set the theme for your entire project, the `GlobalTheme` component can be\nused.\n\nPlease note that in contrast to `Theme` this does not apply any styles on its\nown but rather sets the context's theme according to the value you pass to its\n`theme` prop.\n\nThis is due to the various options of applying global css custom properties\nwhich differ from application to application. Depending on your architecture you\nmay want to apply a class to the `<body>` or add a custom data attribute to your\n`<html>` element:\n\n```jsx\nimport { useEffect } from 'react';\nimport { GlobalTheme } from '@carbon/react';\n\nfunction App() {\n  const theme = 'g100'; // ← your implementation, e.g. fetching user settings\n\n  useEffect(() => {\n    document.documentElement.dataset.carbonTheme = theme;\n  }, [theme]);\n\n  return (\n    <GlobalTheme theme={theme}>\n      <YourApp />\n    </GlobalTheme>;\n  );\n}\n```\n\n```scss\n@use '@carbon/styles/scss/theme';\n@use '@carbon/styles/scss/themes';\n\n:root[data-carbon-theme='g10'] {\n  @include theme.theme(themes.$g10);\n}\n\n:root[data-carbon-theme='g100'] {\n  @include theme.theme(themes.$g100);\n}\n```\n\nThis way, the `GlobalTheme` component is used to \"synchronize\" the state of the\napplication's context and your scss, so that other components and hooks like\nuseTheme can work properly. For this reason, the component should be used as a\nwrapper of the root of your application.\n\nBy default, the global theme is set to `white`.\n\n## Setting an inline theme\n\nUse the `Theme` component to set an inline theme for a part of the UI in your\nproject. All components that you render as `children` of `Theme` will now use\nthe design token values from that theme.\n\n```jsx\nimport { Theme } from '@carbon/react';\n\nfunction ExamplePage() {\n  return (\n    <GlobalTheme theme=\"white\">\n      <h1>Page title</h1>\n      <p>Display in the white theme</p>\n      <Theme theme=\"g100\">\n        <p>Display in the g100 theme</p>\n      </Theme>\n    <GlobalTheme>\n  );\n}\n```\n\n<Canvas of={ThemeStories.Default} />\n\n## Getting the current theme in a component\n\nThe `useTheme` hook provides the current theme for a component. This can be\nhelpful if you need to conditionally render items based on the current theme.\n\n```jsx\nimport { useTheme } from '@carbon/react';\n\nfunction ExampleComponent() {\n  const { theme } = useTheme();\n\n  // Use the current theme in your component\n}\n```\n\n<Canvas of={ThemeStories.UseTheme} />\n\n## Component API\n\n<ArgTypes />\n\n### Theme as\n\nYou can configure the base element rendered by `Theme` using the `as` prop. For\nexample, if you would like the `Theme` component to render as a `section` you\ncould write the following:\n\n```jsx\n<Theme as=\"section\" theme=\"g100\">\n  <ChildComponent />\n</Theme>\n```\n\nSimilarly, you can provide any custom component to the `as` prop which the\n`Theme` component will use.\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/carbon-react/src/components/Theme/Theme.mdx).\n",
+   "source": "packages/react/src/components/Theme/Theme.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Theme/Theme.mdx:15"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Theme/Theme.mdx:29"
+    },
+    {
+     "name": "Setting the global theme",
+     "source": "packages/react/src/components/Theme/Theme.mdx:56"
+    },
+    {
+     "name": "Setting an inline theme",
+     "source": "packages/react/src/components/Theme/Theme.mdx:109"
+    },
+    {
+     "name": "Getting the current theme in a component",
+     "source": "packages/react/src/components/Theme/Theme.mdx:133"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Theme/Theme.mdx:150"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Theme/Theme.mdx:169"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-theme--default',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Theme/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Theme/docs/overview.mdx:1"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-theme--use-theme',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/Theme/docs/use-theme-overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/Theme/docs/use-theme-overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = () => {\n  return (\n    <>\n      <Theme theme=\"g100\">\n        <section className=\"theme-section\">g100</section>\n      </Theme>\n      <Theme theme=\"g90\">\n        <section className=\"theme-section\">g90</section>\n      </Theme>\n      <Theme theme=\"g10\">\n        <section className=\"theme-section\">g10</section>\n      </Theme>\n      <Theme theme=\"white\">\n        <section className=\"theme-section\">white</section>\n      </Theme>\n    </>\n  );\n};\n",
+   "source": "packages/react/src/components/Theme/Theme.stories.js:49"
+  },
+  {
+   "name": "UseTheme",
+   "description": null,
+   "code": "export const UseTheme = () => {\n  return (\n    <div>\n      <section className=\"theme-section\">\n        <ThemeText showIsDark={true} />\n      </section>\n      <Theme theme=\"g100\">\n        <section className=\"theme-section\">\n          <ThemeText showIsDark={true} />\n        </section>\n      </Theme>\n    </div>\n  );\n};\n\nUseTheme.storyName = 'useTheme';\n",
+   "source": "packages/react/src/components/Theme/Theme.stories.js:68"
+  },
+  {
+   "name": "UsePrefersDarkScheme",
+   "description": null,
+   "code": "export const UsePrefersDarkScheme = () => {\n  const prefersDark = usePrefersDarkScheme();\n\n  const theme1 = prefersDark ? 'g100' : 'white';\n  const theme2 = prefersDark ? 'white' : 'g100';\n  const theme3 = prefersDark ? 'g90' : 'g10';\n  const theme4 = prefersDark ? 'g10' : 'g90';\n\n  return (\n    <Theme theme={theme1}>\n      <section className=\"theme-section\">\n        <ThemeText showIsDark={true}>\n          usePrefersDarkScheme() is {prefersDark ? '`true`' : '`false`'}. Theme\n          set to `{theme1}`.\n        </ThemeText>\n      </section>\n      <Theme theme={theme2}>\n        <section className=\"theme-section\">\n          <ThemeText showIsDark={true}>\n            usePrefersDarkScheme() is {prefersDark ? '`true`' : '`false`'}. An\n            alternative theme set of `{theme2}`.\n          </ThemeText>\n        </section>\n      </Theme>\n      <Theme theme={theme3}>\n        <section className=\"theme-section\">\n          <ThemeText showIsDark={true}>\n            usePrefersDarkScheme() is {prefersDark ? '`true`' : '`false`'}.\n            Theme set to `{theme3}`.\n          </ThemeText>\n        </section>\n      </Theme>\n      <Theme theme={theme4}>\n        <section className=\"theme-section\">\n          <ThemeText showIsDark={true}>\n            usePrefersDarkScheme() is {prefersDark ? '`true`' : '`false`'}. An\n            alternative theme set of `{theme4}`.\n          </ThemeText>\n        </section>\n      </Theme>\n    </Theme>\n  );\n};\nUsePrefersDarkScheme.storyName = 'usePrefersDarkScheme';\n",
+   "source": "packages/react/src/components/Theme/Theme.stories.js:85"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = () => {\n  const themes = ['white', 'g10', 'g90', 'g100'];\n\n  return (\n    <VStack gap={7}>\n      {themes.map((theme) => (\n        <Theme key={theme} theme={theme}>\n          <article className=\"theme-layer-example\">\n            <header className=\"theme-layer-header\">{theme} theme</header>\n            <WithLayer>\n              <div className=\"theme-with-layer\">Content</div>\n            </WithLayer>\n          </article>\n        </Theme>\n      ))}\n    </VStack>\n  );\n};\n",
+   "source": "packages/react/src/components/Theme/Theme.stories.js:130"
+  }
+ ],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

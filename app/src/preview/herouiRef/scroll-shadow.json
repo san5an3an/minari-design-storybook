@@ -1,0 +1,208 @@
+{
+ "slug": "scroll-shadow",
+ "title": "ScrollShadow",
+ "description": "Apply visual shadows to indicate scrollable content overflow with automatic detection of scroll position.",
+ "group": "Utilities",
+ "links": {
+  "sourceFile": "scroll-shadow/scroll-shadow.tsx",
+  "styles": "scroll-shadow.css",
+  "storybook": "Components/Utilities/ScrollShadow",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { ScrollShadow } from \"@heroui/react\";\n```\n\n<ComponentPreview name=\"scroll-shadow-default\" />",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:11"
+  },
+  {
+   "name": "Examples",
+   "body": "### Orientation\n\n<ComponentPreview name=\"scroll-shadow-orientation\" />\n\n### Shadow Size\n\n<ComponentPreview name=\"scroll-shadow-size\" />\n\n### With Card\n\n<ComponentPreview name=\"scroll-shadow-with-card\" />\n\n### Hide Scroll Bar\n\n<ComponentPreview name=\"scroll-shadow-hide-scroll-bar\" />\n\n### Visibility Change\n\n<ComponentPreview name=\"scroll-shadow-visibility-change\" />",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:19"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"scroll-shadow-custom-styles\" />\n\n### Global CSS\n\nTo customize the ScrollShadow component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .scroll-shadow {\n    @apply rounded-xl border border-default-200;\n  }\n\n  .scroll-shadow--vertical {\n    @apply pr-2; /* Add padding for custom scrollbar styling */\n  }\n\n  .scroll-shadow--horizontal {\n    @apply pb-2;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:41"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe ScrollShadow component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/scroll-shadow.css)):\n\n#### Base Classes [!toc]\n\n- `.scroll-shadow` - Root container element\n\n#### Orientation Variants [!toc]\n\n- `.scroll-shadow--vertical` - Vertical scrolling (default)\n- `.scroll-shadow--horizontal` - Horizontal scrolling\n\n#### State Modifiers [!toc]\n\n- `.scroll-shadow--hide-scrollbar` - Hides native scrollbar\n\n### CSS Variables\n\nThe ScrollShadow component uses CSS variables to size the fade mask and reserve space for visible native scrollbars:\n\n| Variable                         | Default                             | Description                                                                                                      |\n| -------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |\n| `--scroll-shadow-size`           | `40px`                              | Controls the fade gradient size. This is set from the `size` prop.                                               |\n| `--scroll-shadow-scrollbar-size` | `10px` (`0px` when `hideScrollBar`) | Reserves a solid mask gutter for the native scrollbar so the fade does not cover it. Override for wider scrollbars. |\n\n### Data Attributes\n\nThe component uses data attributes to control shadow visibility:\n\n- **Scroll States**: `[data-top-scroll]`, `[data-bottom-scroll]`, `[data-left-scroll]`, `[data-right-scroll]` - Applied when content can be scrolled in that direction\n- **Combined States**: `[data-top-bottom-scroll]`, `[data-left-right-scroll]` - Applied when content can be scrolled in both directions\n- **Orientation**: `[data-orientation=\"vertical\"]` or `[data-orientation=\"horizontal\"]` - Indicates scroll direction\n- **Size**: `[data-scroll-shadow-size]` - Contains the shadow gradient size value",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:68"
+  },
+  {
+   "name": "API Reference",
+   "body": "### ScrollShadow\n\n| Prop                 | Type                                                                          | Default      | Description                                             |\n| -------------------- | ----------------------------------------------------------------------------- | ------------ | ------------------------------------------------------- |\n| `orientation`        | `\"vertical\"` \\| `\"horizontal\"`                                                | `\"vertical\"` | The scroll direction                                    |\n| `variant`            | `\"fade\"`                                                                      | `\"fade\"`     | The visual shadow effect style                          |\n| `size`               | `number`                                                                      | `40`         | The shadow gradient size in pixels                      |\n| `offset`             | `number`                                                                      | `0`          | The scroll offset before showing shadows (in pixels)    |\n| `hideScrollBar`      | `boolean`                                                                     | `false`      | Whether to hide the native scrollbar                    |\n| `isEnabled`          | `boolean`                                                                     | `true`       | Whether scroll shadow detection is enabled              |\n| `visibility`         | `\"auto\"` \\| `\"both\"` \\| `\"top\"` \\| `\"bottom\"` \\| `\"left\"` \\| `\"right\"` \\| `\"none\"` | `\"auto\"`     | Controlled shadow visibility state                      |\n| `onVisibilityChange` | `(visibility: ScrollShadowVisibility) => void`                                | -            | Callback invoked when shadow visibility changes         |\n| `className`          | `string`                                                                      | -            | Additional CSS classes to apply to the root element     |\n| `children`           | `ReactNode`                                                                   | -            | The scrollable content                                  |",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:107"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"scrollshadow\" />",
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:124"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "scroll-shadow-default",
+   "source": "apps/docs/src/demos/en/scroll-shadow/default.tsx",
+   "code": "import {ScrollShadow} from \"@heroui/react\";\n\nexport default function Default() {\n  return (\n    <div className=\"w-full p-0 sm:max-w-sm\">\n      <ScrollShadow className=\"max-h-[240px] p-4\">\n        <div className=\"space-y-4\">\n          {Array.from({length: 10}).map((_, idx) => (\n            <p key={`scroll-shadow-lorem-content-${idx}`}>\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n              risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.\n              Morbi accumsan cursus enim, sed ultricies sapien.\n            </p>\n          ))}\n        </div>\n      </ScrollShadow>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Orientation",
+   "section": "Examples",
+   "key": "scroll-shadow-orientation",
+   "source": "apps/docs/src/demos/en/scroll-shadow/orientation.tsx",
+   "code": "import {Card, ScrollShadow} from \"@heroui/react\";\n\nconst images = [\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg\",\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg\",\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg\",\n];\n\nexport default function Orientation() {\n  const getRandomImage = (idx: number) => {\n    return images[idx % images.length];\n  };\n\n  return (\n    <div className=\"w-full sm:max-w-sm\">\n      <div className=\"mb-8 w-full\">\n        <h4 className=\"mb-2 text-sm font-semibold\">Vertical</h4>\n        <Card className=\"w-full p-0\">\n          <ScrollShadow className=\"max-h-[240px] p-4\" orientation=\"vertical\">\n            <div className=\"space-y-4\">\n              {Array.from({length: 10}).map((_, idx) => (\n                <p key={`scroll-shadow-lorem-content-${idx}`}>\n                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n                  risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor\n                  quam. Morbi accumsan cursus enim, sed ultricies sapien.\n                </p>\n              ))}\n            </div>\n          </ScrollShadow>\n        </Card>\n      </div>\n\n      <div className=\"w-full\">\n        <h4 className=\"mb-2 text-sm font-semibold\">Horizontal</h4>\n        <Card className=\"w-full p-0\">\n          <ScrollShadow className=\"p-4\" orientation=\"horizontal\">\n            <div className=\"flex flex-row gap-4\">\n              {Array.from({length: 10}).map((_, idx) => (\n                <Card\n                  key={`scroll-shadow-lorem-cards-${idx}`}\n                  className=\"flex min-w-[200px] flex-row gap-3 p-1\"\n                  variant=\"transparent\"\n                >\n                  <img\n                    alt=\"Lorem Card\"\n                    className=\"aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20\"\n                    loading=\"lazy\"\n                    src={getRandomImage(idx)}\n                  />\n                  <div className=\"flex flex-1 flex-col justify-center gap-1\">\n                    <Card.Title className=\"text-sm\">Bridging the Future</Card.Title>\n                    <Card.Description className=\"text-xs\">Today, 6:30 PM</Card.Description>\n                  </div>\n                </Card>\n              ))}\n            </div>\n          </ScrollShadow>\n        </Card>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Shadow Size",
+   "section": "Examples",
+   "key": "scroll-shadow-size",
+   "source": "apps/docs/src/demos/en/scroll-shadow/size.tsx",
+   "code": "import {ScrollShadow} from \"@heroui/react\";\n\nexport default function CustomSize() {\n  return (\n    <div className=\"w-full p-0 sm:max-w-sm\">\n      <ScrollShadow className=\"max-h-[240px] p-4\" size={80}>\n        <div className=\"space-y-4\">\n          {Array.from({length: 10}).map((_, idx) => (\n            <p key={`scroll-shadow-lorem-content-${idx}`}>\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n              risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.\n              Morbi accumsan cursus enim, sed ultricies sapien.\n            </p>\n          ))}\n        </div>\n      </ScrollShadow>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Card",
+   "section": "Examples",
+   "key": "scroll-shadow-with-card",
+   "source": "apps/docs/src/demos/en/scroll-shadow/with-card.tsx",
+   "code": "import {Button, Card, ScrollShadow} from \"@heroui/react\";\n\nexport default function WithCard() {\n  return (\n    <Card className=\"max-w-[400px]\">\n      <Card.Header>\n        <Card.Title>Terms and Conditions</Card.Title>\n        <Card.Description>Please review before proceeding</Card.Description>\n      </Card.Header>\n      <Card.Content className=\"p-0\">\n        <ScrollShadow className=\"h-[300px] px-4\" size={80}>\n          <div className=\"space-y-4\">\n            {Array.from({length: 10}).map((_, idx) => (\n              <p key={`scroll-shadow-lorem-content-${idx}`}>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n                risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor\n                quam. Morbi accumsan cursus enim, sed ultricies sapien.\n              </p>\n            ))}\n          </div>\n        </ScrollShadow>\n      </Card.Content>\n      <Card.Footer className=\"mt-4 flex flex-row gap-2\">\n        <Button className=\"w-full\" variant=\"secondary\">\n          Cancel\n        </Button>\n        <Button className=\"w-full\">Accept</Button>\n      </Card.Footer>\n    </Card>\n  );\n}\n"
+  },
+  {
+   "name": "Hide Scroll Bar",
+   "section": "Examples",
+   "key": "scroll-shadow-hide-scroll-bar",
+   "source": "apps/docs/src/demos/en/scroll-shadow/hide-scroll-bar.tsx",
+   "code": "import {ScrollShadow} from \"@heroui/react\";\n\nexport default function HideScrollBar() {\n  return (\n    <div className=\"w-full p-0 sm:max-w-sm\">\n      <ScrollShadow hideScrollBar className=\"max-h-[240px] p-4\">\n        <div className=\"space-y-4\">\n          {Array.from({length: 10}).map((_, idx) => (\n            <p key={`scroll-shadow-lorem-content-${idx}`}>\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n              risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.\n              Morbi accumsan cursus enim, sed ultricies sapien.\n            </p>\n          ))}\n        </div>\n      </ScrollShadow>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Visibility Change",
+   "section": "Examples",
+   "key": "scroll-shadow-visibility-change",
+   "source": "apps/docs/src/demos/en/scroll-shadow/visibility-change.tsx",
+   "code": "\"use client\";\n\nimport type {ScrollShadowVisibility} from \"@heroui/react\";\n\nimport {Card, ScrollShadow} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nconst images = [\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/robot1.jpeg\",\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/avocado.jpeg\",\n  \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/oranges.jpeg\",\n];\n\nexport default function VisibilityChange() {\n  const [verticalState, setVerticalState] = useState<ScrollShadowVisibility>(\"none\");\n  const [horizontalState, setHorizontalState] = useState<ScrollShadowVisibility>(\"none\");\n\n  const getRandomImage = (idx: number) => {\n    return images[idx % images.length];\n  };\n\n  return (\n    <div className=\"w-full sm:max-w-sm\">\n      <div className=\"mb-8 flex flex-col gap-2\">\n        <div className=\"rounded bg-default p-4\">\n          <p className=\"text-sm font-semibold\">Vertical Shadow State: {verticalState}</p>\n        </div>\n        <div className=\"w-full\">\n          <ScrollShadow\n            className=\"max-h-[240px] p-4\"\n            orientation=\"vertical\"\n            onVisibilityChange={(visibility) => setVerticalState(visibility)}\n          >\n            <div className=\"space-y-4\">\n              {Array.from({length: 10}).map((_, idx) => (\n                <p key={`scroll-shadow-lorem-content-${idx}`}>\n                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non\n                  risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor\n                  quam. Morbi accumsan cursus enim, sed ultricies sapien.\n                </p>\n              ))}\n            </div>\n          </ScrollShadow>\n        </div>\n      </div>\n\n      <div className=\"flex flex-col gap-2\">\n        <div className=\"rounded bg-default p-4\">\n          <p className=\"text-sm font-semibold\">Horizontal Shadow State: {horizontalState}</p>\n        </div>\n        <div className=\"w-full\">\n          <ScrollShadow\n            className=\"p-4\"\n            orientation=\"horizontal\"\n            onVisibilityChange={(visibility) => setHorizontalState(visibility)}\n          >\n            <div className=\"flex flex-row gap-4\">\n              {Array.from({length: 10}).map((_, idx) => (\n                <Card\n                  key={`scroll-shadow-lorem-cards-${idx}`}\n                  className=\"flex min-w-[200px] flex-row gap-3 p-1\"\n                  variant=\"transparent\"\n                >\n                  <img\n                    alt=\"Lorem Card\"\n                    className=\"aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20\"\n                    loading=\"lazy\"\n                    src={getRandomImage(idx)}\n                  />\n                  <div className=\"flex flex-1 flex-col justify-center gap-1\">\n                    <Card.Title className=\"text-sm\">Bridging the Future</Card.Title>\n                    <Card.Description className=\"text-xs\">Today, 6:30 PM</Card.Description>\n                  </div>\n                </Card>\n              ))}\n            </div>\n          </ScrollShadow>\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "scroll-shadow-custom-styles",
+   "source": "apps/docs/src/demos/en/scroll-shadow/custom-styles.tsx",
+   "code": "import {ScrollShadow} from \"@heroui/react\";\n\nconst entries = [\n  \"Reviewed quarterly goals with the design team.\",\n  \"Shipped dark mode tokens to production.\",\n  \"Merged accessibility fixes for form fields.\",\n  \"Published updated component documentation.\",\n  \"Scheduled performance audit for next sprint.\",\n  \"Added scroll shadow demos to the docs site.\",\n];\n\nexport function CustomStyles() {\n  return (\n    <div className=\"w-full sm:max-w-sm\">\n      <ScrollShadow\n        hideScrollBar\n        className=\"max-h-48 rounded-xl border border-border/80 bg-linear-to-b from-neutral-50/90 to-white p-4 ring-1 ring-black/5 dark:from-neutral-900/80 dark:to-neutral-900 dark:ring-white/10\"\n        size={48}\n        variant=\"fade\"\n      >\n        <div className=\"space-y-3\">\n          {entries.map((entry) => (\n            <p\n              key={entry}\n              className=\"text-sm leading-relaxed text-neutral-600 dark:text-neutral-400\"\n            >\n              {entry}\n            </p>\n          ))}\n        </div>\n      </ScrollShadow>\n    </div>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "CSS Variables",
+   "columns": [
+    "Variable",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`--scroll-shadow-size`",
+     "`40px`",
+     "Controls the fade gradient size. This is set from the `size` prop.",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:95"
+    ],
+    [
+     "`--scroll-shadow-scrollbar-size`",
+     "`10px` (`0px` when `hideScrollBar`)",
+     "Reserves a solid mask gutter for the native scrollbar so the fade does not cover it. Override for wider scrollbars.",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:96"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:89",
+   "section": "Styling Reference"
+  },
+  {
+   "name": "ScrollShadow",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`orientation`",
+     "`\"vertical\"` | `\"horizontal\"`",
+     "`\"vertical\"`",
+     "The scroll direction",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:113"
+    ],
+    [
+     "`variant`",
+     "`\"fade\"`",
+     "`\"fade\"`",
+     "The visual shadow effect style",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:114"
+    ],
+    [
+     "`size`",
+     "`number`",
+     "`40`",
+     "The shadow gradient size in pixels",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:115"
+    ],
+    [
+     "`offset`",
+     "`number`",
+     "`0`",
+     "The scroll offset before showing shadows (in pixels)",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:116"
+    ],
+    [
+     "`hideScrollBar`",
+     "`boolean`",
+     "`false`",
+     "Whether to hide the native scrollbar",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:117"
+    ],
+    [
+     "`isEnabled`",
+     "`boolean`",
+     "`true`",
+     "Whether scroll shadow detection is enabled",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:118"
+    ],
+    [
+     "`visibility`",
+     "`\"auto\"` | `\"both\"` | `\"top\"` | `\"bottom\"` | `\"left\"` | `\"right\"` | `\"none\"`",
+     "`\"auto\"`",
+     "Controlled shadow visibility state",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:119"
+    ],
+    [
+     "`onVisibilityChange`",
+     "`(visibility: ScrollShadowVisibility) => void`",
+     "-",
+     "Callback invoked when shadow visibility changes",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:120"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes to apply to the root element",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:121"
+    ],
+    [
+     "`children`",
+     "`ReactNode`",
+     "-",
+     "The scrollable content",
+     "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:122"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(utilities)/scroll-shadow.mdx:109",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 1,
+ "variants": []
+}

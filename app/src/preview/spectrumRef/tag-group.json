@@ -1,0 +1,65 @@
+{
+  "slug": "tag-group",
+  "title": "TagGroup",
+  "group": "Collections",
+  "heading": "TagGroup",
+  "description": null,
+  "sharedImports": "import {Item, TagGroup} from '@react-spectrum/tag';\nimport News from '@spectrum-icons/workflow/News';\nimport Airplane from '@spectrum-icons/workflow/Airplane';\nimport Game from '@spectrum-icons/workflow/Game';\nimport ShoppingCart from '@spectrum-icons/workflow/ShoppingCart';\nimport {Text} from '@react-spectrum/text';\nimport {Avatar} from '@react-spectrum/avatar';\nimport {View} from '@react-spectrum/view';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<TagGroup aria-label=\"Static TagGroup items example\">\n  <Item>News</Item>\n  <Item>Travel</Item>\n  <Item>Gaming</Item>\n  <Item>Shopping</Item>\n</TagGroup>"
+    },
+    {
+      "name": "Content",
+      "code": "const items = [\n  {id: 1, name: 'News'},\n  {id: 2, name: 'Travel'},\n  {id: 3, name: 'Gaming'},\n  {id: 4, name: 'Shopping'}\n];\n\n<TagGroup items={items} aria-label=\"Dynamic TagGroup items example\">\n  {item => <Item>{item.name}</Item>}\n</TagGroup>"
+    },
+    {
+      "name": "Labeling",
+      "code": "<TagGroup label=\"Categories\">\n  <Item>News</Item>\n  <Item>Travel</Item>\n  <Item>Gaming</Item>\n  <Item>Shopping</Item>\n</TagGroup>"
+    },
+    {
+      "name": "onRemove",
+      "code": "function Example() {\n  let defaultItems = [\n    {id: 1, name: 'News'},\n    {id: 2, name: 'Travel'},\n    {id: 3, name: 'Gaming'},\n    {id: 4, name: 'Shopping'}\n  ];\n\n  let [items, setItems] = React.useState(defaultItems);\n\n  let onRemove = (keys) => {\n    setItems(prevItems => prevItems.filter((item) => !keys.has(item.id)));\n  };\n\n  return (\n    <TagGroup\n      items={items}\n      /*- begin highlight -*/\n      onRemove={onRemove}\n      /*- end highlight -*/\n      aria-label=\"Removable TagGroup example\">\n      {item => <Item>{item.name}</Item>}\n    </TagGroup>\n  );\n}"
+    },
+    {
+      "name": "onAction",
+      "code": "<TagGroup\n  /*- begin highlight -*/\n  actionLabel=\"Clear\"\n  onAction={() => alert('Clear action pressed.')}\n  /*- end highlight -*/\n  aria-label=\"TagGroup with action\">\n  <Item>News</Item>\n  <Item>Travel</Item>\n  <Item>Gaming</Item>\n  <Item>Shopping</Item>\n</TagGroup>"
+    },
+    {
+      "name": "Links",
+      "code": "<TagGroup label=\"Links\">\n  <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n  <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n  <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n  <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n</TagGroup>"
+    },
+    {
+      "name": "With icons",
+      "code": "<TagGroup aria-label=\"TagGroup with icons example\">\n  <Item textValue=\"News\">\n    <News />\n    <Text>News</Text>\n  </Item>\n  <Item textValue=\"Travel\">\n    <Airplane />\n    <Text>Travel</Text>\n  </Item>\n  <Item textValue=\"Gaming\">\n    <Game />\n    <Text>Gaming</Text>\n  </Item>\n  <Item textValue=\"Shopping\">\n    <ShoppingCart />\n    <Text>Shopping</Text>\n  </Item>\n</TagGroup>"
+    },
+    {
+      "name": "With avatars",
+      "code": "<TagGroup aria-label=\"TagGroup with avatars example\">\n  <Item textValue=\"Person 1\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>Person 1</Text>\n  </Item>\n  <Item textValue=\"Person 2\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>Person 2</Text>\n  </Item>\n  <Item textValue=\"Person 3\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>Person 3</Text>\n  </Item>\n  <Item textValue=\"Person 4\">\n    <Avatar src=\"https://i.imgur.com/kJOwAdv.png\" />\n    <Text>Person 4</Text>\n  </Item>\n</TagGroup>"
+    },
+    {
+      "name": "Label position and alignment",
+      "code": "<TagGroup label=\"Categories\" labelPosition=\"side\" labelAlign=\"end\">\n  <Item>News</Item>\n  <Item>Travel</Item>\n  <Item>Gaming</Item>\n  <Item>Shopping</Item>\n</TagGroup>"
+    },
+    {
+      "name": "Help text",
+      "code": "function Example() {\n  let defaultItems = [\n    {id: 1, name: 'News'},\n    {id: 2, name: 'Travel'},\n    {id: 3, name: 'Gaming'},\n    {id: 4, name: 'Shopping'}\n  ];\n\n  let [items, setItems] = React.useState(defaultItems);\n\n  let onRemove = (keys) => {\n    setItems(prevItems => prevItems.filter((item) => !keys.has(item.id)));\n  };\n\n  let isValid = items.length <= 3;\n\n  return (\n    <TagGroup\n      label=\"Categories\"\n      items={items}\n      onRemove={onRemove}\n      aria-label=\"TagGroup help text example\"\n      isInvalid={!isValid}\n      description=\"Please include tags for related categories.\"\n      errorMessage=\"Must contain no more than 3 tags. Please remove some.\"\n      >\n      {item => <Item>{item.name}</Item>}\n    </TagGroup>\n  );\n}"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<TagGroup\n  label=\"Categories\"\n  contextualHelp={\n    <ContextualHelp>\n      <Heading>What are tags?</Heading>\n      <Content>Tags allow users to categorize content.</Content>\n    </ContextualHelp>\n  }>\n  <Item>News</Item>\n  <Item>Travel</Item>\n  <Item>Gaming</Item>\n  <Item>Shopping</Item>\n</TagGroup>"
+    },
+    {
+      "name": "Limit rows",
+      "code": "<View maxWidth=\"size-3400\" minHeight=\"size-2000\" padding=\"size-150\" borderWidth=\"thin\" borderColor=\"dark\" borderRadius=\"medium\">\n  <TagGroup\n    /*- begin highlight -*/\n    maxRows={2}\n    /*- end highlight -*/\n    aria-label=\"Static TagGroup items example with maxRows set\">\n    <Item>News</Item>\n    <Item>Travel</Item>\n    <Item>Gaming</Item>\n    <Item>Shopping</Item>\n    <Item>Business</Item>\n    <Item>Entertainment</Item>\n    <Item>Food</Item>\n    <Item>Technology</Item>\n    <Item>Politics</Item>\n    <Item>Health</Item>\n    <Item>Science</Item>\n  </TagGroup>\n</View>"
+    },
+    {
+      "name": "Empty state",
+      "code": "import {Link} from '@react-spectrum/link';\n\nfunction renderEmptyState() {\n  return (\n    <span>\n      No categories. <Link><a href=\"#\">Click here</a></Link> to add some.\n    </span>\n  );\n}\n\n<TagGroup\n  label=\"Categories\"\n  renderEmptyState={renderEmptyState}>\n  {[]}\n</TagGroup>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/tag/",
+  "source": "packages/@adobe/react-spectrum/docs/tag/TagGroup.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/TagGroup.html"
+}

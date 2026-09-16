@@ -1,0 +1,578 @@
+{
+ "slug": "calendar",
+ "title": "Calendar",
+ "description": "Composable date picker with month grid, navigation, and year picker support built on React Aria Calendar",
+ "group": "Date And Time",
+ "links": {
+  "rac": "Calendar",
+  "sourceFile": "calendar/calendar.tsx",
+  "styles": "calendar.css",
+  "storybook": "Components/Date and Time/Calendar"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Calendar } from '@heroui/react';\n```\n\n<ComponentPreview name=\"calendar-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {Calendar} from '@heroui/react';\n\nexport default () => (\n  <Calendar aria-label=\"Event date\">\n    <Calendar.Header>\n      <Calendar.Heading />\n      <Calendar.NavButton slot=\"previous\" />\n      <Calendar.NavButton slot=\"next\" />\n    </Calendar.Header>\n    <Calendar.Grid>\n      <Calendar.GridHeader>\n        {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n      </Calendar.GridHeader>\n      <Calendar.GridBody>\n        {(date) => <Calendar.Cell date={date} />}\n      </Calendar.GridBody>\n    </Calendar.Grid>\n  </Calendar>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:20"
+  },
+  {
+   "name": "Examples",
+   "body": "### Disabled\n\n<ComponentPreview name=\"calendar-disabled\" />\n\n### Read Only\n\n<ComponentPreview name=\"calendar-read-only\" />\n\n### Default Value\n\n<ComponentPreview name=\"calendar-default-value\" />\n\n### Year Picker\n\n`Calendar.YearPickerTrigger`, `Calendar.YearPickerGrid`, and their body/cell subcomponents provide an integrated year navigation pattern.\n\n<ComponentPreview name=\"calendar-year-picker\" />\n\n### Controlled\n\nUse controlled `value` and `focusedValue` for external state coordination and custom shortcuts.\n\n<ComponentPreview name=\"calendar-controlled\" />\n\n### Min and Max Dates\n\n<ComponentPreview name=\"calendar-min-max-dates\" />\n\n### Unavailable Dates\n\nUse `isDateUnavailable` to block dates such as weekends, holidays, or booked slots.\n\n<ComponentPreview name=\"calendar-unavailable-dates\" />\n\n### Weeks in Month\n\nSet `weeksInMonth` to a fixed value (for example, `6`) to keep the grid height stable when navigating between months. Use with care in non-Gregorian locales, similar to `firstDayOfWeek`.\n\n<ComponentPreview name=\"calendar-weeks-in-month\" />\n\n### Week View\n\nSet `visibleDuration={{ weeks: n }}` to show one or more weeks at a time. Navigation advances by the visible week range. Use `pageBehavior=\"single\"` to move one week at a time when showing multiple weeks.\n\n<ComponentPreview name=\"calendar-week-view\" />\n\n### Day View\n\nSet `visibleDuration={{ days: n }}` to show a rolling window of consecutive days. Navigation advances by the visible day range. Use `pageBehavior=\"single\"` to move one day at a time when showing multiple days.\n\n<ComponentPreview name=\"calendar-day-view\" />\n\n### Multiple Selection\n\nSet `selectionMode=\"multiple\"` to let users select several dates. `value`, `defaultValue`, and `onChange` use an array of dates.\n\n<ComponentPreview name=\"calendar-multiple-selection\" />\n\n### Focused Value\n\nProgrammatically control which date is focused using `focusedValue` and `onFocusChange`.\n\n<ComponentPreview name=\"calendar-focused-value\" />\n\n### Cell Indicators\n\nYou can customize `Calendar.Cell` children and use `Calendar.CellIndicator` to display metadata like events.\n\n<ComponentPreview name=\"calendar-with-indicators\" />\n\n### Custom Navigation Icons\n\nPass children to `Calendar.NavButton` to replace the default chevron icons.\n\n<ComponentPreview name=\"calendar-custom-icons\" />\n\n### Multiple Months\n\nRender multiple grids with `visibleDuration` and `offset` for booking and planning experiences.\n\n<ComponentPreview name=\"calendar-multiple-months\" />\n\n### Real-World Example\n\n<ComponentPreview name=\"calendar-booking-calendar\" />\n\n### International Calendars\n\nBy default, Calendar displays dates using the calendar system for the user's locale. You can override this by wrapping your Calendar with `I18nProvider` and setting the [Unicode calendar locale extension](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar#adding_a_calendar_in_the_locale_string).\n\nThe example below shows the Indian calendar system:\n\n<ComponentPreview name=\"calendar-international-calendar\" />\n\n**Note:** The `onChange` event always returns a date in the same calendar system as the `value` or `defaultValue` (Gregorian if no value is provided), regardless of the displayed locale. This ensures your application logic works consistently with a single calendar system while still displaying dates in the user's preferred format.",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:44"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"calendar-custom-styles\" />\n\n### Global CSS\n\n```css\n@layer components {\n  .calendar {\n    @apply w-72 rounded-2xl border border-border bg-surface p-3 shadow-sm;\n  }\n\n  .calendar__heading {\n    @apply text-sm font-semibold text-default-700;\n  }\n\n  .calendar__cell[data-selected=\"true\"] {\n    @apply bg-accent text-accent-foreground;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:142"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nCalendar uses these classes in `packages/styles/components/calendar.css` and `packages/styles/components/calendar-year-picker.css`:\n\n- `.calendar` - Root container.\n- `.calendar__header` - Header row containing nav buttons and heading.\n- `.calendar__heading` - Current month label.\n- `.calendar__nav-button` - Previous/next navigation controls.\n- `.calendar__grid` - Main day grid.\n- `.calendar__grid-header` - Weekday header row wrapper.\n- `.calendar__grid-body` - Date rows wrapper.\n- `.calendar__header-cell` - Weekday header cell.\n- `.calendar__cell` - Interactive day cell.\n- `.calendar__cell-indicator` - Dot indicator inside a day cell.\n- `.calendar-year-picker__trigger` - Year picker toggle button.\n- `.calendar-year-picker__trigger-heading` - Heading text inside year picker trigger.\n- `.calendar-year-picker__trigger-indicator` - Indicator icon inside year picker trigger.\n- `.calendar-year-picker__year-grid` - Overlay grid of selectable years.\n- `.calendar-year-picker__year-cell` - Individual year option.\n\n### Interactive States\n\nCalendar supports both pseudo-classes and React Aria data attributes:\n\n- **Selected**: `[data-selected=\"true\"]`\n- **Today**: `[data-today=\"true\"]`\n- **Unavailable**: `[data-unavailable=\"true\"]`\n- **Outside month**: `[data-outside-month=\"true\"]`\n- **Hovered**: `:hover` or `[data-hovered=\"true\"]`\n- **Pressed**: `:active` or `[data-pressed=\"true\"]`\n- **Focus visible**: `:focus-visible` or `[data-focus-visible=\"true\"]`\n- **Disabled**: `:disabled` or `[data-disabled=\"true\"]`",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:166"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Calendar\n\nCalendar inherits all props from React Aria [Calendar](https://react-spectrum.adobe.com/react-aria/Calendar.html).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `selectionMode` | `'single' \\| 'multiple'` | `'single'` | Whether one or many dates can be selected. |\n| `value` | `DateValue \\| null` or `DateValue[] \\| null` | - | Controlled selected date(s). Use an array when `selectionMode` is `multiple`. |\n| `defaultValue` | `DateValue \\| null` or `DateValue[] \\| null` | - | Initial selected date(s) (uncontrolled). |\n| `onChange` | `(value: DateValue \\| null)` or `(value: DateValue[] \\| null) => void` | - | Called when selection changes. |\n| `focusedValue` | `DateValue` | - | Controlled focused date. |\n| `onFocusChange` | `(value: DateValue) => void` | - | Called when focus moves to another date. |\n| `minValue` | `DateValue` | Calendar-aware `1900-01-01` | Earliest selectable date. |\n| `maxValue` | `DateValue` | Calendar-aware `2099-12-31` | Latest selectable date. |\n| `weeksInMonth` | `number` | - | The number of weeks in a month. This overrides the default set by the locale. |\n| `isDateUnavailable` | `(date: DateValue) => boolean` | - | Marks dates as unavailable. |\n| `firstDayOfWeek` | `'sun' \\| 'mon' \\| 'tue' \\| 'wed' \\| 'thu' \\| 'fri' \\| 'sat'` | - | Overrides the locale default for the first day of the week. |\n| `pageBehavior` | `'visible' \\| 'single'` | `'visible'` | Whether paging advances by the visible duration or one unit at a time. |\n| `selectionAlignment` | `'start' \\| 'center' \\| 'end'` | `'center'` | Aligns the visible range to the selection on initial render. |\n| `isDisabled` | `boolean` | `false` | Disables interaction and selection. |\n| `isReadOnly` | `boolean` | `false` | Keeps content readable but prevents selection changes. |\n| `isInvalid` | `boolean` | `false` | Marks the calendar as invalid for validation UI. |\n| `visibleDuration` | `{months?: number; weeks?: number; days?: number}` | `{months: 1}` | Visible time range. Use `{ months: n }` for month view, `{ weeks: n }` for week view, or `{ days: n }` for day view. |\n| `defaultYearPickerOpen` | `boolean` | `false` | Initial open state of internal year picker. |\n| `isYearPickerOpen` | `boolean` | - | Controlled year picker open state. |\n| `onYearPickerOpenChange` | `(isOpen: boolean) => void` | - | Called when year picker open state changes. |\n\n### Composition Parts\n\n| Component | Description |\n|-----------|-------------|\n| `Calendar.Header` | Header container for navigation and heading. |\n| `Calendar.Heading` | Formatted heading for the visible range. Supports `offset` (for multi-month layouts) and `format` (month/year/day options). |\n| `Calendar.NavButton` | Previous/next navigation control (`slot=\\\"previous\\\"` or `slot=\\\"next\\\"`). |\n| `Calendar.Grid` | Day grid for one month (`offset` supported for multi-month layouts). |\n| `Calendar.GridHeader` | Weekday header container. |\n| `Calendar.GridBody` | Date cell body container. |\n| `Calendar.HeaderCell` | Weekday label cell. |\n| `Calendar.Cell` | Individual date cell. |\n| `Calendar.CellIndicator` | Optional indicator element for custom metadata. |\n| `Calendar.YearPickerTrigger` | Trigger to toggle year-picker mode. |\n| `Calendar.YearPickerTriggerHeading` | Localized heading content inside the year-picker trigger. |\n| `Calendar.YearPickerTriggerIndicator` | Toggle icon inside the year-picker trigger. |\n| `Calendar.YearPickerGrid` | Overlay year selection grid container. |\n| `Calendar.YearPickerGridBody` | Body renderer for year grid cells. |\n| `Calendar.YearPickerCell` | Individual year option cell. |\n\n### Year Picker Parts\n\nYear picker subcomponents inherit formatting props from React Aria [`useCalendarHeading`](https://react-aria.adobe.com/useCalendar#usecalendarheading) and [`useCalendarYearPicker`](https://react-aria.adobe.com/useCalendar#usecalendaryearpicker).\n\n| Component | Prop | Type | Default | Description |\n|-----------|------|------|---------|-------------|\n| `Calendar.YearPickerTriggerHeading` | `format` | `DateFormatterOptions` | - | Customize month/year label (e.g. `{month: 'short'}`). |\n| `Calendar.YearPickerTriggerHeading` | `offset` | `{months?: number}` | - | Shift the heading relative to the focused date (multi-month layouts). |\n| `Calendar.YearPickerGrid` | `format` | `DateFormatterOptions` | `{year: 'numeric'}` | Customize year cell labels (era, calendar system, etc.). |\n| `Calendar.YearPickerGrid` | `visibleYears` | `number` | min–max span or `20` | Number of years shown in the sliding window. Defaults to the full range between `minValue` and `maxValue` when both are set. |\n\n### Calendar.Cell Render Props\n\nWhen `Calendar.Cell` children is a function, React Aria render props are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `formattedDate` | `string` | Localized day label for the cell. |\n| `isSelected` | `boolean` | Whether the date is selected. |\n| `isUnavailable` | `boolean` | Whether the date is unavailable. |\n| `isDisabled` | `boolean` | Whether the cell is disabled. |\n| `isOutsideMonth` | `boolean` | Whether the date belongs to adjacent month. |\n\nFor a complete list of supported calendar systems and their identifiers, see:\n- [React Aria Calendar Implementations](https://react-aria.adobe.com/internationalized/date/Calendar#implementations)\n- [React Aria International Calendars](https://react-aria.adobe.com/Calendar#international-calendars)\n\n### Related packages\n- [`@internationalized/date`](https://react-aria.adobe.com/internationalized/date/) — date types (`CalendarDate`, `CalendarDateTime`, `ZonedDateTime`) and utilities used by all date components\n- [`I18nProvider`](https://react-aria.adobe.com/I18nProvider) — override locale for a subtree\n- [`useLocale`](https://react-aria.adobe.com/useLocale) — read the current locale and layout direction",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:203"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"calendar\" />",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:284"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "calendar-basic",
+   "source": "apps/docs/src/demos/en/calendar/basic.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <Calendar aria-label=\"Event date\">\n      <Calendar.Header>\n        <Calendar.Heading />\n        <Calendar.NavButton slot=\"previous\" />\n        <Calendar.NavButton slot=\"next\" />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "calendar-disabled",
+   "source": "apps/docs/src/demos/en/calendar/disabled.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Description} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar isDisabled aria-label=\"Event date\" defaultValue={today(getLocalTimeZone())}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">Calendar is disabled</Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Read Only",
+   "section": "Examples",
+   "key": "calendar-read-only",
+   "source": "apps/docs/src/demos/en/calendar/read-only.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Description} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\n\nexport function ReadOnly() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar isReadOnly aria-label=\"Event date\" defaultValue={today(getLocalTimeZone())}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">Calendar is read-only</Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Default Value",
+   "section": "Examples",
+   "key": "calendar-default-value",
+   "source": "apps/docs/src/demos/en/calendar/default-value.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\nimport {parseDate} from \"@internationalized/date\";\n\nexport function DefaultValue() {\n  return (\n    <Calendar aria-label=\"Event date\" defaultValue={parseDate(\"2025-02-14\")}>\n      <Calendar.Header>\n        <Calendar.Heading />\n        <Calendar.NavButton slot=\"previous\" />\n        <Calendar.NavButton slot=\"next\" />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Year Picker",
+   "section": "Examples",
+   "key": "calendar-year-picker",
+   "source": "apps/docs/src/demos/en/calendar/year-picker.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\n\nexport function YearPicker() {\n  return (\n    <Calendar aria-label=\"Event date\">\n      <Calendar.Header>\n        <Calendar.YearPickerTrigger>\n          <Calendar.YearPickerTriggerHeading />\n          <Calendar.YearPickerTriggerIndicator />\n        </Calendar.YearPickerTrigger>\n        <Calendar.NavButton slot=\"previous\" />\n        <Calendar.NavButton slot=\"next\" />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n      </Calendar.Grid>\n      <Calendar.YearPickerGrid>\n        <Calendar.YearPickerGridBody>\n          {({year}) => <Calendar.YearPickerCell year={year} />}\n        </Calendar.YearPickerGridBody>\n      </Calendar.YearPickerGrid>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "calendar-controlled",
+   "source": "apps/docs/src/demos/en/calendar/controlled.tsx",
+   "code": "\"use client\";\n\nimport type {CalendarDate} from \"@internationalized/date\";\n\nimport {Button, ButtonGroup, Calendar, Description} from \"@heroui/react\";\nimport {\n  getLocalTimeZone,\n  parseDate,\n  startOfMonth,\n  startOfWeek,\n  today,\n} from \"@internationalized/date\";\nimport {useState} from \"react\";\nimport {useLocale} from \"react-aria-components\";\n\nexport function Controlled() {\n  const [value, setValue] = useState<CalendarDate | null>(null);\n  const [focusedDate, setFocusedDate] = useState<CalendarDate>(parseDate(\"2025-12-25\"));\n  const {locale} = useLocale();\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <ButtonGroup fullWidth size=\"sm\" variant=\"tertiary\">\n        <Button\n          onPress={() => {\n            const todayDate = today(getLocalTimeZone());\n\n            setValue(todayDate);\n            setFocusedDate(todayDate);\n          }}\n        >\n          Today\n        </Button>\n        <Button\n          onPress={() => {\n            const nextWeekStart = startOfWeek(today(getLocalTimeZone()), locale);\n\n            setValue(nextWeekStart);\n            setFocusedDate(nextWeekStart);\n          }}\n        >\n          Week\n        </Button>\n        <Button\n          onPress={() => {\n            const nextMonthStart = startOfMonth(today(getLocalTimeZone()));\n\n            setValue(nextMonthStart);\n            setFocusedDate(nextMonthStart);\n          }}\n        >\n          Month\n        </Button>\n      </ButtonGroup>\n\n      <Calendar\n        aria-label=\"Event date\"\n        focusedValue={focusedDate}\n        value={value}\n        onChange={setValue}\n        onFocusChange={setFocusedDate}\n      >\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n\n      <Description className=\"text-center\">\n        Selected date: {value ? value.toString() : \"(none)\"}\n      </Description>\n\n      <div className=\"flex gap-2\">\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => {\n            const todayDate = today(getLocalTimeZone());\n\n            setValue(todayDate);\n            setFocusedDate(todayDate);\n          }}\n        >\n          Set Today\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => {\n            const christmasDate = parseDate(\"2025-12-25\");\n\n            setValue(christmasDate);\n            setFocusedDate(christmasDate);\n          }}\n        >\n          Set Christmas\n        </Button>\n        <Button size=\"sm\" variant=\"tertiary\" onPress={() => setValue(null)}>\n          Clear\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Min and Max Dates",
+   "section": "Examples",
+   "key": "calendar-min-max-dates",
+   "source": "apps/docs/src/demos/en/calendar/min-max-dates.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Description} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\n\nexport function MinMaxDates() {\n  const now = today(getLocalTimeZone());\n  const minDate = now;\n  const maxDate = now.add({months: 3});\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar aria-label=\"Appointment date\" maxValue={maxDate} minValue={minDate}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">\n        Select a date between today and {maxDate.toString()}\n      </Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Unavailable Dates",
+   "section": "Examples",
+   "key": "calendar-unavailable-dates",
+   "source": "apps/docs/src/demos/en/calendar/unavailable-dates.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Calendar, Description} from \"@heroui/react\";\nimport {isWeekend} from \"@internationalized/date\";\nimport {useLocale} from \"react-aria-components\";\n\nexport function UnavailableDates() {\n  const {locale} = useLocale();\n  const isDateUnavailable = (date: DateValue) => isWeekend(date, locale);\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar aria-label=\"Appointment date\" isDateUnavailable={isDateUnavailable}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">Weekends are unavailable</Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Weeks in Month",
+   "section": "Examples",
+   "key": "calendar-weeks-in-month",
+   "source": "apps/docs/src/demos/en/calendar/weeks-in-month.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Description} from \"@heroui/react\";\n\nexport function WeeksInMonth() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar aria-label=\"Event date\" weeksInMonth={6}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">\n        Always shows 6 weeks per month to avoid layout shift when navigating\n      </Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Week View",
+   "section": "Examples",
+   "key": "calendar-week-view",
+   "source": "apps/docs/src/demos/en/calendar/week-view.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Label, ListBox, Select} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nconst weekOptions = [\n  {id: \"1\", name: \"1 week\"},\n  {id: \"2\", name: \"2 weeks\"},\n  {id: \"3\", name: \"3 weeks\"},\n  {id: \"4\", name: \"4 weeks\"},\n  {id: \"5\", name: \"5 weeks\"},\n  {id: \"6\", name: \"6 weeks\"},\n  {id: \"8\", name: \"8 weeks\"},\n] as const;\n\nexport function WeekView() {\n  const [weeks, setWeeks] = useState(1);\n\n  return (\n    <div className=\"flex flex-col items-center gap-6\">\n      <Select\n        className=\"w-40\"\n        value={String(weeks)}\n        onChange={(value) => value && setWeeks(Number(value))}\n      >\n        <Label>Visible weeks</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            {weekOptions.map((option) => (\n              <ListBox.Item key={option.id} id={option.id} textValue={option.name}>\n                {option.name}\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            ))}\n          </ListBox>\n        </Select.Popover>\n      </Select>\n\n      <Calendar aria-label=\"Week view\" visibleDuration={{weeks}}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Day View",
+   "section": "Examples",
+   "key": "calendar-day-view",
+   "source": "apps/docs/src/demos/en/calendar/day-view.tsx",
+   "code": "\"use client\";\n\nimport {Calendar, Label, ListBox, Select} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nconst dayOptions = [\n  {id: \"1\", name: \"1 day\"},\n  {id: \"5\", name: \"5 days\"},\n  {id: \"7\", name: \"7 days\"},\n  {id: \"8\", name: \"8 days\"},\n  {id: \"10\", name: \"10 days\"},\n  {id: \"14\", name: \"14 days\"},\n  {id: \"21\", name: \"21 days\"},\n] as const;\n\nexport function DayView() {\n  const [days, setDays] = useState(5);\n\n  return (\n    <div className=\"flex flex-col items-center gap-6\">\n      <Select\n        className=\"w-40\"\n        value={String(days)}\n        onChange={(value) => value && setDays(Number(value))}\n      >\n        <Label>Visible days</Label>\n        <Select.Trigger>\n          <Select.Value />\n          <Select.Indicator />\n        </Select.Trigger>\n        <Select.Popover>\n          <ListBox>\n            {dayOptions.map((option) => (\n              <ListBox.Item key={option.id} id={option.id} textValue={option.name}>\n                {option.name}\n                <ListBox.ItemIndicator />\n              </ListBox.Item>\n            ))}\n          </ListBox>\n        </Select.Popover>\n      </Select>\n\n      <Calendar aria-label=\"Day view\" visibleDuration={{days}}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Multiple Selection",
+   "section": "Examples",
+   "key": "calendar-multiple-selection",
+   "source": "apps/docs/src/demos/en/calendar/multiple-selection.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Calendar, Description} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function MultipleSelection() {\n  const [value, setValue] = useState<readonly DateValue[]>([]);\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar aria-label=\"Event dates\" selectionMode=\"multiple\" value={value} onChange={setValue}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n      <Description className=\"text-center\">\n        {value?.length ? `${value.length} date(s) selected` : \"Select multiple dates\"}\n      </Description>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Focused Value",
+   "section": "Examples",
+   "key": "calendar-focused-value",
+   "source": "apps/docs/src/demos/en/calendar/focused-value.tsx",
+   "code": "\"use client\";\n\nimport type {DateValue} from \"@internationalized/date\";\n\nimport {Button, Calendar, Description} from \"@heroui/react\";\nimport {parseDate} from \"@internationalized/date\";\nimport {useState} from \"react\";\n\nexport function FocusedValue() {\n  const [focusedDate, setFocusedDate] = useState<DateValue>(parseDate(\"2025-06-15\"));\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar aria-label=\"Event date\" focusedValue={focusedDate} onFocusChange={setFocusedDate}>\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n\n      <Description className=\"text-center\">Focused: {focusedDate.toString()}</Description>\n\n      <div className=\"flex flex-wrap justify-center gap-2\">\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => setFocusedDate(parseDate(\"2025-01-01\"))}\n        >\n          Go to Jan\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => setFocusedDate(parseDate(\"2025-06-15\"))}\n        >\n          Go to Jun\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"secondary\"\n          onPress={() => setFocusedDate(parseDate(\"2025-12-25\"))}\n        >\n          Go to Christmas\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Cell Indicators",
+   "section": "Examples",
+   "key": "calendar-with-indicators",
+   "source": "apps/docs/src/demos/en/calendar/with-indicators.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\nimport {getLocalTimeZone, isToday} from \"@internationalized/date\";\n\nconst datesWithEvents = [3, 7, 12, 15, 21, 28];\n\nexport function WithIndicators() {\n  return (\n    <Calendar aria-label=\"Event date\">\n      <Calendar.Header>\n        <Calendar.Heading />\n        <Calendar.NavButton slot=\"previous\" />\n        <Calendar.NavButton slot=\"next\" />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => (\n            <Calendar.Cell date={date}>\n              {({formattedDate}) => (\n                <>\n                  {formattedDate}\n                  {(isToday(date, getLocalTimeZone()) || datesWithEvents.includes(date.day)) && (\n                    <Calendar.CellIndicator />\n                  )}\n                </>\n              )}\n            </Calendar.Cell>\n          )}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Navigation Icons",
+   "section": "Examples",
+   "key": "calendar-custom-icons",
+   "source": "apps/docs/src/demos/en/calendar/custom-icons.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\n\nexport function CustomIcons() {\n  return (\n    <Calendar aria-label=\"Event date\">\n      <Calendar.Header>\n        <Calendar.Heading />\n        <Calendar.NavButton slot=\"previous\">\n          <svg height={24} viewBox=\"0 0 24 24\" width={24} xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6l6 6z\" fill=\"currentColor\" />\n          </svg>\n        </Calendar.NavButton>\n        <Calendar.NavButton slot=\"next\">\n          <svg height={24} viewBox=\"0 0 24 24\" width={24} xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6l-6 6z\" fill=\"currentColor\" />\n          </svg>\n        </Calendar.NavButton>\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Multiple Months",
+   "section": "Examples",
+   "key": "calendar-multiple-months",
+   "source": "apps/docs/src/demos/en/calendar/multiple-months.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\n\nexport function MultipleMonths() {\n  return (\n    <Calendar\n      aria-label=\"Trip dates\"\n      className=\"@container-normal w-full max-w-none overflow-x-auto\"\n      visibleDuration={{months: 2}}\n    >\n      <div className=\"mx-auto flex w-max gap-8\">\n        <div className=\"w-64\">\n          <Calendar.Header>\n            <Calendar.NavButton slot=\"previous\" />\n            <Calendar.Heading className=\"flex-none\" />\n            <div className=\"size-6\" />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n        </div>\n        <div className=\"w-64\">\n          <Calendar.Header>\n            <div className=\"size-6\" />\n            <Calendar.Heading className=\"flex-none\" offset={{months: 1}} />\n            <Calendar.NavButton slot=\"next\" />\n          </Calendar.Header>\n          <Calendar.Grid offset={{months: 1}}>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n        </div>\n      </div>\n    </Calendar>\n  );\n}\n"
+  },
+  {
+   "name": "Real-World Example",
+   "section": "Examples",
+   "key": "calendar-booking-calendar",
+   "source": "apps/docs/src/demos/en/calendar/booking-calendar.tsx",
+   "code": "\"use client\";\n\nimport type {CalendarDate, DateValue} from \"@internationalized/date\";\n\nimport {Button, Calendar} from \"@heroui/react\";\nimport {getLocalTimeZone, isWeekend, today} from \"@internationalized/date\";\nimport {useState} from \"react\";\nimport {useLocale} from \"react-aria-components\";\n\nexport function BookingCalendar() {\n  const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);\n  const {locale} = useLocale();\n\n  const bookedDates = [5, 6, 12, 13, 14, 20];\n\n  const isDateUnavailable = (date: DateValue) => {\n    return isWeekend(date, locale) || bookedDates.includes(date.day);\n  };\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Calendar\n        aria-label=\"Booking date\"\n        isDateUnavailable={isDateUnavailable}\n        minValue={today(getLocalTimeZone())}\n        value={selectedDate}\n        onChange={setSelectedDate}\n      >\n        <Calendar.Header>\n          <Calendar.Heading />\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>\n            {(date) => (\n              <Calendar.Cell date={date}>\n                {({formattedDate, isUnavailable}) => (\n                  <>\n                    {formattedDate}\n                    {!isUnavailable &&\n                      !isWeekend(date, locale) &&\n                      bookedDates.includes(date.day) && <Calendar.CellIndicator />}\n                  </>\n                )}\n              </Calendar.Cell>\n            )}\n          </Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar>\n\n      <div className=\"flex flex-col gap-2 text-center\">\n        <div className=\"flex items-center justify-center gap-4 text-xs text-muted\">\n          <span className=\"flex items-center gap-1\">\n            <span className=\"size-2 rounded-full bg-muted\" /> Has bookings\n          </span>\n          <span className=\"flex items-center gap-1\">\n            <span className=\"size-2 rounded-full bg-default\" /> Weekend/Unavailable\n          </span>\n        </div>\n        {selectedDate ? (\n          <Button size=\"sm\" variant=\"primary\">\n            Book {selectedDate.toString()}\n          </Button>\n        ) : null}\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "International Calendars",
+   "section": "Examples",
+   "key": "calendar-international-calendar",
+   "source": "apps/docs/src/demos/en/calendar/international-calendar.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\nimport {getLocalTimeZone, today} from \"@internationalized/date\";\nimport {I18nProvider} from \"react-aria-components\";\n\nexport function InternationalCalendar() {\n  return (\n    <I18nProvider locale=\"hi-IN-u-ca-indian\">\n      <Calendar aria-label=\"Event date\" defaultValue={today(getLocalTimeZone())}>\n        <Calendar.Header>\n          <Calendar.YearPickerTrigger>\n            <Calendar.YearPickerTriggerHeading />\n            <Calendar.YearPickerTriggerIndicator />\n          </Calendar.YearPickerTrigger>\n          <Calendar.NavButton slot=\"previous\" />\n          <Calendar.NavButton slot=\"next\" />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n        </Calendar.Grid>\n        <Calendar.YearPickerGrid>\n          <Calendar.YearPickerGridBody>\n            {({year}) => <Calendar.YearPickerCell year={year} />}\n          </Calendar.YearPickerGridBody>\n        </Calendar.YearPickerGrid>\n      </Calendar>\n    </I18nProvider>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "calendar-custom-styles",
+   "source": "apps/docs/src/demos/en/calendar/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {Calendar} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <Calendar\n      aria-label=\"Custom styled calendar\"\n      className=\"w-63 rounded-2xl border border-border/80 bg-surface p-3 shadow-sm ring-1 ring-accent/5 dark:border-border/90 dark:ring-accent/10\"\n    >\n      <Calendar.Header className=\"px-0.5 pb-4\">\n        <Calendar.Heading className=\"text-sm font-medium text-foreground\" />\n        <Calendar.NavButton\n          className=\"text-accent-soft-foreground hover:bg-default hover:text-accent-soft-foreground active:scale-95\"\n          slot=\"previous\"\n        />\n        <Calendar.NavButton\n          className=\"text-accent-soft-foreground hover:bg-default hover:text-accent-soft-foreground active:scale-95\"\n          slot=\"next\"\n        />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => (\n            <Calendar.HeaderCell className=\"pb-2 text-xs font-medium text-muted\">\n              {day}\n            </Calendar.HeaderCell>\n          )}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => (\n            <Calendar.Cell\n              className=\"rounded-3xl hover:bg-default data-[hovered=true]:bg-default data-[outside-month=true]:text-muted data-[outside-month=true]:opacity-50 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[selected=true]:hover:bg-accent-hover data-[selected=true]:data-[hovered=true]:bg-accent-hover data-[selected=true]:data-[outside-month=true]:bg-default data-[today=true]:bg-accent-soft data-[today=true]:text-accent-soft-foreground data-[today=true]:hover:bg-accent-soft-hover data-[today=true]:data-[hovered=true]:bg-accent-soft-hover data-[selected=true]:data-[today=true]:bg-accent data-[selected=true]:data-[today=true]:hover:bg-accent-hover\"\n              date={date}\n            />\n          )}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Calendar",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`selectionMode`",
+     "`'single' | 'multiple'`",
+     "`'single'`",
+     "Whether one or many dates can be selected.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:211"
+    ],
+    [
+     "`value`",
+     "`DateValue | null` or `DateValue[] | null`",
+     "-",
+     "Controlled selected date(s). Use an array when `selectionMode` is `multiple`.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:212"
+    ],
+    [
+     "`defaultValue`",
+     "`DateValue | null` or `DateValue[] | null`",
+     "-",
+     "Initial selected date(s) (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:213"
+    ],
+    [
+     "`onChange`",
+     "`(value: DateValue | null)` or `(value: DateValue[] | null) => void`",
+     "-",
+     "Called when selection changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:214"
+    ],
+    [
+     "`focusedValue`",
+     "`DateValue`",
+     "-",
+     "Controlled focused date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:215"
+    ],
+    [
+     "`onFocusChange`",
+     "`(value: DateValue) => void`",
+     "-",
+     "Called when focus moves to another date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:216"
+    ],
+    [
+     "`minValue`",
+     "`DateValue`",
+     "Calendar-aware `1900-01-01`",
+     "Earliest selectable date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:217"
+    ],
+    [
+     "`maxValue`",
+     "`DateValue`",
+     "Calendar-aware `2099-12-31`",
+     "Latest selectable date.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:218"
+    ],
+    [
+     "`weeksInMonth`",
+     "`number`",
+     "-",
+     "The number of weeks in a month. This overrides the default set by the locale.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:219"
+    ],
+    [
+     "`isDateUnavailable`",
+     "`(date: DateValue) => boolean`",
+     "-",
+     "Marks dates as unavailable.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:220"
+    ],
+    [
+     "`firstDayOfWeek`",
+     "`'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'`",
+     "-",
+     "Overrides the locale default for the first day of the week.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:221"
+    ],
+    [
+     "`pageBehavior`",
+     "`'visible' | 'single'`",
+     "`'visible'`",
+     "Whether paging advances by the visible duration or one unit at a time.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:222"
+    ],
+    [
+     "`selectionAlignment`",
+     "`'start' | 'center' | 'end'`",
+     "`'center'`",
+     "Aligns the visible range to the selection on initial render.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:223"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Disables interaction and selection.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:224"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "`false`",
+     "Keeps content readable but prevents selection changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:225"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "`false`",
+     "Marks the calendar as invalid for validation UI.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:226"
+    ],
+    [
+     "`visibleDuration`",
+     "`{months?: number; weeks?: number; days?: number}`",
+     "`{months: 1}`",
+     "Visible time range. Use `{ months: n }` for month view, `{ weeks: n }` for week view, or `{ days: n }` for day view.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:227"
+    ],
+    [
+     "`defaultYearPickerOpen`",
+     "`boolean`",
+     "`false`",
+     "Initial open state of internal year picker.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:228"
+    ],
+    [
+     "`isYearPickerOpen`",
+     "`boolean`",
+     "-",
+     "Controlled year picker open state.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:229"
+    ],
+    [
+     "`onYearPickerOpenChange`",
+     "`(isOpen: boolean) => void`",
+     "-",
+     "Called when year picker open state changes.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:230"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:205",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Parts",
+   "columns": [
+    "Component",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`Calendar.Header`",
+     "Header container for navigation and heading.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:236"
+    ],
+    [
+     "`Calendar.Heading`",
+     "Formatted heading for the visible range. Supports `offset` (for multi-month layouts) and `format` (month/year/day options).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:237"
+    ],
+    [
+     "`Calendar.NavButton`",
+     "Previous/next navigation control (`slot=\\\"previous\\\"` or `slot=\\\"next\\\"`).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:238"
+    ],
+    [
+     "`Calendar.Grid`",
+     "Day grid for one month (`offset` supported for multi-month layouts).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:239"
+    ],
+    [
+     "`Calendar.GridHeader`",
+     "Weekday header container.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:240"
+    ],
+    [
+     "`Calendar.GridBody`",
+     "Date cell body container.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:241"
+    ],
+    [
+     "`Calendar.HeaderCell`",
+     "Weekday label cell.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:242"
+    ],
+    [
+     "`Calendar.Cell`",
+     "Individual date cell.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:243"
+    ],
+    [
+     "`Calendar.CellIndicator`",
+     "Optional indicator element for custom metadata.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:244"
+    ],
+    [
+     "`Calendar.YearPickerTrigger`",
+     "Trigger to toggle year-picker mode.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:245"
+    ],
+    [
+     "`Calendar.YearPickerTriggerHeading`",
+     "Localized heading content inside the year-picker trigger.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:246"
+    ],
+    [
+     "`Calendar.YearPickerTriggerIndicator`",
+     "Toggle icon inside the year-picker trigger.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:247"
+    ],
+    [
+     "`Calendar.YearPickerGrid`",
+     "Overlay year selection grid container.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:248"
+    ],
+    [
+     "`Calendar.YearPickerGridBody`",
+     "Body renderer for year grid cells.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:249"
+    ],
+    [
+     "`Calendar.YearPickerCell`",
+     "Individual year option cell.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:250"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:232",
+   "section": "API Reference"
+  },
+  {
+   "name": "Year Picker Parts",
+   "columns": [
+    "Component",
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`Calendar.YearPickerTriggerHeading`",
+     "`format`",
+     "`DateFormatterOptions`",
+     "-",
+     "Customize month/year label (e.g. `{month: 'short'}`).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:258"
+    ],
+    [
+     "`Calendar.YearPickerTriggerHeading`",
+     "`offset`",
+     "`{months?: number}`",
+     "-",
+     "Shift the heading relative to the focused date (multi-month layouts).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:259"
+    ],
+    [
+     "`Calendar.YearPickerGrid`",
+     "`format`",
+     "`DateFormatterOptions`",
+     "`{year: 'numeric'}`",
+     "Customize year cell labels (era, calendar system, etc.).",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:260"
+    ],
+    [
+     "`Calendar.YearPickerGrid`",
+     "`visibleYears`",
+     "`number`",
+     "min–max span or `20`",
+     "Number of years shown in the sliding window. Defaults to the full range between `minValue` and `maxValue` when both are set.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:261"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:252",
+   "section": "API Reference"
+  },
+  {
+   "name": "Calendar.Cell Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`formattedDate`",
+     "`string`",
+     "Localized day label for the cell.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:269"
+    ],
+    [
+     "`isSelected`",
+     "`boolean`",
+     "Whether the date is selected.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:270"
+    ],
+    [
+     "`isUnavailable`",
+     "`boolean`",
+     "Whether the date is unavailable.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:271"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the cell is disabled.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:272"
+    ],
+    [
+     "`isOutsideMonth`",
+     "`boolean`",
+     "Whether the date belongs to adjacent month.",
+     "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:273"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:263",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`selectionMode`",
+   "prop": "selectionMode",
+   "values": [
+    "single",
+    "multiple"
+   ],
+   "other": [],
+   "default": "`'single'`",
+   "owner": "Calendar",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:211"
+  },
+  {
+   "name": "`firstDayOfWeek`",
+   "prop": "firstDayOfWeek",
+   "values": [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Calendar",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:221"
+  },
+  {
+   "name": "`pageBehavior`",
+   "prop": "pageBehavior",
+   "values": [
+    "visible",
+    "single"
+   ],
+   "other": [],
+   "default": "`'visible'`",
+   "owner": "Calendar",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:222"
+  },
+  {
+   "name": "`selectionAlignment`",
+   "prop": "selectionAlignment",
+   "values": [
+    "start",
+    "center",
+    "end"
+   ],
+   "other": [],
+   "default": "`'center'`",
+   "owner": "Calendar",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(date-and-time)/calendar.mdx:223"
+  }
+ ]
+}

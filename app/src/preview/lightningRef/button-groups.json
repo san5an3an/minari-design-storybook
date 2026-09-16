@@ -1,0 +1,52 @@
+{
+ "slug": "button-groups",
+ "title": "Button Groups",
+ "docs": [
+  {
+   "repoPath": "ui/components/button-groups/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/button-groups/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/button-groups/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/button-groups/base/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/button-groups/list/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/button-groups/list/example.jsx.js",
+   "bundleExists": true
+  },
+  {
+   "repoPath": "ui/components/button-groups/row/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/button-groups/row/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/button-groups/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * Buttons in a group are surrounded by a parent with the `.slds-button-group` class, unless they are in a list (in which case they use `.slds-button-group-list`. If the last button is an icon, like the down triangle, use the `.slds-button_icon-border-filled` class when accompanying a `.slds-button_neutral` group.\n *\n * If the last button in a group needs to be wrapped in another element (for example, a drop-down trigger), add the `.slds-button_last` class to the wrapper element to create proper spacing and borders.\n *\n * #### Accessibility\n *\n * Unless you are using the list version, include the Aria role `role=\"group\"` so that assistive technologies are alerted to the grouping.\n *\n * @summary Button groups are used to bunch together buttons with similar actions\n *\n * @name button-groups\n * @base\n * @selector .slds-button-group, .slds-button-group-list, .slds-button-group-row\n * @category base\n * @type action\n * @role button\n * @support dev-ready\n * @layout responsive\n * @lwc\n */\n"
+   },
+   {
+    "source": "scss/components/button-groups/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Creates button group container\n *\n * @name base\n * @selector .slds-button-group\n * @restrict div\n * @support dev-ready\n * @variant\n */\n.slds-button-group,\n.slds-button-group-list {\n  display: inline-flex;\n\n  .slds-button {\n    border-radius: 0;\n    border-width: $border-width-thin;\n\n    &:focus {\n      z-index: $z-index-default;\n    }\n  }\n}\n\n.slds-button-group .slds-button + .slds-button,\n.slds-button-group .slds-button + .slds-button_last .slds-button,\n.slds-button-group .slds-button + .slds-button--last .slds-button,\n.slds-button-group-list li + li .slds-button {\n  margin-left: (-1 * $border-width-thin);\n}\n\n// Add space when a brand button is next to a brand icon button dropdown\n.slds-button-group .slds-button_brand + .slds-button_last .slds-button_icon-brand,\n.slds-button-group .slds-button_brand + .slds-button--last .slds-button_icon-brand,\n.slds-button-group-list li:last-child .slds-button_icon-brand {\n  box-shadow: inset 1px 0 0 var(--slds-g-color-neutral-base-100, #{$button-icon-color-border-primary});\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-outset-focus-1);\n  }\n}\n\n// These selectors must remain in long hand in order to zero out borders that we don't want on last-child buttons\n.slds-button-group-list li:first-child .slds-button,\n.slds-button-group .slds-button:first-child {\n  border-radius: $button-border-radius 0 0 $button-border-radius;\n}\n\n/**\n * @summary If the last button in the group is required to be wrapped in a div, apply this class to the div\n * @selector .slds-button_last\n * @restrict .slds-button-group div, .slds-button-group-list div\n */\n.slds-button-group .slds-button:last-child,\n.slds-button-group-list li:last-child .slds-button,\n.slds-button-group .slds-button_last .slds-button,\n.slds-button-group .slds-button--last .slds-button,\n.slds-button-group .slds-button.slds-button_last,\n.slds-button-group .slds-button.slds-button--last,\n.slds-button-group .slds-button_last .slds-button:only-child,\n.slds-button-group .slds-button--last .slds-button:only-child,\n.slds-button-group .slds-button.slds-button_last,\n.slds-button-group .slds-button.slds-button--last {\n  border-radius: 0 $button-border-radius $button-border-radius 0;\n}\n\n// The following rule must stay at the **bottom** due to the cascade\n.slds-button-group .slds-button:only-child,\n.slds-button-group-list li:only-child .slds-button {\n  border-radius: $button-border-radius;\n}\n\n// The following is a temporary fix for style encapsulation\n/**\n * @summary Explicitly style the first button in a button group\n * @selector .slds-button_first\n * @restrict .slds-button\n */\n.slds-button.slds-button_first.slds-button_first {\n  border-right: 0;\n  border-radius: $button-border-radius 0 0 $button-border-radius;\n}\n\n/**\n * @summary Explicitly style buttons in the middle (i.e., not first or last) in a button group\n * @selector .slds-button_middle\n * @restrict .slds-button\n */\n.slds-button.slds-button_middle.slds-button_middle {\n  border-radius: 0;\n  margin-left: ($border-width-thin * -1); // Prevent double borders\n}\n\n/**\n * @summary Explicitly style the last button in a button group\n * @selector .slds-button_last\n * @restrict .slds-button\n */\n.slds-button.slds-button_last.slds-button_last {\n  border-radius: 0 $button-border-radius $button-border-radius 0;\n  margin-left: ($border-width-thin * -1); // Prevent double borders when only 2 buttons exist in a button group\n}\n\n.slds-button-group + .slds-button-group,\n.slds-button-group + .slds-button-group-list,\n.slds-button-group + .slds-button,\n.slds-button-group-list + .slds-button-group-list,\n.slds-button-group-list + .slds-button-group,\n.slds-button-group-list + .slds-button {\n  margin-left: $spacing-xx-small;\n}\n\n/**\n * @summary Until all triggers can be flex this is required for groups\n */\n.slds-button-group .slds-dropdown-trigger,\n.slds-button-group-list .slds-dropdown-trigger {\n  display: inline-flex;\n}\n\n// The .slds-button--last class should be placed on the wrapper\n// of a button that's the final one in a button-group\n//\n// A bit of history:\n//\n// Button-groups were originally built to have no wrappers in their midst.\n//\n// And all buttons happily coexisted perfectly in the land of :last-child...\n// but then along came the big bad, \"Buttons in a group can come from all\n// different teams and some are wrapped to contain a dropdown, etc.\n// This code doesn't work now.\"\n//\n// There was much booing and hissing and stamping of feet.\n//\n// Then, Pragmatism reared its head and suggested, \"Hey guys, maybe we have\n// to supply a way for people to indicate when a button is the last one.\"\n//\n// We had situations where various buttons were wrapped and everyone believed\n// it was the :last-child, or no one did. So the last button had to raise its\n// hand and shout loudly, \"I am .button--last!\".\n//\n// Then there were issues where the last button could be wearing a wrap, thus\n// the class actually needed to be placed on it's cute little sweater instead.\n//\n// And the poor little button became warm indeed. And it got a little smelly.\n//\n// Sometimes Pragmatism wins and sometimes she loses. This time she won.\n//\n// The end of the story of button-groups.\n"
+   },
+   {
+    "source": "scss/components/button-groups/list/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Creates button group container for list items\n *\n * @name list\n * @selector .slds-button-group-list\n * @restrict ul\n * @support dev-ready\n * @variant\n */\n"
+   },
+   {
+    "source": "scss/components/button-groups/row/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Creates button group container that provides spacing between each button\n *\n * @name row\n * @selector .slds-button-group-row\n * @restrict div, ul\n * @support dev-ready\n * @variant\n * @lwc\n */\n.slds-button-group-row {\n  display: inline-flex;\n\n  /**\n   * @summary Each item inside of a button group row that needs spacing applied to it\n   * @selector .slds-button-group-item\n   * @restrict .slds-button-group-row li, .slds-button-group-row div\n   */\n  .slds-button-group-item + .slds-button-group-item {\n    margin-left: $spacing-xx-small;\n  }\n\n  .slds-button-group-item .slds-button {\n    margin: 0;\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/button-groups"
+ },
+ "stylingHooks": null,
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}
