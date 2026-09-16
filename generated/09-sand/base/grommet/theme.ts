@@ -102,6 +102,52 @@ export const theme: ThemeType = {
         }
       }
     }
+  },
+  "text": {
+    "xsmall": {
+      "size": "0.6875rem",
+      "height": "14px"
+    },
+    "small": {
+      "size": "0.875rem",
+      "height": "18px"
+    },
+    "medium": {
+      "size": "1rem",
+      "height": "24px"
+    },
+    "large": {
+      "size": "1.125rem",
+      "height": "27px"
+    },
+    "xlarge": {
+      "size": "1.3125rem",
+      "height": "25px"
+    },
+    "xxlarge": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "2xl": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "3xl": {
+      "size": "2.0625rem",
+      "height": "40px"
+    },
+    "4xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "5xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "6xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    }
   }
 };
 
@@ -205,6 +251,52 @@ export const darkTheme: ThemeType = {
         }
       }
     }
+  },
+  "text": {
+    "xsmall": {
+      "size": "0.6875rem",
+      "height": "14px"
+    },
+    "small": {
+      "size": "0.875rem",
+      "height": "18px"
+    },
+    "medium": {
+      "size": "1rem",
+      "height": "24px"
+    },
+    "large": {
+      "size": "1.125rem",
+      "height": "27px"
+    },
+    "xlarge": {
+      "size": "1.3125rem",
+      "height": "25px"
+    },
+    "xxlarge": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "2xl": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "3xl": {
+      "size": "2.0625rem",
+      "height": "40px"
+    },
+    "4xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "5xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "6xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    }
   }
 };
 
@@ -307,6 +399,52 @@ export const highContrastTheme: ThemeType = {
           "horizontal": "40px"
         }
       }
+    }
+  },
+  "text": {
+    "xsmall": {
+      "size": "0.6875rem",
+      "height": "14px"
+    },
+    "small": {
+      "size": "0.875rem",
+      "height": "18px"
+    },
+    "medium": {
+      "size": "1rem",
+      "height": "24px"
+    },
+    "large": {
+      "size": "1.125rem",
+      "height": "27px"
+    },
+    "xlarge": {
+      "size": "1.3125rem",
+      "height": "25px"
+    },
+    "xxlarge": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "2xl": {
+      "size": "1.5625rem",
+      "height": "30px"
+    },
+    "3xl": {
+      "size": "2.0625rem",
+      "height": "40px"
+    },
+    "4xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "5xl": {
+      "size": "2.75rem",
+      "height": "53px"
+    },
+    "6xl": {
+      "size": "2.75rem",
+      "height": "53px"
     }
   }
 };
