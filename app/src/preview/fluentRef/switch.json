@@ -1,0 +1,47 @@
+{
+  "slug": "switch",
+  "title": "Switch",
+  "group": "Components/Switch",
+  "package": "react-switch",
+  "description": "A switch represents a physical switch that allows someone to choose between two mutually exclusive options. For example, \"On/Off\" and \"Show/Hide\". Choosing an option should produce an immediate result.",
+  "bestPractices": "## Best practices\n\n### Layout\n\n- When people need to perform extra steps for changes to take effect, use a check box instead. For example, if they must click a \"Submit\", \"Next\", or \"OK\" button to apply changes, use a check box.\n\n### Content\n\n- Only replace the On/Off labels if there are more specific labels for the setting. For example, you might use Show/Hide if the setting is \"Show images\".\n- Keep descriptive text short and concise—two to four words; preferably nouns. For example, \"Focused inbox\" or \"WiFi\".",
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchDefault.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\nimport type { SwitchProps } from '@fluentui/react-components';\n\nexport const Default = (props: SwitchProps): JSXElement => <Switch label=\"This is a switch\" {...props} />;\n\nDefault.argTypes = {\n  checked: {\n    control: {\n      type: 'inline-radio',\n      options: [undefined, false, true],\n    },\n  },\n  defaultChecked: {\n    control: {\n      type: 'inline-radio',\n      options: [false, true],\n    },\n  },\n};"
+    },
+    {
+      "name": "Checked",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchChecked.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\n\nexport const Checked = (): JSXElement => {\n  const [checked, setChecked] = React.useState(true);\n  const onChange = React.useCallback(\n    (ev: React.ChangeEvent<HTMLInputElement>) => {\n      setChecked(ev.currentTarget.checked);\n    },\n    [setChecked],\n  );\n\n  return <Switch checked={checked} onChange={onChange} label={checked ? 'Checked' : 'Unchecked'} />;\n};\n\nChecked.parameters = {\n  docs: {\n    description: {\n      story:\n        'A Switch can be initially checked by passing a value to the `defaultChecked` property, or have its checked ' +\n        'value controlled via the `checked` property.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Size",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchSize.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\nimport type { SwitchProps } from '@fluentui/react-components';\n\nconst wrapperStyle: React.CSSProperties = {\n  display: 'flex',\n  flexDirection: 'column',\n};\n\nexport const Size = (props: SwitchProps): JSXElement => {\n  return (\n    <div style={wrapperStyle}>\n      <Switch label=\"Small\" size=\"small\" {...props} />\n      <Switch label=\"Medium\" size=\"medium\" {...props} />\n    </div>\n  );\n};\n\nSize.parameters = {\n  docs: {\n    description: {\n      story: 'A Switch can have different sizes.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Disabled",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchDisabled.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\n\nconst wrapperStyle: React.CSSProperties = {\n  display: 'flex',\n  flexDirection: 'column',\n};\n\nexport const Disabled = (): JSXElement => (\n  <div style={wrapperStyle}>\n    <Switch disabled label=\"Unchecked and disabled\" />\n    <Switch checked disabled label=\"Checked and disabled\" />\n    <Switch disabledFocusable label=\"Unchecked and disabled focusable\" />\n    <Switch checked disabledFocusable label=\"Checked and disabled focusable\" />\n  </div>\n);\n\nDisabled.parameters = {\n  docs: {\n    description: {\n      story: 'A Switch can be disabled.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Label",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchLabel.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\n\nconst wrapperStyle: React.CSSProperties = {\n  display: 'flex',\n  justifyContent: 'space-around',\n  width: '100%',\n};\n\nexport const Label = (): JSXElement => {\n  const [checked, setChecked] = React.useState(false);\n  const onChange = React.useCallback(\n    (ev: React.ChangeEvent<HTMLInputElement>) => {\n      setChecked(ev.currentTarget.checked);\n    },\n    [setChecked],\n  );\n  const [checked2, setChecked2] = React.useState(false);\n  const onChange2 = React.useCallback(\n    (ev: React.ChangeEvent<HTMLInputElement>) => {\n      setChecked2(ev.currentTarget.checked);\n    },\n    [setChecked2],\n  );\n  const [checked3, setChecked3] = React.useState(false);\n  const onChange3 = React.useCallback(\n    (ev: React.ChangeEvent<HTMLInputElement>) => {\n      setChecked3(ev.currentTarget.checked);\n    },\n    [setChecked3],\n  );\n\n  const checkedString = checked ? 'checked' : 'unchecked';\n  const checkedString2 = checked2 ? 'checked' : 'unchecked';\n  const checkedString3 = checked3 ? 'checked' : 'unchecked';\n\n  return (\n    <div style={wrapperStyle}>\n      <Switch\n        checked={checked}\n        label={`With label before and ${checkedString}`}\n        labelPosition=\"before\"\n        onChange={onChange}\n      />\n      <Switch\n        checked={checked2}\n        label={`With label above and ${checkedString2}`}\n        labelPosition=\"above\"\n        onChange={onChange2}\n      />\n      <Switch\n        checked={checked3}\n        label={`With label after and ${checkedString3}`}\n        labelPosition=\"after\"\n        onChange={onChange3}\n      />\n    </div>\n  );\n};\n\nLabel.parameters = {\n  docs: {\n    description: {\n      story: 'A label can be provided to the Switch and is positioned above, before or after the component.',\n    },\n  },\n};"
+    },
+    {
+      "name": "LabelWrapping",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchLabelWrapping.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\n\nexport const LabelWrapping = (): JSXElement => (\n  <Switch\n    style={{ maxWidth: '400px' }}\n    label=\"Here is an example of a Switch with a long label and it starts to wrap to a second line.\"\n  />\n);\nLabelWrapping.parameters = {\n  docs: {\n    description: {\n      story:\n        'The label will wrap if it is wider than the available space. The Switch track will stay aligned ' +\n        'to the first line of text.',\n    },\n  },\n};"
+    },
+    {
+      "name": "Required",
+      "file": "packages/react-components/react-switch/stories/src/Switch/SwitchRequired.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { Switch } from '@fluentui/react-components';\n\nexport const Required = (): JSXElement => <Switch required label=\"Required\" />;\nRequired.parameters = {\n  docs: {\n    description: {\n      story: 'When a Switch is marked as `required`, its label also gets the required styling.',\n    },\n  },\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-switch--docs"
+}
