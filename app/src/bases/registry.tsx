@@ -1127,6 +1127,350 @@ const SHADCN_INTEROP: Record<string, string> = {
   "20-berry": shadcnInteropS20Berry,
 };
 
+import blueprintInteropS01Cobalt from "../systems/css/01-cobalt/_theme-blueprint.json";
+import blueprintInteropS02Graphite from "../systems/css/02-graphite/_theme-blueprint.json";
+import blueprintInteropS03Ember from "../systems/css/03-ember/_theme-blueprint.json";
+import blueprintInteropS04Jade from "../systems/css/04-jade/_theme-blueprint.json";
+import blueprintInteropS05Plum from "../systems/css/05-plum/_theme-blueprint.json";
+import blueprintInteropS06Slate from "../systems/css/06-slate/_theme-blueprint.json";
+import blueprintInteropS07Emerald from "../systems/css/07-emerald/_theme-blueprint.json";
+import blueprintInteropS08Indigo from "../systems/css/08-indigo/_theme-blueprint.json";
+import blueprintInteropS09Sand from "../systems/css/09-sand/_theme-blueprint.json";
+import blueprintInteropS10Teal from "../systems/css/10-teal/_theme-blueprint.json";
+import blueprintInteropS11Crimson from "../systems/css/11-crimson/_theme-blueprint.json";
+import blueprintInteropS12Moss from "../systems/css/12-moss/_theme-blueprint.json";
+import blueprintInteropS13Azure from "../systems/css/13-azure/_theme-blueprint.json";
+import blueprintInteropS14Violet from "../systems/css/14-violet/_theme-blueprint.json";
+import blueprintInteropS15Rust from "../systems/css/15-rust/_theme-blueprint.json";
+import blueprintInteropS16Mint from "../systems/css/16-mint/_theme-blueprint.json";
+import blueprintInteropS17Navy from "../systems/css/17-navy/_theme-blueprint.json";
+import blueprintInteropS18Saffron from "../systems/css/18-saffron/_theme-blueprint.json";
+import blueprintInteropS19Fog from "../systems/css/19-fog/_theme-blueprint.json";
+import blueprintInteropS20Berry from "../systems/css/20-berry/_theme-blueprint.json";
+const BLUEPRINT_THEME: Record<string, string> = {
+  "01-cobalt": blueprintInteropS01Cobalt,
+  "02-graphite": blueprintInteropS02Graphite,
+  "03-ember": blueprintInteropS03Ember,
+  "04-jade": blueprintInteropS04Jade,
+  "05-plum": blueprintInteropS05Plum,
+  "06-slate": blueprintInteropS06Slate,
+  "07-emerald": blueprintInteropS07Emerald,
+  "08-indigo": blueprintInteropS08Indigo,
+  "09-sand": blueprintInteropS09Sand,
+  "10-teal": blueprintInteropS10Teal,
+  "11-crimson": blueprintInteropS11Crimson,
+  "12-moss": blueprintInteropS12Moss,
+  "13-azure": blueprintInteropS13Azure,
+  "14-violet": blueprintInteropS14Violet,
+  "15-rust": blueprintInteropS15Rust,
+  "16-mint": blueprintInteropS16Mint,
+  "17-navy": blueprintInteropS17Navy,
+  "18-saffron": blueprintInteropS18Saffron,
+  "19-fog": blueprintInteropS19Fog,
+  "20-berry": blueprintInteropS20Berry,
+};
+
+import bootstrapInteropS01Cobalt from "../systems/css/01-cobalt/_theme-bootstrap.json";
+import bootstrapInteropS02Graphite from "../systems/css/02-graphite/_theme-bootstrap.json";
+import bootstrapInteropS03Ember from "../systems/css/03-ember/_theme-bootstrap.json";
+import bootstrapInteropS04Jade from "../systems/css/04-jade/_theme-bootstrap.json";
+import bootstrapInteropS05Plum from "../systems/css/05-plum/_theme-bootstrap.json";
+import bootstrapInteropS06Slate from "../systems/css/06-slate/_theme-bootstrap.json";
+import bootstrapInteropS07Emerald from "../systems/css/07-emerald/_theme-bootstrap.json";
+import bootstrapInteropS08Indigo from "../systems/css/08-indigo/_theme-bootstrap.json";
+import bootstrapInteropS09Sand from "../systems/css/09-sand/_theme-bootstrap.json";
+import bootstrapInteropS10Teal from "../systems/css/10-teal/_theme-bootstrap.json";
+import bootstrapInteropS11Crimson from "../systems/css/11-crimson/_theme-bootstrap.json";
+import bootstrapInteropS12Moss from "../systems/css/12-moss/_theme-bootstrap.json";
+import bootstrapInteropS13Azure from "../systems/css/13-azure/_theme-bootstrap.json";
+import bootstrapInteropS14Violet from "../systems/css/14-violet/_theme-bootstrap.json";
+import bootstrapInteropS15Rust from "../systems/css/15-rust/_theme-bootstrap.json";
+import bootstrapInteropS16Mint from "../systems/css/16-mint/_theme-bootstrap.json";
+import bootstrapInteropS17Navy from "../systems/css/17-navy/_theme-bootstrap.json";
+import bootstrapInteropS18Saffron from "../systems/css/18-saffron/_theme-bootstrap.json";
+import bootstrapInteropS19Fog from "../systems/css/19-fog/_theme-bootstrap.json";
+import bootstrapInteropS20Berry from "../systems/css/20-berry/_theme-bootstrap.json";
+const BOOTSTRAP_THEME: Record<string, string> = {
+  "01-cobalt": bootstrapInteropS01Cobalt,
+  "02-graphite": bootstrapInteropS02Graphite,
+  "03-ember": bootstrapInteropS03Ember,
+  "04-jade": bootstrapInteropS04Jade,
+  "05-plum": bootstrapInteropS05Plum,
+  "06-slate": bootstrapInteropS06Slate,
+  "07-emerald": bootstrapInteropS07Emerald,
+  "08-indigo": bootstrapInteropS08Indigo,
+  "09-sand": bootstrapInteropS09Sand,
+  "10-teal": bootstrapInteropS10Teal,
+  "11-crimson": bootstrapInteropS11Crimson,
+  "12-moss": bootstrapInteropS12Moss,
+  "13-azure": bootstrapInteropS13Azure,
+  "14-violet": bootstrapInteropS14Violet,
+  "15-rust": bootstrapInteropS15Rust,
+  "16-mint": bootstrapInteropS16Mint,
+  "17-navy": bootstrapInteropS17Navy,
+  "18-saffron": bootstrapInteropS18Saffron,
+  "19-fog": bootstrapInteropS19Fog,
+  "20-berry": bootstrapInteropS20Berry,
+};
+
+import carbonInteropS01Cobalt from "../systems/css/01-cobalt/_theme-carbon.json";
+import carbonInteropS02Graphite from "../systems/css/02-graphite/_theme-carbon.json";
+import carbonInteropS03Ember from "../systems/css/03-ember/_theme-carbon.json";
+import carbonInteropS04Jade from "../systems/css/04-jade/_theme-carbon.json";
+import carbonInteropS05Plum from "../systems/css/05-plum/_theme-carbon.json";
+import carbonInteropS06Slate from "../systems/css/06-slate/_theme-carbon.json";
+import carbonInteropS07Emerald from "../systems/css/07-emerald/_theme-carbon.json";
+import carbonInteropS08Indigo from "../systems/css/08-indigo/_theme-carbon.json";
+import carbonInteropS09Sand from "../systems/css/09-sand/_theme-carbon.json";
+import carbonInteropS10Teal from "../systems/css/10-teal/_theme-carbon.json";
+import carbonInteropS11Crimson from "../systems/css/11-crimson/_theme-carbon.json";
+import carbonInteropS12Moss from "../systems/css/12-moss/_theme-carbon.json";
+import carbonInteropS13Azure from "../systems/css/13-azure/_theme-carbon.json";
+import carbonInteropS14Violet from "../systems/css/14-violet/_theme-carbon.json";
+import carbonInteropS15Rust from "../systems/css/15-rust/_theme-carbon.json";
+import carbonInteropS16Mint from "../systems/css/16-mint/_theme-carbon.json";
+import carbonInteropS17Navy from "../systems/css/17-navy/_theme-carbon.json";
+import carbonInteropS18Saffron from "../systems/css/18-saffron/_theme-carbon.json";
+import carbonInteropS19Fog from "../systems/css/19-fog/_theme-carbon.json";
+import carbonInteropS20Berry from "../systems/css/20-berry/_theme-carbon.json";
+const CARBON_THEME: Record<string, string> = {
+  "01-cobalt": carbonInteropS01Cobalt,
+  "02-graphite": carbonInteropS02Graphite,
+  "03-ember": carbonInteropS03Ember,
+  "04-jade": carbonInteropS04Jade,
+  "05-plum": carbonInteropS05Plum,
+  "06-slate": carbonInteropS06Slate,
+  "07-emerald": carbonInteropS07Emerald,
+  "08-indigo": carbonInteropS08Indigo,
+  "09-sand": carbonInteropS09Sand,
+  "10-teal": carbonInteropS10Teal,
+  "11-crimson": carbonInteropS11Crimson,
+  "12-moss": carbonInteropS12Moss,
+  "13-azure": carbonInteropS13Azure,
+  "14-violet": carbonInteropS14Violet,
+  "15-rust": carbonInteropS15Rust,
+  "16-mint": carbonInteropS16Mint,
+  "17-navy": carbonInteropS17Navy,
+  "18-saffron": carbonInteropS18Saffron,
+  "19-fog": carbonInteropS19Fog,
+  "20-berry": carbonInteropS20Berry,
+};
+
+import daisyuiInteropS01Cobalt from "../systems/css/01-cobalt/_theme-daisyui.json";
+import daisyuiInteropS02Graphite from "../systems/css/02-graphite/_theme-daisyui.json";
+import daisyuiInteropS03Ember from "../systems/css/03-ember/_theme-daisyui.json";
+import daisyuiInteropS04Jade from "../systems/css/04-jade/_theme-daisyui.json";
+import daisyuiInteropS05Plum from "../systems/css/05-plum/_theme-daisyui.json";
+import daisyuiInteropS06Slate from "../systems/css/06-slate/_theme-daisyui.json";
+import daisyuiInteropS07Emerald from "../systems/css/07-emerald/_theme-daisyui.json";
+import daisyuiInteropS08Indigo from "../systems/css/08-indigo/_theme-daisyui.json";
+import daisyuiInteropS09Sand from "../systems/css/09-sand/_theme-daisyui.json";
+import daisyuiInteropS10Teal from "../systems/css/10-teal/_theme-daisyui.json";
+import daisyuiInteropS11Crimson from "../systems/css/11-crimson/_theme-daisyui.json";
+import daisyuiInteropS12Moss from "../systems/css/12-moss/_theme-daisyui.json";
+import daisyuiInteropS13Azure from "../systems/css/13-azure/_theme-daisyui.json";
+import daisyuiInteropS14Violet from "../systems/css/14-violet/_theme-daisyui.json";
+import daisyuiInteropS15Rust from "../systems/css/15-rust/_theme-daisyui.json";
+import daisyuiInteropS16Mint from "../systems/css/16-mint/_theme-daisyui.json";
+import daisyuiInteropS17Navy from "../systems/css/17-navy/_theme-daisyui.json";
+import daisyuiInteropS18Saffron from "../systems/css/18-saffron/_theme-daisyui.json";
+import daisyuiInteropS19Fog from "../systems/css/19-fog/_theme-daisyui.json";
+import daisyuiInteropS20Berry from "../systems/css/20-berry/_theme-daisyui.json";
+const DAISYUI_THEME: Record<string, string> = {
+  "01-cobalt": daisyuiInteropS01Cobalt,
+  "02-graphite": daisyuiInteropS02Graphite,
+  "03-ember": daisyuiInteropS03Ember,
+  "04-jade": daisyuiInteropS04Jade,
+  "05-plum": daisyuiInteropS05Plum,
+  "06-slate": daisyuiInteropS06Slate,
+  "07-emerald": daisyuiInteropS07Emerald,
+  "08-indigo": daisyuiInteropS08Indigo,
+  "09-sand": daisyuiInteropS09Sand,
+  "10-teal": daisyuiInteropS10Teal,
+  "11-crimson": daisyuiInteropS11Crimson,
+  "12-moss": daisyuiInteropS12Moss,
+  "13-azure": daisyuiInteropS13Azure,
+  "14-violet": daisyuiInteropS14Violet,
+  "15-rust": daisyuiInteropS15Rust,
+  "16-mint": daisyuiInteropS16Mint,
+  "17-navy": daisyuiInteropS17Navy,
+  "18-saffron": daisyuiInteropS18Saffron,
+  "19-fog": daisyuiInteropS19Fog,
+  "20-berry": daisyuiInteropS20Berry,
+};
+
+import flowbiteInteropS01Cobalt from "../systems/css/01-cobalt/_theme-flowbite.json";
+import flowbiteInteropS02Graphite from "../systems/css/02-graphite/_theme-flowbite.json";
+import flowbiteInteropS03Ember from "../systems/css/03-ember/_theme-flowbite.json";
+import flowbiteInteropS04Jade from "../systems/css/04-jade/_theme-flowbite.json";
+import flowbiteInteropS05Plum from "../systems/css/05-plum/_theme-flowbite.json";
+import flowbiteInteropS06Slate from "../systems/css/06-slate/_theme-flowbite.json";
+import flowbiteInteropS07Emerald from "../systems/css/07-emerald/_theme-flowbite.json";
+import flowbiteInteropS08Indigo from "../systems/css/08-indigo/_theme-flowbite.json";
+import flowbiteInteropS09Sand from "../systems/css/09-sand/_theme-flowbite.json";
+import flowbiteInteropS10Teal from "../systems/css/10-teal/_theme-flowbite.json";
+import flowbiteInteropS11Crimson from "../systems/css/11-crimson/_theme-flowbite.json";
+import flowbiteInteropS12Moss from "../systems/css/12-moss/_theme-flowbite.json";
+import flowbiteInteropS13Azure from "../systems/css/13-azure/_theme-flowbite.json";
+import flowbiteInteropS14Violet from "../systems/css/14-violet/_theme-flowbite.json";
+import flowbiteInteropS15Rust from "../systems/css/15-rust/_theme-flowbite.json";
+import flowbiteInteropS16Mint from "../systems/css/16-mint/_theme-flowbite.json";
+import flowbiteInteropS17Navy from "../systems/css/17-navy/_theme-flowbite.json";
+import flowbiteInteropS18Saffron from "../systems/css/18-saffron/_theme-flowbite.json";
+import flowbiteInteropS19Fog from "../systems/css/19-fog/_theme-flowbite.json";
+import flowbiteInteropS20Berry from "../systems/css/20-berry/_theme-flowbite.json";
+const FLOWBITE_THEME: Record<string, string> = {
+  "01-cobalt": flowbiteInteropS01Cobalt,
+  "02-graphite": flowbiteInteropS02Graphite,
+  "03-ember": flowbiteInteropS03Ember,
+  "04-jade": flowbiteInteropS04Jade,
+  "05-plum": flowbiteInteropS05Plum,
+  "06-slate": flowbiteInteropS06Slate,
+  "07-emerald": flowbiteInteropS07Emerald,
+  "08-indigo": flowbiteInteropS08Indigo,
+  "09-sand": flowbiteInteropS09Sand,
+  "10-teal": flowbiteInteropS10Teal,
+  "11-crimson": flowbiteInteropS11Crimson,
+  "12-moss": flowbiteInteropS12Moss,
+  "13-azure": flowbiteInteropS13Azure,
+  "14-violet": flowbiteInteropS14Violet,
+  "15-rust": flowbiteInteropS15Rust,
+  "16-mint": flowbiteInteropS16Mint,
+  "17-navy": flowbiteInteropS17Navy,
+  "18-saffron": flowbiteInteropS18Saffron,
+  "19-fog": flowbiteInteropS19Fog,
+  "20-berry": flowbiteInteropS20Berry,
+};
+
+import herouiInteropS01Cobalt from "../systems/css/01-cobalt/_theme-heroui.json";
+import herouiInteropS02Graphite from "../systems/css/02-graphite/_theme-heroui.json";
+import herouiInteropS03Ember from "../systems/css/03-ember/_theme-heroui.json";
+import herouiInteropS04Jade from "../systems/css/04-jade/_theme-heroui.json";
+import herouiInteropS05Plum from "../systems/css/05-plum/_theme-heroui.json";
+import herouiInteropS06Slate from "../systems/css/06-slate/_theme-heroui.json";
+import herouiInteropS07Emerald from "../systems/css/07-emerald/_theme-heroui.json";
+import herouiInteropS08Indigo from "../systems/css/08-indigo/_theme-heroui.json";
+import herouiInteropS09Sand from "../systems/css/09-sand/_theme-heroui.json";
+import herouiInteropS10Teal from "../systems/css/10-teal/_theme-heroui.json";
+import herouiInteropS11Crimson from "../systems/css/11-crimson/_theme-heroui.json";
+import herouiInteropS12Moss from "../systems/css/12-moss/_theme-heroui.json";
+import herouiInteropS13Azure from "../systems/css/13-azure/_theme-heroui.json";
+import herouiInteropS14Violet from "../systems/css/14-violet/_theme-heroui.json";
+import herouiInteropS15Rust from "../systems/css/15-rust/_theme-heroui.json";
+import herouiInteropS16Mint from "../systems/css/16-mint/_theme-heroui.json";
+import herouiInteropS17Navy from "../systems/css/17-navy/_theme-heroui.json";
+import herouiInteropS18Saffron from "../systems/css/18-saffron/_theme-heroui.json";
+import herouiInteropS19Fog from "../systems/css/19-fog/_theme-heroui.json";
+import herouiInteropS20Berry from "../systems/css/20-berry/_theme-heroui.json";
+const HEROUI_THEME: Record<string, string> = {
+  "01-cobalt": herouiInteropS01Cobalt,
+  "02-graphite": herouiInteropS02Graphite,
+  "03-ember": herouiInteropS03Ember,
+  "04-jade": herouiInteropS04Jade,
+  "05-plum": herouiInteropS05Plum,
+  "06-slate": herouiInteropS06Slate,
+  "07-emerald": herouiInteropS07Emerald,
+  "08-indigo": herouiInteropS08Indigo,
+  "09-sand": herouiInteropS09Sand,
+  "10-teal": herouiInteropS10Teal,
+  "11-crimson": herouiInteropS11Crimson,
+  "12-moss": herouiInteropS12Moss,
+  "13-azure": herouiInteropS13Azure,
+  "14-violet": herouiInteropS14Violet,
+  "15-rust": herouiInteropS15Rust,
+  "16-mint": herouiInteropS16Mint,
+  "17-navy": herouiInteropS17Navy,
+  "18-saffron": herouiInteropS18Saffron,
+  "19-fog": herouiInteropS19Fog,
+  "20-berry": herouiInteropS20Berry,
+};
+
+import lightningInteropS01Cobalt from "../systems/css/01-cobalt/_theme-lightning.json";
+import lightningInteropS02Graphite from "../systems/css/02-graphite/_theme-lightning.json";
+import lightningInteropS03Ember from "../systems/css/03-ember/_theme-lightning.json";
+import lightningInteropS04Jade from "../systems/css/04-jade/_theme-lightning.json";
+import lightningInteropS05Plum from "../systems/css/05-plum/_theme-lightning.json";
+import lightningInteropS06Slate from "../systems/css/06-slate/_theme-lightning.json";
+import lightningInteropS07Emerald from "../systems/css/07-emerald/_theme-lightning.json";
+import lightningInteropS08Indigo from "../systems/css/08-indigo/_theme-lightning.json";
+import lightningInteropS09Sand from "../systems/css/09-sand/_theme-lightning.json";
+import lightningInteropS10Teal from "../systems/css/10-teal/_theme-lightning.json";
+import lightningInteropS11Crimson from "../systems/css/11-crimson/_theme-lightning.json";
+import lightningInteropS12Moss from "../systems/css/12-moss/_theme-lightning.json";
+import lightningInteropS13Azure from "../systems/css/13-azure/_theme-lightning.json";
+import lightningInteropS14Violet from "../systems/css/14-violet/_theme-lightning.json";
+import lightningInteropS15Rust from "../systems/css/15-rust/_theme-lightning.json";
+import lightningInteropS16Mint from "../systems/css/16-mint/_theme-lightning.json";
+import lightningInteropS17Navy from "../systems/css/17-navy/_theme-lightning.json";
+import lightningInteropS18Saffron from "../systems/css/18-saffron/_theme-lightning.json";
+import lightningInteropS19Fog from "../systems/css/19-fog/_theme-lightning.json";
+import lightningInteropS20Berry from "../systems/css/20-berry/_theme-lightning.json";
+const LIGHTNING_THEME: Record<string, string> = {
+  "01-cobalt": lightningInteropS01Cobalt,
+  "02-graphite": lightningInteropS02Graphite,
+  "03-ember": lightningInteropS03Ember,
+  "04-jade": lightningInteropS04Jade,
+  "05-plum": lightningInteropS05Plum,
+  "06-slate": lightningInteropS06Slate,
+  "07-emerald": lightningInteropS07Emerald,
+  "08-indigo": lightningInteropS08Indigo,
+  "09-sand": lightningInteropS09Sand,
+  "10-teal": lightningInteropS10Teal,
+  "11-crimson": lightningInteropS11Crimson,
+  "12-moss": lightningInteropS12Moss,
+  "13-azure": lightningInteropS13Azure,
+  "14-violet": lightningInteropS14Violet,
+  "15-rust": lightningInteropS15Rust,
+  "16-mint": lightningInteropS16Mint,
+  "17-navy": lightningInteropS17Navy,
+  "18-saffron": lightningInteropS18Saffron,
+  "19-fog": lightningInteropS19Fog,
+  "20-berry": lightningInteropS20Berry,
+};
+
+import primerInteropS01Cobalt from "../systems/css/01-cobalt/_theme-primer.json";
+import primerInteropS02Graphite from "../systems/css/02-graphite/_theme-primer.json";
+import primerInteropS03Ember from "../systems/css/03-ember/_theme-primer.json";
+import primerInteropS04Jade from "../systems/css/04-jade/_theme-primer.json";
+import primerInteropS05Plum from "../systems/css/05-plum/_theme-primer.json";
+import primerInteropS06Slate from "../systems/css/06-slate/_theme-primer.json";
+import primerInteropS07Emerald from "../systems/css/07-emerald/_theme-primer.json";
+import primerInteropS08Indigo from "../systems/css/08-indigo/_theme-primer.json";
+import primerInteropS09Sand from "../systems/css/09-sand/_theme-primer.json";
+import primerInteropS10Teal from "../systems/css/10-teal/_theme-primer.json";
+import primerInteropS11Crimson from "../systems/css/11-crimson/_theme-primer.json";
+import primerInteropS12Moss from "../systems/css/12-moss/_theme-primer.json";
+import primerInteropS13Azure from "../systems/css/13-azure/_theme-primer.json";
+import primerInteropS14Violet from "../systems/css/14-violet/_theme-primer.json";
+import primerInteropS15Rust from "../systems/css/15-rust/_theme-primer.json";
+import primerInteropS16Mint from "../systems/css/16-mint/_theme-primer.json";
+import primerInteropS17Navy from "../systems/css/17-navy/_theme-primer.json";
+import primerInteropS18Saffron from "../systems/css/18-saffron/_theme-primer.json";
+import primerInteropS19Fog from "../systems/css/19-fog/_theme-primer.json";
+import primerInteropS20Berry from "../systems/css/20-berry/_theme-primer.json";
+const PRIMER_THEME: Record<string, string> = {
+  "01-cobalt": primerInteropS01Cobalt,
+  "02-graphite": primerInteropS02Graphite,
+  "03-ember": primerInteropS03Ember,
+  "04-jade": primerInteropS04Jade,
+  "05-plum": primerInteropS05Plum,
+  "06-slate": primerInteropS06Slate,
+  "07-emerald": primerInteropS07Emerald,
+  "08-indigo": primerInteropS08Indigo,
+  "09-sand": primerInteropS09Sand,
+  "10-teal": primerInteropS10Teal,
+  "11-crimson": primerInteropS11Crimson,
+  "12-moss": primerInteropS12Moss,
+  "13-azure": primerInteropS13Azure,
+  "14-violet": primerInteropS14Violet,
+  "15-rust": primerInteropS15Rust,
+  "16-mint": primerInteropS16Mint,
+  "17-navy": primerInteropS17Navy,
+  "18-saffron": primerInteropS18Saffron,
+  "19-fog": primerInteropS19Fog,
+  "20-berry": primerInteropS20Berry,
+};
+
 // 베이스 공급자가 받는 props. mode는 필수
 export interface BaseProviderProps { slug: string; mode: Mode; children: ReactNode }
 
@@ -1169,6 +1513,21 @@ function antdProvider({ slug, mode, children }: BaseProviderProps) {
   );
 }
 
+// 래퍼 불필요. blueprint는 CSS 변수만 맞으면 렌더링, mode 미참조
+function blueprintProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. bootstrap은 CSS 변수만 맞으면 렌더링, mode 미참조
+function bootstrapProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. carbon은 CSS 변수만 맞으면 렌더링, mode 미참조
+function carbonProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
 // 색, 모드 조합마다 system 캐싱. 매번 생성 시 스타일 전체 재계산
 const CHAKRA_SYSTEM: Record<string, ReturnType<typeof createSystem>> = {};
 function chakraSystem(slug: string, mode: Mode) {
@@ -1177,6 +1536,41 @@ function chakraSystem(slug: string, mode: Mode) {
 }
 function chakraProvider({ slug, mode, children }: BaseProviderProps) {
   return <ChakraProvider value={chakraSystem(slug, mode)}>{children}</ChakraProvider>;
+}
+
+// 래퍼 불필요. cloudscape는 아직 색 채널 없음
+function cloudscapeProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. daisyui는 CSS 변수 기반이라 mode 참조가 필요 없음
+function daisyuiProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. flowbite는 CSS 변수 기반이라 mode 참조가 필요 없음
+function flowbiteProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. fluent는 아직 색 통로 없음
+function fluentProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. grommet은 아직 색 통로 없음
+function grommetProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. heroui는 CSS 변수 기반이라 mode 참조가 필요 없음
+function herouiProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. lightning은 CSS 변수 기반이라 mode 참조가 필요 없음
+function lightningProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
 }
 
 // forceColorScheme으로 밝기 고정, 안 하면 다크 규칙이 다시 얹힐 수 있음
@@ -1200,8 +1594,23 @@ function muiProvider({ slug, mode, children }: BaseProviderProps) {
   );
 }
 
+// 래퍼 불필요. primer는 CSS 변수 기반이라 mode 참조가 필요 없음
+function primerProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. primereact는 아직 색 통로 없음
+function primereactProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
 // 래퍼 불필요. CSS 변수만 맞으면 정상 렌더링. mode는 안 읽음
 function shadcnProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
+// 래퍼 불필요. spectrum은 아직 색 통로 없음
+function spectrumProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
 
@@ -1218,12 +1627,82 @@ export const BASES: Record<string, BaseDefinition> = {
     Provider: antdProvider,
     css:  => "",
   },
+  blueprint: {
+    key: "blueprint",
+    title: "Blueprint",
+    impl: {  },
+    Provider: blueprintProvider,
+    css: (slug: string) => BLUEPRINT_THEME[slug] ?? "",
+  },
+  bootstrap: {
+    key: "bootstrap",
+    title: "React Bootstrap",
+    impl: {  },
+    Provider: bootstrapProvider,
+    css: (slug: string) => BOOTSTRAP_THEME[slug] ?? "",
+  },
+  carbon: {
+    key: "carbon",
+    title: "Carbon",
+    impl: {  },
+    Provider: carbonProvider,
+    css: (slug: string) => CARBON_THEME[slug] ?? "",
+  },
   chakra: {
     key: "chakra",
     title: "Chakra UI",
     impl: { button: ChakraButton as ComponentImpl, dialog: ChakraDialog as ComponentImpl },
     Provider: chakraProvider,
     css:  => "",
+  },
+  cloudscape: {
+    key: "cloudscape",
+    title: "Cloudscape",
+    impl: {  },
+    Provider: cloudscapeProvider,
+    css:  => "",
+  },
+  daisyui: {
+    key: "daisyui",
+    title: "daisyUI",
+    impl: {  },
+    Provider: daisyuiProvider,
+    css: (slug: string) => DAISYUI_THEME[slug] ?? "",
+  },
+  flowbite: {
+    key: "flowbite",
+    title: "Flowbite React",
+    impl: {  },
+    Provider: flowbiteProvider,
+    css: (slug: string) => FLOWBITE_THEME[slug] ?? "",
+  },
+  fluent: {
+    key: "fluent",
+    title: "Fluent UI",
+    impl: {  },
+    Provider: fluentProvider,
+    css:  => "",
+  },
+  grommet: {
+    key: "grommet",
+    title: "Grommet",
+    impl: {  },
+    Provider: grommetProvider,
+    css:  => "",
+  },
+  heroui: {
+    key: "heroui",
+    title: "HeroUI",
+    impl: {  },
+    Provider: herouiProvider,
+    css: (slug: string) => HEROUI_THEME[slug] ?? "",
+  },
+  lightning: {
+    key: "lightning",
+    title: "Lightning",
+    impl: {  },
+    Provider: lightningProvider,
+    css: (slug: string) => LIGHTNING_THEME[slug] ?? "",
   },
   mantine: {
     key: "mantine",
@@ -1239,12 +1718,33 @@ export const BASES: Record<string, BaseDefinition> = {
     Provider: muiProvider,
     css:  => "",
   },
+  primer: {
+    key: "primer",
+    title: "Primer",
+    impl: {  },
+    Provider: primerProvider,
+    css: (slug: string) => PRIMER_THEME[slug] ?? "",
+  },
+  primereact: {
+    key: "primereact",
+    title: "PrimeReact",
+    impl: {  },
+    Provider: primereactProvider,
+    css:  => "",
+  },
   shadcn: {
     key: "shadcn",
     title: "shadcn/ui",
     impl: { accordion: ShadcnAccordion as ComponentImpl, alert: ShadcnAlert as ComponentImpl, alertdialog: ShadcnAlertdialog as ComponentImpl, aspectratio: ShadcnAspectratio as ComponentImpl, attachment: ShadcnAttachment as ComponentImpl, avatar: ShadcnAvatar as ComponentImpl, badge: ShadcnBadge as ComponentImpl, banner: ShadcnBanner as ComponentImpl, breadcrumb: ShadcnBreadcrumb as ComponentImpl, bubble: ShadcnBubble as ComponentImpl, button: ShadcnButton as ComponentImpl, calendar: ShadcnCalendar as ComponentImpl, card: ShadcnCard as ComponentImpl, carousel: ShadcnCarousel as ComponentImpl, chart: ShadcnChart as ComponentImpl, checkbox: ShadcnCheckbox as ComponentImpl, collapsible: ShadcnCollapsible as ComponentImpl, combobox: ShadcnCombobox as ComponentImpl, command: ShadcnCommand as ComponentImpl, contextmenu: ShadcnContextmenu as ComponentImpl, datatable: ShadcnDatatable as ComponentImpl, datepicker: ShadcnDatepicker as ComponentImpl, dialog: ShadcnDialog as ComponentImpl, divider: ShadcnDivider as ComponentImpl, drawer: ShadcnDrawer as ComponentImpl, empty: ShadcnEmpty as ComponentImpl, field: ShadcnField as ComponentImpl, hovercard: ShadcnHovercard as ComponentImpl, input: ShadcnInput as ComponentImpl, inputgroup: ShadcnInputgroup as ComponentImpl, inputotp: ShadcnInputotp as ComponentImpl, kbd: ShadcnKbd as ComponentImpl, label: ShadcnLabel as ComponentImpl, link: ShadcnLink as ComponentImpl, listrow: ShadcnListrow as ComponentImpl, marker: ShadcnMarker as ComponentImpl, menu: ShadcnMenu as ComponentImpl, menubar: ShadcnMenubar as ComponentImpl, message: ShadcnMessage as ComponentImpl, messagescroller: ShadcnMessagescroller as ComponentImpl, nativeselect: ShadcnNativeselect as ComponentImpl, navigationmenu: ShadcnNavigationmenu as ComponentImpl, pageheader: ShadcnPageheader as ComponentImpl, pagination: ShadcnPagination as ComponentImpl, popover: ShadcnPopover as ComponentImpl, progress: ShadcnProgress as ComponentImpl, prose: ShadcnProse as ComponentImpl, questionnaire: ShadcnQuestionnaire as ComponentImpl, radio: ShadcnRadio as ComponentImpl, resizable: ShadcnResizable as ComponentImpl, scrollarea: ShadcnScrollarea as ComponentImpl, segmented: ShadcnSegmented as ComponentImpl, select: ShadcnSelect as ComponentImpl, sheet: ShadcnSheet as ComponentImpl, sidebar: ShadcnSidebar as ComponentImpl, skeleton: ShadcnSkeleton as ComponentImpl, slider: ShadcnSlider as ComponentImpl, spinner: ShadcnSpinner as ComponentImpl, stages: ShadcnStages as ComponentImpl, stepper: ShadcnStepper as ComponentImpl, switch: ShadcnSwitch as ComponentImpl, table: ShadcnTable as ComponentImpl, tabs: ShadcnTabs as ComponentImpl, toast: ShadcnToast as ComponentImpl, toggle: ShadcnToggle as ComponentImpl, toolbar: ShadcnToolbar as ComponentImpl, tooltip: ShadcnTooltip as ComponentImpl },
     Provider: shadcnProvider,
     css: (slug: string) => SHADCN_INTEROP[slug] ?? "",
+  },
+  spectrum: {
+    key: "spectrum",
+    title: "Spectrum",
+    impl: {  },
+    Provider: spectrumProvider,
+    css:  => "",
   },
   standalone: {
     key: "standalone",
@@ -1255,4 +1755,4 @@ export const BASES: Record<string, BaseDefinition> = {
   },
 };
 
-export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "mui"];
+export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "blueprint", "bootstrap", "carbon", "cloudscape", "daisyui", "flowbite", "fluent", "grommet", "heroui", "lightning", "mui", "primer", "primereact", "spectrum"];

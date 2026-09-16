@@ -99,7 +99,8 @@ export const theme: PrimeReactEntry = {
     "shade800": "#595d63",
     "shade900": "#07080c",
     "borderRadius": "8px",
-    "buttonPadding": "6px 12px"
+    "buttonPadding": "6px 12px",
+    "fontSize": "1rem"
   },
   "untouched": [
     "helpButton(이 프로젝트 accent 없음)"
@@ -195,7 +196,8 @@ export const darkTheme: PrimeReactEntry = {
     "shade800": "#9599a1",
     "shade900": "#f6faff",
     "borderRadius": "8px",
-    "buttonPadding": "6px 12px"
+    "buttonPadding": "6px 12px",
+    "fontSize": "1rem"
   },
   "untouched": [
     "helpButton(이 프로젝트 accent 없음)"
@@ -291,7 +293,8 @@ export const highContrastTheme: PrimeReactEntry = {
     "shade800": "#e1e5ec",
     "shade900": "#eef1f5",
     "borderRadius": "8px",
-    "buttonPadding": "6px 12px"
+    "buttonPadding": "6px 12px",
+    "fontSize": "1rem"
   },
   "untouched": [
     "helpButton(이 프로젝트 accent 없음)"

@@ -109,7 +109,8 @@ export const theme: PrimeReactEntry = {
     "shade800": "#5d5c60",
     "shade900": "#09080a",
     "borderRadius": "8px",
-    "buttonPadding": "8px 16px"
+    "buttonPadding": "8px 16px",
+    "fontSize": "1rem"
   },
   "untouched": []
 };
@@ -213,7 +214,8 @@ export const darkTheme: PrimeReactEntry = {
     "shade800": "#9a999d",
     "shade900": "#f9f9fc",
     "borderRadius": "8px",
-    "buttonPadding": "8px 16px"
+    "buttonPadding": "8px 16px",
+    "fontSize": "1rem"
   },
   "untouched": []
 };
@@ -317,7 +319,8 @@ export const highContrastTheme: PrimeReactEntry = {
     "shade800": "#e5e4e9",
     "shade900": "#f1f0f3",
     "borderRadius": "8px",
-    "buttonPadding": "8px 16px"
+    "buttonPadding": "8px 16px",
+    "fontSize": "1rem"
   },
   "untouched": []
 };
