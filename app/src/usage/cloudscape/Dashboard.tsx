@@ -11,6 +11,37 @@ const FONT_OVERRIDE_CSS = `
   --font-family-display-vybf2o: var(--base-font-family-sans, Pretendard, system-ui, sans-serif);
   --font-family-heading-f20kh9: var(--base-font-family-sans, Pretendard, system-ui, sans-serif);
 }
+
+.cloudscape-dark-scope {
+  --color-text-body-default-gtm97i: #f2f6fb;
+  --color-text-body-secondary-y6dr4d: #b7c4d6;
+  --color-text-counter-q4zq3v: #8fa3bf;
+  --color-text-empty-68xc4n: #8fa3bf;
+  --color-text-expandable-section-default-aqjbq3: #f2f6fb;
+  --color-text-expandable-section-navigation-icon-default-wh1lig: #8fa3bf;
+  --color-text-form-label-84uan1: #f2f6fb;
+  --color-text-group-label-0wronh: #8fa3bf;
+  --color-text-heading-default-pn83b8: #f2f6fb;
+  --color-text-heading-secondary-su1acg: #b7c4d6;
+  --color-text-interactive-active-fedaa8: #f2f6fb;
+  --color-text-interactive-default-1o1pl2: #b7c4d6;
+  --color-text-interactive-hover-j5y3wx: #ffffff;
+  --color-text-key-value-pairs-value-xmrgpn: #f2f6fb;
+  --color-text-label-tv95tq: #f2f6fb;
+  --color-text-pagination-page-number-default-jqmmw0: #b7c4d6;
+  --color-text-small-vk4o1c: #8fa3bf;
+  --color-text-status-inactive-tg9r8q: #8fa3bf;
+  --color-text-column-header-wyzs6v: #b7c4d6;
+  --color-text-column-sorting-icon-iazyfo: #b7c4d6;
+  // 배경색 #14233a 변경
+  --color-background-item-card-aw1yv6: #14233a;
+  --color-background-table-header-unjmda: #14233a;
+  --color-background-layout-main-7z8vaj: #14233a;
+  --color-background-input-default-bz9w07: #14233a;
+  --color-background-dropdown-item-default-lzrka9: #1a2c47;
+  --color-background-container-content-78ljyf: #14233a;
+  --color-background-container-header-ydavso: #14233a;
+}
 `;
 
 export function CloudscapeUsage({ system }: UsageDashboardProps) {
