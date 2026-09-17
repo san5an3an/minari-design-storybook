@@ -5,7 +5,8 @@ import * as m002 from "./sizes";
 import * as m003 from "./colors";
 import * as m004 from "./placements";
 import * as m005 from "./dot";
-import * as m006 from "./custom-styles";
+import * as m006 from "./with-content";
+import * as m007 from "./custom-styles";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
 export const DEMOS = {
@@ -15,10 +16,10 @@ export const DEMOS = {
   "colors": m003.BadgeColors,
   "placements": m004.BadgePlacements,
   "dot": m005.BadgeDot,
-  "custom-styles": m006.CustomStyles,
+  "with-content": m006.BadgeWithContent,
+  "custom-styles": m007.CustomStyles,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부(선언 순서) · `code` 는 그 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "with-content": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
 };
