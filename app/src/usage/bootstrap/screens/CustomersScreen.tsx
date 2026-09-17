@@ -20,11 +20,18 @@ interface Customer {
   lastTopic: string;
 }
 
+// 검색, 필터, 카드그리드, 교차참조 구조 구성
 const CUSTOMERS: Customer[] = [
   { name: "김도윤", email: "doyun.kim@example.com", tickets: 3, tier: "일반", lastTopic: "배송 지연 문의" },
   { name: "이서연", email: "seoyeon.lee@example.com", tickets: 1, tier: "우수", lastTopic: "환불 처리" },
   { name: "박지훈", email: "jihoon.park@example.com", tickets: 5, tier: "우수", lastTopic: "쿠폰 미적용" },
   { name: "최민서", email: "minseo.choi@example.com", tickets: 1, tier: "일반", lastTopic: "사이즈 교환" },
+  { name: "정하은", email: "haeun.jung@example.com", tickets: 2, tier: "일반", lastTopic: "적립금 미반영" },
+  { name: "한소율", email: "soyul.han@example.com", tickets: 4, tier: "우수", lastTopic: "배송지 오입력" },
+  { name: "오지호", email: "jiho.oh@example.com", tickets: 1, tier: "일반", lastTopic: "결제 중복" },
+  { name: "윤아름", email: "areum.yoon@example.com", tickets: 2, tier: "일반", lastTopic: "선물 포장 누락" },
+  { name: "장서윤", email: "seoyoon.jang@example.com", tickets: 6, tier: "우수", lastTopic: "재입고 알림" },
+  { name: "임도현", email: "dohyun.lim@example.com", tickets: 1, tier: "일반", lastTopic: "쿠폰 미적용" },
 ];
 
 export function CustomersScreen {

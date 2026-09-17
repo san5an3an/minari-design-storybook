@@ -22,6 +22,7 @@ export interface WorkOrder {
   history: HistoryEntry[];
 }
 
+// 완료 건 비중 높게 지정
 export const WORK_ORDERS: WorkOrder[] = [
   {
     id: "wo-241", vehicle: "2021 아반떼", plate: "12가 3456", customer: "김도윤",
@@ -64,18 +65,45 @@ export const WORK_ORDERS: WorkOrder[] = [
     ],
   },
   {
-    id: "wo-228", vehicle: "2023 카니발", plate: "90마 2345", customer: "정하은",
-    issue: "배터리 방전 · 시동 불량", status: "대기", mechanic: "미배정", eta: "-",
-    parts: [],
-    history: [{ label: "입고 접수", timeLabel: "1시간 전" }],
+    id: "wo-242", vehicle: "2023 아이오닉5", plate: "90마 2345", customer: "정하은",
+    issue: "완속 충전 시 오류코드 표시", status: "작업중", mechanic: "한지민", eta: "내일 11:00",
+    parts: [{ name: "OBC 진단", qty: 1, price: 30000 }],
+    history: [{ label: "입고 · 진단기 연결", timeLabel: "오늘 08:30" }],
   },
   {
-    id: "wo-225", vehicle: "2018 K5", plate: "23바 6789", customer: "한지민",
-    issue: "에어컨 냉매 부족 · 냉방 약함", status: "작업중", mechanic: "한지민", eta: "내일 11:00",
-    parts: [{ name: "에어컨 냉매", qty: 1, price: 35000 }],
+    id: "wo-230", vehicle: "2018 카니발", plate: "23바 6789", customer: "오지호",
+    issue: "슬라이딩 도어 작동 불량", status: "완료", mechanic: "한지민", eta: "완료됨",
+    parts: [{ name: "도어 모터", qty: 1, price: 96000 }],
     history: [
-      { label: "입고 · 냉매 압력 점검", timeLabel: "오늘 08:30" },
-      { label: "냉매 충전 시작", timeLabel: "오늘 09:15" },
+      { label: "입고 · 도어 모터 점검", timeLabel: "5일 전" },
+      { label: "모터 교체 · 출고", timeLabel: "5일 전" },
+    ],
+  },
+  {
+    id: "wo-228", vehicle: "2017 티볼리", plate: "45사 7890", customer: "윤아름",
+    issue: "정기 점검 · 엔진오일 교환", status: "완료", mechanic: "최은성", eta: "완료됨",
+    parts: [
+      { name: "엔진오일(합성)", qty: 4, price: 12000 },
+      { name: "오일 필터", qty: 1, price: 9000 },
+    ],
+    history: [
+      { label: "입고 · 점검 시작", timeLabel: "6일 전" },
+      { label: "오일·필터 교환 · 출고", timeLabel: "6일 전" },
+    ],
+  },
+  {
+    id: "wo-226", vehicle: "2021 K5", plate: "67아 8901", customer: "한소율",
+    issue: "와이퍼 작동 시 소음", status: "대기", mechanic: "미배정", eta: "-",
+    parts: [],
+    history: [{ label: "입고 접수", timeLabel: "1주 전" }],
+  },
+  {
+    id: "wo-224", vehicle: "2019 모하비", plate: "89자 9012", customer: "박지훈",
+    issue: "배터리 방전 · 시동 불가", status: "완료", mechanic: "박정우", eta: "완료됨",
+    parts: [{ name: "배터리(AGM)", qty: 1, price: 185000 }],
+    history: [
+      { label: "입고 · 배터리 진단", timeLabel: "9일 전" },
+      { label: "배터리 교체 · 출고", timeLabel: "9일 전" },
     ],
   },
 ];
@@ -89,8 +117,11 @@ export interface Mechanic {
 }
 
 export const MECHANICS: Mechanic[] = [
-  { id: "m1", name: "박정우", specialty: "제동·현가", activeOrders: 2, status: "작업중" },
+  { id: "m1", name: "박정우", specialty: "제동·현가", activeOrders: 1, status: "작업중" },
   { id: "m2", name: "최은성", specialty: "엔진·정기점검", activeOrders: 0, status: "가능" },
   { id: "m3", name: "한지민", specialty: "전장·진단", activeOrders: 1, status: "작업중" },
-  { id: "m4", name: "오세훈", specialty: "타이어·얼라인먼트", activeOrders: 0, status: "휴무" },
+  { id: "m4", name: "오세훈", specialty: "타이어·얼라인먼트", activeOrders: 0, status: "가능" },
+  { id: "m5", name: "장서윤", specialty: "차체·도장", activeOrders: 0, status: "휴무" },
+  { id: "m6", name: "임도현", specialty: "냉난방·전기", activeOrders: 0, status: "가능" },
+  { id: "m7", name: "신우진", specialty: "엔진·정기점검", activeOrders: 0, status: "휴무" },
 ];

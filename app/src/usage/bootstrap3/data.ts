@@ -76,6 +76,30 @@ export const BOOKS: Book[] = [
     ],
     coverUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&h=560&q=60",
   },
+  {
+    id: "bk-108", title: "파친코", author: "이민진", isbn: "978-89-374-3147-6",
+    category: "소설", status: "대출가능",
+    loans: [],
+    coverUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&h=560&q=60",
+  },
+  {
+    id: "bk-109", title: "이기적 유전자", author: "리처드 도킨스", isbn: "978-89-8371-497-3",
+    category: "과학", status: "대출중", borrower: "오지호", dueLabel: "9월 25일",
+    loans: [{ borrower: "오지호", timeLabel: "9월 11일", action: "대출" }],
+    coverUrl: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&w=400&h=560&q=60",
+  },
+  {
+    id: "bk-110", title: "아몬드", author: "손원평", isbn: "978-89-5605-706-1",
+    category: "소설", status: "대출가능",
+    loans: [{ borrower: "윤아름", timeLabel: "6월 20일", action: "대출" }, { borrower: "윤아름", timeLabel: "6월 27일", action: "반납" }],
+    coverUrl: "https://images.unsplash.com/photo-1521123845560-14093637aa7d?auto=format&fit=crop&w=400&h=560&q=60",
+  },
+  {
+    id: "bk-111", title: "코드 컴플리트", author: "스티브 맥코넬", isbn: "978-89-6626-024-2",
+    category: "컴퓨터", status: "대출가능",
+    loans: [{ borrower: "장서윤", timeLabel: "5월 15일", action: "대출" }, { borrower: "장서윤", timeLabel: "5월 29일", action: "반납" }],
+    coverUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=400&h=560&q=60",
+  },
 ];
 
 export interface OverdueItem {
