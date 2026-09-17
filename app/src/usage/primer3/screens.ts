@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { WorkflowRun } from "./data";
 import { RunDetailScreen } from "./screens/RunDetailScreen";
 import { SecretsScreen } from "./screens/SecretsScreen";
 import { WorkflowsScreen } from "./screens/WorkflowsScreen";
@@ -7,6 +8,9 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  // 목록, 상세가 Dashboard 워크플로 실행 배열을 공유하기
+  workflows?: WorkflowRun[];
+  onAddWorkflow?: (run: WorkflowRun) => void;
 }
 
 export interface ScreenDefinition {

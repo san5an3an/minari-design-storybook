@@ -1,10 +1,14 @@
 import * as React from "react";
 import {
-  Avatar, FluentProvider, Hamburger, NavDrawer, NavDrawerBody, NavItem, SearchBox,
-  Toolbar, ToolbarButton, Body1, Caption1,
+  Avatar, Body1, Button, Caption1, Card, CounterBadge, FluentProvider, Hamburger, NavDrawer,
+  NavDrawerBody, NavDrawerFooter, NavItem, Persona, Popover, PopoverSurface, PopoverTrigger,
+  SearchBox, Toolbar, ToolbarButton,
 } from "@fluentui/react-components";
 import type { Theme } from "@fluentui/react-components";
-import { CalendarLtrRegular, CheckmarkCircleRegular, DocumentRegular } from "@fluentui/react-icons";
+import {
+  AlertRegular, CalendarLtrRegular, CheckmarkCircleRegular, DocumentRegular, RocketRegular,
+} from "@fluentui/react-icons";
+import { MEETINGS, TASKS } from "./data";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -41,6 +45,42 @@ const SCREEN_ICON: Record<string, React.ReactElement> = {
   schedule: <CalendarLtrRegular />,
   files: <DocumentRegular />,
 };
+
+// 알림 종, 마감 할 일과 진행 중 회의 수 뱃지 표시
+function NotificationBell {
+  const dueToday = TASKS.filter((t) => !t.done && t.dueLabel === "오늘").length;
+  const upcoming = MEETINGS.filter((m) => !m.done).slice(0, 3);
+  const count = dueToday + upcoming.length;
+  return (
+    <Popover positioning="below-end">
+      <PopoverTrigger disableButtonEnhancement>
+        <span style={{ position: "relative", display: "inline-flex" }}>
+          <ToolbarButton aria-label={`알림 ${count}건`} icon={<AlertRegular />} />
+          {count > 0 ? (
+            <CounterBadge
+              count={count}
+              size="small"
+              color="danger"
+              style={{ position: "absolute", top: -2, right: -2, pointerEvents: "none" }}
+            />
+          ) : null}
+        </span>
+      </PopoverTrigger>
+      <PopoverSurface style={{ minWidth: "220px" }}>
+        <Body1 style={{ fontWeight: 600, marginBottom: "8px" }}>알림</Body1>
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          {dueToday > 0 ? (
+            <Caption1>오늘 마감인 할 일이 {dueToday}건 있어요.</Caption1>
+          ) : null}
+          {upcoming.map((m) => (
+            <Caption1 key={m.id}>{m.time} {m.title}, {m.room}</Caption1>
+          ))}
+          {count === 0 ? <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>새 알림이 없어요.</Caption1> : null}
+        </div>
+      </PopoverSurface>
+    </Popover>
+  );
+}
 
 // window.matchMedia로 좁은 화면 확인. MUI 테마가 없기 때문임
 function useWide: boolean {
@@ -104,7 +144,9 @@ export function FluentUsage({ system, active }: UsageDashboardProps) {
             aria-label="검색"
             style={{ marginInlineStart: "auto", minWidth: 0, width: "min(220px, 40vw)" }}
           />
-          <ToolbarButton aria-label="알림" icon={<CalendarLtrRegular />} style={{ display: wide ? undefined : "none" }} />
+          <span style={{ display: wide ? undefined : "none" }}>
+            <NotificationBell />
+          </span>
           <Avatar name="김하늘" size={28} />
         </Toolbar>
 
@@ -139,6 +181,25 @@ export function FluentUsage({ system, active }: UsageDashboardProps) {
                 </NavItem>
               ))}
             </NavDrawerBody>
+            {/* 사이드바 하단 프로모 카드와 유저 블록. CTA 문구는 오늘 마감 할 일 수 같은 실제 값 사용, 그림만 있는 배너 제외 */}
+            <NavDrawerFooter style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "0 8px 12px" }}>
+              <Card style={{ padding: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                  <RocketRegular fontSize={16} style={{ color: "var(--colorBrandBackground)" }} />
+                  <Caption1 style={{ fontWeight: 600 }}>오늘의 포커스</Caption1>
+                </div>
+                <Caption1 style={{ color: "var(--colorNeutralForeground3)", display: "block", marginBottom: "8px" }}>
+                  오늘 마감 할 일 {TASKS.filter((t) => !t.done && t.dueLabel === "오늘").length}건이 남아 있어요.
+                </Caption1>
+                <Button size="small" appearance="primary" style={{ width: "100%" }} onClick={ => setScreenKey("tasks")}>할 일 보기</Button>
+              </Card>
+              <Persona
+                name="김하늘"
+                secondaryText="프로덕트 매니저"
+                avatar={{ color: "colorful" }}
+                size="small"
+              />
+            </NavDrawerFooter>
           </NavDrawer>
 
           {/* 내부 스크롤 영역, mui, antd 버전과 동일 원칙 */}

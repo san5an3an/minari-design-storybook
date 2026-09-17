@@ -1,45 +1,104 @@
 import * as React from "react";
 import {
-  Avatar, Box, Card, Chip, FormControlLabel, Stack, Switch, Typography,
+  Avatar, Box, Button, Card, Chip, FormControlLabel, Stack, Switch, Typography, alpha, useTheme,
 } from "@mui/material";
 import { DataGrid, type GridColDef, type GridRowParams } from "@mui/x-data-grid";
+import { PieChart } from "@mui/x-charts/PieChart";
 import DeliveryDiningOutlined from "@mui/icons-material/DeliveryDiningOutlined";
+import LocalOfferOutlined from "@mui/icons-material/LocalOfferOutlined";
 import ReceiptLongOutlined from "@mui/icons-material/ReceiptLongOutlined";
 import StarOutlined from "@mui/icons-material/StarOutlined";
 import TimerOutlined from "@mui/icons-material/TimerOutlined";
+import TrendingDown from "@mui/icons-material/TrendingDown";
+import TrendingUp from "@mui/icons-material/TrendingUp";
 import { ORDERS, RESTAURANTS, type Restaurant } from "../data";
 import type { ScreenProps } from "../screens";
 
 type StatTone = "primary" | "success" | "warning" | "error";
 interface OrderStat {
-  label: string; value: string; tone: StatTone;
+  label: string; value: string; tone: StatTone; delta: string; up: boolean;
   icon: React.ComponentType<{ fontSize?: "small" | "inherit" }>;
 }
+// 통계 카드마다 증감율 표시: 아이콘 배지, 라벨, 숫자, 증감 칩
 const ORDER_STATS: readonly OrderStat[] = [
-  { label: "진행 중인 주문", value: `${ORDERS.filter((o) => o.status === "배달 중").length}건`, tone: "primary", icon: DeliveryDiningOutlined },
-  { label: "이번 달 주문", value: `${ORDERS.length}건`, tone: "success", icon: ReceiptLongOutlined },
-  { label: "평균 배달시간", value: "28분", tone: "warning", icon: TimerOutlined },
-  { label: "즐겨찾는 맛집", value: "3곳", tone: "error", icon: StarOutlined },
+  { label: "진행 중인 주문", value: `${ORDERS.filter((o) => o.status === "배달 중" || o.status === "준비 중").length}건`, tone: "primary", delta: "+2건", up: true, icon: DeliveryDiningOutlined },
+  { label: "이번 달 주문", value: `${ORDERS.length}건`, tone: "success", delta: "+3건", up: true, icon: ReceiptLongOutlined },
+  { label: "평균 배달시간", value: "26분", tone: "warning", delta: "-2분", up: true, icon: TimerOutlined },
+  { label: "즐겨찾는 맛집", value: "4곳", tone: "error", delta: "+1곳", up: true, icon: StarOutlined },
 ];
 
 function OrderStatCard({ stat }: { stat: OrderStat }) {
+  const theme = useTheme;
   const Icon = stat.icon;
+  const Trend = stat.up ? TrendingUp : TrendingDown;
+  const trendColor = stat.up ? theme.palette.success.main : theme.palette.error.main;
   return (
     <Card variant="outlined" sx={{ p: 1.75 }}>
-      <Stack spacing={1}>
+      <Stack direction="row" sx={{ alignItems: "flex-start", justifyContent: "space-between" }}>
+        <Stack spacing={1}>
+          <Box
+            aria-hidden
+            sx={{
+              alignItems: "center", bgcolor: `${stat.tone}.main`, borderRadius: "50%",
+              color: `${stat.tone}.contrastText`, display: "flex", height: 30,
+              justifyContent: "center", opacity: 0.9, width: 30,
+            }}
+          >
+            <Icon fontSize="small" />
+          </Box>
+          <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
+          <Typography variant="h6" component="p">{stat.value}</Typography>
+        </Stack>
+        <Chip
+          size="small"
+          icon={<Trend fontSize="inherit" />}
+          label={stat.delta}
+          sx={{
+            bgcolor: alpha(trendColor, 0.12),
+            color: trendColor,
+            "& .MuiChip-icon": { color: trendColor },
+          }}
+        />
+      </Stack>
+    </Card>
+  );
+}
+
+function DeliveryPromoCard {
+  const theme = useTheme;
+  return (
+    <Card
+      variant="outlined"
+      sx={{
+        alignItems: { xs: "flex-start", sm: "center" },
+        bgcolor: alpha(theme.palette.primary.main, 0.08),
+        borderColor: alpha(theme.palette.primary.main, 0.3),
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: 1.5,
+        justifyContent: "space-between",
+        p: 2,
+      }}
+    >
+      <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
         <Box
           aria-hidden
           sx={{
-            alignItems: "center", bgcolor: `${stat.tone}.main`, borderRadius: "50%",
-            color: `${stat.tone}.contrastText`, display: "flex", height: 30,
-            justifyContent: "center", opacity: 0.9, width: 30,
+            alignItems: "center", bgcolor: "primary.main", borderRadius: "50%",
+            color: "primary.contrastText", display: "flex", height: 36,
+            justifyContent: "center", width: 36,
           }}
         >
-          <Icon fontSize="small" />
+          <LocalOfferOutlined fontSize="small" />
         </Box>
-        <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
-        <Typography variant="h6" component="p">{stat.value}</Typography>
+        <Stack spacing={0}>
+          <Typography variant="subtitle2">첫 주문은 15% 할인, 3만원 이상이면 무료배달</Typography>
+          <Typography variant="caption" color="text.secondary">쿠폰함에서 바로 받을 수 있어요 · 이번 주 목요일까지</Typography>
+        </Stack>
       </Stack>
+      <Button variant="contained" size="small" sx={{ flexShrink: 0 }}>
+        쿠폰 받기
+      </Button>
     </Card>
   );
 }
@@ -51,6 +110,12 @@ const STATUS_TONE: Record<Restaurant["status"], "success" | "warning" | "default
 };
 
 const CATEGORIES = ["전체", ...new Set(RESTAURANTS.map((r) => r.category))];
+
+const CATEGORY_PIE_DATA = [...new Set(RESTAURANTS.map((r) => r.category))].map((label, id) => ({
+  id,
+  label,
+  value: RESTAURANTS.filter((r) => r.category === label).length,
+}));
 
 export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
   const [category, setCategory] = React.useState("전체");
@@ -93,6 +158,8 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
 
   return (
     <Stack spacing={2}>
+      <DeliveryPromoCard />
+
       <Box
         sx={{
           display: "grid",
@@ -104,6 +171,31 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
           <OrderStatCard key={s.label} stat={s} />
         ))}
       </Box>
+
+      <Card variant="outlined" sx={{ p: 1.75 }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: "center" }}>
+          <Stack spacing={0.25} sx={{ flexShrink: 0 }}>
+            <Typography variant="subtitle2">카테고리별 가게 분포</Typography>
+            <Typography variant="caption" color="text.secondary">
+              지금 {RESTAURANTS.length}곳 · {CATEGORY_PIE_DATA.length}개 카테고리
+            </Typography>
+          </Stack>
+          <Box sx={{ flex: 1, minWidth: 0, width: "100%" }}>
+            <PieChart
+              series={[
+                {
+                  data: CATEGORY_PIE_DATA,
+                  innerRadius: 28,
+                  paddingAngle: 2,
+                  cornerRadius: 3,
+                  highlightScope: { fade: "global", highlight: "item" },
+                },
+              ]}
+              height={150}
+            />
+          </Box>
+        </Stack>
+      </Card>
 
       <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", flexWrap: "wrap", rowGap: 1 }}>
         <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", rowGap: 1 }}>

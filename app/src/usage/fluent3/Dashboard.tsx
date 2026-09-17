@@ -1,11 +1,13 @@
 import * as React from "react";
 import {
-  Avatar, FluentProvider, Hamburger, NavDrawer, NavDrawerBody, NavItem, SearchBox,
-  Toolbar, Body1, Caption1,
+  Avatar, Body1, Button, Caption1, Card, CounterBadge, FluentProvider, Hamburger, NavDrawer,
+  NavDrawerBody, NavDrawerFooter, NavItem, Persona, Popover, PopoverSurface, PopoverTrigger,
+  SearchBox, Toolbar, ToolbarButton,
 } from "@fluentui/react-components";
 import type { Theme } from "@fluentui/react-components";
-import { BoxRegular, ClipboardTaskRegular } from "@fluentui/react-icons";
+import { AlertRegular, BoxRegular, ClipboardTaskRegular, RocketRegular } from "@fluentui/react-icons";
 import type { UsageDashboardProps } from "../registry";
+import { ASSETS, REQUESTS } from "./data";
 import { SCREENS } from "./screens";
 
 import { byMode as s01 } from "../../../../generated/01-cobalt/base/fluent/theme";
@@ -41,6 +43,40 @@ const SCREEN_ICON: Record<string, React.ReactElement> = {
   detail: <BoxRegular />,
   requests: <ClipboardTaskRegular />,
 };
+
+// 알림 종, 대기 요청 수와 수리 중 자산 수로 뱃지 표시
+function NotificationBell {
+  const pendingRequests = REQUESTS.filter((r) => r.status === "대기");
+  const repairing = ASSETS.filter((a) => a.status === "수리 중").length;
+  const count = pendingRequests.length + repairing;
+  return (
+    <Popover positioning="below-end">
+      <PopoverTrigger disableButtonEnhancement>
+        <span style={{ position: "relative", display: "inline-flex" }}>
+          <ToolbarButton aria-label={`알림 ${count}건`} icon={<AlertRegular />} />
+          {count > 0 ? (
+            <CounterBadge
+              count={count}
+              size="small"
+              color="danger"
+              style={{ position: "absolute", top: -2, right: -2, pointerEvents: "none" }}
+            />
+          ) : null}
+        </span>
+      </PopoverTrigger>
+      <PopoverSurface style={{ minWidth: "220px" }}>
+        <Body1 style={{ fontWeight: 600, marginBottom: "8px" }}>알림</Body1>
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          {pendingRequests.slice(0, 3).map((r) => (
+            <Caption1 key={r.id}>대기 · {r.requester} · {r.assetCategory} 요청</Caption1>
+          ))}
+          {repairing > 0 ? <Caption1>수리 중인 자산 {repairing}대</Caption1> : null}
+          {count === 0 ? <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>새 알림이 없어요.</Caption1> : null}
+        </div>
+      </PopoverSurface>
+    </Popover>
+  );
+}
 
 function useWide: boolean {
   const [wide, setWide] = React.useState(true);
@@ -89,6 +125,9 @@ export function FluentUsage3({ system, active }: UsageDashboardProps) {
           <span aria-hidden style={{ display: "inline-block", width: 20, height: 20, borderRadius: "var(--semantic-radius-selection)", background: "var(--colorBrandBackground)" }} />
           <Body1 style={{ fontWeight: 600, whiteSpace: "nowrap" }}>{system.name} 자산관리</Body1>
           <SearchBox placeholder="자산 검색" aria-label="자산 검색" style={{ marginInlineStart: "auto", minWidth: 0, width: "min(220px, 40vw)" }} />
+          <span style={{ display: wide ? undefined : "none" }}>
+            <NotificationBell />
+          </span>
           <Avatar name="김하늘" size={28} />
         </Toolbar>
 
@@ -115,6 +154,25 @@ export function FluentUsage3({ system, active }: UsageDashboardProps) {
                 </NavItem>
               ))}
             </NavDrawerBody>
+            {/* 사이드바 하단 프로모 카드와 유저 블록 */}
+            <NavDrawerFooter style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "0 8px 12px" }}>
+              <Card style={{ padding: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                  <RocketRegular fontSize={16} style={{ color: "var(--colorBrandBackground)" }} />
+                  <Caption1 style={{ fontWeight: 600 }}>승인 대기</Caption1>
+                </div>
+                <Caption1 style={{ color: "var(--colorNeutralForeground3)", display: "block", marginBottom: "8px" }}>
+                  자산 요청 {REQUESTS.filter((r) => r.status === "대기").length}건이 승인을 기다려요.
+                </Caption1>
+                <Button size="small" appearance="primary" style={{ width: "100%" }} onClick={ => setScreenKey("requests")}>요청 보기</Button>
+              </Card>
+              <Persona
+                name="김하늘"
+                secondaryText="자산관리 담당자"
+                avatar={{ color: "colorful" }}
+                size="small"
+              />
+            </NavDrawerFooter>
           </NavDrawer>
 
           <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>

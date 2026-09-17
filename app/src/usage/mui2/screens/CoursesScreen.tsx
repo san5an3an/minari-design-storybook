@@ -1,13 +1,20 @@
 import * as React from "react";
 import {
-  Box, Card, CardActionArea, Chip, LinearProgress, Rating, Stack, Typography,
+  Box, Button, Card, CardActionArea, Chip, LinearProgress, Rating, Stack, Typography, useTheme,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { BarChart } from "@mui/x-charts/BarChart";
 import CheckCircleOutlined from "@mui/icons-material/CheckCircleOutlined";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import TimelapseOutlined from "@mui/icons-material/TimelapseOutlined";
 import { COURSES, ENROLLED } from "../data";
 import type { ScreenProps } from "../screens";
+
+const COURSE_THUMB: Record<string, string> = {
+  디자인: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80&auto=format&fit=crop",
+  개발: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=80&auto=format&fit=crop",
+  사진: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=80&auto=format&fit=crop",
+};
 
 const won = (n: number) => (n === 0 ? "무료" : `${n.toLocaleString("ko-KR")}원`);
 
@@ -20,37 +27,84 @@ function CoursesGreeting {
   );
 }
 
-// 작은 통계 카드. 스파크라인 없이 아이콘과 값만 표시
 interface CourseStat {
-  label: string; value: string;
+  label: string; value: string; delta: string; up: boolean;
   icon: React.ComponentType<{ fontSize?: "small" | "inherit" }>;
 }
 const COURSE_STATS: readonly CourseStat[] = [
-  { label: "수강 중인 강좌", value: `${ENROLLED.length}개`, icon: SchoolOutlined },
-  { label: "이번 주 학습시간", value: "3시간 40분", icon: TimelapseOutlined },
-  { label: "완료한 레슨", value: "7개", icon: CheckCircleOutlined },
+  { label: "수강 중인 강좌", value: `${ENROLLED.length}개`, delta: "+2개", up: true, icon: SchoolOutlined },
+  { label: "이번 주 학습시간", value: "3시간 40분", delta: "+45분", up: true, icon: TimelapseOutlined },
+  { label: "완료한 레슨", value: "7개", delta: "+3개", up: true, icon: CheckCircleOutlined },
 ];
 
 function CourseStatCard({ stat }: { stat: CourseStat }) {
   const Icon = stat.icon;
   return (
     <Card variant="outlined" sx={{ p: 1.5 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
+        <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+          <Box
+            aria-hidden
+            sx={{
+              alignItems: "center", bgcolor: "action.hover", borderRadius: 1,
+              color: "primary.main", display: "flex", height: 32,
+              justifyContent: "center", width: 32,
+            }}
+          >
+            <Icon fontSize="small" />
+          </Box>
+          <Stack spacing={0}>
+            <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{stat.value}</Typography>
+          </Stack>
+        </Stack>
+        <Typography
+          variant="caption"
+          sx={{ color: stat.up ? "success.main" : "error.main", fontWeight: 700, flexShrink: 0 }}
+        >
+          {stat.delta}
+        </Typography>
+      </Stack>
+    </Card>
+  );
+}
+
+// 프로모/CTA 카드. 색 틴트 카드로 CTA 표시
+function CoursesPromoCard {
+  const theme = useTheme;
+  return (
+    <Card
+      variant="outlined"
+      sx={{
+        alignItems: { xs: "flex-start", sm: "center" },
+        bgcolor: alpha(theme.palette.primary.main, 0.08),
+        borderColor: alpha(theme.palette.primary.main, 0.3),
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: 1.5,
+        justifyContent: "space-between",
+        p: 2,
+      }}
+    >
       <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
         <Box
           aria-hidden
           sx={{
-            alignItems: "center", bgcolor: "action.hover", borderRadius: 1,
-            color: "primary.main", display: "flex", height: 32,
-            justifyContent: "center", width: 32,
+            alignItems: "center", bgcolor: "primary.main", borderRadius: "50%",
+            color: "primary.contrastText", display: "flex", height: 36,
+            justifyContent: "center", width: 36,
           }}
         >
-          <Icon fontSize="small" />
+          <SchoolOutlined fontSize="small" />
         </Box>
         <Stack spacing={0}>
-          <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{stat.value}</Typography>
+          <Typography variant="subtitle2">친구를 초대하면 둘 다 강좌 10% 할인</Typography>
+          <Typography variant="caption" color="text.secondary">초대 링크는 마이페이지에서 바로 받을 수 있어요</Typography>
         </Stack>
       </Stack>
+      <Button variant="contained" size="small" sx={{ flexShrink: 0 }}>
+        초대 링크 받기
+      </Button>
     </Card>
   );
 }
@@ -115,6 +169,7 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
   return (
     <Stack spacing={2}>
       <CoursesGreeting />
+      <CoursesPromoCard />
 
       <Box
         sx={{
@@ -154,17 +209,13 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
               <Box
                 aria-hidden
                 sx={{
-                  alignItems: "center",
-                  bgcolor: "action.hover",
+                  backgroundImage: `url(${COURSE_THUMB[c.category] ?? COURSE_THUMB["디자인"]})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
                   borderRadius: 1,
-                  color: "text.disabled",
-                  display: "flex",
                   height: 96,
-                  justifyContent: "center",
                 }}
-              >
-                <SchoolOutlined />
-              </Box>
+              />
               <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
                 <Chip size="small" label={c.category} variant="outlined" />
                 <Chip size="small" label={c.level} color="primary" variant="outlined" />

@@ -1,11 +1,13 @@
 import * as React from "react";
 import {
-  Avatar, FluentProvider, Hamburger, NavDrawer, NavDrawerBody, NavItem, SearchBox,
-  Toolbar, Body1, Caption1,
+  Avatar, Body1, Button, Caption1, Card, CounterBadge, FluentProvider, Hamburger, NavDrawer,
+  NavDrawerBody, NavDrawerFooter, NavItem, Persona, Popover, PopoverSurface, PopoverTrigger,
+  SearchBox, Toolbar, ToolbarButton,
 } from "@fluentui/react-components";
 import type { Theme } from "@fluentui/react-components";
-import { BookQuestionMarkRegular, TicketDiagonalRegular } from "@fluentui/react-icons";
+import { AlertRegular, BookQuestionMarkRegular, RocketRegular, TicketDiagonalRegular } from "@fluentui/react-icons";
 import type { UsageDashboardProps } from "../registry";
+import { TICKETS, type Ticket } from "./data";
 import { SCREENS } from "./screens";
 
 import { byMode as s01 } from "../../../../generated/01-cobalt/base/fluent/theme";
@@ -42,6 +44,38 @@ const SCREEN_ICON: Record<string, React.ReactElement> = {
   kb: <BookQuestionMarkRegular />,
 };
 
+// 알림 종, 긴급 티켓 수와 열린 티켓 수로 뱃지 표시
+function NotificationBell {
+  const urgent = TICKETS.filter((t) => t.priority === "긴급" && t.status !== "해결됨");
+  const count = urgent.length + TICKETS.filter((t) => t.status === "열림").length;
+  return (
+    <Popover positioning="below-end">
+      <PopoverTrigger disableButtonEnhancement>
+        <span style={{ position: "relative", display: "inline-flex" }}>
+          <ToolbarButton aria-label={`알림 ${count}건`} icon={<AlertRegular />} />
+          {count > 0 ? (
+            <CounterBadge
+              count={count}
+              size="small"
+              color="danger"
+              style={{ position: "absolute", top: -2, right: -2, pointerEvents: "none" }}
+            />
+          ) : null}
+        </span>
+      </PopoverTrigger>
+      <PopoverSurface style={{ minWidth: "220px" }}>
+        <Body1 style={{ fontWeight: 600, marginBottom: "8px" }}>알림</Body1>
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          {urgent.map((t) => (
+            <Caption1 key={t.id}>긴급 · {t.subject} ({t.requester})</Caption1>
+          ))}
+          {count === 0 ? <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>새 알림이 없어요.</Caption1> : null}
+        </div>
+      </PopoverSurface>
+    </Popover>
+  );
+}
+
 function useWide: boolean {
   const [wide, setWide] = React.useState(true);
   React.useEffect( => {
@@ -60,6 +94,9 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  // 티켓 목록의 단일 소스, 두 화면 모두 여기서 데이터 전달받기
+  const [tickets, setTickets] = React.useState<Ticket[]>(TICKETS);
+  const addTicket = (ticket: Ticket) => setTickets((prev) => [ticket, ...prev]);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
 
@@ -89,7 +126,10 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
           <span aria-hidden style={{ display: "inline-block", width: 20, height: 20, borderRadius: "var(--semantic-radius-selection)", background: "var(--colorBrandBackground)" }} />
           <Body1 style={{ fontWeight: 600, whiteSpace: "nowrap" }}>{system.name} 헬프데스크</Body1>
           <SearchBox placeholder="티켓 검색" aria-label="티켓 검색" style={{ marginInlineStart: "auto", minWidth: 0, width: "min(220px, 40vw)" }} />
-          <Avatar name="김하늘" size={28} />
+          <span style={{ display: wide ? undefined : "none" }}>
+            <NotificationBell />
+          </span>
+          <Avatar name="박서준" size={28} />
         </Toolbar>
 
         <div style={{ display: "flex", flex: 1, minHeight: 0, position: "relative" }}>
@@ -115,6 +155,25 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
                 </NavItem>
               ))}
             </NavDrawerBody>
+            {/* 사이드바 하단 프로모 카드와 유저 블록 */}
+            <NavDrawerFooter style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "0 8px 12px" }}>
+              <Card style={{ padding: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                  <RocketRegular fontSize={16} style={{ color: "var(--colorBrandBackground)" }} />
+                  <Caption1 style={{ fontWeight: 600 }}>오늘의 SLA</Caption1>
+                </div>
+                <Caption1 style={{ color: "var(--colorNeutralForeground3)", display: "block", marginBottom: "8px" }}>
+                  긴급 티켓 {TICKETS.filter((t) => t.priority === "긴급" && t.status !== "해결됨").length}건이 응답을 기다려요.
+                </Caption1>
+                <Button size="small" appearance="primary" style={{ width: "100%" }} onClick={ => setScreenKey("tickets")}>티켓 보기</Button>
+              </Card>
+              <Persona
+                name="박서준"
+                secondaryText="IT 지원팀"
+                avatar={{ color: "colorful" }}
+                size="small"
+              />
+            </NavDrawerFooter>
           </NavDrawer>
 
           <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>
@@ -122,7 +181,13 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
               <Body1 as="h2" style={{ fontSize: "20px", fontWeight: 600 }}>{screen.label}</Body1>
               <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>{screen.lede}</Caption1>
             </div>
-            <Screen onNavigate={setScreenKey} selectedId={selectedId} onSelect={setSelectedId} />
+            <Screen
+              onNavigate={setScreenKey}
+              selectedId={selectedId}
+              onSelect={setSelectedId}
+              tickets={tickets}
+              onCreateTicket={addTicket}
+            />
           </div>
         </div>
       </div>

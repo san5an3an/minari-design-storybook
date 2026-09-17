@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { PackageItem } from "./data";
 import { DownloadsScreen } from "./screens/DownloadsScreen";
 import { PackageDetailScreen } from "./screens/PackageDetailScreen";
 import { PackagesScreen } from "./screens/PackagesScreen";
@@ -7,6 +8,9 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  // 목록, 상세가 Dashboard 패키지 배열을 공유하기
+  packages?: PackageItem[];
+  onAddPackage?: (pkg: PackageItem) => void;
 }
 
 export interface ScreenDefinition {

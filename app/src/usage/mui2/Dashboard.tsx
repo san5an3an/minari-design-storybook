@@ -1,13 +1,15 @@
 import * as React from "react";
 import {
-  AppBar, Avatar, Box, InputAdornment, Stack, Tab, Tabs, TextField, Toolbar, Typography,
-  BottomNavigation, BottomNavigationAction, useMediaQuery, useTheme,
+  AppBar, Avatar, Badge, Box, IconButton, InputAdornment, Stack, Tab, Tabs, TextField, Toolbar,
+  Typography, BottomNavigation, BottomNavigationAction, useMediaQuery, useTheme,
 } from "@mui/material";
 import MenuBookOutlined from "@mui/icons-material/MenuBookOutlined";
+import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
 import TrendingUpOutlined from "@mui/icons-material/TrendingUpOutlined";
 import type { UsageDashboardProps } from "../registry";
+import { ENROLLED } from "./data";
 import { SCREENS } from "./screens";
 
 const SCREEN_ICON: Record<string, React.ReactNode> = {
@@ -63,6 +65,12 @@ export function MuiUsage2({ system }: UsageDashboardProps) {
               }}
               sx={{ inlineSize: "min(200px, 46vw)" }}
             />
+            {/* 알림 배지로 수강 중인 강좌 수 표시 */}
+            <IconButton size="small" aria-label="알림">
+              <Badge badgeContent={ENROLLED.length} color="error">
+                <NotificationsOutlined fontSize="small" />
+              </Badge>
+            </IconButton>
             <Avatar sx={{ blockSize: 28, fontSize: 12, inlineSize: 28 }}>하</Avatar>
           </Stack>
         </Toolbar>

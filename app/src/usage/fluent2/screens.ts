@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { Ticket } from "./data";
 import { KnowledgeBaseScreen } from "./screens/KnowledgeBaseScreen";
 import { TicketDetailScreen } from "./screens/TicketDetailScreen";
 import { TicketsScreen } from "./screens/TicketsScreen";
@@ -7,6 +8,8 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  tickets?: Ticket[];
+  onCreateTicket?: (ticket: Ticket) => void;
 }
 
 export interface ScreenDefinition {
