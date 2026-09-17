@@ -5,12 +5,15 @@ export interface Restaurant {
   rating: number;
   deliveryMin: number;
   minOrder: number;
+  // 영업 상태 표시용 pill 위치
+  status: "영업중" | "브레이크타임" | "마감";
   menu: { name: string; price: number }[];
 }
 
 export const RESTAURANTS: Restaurant[] = [
   {
     id: "r1", name: "합정 소국밥", category: "한식", rating: 4.7, deliveryMin: 28, minOrder: 12000,
+    status: "영업중",
     menu: [
       { name: "소고기 국밥", price: 9500 },
       { name: "순대국밥", price: 8500 },
@@ -19,6 +22,7 @@ export const RESTAURANTS: Restaurant[] = [
   },
   {
     id: "r2", name: "연남 나폴리 피자", category: "양식", rating: 4.5, deliveryMin: 35, minOrder: 18000,
+    status: "브레이크타임",
     menu: [
       { name: "마르게리타", price: 16000 },
       { name: "고르곤졸라", price: 19000 },
@@ -27,6 +31,7 @@ export const RESTAURANTS: Restaurant[] = [
   },
   {
     id: "r3", name: "망원 라멘야", category: "일식", rating: 4.8, deliveryMin: 22, minOrder: 10000,
+    status: "영업중",
     menu: [
       { name: "돈코츠 라멘", price: 11000 },
       { name: "츠케멘", price: 12000 },
@@ -35,6 +40,7 @@ export const RESTAURANTS: Restaurant[] = [
   },
   {
     id: "r4", name: "서교 마라공방", category: "중식", rating: 4.4, deliveryMin: 30, minOrder: 15000,
+    status: "마감",
     menu: [
       { name: "마라탕(중)", price: 13000 },
       { name: "마라샹궈", price: 22000 },

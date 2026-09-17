@@ -4,6 +4,7 @@ import type { UsageDashboard } from "./registry";
 import { Antd3Usage } from "./antd3/Dashboard";
 import { BlueprintUsage3 } from "./blueprint3/Dashboard";
 import { BootstrapUsage3 } from "./bootstrap3/Dashboard";
+import { CarbonUsage3 } from "./carbon3/Dashboard";
 import { CloudscapeUsage3 } from "./cloudscape3/Dashboard";
 import { DaisyuiUsage3 } from "./daisyui3/Dashboard";
 import { FluentUsage3 } from "./fluent3/Dashboard";
@@ -20,6 +21,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   antd: Antd3Usage,
   blueprint: BlueprintUsage3,
   bootstrap: BootstrapUsage3,
+  carbon: CarbonUsage3,
   cloudscape: CloudscapeUsage3,
   daisyui: DaisyuiUsage3,
   fluent: FluentUsage3,

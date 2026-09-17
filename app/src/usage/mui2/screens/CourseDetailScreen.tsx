@@ -1,6 +1,8 @@
 import {
-  Box, Button, Checkbox, Chip, LinearProgress, Stack, Typography,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, Chip,
+  LinearProgress, Stack, Typography,
 } from "@mui/material";
+import ExpandMoreOutlined from "@mui/icons-material/ExpandMoreOutlined";
 import { COURSES } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -42,15 +44,22 @@ export function CourseDetailScreen({ selectedId, onNavigate }: ScreenProps) {
         <LinearProgress variant="determinate" value={(doneCount / course.lessons.length) * 100} />
       </Box>
 
-      <Stack spacing={1}>
-        {course.lessons.map((l, i) => (
-          <Stack key={l.title} direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
-            <Checkbox checked={l.done} size="small" disabled />
-            <Typography variant="body2" sx={{ flex: 1 }}>{i + 1}. {l.title}</Typography>
-            <Typography variant="caption" color="text.secondary">{l.minutes}분</Typography>
+      <Accordion defaultExpanded disableGutters>
+        <AccordionSummary expandIcon={<ExpandMoreOutlined />}>
+          <Typography variant="subtitle2">커리큘럼 {course.lessons.length}강</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack spacing={1}>
+            {course.lessons.map((l, i) => (
+              <Stack key={l.title} direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+                <Checkbox checked={l.done} size="small" disabled />
+                <Typography variant="body2" sx={{ flex: 1 }}>{i + 1}. {l.title}</Typography>
+                <Typography variant="caption" color="text.secondary">{l.minutes}분</Typography>
+              </Stack>
+            ))}
           </Stack>
-        ))}
-      </Stack>
+        </AccordionDetails>
+      </Accordion>
     </Stack>
   );
 }
