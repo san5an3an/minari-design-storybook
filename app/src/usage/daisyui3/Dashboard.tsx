@@ -2,6 +2,31 @@ import * as React from "react";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
+const DARK_SCOPE_CSS = `
+.daisyui-dark-scope,
+.daisyui-dark-scope * {
+  --color-base-100: #14233a;
+  --color-base-200: #0f1c30;
+  --color-base-300: #223349;
+  --color-base-content: #f2f6fb;
+  --color-primary: #5b9bff;
+  --color-primary-content: #0b1622;
+  --color-neutral: #223349;
+  --color-neutral-content: #f2f6fb;
+  --color-success: #3fd39e;
+  --color-success-content: #0b1622;
+  --color-warning: #ffb020;
+  --color-warning-content: #0b1622;
+  --color-error: #ff5c5c;
+  --color-error-content: #0b1622;
+}
+.daisyui-dark-scope {
+  color-scheme: dark;
+  background: #0b1622;
+  color: var(--color-base-content);
+}
+`;
+
 export function DaisyuiUsage3({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
@@ -19,6 +44,7 @@ export function DaisyuiUsage3({ system }: UsageDashboardProps) {
         boxShadow: "var(--semantic-shadow-raised)",
       }}
     >
+      <style>{DARK_SCOPE_CSS}</style>
       <div
         style={{
           display: "flex",
