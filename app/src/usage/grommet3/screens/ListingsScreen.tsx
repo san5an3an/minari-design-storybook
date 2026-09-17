@@ -1,5 +1,8 @@
 import * as React from "react";
-import { Box, Button, Card, CardBody, CheckBox, Heading, Meter, Select, Tag, Text, ThemeContext } from "grommet";
+import {
+  Box, Button, Card, CardBody, CheckBox, Heading, Image, Meter, RangeSelector, Select, Tag, Text,
+  ThemeContext,
+} from "grommet";
 import { normalizeColor } from "grommet/utils";
 import { Heart } from "lucide-react";
 
@@ -28,6 +31,7 @@ export function ListingsScreen {
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [sort, setSort] = React.useState(SORT_OPTIONS[0]);
   const [hotOnly, setHotOnly] = React.useState(false);
+  const [interestRange, setInterestRange] = React.useState<[number, number]>([0, 100]);
   const theme = React.useContext(ThemeContext);
   const dangerColor = normalizeColor("status-critical", theme) as string;
   const selected = LISTINGS.find((l) => l.id === selectedId);
@@ -38,7 +42,7 @@ export function ListingsScreen {
         <Button plain onClick={ => setSelectedId(null)} label="← 목록으로" />
         <Card background="background-front" pad="medium">
           <Box height="10rem" round="small" overflow="hidden" margin={{ bottom: "small" }}>
-            <img src={selected.photo} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <Image src={selected.photo} fit="cover" a11yTitle={selected.title} />
           </Box>
           <CardBody gap="small">
             <Box direction="row" align="center" gap="small">
@@ -64,7 +68,9 @@ export function ListingsScreen {
     );
   }
 
-  const base = hotOnly ? LISTINGS.filter((l) => l.interest >= 70) : LISTINGS;
+  const base = (hotOnly ? LISTINGS.filter((l) => l.interest >= 70) : LISTINGS).filter(
+    (l) => l.interest >= interestRange[0] && l.interest <= interestRange[1],
+  );
   const shown = [...base].sort((a, b) => (sort === "관심도순" ? b.interest - a.interest : 0));
   const byType = Array.from(new Set(LISTINGS.map((l) => l.type))).map((t) => ({
     type: t,
@@ -83,6 +89,21 @@ export function ListingsScreen {
           />
           <Select size="small" options={SORT_OPTIONS} value={sort} onChange={({ option }) => setSort(option)} />
         </Box>
+      </Box>
+
+      <Box direction="row" align="center" gap="small">
+        <Text size="small" color="text-weak" style={{ whiteSpace: "nowrap" }}>관심도 범위</Text>
+        <Box width="14rem">
+          <RangeSelector
+            min={0}
+            max={100}
+            step={5}
+            size="small"
+            values={interestRange}
+            onChange={(range) => setInterestRange(range as [number, number])}
+          />
+        </Box>
+        <Text size="small" color="text-weak">{interestRange[0]}%–{interestRange[1]}%</Text>
       </Box>
 
       <Box direction="row" gap="xsmall" wrap>
@@ -105,7 +126,7 @@ export function ListingsScreen {
             basis="14rem"
           >
             <Box height="8rem" overflow="hidden" round={{ corner: "top", size: "medium" }} style={{ position: "relative" }}>
-              <img src={l.photo} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <Image src={l.photo} fit="cover" a11yTitle={l.title} />
               <Box style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }} round="full" background="white" pad="4px">
                 <Button
                   plain
