@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { BaseRefAdapter, BaseRefDoc, BaseRefExample, DemoValue, SkipCode } from "../refContract";
 import { BLUEPRINT_INDEX, isBlueprintSlug, loadBlueprintDoc, type BlueprintDoc } from "./loader";
 import { GROUPS } from "./demos/groups";
@@ -55,23 +54,22 @@ export const blueprintAdapter: BaseRefAdapter = {
       ),
     }));
   },
-  // 필드 8, div로 감싸 blueprint CSS 적용. 스코프용 DOM 필요하기 때문임
-  Provider: ({ children }) =>
-    React.createElement("div", { className: "blueprint-ref-scope" }, children),
+  // 필드 8, 대표 3종 모두 공급자 없음. 색은 CSS 변수라 공급자로 옮겨지지 않음
+  Provider: ({ children }) => children,
+  // mountTheme는 heroui와 동일 시간 스코프
   mountTheme(_system, _mode, doc) {
     let alive = true;
-    const nodes: (HTMLStyleElement | HTMLDivElement)[] = [];
-    import("./theme/blueprint-styles.json").then((mod) => {
+    let node: HTMLStyleElement | null = null;
+    import("./theme/blueprint-styles.json").then((m) => {
       if (!alive) return;
-      const style = doc.createElement("style");
-      style.dataset.baseMount = "blueprint:blueprint-styles";
-      style.textContent = String(mod.default);
-      doc.head.appendChild(style);
-      nodes.push(style);
-    }).catch( => { /* 못 실으면 blueprint가 기본 CSS 없이 렌더링 */ });
+      node = doc.createElement("style");
+      node.dataset.baseMount = "blueprint:blueprint-styles";
+      node.textContent = String(m.default);
+      doc.head.appendChild(node);
+    }).catch( => { /* 못 실으면 blueprint가 스타일 없이 즉시 렌더링 */ });
     return  => {
       alive = false;
-      for (const el of nodes) el.remove;
+      node?.remove;
     };
   },
 };
