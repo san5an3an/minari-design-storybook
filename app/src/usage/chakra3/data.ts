@@ -19,8 +19,9 @@ export const CAMPAIGNS: Campaign[] = [
     image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=60" },
   { id: "cp4", title: "업사이클 가방 브랜드 런칭", category: "패션", goal: 8000000, raised: 8500000, backerCount: 301, daysLeft: 3, status: "진행중",
     image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=60" },
+  // 404 이미지 대체 URL로 변경
   { id: "cp5", title: "독립 다큐멘터리 후반작업", category: "영상", goal: 12000000, raised: 3400000, backerCount: 97, daysLeft: 21, status: "진행중",
-    image: "https://images.unsplash.com/photo-1489599162946-4dd7a1a8b6ef?auto=format&fit=crop&w=600&q=60" },
+    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=60" },
   { id: "cp6", title: "제로웨이스트 세제 리필스테이션", category: "생활", goal: 6000000, raised: 2100000, backerCount: 78, daysLeft: 0, status: "종료",
     image: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?auto=format&fit=crop&w=600&q=60" },
   { id: "cp7", title: "핸드드립 원두 정기구독", category: "식품", goal: 4000000, raised: 4900000, backerCount: 156, daysLeft: 6, status: "진행중",
