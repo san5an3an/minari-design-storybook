@@ -1,6 +1,8 @@
+import * as React from "react";
 import { Inbox, MessageSquareWarning, Timer } from "lucide-react";
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 
 interface Ticket {
@@ -37,6 +39,35 @@ const STATS: Stat[] = [
   { label: "평균 응답시간", value: "38분", tone: "warning", Icon: Timer },
   { label: "미해결", value: "6", tone: "danger", Icon: MessageSquareWarning },
 ];
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=60";
+
+// 인사 배너, 그라디언트 짙은 쪽에 글자 배치. --semantic-bg-brand 사용
+function TicketsHero {
+  return (
+    <div
+      className="d-flex flex-column justify-content-end gap-1 p-4"
+      style={{
+        minHeight: "9rem",
+        borderRadius: "var(--semantic-radius-container)",
+        boxShadow: "var(--semantic-shadow-raised)",
+        backgroundImage:
+          `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-brand-default) 18%, transparent) 0%, `
+          + `color-mix(in oklch, var(--semantic-bg-brand-default) 90%, black) 78%), url("${HERO_IMAGE}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <span style={{ color: "var(--semantic-fg-on-brand-default)", fontSize: "1.125rem", fontWeight: 600 }}>
+        오늘도 문의를 하나씩 풀어볼까요 👋
+      </span>
+      <span style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.85, fontSize: "0.875rem" }}>
+        지금까지 들어온 문의를 상태별로 확인해요.
+      </span>
+    </div>
+  );
+}
 
 function StatTile({ stat }: { stat: Stat }) {
   const { Icon } = stat;
@@ -81,12 +112,44 @@ function StatTile({ stat }: { stat: Stat }) {
 }
 
 export function TicketsScreen {
+  const [query, setQuery] = React.useState("");
+  const [status, setStatus] = React.useState<Ticket["status"] | "all">("all");
+
+  const rows = TICKETS.filter(
+    (t) =>
+      (status === "all" || t.status === status)
+      && (query.trim === "" || t.subject.includes(query) || t.customer.includes(query)),
+  );
+
   return (
     <div className="d-flex flex-column gap-3">
+      <TicketsHero />
       <div className="d-flex flex-wrap gap-3">
         {STATS.map((s) => (
           <StatTile key={s.label} stat={s} />
         ))}
+      </div>
+
+      {/* Form.Control, Form.Select로 필터링 동작 구현하기 */}
+      <div className="d-flex flex-wrap gap-2">
+        <Form.Control
+          type="search"
+          placeholder="제목·고객 검색"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{ maxWidth: "220px" }}
+        />
+        <Form.Select
+          value={status}
+          onChange={(e) => setStatus(e.target.value as Ticket["status"] | "all")}
+          style={{ maxWidth: "140px" }}
+          aria-label="상태 거르기"
+        >
+          <option value="all">전체 상태</option>
+          <option value="open">열림</option>
+          <option value="pending">대기</option>
+          <option value="closed">닫힘</option>
+        </Form.Select>
       </div>
 
       <Table hover responsive size="sm">
@@ -100,7 +163,7 @@ export function TicketsScreen {
           </tr>
         </thead>
         <tbody>
-          {TICKETS.map((t) => (
+          {rows.map((t) => (
             <tr key={t.id}>
               <td>
                 <code>{t.id}</code>

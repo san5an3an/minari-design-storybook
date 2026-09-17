@@ -28,9 +28,12 @@ import { ComponentPage } from "./preview/ComponentPage";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
 // 13종 어댑터는 정적 로드, 라이브러리/CSS/화면은 지연 로드하기
+import { carbonAdapter } from "./preview/carbonRef/adapter";
+import { bootstrapAdapter } from "./preview/bootstrapRef/adapter";
 import { flowbiteAdapter } from "./preview/flowbiteRef/adapter";
 import { grommetAdapter } from "./preview/grommetRef/adapter";
 import { primerAdapter } from "./preview/primerRef/adapter";
+import { lightningAdapter } from "./preview/lightningRef/adapter";
 import { fluentAdapter } from "./preview/fluentRef/adapter";
 import { spectrumAdapter } from "./preview/spectrumRef/adapter";
 import { blueprintAdapter } from "./preview/blueprintRef/adapter";
@@ -59,9 +62,12 @@ function baseReference(adapter: BaseRefAdapter, baseTitle: string) {
       ),
     })));
 }
+const CarbonReference = baseReference(carbonAdapter, "Carbon");
+const BootstrapReference = baseReference(bootstrapAdapter, "React Bootstrap");
 const FlowbiteReference = baseReference(flowbiteAdapter, "Flowbite React");
 const GrommetReference = baseReference(grommetAdapter, "Grommet");
 const PrimerReference = baseReference(primerAdapter, "Primer");
+const LightningReference = baseReference(lightningAdapter, "Lightning");
 const FluentReference = baseReference(fluentAdapter, "Fluent UI");
 const SpectrumReference = baseReference(spectrumAdapter, "React Spectrum");
 const BlueprintReference = baseReference(blueprintAdapter, "Blueprint");
@@ -297,6 +303,14 @@ type MirrorEntry = {
 const MIRRORS: Record<string, MirrorEntry> = {
   antd: { isSlug: isAntdSlug, INDEX: ANTD_INDEX, GROUPS: ANTD_GROUPS, TITLE: ANTD_TITLE, Reference: AntdReference },
   mui: { isSlug: isMuiSlug, INDEX: MUI_INDEX, GROUPS: MUI_GROUPS, TITLE: MUI_TITLE, Reference: MuiReference },
+  carbon: {
+    isSlug: carbonAdapter.isSlug, INDEX: carbonAdapter.INDEX, GROUPS: carbonAdapter.GROUPS,
+    TITLE: carbonAdapter.TITLE, Reference: CarbonReference, noOurs: true,
+  },
+  bootstrap: {
+    isSlug: bootstrapAdapter.isSlug, INDEX: bootstrapAdapter.INDEX, GROUPS: bootstrapAdapter.GROUPS,
+    TITLE: bootstrapAdapter.TITLE, Reference: BootstrapReference, noOurs: true,
+  },
   flowbite: {
     isSlug: flowbiteAdapter.isSlug, INDEX: flowbiteAdapter.INDEX, GROUPS: flowbiteAdapter.GROUPS,
     TITLE: flowbiteAdapter.TITLE, Reference: FlowbiteReference, noOurs: true,
@@ -308,6 +322,10 @@ const MIRRORS: Record<string, MirrorEntry> = {
   primer: {
     isSlug: primerAdapter.isSlug, INDEX: primerAdapter.INDEX, GROUPS: primerAdapter.GROUPS,
     TITLE: primerAdapter.TITLE, Reference: PrimerReference, noOurs: true,
+  },
+  lightning: {
+    isSlug: lightningAdapter.isSlug, INDEX: lightningAdapter.INDEX, GROUPS: lightningAdapter.GROUPS,
+    TITLE: lightningAdapter.TITLE, Reference: LightningReference, noOurs: true,
   },
   fluent: {
     isSlug: fluentAdapter.isSlug, INDEX: fluentAdapter.INDEX, GROUPS: fluentAdapter.GROUPS,

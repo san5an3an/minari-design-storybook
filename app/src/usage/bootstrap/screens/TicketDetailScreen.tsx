@@ -36,6 +36,14 @@ export function TicketDetailScreen {
           <Form.Group className="mb-2" controlId="reply">
             <Form.Control as="textarea" placeholder="답장을 입력하세요" rows={3} />
           </Form.Group>
+          {/* Form.Select로 상세 화면 채우기 */}
+          <Form.Group className="mb-2" controlId="ticket-status" style={{ maxWidth: "160px" }}>
+            <Form.Select defaultValue="open" size="sm">
+              <option value="open">열림</option>
+              <option value="pending">대기</option>
+              <option value="closed">닫힘</option>
+            </Form.Select>
+          </Form.Group>
           <Button variant="primary">답장 보내기</Button>
         </Form>
       </Card.Body>

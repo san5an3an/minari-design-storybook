@@ -1,4 +1,4 @@
-import { Badge, Button } from "flowbite-react";
+import { Badge, Breadcrumb, BreadcrumbItem, Button, Tooltip } from "flowbite-react";
 import { INVOICES, type Invoice } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -28,10 +28,16 @@ export function InvoiceDetailScreen({ selectedId, onNavigate }: ScreenProps) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <Breadcrumb>
+        <BreadcrumbItem onClick={ => onNavigate?.("invoices")} className="cursor-pointer">인보이스</BreadcrumbItem>
+        <BreadcrumbItem>{invoice.number}</BreadcrumbItem>
+      </Breadcrumb>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span style={{ fontWeight: 600, fontSize: "18px" }}>{invoice.number}</span>
-          <Badge color={STATUS_COLOR[invoice.status]}>{invoice.status}</Badge>
+          <Tooltip content={`상태: ${invoice.status}`}>
+            <Badge color={STATUS_COLOR[invoice.status]}>{invoice.status}</Badge>
+          </Tooltip>
         </div>
         <span style={{ fontSize: "14px", color: "var(--color-gray-500)" }}>{invoice.customer} · {invoice.issuedLabel}</span>
       </div>

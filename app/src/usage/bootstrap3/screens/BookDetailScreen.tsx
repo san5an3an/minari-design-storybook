@@ -1,7 +1,13 @@
+import * as React from "react";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import type { ScreenProps } from "../screens";
-import { BOOKS, type Book } from "../data";
+import { BOOKS, OVERDUE, type Book } from "../data";
+
+type Action = "대출" | "반납";
 
 const STATUS_LABEL: Record<Book["status"], { text: string; bg: string }> = {
   대출가능: { text: "대출가능", bg: "success" },
@@ -9,8 +15,17 @@ const STATUS_LABEL: Record<Book["status"], { text: string; bg: string }> = {
   연체: { text: "연체", bg: "danger" },
 };
 
-export function BookDetailScreen({ selectedId, onNavigate }: ScreenProps) {
+// 연체료는 도서 자신의 연체 상태와 OVERDUE 레코드로만 계산
+const LATE_FEE_PER_DAY = 200;
+
+export function BookDetailScreen({ selectedId, onSelect, onNavigate }: ScreenProps) {
   const book = BOOKS.find((b) => b.id === selectedId);
+  const [action, setAction] = React.useState<Action>(book?.borrower ? "반납" : "대출");
+  const [borrower, setBorrower] = React.useState(book?.borrower ?? "");
+
+  // 파생 리스트. 프레임 유지, 데이터에서 값 추출. 저자 기준 분류, 장르 일부 중복
+  const sameCategory = book ? BOOKS.filter((b) => b.id !== book.id && b.category === book.category) : [];
+  const overdue = book ? OVERDUE.find((o) => o.bookId === book.id) : undefined;
 
   if (!book) {
     return (
@@ -43,6 +58,29 @@ export function BookDetailScreen({ selectedId, onNavigate }: ScreenProps) {
         ) : null}
       </div>
 
+      {overdue ? (
+        <Card border="danger">
+          <Card.Body className="d-flex flex-column gap-2">
+            <h3 style={{ fontSize: "0.875rem", fontWeight: 600, marginBottom: 0 }}>연체료 안내</h3>
+            <div className="d-flex justify-content-between">
+              <span className="small text-body-secondary">반납예정일</span>
+              <span className="small">{overdue.dueLabel}</span>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span className="small text-body-secondary">연체 일수</span>
+              <span className="small">{overdue.daysLate}일</span>
+            </div>
+            <div className="d-flex justify-content-between fw-semibold">
+              <span>연체료 (일 {LATE_FEE_PER_DAY.toLocaleString}원)</span>
+              <span>{(overdue.daysLate * LATE_FEE_PER_DAY).toLocaleString}원</span>
+            </div>
+            <Button size="sm" variant="outline-danger" style={{ alignSelf: "flex-start" }}>
+              연체료 납부
+            </Button>
+          </Card.Body>
+        </Card>
+      ) : null}
+
       <div>
         <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>대출 이력</h3>
         {book.loans.length === 0 ? (
@@ -62,6 +100,54 @@ export function BookDetailScreen({ selectedId, onNavigate }: ScreenProps) {
           </ul>
         )}
       </div>
+
+      <Card>
+        <Card.Body className="d-flex flex-column gap-2">
+          <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>대출/반납 처리</h3>
+          <div className="d-flex gap-3">
+            <Form.Check
+              type="radio" id="action-borrow" name="loan-action" label="대출"
+              checked={action === "대출"} onChange={ => setAction("대출")}
+            />
+            <Form.Check
+              type="radio" id="action-return" name="loan-action" label="반납"
+              checked={action === "반납"} onChange={ => setAction("반납")}
+            />
+          </div>
+          <InputGroup style={{ maxWidth: "320px" }}>
+            <InputGroup.Text>대출자</InputGroup.Text>
+            <Form.Control
+              value={borrower}
+              onChange={(e) => setBorrower(e.target.value)}
+              placeholder="이름 입력"
+              disabled={action === "반납"}
+            />
+          </InputGroup>
+          <Button size="sm" style={{ alignSelf: "flex-start" }}>
+            {action} 처리
+          </Button>
+        </Card.Body>
+      </Card>
+
+      {sameCategory.length > 0 ? (
+        <div>
+          <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>같은 분류({book.category})의 다른 책</h3>
+          <ul className="list-unstyled d-flex flex-column gap-1 mb-0">
+            {sameCategory.map((b) => (
+              <li key={b.id}>
+                <Button
+                  variant="link"
+                  className="p-0"
+                  onClick={ => { onSelect?.(b.id); onNavigate?.("detail"); }}
+                >
+                  {b.title}
+                </Button>
+                <span className="text-body-secondary small"> · {b.author} · <Badge bg={STATUS_LABEL[b.status].bg}>{STATUS_LABEL[b.status].text}</Badge></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }

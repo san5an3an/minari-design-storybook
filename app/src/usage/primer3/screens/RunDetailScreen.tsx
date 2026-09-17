@@ -1,4 +1,5 @@
-import { Button, StateLabel } from "@primer/react";
+import * as React from "react";
+import { Button, Checkbox, FormControl, StateLabel, TextInput } from "@primer/react";
 import { WORKFLOWS, type WorkflowRun } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -10,6 +11,8 @@ const STATUS_STATUS: Record<WorkflowRun["status"], "issueClosed" | "issueOpened"
 
 export function RunDetailScreen({ selectedId, onNavigate }: ScreenProps) {
   const run = WORKFLOWS.find((w) => w.id === selectedId);
+  const [branch, setBranch] = React.useState(run?.branch ?? "");
+  const [debugLogging, setDebugLogging] = React.useState(false);
 
   if (!run) {
     return (
@@ -42,6 +45,21 @@ export function RunDetailScreen({ selectedId, onNavigate }: ScreenProps) {
       >
         {run.log.join("\n")}
       </pre>
+
+      <div>
+        <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--fgColor-muted)", marginBottom: "6px" }}>재실행 옵션</div>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: "12px" }}>
+          <FormControl>
+            <FormControl.Label>브랜치</FormControl.Label>
+            <TextInput value={branch} onChange={(e) => setBranch(e.target.value)} size="small" />
+          </FormControl>
+          <FormControl>
+            <Checkbox checked={debugLogging} onChange={(e) => setDebugLogging(e.target.checked)} />
+            <FormControl.Label>디버그 로깅 활성화</FormControl.Label>
+          </FormControl>
+          <Button variant="primary" size="small">재실행</Button>
+        </div>
+      </div>
     </div>
   );
 }

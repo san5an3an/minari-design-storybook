@@ -1,20 +1,29 @@
 import * as React from "react";
 import {
-  Box, Button, Card, CardActionArea, Chip, Divider, IconButton, MenuItem,
-  Rating, Select, Slider, Stack, ToggleButton, ToggleButtonGroup, Typography,
-  useMediaQuery, useTheme,
+  Box, Button, Card, CardActionArea, Chip, Divider, IconButton, Menu, MenuItem,
+  Rating, Select, Slider, Stack, ToggleButton, ToggleButtonGroup, Tooltip,
+  Typography, useMediaQuery, useTheme,
 } from "@mui/material";
 import { alpha, darken } from "@mui/material/styles";
+import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import BathtubOutlined from "@mui/icons-material/BathtubOutlined";
 import DirectionsCarOutlined from "@mui/icons-material/DirectionsCarOutlined";
 import DirectionsSubwayOutlined from "@mui/icons-material/DirectionsSubwayOutlined";
 import FavoriteBorderOutlined from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlined from "@mui/icons-material/FavoriteOutlined";
+import FlagOutlined from "@mui/icons-material/FlagOutlined";
+import HomeWorkOutlined from "@mui/icons-material/HomeWorkOutlined";
 import MapOutlined from "@mui/icons-material/MapOutlined";
 import MeetingRoomOutlined from "@mui/icons-material/MeetingRoomOutlined";
+import MoreVertOutlined from "@mui/icons-material/MoreVertOutlined";
+import PaidOutlined from "@mui/icons-material/PaidOutlined";
 import PhotoCameraOutlined from "@mui/icons-material/PhotoCameraOutlined";
 import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
+import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import SquareFootOutlined from "@mui/icons-material/SquareFootOutlined";
+import TimerOutlined from "@mui/icons-material/TimerOutlined";
+import TrendingDown from "@mui/icons-material/TrendingDown";
+import TrendingUp from "@mui/icons-material/TrendingUp";
 import TuneOutlined from "@mui/icons-material/TuneOutlined";
 import { LISTINGS, monthlyTotal, won, type Listing } from "../listings";
 import type { ScreenProps } from "../screens";
@@ -93,6 +102,192 @@ function SearchHero {
   );
 }
 
+type StatTone = "primary" | "success" | "warning" | "error";
+
+interface HomeStat {
+  label: string;
+  value: string;
+  delta: string;
+  up: boolean;
+  tone: StatTone;
+  icon: React.ComponentType<{ fontSize?: "small" | "inherit" | "medium" | "large" }>;
+  trend: readonly number[];
+}
+
+const HOME_STATS: readonly HomeStat[] = [
+  {
+    label: "이번 주 신규 매물",
+    value: "12건",
+    delta: "+20%",
+    up: true,
+    tone: "primary",
+    icon: HomeWorkOutlined,
+    trend: [4, 6, 5, 8, 7, 10, 12],
+  },
+  {
+    label: "평균 월세",
+    value: "145만원",
+    delta: "-3%",
+    up: false,
+    tone: "success",
+    icon: PaidOutlined,
+    trend: [152, 150, 149, 148, 147, 146, 145],
+  },
+  {
+    label: "관심 매물",
+    value: "8건",
+    delta: "+2건",
+    up: true,
+    tone: "warning",
+    icon: FavoriteBorderOutlined,
+    trend: [3, 4, 4, 5, 6, 7, 8],
+  },
+  {
+    label: "평균 도보 거리",
+    value: "8분",
+    delta: "-1분",
+    up: true,
+    tone: "error",
+    icon: TimerOutlined,
+    trend: [11, 10, 10, 9, 9, 8, 8],
+  },
+];
+
+function HomeStatCard({ stat }: { stat: HomeStat }) {
+  const theme = useTheme;
+  const Icon = stat.icon;
+  const Trend = stat.up ? TrendingUp : TrendingDown;
+  const trendColor = stat.up ? theme.palette.success.main : theme.palette.error.main;
+  return (
+    <Card variant="outlined" sx={{ p: 1.75 }}>
+      <Stack direction="row" sx={{ alignItems: "flex-start", justifyContent: "space-between" }}>
+        <Stack spacing={1}>
+          <Box
+            aria-hidden
+            sx={{
+              alignItems: "center",
+              bgcolor: `${stat.tone}.main`,
+              borderRadius: "50%",
+              color: `${stat.tone}.contrastText`,
+              display: "flex",
+              height: 30,
+              justifyContent: "center",
+              opacity: 0.9,
+              width: 30,
+            }}
+          >
+            <Icon fontSize="small" />
+          </Box>
+          <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
+          <Typography variant="h6" component="p">{stat.value}</Typography>
+        </Stack>
+        <Stack spacing={0.5} sx={{ alignItems: "flex-end" }}>
+          <Chip
+            size="small"
+            icon={<Trend fontSize="inherit" />}
+            label={stat.delta}
+            sx={{
+              bgcolor: alpha(trendColor, 0.12),
+              color: trendColor,
+              "& .MuiChip-icon": { color: trendColor },
+            }}
+          />
+          <SparkLineChart
+            data={[...stat.trend]}
+            height={32}
+            width={72}
+            color={trendColor}
+            showTooltip={false}
+            showHighlight={false}
+          />
+        </Stack>
+      </Stack>
+    </Card>
+  );
+}
+
+// 인기 매물 랭킹 리스트, 지도 패널과 짝지어 사이드바에 고정
+function RankingList {
+  const top = React.useMemo(
+     => [...LISTINGS].sort((a, b) => b.rating - a.rating).slice(0, 3),
+    [],
+  );
+  return (
+    <Card variant="outlined" sx={{ p: 1.5 }}>
+      <Typography variant="subtitle2" sx={{ mb: 1 }}>이번 주 인기 매물</Typography>
+      <Stack spacing={1}>
+        {top.map((l, i) => (
+          <Stack key={l.id} direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <Typography
+              variant="caption"
+              sx={{
+                alignItems: "center", bgcolor: i === 0 ? "primary.main" : "action.hover",
+                borderRadius: "50%", color: i === 0 ? "primary.contrastText" : "text.secondary",
+                display: "flex", flexShrink: 0, fontWeight: 700, height: 20,
+                justifyContent: "center", width: 20,
+              }}
+            >
+              {i + 1}
+            </Typography>
+            <Stack spacing={0} sx={{ minWidth: 0 }}>
+              <Typography variant="body2" noWrap title={l.title}>{l.area}</Typography>
+              <Typography variant="caption" color="text.secondary">⭐ {l.rating.toFixed(1)} · 월 {won(l.rent)}</Typography>
+            </Stack>
+          </Stack>
+        ))}
+      </Stack>
+    </Card>
+  );
+}
+
+// Quick Insights 한 줄 요약, 통계값에서 직접 추출하기
+function QuickInsights {
+  const cheapest = React.useMemo(
+     => [...LISTINGS].sort((a, b) => monthlyTotal(a) - monthlyTotal(b))[0],
+    [],
+  );
+  return (
+    <Card variant="outlined" sx={{ bgcolor: "action.hover", p: 1.5 }}>
+      <Typography variant="caption" color="text.secondary">
+        💡 가장 저렴한 매물은 <strong>{cheapest.area}</strong>, 월 {won(monthlyTotal(cheapest))}이에요.
+      </Typography>
+    </Card>
+  );
+}
+
+// 카드 우상단 더보기 메뉴, 공유/신고 포함. Menu를 anchorEl 기반으로 사용
+function CardMenu({ title }: { title: string }) {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const open = Boolean(anchorEl);
+  return (
+    <>
+      <IconButton
+        size="small"
+        aria-label={`${title} 더보기`}
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        sx={{
+          bgcolor: "background.paper",
+          position: "absolute",
+          right: 44,
+          top: 8,
+          zIndex: 1,
+          "&:hover": { bgcolor: "background.paper" },
+        }}
+      >
+        <MoreVertOutlined fontSize="small" />
+      </IconButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={ => setAnchorEl(null)}>
+        <MenuItem onClick={ => setAnchorEl(null)}>
+          <ShareOutlined fontSize="small" sx={{ mr: 1 }} /> 공유하기
+        </MenuItem>
+        <MenuItem onClick={ => setAnchorEl(null)}>
+          <FlagOutlined fontSize="small" sx={{ mr: 1 }} /> 신고하기
+        </MenuItem>
+      </Menu>
+    </>
+  );
+}
+
 // 스펙 항목 하나, 아이콘과 값으로 구성. 넷이 한 행에서 줄바꿈 없이 고정
 function Spec({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -130,6 +325,22 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
   return (
     <Stack spacing={2}>
       <SearchHero />
+
+      <Box
+        sx={{
+          display: "grid",
+          gap: 1.5,
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, minmax(0, 1fr))",
+            lg: "repeat(4, minmax(0, 1fr))",
+          },
+        }}
+      >
+        {HOME_STATS.map((s) => (
+          <HomeStatCard key={s.label} stat={s} />
+        ))}
+      </Box>
 
       <Stack
         direction="row"
@@ -244,27 +455,30 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
             return (
               <Card key={l.id} variant="outlined" sx={{ overflow: "hidden", position: "relative" }}>
                 {/* 찜 버튼 카드 클릭 영역 밖에 고정. 겹치면 찜과 상세 이동 모두 작동하지 않음 */}
-                <IconButton
-                  size="small"
-                  aria-label={on ? `${l.title} 찜 해제` : `${l.title} 찜하기`}
-                  onClick={ =>
-                    setLiked((prev) => (on ? prev.filter((x) => x !== l.id) : [...prev, l.id]))
-                  }
-                  sx={{
-                    bgcolor: "background.paper",
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    zIndex: 1,
-                    "&:hover": { bgcolor: "background.paper" },
-                  }}
-                >
-                  {on ? (
-                    <FavoriteOutlined fontSize="small" color="error" />
-                  ) : (
-                    <FavoriteBorderOutlined fontSize="small" />
-                  )}
-                </IconButton>
+                <Tooltip title={on ? "찜 해제" : "찜하기"}>
+                  <IconButton
+                    size="small"
+                    aria-label={on ? `${l.title} 찜 해제` : `${l.title} 찜하기`}
+                    onClick={ =>
+                      setLiked((prev) => (on ? prev.filter((x) => x !== l.id) : [...prev, l.id]))
+                    }
+                    sx={{
+                      bgcolor: "background.paper",
+                      position: "absolute",
+                      right: 8,
+                      top: 8,
+                      zIndex: 1,
+                      "&:hover": { bgcolor: "background.paper" },
+                    }}
+                  >
+                    {on ? (
+                      <FavoriteOutlined fontSize="small" color="error" />
+                    ) : (
+                      <FavoriteBorderOutlined fontSize="small" />
+                    )}
+                  </IconButton>
+                </Tooltip>
+                <CardMenu title={l.title} />
 
                 <CardActionArea onClick={ => open(l.id)}>
                   <PhotoSlot />
@@ -323,9 +537,9 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
         </Box>
 
         {wide ? (
+          <Stack spacing={1.5} sx={{ flexShrink: 0, position: "sticky", top: 16, width: 300 }}>
           <Card
             variant="outlined"
-            sx={{ flexShrink: 0, position: "sticky", top: 16, width: 300 }}
           >
             <Box
               sx={{
@@ -351,6 +565,9 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
               </Typography>
             </Stack>
           </Card>
+          <RankingList />
+          <QuickInsights />
+          </Stack>
         ) : null}
       </Stack>
     </Stack>
