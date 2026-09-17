@@ -1,13 +1,16 @@
 import * as m000 from "./basic";
-import * as m001 from "./custom-styles";
+import * as m001 from "./variants";
+import * as m002 from "./statuses";
+import * as m003 from "./with-icon";
+import * as m004 from "./custom-styles";
 
 export const DEMOS = {
   "basic": m000.ChipBasic,
-  "custom-styles": m001.CustomStyles,
+  "variants": m001.ChipVariants,
+  "statuses": m002.ChipStatuses,
+  "with-icon": m003.ChipWithIcon,
+  "custom-styles": m004.CustomStyles,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "variants": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
-  "statuses": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
-  "with-icon": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
 };

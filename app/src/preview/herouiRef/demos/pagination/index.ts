@@ -5,7 +5,8 @@ import * as m003 from "./simple-prev-next";
 import * as m004 from "./controlled";
 import * as m005 from "./with-ellipsis";
 import * as m006 from "./with-summary";
-import * as m007 from "./custom-styles";
+import * as m007 from "./custom-icons";
+import * as m008 from "./custom-styles";
 
 export const DEMOS = {
   "basic": m000.PaginationBasic,
@@ -15,9 +16,9 @@ export const DEMOS = {
   "controlled": m004.PaginationControlled,
   "with-ellipsis": m005.PaginationWithEllipsis,
   "with-summary": m006.PaginationWithSummary,
-  "custom-styles": m007.CustomStyles,
+  "custom-icons": m007.PaginationCustomIcons,
+  "custom-styles": m008.CustomStyles,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "custom-icons": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @iconify/react"},
 };
