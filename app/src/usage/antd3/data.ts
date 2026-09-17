@@ -90,6 +90,9 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   { id: "t3", color: "red", label: "알림 센터, 일정 지연 보고", timeLabel: "9월 14일" },
   { id: "t4", color: "blue", label: "다크 모드, 요구사항 확정", timeLabel: "9월 15일" },
   { id: "t5", color: "gray", label: "결제 리뉴얼, 개발 착수", timeLabel: "9월 16일" },
+  { id: "t6", color: "gray", label: "검색 개선, 최근 검색어 저장 QA 시작", timeLabel: "9월 3일" },
+  { id: "t7", color: "blue", label: "알림 센터, 요구사항 확정", timeLabel: "8월 29일" },
+  { id: "t8", color: "gray", label: "다크 모드, 킥오프 미팅", timeLabel: "8월 25일" },
 ];
 
 export interface TeamReport {

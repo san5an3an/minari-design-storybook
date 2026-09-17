@@ -50,6 +50,26 @@ export const ISSUES: Issue[] = [
     createdLabel: "9월 3일",
     body: "Navbar가 좁은 화면에서 줄바꿈되는 기준값이 문서에 없어 헷갈렸습니다. 값을 명시하고 예제를 추가했습니다.",
   },
+  {
+    id: "i5",
+    key: "ODS-146",
+    title: "ProgressBar 애니메이션이 감속 설정을 안 따름",
+    status: "진행중",
+    assignee: "김지수",
+    labels: ["버그"],
+    createdLabel: "9월 16일",
+    body: "prefers-reduced-motion을 켜도 ProgressBar 줄무늬 애니메이션이 계속 움직입니다.",
+  },
+  {
+    id: "i6",
+    key: "ODS-140",
+    title: "Callout 아이콘 색이 커스텀 인텐트에서 안 바뀜",
+    status: "열림",
+    assignee: "김지수",
+    labels: ["버그"],
+    createdLabel: "9월 13일",
+    body: "커스텀 인텐트 토큰을 넣어도 Callout 아이콘 색이 기본값에 고정됩니다.",
+  },
 ];
 
 export interface Label {
