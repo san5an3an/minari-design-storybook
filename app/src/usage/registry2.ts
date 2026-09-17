@@ -3,8 +3,6 @@ import type { UsageDashboard } from "./registry";
 // 미생성 파일은 import 보류, 생성 후 줄 추가
 import { Antd2Usage } from "./antd2/Dashboard";
 import { BlueprintUsage2 } from "./blueprint2/Dashboard";
-import { BootstrapUsage2 } from "./bootstrap2/Dashboard";
-import { CarbonUsage2 } from "./carbon2/Dashboard";
 import { CloudscapeUsage2 } from "./cloudscape2/Dashboard";
 import { DaisyuiUsage2 } from "./daisyui2/Dashboard";
 import { FluentUsage2 } from "./fluent2/Dashboard";
@@ -20,8 +18,6 @@ import { ShadcnUsage2 } from "./shadcn2/Dashboard";
 export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   antd: Antd2Usage,
   blueprint: BlueprintUsage2,
-  bootstrap: BootstrapUsage2,
-  carbon: CarbonUsage2,
   cloudscape: CloudscapeUsage2,
   daisyui: DaisyuiUsage2,
   fluent: FluentUsage2,
