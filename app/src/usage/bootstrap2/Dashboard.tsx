@@ -47,9 +47,9 @@ export function BootstrapUsage2({ system, active }: UsageDashboardProps) {
                 onSelect={(key) => key && setScreenKey(key)}
               >
                 {SCREENS.map((s) => (
-                  <Nav.Link eventKey={s.key} key={s.key}>
-                    {s.label}
-                  </Nav.Link>
+                  <Nav.Item key={s.key}>
+                    <Nav.Link eventKey={s.key}>{s.label}</Nav.Link>
+                  </Nav.Item>
                 ))}
               </Nav>
               <Navbar.Text>{system.baseTitle}</Navbar.Text>

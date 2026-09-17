@@ -2,6 +2,7 @@ import * as React from "react";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Figure from "react-bootstrap/Figure";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import type { ScreenProps } from "../screens";
@@ -23,8 +24,13 @@ export function BookDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPro
   const [action, setAction] = React.useState<Action>(book?.borrower ? "반납" : "대출");
   const [borrower, setBorrower] = React.useState(book?.borrower ?? "");
 
-  // 파생 리스트. 프레임 유지, 데이터에서 값 추출. 저자 기준 분류, 장르 일부 중복
-  const sameCategory = book ? BOOKS.filter((b) => b.id !== book.id && b.category === book.category) : [];
+  const sameCategoryOnly = book ? BOOKS.filter((b) => b.id !== book.id && b.category === book.category) : [];
+  const sameCategory = sameCategoryOnly.length > 0
+    ? sameCategoryOnly
+    : (book ? BOOKS.filter((b) => b.id !== book.id).slice(0, 3) : []);
+  const relatedTitle = sameCategoryOnly.length > 0
+    ? `같은 분류(${book?.category})의 다른 책`
+    : "다른 소장 도서";
   const overdue = book ? OVERDUE.find((o) => o.bookId === book.id) : undefined;
 
   if (!book) {
@@ -43,19 +49,36 @@ export function BookDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPro
 
   return (
     <div className="d-flex flex-column gap-3">
-      <div>
-        <div className="d-flex align-items-center gap-2">
-          <span style={{ fontWeight: 600, fontSize: "1.125rem" }}>{book.title}</span>
-          <Badge bg={STATUS_LABEL[book.status].bg}>{STATUS_LABEL[book.status].text}</Badge>
-        </div>
-        <div className="text-body-secondary small">
-          {book.author} · {book.category} · ISBN {book.isbn}
-        </div>
-        {book.borrower ? (
-          <div className="text-body-secondary small">
-            현재 대출자 {book.borrower} · 반납예정 {book.dueLabel}
+      <div className="d-flex gap-3">
+        {/* Figure, Figure.Caption으로 표지 이미지 감싸고 ISBN 캡션 표시 */}
+        <Figure className="mb-0" style={{ flexShrink: 0 }}>
+          <Figure.Image
+            src={book.coverUrl}
+            alt=""
+            style={{
+              inlineSize: "6rem",
+              blockSize: "8rem",
+              objectFit: "cover",
+              borderRadius: "var(--semantic-radius-control)",
+              boxShadow: "var(--semantic-shadow-raised)",
+            }}
+          />
+          <Figure.Caption style={{ fontSize: "0.6875rem" }}>ISBN {book.isbn}</Figure.Caption>
+        </Figure>
+        <div>
+          <div className="d-flex align-items-center gap-2">
+            <span style={{ fontWeight: 600, fontSize: "1.125rem" }}>{book.title}</span>
+            <Badge bg={STATUS_LABEL[book.status].bg}>{STATUS_LABEL[book.status].text}</Badge>
           </div>
-        ) : null}
+          <div className="text-body-secondary small">
+            {book.author} · {book.category} · ISBN {book.isbn}
+          </div>
+          {book.borrower ? (
+            <div className="text-body-secondary small">
+              현재 대출자 {book.borrower} · 반납예정 {book.dueLabel}
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {overdue ? (
@@ -131,7 +154,7 @@ export function BookDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPro
 
       {sameCategory.length > 0 ? (
         <div>
-          <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>같은 분류({book.category})의 다른 책</h3>
+          <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>{relatedTitle}</h3>
           <ul className="list-unstyled d-flex flex-column gap-1 mb-0">
             {sameCategory.map((b) => (
               <li key={b.id}>

@@ -8,6 +8,7 @@ export interface Meetup {
   seatsLeft: number;
   description: string;
   colorToken: string;
+  image: string;
 }
 
 export const MEETUPS: Meetup[] = [
@@ -21,6 +22,7 @@ export const MEETUPS: Meetup[] = [
     seatsLeft: 4,
     description: "5km 완주 목표. 페이스는 6분/km 내외로 천천히 함께 뜁니다. 러닝화만 챙겨오세요.",
     colorToken: "var(--semantic-bg-success-subtle, #dcfce7)",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m2",
@@ -32,6 +34,7 @@ export const MEETUPS: Meetup[] = [
     seatsLeft: 2,
     description: "이번 달은 단편집 한 권을 같이 읽고 이야기합니다. 완독하지 않아도 참여 가능해요.",
     colorToken: "var(--semantic-bg-brand-subtle, #ede9fe)",
+    image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m3",
@@ -43,6 +46,7 @@ export const MEETUPS: Meetup[] = [
     seatsLeft: 0,
     description: "각자 만든 사이드 프로젝트를 5분씩 발표하고 피드백을 나눕니다. 마감되었습니다.",
     colorToken: "var(--semantic-bg-info-subtle, #e0f2fe)",
+    image: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m4",
@@ -54,6 +58,7 @@ export const MEETUPS: Meetup[] = [
     seatsLeft: 6,
     description: "재료 전부 제공. 초보자도 부담 없이 참여할 수 있는 수채화 원데이 클래스입니다.",
     colorToken: "var(--semantic-bg-warning-subtle, #fef3c7)",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=320&q=70",
   },
 ];
 

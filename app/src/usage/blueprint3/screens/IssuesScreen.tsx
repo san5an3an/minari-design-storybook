@@ -1,7 +1,8 @@
 import * as React from "react";
 import {
-  Button, Card, CardList, Checkbox, HTMLSelect, InputGroup, Section, SectionCard, Tag, TagInput,
+  Breadcrumbs, Button, Card, CardList, Checkbox, HTMLSelect, InputGroup, Section, SectionCard, Tag, TagInput,
 } from "@blueprintjs/core";
+import type { BreadcrumbProps } from "@blueprintjs/core";
 import type { Intent } from "@blueprintjs/core";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ISSUES, type Issue } from "../data";
@@ -52,9 +53,15 @@ function IssueDetail({
 
   return (
     <div className="flex flex-col gap-4">
-      <Button icon="arrow-left" onClick={onBack} minimal style={{ alignSelf: "flex-start" }}>
-        목록으로
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button icon="arrow-left" onClick={onBack} minimal style={{ alignSelf: "flex-start" }}>
+          목록으로
+        </Button>
+        {/* Breadcrumbs로 드릴다운 위치 표시 */}
+        <Breadcrumbs
+          items={[{ text: "이슈" }, { text: issue.key, current: true } satisfies BreadcrumbProps]}
+        />
+      </div>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <code style={{ opacity: 0.6 }}>{issue.key}</code>
@@ -227,7 +234,7 @@ function IssuesBody({
         <Card style={{ flex: "1 1 14rem", minWidth: "14rem" }}>
           <div style={{ fontSize: "0.75rem", opacity: 0.7, marginBlockEnd: "0.5rem" }}>상태별</div>
           <div style={{ inlineSize: "100%", blockSize: 100 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byStatus} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={40} tick={{ fontSize: 11 }} />
@@ -240,7 +247,7 @@ function IssuesBody({
         <Card style={{ flex: "1 1 14rem", minWidth: "14rem" }}>
           <div style={{ fontSize: "0.75rem", opacity: 0.7, marginBlockEnd: "0.5rem" }}>담당자별</div>
           <div style={{ inlineSize: "100%", blockSize: 100 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byAssignee} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
@@ -274,7 +281,7 @@ function IssuesBody({
       <Card>
         <div style={{ fontSize: "0.75rem", opacity: 0.7, marginBlockEnd: "0.5rem" }}>라벨별 분포</div>
         <div style={{ inlineSize: "100%", blockSize: 120 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={byLabel} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide allowDecimals={false} />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
