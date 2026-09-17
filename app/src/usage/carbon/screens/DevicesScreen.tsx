@@ -26,6 +26,7 @@ const STATUS_TAG: Record<Device["status"], TagColor> = {
   오프라인: "gray",
 };
 
+// 행별 OverflowMenu 메뉴 구조
 const DEVICES: Device[] = [
   { name: "냉장 창고 센서 A1", id: "DEV-1001", status: "정상", battery: "92%" },
   { name: "냉장 창고 센서 A2", id: "DEV-1002", status: "경고", battery: "18%" },
@@ -33,6 +34,10 @@ const DEVICES: Device[] = [
   { name: "공조 컨트롤러 C1", id: "DEV-3001", status: "오프라인", battery: "—" },
   { name: "공조 컨트롤러 C2", id: "DEV-3002", status: "정상", battery: "88%" },
   { name: "출입 게이트웨이 B2", id: "DEV-2002", status: "정상", battery: "64%" },
+  { name: "냉장 창고 센서 A3", id: "DEV-1003", status: "정상", battery: "81%" },
+  { name: "공조 컨트롤러 C3", id: "DEV-3003", status: "경고", battery: "22%" },
+  { name: "출입 게이트웨이 B3", id: "DEV-2003", status: "정상", battery: "70%" },
+  { name: "냉장 창고 센서 A4", id: "DEV-1004", status: "오프라인", battery: "—" },
 ];
 
 export function DevicesScreen {
