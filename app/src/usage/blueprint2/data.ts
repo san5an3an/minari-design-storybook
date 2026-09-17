@@ -15,6 +15,10 @@ export const TRANSACTIONS: Transaction[] = [
   { id: "t4", dateLabel: "9월 13일", merchant: "고객사 B", category: "매출", amount: 3200000, status: "대기", memo: "세금계산서 발행 대기 중." },
   { id: "t5", dateLabel: "9월 10일", merchant: "패스트파이브", category: "임대료", amount: -4200000, status: "완료", memo: "9월 사무실 임대료." },
   { id: "t6", dateLabel: "9월 8일", merchant: "고객사 C", category: "매출", amount: 1800000, status: "취소", memo: "계약 해지로 환불 처리." },
+  { id: "t7", dateLabel: "9월 7일", merchant: "고객사 D", category: "매출", amount: 5400000, status: "완료", memo: "9월분 라이선스 대금 입금." },
+  { id: "t8", dateLabel: "9월 5일", merchant: "노션", category: "소프트웨어", amount: -89000, status: "완료", memo: "팀 플랜 갱신." },
+  { id: "t9", dateLabel: "9월 3일", merchant: "인력사무소", category: "인건비", amount: -1850000, status: "완료", memo: "9월 프리랜서 계약직 급여." },
+  { id: "t10", dateLabel: "9월 1일", merchant: "고객사 E", category: "매출", amount: 2100000, status: "대기", memo: "세금계산서 발행 대기 중." },
 ];
 
 export interface CategoryBreakdown {
