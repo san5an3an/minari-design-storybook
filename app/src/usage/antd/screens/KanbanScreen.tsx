@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Avatar, Button, Card, Col, Dropdown, Flex, Row, Tag, theme, Typography } from "antd";
 import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const { Text, Title } = Typography;
 
@@ -45,6 +46,12 @@ export function KanbanScreen {
 
   const move = (id: string, lane: Lane) =>
     setItems((prev) => prev.map((it) => (it.id === id ? { ...it, lane } : it)));
+
+  const byAssignee = React.useMemo( => {
+    const counts = new Map<string, number>;
+    items.forEach((it) => counts.set(it.who, (counts.get(it.who) ?? 0) + 1));
+    return [...counts.entries].map(([name, value]) => ({ name, value }));
+  }, [items]);
 
   return (
     <Flex vertical gap={16}>
@@ -149,6 +156,21 @@ export function KanbanScreen {
           );
         })}
       </Row>
+
+      {/* 담당자별 처리 현황 */}
+      <Card size="small">
+        <Text strong style={{ fontSize: token.fontSizeSM }}>담당자별 카드 수</Text>
+        <div style={{ inlineSize: "100%", blockSize: 140, marginBlockStart: 8 }}>
+          <ResponsiveContainer>
+            <BarChart data={byAssignee} layout="vertical" margin={{ left: 8 }}>
+              <XAxis type="number" hide allowDecimals={false} />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
+              <Tooltip />
+              <Bar dataKey="value" fill={token.colorPrimary} radius={[0, 4, 4, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </Card>
     </Flex>
   );
 }

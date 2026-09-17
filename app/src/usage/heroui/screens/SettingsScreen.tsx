@@ -62,6 +62,15 @@ export function SettingsScreen {
         </TextField>
         <Button className="self-start">저장</Button>
       </Card>
+
+      {/* 계정 관리 화면 여백 채우기용 */}
+      <Card className="gap-3">
+        <span className="text-sm font-medium">계정</span>
+        <div className="flex gap-2">
+          <Button variant="secondary" size="sm">로그아웃</Button>
+          <Button variant="secondary" size="sm">계정 삭제</Button>
+        </div>
+      </Card>
     </div>
   );
 }

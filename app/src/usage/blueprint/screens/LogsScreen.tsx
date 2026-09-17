@@ -21,6 +21,12 @@ const ROWS: LogRow[] = [
   { time: "14:01:22", level: "info", service: "auth", message: "로그인 성공 (user 8821)" },
   { time: "14:00:59", level: "danger", service: "payments", message: "카드 승인 타임아웃 (2회 재시도 실패)" },
   { time: "14:00:31", level: "info", service: "search", message: "질의 완료 82ms" },
+  { time: "13:59:47", level: "info", service: "checkout", message: "주문 #48290 생성" },
+  { time: "13:59:12", level: "warning", service: "notify", message: "알림 발송 지연 3s" },
+  { time: "13:58:40", level: "info", service: "auth", message: "로그인 성공 (user 8804)" },
+  { time: "13:57:55", level: "info", service: "search", message: "질의 완료 65ms" },
+  { time: "13:57:03", level: "danger", service: "inventory-sync", message: "재고 동기화 실패 (재시도 예약)" },
+  { time: "13:55:20", level: "info", service: "checkout", message: "주문 #48289 생성" },
 ];
 
 export function LogsScreen {

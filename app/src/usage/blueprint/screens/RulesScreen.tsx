@@ -23,6 +23,10 @@ const RULES: Rule[] = [
   { id: "latency", name: "결제 지연 2초 초과", hint: "p95 기준", severity: "warning", defaultOn: true },
   { id: "sync", name: "재고 동기화 지연 30초 초과", hint: "", severity: "warning", defaultOn: false },
   { id: "login", name: "로그인 실패 급증", hint: "1분 내 20회 이상", severity: "none", defaultOn: true },
+  { id: "queue", name: "알림 발송 큐 적체", hint: "대기 500건 초과", severity: "warning", defaultOn: true },
+  { id: "search-latency", name: "검색 응답 지연 300ms 초과", hint: "p99 기준", severity: "warning", defaultOn: false },
+  { id: "disk", name: "디스크 사용률 85% 초과", hint: "인프라 노드 기준", severity: "danger", defaultOn: true },
+  { id: "signup", name: "신규 가입 급증", hint: "10분 내 100건 이상", severity: "none", defaultOn: false },
 ];
 
 export function RulesScreen {

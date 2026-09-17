@@ -48,6 +48,30 @@ export function CartScreen {
         <span className="text-lg font-semibold">{total.toLocaleString}원</span>
       </Card>
       <Button variant="primary" fullWidth>결제하기</Button>
+
+      {/* 함께 구매하면 좋은 상품, 여백 채우기용 */}
+      {( => {
+        const inCart = new Set(rows.map((r) => r.product.id));
+        const recs = PRODUCTS.filter((p) => !inCart.has(p.id)).slice(0, 3);
+        if (recs.length === 0) return null;
+        return (
+          <div className="flex flex-col gap-2">
+            <span className="text-sm font-medium">함께 구매하면 좋아요</span>
+            <Card className="gap-0 divide-y p-0">
+              {recs.map((product) => (
+                <div key={product.id} className="flex items-center gap-3 px-4 py-3">
+                  <div className="size-10 shrink-0 rounded-md" style={{ background: product.colorToken }} aria-hidden />
+                  <div className="flex flex-1 flex-col">
+                    <span className="text-sm font-medium">{product.name}</span>
+                    <span className="text-sm opacity-70">{product.category}</span>
+                  </div>
+                  <span className="text-sm font-medium">{product.price.toLocaleString}원</span>
+                </div>
+              ))}
+            </Card>
+          </div>
+        );
+      })}
     </div>
   );
 }

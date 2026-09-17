@@ -2,8 +2,21 @@ import { Avatar, Card, Chip } from "@heroui/react";
 import { HOSTS } from "../data";
 
 export function HostsScreen {
+  const totalMeetups = HOSTS.reduce((sum, h) => sum + h.meetupCount, 0);
+
   return (
     <div className="flex flex-col gap-3">
+      {/* 통계카드로 여백 채우기 */}
+      <div className="grid grid-cols-2 gap-3">
+        <Card className="items-center gap-1 p-3 text-center">
+          <span className="text-xs opacity-70">활동 호스트</span>
+          <span className="text-lg font-semibold">{HOSTS.length}명</span>
+        </Card>
+        <Card className="items-center gap-1 p-3 text-center">
+          <span className="text-xs opacity-70">누적 모임</span>
+          <span className="text-lg font-semibold">{totalMeetups}회</span>
+        </Card>
+      </div>
       {HOSTS.map((host) => (
         <Card key={host.id} className="flex-row items-start gap-3">
           <Avatar>

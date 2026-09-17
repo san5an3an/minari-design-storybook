@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
-  App, Button, Card, Flex, Popconfirm, Space, Table, Tag, theme, Tooltip, Typography,
+  App, Button, Card, Col, Flex, Popconfirm, Row, Statistic, Table, Tag, theme, Tooltip,
+  Typography,
 } from "antd";
 import {
   CopyOutlined, DeleteOutlined, EyeInvisibleOutlined, EyeOutlined, PlusOutlined,
@@ -22,6 +23,20 @@ const INITIAL: KeyRow[] = [
   { key: "2", name: "스테이징", secret: "sk_test_A8fLp03QzYw6nE", made: "2026-06-18", used: "2시간 전", live: true },
   { key: "3", name: "배치 작업", secret: "sk_live_Uj5RtN2xC7hMq0", made: "2026-07-01", used: "어제", live: true },
   { key: "4", name: "옛 모바일", secret: "sk_live_Zb9WkO4vD1sPl3", made: "2025-11-24", used: "82일 전", live: false },
+];
+
+interface ActivityRow {
+  keyName: string;
+  action: string;
+  actor: string;
+  at: string;
+}
+
+const ACTIVITY: ActivityRow[] = [
+  { keyName: "운영 서버", action: "결제 API 호출 1,204건", actor: "자동", at: "3분 전" },
+  { keyName: "스테이징", action: "키 값 드러내기", actor: "박서연", at: "2시간 전" },
+  { keyName: "배치 작업", action: "재고 동기화 배치 실행", actor: "자동", at: "어제" },
+  { keyName: "옛 모바일", action: "정지 처리", actor: "김도현", at: "82일 전" },
 ];
 
 export function ApiKeyScreen {
@@ -122,12 +137,20 @@ export function ApiKeyScreen {
         </Paragraph>
       </Card>
 
-      <Flex align="center" justify="space-between" gap={12} wrap>
-        <Space size={8} wrap>
-          <Text type="secondary">쓰는 키 {rows.filter((r) => r.live).length}개</Text>
-          <Text type="secondary">·</Text>
-          <Text type="secondary">정지 {rows.filter((r) => !r.live).length}개</Text>
-        </Space>
+      {/* 통계카드로 여백 채우기 */}
+      <Row gutter={16}>
+        <Col xs={12} sm={8}>
+          <Card size="small"><Statistic title="쓰는 키" value={rows.filter((r) => r.live).length} suffix="개" /></Card>
+        </Col>
+        <Col xs={12} sm={8}>
+          <Card size="small"><Statistic title="정지" value={rows.filter((r) => !r.live).length} suffix="개" /></Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card size="small"><Statistic title="전체" value={rows.length} suffix="개" /></Card>
+        </Col>
+      </Row>
+
+      <Flex align="center" justify="flex-end" gap={12} wrap>
         <Button type="primary" icon={<PlusOutlined />}>키 만들기</Button>
       </Flex>
 
@@ -139,6 +162,22 @@ export function ApiKeyScreen {
         pagination={false}
         scroll={{ x: "max-content" }}
       />
+
+      {/* 최근 활동. 여백 채우기용 */}
+      <Card size="small" title="최근 활동">
+        <Table<ActivityRow>
+          size="small"
+          rowKey={(r) => r.keyName + r.at}
+          pagination={false}
+          dataSource={ACTIVITY}
+          columns={[
+            { title: "키", dataIndex: "keyName" },
+            { title: "내용", dataIndex: "action" },
+            { title: "행위자", dataIndex: "actor" },
+            { title: "시각", dataIndex: "at" },
+          ]}
+        />
+      </Card>
     </Flex>
   );
 }

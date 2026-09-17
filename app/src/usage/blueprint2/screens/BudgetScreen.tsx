@@ -1,9 +1,29 @@
 import { Card, ProgressBar, Tag } from "@blueprintjs/core";
 import { BUDGETS } from "../data";
 
+// 통계카드를 목록과 함께 표시
 export function BudgetScreen {
+  const totalSpent = BUDGETS.reduce((sum, b) => sum + b.spent, 0);
+  const totalLimit = BUDGETS.reduce((sum, b) => sum + b.limit, 0);
+  const overCount = BUDGETS.filter((b) => b.spent > b.limit).length;
+
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-3 gap-3">
+        <Card className="flex flex-col items-center gap-1 p-3 text-center">
+          <span className="text-xs opacity-70">총 사용액</span>
+          <span className="text-lg font-semibold">{totalSpent.toLocaleString}원</span>
+        </Card>
+        <Card className="flex flex-col items-center gap-1 p-3 text-center">
+          <span className="text-xs opacity-70">총 한도</span>
+          <span className="text-lg font-semibold">{totalLimit.toLocaleString}원</span>
+        </Card>
+        <Card className="flex flex-col items-center gap-1 p-3 text-center">
+          <span className="text-xs opacity-70">한도 초과</span>
+          <span className="text-lg font-semibold">{overCount}건</span>
+        </Card>
+      </div>
+      <div className="flex flex-col gap-3">
       {BUDGETS.map((b) => {
         const ratio = b.spent / b.limit;
         const over = ratio > 1;
@@ -20,6 +40,7 @@ export function BudgetScreen {
           </Card>
         );
       })}
+      </div>
     </div>
   );
 }

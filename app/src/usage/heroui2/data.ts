@@ -38,4 +38,7 @@ export const ORDERS: Order[] = [
   { id: "o1", itemsLabel: "보온 텀블러 500ml 외 1건", totalLabel: "57,000원", status: "배송중", dateLabel: "9월 14일" },
   { id: "o2", itemsLabel: "캔버스 백팩", totalLabel: "62,000원", status: "배송완료", dateLabel: "9월 2일" },
   { id: "o3", itemsLabel: "무선 이어폰", totalLabel: "89,000원", status: "결제완료", dateLabel: "9월 16일" },
+  { id: "o4", itemsLabel: "데스크 스탠드 조명", totalLabel: "48,000원", status: "배송완료", dateLabel: "8월 22일" },
+  { id: "o5", itemsLabel: "핸드드립 세트", totalLabel: "41,000원", status: "배송완료", dateLabel: "8월 10일" },
+  { id: "o6", itemsLabel: "요가매트 외 1건", totalLabel: "70,000원", status: "배송완료", dateLabel: "7월 28일" },
 ];

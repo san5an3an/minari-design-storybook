@@ -39,6 +39,24 @@ export function ReportsScreen {
           ))}
         </Space>
       </Card>
+
+      {/* 프로젝트별 진행률로 여백 채우기 */}
+      <Card size="small" title="프로젝트별 진행률">
+        <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+          {PROJECTS.map((p) => (
+            <div key={p.id}>
+              <Space style={{ justifyContent: "space-between", display: "flex", marginBlockEnd: 4 }}>
+                <Typography.Text>{p.name} <Typography.Text type="secondary">· {p.team}</Typography.Text></Typography.Text>
+                <Typography.Text type="secondary">{p.dueLabel}</Typography.Text>
+              </Space>
+              <Progress
+                percent={p.progress}
+                status={p.status === "지연" ? "exception" : p.status === "완료" ? "success" : "active"}
+              />
+            </div>
+          ))}
+        </Space>
+      </Card>
     </Space>
   );
 }

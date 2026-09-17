@@ -1,4 +1,5 @@
 import { Chip, Table } from "@heroui/react";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const DAYS = ["월", "화", "수", "목", "금", "토", "일"];
 
@@ -17,6 +18,11 @@ const STREAKS = [
 ];
 
 export function HistoryScreen {
+  const chartData = ROWS.map((row) => ({
+    name: row.habit,
+    value: Math.round((row.done.filter(Boolean).length / row.done.length) * 100),
+  }));
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-2">
@@ -53,6 +59,23 @@ export function HistoryScreen {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+
+      {/* 습관별 완료율 표시 */}
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium">습관별 완료율(7일)</span>
+        <div className="rounded-lg border p-3" style={{ borderColor: "var(--semantic-border-neutral-subtle)" }}>
+          <div style={{ inlineSize: "100%", blockSize: 160 }}>
+            <ResponsiveContainer>
+              <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
+                <XAxis type="number" domain={[0, 100]} hide />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="value" fill="var(--semantic-bg-brand-default)" radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -13,12 +13,16 @@ interface Person {
   online: boolean;
 }
 
+// 실제 팀 규모만큼 채워 목록 상자 스크롤 여백 제거
 const PEOPLE: Person[] = [
   { id: "p1", name: "박서연", last: "재고 배지 색 확인 부탁해요", at: "방금", unread: 2, online: true },
   { id: "p2", name: "김도현", last: "주문표 가로 스크롤 고쳤습니다", at: "12분", unread: 0, online: true },
   { id: "p3", name: "이준호", last: "축 이름 한글로 바꿀게요", at: "1시간", unread: 0, online: false },
   { id: "p4", name: "최민아", last: "배송 목록 무한 스크롤 초안", at: "어제", unread: 1, online: false },
   { id: "p5", name: "정하늘", last: "환불 사유 코드표 올렸어요", at: "어제", unread: 0, online: false },
+  { id: "p6", name: "오태윤", last: "결제 실패 로그 수집 완료", at: "어제", unread: 0, online: true },
+  { id: "p7", name: "한소율", last: "배송 목록 QA 시작할게요", at: "2일 전", unread: 0, online: false },
+  { id: "p8", name: "윤채민", last: "지역별 매출 축 확인했어요", at: "3일 전", unread: 0, online: false },
 ];
 
 interface Line {
