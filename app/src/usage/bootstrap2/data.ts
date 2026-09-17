@@ -63,6 +63,21 @@ export const WORK_ORDERS: WorkOrder[] = [
       { label: "조정 완료 · 재측정 통과", timeLabel: "3일 전" },
     ],
   },
+  {
+    id: "wo-228", vehicle: "2023 카니발", plate: "90마 2345", customer: "정하은",
+    issue: "배터리 방전 · 시동 불량", status: "대기", mechanic: "미배정", eta: "-",
+    parts: [],
+    history: [{ label: "입고 접수", timeLabel: "1시간 전" }],
+  },
+  {
+    id: "wo-225", vehicle: "2018 K5", plate: "23바 6789", customer: "한지민",
+    issue: "에어컨 냉매 부족 · 냉방 약함", status: "작업중", mechanic: "한지민", eta: "내일 11:00",
+    parts: [{ name: "에어컨 냉매", qty: 1, price: 35000 }],
+    history: [
+      { label: "입고 · 냉매 압력 점검", timeLabel: "오늘 08:30" },
+      { label: "냉매 충전 시작", timeLabel: "오늘 09:15" },
+    ],
+  },
 ];
 
 export interface Mechanic {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
+import { Breadcrumb, BreadcrumbItem, Button, Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
 import { ArrowLeft } from "@carbon/icons-react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { PURCHASE_ORDERS, type PurchaseOrder } from "../data";
@@ -20,6 +20,13 @@ const STATUS_ORDER: PurchaseOrder["status"][] = ["발주완료", "입고대기",
 function OrderDetail({ order, onBack }: { order: PurchaseOrder; onBack:  => void }) {
   return (
     <div className="flex flex-col gap-4">
+      {/* 상세 화면 네비게이션 */}
+      <Breadcrumb noTrailingSlash>
+        <BreadcrumbItem href="#" onClick={(e: React.MouseEvent) => { e.preventDefault; onBack; }}>
+          발주 목록
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>{order.poNumber}</BreadcrumbItem>
+      </Breadcrumb>
       <Button kind="ghost" size="sm" renderIcon={ArrowLeft} onClick={onBack} style={{ alignSelf: "flex-start" }}>
         목록으로
       </Button>
@@ -99,7 +106,7 @@ export function OrdersScreen {
         <Tile>
           <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>상태별</div>
           <div style={{ inlineSize: "100%", blockSize: 100 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={STATUS_ORDER.map((s) => ({ name: s, value: PURCHASE_ORDERS.filter((o) => o.status === s).length }))} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
@@ -112,7 +119,7 @@ export function OrdersScreen {
         <Tile>
           <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>공급업체별</div>
           <div style={{ inlineSize: "100%", blockSize: 100 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={bySupplier} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={64} tick={{ fontSize: 11 }} />

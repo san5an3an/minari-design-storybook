@@ -6,6 +6,9 @@ import { blueprintAdapter } from "../../preview/blueprintRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
+const BRAND_IMAGE =
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=480&q=60";
+
 export function BlueprintUsage3({ system, active }: UsageDashboardProps) {
   React.useEffect(
      => blueprintAdapter.mountTheme?.(system, active, document),
@@ -36,13 +39,22 @@ export function BlueprintUsage3({ system, active }: UsageDashboardProps) {
               "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
           }}
         >
-          <div className="flex items-center gap-2 px-2 py-2">
-            <span
-              aria-hidden
-              className="inline-block size-4 rounded"
-              style={{ background: "var(--semantic-bg-brand-default)" }}
-            />
-            <span style={{ fontWeight: 600, fontSize: "0.875rem" }}>이슈</span>
+          {/* 사이드바 상단에 얇은 브랜드 이미지 카드 하나 배치 */}
+          <div
+            className="mb-2 flex flex-col justify-end"
+            style={{
+              blockSize: "5rem",
+              borderRadius: "var(--semantic-radius-control)",
+              backgroundImage:
+                `linear-gradient(180deg, transparent 0%, transparent 40%, ` +
+                `color-mix(in oklch, var(--semantic-bg-brand-default) 25%, black) 100%), url("${BRAND_IMAGE}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <span style={{ color: "white", fontWeight: 600, fontSize: "0.8125rem", padding: "0.375rem 0.5rem" }}>
+              이슈 트래커
+            </span>
           </div>
           <Menu>
             {SCREENS.map((s) => (

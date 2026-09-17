@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-  Button, Checkbox, StructuredListBody, StructuredListCell, StructuredListHead, StructuredListRow,
-  StructuredListWrapper, Tag, Tile,
+  Button, Checkbox, ComposedModal, ModalBody, ModalFooter, ModalHeader, StructuredListBody,
+  StructuredListCell, StructuredListHead, StructuredListRow, StructuredListWrapper, Tag, Tile,
 } from "@carbon/react";
 import { PENDING_APPROVALS } from "../data";
 
@@ -24,6 +24,8 @@ const RESULT_TAG = { 승인: "green", 반려: "red" } as const;
 
 export function ApprovalsScreen {
   const [selected, setSelected] = React.useState<Set<string>>(new Set);
+  // 일괄 승인 ComposedModal 확인창
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const totalAmount = PENDING_APPROVALS.reduce((sum, a) => sum + a.amount, 0);
 
   if (PENDING_APPROVALS.length === 0) {
@@ -53,8 +55,23 @@ export function ApprovalsScreen {
           onChange={(e) =>
             setSelected(e.target.checked ? new Set(PENDING_APPROVALS.map((a) => a.id)) : new Set)}
         />
-        <Button size="sm" disabled={selected.size === 0}>선택 {selected.size}건 일괄 승인</Button>
+        <Button size="sm" disabled={selected.size === 0} onClick={ => setConfirmOpen(true)}>
+          선택 {selected.size}건 일괄 승인
+        </Button>
       </div>
+
+      <ComposedModal open={confirmOpen} onClose={ => setConfirmOpen(false)}>
+        <ModalHeader label="발주 승인" title={`${selected.size}건을 승인할까요?`} />
+        <ModalBody>승인하면 선택한 발주가 바로 발주완료 상태로 넘어가요.</ModalBody>
+        <ModalFooter
+          primaryButtonText="승인"
+          secondaryButtonText="취소"
+          onRequestSubmit={ => { setSelected(new Set); setConfirmOpen(false); }}
+          onRequestClose={ => setConfirmOpen(false)}
+        >
+          {null}
+        </ModalFooter>
+      </ComposedModal>
 
       <div className="flex flex-col gap-2">
         {PENDING_APPROVALS.map((a) => (

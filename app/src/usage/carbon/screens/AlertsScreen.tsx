@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-  Dropdown, StructuredListBody, StructuredListCell, StructuredListHead, StructuredListRow,
-  StructuredListWrapper, Tag, Tile, Toggle,
+  Dropdown, InlineNotification, StructuredListBody, StructuredListCell, StructuredListHead,
+  StructuredListRow, StructuredListWrapper, Tag, Tile, Toggle,
 } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
@@ -45,6 +45,17 @@ export function AlertsScreen {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* 높음 심각도 항목 있을 때만 배너 표시 */}
+      {highCount > 0 ? (
+        <InlineNotification
+          kind="error"
+          title="긴급 경보"
+          subtitle={`심각도 "높음" 경보 ${highCount}건이 대기 중이에요.`}
+          hideCloseButton
+          lowContrast
+        />
+      ) : null}
+
       {/* 통계카드로 빈 여백 채우기 */}
       <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))" }}>
         <Tile><div style={{ fontSize: "0.75rem", opacity: 0.7 }}>전체 경보</div><div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{ALERTS.length}건</div></Tile>
@@ -105,7 +116,7 @@ export function AlertsScreen {
       <Tile>
         <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>최근 7일 경보 추이</div>
         <div style={{ inlineSize: "100%", blockSize: 140 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart data={ALERT_TREND as unknown as Record<string, unknown>[]}>
               <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
               <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={24} />

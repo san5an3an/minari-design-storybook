@@ -1,7 +1,8 @@
 import * as React from "react";
 import {
-  Dropdown, NumberInput, ProgressIndicator, ProgressStep, StructuredListBody, StructuredListCell,
-  StructuredListHead, StructuredListRow, StructuredListWrapper, Tag, Tile, Toggle,
+  ComposedModal, Dropdown, ModalBody, ModalFooter, ModalHeader, NumberInput, ProgressIndicator,
+  ProgressStep, StructuredListBody, StructuredListCell, StructuredListHead, StructuredListRow,
+  StructuredListWrapper, Tag, Tile, Toggle,
 } from "@carbon/react";
 
 // 통계카드 행과 배포 이력 표로 화면 채우기
@@ -27,6 +28,8 @@ export function RolloutScreen {
   const [version, setVersion] = React.useState(VERSIONS[0]);
   const [autoDeploy, setAutoDeploy] = React.useState(false);
   const [stagingPct, setStagingPct] = React.useState(10);
+  // 자동 배포 켜기 확인 ComposedModal 렌더링
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,9 +47,25 @@ export function RolloutScreen {
         />
         <Toggle
           id="auto-deploy" labelText="자동 배포" labelA="꺼짐" labelB="켜짐"
-          toggled={autoDeploy} onToggle={setAutoDeploy}
+          toggled={autoDeploy}
+          onToggle={(next) => (next ? setConfirmOpen(true) : setAutoDeploy(false))}
         />
       </div>
+
+      <ComposedModal open={confirmOpen} onClose={ => setConfirmOpen(false)}>
+        <ModalHeader label="펌웨어 배포" title="자동 배포를 켤까요?" />
+        <ModalBody>
+          검증을 통과한 다음 버전부터 사람 확인 없이 전체 장비에 자동으로 배포돼요.
+        </ModalBody>
+        <ModalFooter
+          primaryButtonText="켜기"
+          secondaryButtonText="취소"
+          onRequestSubmit={ => { setAutoDeploy(true); setConfirmOpen(false); }}
+          onRequestClose={ => setConfirmOpen(false)}
+        >
+          {null}
+        </ModalFooter>
+      </ComposedModal>
 
       <Tile>
         <ProgressIndicator currentIndex={2}>

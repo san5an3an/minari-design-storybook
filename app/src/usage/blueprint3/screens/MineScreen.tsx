@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Card, NonIdealState, Tag } from "@blueprintjs/core";
+import { Card, NonIdealState, Tag, Tooltip } from "@blueprintjs/core";
 import type { Intent } from "@blueprintjs/core";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from "recharts";
 import { ISSUES, type Issue } from "../data";
 
 const STATUS_INTENT: Record<Issue["status"], Intent> = {
@@ -45,7 +45,10 @@ export function MineScreen {
         {mine.map((issue) => (
           <Card key={issue.id} className="flex items-center gap-2 px-4 py-3" style={{ display: "flex" }}>
             <code style={{ opacity: 0.6, fontSize: "0.75rem" }}>{issue.key}</code>
-            <Tag intent={STATUS_INTENT[issue.status]} minimal>{issue.status}</Tag>
+            {/* Tooltip으로 상태 설명 표시 */}
+            <Tooltip content={issue.status === "닫힘" ? "해결 완료" : issue.status === "진행중" ? "작업 중" : "처리 대기"}>
+              <Tag intent={STATUS_INTENT[issue.status]} minimal>{issue.status}</Tag>
+            </Tooltip>
             <span className="flex-1">{issue.title}</span>
             <span style={{ fontSize: "0.75rem", opacity: 0.6 }}>{issue.createdLabel}</span>
           </Card>
@@ -56,11 +59,11 @@ export function MineScreen {
       <Card>
         <span className="text-sm font-medium">담당자별 배정 현황</span>
         <div style={{ inlineSize: "100%", blockSize: 120, marginBlockStart: 8 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={byAssignee} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide allowDecimals={false} />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
-              <Tooltip />
+              <RechartsTooltip />
               <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>

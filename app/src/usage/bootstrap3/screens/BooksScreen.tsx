@@ -3,7 +3,8 @@ import { AlertTriangle, BookOpen, Library } from "lucide-react";
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 import type { ScreenProps } from "../screens";
 import { BOOKS, type Book } from "../data";
 
@@ -39,8 +40,8 @@ function BooksHero {
         borderRadius: "var(--semantic-radius-container)",
         boxShadow: "var(--semantic-shadow-raised)",
         backgroundImage:
-          `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-brand-default) 18%, transparent) 0%, `
-          + `color-mix(in oklch, var(--semantic-bg-brand-default) 90%, black) 78%), url("${HERO_IMAGE}")`,
+          `linear-gradient(180deg, transparent 0%, transparent 40%, `
+          + `color-mix(in oklch, var(--semantic-bg-brand-default) 25%, black) 100%), url("${HERO_IMAGE}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -97,9 +98,50 @@ function StatTile({ stat }: { stat: Stat }) {
   );
 }
 
+function BookCoverCard({ book, onOpen }: { book: Book; onOpen: (id: string) => void }) {
+  return (
+    <Card
+      role="button"
+      className="h-100"
+      onClick={ => onOpen(book.id)}
+      style={{ cursor: "pointer" }}
+    >
+      <div className="position-relative">
+        <Card.Img
+          variant="top"
+          src={book.coverUrl}
+          alt=""
+          style={{ aspectRatio: "3 / 4", objectFit: "cover" }}
+        />
+        <Badge
+          bg={STATUS_LABEL[book.status].bg}
+          className="position-absolute"
+          style={{ insetBlockStart: "0.5rem", insetInlineEnd: "0.5rem" }}
+        >
+          {STATUS_LABEL[book.status].text}
+        </Badge>
+      </div>
+      <Card.Body className="py-2">
+        <div className="text-truncate" style={{ fontWeight: 600, fontSize: "0.875rem" }}>
+          {book.title}
+        </div>
+        <div className="text-body-secondary text-truncate" style={{ fontSize: "0.75rem" }}>
+          {book.author} · {book.category}
+        </div>
+        {book.borrower ? (
+          <div className="text-body-secondary text-truncate" style={{ fontSize: "0.75rem" }}>
+            대출자 {book.borrower}
+          </div>
+        ) : null}
+      </Card.Body>
+    </Card>
+  );
+}
+
 export function BooksScreen({ onNavigate, onSelect }: ScreenProps) {
   const [query, setQuery] = React.useState("");
   const [category, setCategory] = React.useState("all");
+  const [status, setStatus] = React.useState<Book["status"] | "all">("all");
 
   const open = (id: string) => {
     onSelect?.(id);
@@ -109,6 +151,7 @@ export function BooksScreen({ onNavigate, onSelect }: ScreenProps) {
   const rows = BOOKS.filter(
     (b) =>
       (category === "all" || b.category === category)
+      && (status === "all" || b.status === status)
       && (query.trim === "" || b.title.includes(query) || b.author.includes(query)),
   );
 
@@ -120,6 +163,18 @@ export function BooksScreen({ onNavigate, onSelect }: ScreenProps) {
           <StatTile key={s.label} stat={s} />
         ))}
       </div>
+
+      {/* 상태 필터링 Tabs로 구현. 패널 내용은 카드 그리드가 대신해 각 Tab은 빈 상태임 */}
+      <Tabs
+        activeKey={status}
+        onSelect={(k) => setStatus((k as Book["status"] | "all") ?? "all")}
+        className="mb-0"
+      >
+        <Tab eventKey="all" title={`전체 ${BOOKS.length}`} />
+        <Tab eventKey="대출가능" title={`대출가능 ${BOOKS.filter((b) => b.status === "대출가능").length}`} />
+        <Tab eventKey="대출중" title={`대출중 ${BOOKS.filter((b) => b.status === "대출중").length}`} />
+        <Tab eventKey="연체" title={`연체 ${BOOKS.filter((b) => b.status === "연체").length}`} />
+      </Tabs>
 
       <div className="d-flex flex-wrap gap-2">
         <Form.Control
@@ -143,30 +198,17 @@ export function BooksScreen({ onNavigate, onSelect }: ScreenProps) {
         </Form.Select>
       </div>
 
-      <Table hover responsive size="sm">
-        <thead>
-          <tr>
-            <th>제목</th>
-            <th>저자</th>
-            <th>분류</th>
-            <th>대출자</th>
-            <th>상태</th>
-          </tr>
-        </thead>
-        <tbody>
+      {rows.length === 0 ? (
+        <p className="text-body-secondary small mb-0">조건에 맞는 책이 없어요.</p>
+      ) : (
+        <div className="row row-cols-2 row-cols-md-3 g-3">
           {rows.map((b) => (
-            <tr key={b.id} onClick={ => open(b.id)} style={{ cursor: "pointer" }}>
-              <td>{b.title}</td>
-              <td>{b.author}</td>
-              <td>{b.category}</td>
-              <td>{b.borrower ?? "-"}</td>
-              <td>
-                <Badge bg={STATUS_LABEL[b.status].bg}>{STATUS_LABEL[b.status].text}</Badge>
-              </td>
-            </tr>
+            <div className="col" key={b.id}>
+              <BookCoverCard book={b} onOpen={open} />
+            </div>
           ))}
-        </tbody>
-      </Table>
+        </div>
+      )}
     </div>
   );
 }

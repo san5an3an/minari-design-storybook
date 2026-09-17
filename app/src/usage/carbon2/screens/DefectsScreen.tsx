@@ -38,7 +38,7 @@ export function DefectsScreen {
       <Tile>
         <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>유형별 건수</div>
         <div style={{ inlineSize: "100%", blockSize: 120 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />

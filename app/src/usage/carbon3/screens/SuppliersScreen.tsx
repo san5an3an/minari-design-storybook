@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dropdown, Search, Tag, Tile } from "@carbon/react";
+import { Dropdown, OverflowMenu, OverflowMenuItem, Search, Tag, Tile } from "@carbon/react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { SUPPLIERS } from "../data";
 
@@ -50,6 +50,11 @@ export function SuppliersScreen {
                 <Tag size="sm" type="blue">진행 {s.activeOrders}건</Tag>
               ) : null}
               <span style={{ fontWeight: 600 }}>★ {s.rating.toFixed(1)}</span>
+              {/* 업체 행 메뉴 */}
+              <OverflowMenu size="sm" flipped aria-label={`${s.name} 메뉴`}>
+                <OverflowMenuItem itemText="발주 생성" />
+                <OverflowMenuItem itemText="연락처 보기" />
+              </OverflowMenu>
             </div>
           </div>
         </Tile>
@@ -60,7 +65,7 @@ export function SuppliersScreen {
       <Tile>
         <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>업체별 리드타임(일)</div>
         <div style={{ inlineSize: "100%", blockSize: 120 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={leadTimeData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={80} tick={{ fontSize: 11 }} />

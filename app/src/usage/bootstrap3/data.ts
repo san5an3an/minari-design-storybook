@@ -14,6 +14,8 @@ export interface Book {
   borrower?: string;
   dueLabel?: string;
   loans: LoanEntry[];
+  // 표지 사진. Unsplash 무료 라이선스, 서가 분위기 대체 이미지
+  coverUrl: string;
 }
 
 export const BOOKS: Book[] = [
@@ -23,6 +25,7 @@ export const BOOKS: Book[] = [
     loans: [
       { borrower: "김도윤", timeLabel: "9월 6일", action: "대출" },
     ],
+    coverUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=400&h=560&q=60",
   },
   {
     id: "bk-102", title: "미드나잇 라이브러리", author: "매트 헤이그", isbn: "978-89-329-2145-3",
@@ -31,6 +34,7 @@ export const BOOKS: Book[] = [
       { borrower: "이서연", timeLabel: "8월 27일", action: "대출" },
       { borrower: "이서연", timeLabel: "9월 3일", action: "연장" },
     ],
+    coverUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&h=560&q=60",
   },
   {
     id: "bk-103", title: "코스모스", author: "칼 세이건", isbn: "978-89-8371-166-8",
@@ -39,6 +43,7 @@ export const BOOKS: Book[] = [
       { borrower: "박지훈", timeLabel: "8월 12일", action: "대출" },
       { borrower: "박지훈", timeLabel: "8월 26일", action: "반납" },
     ],
+    coverUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&h=560&q=60",
   },
   {
     id: "bk-104", title: "사피엔스", author: "유발 하라리", isbn: "978-89-509-6567-3",
@@ -47,11 +52,29 @@ export const BOOKS: Book[] = [
       { borrower: "최민서", timeLabel: "7월 30일", action: "대출" },
       { borrower: "최민서", timeLabel: "8월 13일", action: "반납" },
     ],
+    coverUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=400&h=560&q=60",
   },
   {
     id: "bk-105", title: "달러구트 꿈 백화점", author: "이미예", isbn: "978-11-9091-901-9",
     category: "소설", status: "대출중", borrower: "정하은", dueLabel: "9월 22일",
     loans: [{ borrower: "정하은", timeLabel: "9월 8일", action: "대출" }],
+    coverUrl: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&h=560&q=60",
+  },
+  {
+    id: "bk-106", title: "노르웨이의 숲", author: "무라카미 하루키", isbn: "978-89-546-0246-4",
+    category: "소설", status: "연체", borrower: "최민서", dueLabel: "9월 5일(지남)",
+    loans: [
+      { borrower: "최민서", timeLabel: "8월 20일", action: "대출" },
+    ],
+    coverUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&h=560&q=60",
+  },
+  {
+    id: "bk-107", title: "총, 균, 쇠", author: "재레드 다이아몬드", isbn: "978-89-546-0663-9",
+    category: "인문", status: "연체", borrower: "박지훈", dueLabel: "9월 8일(지남)",
+    loans: [
+      { borrower: "박지훈", timeLabel: "8월 22일", action: "대출" },
+    ],
+    coverUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&h=560&q=60",
   },
 ];
 
@@ -65,4 +88,6 @@ export interface OverdueItem {
 
 export const OVERDUE: OverdueItem[] = [
   { bookId: "bk-102", title: "미드나잇 라이브러리", borrower: "이서연", dueLabel: "9월 10일", daysLate: 6 },
+  { bookId: "bk-106", title: "노르웨이의 숲", borrower: "최민서", dueLabel: "9월 5일", daysLate: 11 },
+  { bookId: "bk-107", title: "총, 균, 쇠", borrower: "박지훈", dueLabel: "9월 8일", daysLate: 8 },
 ];

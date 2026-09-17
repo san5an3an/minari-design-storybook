@@ -1,5 +1,6 @@
-import { Callout, Card, Icon } from "@blueprintjs/core";
+import { Callout, Card, Divider, Icon, Popover, Tag } from "@blueprintjs/core";
 import type { IconName, Intent } from "@blueprintjs/core";
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 interface Stat {
   label: string;
@@ -12,6 +13,24 @@ const STATS: Stat[] = [
   { label: "지난 1시간 요청", value: "48,204", icon: "pulse", intent: "primary" },
   { label: "에러율", value: "0.42%", icon: "warning-sign", intent: "warning" },
   { label: "활성 알림", value: "2", icon: "notifications", intent: "danger" },
+  { label: "평균 응답 시간", value: "182ms", icon: "time", intent: "success" },
+];
+
+// 요청량 추이를 보여주는 큰 라인 차트 위치
+const TRAFFIC = [
+  { t: "13:00", value: 3820 }, { t: "13:10", value: 4110 }, { t: "13:20", value: 3950 },
+  { t: "13:30", value: 4580 }, { t: "13:40", value: 5240 }, { t: "13:50", value: 4890 },
+  { t: "14:00", value: 5620 }, { t: "14:10", value: 6104 },
+];
+
+// 서비스별 에러 랭킹 리스트 위치
+interface ServiceRank { service: string; errors: number; share: number }
+const SERVICE_RANK: ServiceRank[] = [
+  { service: "payments", errors: 214, share: 0.42 },
+  { service: "inventory-sync", errors: 96, share: 0.19 },
+  { service: "notify", errors: 58, share: 0.11 },
+  { service: "checkout", errors: 41, share: 0.08 },
+  { service: "search", errors: 12, share: 0.02 },
 ];
 
 function StatTile({ stat }: { stat: Stat }) {
@@ -63,6 +82,63 @@ export function OverviewScreen {
           <StatTile key={s.label} stat={s} />
         ))}
       </div>
+
+      {/* 라인 에어리어 차트와 랭킹 리스트 2단 구성 */}
+      <div className="grid gap-4" style={{ gridTemplateColumns: "1.6fr 1fr" }}>
+        <Card>
+          <div className="flex items-center justify-between" style={{ marginBlockEnd: "0.5rem" }}>
+            <span style={{ fontWeight: 600, fontSize: "0.875rem" }}>요청량 추이</span>
+            <Tag minimal>지난 1시간</Tag>
+          </div>
+          <div style={{ inlineSize: "100%", blockSize: 200 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={TRAFFIC}>
+                <XAxis dataKey="t" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
+                <YAxis hide />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="var(--component-chart-series-1)"
+                  fill="var(--component-chart-series-1)"
+                  fillOpacity={0.18}
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        <Card>
+          <span style={{ fontWeight: 600, fontSize: "0.875rem" }}>서비스별 에러 랭킹</span>
+          <div className="flex flex-col gap-2" style={{ marginBlockStart: "0.75rem" }}>
+            {SERVICE_RANK.map((r, i) => (
+              <div key={r.service} className="flex items-center gap-2">
+                <span
+                  className="flex items-center justify-center"
+                  style={{
+                    inlineSize: "1.25rem", blockSize: "1.25rem", borderRadius: "50%",
+                    background: "var(--semantic-bg-neutral-subtle)", fontSize: "0.6875rem", fontWeight: 600,
+                  }}
+                >
+                  {i + 1}
+                </span>
+                <span style={{ flex: 1, fontSize: "0.8125rem" }}>{r.service}</span>
+                {/* Popover로 점유율 상세 표시 */}
+                <Popover
+                  content={<div className="p-2" style={{ fontSize: "0.75rem" }}>전체 오류 중 {Math.round(r.share * 100)}%</div>}
+                  placement="left"
+                >
+                  <span style={{ fontSize: "0.75rem", opacity: 0.7, cursor: "pointer" }}>{r.errors}건</span>
+                </Popover>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* Divider로 지표 구간 구분 */}
+      <Divider />
 
       <div className="flex flex-col gap-3">
         <Callout intent="danger" title="결제 서비스 5xx 급증">

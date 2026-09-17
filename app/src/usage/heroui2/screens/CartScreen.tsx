@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Button, Card } from "@heroui/react";
+import { Accordion, Button, Card, toast } from "@heroui/react";
 import { CART_ITEMS, PRODUCTS } from "../data";
 
 export function CartScreen {
@@ -47,7 +47,24 @@ export function CartScreen {
         <span className="text-sm opacity-70">합계</span>
         <span className="text-lg font-semibold">{total.toLocaleString}원</span>
       </Card>
-      <Button variant="primary" fullWidth>결제하기</Button>
+      <Button variant="primary" fullWidth onPress={ => toast.success("주문이 완료됐어요")}>결제하기</Button>
+
+      <Accordion className="w-full">
+        <Accordion.Item>
+          <Accordion.Heading>
+            <Accordion.Trigger>
+              배송 정보
+              <Accordion.Indicator />
+            </Accordion.Trigger>
+          </Accordion.Heading>
+          <Accordion.Panel>
+            <Accordion.Body className="flex flex-col gap-1 text-sm opacity-80">
+              <p>5만원 이상 구매 시 무료 배송, 미만이면 배송비 3,000원.</p>
+              <p>평일 오후 2시 이전 결제 건은 당일 출고.</p>
+            </Accordion.Body>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
 
       {/* 함께 구매하면 좋은 상품, 여백 채우기용 */}
       {( => {

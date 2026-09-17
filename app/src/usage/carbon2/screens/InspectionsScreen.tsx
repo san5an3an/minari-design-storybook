@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Select, SelectItem, Tag, Tile, Toggle } from "@carbon/react";
+import { Breadcrumb, BreadcrumbItem, Button, Select, SelectItem, Tag, Tile, Toggle } from "@carbon/react";
 import { ArrowLeft } from "@carbon/icons-react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { INSPECTIONS, type Inspection } from "../data";
@@ -21,6 +21,13 @@ const RESULT_FILTERS = ["전체", "합격", "불합격", "재검사"] as const;
 function InspectionDetail({ item, onBack }: { item: Inspection; onBack:  => void }) {
   return (
     <div className="flex flex-col gap-4">
+      {/* 상세 화면 네비게이션 */}
+      <Breadcrumb noTrailingSlash>
+        <BreadcrumbItem href="#" onClick={(e: React.MouseEvent) => { e.preventDefault; onBack; }}>
+          검사 항목
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>{item.lot}</BreadcrumbItem>
+      </Breadcrumb>
       <Button kind="ghost" size="sm" renderIcon={ArrowLeft} onClick={onBack} style={{ alignSelf: "flex-start" }}>
         목록으로
       </Button>
@@ -124,7 +131,7 @@ export function InspectionsScreen {
       <Tile>
         <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>결과 분포</div>
         <div style={{ inlineSize: "100%", blockSize: 100 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={(["합격", "불합격", "재검사"] as const).map((k) => ({ name: k, value: counts[k] }))}
               layout="vertical" margin={{ left: 8 }}

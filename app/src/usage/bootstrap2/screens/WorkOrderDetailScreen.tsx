@@ -1,9 +1,18 @@
 import * as React from "react";
+import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Carousel from "react-bootstrap/Carousel";
+import Fade from "react-bootstrap/Fade";
 import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 import Table from "react-bootstrap/Table";
+
+const REPAIR_PHOTOS = [
+  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=640&q=60", caption: "입고 시 상태" },
+  { src: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=640&q=60", caption: "작업 중" },
+];
 import type { ScreenProps } from "../screens";
 import { WORK_ORDERS, type WorkOrder } from "../data";
 
@@ -26,6 +35,14 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
   const sameMechanic = order && order.mechanic !== "미배정"
     ? WORK_ORDERS.filter((w) => w.id !== order.id && w.mechanic === order.mechanic)
     : [];
+
+  const mechanicStats = order && order.mechanic !== "미배정"
+    ? ( => {
+        const all = WORK_ORDERS.filter((w) => w.mechanic === order.mechanic);
+        const done = all.filter((w) => w.status === "완료").length;
+        return { total: all.length, done, inProgress: all.filter((w) => w.status === "작업중").length };
+      })
+    : null;
 
   if (!order) {
     return (
@@ -56,6 +73,14 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
           {order.customer} · {order.issue} · 담당 {order.mechanic} · 예상완료 {order.eta}
         </div>
       </div>
+
+      {/* Alert 계열과 Fade로 담당 미배정 상태 강조 표시 */}
+      <Fade in={order.mechanic === "미배정"} unmountOnExit>
+        <Alert variant="warning" className="mb-0">
+          <Alert.Heading style={{ fontSize: "0.9375rem" }}>담당 정비사 미배정</Alert.Heading>
+          아직 담당 정비사가 배정되지 않았어요. 아래 <Alert.Link href="#작업-관리">"작업 관리"</Alert.Link>에서 지금 배정해 주세요.
+        </Alert>
+      </Fade>
 
       <div>
         <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>부품</h3>
@@ -89,6 +114,25 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
         )}
       </div>
 
+      {/* Carousel로 정비 사진 기록 추가 */}
+      <div>
+        <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>정비 사진</h3>
+        <Carousel indicators={REPAIR_PHOTOS.length > 1} controls={REPAIR_PHOTOS.length > 1} interval={null}>
+          {REPAIR_PHOTOS.map((p) => (
+            <Carousel.Item key={p.caption}>
+              <img
+                src={p.src}
+                alt={p.caption}
+                style={{ inlineSize: "100%", blockSize: "10rem", objectFit: "cover", borderRadius: "var(--semantic-radius-control)" }}
+              />
+              <Carousel.Caption>
+                <p style={{ fontSize: "0.75rem" }}>{p.caption}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </div>
+
       <div>
         <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>작업 이력</h3>
         <ul className="list-unstyled d-flex flex-column gap-1 mb-0">
@@ -118,6 +162,8 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
             <Form.Group style={{ minWidth: "10rem" }}>
               <Form.Label className="small text-body-secondary mb-1">예상완료</Form.Label>
               <Form.Control size="sm" type="text" value={eta} onChange={(e) => setEta(e.target.value)} placeholder="예: 오늘 17:00" />
+              {/* Form.Text로 도움말 텍스트 표시 */}
+              <Form.Text muted>고객에게 그대로 안내돼요.</Form.Text>
             </Form.Group>
           </div>
           <Form.Group>
@@ -138,6 +184,13 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
           </Form.Group>
           <Button size="sm" style={{ alignSelf: "flex-start" }}>저장</Button>
         </Card.Body>
+        {/* Card.Footer, Stack으로 마지막 수정 정보 가로 배치하기 */}
+        <Card.Footer className="text-body-secondary" style={{ fontSize: "0.75rem" }}>
+          <Stack direction="horizontal" gap={2}>
+            <span>마지막 수정: 방금</span>
+            <span className="ms-auto">담당 {mechanic}</span>
+          </Stack>
+        </Card.Footer>
       </Card>
 
       {sameMechanic.length > 0 ? (
@@ -168,6 +221,27 @@ export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: Scre
             </tbody>
           </Table>
         </div>
+      ) : mechanicStats ? (
+        // 작업 0건일 때 폴백값
+        <Card>
+          <Card.Body>
+            <h3 style={{ fontSize: "0.875rem", fontWeight: 600 }}>{order.mechanic} 정비사 현황</h3>
+            <div className="d-flex gap-4 mt-2">
+              <div>
+                <div className="text-body-secondary small">전체 작업</div>
+                <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{mechanicStats.total}건</div>
+              </div>
+              <div>
+                <div className="text-body-secondary small">작업중</div>
+                <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{mechanicStats.inProgress}건</div>
+              </div>
+              <div>
+                <div className="text-body-secondary small">완료</div>
+                <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{mechanicStats.done}건</div>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
       ) : null}
     </div>
   );

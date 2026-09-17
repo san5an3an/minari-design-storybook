@@ -1,10 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Avatar } from "@heroui/react";
+import { Avatar, Badge } from "@heroui/react";
 import { herouiAdapter } from "../../preview/herouiRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=640&q=70";
 
 export function HeroUiUsage2({ system, active }: UsageDashboardProps) {
   React.useEffect( => herouiAdapter.mountTheme?.(system, active, document), [system, active]);
@@ -50,14 +53,36 @@ export function HeroUiUsage2({ system, active }: UsageDashboardProps) {
           </Avatar>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-4">
-          <div className="flex flex-col gap-1 pb-3">
-            <h2 style={{ fontSize: "1rem", fontWeight: 600 }}>{screen.label}</h2>
-            <p style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>
-              {screen.lede}
-            </p>
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          {screen.key === "products" ? (
+            <div
+              className="relative flex shrink-0 flex-col justify-end p-4"
+              style={{
+                minBlockSize: "8rem",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundImage:
+                  "linear-gradient(180deg, transparent 0%, transparent 40%, " +
+                  "color-mix(in oklch, var(--semantic-bg-brand-default) 25%, black) 100%), " +
+                  `url("${HERO_IMAGE}")`,
+              }}
+            >
+              <Badge color="danger" size="sm" className="absolute right-4 top-4">
+                오늘만 특가
+              </Badge>
+              <span className="text-lg font-semibold text-white">이번 주, 최대 30% 할인</span>
+              <span className="text-sm text-white/85">가을 신상품이 도착했어요</span>
+            </div>
+          ) : null}
+          <div className="p-4">
+            <div className="flex flex-col gap-1 pb-3">
+              <h2 style={{ fontSize: "1rem", fontWeight: 600 }}>{screen.label}</h2>
+              <p style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>
+                {screen.lede}
+              </p>
+            </div>
+            <Screen />
           </div>
-          <Screen />
         </div>
 
         {/* 하단 탭 바 적용 */}

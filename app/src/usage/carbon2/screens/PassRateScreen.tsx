@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Slider, Tile } from "@carbon/react";
+import { InlineNotification, Slider, Tile } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { PASS_RATE } from "../data";
 
@@ -13,6 +13,17 @@ export function PassRateScreen {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* 기준 미달 주차가 있을 때만 배너 표시 */}
+      {worstWeek.passRate < threshold ? (
+        <InlineNotification
+          kind="warning"
+          title="기준 미달"
+          subtitle={`${worstWeek.weekLabel} 합격률 ${worstWeek.passRate}%가 기준(${threshold}%) 아래예요.`}
+          hideCloseButton
+          lowContrast
+        />
+      ) : null}
+
       {/* 통계카드로 여백 채우기 */}
       <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))" }}>
         <Tile><div style={{ fontSize: "0.75rem", opacity: 0.7 }}>평균 합격률</div><div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{avgRate.toFixed(1)}%</div></Tile>
@@ -30,7 +41,7 @@ export function PassRateScreen {
       <Tile>
         <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>합격률 추이</div>
         <div style={{ inlineSize: "100%", blockSize: 160 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
               <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
               <YAxis domain={[80, 100]} tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={32} />

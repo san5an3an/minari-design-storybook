@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
+import { OverflowMenu, OverflowMenuItem, Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 // 통계카드 4개, 라인차트, 배터리 랭킹 추가. 지도 라이브러리 부재로 대체임
@@ -91,7 +91,7 @@ export function DevicesScreen {
         <Tile>
           <div style={{ fontSize: "0.8125rem", fontWeight: 600, marginBlockEnd: "0.75rem" }}>온라인 기기 추이(7일)</div>
           <div style={{ inlineSize: "100%", blockSize: 160 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart data={ONLINE_TREND as unknown as Record<string, unknown>[]}>
                 <XAxis dataKey="t" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={24} />
@@ -120,9 +120,17 @@ export function DevicesScreen {
           <div className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <span style={{ fontWeight: 600 }}>{d.name}</span>
-              <Tag size="sm" type={STATUS_TAG[d.status]}>
-                {d.status}
-              </Tag>
+              <div className="flex items-center gap-1">
+                <Tag size="sm" type={STATUS_TAG[d.status]}>
+                  {d.status}
+                </Tag>
+                {/* 행별 메뉴: 재부팅, 점검 요청 */}
+                <OverflowMenu size="sm" flipped aria-label={`${d.name} 메뉴`}>
+                  <OverflowMenuItem itemText="재부팅" />
+                  <OverflowMenuItem itemText="점검 요청" />
+                  <OverflowMenuItem itemText="비활성화" isDelete hasDivider />
+                </OverflowMenu>
+              </div>
             </div>
             <code style={{ fontSize: "0.75rem", opacity: 0.7 }}>{d.id}</code>
             <span style={{ fontSize: "0.8125rem" }}>배터리 {d.battery}</span>

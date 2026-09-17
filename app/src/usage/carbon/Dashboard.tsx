@@ -10,6 +10,10 @@ import { SCREENS } from "./screens";
 
 const SHELL = "carbon-usage-shell";
 
+// 비주얼 업그레이드용 히어로, 그라디언트 위쪽 유지, 아래 40%만 어둡게 처리
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=60";
+
 // 문자열 안 백틱 제외
 const SHELL_CSS = `
 .${SHELL} { position: relative; }
@@ -77,6 +81,30 @@ export function CarbonUsage({ system, active }: UsageDashboardProps) {
         </SideNav>
 
         <Content>
+          {/* 히어로: 사진과 상태칩, 하단 40% 어둡게 처리 */}
+          <div
+            className="flex flex-col justify-end gap-2 rounded p-4"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, transparent 0%, transparent 40%, " +
+                "color-mix(in oklch, var(--semantic-bg-brand-default) 25%, black) 100%), " +
+                `url("${HERO_IMAGE}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              blockSize: "8rem",
+              marginBlockEnd: "1rem",
+            }}
+          >
+            <span style={{ color: "white", fontWeight: 600, fontSize: "1.0625rem" }}>
+              오늘도 30대 전부 실시간으로 지켜보고 있어요
+            </span>
+            <div className="flex gap-2">
+              <Tag size="sm" type="green">온라인 27대</Tag>
+              <Tag size="sm" type="magenta">경고 2대</Tag>
+              <Tag size="sm" type="gray">오프라인 1대</Tag>
+            </div>
+          </div>
+
           <div className="flex flex-col gap-1 pb-4">
             <h2 style={{ fontSize: "1rem", fontWeight: 600 }}>{screen.label}</h2>
             <p style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>

@@ -1,4 +1,4 @@
-import { Card, Tag } from "@blueprintjs/core";
+import { Card, Menu, MenuItem, Popover, Tag } from "@blueprintjs/core";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { LABELS } from "../data";
 
@@ -25,6 +25,18 @@ export function LabelsScreen {
           <Tag intent={label.intent} minimal>{label.name}</Tag>
           <span style={{ flex: 1, fontSize: "0.8125rem", opacity: 0.7 }}>{label.description}</span>
           <span style={{ fontSize: "0.75rem", opacity: 0.6 }}>{label.count}개</span>
+          {/* Popover, Menu, MenuItem으로 라벨 관리 메뉴 표시 */}
+          <Popover
+            content={
+              <Menu>
+                <MenuItem icon="edit" text="이름 편집" />
+                <MenuItem icon="trash" text="삭제" intent="danger" />
+              </Menu>
+            }
+            placement="bottom-end"
+          >
+            <span aria-label="라벨 메뉴" style={{ cursor: "pointer", opacity: 0.6 }}>⋯</span>
+          </Popover>
         </Card>
       ))}
       </div>
@@ -33,7 +45,7 @@ export function LabelsScreen {
       <Card>
         <span className="text-sm font-medium">라벨별 이슈 수</span>
         <div style={{ inlineSize: "100%", blockSize: 120, marginBlockStart: 8 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide allowDecimals={false} />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={64} tick={{ fontSize: 11 }} />

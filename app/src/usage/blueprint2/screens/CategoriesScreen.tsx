@@ -1,9 +1,12 @@
-import { Card, ProgressBar } from "@blueprintjs/core";
+import * as React from "react";
+import { Button, Card, Collapse, ProgressBar } from "@blueprintjs/core";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { EXPENSE_BY_CATEGORY } from "../data";
 
 // 통계카드와 미니 막대그래프를 목록과 함께 표시
 export function CategoriesScreen {
+  // Collapse로 상세 비교 표 접고 펼치기
+  const [detailOpen, setDetailOpen] = React.useState(false);
   const total = EXPENSE_BY_CATEGORY.reduce((sum, c) => sum + c.amount, 0);
   const top = [...EXPENSE_BY_CATEGORY].sort((a, b) => b.amount - a.amount)[0];
   const chartData = EXPENSE_BY_CATEGORY.map((c) => ({ name: c.category, value: c.amount }));
@@ -39,9 +42,17 @@ export function CategoriesScreen {
       </Card>
 
       <Card>
-        <span className="text-sm font-medium">카테고리별 금액 비교</span>
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">카테고리별 금액 비교</span>
+          <Button
+            minimal small
+            icon={detailOpen ? "chevron-up" : "chevron-down"}
+            text={detailOpen ? "표 숨기기" : "표로 보기"}
+            onClick={ => setDetailOpen((v) => !v)}
+          />
+        </div>
         <div style={{ inlineSize: "100%", blockSize: 140, marginBlockStart: 8 }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
               <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
@@ -50,6 +61,18 @@ export function CategoriesScreen {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <Collapse isOpen={detailOpen}>
+          <table className="w-full" style={{ marginBlockStart: "0.5rem", fontSize: "0.8125rem" }}>
+            <tbody>
+              {EXPENSE_BY_CATEGORY.map((c) => (
+                <tr key={c.category}>
+                  <td>{c.category}</td>
+                  <td className="text-end">{c.amount.toLocaleString}원</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Collapse>
       </Card>
     </div>
   );
