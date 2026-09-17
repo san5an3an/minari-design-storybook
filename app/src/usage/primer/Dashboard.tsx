@@ -1,12 +1,20 @@
 import * as React from "react";
-import { Avatar, Header, UnderlineNav } from "@primer/react";
+import { Avatar, CounterLabel, Header, Heading, IconButton, Text, UnderlineNav } from "@primer/react";
+import { Bell } from "lucide-react";
 import type { UsageDashboardProps } from "../registry";
+import { ISSUES, type IssueItem } from "./data";
 import { SCREENS } from "./screens";
 
 export function PrimerUsage({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
+  const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
+  const [issues, setIssues] = React.useState<IssueItem[]>(ISSUES);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
+
+  const addIssue = (issue: IssueItem) => {
+    setIssues((prev) => [issue, ...prev]);
+  };
 
   return (
     <div
@@ -52,6 +60,21 @@ export function PrimerUsage({ system }: UsageDashboardProps) {
             }}
           />
         </Header.Item>
+        {/* 알림, 뱃지에 CounterLabel 겹쳐 안 읽은 개수 표시 */}
+        <Header.Item>
+          <div style={{ position: "relative" }}>
+            <IconButton
+              icon={Bell}
+              aria-label="알림 3건"
+              variant="invisible"
+              size="small"
+              style={{ color: "var(--fgColor-onEmphasis)" }}
+            />
+            <span style={{ position: "absolute", top: -4, right: -4 }}>
+              <CounterLabel scheme="primary">3</CounterLabel>
+            </span>
+          </div>
+        </Header.Item>
         <Header.Item>
           <Avatar src="https://avatars.githubusercontent.com/u/9919?s=64" size={28} alt="김하늘" />
         </Header.Item>
@@ -77,13 +100,14 @@ export function PrimerUsage({ system }: UsageDashboardProps) {
 
       {/* 내부 스크롤 영역, 다른 네 베이스와 동일 원칙 */}
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>
+        {/* Heading, Text로 Primer 타이포그래피 적용 */}
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "16px" }}>
-          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600, color: "var(--fgColor-default)" }}>
+          <Heading as="h2" variant="medium" style={{ color: "var(--fgColor-default)" }}>
             {screen.label}
-          </h2>
-          <p style={{ margin: 0, fontSize: "14px", color: "var(--fgColor-muted)" }}>{screen.lede}</p>
+          </Heading>
+          <Text as="p" style={{ margin: 0, fontSize: "14px", color: "var(--fgColor-muted)" }}>{screen.lede}</Text>
         </div>
-        <Screen />
+        <Screen onNavigate={setScreenKey} selectedId={selectedId} onSelect={setSelectedId} issues={issues} onAddIssue={addIssue} />
       </div>
     </div>
   );

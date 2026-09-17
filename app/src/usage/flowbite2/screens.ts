@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { User } from "./data";
 import { LoginHistoryScreen } from "./screens/LoginHistoryScreen";
 import { UserDetailScreen } from "./screens/UserDetailScreen";
 import { UsersScreen } from "./screens/UsersScreen";
@@ -7,6 +8,8 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  users?: User[];
+  onInviteUser?: (u: User) => void;
 }
 
 export interface ScreenDefinition {

@@ -21,6 +21,7 @@ import { FluentUsage } from "./fluent/Dashboard";
 import { FlowbiteUsage } from "./flowbite/Dashboard";
 import { GrommetUsage } from "./grommet/Dashboard";
 import { HeroUiUsage } from "./heroui/Dashboard";
+import { MantineUsage } from "./mantine/Dashboard";
 import { MuiUsage } from "./mui/Dashboard";
 import { PrimerUsage } from "./primer/Dashboard";
 import { PrimereactUsage } from "./primereact/Dashboard";
@@ -38,6 +39,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   flowbite: FlowbiteUsage,
   grommet: GrommetUsage,
   heroui: HeroUiUsage,
+  mantine: MantineUsage,
   mui: MuiUsage,
   primer: PrimerUsage,
   primereact: PrimereactUsage,

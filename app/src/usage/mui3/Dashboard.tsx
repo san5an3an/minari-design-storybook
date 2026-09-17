@@ -1,13 +1,15 @@
 import * as React from "react";
 import {
-  AppBar, Avatar, Box, InputAdornment, Stack, Tab, Tabs, TextField, Toolbar, Typography,
-  BottomNavigation, BottomNavigationAction, useMediaQuery, useTheme,
+  AppBar, Autocomplete, Avatar, Badge, Box, IconButton, InputAdornment, Stack, Tab, Tabs,
+  TextField, Toolbar, Typography, BottomNavigation, BottomNavigationAction, useMediaQuery, useTheme,
 } from "@mui/material";
 import ListAltOutlined from "@mui/icons-material/ListAltOutlined";
+import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import RestaurantOutlined from "@mui/icons-material/RestaurantOutlined";
 import RoomServiceOutlined from "@mui/icons-material/RoomServiceOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
 import type { UsageDashboardProps } from "../registry";
+import { ORDERS, RESTAURANTS } from "./data";
 import { SCREENS } from "./screens";
 
 const SCREEN_ICON: Record<string, React.ReactNode> = {
@@ -48,21 +50,46 @@ export function MuiUsage3({ system }: UsageDashboardProps) {
           </Stack>
 
           <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", flexWrap: "wrap", ml: "auto" }}>
-            <TextField
+            {/* Autocomplete로 가게 이름 검색 후 바로 상세로 드릴다운 */}
+            <Autocomplete
               size="small"
-              placeholder="가게·메뉴 검색"
-              aria-label="가게·메뉴 검색"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchOutlined fontSize="small" />
-                    </InputAdornment>
-                  ),
-                },
+              options={RESTAURANTS}
+              getOptionLabel={(r) => r.name}
+              onChange={(_, v) => {
+                if (v) {
+                  setSelectedId(v.id);
+                  setScreenKey("detail");
+                }
               }}
-              sx={{ inlineSize: "min(200px, 46vw)" }}
+              sx={{ inlineSize: "min(220px, 46vw)" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="가게·메뉴 검색"
+                  aria-label="가게·메뉴 검색"
+                  slotProps={{
+                    ...params.slotProps,
+                    input: {
+                      ...params.slotProps.input,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchOutlined fontSize="small" />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
             />
+            {/* 알림 배지로 진행 중인 주문 수 표시 */}
+            <IconButton size="small" aria-label="알림">
+              <Badge
+                badgeContent={ORDERS.filter((o) => o.status !== "배달 완료").length}
+                color="error"
+              >
+                <NotificationsOutlined fontSize="small" />
+              </Badge>
+            </IconButton>
             <Avatar sx={{ blockSize: 28, fontSize: 12, inlineSize: 28 }}>하</Avatar>
           </Stack>
         </Toolbar>

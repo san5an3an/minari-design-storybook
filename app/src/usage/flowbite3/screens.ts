@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { Invoice } from "./data";
 import { InvoiceDetailScreen } from "./screens/InvoiceDetailScreen";
 import { InvoicesScreen } from "./screens/InvoicesScreen";
 import { PlansScreen } from "./screens/PlansScreen";
@@ -7,6 +8,8 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  invoices?: Invoice[];
+  onIssueInvoice?: (inv: Invoice) => void;
 }
 
 export interface ScreenDefinition {
