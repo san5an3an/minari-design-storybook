@@ -24,12 +24,15 @@ export const STATUS_LABEL: Record<Ticket["status"], { text: string; bg: string }
   closed: { text: "닫힘", bg: "secondary" },
 };
 
+// Offcanvas 고급필터, Pagination, CloseButton 칩, 목록 12건
 export const TICKETS: Ticket[] = [
   { id: "#3021", subject: "배송이 8일째 안 와요", customer: "김도윤", status: "open", updated: "12분 전" },
   { id: "#3020", subject: "환불 처리가 안 됐어요", customer: "이서연", status: "pending", updated: "40분 전" },
   { id: "#3018", subject: "쿠폰이 적용이 안 돼요", customer: "박지훈", status: "open", updated: "1시간 전" },
   { id: "#3017", subject: "적립금이 반영이 안 돼요", customer: "박지훈", status: "pending", updated: "3시간 전" },
+  { id: "#3016", subject: "배송지를 잘못 입력했어요", customer: "한소율", status: "open", updated: "3시간 전" },
   { id: "#3015", subject: "사이즈 교환 문의", customer: "최민서", status: "closed", updated: "어제" },
+  { id: "#3013", subject: "결제가 두 번 됐어요", customer: "오지호", status: "pending", updated: "어제" },
   { id: "#3012", subject: "포장이 파손된 채 왔어요", customer: "정하은", status: "closed", updated: "어제" },
   { id: "#3009", subject: "배송지 변경 요청", customer: "김도윤", status: "closed", updated: "지난주" },
   { id: "#3005", subject: "적립금 사용 문의", customer: "이서연", status: "closed", updated: "지난주" },
