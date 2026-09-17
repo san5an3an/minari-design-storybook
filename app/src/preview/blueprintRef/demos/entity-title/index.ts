@@ -1,8 +1,10 @@
+import * as m000 from "./EntityTitleExample";
+
 export const DEMOS = {
+  "EntityTitleExample": m000.EntityTitleExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "EntityTitleExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

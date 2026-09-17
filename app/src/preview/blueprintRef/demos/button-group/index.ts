@@ -8,6 +8,8 @@ import * as m006 from "./ButtonGroupIconsOnlyExample";
 import * as m007 from "./ButtonGroupIconsWithTooltipsExample";
 import * as m008 from "./ButtonGroupFlexExample";
 import * as m009 from "./ButtonGroupVerticalExample";
+import * as m010 from "./ButtonGroupPopoverExample";
+import * as m011 from "./ButtonGroupPlaygroundExample";
 
 export const DEMOS = {
   "ButtonGroupBasicExample": m000.default,
@@ -20,11 +22,11 @@ export const DEMOS = {
   "ButtonGroupIconsWithTooltipsExample": m007.default,
   "ButtonGroupFlexExample": m008.default,
   "ButtonGroupVerticalExample": m009.default,
+  "ButtonGroupPopoverExample": m010.ButtonGroupPopoverExample,
+  "ButtonGroupPlaygroundExample": m011.ButtonGroupPlaygroundExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "ButtonGroupPopoverExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "ButtonGroupPlaygroundExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

@@ -7,6 +7,7 @@ import * as m005 from "./CompoundTagRoundExample";
 import * as m006 from "./CompoundTagIconExample";
 import * as m007 from "./CompoundTagRemovableExample";
 import * as m008 from "./CompoundTagInteractiveExample";
+import * as m009 from "./CompoundTagPlaygroundExample";
 
 export const DEMOS = {
   "CompoundTagBasicExample": m000.default,
@@ -18,10 +19,10 @@ export const DEMOS = {
   "CompoundTagIconExample": m006.default,
   "CompoundTagRemovableExample": m007.default,
   "CompoundTagInteractiveExample": m008.default,
+  "CompoundTagPlaygroundExample": m009.CompoundTagPlaygroundExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "CompoundTagPlaygroundExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

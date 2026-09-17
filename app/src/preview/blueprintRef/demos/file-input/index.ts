@@ -1,8 +1,10 @@
+import * as m000 from "./FileInputExample";
+
 export const DEMOS = {
+  "FileInputExample": m000.FileInputExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "FileInputExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

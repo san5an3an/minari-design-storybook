@@ -1,8 +1,10 @@
+import * as m000 from "./SectionExample";
+
 export const DEMOS = {
+  "SectionExample": m000.SectionExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "SectionExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

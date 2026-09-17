@@ -1,13 +1,19 @@
+import * as m000 from "./popoverNextPlacementExample-tsx__reactExample__1";
+import * as m001 from "./popoverNextInteractionKindExample-tsx__reactExample__1";
+import * as m002 from "./popoverNextPortalExample-tsx__reactExample__1";
+import * as m003 from "./popoverNextSizingExample-tsx__reactExample__1";
+import * as m004 from "./popoverNextMinimalExample-tsx__reactExample__1";
+
 export const DEMOS = {
+  "popoverNextPlacementExample-tsx__reactExample__1": m000.PopoverNextPlacementExample,
+  "popoverNextInteractionKindExample-tsx__reactExample__1": m001.PopoverNextInteractionKindExample,
+  "popoverNextPortalExample-tsx__reactExample__1": m002.PopoverNextPortalExample,
+  "popoverNextSizingExample-tsx__reactExample__1": m003.PopoverNextSizingExample,
+  "popoverNextMinimalExample-tsx__reactExample__1": m004.PopoverNextMinimalExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "popoverNextExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme, @blueprintjs/select"},
-  "popoverNextPlacementExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "popoverNextInteractionKindExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "popoverNextPortalExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "popoverNextSizingExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "popoverNextMinimalExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
+  "popoverNextExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/select/examples"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {
