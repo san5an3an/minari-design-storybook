@@ -5,6 +5,7 @@ import { Antd2Usage } from "./antd2/Dashboard";
 import { BlueprintUsage2 } from "./blueprint2/Dashboard";
 import { BootstrapUsage2 } from "./bootstrap2/Dashboard";
 import { CarbonUsage2 } from "./carbon2/Dashboard";
+import { ChakraUsage2 } from "./chakra2/Dashboard";
 import { CloudscapeUsage2 } from "./cloudscape2/Dashboard";
 import { DaisyuiUsage2 } from "./daisyui2/Dashboard";
 import { FluentUsage2 } from "./fluent2/Dashboard";
@@ -22,6 +23,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   blueprint: BlueprintUsage2,
   bootstrap: BootstrapUsage2,
   carbon: CarbonUsage2,
+  chakra: ChakraUsage2,
   cloudscape: CloudscapeUsage2,
   daisyui: DaisyuiUsage2,
   fluent: FluentUsage2,
