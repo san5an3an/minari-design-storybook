@@ -13,6 +13,7 @@ export type UsageDashboard = ComponentType<UsageDashboardProps>;
 import { AntdUsage } from "./antd/Dashboard";
 import { BlueprintUsage } from "./blueprint/Dashboard";
 import { BootstrapUsage } from "./bootstrap/Dashboard";
+import { CarbonUsage } from "./carbon/Dashboard";
 import { CloudscapeUsage } from "./cloudscape/Dashboard";
 import { DaisyuiUsage } from "./daisyui/Dashboard";
 import { FluentUsage } from "./fluent/Dashboard";
@@ -28,6 +29,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   antd: AntdUsage,
   blueprint: BlueprintUsage,
   bootstrap: BootstrapUsage,
+  carbon: CarbonUsage,
   cloudscape: CloudscapeUsage,
   daisyui: DaisyuiUsage,
   fluent: FluentUsage,
