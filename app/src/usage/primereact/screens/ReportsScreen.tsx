@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Knob } from "primereact/knob";
 import { Panel } from "primereact/panel";
 import { ProgressBar } from "primereact/progressbar";
 import { Inbox, CheckCircle2, Timer } from "lucide-react";
@@ -40,22 +41,34 @@ export function ReportsScreen {
           );
         })}
       </div>
-      <Panel header="SLA 준수율">
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", marginBlockEnd: "0.25rem" }}>
-              <span>긴급 (목표 15분)</span><span>91%</span>
+      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+        <Panel header="SLA 준수율" style={{ flex: "2 1 18rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", marginBlockEnd: "0.25rem" }}>
+                <span>긴급 (목표 15분)</span><span>91%</span>
+              </div>
+              <ProgressBar value={91} showValue={false} />
             </div>
-            <ProgressBar value={91} showValue={false} />
-          </div>
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", marginBlockEnd: "0.25rem" }}>
-              <span>보통 (목표 4시간)</span><span>78%</span>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", marginBlockEnd: "0.25rem" }}>
+                <span>보통 (목표 4시간)</span><span>78%</span>
+              </div>
+              <ProgressBar value={78} showValue={false} />
             </div>
-            <ProgressBar value={78} showValue={false} />
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", marginBlockEnd: "0.25rem" }}>
+                <span>낮음 (목표 24시간)</span><span>96%</span>
+              </div>
+              <ProgressBar value={96} showValue={false} />
+            </div>
           </div>
-        </div>
-      </Panel>
+        </Panel>
+        <Panel header="고객 만족도" style={{ flex: "1 1 10rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Knob value={87} readOnly size={100} valueTemplate="{value}%" />
+          <div style={{ fontSize: "0.8125rem", color: "var(--semantic-fg-neutral-subtle)", marginBlockStart: "0.4rem" }}>이번 달 CSAT</div>
+        </Panel>
+      </div>
     </div>
   );
 }

@@ -14,9 +14,12 @@ interface Appointment {
 }
 
 const APPOINTMENTS: Appointment[] = [
+  { time: "09:00", patient: "윤도경", doctor: "이민호 원장", status: "완료" },
   { time: "09:30", patient: "정하늘", doctor: "이민호 원장", status: "완료" },
   { time: "10:00", patient: "오세준", doctor: "김하나 원장", status: "진료 중" },
   { time: "10:30", patient: "한소미", doctor: "이민호 원장", status: "대기" },
+  { time: "11:00", patient: "서지안", doctor: "김하나 원장", status: "대기" },
+  { time: "11:30", patient: "장하람", doctor: "이민호 원장", status: "대기" },
 ];
 
 const SEVERITY: Record<Appointment["status"], "success" | "info" | "warning"> = {
@@ -31,6 +34,11 @@ export function TodayScreen {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        {(["완료", "진료 중", "대기"] as const).map((s) => (
+          <Tag key={s} value={`${s} ${APPOINTMENTS.filter((a) => a.status === s).length}`} severity={SEVERITY[s]} />
+        ))}
+      </div>
       <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <Checkbox checked={hideDone} onChange={(e) => setHideDone(e.checked ?? false)} />
         <span style={{ fontSize: "0.85rem" }}>완료된 진료 숨기기</span>

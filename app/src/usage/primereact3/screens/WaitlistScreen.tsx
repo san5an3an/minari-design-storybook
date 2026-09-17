@@ -10,6 +10,8 @@ const WAITLIST = [
   { name: "서지안", reason: "예방접종", requested: "09-16" },
   { name: "장하람", reason: "피부 알레르기", requested: "09-16" },
   { name: "오세준", reason: "감기 재진", requested: "09-17" },
+  { name: "황예린", reason: "건강검진 결과 상담", requested: "09-17" },
+  { name: "송민재", reason: "물리치료", requested: "09-18" },
 ];
 
 export function WaitlistScreen {
@@ -19,6 +21,9 @@ export function WaitlistScreen {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-subtle)" }}>
+        총 {WAITLIST.length}명 대기 중 · 평균 대기 시간 약 18분
+      </div>
       {WAITLIST.map((w, i) => (
         <Panel
           key={w.name}
