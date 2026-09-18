@@ -18,3 +18,15 @@ export const TRANSACTIONS: readonly Transaction[] = [
   { id: "t6", title: "점심", category: "식비", amount: 12000, kind: "지출", date: "09-22", method: "체크카드", memo: "회사 근처 식당." },
   { id: "t7", title: "병원 진료", category: "의료", amount: 24000, kind: "지출", date: "09-21", method: "신용카드", memo: "정기 검진." },
 ] as const;
+
+// 예산 알림/잔여 카드 계산에 쓰이는 예산 데이터, 문구는 TRANSACTIONS 기반
+export const MONTHLY_BUDGET = 800000;
+export const INCOME_GOAL = 3000000;
+
+// 지출 있는 네 카테고리만 예산 지정
+export const CATEGORY_BUDGET: Record<string, number> = {
+  식비: 100000,
+  교통: 30000,
+  구독: 15000,
+  의료: 50000,
+};

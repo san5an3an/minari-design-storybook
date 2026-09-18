@@ -29,7 +29,6 @@ import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
 // 13종 어댑터는 정적 로드, 라이브러리/CSS/화면은 지연 로드하기
 import { carbonAdapter } from "./preview/carbonRef/adapter";
-import { chakraAdapter } from "./preview/chakraRef/adapter";
 import { bootstrapAdapter } from "./preview/bootstrapRef/adapter";
 import { flowbiteAdapter } from "./preview/flowbiteRef/adapter";
 import { grommetAdapter } from "./preview/grommetRef/adapter";
@@ -42,6 +41,7 @@ import { daisyuiAdapter } from "./preview/daisyuiRef/adapter";
 import { cloudscapeAdapter } from "./preview/cloudscapeRef/adapter";
 import { herouiAdapter } from "./preview/herouiRef/adapter";
 import { primereactAdapter } from "./preview/primereactRef/adapter";
+import { COSS_INDEX, isCossSlug } from "./preview/cossRef/loader";
 import type { BaseRefAdapter } from "./preview/refContract";
 import { MODES, MODE_LABEL, type Mode } from "./preview/tokens";
 import { DEFAULT_FONT, FONTS, fontByKey, loadFont } from "./preview/fonts";
@@ -55,28 +55,30 @@ const AntdReference = React.lazy( =>
   import("./preview/AntdReference").then((m) => ({ default: m.AntdReference })));
 const MuiReference = React.lazy( =>
   import("./preview/MuiReference").then((m) => ({ default: m.MuiReference })));
-function baseReference(baseKey: string, adapter: BaseRefAdapter, baseTitle: string) {
+// coss도 antd, mui와 같은 전용 화면 구조. 20번째 베이스로 신규 등록
+const CossReference = React.lazy( =>
+  import("./preview/CossReference").then((m) => ({ default: m.CossReference })));
+function baseReference(adapter: BaseRefAdapter, baseTitle: string) {
   return React.lazy( =>
     import("./preview/BaseReference").then((m) => ({
       default: (p: { slug: string; system: SystemDefinition; active: Mode }) => (
-        <m.BaseReference {...p} baseKey={baseKey} adapter={adapter} baseTitle={baseTitle} />
+        <m.BaseReference {...p} adapter={adapter} baseTitle={baseTitle} />
       ),
     })));
 }
-const CarbonReference = baseReference("carbon", carbonAdapter, "Carbon");
-const ChakraReference = baseReference("chakra", chakraAdapter, "Chakra UI");
-const BootstrapReference = baseReference("bootstrap", bootstrapAdapter, "React Bootstrap");
-const FlowbiteReference = baseReference("flowbite", flowbiteAdapter, "Flowbite React");
-const GrommetReference = baseReference("grommet", grommetAdapter, "Grommet");
-const PrimerReference = baseReference("primer", primerAdapter, "Primer");
-const LightningReference = baseReference("lightning", lightningAdapter, "Lightning");
-const FluentReference = baseReference("fluent", fluentAdapter, "Fluent UI");
-const SpectrumReference = baseReference("spectrum", spectrumAdapter, "React Spectrum");
-const BlueprintReference = baseReference("blueprint", blueprintAdapter, "Blueprint");
-const DaisyuiReference = baseReference("daisyui", daisyuiAdapter, "daisyUI");
-const CloudscapeReference = baseReference("cloudscape", cloudscapeAdapter, "Cloudscape");
-const HerouiReference = baseReference("heroui", herouiAdapter, "HeroUI");
-const PrimereactReference = baseReference("primereact", primereactAdapter, "PrimeReact");
+const CarbonReference = baseReference(carbonAdapter, "Carbon");
+const BootstrapReference = baseReference(bootstrapAdapter, "React Bootstrap");
+const FlowbiteReference = baseReference(flowbiteAdapter, "Flowbite React");
+const GrommetReference = baseReference(grommetAdapter, "Grommet");
+const PrimerReference = baseReference(primerAdapter, "Primer");
+const LightningReference = baseReference(lightningAdapter, "Lightning");
+const FluentReference = baseReference(fluentAdapter, "Fluent UI");
+const SpectrumReference = baseReference(spectrumAdapter, "React Spectrum");
+const BlueprintReference = baseReference(blueprintAdapter, "Blueprint");
+const DaisyuiReference = baseReference(daisyuiAdapter, "daisyUI");
+const CloudscapeReference = baseReference(cloudscapeAdapter, "Cloudscape");
+const HerouiReference = baseReference(herouiAdapter, "HeroUI");
+const PrimereactReference = baseReference(primereactAdapter, "PrimeReact");
 
 // 지연 로드 전 위치 표시
 function ReferenceLoading({ title }: { title: string }) {
@@ -212,7 +214,7 @@ function BaseCard({
   );
 }
 
-const HIDDEN_BASES: string[] = [];
+const HIDDEN_BASES = ["chakra", "mantine"];
 
 const CARD_ORDER = ["shadcn", "antd", "mui", "standalone", "blueprint"];
 const cardRank = (key: string) => {
@@ -302,16 +304,16 @@ type MirrorEntry = {
   noOurs?: true;
 };
 
+// coss는 group 없어 GROUPS 미제공, flat 목록으로 처리
+const COSS_TITLE = new Map(COSS_INDEX.map((c) => [c.slug, c.title]));
+
 const MIRRORS: Record<string, MirrorEntry> = {
   antd: { isSlug: isAntdSlug, INDEX: ANTD_INDEX, GROUPS: ANTD_GROUPS, TITLE: ANTD_TITLE, Reference: AntdReference },
   mui: { isSlug: isMuiSlug, INDEX: MUI_INDEX, GROUPS: MUI_GROUPS, TITLE: MUI_TITLE, Reference: MuiReference },
+  coss: { isSlug: isCossSlug, INDEX: COSS_INDEX, TITLE: COSS_TITLE, Reference: CossReference, noOurs: true },
   carbon: {
     isSlug: carbonAdapter.isSlug, INDEX: carbonAdapter.INDEX, GROUPS: carbonAdapter.GROUPS,
     TITLE: carbonAdapter.TITLE, Reference: CarbonReference, noOurs: true,
-  },
-  chakra: {
-    isSlug: chakraAdapter.isSlug, INDEX: chakraAdapter.INDEX, GROUPS: chakraAdapter.GROUPS,
-    TITLE: chakraAdapter.TITLE, Reference: ChakraReference, noOurs: true,
   },
   bootstrap: {
     isSlug: bootstrapAdapter.isSlug, INDEX: bootstrapAdapter.INDEX, GROUPS: bootstrapAdapter.GROUPS,

@@ -1662,6 +1662,13 @@ export const BASES: Record<string, BaseDefinition> = {
     Provider: cloudscapeProvider,
     css:  => "",
   },
+  coss: {
+    key: "coss",
+    title: "Coss",
+    impl: {  },
+    Provider: standaloneProvider,
+    css:  => "",
+  },
   daisyui: {
     key: "daisyui",
     title: "daisyUI",
@@ -1755,4 +1762,5 @@ export const BASES: Record<string, BaseDefinition> = {
   },
 };
 
-export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "blueprint", "bootstrap", "carbon", "cloudscape", "daisyui", "flowbite", "fluent", "grommet", "heroui", "lightning", "mui", "primer", "primereact", "spectrum"];
+// coss 항목 수동 추가. CARD_ORDER에 없어 모달 끝에 표시
+export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "blueprint", "bootstrap", "carbon", "cloudscape", "daisyui", "flowbite", "fluent", "grommet", "heroui", "lightning", "mui", "primer", "primereact", "spectrum", "coss"];
