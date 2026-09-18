@@ -1,29 +1,50 @@
 import * as React from "react";
-import { Avatar } from "primereact/avatar";
-import { Chip } from "primereact/chip";
-import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Paginator } from "primereact/paginator";
+import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
+import { Button } from "primereact/button";
+import { InputTextarea } from "primereact/inputtextarea";
+import { Panel } from "primereact/panel";
+import { Inbox, Flame, CheckCircle2 } from "lucide-react";
+
+interface Message { author: string; text: string; time: string }
 
 interface Ticket {
-  id: string; subject: string; customer: string; agent: string;
-  status: "열림" | "대기" | "닫힘"; priority: "긴급" | "보통" | "낮음";
+  id: string;
+  subject: string;
+  customer: string;
+  status: "열림" | "대기" | "닫힘";
+  priority: "긴급" | "보통" | "낮음";
+  thread: Message[];
 }
 
 const TICKETS: Ticket[] = [
-  { id: "#4821", subject: "결제 승인 후 주문 미반영", customer: "(주)한빛물산", agent: "김도현", status: "열림", priority: "긴급" },
-  { id: "#4820", subject: "로그인 2단계 인증 오류", customer: "김도현", agent: "이서아", status: "대기", priority: "보통" },
-  { id: "#4818", subject: "환불 처리 지연 문의", customer: "이서아", agent: "김도현", status: "열림", priority: "보통" },
-  { id: "#4815", subject: "API 요청 한도 상향", customer: "그린테크", agent: "박준서", status: "닫힘", priority: "낮음" },
-  { id: "#4812", subject: "청구서 항목 오류", customer: "박준서", agent: "최유나", status: "닫힘", priority: "낮음" },
-  { id: "#4809", subject: "정기결제 카드 만료 안내 요청", customer: "(주)델타상사", agent: "이서아", status: "열림", priority: "보통" },
-  { id: "#4806", subject: "대량 주문 CSV 업로드 실패", customer: "그린테크", agent: "박준서", status: "대기", priority: "긴급" },
-  { id: "#4803", subject: "쿠폰 중복 적용 문의", customer: "최유나", agent: "김도현", status: "닫힘", priority: "낮음" },
-  { id: "#4801", subject: "배송지 변경 요청", customer: "(주)한빛물산", agent: "최유나", status: "열림", priority: "보통" },
-  { id: "#4798", subject: "세금계산서 재발행", customer: "(주)델타상사", agent: "박준서", status: "닫힘", priority: "낮음" },
-  { id: "#4795", subject: "API 키 재발급 요청", customer: "그린테크", agent: "이서아", status: "대기", priority: "보통" },
-  { id: "#4790", subject: "환불 계좌 정보 오류", customer: "박준서", agent: "김도현", status: "열림", priority: "긴급" },
+  {
+    id: "#4821", subject: "결제 승인 후 주문 미반영", customer: "(주)한빛물산", status: "열림", priority: "긴급",
+    thread: [
+      { author: "(주)한빛물산", text: "카드 승인은 났는데 주문 목록에 안 떠요.", time: "09:12" },
+      { author: "상담원", text: "결제 ID 확인 중입니다, 잠시만요.", time: "09:20" },
+    ],
+  },
+  {
+    id: "#4820", subject: "로그인 2단계 인증 오류", customer: "김도현", status: "대기", priority: "보통",
+    thread: [{ author: "김도현", text: "인증번호가 계속 안 와요.", time: "어제" }],
+  },
+  {
+    id: "#4818", subject: "환불 처리 지연 문의", customer: "이서아", status: "열림", priority: "보통",
+    thread: [{ author: "이서아", text: "환불 신청한 지 5일째인데 아직이에요.", time: "2일 전" }],
+  },
+  {
+    id: "#4815", subject: "API 요청 한도 상향", customer: "그린테크", status: "닫힘", priority: "낮음",
+    thread: [
+      { author: "그린테크", text: "요청 한도를 올릴 수 있을까요?", time: "지난주" },
+      { author: "상담원", text: "엔터프라이즈 플랜으로 안내드렸고 반영 완료했습니다.", time: "지난주" },
+    ],
+  },
+  {
+    id: "#4812", subject: "청구서 항목 오류", customer: "박준서", status: "닫힘", priority: "낮음",
+    thread: [{ author: "상담원", text: "중복 청구 확인 후 정정했습니다.", time: "3일 전" }],
+  },
 ];
 
 const STATUS_COLOR: Record<Ticket["status"], string> = {
@@ -34,55 +55,109 @@ const STATUS_COLOR: Record<Ticket["status"], string> = {
 const PRIORITY_COLOR: Record<Ticket["priority"], string> = {
   긴급: "var(--semantic-bg-danger-default)",
   보통: "var(--semantic-bg-brand-default)",
-  낮음: "var(--semantic-bg-neutral-default)",
+  낮음: "var(--semantic-bg-neutral-subtle)",
 };
 
-const STATUS_FILTERS = ["전체", "열림", "대기", "닫힘"] as const;
-
 export function TicketsScreen {
-  const [statusFilter, setStatusFilter] = React.useState<(typeof STATUS_FILTERS)[number]>("전체");
-  const [first, setFirst] = React.useState(0);
-  const rows = 6;
+  const [tickets, setTickets] = React.useState<Ticket[]>(TICKETS);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+  const [reply, setReply] = React.useState("");
+  const selected = tickets.find((t) => t.id === selectedId);
 
-  const filtered = TICKETS.filter((t) => statusFilter === "전체" || t.status === statusFilter);
-  const page = filtered.slice(first, first + rows);
+  if (selected) {
+    const submit =  => {
+      if (!reply.trim) return;
+      setTickets((prev) =>
+        prev.map((t) =>
+          t.id === selected.id
+            ? { ...t, status: t.status === "열림" ? "대기" : t.status, thread: [...t.thread, { author: "상담원", text: reply.trim, time: "방금" }] }
+            : t,
+        ),
+      );
+      setReply("");
+    };
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        <Button label="← 목록으로" text size="small" style={{ width: "fit-content", paddingInline: 0 }} onClick={ => setSelectedId(null)} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: "1.05rem" }}>{selected.subject}</div>
+            <span style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-subtle)" }}>{selected.id} · {selected.customer}</span>
+          </div>
+          <Tag value={selected.priority} style={{ background: PRIORITY_COLOR[selected.priority], color: "#fff" }} />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", borderTop: "1px solid var(--semantic-border-neutral-subtle)", paddingTop: "0.6rem" }}>
+          {selected.thread.map((m, i) => (
+            <div key={i} style={{ fontSize: "0.85rem" }}>
+              <span style={{ fontWeight: 600 }}>{m.author}</span>{" "}
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}>· {m.time}</span>
+              <div>{m.text}</div>
+            </div>
+          ))}
+        </div>
+        <InputTextarea value={reply} onChange={(e) => setReply(e.target.value)} rows={3} placeholder="답장을 입력해요" style={{ width: "100%" }} />
+        <Button label="답장 보내기" size="small" style={{ width: "fit-content" }} disabled={!reply.trim} onClick={submit} />
+      </div>
+    );
+  }
+
+  const stats = [
+    { label: "열림", value: tickets.filter((t) => t.status === "열림").length, icon: Inbox, tone: "brand" },
+    { label: "긴급", value: tickets.filter((t) => t.priority === "긴급").length, icon: Flame, tone: "danger" },
+    { label: "닫힘", value: tickets.filter((t) => t.status === "닫힘").length, icon: CheckCircle2, tone: "success" },
+  ] as const;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-      <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-        {STATUS_FILTERS.map((s) => (
-          <Chip
-            key={s}
-            label={`${s} ${s === "전체" ? TICKETS.length : TICKETS.filter((t) => t.status === s).length}`}
-            className={statusFilter === s ? "p-chip-active" : undefined}
-            onClick={ => { setStatusFilter(s); setFirst(0); }}
-            style={{
-              cursor: "pointer",
-              background: statusFilter === s ? "var(--semantic-bg-brand-default)" : undefined,
-              color: statusFilter === s ? "var(--semantic-fg-on-brand-default)" : undefined,
-            }}
-          />
-        ))}
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+        {stats.map((s) => {
+          const Icon = s.icon;
+          return (
+            <Panel key={s.label} header={s.label} style={{ flex: "1 1 10rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div
+                  aria-hidden
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "2.25rem",
+                    height: "2.25rem",
+                    borderRadius: "var(--semantic-radius-control)",
+                    background: `var(--semantic-bg-${s.tone}-subtle)`,
+                    color: `var(--semantic-fg-${s.tone}-default)`,
+                    flexShrink: 0,
+                  }}
+                >
+                  <Icon size={18} />
+                </div>
+                <div style={{ fontSize: "1.5rem", fontWeight: 700 }}>{s.value}</div>
+              </div>
+            </Panel>
+          );
+        })}
       </div>
-
-      <DataTable value={page} size="small" stripedRows>
-        <Column field="id" header="티켓" style={{ width: "5rem" }} />
+      <DataTable value={tickets} size="small" stripedRows selectionMode="single" onRowClick={(e) => setSelectedId((e.data as Ticket).id)} style={{ cursor: "pointer" }}>
+        <Column field="id" header="티켓" style={{ width: "6rem" }} />
         <Column field="subject" header="제목" />
         <Column field="customer" header="고객" />
         <Column
-          field="agent" header="담당자"
+          field="status"
+          header="상태"
+          body={(t: Ticket) => <span style={{ color: STATUS_COLOR[t.status] }}>{t.status}</span>}
+        />
+        <Column
+          field="priority"
+          header="우선순위"
           body={(t: Ticket) => (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              <Avatar label={t.agent.slice(0, 1)} shape="circle" size="normal" style={{ width: "1.5rem", height: "1.5rem", fontSize: "0.7rem", background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }} />
-              <span style={{ fontSize: "0.8125rem" }}>{t.agent}</span>
-            </div>
+            <Tag
+              value={t.priority}
+              style={{ background: PRIORITY_COLOR[t.priority], color: "#fff" }}
+            />
           )}
         />
-        <Column field="status" header="상태" body={(t: Ticket) => <span style={{ color: STATUS_COLOR[t.status] }}>{t.status}</span>} />
-        <Column field="priority" header="우선순위" body={(t: Ticket) => <Tag value={t.priority} style={{ background: PRIORITY_COLOR[t.priority], color: "#fff" }} />} />
       </DataTable>
-
-      <Paginator first={first} rows={rows} totalRecords={filtered.length} onPageChange={(e) => setFirst(e.first)} />
     </div>
   );
 }

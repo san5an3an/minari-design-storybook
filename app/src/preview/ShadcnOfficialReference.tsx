@@ -1,18 +1,18 @@
 import * as React from "react";
 import { Master } from "./Doc";
 import { Absent, RefTable, Section } from "./refParts";
-import { COSS_SOURCE, loadCossDoc, type CossDoc } from "./cossRef/loader";
-import { CossLive } from "./CossLive";
+import { SHADCN_SOURCE, loadShadcnDoc, type ShadcnDoc } from "./shadcnRef/loader";
+import { ShadcnLive } from "./ShadcnLive";
 import type { Mode, SystemDefinition } from "../systems/types";
 
-export function CossReference({ slug }: { slug: string; system: SystemDefinition; active: Mode }) {
-  const [doc, setDoc] = React.useState<CossDoc | null>(null);
+export function ShadcnOfficialReference({ slug }: { slug: string; system: SystemDefinition; active: Mode }) {
+  const [doc, setDoc] = React.useState<ShadcnDoc | null>(null);
   const [err, setErr] = React.useState<string | null>(null);
 
   React.useEffect( => {
     let alive = true;
     setDoc(null); setErr(null);
-    const p = loadCossDoc(slug);
+    const p = loadShadcnDoc(slug);
     if (!p) { setErr(`${slug} 참조 데이터가 없어요.`); return; }
     p.then((d) => { if (alive) setDoc(d); })
       .catch((e) => { if (alive) setErr(String(e)); });
@@ -23,31 +23,35 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
   if (!doc) return <p className="doc-note">불러오는 중…</p>;
 
   const variantAxes = Object.entries(doc.variants);
+  const linkEntries = Object.entries(doc.links);
 
   return (
     <>
       <header className="doc-head">
         <h2 className="doc-h2">{doc.title}</h2>
         <p className="doc-note" style={{ marginTop: ".25rem" }}>
-          coss 공식 레지스트리 소스를 그대로 옮긴 참조예요. <b>coss 를 골랐을 때만</b> 보여요.
-          {" "}· 라이선스 <b>{doc.license}</b>(전체 저장소는 {COSS_SOURCE.license}, 이 구역만 MIT)
-          {" "}· <a href={doc.sourceUrl} target="_blank" rel="noreferrer">원본 소스</a>
+          shadcn 공식 레지스트리(<code>{SHADCN_SOURCE.style}</code> 스타일) 소스를 그대로 옮긴
+          참조예요. <b>shadcn 을 골랐을 때만</b> 보여요.
+          {" "}· 라이선스 <b>{doc.license}</b>
+          {" "}· <code>{doc.registryPath}</code>
           {" "}· {doc.lines.toLocaleString("ko-KR")}줄
         </p>
         <p className="doc-note" style={{ marginTop: ".25rem" }}>
           출처가 문서 사이트가 아니라 레지스트리 소스라 <b>examples · API 절이 없어요</b>
-          {" "}. 빠뜨린 게 아니라 그쪽에도 없어요(coss 자체가 평평한 컴포넌트 소스 모음).
+          {" "}. 빠뜨린 게 아니라 그쪽에도 없어요(shadcn 자체가 평평한 컴포넌트 소스 모음).
+        </p>
+        <p className="doc-note" style={{ marginTop: ".25rem" }}>
+          아래 코드는 <b>레지스트리 원문 그대로</b>예요(<code>from &quot;cn&quot;</code> 같은
+          변환 전 경로 포함). 실제 설치본(<code>app/src/components/ui/</code>)과는 CLI 변환을
+          거쳐 다릅니다. &quot;이대로 설치된다&quot;로 읽지 마세요.
         </p>
       </header>
 
-      <Master note={<>공식 레지스트리에서 <b>실제로 설치한 컴포넌트</b>예요. 코드를 옮겨 그린 게 아니에요.</>}>
-        <CossLive slug={slug} doc={doc} />
+      <Master note={<>설치된 실제 컴포넌트를 세운 거예요. 아래 <b>소스 코드</b> 절의 레지스트리 원문과는 CLI 변환만큼 달라요.</>}>
+        <ShadcnLive slug={slug} doc={doc} />
       </Master>
 
-      <Section
-        title="소스 코드"
-        note={<>coss 공식 레지스트리의 <b>변환 전 소스 코드 원문</b>이에요. 요약하거나 다시 쓰지 않아요.</>}
-      >
+      <Section title="소스 코드" note={<>공식 레지스트리의 <b>변환 전 소스 코드 원문</b>이에요. 요약하거나 다시 쓰지 않아요. <code>from &quot;cn&quot;</code> 같은 변환 전 경로가 그대로 있어요. 실제 설치본과 다릅니다.</>}>
         <pre
           style={{
             width: "100%",
@@ -68,10 +72,26 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
         </pre>
       </Section>
 
+      {doc.docs ? (
+        <Section title="공식 안내">
+          <p className="doc-note" style={{ marginTop: 0 }}>{doc.docs}</p>
+        </Section>
+      ) : null}
+
       <Section title="Exports" count={doc.exports.length || undefined}>
         {doc.exports.length === 0
           ? <Absent what="Exports" />
           : <RefTable columns={["이름", "위치"]} rows={doc.exports.map((e) => [e.name, e.source])} />}
+      </Section>
+
+      <Section
+        title="Data Slots"
+        count={doc.dataSlots.length || undefined}
+        note="data-slot 값이에요. shadcn 에서 스타일을 거는 위치 이름이라 계약에 가까워요."
+      >
+        {doc.dataSlots.length === 0
+          ? <Absent what="Data Slots" />
+          : <RefTable columns={["이름", "위치"]} rows={doc.dataSlots.map((d) => [d.name, d.source])} />}
       </Section>
 
       <Section
@@ -113,10 +133,37 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
           )}
       </Section>
 
+      <Section title="Dependencies" count={doc.dependencies.length || undefined}>
+        {doc.dependencies.length === 0
+          ? <Absent what="Dependencies" />
+          : <RefTable columns={["패키지"]} rows={doc.dependencies.map((d) => [d])} />}
+      </Section>
+
+      <Section
+        title="Registry Dependencies"
+        count={doc.registryDependencies.length || undefined}
+        note="이 컴포넌트가 끌고 오는 다른 shadcn 레지스트리 항목이에요."
+      >
+        {doc.registryDependencies.length === 0
+          ? <Absent what="Registry Dependencies" />
+          : <RefTable columns={["항목"]} rows={doc.registryDependencies.map((d) => [d])} />}
+      </Section>
+
       <Section title="Imports" count={doc.imports.length || undefined}>
         {doc.imports.length === 0
           ? <Absent what="Imports" />
           : <RefTable columns={["경로"]} rows={doc.imports.map((i) => [i])} />}
+      </Section>
+
+      <Section title="Links" count={linkEntries.length || undefined}>
+        {linkEntries.length === 0
+          ? <Absent what="Links" />
+          : (
+            <RefTable
+              columns={["이름", "주소"]}
+              rows={linkEntries.map(([name, href]) => [name, href])}
+            />
+          )}
       </Section>
     </>
   );
