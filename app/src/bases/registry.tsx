@@ -1543,6 +1543,11 @@ function cloudscapeProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
 
+// 래퍼 불필요. coss는 아직 색 통로 없음
+function cossProvider({ children }: BaseProviderProps) {
+  return <>{children}</>;
+}
+
 // 래퍼 불필요. daisyui는 CSS 변수 기반이라 mode 참조가 필요 없음
 function daisyuiProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
@@ -1666,7 +1671,7 @@ export const BASES: Record<string, BaseDefinition> = {
     key: "coss",
     title: "Coss",
     impl: {  },
-    Provider: standaloneProvider,
+    Provider: cossProvider,
     css:  => "",
   },
   daisyui: {
@@ -1762,5 +1767,4 @@ export const BASES: Record<string, BaseDefinition> = {
   },
 };
 
-// coss 항목 수동 추가. CARD_ORDER에 없어 모달 끝에 표시
-export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "blueprint", "bootstrap", "carbon", "cloudscape", "daisyui", "flowbite", "fluent", "grommet", "heroui", "lightning", "mui", "primer", "primereact", "spectrum", "coss"];
+export const BASE_ORDER: string[] = ["shadcn", "standalone", "chakra", "mantine", "antd", "blueprint", "bootstrap", "carbon", "cloudscape", "coss", "daisyui", "flowbite", "fluent", "grommet", "heroui", "lightning", "mui", "primer", "primereact", "spectrum"];

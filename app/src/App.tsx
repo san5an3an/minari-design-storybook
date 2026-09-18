@@ -29,6 +29,7 @@ import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
 // 13종 어댑터는 정적 로드, 라이브러리/CSS/화면은 지연 로드하기
 import { carbonAdapter } from "./preview/carbonRef/adapter";
+import { chakraAdapter } from "./preview/chakraRef/adapter";
 import { bootstrapAdapter } from "./preview/bootstrapRef/adapter";
 import { flowbiteAdapter } from "./preview/flowbiteRef/adapter";
 import { grommetAdapter } from "./preview/grommetRef/adapter";
@@ -58,27 +59,28 @@ const MuiReference = React.lazy( =>
 // coss도 antd, mui와 같은 전용 화면 구조. 20번째 베이스로 신규 등록
 const CossReference = React.lazy( =>
   import("./preview/CossReference").then((m) => ({ default: m.CossReference })));
-function baseReference(adapter: BaseRefAdapter, baseTitle: string) {
+function baseReference(baseKey: string, adapter: BaseRefAdapter, baseTitle: string) {
   return React.lazy( =>
     import("./preview/BaseReference").then((m) => ({
       default: (p: { slug: string; system: SystemDefinition; active: Mode }) => (
-        <m.BaseReference {...p} adapter={adapter} baseTitle={baseTitle} />
+        <m.BaseReference {...p} baseKey={baseKey} adapter={adapter} baseTitle={baseTitle} />
       ),
     })));
 }
-const CarbonReference = baseReference(carbonAdapter, "Carbon");
-const BootstrapReference = baseReference(bootstrapAdapter, "React Bootstrap");
-const FlowbiteReference = baseReference(flowbiteAdapter, "Flowbite React");
-const GrommetReference = baseReference(grommetAdapter, "Grommet");
-const PrimerReference = baseReference(primerAdapter, "Primer");
-const LightningReference = baseReference(lightningAdapter, "Lightning");
-const FluentReference = baseReference(fluentAdapter, "Fluent UI");
-const SpectrumReference = baseReference(spectrumAdapter, "React Spectrum");
-const BlueprintReference = baseReference(blueprintAdapter, "Blueprint");
-const DaisyuiReference = baseReference(daisyuiAdapter, "daisyUI");
-const CloudscapeReference = baseReference(cloudscapeAdapter, "Cloudscape");
-const HerouiReference = baseReference(herouiAdapter, "HeroUI");
-const PrimereactReference = baseReference(primereactAdapter, "PrimeReact");
+const CarbonReference = baseReference("carbon", carbonAdapter, "Carbon");
+const ChakraReference = baseReference("chakra", chakraAdapter, "Chakra UI");
+const BootstrapReference = baseReference("bootstrap", bootstrapAdapter, "React Bootstrap");
+const FlowbiteReference = baseReference("flowbite", flowbiteAdapter, "Flowbite React");
+const GrommetReference = baseReference("grommet", grommetAdapter, "Grommet");
+const PrimerReference = baseReference("primer", primerAdapter, "Primer");
+const LightningReference = baseReference("lightning", lightningAdapter, "Lightning");
+const FluentReference = baseReference("fluent", fluentAdapter, "Fluent UI");
+const SpectrumReference = baseReference("spectrum", spectrumAdapter, "React Spectrum");
+const BlueprintReference = baseReference("blueprint", blueprintAdapter, "Blueprint");
+const DaisyuiReference = baseReference("daisyui", daisyuiAdapter, "daisyUI");
+const CloudscapeReference = baseReference("cloudscape", cloudscapeAdapter, "Cloudscape");
+const HerouiReference = baseReference("heroui", herouiAdapter, "HeroUI");
+const PrimereactReference = baseReference("primereact", primereactAdapter, "PrimeReact");
 
 // 지연 로드 전 위치 표시
 function ReferenceLoading({ title }: { title: string }) {
@@ -214,7 +216,7 @@ function BaseCard({
   );
 }
 
-const HIDDEN_BASES = ["chakra", "mantine"];
+const HIDDEN_BASES: string[] = [];
 
 const CARD_ORDER = ["shadcn", "antd", "mui", "standalone", "blueprint"];
 const cardRank = (key: string) => {
@@ -314,6 +316,10 @@ const MIRRORS: Record<string, MirrorEntry> = {
   carbon: {
     isSlug: carbonAdapter.isSlug, INDEX: carbonAdapter.INDEX, GROUPS: carbonAdapter.GROUPS,
     TITLE: carbonAdapter.TITLE, Reference: CarbonReference, noOurs: true,
+  },
+  chakra: {
+    isSlug: chakraAdapter.isSlug, INDEX: chakraAdapter.INDEX, GROUPS: chakraAdapter.GROUPS,
+    TITLE: chakraAdapter.TITLE, Reference: ChakraReference, noOurs: true,
   },
   bootstrap: {
     isSlug: bootstrapAdapter.isSlug, INDEX: bootstrapAdapter.INDEX, GROUPS: bootstrapAdapter.GROUPS,
