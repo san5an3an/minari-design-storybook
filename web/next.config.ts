@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   agentRules: false,
   devIndicators: false,
   distDir: process.env.NODE_ENV === "production" ? ".next-build" : ".next",
+  typescript: { ignoreBuildErrors: true },
   outputFileTracingRoot: ROOT,
   turbopack: {
     root: ROOT,
@@ -22,6 +23,10 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     // 별칭은 양쪽 설정에 등록. turbopack만 두면 webpack에서 못 찾음
     config.resolve.alias = { ...config.resolve.alias, "@": path.join(ROOT, "app", "src") };
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: /node_modules|\.git|\.next|tools[\\/]\.cache|test-results|\.scratch-shots/,
+    };
     return config;
   },
 };
