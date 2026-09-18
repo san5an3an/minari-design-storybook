@@ -7,7 +7,7 @@ import type { SheetProps } from "../../systems/props";
 
 export function Sheet({
   trigger, side = "right", title, description, footer, children, className,
-  open, defaultOpen, onOpenChange,
+  open, defaultOpen, onOpenChange, container,
 }: SheetProps) {
   return (
     <ShadcnSheet open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
@@ -16,7 +16,7 @@ export function Sheet({
           ? <SheetTrigger render={trigger as React.ReactElement} />
           : <SheetTrigger>{trigger}</SheetTrigger>
       ) : null}
-      <SheetContent side={side} className={className}>
+      <SheetContent side={side} className={className} container={container}>
         {title || description ? (
           <SheetHeader>
             {title ? <SheetTitle>{title}</SheetTitle> : null}
