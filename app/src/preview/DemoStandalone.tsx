@@ -3,6 +3,37 @@ import { resolveSystem } from "../systems/resolve";
 import { MODES, type Mode, type SystemDefinition } from "../systems/types";
 import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
 import { parseColorTokens } from "./tokens";
+import type { BaseRefAdapter, BaseRefDoc, DemoValue, SkipCode } from "./refContract";
+import { blueprintAdapter } from "./blueprintRef/adapter";
+import { bootstrapAdapter } from "./bootstrapRef/adapter";
+import { carbonAdapter } from "./carbonRef/adapter";
+import { cloudscapeAdapter } from "./cloudscapeRef/adapter";
+import { daisyuiAdapter } from "./daisyuiRef/adapter";
+import { fluentAdapter } from "./fluentRef/adapter";
+import { flowbiteAdapter } from "./flowbiteRef/adapter";
+import { grommetAdapter } from "./grommetRef/adapter";
+import { herouiAdapter } from "./herouiRef/adapter";
+import { lightningAdapter } from "./lightningRef/adapter";
+import { primerAdapter } from "./primerRef/adapter";
+import { primereactAdapter } from "./primereactRef/adapter";
+import { spectrumAdapter } from "./spectrumRef/adapter";
+
+// App.tsx 사이드바와 동일한 13개 항목을 별도로 유지
+const ADAPTERS: Record<string, BaseRefAdapter> = {
+  blueprint: blueprintAdapter,
+  bootstrap: bootstrapAdapter,
+  carbon: carbonAdapter,
+  cloudscape: cloudscapeAdapter,
+  daisyui: daisyuiAdapter,
+  fluent: fluentAdapter,
+  flowbite: flowbiteAdapter,
+  grommet: grommetAdapter,
+  heroui: herouiAdapter,
+  lightning: lightningAdapter,
+  primer: primerAdapter,
+  primereact: primereactAdapter,
+  spectrum: spectrumAdapter,
+};
 
 // 주소에서 렌더링 대상 읽기, 값 이상 시 그대로 표시
 interface Ask {
@@ -33,6 +64,12 @@ function Cannot({ why }: { why: string }) {
 
 export function DemoStandalone {
   const [ask] = React.useState(readAsk);
+  const isAntd = ask.base === "antd";
+  const adapter = isAntd ? null : ADAPTERS[ask.base] ?? null;
+  return isAntd ? <AntdDemo ask={ask} /> : <GenericDemo ask={ask} adapter={adapter} />;
+}
+
+function AntdDemo({ ask }: { ask: Ask }) {
   const [mod, setMod] = React.useState<DemoModule | null>(null);
   const [err, setErr] = React.useState<string | null>(null);
 
@@ -88,4 +125,76 @@ export function DemoStandalone {
 
   const Provider = system.Provider;
   return <Provider mode={ask.mode}><Demo tones={tones} /></Provider>;
+}
+
+// antd 제외 13종 iframe 예제, adapter 계약 공통 렌더링임
+function GenericDemo({ ask, adapter }: { ask: Ask; adapter: BaseRefAdapter | null }) {
+  const [doc, setDoc] = React.useState<BaseRefDoc | null>(null);
+  const [mod, setMod] = React.useState<{
+    demos: Record<string, DemoValue>;
+    skipped: Record<string, { code: SkipCode; detail: string }>;
+  } | null>(null);
+  const [err, setErr] = React.useState<string | null>(null);
+
+  const system: SystemDefinition | null = React.useMemo( => {
+    if (!ask.system) return null;
+    try {
+      return resolveSystem(ask.system, ask.base);
+    } catch {
+      return null;
+    }
+  }, [ask.system, ask.base]);
+
+  // antd와 동일하게 호스트 앱 style 미적용
+  React.useEffect( => {
+    if (!system) return;
+    const tag = document.createElement("style");
+    tag.textContent = system.vars;
+    document.head.appendChild(tag);
+    document.documentElement.dataset.theme = ask.mode;
+    document.documentElement.classList.toggle("dark", ask.mode !== "light");
+    document.body.style.margin = "0";
+    return  => { tag.remove; };
+  }, [system, ask.mode]);
+
+  React.useEffect( => {
+    if (!adapter?.mountTheme || !system) return;
+    return adapter.mountTheme(system, ask.mode, document);
+  }, [adapter, system, ask.mode]);
+
+  React.useEffect( => {
+    if (!adapter) return;
+    let alive = true;
+    setDoc(null); setErr(null);
+    const p = adapter.loadDoc(ask.slug);
+    if (!p) { setErr(`\`${ask.slug}\` 참조 데이터가 없어요.`); return; }
+    p.then((d) => { if (alive) setDoc(d); }).catch((e) => { if (alive) setErr(String(e)); });
+    return  => { alive = false; };
+  }, [adapter, ask.slug]);
+
+  React.useEffect( => {
+    if (!adapter) return;
+    let alive = true;
+    setMod(null);
+    const p = adapter.loadDemos(ask.slug);
+    if (!p) { setErr(`\`${ask.slug}\` 의 예제 모듈이 없어요.`); return; }
+    p.then((d) => { if (alive) setMod(d); }).catch((e) => { if (alive) setErr(String(e)); });
+    return  => { alive = false; };
+  }, [adapter, ask.slug]);
+
+  if (!adapter) return <Cannot why={`베이스 \`${ask.base}\` 의 어댑터를 못 찾았어요.`} />;
+  if (!system) return <Cannot why={`시스템 \`${ask.system}\` · 베이스 \`${ask.base}\` 를 못 찾았어요.`} />;
+  if (err) return <Cannot why={err} />;
+  if (!doc || !mod) return null; // 로딩 중 깜빡임 방지
+
+  const Demo = mod.demos[ask.example];
+  if (!Demo) {
+    const why = mod.skipped[ask.example];
+    return <Cannot why={why ? `${why.code}${why.detail ? `, ${why.detail}` : ""}` : `\`${ask.example}\` 예제를 못 찾았어요.`} />;
+  }
+
+  const ex = doc.examples.find((e) => e.key === ask.example);
+  const body = "html" in Demo ? <div dangerouslySetInnerHTML={{ __html: Demo.html }} /> : <Demo />;
+  const Provider = adapter.Provider;
+  return <Provider system={system} mode={ask.mode} providerProps={ex?.providerProps ?? null}>{body}</Provider>;
 }

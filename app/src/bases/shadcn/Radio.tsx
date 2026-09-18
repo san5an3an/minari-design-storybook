@@ -59,18 +59,20 @@ function RadioRoot({
 }
 
 function Group({
-  children, value, defaultValue, onValueChange,
+  children, value, defaultValue, onValueChange, className,
 }: {
   children?: React.ReactNode;
   value?: string;
   defaultValue?: string;
   onValueChange?: (v: string) => void;
+  className?: string;
 }) {
   return (
     <RadioGroup
       value={value}
       defaultValue={defaultValue}
       onValueChange={(v) => onValueChange?.(String(v))}
+      className={className}
       style={{ gap: "var(--component-radio-group-gap)" }}
     >
       {children}

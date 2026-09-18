@@ -48,7 +48,9 @@ function groupVariants(examples: BaseRefExample[]): { axis: string | null; items
   return out;
 }
 
-export function BaseReference({ adapter, baseTitle, slug, system, active }: {
+export function BaseReference({ baseKey, adapter, baseTitle, slug, system, active }: {
+  // /demo?base= 쿼리 값. ADAPTERS 키와 동일한 문자열
+  baseKey: string;
   adapter: BaseRefAdapter;
   baseTitle: string;
   slug: string;
@@ -116,10 +118,17 @@ export function BaseReference({ adapter, baseTitle, slug, system, active }: {
     const why = mod?.skipped[ex.key];
     if (Demo) {
       if (ex.stage === "iframe") {
+        // /demo 문서 재사용. 쿼리 계약은 readAsk 규칙과 정확히 일치
+        const src = `/demo?base=${encodeURIComponent(baseKey)}&system=${encodeURIComponent(system.slug)}` +
+          `&slug=${encodeURIComponent(slug)}&example=${encodeURIComponent(ex.key)}&mode=${encodeURIComponent(active)}`;
         return (
-          <p className="doc-note" style={{ marginTop: 0 }}>
-            공식이 이 예제를 <b>따로 된 문서(iframe)</b>에 가둬요. 13종용 iframe 셀은 기본 구조가 아직 안 만들었어요.
-          </p>
+          <div style={FILL}>
+            <iframe
+              src={src}
+              title={ex.name}
+              style={{ width: "100%", height: "100%", minHeight: "12rem", border: "none" }}
+            />
+          </div>
         );
       }
       const body = "html" in Demo
