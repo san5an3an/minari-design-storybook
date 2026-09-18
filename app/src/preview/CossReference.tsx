@@ -2,6 +2,7 @@ import * as React from "react";
 import { Master } from "./Doc";
 import { Absent, RefTable, Section } from "./refParts";
 import { COSS_SOURCE, loadCossDoc, type CossDoc } from "./cossRef/loader";
+import { CossLive } from "./CossLive";
 import type { Mode, SystemDefinition } from "../systems/types";
 
 export function CossReference({ slug }: { slug: string; system: SystemDefinition; active: Mode }) {
@@ -39,7 +40,14 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
         </p>
       </header>
 
-      <Master note={<>공식 저장소의 <b>소스 코드 원문 그대로</b>예요. 요약하거나 다시 쓰지 않아요.</>}>
+      <Master note={<>공식 레지스트리에서 <b>실제로 설치한 컴포넌트</b>예요. 코드를 옮겨 그린 게 아니에요.</>}>
+        <CossLive slug={slug} doc={doc} />
+      </Master>
+
+      <Section
+        title="소스 코드"
+        note={<>coss 공식 레지스트리의 <b>변환 전 소스 코드 원문</b>이에요. 요약하거나 다시 쓰지 않아요.</>}
+      >
         <pre
           style={{
             width: "100%",
@@ -58,7 +66,7 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
         >
           <code>{doc.code}</code>
         </pre>
-      </Master>
+      </Section>
 
       <Section title="Exports" count={doc.exports.length || undefined}>
         {doc.exports.length === 0
