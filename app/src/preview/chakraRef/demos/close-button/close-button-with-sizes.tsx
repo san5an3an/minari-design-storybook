@@ -1,0 +1,14 @@
+// @ts-nocheck
+import { CloseButton, For, HStack } from "@chakra-ui/react"
+
+export const CloseButtonWithSizes = () => {
+  return (
+    <HStack gap="4" wrap="wrap">
+      <For each={["2xs", "xs", "sm", "md", "lg", "xl"]}>
+        {(size) => <CloseButton key={size} variant="outline" size={size} />}
+      </For>
+    </HStack>
+  )
+}
+
+export default CloseButtonWithSizes;
