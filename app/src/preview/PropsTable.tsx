@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { ApiProp, SystemDefinition } from "../systems/types";
+import { CellText } from "./refParts";
 
 // 조건 행, when-then 조건 표시
 export interface Condition {
@@ -73,7 +74,7 @@ export function PropsTable({
                   <Values p={p} />
                 </td>
                 <td>{p.default ? <code>{p.default}</code> : <span className="doc-dim">—</span>}</td>
-                <td>{p.desc}</td>
+                <td><CellText text={p.desc} /></td>
               </tr>
             ))}
             {conditions?.map((c) => (
@@ -111,7 +112,7 @@ export function PropsTable({
                   <td>
                     <code>.{p.cls}</code>
                   </td>
-                  <td>{p.desc}</td>
+                  <td><CellText text={p.desc} /></td>
                 </tr>
               ))}
             </tbody>
