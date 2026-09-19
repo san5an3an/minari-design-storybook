@@ -47,4 +47,19 @@ export const flowbiteAdapter: BaseRefAdapter = {
     });
   },
   Provider: ({ children }) => children,
+  mountTheme(system, _mode, doc) {
+    let alive = true;
+    let node: HTMLStyleElement | null = null;
+    import(`../../systems/css/${system.slug}/_theme-flowbite.json`).then((m) => {
+      if (!alive) return;
+      node = doc.createElement("style");
+      node.dataset.baseMount = "flowbite:flowbite-theme";
+      node.textContent = String(m.default);
+      doc.head.appendChild(node);
+    }).catch( => { /* 못 실으면 flowbite가 기본 파랑으로 즉시 렌더링 */ });
+    return  => {
+      alive = false;
+      node?.remove;
+    };
+  },
 };

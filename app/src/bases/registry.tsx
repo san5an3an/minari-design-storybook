@@ -7,10 +7,15 @@ import { ANTD_BUTTON_CONFIG } from "./antdButtonConfig";
 import { ANTD_AVATAR_CONFIG } from "./antdAvatarConfig";
 import { ANTD_SPIN_CONFIG } from "./antdSpinConfig";
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+import { applyTheme as applyCloudscapeTheme } from "@cloudscape-design/components/theming";
+import "grommet/es6/contexts/ThemeContext/ThemeContext";
+import { Grommet } from "grommet";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.layer.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useEffect } from "react";
+import { THEMES as PRIMEREACT_THEMES } from "../preview/primereactRef/theme/_themes";
 
 // chakra 컴포넌트 2종
 import { Button as ChakraButton } from "./chakra/Button";
@@ -299,6 +304,92 @@ const MANTINE_THEME = {
   "18-saffron": mantineS18Saffron,
   "19-fog": mantineS19Fog,
   "20-berry": mantineS20Berry,
+};
+
+import { byMode as cloudscapeS01Cobalt } from "../../../generated/01-cobalt/base/cloudscape/theme";
+import { byMode as cloudscapeS02Graphite } from "../../../generated/02-graphite/base/cloudscape/theme";
+import { byMode as cloudscapeS03Ember } from "../../../generated/03-ember/base/cloudscape/theme";
+import { byMode as cloudscapeS04Jade } from "../../../generated/04-jade/base/cloudscape/theme";
+import { byMode as cloudscapeS05Plum } from "../../../generated/05-plum/base/cloudscape/theme";
+import { byMode as cloudscapeS06Slate } from "../../../generated/06-slate/base/cloudscape/theme";
+import { byMode as cloudscapeS07Emerald } from "../../../generated/07-emerald/base/cloudscape/theme";
+import { byMode as cloudscapeS08Indigo } from "../../../generated/08-indigo/base/cloudscape/theme";
+import { byMode as cloudscapeS09Sand } from "../../../generated/09-sand/base/cloudscape/theme";
+import { byMode as cloudscapeS10Teal } from "../../../generated/10-teal/base/cloudscape/theme";
+import { byMode as cloudscapeS11Crimson } from "../../../generated/11-crimson/base/cloudscape/theme";
+import { byMode as cloudscapeS12Moss } from "../../../generated/12-moss/base/cloudscape/theme";
+import { byMode as cloudscapeS13Azure } from "../../../generated/13-azure/base/cloudscape/theme";
+import { byMode as cloudscapeS14Violet } from "../../../generated/14-violet/base/cloudscape/theme";
+import { byMode as cloudscapeS15Rust } from "../../../generated/15-rust/base/cloudscape/theme";
+import { byMode as cloudscapeS16Mint } from "../../../generated/16-mint/base/cloudscape/theme";
+import { byMode as cloudscapeS17Navy } from "../../../generated/17-navy/base/cloudscape/theme";
+import { byMode as cloudscapeS18Saffron } from "../../../generated/18-saffron/base/cloudscape/theme";
+import { byMode as cloudscapeS19Fog } from "../../../generated/19-fog/base/cloudscape/theme";
+import { byMode as cloudscapeS20Berry } from "../../../generated/20-berry/base/cloudscape/theme";
+const CLOUDSCAPE_THEME = {
+  "01-cobalt": cloudscapeS01Cobalt,
+  "02-graphite": cloudscapeS02Graphite,
+  "03-ember": cloudscapeS03Ember,
+  "04-jade": cloudscapeS04Jade,
+  "05-plum": cloudscapeS05Plum,
+  "06-slate": cloudscapeS06Slate,
+  "07-emerald": cloudscapeS07Emerald,
+  "08-indigo": cloudscapeS08Indigo,
+  "09-sand": cloudscapeS09Sand,
+  "10-teal": cloudscapeS10Teal,
+  "11-crimson": cloudscapeS11Crimson,
+  "12-moss": cloudscapeS12Moss,
+  "13-azure": cloudscapeS13Azure,
+  "14-violet": cloudscapeS14Violet,
+  "15-rust": cloudscapeS15Rust,
+  "16-mint": cloudscapeS16Mint,
+  "17-navy": cloudscapeS17Navy,
+  "18-saffron": cloudscapeS18Saffron,
+  "19-fog": cloudscapeS19Fog,
+  "20-berry": cloudscapeS20Berry,
+};
+
+import { byMode as grommetS01Cobalt } from "../../../generated/01-cobalt/base/grommet/theme";
+import { byMode as grommetS02Graphite } from "../../../generated/02-graphite/base/grommet/theme";
+import { byMode as grommetS03Ember } from "../../../generated/03-ember/base/grommet/theme";
+import { byMode as grommetS04Jade } from "../../../generated/04-jade/base/grommet/theme";
+import { byMode as grommetS05Plum } from "../../../generated/05-plum/base/grommet/theme";
+import { byMode as grommetS06Slate } from "../../../generated/06-slate/base/grommet/theme";
+import { byMode as grommetS07Emerald } from "../../../generated/07-emerald/base/grommet/theme";
+import { byMode as grommetS08Indigo } from "../../../generated/08-indigo/base/grommet/theme";
+import { byMode as grommetS09Sand } from "../../../generated/09-sand/base/grommet/theme";
+import { byMode as grommetS10Teal } from "../../../generated/10-teal/base/grommet/theme";
+import { byMode as grommetS11Crimson } from "../../../generated/11-crimson/base/grommet/theme";
+import { byMode as grommetS12Moss } from "../../../generated/12-moss/base/grommet/theme";
+import { byMode as grommetS13Azure } from "../../../generated/13-azure/base/grommet/theme";
+import { byMode as grommetS14Violet } from "../../../generated/14-violet/base/grommet/theme";
+import { byMode as grommetS15Rust } from "../../../generated/15-rust/base/grommet/theme";
+import { byMode as grommetS16Mint } from "../../../generated/16-mint/base/grommet/theme";
+import { byMode as grommetS17Navy } from "../../../generated/17-navy/base/grommet/theme";
+import { byMode as grommetS18Saffron } from "../../../generated/18-saffron/base/grommet/theme";
+import { byMode as grommetS19Fog } from "../../../generated/19-fog/base/grommet/theme";
+import { byMode as grommetS20Berry } from "../../../generated/20-berry/base/grommet/theme";
+const GROMMET_THEME = {
+  "01-cobalt": grommetS01Cobalt,
+  "02-graphite": grommetS02Graphite,
+  "03-ember": grommetS03Ember,
+  "04-jade": grommetS04Jade,
+  "05-plum": grommetS05Plum,
+  "06-slate": grommetS06Slate,
+  "07-emerald": grommetS07Emerald,
+  "08-indigo": grommetS08Indigo,
+  "09-sand": grommetS09Sand,
+  "10-teal": grommetS10Teal,
+  "11-crimson": grommetS11Crimson,
+  "12-moss": grommetS12Moss,
+  "13-azure": grommetS13Azure,
+  "14-violet": grommetS14Violet,
+  "15-rust": grommetS15Rust,
+  "16-mint": grommetS16Mint,
+  "17-navy": grommetS17Navy,
+  "18-saffron": grommetS18Saffron,
+  "19-fog": grommetS19Fog,
+  "20-berry": grommetS20Berry,
 };
 
 import cssS01CobaltAccordion from "../systems/css/01-cobalt/accordion.json";
@@ -1256,6 +1347,49 @@ const CARBON_THEME: Record<string, string> = {
   "20-berry": carbonInteropS20Berry,
 };
 
+import cossInteropS01Cobalt from "../systems/css/01-cobalt/_theme-coss.json";
+import cossInteropS02Graphite from "../systems/css/02-graphite/_theme-coss.json";
+import cossInteropS03Ember from "../systems/css/03-ember/_theme-coss.json";
+import cossInteropS04Jade from "../systems/css/04-jade/_theme-coss.json";
+import cossInteropS05Plum from "../systems/css/05-plum/_theme-coss.json";
+import cossInteropS06Slate from "../systems/css/06-slate/_theme-coss.json";
+import cossInteropS07Emerald from "../systems/css/07-emerald/_theme-coss.json";
+import cossInteropS08Indigo from "../systems/css/08-indigo/_theme-coss.json";
+import cossInteropS09Sand from "../systems/css/09-sand/_theme-coss.json";
+import cossInteropS10Teal from "../systems/css/10-teal/_theme-coss.json";
+import cossInteropS11Crimson from "../systems/css/11-crimson/_theme-coss.json";
+import cossInteropS12Moss from "../systems/css/12-moss/_theme-coss.json";
+import cossInteropS13Azure from "../systems/css/13-azure/_theme-coss.json";
+import cossInteropS14Violet from "../systems/css/14-violet/_theme-coss.json";
+import cossInteropS15Rust from "../systems/css/15-rust/_theme-coss.json";
+import cossInteropS16Mint from "../systems/css/16-mint/_theme-coss.json";
+import cossInteropS17Navy from "../systems/css/17-navy/_theme-coss.json";
+import cossInteropS18Saffron from "../systems/css/18-saffron/_theme-coss.json";
+import cossInteropS19Fog from "../systems/css/19-fog/_theme-coss.json";
+import cossInteropS20Berry from "../systems/css/20-berry/_theme-coss.json";
+const COSS_THEME: Record<string, string> = {
+  "01-cobalt": cossInteropS01Cobalt,
+  "02-graphite": cossInteropS02Graphite,
+  "03-ember": cossInteropS03Ember,
+  "04-jade": cossInteropS04Jade,
+  "05-plum": cossInteropS05Plum,
+  "06-slate": cossInteropS06Slate,
+  "07-emerald": cossInteropS07Emerald,
+  "08-indigo": cossInteropS08Indigo,
+  "09-sand": cossInteropS09Sand,
+  "10-teal": cossInteropS10Teal,
+  "11-crimson": cossInteropS11Crimson,
+  "12-moss": cossInteropS12Moss,
+  "13-azure": cossInteropS13Azure,
+  "14-violet": cossInteropS14Violet,
+  "15-rust": cossInteropS15Rust,
+  "16-mint": cossInteropS16Mint,
+  "17-navy": cossInteropS17Navy,
+  "18-saffron": cossInteropS18Saffron,
+  "19-fog": cossInteropS19Fog,
+  "20-berry": cossInteropS20Berry,
+};
+
 import daisyuiInteropS01Cobalt from "../systems/css/01-cobalt/_theme-daisyui.json";
 import daisyuiInteropS02Graphite from "../systems/css/02-graphite/_theme-daisyui.json";
 import daisyuiInteropS03Ember from "../systems/css/03-ember/_theme-daisyui.json";
@@ -1471,6 +1605,49 @@ const PRIMER_THEME: Record<string, string> = {
   "20-berry": primerInteropS20Berry,
 };
 
+import spectrumInteropS01Cobalt from "../systems/css/01-cobalt/_theme-spectrum.json";
+import spectrumInteropS02Graphite from "../systems/css/02-graphite/_theme-spectrum.json";
+import spectrumInteropS03Ember from "../systems/css/03-ember/_theme-spectrum.json";
+import spectrumInteropS04Jade from "../systems/css/04-jade/_theme-spectrum.json";
+import spectrumInteropS05Plum from "../systems/css/05-plum/_theme-spectrum.json";
+import spectrumInteropS06Slate from "../systems/css/06-slate/_theme-spectrum.json";
+import spectrumInteropS07Emerald from "../systems/css/07-emerald/_theme-spectrum.json";
+import spectrumInteropS08Indigo from "../systems/css/08-indigo/_theme-spectrum.json";
+import spectrumInteropS09Sand from "../systems/css/09-sand/_theme-spectrum.json";
+import spectrumInteropS10Teal from "../systems/css/10-teal/_theme-spectrum.json";
+import spectrumInteropS11Crimson from "../systems/css/11-crimson/_theme-spectrum.json";
+import spectrumInteropS12Moss from "../systems/css/12-moss/_theme-spectrum.json";
+import spectrumInteropS13Azure from "../systems/css/13-azure/_theme-spectrum.json";
+import spectrumInteropS14Violet from "../systems/css/14-violet/_theme-spectrum.json";
+import spectrumInteropS15Rust from "../systems/css/15-rust/_theme-spectrum.json";
+import spectrumInteropS16Mint from "../systems/css/16-mint/_theme-spectrum.json";
+import spectrumInteropS17Navy from "../systems/css/17-navy/_theme-spectrum.json";
+import spectrumInteropS18Saffron from "../systems/css/18-saffron/_theme-spectrum.json";
+import spectrumInteropS19Fog from "../systems/css/19-fog/_theme-spectrum.json";
+import spectrumInteropS20Berry from "../systems/css/20-berry/_theme-spectrum.json";
+const SPECTRUM_THEME: Record<string, string> = {
+  "01-cobalt": spectrumInteropS01Cobalt,
+  "02-graphite": spectrumInteropS02Graphite,
+  "03-ember": spectrumInteropS03Ember,
+  "04-jade": spectrumInteropS04Jade,
+  "05-plum": spectrumInteropS05Plum,
+  "06-slate": spectrumInteropS06Slate,
+  "07-emerald": spectrumInteropS07Emerald,
+  "08-indigo": spectrumInteropS08Indigo,
+  "09-sand": spectrumInteropS09Sand,
+  "10-teal": spectrumInteropS10Teal,
+  "11-crimson": spectrumInteropS11Crimson,
+  "12-moss": spectrumInteropS12Moss,
+  "13-azure": spectrumInteropS13Azure,
+  "14-violet": spectrumInteropS14Violet,
+  "15-rust": spectrumInteropS15Rust,
+  "16-mint": spectrumInteropS16Mint,
+  "17-navy": spectrumInteropS17Navy,
+  "18-saffron": spectrumInteropS18Saffron,
+  "19-fog": spectrumInteropS19Fog,
+  "20-berry": spectrumInteropS20Berry,
+};
+
 // 베이스 공급자가 받는 props. mode는 필수
 export interface BaseProviderProps { slug: string; mode: Mode; children: ReactNode }
 
@@ -1538,12 +1715,17 @@ function chakraProvider({ slug, mode, children }: BaseProviderProps) {
   return <ChakraProvider value={chakraSystem(slug, mode)}>{children}</ChakraProvider>;
 }
 
-// 래퍼 불필요. cloudscape는 아직 색 채널 없음
-function cloudscapeProvider({ children }: BaseProviderProps) {
+function cloudscapeProvider({ slug, mode, children }: BaseProviderProps) {
+  useEffect( => {
+    const { reset } = applyCloudscapeTheme({
+      theme: pick(CLOUDSCAPE_THEME, slug, "cloudscape")[mode],
+    });
+    return reset;
+  }, [slug, mode]);
   return <>{children}</>;
 }
 
-// 래퍼 불필요. coss는 아직 색 통로 없음
+// 래퍼 불필요. coss는 CSS 변수만 맞으면 렌더링, mode 미참조
 function cossProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
@@ -1563,9 +1745,12 @@ function fluentProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
 
-// 래퍼 불필요. grommet은 아직 색 통로 없음
-function grommetProvider({ children }: BaseProviderProps) {
-  return <>{children}</>;
+function grommetProvider({ slug, mode, children }: BaseProviderProps) {
+  return (
+    <Grommet theme={pick(GROMMET_THEME, slug, "grommet")[mode]}>
+      {children}
+    </Grommet>
+  );
 }
 
 // 래퍼 불필요. heroui는 CSS 변수 기반이라 mode 참조가 필요 없음
@@ -1604,8 +1789,27 @@ function primerProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
 
-// 래퍼 불필요. primereact는 아직 색 통로 없음
-function primereactProvider({ children }: BaseProviderProps) {
+function primereactProvider({ slug, mode, children }: BaseProviderProps) {
+  useEffect( => {
+    let alive = true;
+    let el: HTMLStyleElement | null = null;
+    const load = PRIMEREACT_THEMES[`${slug}|${mode}`];
+    if (load) {
+      load
+        .then((m) => {
+          if (!alive) return;
+          el = document.createElement("style");
+          el.dataset.baseMount = `primereact:${slug}:${mode}`;
+          el.textContent = String(m.default);
+          document.head.appendChild(el);
+        })
+        .catch( => { /* 못 실으면 primereact가 테마 CSS 없이 렌더링 */ });
+    }
+    return  => {
+      alive = false;
+      el?.remove;
+    };
+  }, [slug, mode]);
   return <>{children}</>;
 }
 
@@ -1614,7 +1818,7 @@ function shadcnProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
 
-// 래퍼 불필요. spectrum은 아직 색 통로 없음
+// 래퍼 불필요. spectrum은 CSS 변수 기반이라 mode 참조가 필요 없음
 function spectrumProvider({ children }: BaseProviderProps) {
   return <>{children}</>;
 }
@@ -1672,7 +1876,7 @@ export const BASES: Record<string, BaseDefinition> = {
     title: "Coss",
     impl: {  },
     Provider: cossProvider,
-    css:  => "",
+    css: (slug: string) => COSS_THEME[slug] ?? "",
   },
   daisyui: {
     key: "daisyui",
@@ -1756,7 +1960,7 @@ export const BASES: Record<string, BaseDefinition> = {
     title: "Spectrum",
     impl: {  },
     Provider: spectrumProvider,
-    css:  => "",
+    css: (slug: string) => SPECTRUM_THEME[slug] ?? "",
   },
   standalone: {
     key: "standalone",

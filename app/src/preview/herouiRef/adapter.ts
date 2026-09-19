@@ -126,20 +126,26 @@ export const herouiAdapter: BaseRefAdapter = {
     }));
   },
   Provider: HerouiRefProvider,
-  // heroui 선택 시 CSS style 태그 삽입, 이탈 시 제거
-  mountTheme(_system, _mode, doc) {
+  mountTheme(system, _mode, doc) {
     let alive = true;
-    let node: HTMLStyleElement | null = null;
-    import("./theme/heroui-styles.json").then((m) => {
+    const nodes: HTMLStyleElement[] = [];
+    Promise.all([
+      import("./theme/heroui-styles.json"),
+      import(`../../systems/css/${system.slug}/_theme-heroui.json`),
+    ]).then(([base, theme]) => {
       if (!alive) return;
-      node = doc.createElement("style");
-      node.dataset.baseMount = "heroui:heroui-styles";
-      node.textContent = String(m.default);
-      doc.head.appendChild(node);
+      const scopedTheme = String(theme.default).replace(/:root\s*\{/, ".heroui-ref-scope {");
+      for (const [id, css] of [["heroui-styles", base.default], ["heroui-theme", scopedTheme]] as const) {
+        const el = doc.createElement("style");
+        el.dataset.baseMount = `heroui:${id}`;
+        el.textContent = String(css);
+        doc.head.appendChild(el);
+        nodes.push(el);
+      }
     }).catch( => { /* 못 실으면 heroui가 스타일 없이 즉시 렌더링 */ });
     return  => {
       alive = false;
-      node?.remove;
+      for (const el of nodes) el.remove;
     };
   },
 };
