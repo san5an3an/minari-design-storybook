@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { ComposedModal, ModalBody } from '@carbon/react';
 import { ModalHeader } from '@carbon/react';

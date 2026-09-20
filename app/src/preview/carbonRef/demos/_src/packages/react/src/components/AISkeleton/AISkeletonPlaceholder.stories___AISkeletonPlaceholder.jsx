@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AISkeletonPlaceholder } from '@carbon/react';
 
 

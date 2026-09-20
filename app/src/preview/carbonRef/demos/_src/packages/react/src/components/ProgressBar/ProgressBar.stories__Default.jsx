@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './ProgressBar.mdx';
 import { ProgressBar } from '@carbon/react';
 

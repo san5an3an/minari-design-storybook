@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Slider, SliderSkeleton } from '@carbon/react';
 import mdx from './Slider.mdx';

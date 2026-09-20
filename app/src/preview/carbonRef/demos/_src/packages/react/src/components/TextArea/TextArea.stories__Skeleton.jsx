@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { TextArea, TextAreaSkeleton } from '@carbon/react';
 import mdx from './TextArea.mdx';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './story.scss';
 import React, { useRef, useEffect } from 'react';
 import { Tooltip } from '@carbon/react';

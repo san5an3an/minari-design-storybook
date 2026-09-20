@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview_LayoutDirection as LayoutDirection } from '@carbon/react';
 import { preview_Text as Text } from '@carbon/react';
 import mdx from './Text.mdx';

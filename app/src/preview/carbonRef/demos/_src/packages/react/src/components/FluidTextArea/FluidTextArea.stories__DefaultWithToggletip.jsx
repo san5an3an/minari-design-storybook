@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidTextArea } from '@carbon/react';
 import { FluidTextAreaSkeleton } from '@carbon/react';
 import { ToggletipLabel, Toggletip, ToggletipButton, ToggletipContent } from '@carbon/react';

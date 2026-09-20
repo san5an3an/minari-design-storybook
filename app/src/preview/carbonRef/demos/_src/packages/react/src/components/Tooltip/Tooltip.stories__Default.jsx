@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './story.scss';
 import { OverflowMenuVertical } from '@carbon/icons-react';
 import { Tooltip } from '@carbon/react';

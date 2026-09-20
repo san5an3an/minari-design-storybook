@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Information } from '@carbon/icons-react';
 import React, { useRef, useEffect } from 'react';
 import { Button } from '@carbon/react';

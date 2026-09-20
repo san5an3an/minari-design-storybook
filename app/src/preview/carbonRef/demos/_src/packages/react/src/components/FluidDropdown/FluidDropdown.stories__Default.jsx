@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidDropdown, FluidDropdownSkeleton } from '@carbon/react';
 import mdx from './FluidDropdown.mdx';
 

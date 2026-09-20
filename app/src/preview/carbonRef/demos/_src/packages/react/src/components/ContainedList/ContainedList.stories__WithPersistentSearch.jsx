@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect } from 'react';
 import { Search } from '@carbon/react';
 import mdx from './ContainedList.mdx';

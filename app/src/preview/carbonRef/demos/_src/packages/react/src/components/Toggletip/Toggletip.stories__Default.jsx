@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Information } from '@carbon/icons-react';
 import { Button } from '@carbon/react';
 import { Link } from '@carbon/react';

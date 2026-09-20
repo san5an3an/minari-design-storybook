@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef } from 'react';
 import { usePrefix } from '@carbon/react';
 import { Menu, MenuItem } from '@carbon/react';

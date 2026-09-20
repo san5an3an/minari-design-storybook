@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { StaticNotification } from '@carbon/react';
 import { CodeSnippet } from '@carbon/react';
 import mdx from './StaticNotification.mdx';

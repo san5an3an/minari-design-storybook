@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SkeletonPlaceholder } from '@carbon/react';
 import mdx from './SkeletonPlaceholder.mdx';
 

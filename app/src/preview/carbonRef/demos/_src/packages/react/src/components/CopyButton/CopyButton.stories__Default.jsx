@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CopyButton } from '@carbon/react';
 import mdx from './CopyButton.mdx';
 

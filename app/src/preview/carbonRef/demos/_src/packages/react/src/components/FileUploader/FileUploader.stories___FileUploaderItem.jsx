@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './FileUploader.mdx';
 import { FileUploader, FileUploaderButton, FileUploaderDropContainer, FileUploaderItem, FileUploaderSkeleton } from '@carbon/react';
 

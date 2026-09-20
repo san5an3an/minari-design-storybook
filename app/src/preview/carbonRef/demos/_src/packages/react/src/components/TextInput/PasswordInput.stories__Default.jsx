@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PasswordInput } from '@carbon/react';
 
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FormLabel } from '@carbon/react';
 import './form-label-stories.scss';
 import mdx from './FormLabel.mdx';

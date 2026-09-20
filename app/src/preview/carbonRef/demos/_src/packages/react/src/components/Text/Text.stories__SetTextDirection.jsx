@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview_TextDirection as TextDirection, preview_Text as Text } from '@carbon/react';
 import { RadioButtonGroup } from '@carbon/react';
 import { RadioButton } from '@carbon/react';

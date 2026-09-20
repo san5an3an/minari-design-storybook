@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { SelectableTag } from '@carbon/react';
 import { Asleep } from '@carbon/icons-react';

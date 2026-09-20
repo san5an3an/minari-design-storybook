@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidForm } from '@carbon/react';
 import mdx from './TextInput.mdx';
 import { TextInput, TextInputSkeleton } from '@carbon/react';

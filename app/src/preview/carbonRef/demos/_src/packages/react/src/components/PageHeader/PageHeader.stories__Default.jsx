@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview__PageHeader as PageHeader } from '@carbon/react';
 import mdx from './PageHeader.mdx';
 

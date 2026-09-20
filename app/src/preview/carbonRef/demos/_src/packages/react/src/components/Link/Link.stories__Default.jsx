@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from '@carbon/react';
 import mdx from './Link.mdx';
 

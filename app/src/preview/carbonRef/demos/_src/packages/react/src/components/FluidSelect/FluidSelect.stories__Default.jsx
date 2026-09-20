@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidSelect, FluidSelectSkeleton } from '@carbon/react';
 import { SelectItem } from '@carbon/react';
 import { ToggletipLabel, Toggletip, ToggletipButton, ToggletipContent } from '@carbon/react';
