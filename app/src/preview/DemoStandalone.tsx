@@ -3,6 +3,7 @@ import { resolveSystem } from "../systems/resolve";
 import { MODES, type Mode, type SystemDefinition } from "../systems/types";
 import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
 import { parseColorTokens } from "./tokens";
+import { DemoBoundary } from "./refParts";
 import type { BaseRefAdapter, BaseRefDoc, DemoValue, SkipCode } from "./refContract";
 import { blueprintAdapter } from "./blueprintRef/adapter";
 import { bootstrapAdapter } from "./bootstrapRef/adapter";
@@ -64,6 +65,10 @@ function Cannot({ why }: { why: string }) {
 
 export function DemoStandalone {
   const [ask] = React.useState(readAsk);
+  React.useEffect( => {
+    const font = new URLSearchParams(window.location.search).get("font");
+    if (font) document.documentElement.style.setProperty("--base-font-family-sans", font);
+  }, []);
   const isAntd = ask.base === "antd";
   const adapter = isAntd ? null : ADAPTERS[ask.base] ?? null;
   return isAntd ? <AntdDemo ask={ask} /> : <GenericDemo ask={ask} adapter={adapter} />;
@@ -196,5 +201,9 @@ function GenericDemo({ ask, adapter }: { ask: Ask; adapter: BaseRefAdapter | nul
   const ex = doc.examples.find((e) => e.key === ask.example);
   const body = "html" in Demo ? <div dangerouslySetInnerHTML={{ __html: Demo.html }} /> : <Demo />;
   const Provider = adapter.Provider;
-  return <Provider system={system} mode={ask.mode} providerProps={ex?.providerProps ?? null}>{body}</Provider>;
+  return (
+    <Provider system={system} mode={ask.mode} providerProps={ex?.providerProps ?? null}>
+      <DemoBoundary name={ask.example}>{body}</DemoBoundary>
+    </Provider>
+  );
 }

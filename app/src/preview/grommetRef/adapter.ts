@@ -71,6 +71,17 @@ function GrommetRefProvider(props: BaseRefProviderProps) {
   return React.createElement(React.Suspense, { fallback: null }, React.createElement(LazyProvider, props));
 }
 
+const _INFINITE_GRID =
+  "공식 스토리가 항목 2,000개를 창(window) 기준으로 계속 더 불러와요. 스토리북 캔버스와 달리 "
+  + "이 예시는 바닥이 늘 보여서 멈추지 않고 `Maximum update depth exceeded`(React #185)로 돌아요. "
+  + "공식 코드는 그대로 두고, 깨진 채 돌리는 대신 까닭을 적어요.";
+
+// 미생성 슬러그#예제키 사례, 현재 2건 동일 원인
+const RUNTIME_UNAVAILABLE: Record<string, string> = {
+  "infinitescroll#GridInfiniteScroll": _INFINITE_GRID,
+  "infinitescroll#GridWithShow": _INFINITE_GRID,
+};
+
 export const grommetAdapter: BaseRefAdapter = {
   INDEX,
   GROUPS,
@@ -84,10 +95,20 @@ export const grommetAdapter: BaseRefAdapter = {
     // 템플릿 동적 import 금지, demos/_src는 명시 목록 LOAD만 호출
     const f = SLUGS.has(slug) ? LOAD[slug] : undefined;
     return f
-      ? f.then((m) => ({
-          demos: m.demos as Record<string, DemoValue>,
-          skipped: m.skipped as Record<string, { code: SkipCode; detail: string }>,
-        }))
+      ? f.then((m) => {
+          const demos = { ...(m.demos as Record<string, DemoValue>) };
+          const skipped = {
+            ...(m.skipped as Record<string, { code: SkipCode; detail: string }>),
+          };
+          for (const key of Object.keys(demos)) {
+            const why = RUNTIME_UNAVAILABLE[`${slug}#${key.split("#").pop ?? key}`]
+              ?? RUNTIME_UNAVAILABLE[`${slug}#${key}`];
+            if (!why) continue;
+            delete demos[key];
+            skipped[key] = { code: "runtime-unavailable", detail: why };
+          }
+          return { demos, skipped };
+        })
       : null;
   },
   Provider: GrommetRefProvider,

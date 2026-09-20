@@ -2,6 +2,7 @@ import * as React from "react";
 import { Master, Kids, Kid } from "./Doc";
 import { TokenTable } from "./TokenTable";
 import { parseColorTokens, type Mode } from "./tokens";
+import { componentGroups, resolveTokenGroup } from "./tokenGroups";
 import type { SystemDefinition } from "../systems/types";
 import type {
   BaseRefAdapter, BaseRefDoc, BaseRefExample, DemoValue, Presence, SkipCode,
@@ -109,8 +110,11 @@ export function BaseReference({ baseKey, adapter, baseTitle, slug, system, activ
     const p = axisProse.get(axis);
     return p ? <Prose text={p.text} format={p.format} docHref={doc.docHref} /> : undefined;
   };
-  const ourTokens = doc.tokenGroup
-    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${doc.tokenGroup}-`))
+  const availableGroups = componentGroups(system.vars);
+  const ownGroup = doc.tokenGroup && availableGroups.has(doc.tokenGroup) ? doc.tokenGroup : null;
+  const group = ownGroup ?? resolveTokenGroup(slug, doc.title, availableGroups);
+  const ourTokens = group
+    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${group}-`))
     : [];
 
   const stand = (ex: BaseRefExample) => {
@@ -120,7 +124,10 @@ export function BaseReference({ baseKey, adapter, baseTitle, slug, system, activ
       if (ex.stage === "iframe") {
         // /demo 문서 재사용. 쿼리 계약은 readAsk 규칙과 정확히 일치
         const src = `/demo?base=${encodeURIComponent(baseKey)}&system=${encodeURIComponent(system.slug)}` +
-          `&slug=${encodeURIComponent(slug)}&example=${encodeURIComponent(ex.key)}&mode=${encodeURIComponent(active)}`;
+          `&slug=${encodeURIComponent(slug)}&example=${encodeURIComponent(ex.key)}&mode=${encodeURIComponent(active)}` +
+          `&font=${encodeURIComponent(
+            getComputedStyle(document.documentElement).getPropertyValue("--base-font-family-sans").trim,
+          )}`;
         return (
           <div style={FILL}>
             <iframe
@@ -250,8 +257,8 @@ export function BaseReference({ baseKey, adapter, baseTitle, slug, system, activ
       <Section
         title="Tokens"
         count={ourTokens.length || undefined}
-        note={doc.tokenGroup
-          ? <><code>--component-{doc.tokenGroup}-*</code> 는 이 컴포넌트만 쓰는 이름이에요. 값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.</>
+        note={group
+          ? <><code>--component-{group}-*</code> 는 이 컴포넌트만 쓰는 이름이에요. 값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.{ownGroup ? null : <> 이름이 달라서 <b>같은 위치</b>로 이어 붙였어요.</>}</>
           : undefined}
       >
         {ourTokens.length === 0

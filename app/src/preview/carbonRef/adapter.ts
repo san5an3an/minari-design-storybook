@@ -43,7 +43,8 @@ function toDoc(raw: CarbonDoc): BaseRefDoc {
     description: ex.description,
     descFormat: ex.description === null ? null : "md",
     source: `${raw.sourceRepo.replace("https://github.com/", "").replace("/tree/", "@")}:${ex.source}`,
-    stage: "inline",
+    // Modal 계열 슬러그 전체
+    stage: raw.slug.includes("Modal") ? "contain" : "inline",
     iframeHeight: null,
     providerProps: null,
     args: null,

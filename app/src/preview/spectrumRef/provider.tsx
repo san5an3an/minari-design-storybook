@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Provider, defaultTheme } from "@adobe/react-spectrum";
 import type { CSSProperties } from "react";
 import type { BaseRefProviderProps } from "../refContract";
@@ -78,12 +79,38 @@ function spectrumTokenStyle: SpectrumStyle {
   }
   style["--spectrum-negative-border-color-focus"] = "var(--semantic-border-focus-default)";
   style["--spectrum-negative-border-color-focus-hover"] = "var(--semantic-border-focus-default)";
+
+  style.fontFamily = "var(--base-font-family-sans)";
   return style;
 }
 
 const TOKEN_STYLE = spectrumTokenStyle;
 
+const FONT_CSS = `
+[class*="i18nFontFamily"],
+[class*="i18nFontFamily"] *:not(code):not(pre):not(kbd):not(samp):not(code *):not(pre *) {
+  font-family: var(--base-font-family-sans);
+}
+[class*="i18nFontFamily"] code,
+[class*="i18nFontFamily"] pre,
+[class*="i18nFontFamily"] kbd,
+[class*="i18nFontFamily"] samp { font-family: var(--base-font-family-mono); }
+`;
+
+function useSpectrumFont: void {
+  React.useEffect( => {
+    const id = "spectrum-ref-font";
+    if (document.getElementById(id)) return;
+    const el = document.createElement("style");
+    el.id = id;
+    el.textContent = FONT_CSS;
+    document.head.appendChild(el);
+    return  => { el.remove; };
+  }, []);
+}
+
 export default function SpectrumRefProvider({ mode, children }: BaseRefProviderProps) {
+  useSpectrumFont;
   return (
     <Provider
       theme={defaultTheme}

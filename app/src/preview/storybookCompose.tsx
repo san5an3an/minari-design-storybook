@@ -13,12 +13,31 @@ export function storyDisplayName(exportName: string): string {
     .trim;
 }
 
+function applyArgMappings(args: AnyRecord, argTypes: AnyRecord): AnyRecord {
+  let touched = false;
+  const out: AnyRecord = { ...args };
+  for (const [key, value] of Object.entries(args)) {
+    const mapping = (argTypes[key] as AnyRecord | undefined)?.mapping as AnyRecord | undefined;
+    if (!mapping) continue;
+    const pick = (v: unknown) => {
+      const k = v as keyof typeof mapping;
+      return Object.prototype.hasOwnProperty.call(mapping, k as string) ? mapping[k as string] : v;
+    };
+    const next = Array.isArray(value) ? value.map(pick) : pick(value);
+    if (next !== value) { out[key] = next; touched = true; }
+  }
+  return touched ? out : args;
+}
+
 export function composeStory(meta: AnyRecord | undefined, story: StoryLike | undefined, exportName: string): React.ComponentType {
   const s = (story ?? {}) as AnyRecord;
   const m = (meta ?? {}) as AnyRecord;
-  const args = { ...((m.args as AnyRecord) ?? {}), ...((s.args as AnyRecord) ?? {}) };
   const parameters = { ...((m.parameters as AnyRecord) ?? {}), ...((s.parameters as AnyRecord) ?? {}) };
   const argTypes = { ...((m.argTypes as AnyRecord) ?? {}), ...((s.argTypes as AnyRecord) ?? {}) };
+  const args = applyArgMappings(
+    { ...((m.args as AnyRecord) ?? {}), ...((s.args as AnyRecord) ?? {}) },
+    argTypes,
+  );
   const name = (s.storyName as string) ?? (s.name as string | undefined && typeof story !== "function" ? (s.name as string) : undefined) ?? storyDisplayName(exportName);
   const render = (typeof story === "function"
     ? story

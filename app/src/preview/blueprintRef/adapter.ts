@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { BaseRefAdapter, BaseRefDoc, BaseRefExample, DemoValue, SkipCode } from "../refContract";
 import { BLUEPRINT_INDEX, isBlueprintSlug, loadBlueprintDoc, type BlueprintDoc } from "./loader";
 import { GROUPS } from "./demos/groups";
@@ -5,6 +6,22 @@ import { loadDemos as loadDemoModule, loadExamples } from "./demos/index";
 
 const SECTION_OF = new Map<string, string>;
 for (const [section, slugs] of Object.entries(GROUPS)) for (const s of slugs) SECTION_OF.set(s, section);
+
+function withDocsData(demos: Record<string, DemoValue>): Record<string, DemoValue> {
+  const out: Record<string, DemoValue> = {};
+  for (const [key, value] of Object.entries(demos)) {
+    if (typeof value !== "function") { out[key] = value; continue; }
+    const Orig = value as React.ComponentType<Record<string, unknown>>;
+    const Wrapped = (props: Record<string, unknown>) => {
+      const dark = typeof document !== "undefined"
+        && document.documentElement.getAttribute("data-theme") === "dark";
+      return React.createElement(Orig, { data: { themeName: dark ? "bp5-dark" : "" }, ...props });
+    };
+    Wrapped.displayName = `BlueprintDemo(${key})`;
+    out[key] = Wrapped as unknown as DemoValue;
+  }
+  return out;
+}
 
 // 제목은 mdx front-matter의 title 사용, fetcher 없으면 파일 이름 사용
 const TITLE = new Map(BLUEPRINT_INDEX.map((e) => [e.slug, e.title]));
@@ -48,10 +65,18 @@ export const blueprintAdapter: BaseRefAdapter = {
     const p = loadDemoModule(slug);
     if (!p) return null;
     return p.then((m) => ({
-      demos: m.DEMOS as Record<string, DemoValue>,
-      skipped: Object.fromEntries(
-        Object.entries(m.SKIPPED).map(([k, v]) => [k, { code: v.code as SkipCode, detail: v.detail }]),
-      ),
+      demos: withDocsData(m.DEMOS as Record<string, DemoValue>),
+      skipped: {
+        ...Object.fromEntries(
+          Object.entries(m.SKIPPED).map(([k, v]) => [k, { code: v.code as SkipCode, detail: v.detail }]),
+        ),
+        ...Object.fromEntries(
+          Object.entries(m.PENDING).map(([k, v]) => [k, {
+            code: (v.reason === "unresolved-local-module" ? "local-module-missing" : "not-an-example") as SkipCode,
+            detail: v.detail,
+          }]),
+        ),
+      },
     }));
   },
   // 필드 8, 대표 3종 모두 공급자 없음. 색은 CSS 변수라 공급자로 옮겨지지 않음
