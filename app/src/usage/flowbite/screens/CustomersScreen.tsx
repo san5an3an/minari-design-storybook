@@ -4,7 +4,7 @@ import {
   Modal, ModalBody, ModalFooter, ModalHeader, Select, Table,
   TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput, Tooltip,
 } from "flowbite-react";
-import { MapPin, Phone, Sparkles, Video } from "lucide-react";
+import { Hourglass, MapPin, Phone, Sparkles, Star, Users, Video, Wallet, type LucideIcon } from "lucide-react";
 import { CUSTOMERS, REVIEWS, UPCOMING_MEETINGS, type CustomerItem, type UpcomingMeeting } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -71,12 +71,14 @@ function Sparkline({ data, color }: { data: readonly number[]; color: string }) 
 type StatTone = "primary" | "green" | "yellow" | "red";
 interface CrmStat {
   label: string; value: string; delta: string; up: boolean; tone: StatTone; trend: readonly number[];
+  // 배지에 stat.label 첫 글자만 렌더링
+  icon: LucideIcon;
 }
 const CRM_STATS: readonly CrmStat[] = [
-  { label: "총 MRR", value: `${(CUSTOMERS.reduce((s, c) => s + c.mrr, 0) / 10000).toLocaleString("ko-KR")}만원`, delta: "+8%", up: true, tone: "primary", trend: [820, 850, 870, 900, 930, 950, 956] },
-  { label: "활성 고객", value: `${CUSTOMERS.filter((c) => c.status === "active").length}곳`, delta: "+1곳", up: true, tone: "green", trend: [3, 3, 4, 4, 4, 4, 4] },
-  { label: "체험 중", value: `${CUSTOMERS.filter((c) => c.status === "trial").length}곳`, delta: "0곳", up: true, tone: "yellow", trend: [1, 1, 1, 1, 1, 1, 1] },
-  { label: "평균 리뷰 점수", value: `${(REVIEWS.reduce((s, r) => s + r.score, 0) / REVIEWS.length).toFixed(1)}점`, delta: "-0.1점", up: false, tone: "red", trend: [4.4, 4.4, 4.3, 4.3, 4.3, 4.25, 4.25] },
+  { label: "총 MRR", value: `${(CUSTOMERS.reduce((s, c) => s + c.mrr, 0) / 10000).toLocaleString("ko-KR")}만원`, delta: "+8%", up: true, tone: "primary", icon: Wallet, trend: [820, 850, 870, 900, 930, 950, 956] },
+  { label: "활성 고객", value: `${CUSTOMERS.filter((c) => c.status === "active").length}곳`, delta: "+1곳", up: true, tone: "green", icon: Users, trend: [3, 3, 4, 4, 4, 4, 4] },
+  { label: "체험 중", value: `${CUSTOMERS.filter((c) => c.status === "trial").length}곳`, delta: "0곳", up: true, tone: "yellow", icon: Hourglass, trend: [1, 1, 1, 1, 1, 1, 1] },
+  { label: "평균 리뷰 점수", value: `${(REVIEWS.reduce((s, r) => s + r.score, 0) / REVIEWS.length).toFixed(1)}점`, delta: "-0.1점", up: false, tone: "red", icon: Star, trend: [4.4, 4.4, 4.3, 4.3, 4.3, 4.25, 4.25] },
 ];
 
 const TONE_HEX: Record<StatTone, string> = {
@@ -88,6 +90,7 @@ const TONE_HEX: Record<StatTone, string> = {
 
 function CrmStatCard({ stat }: { stat: CrmStat }) {
   const tone = TONE_HEX[stat.tone];
+  const Icon = stat.icon;
   const trendColor = stat.up ? "var(--color-green-600)" : "var(--color-red-600)";
   return (
     <div
@@ -103,10 +106,10 @@ function CrmStatCard({ stat }: { stat: CrmStat }) {
             aria-hidden
             style={{
               alignItems: "center", background: tone, borderRadius: "50%",
-              color: "white", display: "flex", height: "28px", justifyContent: "center", width: "28px", fontSize: "13px", fontWeight: 700,
+              color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
             }}
           >
-            {stat.label[0]}
+            <Icon size={15} strokeWidth={2} />
           </span>
           <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{stat.label}</span>
           <span style={{ fontSize: "18px", fontWeight: 600 }}>{stat.value}</span>

@@ -229,11 +229,12 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
       )}
 
       {/* 로그인 화면 fullBleed 렌더링. 여백 주면 구분선이 뜬 것처럼 보임 */}
+      {/* fullBleed일 때 세로 flex 적용, min-h만으로는 아래 여백 남을 수 있음 */}
       <div
-        className={`flex-1 overflow-y-auto${screen.fullBleed ? "" : " p-4 sm:p-5"}`}
+        className={`flex-1 overflow-y-auto${screen.fullBleed ? " flex flex-col" : " p-4 sm:p-5"}`}
       >
         {/* 화면 간 이동 경로 제공. 로그인 화면이 이걸로 대시보드로 복귀하기 */}
-        <Screen onNavigate={setScreenKey} />
+        <Screen onNavigate={setScreenKey} brand={system.name} />
       </div>
     </>
   );

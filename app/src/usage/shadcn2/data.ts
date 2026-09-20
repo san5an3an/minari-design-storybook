@@ -78,6 +78,71 @@ export const ARTICLES: readonly Article[] = [
       "생산지에서 소비자까지 거치는 중간 단계가 많을수록 가격 변동에 더 취약해진다.",
     ],
   },
+  {
+    id: "a6",
+    title: "카페인 대신 쓸 수 있는 각성 습관",
+    source: "사이언스오늘",
+    tag: "건강",
+    minutes: 5,
+    savedAt: "6일 전",
+    excerpt: "졸음은 카페인이 아니라 빛과 움직임으로도 쫓을 수 있다.",
+    body: [
+      "오후 각성도 저하는 대부분 혈당 변동과 자세 고정 때문이다.",
+      "10분 걷기나 자연광 노출만으로도 카페인 한 잔과 비슷한 각성 효과가 관찰된다.",
+    ],
+  },
+  {
+    id: "a7",
+    title: "AI 코드리뷰가 놓치는 것들",
+    source: "데브위클리",
+    tag: "개발",
+    minutes: 8,
+    savedAt: "1주 전",
+    excerpt: "문법은 잡아내도, '왜 이렇게 짰는지'는 아직 못 읽는다.",
+    body: [
+      "AI 리뷰어는 스타일·버그 패턴에는 강하지만 팀의 암묵적 합의나 과거 장애 이력까지는 모른다.",
+      "결국 사람 리뷰어가 남아야 할 자리는 '맥락'이다.",
+    ],
+  },
+  {
+    id: "a8",
+    title: "혼자 사는 사람들의 냉장고",
+    source: "로컬매거진",
+    tag: "라이프",
+    minutes: 5,
+    savedAt: "1주 전",
+    excerpt: "1인 가구 냉장고엔 의외로 '반찬'이 없다.",
+    body: [
+      "혼자 살면 요리보다 보관이 문제다, 다 먹기 전에 상하는 양을 사지 않는 게 기술이 된다.",
+      "그래서 1인 가구 소비는 '적게, 자주'로 수렴한다.",
+    ],
+  },
+  {
+    id: "a9",
+    title: "회의를 반으로 줄이는 법",
+    source: "워크노트",
+    tag: "일",
+    minutes: 6,
+    savedAt: "2주 전",
+    excerpt: "회의를 없애는 게 아니라, 회의의 자격을 따지는 것부터.",
+    body: [
+      "결정이 필요 없는 회의는 문서로 바꾸고, 결정이 필요한 회의만 캘린더에 남긴다.",
+      "그것만으로 한 팀의 주간 회의 시간이 절반으로 줄었다.",
+    ],
+  },
+  {
+    id: "a10",
+    title: "구독경제, 정말 저렴한가",
+    source: "이코노미브리프",
+    tag: "경제",
+    minutes: 9,
+    savedAt: "2주 전",
+    excerpt: "한 달 9,900원짜리가 다섯 개면 5만 원이 된다.",
+    body: [
+      "구독은 개별 결제보다 싸 보이지만, 해지하지 않는 습관 자체가 비용이다.",
+      "실제 사용량 대비 지출을 따져보면 절반 가까이가 '쓰지 않는 구독'인 경우가 많다.",
+    ],
+  },
 ] as const;
 
 export interface Collection {
@@ -94,3 +159,21 @@ export const COLLECTIONS: readonly Collection[] = [
   { id: "c4", label: "일", tag: "일" },
   { id: "c5", label: "경제", tag: "경제" },
 ];
+
+// 태그별 표지 사진 지정
+export const TAG_IMAGE: Record<string, string> = {
+  건강: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=60",
+  개발: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=60",
+  라이프: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=60",
+  일: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=60",
+  경제: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=60",
+};
+
+// 태그별 색상. semantic 팔레트 brand, success, warning, danger 4종을 태그 5개에 순환 적용
+export const TAG_TONE: Record<string, "brand" | "success" | "warning" | "danger" | "neutral"> = {
+  건강: "success",
+  개발: "brand",
+  라이프: "warning",
+  일: "neutral",
+  경제: "danger",
+};

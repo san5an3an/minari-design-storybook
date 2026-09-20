@@ -141,7 +141,7 @@ function MiniBarCard({ title, data }: { title: string; data: readonly { label: s
       <Typography variant="subtitle2" sx={{ mb: 0.5 }}>{title}</Typography>
       <BarChart
         height={140}
-        series={[{ data: data.map((d) => d.value), color: "var(--mui-palette-primary-main, #1976d2)" }]}
+        series={[{ data: data.map((d) => d.value), color: "var(--component-chart-series-1)" }]}
         xAxis={[{ data: data.map((d) => d.label), scaleType: "band" }]}
         yAxis={[{ width: 24 }]}
         margin={{ top: 8, bottom: 24, left: 24, right: 8 }}

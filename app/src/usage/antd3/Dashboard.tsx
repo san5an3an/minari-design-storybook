@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout, Menu, Tooltip, Typography, theme } from "antd";
+import { Layout, Menu, Typography, theme } from "antd";
 import { BarChartOutlined, ClockCircleOutlined, ProjectOutlined } from "@ant-design/icons";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS, type ScreenDefinition } from "./screens";
@@ -56,6 +56,7 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
               }}
             />
           </div>
+          {/* label 없이 icon만 주면 접근 가능한 이름이 사라져 스크린리더가 인식 못 할 수 있음 */}
           <Menu
             mode="inline"
             inlineCollapsed
@@ -64,7 +65,9 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
             style={{ borderInlineEnd: "none" }}
             items={SCREENS.map((s) => ({
               key: s.key,
-              icon: <Tooltip title={s.label} placement="right">{ICONS[s.icon]}</Tooltip>,
+              icon: ICONS[s.icon],
+              label: s.label,
+              title: s.label,
             }))}
           />
         </Layout.Sider>

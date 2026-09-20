@@ -50,7 +50,7 @@ function StatTile({ stat }: { stat: Stat }) {
         >
           <Icon icon={stat.icon} size={14} />
         </span>
-        <span style={{ color: "var(--bp-content-fg-muted, inherit)", fontSize: "0.8125rem" }}>
+        <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>
           {stat.label}
         </span>
       </div>

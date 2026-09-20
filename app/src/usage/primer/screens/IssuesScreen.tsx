@@ -52,7 +52,8 @@ function IssueStats({ issues }: { issues: IssueItem[] }) {
   const avgComments = Math.round((issues.reduce((sum, i) => sum + i.comments, 0) / issues.length) * 10) / 10;
   const labelCount = new Set(issues.flatMap((i) => i.labels.map((l) => l.text))).size;
   return (
-    <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", marginBottom: "16px" }}>
+    // 열 수는 .pr-stats가 지정. auto-fit 시 라벨 종류가 밀리는 문제 있음
+    <div className="pr-stats">
       <StatCard icon={CircleDot} label="열린 이슈" value={String(openIssues)} tone="success" meter={{ kind: "progress", percent: Math.round((openIssues / issues.length) * 100) }} />
       <StatCard icon={GitPullRequest} label="열린 PR" value={String(openPulls)} tone="accent" meter={{ kind: "trend", percent: 8 }} />
       <StatCard icon={Users} label="기여자" value={String(contributors)} tone="neutral" meter={{ kind: "trend", percent: 0 }} />
