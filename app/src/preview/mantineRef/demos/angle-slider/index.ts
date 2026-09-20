@@ -1,7 +1,7 @@
-import * as m000 from "./usage";
-import * as m001 from "./formatLabel";
-import * as m002 from "./marks";
-import * as m003 from "./onChangeEnd";
+import * as m000 from "../_src/demos/core/AngleSlider/AngleSlider.demo.usage";
+import * as m001 from "../_src/demos/core/AngleSlider/AngleSlider.demo.formatLabel";
+import * as m002 from "../_src/demos/core/AngleSlider/AngleSlider.demo.marks";
+import * as m003 from "../_src/demos/core/AngleSlider/AngleSlider.demo.onChangeEnd";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

@@ -1,8 +1,12 @@
+import * as m000 from "../_src/demos/core/FloatingIndicator/FloatingIndicator.demo.segmented";
+import * as m001 from "../_src/demos/core/FloatingIndicator/FloatingIndicator.demo.direction";
+import * as m002 from "../_src/demos/core/FloatingIndicator/FloatingIndicator.demo.tabs";
+
 export const DEMOS: Record<string, { component: unknown }> = {
+  "segmented": m000.segmented,
+  "direction": m001.direction,
+  "tabs": m002.tabs,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "segmented": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./FloatingIndicator.demo.segmented.module.css"},
-  "direction": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./FloatingIndicator.demo.direction.module.css"},
-  "tabs": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./FloatingIndicator.demo.tabs.module.css"},
 };

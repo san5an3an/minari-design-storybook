@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as React from "react";
-import { ActionButton, Flex, Item, Menu, MenuTrigger, Text } from "@adobe/react-spectrum";
+import { ActionButton, Flex, Item, Menu, MenuTrigger, Text, View } from "@adobe/react-spectrum";
 import CloneStamp from '@spectrum-icons/workflow/CloneStamp';
 import Crop from '@spectrum-icons/workflow/Crop';
 import CropRotate from '@spectrum-icons/workflow/CropRotate';

@@ -1,11 +1,12 @@
-import * as m000 from "./configurator";
-import * as m001 from "./withContent";
-import * as m002 from "./siblings";
-import * as m003 from "./boundaries";
-import * as m004 from "./withPages";
-import * as m005 from "./composition";
-import * as m006 from "./links";
-import * as m007 from "./autoContrast";
+import * as m000 from "../_src/demos/core/Pagination/Pagination.demo.configurator";
+import * as m001 from "../_src/demos/core/Pagination/Pagination.demo.withContent";
+import * as m002 from "../_src/demos/core/Pagination/Pagination.demo.siblings";
+import * as m003 from "../_src/demos/core/Pagination/Pagination.demo.boundaries";
+import * as m004 from "../_src/demos/core/Pagination/Pagination.demo.withPages";
+import * as m005 from "../_src/demos/core/Pagination/Pagination.demo.composition";
+import * as m006 from "../_src/demos/core/Pagination/Pagination.demo.links";
+import * as m007 from "../_src/demos/core/Pagination/Pagination.demo.icons";
+import * as m008 from "../_src/demos/core/Pagination/Pagination.demo.autoContrast";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,
@@ -15,10 +16,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "withPages": m004.withPages,
   "composition": m005.composition,
   "links": m006.links,
-  "autoContrast": m007.autoContrast,
+  "icons": m007.icons,
+  "autoContrast": m008.autoContrast,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api"},
-  "icons": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

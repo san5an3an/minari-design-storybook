@@ -1,11 +1,14 @@
-import * as m000 from "./autoContrast";
+import * as m000 from "../_src/demos/core/NavLink/NavLink.demo.usage";
+import * as m001 from "../_src/demos/core/NavLink/NavLink.demo.active";
+import * as m002 from "../_src/demos/core/NavLink/NavLink.demo.autoContrast";
+import * as m003 from "../_src/demos/core/NavLink/NavLink.demo.nested";
 
 export const DEMOS: Record<string, { component: unknown }> = {
-  "autoContrast": m000.autoContrast,
+  "usage": m000.usage,
+  "active": m001.active,
+  "autoContrast": m002.autoContrast,
+  "nested": m003.nested,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "usage": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "active": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "nested": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
 };

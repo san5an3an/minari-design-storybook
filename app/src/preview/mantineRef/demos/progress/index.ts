@@ -1,8 +1,8 @@
-import * as m000 from "./usage";
-import * as m001 from "./compound";
-import * as m002 from "./tooltips";
-import * as m003 from "./transition";
-import * as m004 from "./segments";
+import * as m000 from "../_src/demos/core/Progress/Progress.demo.usage";
+import * as m001 from "../_src/demos/core/Progress/Progress.demo.compound";
+import * as m002 from "../_src/demos/core/Progress/Progress.demo.tooltips";
+import * as m003 from "../_src/demos/core/Progress/Progress.demo.transition";
+import * as m004 from "../_src/demos/core/Progress/Progress.demo.segments";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -13,5 +13,5 @@ export const DEMOS: Record<string, { component: unknown }> = {
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

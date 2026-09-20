@@ -1,27 +1,30 @@
-import * as m000 from "./usage";
-import * as m001 from "./clearable";
-import * as m002 from "./searchable";
-import * as m003 from "./nothingFound";
-import * as m004 from "./checkIcon";
-import * as m005 from "./maxValues";
-import * as m006 from "./hidePickedOptions";
-import * as m007 from "./search";
-import * as m008 from "./sort";
-import * as m009 from "./limit";
-import * as m010 from "./renderOption";
-import * as m011 from "./scrollArea";
-import * as m012 from "./groups";
-import * as m013 from "./disabledOptions";
-import * as m014 from "./withinPopover";
-import * as m015 from "./dropdownOpened";
-import * as m016 from "./dropdownPosition";
-import * as m017 from "./dropdownWidth";
-import * as m018 from "./dropdownAnimation";
-import * as m019 from "./dropdownPadding";
-import * as m020 from "./dropdownShadow";
-import * as m021 from "./readOnly";
-import * as m022 from "./disabled";
-import * as m023 from "./error";
+import * as m000 from "../_src/demos/core/MultiSelect/MultiSelect.demo.usage";
+import * as m001 from "../_src/demos/core/MultiSelect/MultiSelect.demo.clearable";
+import * as m002 from "../_src/demos/core/MultiSelect/MultiSelect.demo.searchable";
+import * as m003 from "../_src/demos/core/MultiSelect/MultiSelect.demo.nothingFound";
+import * as m004 from "../_src/demos/core/MultiSelect/MultiSelect.demo.checkIcon";
+import * as m005 from "../_src/demos/core/MultiSelect/MultiSelect.demo.maxValues";
+import * as m006 from "../_src/demos/core/MultiSelect/MultiSelect.demo.hidePickedOptions";
+import * as m007 from "../_src/demos/core/MultiSelect/MultiSelect.demo.search";
+import * as m008 from "../_src/demos/core/MultiSelect/MultiSelect.demo.sort";
+import * as m009 from "../_src/demos/core/MultiSelect/MultiSelect.demo.limit";
+import * as m010 from "../_src/demos/core/MultiSelect/MultiSelect.demo.renderOption";
+import * as m011 from "../_src/demos/core/MultiSelect/MultiSelect.demo.scrollArea";
+import * as m012 from "../_src/demos/core/MultiSelect/MultiSelect.demo.groups";
+import * as m013 from "../_src/demos/core/MultiSelect/MultiSelect.demo.disabledOptions";
+import * as m014 from "../_src/demos/core/MultiSelect/MultiSelect.demo.withinPopover";
+import * as m015 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownOpened";
+import * as m016 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownPosition";
+import * as m017 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownWidth";
+import * as m018 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownOffset";
+import * as m019 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownAnimation";
+import * as m020 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownPadding";
+import * as m021 from "../_src/demos/core/MultiSelect/MultiSelect.demo.dropdownShadow";
+import * as m022 from "../_src/demos/core/MultiSelect/MultiSelect.demo.sections";
+import * as m023 from "../_src/demos/core/MultiSelect/MultiSelect.demo.configurator";
+import * as m024 from "../_src/demos/core/MultiSelect/MultiSelect.demo.readOnly";
+import * as m025 from "../_src/demos/core/MultiSelect/MultiSelect.demo.disabled";
+import * as m026 from "../_src/demos/core/MultiSelect/MultiSelect.demo.error";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -42,17 +45,17 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "dropdownOpened": m015.dropdownOpened,
   "dropdownPosition": m016.dropdownPosition,
   "dropdownWidth": m017.dropdownWidth,
-  "dropdownAnimation": m018.dropdownAnimation,
-  "dropdownPadding": m019.dropdownPadding,
-  "dropdownShadow": m020.dropdownShadow,
-  "readOnly": m021.readOnly,
-  "disabled": m022.disabled,
-  "error": m023.error,
+  "dropdownOffset": m018.dropdownOffset,
+  "dropdownAnimation": m019.dropdownAnimation,
+  "dropdownPadding": m020.dropdownPadding,
+  "dropdownShadow": m021.dropdownShadow,
+  "sections": m022.sections,
+  "configurator": m023.configurator,
+  "readOnly": m024.readOnly,
+  "disabled": m025.disabled,
+  "error": m026.error,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "dropdownOffset": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./MultiSelect.demo.dropdownOffset.module.css"},
-  "sections": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "configurator": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api, @tabler/icons-react"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

@@ -1,17 +1,21 @@
-import * as m000 from "./controlledVisibility";
-import * as m001 from "./error";
-import * as m002 from "./disabled";
+import * as m000 from "../_src/demos/core/PasswordInput/PasswordInput.demo.usage";
+import * as m001 from "../_src/demos/core/PasswordInput/PasswordInput.demo.controlledVisibility";
+import * as m002 from "../_src/demos/core/PasswordInput/PasswordInput.demo.visibilityIcon";
+import * as m003 from "../_src/demos/core/PasswordInput/PasswordInput.demo.strengthMeter";
+import * as m004 from "../_src/demos/core/PasswordInput/PasswordInput.demo.sections";
+import * as m005 from "../_src/demos/core/PasswordInput/PasswordInput.demo.error";
+import * as m006 from "../_src/demos/core/PasswordInput/PasswordInput.demo.disabled";
 
 export const DEMOS: Record<string, { component: unknown }> = {
-  "controlledVisibility": m000.controlledVisibility,
-  "error": m001.error,
-  "disabled": m002.disabled,
+  "usage": m000.usage,
+  "controlledVisibility": m001.controlledVisibility,
+  "visibilityIcon": m002.visibilityIcon,
+  "strengthMeter": m003.strengthMeter,
+  "sections": m004.sections,
+  "error": m005.error,
+  "disabled": m006.disabled,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "usage": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "visibilityIcon": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "strengthMeter": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "sections": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api, @tabler/icons-react"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

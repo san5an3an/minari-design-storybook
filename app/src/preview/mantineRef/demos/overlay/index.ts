@@ -1,6 +1,6 @@
-import * as m000 from "./usage";
-import * as m001 from "./gradient";
-import * as m002 from "./blur";
+import * as m000 from "../_src/demos/core/Overlay/Overlay.demo.usage";
+import * as m001 from "../_src/demos/core/Overlay/Overlay.demo.gradient";
+import * as m002 from "../_src/demos/core/Overlay/Overlay.demo.blur";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

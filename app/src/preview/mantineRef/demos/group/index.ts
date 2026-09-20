@@ -1,5 +1,5 @@
-import * as m000 from "./usage";
-import * as m001 from "./preventGrowOverflow";
+import * as m000 from "../_src/demos/core/Group/Group.demo.usage";
+import * as m001 from "../_src/demos/core/Group/Group.demo.preventGrowOverflow";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

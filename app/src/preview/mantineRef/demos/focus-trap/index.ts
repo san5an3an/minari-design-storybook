@@ -1,6 +1,6 @@
-import * as m000 from "./usage";
-import * as m001 from "./initial";
-import * as m002 from "./initialFocusTrap";
+import * as m000 from "../_src/demos/core/FocusTrap/FocusTrap.demo.usage";
+import * as m001 from "../_src/demos/core/FocusTrap/FocusTrap.demo.initial";
+import * as m002 from "../_src/demos/core/Modal/Modal.demo.initialFocusTrap";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

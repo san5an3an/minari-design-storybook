@@ -1,6 +1,6 @@
-import * as m000 from "./usage";
-import * as m001 from "./shadow";
-import * as m002 from "./component";
+import * as m000 from "../_src/demos/core/ColorSwatch/ColorSwatch.demo.usage";
+import * as m001 from "../_src/demos/core/ColorSwatch/ColorSwatch.demo.shadow";
+import * as m002 from "../_src/demos/core/ColorSwatch/ColorSwatch.demo.component";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

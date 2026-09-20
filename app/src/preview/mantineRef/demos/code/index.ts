@@ -1,6 +1,6 @@
-import * as m000 from "./usage";
-import * as m001 from "./block";
-import * as m002 from "./colors";
+import * as m000 from "../_src/demos/core/Code/Code.demo.usage";
+import * as m001 from "../_src/demos/core/Code/Code.demo.block";
+import * as m002 from "../_src/demos/core/Code/Code.demo.colors";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

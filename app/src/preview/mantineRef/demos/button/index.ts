@@ -1,35 +1,43 @@
-import * as m000 from "./fullWidth";
-import * as m001 from "./compact";
-import * as m002 from "./disabled";
-import * as m003 from "./disabledLink";
-import * as m004 from "./disabledTooltip";
-import * as m005 from "./loading";
-import * as m006 from "./loaderProps";
-import * as m007 from "./variantColorsResolver";
-import * as m008 from "./autoContrast";
-import * as m009 from "./group";
+import * as m000 from "../_src/demos/core/Button/Button.demo.configurator";
+import * as m001 from "../_src/demos/core/Button/Button.demo.fullWidth";
+import * as m002 from "../_src/demos/core/Button/Button.demo.sections";
+import * as m003 from "../_src/demos/core/Button/Button.demo.sectionsJustify";
+import * as m004 from "../_src/demos/core/Button/Button.demo.compact";
+import * as m005 from "../_src/demos/core/Button/Button.demo.gradient";
+import * as m006 from "../_src/demos/core/Button/Button.demo.disabled";
+import * as m007 from "../_src/demos/core/Button/Button.demo.disabledLink";
+import * as m008 from "../_src/demos/core/Button/Button.demo.disabledStyles";
+import * as m009 from "../_src/demos/core/Button/Button.demo.disabledTooltip";
+import * as m010 from "../_src/demos/core/Button/Button.demo.loading";
+import * as m011 from "../_src/demos/core/Button/Button.demo.loaderProps";
+import * as m012 from "../_src/demos/styles/Styles.demo.dataAttributes";
+import * as m013 from "../_src/demos/core/Button/Button.demo.customVariant";
+import * as m014 from "../_src/demos/theming/Theming.demo.variantColorsResolver";
+import * as m015 from "../_src/demos/core/Button/Button.demo.autoContrast";
+import * as m016 from "../_src/demos/core/Button/Button.demo.group";
+import * as m017 from "../_src/demos/core/Button/Button.demo.groupSection";
 
 export const DEMOS: Record<string, { component: unknown }> = {
-  "fullWidth": m000.fullWidth,
-  "compact": m001.compact,
-  "disabled": m002.disabled,
-  "disabledLink": m003.disabledLink,
-  "disabledTooltip": m004.disabledTooltip,
-  "loading": m005.loading,
-  "loaderProps": m006.loaderProps,
-  "variantColorsResolver": m007.variantColorsResolver,
-  "autoContrast": m008.autoContrast,
-  "group": m009.group,
+  "configurator": m000.configurator,
+  "fullWidth": m001.fullWidth,
+  "sections": m002.sections,
+  "sectionsJustify": m003.sectionsJustify,
+  "compact": m004.compact,
+  "gradient": m005.gradient,
+  "disabled": m006.disabled,
+  "disabledLink": m007.disabledLink,
+  "disabledStyles": m008.disabledStyles,
+  "disabledTooltip": m009.disabledTooltip,
+  "loading": m010.loading,
+  "loaderProps": m011.loaderProps,
+  "dataAttributes": m012.dataAttributes,
+  "customVariant": m013.customVariant,
+  "variantColorsResolver": m014.variantColorsResolver,
+  "autoContrast": m015.autoContrast,
+  "group": m016.group,
+  "groupSection": m017.groupSection,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "configurator": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "sections": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "sectionsJustify": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "gradient": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "disabledStyles": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Button.demo.disabledStyles.module.css"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api, @tabler/icons-react"},
-  "dataAttributes": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Styles.demo.dataAttributes.module.css"},
-  "customVariant": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Button.demo.customVariant.module.css"},
-  "groupSection": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

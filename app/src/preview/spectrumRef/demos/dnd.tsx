@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { DIRECTORY_DRAG_TYPE } from "@adobe/react-spectrum";
+import { DIRECTORY_DRAG_TYPE, Item, ListView, Text, useDragAndDrop, useListData } from "@adobe/react-spectrum";
 import type {FileDropItem, DirectoryDropItem} from '@react-spectrum/dnd';
+import Folder from '@spectrum-icons/illustrations/Folder';
 
 function DroppableListLowLevelAPI() {
   let list = useListData({

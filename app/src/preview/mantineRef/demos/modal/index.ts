@@ -1,35 +1,42 @@
-import * as m000 from "./header";
-import * as m001 from "./sizeAuto";
-import * as m002 from "./fullScreenMobile";
-import * as m003 from "./overflow";
-import * as m004 from "./scrollarea";
-import * as m005 from "./transitions";
-import * as m006 from "./transitionEnd";
-import * as m007 from "./initialFocus";
-import * as m008 from "./initialFocusTrap";
-import * as m009 from "./composition";
-import * as m010 from "./stack";
+import * as m000 from "../_src/demos/core/Modal/Modal.demo.usage";
+import * as m001 from "../_src/demos/core/Modal/Modal.demo.centered";
+import * as m002 from "../_src/demos/core/Modal/Modal.demo.header";
+import * as m003 from "../_src/demos/core/Modal/Modal.demo.sizes";
+import * as m004 from "../_src/demos/core/Modal/Modal.demo.sizeAuto";
+import * as m005 from "../_src/demos/core/Modal/Modal.demo.fullScreen";
+import * as m006 from "../_src/demos/core/Modal/Modal.demo.fullScreenMobile";
+import * as m007 from "../_src/demos/core/Modal/Modal.demo.overlay";
+import * as m008 from "../_src/demos/core/Modal/Modal.demo.overflow";
+import * as m009 from "../_src/demos/core/Modal/Modal.demo.scrollarea";
+import * as m010 from "../_src/demos/core/Modal/Modal.demo.offset";
+import * as m011 from "../_src/demos/core/Modal/Modal.demo.transitions";
+import * as m012 from "../_src/demos/core/Modal/Modal.demo.transitionEnd";
+import * as m013 from "../_src/demos/core/Modal/Modal.demo.initialFocus";
+import * as m014 from "../_src/demos/core/Modal/Modal.demo.initialFocusTrap";
+import * as m015 from "../_src/demos/core/Modal/Modal.demo.closeIcon";
+import * as m016 from "../_src/demos/core/Modal/Modal.demo.composition";
+import * as m017 from "../_src/demos/core/Modal/Modal.demo.stack";
 
 export const DEMOS: Record<string, { component: unknown }> = {
-  "header": m000.header,
-  "sizeAuto": m001.sizeAuto,
-  "fullScreenMobile": m002.fullScreenMobile,
-  "overflow": m003.overflow,
-  "scrollarea": m004.scrollarea,
-  "transitions": m005.transitions,
-  "transitionEnd": m006.transitionEnd,
-  "initialFocus": m007.initialFocus,
-  "initialFocusTrap": m008.initialFocusTrap,
-  "composition": m009.composition,
-  "stack": m010.stack,
+  "usage": m000.usage,
+  "centered": m001.centered,
+  "header": m002.header,
+  "sizes": m003.sizes,
+  "sizeAuto": m004.sizeAuto,
+  "fullScreen": m005.fullScreen,
+  "fullScreenMobile": m006.fullScreenMobile,
+  "overlay": m007.overlay,
+  "overflow": m008.overflow,
+  "scrollarea": m009.scrollarea,
+  "offset": m010.offset,
+  "transitions": m011.transitions,
+  "transitionEnd": m012.transitionEnd,
+  "initialFocus": m013.initialFocus,
+  "initialFocusTrap": m014.initialFocusTrap,
+  "closeIcon": m015.closeIcon,
+  "composition": m016.composition,
+  "stack": m017.stack,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "usage": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "centered": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "sizes": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "fullScreen": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "overlay": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "offset": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
-  "closeIcon": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared/AuthenticationForm/AuthenticationForm"},
 };

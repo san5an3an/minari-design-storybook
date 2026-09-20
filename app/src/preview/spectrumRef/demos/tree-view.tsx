@@ -1,7 +1,12 @@
 // @ts-nocheck
 import * as React from "react";
-import { Collection, Content, Heading, IllustratedMessage } from "@adobe/react-spectrum";
+import { ActionGroup, ActionMenu, Collection, Content, Flex, Heading, IllustratedMessage, Image, Item, Text, TreeView, TreeViewItem, TreeViewItemContent } from "@adobe/react-spectrum";
+import FileTxt from '@spectrum-icons/workflow/FileTxt';
+import Folder from '@spectrum-icons/illustrations/Folder';
 import type {Selection} from '@adobe/react-spectrum';
+import GlobeOutline from '@spectrum-icons/workflow/GlobeOutline';
+import Delete from '@spectrum-icons/workflow/Delete';
+import Edit from '@spectrum-icons/workflow/Edit';
 import NotFound from '@spectrum-icons/illustrations/NotFound';
 
 function Example1() {

@@ -1,13 +1,14 @@
-import * as m000 from "./usage";
-import * as m001 from "./fluid";
-import * as m002 from "./sizes";
+import * as m000 from "../_src/demos/core/Container/Container.demo.usage";
+import * as m001 from "../_src/demos/core/Container/Container.demo.fluid";
+import * as m002 from "../_src/demos/core/Container/Container.demo.sizes";
+import * as m003 from "../_src/demos/core/Container/Container.demo.responsive";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
   "fluid": m001.fluid,
   "sizes": m002.sizes,
+  "responsive": m003.responsive,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "responsive": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Container.demo.responsive.module.css"},
 };

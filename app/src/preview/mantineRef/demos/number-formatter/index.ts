@@ -1,7 +1,7 @@
-import * as m000 from "./usage";
-import * as m001 from "./prefixSuffix";
-import * as m002 from "./thousandsSeparator";
-import * as m003 from "./decimalScale";
+import * as m000 from "../_src/demos/core/NumberFormatter/NumberFormatter.demo.usage";
+import * as m001 from "../_src/demos/core/NumberFormatter/NumberFormatter.demo.prefixSuffix";
+import * as m002 from "../_src/demos/core/NumberFormatter/NumberFormatter.demo.thousandsSeparator";
+import * as m003 from "../_src/demos/core/NumberFormatter/NumberFormatter.demo.decimalScale";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

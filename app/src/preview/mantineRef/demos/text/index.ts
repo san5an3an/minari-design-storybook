@@ -1,17 +1,18 @@
-import * as m000 from "./usage";
-import * as m001 from "./truncate";
-import * as m002 from "./linesConfigurator";
-import * as m003 from "./lineClamp";
-import * as m004 from "./inherit";
+import * as m000 from "../_src/demos/core/Text/Text.demo.usage";
+import * as m001 from "../_src/demos/core/Text/Text.demo.gradient";
+import * as m002 from "../_src/demos/core/Text/Text.demo.truncate";
+import * as m003 from "../_src/demos/core/Text/Text.demo.linesConfigurator";
+import * as m004 from "../_src/demos/core/Text/Text.demo.lineClamp";
+import * as m005 from "../_src/demos/core/Text/Text.demo.inherit";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
-  "truncate": m001.truncate,
-  "linesConfigurator": m002.linesConfigurator,
-  "lineClamp": m003.lineClamp,
-  "inherit": m004.inherit,
+  "gradient": m001.gradient,
+  "truncate": m002.truncate,
+  "linesConfigurator": m003.linesConfigurator,
+  "lineClamp": m004.lineClamp,
+  "inherit": m005.inherit,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "gradient": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
 };

@@ -1,5 +1,5 @@
-import * as m000 from "./usage";
-import * as m001 from "./lineWidth";
+import * as m000 from "../_src/demos/core/Burger/Burger.demo.usage";
+import * as m001 from "../_src/demos/core/Burger/Burger.demo.lineWidth";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,

@@ -1,6 +1,6 @@
-import * as m000 from "./transitions";
-import * as m001 from "./custom";
-import * as m002 from "./delay";
+import * as m000 from "../_src/demos/core/Tooltip/Tooltip.demo.transitions";
+import * as m001 from "../_src/demos/core/Transition/Transition.demo.custom";
+import * as m002 from "../_src/demos/core/Transition/Transition.demo.delay";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "transitions": m000.transitions,

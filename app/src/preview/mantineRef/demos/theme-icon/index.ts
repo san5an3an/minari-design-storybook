@@ -1,9 +1,14 @@
+import * as m000 from "../_src/demos/core/ThemeIcon/ThemeIcon.demo.usage";
+import * as m001 from "../_src/demos/core/ThemeIcon/ThemeIcon.demo.gradient";
+import * as m002 from "../_src/demos/core/ThemeIcon/ThemeIcon.demo.variantColorsResolver";
+import * as m003 from "../_src/demos/core/ThemeIcon/ThemeIcon.demo.autoContrast";
+
 export const DEMOS: Record<string, { component: unknown }> = {
+  "usage": m000.usage,
+  "gradient": m001.gradient,
+  "variantColorsResolver": m002.variantColorsResolver,
+  "autoContrast": m003.autoContrast,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "usage": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "gradient": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "variantColorsResolver": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "autoContrast": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
 };

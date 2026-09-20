@@ -1,5 +1,5 @@
-import * as m000 from "./horizontal";
-import * as m001 from "./vertical";
+import * as m000 from "../_src/demos/core/Space/Space.demo.horizontal";
+import * as m001 from "../_src/demos/core/Space/Space.demo.vertical";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "horizontal": m000.horizontal,

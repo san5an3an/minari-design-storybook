@@ -1,11 +1,12 @@
-import * as m000 from "./usage";
-import * as m001 from "./searchableMultiselect";
+import * as m000 from "../_src/demos/core/PillsInput/PillsInput.demo.usage";
+import * as m001 from "../_src/demos/core/PillsInput/PillsInput.demo.configurator";
+import * as m002 from "../_src/demos/core/Combobox/Combobox.demo.searchableMultiselect";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
-  "searchableMultiselect": m001.searchableMultiselect,
+  "configurator": m001.configurator,
+  "searchableMultiselect": m002.searchableMultiselect,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "configurator": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
 };

@@ -1,8 +1,8 @@
-import * as m000 from "./configurator";
-import * as m001 from "./inline";
-import * as m002 from "./offset";
-import * as m003 from "./processing";
-import * as m004 from "./disabled";
+import * as m000 from "../_src/demos/core/Indicator/Indicator.demo.configurator";
+import * as m001 from "../_src/demos/core/Indicator/Indicator.demo.inline";
+import * as m002 from "../_src/demos/core/Indicator/Indicator.demo.offset";
+import * as m003 from "../_src/demos/core/Indicator/Indicator.demo.processing";
+import * as m004 from "../_src/demos/core/Indicator/Indicator.demo.disabled";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,

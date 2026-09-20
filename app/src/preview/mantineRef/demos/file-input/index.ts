@@ -1,21 +1,23 @@
-import * as m000 from "./multiple";
-import * as m001 from "./accept";
-import * as m002 from "./clearable";
-import * as m003 from "./valueComponent";
-import * as m004 from "./error";
-import * as m005 from "./disabled";
+import * as m000 from "../_src/demos/core/FileInput/FileInput.demo.usage";
+import * as m001 from "../_src/demos/core/FileInput/FileInput.demo.multiple";
+import * as m002 from "../_src/demos/core/FileInput/FileInput.demo.accept";
+import * as m003 from "../_src/demos/core/FileInput/FileInput.demo.clearable";
+import * as m004 from "../_src/demos/core/FileInput/FileInput.demo.valueComponent";
+import * as m005 from "../_src/demos/core/FileInput/FileInput.demo.error";
+import * as m006 from "../_src/demos/core/FileInput/FileInput.demo.disabled";
+import * as m007 from "../_src/demos/core/FileInput/FileInput.demo.sections";
 
 export const DEMOS: Record<string, { component: unknown }> = {
-  "multiple": m000.multiple,
-  "accept": m001.accept,
-  "clearable": m002.clearable,
-  "valueComponent": m003.valueComponent,
-  "error": m004.error,
-  "disabled": m005.disabled,
+  "usage": m000.usage,
+  "multiple": m001.multiple,
+  "accept": m002.accept,
+  "clearable": m003.clearable,
+  "valueComponent": m004.valueComponent,
+  "error": m005.error,
+  "disabled": m006.disabled,
+  "sections": m007.sections,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "usage": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
-  "sections": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api, @tabler/icons-react"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

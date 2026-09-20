@@ -1,16 +1,19 @@
-import * as m000 from "./configurator";
-import * as m001 from "./rangeConfigurator";
-import * as m002 from "./disabled";
-import * as m003 from "./changeEnd";
-import * as m004 from "./label";
-import * as m005 from "./step";
-import * as m006 from "./decimal";
-import * as m007 from "./decimalRange";
-import * as m008 from "./marks";
-import * as m009 from "./restrictToMarks";
-import * as m010 from "./thumbSize";
-import * as m011 from "./scale";
-import * as m012 from "./inverted";
+import * as m000 from "../_src/demos/core/Slider/Slider.demo.configurator";
+import * as m001 from "../_src/demos/core/Slider/Slider.demo.rangeConfigurator";
+import * as m002 from "../_src/demos/core/Slider/Slider.demo.disabled";
+import * as m003 from "../_src/demos/core/Slider/Slider.demo.changeEnd";
+import * as m004 from "../_src/demos/core/Slider/Slider.demo.label";
+import * as m005 from "../_src/demos/core/Slider/Slider.demo.step";
+import * as m006 from "../_src/demos/core/Slider/Slider.demo.decimal";
+import * as m007 from "../_src/demos/core/Slider/Slider.demo.decimalRange";
+import * as m008 from "../_src/demos/core/Slider/Slider.demo.marks";
+import * as m009 from "../_src/demos/core/Slider/Slider.demo.restrictToMarks";
+import * as m010 from "../_src/demos/core/Slider/Slider.demo.thumbSize";
+import * as m011 from "../_src/demos/core/Slider/Slider.demo.thumbChildren";
+import * as m012 from "../_src/demos/core/Slider/Slider.demo.scale";
+import * as m013 from "../_src/demos/core/Slider/Slider.demo.inverted";
+import * as m014 from "../_src/demos/core/Slider/Slider.demo.customize";
+import * as m015 from "../_src/demos/core/Slider/Slider.demo.customSlider";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,
@@ -24,13 +27,13 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "marks": m008.marks,
   "restrictToMarks": m009.restrictToMarks,
   "thumbSize": m010.thumbSize,
-  "scale": m011.scale,
-  "inverted": m012.inverted,
+  "thumbChildren": m011.thumbChildren,
+  "scale": m012.scale,
+  "inverted": m013.inverted,
+  "customize": m014.customize,
+  "customSlider": m015.customSlider,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "thumbChildren": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api"},
-  "customize": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Slider.demo.customize.module.css"},
-  "customSlider": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Slider.demo.customSlider.module.css"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

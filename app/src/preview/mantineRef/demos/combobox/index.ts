@@ -1,18 +1,18 @@
-import * as m000 from "./select";
-import * as m001 from "./autocomplete";
-import * as m002 from "./button";
-import * as m003 from "./searchableMultiselect";
-import * as m004 from "./searchableSelect";
-import * as m005 from "./buttonSearch";
-import * as m006 from "./selectFirstOption";
-import * as m007 from "./activeOption";
-import * as m008 from "./groups";
-import * as m009 from "./nativeScroll";
-import * as m010 from "./scrollArea";
-import * as m011 from "./hiddenDropdown";
-import * as m012 from "./controlledDropdown";
-import * as m013 from "./dropdownPosition";
-import * as m014 from "./noDropdown";
+import * as m000 from "../_src/demos/core/Combobox/Combobox.demo.select";
+import * as m001 from "../_src/demos/core/Combobox/Combobox.demo.autocomplete";
+import * as m002 from "../_src/demos/core/Combobox/Combobox.demo.button";
+import * as m003 from "../_src/demos/core/Combobox/Combobox.demo.searchableMultiselect";
+import * as m004 from "../_src/demos/core/Combobox/Combobox.demo.searchableSelect";
+import * as m005 from "../_src/demos/core/Combobox/Combobox.demo.buttonSearch";
+import * as m006 from "../_src/demos/core/Combobox/Combobox.demo.selectFirstOption";
+import * as m007 from "../_src/demos/core/Combobox/Combobox.demo.activeOption";
+import * as m008 from "../_src/demos/core/Combobox/Combobox.demo.groups";
+import * as m009 from "../_src/demos/core/Combobox/Combobox.demo.nativeScroll";
+import * as m010 from "../_src/demos/core/Combobox/Combobox.demo.scrollArea";
+import * as m011 from "../_src/demos/core/Combobox/Combobox.demo.hiddenDropdown";
+import * as m012 from "../_src/demos/core/Combobox/Combobox.demo.controlledDropdown";
+import * as m013 from "../_src/demos/core/Combobox/Combobox.demo.dropdownPosition";
+import * as m014 from "../_src/demos/core/Combobox/Combobox.demo.noDropdown";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "select": m000.select,
@@ -33,5 +33,5 @@ export const DEMOS: Record<string, { component: unknown }> = {
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };
