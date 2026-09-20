@@ -1,9 +1,21 @@
 import * as React from "react";
-import { Master } from "./Doc";
+import { Kid, Kids, Master } from "./Doc";
 import { Absent, RefTable, Section } from "./refParts";
 import { COSS_SOURCE, loadCossDoc, type CossDoc } from "./cossRef/loader";
 import { CossLive } from "./CossLive";
 import type { Mode, SystemDefinition } from "../systems/types";
+
+// class 문자열 dark, hover 등은 variant 아님. cva 선언값 데모 사용
+const RENDERABLE_VARIANTS: Record<string, Record<string, readonly string[]>> = {
+  alert: { variant: ["default", "error", "info", "success", "warning"] },
+  badge: { size: ["default", "lg", "sm"], variant: ["default", "destructive", "error", "info", "outline", "secondary", "success", "warning"] },
+  button: { size: ["default", "icon", "icon-lg", "icon-sm", "icon-xl", "icon-xs", "lg", "sm", "xl", "xs"], variant: ["default", "destructive", "destructive-outline", "ghost", "link", "outline", "secondary"] },
+  empty: { variant: ["default", "icon"] },
+  group: { orientation: ["horizontal", "vertical"] },
+  "input-group": { align: ["block-end", "block-start", "inline-end", "inline-start"] },
+  select: { size: ["default", "lg", "sm"] },
+  toggle: { size: ["default", "lg", "sm"], variant: ["default", "outline"] },
+};
 
 export function CossReference({ slug }: { slug: string; system: SystemDefinition; active: Mode }) {
   const [doc, setDoc] = React.useState<CossDoc | null>(null);
@@ -23,6 +35,7 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
   if (!doc) return <p className="doc-note">불러오는 중…</p>;
 
   const variantAxes = Object.entries(doc.variants);
+  const visualVariantAxes = Object.entries(RENDERABLE_VARIANTS[slug] ?? {});
 
   return (
     <>
@@ -41,7 +54,7 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
       </header>
 
       <Master note={<>공식 레지스트리에서 <b>실제로 설치한 컴포넌트</b>예요. 코드를 옮겨 그린 게 아니에요.</>}>
-        <CossLive slug={slug} doc={doc} />
+        <CossLive slug={slug} />
       </Master>
 
       <Section
@@ -74,18 +87,32 @@ export function CossReference({ slug }: { slug: string; system: SystemDefinition
           : <RefTable columns={["이름", "위치"]} rows={doc.exports.map((e) => [e.name, e.source])} />}
       </Section>
 
-      <Section
-        title="Variants"
-        count={doc.usesCva ? variantAxes.length || undefined : undefined}
-        note={!doc.usesCva ? "이 컴포넌트는 cva(class-variance-authority)를 안 써요. 옵션이 없어요." : undefined}
-      >
-        {doc.usesCva && variantAxes.length > 0 ? (
-          <RefTable
-            columns={["축", "값", "기본값"]}
-            rows={variantAxes.map(([axis, values]) => [axis, values.join(", "), doc.defaultVariants[axis] ?? "—"])}
-          />
-        ) : null}
-      </Section>
+      {visualVariantAxes.length > 0 ? visualVariantAxes.map(([axis, values]) => (
+        <Kids
+          key={axis}
+          axis={axis}
+          title="Variants"
+          note={<>공식 registry가 선언한 <code>{axis}</code> 축이에요. 기본값은 <code>{doc.defaultVariants[axis] ?? "—"}</code>예요.</>}
+        >
+          {values.map((value) => (
+            <Kid key={value} label={value}>
+              <CossLive slug={slug} variant={{ axis, value }} />
+            </Kid>
+          ))}
+        </Kids>
+      )) : (
+        <Section
+          title="Variants"
+          count={doc.usesCva ? variantAxes.length || undefined : undefined}
+          note={doc.usesCva
+            ? "이 소스의 cva 값은 하위 part 또는 CSS 상태에서 온 것이어서, 이 컴포넌트 루트에 임의로 주입하지 않았어요."
+            : "이 컴포넌트는 cva(class-variance-authority)를 안 써요. 옵션이 없어요."}
+        >
+          {doc.usesCva && variantAxes.length > 0
+            ? <RefTable columns={["축", "값", "기본값"]} rows={variantAxes.map(([axis, values]) => [axis, values.join(", "), doc.defaultVariants[axis] ?? "—"])} />
+            : null}
+        </Section>
+      )}
 
       <Section
         title="Semantic Tokens"
