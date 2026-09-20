@@ -18,6 +18,7 @@ import { MuiUsage3 } from "./mui3/Dashboard";
 import { PrimerUsage3 } from "./primer3/Dashboard";
 import { PrimereactUsage3 } from "./primereact3/Dashboard";
 import { ShadcnUsage3 } from "./shadcn3/Dashboard";
+import { StandaloneUsage3 } from "./standalone3/Dashboard";
 
 // spectrum만 next/dynamic 지연 로딩. CSS 부수효과 때문임
 import dynamic from "next/dynamic";
@@ -42,6 +43,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   primer: PrimerUsage3,
   primereact: PrimereactUsage3,
   shadcn: ShadcnUsage3,
+  standalone: StandaloneUsage3,
   spectrum: Spectrum3Usage,
 };
 

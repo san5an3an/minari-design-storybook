@@ -27,6 +27,7 @@ import { MuiUsage } from "./mui/Dashboard";
 import { PrimerUsage } from "./primer/Dashboard";
 import { PrimereactUsage } from "./primereact/Dashboard";
 import { ShadcnUsage } from "./shadcn/Dashboard";
+import { StandaloneUsage } from "./standalone/Dashboard";
 
 import dynamic from "next/dynamic";
 const SpectrumUsage = dynamic( => import("./spectrum/Dashboard").then((m) => m.SpectrumUsage), { ssr: false });
@@ -49,6 +50,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   primer: PrimerUsage,
   primereact: PrimereactUsage,
   shadcn: ShadcnUsage,
+  standalone: StandaloneUsage,
   spectrum: SpectrumUsage,
 };
 
