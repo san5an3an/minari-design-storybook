@@ -10,5 +10,5 @@ export const SKIPPED: Record<string, { code: string; codes: string[]; detail: st
 
 /** ⏳ 판단 대기 — demos 도 skipped 도 아니다(U-3 등). */
 export const PENDING: Record<string, { reason: string; detail: string }> = {
-  "TabsExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: "},
+  "TabsExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: packages/docs-app/src/common/propCodeTooltip"},
 };

@@ -1,12 +1,16 @@
-/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것. */
-import * as m000 from "./configurator";
-import * as m001 from "./states";
-import * as m002 from "./icon";
-import * as m003 from "./iconColor";
-import * as m004 from "./disabled";
-import * as m005 from "./tooltip";
-import * as m006 from "./groupConfigurator";
-import * as m007 from "./indicator";
+/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것.
+ * 데모 실물은 `demos/_src/`(업스트림 배치 그대로 미러) 에 있다 — 그래야 그 파일들의
+ * `./_base`·`../../../shared` 가 원문 그대로 풀린다. 여기는 열쇠↔모듈 표만 둔다. */
+import * as m000 from "../_src/demos/core/Radio/Radio.demo.configurator";
+import * as m001 from "../_src/demos/core/Radio/Radio.demo.states";
+import * as m002 from "../_src/demos/core/Radio/Radio.demo.icon";
+import * as m003 from "../_src/demos/core/Radio/Radio.demo.iconColor";
+import * as m004 from "../_src/demos/core/Radio/Radio.demo.disabled";
+import * as m005 from "../_src/demos/core/Radio/Radio.demo.tooltip";
+import * as m006 from "../_src/demos/core/Radio/Radio.demo.groupConfigurator";
+import * as m007 from "../_src/demos/core/Radio/Radio.demo.indicator";
+import * as m008 from "../_src/demos/core/Radio/Radio.demo.card";
+import * as m009 from "../_src/demos/core/Radio/Radio.demo.cardGroup";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -18,11 +22,11 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "tooltip": m005.tooltip,
   "groupConfigurator": m006.groupConfigurator,
   "indicator": m007.indicator,
+  "card": m008.card,
+  "cardGroup": m009.cardGroup,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "card": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Radio.demo.card.module.css"},
-  "cardGroup": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ./Radio.demo.card.module.css"},
-  "stylesApi": {"code": "package-missing", "detail": "미설치: @docs/styles-api"},
+  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

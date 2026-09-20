@@ -10,8 +10,8 @@ export const SKIPPED: Record<string, { code: string; codes: string[]; detail: st
 
 /** ⏳ 판단 대기 — demos 도 skipped 도 아니다(U-3 등). */
 export const PENDING: Record<string, { reason: string; detail: string }> = {
-  "SwitchCardExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: "},
-  "CheckboxCardExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: "},
-  "RadioCardGroupExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: "},
-  "ControlCardListExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: "},
+  "SwitchCardExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: packages/docs-app/src/common/propCodeTooltip"},
+  "CheckboxCardExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: packages/docs-app/src/common/propCodeTooltip"},
+  "RadioCardGroupExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: packages/docs-app/src/common/propCodeTooltip"},
+  "ControlCardListExample": {"reason": "unresolved-local-module", "detail": "받지 않은 상대 모듈: packages/docs-app/src/common/propCodeTooltip"},
 };

@@ -1,20 +1,23 @@
-/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것. */
-import * as m000 from "./usage";
-import * as m001 from "./truncate";
-import * as m002 from "./linesConfigurator";
-import * as m003 from "./lineClamp";
-import * as m004 from "./inherit";
+/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것.
+ * 데모 실물은 `demos/_src/`(업스트림 배치 그대로 미러) 에 있다 — 그래야 그 파일들의
+ * `./_base`·`../../../shared` 가 원문 그대로 풀린다. 여기는 열쇠↔모듈 표만 둔다. */
+import * as m000 from "../_src/demos/core/Text/Text.demo.usage";
+import * as m001 from "../_src/demos/core/Text/Text.demo.gradient";
+import * as m002 from "../_src/demos/core/Text/Text.demo.truncate";
+import * as m003 from "../_src/demos/core/Text/Text.demo.linesConfigurator";
+import * as m004 from "../_src/demos/core/Text/Text.demo.lineClamp";
+import * as m005 from "../_src/demos/core/Text/Text.demo.inherit";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
-  "truncate": m001.truncate,
-  "linesConfigurator": m002.linesConfigurator,
-  "lineClamp": m003.lineClamp,
-  "inherit": m004.inherit,
+  "gradient": m001.gradient,
+  "truncate": m002.truncate,
+  "linesConfigurator": m003.linesConfigurator,
+  "lineClamp": m004.lineClamp,
+  "inherit": m005.inherit,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "gradient": {"code": "local-module-missing", "detail": "상대 경로 import(데모 파일 한 장만 복사해 형제 모듈이 없음): ../../../shared"},
 };

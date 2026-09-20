@@ -46,18 +46,6 @@ function Example3() {
 function Example4() {
   return (
     <>
-    <Flex direction="row" gap="size-100" wrap>
-      {colors.map(color =>
-        <View key={color} backgroundColor={color} width="size-800" height="size-800" />
-      )}
-    </Flex>
-    </>
-  );
-}
-
-function Example5() {
-  return (
-    <>
     <Flex direction="column" gap="size-100" alignItems="center">
       <View backgroundColor="celery-600" width="size-800" height="size-800" />
       <View backgroundColor="blue-600" width="size-2000" height="size-800" />
@@ -67,7 +55,7 @@ function Example5() {
   );
 }
 
-function Example6() {
+function Example5() {
   return (
     <>
     <View height="size-3000" borderWidth="thin" borderColor="dark">
@@ -85,10 +73,9 @@ export const demos = {
   "vertical-stack": Example1,
   "horizontal-stack": Example2,
   "nesting": Example3,
-  "wrapping": Example4,
-  "alignment": Example5,
-  "justification": Example6,
+  "alignment": Example4,
+  "justification": Example5,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-
+  "wrapping": { code: "runtime-unavailable", detail: "공식 펜스가 문서 사이트가 미리 깔아 둔 `colors` 배열에 기대요 — 설치본에는 없는 값이에요." },
 };

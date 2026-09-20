@@ -283,54 +283,6 @@ function Example13() {
   );
 }
 
-function Example14() {
-  return (
-    <>
-    <DragIntoList />
-    </>
-  );
-}
-
-function Example15() {
-  return (
-    <>
-    <DragIntoListFolder />
-    </>
-  );
-}
-
-function Example16() {
-  return (
-    <>
-    <ReorderableList />
-    </>
-  );
-}
-
-function Example17() {
-  return (
-    <>
-    <DragBetweenListsExample />
-    </>
-  );
-}
-
-function Example18() {
-  return (
-    <>
-    <DragIntoListDefaultCopy />
-    </>
-  );
-}
-
-function Example19() {
-  return (
-    <>
-    <CustomDragPreviewExample />
-    </>
-  );
-}
-
 function ListExample(props) {
   return (
     <ListView selectionMode="multiple" aria-label="Quiet ListView example" width="size-3000" {...props}>
@@ -343,7 +295,7 @@ function ListExample(props) {
 
 <ListExample isQuiet />
 
-function Example21() {
+function Example15() {
   return (
     <>
     <Flex wrap gap="size-300">
@@ -354,7 +306,7 @@ function Example21() {
   );
 }
 
-function Example22() {
+function Example16() {
   return (
     <>
     <ListExample overflowMode="wrap" aria-label="Text wrapping ListView example" width="size-2000" />
@@ -395,22 +347,22 @@ export const demos = {
   "selection-7": Example11,
   "row-actions-1": Example12,
   "row-actions-2": Example13,
-  "drag-and-drop-2": Example14,
-  "drag-and-drop-4": Example15,
-  "drag-and-drop-6": Example16,
-  "drag-and-drop-8": Example17,
-  "drag-and-drop-10": Example18,
-  "drag-and-drop-12": Example19,
   "visual-options-1": ListExample,
-  "visual-options-2": Example21,
-  "visual-options-3": Example22,
+  "visual-options-2": Example15,
+  "visual-options-3": Example16,
   "visual-options-4": renderEmptyState,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
   "drag-and-drop-1": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-2": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoList" },
   "drag-and-drop-3": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-4": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoListFolder" },
   "drag-and-drop-5": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-6": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: ReorderableList" },
   "drag-and-drop-7": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-8": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragBetweenListsExample" },
   "drag-and-drop-9": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-10": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoListDefaultCopy" },
   "drag-and-drop-11": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-12": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: CustomDragPreviewExample" },
 };

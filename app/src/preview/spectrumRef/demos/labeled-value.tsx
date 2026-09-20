@@ -3,6 +3,7 @@
  * 원문: adobe/react-spectrum@3.47.5:packages/@adobe/react-spectrum/docs/labeledvalue/LabeledValue.mdx 의 `tsx example` 펜스를 합성했다
  * (서브패키지 import 는 설치된 집합 패키지 @adobe/react-spectrum 이름으로 재작성). */
 import { Content, ContextualHelp, Heading, LabeledValue, Link } from "@adobe/react-spectrum";
+import { Time, getLocalTimeZone, now, today } from '@internationalized/date';
 
 function Example1() {
   return (
@@ -39,7 +40,7 @@ function Example4() {
 function Example5() {
   return (
     <>
-    <LabeledValue label="Appointment date" value={new Date(2022, 6, 5)} formatOptions={{dateStyle: 'short'}} />
+    <LabeledValue label="Date modified" value={today(getLocalTimeZone()).subtract({weeks: 1})} />
     </>
   );
 }
@@ -47,7 +48,7 @@ function Example5() {
 function Example6() {
   return (
     <>
-    <LabeledValue label="Pizza toppings" value={['Pepperoni', 'Pineapple', 'Mushroom', 'Garlic']} />
+    <LabeledValue label="Page load time" value={now(getLocalTimeZone())} />
     </>
   );
 }
@@ -55,7 +56,7 @@ function Example6() {
 function Example7() {
   return (
     <>
-    <LabeledValue label="Interests" value={['Travel', 'Hiking', 'Snorkeling', 'Camping']} formatOptions={{type: 'unit'}} />
+    <LabeledValue label="Business hours" value={{start: new Time(8, 30), end: new Time(18)}} />
     </>
   );
 }
@@ -63,7 +64,7 @@ function Example7() {
 function Example8() {
   return (
     <>
-    <LabeledValue label="Website" value={<Link href="https://www.adobe.com/">Adobe.com</Link>} />
+    <LabeledValue label="Appointment date" value={new Date(2022, 6, 5)} formatOptions={{dateStyle: 'short'}} />
     </>
   );
 }
@@ -71,12 +72,36 @@ function Example8() {
 function Example9() {
   return (
     <>
-    <LabeledValue label="File name" value="Onboarding.pdf" labelPosition="side" labelAlign="end" />
+    <LabeledValue label="Pizza toppings" value={['Pepperoni', 'Pineapple', 'Mushroom', 'Garlic']} />
     </>
   );
 }
 
 function Example10() {
+  return (
+    <>
+    <LabeledValue label="Interests" value={['Travel', 'Hiking', 'Snorkeling', 'Camping']} formatOptions={{type: 'unit'}} />
+    </>
+  );
+}
+
+function Example11() {
+  return (
+    <>
+    <LabeledValue label="Website" value={<Link href="https://www.adobe.com/">Adobe.com</Link>} />
+    </>
+  );
+}
+
+function Example12() {
+  return (
+    <>
+    <LabeledValue label="File name" value="Onboarding.pdf" labelPosition="side" labelAlign="end" />
+    </>
+  );
+}
+
+function Example13() {
   return (
     <>
     <LabeledValue
@@ -97,15 +122,16 @@ export const demos = {
   "value-1": Example2,
   "value-2": Example3,
   "value-3": Example4,
-  "value-7": Example5,
-  "value-8": Example6,
-  "value-9": Example7,
-  "value-10": Example8,
-  "visual-options-1": Example9,
-  "visual-options-2": Example10,
+  "value-4": Example5,
+  "value-5": Example6,
+  "value-6": Example7,
+  "value-7": Example8,
+  "value-8": Example9,
+  "value-9": Example10,
+  "value-10": Example11,
+  "visual-options-1": Example12,
+  "visual-options-2": Example13,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "value-4": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 today, getLocalTimeZone(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-5": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 now, getLocalTimeZone(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-6": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Time(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+
 };

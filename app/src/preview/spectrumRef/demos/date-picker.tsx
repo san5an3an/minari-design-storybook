@@ -3,7 +3,8 @@
  * 원문: adobe/react-spectrum@3.47.5:packages/@adobe/react-spectrum/docs/datepicker/DatePicker.mdx 의 `tsx example` 펜스를 합성했다
  * (서브패키지 import 는 설치된 집합 패키지 @adobe/react-spectrum 이름으로 재작성). */
 import * as React from "react";
-import { Button, ButtonGroup, Content, ContextualHelp, DatePicker, Flex, Form, Heading, Provider } from "@adobe/react-spectrum";
+import { Button, ButtonGroup, Content, ContextualHelp, DatePicker, Flex, Form, Heading, Provider, useDateFormatter, useLocale } from "@adobe/react-spectrum";
+import { CalendarDate, getLocalTimeZone, isWeekend, now, parseAbsoluteToLocal, parseDate, parseZonedDateTime, today } from '@internationalized/date';
 
 function Example1() {
   return (
@@ -14,6 +15,43 @@ function Example1() {
 }
 
 function Example() {
+  let [value, setValue] = React.useState(parseDate('2020-02-03'));
+
+  return (
+    <Flex gap="size-150" wrap>
+      <DatePicker
+        label="Date (uncontrolled)"
+        defaultValue={parseDate('2020-02-03')} />
+      <DatePicker
+        label="Date (controlled)"
+        value={value}
+        onChange={setValue} />
+    </Flex>
+  );
+}
+
+function Example3() {
+  return (
+    <>
+    <DatePicker
+      label="Event date"
+      defaultValue={parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]')} />
+    </>
+  );
+}
+
+function Example4() {
+  return (
+    <>
+    <DatePicker
+      label="Event date"
+      defaultValue={parseAbsoluteToLocal('2021-11-07T07:45:00Z')}
+    />
+    </>
+  );
+}
+
+function Example_2() {
   let [date, setDate] = React.useState(parseAbsoluteToLocal('2021-04-07T18:45:22Z'));
 
   return (
@@ -32,7 +70,23 @@ function Example() {
   );
 }
 
-function Example_2() {
+function Example6() {
+  return (
+    <>
+    <Flex gap="size-150" wrap>
+      <DatePicker
+        label="Event date"
+        granularity="second" />
+      <DatePicker
+        label="Event date"
+        placeholderValue={now('America/New_York')}
+        granularity="second" />
+    </Flex>
+    </>
+  );
+}
+
+function Example_3() {
   let [date, setDate] = React.useState(null);
   return (
     <Provider locale="hi-IN-u-ca-indian">
@@ -42,7 +96,7 @@ function Example_2() {
   );
 }
 
-function Example4() {
+function Example8() {
   return (
     <>
     <DatePicker label="Birth date" name="birthday" />
@@ -50,7 +104,7 @@ function Example4() {
   );
 }
 
-function Example5() {
+function Example9() {
   return (
     <>
     <Flex gap="size-150" wrap>
@@ -63,7 +117,19 @@ function Example5() {
   );
 }
 
-function Example6() {
+function Example_4() {
+  let [date, setDate] = React.useState(parseDate('1985-07-03'));
+  let formatter = useDateFormatter({dateStyle: 'full'});
+
+  return (
+    <>
+      <DatePicker label="Birth date" value={date} onChange={setDate} />
+      <p>Selected date: {date ? formatter.format(date.toDate(getLocalTimeZone())) : '--'}</p>
+    </>
+  );
+}
+
+function Example11() {
   return (
     <>
     <Form validationBehavior="native" maxWidth="size-3000">
@@ -79,7 +145,65 @@ function Example6() {
   );
 }
 
-function Example7() {
+function Example12() {
+  return (
+    <>
+    <Form validationBehavior="native" maxWidth="size-3000">
+      <DatePicker
+        label="Appointment date"
+        /*- begin highlight -*/
+        minValue={today(getLocalTimeZone())}
+        /*- end highlight -*/
+        defaultValue={parseDate('2022-02-03')} />
+      <ButtonGroup>
+        <Button type="submit" variant="primary">Submit</Button>
+        <Button type="reset" variant="secondary">Reset</Button>
+      </ButtonGroup>
+    </Form>
+    </>
+  );
+}
+
+function Example_5() {
+  let now = today(getLocalTimeZone());
+  let disabledRanges = [
+    [now, now.add({days: 5})],
+    [now.add({days: 14}), now.add({days: 16})],
+    [now.add({days: 23}), now.add({days: 24})],
+  ];
+
+  let {locale} = useLocale();
+  return (
+    <DatePicker
+      label="Appointment date"
+      minValue={today(getLocalTimeZone())}
+      /*- begin highlight -*/
+      isDateUnavailable={date => isWeekend(date, locale) || disabledRanges.some((interval) => date.compare(interval[0]) >= 0 && date.compare(interval[1]) <= 0)}
+      /*- end highlight -*/
+      validationBehavior="native" />
+  );
+}
+
+function Example_6() {
+  let {locale} = useLocale();
+
+  return (
+    <Form validationBehavior="native" maxWidth="size-3000">
+      <DatePicker
+        label="Appointment date"
+        /*- begin highlight -*/
+        validate={date => date && isWeekend(date, locale) ? 'We are closed on weekends.' : null}
+        /*- end highlight -*/
+        defaultValue={parseDate('2023-10-28')} />
+      <ButtonGroup>
+        <Button type="submit" variant="primary">Submit</Button>
+        <Button type="reset" variant="secondary">Reset</Button>
+      </ButtonGroup>
+    </Form>
+  );
+}
+
+function Example15() {
   return (
     <>
     <DatePicker label="Birth date" isQuiet />
@@ -87,7 +211,7 @@ function Example7() {
   );
 }
 
-function Example8() {
+function Example16() {
   return (
     <>
     <DatePicker label="Birth date" isDisabled />
@@ -95,7 +219,7 @@ function Example8() {
   );
 }
 
-function Example9() {
+function Example17() {
   return (
     <>
     <DatePicker label="Birth date" value={today(getLocalTimeZone())} isReadOnly />
@@ -103,7 +227,7 @@ function Example9() {
   );
 }
 
-function Example10() {
+function Example18() {
   return (
     <>
     <DatePicker label="Birth date" labelPosition="side" labelAlign="end" />
@@ -111,7 +235,7 @@ function Example10() {
   );
 }
 
-function Example11() {
+function Example19() {
   return (
     <>
     <Flex gap="size-100" wrap>
@@ -122,7 +246,7 @@ function Example11() {
   );
 }
 
-function Example12() {
+function Example20() {
   return (
     <>
     <DatePicker label="Birth date" showFormatHelpText />
@@ -130,7 +254,7 @@ function Example12() {
   );
 }
 
-function Example13() {
+function Example21() {
   return (
     <>
     <DatePicker
@@ -145,7 +269,15 @@ function Example13() {
   );
 }
 
-function Example14() {
+function Example22() {
+  return (
+    <>
+    <DatePicker label="Birth date" placeholderValue={new CalendarDate(1980, 1, 1)} />
+    </>
+  );
+}
+
+function Example23() {
   return (
     <>
     <DatePicker label="Appointment date" maxVisibleMonths={3} />
@@ -153,7 +285,7 @@ function Example14() {
   );
 }
 
-function Example15() {
+function Example24() {
   return (
     <>
     <DatePicker label="Appointment date" maxVisibleMonths={3} pageBehavior="single" />
@@ -161,7 +293,7 @@ function Example15() {
   );
 }
 
-function Example16() {
+function Example25() {
   return (
     <>
     <DatePicker
@@ -172,7 +304,7 @@ function Example16() {
   );
 }
 
-function Example17() {
+function Example26() {
   return (
     <>
     <DatePicker
@@ -183,7 +315,7 @@ function Example17() {
   );
 }
 
-function Example18() {
+function Example27() {
   return (
     <>
     <DatePicker label="Appointment date" firstDayOfWeek="mon" />
@@ -193,33 +325,33 @@ function Example18() {
 
 export const demos = {
   "example-1": Example1,
-  "value-4": Example,
-  "value-6": Example_2,
-  "value-8": Example4,
-  "labeling-1": Example5,
-  "validation-1": Example6,
-  "visual-options-1": Example7,
-  "visual-options-2": Example8,
-  "visual-options-3": Example9,
-  "visual-options-4": Example10,
-  "visual-options-5": Example11,
-  "visual-options-6": Example12,
-  "visual-options-7": Example13,
-  "visual-options-9": Example14,
-  "visual-options-10": Example15,
-  "visual-options-11": Example16,
-  "visual-options-12": Example17,
-  "visual-options-13": Example18,
+  "value-1": Example,
+  "value-2": Example3,
+  "value-3": Example4,
+  "value-4": Example_2,
+  "value-5": Example6,
+  "value-6": Example_3,
+  "value-8": Example8,
+  "labeling-1": Example9,
+  "events-1": Example_4,
+  "validation-1": Example11,
+  "validation-2": Example12,
+  "validation-3": Example_5,
+  "validation-4": Example_6,
+  "visual-options-1": Example15,
+  "visual-options-2": Example16,
+  "visual-options-3": Example17,
+  "visual-options-4": Example18,
+  "visual-options-5": Example19,
+  "visual-options-6": Example20,
+  "visual-options-7": Example21,
+  "visual-options-8": Example22,
+  "visual-options-9": Example23,
+  "visual-options-10": Example24,
+  "visual-options-11": Example25,
+  "visual-options-12": Example26,
+  "visual-options-13": Example27,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "value-1": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 parseDate(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-2": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 parseZonedDateTime(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-3": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 parseAbsoluteToLocal(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-5": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 now(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-7": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 GregorianCalendar(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "events-1": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 getLocalTimeZone(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "validation-2": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 today(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "validation-3": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 today, isWeekend(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "validation-4": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 isWeekend(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "visual-options-8": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 CalendarDate(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "value-7": { code: "runtime-unavailable", detail: "공식 예제가 라이브러리 클래스를 상속한 **제 달력 체계**를 만드는데, 우리 번들에서는 `Class constructor … cannot be invoked without 'new'` 로 터져요(설치본에 `@internationalized/date` 사본이 5벌 있어 상속 사슬이 갈려요). 공식 코드는 그대로 두고 까닭만 적어요." },
 };

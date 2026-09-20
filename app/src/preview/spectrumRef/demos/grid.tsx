@@ -26,26 +26,9 @@ function Example1() {
   );
 }
 
-function Example2() {
-  return (
-    <>
-    <Grid
-      columns={repeat('auto-fit', 'size-800')}
-      autoRows="size-800"
-      justifyContent="center"
-      gap="size-100">
-      {colors.map(color =>
-        <View key={color} backgroundColor={color} />
-      )}
-    </Grid>
-    </>
-  );
-}
-
 export const demos = {
   "explicit-grids": Example1,
-  "implicit-grids": Example2,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-
+  "implicit-grids": { code: "runtime-unavailable", detail: "공식 펜스가 문서 사이트가 미리 깔아 둔 `colors` 배열에 기대요 — 설치본에는 없는 값이에요." },
 };

@@ -1,18 +1,21 @@
-/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것. */
-import * as m000 from "./usage";
-import * as m001 from "./variants";
-import * as m002 from "./sizes";
-import * as m003 from "./orientation";
+/* 자동 생성 — tools/gen_mantine_demos.py. 손으로 고치지 말 것.
+ * 데모 실물은 `demos/_src/`(업스트림 배치 그대로 미러) 에 있다 — 그래야 그 파일들의
+ * `./_base`·`../../../shared` 가 원문 그대로 풀린다. 여기는 열쇠↔모듈 표만 둔다. */
+import * as m000 from "../_src/demos/core/Divider/Divider.demo.usage";
+import * as m001 from "../_src/demos/core/Divider/Divider.demo.variants";
+import * as m002 from "../_src/demos/core/Divider/Divider.demo.labels";
+import * as m003 from "../_src/demos/core/Divider/Divider.demo.sizes";
+import * as m004 from "../_src/demos/core/Divider/Divider.demo.orientation";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
   "variants": m001.variants,
-  "sizes": m002.sizes,
-  "orientation": m003.orientation,
+  "labels": m002.labels,
+  "sizes": m003.sizes,
+  "orientation": m004.orientation,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "labels": {"code": "package-missing", "detail": "미설치: @tabler/icons-react"},
 };

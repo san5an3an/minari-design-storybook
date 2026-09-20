@@ -4,6 +4,7 @@
  * (서브패키지 import 는 설치된 집합 패키지 @adobe/react-spectrum 이름으로 재작성). */
 import * as React from "react";
 import { Button, ButtonGroup, Content, ContextualHelp, Flex, Form, Heading, TimeField, useDateFormatter } from "@adobe/react-spectrum";
+import { Time, parseAbsoluteToLocal, parseZonedDateTime } from '@internationalized/date';
 
 function Example1() {
   return (
@@ -13,7 +14,44 @@ function Example1() {
   );
 }
 
-function Example2() {
+function Example() {
+  let [value, setValue] = React.useState(new Time(11, 45));
+
+  return (
+    <Flex gap="size-150" wrap>
+      <TimeField
+        label="Time (uncontrolled)"
+        defaultValue={new Time(11, 45)} />
+      <TimeField
+        label="Time (controlled)"
+        value={value}
+        onChange={setValue} />
+    </Flex>
+  );
+}
+
+function Example3() {
+  return (
+    <>
+    <TimeField
+      label="Event time"
+      defaultValue={parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]')} />
+    </>
+  );
+}
+
+function Example4() {
+  return (
+    <>
+    <TimeField
+      label="Event time"
+      defaultValue={parseAbsoluteToLocal('2021-11-07T07:45:00Z')}
+    />
+    </>
+  );
+}
+
+function Example5() {
   return (
     <>
     <TimeField
@@ -24,7 +62,7 @@ function Example2() {
   );
 }
 
-function Example3() {
+function Example6() {
   return (
     <>
     <TimeField label="Meeting time" name="meetingTime" />
@@ -32,7 +70,7 @@ function Example3() {
   );
 }
 
-function Example4() {
+function Example7() {
   return (
     <>
     <Flex gap="size-150" wrap>
@@ -45,7 +83,7 @@ function Example4() {
   );
 }
 
-function Example() {
+function Example_2() {
   let [date, setDate] = React.useState(parseAbsoluteToLocal('2021-04-07T18:45:22Z'));
   let formatter = useDateFormatter({dateStyle: 'long', timeStyle: 'long'});
 
@@ -57,7 +95,7 @@ function Example() {
   );
 }
 
-function Example6() {
+function Example9() {
   return (
     <>
     <Form validationBehavior="native" maxWidth="size-3000">
@@ -73,7 +111,7 @@ function Example6() {
   );
 }
 
-function Example7() {
+function Example10() {
   return (
     <>
     <Form validationBehavior="native" maxWidth="size-3000">
@@ -93,7 +131,7 @@ function Example7() {
   );
 }
 
-function Example8() {
+function Example11() {
   return (
     <>
     <Form validationBehavior="native" maxWidth="size-3000">
@@ -112,7 +150,7 @@ function Example8() {
   );
 }
 
-function Example9() {
+function Example12() {
   return (
     <>
     <TimeField label="Event time" isQuiet />
@@ -120,7 +158,7 @@ function Example9() {
   );
 }
 
-function Example10() {
+function Example13() {
   return (
     <>
     <TimeField label="Event time" isDisabled />
@@ -128,7 +166,7 @@ function Example10() {
   );
 }
 
-function Example11() {
+function Example14() {
   return (
     <>
     <TimeField label="Event time" value={new Time(11)} isReadOnly />
@@ -136,7 +174,7 @@ function Example11() {
   );
 }
 
-function Example12() {
+function Example15() {
   return (
     <>
     <TimeField label="Event time" labelPosition="side" labelAlign="end" />
@@ -144,7 +182,7 @@ function Example12() {
   );
 }
 
-function Example13() {
+function Example16() {
   return (
     <>
     <Flex gap="size-100" wrap>
@@ -155,7 +193,7 @@ function Example13() {
   );
 }
 
-function Example14() {
+function Example17() {
   return (
     <>
     <TimeField
@@ -170,7 +208,7 @@ function Example14() {
   );
 }
 
-function Example15() {
+function Example18() {
   return (
     <>
     <TimeField label="Appointment time" placeholderValue={new Time(9)} />
@@ -178,7 +216,7 @@ function Example15() {
   );
 }
 
-function Example16() {
+function Example19() {
   return (
     <>
     <TimeField
@@ -189,7 +227,7 @@ function Example16() {
   );
 }
 
-function Example17() {
+function Example20() {
   return (
     <>
     <TimeField
@@ -201,25 +239,26 @@ function Example17() {
 
 export const demos = {
   "example-1": Example1,
-  "value-4": Example2,
-  "value-5": Example3,
-  "labeling-1": Example4,
-  "events-1": Example,
-  "validation-1": Example6,
-  "validation-2": Example7,
-  "validation-3": Example8,
-  "visual-options-1": Example9,
-  "visual-options-2": Example10,
-  "visual-options-3": Example11,
-  "visual-options-4": Example12,
-  "visual-options-5": Example13,
-  "visual-options-6": Example14,
-  "visual-options-7": Example15,
-  "visual-options-8": Example16,
-  "visual-options-9": Example17,
+  "value-1": Example,
+  "value-2": Example3,
+  "value-3": Example4,
+  "value-4": Example5,
+  "value-5": Example6,
+  "labeling-1": Example7,
+  "events-1": Example_2,
+  "validation-1": Example9,
+  "validation-2": Example10,
+  "validation-3": Example11,
+  "visual-options-1": Example12,
+  "visual-options-2": Example13,
+  "visual-options-3": Example14,
+  "visual-options-4": Example15,
+  "visual-options-5": Example16,
+  "visual-options-6": Example17,
+  "visual-options-7": Example18,
+  "visual-options-8": Example19,
+  "visual-options-9": Example20,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "value-1": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Time(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-2": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 parseZonedDateTime(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "value-3": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 parseAbsoluteToLocal(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+
 };

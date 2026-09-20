@@ -645,54 +645,6 @@ function ResizableTable() {
 function Example18() {
   return (
     <>
-    <DragIntoTable />
-    </>
-  );
-}
-
-function Example19() {
-  return (
-    <>
-    <DragIntoTableFolder />
-    </>
-  );
-}
-
-function Example20() {
-  return (
-    <>
-    <ReorderableTable />
-    </>
-  );
-}
-
-function Example21() {
-  return (
-    <>
-    <DragBetweenTablesExample />
-    </>
-  );
-}
-
-function Example22() {
-  return (
-    <>
-    <DragIntoTablesDefaultCopy />
-    </>
-  );
-}
-
-function Example23() {
-  return (
-    <>
-    <CustomDragPreviewExample />
-    </>
-  );
-}
-
-function Example24() {
-  return (
-    <>
     <TableView aria-label="Example table for column alignment">
       <TableHeader>
         <Column align="start">Name</Column>
@@ -726,7 +678,7 @@ function Example24() {
   );
 }
 
-function Example25() {
+function Example19() {
   return (
     <>
     <TableView aria-label="Example table for column dividers">
@@ -805,7 +757,7 @@ function TableExample(props) {
   );
 }
 
-function Example27() {
+function Example21() {
   // Using same setup as hide header example
   return (
     <>
@@ -814,7 +766,7 @@ function Example27() {
   );
 }
 
-function Example28() {
+function Example22() {
   // Using same setup as hide header example
   return (
     <>
@@ -826,7 +778,7 @@ function Example28() {
   );
 }
 
-function Example29() {
+function Example23() {
   // Using same setup as hide header example
   return (
     <>
@@ -856,7 +808,7 @@ function renderEmptyState() {
   </TableBody>
 </TableView>
 
-function Example31() {
+function Example25() {
   return (
     <>
     <TableView aria-label="Example table for nested columns">
@@ -901,7 +853,7 @@ function Example31() {
   );
 }
 
-function Example32() {
+function Example26() {
   interface ColumnDefinition {
     name: string,
     key: string,
@@ -967,27 +919,27 @@ export const demos = {
   "column-widths-1": Example15,
   "column-resizing-1": Example16,
   "column-resizing-2": ResizableTable,
-  "drag-and-drop-2": Example18,
-  "drag-and-drop-4": Example19,
-  "drag-and-drop-6": Example20,
-  "drag-and-drop-8": Example21,
-  "drag-and-drop-10": Example22,
-  "drag-and-drop-12": Example23,
-  "visual-options-1": Example24,
-  "visual-options-2": Example25,
+  "visual-options-1": Example18,
+  "visual-options-2": Example19,
   "visual-options-3": TableExample,
-  "visual-options-4": Example27,
-  "visual-options-5": Example28,
-  "visual-options-6": Example29,
+  "visual-options-4": Example21,
+  "visual-options-5": Example22,
+  "visual-options-6": Example23,
   "visual-options-7": renderEmptyState,
-  "visual-options-8": Example31,
-  "visual-options-9": Example32,
+  "visual-options-8": Example25,
+  "visual-options-9": Example26,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
   "drag-and-drop-1": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-2": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoTable" },
   "drag-and-drop-3": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-4": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoTableFolder" },
   "drag-and-drop-5": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-6": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: ReorderableTable" },
   "drag-and-drop-7": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-8": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragBetweenTablesExample" },
   "drag-and-drop-9": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-10": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: DragIntoTablesDefaultCopy" },
   "drag-and-drop-11": { code: "not-an-example", detail: "공식 문서가 이 코드 조각을 그리지 않고 코드로만 보여 줘요(render=false)." },
+  "drag-and-drop-12": { code: "other", detail: "\uacf5\uc2dd \ud39c\uc2a4\uac00 \ubb38\uc11c \uc0ac\uc774\ud2b8 \uc2a4\ucf54\ud504\uc5d0 \uae30\ub300\uc694 \u2014 \uc6b0\ub9ac \uc124\uce58\ubcf8\uc5d0 \uc5c6\ub294 \uc774\ub984: CustomDragPreviewExample" },
 };

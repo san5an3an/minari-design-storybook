@@ -2,8 +2,9 @@
 /* 자동 생성 — tools/gen_spectrum_demo_modules.py. 손으로 고치지 말 것.
  * 원문: adobe/react-spectrum@3.47.5:packages/@adobe/react-spectrum/docs/dnd/dnd.mdx 의 `tsx example` 펜스를 합성했다
  * (서브패키지 import 는 설치된 집합 패키지 @adobe/react-spectrum 이름으로 재작성). */
-import { DIRECTORY_DRAG_TYPE } from "@adobe/react-spectrum";
+import { DIRECTORY_DRAG_TYPE, Item, ListView, Text, useDragAndDrop, useListData } from "@adobe/react-spectrum";
 import type {FileDropItem, DirectoryDropItem} from '@react-spectrum/dnd';
+import Folder from '@spectrum-icons/illustrations/Folder';
 
 function DroppableListLowLevelAPI() {
   let list = useListData({

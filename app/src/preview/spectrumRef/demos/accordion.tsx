@@ -95,5 +95,5 @@ export const demos = {
   "quiet": Example4,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "events": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Key(\uc9d1\ud569 \ud328\ud0a4\uc9c0 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "events": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Key(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
 };
