@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview__IconIndicator as IconIndicator } from '@carbon/react';
 import mdx from './IconIndicator.mdx';
 

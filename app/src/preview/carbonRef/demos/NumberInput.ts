@@ -11,6 +11,6 @@ export const demos = {
 };
 export const skipped = {
   "packages/react/src/components/NumberInput/NumberInput.stories.js#WithTypeOfText": {"code":"private-api","detail":"useDocumentLang 설치본에 internal/useDocumentLang.js 없음"},
-  "packages/react/src/components/NumberInput/NumberInput.stories.js#WithTypeOfTextControlled": {"code":"package-missing","detail":"storybook/actions"},
+  "packages/react/src/components/NumberInput/NumberInput.stories.js#WithTypeOfTextControlled": {"code":"private-api","detail":"useDocumentLang 설치본에 internal/useDocumentLang.js 없음"},
   "packages/react/src/components/NumberInput/NumberInput.stories.js#WithTypeOfCustomValidation": {"code":"private-api","detail":"useDocumentLang 설치본에 internal/useDocumentLang.js 없음"},
 };

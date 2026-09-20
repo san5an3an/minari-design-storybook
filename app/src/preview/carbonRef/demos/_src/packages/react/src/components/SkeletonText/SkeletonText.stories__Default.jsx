@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SkeletonText } from '@carbon/react';
 import mdx from './SkeletonText.mdx';
 

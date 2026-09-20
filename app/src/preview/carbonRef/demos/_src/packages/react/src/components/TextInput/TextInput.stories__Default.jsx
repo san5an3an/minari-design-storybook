@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './TextInput.mdx';
 import { TextInput, TextInputSkeleton } from '@carbon/react';
 

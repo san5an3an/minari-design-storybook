@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { ComboBox } from '@carbon/react';
 import { Button } from '@carbon/react';

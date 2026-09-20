@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Tag } from '@carbon/react';
 import { SelectableTag } from '@carbon/react';

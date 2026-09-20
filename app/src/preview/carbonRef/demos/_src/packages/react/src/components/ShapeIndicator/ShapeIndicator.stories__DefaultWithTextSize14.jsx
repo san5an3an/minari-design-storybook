@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview__ShapeIndicator as ShapeIndicator } from '@carbon/react';
 import mdx from './ShapeIndicator.mdx';
 

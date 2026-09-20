@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidMultiSelect, FluidMultiSelectSkeleton } from '@carbon/react';
 import mdx from './FluidMultiSelect.mdx';
 

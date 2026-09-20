@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Select, SelectSkeleton } from '@carbon/react';
 import { SelectItem } from '@carbon/react';
 import { SelectItemGroup } from '@carbon/react';

@@ -16,6 +16,6 @@ export const demos = {
   "packages/react/src/components/FileUploader/FileUploader.stories.js#Default": composeStory(m7.default, m7["Default"], "Default"),
 };
 export const skipped = {
-  "packages/react/src/components/FileUploader/FileUploader.featureflag.stories.js#EnhancedCallbacks": {"code":"package-missing","detail":"@storybook/addon-links/react"},
-  "packages/react/src/components/FileUploader/FileUploader.featureflag.stories.js#ControlledFileState": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/FileUploader/FileUploader.featureflag.stories.js#EnhancedCallbacks": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
+  "packages/react/src/components/FileUploader/FileUploader.featureflag.stories.js#ControlledFileState": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

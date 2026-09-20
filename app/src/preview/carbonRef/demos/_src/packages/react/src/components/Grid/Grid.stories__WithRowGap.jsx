@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './Grid.stories.scss';
 import { Grid, Column } from '@carbon/react';
 import mdx from './Grid.mdx';

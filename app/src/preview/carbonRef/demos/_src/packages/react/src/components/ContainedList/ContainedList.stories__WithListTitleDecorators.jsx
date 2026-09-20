@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Tag } from '@carbon/react';
 import mdx from './ContainedList.mdx';
 import { ContainedList } from '@carbon/react';

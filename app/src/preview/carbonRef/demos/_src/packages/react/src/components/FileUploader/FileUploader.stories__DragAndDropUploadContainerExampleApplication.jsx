@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ExampleDropContainerApp from './stories/drop-container';
 import mdx from './FileUploader.mdx';
 import { FileUploader, FileUploaderButton, FileUploaderDropContainer, FileUploaderItem, FileUploaderSkeleton } from '@carbon/react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { OverflowMenu } from '@carbon/react/es/components/OverflowMenu/OverflowMenu.js';
 import { OverflowMenuItem } from '@carbon/react';
 import mdx from './OverflowMenu.mdx';

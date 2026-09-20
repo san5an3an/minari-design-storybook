@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExpandableSearch } from '@carbon/react';
 import { Search } from '@carbon/react';
 import { SearchSkeleton } from '@carbon/react';

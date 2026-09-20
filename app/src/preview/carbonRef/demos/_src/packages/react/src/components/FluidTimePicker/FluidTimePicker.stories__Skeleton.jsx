@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidTimePicker } from '@carbon/react';
 import { FluidTimePickerSelect } from '@carbon/react';
 import { FluidTimePickerSkeleton } from '@carbon/react';

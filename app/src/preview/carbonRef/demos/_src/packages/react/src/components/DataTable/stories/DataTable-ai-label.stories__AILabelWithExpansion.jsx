@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { DataTable, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow, TableSelectAll, TableSelectRow, TableSlugRow, TableDecoratorRow, TableExpandHeader, TableExpandRow, TableExpandedRow } from '@carbon/react';
 import { dataTableArgs, dataTableArgTypes, rows, headers } from './shared';

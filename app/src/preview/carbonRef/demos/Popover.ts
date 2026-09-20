@@ -14,5 +14,5 @@ export const demos = {
   "packages/react/src/components/Popover/Popover.stories.js#TabTipExperimentalAutoAlign": composeStory(m5.default, m5["TabTipExperimentalAutoAlign"], "TabTipExperimentalAutoAlign"),
 };
 export const skipped = {
-  "packages/react/src/components/Popover/Popover.featureflag.stories.js#FloatingStyles": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/Popover/Popover.featureflag.stories.js#FloatingStyles": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

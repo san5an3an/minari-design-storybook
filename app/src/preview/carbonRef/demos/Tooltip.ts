@@ -16,5 +16,5 @@ export const demos = {
   "packages/react/src/components/Tooltip/Tooltip.stories.js#Duration": composeStory(m6.default, m6["Duration"], "Duration"),
 };
 export const skipped = {
-  "packages/react/src/components/Tooltip/Tooltip.featureflag.stories.js#FloatingStyles": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/Tooltip/Tooltip.featureflag.stories.js#FloatingStyles": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

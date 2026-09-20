@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidNumberInput, FluidNumberInputSkeleton } from '@carbon/react';
 import mdx from './FluidNumberInput.mdx';
 

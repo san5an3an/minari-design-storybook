@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './story.scss';
 import { Checkbox as CheckboxIcon } from '@carbon/icons-react';
 import React, { useState, useEffect, useRef } from 'react';

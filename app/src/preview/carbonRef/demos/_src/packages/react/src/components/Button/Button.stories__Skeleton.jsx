@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Button, ButtonSkeleton } from '@carbon/react';
 import mdx from './Button.mdx';
 import './button-story.scss';

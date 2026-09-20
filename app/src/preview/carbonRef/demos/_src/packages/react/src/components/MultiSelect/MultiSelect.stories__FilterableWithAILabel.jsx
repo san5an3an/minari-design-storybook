@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { View, FolderOpen, Folders, Information } from '@carbon/icons-react';
 import mdx from './MultiSelect.mdx';
 import { FilterableMultiSelect, MultiSelect } from '@carbon/react';

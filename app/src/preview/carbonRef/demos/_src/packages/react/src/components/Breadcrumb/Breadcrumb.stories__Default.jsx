@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Breadcrumb, BreadcrumbItem, BreadcrumbSkeleton } from '@carbon/react';
 import mdx from './Breadcrumb.mdx';
 

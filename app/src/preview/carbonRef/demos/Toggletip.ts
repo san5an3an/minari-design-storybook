@@ -8,5 +8,5 @@ export const demos = {
   "packages/react/src/components/Toggletip/Toggletip.stories.js#Default": composeStory(m2.default, m2["Default"], "Default"),
 };
 export const skipped = {
-  "packages/react/src/components/Toggletip/Toggletip.featureflag.stories.js#FloatingStyles": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/Toggletip/Toggletip.featureflag.stories.js#FloatingStyles": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

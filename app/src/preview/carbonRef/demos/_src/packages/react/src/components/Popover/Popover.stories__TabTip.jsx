@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './story.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import { Popover, PopoverContent } from '@carbon/react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview_Text as Text } from '@carbon/react';
 import { Button } from '@carbon/react';
 import { Dropdown } from '@carbon/react';

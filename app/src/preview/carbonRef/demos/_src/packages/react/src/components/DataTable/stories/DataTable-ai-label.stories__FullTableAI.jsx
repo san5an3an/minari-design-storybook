@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataTable, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow, TableSelectAll, TableSelectRow, TableSlugRow } from '@carbon/react';
 import { dataTableArgs, dataTableArgTypes, rows, headers } from './shared';
 import mdx from '../../AILabel/AILabelDataTable.mdx';

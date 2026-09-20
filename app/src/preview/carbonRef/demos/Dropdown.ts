@@ -18,7 +18,7 @@ export const demos = {
   "packages/react/src/components/Dropdown/Dropdown.stories.js#TestInvalidTextNoOverlap": composeStory(m9.default, m9["TestInvalidTextNoOverlap"], "TestInvalidTextNoOverlap"),
 };
 export const skipped = {
-  "packages/react/src/components/Dropdown/Dropdown.featureflag.stories.js#FloatingStyles": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/Dropdown/Dropdown.featureflag.stories.js#FloatingStyles": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
   "packages/react/src/components/Dropdown/Dropdown.stories.js#_WithLayer": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
   "packages/react/src/components/Dropdown/Dropdown.stories.js#InlineWithLayer": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

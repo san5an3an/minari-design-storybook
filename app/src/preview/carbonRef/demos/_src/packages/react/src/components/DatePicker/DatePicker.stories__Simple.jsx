@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DatePicker } from '@carbon/react';
 import { DatePickerSkeleton } from '@carbon/react';
 import { DatePickerInput } from '@carbon/react';

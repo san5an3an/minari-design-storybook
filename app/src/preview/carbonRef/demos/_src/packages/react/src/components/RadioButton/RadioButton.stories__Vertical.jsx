@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RadioButton } from '@carbon/react';
 import { RadioButtonGroup } from '@carbon/react';
 import { RadioButtonSkeleton } from '@carbon/react';

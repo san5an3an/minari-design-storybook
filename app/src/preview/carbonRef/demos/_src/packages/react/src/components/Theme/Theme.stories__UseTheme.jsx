@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './Theme-story.scss';
 import { GlobalTheme, Theme, useTheme } from '@carbon/react';
 import mdx from './Theme.mdx';

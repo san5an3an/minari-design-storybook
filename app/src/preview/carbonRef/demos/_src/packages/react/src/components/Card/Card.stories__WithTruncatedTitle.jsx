@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card } from '@carbon/react/es/components/Card/Card.js';
 import { IconButton } from '@carbon/react';
 import { Grid, Column } from '@carbon/react';

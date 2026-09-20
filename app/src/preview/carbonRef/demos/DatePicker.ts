@@ -6,12 +6,12 @@ import * as m2 from "./_src/packages/react/src/components/DatePicker/DatePicker.
 import * as m3 from "./_src/packages/react/src/components/DatePicker/DatePicker.stories__RangeWithCalendar.jsx";
 import * as m7 from "./_src/packages/react/src/components/DatePicker/DatePicker.stories__Skeleton.jsx";
 import * as m8 from "./_src/packages/react/src/components/DatePicker/DatePicker.stories__withAILabel.jsx";
-import * as m9 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Default.jsx";
-import * as m10 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__RangeWithCalendar.jsx";
-import * as m12 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Simple.jsx";
-import * as m14 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__SingleWithCalendar.jsx";
-import * as m16 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Skeleton.jsx";
-import * as m17 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__withAILabel.jsx";
+import * as m9 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Default.tsx";
+import * as m10 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__RangeWithCalendar.tsx";
+import * as m12 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Simple.tsx";
+import * as m14 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__SingleWithCalendar.tsx";
+import * as m16 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__Skeleton.tsx";
+import * as m17 from "./_src/packages/react/src/components/DatePicker/next/__stories__/DatePickerV2.stories__withAILabel.tsx";
 export const demos = {
   "packages/react/src/components/DatePicker/DatePicker.stories.js#Simple": composeStory(m1.default, m1["Simple"], "Simple"),
   "packages/react/src/components/DatePicker/DatePicker.stories.js#SingleWithCalendar": composeStory(m2.default, m2["SingleWithCalendar"], "SingleWithCalendar"),

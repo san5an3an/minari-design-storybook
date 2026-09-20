@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FormGroup } from '@carbon/react';
 import { TextInput } from '@carbon/react';
 import { RadioButtonGroup } from '@carbon/react';

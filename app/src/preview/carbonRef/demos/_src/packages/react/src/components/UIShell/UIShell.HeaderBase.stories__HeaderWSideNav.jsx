@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { Content, Header, HeaderContainer, HeaderMenuButton, HeaderName, HeaderNavigation, HeaderMenuItem, HeaderGlobalBar, HeaderGlobalAction, HeaderPanel, HeaderSideNavItems, SkipToContent, SideNav, SideNavDivider, SideNavItems, SideNavLink, SideNavMenu, SideNavMenuItem, Switcher, SwitcherItem, SwitcherDivider } from '@carbon/react';

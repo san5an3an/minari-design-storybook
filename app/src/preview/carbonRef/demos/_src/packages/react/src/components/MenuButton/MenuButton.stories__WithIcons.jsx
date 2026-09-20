@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MenuItem, MenuItemDivider } from '@carbon/react';
 import { Asset, User, Group } from '@carbon/react/icons';
 import { MenuButton } from '@carbon/react';

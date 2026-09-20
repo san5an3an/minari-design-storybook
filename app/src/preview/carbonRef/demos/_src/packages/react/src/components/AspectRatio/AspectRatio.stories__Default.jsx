@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './AspectRatio-story.scss';
 import { Grid, Column } from '@carbon/react';
 import { AspectRatio } from '@carbon/react';

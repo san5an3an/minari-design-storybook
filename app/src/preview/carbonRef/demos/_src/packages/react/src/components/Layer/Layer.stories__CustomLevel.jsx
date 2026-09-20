@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './Layer-story.scss';
 import { Layer } from '@carbon/react';
 import mdx from './Layer.mdx';

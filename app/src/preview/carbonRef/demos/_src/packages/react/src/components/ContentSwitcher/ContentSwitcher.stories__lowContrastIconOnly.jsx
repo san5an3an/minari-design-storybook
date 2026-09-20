@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ContentSwitcher } from '@carbon/react';
 import { Switch, IconSwitch } from '@carbon/react';
 import mdx from './ContentSwitcher.mdx';

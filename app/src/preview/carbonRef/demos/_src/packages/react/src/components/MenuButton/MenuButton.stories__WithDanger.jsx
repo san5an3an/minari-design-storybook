@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MenuItem, MenuItemDivider } from '@carbon/react';
 import { MenuButton } from '@carbon/react';
 import mdx from './MenuButton.mdx';

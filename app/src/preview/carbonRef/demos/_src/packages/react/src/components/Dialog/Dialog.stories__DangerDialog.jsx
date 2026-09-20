@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogControls, DialogCloseButton, DialogBody, DialogHeader, DialogSubtitle, DialogTitle, DialogFooter } from '@carbon/react/es/components/Dialog/Dialog.js';
 import { Button } from '@carbon/react';
