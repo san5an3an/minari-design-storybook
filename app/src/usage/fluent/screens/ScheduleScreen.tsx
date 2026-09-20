@@ -41,7 +41,8 @@ function ScheduleStatCard({ stat }: { stat: ScheduleStat }) {
           aria-hidden
           style={{
             alignItems: "center", background: tone, borderRadius: "8px",
-            color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+            // 리터럴 white 대신 Fluent on-brand 전경 토큰 사용
+            color: "var(--colorNeutralForegroundOnBrand)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
           }}
         >
           <Icon fontSize={14} />
@@ -149,8 +150,9 @@ function MeetingRow({ meeting }: { meeting: MeetingItem }) {
         {names.slice(0, 3).map((n) => (
           <AvatarGroupItem key={n} name={n} />
         ))}
+        {/* color="colorful" 금지. +N은 집계 표시라 neutral 사용 */}
         {meeting.attendees > 3 ? (
-          <Avatar name={`+${meeting.attendees - 3}`} size={24} color="colorful" />
+          <Avatar name={`+${meeting.attendees - 3}`} size={24} color="neutral" />
         ) : null}
       </AvatarGroup>
     </div>
@@ -178,7 +180,8 @@ export function ScheduleScreen {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
+      {/* 고정 3열 레이아웃 */}
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         {stats.map((s) => (
           <ScheduleStatCard key={s.label} stat={s} />
         ))}

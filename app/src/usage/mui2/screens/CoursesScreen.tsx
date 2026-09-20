@@ -195,44 +195,52 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
         <MiniBarCard title="레벨별 강좌 수" data={byLevel} />
       </Box>
 
-    <Box
-      sx={{
-        display: "grid",
-        gap: 2,
-        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
-      }}
-    >
-      {COURSES.map((c) => (
-        <Card key={c.id} variant="outlined">
-          <CardActionArea onClick={ => open(c.id)} sx={{ p: 2 }}>
-            <Stack spacing={1}>
-              <Box
-                aria-hidden
-                sx={{
-                  backgroundImage: `url(${COURSE_THUMB[c.category] ?? COURSE_THUMB["디자인"]})`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  borderRadius: 1,
-                  height: 96,
-                }}
-              />
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
-                <Chip size="small" label={c.category} variant="outlined" />
-                <Chip size="small" label={c.level} color="primary" variant="outlined" />
-              </Stack>
-              <Typography variant="subtitle2">{c.title}</Typography>
-              <Typography variant="body2" color="text.secondary">{c.instructor}</Typography>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                <Rating value={c.rating} precision={0.1} size="small" readOnly />
-                <Typography variant="caption" color="text.secondary">
-                  {c.rating} · 수강생 {c.students.toLocaleString("ko-KR")}명
-                </Typography>
-              </Stack>
-              <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{won(c.price)}</Typography>
-            </Stack>
-          </CardActionArea>
-        </Card>
-      ))}
+      <Box
+        sx={{
+          display: "grid",
+          gap: 2,
+          gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+        }}
+      >
+        {COURSES.map((c, i) => {
+          // 2셀 격자에서 마지막 카드 전체 행 차지, 빈 셀 대신 강조 배치
+          const isTrailingOrphan = COURSES.length % 2 === 1 && i === COURSES.length - 1;
+          return (
+            <Card key={c.id} variant="outlined" sx={isTrailingOrphan ? { gridColumn: "1 / -1" } : undefined}>
+              <CardActionArea onClick={ => open(c.id)} sx={{ p: 2 }}>
+                <Stack spacing={1} direction={isTrailingOrphan ? "row" : "column"}>
+                  <Box
+                    aria-hidden
+                    sx={{
+                      backgroundImage: `url(${COURSE_THUMB[c.category] ?? COURSE_THUMB["디자인"]})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      borderRadius: 1,
+                      flexShrink: 0,
+                      height: 96,
+                      width: isTrailingOrphan ? 160 : "auto",
+                    }}
+                  />
+                  <Stack spacing={1} sx={{ minWidth: 0 }}>
+                    <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+                      <Chip size="small" label={c.category} variant="outlined" />
+                      <Chip size="small" label={c.level} color="primary" variant="outlined" />
+                    </Stack>
+                    <Typography variant="subtitle2">{c.title}</Typography>
+                    <Typography variant="body2" color="text.secondary">{c.instructor}</Typography>
+                    <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+                      <Rating value={c.rating} precision={0.1} size="small" readOnly />
+                      <Typography variant="caption" color="text.secondary">
+                        {c.rating} · 수강생 {c.students.toLocaleString("ko-KR")}명
+                      </Typography>
+                    </Stack>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{won(c.price)}</Typography>
+                  </Stack>
+                </Stack>
+              </CardActionArea>
+            </Card>
+          );
+        })}
       </Box>
     </Stack>
   );

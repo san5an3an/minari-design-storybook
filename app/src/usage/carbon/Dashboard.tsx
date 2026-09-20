@@ -100,7 +100,7 @@ export function CarbonUsage({ system, active }: UsageDashboardProps) {
               marginBlockEnd: "1rem",
             }}
           >
-            <span style={{ color: "white", fontWeight: 600, fontSize: "1.0625rem" }}>
+            <span style={{ color: "var(--semantic-fg-on-brand-default)", fontWeight: 600, fontSize: "1.0625rem" }}>
               오늘도 30대 전부 실시간으로 지켜보고 있어요
             </span>
             <div className="flex gap-2">

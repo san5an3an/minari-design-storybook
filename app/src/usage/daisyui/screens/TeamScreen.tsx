@@ -26,6 +26,7 @@ export function TeamScreen {
   const [inviting, setInviting] = React.useState(false);
   const [inviteName, setInviteName] = React.useState("");
   const [inviteRole, setInviteRole] = React.useState<Member["role"]>("뷰어");
+  const removeDialogRef = React.useRef<HTMLDialogElement>(null);
 
   const active = members.filter((m) => m.status === "활성").length;
   const invited = members.filter((m) => m.status === "초대됨").length;
@@ -43,6 +44,13 @@ export function TeamScreen {
     setInviting(false);
   };
 
+  const confirmRemove =  => {
+    if (!selected) return;
+    setMembers((prev) => prev.filter((m) => m.name !== selected.name));
+    removeDialogRef.current?.close;
+    setSelected(null);
+  };
+
   if (inviting) {
     return (
       <div className="d-card bg-base-100 shadow" style={{ padding: "1.25rem" }}>
@@ -52,9 +60,9 @@ export function TeamScreen {
           </button>
           <h3 style={{ fontWeight: 700, fontSize: "1.1rem", margin: "0.5rem 0 0" }}>팀원 초대</h3>
           <label className="d-label mt-3">이름</label>
-          <input type="text" className="d-input d-input-bordered w-full" value={inviteName} onChange={(e) => setInviteName(e.target.value)} placeholder="초대할 사람 이름" />
+          <input type="text" className="d-input w-full" value={inviteName} onChange={(e) => setInviteName(e.target.value)} placeholder="초대할 사람 이름" />
           <label className="d-label mt-3">역할</label>
-          <select className="d-select d-select-bordered w-full" value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
+          <select className="d-select w-full" value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
             {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
           </select>
           <div className="d-card-actions justify-end mt-4">
@@ -68,23 +76,44 @@ export function TeamScreen {
 
   if (selected) {
     return (
-      <div className="d-card bg-base-100 shadow" style={{ padding: "1.25rem" }}>
-        <div className="d-card-body">
-          <button type="button" className="d-btn d-btn-ghost d-btn-sm" style={{ width: "fit-content", paddingInline: 0 }} onClick={ => setSelected(null)}>
-            ← 목록으로
-          </button>
-          <h3 style={{ fontWeight: 700, fontSize: "1.1rem", margin: "0.5rem 0 0" }}>{selected.name}</h3>
-          <span className="text-sm opacity-60">{selected.status}</span>
-          <label className="d-label mt-3">역할</label>
-          <select
-            className="d-select d-select-bordered w-full"
-            value={selected.role}
-            onChange={(e) => setRole(selected.name, e.target.value)}
-          >
-            {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
-          </select>
+      <>
+        <dialog ref={removeDialogRef} className="d-modal">
+          <div className="d-modal-box">
+            <h3 className="text-lg font-bold">팀원 제거</h3>
+            <p className="py-2 text-sm opacity-70"><b>{selected.name}</b>님을 팀에서 제거할까요? 이 작업은 되돌릴 수 없어요.</p>
+            <div className="d-modal-action">
+              <form method="dialog" style={{ display: "flex", gap: "0.5rem" }}>
+                <button type="button" className="d-btn" onClick={ => removeDialogRef.current?.close}>취소</button>
+                <button type="button" className="d-btn d-btn-error" onClick={confirmRemove}>제거</button>
+              </form>
+            </div>
+          </div>
+          <form method="dialog" className="d-modal-backdrop"><button>close</button></form>
+        </dialog>
+
+        <div className="d-card bg-base-100 shadow" style={{ padding: "1.25rem" }}>
+          <div className="d-card-body">
+            <button type="button" className="d-btn d-btn-ghost d-btn-sm" style={{ width: "fit-content", paddingInline: 0 }} onClick={ => setSelected(null)}>
+              ← 목록으로
+            </button>
+            <h3 style={{ fontWeight: 700, fontSize: "1.1rem", margin: "0.5rem 0 0" }}>{selected.name}</h3>
+            <span className="text-sm opacity-60">{selected.status}</span>
+            <label className="d-label mt-3">역할</label>
+            <select
+              className="d-select w-full"
+              value={selected.role}
+              onChange={(e) => setRole(selected.name, e.target.value)}
+            >
+              {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+            </select>
+            <div className="d-card-actions justify-end mt-4">
+              <button type="button" className="d-btn d-btn-error d-btn-outline d-btn-sm" onClick={ => removeDialogRef.current?.showModal}>
+                팀원 제거
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -132,6 +161,26 @@ export function TeamScreen {
 
       <div className="d-card bg-base-100 shadow">
         <div className="d-card-body" style={{ padding: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "1rem 1.25rem 0" }}>
+            {/* avatar.json #005 anatomy 기반, 활성 팀원 한눈에 표시 */}
+            <div className="d-avatar-group -space-x-4">
+              {members.filter((m) => m.status === "활성").slice(0, 5).map((m) => (
+                <div key={m.name} className="d-avatar d-avatar-placeholder">
+                  <div className="bg-neutral text-neutral-content w-8 rounded-full">
+                    <span className="text-xs">{m.name.slice(0, 1)}</span>
+                  </div>
+                </div>
+              ))}
+              {active > 5 && (
+                <div className="d-avatar d-avatar-placeholder">
+                  <div className="bg-base-300 text-base-content w-8 rounded-full">
+                    <span className="text-xs">+{active - 5}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <span className="text-sm opacity-60">활성 팀원 {active}명</span>
+          </div>
           <ul>
             {members.map((m, i) => (
               <li
@@ -142,7 +191,7 @@ export function TeamScreen {
                   alignItems: "center",
                   gap: "0.75rem",
                   padding: "0.75rem 1.25rem",
-                  borderTop: i > 0 ? "1px solid var(--color-base-300, #eee)" : undefined,
+                  borderTop: i > 0 ? "1px solid var(--color-base-300)" : undefined,
                   cursor: "pointer",
                 }}
               >

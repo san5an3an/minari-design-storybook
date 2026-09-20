@@ -22,7 +22,7 @@ const LABEL_OPTIONS = ["에스컬레이션 필요", "고객 VIP", "재발 이슈
 export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsProp }: ScreenProps) {
   // Dashboard의 tickets 사용, 없으면 모듈 상수 TICKETS로 대체하기
   const tickets = ticketsProp ?? TICKETS;
-  const ticket = tickets.find((t) => t.id === selectedId);
+  const ticket = tickets.find((t) => t.id === selectedId) ?? tickets[0];
   const [status, setStatus] = React.useState<Ticket["status"]>(ticket?.status ?? "열림");
   const [reply, setReply] = React.useState("");
   const [notifyRequester, setNotifyRequester] = React.useState(true);
@@ -58,6 +58,11 @@ export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsPro
   const elapsed = elapsedHours(ticket.createdLabel);
   const ratio = Math.min(elapsed / target, 1);
   const done = ticket.status === "해결됨";
+  const assigneeMessage = ticket.messages.find((m) => m.author.startsWith("IT팀"));
+  const assignee = assigneeMessage ? assigneeMessage.author.replace("IT팀 ", "") : null;
+  const lastUpdated = ticket.messages.length > 0
+    ? ticket.messages[ticket.messages.length - 1].timeLabel
+    : ticket.createdLabel;
 
   const sendReply =  => {
     dispatchToast(
@@ -95,7 +100,8 @@ export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsPro
               <Badge color={STATUS_COLOR[ticket.status]} appearance="filled">{ticket.status}</Badge>
             </div>
             <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>
-              {ticket.requester} · {ticket.category} · {ticket.createdLabel}
+              {ticket.requester} · {ticket.category} · {ticket.createdLabel} 접수 ·{" "}
+              {assignee ? `담당 ${assignee}` : "담당자 미배정"} · 최근 업데이트 {lastUpdated}
             </Caption1>
           </div>
 
@@ -183,7 +189,8 @@ export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsPro
           <Card>
             <CardHeader
               image={<PresenceBadge status="available" outOfOffice={false} />}
-              header={<Persona name={ticket.requester} secondaryText="요청자 · 접속 중" avatar={{ color: "colorful" }} size="medium" />}
+              // color="colorful" 대신 brand 사용
+              header={<Persona name={ticket.requester} secondaryText="요청자 · 접속 중" avatar={{ color: "brand" }} size="medium" />}
             />
             <TagGroup aria-label="티켓 분류 태그">
               <Tag shape="circular">{ticket.category}</Tag>

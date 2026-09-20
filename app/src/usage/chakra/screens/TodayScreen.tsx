@@ -1,10 +1,15 @@
+import * as React from "react";
 import {
-  Avatar, Badge, Box, Grid, HStack, Progress, Stat, Table, Text, VStack,
+  AbsoluteCenter, Avatar, AvatarGroup, Badge, Box, Dialog, Grid, HStack, Portal, Progress,
+  ProgressCircle, Stat, Table, Text, VStack,
 } from "@chakra-ui/react";
 import {
   Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
 import { BOOKINGS, CLASSES, CLASS_TYPE_SHARE, WEEKLY_TREND, type Booking } from "../data";
+
+// 눈금 글자 크기는 인라인 style 로 지정. tick fontSize 표현 속성은 Chakra 리셋에 덮임
+const TICK_STYLE = { fontSize: 11 } as const;
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1200&q=60";
@@ -78,6 +83,12 @@ export function TodayScreen {
   const totalCapacity = CLASSES.reduce((sum, c) => sum + c.capacity, 0);
   const fillRate = Math.round((totalBooked / totalCapacity) * 100);
   const almostFull = CLASSES.filter((c) => c.booked / c.capacity >= 0.85);
+  const [selectedClassId, setSelectedClassId] = React.useState<string | null>(null);
+  const selectedClass = CLASSES.find((c) => c.id === selectedClassId) ?? null;
+  const openClass = (classId: string) => setSelectedClassId(classId);
+  const selectedAttendees = selectedClass
+    ? BOOKINGS.filter((b) => b.className === selectedClass.name && b.time === selectedClass.time && b.status !== "취소")
+    : [];
 
   return (
     <VStack align="stretch" gap="1rem">
@@ -99,8 +110,8 @@ export function TodayScreen {
           <Box h="10rem">
             <ResponsiveContainer>
               <LineChart data={WEEKLY_TREND as unknown as Record<string, unknown>[]}>
-                <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={28} />
+                <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ style: TICK_STYLE }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ style: TICK_STYLE }} width={28} />
                 <Tooltip />
                 <Line type="monotone" dataKey="count" stroke="var(--chakra-colors-brand-solid)" strokeWidth={2} dot />
               </LineChart>
@@ -133,7 +144,7 @@ export function TodayScreen {
         <Text fontSize="0.8125rem" fontWeight="600" mb="0.75rem">마감 임박 수업</Text>
         <VStack align="stretch" gap="0.5rem">
           {almostFull.map((c) => (
-            <HStack key={c.id} justify="space-between" gap="0.75rem">
+            <HStack key={c.id} justify="space-between" gap="0.75rem" cursor="pointer" onClick={ => openClass(c.id)}>
               <HStack gap="0.5rem">
                 <Text fontSize="0.8125rem" fontWeight="500">{c.time}</Text>
                 <Text fontSize="0.8125rem">{c.name}</Text>
@@ -165,27 +176,90 @@ export function TodayScreen {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {BOOKINGS.map((b) => (
-                <Table.Row key={b.id}>
-                  <Table.Cell>
-                    <HStack gap="0.5rem">
-                      <Avatar.Root size="xs">
-                        <Avatar.Fallback>{b.memberName.slice(0, 1)}</Avatar.Fallback>
-                      </Avatar.Root>
-                      <Text fontSize="0.8125rem">{b.memberName}</Text>
-                    </HStack>
-                  </Table.Cell>
-                  <Table.Cell fontSize="0.8125rem">{b.className}</Table.Cell>
-                  <Table.Cell fontSize="0.8125rem" color="fg.subtle">{b.time}</Table.Cell>
-                  <Table.Cell>
-                    <Badge colorPalette={STATUS_PALETTE[b.status]} size="sm">{b.status}</Badge>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+              {BOOKINGS.map((b) => {
+                const bookingClass = CLASSES.find((c) => c.name === b.className && c.time === b.time);
+                return (
+                  <Table.Row
+                    key={b.id}
+                    cursor={bookingClass ? "pointer" : undefined}
+                    onClick={bookingClass ?  => openClass(bookingClass.id) : undefined}
+                  >
+                    <Table.Cell>
+                      <HStack gap="0.5rem">
+                        <Avatar.Root size="xs">
+                          <Avatar.Fallback>{b.memberName.slice(0, 1)}</Avatar.Fallback>
+                        </Avatar.Root>
+                        <Text fontSize="0.8125rem">{b.memberName}</Text>
+                      </HStack>
+                    </Table.Cell>
+                    <Table.Cell fontSize="0.8125rem">{b.className}</Table.Cell>
+                    <Table.Cell fontSize="0.8125rem" color="fg.subtle">{b.time}</Table.Cell>
+                    <Table.Cell>
+                      <Badge colorPalette={STATUS_PALETTE[b.status]} size="sm">{b.status}</Badge>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
             </Table.Body>
           </Table.Root>
         </Table.ScrollArea>
       </Box>
+
+      {/* 수업 상세 다이얼로그. 정원은 Progress.Circle, 예약자는 AvatarGroup으로 표시 */}
+      <Dialog.Root open={selectedClass !== null} onOpenChange={(e) => { if (!e.open) setSelectedClassId(null); }}>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              {selectedClass ? (
+                <>
+                  <Dialog.Header>
+                    <Dialog.Title fontSize="1rem">{selectedClass.time} · {selectedClass.name}</Dialog.Title>
+                  </Dialog.Header>
+                  <Dialog.Body>
+                    <HStack gap="1rem" align="center">
+                      <ProgressCircle.Root
+                        value={Math.round((selectedClass.booked / selectedClass.capacity) * 100)}
+                        size="lg"
+                        colorPalette={selectedClass.booked === selectedClass.capacity ? "danger" : "brand"}
+                      >
+                        <ProgressCircle.Circle>
+                          <ProgressCircle.Track />
+                          <ProgressCircle.Range strokeLinecap="round" />
+                        </ProgressCircle.Circle>
+                        <AbsoluteCenter>
+                          <ProgressCircle.ValueText fontSize="0.75rem" fontWeight="600" />
+                        </AbsoluteCenter>
+                      </ProgressCircle.Root>
+                      <VStack align="start" gap="0.125rem">
+                        <Text fontSize="0.8125rem" color="fg.subtle">담당 강사</Text>
+                        <Text fontSize="0.875rem" fontWeight="500">{selectedClass.instructor}</Text>
+                        <Text fontSize="0.75rem" color="fg.subtle">
+                          {selectedClass.booked}/{selectedClass.capacity}명 예약
+                        </Text>
+                      </VStack>
+                    </HStack>
+                    {selectedAttendees.length > 0 ? (
+                      <VStack align="start" gap="0.375rem" mt="1rem">
+                        <Text fontSize="0.75rem" color="fg.subtle">예약자</Text>
+                        <AvatarGroup gap="0" spaceX="-0.5rem" size="sm">
+                          {selectedAttendees.map((b) => (
+                            <Avatar.Root key={b.id}>
+                              <Avatar.Fallback>{b.memberName.slice(0, 1)}</Avatar.Fallback>
+                            </Avatar.Root>
+                          ))}
+                        </AvatarGroup>
+                      </VStack>
+                    ) : null}
+                  </Dialog.Body>
+                </>
+              ) : (
+                <Box p="1rem" />
+              )}
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </VStack>
   );
 }

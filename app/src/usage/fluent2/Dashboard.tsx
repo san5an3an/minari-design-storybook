@@ -167,10 +167,11 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
                 </Caption1>
                 <Button size="small" appearance="primary" style={{ width: "100%" }} onClick={ => setScreenKey("tickets")}>티켓 보기</Button>
               </Card>
+              {/* color="colorful" 대신 brand. Fluent 팔레트라 20색과 안 묶임 */}
               <Persona
                 name="박서준"
                 secondaryText="IT 지원팀"
-                avatar={{ color: "colorful" }}
+                avatar={{ color: "brand" }}
                 size="small"
               />
             </NavDrawerFooter>

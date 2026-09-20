@@ -52,7 +52,7 @@ export function BlueprintUsage3({ system, active }: UsageDashboardProps) {
               backgroundPosition: "center",
             }}
           >
-            <span style={{ color: "white", fontWeight: 600, fontSize: "0.8125rem", padding: "0.375rem 0.5rem" }}>
+            <span style={{ color: "var(--semantic-fg-on-brand-default)", fontWeight: 600, fontSize: "0.8125rem", padding: "0.375rem 0.5rem" }}>
               이슈 트래커
             </span>
           </div>

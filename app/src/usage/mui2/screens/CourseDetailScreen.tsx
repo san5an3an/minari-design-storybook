@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreOutlined from "@mui/icons-material/ExpandMoreOutlined";
-import { COURSE_REVIEWS, COURSES } from "../data";
+import { COURSE_REVIEWS, COURSES, type CourseReview } from "../data";
 import type { ScreenProps } from "../screens";
 
 const won = (n: number) => (n === 0 ? "무료" : `${n.toLocaleString("ko-KR")}원`);
@@ -14,10 +14,13 @@ const won = (n: number) => (n === 0 ? "무료" : `${n.toLocaleString("ko-KR")}�
 type RelatedSort = "인기순" | "평점순";
 
 export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenProps) {
-  const course = COURSES.find((c) => c.id === selectedId);
+  const course = COURSES.find((c) => c.id === selectedId) ?? COURSES[0];
   const [relatedSort, setRelatedSort] = React.useState<RelatedSort>("인기순");
   const [instructorOnly, setInstructorOnly] = React.useState(false);
   const [draftReview, setDraftReview] = React.useState("");
+  const [draftRating, setDraftRating] = React.useState(5);
+  // 등록한 리뷰를 courseId 기준 전역 상태로 유지
+  const [newReviews, setNewReviews] = React.useState<CourseReview[]>([]);
 
   if (!course) {
     return (
@@ -32,7 +35,10 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
 
   const doneCount = course.lessons.filter((l) => l.done).length;
   const totalMin = course.lessons.reduce((s, l) => s + l.minutes, 0);
-  const courseReviews = COURSE_REVIEWS.filter((r) => r.courseId === course.id);
+  const courseReviews = [
+    ...newReviews.filter((r) => r.courseId === course.id),
+    ...COURSE_REVIEWS.filter((r) => r.courseId === course.id),
+  ];
   const related = React.useMemo( => {
     const list = instructorOnly
       ? COURSES.filter((c) => c.instructor === course.instructor && c.id !== course.id)
@@ -175,6 +181,10 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
 
       <Divider textAlign="left">리뷰 쓰기</Divider>
       <Stack spacing={1}>
+        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+          <Typography variant="caption" color="text.secondary">평점</Typography>
+          <Rating value={draftRating} onChange={(_, v) => setDraftRating(v ?? draftRating)} size="small" />
+        </Stack>
         <TextareaAutosize
           minRows={2}
           placeholder={`${course.title}은(는) 어떠셨나요?`}
@@ -189,7 +199,22 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
           size="small"
           variant="outlined"
           disabled={draftReview.trim.length === 0}
-          onClick={ => setDraftReview("")}
+          onClick={ => {
+            // 목록 맨 위에 추가. id는 강좌와 등록 순번으로 생성
+            setNewReviews((prev) => [
+              {
+                id: `cr-draft-${course.id}-${prev.length}`,
+                courseId: course.id,
+                author: "나",
+                rating: draftRating,
+                comment: draftReview.trim,
+                dateLabel: "방금",
+              },
+              ...prev,
+            ]);
+            setDraftReview("");
+            setDraftRating(5);
+          }}
           sx={{ alignSelf: "flex-end" }}
         >
           리뷰 등록

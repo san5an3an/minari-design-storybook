@@ -13,7 +13,7 @@ const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 export function InvoiceDetailScreen({ selectedId, onNavigate, onSelect, invoices: invoicesProp }: ScreenProps) {
   // Dashboard 인보이스 목록을 기준으로 사용, 없으면 정적 INVOICES로 대체하기
   const invoices = invoicesProp ?? INVOICES;
-  const invoice = invoices.find((i) => i.id === selectedId);
+  const invoice = invoices.find((i) => i.id === selectedId) ?? invoices[0];
 
   if (!invoice) {
     return (

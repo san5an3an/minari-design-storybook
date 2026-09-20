@@ -53,7 +53,8 @@ export function TasksScreen {
         <Card pad="medium" flex={{ grow: 1, shrink: 1 }} background="background-front">
           <CardBody direction="row" align="center" gap="small">
             <Box round="full" width="2.5rem" height="2.5rem" align="center" justify="center" background="brand">
-              <ListTodo size={18} color="white" />
+              {/* color="white" 금지. lucide는 raw SVG stroke라 토큰 물리는 값임 */}
+              <ListTodo size={18} color="var(--semantic-fg-on-brand-default)" />
             </Box>
             <Box>
               <Text color="text-weak" size="small">남은 일</Text>
@@ -64,7 +65,7 @@ export function TasksScreen {
         <Card pad="medium" flex={{ grow: 1, shrink: 1 }} background="background-front">
           <CardBody direction="row" align="center" gap="small">
             <Box round="full" width="2.5rem" height="2.5rem" align="center" justify="center" background="status-critical">
-              <AlertTriangle size={18} color="white" />
+              <AlertTriangle size={18} color="var(--semantic-fg-on-danger-default)" />
             </Box>
             <Box>
               <Text color="text-weak" size="small">긴급</Text>

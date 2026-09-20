@@ -1,12 +1,24 @@
 import * as React from "react";
 import {
-  Box, Button, Field, Grid, HStack, Input, NativeSelect, Progress, Stat, Switch, Text, VStack,
+  Box, Button, Field, HStack, Input, NativeSelect, Popover, Portal, Progress, Stat,
+  Switch, Tag, Text, VStack,
 } from "@chakra-ui/react";
-import { CLASSES } from "../data";
+import { Info } from "lucide-react";
+import { CLASSES as SEED_CLASSES, type ClassSession } from "../data";
+import { toaster } from "../toaster";
 
-const INSTRUCTORS = [...new Set(CLASSES.map((c) => c.instructor))];
+const INSTRUCTORS = [...new Set(SEED_CLASSES.map((c) => c.instructor))];
+
+const SCHEDULE_STAT_GRID_CSS = `
+.chk1-sch-stat-cq { container-type: inline-size; container-name: chk1schstats; }
+.chk1-sch-stat-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+@container chk1schstats (min-width: 35rem) {
+  .chk1-sch-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+`;
 
 export function ScheduleScreen {
+  const [classes, setClasses] = React.useState<ClassSession[]>(SEED_CLASSES);
   const [instructor, setInstructor] = React.useState("전체");
   const [nearFullOnly, setNearFullOnly] = React.useState(false);
   const [newName, setNewName] = React.useState("");
@@ -14,32 +26,51 @@ export function ScheduleScreen {
   const [newInstructor, setNewInstructor] = React.useState(INSTRUCTORS[0]);
 
   const avgFill = Math.round(
-    (CLASSES.reduce((s, c) => s + c.booked / c.capacity, 0) / CLASSES.length) * 100,
+    (classes.reduce((s, c) => s + c.booked / c.capacity, 0) / classes.length) * 100,
   );
-  const fullCount = CLASSES.filter((c) => c.booked === c.capacity).length;
+  const fullCount = classes.filter((c) => c.booked === c.capacity).length;
 
-  const rows = CLASSES.filter(
+  const rows = classes.filter(
     (c) =>
       (instructor === "전체" || c.instructor === instructor) &&
       (!nearFullOnly || c.booked / c.capacity >= 0.85),
   );
 
+  const registerClass =  => {
+    if (newName.trim === "" || newTime.trim === "") return;
+    const created: ClassSession = {
+      id: `c-new-${Date.now}`,
+      time: newTime,
+      name: newName.trim,
+      instructor: newInstructor,
+      capacity: 10,
+      booked: 0,
+    };
+    setClasses((prev) => [...prev, created].sort((a, b) => a.time.localeCompare(b.time)));
+    toaster.create({ type: "success", title: "수업을 등록했어요", description: `${newTime} · ${created.name}` });
+    setNewName("");
+    setNewTime("");
+  };
+
   return (
     <VStack align="stretch" gap="1rem">
-      <Grid templateColumns="repeat(auto-fit, minmax(9rem, 1fr))" gap="1rem">
-        <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
-          <Stat.Label color="fg.muted">오늘 수업</Stat.Label>
-          <Stat.ValueText fontSize="1.25rem" fontWeight="600">{CLASSES.length}개</Stat.ValueText>
-        </Stat.Root>
-        <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
-          <Stat.Label color="fg.muted">평균 채움률</Stat.Label>
-          <Stat.ValueText fontSize="1.25rem" fontWeight="600">{avgFill}%</Stat.ValueText>
-        </Stat.Root>
-        <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
-          <Stat.Label color="fg.muted">마감(정원 100%)</Stat.Label>
-          <Stat.ValueText fontSize="1.25rem" fontWeight="600">{fullCount}개</Stat.ValueText>
-        </Stat.Root>
-      </Grid>
+      <style>{SCHEDULE_STAT_GRID_CSS}</style>
+      <Box className="chk1-sch-stat-cq">
+        <Box className="chk1-sch-stat-grid">
+          <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
+            <Stat.Label color="fg.muted">오늘 수업</Stat.Label>
+            <Stat.ValueText fontSize="1.25rem" fontWeight="600">{classes.length}개</Stat.ValueText>
+          </Stat.Root>
+          <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
+            <Stat.Label color="fg.muted">평균 채움률</Stat.Label>
+            <Stat.ValueText fontSize="1.25rem" fontWeight="600">{avgFill}%</Stat.ValueText>
+          </Stat.Root>
+          <Stat.Root borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
+            <Stat.Label color="fg.muted">마감(정원 100%)</Stat.Label>
+            <Stat.ValueText fontSize="1.25rem" fontWeight="600">{fullCount}개</Stat.ValueText>
+          </Stat.Root>
+        </Box>
+      </Box>
 
       <HStack gap="0.75rem" flexWrap="wrap">
         <NativeSelect.Root size="sm" maxW="10rem">
@@ -60,6 +91,27 @@ export function ScheduleScreen {
           </Switch.Control>
           <Switch.Label>마감 임박만 보기</Switch.Label>
         </Switch.Root>
+        {/* Popover 범례, 신규 미사용 항목 */}
+        <Popover.Root>
+          <Popover.Trigger asChild>
+            <Button size="xs" variant="ghost" aria-label="마감 임박 기준 안내">
+              <Info size={14} />
+            </Button>
+          </Popover.Trigger>
+          <Portal>
+            <Popover.Positioner>
+              <Popover.Content>
+                <Popover.Arrow />
+                <Popover.Body>
+                  <Popover.Title fontWeight="600" fontSize="0.8125rem">마감 임박 기준</Popover.Title>
+                  <Text fontSize="0.8125rem" color="fg.subtle" mt="0.25rem">
+                    정원의 85% 이상 예약된 수업을 "마감 임박"으로 봐요.
+                  </Text>
+                </Popover.Body>
+              </Popover.Content>
+            </Popover.Positioner>
+          </Portal>
+        </Popover.Root>
       </HStack>
 
       <Box borderWidth="1px" borderColor="border" borderRadius="control" p="0" bg="bg.panel" overflow="hidden">
@@ -69,9 +121,11 @@ export function ScheduleScreen {
             const full = c.booked === c.capacity;
             return (
               <HStack key={c.id} justify="space-between" gap="0.75rem" px="1rem" py="0.75rem">
-                <VStack align="start" gap="0" minW="9rem">
+                <VStack align="start" gap="0.125rem" minW="9rem">
                   <Text fontSize="0.8125rem" fontWeight="500">{c.time} · {c.name}</Text>
-                  <Text fontSize="0.75rem" color="fg.subtle">{c.instructor}</Text>
+                  <Tag.Root size="sm" colorPalette="gray" w="fit-content">
+                    <Tag.Label>{c.instructor}</Tag.Label>
+                  </Tag.Root>
                 </VStack>
                 <Progress.Root value={ratio} flex="1" size="sm" colorPalette={full ? "danger" : "brand"}>
                   <Progress.Track>
@@ -87,7 +141,7 @@ export function ScheduleScreen {
         </VStack>
       </Box>
 
-      {/* 새 수업 등록. Field+Input+NativeSelect 조합, 필터 Select, 회원 검색과 겹치지 않는 위치 */}
+      {/* 새 수업 등록 폼 */}
       <Box borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
         <Text fontSize="0.8125rem" fontWeight="600" mb="0.75rem">새 수업 등록</Text>
         <HStack gap="0.75rem" flexWrap="wrap" align="flex-end">
@@ -108,7 +162,9 @@ export function ScheduleScreen {
               <NativeSelect.Indicator />
             </NativeSelect.Root>
           </Field.Root>
-          <Button size="sm" colorPalette="brand">등록</Button>
+          <Button size="sm" colorPalette="brand" onClick={registerClass} disabled={newName.trim === "" || newTime.trim === ""}>
+            등록
+          </Button>
         </HStack>
       </Box>
     </VStack>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Checkbox, HTMLSelect, HTMLTable, InputGroup, Popover, Tag, Tooltip } from "@blueprintjs/core";
+import { Button, Card, Checkbox, Drawer, HTMLSelect, HTMLTable, InputGroup, NonIdealState, Popover, Tag, Tooltip } from "@blueprintjs/core";
 import type { Intent } from "@blueprintjs/core";
 
 interface LogRow {
@@ -34,11 +34,57 @@ const ROWS: LogRow[] = [
 
 const LEVEL_OPTIONS = ["전체", "info", "warning", "danger"];
 
+// 레벨별 건수. ROWS는 고정 배열이라 모듈 스코프에서 한 번만 계산하는 구조임
+const LEVEL_COUNTS = {
+  전체: ROWS.length,
+  위험: ROWS.filter((r) => r.level === "danger").length,
+  주의: ROWS.filter((r) => r.level === "warning").length,
+  정보: ROWS.filter((r) => r.level === "info").length,
+};
+
+// 통계 타일 그리드 열 수 직접 지정
+const LAYOUT_CSS = `
+.bp1-logs { container-type: inline-size; container-name: bp1logs; }
+.bp1-logs-stats { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@container bp1logs (min-width: 34rem) {
+  .bp1-logs-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+`;
+
+function LogDetailDrawer({ row, onClose }: { row: LogRow | null; onClose:  => void }) {
+  return (
+    <Drawer isOpen={row != null} onClose={onClose} title={row ? `${row.service} · ${row.time}` : ""} icon="document" size="24rem">
+      {row ? (
+        <div className="flex flex-col gap-4 p-4">
+          <Card>
+            <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
+              <Tag intent={LEVEL_INTENT[row.level]} minimal>{row.level}</Tag>
+              <code style={{ opacity: 0.6, fontSize: "0.8125rem" }}>{row.time}</code>
+            </div>
+            <p style={{ margin: 0 }}>{row.message}</p>
+          </Card>
+          <Card className="flex items-center justify-between">
+            <span style={{ fontSize: "0.8125rem", opacity: 0.7 }}>서비스</span>
+            <span style={{ fontSize: "0.8125rem" }}>{row.service}</span>
+          </Card>
+          <Button
+            icon="refresh"
+            text={row.level === "danger" ? "즉시 재시도" : "재시도"}
+            intent={row.level === "danger" ? "danger" : "none"}
+            style={{ alignSelf: "flex-start" }}
+          />
+        </div>
+      ) : null}
+    </Drawer>
+  );
+}
+
 // 필터용 폼 컨트롤
 export function LogsScreen {
   const [level, setLevel] = React.useState("전체");
   const [query, setQuery] = React.useState("");
   const [errorsOnly, setErrorsOnly] = React.useState(false);
+  const [selected, setSelected] = React.useState<LogRow | null>(null);
 
   const rows = ROWS.filter((row) => {
     if (level !== "전체" && row.level !== level) return false;
@@ -48,7 +94,28 @@ export function LogsScreen {
   });
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="bp1-logs flex flex-col gap-3">
+      <style>{LAYOUT_CSS}</style>
+
+      <div className="bp1-logs-stats">
+        <Card>
+          <span style={{ fontSize: "0.75rem", opacity: 0.7 }}>전체</span>
+          <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{LEVEL_COUNTS.전체}건</div>
+        </Card>
+        <Card>
+          <span style={{ fontSize: "0.75rem", opacity: 0.7 }}>위험</span>
+          <div style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--semantic-fg-danger-default)" }}>{LEVEL_COUNTS.위험}건</div>
+        </Card>
+        <Card>
+          <span style={{ fontSize: "0.75rem", opacity: 0.7 }}>주의</span>
+          <div style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--semantic-fg-warning-default)" }}>{LEVEL_COUNTS.주의}건</div>
+        </Card>
+        <Card>
+          <span style={{ fontSize: "0.75rem", opacity: 0.7 }}>정보</span>
+          <div style={{ fontSize: "1.25rem", fontWeight: 600 }}>{LEVEL_COUNTS.정보}건</div>
+        </Card>
+      </div>
+
       <div className="flex flex-wrap items-center gap-3">
         <InputGroup
           leftIcon="search"
@@ -65,6 +132,9 @@ export function LogsScreen {
         <Tag minimal className="ms-auto">{rows.length}건</Tag>
       </div>
 
+      {rows.length === 0 ? (
+        <NonIdealState icon="search" title="조건에 맞는 로그가 없습니다" description="검색어나 필터를 바꿔보세요." />
+      ) : (
       <HTMLTable bordered compact interactive style={{ width: "100%" }}>
         <thead>
           <tr>
@@ -76,7 +146,7 @@ export function LogsScreen {
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={`${row.time}-${i}`}>
+            <tr key={`${row.time}-${i}`} onClick={ => setSelected(row)} style={{ cursor: "pointer" }}>
               <td>
                 <code>{row.time}</code>
               </td>
@@ -91,23 +161,33 @@ export function LogsScreen {
               <td>{row.service}</td>
               <td className="flex items-center justify-between gap-2">
                 <span>{row.message}</span>
-                {/* Popover로 행 메뉴 표시 */}
+                {/* Popover로 행 메뉴 표시, stopPropagation 적용 */}
                 <Popover
                   content={
-                    <div className="flex flex-col" style={{ minWidth: "8rem" }}>
+                    // Popover 콘텐츠는 포털이라 DOM 행 밖이지만 tr 자손이라 클릭이 전파되는 구조임
+                    <div className="flex flex-col" style={{ minWidth: "8rem" }} onClick={(e) => e.stopPropagation}>
                       <div className="p-2" style={{ cursor: "pointer", fontSize: "0.8125rem" }}>서비스 로그 보기</div>
                       <div className="p-2" style={{ cursor: "pointer", fontSize: "0.8125rem" }}>재시도</div>
                     </div>
                   }
                   placement="left"
                 >
-                  <span aria-label="더보기" style={{ cursor: "pointer", opacity: 0.6 }}>⋯</span>
+                  <span
+                    aria-label="더보기"
+                    style={{ cursor: "pointer", opacity: 0.6 }}
+                    onClick={(e) => e.stopPropagation}
+                  >
+                    ⋯
+                  </span>
                 </Popover>
               </td>
             </tr>
           ))}
         </tbody>
       </HTMLTable>
+      )}
+
+      <LogDetailDrawer row={selected} onClose={ => setSelected(null)} />
     </div>
   );
 }

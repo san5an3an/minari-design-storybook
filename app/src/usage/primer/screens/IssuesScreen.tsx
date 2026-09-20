@@ -119,7 +119,7 @@ function IssueRow({ issue, onOpen }: { issue: IssueItem; onOpen:  => void }) {
           {/* LabelGroup으로 라벨 다수일 때 오버플로 관리하기 */}
           <LabelGroup visibleChildCount="auto">
             {issue.labels.map((l) => (
-              <Label key={l.text} style={{ backgroundColor: l.color, color: "#fff", borderColor: "transparent" }}>
+              <Label key={l.text} variant={l.variant}>
                 {l.text}
               </Label>
             ))}

@@ -10,6 +10,18 @@ const FAVORITES: Favorite[] = [
   { title: "신촌 투룸 빌라", addr: "서대문구 신촌동", price: "월세 30/65", priceNum: 6500, type: "빌라", photo: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=60" },
 ];
 
+// 간격 1.5rem, 카드 폭 기준 열 전환 임계값
+const LAYOUT_CSS = `
+.g3-fav { container-type: inline-size; container-name: g3fav; }
+.g3-fav-cards, .g3-fav-pair { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); }
+@container g3fav (min-width: 28rem) {
+  .g3-fav-cards, .g3-fav-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container g3fav (min-width: 62rem) {
+  .g3-fav-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+`;
+
 export function FavoritesScreen {
   const [priceAlert, setPriceAlert] = React.useState<Record<string, boolean>>(
     Object.fromEntries(FAVORITES.map((f) => [f.title, false])),
@@ -17,10 +29,13 @@ export function FavoritesScreen {
   const [threshold, setThreshold] = React.useState(5);
 
   return (
-    <Box gap="medium">
-      <Box direction="row" wrap gap="medium">
+    <>
+    {/* <style>은 Box 밖에 배치. 안에 두면 gap 간격 div로 빈 줄이 더 보임 */}
+    <style>{LAYOUT_CSS}</style>
+    <Box gap="medium" className="g3-fav">
+      <div className="g3-fav-cards">
         {FAVORITES.map((f) => (
-          <Card key={f.title} background="background-front" round="medium" elevation="small" width={{ min: "14rem" }} flex={{ grow: 1, shrink: 1 }} basis="14rem">
+          <Card key={f.title} background="background-front" round="medium" elevation="small">
             <Box height="8rem" overflow="hidden" round={{ corner: "top", size: "medium" }}>
               <Image src={f.photo} fit="cover" a11yTitle={f.title} />
             </Box>
@@ -42,9 +57,9 @@ export function FavoritesScreen {
             </CardBody>
           </Card>
         ))}
-      </Box>
+      </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1fr]">
+      <div className="g3-fav-pair">
         <Card pad="medium" background="background-front" round="medium">
           <CardBody gap="small">
             <Text weight="bold" size="small">관심 매물 요약</Text>
@@ -66,5 +81,6 @@ export function FavoritesScreen {
         </Card>
       </div>
     </Box>
+    </>
   );
 }

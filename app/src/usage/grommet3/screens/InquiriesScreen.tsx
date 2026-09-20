@@ -46,7 +46,7 @@ export function InquiriesScreen {
             </Box>
             {selected.answer ? (
               <Box background="status-ok" round="small" pad="small">
-                <Text size="small" color="white">A. {selected.answer}</Text>
+                <Text size="small" color="var(--semantic-fg-on-success-default)">A. {selected.answer}</Text>
               </Box>
             ) : (
               <Text size="small" color="text-weak">아직 답변 대기 중이에요.</Text>

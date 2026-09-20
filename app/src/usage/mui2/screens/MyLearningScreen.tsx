@@ -13,6 +13,14 @@ import { COURSES, ENROLLED, PAYMENTS } from "../data";
 const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 type SortKey = "최신순" | "금액순";
 
+// 차트 조각 색은 1~4색만 지원. 결제수단이 4종 넘으면 네 색 반복 사용
+const CHART_SERIES = [
+  "var(--component-chart-series-1)",
+  "var(--component-chart-series-2)",
+  "var(--component-chart-series-3)",
+  "var(--component-chart-series-4)",
+] as const;
+
 type EnrolledSort = "진도순" | "최근순";
 
 export function MyLearningScreen {
@@ -32,7 +40,9 @@ export function MyLearningScreen {
 
   // 결제수단별 파이차트 렌더링. Popover byMethod 데이터 재사용해 값 일치 보장
   const methodPieData = React.useMemo(
-     => byMethod.map(([method, amount], id) => ({ id, label: method, value: amount })),
+     => byMethod.map(([method, amount], id) => ({
+      id, label: method, value: amount, color: CHART_SERIES[id % CHART_SERIES.length],
+    })),
     [byMethod],
   );
 

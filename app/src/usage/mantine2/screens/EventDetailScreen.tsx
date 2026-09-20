@@ -9,6 +9,21 @@ import {
 import { EVENTS } from "../data";
 import type { ScreenProps } from "../screens";
 
+const BRAND_TOKEN = "--semantic-bg-brand-default";
+
+function useBrandTokenValue: string {
+  const [value, setValue] = React.useState("");
+  React.useEffect( => {
+    const root = document.documentElement;
+    const read =  => setValue(getComputedStyle(root).getPropertyValue(BRAND_TOKEN).trim);
+    read;
+    const observer = new MutationObserver(read);
+    observer.observe(root, { attributes: true });
+    return  => observer.disconnect;
+  }, []);
+  return value;
+}
+
 export function EventDetailScreen({ selectedId }: ScreenProps) {
   const event = EVENTS.find((e) => e.id === selectedId) ?? EVENTS[0];
 
@@ -16,7 +31,10 @@ export function EventDetailScreen({ selectedId }: ScreenProps) {
   const [description, setDescription] = React.useState("개발자와 디자이너가 모여 최신 트렌드를 나누는 행사입니다.");
   const [capacity, setCapacity] = React.useState(event.capacity);
   const [date, setDate] = React.useState("2026-10-14");
-  const [themeColor, setThemeColor] = React.useState("#0052cc");
+  // null일 때 시스템 브랜드 토큰 값 적용
+  const [themeColor, setThemeColor] = React.useState<string | null>(null);
+  const brandValue = useBrandTokenValue;
+  const accent = themeColor ?? `var(${BRAND_TOKEN})`;
   const [eventType, setEventType] = React.useState("offline");
   const [isPublic, setIsPublic] = React.useState(true);
   const [waitlist, setWaitlist] = React.useState(true);
@@ -59,7 +77,7 @@ export function EventDetailScreen({ selectedId }: ScreenProps) {
                 </Group>
               </Radio.Group>
               <Group grow align="flex-end">
-                <ColorInput label="테마 색상" leftSection={<Palette size={13} />} value={themeColor} onChange={setThemeColor} />
+                <ColorInput label="테마 색상" leftSection={<Palette size={13} />} value={themeColor ?? brandValue} onChange={setThemeColor} />
                 <FileInput label="배너 이미지" placeholder="파일 선택" leftSection={<ImageIcon size={13} />} clearable />
               </Group>
               <Switch label="공개 이벤트로 노출" checked={isPublic} onChange={(e) => setIsPublic(e.currentTarget.checked)} />
@@ -105,9 +123,9 @@ export function EventDetailScreen({ selectedId }: ScreenProps) {
       <Stack gap="1rem">
         <Card withBorder radius="md" padding="md">
           <Text fw={600} size="sm" mb="0.625rem">미리보기</Text>
-          <Card withBorder radius="md" padding="sm" style={{ borderColor: themeColor }}>
+          <Card withBorder radius="md" padding="sm" style={{ borderColor: accent }}>
             <Group gap="0.5rem" wrap="nowrap">
-              <ThemeIcon size="2rem" radius="md" style={{ background: themeColor, color: "white" }}>
+              <ThemeIcon size="2rem" radius="md" style={{ background: accent, color: "var(--semantic-fg-on-brand-default)" }}>
                 <CalendarDays size={14} />
               </ThemeIcon>
               <Stack gap={0} style={{ minWidth: 0 }}>

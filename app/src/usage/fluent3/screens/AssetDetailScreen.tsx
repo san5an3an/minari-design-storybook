@@ -10,9 +10,10 @@ import type { ScreenProps } from "../screens";
 
 const HOLDERS = ["김하늘", "박서준", "최유진", "한소율"];
 
-const STATUS_COLOR: Record<Asset["status"], "success" | "informative" | "warning"> = {
+// informative 금지, 시맨틱 톤 5종뿐 info 없음
+const STATUS_COLOR: Record<Asset["status"], "success" | "brand" | "warning"> = {
   "사용 중": "success",
-  "창고 대기": "informative",
+  "창고 대기": "brand",
   "수리 중": "warning",
 };
 
@@ -36,7 +37,7 @@ const CATEGORY_IMAGE: Record<Asset["category"], string> = {
 };
 
 export function AssetDetailScreen({ selectedId, onNavigate }: ScreenProps) {
-  const asset = ASSETS.find((a) => a.id === selectedId);
+  const asset = ASSETS.find((a) => a.id === selectedId) ?? ASSETS[0];
   const [holder, setHolder] = React.useState(asset?.currentHolder ?? "");
   const [status, setStatus] = React.useState<Asset["status"]>(asset?.status ?? "창고 대기");
   const [checked, setChecked] = React.useState<Set<string>>(new Set);
@@ -80,6 +81,15 @@ export function AssetDetailScreen({ selectedId, onNavigate }: ScreenProps) {
           <BreadcrumbButton current>{asset.name}</BreadcrumbButton>
         </BreadcrumbItem>
       </Breadcrumb>
+
+      {/* 지표 칩 행. 실제 데이터만 사용, 수치 임의 생성 제외 */}
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <Badge appearance="tint" color="brand" size="extra-large">이력 {asset.history.length}건</Badge>
+        <Badge appearance="tint" color="brand" size="extra-large">관련 요청 {relatedRequests.length}건</Badge>
+        <Badge appearance="tint" color={checked.size === checklist.length && checklist.length > 0 ? "success" : "brand"} size="extra-large">
+          점검 {checked.size}/{checklist.length}
+        </Badge>
+      </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "12px", flex: 2, minWidth: "280px" }}>
@@ -178,7 +188,8 @@ export function AssetDetailScreen({ selectedId, onNavigate }: ScreenProps) {
             <CardHeader
               header={
                 asset.currentHolder ? (
-                  <Persona name={asset.currentHolder} secondaryText="현재 보유자" avatar={{ color: "colorful" }} size="medium" />
+                  // color="colorful" 대신 brand 사용
+                  <Persona name={asset.currentHolder} secondaryText="현재 보유자" avatar={{ color: "brand" }} size="medium" />
                 ) : (
                   <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>배정된 사용자가 없어요.</Caption1>
                 )

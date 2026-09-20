@@ -15,7 +15,8 @@ export function AccountsScreen {
   const enterpriseCount = ACCOUNTS.filter((a) => a.tier === "Enterprise").length;
 
   return (
-    <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
+    <div className="slds-grid slds-grid_vertical slds-grid_vertical-stretch" style={{ gap: "1rem" }}>
+      {/* slds-wrap을 .slds-grid_vertical-stretch로 변경. 쏠림 막기 */}
       {/* 통계카드 2 또는 4열만 사용. flex면 카드 하나가 다음 줄에 홀로 남음 */}
       <div className="lds3-stats">
         <div className="slds-box slds-theme_default">

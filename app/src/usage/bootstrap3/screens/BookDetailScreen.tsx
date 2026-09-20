@@ -20,7 +20,7 @@ const STATUS_LABEL: Record<Book["status"], { text: string; bg: string }> = {
 const LATE_FEE_PER_DAY = 200;
 
 export function BookDetailScreen({ selectedId, onSelect, onNavigate }: ScreenProps) {
-  const book = BOOKS.find((b) => b.id === selectedId);
+  const book = BOOKS.find((b) => b.id === selectedId) ?? BOOKS[0];
   const [action, setAction] = React.useState<Action>(book?.borrower ? "반납" : "대출");
   const [borrower, setBorrower] = React.useState(book?.borrower ?? "");
 

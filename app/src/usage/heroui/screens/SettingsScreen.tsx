@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import {
-  Accordion, AlertDialog, Avatar, Button, Card, Description, Input, Label, Slider, Switch, TextField,
+  Accordion, Alert, AlertDialog, Avatar, Button, Card, CloseButton, Description, Input, Label, Slider,
+  Switch, TextField,
 } from "@heroui/react";
 
 export function SettingsScreen {
@@ -12,9 +13,22 @@ export function SettingsScreen {
   const [time, setTime] = React.useState("21:00");
   const [volume, setVolume] = React.useState(60);
   const [confirmDelete, setConfirmDelete] = React.useState(false);
+  // 설정 화면 안내 배너를 Alert로 표시. 닫으면 로컬 state로 사라지고 저장되지 않음
+  const [showNoticeBanner, setShowNoticeBanner] = React.useState(true);
 
   return (
     <div className="flex flex-col gap-4">
+      {showNoticeBanner ? (
+        <Alert status="accent">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>알림 권한을 확인해주세요</Alert.Title>
+            <Alert.Description>기기 설정에서 알림이 꺼져 있으면 아래 스위치를 켜도 알려주지 못해요.</Alert.Description>
+          </Alert.Content>
+          <CloseButton aria-label="배너 닫기" onPress={ => setShowNoticeBanner(false)} />
+        </Alert>
+      ) : null}
+
       <Card className="flex-row items-center gap-3">
         <Avatar>
           <Avatar.Fallback>하</Avatar.Fallback>

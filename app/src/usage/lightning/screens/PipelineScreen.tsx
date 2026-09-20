@@ -23,7 +23,8 @@ export function PipelineScreen {
   );
 
   return (
-    <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
+    <div className="slds-grid slds-grid_vertical slds-grid_vertical-stretch" style={{ gap: "1rem" }}>
+      {/* slds-wrap을 .slds-grid_vertical-stretch로 변경. 쏠림 막기 */}
       {/* 검색 필드와 단계 칩 토글 필터 */}
       <div className="slds-grid slds-wrap" style={{ gap: "0.75rem", alignItems: "center" }}>
         <div className="slds-form-element" style={{ maxWidth: "16rem" }}>
@@ -74,38 +75,48 @@ export function PipelineScreen {
         <p className="slds-text-body_small slds-text-color_weak" style={{ padding: "0.625rem 0.75rem 0" }}>
           {filtered.length} / {DEALS.length}건 표시
         </p>
-        <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-          <thead>
-            <tr className="slds-line-height_reset">
-              <th scope="col">Opportunity ID</th>
-              <th scope="col">거래처</th>
-              <th scope="col">담당자</th>
-              <th scope="col">단계</th>
-              <th scope="col">금액</th>
-              <th scope="col">마감일</th>
-              <th scope="col">확률</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((d) => (
-              <tr key={d.id}>
-                <td>{d.id}</td>
-                <th scope="row"><a href="#" onClick={(e) => e.preventDefault}>{d.account}</a></th>
-                <td>{d.owner}</td>
-                <td><span className="slds-badge">{d.stage}</span></td>
-                <td>{won(d.amount)}</td>
-                <td>{d.closeDate}</td>
-                <td>
-                  <div className="slds-progress-bar" style={{ width: "4rem" }}>
-                    <span className="slds-progress-bar__value" style={{ width: `${d.probability}%` }}>
-                      <span className="slds-assistive-text">진행률 {d.probability}%</span>
-                    </span>
-                  </div>
-                </td>
+        <div className="slds-scrollable_x">
+          <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" style={{ width: "100%" }}>
+            <thead>
+              <tr className="slds-line-height_reset">
+                <th scope="col">Opportunity ID</th>
+                <th scope="col">거래처</th>
+                <th scope="col">담당자</th>
+                <th scope="col">단계</th>
+                <th scope="col">금액</th>
+                <th scope="col">마감일</th>
+                <th scope="col">확률</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.map((d) => (
+                <tr key={d.id}>
+                  <td>{d.id}</td>
+                  <th scope="row">
+                    <a
+                      href="#" className="slds-truncate" title={d.account}
+                      style={{ maxWidth: "9rem", display: "inline-block", verticalAlign: "bottom" }}
+                      onClick={(e) => e.preventDefault}
+                    >
+                      {d.account}
+                    </a>
+                  </th>
+                  <td>{d.owner}</td>
+                  <td><span className="slds-badge">{d.stage}</span></td>
+                  <td>{won(d.amount)}</td>
+                  <td>{d.closeDate}</td>
+                  <td>
+                    <div className="slds-progress-bar" style={{ width: "4rem" }}>
+                      <span className="slds-progress-bar__value" style={{ width: `${d.probability}%` }}>
+                        <span className="slds-assistive-text">진행률 {d.probability}%</span>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

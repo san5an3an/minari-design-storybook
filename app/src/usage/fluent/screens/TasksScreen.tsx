@@ -63,7 +63,8 @@ function HubStatCard({ stat }: { stat: HubStat }) {
           aria-hidden
           style={{
             alignItems: "center", background: tone, borderRadius: "8px",
-            color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+            // 진한 배경 위 글자는 white 대신 Fluent on-brand 전경 토큰 사용
+            color: "var(--colorNeutralForegroundOnBrand)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
           }}
         >
           <Icon fontSize={14} />
@@ -135,7 +136,8 @@ function PriorityDonutChart {
   return (
     <Card style={{ padding: "14px" }}>
       <Body1 style={{ fontWeight: 600, marginBottom: "6px" }}>우선순위 분포</Body1>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+      {/* flexWrap: "wrap" 지정, 좁으면 범례가 아래로 내려가기 */}
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
         <svg width="88" height="88" viewBox="0 0 88 88" aria-hidden>
           <g transform="translate(44,44) rotate(-90)">
             <circle r={r} fill="none" stroke="var(--colorNeutralStroke2)" strokeWidth={12} />
@@ -298,11 +300,12 @@ export function TasksScreen {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <TasksGreeting />
+      {/* auto-fit 대신 고정 3트랙. 좁은 폭에서 자동 접혀 카드가 밀리는 문제 있음 */}
       <div
         style={{
           display: "grid",
           gap: "12px",
-          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
         }}
       >
         {HUB_STATS.map((s) => (
@@ -313,7 +316,7 @@ export function TasksScreen {
         style={{
           display: "grid",
           gap: "12px",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
         }}
       >
         <CompletionProgress />

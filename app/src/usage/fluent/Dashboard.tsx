@@ -193,10 +193,11 @@ export function FluentUsage({ system, active }: UsageDashboardProps) {
                 </Caption1>
                 <Button size="small" appearance="primary" style={{ width: "100%" }} onClick={ => setScreenKey("tasks")}>할 일 보기</Button>
               </Card>
+              {/* color="colorful" 대신 brand. Fluent 팔레트라 20색과 안 묶임 */}
               <Persona
                 name="김하늘"
                 secondaryText="프로덕트 매니저"
-                avatar={{ color: "colorful" }}
+                avatar={{ color: "brand" }}
                 size="small"
               />
             </NavDrawerFooter>

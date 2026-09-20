@@ -3,6 +3,7 @@
 import * as React from "react";
 import { herouiAdapter } from "../../preview/herouiRef/adapter";
 import type { UsageDashboardProps } from "../registry";
+import { MY_RSVPS, type Rsvp } from "./data";
 import { SCREENS } from "./screens";
 
 const HERO_IMAGE =
@@ -12,8 +13,19 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
   React.useEffect( => herouiAdapter.mountTheme?.(system, active, document), [system, active]);
 
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
+  const [rsvps, setRsvps] = React.useState<Rsvp[]>( => [...MY_RSVPS]);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
+
+  const onRsvp = (meetupId: string) => {
+    setRsvps((prev) => {
+      if (prev.some((r) => r.meetupId === meetupId)) return prev;
+      return [...prev, { meetupId, status: "대기" }];
+    });
+  };
+  const onCancelRsvp = (meetupId: string) => {
+    setRsvps((prev) => prev.filter((r) => r.meetupId !== meetupId));
+  };
 
   return (
     <herouiAdapter.Provider system={system} mode={active}>
@@ -61,6 +73,14 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
                 }}
               >
                 {s.label}
+                {s.key === "rsvps" && rsvps.length > 0 ? (
+                  <span
+                    className="ms-1.5 text-xs"
+                    style={{ color: "var(--semantic-fg-neutral-subtle)" }}
+                  >
+                    {rsvps.length}
+                  </span>
+                ) : null}
               </button>
             );
           })}
@@ -81,9 +101,15 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
                 "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
             }}
           >
-            <span className="text-xs text-white/85">{system.baseTitle}</span>
-            <span className="text-lg font-semibold text-white">안녕하세요, 김모임님</span>
-            <span className="text-sm text-white/85">이번 주 모임 2건이 기다리고 있어요</span>
+            <span className="text-xs" style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.85 }}>
+              {system.baseTitle}
+            </span>
+            <span className="text-lg font-semibold" style={{ color: "var(--semantic-fg-on-brand-default)" }}>
+              안녕하세요, 김모임님
+            </span>
+            <span className="text-sm" style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.85 }}>
+              이번 주 모임 {rsvps.length}건이 기다리고 있어요
+            </span>
           </div>
           <div className="flex shrink-0 items-center gap-3 px-4 py-2">
             <span style={{ fontWeight: 600, fontSize: "0.875rem" }}>{screen.label}</span>
@@ -92,7 +118,7 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
             <p className="pb-3 text-sm" style={{ color: "var(--semantic-fg-neutral-subtle)" }}>
               {screen.lede}
             </p>
-            <Screen />
+            <Screen rsvps={rsvps} onRsvp={onRsvp} onCancelRsvp={onCancelRsvp} />
           </div>
         </div>
       </div>

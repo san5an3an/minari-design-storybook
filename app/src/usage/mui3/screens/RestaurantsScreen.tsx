@@ -111,10 +111,19 @@ const STATUS_TONE: Record<Restaurant["status"], "success" | "warning" | "default
 
 const CATEGORIES = ["전체", ...new Set(RESTAURANTS.map((r) => r.category))];
 
+// 차트 조각 색은 1~4색만 지원. 카테고리가 4종 넘으면 네 색 반복 사용
+const CHART_SERIES = [
+  "var(--component-chart-series-1)",
+  "var(--component-chart-series-2)",
+  "var(--component-chart-series-3)",
+  "var(--component-chart-series-4)",
+] as const;
+
 const CATEGORY_PIE_DATA = [...new Set(RESTAURANTS.map((r) => r.category))].map((label, id) => ({
   id,
   label,
   value: RESTAURANTS.filter((r) => r.category === label).length,
+  color: CHART_SERIES[id % CHART_SERIES.length],
 }));
 
 export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {

@@ -9,7 +9,7 @@ import DeliveryDiningOutlined from "@mui/icons-material/DeliveryDiningOutlined";
 import PaymentsOutlined from "@mui/icons-material/PaymentsOutlined";
 import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import TimerOutlined from "@mui/icons-material/TimerOutlined";
-import { REVIEWS, RESTAURANTS } from "../data";
+import { REVIEWS, RESTAURANTS, type Review } from "../data";
 import type { ScreenProps } from "../screens";
 
 const FOOD_IMAGE: Record<string, string> = {
@@ -31,10 +31,13 @@ const STATUS_TONE: Record<string, "success" | "warning" | "default"> = {
 };
 
 export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) {
-  const restaurant = RESTAURANTS.find((r) => r.id === selectedId);
+  const restaurant = RESTAURANTS.find((r) => r.id === selectedId) ?? RESTAURANTS[0];
   const [picked, setPicked] = React.useState<{ name: string; price: number } | null>(null);
   const [shared, setShared] = React.useState(false);
   const [draftReview, setDraftReview] = React.useState("");
+  const [draftRating, setDraftRating] = React.useState(5);
+  // 등록한 리뷰를 restaurantId 기준 전역 상태로 유지
+  const [newReviews, setNewReviews] = React.useState<Review[]>([]);
 
   if (!restaurant) {
     return (
@@ -47,7 +50,10 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
     );
   }
 
-  const restaurantReviews = REVIEWS.filter((r) => r.restaurantId === restaurant.id);
+  const restaurantReviews = [
+    ...newReviews.filter((r) => r.restaurantId === restaurant.id),
+    ...REVIEWS.filter((r) => r.restaurantId === restaurant.id),
+  ];
   const avgReviewRating = restaurantReviews.length
     ? restaurantReviews.reduce((s, r) => s + r.rating, 0) / restaurantReviews.length
     : restaurant.rating;
@@ -156,6 +162,10 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
 
       <Divider textAlign="left">리뷰 쓰기</Divider>
       <Stack spacing={1}>
+        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+          <Typography variant="caption" color="text.secondary">평점</Typography>
+          <Rating value={draftRating} onChange={(_, v) => setDraftRating(v ?? draftRating)} size="small" />
+        </Stack>
         <TextareaAutosize
           minRows={2}
           placeholder={`${restaurant.name}은(는) 어떠셨나요?`}
@@ -170,7 +180,22 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
           size="small"
           variant="outlined"
           disabled={draftReview.trim.length === 0}
-          onClick={ => setDraftReview("")}
+          onClick={ => {
+            // 목록 맨 위에 추가. id는 가게+등록 순번으로 생성
+            setNewReviews((prev) => [
+              {
+                id: `rv-draft-${restaurant.id}-${prev.length}`,
+                restaurantId: restaurant.id,
+                author: "나",
+                rating: draftRating,
+                comment: draftReview.trim,
+                dateLabel: "방금",
+              },
+              ...prev,
+            ]);
+            setDraftReview("");
+            setDraftRating(5);
+          }}
           sx={{ alignSelf: "flex-end" }}
         >
           리뷰 등록

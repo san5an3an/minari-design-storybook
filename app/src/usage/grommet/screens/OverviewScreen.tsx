@@ -39,10 +39,11 @@ function Hero {
         backgroundPosition: "center",
       }}
     >
-      <span style={{ color: "white", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.25 }}>
+      {/* color: "white" 금지, semantic-fg-on-brand-default 토큰 사용 */}
+      <span style={{ color: "var(--semantic-fg-on-brand-default)", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.25 }}>
         이번 주도 좋은 흐름이에요
       </span>
-      <span style={{ color: "white", opacity: 0.9 }}>아래 지표에서 최근 변화를 한눈에 확인해요.</span>
+      <span style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.9 }}>아래 지표에서 최근 변화를 한눈에 확인해요.</span>
     </div>
   );
 }
@@ -78,21 +79,37 @@ function SparkStat({ spec }: { spec: (typeof STATS)[number] }) {
   );
 }
 
+const LAYOUT_CSS = `
+.g1-ov { container-type: inline-size; container-name: g1ov; }
+.g1-ov-stats { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+@container g1ov (min-width: 35rem) {
+  .g1-ov-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.g1-ov-split { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+@container g1ov (min-width: 32rem) {
+  .g1-ov-split { grid-template-columns: 2fr 1fr; }
+}
+`;
+
 export function OverviewScreen {
   return (
-    <Box gap="medium">
+    <>
+    {/* <style>은 문자열 gap을 쓰는 Box 밖에 배치 */}
+    <style>{LAYOUT_CSS}</style>
+    <Box gap="medium" className="g1-ov">
       <Hero />
 
       {/* grid 사용, DataChart가 Box row에서 높이 밀려 겹치는 문제 있음 */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="g1-ov-stats">
         {STATS.map((s) => <SparkStat key={s.label} spec={s} />)}
       </div>
 
       {/* Box row wrap 대신 CSS grid 사용. SVG 높이를 반영하지 못해 카드와 겹치는 문제 있음 */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
+      <div className="g1-ov-split">
         <Card pad="medium" background="background-front">
           <CardBody gap="small">
             <Text weight="bold">전체 진행률</Text>
+            {/* granularity 미지정 시 coarse 기본값이라 라벨 2개만 남아 쏠리는 문제임 */}
             <DataChart
               data={[
                 { week: "1주", 완료: 20 }, { week: "2주", 완료: 35 }, { week: "3주", 완료: 48 },
@@ -100,7 +117,7 @@ export function OverviewScreen {
               ]}
               series={["week", "완료"]}
               chart={[{ property: "완료", type: "bar", color: "brand", thickness: "medium" }]}
-              axis={{ x: { property: "week" }, y: true }}
+              axis={{ x: { property: "week", granularity: "fine" }, y: { granularity: "medium" } }}
               size={{ height: "small", width: "100%" }}
               pad={{ top: "small" }}
             />
@@ -180,5 +197,6 @@ export function OverviewScreen {
         <Anchor href="#" label="전체 위험 리포트 보기" size="small" />
       </div>
     </Box>
+    </>
   );
 }

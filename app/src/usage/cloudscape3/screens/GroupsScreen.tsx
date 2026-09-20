@@ -2,20 +2,29 @@ import * as React from "react";
 import Badge from "@cloudscape-design/components/badge";
 import Box from "@cloudscape-design/components/box";
 import Cards from "@cloudscape-design/components/cards";
+import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import Input from "@cloudscape-design/components/input";
 import Link from "@cloudscape-design/components/link";
-import ProgressBar from "@cloudscape-design/components/progress-bar";
+import MixedLineBarChart from "@cloudscape-design/components/mixed-line-bar-chart";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 
-interface Group { name: string; members: number; createdBy: string }
+export interface Group {
+  name: string;
+  members: number;
+  capacity: number;
+  createdBy: string;
+}
 
-const GROUPS: Group[] = [
-  { name: "Admins", members: 2, createdBy: "root" },
-  { name: "Developers", members: 8, createdBy: "lee.seoah" },
-  { name: "ServiceAccounts", members: 4, createdBy: "lee.seoah" },
-  { name: "ReadOnlyAuditors", members: 3, createdBy: "root" },
-  { name: "Contractors", members: 5, createdBy: "kim.doohyun" },
+export const GROUPS: readonly Group[] = [
+  { name: "Admins", members: 2, capacity: 3, createdBy: "root" },
+  { name: "Developers", members: 8, capacity: 10, createdBy: "lee.seoah" },
+  { name: "ServiceAccounts", members: 4, capacity: 6, createdBy: "lee.seoah" },
+  { name: "ReadOnlyAuditors", members: 3, capacity: 4, createdBy: "root" },
+  { name: "Contractors", members: 5, capacity: 8, createdBy: "kim.doohyun" },
+  { name: "QA", members: 4, capacity: 5, createdBy: "lee.seoah" },
+  { name: "Security", members: 2, capacity: 3, createdBy: "root" },
+  { name: "DataPlatform", members: 6, capacity: 9, createdBy: "park.junseo" },
 ];
 
 const TOTAL = GROUPS.reduce((s, g) => s + g.members, 0);
@@ -26,20 +35,20 @@ export function GroupsScreen {
 
   return (
     <SpaceBetween size="l">
-      <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "0.9rem" }}>
-        <Box fontWeight="bold" margin={{ bottom: "s" }}>그룹별 구성원 비중 · 전체 {TOTAL}명</Box>
-        <SpaceBetween size="xs">
-          {GROUPS.map((g) => (
-            <div key={g.name} style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              <span style={{ width: "9rem", fontSize: "0.8125rem" }}>{g.name}</span>
-              <div style={{ flex: 1 }}>
-                <ProgressBar value={Math.round((g.members / TOTAL) * 100)} />
-              </div>
-              <span style={{ width: "3rem", textAlign: "right", fontSize: "0.75rem", color: "var(--semantic-fg-neutral-subtle)" }}>{g.members}명</span>
-            </div>
-          ))}
-        </SpaceBetween>
-      </div>
+      <Container header={<Header variant="h2" description={`전체 ${TOTAL}명 · 그룹 ${GROUPS.length}개`}>그룹별 구성원 수 · 정원</Header>}>
+        <MixedLineBarChart
+          series={[
+            { type: "bar", title: "구성원 수", data: GROUPS.map((g) => ({ x: g.name, y: g.members })), color: "var(--component-chart-series-1)" },
+            { type: "line", title: "정원", data: GROUPS.map((g) => ({ x: g.name, y: g.capacity })), color: "var(--component-chart-series-3)" },
+          ]}
+          xScaleType="categorical"
+          xTitle="그룹"
+          yTitle="인원(명)"
+          height={220}
+          hideFilter
+          ariaLabel="그룹별 구성원 수와 정원"
+        />
+      </Container>
 
       <Input
         value={query}
@@ -52,12 +61,13 @@ export function GroupsScreen {
         cardDefinition={{
           header: (g) => <Link href="#" fontSize="heading-m">{g.name}</Link>,
           sections: [
-            { id: "members", header: "구성원 수", content: (g) => <Badge color="blue">{g.members}명</Badge> },
-            { id: "createdBy", header: "생성자", content: (g) => g.createdBy },
+            { id: "members", header: "구성원 수", content: (g) => <Badge color="blue">{g.members}/{g.capacity}명</Badge> },
+            { id: "createdBy", header: "생성자", content: (g) => <Box variant="samp">{g.createdBy}</Box> },
           ],
         }}
-        cardsPerRow={[{ cards: 1 }, { minWidth: 480, cards: 3 }]}
+        cardsPerRow={[{ cards: 1 }, { minWidth: 480, cards: 2 }, { minWidth: 720, cards: 4 }]}
         header={<Header counter={`(${shown.length})`}>그룹</Header>}
+        empty={<Box textAlign="center" color="inherit">조건에 맞는 그룹이 없어요.</Box>}
       />
     </SpaceBetween>
   );

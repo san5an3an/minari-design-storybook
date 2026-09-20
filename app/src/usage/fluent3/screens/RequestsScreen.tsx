@@ -88,7 +88,8 @@ export function RequestsScreen {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <Toaster toasterId={toasterId} />
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))" }}>
+      {/* 고정 3열 그리드 사용. auto-fit 쓰면 카드 하나가 홀로 남음 */}
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         <RequestStatCard label="대기 중" value={`${counts.대기}건`} tone="warning" ratio={counts.대기 / requests.length} />
         <RequestStatCard label="승인됨" value={`${counts.승인}건`} tone="success" ratio={counts.승인 / requests.length} />
         <RequestStatCard label="반려됨" value={`${counts.반려}건`} tone="danger" ratio={counts.반려 / requests.length} />
@@ -97,11 +98,12 @@ export function RequestsScreen {
       <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 2, minWidth: "260px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {/* maxWidth 단독으론 못 이김, min-width 250px 우선해 요소 밀릴 수 있음 */}
             <Dropdown
               value={statusFilter}
               selectedOptions={[statusFilter]}
               onOptionSelect={(_, data) => setStatusFilter(data.optionValue ?? "전체")}
-              style={{ maxWidth: "160px" }}
+              style={{ minWidth: 0, maxWidth: "160px" }}
               aria-label="상태 거르기"
             >
               {["전체", "대기", "승인", "반려"].map((s) => (
@@ -114,7 +116,8 @@ export function RequestsScreen {
           {rows.map((r) => (
             <Card key={r.id} style={{ padding: "12px 14px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <Persona name={r.requester} secondaryText={r.assetCategory} avatar={{ color: "colorful" }} size="small" />
+                {/* color="colorful" 대신 brand 사용 */}
+                <Persona name={r.requester} secondaryText={r.assetCategory} avatar={{ color: "brand" }} size="small" />
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1, minWidth: 0 }}>
                   <Body1 style={{ fontWeight: 600 }}>{r.reason}</Body1>
                   <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>{r.requestedLabel}</Caption1>

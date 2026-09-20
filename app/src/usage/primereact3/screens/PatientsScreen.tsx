@@ -104,11 +104,17 @@ export function PatientsScreen {
           backgroundSize: "cover", backgroundPosition: "center",
         }}
       >
-        <span style={{ color: "white", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.25 }}>이민호 원장님, 안녕하세요</span>
-        <span style={{ color: "white", opacity: 0.9 }}>오늘도 좋은 진료 되세요. 예약 3건이 대기 중이에요.</span>
+        <span style={{ color: "var(--semantic-fg-on-brand-default)", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.25 }}>이민호 원장님, 안녕하세요</span>
+        <span style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.9 }}>오늘도 좋은 진료 되세요. 예약 3건이 대기 중이에요.</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      {/* lg:grid-cols-4는 630~890px엔 안 걸림. @container로 변경 */}
+      <div className="pr3-patients-stats" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "0.75rem" }}>
+        {/* 카드 최소폭 11rem 유지, 통계 4열 48rem부터, 환자 3열 36rem부터 적용 */}
+        <style>
+          {"@container pr3 (min-width: 48rem) { .pr3-patients-stats { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } } "
+            + "@container pr3 (min-width: 36rem) { .pr3-patients-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }"}
+        </style>
         {STATS.map((s) => {
           const Icon = s.icon;
           return (
@@ -139,9 +145,10 @@ export function PatientsScreen {
           <span style={{ fontSize: "0.85rem" }}>이름순</span>
         </label>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+      {/* minmax(0,1fr) 트랙 격자로 폭 항상 꽉 채우기 */}
+      <div className="pr3-patients-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "1rem" }}>
         {shown.map((p) => (
-          <Card key={p.id} style={{ width: "14rem", cursor: "pointer" }} onClick={ => setSelectedId(p.id)}>
+          <Card key={p.id} style={{ cursor: "pointer" }} onClick={ => setSelectedId(p.id)}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBlockEnd: "0.5rem" }}>
               <Avatar label={p.name.slice(0, 1)} shape="circle" size="large" style={{ background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }} />
               <div>
@@ -149,7 +156,8 @@ export function PatientsScreen {
                 <div style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-subtle)" }}>{p.age}세</div>
               </div>
             </div>
-            <Tag value={p.condition} severity="info" />
+            {/* severity="info" 대체. brand-subtle 배경과 글자 색 조합 사용 */}
+            <Tag value={p.condition} style={{ background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }} />
             <div style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-subtle)", marginTop: "0.5rem" }}>최근 진료 {p.lastVisit}</div>
           </Card>
         ))}

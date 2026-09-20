@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CircleDollarSign, PackageCheck, ShoppingBag, Truck } from "lucide-react";
+import { CircleDollarSign, MoreVertical, PackageCheck, ShoppingBag, Truck } from "lucide-react";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=60";
@@ -50,7 +50,12 @@ function TrendChart {
 }
 
 export function OrdersScreen {
+  const [orders, setOrders] = React.useState<Order[]>(ORDERS);
   const [selected, setSelected] = React.useState<Order | null>(null);
+
+  const markDelivered = (id: string) => {
+    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status: "배송 완료" } : o)));
+  };
 
   if (selected) {
     const stageIndex = STAGES.indexOf(selected.status);
@@ -66,7 +71,7 @@ export function OrdersScreen {
             {STAGES.map((stage, i) => (
               <React.Fragment key={stage}>
                 <span className="text-sm" style={{ color: i <= stageIndex ? "var(--color-primary)" : undefined, opacity: i <= stageIndex ? 1 : 0.5 }}>{stage}</span>
-                {i < STAGES.length - 1 && <span aria-hidden style={{ width: "1.5rem", height: 2, background: i < stageIndex ? "var(--color-primary)" : "var(--color-base-300, #ddd)" }} />}
+                {i < STAGES.length - 1 && <span aria-hidden style={{ width: "1.5rem", height: 2, background: i < stageIndex ? "var(--color-primary)" : "var(--color-base-300)" }} />}
               </React.Fragment>
             ))}
           </div>
@@ -96,7 +101,7 @@ export function OrdersScreen {
         <span style={{ color: "white", opacity: 0.9 }}>배송 중 9건. 실시간 현황을 확인해요.</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 d2o-stats">
         {STATS.map((s) => {
           const Icon = s.icon;
           return (
@@ -117,8 +122,9 @@ export function OrdersScreen {
           );
         })}
       </div>
+      <style>{"@container d2shell (min-width: 32rem) { .d2o-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }"}</style>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.4fr]">
+      <div className="grid grid-cols-1 gap-4 d2o-charts">
         <div className="d-card bg-base-100 shadow">
           <div className="d-card-body">
             <span style={{ fontWeight: 600 }}>최근 7일 주문 추이</span>
@@ -130,7 +136,7 @@ export function OrdersScreen {
           <div className="d-card-body">
             <span style={{ fontWeight: 600 }}>실시간 배송 추적</span>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "0.5rem" }}>
-              {ORDERS.slice(0, 4).map((o) => {
+              {orders.slice(0, 4).map((o) => {
                 const stageIndex = STAGES.indexOf(o.status);
                 return (
                   <div key={o.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
@@ -143,13 +149,13 @@ export function OrdersScreen {
                             aria-hidden
                             style={{
                               width: 8, height: 8, borderRadius: "50%",
-                              background: i <= stageIndex ? "var(--semantic-bg-brand-default)" : "var(--color-base-300, #ddd)",
+                              background: i <= stageIndex ? "var(--semantic-bg-brand-default)" : "var(--color-base-300)",
                             }}
                           />
                           {i < STAGES.length - 1 && (
                             <span
                               aria-hidden
-                              style={{ width: "1rem", height: 2, background: i < stageIndex ? "var(--semantic-bg-brand-default)" : "var(--color-base-300, #ddd)" }}
+                              style={{ width: "1rem", height: 2, background: i < stageIndex ? "var(--semantic-bg-brand-default)" : "var(--color-base-300)" }}
                             />
                           )}
                         </React.Fragment>
@@ -163,24 +169,26 @@ export function OrdersScreen {
           </div>
         </div>
       </div>
+      <style>{"@container d2shell (min-width: 40rem) { .d2o-charts { grid-template-columns: 1fr 1.4fr; } }"}</style>
 
       <div className="overflow-x-auto">
-        <table className="d-table">
+        <table className="d-table d-table-zebra">
           <thead>
             <tr>
               <th>주문번호</th>
               <th>상품</th>
               <th>금액</th>
               <th>상태</th>
+              <th aria-hidden />
             </tr>
           </thead>
           <tbody>
-            {ORDERS.map((o) => (
-              <tr key={o.id} onClick={ => setSelected(o)} style={{ cursor: "pointer" }}>
-                <td>{o.id}</td>
-                <td>{o.item}</td>
-                <td>{o.amount}</td>
-                <td>
+            {orders.map((o) => (
+              <tr key={o.id}>
+                <td className="cursor-pointer" onClick={ => setSelected(o)}>{o.id}</td>
+                <td className="cursor-pointer" onClick={ => setSelected(o)}>{o.item}</td>
+                <td className="cursor-pointer" onClick={ => setSelected(o)}>{o.amount}</td>
+                <td className="cursor-pointer" onClick={ => setSelected(o)}>
                   <span
                     className={`d-badge d-badge-sm ${
                       o.status === "배송 완료" ? "d-badge-success" : o.status === "배송 중" ? "d-badge-primary" : "d-badge-warning"
@@ -188,6 +196,25 @@ export function OrdersScreen {
                   >
                     {o.status}
                   </span>
+                </td>
+                <td>
+                  {/* dropdown #003 기반, 상세 보기는 행 클릭과 동일, 완료 표시는 상태 변경 */}
+                  <div className="d-dropdown d-dropdown-end">
+                    <div tabIndex={0} role="button" className="d-btn d-btn-ghost d-btn-xs d-btn-circle">
+                      <MoreVertical size={14} aria-hidden />
+                    </div>
+                    <ul tabIndex={0} className="d-dropdown-content d-menu bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
+                      <li><a onClick={ => setSelected(o)}>상세 보기</a></li>
+                      <li>
+                        <a
+                          className={o.status === "배송 완료" ? "d-menu-disabled" : ""}
+                          onClick={ => { if (o.status !== "배송 완료") markDelivered(o.id); }}
+                        >
+                          배송 완료로 표시
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}

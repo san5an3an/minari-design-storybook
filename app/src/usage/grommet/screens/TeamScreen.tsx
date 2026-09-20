@@ -27,7 +27,18 @@ const STATUS_COLOR: Record<Member["status"], string> = {
 
 const ROLE_COUNT = Object.entries(
   TEAM.reduce<Record<string, number>>((acc, m) => ({ ...acc, [m.role]: (acc[m.role] ?? 0) + 1 }), {}),
-).map(([role, value]) => ({ role, value }));
+)
+  .map(([role, value]) => ({ role, value }))
+  .sort((a, b) => b.value - a.value);
+
+const ROLE_TONE = ["brand", "status-ok", "status-warning", "status-critical", "background-contrast"] as const;
+const ROLE_FG: Record<(typeof ROLE_TONE)[number], string | undefined> = {
+  brand: "var(--semantic-fg-on-brand-default)",
+  "status-ok": "var(--semantic-fg-on-success-default)",
+  "status-warning": "var(--semantic-fg-on-warning-default)",
+  "status-critical": "var(--semantic-fg-on-danger-default)",
+  "background-contrast": undefined, // 옅은 중립 배경, 기본 상속 글자색 검정이 이미 짝
+};
 
 export function TeamScreen {
   return (
@@ -35,19 +46,26 @@ export function TeamScreen {
       <Card pad="medium" background="background-front">
         <CardBody gap="small">
           <Text weight="bold">역할별 인원 분포</Text>
-          <Distribution
-            values={ROLE_COUNT.map((r, i) => ({
-              value: r.value,
-              label: r.role,
-              color: (["brand", "status-ok", "status-warning", "status-critical", "text-weak"] as const)[i % 5],
-            }))}
-          >
-            {(v) => (
-              <Box pad="xsmall">
-                <Text size="small">{v.label} {v.value}명</Text>
-              </Box>
-            )}
-          </Distribution>
+          {/* 높이 명시. 세로 분할 시 부모 높이 있어야 basis 분수가 픽셀로 계산되는 구조임 */}
+          <Box height="6rem">
+            <Distribution
+              values={ROLE_COUNT.map((r, i) => ({
+                value: r.value,
+                label: r.role,
+                color: ROLE_TONE[i % ROLE_TONE.length],
+              }))}
+              gap="xsmall"
+            >
+              {(v) => (
+                <Box fill background={v.color as string} round="xsmall" align="center" justify="center" pad="xsmall">
+                  <Text size="xsmall" weight="bold" color={ROLE_FG[v.color as (typeof ROLE_TONE)[number]]} truncate>
+                    {v.label}
+                  </Text>
+                  <Text size="xsmall" color={ROLE_FG[v.color as (typeof ROLE_TONE)[number]]}>{v.value}명</Text>
+                </Box>
+              )}
+            </Distribution>
+          </Box>
         </CardBody>
       </Card>
 

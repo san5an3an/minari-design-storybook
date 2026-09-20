@@ -232,7 +232,7 @@ function RankingList {
   );
 }
 
-function ListingMap({ rows }: { rows: readonly Listing[] }) {
+export function ListingMap({ rows }: { rows: readonly Listing[] }) {
   const theme = useTheme;
   const shownIds = new Set(rows.map((l) => l.id));
   const top = [...rows].sort((a, b) => b.rating - a.rating)[0];
@@ -316,7 +316,10 @@ function ListingMap({ rows }: { rows: readonly Listing[] }) {
       >
         <MapOutlined fontSize="small" sx={{ color: "text.secondary" }} />
         <Typography variant="caption" color="text.secondary" noWrap>
-          마포구 · 표시 {rows.length}곳{top ? ` · 최고 평점 ${top.area}` : ""}
+          {/* rows.length === 1이면 단일 매물 강조 문구로 별도 표시 */}
+          {rows.length === 1
+            ? `마포구 · ${rows[0].area}`
+            : `마포구 · 표시 ${rows.length}곳${top ? ` · 최고 평점 ${top.area}` : ""}`}
         </Typography>
       </Stack>
     </Box>

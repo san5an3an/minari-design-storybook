@@ -44,7 +44,7 @@ function StatCard({ icon: Icon, label, value, tone, meter }: { icon: LucideIcon;
 
 export function RunDetailScreen({ selectedId, workflows: workflowsProp, onSelect, onNavigate }: ScreenProps) {
   const workflows = workflowsProp ?? WORKFLOWS;
-  const run = workflows.find((w) => w.id === selectedId);
+  const run = workflows.find((w) => w.id === selectedId) ?? workflows[0];
   const [branch, setBranch] = React.useState(run?.branch ?? "");
   const [debugLogging, setDebugLogging] = React.useState(false);
 

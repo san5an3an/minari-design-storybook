@@ -15,10 +15,11 @@ import {
 import { elapsedHours, SLA_HOURS, TICKETS, type Ticket } from "../data";
 import type { ScreenProps } from "../screens";
 
-const PRIORITY_COLOR: Record<Ticket["priority"], "danger" | "warning" | "informative"> = {
+// informative 금지, brand 변경, appearance="tint"로 조정
+const PRIORITY_COLOR: Record<Ticket["priority"], "danger" | "warning" | "brand"> = {
   긴급: "danger",
   보통: "warning",
-  낮음: "informative",
+  낮음: "brand",
 };
 const STATUS_COLOR: Record<Ticket["status"], "danger" | "warning" | "success"> = {
   열림: "danger",
@@ -50,10 +51,11 @@ function TicketsHero({ open }: { open: number }) {
         padding: "20px",
       }}
     >
-      <Body1 style={{ color: "white", fontWeight: 600, fontSize: "18px" }}>
+      {/* 사진 위 글자는 white 대신 Fluent on-brand 전경 토큰 사용 */}
+      <Body1 style={{ color: "var(--colorNeutralForegroundOnBrand)", fontWeight: 600, fontSize: "18px" }}>
         IT팀입니다 👋 오늘도 문의를 하나씩 풀어볼까요
       </Body1>
-      <Caption1 style={{ color: "white", opacity: 0.85 }}>
+      <Caption1 style={{ color: "var(--colorNeutralForegroundOnBrand)", opacity: 0.85 }}>
         지금 열려 있는 티켓이 {open}건 있어요.
       </Caption1>
     </div>
@@ -106,7 +108,8 @@ function DeskStatCard({ stat }: { stat: DeskStat }) {
             aria-hidden
             style={{
               alignItems: "center", background: tone, borderRadius: "50%",
-              color: "white", display: "flex", height: "28px", justifyContent: "center", width: "28px",
+              // 리터럴 white 대신 Fluent on-brand 전경 토큰 사용
+              color: "var(--colorNeutralForegroundOnBrand)", display: "flex", height: "28px", justifyContent: "center", width: "28px",
             }}
           >
             <Icon fontSize={14} />
@@ -246,7 +249,7 @@ function SlaDeadlineList({ tickets }: { tickets: readonly Ticket[] }) {
                 >
                   <Badge
                     appearance="tint"
-                    color={remain <= 0 ? "danger" : remain <= 4 ? "warning" : "informative"}
+                    color={remain <= 0 ? "danger" : remain <= 4 ? "warning" : "brand"}
                     size="small"
                   >
                     {remain <= 0 ? "목표 초과" : `${remain}시간 남음`}
@@ -338,9 +341,17 @@ export function TicketsScreen({ onNavigate, onSelect, tickets: ticketsProp, onCr
     createTableColumn<Ticket>({
       columnId: "requester",
       renderHeaderCell:  => "요청자",
-      renderCell: (t) => <Persona name={t.requester} secondaryText={t.category} avatar={{ color: "colorful" }} size="small" />,
+      // color="colorful" 대신 brand 사용
+      renderCell: (t) => <Persona name={t.requester} secondaryText={t.category} avatar={{ color: "brand" }} size="small" />,
     }),
-    createTableColumn<Ticket>({ columnId: "subject", renderHeaderCell:  => "제목", renderCell: (t) => t.subject }),
+    createTableColumn<Ticket>({
+      columnId: "subject",
+      renderHeaderCell:  => "제목",
+      // 제목을 줄바꿈 대신 한 줄로 말줄임 처리
+      renderCell: (t) => (
+        <Body1 style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.subject}</Body1>
+      ),
+    }),
     createTableColumn<Ticket>({
       columnId: "priority",
       renderHeaderCell:  => "우선순위",
@@ -366,7 +377,8 @@ export function TicketsScreen({ onNavigate, onSelect, tickets: ticketsProp, onCr
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <Toaster toasterId={toasterId} />
       <TicketsHero open={openCount} />
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
+      {/* minmax 220으로 조정 */}
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
         {DESK_STATS.map((s) => (
           <DeskStatCard key={s.label} stat={s} />
         ))}
@@ -432,7 +444,21 @@ export function TicketsScreen({ onNavigate, onSelect, tickets: ticketsProp, onCr
       {rows.length === 0 ? (
         <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>조건에 맞는 티켓이 없어요.</Caption1>
       ) : (
-        <DataGrid items={rows} columns={columns} getRowId={(t) => t.id} style={{ minWidth: "560px" }}>
+        // 열 폭 직접 지정, 기본값 균등 분할 회피 처리
+        <DataGrid
+          items={rows}
+          columns={columns}
+          getRowId={(t) => t.id}
+          resizableColumns
+          columnSizingOptions={{
+            requester: { minWidth: 120, idealWidth: 150 },
+            subject: { minWidth: 160, idealWidth: 220 },
+            priority: { minWidth: 64, idealWidth: 72 },
+            status: { minWidth: 64, idealWidth: 76 },
+            createdLabel: { minWidth: 56, idealWidth: 64 },
+          }}
+          style={{ minWidth: "560px" }}
+        >
           <DataGridHeader>
             <DataGridRow>
               {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell}</DataGridHeaderCell>}

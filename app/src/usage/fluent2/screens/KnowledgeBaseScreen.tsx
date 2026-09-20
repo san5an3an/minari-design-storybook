@@ -21,7 +21,8 @@ function CategoryCountCard({ category }: { category: string }) {
           aria-hidden
           style={{
             alignItems: "center", background: "var(--colorBrandBackground)", borderRadius: "8px",
-            color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+            // 리터럴 white 대신 Fluent on-brand 전경 토큰 사용
+            color: "var(--colorNeutralForegroundOnBrand)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
           }}
         >
           <BookRegular fontSize={14} />
@@ -97,9 +98,12 @@ export function KnowledgeBaseScreen {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))" }}>
+      {/* 카드 5장. 5가 소수라 auto-fit 대신 가로 스크롤 행을 쓰는 구성임 */}
+      <div style={{ display: "flex", gap: "12px", overflowX: "auto", paddingBottom: "2px" }}>
         {["전체", ...new Set(KB_ARTICLES.map((a) => a.category))].map((c) => (
-          <CategoryCountCard key={c} category={c} />
+          <div key={c} style={{ flex: "0 0 auto", minWidth: "112px" }}>
+            <CategoryCountCard category={c} />
+          </div>
         ))}
       </div>
 
@@ -154,7 +158,8 @@ export function KnowledgeBaseScreen {
               <AccordionHeader>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", flex: 1 }}>
                   <Body1 style={{ fontWeight: 600 }}>{a.title}</Body1>
-                  <Badge appearance="tint" color="informative" size="small">{a.category}</Badge>
+                  {/* informative 금지. info 톤이 없어 brand로 변경 */}
+                  <Badge appearance="tint" color="brand" size="small">{a.category}</Badge>
                   <Caption1 style={{ color: "var(--colorNeutralForeground3)", marginInlineStart: "auto" }}>
                     조회 {a.views}
                   </Caption1>

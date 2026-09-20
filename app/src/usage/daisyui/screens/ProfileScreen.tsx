@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Calendar, Clock, CreditCard, Laptop, Mail, MessageSquare, Smartphone, Tablet, Terminal } from "lucide-react";
+import { Calendar, Clock, CreditCard, Laptop, LogOut, Mail, MessageSquare, Smartphone, Tablet, Terminal } from "lucide-react";
 
 const SUMMARY = [
   { label: "요금제", value: "Pro", icon: CreditCard, tone: "text-primary" },
@@ -40,9 +40,37 @@ export function ProfileScreen {
   const [on, setOn] = React.useState<Record<string, boolean>>(
     Object.fromEntries(APPS.map((a) => [a.id, a.defaultOn])),
   );
+  const [devices, setDevices] = React.useState<Device[]>(DEVICES);
+  const [logoutTarget, setLogoutTarget] = React.useState<Device | null>(null);
+  const dialogRef = React.useRef<HTMLDialogElement>(null);
+
+  const askLogout = (d: Device) => {
+    setLogoutTarget(d);
+    dialogRef.current?.showModal;
+  };
+  const confirmLogout =  => {
+    if (logoutTarget) setDevices((prev) => prev.filter((d) => d.name !== logoutTarget.name));
+    dialogRef.current?.close;
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+      <dialog ref={dialogRef} className="d-modal">
+        <div className="d-modal-box">
+          <h3 className="text-lg font-bold">기기 로그아웃</h3>
+          <p className="py-2 text-sm opacity-70">
+            {logoutTarget ? <><b>{logoutTarget.name}</b>에서 로그아웃할까요? 그 기기는 다시 로그인해야 이용할 수 있어요.</> : null}
+          </p>
+          <div className="d-modal-action">
+            <form method="dialog" style={{ display: "flex", gap: "0.5rem" }}>
+              <button type="button" className="d-btn" onClick={ => dialogRef.current?.close}>취소</button>
+              <button type="button" className="d-btn d-btn-error" onClick={confirmLogout}>로그아웃</button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" className="d-modal-backdrop"><button>close</button></form>
+      </dialog>
+
       {/* 계정 요약. daisyUI 공식 d-stat-figure 클래스 그대로 사용 */}
       <div className="d-stats shadow">
         {SUMMARY.map((s) => {
@@ -61,10 +89,9 @@ export function ProfileScreen {
         })}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[3fr_2fr]">
-        <div className="d-card bg-base-100 shadow" style={{ position: "relative", overflow: "hidden" }}>
-          {/* position:relative 지정. absolute 워터마크가 본문 위로 뜨는 문제임 */}
-          <div className="d-card-body" style={{ position: "relative", zIndex: 1 }}>
+      <div className="grid grid-cols-1 gap-4 d1p-grid">
+        <div className="d-card bg-base-100 shadow">
+          <div className="d-card-body">
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
               <div className="d-avatar d-avatar-placeholder">
                 <div className="bg-neutral text-neutral-content w-16 rounded-full">
@@ -81,7 +108,7 @@ export function ProfileScreen {
             </div>
 
             <label className="d-label">표시 이름</label>
-            <input type="text" defaultValue="한지우" className="d-input d-input-bordered w-full" />
+            <input type="text" defaultValue="한지우" className="d-input w-full" />
 
             <label className="d-label mt-3">알림</label>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -99,34 +126,31 @@ export function ProfileScreen {
               <button type="button" className="d-btn d-btn-primary">저장</button>
             </div>
           </div>
-
-          {/* 카드 모서리 워터마크 표시 */}
-          <CreditCard
-            aria-hidden
-            size={72}
-            className="text-primary"
-            style={{ position: "absolute", left: "1.25rem", bottom: "0.5rem", opacity: 0.06, zIndex: 0 }}
-          />
         </div>
 
         <div className="d-card bg-base-100 shadow">
           <div className="d-card-body" style={{ padding: 0 }}>
             <div style={{ padding: "1rem 1.25rem 0" }}>
               <span style={{ fontWeight: 600 }}>최근 로그인 기기</span>
-              <span className="text-sm opacity-60" style={{ marginLeft: "0.5rem" }}>{DEVICES.length}대</span>
+              <span className="text-sm opacity-60" style={{ marginLeft: "0.5rem" }}>{devices.length}대</span>
             </div>
             <ul>
-              {DEVICES.map((d, i) => {
+              {devices.map((d, i) => {
                 const Icon = d.icon;
                 return (
                   <li
                     key={d.name}
+                    onClick={ => { if (!d.current) askLogout(d); }}
+                    className="d-tooltip d-tooltip-left"
+                    data-tip={d.current ? "현재 로그인 중인 기기예요" : "눌러서 로그아웃"}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: "0.75rem",
                       padding: "0.75rem 1.25rem",
-                      borderTop: i > 0 ? "1px solid var(--color-base-300, #eee)" : undefined,
+                      borderTop: i > 0 ? "1px solid var(--color-base-300)" : undefined,
+                      cursor: d.current ? "default" : "pointer",
+                      width: "100%",
                     }}
                   >
                     <Icon size={18} className="opacity-60" aria-hidden />
@@ -137,7 +161,10 @@ export function ProfileScreen {
                     {d.current ? (
                       <span className="d-badge d-badge-success d-badge-sm">현재</span>
                     ) : (
-                      <span className="text-sm opacity-50">{d.time}</span>
+                      <span style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                        <span className="text-sm opacity-50">{d.time}</span>
+                        <LogOut size={13} className="opacity-40" aria-hidden />
+                      </span>
                     )}
                   </li>
                 );
@@ -146,6 +173,7 @@ export function ProfileScreen {
           </div>
         </div>
       </div>
+      <style>{"@container d1shell (min-width: 40rem) { .d1p-grid { grid-template-columns: 3fr 2fr; } }"}</style>
 
       <div className="d-card bg-base-100 shadow">
         <div className="d-card-body" style={{ padding: 0 }}>
@@ -166,20 +194,24 @@ export function ProfileScreen {
                     alignItems: "center",
                     gap: "0.75rem",
                     padding: "0.75rem 1.25rem",
-                    borderTop: i > 0 ? "1px solid var(--color-base-300, #eee)" : undefined,
+                    borderTop: i > 0 ? "1px solid var(--color-base-300)" : undefined,
                   }}
                 >
                   <span
                     style={{
                       display: "flex", alignItems: "center", justifyContent: "center",
                       width: "2rem", height: "2rem", borderRadius: "var(--radius-field, 0.5rem)",
-                      background: "var(--color-base-200, #f2f2f2)", flexShrink: 0,
+                      background: "var(--color-base-200)", flexShrink: 0,
                     }}
                   >
                     <Icon size={16} className="opacity-70" aria-hidden />
                   </span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: "0.85rem", fontWeight: 600 }}>{a.name}</div>
+                    <div style={{ fontSize: "0.85rem", fontWeight: 600, display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                      {a.name}
+                      {/* CLI 연동 행에 예시 단축 명령 d-kbd 추가 */}
+                      {a.id === "cli" && <kbd className="d-kbd d-kbd-xs">cobalt deploy</kbd>}
+                    </div>
                     <div className="text-sm opacity-60">{a.desc}</div>
                   </div>
                   <input

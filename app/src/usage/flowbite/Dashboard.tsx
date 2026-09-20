@@ -83,7 +83,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
               aria-hidden
               style={{
                 position: "absolute", top: "-4px", right: "-4px", minWidth: "14px", height: "14px",
-                borderRadius: "999px", background: "var(--color-red-600)", color: "white", fontSize: "9px",
+                borderRadius: "999px", background: "var(--color-red-600)", color: "var(--semantic-fg-on-brand-default)", fontSize: "9px",
                 fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 3px",
               }}
             >

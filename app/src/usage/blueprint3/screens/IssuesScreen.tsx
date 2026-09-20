@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  Breadcrumbs, Button, Card, CardList, Checkbox, HTMLSelect, InputGroup, Section, SectionCard, Tag, TagInput,
+  Breadcrumbs, Button, Card, CardList, Checkbox, EntityTitle, HTMLSelect, InputGroup, Section, SectionCard, Tag, TagInput,
 } from "@blueprintjs/core";
 import type { BreadcrumbProps } from "@blueprintjs/core";
 import type { Intent } from "@blueprintjs/core";
@@ -9,19 +9,20 @@ import { ISSUES, type Issue } from "../data";
 
 // 담당자 필터 HTMLSelect와 열린 이슈만 보기 Checkbox 추가
 
-const STATUS_INTENT: Record<Issue["status"], Intent> = {
+// MineScreen이 이슈 상세 이동 로직 재사용, export만 추가
+export const STATUS_INTENT: Record<Issue["status"], Intent> = {
   열림: "success",
   진행중: "primary",
   닫힘: "none",
 };
 
 // 비주얼 업그레이드로 기존 이슈 카드 리스트 위에 통계카드, 미니 막대그래프 추가
-const STATUS_ORDER: Issue["status"][] = ["열림", "진행중", "닫힘"];
+export const STATUS_ORDER: Issue["status"][] = ["열림", "진행중", "닫힘"];
 
-const ASSIGNEE_ROSTER = ["미배정", "김지수", "박준호", "이서연", "오태윤"];
+export const ASSIGNEE_ROSTER = ["미배정", "김지수", "박준호", "이서연", "오태윤"];
 
 // 상태 변경, 담당자 재지정 컨트롤, 활동 타임라인, 관련 이슈를 상세 화면에 표시
-function IssueDetail({
+export function IssueDetail({
   issue, onBack, allIssues, onSelect,
 }: {
   issue: Issue;
@@ -62,16 +63,13 @@ function IssueDetail({
           items={[{ text: "이슈" }, { text: issue.key, current: true } satisfies BreadcrumbProps]}
         />
       </div>
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
-          <code style={{ opacity: 0.6 }}>{issue.key}</code>
-          <Tag intent={STATUS_INTENT[issue.status]} minimal>{issue.status}</Tag>
-        </div>
-        <span style={{ fontSize: "1.125rem", fontWeight: 600 }}>{issue.title}</span>
-        <span style={{ fontSize: "0.8125rem", opacity: 0.7 }}>
-          담당: {issue.assignee} · {issue.createdLabel} 생성
-        </span>
-      </div>
+      {/* tags 슬롯은 Tag 컴포넌트만 지정 */}
+      <EntityTitle
+        icon="issue"
+        title={issue.title}
+        subtitle={`담당 ${issue.assignee} · ${issue.createdLabel} 생성`}
+        tags={<><code style={{ opacity: 0.6, marginInlineEnd: "0.375rem" }}>{issue.key}</code><Tag intent={STATUS_INTENT[issue.status]} minimal>{issue.status}</Tag></>}
+      />
       {/* 라벨 칩 편집. 여백 완전 제거 */}
       <TagInput
         addOnBlur
@@ -237,22 +235,23 @@ function IssuesBody({
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byStatus} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={40} tick={{ fontSize: 11 }} />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={40} tick={{ style: { fontSize: 11 } }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </Card>
+        {/* 단일 시리즈 막대는 series-1 전용. series-2 는 danger 색과 같음 */}
         <Card style={{ flex: "1 1 14rem", minWidth: "14rem" }}>
           <div style={{ fontSize: "0.75rem", opacity: 0.7, marginBlockEnd: "0.5rem" }}>담당자별</div>
           <div style={{ inlineSize: "100%", blockSize: 100 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={byAssignee} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ style: { fontSize: 11 } }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -277,16 +276,16 @@ function IssuesBody({
       ))}
     </div>
 
-      {/* 라벨별 분포. 여백 완전 제거 */}
+      {/* 라벨별 분포. 여백 완전 제거, 단일 시리즈라 series-1 사용 */}
       <Card>
         <div style={{ fontSize: "0.75rem", opacity: 0.7, marginBlockEnd: "0.5rem" }}>라벨별 분포</div>
         <div style={{ inlineSize: "100%", blockSize: 120 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={byLabel} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide allowDecimals={false} />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ style: { fontSize: 11 } }} />
               <Tooltip />
-              <Bar dataKey="value" fill="var(--component-chart-series-3)" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </div>

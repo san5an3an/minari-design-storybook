@@ -1,37 +1,48 @@
 "use client";
 import * as React from "react";
-import { Accordion, AlertDialog, Button, Card, Chip } from "@heroui/react";
-import { MEETUPS, MY_RSVPS } from "../data";
+import { Accordion, AlertDialog, Button, Card, Chip, Meter, Table } from "@heroui/react";
+import { ATTENDANCE_HISTORY, MEETUPS } from "../data";
+import type { ScreenProps } from "../screens";
+import { thumbStyle } from "../thumb";
 
-// 아직 미신청 나머지 모임을 다가오는 다른 모임으로 이어서 표시
-export function RsvpsScreen {
+export function RsvpsScreen({ rsvps, onCancelRsvp }: ScreenProps) {
   const [cancelId, setCancelId] = React.useState<string | null>(null);
-  const rows = MY_RSVPS.map((rsvp) => ({
-    rsvp,
-    meetup: MEETUPS.find((m) => m.id === rsvp.meetupId),
-  })).filter((r): r is { rsvp: (typeof MY_RSVPS)[number]; meetup: NonNullable<(typeof r)["meetup"]> } => !!r.meetup);
+  const rows = rsvps
+    .map((rsvp) => ({ rsvp, meetup: MEETUPS.find((m) => m.id === rsvp.meetupId) }))
+    .filter((r): r is { rsvp: (typeof rsvps)[number]; meetup: NonNullable<(typeof r)["meetup"]> } => !!r.meetup);
 
-  const others = MEETUPS.filter((m) => !MY_RSVPS.some((r) => r.meetupId === m.id));
-
-  if (rows.length === 0) {
-    return <p className="text-sm opacity-70">신청한 모임이 없습니다.</p>;
-  }
+  const others = MEETUPS.filter((m) => !rsvps.some((r) => r.meetupId === m.id));
 
   return (
     <div className="flex flex-col gap-4">
-      <Card className="gap-0 divide-y p-0">
-        {rows.map(({ rsvp, meetup }) => (
-          <div key={meetup.id} className="flex items-center gap-3 px-4 py-3">
-            <div className="size-10 shrink-0 rounded-md" style={{ background: meetup.colorToken }} aria-hidden />
-            <div className="flex flex-1 flex-col">
-              <span className="text-sm font-medium">{meetup.title}</span>
-              <span className="text-sm opacity-70">{meetup.dateLabel}</span>
+      {rows.length === 0 ? (
+        <p className="text-sm opacity-70">신청한 모임이 없습니다. 「모임」 탭에서 참가 신청을 해보세요.</p>
+      ) : (
+        <Card className="gap-0 divide-y p-0">
+          {rows.map(({ rsvp, meetup }) => (
+            <div key={meetup.id} className="flex items-center gap-3 px-4 py-3">
+              <div className="size-10 shrink-0 rounded-md bg-cover bg-center" style={thumbStyle(meetup)} aria-hidden />
+              <div className="flex flex-1 flex-col gap-1">
+                <span className="text-sm font-medium">{meetup.title}</span>
+                <span className="text-sm opacity-70">{meetup.dateLabel}</span>
+                <Meter
+                  aria-label={`${meetup.title} 신청 진행 상태`}
+                  size="sm"
+                  className="mt-0.5 w-full max-w-40"
+                  value={rsvp.status === "확정" ? 100 : 50}
+                  color={rsvp.status === "확정" ? "success" : "warning"}
+                >
+                  <Meter.Track>
+                    <Meter.Fill />
+                  </Meter.Track>
+                </Meter>
+              </div>
+              <Chip color={rsvp.status === "확정" ? "success" : "warning"}>{rsvp.status}</Chip>
+              <Button variant="tertiary" size="sm" onPress={ => setCancelId(meetup.id)}>취소</Button>
             </div>
-            <Chip color={rsvp.status === "확정" ? "success" : "warning"}>{rsvp.status}</Chip>
-            <Button variant="tertiary" size="sm" onPress={ => setCancelId(meetup.id)}>취소</Button>
-          </div>
-        ))}
-      </Card>
+          ))}
+        </Card>
+      )}
 
       <AlertDialog.Backdrop isOpen={cancelId !== null} onOpenChange={(open) => !open && setCancelId(null)}>
         <AlertDialog.Container>
@@ -46,7 +57,15 @@ export function RsvpsScreen {
             </AlertDialog.Body>
             <AlertDialog.Footer>
               <Button slot="close" variant="tertiary">돌아가기</Button>
-              <Button slot="close" variant="secondary">신청 취소</Button>
+              <Button
+                slot="close"
+                variant="secondary"
+                onPress={ => {
+                  if (cancelId) onCancelRsvp(cancelId);
+                }}
+              >
+                신청 취소
+              </Button>
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
         </AlertDialog.Container>
@@ -58,7 +77,7 @@ export function RsvpsScreen {
           <Card className="gap-0 divide-y p-0">
             {others.map((meetup) => (
               <div key={meetup.id} className="flex items-center gap-3 px-4 py-3">
-                <div className="size-10 shrink-0 rounded-md" style={{ background: meetup.colorToken }} aria-hidden />
+                <div className="size-10 shrink-0 rounded-md bg-cover bg-center" style={thumbStyle(meetup)} aria-hidden />
                 <div className="flex flex-1 flex-col">
                   <span className="text-sm font-medium">{meetup.title}</span>
                   <span className="text-sm opacity-70">{meetup.dateLabel} · {meetup.location}</span>
@@ -71,6 +90,30 @@ export function RsvpsScreen {
           </Card>
         </div>
       ) : null}
+
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium">참여 이력</span>
+        <Table variant="secondary">
+          <Table.ScrollContainer>
+            <Table.Content aria-label="지난 모임 참여 이력" className="min-w-[360px]">
+              <Table.Header>
+                <Table.Column isRowHeader>모임</Table.Column>
+                <Table.Column>일자</Table.Column>
+                <Table.Column>내 평점</Table.Column>
+              </Table.Header>
+              <Table.Body>
+                {ATTENDANCE_HISTORY.map((record) => (
+                  <Table.Row key={record.id}>
+                    <Table.Cell>{record.title}</Table.Cell>
+                    <Table.Cell>{record.dateLabel}</Table.Cell>
+                    <Table.Cell>{"⭐".repeat(record.myRating)}</Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table>
+      </div>
 
       <Accordion className="w-full">
         <Accordion.Item>

@@ -26,7 +26,7 @@ const MECHANICS = ["미배정", "박정우", "최은성"];
 const STATUSES: WorkOrder["status"][] = ["대기", "작업중", "완료"];
 
 export function WorkOrderDetailScreen({ selectedId, onSelect, onNavigate }: ScreenProps) {
-  const order = WORK_ORDERS.find((w) => w.id === selectedId);
+  const order = WORK_ORDERS.find((w) => w.id === selectedId) ?? WORK_ORDERS[0];
   const [mechanic, setMechanic] = React.useState(order?.mechanic ?? "미배정");
   const [eta, setEta] = React.useState(order?.eta ?? "");
   const [status, setStatus] = React.useState<WorkOrder["status"]>(order?.status ?? "대기");

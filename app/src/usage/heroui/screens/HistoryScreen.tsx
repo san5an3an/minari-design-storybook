@@ -124,9 +124,9 @@ export function HistoryScreen {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={110} tick={{ fontSize: 11 }} />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={110} tick={{ style: { fontSize: 11 } }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="var(--semantic-bg-brand-default)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="var(--semantic-bg-brand-default)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>

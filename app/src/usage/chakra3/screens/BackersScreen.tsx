@@ -1,6 +1,9 @@
-import { Badge, Box, Grid, Stat, Table, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Badge, Box, Grid, HStack, Stat, Table, Text, VStack } from "@chakra-ui/react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { BACKERS } from "../data";
+
+// 눈금 글자 크기는 인라인 style 로 지정. fontSize 속성은 Chakra 리셋에 덮임
+const TICK_STYLE = { fontSize: 10 } as const;
 
 // 축 폭에 맞게 이름 자르고, 전체 이름은 툴팁 표시
 const truncate = (value: string, limit: number) =>
@@ -49,12 +52,13 @@ export function BackersScreen {
                 <CartesianGrid horizontal={false} stroke="var(--component-chart-grid)" />
                 <XAxis
                   type="number" allowDecimals={false} tickLine={false} axisLine={false}
-                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  tick={{ style: TICK_STYLE, fill: "var(--component-chart-axis-fg)" }}
                 />
                 <YAxis
                   type="category" dataKey="name" tickLine={false} axisLine={false}
-                  width={84} interval={0}
-                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  width={100} interval={0}
+                  // width: undefined 설정. 레인 두께가 줄바꿈 폭으로 새지 않게 방지
+                  tick={{ style: TICK_STYLE, fill: "var(--component-chart-axis-fg)", width: undefined }}
                   tickFormatter={(value: string) => truncate(value, 7)}
                 />
                 <Tooltip />
@@ -71,12 +75,13 @@ export function BackersScreen {
                 <CartesianGrid horizontal={false} stroke="var(--component-chart-grid)" />
                 <XAxis
                   type="number" allowDecimals={false} tickLine={false} axisLine={false}
-                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  tick={{ style: TICK_STYLE, fill: "var(--component-chart-axis-fg)" }}
                 />
                 <YAxis
                   type="category" dataKey="name" tickLine={false} axisLine={false}
-                  width={96} interval={0}
-                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  width={116} interval={0}
+                  // width: undefined 설정. 레인 두께 96에서 116으로 변경
+                  tick={{ style: TICK_STYLE, fill: "var(--component-chart-axis-fg)", width: undefined }}
                   tickFormatter={(value: string) => truncate(value, 8)}
                 />
                 <Tooltip />
@@ -102,7 +107,14 @@ export function BackersScreen {
             <Table.Body>
               {BACKERS.map((b) => (
                 <Table.Row key={b.id}>
-                  <Table.Cell fontSize="0.8125rem" fontWeight="500">{b.name}</Table.Cell>
+                  <Table.Cell fontSize="0.8125rem" fontWeight="500">
+                    <HStack gap="0.5rem">
+                      <Avatar.Root size="xs">
+                        <Avatar.Fallback>{b.name.slice(0, 1)}</Avatar.Fallback>
+                      </Avatar.Root>
+                      <Text fontSize="0.8125rem">{b.name}</Text>
+                    </HStack>
+                  </Table.Cell>
                   <Table.Cell fontSize="0.8125rem" color="fg.subtle">{b.campaignTitle}</Table.Cell>
                   <Table.Cell>
                     <Badge colorPalette="gray" size="sm">{b.tier}</Badge>

@@ -33,7 +33,7 @@ function CustomersHero {
         backgroundSize: "cover",
         borderRadius: "var(--semantic-radius-container)",
         boxShadow: "var(--semantic-shadow-raised)",
-        color: "white",
+        color: "var(--semantic-fg-on-brand-default)",
         display: "flex",
         flexDirection: "column",
         gap: "4px",
@@ -106,7 +106,7 @@ function CrmStatCard({ stat }: { stat: CrmStat }) {
             aria-hidden
             style={{
               alignItems: "center", background: tone, borderRadius: "50%",
-              color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+              color: "var(--semantic-fg-on-brand-default)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
             }}
           >
             <Icon size={15} strokeWidth={2} />

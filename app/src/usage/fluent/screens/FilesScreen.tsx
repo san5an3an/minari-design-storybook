@@ -38,7 +38,8 @@ function FileStatCard({ label, value, ratio, icon: Icon }: { label: string; valu
           aria-hidden
           style={{
             alignItems: "center", background: "var(--colorBrandBackground)", borderRadius: "8px",
-            color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+            // 리터럴 white 대신 Fluent on-brand 전경 토큰 사용
+            color: "var(--colorNeutralForegroundOnBrand)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
           }}
         >
           <Icon fontSize={14} />
@@ -91,7 +92,8 @@ function StorageShareDonutChart({ files }: { files: readonly FileItem[] }) {
   return (
     <Card style={{ padding: "14px" }}>
       <Body1 style={{ fontWeight: 600, marginBottom: "6px" }}>종류별 용량 점유율</Body1>
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+      {/* flexWrap: "wrap" 지정. 위 grid가 고정 3열이라 카드가 좁아질 수 있음 */}
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
         <svg width="88" height="88" viewBox="0 0 88 88" aria-hidden>
           <g transform="translate(44,44) rotate(-90)">
             <circle r={r} fill="none" stroke="var(--colorNeutralStroke2)" strokeWidth={12} />
@@ -184,12 +186,13 @@ export function FilesScreen {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
+      {/* 고정 3열 그리드 사용. auto-fit 쓰면 카드 하나가 홀로 남음 */}
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         <FileStatCard label="전체 파일" value={`${files.length}개`} ratio={1} icon={FolderRegular} />
         <FileStatCard label="총 용량" value={totalSizeLabel} ratio={Math.min(totalKB / STORAGE_CAP_KB, 1)} icon={DocumentRegular} />
         <FileStatCard label="24시간 내 수정" value={`${recentCount}개`} ratio={files.length === 0 ? 0 : recentCount / files.length} icon={DocumentPdfRegular} />
       </div>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         <KindBarChart files={files} />
         <StorageShareDonutChart files={files} />
         {/* 폴더 트리로 종류별 필터링, 리프 선택 시 해당 종류만 표시 */}
@@ -258,7 +261,20 @@ export function FilesScreen {
       {rows.length === 0 ? (
         <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>조건에 맞는 파일이 없어요.</Caption1>
       ) : (
-        <DataGrid items={rows} columns={columns} getRowId={(item) => item.id} style={{ minWidth: "520px" }}>
+        <DataGrid
+          items={rows}
+          columns={columns}
+          getRowId={(item) => item.id}
+          resizableColumns
+          columnSizingOptions={{
+            name: { minWidth: 160, idealWidth: 220 },
+            owner: { minWidth: 56, idealWidth: 64 },
+            modified: { minWidth: 56, idealWidth: 64 },
+            size: { minWidth: 56, idealWidth: 64 },
+            actions: { minWidth: 32, idealWidth: 32 },
+          }}
+          style={{ minWidth: "520px" }}
+        >
           <DataGridHeader>
             <DataGridRow>
               {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell}</DataGridHeaderCell>}

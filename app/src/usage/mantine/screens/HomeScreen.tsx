@@ -74,7 +74,7 @@ function TripHero {
         flexDirection: "column",
         justifyContent: "flex-end",
         padding: "1.25rem",
-        color: "white",
+        color: "var(--semantic-fg-on-brand-default)",
         backgroundImage:
           `linear-gradient(120deg, color-mix(in oklch, var(--semantic-bg-brand-strong) 88%, black) 0%, `
           + `color-mix(in oklch, var(--semantic-bg-brand-default) 55%, transparent) 75%), url("${trip.image}")`,

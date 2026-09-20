@@ -65,7 +65,7 @@ function CurrentPlanBanner {
       <span
         style={{
           fontSize: "12px", fontWeight: 600, padding: "3px 10px", borderRadius: "999px",
-          background: "var(--color-primary-600)", color: "white",
+          background: "var(--color-primary-600)", color: "var(--semantic-fg-on-brand-default)",
         }}
       >
         구독 중

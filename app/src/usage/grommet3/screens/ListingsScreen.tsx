@@ -114,7 +114,7 @@ export function ListingsScreen {
       </Box>
 
       {/* Box wrap은 외톨이가 폭 전체 차지, Grid는 트랙 고정이라 동일 셀임 */}
-      <Grid columns={{ count: "fit", size: "14rem" }} gap="medium">
+      <Grid columns={{ count: "fit", size: "18rem" }} gap="medium">
         {shown.map((l) => (
           <Card
             key={l.id}
@@ -126,7 +126,8 @@ export function ListingsScreen {
           >
             <Box height="8rem" overflow="hidden" round={{ corner: "top", size: "medium" }} style={{ position: "relative" }}>
               <Image src={l.photo} fit="cover" a11yTitle={l.title} />
-              <Box style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }} round="full" background="white" pad="4px">
+              {/* background="white" 금지. 사진 위 칩은 background-front 사용 */}
+              <Box style={{ position: "absolute", top: "0.5rem", right: "0.5rem" }} round="full" background="background-front" pad="4px">
                 <Button
                   plain
                   icon={<Heart size={14} color={dangerColor} />}

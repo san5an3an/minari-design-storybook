@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Button, Card, Collapse, ProgressBar } from "@blueprintjs/core";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { EXPENSE_BY_CATEGORY } from "../data";
+import { Button, Callout, Card, Collapse, ProgressBar, Tag, Tooltip } from "@blueprintjs/core";
+import { Bar, BarChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from "recharts";
+import { BUDGETS, EXPENSE_BY_CATEGORY } from "../data";
 
 // 통계카드와 미니 막대그래프를 목록과 함께 표시
 export function CategoriesScreen {
@@ -10,6 +10,12 @@ export function CategoriesScreen {
   const total = EXPENSE_BY_CATEGORY.reduce((sum, c) => sum + c.amount, 0);
   const top = [...EXPENSE_BY_CATEGORY].sort((a, b) => b.amount - a.amount)[0];
   const chartData = EXPENSE_BY_CATEGORY.map((c) => ({ name: c.category, value: c.amount }));
+
+  const budgetFor = (category: string) => BUDGETS.find((b) => b.category === category);
+  const overBudget = EXPENSE_BY_CATEGORY.filter((c) => {
+    const b = budgetFor(c.category);
+    return b != null && c.amount > b.limit;
+  });
 
   return (
     <div className="flex flex-col gap-4">
@@ -24,17 +30,31 @@ export function CategoriesScreen {
         </Card>
       </div>
 
+      {overBudget.length > 0 ? (
+        <Callout intent="warning" title={`${overBudget.length}개 카테고리가 예산을 초과했어요`} icon="warning-sign">
+          {overBudget.map((c) => c.category).join(", ")}, 예산 화면에서 한도를 다시 볼 수 있어요.
+        </Callout>
+      ) : null}
+
       <Card>
         <div className="flex flex-col gap-4">
           {EXPENSE_BY_CATEGORY.map((c) => {
             const ratio = c.amount / total;
+            const budget = budgetFor(c.category);
+            const over = budget != null && c.amount > budget.limit;
             return (
               <div key={c.category}>
                 <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
-                  <span>{c.category}</span>
-                  <span style={{ opacity: 0.7 }}>{c.amount.toLocaleString}원 · {Math.round(ratio * 100)}%</span>
+                  <div className="flex items-center gap-2">
+                    <span>{c.category}</span>
+                    {over ? <Tag intent="danger" minimal>예산 초과</Tag> : null}
+                  </div>
+                  {/* Tooltip으로 비중 계산 설명 표시 */}
+                  <Tooltip content={`이번 달 총 지출 ${total.toLocaleString}원 중 이 카테고리가 차지하는 비중`}>
+                    <span style={{ opacity: 0.7, cursor: "help" }}>{c.amount.toLocaleString}원 · {Math.round(ratio * 100)}%</span>
+                  </Tooltip>
                 </div>
-                <ProgressBar value={ratio} intent="primary" stripes={false} />
+                <ProgressBar value={ratio} intent={over ? "danger" : "primary"} stripes={false} />
               </div>
             );
           })}
@@ -55,9 +75,9 @@ export function CategoriesScreen {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ style: { fontSize: 11 } }} />
+              <RechartsTooltip />
+              <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </div>

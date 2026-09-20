@@ -32,7 +32,8 @@ export function OverviewScreen {
   const currentStageIndex = STAGES.indexOf(FEATURED_DEAL.stage);
 
   return (
-    <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
+    <div className="slds-grid slds-grid_vertical slds-grid_vertical-stretch" style={{ gap: "1rem" }}>
+      {/* slds-wrap의 flex-start가 stretch 덮어써 내용 폭 좁아지는 원인임 */}
       {/* 히어로 */}
       <div
         className="slds-box"
@@ -92,8 +93,9 @@ export function OverviewScreen {
           <div style={{ height: "10rem" }}>
             <ResponsiveContainer>
               <LineChart data={WEEKLY_PIPELINE}>
-                <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={28} />
+                {/* tick style 로 fontSize 지정. SVG 속성은 명시도가 0이라 CSS에 밀리는 문제 있음 */}
+                <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ style: { fontSize: 11 } }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ style: { fontSize: 11 } }} width={28} />
                 <Tooltip />
                 {/* isAnimationActive={false} 지정, 도형이 중간에 얼어붙을 수 있음 */}
                 <Line type="monotone" dataKey="amount" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
@@ -119,32 +121,43 @@ export function OverviewScreen {
         </div>
       </div>
 
-      {/* 넓은 테이블, 딜 목록 */}
+      {/* 넓은 테이블, 딜 목록. 표 넘치면 SLDS 규칙대로 처리 */}
       <div className="slds-box slds-theme_default" style={{ padding: 0, overflow: "hidden" }}>
-        <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-          <thead>
-            <tr className="slds-line-height_reset">
-              <th scope="col">Opportunity</th>
-              <th scope="col">담당자</th>
-              <th scope="col">단계</th>
-              <th scope="col">금액</th>
-              <th scope="col">마감일</th>
-              <th scope="col">확률</th>
-            </tr>
-          </thead>
-          <tbody>
-            {DEALS.map((d) => (
-              <tr key={d.id}>
-                <th scope="row"><a href="#" onClick={(e) => e.preventDefault}>{d.account}</a></th>
-                <td>{d.owner}</td>
-                <td><span className="slds-badge">{d.stage}</span></td>
-                <td>{won(d.amount)}</td>
-                <td>{d.closeDate}</td>
-                <td>{d.probability}%</td>
+        <div className="slds-scrollable_x">
+          <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" style={{ width: "100%" }}>
+            <thead>
+              <tr className="slds-line-height_reset">
+                <th scope="col">Opportunity</th>
+                <th scope="col">담당자</th>
+                <th scope="col">단계</th>
+                <th scope="col">금액</th>
+                <th scope="col">마감일</th>
+                <th scope="col">확률</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {DEALS.map((d) => (
+                <tr key={d.id}>
+                  <th scope="row">
+                    {/* slds-truncate는 줄바꿈 처리, 줄임표 아님. a는 inline-block도 지정 */}
+                    <a
+                      href="#" className="slds-truncate" title={d.account}
+                      style={{ maxWidth: "11rem", display: "inline-block", verticalAlign: "bottom" }}
+                      onClick={(e) => e.preventDefault}
+                    >
+                      {d.account}
+                    </a>
+                  </th>
+                  <td>{d.owner}</td>
+                  <td><span className="slds-badge">{d.stage}</span></td>
+                  <td>{won(d.amount)}</td>
+                  <td>{d.closeDate}</td>
+                  <td>{d.probability}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

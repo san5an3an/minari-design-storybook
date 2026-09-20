@@ -31,7 +31,7 @@ function seedComments(issue: IssueItem): Comment[] {
 }
 
 export function IssueDetailScreen({ selectedId, issues, onNavigate }: ScreenProps) {
-  const issue = (issues ?? []).find((i) => i.id === selectedId);
+  const issue = (issues ?? []).find((i) => i.id === selectedId) ?? (issues ?? [])[0];
   const [comments, setComments] = React.useState<Comment[]>( => (issue ? seedComments(issue) : []));
   const [draft, setDraft] = React.useState("");
 
@@ -84,7 +84,7 @@ export function IssueDetailScreen({ selectedId, issues, onNavigate }: ScreenProp
       {issue.labels.length > 0 && (
         <LabelGroup visibleChildCount="auto">
           {issue.labels.map((l) => (
-            <Label key={l.text} style={{ backgroundColor: l.color, color: "#fff", borderColor: "transparent" }}>
+            <Label key={l.text} variant={l.variant}>
               {l.text}
             </Label>
           ))}

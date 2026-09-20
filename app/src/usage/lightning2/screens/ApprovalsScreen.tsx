@@ -27,7 +27,8 @@ export function ApprovalsScreen {
   );
 
   return (
-    <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
+    <div className="slds-grid slds-grid_vertical slds-grid_vertical-stretch" style={{ gap: "1rem" }}>
+      {/* slds-wrap을 .slds-grid_vertical-stretch로 변경. 쏠림 막기 */}
       {/* 통계카드 2 또는 4열만 사용. flex면 2x2로 접혀 우측 절반이 빈 채로 남음 */}
       <div className="lds2-stats">
         <div className="slds-box slds-theme_default">
@@ -81,46 +82,49 @@ export function ApprovalsScreen {
         </div>
       </div>
 
+      {/* 8열 최대 폭 표라 요청자 이름 열 좁히고 .slds-scrollable_x로 감싸기 */}
       <div className="slds-box slds-theme_default" style={{ padding: 0, overflow: "hidden" }}>
         <p className="slds-text-body_small slds-text-color_weak" style={{ padding: "0.625rem 0.75rem 0" }}>
           {filtered.length} / {REQUESTS.length}건 표시
         </p>
-        <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-          <thead>
-            <tr className="slds-line-height_reset">
-              <th scope="col">요청 ID</th>
-              <th scope="col">유형</th>
-              <th scope="col">요청자</th>
-              <th scope="col">금액</th>
-              <th scope="col">제출일</th>
-              <th scope="col">마감일</th>
-              <th scope="col">단계</th>
-              <th scope="col">상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((r) => (
-              <tr key={r.id}>
-                <th scope="row">{r.id}</th>
-                <td>{r.type}</td>
-                <td>
-                  <span
-                    className="slds-avatar slds-avatar_circle slds-avatar_x-small"
-                    style={{ marginRight: "0.375rem", background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }}
-                  >
-                    <abbr className="slds-avatar__initials" title={r.requester}>{r.requester[0]}</abbr>
-                  </span>
-                  {r.requester}
-                </td>
-                <td>{won(r.amount)}</td>
-                <td>{r.submitted}</td>
-                <td>{r.dueDate}</td>
-                <td>{r.step}/{r.totalSteps}</td>
-                <td><span className={"slds-badge " + STATUS_VARIANT[r.status]}>{r.status}</span></td>
+        <div className="slds-scrollable_x">
+          <table className="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" style={{ width: "100%" }}>
+            <thead>
+              <tr className="slds-line-height_reset">
+                <th scope="col">요청 ID</th>
+                <th scope="col">유형</th>
+                <th scope="col">요청자</th>
+                <th scope="col">금액</th>
+                <th scope="col">제출일</th>
+                <th scope="col">마감일</th>
+                <th scope="col">단계</th>
+                <th scope="col">상태</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.map((r) => (
+                <tr key={r.id}>
+                  <th scope="row">{r.id}</th>
+                  <td>{r.type}</td>
+                  <td>
+                    <span
+                      className="slds-avatar slds-avatar_circle slds-avatar_x-small"
+                      style={{ marginRight: "0.375rem", background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }}
+                    >
+                      <abbr className="slds-avatar__initials" title={r.requester}>{r.requester[0]}</abbr>
+                    </span>
+                    {r.requester}
+                  </td>
+                  <td>{won(r.amount)}</td>
+                  <td>{r.submitted}</td>
+                  <td>{r.dueDate}</td>
+                  <td>{r.step}/{r.totalSteps}</td>
+                  <td><span className={"slds-badge " + STATUS_VARIANT[r.status]}>{r.status}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

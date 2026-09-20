@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
-  Box, Button, Card, Chip, Divider, ImageList, ImageListItem, Rating, Stack,
+  Box, Button, Card, CardMedia, Chip, Dialog, DialogActions, DialogContent, DialogContentText,
+  DialogTitle, Divider, ImageList, ImageListItem, Rating, Snackbar, Stack, TextField,
   Typography, useMediaQuery, useTheme,
 } from "@mui/material";
 import ArrowBackOutlined from "@mui/icons-material/ArrowBackOutlined";
@@ -10,11 +11,21 @@ import CheckCircleOutlined from "@mui/icons-material/CheckCircleOutlined";
 import DirectionsCarOutlined from "@mui/icons-material/DirectionsCarOutlined";
 import DirectionsSubwayOutlined from "@mui/icons-material/DirectionsSubwayOutlined";
 import MeetingRoomOutlined from "@mui/icons-material/MeetingRoomOutlined";
-import PhotoCameraOutlined from "@mui/icons-material/PhotoCameraOutlined";
 import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
+import QuestionAnswerOutlined from "@mui/icons-material/QuestionAnswerOutlined";
 import SquareFootOutlined from "@mui/icons-material/SquareFootOutlined";
 import { LISTINGS, monthlyTotal, won } from "../listings";
 import type { ScreenProps } from "../screens";
+import { ListingMap } from "./SearchScreen";
+
+// 갤러리 보조 컷, 매물 무관 실내 장면. 확인된 Unsplash CDN 직링크만 사용
+const GALLERY_FILLER: readonly string[] = [
+  "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1571508601891-ca5e7a713859?auto=format&fit=crop&w=600&q=60",
+];
 
 // 스펙 한 셀, 아이콘, 값, 이름 구성 넷을 격자로 정렬
 function SpecCell({
@@ -39,6 +50,11 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
   const theme = useTheme;
   const wide = useMediaQuery(theme.breakpoints.up("md"));
   const listing = LISTINGS.find((l) => l.id === selectedId);
+
+  // 문의 폼. Dialog로 메시지 입력받고 Snackbar로 전송 확인 표시
+  const [inquiryOpen, setInquiryOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [sent, setSent] = React.useState(false);
 
   if (!listing) {
     return (
@@ -74,22 +90,14 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
       </Button>
 
       <ImageList cols={wide ? 4 : 2} rowHeight={wide ? 110 : 96} gap={8} sx={{ m: 0 }}>
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <ImageListItem key={i} cols={i === 0 && wide ? 2 : 1} rows={i === 0 && wide ? 2 : 1}>
-            <Box
-              aria-hidden
-              sx={{
-                alignItems: "center",
-                bgcolor: "action.hover",
-                borderRadius: 1,
-                color: "text.disabled",
-                display: "flex",
-                height: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <PhotoCameraOutlined fontSize="small" />
-            </Box>
+        {[listing.photo, ...GALLERY_FILLER].map((src, i) => (
+          <ImageListItem key={src} cols={i === 0 && wide ? 2 : 1} rows={i === 0 && wide ? 2 : 1}>
+            <CardMedia
+              component="img"
+              image={src}
+              alt={i === 0 ? `${listing.area} ${listing.title}` : `${listing.title} 실내 참고 사진`}
+              sx={{ bgcolor: "background.default", height: "100%", objectFit: "cover" }}
+            />
           </ImageListItem>
         ))}
       </ImageList>
@@ -168,6 +176,19 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
               ))}
             </Stack>
           </Stack>
+
+          <Stack spacing={1}>
+            <Typography variant="subtitle2">위치</Typography>
+            <Card variant="outlined" sx={{ overflow: "hidden" }}>
+              <ListingMap rows={[listing]} />
+            </Card>
+            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+              <PlaceOutlined fontSize="small" sx={{ color: "text.secondary" }} />
+              <Typography variant="body2" color="text.secondary">
+                {listing.area} · 지하철역까지 도보 {listing.walk}분
+              </Typography>
+            </Stack>
+          </Stack>
         </Stack>
 
         <Card
@@ -221,9 +242,58 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
                 방문 예약하기
               </Button>
             )}
+
+            {/* 문의 가능 시점을 방문 예약 전으로 지정 */}
+            <Button
+              variant="outlined"
+              startIcon={<QuestionAnswerOutlined />}
+              onClick={ => setInquiryOpen(true)}
+            >
+              집주인에게 문의하기
+            </Button>
           </Stack>
         </Card>
       </Stack>
+
+      <Dialog open={inquiryOpen} onClose={ => setInquiryOpen(false)} fullWidth maxWidth="xs">
+        <DialogTitle>{listing.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ mb: 1.5 }}>
+            집주인에게 궁금한 점을 남겨 보세요. 보통 몇 시간 안에 답이 와요.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            fullWidth
+            multiline
+            minRows={3}
+            placeholder="예: 반려동물과 함께 입주할 수 있나요?"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={ => setInquiryOpen(false)}>취소</Button>
+          <Button
+            variant="contained"
+            disabled={message.trim.length === 0}
+            onClick={ => {
+              setInquiryOpen(false);
+              setSent(true);
+              setMessage("");
+            }}
+          >
+            보내기
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={sent}
+        autoHideDuration={2500}
+        onClose={ => setSent(false)}
+        message="문의를 보냈어요. 곧 답변 드릴게요."
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      />
     </Stack>
   );
 }

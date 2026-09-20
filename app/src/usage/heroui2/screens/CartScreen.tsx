@@ -1,44 +1,92 @@
 "use client";
 import * as React from "react";
-import { Accordion, Button, Card, toast } from "@heroui/react";
-import { CART_ITEMS, PRODUCTS } from "../data";
+import { Accordion, Alert, Button, Card, Meter, toast } from "@heroui/react";
+import type { ScreenProps } from "../screens";
+import { PRODUCTS } from "../data";
 
-export function CartScreen {
-  const [items, setItems] = React.useState(CART_ITEMS);
+const FREE_SHIPPING_THRESHOLD = 50000;
 
-  const rows = items
+function thumbStyle(colorToken: string, image: string): React.CSSProperties {
+  return { backgroundColor: colorToken, backgroundImage: `url("${image}")` };
+}
+
+export function CartScreen({ cartItems, onChangeQty }: ScreenProps) {
+  const rows = cartItems
     .map((item) => ({ item, product: PRODUCTS.find((p) => p.id === item.productId) }))
-    .filter((r): r is { item: (typeof items)[number]; product: NonNullable<(typeof r)["product"]> } => !!r.product);
+    .filter((r): r is { item: (typeof cartItems)[number]; product: NonNullable<(typeof r)["product"]> } => !!r.product);
 
   const total = rows.reduce((sum, r) => sum + r.product.price * r.item.quantity, 0);
-
-  const changeQty = (productId: string, delta: number) => {
-    setItems((prev) =>
-      prev
-        .map((it) => (it.productId === productId ? { ...it, quantity: Math.max(0, it.quantity + delta) } : it))
-        .filter((it) => it.quantity > 0),
-    );
-  };
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
 
   if (rows.length === 0) {
-    return <p className="text-sm opacity-70">장바구니가 비어 있습니다.</p>;
+    return (
+      <div className="flex flex-col gap-3">
+        <p className="text-sm opacity-70">장바구니가 비어 있습니다.</p>
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-medium">이런 상품은 어때요?</span>
+          <Card className="gap-0 divide-y p-0">
+            {PRODUCTS.slice(0, 3).map((product) => (
+              <div key={product.id} className="flex items-center gap-3 px-4 py-3">
+                <div
+                  className="size-10 shrink-0 rounded-md bg-cover bg-center"
+                  style={thumbStyle(product.colorToken, product.image)}
+                  aria-hidden
+                />
+                <div className="flex flex-1 flex-col">
+                  <span className="text-sm font-medium">{product.name}</span>
+                  <span className="text-sm opacity-70">{product.category}</span>
+                </div>
+                <span className="text-sm font-medium">{product.price.toLocaleString}원</span>
+              </div>
+            ))}
+          </Card>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col gap-4">
+      {remainingForFreeShipping > 0 ? (
+        <Alert status="accent">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>무료배송까지 {remainingForFreeShipping.toLocaleString}원 남았어요</Alert.Title>
+            <Alert.Description>
+              <Meter aria-label="무료배송 진행률" className="mt-1 w-full" value={total} maxValue={FREE_SHIPPING_THRESHOLD}>
+                <Meter.Track>
+                  <Meter.Fill />
+                </Meter.Track>
+              </Meter>
+            </Alert.Description>
+          </Alert.Content>
+        </Alert>
+      ) : (
+        <Alert status="success">
+          <Alert.Indicator />
+          <Alert.Content>
+            <Alert.Title>무료배송 조건을 채웠어요!</Alert.Title>
+          </Alert.Content>
+        </Alert>
+      )}
+
       <Card className="gap-0 divide-y p-0">
         {rows.map(({ item, product }) => (
           <div key={product.id} className="flex items-center gap-3 px-4 py-3">
-            <div className="size-12 shrink-0 rounded-md" style={{ background: product.colorToken }} aria-hidden />
+            <div
+              className="size-12 shrink-0 rounded-md bg-cover bg-center"
+              style={thumbStyle(product.colorToken, product.image)}
+              aria-hidden
+            />
             <div className="flex flex-1 flex-col">
               <span className="text-sm font-medium">{product.name}</span>
               <span className="text-sm opacity-70">{product.price.toLocaleString}원</span>
             </div>
             <div className="flex items-center gap-2">
               {/* 밝은 배경에서 outline 흰 글자가 안 보이는 문제 있음 */}
-              <Button variant="secondary" size="sm" isIconOnly onPress={ => changeQty(product.id, -1)}>−</Button>
+              <Button variant="secondary" size="sm" isIconOnly aria-label="수량 줄이기" onPress={ => onChangeQty(product.id, -1)}>−</Button>
               <span className="w-4 text-center text-sm">{item.quantity}</span>
-              <Button variant="secondary" size="sm" isIconOnly onPress={ => changeQty(product.id, 1)}>+</Button>
+              <Button variant="secondary" size="sm" isIconOnly aria-label="수량 늘리기" onPress={ => onChangeQty(product.id, 1)}>+</Button>
             </div>
           </div>
         ))}
@@ -77,7 +125,11 @@ export function CartScreen {
             <Card className="gap-0 divide-y p-0">
               {recs.map((product) => (
                 <div key={product.id} className="flex items-center gap-3 px-4 py-3">
-                  <div className="size-10 shrink-0 rounded-md" style={{ background: product.colorToken }} aria-hidden />
+                  <div
+                    className="size-10 shrink-0 rounded-md bg-cover bg-center"
+                    style={thumbStyle(product.colorToken, product.image)}
+                    aria-hidden
+                  />
                   <div className="flex flex-1 flex-col">
                     <span className="text-sm font-medium">{product.name}</span>
                     <span className="text-sm opacity-70">{product.category}</span>
