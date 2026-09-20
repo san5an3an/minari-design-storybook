@@ -19,7 +19,7 @@ const CHANNEL_ICON = { 화상: Video, 방문: MapPin, 전화: Phone } as const;
 export function CustomerDetailScreen({ selectedId, onNavigate, customers: customersProp }: ScreenProps) {
   // Dashboard 고객 목록을 기준으로 사용, 없으면 정적 CUSTOMERS로 대체하기
   const customers = customersProp ?? CUSTOMERS;
-  const customer = customers.find((c) => c.id === selectedId);
+  const customer = customers.find((c) => c.id === selectedId) ?? customers[0];
   const [memo, setMemo] = React.useState("");
   const [toastMessage, setToastMessage] = React.useState<string | null>(null);
 

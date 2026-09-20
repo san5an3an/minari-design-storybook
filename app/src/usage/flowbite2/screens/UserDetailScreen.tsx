@@ -24,7 +24,7 @@ const ROLES: User["role"][] = ["관리자", "편집자", "뷰어"];
 export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: ScreenProps) {
   // Dashboard 사용자 목록을 기준으로 사용, 없으면 정적 USERS로 대체하기
   const users = usersProp ?? USERS;
-  const user = users.find((u) => u.id === selectedId);
+  const user = users.find((u) => u.id === selectedId) ?? users[0];
   const [editing, setEditing] = React.useState(false);
   const [roleModal, setRoleModal] = React.useState(false);
   const [auditOpen, setAuditOpen] = React.useState(false);

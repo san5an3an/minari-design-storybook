@@ -45,7 +45,7 @@ function StatCard({ icon: Icon, label, value, tone, meter }: { icon: LucideIcon;
 
 export function PackageDetailScreen({ selectedId, packages: packagesProp, onSelect, onNavigate }: ScreenProps) {
   const packages = packagesProp ?? PACKAGES;
-  const pkg = packages.find((p) => p.id === selectedId);
+  const pkg = packages.find((p) => p.id === selectedId) ?? packages[0];
   const [manager, setManager] = React.useState<Manager>("npm");
 
   // 파생 리스트. 프레임 유지, 데이터에서 값 추출하기

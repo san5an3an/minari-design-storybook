@@ -1,13 +1,20 @@
 import type { ComponentType } from "react";
+import type { CartItem } from "./data";
 import { CartScreen } from "./screens/CartScreen";
 import { OrdersScreen } from "./screens/OrdersScreen";
 import { ProductsScreen } from "./screens/ProductsScreen";
+
+export interface ScreenProps {
+  cartItems: readonly CartItem[];
+  onAddToCart: (productId: string, quantity?: number) => void;
+  onChangeQty: (productId: string, delta: number) => void;
+}
 
 export interface ScreenDefinition {
   key: string;
   label: string;
   lede: string;
-  Screen: ComponentType;
+  Screen: ComponentType<ScreenProps>;
 }
 
 export const SCREENS: ScreenDefinition[] = [

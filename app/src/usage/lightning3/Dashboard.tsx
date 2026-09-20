@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Bell, Search } from "lucide-react";
 import { lightningAdapter } from "../../preview/lightningRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
@@ -61,19 +62,18 @@ export function Lightning3Usage({ system, active }: UsageDashboardProps) {
           <div className="slds-grid" style={{ alignItems: "center", gap: "0.75rem" }}>
             <div className="slds-form-element" style={{ width: "12rem" }}>
               <div className="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                <svg className="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
-                  <use xlinkHref="/assets/icons/utility-sprite/svg/symbols.svg#search" />
-                </svg>
+                <Search className="slds-input__icon slds-input__icon_left" size={14} aria-hidden />
                 <input type="text" className="slds-input" placeholder="거래처 검색" readOnly />
               </div>
             </div>
             <button className="slds-button slds-button_icon" title="알림" aria-label="알림">
-              <svg className="slds-button__icon" aria-hidden="true">
-                <use xlinkHref="/assets/icons/utility-sprite/svg/symbols.svg#notification" />
-              </svg>
+              <Bell className="slds-button__icon" size={16} aria-hidden />
             </button>
-            <span className="slds-avatar slds-avatar_circle slds-avatar_small">
-              <img alt="이하윤" src="/assets/images/avatar3.jpg" title="이하윤" />
+            <span
+              className="slds-avatar slds-avatar_circle slds-avatar_small"
+              style={{ background: "var(--semantic-bg-brand-subtle)", color: "var(--semantic-fg-brand-default)" }}
+            >
+              <abbr className="slds-avatar__initials" title="이하윤">이</abbr>
             </span>
           </div>
         </header>

@@ -47,7 +47,10 @@ export function BlueprintUsage({ system, active }: UsageDashboardProps) {
             <Navbar.Divider />
             {/* Breadcrumbs로 현재 위치 표시 */}
             <Breadcrumbs items={[{ text: "관제" }, { text: screen.label, current: true } satisfies BreadcrumbProps]} />
-            <Tag minimal className="ms-auto">{system.baseTitle}</Tag>
+          </Navbar.Group>
+          {/* 베이스 라벨 오른쪽 배치. Navbar.Group이 내용 폭만 차지해 밀어낼 공간 없음 */}
+          <Navbar.Group align="right">
+            <Tag minimal>{system.baseTitle}</Tag>
           </Navbar.Group>
         </Navbar>
 
@@ -64,11 +67,11 @@ export function BlueprintUsage({ system, active }: UsageDashboardProps) {
           }}
         >
           <div className="flex w-full items-center justify-between px-4 py-3">
-            <div className="flex flex-col gap-0.5" style={{ color: "white" }}>
+            <div className="flex flex-col gap-0.5" style={{ color: "var(--semantic-fg-on-brand-default)" }}>
               <span style={{ fontSize: "0.75rem", opacity: 0.85 }}>인프라 상태</span>
               <span style={{ fontSize: "1.125rem", fontWeight: 700 }}>전 서비스 정상 가동 중 · 노드 24/24</span>
             </div>
-            <Tag intent="success" large style={{ color: "white" }}>
+            <Tag intent="success" large style={{ color: "var(--semantic-fg-on-brand-default)" }}>
               LIVE
             </Tag>
           </div>

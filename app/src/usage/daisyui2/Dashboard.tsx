@@ -32,7 +32,7 @@ export function DaisyuiUsage2({ system }: UsageDashboardProps) {
         <span className="d-badge d-badge-ghost">daisyUI</span>
       </div>
 
-      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "0 1.25rem 1.25rem" }}>
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "0 1.25rem 1.25rem", containerType: "inline-size", containerName: "d2shell" }}>
         <div role="tablist" className="d-tabs d-tabs-lift" style={{ marginBottom: "1rem" }}>
           {SCREENS.map((s) => (
             <a

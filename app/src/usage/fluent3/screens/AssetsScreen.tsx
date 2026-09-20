@@ -11,9 +11,10 @@ import {
 import { ASSETS, REQUESTS, type Asset } from "../data";
 import type { ScreenProps } from "../screens";
 
-const STATUS_COLOR: Record<Asset["status"], "success" | "informative" | "warning"> = {
+// informative 금지, 시맨틱 톤 5종뿐 info 없음
+const STATUS_COLOR: Record<Asset["status"], "success" | "brand" | "warning"> = {
   "사용 중": "success",
-  "창고 대기": "informative",
+  "창고 대기": "brand",
   "수리 중": "warning",
 };
 
@@ -61,7 +62,8 @@ function AssetStatCard({ stat }: { stat: AssetStat }) {
           aria-hidden
           style={{
             alignItems: "center", background: tone, borderRadius: "8px",
-            color: "white", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
+            // 리터럴 white 대신 Fluent on-brand 전경 토큰 사용
+            color: "var(--colorNeutralForegroundOnBrand)", display: "flex", flexShrink: 0, height: "28px", justifyContent: "center", width: "28px",
           }}
         >
           <Icon fontSize={14} />
@@ -254,7 +256,8 @@ export function AssetsScreen({ onNavigate, onSelect }: ScreenProps) {
           </MessageBarBody>
         </MessageBar>
       ) : null}
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
+      {/* minmax 220으로 조정 */}
+      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
         {ASSET_STATS.map((s) => (
           <AssetStatCard key={s.label} stat={s} />
         ))}

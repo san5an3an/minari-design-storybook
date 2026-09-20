@@ -4,6 +4,7 @@ import * as React from "react";
 import { Avatar, Box, Flex, Text, VStack } from "@chakra-ui/react";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
+import { Toaster } from "./toaster";
 
 export function ChakraUsage({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
@@ -124,6 +125,8 @@ export function ChakraUsage({ system }: UsageDashboardProps) {
           <Screen />
         </Box>
       </VStack>
+      {/* Toaster 위치, ScheduleScreen 알림. Portal 이라 실제와 무관임 */}
+      <Toaster />
     </Flex>
   );
 }

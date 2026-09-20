@@ -1,10 +1,12 @@
+export type LabelVariant = "accent" | "attention" | "danger" | "primary" | "secondary" | "success";
+
 export interface IssueItem {
   id: string;
   number: number;
   title: string;
   state: "open" | "closed";
   author: string;
-  labels: { text: string; color: string }[];
+  labels: { text: string; variant: LabelVariant }[];
   comments: number;
   openedLabel: string;
   // 상세 화면 본문. 목록에서 상세로 드릴다운하는 구조에 연결
@@ -14,61 +16,61 @@ export interface IssueItem {
 export const ISSUES: IssueItem[] = [
   {
     id: "i1", number: 482, title: "다크 모드에서 배지 대비가 낮습니다", state: "open",
-    author: "김하늘", labels: [{ text: "bug", color: "#d73a49" }, { text: "접근성", color: "#0e8a16" }],
+    author: "김하늘", labels: [{ text: "bug", variant: "danger" }, { text: "접근성", variant: "success" }],
     comments: 6, openedLabel: "2일 전 열림",
     body: "다크 모드에서 `Label` 배경색과 텍스트 색의 대비가 WCAG AA 기준(4.5:1)에 못 미칩니다. `--fgColor-onEmphasis` 대신 배지별 전용 전경색이 필요해 보입니다.",
   },
   {
     id: "i2", number: 479, title: "검색 결과 정렬 옵션 추가 요청", state: "open",
-    author: "박서준", labels: [{ text: "enhancement", color: "#a2eeef" }],
+    author: "박서준", labels: [{ text: "enhancement", variant: "accent" }],
     comments: 2, openedLabel: "4일 전 열림",
     body: "현재 검색 결과는 관련도 순으로만 정렬됩니다. 최신순·오래된순 옵션을 상단 `Select` 에 추가해 주세요.",
   },
   {
     id: "i3", number: 471, title: "모바일에서 사이드바가 겹칩니다", state: "closed",
-    author: "이도윤", labels: [{ text: "bug", color: "#d73a49" }],
+    author: "이도윤", labels: [{ text: "bug", variant: "danger" }],
     comments: 11, openedLabel: "1주 전 닫힘",
     body: "375px 이하 뷰포트에서 사이드바가 본문 위에 겹쳐 보였습니다. `z-index` 정리와 브레이크포인트 조정으로 해결했습니다.",
   },
   {
     id: "i4", number: 465, title: "문서에 설치 스크린샷 추가", state: "closed",
-    author: "김하늘", labels: [{ text: "documentation", color: "#0075ca" }],
+    author: "김하늘", labels: [{ text: "documentation", variant: "secondary" }],
     comments: 1, openedLabel: "2주 전 닫힘",
     body: "설치 가이드에 텍스트만 있어 초심자가 따라오기 어렵다는 피드백이 있었습니다. 단계별 스크린샷을 추가했습니다.",
   },
   {
     id: "i5", number: 460, title: "빌드 캐시가 가끔 깨집니다", state: "open",
-    author: "박서준", labels: [{ text: "bug", color: "#d73a49" }, { text: "우선순위: 높음", color: "#b60205" }],
+    author: "박서준", labels: [{ text: "bug", variant: "danger" }, { text: "우선순위: 높음", variant: "attention" }],
     comments: 9, openedLabel: "3주 전 열림",
     body: "CI 에서 간헐적으로 캐시 키가 충돌해 이전 빌드 산출물이 섞여 나옵니다. 재현 빈도는 약 1/20 빌드입니다.",
   },
   {
     id: "i6", number: 455, title: "토큰 프리뷰 페이지에 다크모드 토글 추가", state: "open",
-    author: "이도윤", labels: [{ text: "enhancement", color: "#a2eeef" }, { text: "디자인", color: "#5319e7" }],
+    author: "이도윤", labels: [{ text: "enhancement", variant: "accent" }, { text: "디자인", variant: "primary" }],
     comments: 3, openedLabel: "3주 전 열림",
     body: "토큰 프리뷰 페이지는 라이트 모드만 지원합니다. 실제 앱처럼 다크모드 전환 토글을 상단에 추가해 주세요.",
   },
   {
     id: "i7", number: 449, title: "Storybook 배포 링크가 404를 반환합니다", state: "closed",
-    author: "박서준", labels: [{ text: "bug", color: "#d73a49" }],
+    author: "박서준", labels: [{ text: "bug", variant: "danger" }],
     comments: 4, openedLabel: "1개월 전 닫힘",
     body: "배포 워크플로가 `base` 경로를 잘못 계산해 정적 자산이 404 였습니다. `vercel.json` 리라이트 규칙 수정으로 해결했습니다.",
   },
   {
     id: "i8", number: 441, title: "CLI에 --dry-run 플래그 지원", state: "open",
-    author: "김하늘", labels: [{ text: "enhancement", color: "#a2eeef" }],
+    author: "김하늘", labels: [{ text: "enhancement", variant: "accent" }],
     comments: 0, openedLabel: "1개월 전 열림",
     body: "스캐폴딩 전에 어떤 파일이 생성될지 미리 보고 싶다는 요청입니다. `--dry-run` 플래그로 실제 쓰기 없이 목록만 출력하면 좋겠습니다.",
   },
   {
     id: "i9", number: 433, title: "그리드 컴포넌트 SSR에서 hydration mismatch", state: "closed",
-    author: "이도윤", labels: [{ text: "bug", color: "#d73a49" }, { text: "우선순위: 높음", color: "#b60205" }],
+    author: "이도윤", labels: [{ text: "bug", variant: "danger" }, { text: "우선순위: 높음", variant: "attention" }],
     comments: 15, openedLabel: "2개월 전 닫힘",
     body: "서버에서 계산한 컬럼 수와 클라이언트 첫 렌더 컬럼 수가 달라 React hydration 경고가 발생했습니다. `useLayoutEffect` 로 옮겨 해결했습니다.",
   },
   {
     id: "i10", number: 427, title: "README 뱃지 링크가 끊어져 있습니다", state: "closed",
-    author: "박서준", labels: [{ text: "documentation", color: "#0075ca" }],
+    author: "박서준", labels: [{ text: "documentation", variant: "secondary" }],
     comments: 1, openedLabel: "2개월 전 닫힘",
     body: "npm 뱃지가 옛 패키지명을 가리키고 있었습니다. 스코프 변경(`@minari/*`) 이후 갱신되지 않은 상태였습니다.",
   },

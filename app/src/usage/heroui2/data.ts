@@ -31,7 +31,8 @@ export interface Order {
   id: string;
   itemsLabel: string;
   totalLabel: string;
-  status: "배송중" | "배송완료" | "결제완료";
+  // 취소됨 상태 추가. 주문 취소 액션 클릭 시 상태 변경
+  status: "배송중" | "배송완료" | "결제완료" | "취소됨";
   dateLabel: string;
 }
 

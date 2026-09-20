@@ -19,6 +19,9 @@ export const TRANSACTIONS: Transaction[] = [
   { id: "t8", dateLabel: "9월 5일", merchant: "노션", category: "소프트웨어", amount: -89000, status: "완료", memo: "팀 플랜 갱신." },
   { id: "t9", dateLabel: "9월 3일", merchant: "인력사무소", category: "인건비", amount: -1850000, status: "완료", memo: "9월 프리랜서 계약직 급여." },
   { id: "t10", dateLabel: "9월 1일", merchant: "고객사 E", category: "매출", amount: 2100000, status: "대기", memo: "세금계산서 발행 대기 중." },
+  // 거래내역 화면의 월별 기간 필터 동작 확인을 위해 지난달 거래 2건 추가
+  { id: "t11", dateLabel: "8월 29일", merchant: "고객사 A", category: "매출", amount: 7900000, status: "완료", memo: "8월분 라이선스 대금 입금." },
+  { id: "t12", dateLabel: "8월 20일", merchant: "AWS", category: "인프라", amount: -1190000, status: "완료", memo: "8월 클라우드 사용료 자동 결제." },
 ];
 
 export interface CategoryBreakdown {

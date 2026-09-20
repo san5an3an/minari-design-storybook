@@ -39,11 +39,42 @@ export interface Reward {
 }
 
 export const REWARDS: Reward[] = [
+  // 다섯 캠페인 전부에 리워드 값 채우기
+  { campaignId: "cp1", tier: "패턴 PDF", price: 8000, claimed: 89, limit: null },
+  { campaignId: "cp1", tier: "완성 키트 1개", price: 22000, claimed: 214, limit: null },
+  { campaignId: "cp1", tier: "완성 키트 2개 세트", price: 39000, claimed: 45, limit: 50 },
   { campaignId: "cp2", tier: "얼리버드", price: 39000, claimed: 120, limit: 120 },
   { campaignId: "cp2", tier: "스탠다드", price: 49000, claimed: 210, limit: null },
   { campaignId: "cp2", tier: "2대 세트", price: 89000, claimed: 58, limit: 100 },
   { campaignId: "cp3", tier: "북박스 1회", price: 22000, claimed: 40, limit: null },
   { campaignId: "cp3", tier: "북박스 3개월", price: 60000, claimed: 22, limit: null },
+  { campaignId: "cp4", tier: "미니 파우치", price: 25000, claimed: 120, limit: null },
+  { campaignId: "cp4", tier: "숄더백", price: 45000, claimed: 301, limit: null },
+  { campaignId: "cp4", tier: "숄더백 + 파우치 세트", price: 65000, claimed: 88, limit: 100 },
+  { campaignId: "cp7", tier: "1개월 구독", price: 28000, claimed: 156, limit: null },
+  { campaignId: "cp7", tier: "3개월 구독", price: 78000, claimed: 64, limit: null },
+];
+
+export interface CampaignUpdate {
+  campaignId: string;
+  dateLabel: string;
+  title: string;
+  body: string;
+}
+
+// 캠페인 업데이트 피드, 상세 화면 타임라인에 오래된 순으로 표시
+export const CAMPAIGN_UPDATES: CampaignUpdate[] = [
+  { campaignId: "cp1", dateLabel: "9월 1일", title: "펀딩을 시작했어요", body: "손뜨개 원데이 키트, 목표 500만원으로 시작합니다." },
+  { campaignId: "cp1", dateLabel: "9월 10일", title: "목표 금액 달성!", body: "여러분 덕분에 목표를 넘겼어요. 리워드는 신청 순서대로 발송할게요." },
+  { campaignId: "cp2", dateLabel: "8월 20일", title: "펀딩을 시작했어요", body: "반려식물 자동 급수기, 목표 2,000만원으로 시작합니다." },
+  { campaignId: "cp2", dateLabel: "9월 5일", title: "얼리버드 매진", body: "얼리버드 리워드가 모두 소진됐어요. 스탠다드로 계속 후원해 주세요." },
+  { campaignId: "cp2", dateLabel: "9월 15일", title: "70% 달성", body: "목표의 70%를 넘겼어요. 남은 기간 동안 힘내볼게요." },
+  { campaignId: "cp3", dateLabel: "9월 3일", title: "펀딩을 시작했어요", body: "동네 책방 큐레이션 북박스, 목표 300만원으로 시작합니다." },
+  { campaignId: "cp3", dateLabel: "9월 12일", title: "북박스 구성 공개", body: "9월 큐레이션 도서 목록을 공개했어요." },
+  { campaignId: "cp4", dateLabel: "8월 28일", title: "펀딩을 시작했어요", body: "업사이클 가방 브랜드 런칭, 목표 800만원으로 시작합니다." },
+  { campaignId: "cp4", dateLabel: "9월 14일", title: "목표 초과 달성", body: "목표를 넘겨 추가 색상 옵션을 리워드로 더했어요." },
+  { campaignId: "cp7", dateLabel: "9월 2일", title: "펀딩을 시작했어요", body: "핸드드립 원두 정기구독, 목표 400만원으로 시작합니다." },
+  { campaignId: "cp7", dateLabel: "9월 16일", title: "목표 달성!", body: "정기구독 신청이 목표를 넘었어요. 첫 배송은 다음 주부터 시작해요." },
 ];
 
 export interface Backer {
