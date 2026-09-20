@@ -34,7 +34,10 @@ export function FavoritesScreen {
               <CheckBox
                 label={<Text size="xsmall">가격 하락 시 알림</Text>}
                 checked={priceAlert[f.title]}
-                onChange={(e) => setPriceAlert((prev) => ({ ...prev, [f.title]: e.target.checked }))}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setPriceAlert((prev) => ({ ...prev, [f.title]: checked }));
+                }}
               />
             </CardBody>
           </Card>

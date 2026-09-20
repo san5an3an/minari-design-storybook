@@ -12,6 +12,7 @@ import {
   DocumentTableRegular, FolderRegular, MoreHorizontalRegular, SlideTextRegular,
 } from "@fluentui/react-icons";
 import { FILES, type FileItem } from "../data";
+import { MiniBarChart } from "../miniBarChart";
 
 const KIND_ICON: Record<FileItem["kind"], React.ReactNode> = {
   doc: <DocumentRegular />,
@@ -52,32 +53,14 @@ function FileStatCard({ label, value, ratio, icon: Icon }: { label: string; valu
   );
 }
 
-// 종류별 미니 막대그래프 렌더링
 function KindBarChart({ files }: { files: readonly FileItem[] }) {
   const counts = new Map<string, number>;
   for (const f of files) counts.set(KIND_LABEL[f.kind], (counts.get(KIND_LABEL[f.kind]) ?? 0) + 1);
   const data = [...counts.entries].map(([label, value]) => ({ label, value }));
-  const max = Math.max(...data.map((d) => d.value), 1);
-  const w = 260;
-  const h = 90;
-  const barW = w / data.length - 10;
   return (
     <Card style={{ padding: "14px" }}>
       <Body1 style={{ fontWeight: 600, marginBottom: "6px" }}>종류별 파일 수</Body1>
-      <svg width="100%" viewBox={`0 0 ${w} ${h}`} aria-hidden>
-        {data.map((d, i) => {
-          const barH = (d.value / max) * (h - 22);
-          const x = i * (w / data.length) + 5;
-          return (
-            <g key={d.label}>
-              <rect x={x} y={h - 16 - barH} width={barW} height={barH} fill="var(--colorBrandBackground)" rx={3} />
-              <text x={x + barW / 2} y={h - 4} fontSize="8.5" textAnchor="middle" fill="var(--colorNeutralForeground3)">
-                {d.label}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+      <MiniBarChart title="종류별 파일 수" data={data} width={260} height={104} />
     </Card>
   );
 }

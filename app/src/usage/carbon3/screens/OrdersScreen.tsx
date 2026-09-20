@@ -111,7 +111,7 @@ export function OrdersScreen {
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -124,7 +124,7 @@ export function OrdersScreen {
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={64} tick={{ fontSize: 11 }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>

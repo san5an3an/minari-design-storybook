@@ -32,9 +32,10 @@ function Verdict({ ok }: { ok: boolean }) {
 
 export function TokenDetailScreen({ selectedId, onSelect, onNavigate }: ScreenProps) {
   const token = COLOR_TOKENS.find((t) => t.id === selectedId) ?? COLOR_TOKENS[0];
-  const [color, setColor] = React.useState( => parseColor(token.hex));
 
-  React.useEffect( => { setColor(parseColor(token.hex)); }, [token.hex]);
+  const [color, setColor] = React.useState( => parseColor(token.hex).toFormat("hsl"));
+
+  React.useEffect( => { setColor(parseColor(token.hex).toFormat("hsl")); }, [token.hex]);
 
   const usage = TOKEN_USAGE[token.id] ?? [];
   const pass = token.contrastOnWhite >= WCAG_AA_NORMAL;

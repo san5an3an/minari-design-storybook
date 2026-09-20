@@ -128,30 +128,89 @@ function StatusAmountDonut({ invoices }: { invoices: readonly Invoice[] }) {
   );
 }
 
-// 월별 청구 금액 미니 막대그래프 표시
+// 눈금 간격 1/2/5/10 중 자동 선택. 금액은 정수라 하한 1 고정임
+function niceTicks(max: number, count = 3): { top: number; step: number } {
+  const raw = Math.max(max, 1) / count;
+  const magnitude = 10 ** Math.floor(Math.log10(raw));
+  const normalized = raw / magnitude;
+  const base = (normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10) * magnitude;
+  const step = Math.max(base, 1);
+  return { top: Math.ceil(Math.max(max, 1) / step) * step, step };
+}
+
 function MonthlyRevenueBar({ invoices }: { invoices: readonly Invoice[] }) {
   const byMonth = new Map<string, number>;
   for (const inv of invoices) {
     const month = inv.issuedLabel.slice(0, 7);
     byMonth.set(month, (byMonth.get(month) ?? 0) + inv.total);
   }
-  const months = Array.from(byMonth.keys).sort;
-  const max = Math.max(...Array.from(byMonth.values), 1);
+  const data = Array.from(byMonth.keys)
+    .sort
+    .map((m) => ({
+      label: `${Number(m.slice(5))}월`,
+      // 만원 단위 표시. 원 단위 그대로면 y축 눈금 글자가 축 영역을 벗어나는 문제임
+      value: Math.round((byMonth.get(m) ?? 0) / 10000),
+    }));
+  const max = Math.max(...data.map((d) => d.value), 1);
+  const { top, step } = niceTicks(max);
+  const ticks: number[] = [];
+  for (let v = 0; v <= top; v += step) ticks.push(v);
+
+  const w = 280;
+  const h = 128;
+  const padLeft = 36;
+  const padTop = 14;
+  const padBottom = 18;
+  const plotW = w - padLeft;
+  const plotH = h - padTop - padBottom;
+  const slot = plotW / Math.max(data.length, 1);
+  const barW = Math.max(Math.min(slot - 36, 56), 10);
+
   return (
     <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
-      <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>월별 청구 금액</span>
-      <div style={{ display: "flex", alignItems: "flex-end", gap: "14px", height: "64px" }}>
-        {months.map((m) => {
-          const amount = byMonth.get(m) ?? 0;
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "10px" }}>
+        <span style={{ fontSize: "13px", fontWeight: 600 }}>월별 청구 금액</span>
+        <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>단위: 만원</span>
+      </div>
+      <svg width="100%" viewBox={`0 0 ${w} ${h}`} role="img" aria-label="월별 청구 금액 막대그래프" style={{ display: "block" }}>
+        {ticks.map((v) => {
+          const y = padTop + plotH - (v / top) * plotH;
           return (
-            <div key={m} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: 1 }}>
-              <span style={{ fontSize: "10px", color: "var(--color-gray-500)" }}>{Math.round(amount / 10000).toLocaleString("ko-KR")}만</span>
-              <div style={{ width: "100%", height: `${Math.max((amount / max) * 44, 4)}px`, background: "var(--color-primary-400)", borderRadius: "3px" }} />
-              <span style={{ fontSize: "10px", color: "var(--color-gray-500)" }}>{m.slice(5)}월</span>
-            </div>
+            <g key={`tick-${v}`}>
+              <line
+                x1={padLeft}
+                y1={y}
+                x2={w}
+                y2={y}
+                stroke={v === 0 ? "var(--color-gray-300)" : "var(--color-gray-200)"}
+                strokeWidth={v === 0 ? 1 : 0.5}
+              />
+              <text x={padLeft - 5} y={y + 3} fontSize="9" textAnchor="end" fill="var(--color-gray-500)">
+                {v.toLocaleString("ko-KR")}
+              </text>
+            </g>
           );
         })}
-      </div>
+        <line x1={padLeft} y1={padTop} x2={padLeft} y2={padTop + plotH} stroke="var(--color-gray-300)" strokeWidth={1} />
+        {data.map((d, i) => {
+          const barH = Math.max((d.value / top) * plotH, 2);
+          const x = padLeft + i * slot + (slot - barW) / 2;
+          const barTop = padTop + plotH - barH;
+          return (
+            <g key={d.label}>
+              <rect x={x} y={barTop} width={barW} height={barH} rx={3} fill="var(--color-primary-500)">
+                <title>{`${d.label} ${d.value.toLocaleString("ko-KR")}만원`}</title>
+              </rect>
+              <text x={x + barW / 2} y={barTop - 4} fontSize="9.5" textAnchor="middle" fill="var(--color-gray-700)">
+                {d.value.toLocaleString("ko-KR")}
+              </text>
+              <text x={x + barW / 2} y={h - 5} fontSize="10" textAnchor="middle" fill="var(--color-gray-500)">
+                {d.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }

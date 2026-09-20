@@ -6,8 +6,7 @@ import { Input } from "../../../bases/shadcn/Input";
 import { Link } from "../../../bases/shadcn/Link";
 import type { ScreenProps } from "../screens";
 
-// 제품 표시 컴포넌트, 좁을 때와 넓을 때 크기만 다르게 렌더링
-function Brand({ size = 24 }: { size?: number }) {
+function Brand({ name, size = 24 }: { name: string; size?: number }) {
   return (
     <span
       className="flex items-center gap-2"
@@ -26,12 +25,16 @@ function Brand({ size = 24 }: { size?: number }) {
           width: size,
         }}
       />
-      Acme Inc
+      {name}
     </span>
   );
 }
 
-export function AuthenticationScreen({ onNavigate }: ScreenProps) {
+// brand 못 받는 단독 화면 기본값. 저장소 기본 이름이라 목업과 어긋나지 않음
+const FALLBACK_BRAND = "Cobalt";
+
+export function AuthenticationScreen({ onNavigate, brand }: ScreenProps) {
+  const brandName = brand ?? FALLBACK_BRAND;
   const [sending, setSending] = React.useState(false);
 
   const enter =  => {
@@ -43,7 +46,7 @@ export function AuthenticationScreen({ onNavigate }: ScreenProps) {
   };
 
   return (
-    <div className="relative grid min-h-[32rem] lg:grid-cols-2">
+    <div className="relative grid min-h-[32rem] flex-1 lg:grid-cols-2">
       {/* 오른쪽 위 로그인 링크, 계정 있는 사용자의 이동 경로. 크기는 상위 요소에서 지정 */}
       <div className="absolute end-4 top-4 z-10">
         {/* Link 대신 Button variant=plain 사용. 화면 전환이라 탭 불명확 문제임 */}
@@ -61,7 +64,7 @@ export function AuthenticationScreen({ onNavigate }: ScreenProps) {
             "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
         }}
       >
-        <Brand />
+        <Brand name={brandName} />
         <blockquote
           style={{
             color: "var(--semantic-fg-neutral-default)",
@@ -87,7 +90,7 @@ export function AuthenticationScreen({ onNavigate }: ScreenProps) {
         <div className="flex w-full max-w-[21.875rem] flex-col gap-6">
           {/* 좁은 화면 전용 브랜드 표시 위치 */}
           <div className="flex justify-center lg:hidden">
-            <Brand size={20} />
+            <Brand name={brandName} size={20} />
           </div>
 
           <div className="flex flex-col gap-2 text-center">

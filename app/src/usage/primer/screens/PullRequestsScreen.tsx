@@ -62,7 +62,8 @@ function PullStats({ pulls }: { pulls: PullRequestItem[] }) {
   const totalFiles = pulls.reduce((sum, p) => sum + p.changedFiles, 0);
   const noReviewer = pulls.filter((p) => p.reviewers.length === 0).length;
   return (
-    <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", marginBottom: "16px" }}>
+    // 열 수는 .pr-stats가 지정. auto-fit 시 검토자 없음이 밀리는 문제 있음
+    <div className="pr-stats">
       <StatCard icon={GitMerge} label="열림" value={String(open)} tone="success" meter={{ kind: "progress", percent: Math.round((open / pulls.length) * 100) }} />
       <StatCard icon={GitMerge} label="병합됨" value={String(merged)} tone="accent" meter={{ kind: "trend", percent: 15 }} />
       <StatCard icon={GitPullRequestDraft} label="Draft" value={String(draft)} tone="neutral" meter={{ kind: "trend", percent: -2 }} />

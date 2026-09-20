@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Avatar, Box, Card, CardBody, Distribution, Heading, Menu, Meter, Text, Tip } from "grommet";
+import { Avatar, Box, Card, CardBody, Distribution, Grid, Heading, Menu, Meter, Text, Tip } from "grommet";
 import { MoreHorizontal } from "lucide-react";
 
 interface Member {
@@ -51,9 +51,9 @@ export function TeamScreen {
         </CardBody>
       </Card>
 
-      <Box direction="row" wrap gap="medium">
+      <Grid columns={{ count: "fit", size: "18rem" }} gap="medium">
         {TEAM.map((m) => (
-          <Card key={m.name} pad="medium" width="medium" background="background-front">
+          <Card key={m.name} pad="medium" background="background-front">
             <CardBody gap="small">
               <Box direction="row" align="center" gap="small">
                 <Avatar src={m.photo} size="medium" />
@@ -89,7 +89,7 @@ export function TeamScreen {
             </CardBody>
           </Card>
         ))}
-      </Box>
+      </Grid>
 
       <Card pad="medium" background="background-front">
         <CardBody gap="small">

@@ -24,6 +24,11 @@ const SHELL_CSS = `
   inset-block-end: 0;
 }
 .${SHELL} .cds--content { overflow-y: auto; }
+.${SHELL} .cb1-scope { container-type: inline-size; container-name: cb1; }
+.${SHELL} .cb1-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@container cb1 (min-width: 47rem) {
+  .${SHELL} .cb1-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 `;
 
 export function CarbonUsage({ system, active }: UsageDashboardProps) {
@@ -105,13 +110,15 @@ export function CarbonUsage({ system, active }: UsageDashboardProps) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 pb-4">
-            <h2 style={{ fontSize: "1rem", fontWeight: 600 }}>{screen.label}</h2>
-            <p style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>
-              {screen.lede}
-            </p>
+          <div className="cb1-scope">
+            <div className="flex flex-col gap-1 pb-4">
+              <h2 style={{ fontSize: "1rem", fontWeight: 600 }}>{screen.label}</h2>
+              <p style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.8125rem" }}>
+                {screen.lede}
+              </p>
+            </div>
+            <Screen />
           </div>
-          <Screen />
         </Content>
       </div>
     </carbonAdapter.Provider>

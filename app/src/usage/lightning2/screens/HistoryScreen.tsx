@@ -26,8 +26,8 @@ export function HistoryScreen {
                 <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={24} />
                 <Tooltip />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="approved" name="승인" fill="var(--component-chart-series-1)" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="rejected" name="반려" fill="var(--component-chart-series-4)" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="approved" name="승인" fill="var(--component-chart-series-1)" radius={[3, 3, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="rejected" name="반려" fill="var(--component-chart-series-4)" radius={[3, 3, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -38,7 +38,7 @@ export function HistoryScreen {
           <div style={{ height: "10rem" }}>
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={STATUS_SHARE} dataKey="value" nameKey="name" innerRadius="55%" outerRadius="85%" paddingAngle={2}>
+                <Pie data={STATUS_SHARE} dataKey="value" nameKey="name" innerRadius="55%" outerRadius="85%" paddingAngle={2} isAnimationActive={false}>
                   {STATUS_SHARE.map((_, i) => (
                     <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />
                   ))}

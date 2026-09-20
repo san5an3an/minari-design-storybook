@@ -58,10 +58,10 @@ export function PipelineScreen {
         </div>
       </div>
 
-      {/* 담당자별 요약 */}
-      <div className="slds-grid slds-wrap" style={{ gap: "1rem" }}>
+      {/* 담당자별 요약 그리드 적용. flex 사용 시 4명이 3+1로 흘러넘칠 수 있음 */}
+      <div className="lds1-stats">
         {[...byOwner.entries].map(([owner, s]) => (
-          <div key={owner} className="slds-box slds-theme_default" style={{ flex: "1 1 10rem", minWidth: "10rem" }}>
+          <div key={owner} className="slds-box slds-theme_default">
             <p className="slds-text-body_small slds-text-color_weak">{owner}</p>
             <p className="slds-text-heading_medium" style={{ fontWeight: 600 }}>{won(s.amount)}</p>
             <p className="slds-text-body_small slds-text-color_weak">{s.count}건 담당</p>

@@ -6,6 +6,15 @@ import { lightningAdapter } from "../../preview/lightningRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
+// @media 대신 @container 쿼리 사용. 카드 안쪽 폭 670~890px 측정
+const LAYOUT_CSS = `
+.lds2-scroll { container-type: inline-size; container-name: lds2; }
+.lds2-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@container lds2 (min-width: 47rem) {
+  .lds2-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+`;
+
 export function Lightning2Usage({ system, active }: UsageDashboardProps) {
   React.useEffect(
      => lightningAdapter.mountTheme?.(system, active, document),
@@ -18,6 +27,7 @@ export function Lightning2Usage({ system, active }: UsageDashboardProps) {
 
   return (
     <lightningAdapter.Provider system={system} mode={active}>
+      <style>{LAYOUT_CSS}</style>
       <div
         className="slds-grid slds-grid_vertical"
         style={{
@@ -73,7 +83,7 @@ export function Lightning2Usage({ system, active }: UsageDashboardProps) {
           </ul>
         </div>
 
-        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
+        <div className="lds2-scroll" style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
           <p className="slds-text-body_small slds-text-color_weak" style={{ marginBottom: "0.75rem" }}>{screen.lede}</p>
           <Screen />
         </div>

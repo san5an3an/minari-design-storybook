@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   Box, Button, Calendar, Card, CardBody, Heading, List, NameValueList, NameValuePair,
-  RangeInput, Text,
+  RangeInput, Tag, Text,
 } from "grommet";
 import { Bell, Heart } from "lucide-react";
 
@@ -15,6 +15,7 @@ const FAVORITES: Favorite[] = [
 
 export function FavoritesScreen {
   const [radius, setRadius] = React.useState(30);
+  const [booked, setBooked] = React.useState<string[]>([]);
 
   return (
     <Box gap="medium">
@@ -29,7 +30,15 @@ export function FavoritesScreen {
               data={FAVORITES}
               primaryKey="title"
               secondaryKey="venue"
-              action={ => <Button size="small" label="예매하기" />}
+              action={(item) => (booked.includes(item.title) ? (
+                <Tag value="예매 완료" size="small" background="status-ok" />
+              ) : (
+                <Button
+                  size="small"
+                  label="예매하기"
+                  onClick={ => setBooked((prev) => [...prev, item.title])}
+                />
+              ))}
             />
           </CardBody>
         </Card>

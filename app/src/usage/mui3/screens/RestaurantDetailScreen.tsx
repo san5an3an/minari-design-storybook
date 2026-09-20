@@ -64,7 +64,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
       >
         <Stack spacing={0.5}>
           <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
-            <Chip size="small" label={restaurant.category} sx={{ bgcolor: "rgba(255,255,255,0.85)" }} />
+            <Chip size="small" label={restaurant.category} sx={{ bgcolor: "var(--semantic-bg-neutral-surface)" }} />
             <Chip size="small" label={restaurant.status} color={STATUS_TONE[restaurant.status]} />
           </Stack>
           <Typography variant="h6" sx={{ color: "common.white", fontWeight: 700 }}>{restaurant.name}</Typography>
@@ -72,7 +72,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
         <IconButton
           aria-label="공유하기"
           onClick={ => setShared(true)}
-          sx={{ alignSelf: "flex-start", bgcolor: "rgba(255,255,255,0.85)" }}
+          sx={{ alignSelf: "flex-start", bgcolor: "var(--semantic-bg-neutral-surface)" }}
           size="small"
         >
           <ShareOutlined fontSize="small" />
@@ -162,7 +162,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
           value={draftReview}
           onChange={(e) => setDraftReview(e.target.value)}
           style={{
-            borderColor: "var(--mui-palette-divider, #ccc)", borderRadius: 4, fontFamily: "inherit",
+            borderColor: "var(--semantic-border-neutral-subtle)", borderRadius: 4, fontFamily: "inherit",
             fontSize: "0.875rem", padding: "0.5rem 0.75rem", resize: "vertical",
           }}
         />

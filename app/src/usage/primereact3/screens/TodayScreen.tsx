@@ -29,8 +29,13 @@ const SEVERITY: Record<Appointment["status"], "success" | "info" | "warning"> = 
 };
 
 export function TodayScreen {
+  const [appointments, setAppointments] = React.useState<Appointment[]>(APPOINTMENTS);
   const [hideDone, setHideDone] = React.useState(false);
-  const shown = hideDone ? APPOINTMENTS.filter((a) => a.status !== "완료") : APPOINTMENTS;
+  const shown = hideDone ? appointments.filter((a) => a.status !== "완료") : appointments;
+
+  const start = (time: string) => {
+    setAppointments((prev) => prev.map((a) => (a.time === time ? { ...a, status: "진료 중" } : a)));
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -54,7 +59,7 @@ export function TodayScreen {
       <Column field="doctor" header="담당의" />
       <Column field="status" header="상태" body={(a: Appointment) => <Tag value={a.status} severity={SEVERITY[a.status]} />} />
       <Column header="" body={(a: Appointment) => (
-        <Button label="진료 시작" size="small" text disabled={a.status !== "대기"} />
+        <Button label="진료 시작" size="small" text disabled={a.status !== "대기"} onClick={ => start(a.time)} />
       )} />
     </DataTable>
     </div>

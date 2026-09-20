@@ -1,7 +1,14 @@
 import * as React from "react";
 import { Box, Button, Heading, Nav, Text } from "grommet";
+import { CalendarDays, Star, Ticket } from "lucide-react";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
+
+const SCREEN_ICON: Record<string, React.ComponentType<{ size?: number }>> = {
+  events: CalendarDays,
+  tickets: Ticket,
+  favorites: Star,
+};
 
 export function GrommetUsage2({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
@@ -21,39 +28,41 @@ export function GrommetUsage2({ system }: UsageDashboardProps) {
       <Nav
         background="background-back"
         border={{ side: "right", color: "border" }}
-        width="64px"
+        width="8.25rem"
         flex={false}
-        align="center"
-        pad={{ vertical: "medium" }}
-        gap="medium"
+        pad={{ vertical: "medium", horizontal: "small" }}
+        gap="small"
       >
-        <Box aria-hidden width="28px" height="28px" round="small" background="brand" />
-        {SCREENS.map((s) => (
-          <Button
-            key={s.key}
-            plain
-            onClick={ => setScreenKey(s.key)}
-            a11yTitle={s.label}
-            title={s.label}
-          >
-            <Box
-              width="40px"
-              height="40px"
-              round="small"
-              align="center"
-              justify="center"
-              background={screenKey === s.key ? "active-background" : undefined}
-            >
-              <Text
-                size="small"
-                weight={screenKey === s.key ? "bold" : undefined}
-                color={screenKey === s.key ? "active-text" : "text-weak"}
+        <Box direction="row" align="center" gap="small" pad={{ horizontal: "small", bottom: "small" }}>
+          <Box aria-hidden width="20px" height="20px" round="small" background="brand" flex={false} />
+          <Text size="small" weight="bold" truncate>{system.name}</Text>
+        </Box>
+        {SCREENS.map((s) => {
+          const Icon = SCREEN_ICON[s.key];
+          const on = screenKey === s.key;
+          return (
+            <Button key={s.key} plain onClick={ => setScreenKey(s.key)} a11yTitle={s.label}>
+              <Box
+                direction="row"
+                align="center"
+                gap="small"
+                height="40px"
+                pad={{ horizontal: "small" }}
+                round="small"
+                background={on ? "active-background" : undefined}
               >
-                {s.label.slice(0, 1)}
-              </Text>
-            </Box>
-          </Button>
-        ))}
+                {Icon ? (
+                  <Box aria-hidden flex={false} justify="center">
+                    <Icon size={16} />
+                  </Box>
+                ) : null}
+                <Text size="small" weight={on ? "bold" : undefined} color={on ? "active-text" : "text-weak"} truncate>
+                  {s.label}
+                </Text>
+              </Box>
+            </Button>
+          );
+        })}
       </Nav>
 
       <Box flex overflow={{ vertical: "auto" }}>
@@ -75,7 +84,8 @@ export function GrommetUsage2({ system }: UsageDashboardProps) {
           </Box>
         </Box>
 
-        <Box pad="medium" gap="medium">
+        {/* flex={false} 지정. 없으면 본문이 눌려 내용이 다음 형제 위로 흘러넘칠 수 있음 */}
+        <Box pad="medium" gap="medium" flex={false}>
           <Box gap="2px">
             <Heading level={3} margin="none">{screen.label}</Heading>
             <Text color="text-weak">{screen.lede}</Text>

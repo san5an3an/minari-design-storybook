@@ -119,9 +119,11 @@ export function AlertsScreen {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={ALERT_TREND as unknown as Record<string, unknown>[]}>
               <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-              <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={24} />
+              {/* y축 눈금 잘림 방지 */}
+              <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={28} allowDecimals={false} />
               <Tooltip />
-              <Line type="monotone" dataKey="count" stroke="var(--semantic-fg-danger-default)" strokeWidth={2} dot />
+              {/* 금토일 점이 선에서 떨어져 보이는 문제 방지. 이전 path 길이 기반 계산 때문임 */}
+              <Line type="monotone" dataKey="count" stroke="var(--semantic-fg-danger-default)" strokeWidth={2} dot isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

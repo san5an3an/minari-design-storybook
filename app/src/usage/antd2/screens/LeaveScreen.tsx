@@ -4,9 +4,9 @@ import dayjs, { type Dayjs } from "dayjs";
 import { LEAVE_BY_DAY, LEAVE_REQUESTS, type LeaveRequest } from "../data";
 
 const TYPE_COLOR: Record<LeaveRequest["type"], string> = {
-  연차: "var(--semantic-bg-info-subtle, #e6f4ff)",
-  병가: "var(--semantic-bg-danger-subtle, #fff1f0)",
-  경조사: "var(--semantic-bg-brand-subtle, #f9f0ff)",
+  연차: "var(--semantic-bg-brand-subtle)",
+  병가: "var(--semantic-bg-danger-subtle)",
+  경조사: "var(--semantic-bg-neutral-subtle)",
 };
 
 function dateCellRender(value: Dayjs) {

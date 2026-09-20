@@ -181,7 +181,7 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
           value={draftReview}
           onChange={(e) => setDraftReview(e.target.value)}
           style={{
-            borderColor: "var(--mui-palette-divider, #ccc)", borderRadius: 4, fontFamily: "inherit",
+            borderColor: "var(--semantic-border-neutral-subtle)", borderRadius: 4, fontFamily: "inherit",
             fontSize: "0.875rem", padding: "0.5rem 0.75rem", resize: "vertical",
           }}
         />

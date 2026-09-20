@@ -207,7 +207,12 @@ export function ProjectDetailScreen({ selectedId, onNavigate }: ScreenProps) {
         </Card>
 
         <Card title="파일 첨부" action={<Chip>{dropped ? "3개" : "2개"}</Chip>}>
-          <DropZone aria-label="파일을 여기로 드롭하세요" onDrop={ => setDropped(true)} UNSAFE_style={{ minHeight: "5rem" }}>
+          {/* Spectrum DropZone 안쪽 여백 72px, 14rem 레일에서 문구 쪼개짐 문제 있음 */}
+          <DropZone
+            aria-label="파일을 여기로 드롭하세요"
+            onDrop={ => setDropped(true)}
+            UNSAFE_style={{ minHeight: "5rem", padding: "1rem" }}
+          >
             <IllustratedMessage>
               <Content>
                 <Text UNSAFE_style={{ fontSize: "0.72rem" }}>

@@ -314,7 +314,20 @@ export function AssetsScreen({ onNavigate, onSelect }: ScreenProps) {
       {paged.length === 0 ? (
         <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>조건에 맞는 자산이 없어요.</Caption1>
       ) : (
-        <DataGrid items={paged} columns={columns} getRowId={(a) => a.id} style={{ minWidth: "520px" }}>
+        <DataGrid
+          items={paged}
+          columns={columns}
+          getRowId={(a) => a.id}
+          resizableColumns
+          columnSizingOptions={{
+            name: { minWidth: 170, idealWidth: 210 },
+            serial: { minWidth: 92, idealWidth: 100 },
+            category: { minWidth: 64, idealWidth: 72 },
+            holder: { minWidth: 72, idealWidth: 84 },
+            status: { minWidth: 84, idealWidth: 92 },
+          }}
+          style={{ minWidth: "520px" }}
+        >
           <DataGridHeader>
             <DataGridRow>
               {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell}</DataGridHeaderCell>}

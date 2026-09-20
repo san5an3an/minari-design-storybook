@@ -1,6 +1,10 @@
 import { Badge, Box, Grid, Stat, Table, Text, VStack } from "@chakra-ui/react";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { BACKERS } from "../data";
+
+// 축 폭에 맞게 이름 자르고, 전체 이름은 툴팁 표시
+const truncate = (value: string, limit: number) =>
+  value.length > limit ? `${value.slice(0, limit)}…` : value;
 
 export function BackersScreen {
   const totalAmount = BACKERS.reduce((sum, b) => sum + b.amount, 0);
@@ -19,6 +23,9 @@ export function BackersScreen {
     }, {}),
   ).map(([name, value]) => ({ name, value }));
 
+  // 범주당 1.4rem, x축 1.5rem 여백 지정
+  const chartHeight = `${Math.max(byTier.length, byCampaign.length) * 1.4 + 1.5}rem`;
+
   return (
     <VStack align="stretch" gap="1rem">
       <Grid templateColumns="repeat(auto-fit, minmax(8rem, 1fr))" gap="0.75rem">
@@ -32,15 +39,24 @@ export function BackersScreen {
         </Stat.Root>
       </Grid>
 
-      {/* 미니 막대그래프 둘 */}
+      {/* 미니 막대그래프 둘. 두 카드 높이를 범주 많은 그래프 기준으로 조정 */}
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap="1rem">
         <Box borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
           <Text fontSize="0.75rem" color="fg.muted" mb="0.5rem">리워드 등급별</Text>
-          <Box h="6.5rem">
+          <Box h={chartHeight}>
             <ResponsiveContainer>
-              <BarChart data={byTier} layout="vertical" margin={{ left: 8 }}>
-                <XAxis type="number" hide allowDecimals={false} />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
+              <BarChart data={byTier} layout="vertical" margin={{ top: 4, right: 14, bottom: 0, left: 0 }}>
+                <CartesianGrid horizontal={false} stroke="var(--component-chart-grid)" />
+                <XAxis
+                  type="number" allowDecimals={false} tickLine={false} axisLine={false}
+                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                />
+                <YAxis
+                  type="category" dataKey="name" tickLine={false} axisLine={false}
+                  width={84} interval={0}
+                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  tickFormatter={(value: string) => truncate(value, 7)}
+                />
                 <Tooltip />
                 <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -49,11 +65,20 @@ export function BackersScreen {
         </Box>
         <Box borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">
           <Text fontSize="0.75rem" color="fg.muted" mb="0.5rem">캠페인별</Text>
-          <Box h="6.5rem">
+          <Box h={chartHeight}>
             <ResponsiveContainer>
-              <BarChart data={byCampaign} layout="vertical" margin={{ left: 8 }}>
-                <XAxis type="number" hide allowDecimals={false} />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 10 }} />
+              <BarChart data={byCampaign} layout="vertical" margin={{ top: 4, right: 14, bottom: 0, left: 0 }}>
+                <CartesianGrid horizontal={false} stroke="var(--component-chart-grid)" />
+                <XAxis
+                  type="number" allowDecimals={false} tickLine={false} axisLine={false}
+                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                />
+                <YAxis
+                  type="category" dataKey="name" tickLine={false} axisLine={false}
+                  width={96} interval={0}
+                  tick={{ fontSize: 10, fill: "var(--component-chart-axis-fg)" }}
+                  tickFormatter={(value: string) => truncate(value, 8)}
+                />
                 <Tooltip />
                 <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} />
               </BarChart>

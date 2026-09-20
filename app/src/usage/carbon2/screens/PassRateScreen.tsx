@@ -46,7 +46,8 @@ export function PassRateScreen {
               <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
               <YAxis domain={[80, 100]} tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={32} />
               <Tooltip />
-              <Line type="monotone" dataKey="rate" stroke="var(--component-chart-series-1)" strokeWidth={2} dot />
+              {/* 폭 확정 후 차트 렌더링. 늦으면 선 일부만 그려지는 문제 있음 */}
+              <Line type="monotone" dataKey="rate" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

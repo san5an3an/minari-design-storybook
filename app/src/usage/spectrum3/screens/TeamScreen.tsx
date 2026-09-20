@@ -164,7 +164,8 @@ export function TeamScreen({ onNavigate }: ScreenProps) {
         </Card>
 
         <Card title="역할 분포" action={<Chip>전체 {TEAM.length}명</Chip>}>
-          <Flex alignItems="center" gap="size-150" UNSAFE_style={{ minWidth: 0 }}>
+          {/* 도넛과 범례를 나란히 배치. 레일 폭이 좁아 범례 글자가 줄바꿈되는 문제임 */}
+          <Flex direction="column" alignItems="center" gap="size-150" UNSAFE_style={{ minWidth: 0 }}>
             <div style={{ width: "6.5rem", height: "6.5rem", position: "relative", flexShrink: 0 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -178,7 +179,7 @@ export function TeamScreen({ onNavigate }: ScreenProps) {
                 <Text UNSAFE_style={{ fontSize: "0.6rem", color: "var(--semantic-fg-neutral-subtle)" }}>명</Text>
               </div>
             </div>
-            <Flex direction="column" gap="size-75" UNSAFE_style={{ flex: 1, minWidth: 0 }}>
+            <Flex direction="column" gap="size-75" UNSAFE_style={{ width: "100%", minWidth: 0 }}>
               {roles.map((r, i) => (
                 <Flex key={r.role} alignItems="center" justifyContent="space-between" gap="size-75">
                   <Flex alignItems="center" gap="size-75" UNSAFE_style={{ minWidth: 0 }}>

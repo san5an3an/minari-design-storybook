@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-  Box, Button, Card, CardBody, CheckBox, Heading, Image, Meter, RangeSelector, Select, Tag, Text,
-  ThemeContext,
+  Box, Button, Card, CardBody, CheckBox, Grid, Heading, Image, Meter, RangeSelector, Select, Tag,
+  Text, ThemeContext,
 } from "grommet";
 import { normalizeColor } from "grommet/utils";
 import { Heart } from "lucide-react";
@@ -106,13 +106,15 @@ export function ListingsScreen {
         <Text size="small" color="text-weak">{interestRange[0]}%–{interestRange[1]}%</Text>
       </Box>
 
-      <Box direction="row" gap="xsmall" wrap>
+      {/* 문자열 gap은 간격용 div로 구현되어 줄바꿈 계산이 밀리는 문제가 있음 */}
+      <Box direction="row" gap={{ row: "xsmall", column: "xsmall" }} wrap>
         {byType.map((t) => (
           <Tag key={t.type} value={`${t.type} ${t.count}`} size="small" />
         ))}
       </Box>
 
-      <Box direction="row" wrap gap="medium">
+      {/* Box wrap은 외톨이가 폭 전체 차지, Grid는 트랙 고정이라 동일 셀임 */}
+      <Grid columns={{ count: "fit", size: "14rem" }} gap="medium">
         {shown.map((l) => (
           <Card
             key={l.id}
@@ -121,9 +123,6 @@ export function ListingsScreen {
             focusIndicator={false}
             round="medium"
             elevation="small"
-            width={{ min: "14rem" }}
-            flex={{ grow: 1, shrink: 1 }}
-            basis="14rem"
           >
             <Box height="8rem" overflow="hidden" round={{ corner: "top", size: "medium" }} style={{ position: "relative" }}>
               <Image src={l.photo} fit="cover" a11yTitle={l.title} />
@@ -147,7 +146,7 @@ export function ListingsScreen {
             </CardBody>
           </Card>
         ))}
-      </Box>
+      </Grid>
 
       <Box
         pad="medium"

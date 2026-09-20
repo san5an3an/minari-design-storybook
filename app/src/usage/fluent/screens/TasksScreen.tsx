@@ -8,6 +8,7 @@ import {
   EditRegular, FlagRegular, MoreHorizontalRegular,
 } from "@fluentui/react-icons";
 import { MEETINGS, TASKS, type TaskItem } from "../data";
+import { MiniBarChart, type MiniBarDatum } from "../miniBarChart";
 
 const PRIORITY_BADGE: Record<TaskItem["priority"], { color: "danger" | "brand" | "subtle"; label: string }> = {
   high: { color: "danger", label: "높음" },
@@ -95,32 +96,11 @@ function CompletionProgress {
   );
 }
 
-// SVG 미니 막대그래프 구현. Fluent에 차트 패키지가 없음
-function MiniBarCard({ title, data }: { title: string; data: readonly { label: string; value: number }[] }) {
-  const max = Math.max(...data.map((d) => d.value), 1);
-  const w = 220;
-  const h = 90;
-  const barW = w / data.length - 8;
+function MiniBarCard({ title, data }: { title: string; data: readonly MiniBarDatum[] }) {
   return (
     <Card style={{ padding: "14px" }}>
       <Body1 style={{ fontWeight: 600, marginBottom: "6px" }}>{title}</Body1>
-      <svg width="100%" viewBox={`0 0 ${w} ${h}`} aria-hidden>
-        {data.map((d, i) => {
-          const barH = (d.value / max) * (h - 20);
-          const x = i * (w / data.length) + 4;
-          return (
-            <g key={d.label}>
-              <rect
-                x={x} y={h - 16 - barH} width={barW} height={barH}
-                fill="var(--colorBrandBackground)" rx={3}
-              />
-              <text x={x + barW / 2} y={h - 4} fontSize="9" textAnchor="middle" fill="var(--colorNeutralForeground3)">
-                {d.label}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+      <MiniBarChart title={title} data={data} width={220} height={100} />
     </Card>
   );
 }

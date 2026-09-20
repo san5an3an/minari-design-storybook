@@ -136,10 +136,12 @@ export function RequestsScreen {
               <Input value={requester} onChange={(_, data) => setRequester(data.value)} placeholder="이름" />
             </Field>
             <Field label="자산 분류">
+              {/* minWidth:0 지정. Fluent Dropdown min-width 250px 고정임 */}
               <Dropdown
                 value={category}
                 selectedOptions={[category]}
                 onOptionSelect={(_, data) => setCategory(data.optionValue ?? CATEGORIES[0])}
+                style={{ minWidth: 0 }}
               >
                 {CATEGORIES.map((c) => (
                   <Option key={c} value={c}>{c}</Option>

@@ -43,7 +43,8 @@ export function AccountDetailScreen {
                 <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={28} />
                 <Tooltip />
-                <Line type="monotone" dataKey="arr" stroke="var(--component-chart-series-2)" strokeWidth={2} dot />
+                {/* 폭 확정 후 Line 렌더링. path 길이로 애니메이션을 계산하는 구조임 */}
+                <Line type="monotone" dataKey="arr" stroke="var(--component-chart-series-2)" strokeWidth={2} dot isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -40,11 +40,11 @@ const TONE_CHART_COLOR: Record<string, string> = {
 const PERIOD_ITEMS = { all: "최근 5일 전체", recent3: "최근 3일" } as const;
 
 function Panel({
-  title, action, children,
-}: { title: string; action?: React.ReactNode; children: React.ReactNode }) {
+  title, action, children, className,
+}: { title: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
     <div
-      className="flex flex-1 flex-col gap-3"
+      className={`flex flex-1 flex-col gap-3${className ? ` ${className}` : ""}`}
       style={{
         background: "var(--component-card-bg)",
         borderColor: "var(--component-card-border)",
@@ -239,9 +239,11 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4 lg:flex-row">
+      {/* lg:, md: 대신 sc3-* 컨테이너 클래스 사용, 630px 액자엔 안 맞음 */}
+      <div className="sc3-split">
         {/* 좌측 2/3 실시간 지출 피드 패널 위치 */}
         <Panel
+          className="sc3-panel"
           title="실시간 지출 피드"
           action={
             <div className="flex items-center gap-2">
@@ -256,8 +258,8 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
             </div>
           }
         >
-          <div className="flex min-h-0 flex-1 flex-col gap-4 md:flex-row">
-            <div className="flex w-full shrink-0 flex-col gap-1.5 md:w-48">
+          <div className="sc3-feed flex-1">
+            <div className="sc3-feed-list flex flex-col gap-1.5">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
                 주요 거래(금액순)
               </span>
@@ -293,7 +295,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
                 );
               })}
             </div>
-            <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+            <div className="sc3-feed-chart">
               <Chart config={{ 순증감: { label: "순증감", color: "var(--component-chart-series-1)" } }} className="aspect-auto h-full min-h-40 w-full flex-1">
                 <AreaChart data={rows as unknown as Record<string, unknown>[]}>
                   <defs>
@@ -331,8 +333,8 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
           </div>
         </Panel>
 
-        {/* 우측 1/3 영역에 예산 알림과 카테고리 TOP 표시 */}
-        <div className="flex w-full flex-col gap-4 lg:w-72 lg:shrink-0">
+        {/* 우측 레일 폭, 컨테이너 폭 기준으로 가로세로 전환 처리 */}
+        <div className="sc3-rail">
           <Panel title="예산 알림">
             <div className="flex flex-col gap-3">
               {alerts.map((a) => <AlertRow key={a.title} {...a} />)}

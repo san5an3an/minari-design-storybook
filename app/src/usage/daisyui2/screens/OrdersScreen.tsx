@@ -9,15 +9,17 @@ interface Order {
   item: string;
   amount: string;
   status: "배송 준비" | "배송 중" | "배송 완료";
+  recipient: string;
+  address: string;
 }
 
 const ORDERS: Order[] = [
-  { id: "#8821", item: "무선 이어버드 Pro", amount: "129,000원", status: "배송 준비" },
-  { id: "#8820", item: "캔버스 백팩", amount: "58,000원", status: "배송 중" },
-  { id: "#8819", item: "미니멀 데스크 램프", amount: "42,000원", status: "배송 중" },
-  { id: "#8818", item: "스테인리스 텀블러", amount: "19,000원", status: "배송 완료" },
-  { id: "#8817", item: "무선 이어버드 Pro", amount: "129,000원", status: "배송 완료" },
-  { id: "#8815", item: "세라믹 머그컵 세트", amount: "24,000원", status: "배송 완료" },
+  { id: "#8821", item: "무선 이어버드 Pro", amount: "129,000원", status: "배송 준비", recipient: "김서연", address: "서울 마포구 연남동 12-3" },
+  { id: "#8820", item: "캔버스 백팩", amount: "58,000원", status: "배송 중", recipient: "박도윤", address: "경기 성남시 분당구 정자동 45" },
+  { id: "#8819", item: "미니멀 데스크 램프", amount: "42,000원", status: "배송 중", recipient: "이하은", address: "서울 강남구 역삼동 890" },
+  { id: "#8818", item: "스테인리스 텀블러", amount: "19,000원", status: "배송 완료", recipient: "정서준", address: "부산 해운대구 우동 101" },
+  { id: "#8817", item: "무선 이어버드 Pro", amount: "129,000원", status: "배송 완료", recipient: "최지후", address: "서울 종로구 계동 5" },
+  { id: "#8815", item: "세라믹 머그컵 세트", amount: "24,000원", status: "배송 완료", recipient: "오세준", address: "인천 연수구 송도동 220" },
 ];
 
 const STAGES = ["배송 준비", "배송 중", "배송 완료"] as const;
@@ -48,6 +50,35 @@ function TrendChart {
 }
 
 export function OrdersScreen {
+  const [selected, setSelected] = React.useState<Order | null>(null);
+
+  if (selected) {
+    const stageIndex = STAGES.indexOf(selected.status);
+    return (
+      <div className="d-card bg-base-100 shadow" style={{ padding: "1.25rem" }}>
+        <div className="d-card-body">
+          <button type="button" className="d-btn d-btn-ghost d-btn-sm" style={{ width: "fit-content", paddingInline: 0 }} onClick={ => setSelected(null)}>
+            ← 목록으로
+          </button>
+          <h3 style={{ fontWeight: 700, fontSize: "1.1rem", margin: "0.5rem 0 0" }}>{selected.id} · {selected.item}</h3>
+          <span className="text-sm opacity-60">{selected.amount}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", margin: "1rem 0" }}>
+            {STAGES.map((stage, i) => (
+              <React.Fragment key={stage}>
+                <span className="text-sm" style={{ color: i <= stageIndex ? "var(--color-primary)" : undefined, opacity: i <= stageIndex ? 1 : 0.5 }}>{stage}</span>
+                {i < STAGES.length - 1 && <span aria-hidden style={{ width: "1.5rem", height: 2, background: i < stageIndex ? "var(--color-primary)" : "var(--color-base-300, #ddd)" }} />}
+              </React.Fragment>
+            ))}
+          </div>
+          <span className="text-sm opacity-60">수령인</span>
+          <span>{selected.recipient}</span>
+          <span className="text-sm opacity-60" style={{ marginTop: "0.5rem" }}>배송지</span>
+          <span>{selected.address}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <div
@@ -145,7 +176,7 @@ export function OrdersScreen {
           </thead>
           <tbody>
             {ORDERS.map((o) => (
-              <tr key={o.id}>
+              <tr key={o.id} onClick={ => setSelected(o)} style={{ cursor: "pointer" }}>
                 <td>{o.id}</td>
                 <td>{o.item}</td>
                 <td>{o.amount}</td>

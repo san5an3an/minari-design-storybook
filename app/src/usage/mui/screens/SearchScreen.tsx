@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  Box, Button, Card, CardActionArea, Chip, Divider, IconButton, Menu, MenuItem,
+  Box, Button, Card, CardActionArea, CardMedia, Chip, Divider, IconButton, Menu, MenuItem,
   Rating, Select, Slider, Stack, ToggleButton, ToggleButtonGroup, Tooltip,
   Typography, useMediaQuery, useTheme,
 } from "@mui/material";
@@ -17,7 +17,6 @@ import MapOutlined from "@mui/icons-material/MapOutlined";
 import MeetingRoomOutlined from "@mui/icons-material/MeetingRoomOutlined";
 import MoreVertOutlined from "@mui/icons-material/MoreVertOutlined";
 import PaidOutlined from "@mui/icons-material/PaidOutlined";
-import PhotoCameraOutlined from "@mui/icons-material/PhotoCameraOutlined";
 import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
 import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import SquareFootOutlined from "@mui/icons-material/SquareFootOutlined";
@@ -45,22 +44,15 @@ const SORTERS: Record<SortKey, (a: Listing, b: Listing) => number> = {
   near: (a, b) => a.walk - b.walk,
 };
 
-// 사진 위치 표시. 저작권 있는 사진은 저장소에 넣지 않고 위치만으로도 배치를 확인할 수 있음
-function PhotoSlot({ height = 168 }: { height?: number }) {
+function ListingPhoto({ listing, height = 168 }: { listing: Listing; height?: number }) {
   return (
-    <Box
-      aria-hidden
-      sx={{
-        alignItems: "center",
-        bgcolor: "action.hover",
-        color: "text.disabled",
-        display: "flex",
-        height,
-        justifyContent: "center",
-      }}
-    >
-      <PhotoCameraOutlined fontSize="small" />
-    </Box>
+    <CardMedia
+      component="img"
+      image={listing.photo}
+      alt={`${listing.area} ${listing.title}`}
+      // 사진 로드 전 배경은 action.hover 대신 background.default 사용
+      sx={{ bgcolor: "background.default", height, objectFit: "cover" }}
+    />
   );
 }
 
@@ -237,6 +229,97 @@ function RankingList {
         ))}
       </Stack>
     </Card>
+  );
+}
+
+function ListingMap({ rows }: { rows: readonly Listing[] }) {
+  const theme = useTheme;
+  const shownIds = new Set(rows.map((l) => l.id));
+  const top = [...rows].sort((a, b) => b.rating - a.rating)[0];
+  return (
+    <Box sx={{ bgcolor: "background.default", height: 320, overflow: "hidden", position: "relative" }}>
+      <Box
+        aria-hidden
+        component="svg"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        sx={{ height: "100%", inset: 0, position: "absolute", width: "100%" }}
+      >
+        {[20, 40, 60, 80].map((x) => (
+          <line key={`v${x}`} x1={x} y1={0} x2={x} y2={100} stroke={theme.palette.divider} strokeWidth={0.4} />
+        ))}
+        {[20, 40, 60, 80].map((y) => (
+          <line key={`h${y}`} x1={0} y1={y} x2={100} y2={y} stroke={theme.palette.divider} strokeWidth={0.4} />
+        ))}
+        {/* 한강, 마포구 남측 경계를 나타내는 지형지물 */}
+        <path
+          d="M0,88 C20,80 38,94 58,86 C76,79 88,90 100,84 L100,100 L0,100 Z"
+          fill={alpha(theme.palette.primary.main, 0.18)}
+        />
+        {/* 지하철 2호선. 합정, 홍대입구, 신촌 구간 굵은 선으로 표시 */}
+        <polyline
+          points="10,72 26,64 46,58 68,62 92,54"
+          fill="none"
+          stroke={alpha(theme.palette.primary.main, 0.45)}
+          strokeWidth={1.4}
+          strokeLinecap="round"
+        />
+      </Box>
+
+      {LISTINGS.map((l) => {
+        const on = shownIds.has(l.id);
+        const best = top?.id === l.id;
+        return (
+          <Tooltip key={l.id} title={`${l.area} · 월 ${won(l.rent)} · ⭐ ${l.rating.toFixed(1)}`}>
+            <Box
+              sx={{
+                alignItems: "center",
+                // 필터에서 빠진 핀은 지우지 않고 흐리게 유지. 사라지면 지도와 목록 대응이 안 보임
+                bgcolor: best ? "primary.main" : "background.paper",
+                border: 2,
+                borderColor: on ? "primary.main" : "divider",
+                borderRadius: "50%",
+                color: best ? "primary.contrastText" : "text.secondary",
+                display: "flex",
+                height: best ? 26 : 18,
+                justifyContent: "center",
+                left: `${l.mapX}%`,
+                opacity: on ? 1 : 0.45,
+                position: "absolute",
+                top: `${l.mapY}%`,
+                transform: "translate(-50%, -50%)",
+                width: best ? 26 : 18,
+                zIndex: best ? 2 : 1,
+              }}
+            >
+              <PlaceOutlined sx={{ fontSize: best ? 15 : 11 }} />
+            </Box>
+          </Tooltip>
+        );
+      })}
+
+      {/* 지도 위 범례. 빈 항목 대신 의미 있는 내용으로 구성 */}
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: "center",
+          bgcolor: alpha(theme.palette.background.paper, 0.92),
+          borderRadius: 1,
+          bottom: 8,
+          left: 8,
+          position: "absolute",
+          px: 1,
+          py: 0.5,
+          right: 8,
+        }}
+      >
+        <MapOutlined fontSize="small" sx={{ color: "text.secondary" }} />
+        <Typography variant="caption" color="text.secondary" noWrap>
+          마포구 · 표시 {rows.length}곳{top ? ` · 최고 평점 ${top.area}` : ""}
+        </Typography>
+      </Stack>
+    </Box>
   );
 }
 
@@ -481,7 +564,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
                 <CardMenu title={l.title} />
 
                 <CardActionArea onClick={ => open(l.id)}>
-                  <PhotoSlot />
+                  <ListingPhoto listing={l} />
                   <Stack spacing={1} sx={{ p: 1.5 }}>
                     {l.tags.length ? (
                       <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", rowGap: 0.5 }}>
@@ -541,21 +624,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
           <Card
             variant="outlined"
           >
-            <Box
-              sx={{
-                alignItems: "center",
-                bgcolor: "background.default",
-                color: "text.secondary",
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                height: 320,
-                justifyContent: "center",
-              }}
-            >
-              <MapOutlined />
-              <Typography variant="caption">지도 위치</Typography>
-            </Box>
+            <ListingMap rows={rows} />
             <Stack spacing={0.5} sx={{ p: 1.5 }}>
               <Typography variant="body2">
                 지금 목록의 {rows.length}곳이 지도에 함께 표시됩니다.

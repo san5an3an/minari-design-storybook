@@ -5,7 +5,7 @@ import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { InputSwitch } from "primereact/inputswitch";
 
-const WAITLIST = [
+const INITIAL_WAITLIST = [
   { name: "윤도경", reason: "정기 검진", requested: "09-15" },
   { name: "서지안", reason: "예방접종", requested: "09-16" },
   { name: "장하람", reason: "피부 알레르기", requested: "09-16" },
@@ -15,16 +15,24 @@ const WAITLIST = [
 ];
 
 export function WaitlistScreen {
+  const [waitlist, setWaitlist] = React.useState(INITIAL_WAITLIST);
   const [sms, setSms] = React.useState<Record<string, boolean>>(
-    Object.fromEntries(WAITLIST.map((w) => [w.name, true])),
+    Object.fromEntries(INITIAL_WAITLIST.map((w) => [w.name, true])),
   );
+
+  const call = (name: string) => {
+    setWaitlist((prev) => prev.filter((w) => w.name !== name));
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
       <div style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-subtle)" }}>
-        총 {WAITLIST.length}명 대기 중 · 평균 대기 시간 약 18분
+        총 {waitlist.length}명 대기 중 · 평균 대기 시간 약 18분
       </div>
-      {WAITLIST.map((w, i) => (
+      {waitlist.length === 0 ? (
+        <p style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-subtle)" }}>대기 중인 환자가 없어요.</p>
+      ) : null}
+      {waitlist.map((w, i) => (
         <Panel
           key={w.name}
           header={
@@ -41,10 +49,16 @@ export function WaitlistScreen {
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <label style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                <InputSwitch checked={sms[w.name]} onChange={(e) => setSms((prev) => ({ ...prev, [w.name]: e.value }))} />
+                <InputSwitch
+                  checked={sms[w.name]}
+                  onChange={(e) => {
+                    const value = e.value;
+                    setSms((prev) => ({ ...prev, [w.name]: value }));
+                  }}
+                />
                 <span style={{ fontSize: "0.8rem" }}>SMS 알림</span>
               </label>
-              <Button label="호출" size="small" />
+              <Button label="호출" size="small" onClick={ => call(w.name)} />
             </div>
           </div>
         </Panel>

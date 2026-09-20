@@ -12,6 +12,11 @@ const ROLE_TONE: Record<User["role"], { bg: string; fg: string }> = {
   편집자: { bg: "var(--color-yellow-50)", fg: "var(--color-yellow-700)" },
   뷰어: { bg: "var(--color-gray-100)", fg: "var(--color-gray-700)" },
 };
+const ROLE_SERIES: Record<User["role"], string> = {
+  관리자: "var(--component-chart-series-1)",
+  편집자: "var(--component-chart-series-2)",
+  뷰어: "var(--component-chart-series-3)",
+};
 const STATUS_COLOR: Record<User["status"], string> = {
   활성: "success",
   정지: "failure",
@@ -208,7 +213,7 @@ export function UsersScreen({ onNavigate, onSelect, users: usersProp, onInviteUs
 
   const roleData = (["관리자", "편집자", "뷰어"] as const).map((role) => ({
     label: role, count: users.filter((u) => u.role === role).length,
-    color: ROLE_TONE[role].fg,
+    color: ROLE_SERIES[role],
   }));
   const statusData = (["활성", "정지"] as const).map((status) => ({
     label: status, count: users.filter((u) => u.status === status).length,

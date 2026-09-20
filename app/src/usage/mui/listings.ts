@@ -24,6 +24,10 @@ export interface Listing {
   tags: string[];
   // 편의시설, 상세 화면에서 칩으로 나열하기
   amenities: string[];
+  // 카드, 상세 사진용 Unsplash CDN 직링크
+  photo: string;
+  mapX: number;
+  mapY: number;
 }
 
 export const LISTINGS: readonly Listing[] = [
@@ -36,6 +40,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.7,
     tags: ["새 매물", "반려동물"],
     amenities: ["엘리베이터", "주차", "반려동물", "즉시 입주", "베란다"],
+    photo: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=60",
+    mapX: 28, mapY: 30,
   },
   {
     id: "L-1877",
@@ -46,6 +52,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.3,
     tags: ["풀옵션", "역세권"],
     amenities: ["엘리베이터", "풀옵션", "즉시 입주"],
+    photo: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=600&q=60",
+    mapX: 22, mapY: 68,
   },
   {
     id: "L-3120",
@@ -56,6 +64,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.9,
     tags: ["가격 내림"],
     amenities: ["주차", "베란다", "붙박이장", "반려동물"],
+    photo: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=60",
+    mapX: 45, mapY: 52,
   },
   {
     id: "L-2765",
@@ -66,6 +76,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.5,
     tags: ["신축", "역세권"],
     amenities: ["엘리베이터", "주차", "헬스장", "풀옵션", "무인택배"],
+    photo: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=60",
+    mapX: 52, mapY: 74,
   },
   {
     id: "L-1502",
@@ -76,6 +88,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.1,
     tags: ["복층"],
     amenities: ["베란다", "붙박이장"],
+    photo: "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?auto=format&fit=crop&w=600&q=60",
+    mapX: 14, mapY: 46,
   },
   {
     id: "L-3344",
@@ -86,6 +100,8 @@ export const LISTINGS: readonly Listing[] = [
     rating: 4.8,
     tags: ["새 매물", "조망"],
     amenities: ["엘리베이터", "주차", "헬스장", "무인택배", "베란다"],
+    photo: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=600&q=60",
+    mapX: 64, mapY: 80,
   },
 ];
 

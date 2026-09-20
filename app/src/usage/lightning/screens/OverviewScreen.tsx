@@ -9,14 +9,13 @@ const DONUT_COLORS = [
   "var(--component-chart-series-2)",
   "var(--component-chart-series-3)",
   "var(--component-chart-series-4)",
-  "var(--component-chart-series-5)",
 ];
 
 const won = (n: number) => `${Math.round(n / 10000).toLocaleString}만원`;
 
 function StatTile({ label, value, help }: { label: string; value: string; help?: string }) {
   return (
-    <div className="slds-box slds-theme_default" style={{ flex: "1 1 10rem", minWidth: "10rem" }}>
+    <div className="slds-box slds-theme_default">
       <p className="slds-text-body_small slds-text-color_weak">{label}</p>
       <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{value}</p>
       {help ? <p className="slds-text-body_small slds-text-color_weak">{help}</p> : null}
@@ -39,7 +38,7 @@ export function OverviewScreen {
         className="slds-box"
         style={{
           background: "linear-gradient(135deg, var(--semantic-bg-brand-strong), var(--semantic-bg-brand-default))",
-          color: "var(--semantic-fg-brand-on-strong, #fff)",
+          color: "var(--semantic-fg-on-brand-default)",
           borderRadius: "var(--semantic-radius-container)",
           padding: "1.5rem",
         }}
@@ -52,7 +51,8 @@ export function OverviewScreen {
         </p>
       </div>
 
-      <div className="slds-grid slds-wrap" style={{ gap: "1rem" }}>
+      {/* 통계카드 2 또는 4열만 사용. flex면 카드 하나가 다음 줄에 홀로 남음 */}
+      <div className="lds1-stats">
         <StatTile label="총 파이프라인" value={won(totalAmount)} help={`딜 ${DEALS.length}건`} />
         <StatTile label="이번 달 마감 예정" value={`${closingThisMonth}건`} help="9월 기준" />
         <StatTile label="평균 계약 규모" value={won(avgDeal)} help="딜당 평균" />
@@ -95,7 +95,8 @@ export function OverviewScreen {
                 <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={28} />
                 <Tooltip />
-                <Line type="monotone" dataKey="amount" stroke="var(--component-chart-series-1)" strokeWidth={2} dot />
+                {/* isAnimationActive={false} 지정, 도형이 중간에 얼어붙을 수 있음 */}
+                <Line type="monotone" dataKey="amount" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -106,7 +107,7 @@ export function OverviewScreen {
           <div style={{ height: "10rem" }}>
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={STAGE_SHARE} dataKey="value" nameKey="name" innerRadius="55%" outerRadius="85%" paddingAngle={2}>
+                <Pie data={STAGE_SHARE} dataKey="value" nameKey="name" innerRadius="55%" outerRadius="85%" paddingAngle={2} isAnimationActive={false}>
                   {STAGE_SHARE.map((_, i) => (
                     <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />
                   ))}

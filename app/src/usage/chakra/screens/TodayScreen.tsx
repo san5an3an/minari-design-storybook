@@ -52,6 +52,14 @@ function TodayHero {
   );
 }
 
+const STAT_GRID_CSS = `
+.chk1-stat-cq { container-type: inline-size; container-name: chk1stats; }
+.chk1-stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@container chk1stats (min-width: 47rem) {
+  .chk1-stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+`;
+
 function StatTile({ label, value, help }: { label: string; value: string; help?: string }) {
   return (
     <Stat.Root
@@ -73,14 +81,17 @@ export function TodayScreen {
 
   return (
     <VStack align="stretch" gap="1rem">
+      <style>{STAT_GRID_CSS}</style>
       <TodayHero />
 
-      <Grid templateColumns="repeat(auto-fit, minmax(10rem, 1fr))" gap="1rem">
-        <StatTile label="오늘 예약" value={`${totalBooked}건`} help={`정원 ${totalCapacity}석 중`} />
-        <StatTile label="채움률" value={`${fillRate}%`} help="9개 수업 평균" />
-        <StatTile label="신규 회원(이번 달)" value="3명" help="지난달 대비 +1" />
-        <StatTile label="이번 달 매출" value="8,420,000원" help="전월 대비 +6%" />
-      </Grid>
+      <Box className="chk1-stat-cq">
+        <Box className="chk1-stat-grid">
+          <StatTile label="오늘 예약" value={`${totalBooked}건`} help={`정원 ${totalCapacity}석 중`} />
+          <StatTile label="채움률" value={`${fillRate}%`} help="9개 수업 평균" />
+          <StatTile label="신규 회원(이번 달)" value="3명" help="지난달 대비 +1" />
+          <StatTile label="이번 달 매출" value="8,420,000원" help="전월 대비 +6%" />
+        </Box>
+      </Box>
 
       <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap="1rem">
         <Box borderWidth="1px" borderColor="border" borderRadius="control" p="1rem" bg="bg.panel">

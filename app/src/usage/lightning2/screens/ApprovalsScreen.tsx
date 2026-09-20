@@ -28,20 +28,21 @@ export function ApprovalsScreen {
 
   return (
     <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
-      <div className="slds-grid slds-wrap" style={{ gap: "1rem" }}>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+      {/* 통계카드 2 또는 4열만 사용. flex면 2x2로 접혀 우측 절반이 빈 채로 남음 */}
+      <div className="lds2-stats">
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">대기중</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{pending.length}건</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">오늘 마감</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{dueSoon.length}건</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">이번 주 승인율</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{approvalRate}%</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">평균 단계 수</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{avgSteps}단계</p>
         </div>

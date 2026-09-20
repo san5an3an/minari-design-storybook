@@ -89,6 +89,26 @@ const SHELL_CSS = `
 .${SHELL} [data-slot="sidebar-inset"] {
   min-height: 0;
   overflow-y: auto;
+  container-type: inline-size;
+  container-name: sc3;
+}
+
+.${SHELL} .sc3-split { display: flex; flex-direction: column; gap: 1rem; }
+.${SHELL} .sc3-rail { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+@container sc3 (min-width: 48rem) {
+  .${SHELL} .sc3-split { flex-direction: row; }
+  .${SHELL} .sc3-rail { width: 18rem; flex: 0 0 auto; }
+}
+
+.${SHELL} .sc3-panel { container-type: inline-size; container-name: sc3panel; }
+.${SHELL} .sc3-feed { display: flex; flex-direction: column; gap: 1rem; min-height: 0; }
+.${SHELL} .sc3-feed-list { width: 100%; flex: 0 0 auto; }
+// 세로 배치 시 차트 셀 높이 고정. flex:1 1 0%+min-height:0이면 누출
+.${SHELL} .sc3-feed-chart { display: flex; flex-direction: column; min-width: 0; height: 12rem; }
+@container sc3panel (min-width: 30rem) {
+  .${SHELL} .sc3-feed { flex-direction: row; }
+  .${SHELL} .sc3-feed-list { width: 12rem; }
+  .${SHELL} .sc3-feed-chart { flex: 1 1 0%; height: auto; min-height: 10rem; }
 }
 `;
 
@@ -226,104 +246,105 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
     if (key === "detail") setSelectedId(id);
     else setScreenKey(key);
   };
-  const backFromDetail =  => setSelectedId(null);
+  // 대시보드 버튼 클릭 시 이동 처리
+  const backFromDetail = (key: string) => {
+    setSelectedId(null);
+    if (key && key !== "detail") setScreenKey(key);
+  };
 
   const hour = new Date.getHours;
   const greeting = hour < 12 ? "좋은 아침이에요" : hour < 18 ? "좋은 오후예요" : "좋은 저녁이에요";
 
   const body = (
     <>
-      {selectedId !== null ? (
-        <div className="p-4 sm:p-5">
+      {/* 상세 화면에서도 히어로, 통계카드 유지해 화면별 상단 영역 유무 차이 제거 */}
+      {/* 히어로 구성: 배경 스크림, 좌측 인사말, 우측 검색/알림/아바타 */}
+      <div
+        className="relative flex flex-wrap items-start justify-between gap-4 px-4 pb-14 pt-5 lg:px-5"
+        style={{
+          minHeight: "11rem",
+          backgroundImage:
+            `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-neutral-surface) 28%, transparent) 0%, ` +
+            `color-mix(in oklch, var(--semantic-bg-neutral-surface) 50%, transparent) 55%, ` +
+            `color-mix(in oklch, var(--semantic-bg-neutral-surface) 88%, transparent) 85%, ` +
+            `var(--semantic-bg-neutral-surface) 100%), url("${HERO_IMAGE}")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex min-w-0 flex-1 items-start gap-2">
+          {/* span에 mt-1 shrink-0 적용해 여백 추가. 타입 제약으로 props 못 받음 */}
+          <span className="mt-1 shrink-0">
+            <Sidebar.Trigger />
+          </span>
+          {/* 텍스트 전용 유리 배경. 스크림에만 의존해 대비가 사진 밝기에 흔들리는 문제가 있음 */}
+          <div
+            className="flex min-w-0 flex-col gap-1 rounded-[var(--semantic-radius-container)] px-3 py-2"
+            style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 62%, transparent)", backdropFilter: "blur(0.375rem)" }}
+          >
+            <span className="flex items-center gap-2" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-heading-md)" }}>
+              {greeting}, {USER.name}님
+            </span>
+            <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>
+              이번 달 지출 현황을 확인해보세요.
+            </span>
+          </div>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="relative flex items-center">
+            <Search
+              size={14}
+              aria-hidden
+              className="pointer-events-none absolute left-2.5"
+              style={{ color: "var(--semantic-fg-neutral-subtle)" }}
+            />
+            <Input
+              aria-label="거래 검색"
+              placeholder="거래·카테고리 검색…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{ width: "12rem", paddingLeft: "2rem", background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)" }}
+            />
+          </span>
+          <HeroBell transactions={transactions} />
+          <Menu
+            side="bottom"
+            align="end"
+            minWidth="12rem"
+            trigger={
+              <button
+                type="button"
+                className="flex items-center gap-1.5 rounded-[var(--semantic-radius-control)] p-1"
+                style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)", boxShadow: "var(--component-card-shadow)" }}
+              >
+                <Avatar size="sm" fallback={USER.initial} />
+                <ChevronDown size={14} aria-hidden style={{ color: "var(--semantic-fg-neutral-subtle)" }} />
+              </button>
+            }
+            items={[
+              { heading: <span className="flex flex-col px-1 py-1"><span style={{ fontSize: "var(--semantic-text-body-sm)" }}>{USER.name}</span><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{USER.email}</span></span> },
+              { separator: true },
+              { label: <span className="flex items-center gap-2"><Settings2 size={14} aria-hidden />설정</span> },
+              { label: <span className="flex items-center gap-2"><HeartPulse size={14} aria-hidden />예산 목표 관리</span>, onSelect:  => setScreenKey("budget") },
+            ]}
+          />
+        </div>
+      </div>
+
+      <StatRow transactions={transactions} />
+
+      <div className="flex-1 p-4 sm:p-5">
+        {selectedId !== null ? (
           <TransactionDetailScreen
             itemId={selectedId}
             onOpen={backFromDetail}
             transactions={transactions}
             onAdd={addTransaction}
           />
-        </div>
-      ) : (
-        <>
-          {/* 히어로 구성: 배경 스크림, 좌측 인사말, 우측 검색/알림/아바타 */}
-          <div
-            className="relative flex flex-wrap items-start justify-between gap-4 px-4 pb-14 pt-5 lg:px-5"
-            style={{
-              minHeight: "11rem",
-              backgroundImage:
-                `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-neutral-surface) 28%, transparent) 0%, ` +
-                `color-mix(in oklch, var(--semantic-bg-neutral-surface) 50%, transparent) 55%, ` +
-                `color-mix(in oklch, var(--semantic-bg-neutral-surface) 88%, transparent) 85%, ` +
-                `var(--semantic-bg-neutral-surface) 100%), url("${HERO_IMAGE}")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="flex min-w-0 flex-1 items-start gap-2">
-              {/* span에 mt-1 shrink-0 적용해 여백 추가. 타입 제약으로 props 못 받음 */}
-              <span className="mt-1 shrink-0">
-                <Sidebar.Trigger />
-              </span>
-              {/* 텍스트 전용 유리 배경. 스크림에만 의존해 대비가 사진 밝기에 흔들리는 문제가 있음 */}
-              <div
-                className="flex min-w-0 flex-col gap-1 rounded-[var(--semantic-radius-container)] px-3 py-2"
-                style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 62%, transparent)", backdropFilter: "blur(0.375rem)" }}
-              >
-                <span className="flex items-center gap-2" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-heading-md)" }}>
-                  {greeting}, {USER.name}님
-                </span>
-                <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>
-                  이번 달 지출 현황을 확인해보세요.
-                </span>
-              </div>
-            </div>
-            <div className="flex shrink-0 items-center gap-2">
-              <span className="relative flex items-center">
-                <Search
-                  size={14}
-                  aria-hidden
-                  className="pointer-events-none absolute left-2.5"
-                  style={{ color: "var(--semantic-fg-neutral-subtle)" }}
-                />
-                <Input
-                  aria-label="거래 검색"
-                  placeholder="거래·카테고리 검색…"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  style={{ width: "12rem", paddingLeft: "2rem", background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)" }}
-                />
-              </span>
-              <HeroBell transactions={transactions} />
-              <Menu
-                side="bottom"
-                align="end"
-                minWidth="12rem"
-                trigger={
-                  <button
-                    type="button"
-                    className="flex items-center gap-1.5 rounded-[var(--semantic-radius-control)] p-1"
-                    style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)", boxShadow: "var(--component-card-shadow)" }}
-                  >
-                    <Avatar size="sm" fallback={USER.initial} />
-                    <ChevronDown size={14} aria-hidden style={{ color: "var(--semantic-fg-neutral-subtle)" }} />
-                  </button>
-                }
-                items={[
-                  { heading: <span className="flex flex-col px-1 py-1"><span style={{ fontSize: "var(--semantic-text-body-sm)" }}>{USER.name}</span><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{USER.email}</span></span> },
-                  { separator: true },
-                  { label: <span className="flex items-center gap-2"><Settings2 size={14} aria-hidden />설정</span> },
-                  { label: <span className="flex items-center gap-2"><HeartPulse size={14} aria-hidden />예산 목표 관리</span>, onSelect:  => setScreenKey("budget") },
-                ]}
-              />
-            </div>
-          </div>
-
-          <StatRow transactions={transactions} />
-
-          <div className="flex-1 p-4 sm:p-5">
-            <Screen onOpen={openDetail} transactions={transactions} onAdd={addTransaction} query={query} />
-          </div>
-        </>
-      )}
+        ) : (
+          <Screen onOpen={openDetail} transactions={transactions} onAdd={addTransaction} query={query} />
+        )}
+      </div>
     </>
   );
 

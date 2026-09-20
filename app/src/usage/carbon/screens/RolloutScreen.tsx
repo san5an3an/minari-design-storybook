@@ -84,8 +84,8 @@ export function RolloutScreen {
         </div>
       </Tile>
 
-      {/* 통계카드와 배포 이력으로 여백 채우기 */}
-      <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))" }}>
+      {/* 통계카드와 배포 이력으로 여백 채우기. 카드 행은 2 또는 4열만 사용 */}
+      <div className="cb1-stats">
         <Tile><div style={{ fontSize: "0.75rem", opacity: 0.7 }}>대상 장비</div><div style={{ fontSize: "1.25rem", fontWeight: 600 }}>30대</div></Tile>
         <Tile><div style={{ fontSize: "0.75rem", opacity: 0.7 }}>스테이징 완료</div><div style={{ fontSize: "1.25rem", fontWeight: 600 }}>3대</div></Tile>
         <Tile><div style={{ fontSize: "0.75rem", opacity: 0.7 }}>대기 중</div><div style={{ fontSize: "1.25rem", fontWeight: 600 }}>27대</div></Tile>

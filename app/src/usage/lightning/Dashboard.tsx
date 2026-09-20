@@ -6,6 +6,14 @@ import { lightningAdapter } from "../../preview/lightningRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
+const LAYOUT_CSS = `
+.lds1-scroll { container-type: inline-size; container-name: lds1; }
+.lds1-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@container lds1 (min-width: 47rem) {
+  .lds1-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+`;
+
 export function LightningUsage({ system, active }: UsageDashboardProps) {
   React.useEffect(
      => lightningAdapter.mountTheme?.(system, active, document),
@@ -18,6 +26,7 @@ export function LightningUsage({ system, active }: UsageDashboardProps) {
 
   return (
     <lightningAdapter.Provider system={system} mode={active}>
+      <style>{LAYOUT_CSS}</style>
       <div
         className="slds-grid"
         style={{
@@ -34,13 +43,15 @@ export function LightningUsage({ system, active }: UsageDashboardProps) {
           className="slds-nav-vertical"
           style={{ width: "12rem", flexShrink: 0, borderRight: "1px solid var(--semantic-border-neutral-subtle)", padding: "0.75rem 0", overflowY: "auto" }}
         >
+          {/* 그룹 제목과 항목 라벨을 다르게 표시. 같으면 클릭 안 되는 h2가 겹쳐 동작하지 않음 */}
           <div className="slds-nav-vertical__section">
-            <h2 className="slds-nav-vertical__title slds-text-title_caps">파이프라인</h2>
-            <ul>
+            <h2 id="lightning-usage-nav-title" className="slds-nav-vertical__title slds-text-title_caps">영업 콘솔</h2>
+            <ul aria-describedby="lightning-usage-nav-title">
               {SCREENS.map((s) => (
                 <li key={s.key} className={"slds-nav-vertical__item" + (s.key === screenKey ? " slds-is-active" : "")}>
                   <a
                     href="#" className="slds-nav-vertical__action"
+                    aria-current={s.key === screenKey ? "true" : undefined}
                     onClick={(e) => { e.preventDefault; setScreenKey(s.key); }}
                   >
                     {s.label}
@@ -76,7 +87,7 @@ export function LightningUsage({ system, active }: UsageDashboardProps) {
             </div>
           </header>
 
-          <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
+          <div className="lds1-scroll" style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
             <div style={{ marginBottom: "0.75rem" }}>
               <h2 className="slds-text-heading_small">{screen.label}</h2>
               <p className="slds-text-body_small slds-text-color_weak">{screen.lede}</p>

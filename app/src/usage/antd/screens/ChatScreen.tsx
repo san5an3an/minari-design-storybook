@@ -53,7 +53,7 @@ export function ChatScreen {
   // 넓은 화면은 항상 하나 선택 유지, 없으면 오른쪽이 비어 절반 낭비되는 문제가 있음
   const person = PEOPLE.find((p) => p.id === current) ?? (wide ? PEOPLE[0] : null);
 
-  const PANE_HEIGHT = 480;
+  const PANE_HEIGHT = "max(20rem, calc(100dvh - 22.8rem))";
 
   const list = (
     <Flex

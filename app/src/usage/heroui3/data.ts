@@ -45,7 +45,7 @@ export const MEETUPS: Meetup[] = [
     host: "이빌더",
     seatsLeft: 0,
     description: "각자 만든 사이드 프로젝트를 5분씩 발표하고 피드백을 나눕니다. 마감되었습니다.",
-    colorToken: "var(--semantic-bg-info-subtle, #e0f2fe)",
+    colorToken: "var(--semantic-bg-brand-subtle)",
     image: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=320&q=70",
   },
   {

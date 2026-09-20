@@ -16,20 +16,21 @@ export function AccountsScreen {
 
   return (
     <div className="slds-grid slds-wrap slds-grid_vertical" style={{ gap: "1rem" }}>
-      <div className="slds-grid slds-wrap" style={{ gap: "1rem" }}>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+      {/* 통계카드 2 또는 4열만 사용. flex면 카드 하나가 다음 줄에 홀로 남음 */}
+      <div className="lds3-stats">
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">총 ARR</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{won(totalArr)}</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">거래처 수</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{ACCOUNTS.length}곳</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">평균 헬스 스코어</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{avgHealth}점</p>
         </div>
-        <div className="slds-box slds-theme_default" style={{ flex: "1 1 9rem" }}>
+        <div className="slds-box slds-theme_default">
           <p className="slds-text-body_small slds-text-color_weak">위험 거래처</p>
           <p className="slds-text-heading_large" style={{ fontWeight: 600 }}>{atRisk}곳</p>
         </div>

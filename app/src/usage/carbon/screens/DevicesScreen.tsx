@@ -82,7 +82,8 @@ export function DevicesScreen {
         </Select>
       </div>
 
-      <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))" }}>
+      {/* 통계카드 2열 또는 4열만 사용 */}
+      <div className="cb1-stats">
         {(Object.keys(counts) as (keyof typeof counts)[]).map((k) => (
           <Tile key={k}>
             <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>{k}</div>
@@ -99,9 +100,10 @@ export function DevicesScreen {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={ONLINE_TREND as unknown as Record<string, unknown>[]}>
                 <XAxis dataKey="t" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={24} />
+                {/* 기기 대수는 정수 필수. 아니면 소수 눈금 생겨 width 24에 안 맞음 */}
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={28} allowDecimals={false} />
                 <Tooltip />
-                <Line type="monotone" dataKey="online" stroke="var(--component-chart-series-1)" strokeWidth={2} dot />
+                <Line type="monotone" dataKey="online" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

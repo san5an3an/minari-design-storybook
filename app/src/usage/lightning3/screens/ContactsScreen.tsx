@@ -4,7 +4,7 @@ import { ACCOUNTS, CONTACTS, TIER_SHARE } from "../data";
 const DONUT_COLORS = [
   "var(--component-chart-series-1)",
   "var(--component-chart-series-3)",
-  "var(--component-chart-series-5)",
+  "var(--component-chart-series-4)",
 ];
 
 export function ContactsScreen {
@@ -22,7 +22,8 @@ export function ContactsScreen {
           <div style={{ height: "6rem" }}>
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={TIER_SHARE} dataKey="value" nameKey="name" innerRadius="50%" outerRadius="85%" paddingAngle={2}>
+                {/* isAnimationActive={false} 지정. 없으면 도넛이 선 하나로만 남음 */}
+                <Pie data={TIER_SHARE} dataKey="value" nameKey="name" innerRadius="50%" outerRadius="85%" paddingAngle={2} isAnimationActive={false}>
                   {TIER_SHARE.map((_, i) => (
                     <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />
                   ))}

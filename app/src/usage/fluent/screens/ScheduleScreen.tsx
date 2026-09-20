@@ -5,6 +5,7 @@ import {
 } from "@fluentui/react-components";
 import { CalendarLtrRegular, ClockRegular, InfoRegular, PeopleRegular } from "@fluentui/react-icons";
 import { MEETINGS, type MeetingItem } from "../data";
+import { MiniBarChart } from "../miniBarChart";
 
 const COLOR_VAR: Record<MeetingItem["color"], string> = {
   brand: "var(--colorBrandBackground)",
@@ -55,32 +56,14 @@ function ScheduleStatCard({ stat }: { stat: ScheduleStat }) {
   );
 }
 
-// 순수 SVG 미니 막대그래프로 회의실별 사용 횟수 표시
 function RoomBarChart {
   const counts = new Map<string, number>;
   for (const m of MEETINGS) counts.set(m.room, (counts.get(m.room) ?? 0) + 1);
   const data = [...counts.entries].map(([label, value]) => ({ label, value }));
-  const max = Math.max(...data.map((d) => d.value), 1);
-  const w = 260;
-  const h = 90;
-  const barW = w / data.length - 10;
   return (
     <Card style={{ padding: "14px" }}>
       <Body1 style={{ fontWeight: 600, marginBottom: "6px" }}>회의실별 사용 횟수</Body1>
-      <svg width="100%" viewBox={`0 0 ${w} ${h}`} aria-hidden>
-        {data.map((d, i) => {
-          const barH = (d.value / max) * (h - 22);
-          const x = i * (w / data.length) + 5;
-          return (
-            <g key={d.label}>
-              <rect x={x} y={h - 16 - barH} width={barW} height={barH} fill="var(--colorBrandBackground)" rx={3} />
-              <text x={x + barW / 2} y={h - 4} fontSize="8.5" textAnchor="middle" fill="var(--colorNeutralForeground3)">
-                {d.label}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+      <MiniBarChart title="회의실별 사용 횟수" data={data} width={260} height={104} />
     </Card>
   );
 }
