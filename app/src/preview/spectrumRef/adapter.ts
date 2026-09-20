@@ -1,7 +1,7 @@
-import type { BaseRefAdapter, BaseRefDoc, DemoValue, SkipCode } from "../refContract";
+import * as React from "react";
+import type { BaseRefAdapter, BaseRefDoc, BaseRefProviderProps, DemoValue, SkipCode } from "../refContract";
 import nav from "./contract/_nav.json";
 import { LOAD } from "./demos/_load";
-import SpectrumRefProvider from "./provider";
 
 interface SpectrumNav {
   index: { slug: string; title: string }[];
@@ -14,6 +14,12 @@ const SLUGS = new Set(NAV.index.map((e) => e.slug));
 // 분류는 mdx front-matter category 기준, 순서는 index.json 그대로 유지
 const GROUPS: Record<string, string[]> = NAV.groups;
 const TITLE = new Map(NAV.index.map((e) => [e.slug, e.title]));
+
+const LazyProvider = React.lazy( => import("./provider"));
+
+function SpectrumRefProvider(props: BaseRefProviderProps) {
+  return React.createElement(React.Suspense, { fallback: null }, React.createElement(LazyProvider, props));
+}
 
 function loadContract(slug: string): Promise<BaseRefDoc> {
   return import(`./contract/${slug}.json`).then((m) => m.default as BaseRefDoc);
@@ -49,5 +55,5 @@ export const spectrumAdapter: BaseRefAdapter = {
     }));
   },
   Provider: SpectrumRefProvider,
-  // mountTheme는 사용하지 않음. 현재 버전은 문서 전역에 싣는 css나 테마가 없음
+  // 색, 글꼴은 Provider 루트 범위에만 적용. 문서 전역 CSS 미적용
 };

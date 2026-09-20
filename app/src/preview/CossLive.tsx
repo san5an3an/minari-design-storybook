@@ -1,6 +1,5 @@
 import * as React from "react";
 import { InboxIcon } from "lucide-react";
-import type { CossDoc } from "./cossRef/loader";
 
 // 단순, 원자 컴포넌트는 CossDoc.variants 값을 그대로 적용
 import { Badge } from "../bases/coss-ui/badge";
@@ -49,6 +48,16 @@ import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarGroup, 
 import { PreviewCard, PreviewCardTrigger, PreviewCardPopup } from "../bases/coss-ui/preview-card";
 import { Progress, ProgressTrack, ProgressIndicator } from "../bases/coss-ui/progress";
 import { Meter, MeterTrack, MeterIndicator } from "../bases/coss-ui/meter";
+import { Combobox, ComboboxInput, ComboboxPopup, ComboboxEmpty, ComboboxList, ComboboxItem } from "../bases/coss-ui/combobox";
+import { AlertDialog, AlertDialogTrigger, AlertDialogPopup, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogClose } from "../bases/coss-ui/alert-dialog";
+import { Dialog, DialogTrigger, DialogPopup, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "../bases/coss-ui/dialog";
+import { Sheet, SheetTrigger, SheetPopup, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "../bases/coss-ui/sheet";
+import { Drawer, DrawerTrigger, DrawerPopup, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from "../bases/coss-ui/drawer";
+import { Popover, PopoverTrigger, PopoverPopup, PopoverTitle, PopoverDescription, PopoverClose } from "../bases/coss-ui/popover";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipPopup } from "../bases/coss-ui/tooltip";
+import { Menu, MenuTrigger, MenuPopup, MenuItem } from "../bases/coss-ui/menu";
+import { ContextMenu, ContextMenuTrigger, ContextMenuPopup, ContextMenuItem } from "../bases/coss-ui/context-menu";
+import { ToastProvider, toastManager } from "../bases/coss-ui/toast";
 
 // 필드 오류 시에도 화면 전체 비지 않게 처리
 class Cell extends React.Component<{ children: React.ReactNode }, { err: string | null }> {
@@ -63,22 +72,6 @@ class Cell extends React.Component<{ children: React.ReactNode }, { err: string 
     return this.props.children;
   }
 }
-
-// 트리거나 hover로 열려야 내용 표시되는 컴포넌트 계열, 강제 오픈 없음
-const NOTHING_TO_SHOW: Record<string, string> = {
-  "alert-dialog": "`open` 이 참일 때만 떠요. 홑으로 세우면 닫힌 상태라 아무것도 안 보여요.",
-  dialog: "`open` 이 참일 때만 떠요. 홑으로 세우면 닫힌 상태예요.",
-  sheet: "`open` 이 참일 때만 열려요. 홑으로 세우면 닫힌 상태예요.",
-  drawer: "`open` 이 참일 때만 열려요. 홑으로 세우면 닫힌 상태예요.",
-  popover: "감쌀 자식과 트리거(클릭 또는 `open`)가 있어야 떠요.",
-  tooltip: "감쌀 자식과 마우스(또는 `open`)가 있어야 떠요. 홑으로는 띄울 것이 없어요.",
-  menu: "트리거를 눌러야 펼쳐지는 드롭다운이에요. 홑으로 세우면 트리거만 남고 목록은 안 보여요.",
-  "context-menu": "오른쪽 클릭으로만 열려요. 이 화면에서 재현할 상호작용이 아니에요.",
-};
-const IMPERATIVE = new Set(["toast"]);
-const VERSION_GAP: Record<string, string> = {
-  combobox: "coss 원본이 요구하는 @base-ui/react 1.8.0+ 의 API(3번째 제네릭·createItems)를 이 프로젝트에 깔린 1.7.0 이 아직 못 줘요. 다른 18개 베이스가 같이 쓰는 의존이라 이 카탈로그만 보려고 올리지 않았어요.",
-};
 
 // 단순 컴포넌트 기본 상태. variant 만으론 비어 보이는 항목에 최소값 지정
 const DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
@@ -105,35 +98,50 @@ const SIMPLE: Record<string, React.ComponentType<Record<string, unknown>>> = {
   spinner: Spinner as React.ComponentType<Record<string, unknown>>,
 };
 
-function SimpleGrid({ slug, doc }: { slug: string; doc: CossDoc }) {
+type CossVariant = { axis: string; value: string };
+
+function SimpleGrid({ slug, variant }: { slug: string; variant?: CossVariant }) {
   const Comp = SIMPLE[slug];
   const base = DEFAULT_PROPS[slug] ?? {};
   const kids = NO_CHILDREN.has(slug) ? undefined : slug === "kbd" ? "⌘K" : slug === "label" ? "레이블" : slug;
-  const axes = Object.entries(doc.variants);
+  if (variant) {
+    return <Cell><Comp {...base} {...{ [variant.axis]: variant.value }}>{kids}</Comp></Cell>;
+  }
   return (
-    <>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: ".75rem", marginBottom: axes.length ? "1rem" : 0, alignItems: "center" }}>
-        <Cell><Comp {...base}>{kids}</Comp></Cell>
-      </div>
-      {axes.map(([axis, values]) => (
-        <div key={axis} style={{ marginBottom: "1rem" }}>
-          <h3 style={{ margin: "0 0 .35rem" }}>{axis}</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: ".75rem", alignItems: "center" }}>
-            {values.map((val) => (
-              <div key={val} style={{ display: "grid", gap: ".25rem", justifyItems: "start" }}>
-                <Cell><Comp {...base} {...{ [axis]: val }}>{kids ? val : undefined}</Comp></Cell>
-                <span className="doc-note" style={{ fontSize: ".75rem" }}>{val}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </>
+    <Cell><Comp {...base}>{kids}</Comp></Cell>
   );
 }
 
 // 합성 컴포넌트마다 최소 구성 데모 작성하기. 구조 없이는 렌더링이 안 돼 자동화할 수 없음
-const BESPOKE: Record<string,  => React.ReactNode> = {
+const BESPOKE: Record<string, (variant?: CossVariant) => React.ReactNode> = {
+  "alert-dialog":  => (
+    <AlertDialog><AlertDialogTrigger render={<Button variant="outline">계정 삭제</Button>} /><AlertDialogPopup><AlertDialogHeader><AlertDialogTitle>정말 삭제할까요?</AlertDialogTitle><AlertDialogDescription>이 작업은 되돌릴 수 없어요.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogClose render={<Button variant="outline">취소</Button>} /><AlertDialogClose render={<Button variant="destructive">삭제</Button>} /></AlertDialogFooter></AlertDialogPopup></AlertDialog>
+  ),
+  dialog:  => (
+    <Dialog><DialogTrigger render={<Button variant="outline">다이얼로그 열기</Button>} /><DialogPopup><DialogHeader><DialogTitle>프로필 편집</DialogTitle><DialogDescription>여기서 정보를 바꿀 수 있어요.</DialogDescription></DialogHeader><DialogFooter><DialogClose render={<Button>완료</Button>} /></DialogFooter></DialogPopup></Dialog>
+  ),
+  sheet:  => (
+    <Sheet><SheetTrigger render={<Button variant="outline">시트 열기</Button>} /><SheetPopup><SheetHeader><SheetTitle>알림 설정</SheetTitle><SheetDescription>옆에서 열리는 패널이에요.</SheetDescription></SheetHeader><SheetFooter><SheetClose render={<Button>확인</Button>} /></SheetFooter></SheetPopup></Sheet>
+  ),
+  drawer:  => (
+    <Drawer><DrawerTrigger render={<Button variant="outline">드로어 열기</Button>} /><DrawerPopup><DrawerHeader><DrawerTitle>세부 옵션</DrawerTitle><DrawerDescription>아래에서 설정을 바꿀 수 있어요.</DrawerDescription></DrawerHeader><DrawerFooter><DrawerClose render={<Button>확인</Button>} /></DrawerFooter></DrawerPopup></Drawer>
+  ),
+  popover:  => (
+    <Popover><PopoverTrigger render={<Button variant="outline">팝오버 열기</Button>} /><PopoverPopup><div className="grid gap-1"><PopoverTitle>빠른 안내</PopoverTitle><PopoverDescription>원하는 내용을 여기에 넣을 수 있어요.</PopoverDescription><PopoverClose render={<Button size="sm" variant="outline">닫기</Button>} /></div></PopoverPopup></Popover>
+  ),
+  tooltip:  => (
+    <TooltipProvider><Tooltip><TooltipTrigger render={<Button variant="outline">마우스를 올려보세요</Button>} /><TooltipPopup>여기 도움말이 떠요.</TooltipPopup></Tooltip></TooltipProvider>
+  ),
+  menu:  => (
+    <Menu><MenuTrigger render={<Button variant="outline">메뉴 열기</Button>} /><MenuPopup><MenuItem>수정</MenuItem><MenuItem>복사</MenuItem><MenuItem variant="destructive">삭제</MenuItem></MenuPopup></Menu>
+  ),
+  "context-menu":  => (
+    <ContextMenu><ContextMenuTrigger style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "5rem", width: "100%", border: "1px dashed var(--border)", borderRadius: "var(--radius-lg)", color: "var(--muted-foreground)", fontSize: "var(--text-sm)" }}>여기를 우클릭해 보세요</ContextMenuTrigger><ContextMenuPopup><ContextMenuItem>복사</ContextMenuItem><ContextMenuItem>붙여넣기</ContextMenuItem></ContextMenuPopup></ContextMenu>
+  ),
+  combobox:  => (
+    <div style={{ maxWidth: "20rem" }}><Combobox items={["사과", "바나나", "체리"]}><ComboboxInput placeholder="과일 검색…" showClear /><ComboboxPopup><ComboboxEmpty>결과가 없어요.</ComboboxEmpty><ComboboxList>{(item: string) => <ComboboxItem key={item} value={item}>{item}</ComboboxItem>}</ComboboxList></ComboboxPopup></Combobox></div>
+  ),
+  toast:  => <ToastDemo />,
   accordion:  => (
     <Accordion defaultValue={["item-1"]}>
       <AccordionItem value="item-1">
@@ -146,8 +154,8 @@ const BESPOKE: Record<string,  => React.ReactNode> = {
       </AccordionItem>
     </Accordion>
   ),
-  alert:  => (
-    <Alert>
+  alert: (variant) => (
+    <Alert {...(variant?.axis === "variant" ? { variant: variant.value as "default" | "error" | "info" | "success" | "warning" } : {})}>
       <AlertTitle>알림 제목</AlertTitle>
       <AlertDescription>알림 본문 설명이에요.</AlertDescription>
     </Alert>
@@ -209,9 +217,9 @@ const BESPOKE: Record<string,  => React.ReactNode> = {
     </Pagination>
   ),
   calendar:  => <Calendar />,
-  select:  => (
+  select: (variant) => (
     <Select defaultValue="apple">
-      <SelectTrigger><SelectValue placeholder="과일 선택" /></SelectTrigger>
+      <SelectTrigger {...(variant?.axis === "size" ? { size: variant.value as "default" | "sm" | "lg" } : {})}><SelectValue placeholder="과일 선택" /></SelectTrigger>
       <SelectPopup>
         <SelectItem value="apple">사과</SelectItem>
         <SelectItem value="banana">바나나</SelectItem>
@@ -236,10 +244,10 @@ const BESPOKE: Record<string,  => React.ReactNode> = {
       <ToggleGroupItem value="italic">기울임</ToggleGroupItem>
     </ToggleGroup>
   ),
-  empty:  => (
+  empty: (variant) => (
     <Empty>
       <EmptyHeader>
-        <EmptyMedia><InboxIcon /></EmptyMedia>
+        <EmptyMedia {...(variant?.axis === "variant" ? { variant: variant.value as "default" | "icon" } : {})}><InboxIcon /></EmptyMedia>
         <EmptyTitle>항목이 없어요</EmptyTitle>
         <EmptyDescription>아직 추가된 게 없어요.</EmptyDescription>
       </EmptyHeader>
@@ -263,16 +271,16 @@ const BESPOKE: Record<string,  => React.ReactNode> = {
       <Field><FieldLabel>이름</FieldLabel><Input placeholder="이름" /></Field>
     </Fieldset>
   ),
-  group:  => (
-    <Group>
+  group: (variant) => (
+    <Group {...(variant?.axis === "orientation" ? { orientation: variant.value as "horizontal" | "vertical" } : {})}>
       <Button variant="outline">이전</Button>
       <GroupText>1 / 3</GroupText>
       <Button variant="outline">다음</Button>
     </Group>
   ),
-  "input-group":  => (
+  "input-group": (variant) => (
     <InputGroup>
-      <InputGroupAddon>https://</InputGroupAddon>
+      <InputGroupAddon {...(variant?.axis === "align" ? { align: variant.value as "block-end" | "block-start" | "inline-end" | "inline-start" } : {})}>https://</InputGroupAddon>
       <InputGroupInput placeholder="example.com" />
     </InputGroup>
   ),
@@ -374,36 +382,30 @@ const BESPOKE: Record<string,  => React.ReactNode> = {
   ),
 };
 
-export function CossLive({ slug, doc }: { slug: string; doc: CossDoc }) {
-  if (IMPERATIVE.has(slug)) {
-    return (
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        <b>{doc.title}</b> 는 컴포넌트가 아니라 <code>toastManager</code> 로 부르는 <b>명령형 API</b> 예요.
-        세워 둘 수 있는 것이 아니에요.
-      </p>
-    );
-  }
-  const gap = VERSION_GAP[slug];
-  if (gap) {
-    return <p className="doc-note" style={{ marginTop: 0 }}><b>{doc.title}</b> 는 아직 못 세워요. {gap}</p>;
-  }
-  const why = NOTHING_TO_SHOW[slug];
-  if (why) {
-    return (
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        <b>{doc.title}</b> 는 홑으로 세우면 안 보여요. {why} <b>결함이 아니라 그쪽의 정상 동작</b>이에요.
-      </p>
-    );
-  }
+function ToastDemo {
+  const [count, setCount] = React.useState(0);
+  return (
+    <ToastProvider>
+      <Button onClick={ => {
+        const next = count + 1;
+        setCount(next);
+        toastManager.add({ title: `알림 ${next}`, description: "Coss toastManager로 생성한 알림이에요.", type: "success" });
+      }}>토스트 띄우기</Button>
+    </ToastProvider>
+  );
+}
+
+export function CossLive({ slug, variant }: { slug: string; variant?: CossVariant }) {
   return (
     <>
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        아래는 <b>coss 컴포넌트 그 자체</b>예요(<code>app/src/bases/coss-ui/{slug}.tsx</code>, coss.com 공식
-        레지스트리로 실제 설치한 것). 색·모서리는 이 화면 크롬(shadcn 톤)을 그대로 물려받아요.
-      </p>
-      {BESPOKE[slug] ? BESPOKE[slug] : SIMPLE[slug] ? <SimpleGrid slug={slug} doc={doc} /> : (
-        <p className="doc-note">이 컴포넌트는 아직 데모가 없어요. 지어내지 않고 그대로 알립니다.</p>
-      )}
+      {/* variant 있으면 이 문구 미표시. Master 호출 한 번이면 충분 */}
+      {!variant ? (
+        <p className="doc-note" style={{ marginTop: 0 }}>
+          아래는 <b>coss 컴포넌트 그 자체</b>예요(<code>app/src/bases/coss-ui/{slug}.tsx</code>, coss.com 공식
+          레지스트리로 실제 설치한 것). 색·모서리는 이 화면 크롬(shadcn 톤)을 그대로 물려받아요.
+        </p>
+      ) : null}
+      {BESPOKE[slug] ? BESPOKE[slug](variant) : SIMPLE[slug] ? <SimpleGrid slug={slug} variant={variant} /> : <p className="doc-note">이 컴포넌트는 아직 데모가 없어요. 지어내지 않고 그대로 알립니다.</p>}
     </>
   );
 }

@@ -611,7 +611,211 @@ const DEMOS: Record<string,  => React.ReactNode> = {
   ),
 };
 
-export function ShadcnLive({ slug }: { slug: string; doc: ShadcnDoc }) {
+type ShadcnVariant = { axis: string; value: string };
+
+export const RENDERABLE_VARIANTS: Record<string, Record<string, readonly string[]>> = {
+  alert: { variant: ["default", "destructive"] },
+  attachment: { size: ["default", "sm", "xs"], orientation: ["horizontal", "vertical"] },
+  badge: { variant: ["default", "outline", "secondary", "ghost", "destructive", "link"] },
+  bubble: { variant: ["default", "secondary", "muted", "tinted", "outline", "ghost", "destructive"] },
+  "button-group": { orientation: ["horizontal", "vertical"] },
+  button: {
+    variant: ["default", "outline", "secondary", "ghost", "destructive", "link"],
+    size: ["default", "xs", "sm", "lg", "icon", "icon-xs", "icon-sm", "icon-lg"],
+  },
+  empty: { variant: ["default", "icon"] },
+  field: { orientation: ["vertical", "horizontal", "responsive"] },
+  "input-group": { align: ["inline-start", "inline-end", "block-start", "block-end"] },
+  item: { variant: ["default", "outline", "muted"], size: ["default", "sm", "xs"] },
+  marker: { variant: ["default", "separator", "border"] },
+  sidebar: { variant: ["default", "outline"], size: ["default", "sm", "lg"] },
+  tabs: { variant: ["default", "line"] },
+  toggle: { variant: ["default", "outline"], size: ["default", "sm", "lg"] },
+  "toggle-group": { variant: ["default", "outline"], size: ["default", "sm", "lg"] },
+};
+
+// RefTable엔 있고 RENDERABLE_VARIANTS엔 없는 변형 구분
+export const VARIANT_SUB_PART: Record<string, Record<string, string>> = {
+  attachment: { variant: "AttachmentMedia" },
+  bubble: { side: "BubbleReactions", align: "BubbleReactions" },
+  "input-group": { size: "InputGroupButton" },
+};
+
+// 각 축의 실제 기본값을 설치된 함수 매개변수에서 추출
+export const VARIANT_DEFAULTS: Record<string, Record<string, string>> = {
+  alert: { variant: "default" },
+  attachment: { size: "default", orientation: "horizontal" },
+  badge: { variant: "default" },
+  bubble: { variant: "default" },
+  "button-group": { orientation: "horizontal" },
+  button: { variant: "default", size: "default" },
+  empty: { variant: "default" },
+  field: { orientation: "vertical" },
+  "input-group": { align: "inline-start" },
+  item: { variant: "default", size: "default" },
+  marker: { variant: "default" },
+  sidebar: { variant: "default", size: "default" },
+  tabs: { variant: "default" },
+  toggle: { variant: "default", size: "default" },
+  "toggle-group": { variant: "default", size: "default" },
+};
+
+const VARIANT_DEMOS: Record<string, (variant: ShadcnVariant) => React.ReactNode> = {
+  alert: (v) => (
+    <Alert variant={v.value as "default" | "destructive"} style={{ maxWidth: "20rem" }}>
+      <TriangleAlertIcon />
+      <AlertTitle>업데이트가 있어요</AlertTitle>
+      <AlertDescription>새 버전을 설치해 주세요.</AlertDescription>
+    </Alert>
+  ),
+  attachment: (v) => (
+    <Attachment
+      {...(v.axis === "size"
+        ? { size: v.value as "default" | "sm" | "xs" }
+        : { orientation: v.value as "horizontal" | "vertical" })}
+    >
+      <AttachmentMedia><FileTextIcon /></AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>보고서.pdf</AttachmentTitle>
+        <AttachmentDescription>1.2MB</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+  ),
+  badge: (v) => (
+    <Badge variant={v.value as "default" | "outline" | "secondary" | "ghost" | "destructive" | "link"}>
+      배지
+    </Badge>
+  ),
+  bubble: (v) => (
+    <BubbleGroup style={{ maxWidth: "16rem" }}>
+      <Bubble
+        variant={v.value as "default" | "secondary" | "muted" | "tinted" | "outline" | "ghost" | "destructive"}
+      >
+        <BubbleContent>안녕하세요!</BubbleContent>
+      </Bubble>
+    </BubbleGroup>
+  ),
+  "button-group": (v) => (
+    <ButtonGroup orientation={v.value as "horizontal" | "vertical"}>
+      <Button variant="outline">왼쪽</Button>
+      <Button variant="outline">가운데</Button>
+      <Button variant="outline">오른쪽</Button>
+    </ButtonGroup>
+  ),
+  button: (v) => (
+    <Button
+      {...(v.axis === "size"
+        ? { size: v.value as "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg" }
+        : { variant: v.value as "default" | "outline" | "secondary" | "ghost" | "destructive" | "link" })}
+    >
+      버튼
+    </Button>
+  ),
+  empty: (v) => (
+    <Empty style={{ maxWidth: "20rem" }}>
+      <EmptyHeader>
+        <EmptyMedia variant={v.value as "default" | "icon"}><InboxIcon /></EmptyMedia>
+        <EmptyTitle>아직 항목이 없어요</EmptyTitle>
+        <EmptyDescription>새로 추가하면 여기 보여요.</EmptyDescription>
+      </EmptyHeader>
+    </Empty>
+  ),
+  field: (v) => (
+    <FieldSet style={{ maxWidth: "18rem" }}>
+      <Field orientation={v.value as "vertical" | "horizontal" | "responsive"}>
+        <FieldLabel htmlFor="live-field-variant-name">이름</FieldLabel>
+        <Input id="live-field-variant-name" placeholder="홍길동" />
+        <FieldDescription>실명을 입력해 주세요.</FieldDescription>
+      </Field>
+    </FieldSet>
+  ),
+  "input-group": (v) => (
+    <InputGroup style={{ maxWidth: "16rem" }}>
+      <InputGroupAddon align={v.value as "inline-start" | "inline-end" | "block-start" | "block-end"}>
+        <SearchIcon />
+      </InputGroupAddon>
+      <InputGroupInput placeholder="검색…" />
+    </InputGroup>
+  ),
+  item: (v) => (
+    <ItemGroup style={{ maxWidth: "20rem" }}>
+      <Item
+        {...(v.axis === "size"
+          ? { size: v.value as "default" | "sm" | "xs" }
+          : { variant: v.value as "default" | "outline" | "muted" })}
+      >
+        <ItemMedia variant="icon"><UserIcon /></ItemMedia>
+        <ItemContent>
+          <ItemTitle>김민준</ItemTitle>
+          <ItemDescription>프로덕트 디자이너</ItemDescription>
+        </ItemContent>
+      </Item>
+    </ItemGroup>
+  ),
+  marker: (v) => (
+    <Marker variant={v.value as "default" | "separator" | "border"}>
+      <MarkerIcon><CircleIcon /></MarkerIcon>
+      <MarkerContent>진행중</MarkerContent>
+    </Marker>
+  ),
+  sidebar: (v) => {
+    const prop = v.axis === "size"
+      ? { size: v.value as "default" | "sm" | "lg" }
+      : { variant: v.value as "default" | "outline" };
+    return (
+      <SidebarProvider style={{ minHeight: "13rem", border: "1px solid var(--border)", borderRadius: "0.5rem", overflow: "hidden" }}>
+        <Sidebar collapsible="none" style={{ width: "10rem" }}>
+          <SidebarHeader style={{ fontSize: "0.8rem", padding: "0.5rem" }}>메뉴</SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarMenu>
+                <SidebarMenuItem><SidebarMenuButton {...prop}>대시보드</SidebarMenuButton></SidebarMenuItem>
+                <SidebarMenuItem><SidebarMenuButton {...prop} isActive>설정</SidebarMenuButton></SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+        <SidebarInset style={{ padding: "1rem", fontSize: "0.8rem" }}>본문 영역</SidebarInset>
+      </SidebarProvider>
+    );
+  },
+  tabs: (v) => (
+    <Tabs defaultValue="a" style={{ maxWidth: "16rem" }}>
+      <TabsList variant={v.value as "default" | "line"}>
+        <TabsTrigger value="a">개요</TabsTrigger>
+        <TabsTrigger value="b">상세</TabsTrigger>
+      </TabsList>
+      <TabsContent value="a">개요 내용이에요.</TabsContent>
+      <TabsContent value="b">상세 내용이에요.</TabsContent>
+    </Tabs>
+  ),
+  toggle: (v) => (
+    <Toggle
+      aria-label="굵게"
+      {...(v.axis === "size"
+        ? { size: v.value as "default" | "sm" | "lg" }
+        : { variant: v.value as "default" | "outline" })}
+    >
+      B
+    </Toggle>
+  ),
+  "toggle-group": (v) => (
+    <ToggleGroup
+      defaultValue={["bold"]}
+      {...(v.axis === "size"
+        ? { size: v.value as "default" | "sm" | "lg" }
+        : { variant: v.value as "default" | "outline" })}
+    >
+      <ToggleGroupItem value="bold">B</ToggleGroupItem>
+      <ToggleGroupItem value="italic">I</ToggleGroupItem>
+      <ToggleGroupItem value="underline">U</ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};
+
+export function ShadcnLive(
+  { slug, variant }: { slug: string; doc: ShadcnDoc; variant?: ShadcnVariant },
+) {
   if (slug === "direction") {
     return (
       <p className="doc-note" style={{ marginTop: 0 }}>
@@ -623,10 +827,13 @@ export function ShadcnLive({ slug }: { slug: string; doc: ShadcnDoc }) {
   }
 
   const Demo = DEMOS[slug];
-  if (!Demo) {
+  const VariantDemo = VARIANT_DEMOS[slug];
+  const body = variant ? (VariantDemo ? VariantDemo(variant) : null) : (Demo ? <Demo /> : null);
+
+  if (!body) {
     return (
       <p className="doc-note" style={{ marginTop: 0 }}>
-        이 컴포넌트는 아직 라이브 조립을 못 만들었어요. 지어내지 않고 그대로 알립니다.
+        {variant ? "이 축은" : "이 컴포넌트는"} 아직 라이브 조립을 못 만들었어요, 지어내지 않고 그대로 알립니다.
       </p>
     );
   }
@@ -635,13 +842,16 @@ export function ShadcnLive({ slug }: { slug: string; doc: ShadcnDoc }) {
 
   return (
     <EmptyGuard slug={slug}>
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        아래는 <b>설치된 실제 shadcn 컴포넌트</b>예요. 직접 그린 게 아니라{" "}
-        <code>app/src/components/ui/</code> 의 실물을 그대로 세운 거예요.
-        {why ? <> {why}</> : null}
-      </p>
+      {/* variant 있으면 이 안내 미표시. 반복되면 잡음만 증가 */}
+      {!variant ? (
+        <p className="doc-note" style={{ marginTop: 0 }}>
+          아래는 <b>설치된 실제 shadcn 컴포넌트</b>예요. 직접 그린 게 아니라{" "}
+          <code>app/src/components/ui/</code> 의 실물을 그대로 세운 거예요.
+          {why ? <> {why}</> : null}
+        </p>
+      ) : null}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", alignItems: "flex-start" }}>
-        <Cell><Demo /></Cell>
+        <Cell>{body}</Cell>
       </div>
     </EmptyGuard>
   );

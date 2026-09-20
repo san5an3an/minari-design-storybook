@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Master } from "./Doc";
+import { Kid, Kids, Master } from "./Doc";
 import { Absent, RefTable, Section } from "./refParts";
 import { SHADCN_SOURCE, loadShadcnDoc, type ShadcnDoc } from "./shadcnRef/loader";
-import { ShadcnLive } from "./ShadcnLive";
+import { RENDERABLE_VARIANTS, ShadcnLive, VARIANT_DEFAULTS, VARIANT_SUB_PART } from "./ShadcnLive";
 import type { Mode, SystemDefinition } from "../systems/types";
 
 export function ShadcnOfficialReference({ slug }: { slug: string; system: SystemDefinition; active: Mode }) {
@@ -24,6 +24,15 @@ export function ShadcnOfficialReference({ slug }: { slug: string; system: System
 
   const variantAxes = Object.entries(doc.variants);
   const linkEntries = Object.entries(doc.links);
+  // 그림은 실제 설치본 기준 렌더링 가능 variant만 따름. 표는 레지스트리 원문 그대로 사용
+  const renderableAxes = Object.entries(RENDERABLE_VARIANTS[slug] ?? {});
+  const renderableAxisNames = new Set(Object.keys(RENDERABLE_VARIANTS[slug] ?? {}));
+  const skippedAxes = variantAxes.filter(([axis]) => !renderableAxisNames.has(axis));
+  const skippedBySubPart = new Map<string, string[]>;
+  for (const [axis] of skippedAxes) {
+    const part = VARIANT_SUB_PART[slug]?.[axis] ?? "다른 요소";
+    skippedBySubPart.set(part, [...(skippedBySubPart.get(part) ?? []), axis]);
+  }
 
   return (
     <>
@@ -97,7 +106,14 @@ export function ShadcnOfficialReference({ slug }: { slug: string; system: System
       <Section
         title="Variants"
         count={doc.usesCva ? variantAxes.length || undefined : undefined}
-        note={!doc.usesCva ? "이 컴포넌트는 cva(class-variance-authority)를 안 써요. 옵션이 없어요." : undefined}
+        note={
+          !doc.usesCva
+            ? "이 컴포넌트는 cva(class-variance-authority)를 안 써요. 옵션이 없어요."
+            // navigation-menu는 cva 호출하지만 variants 없이 문자열만 전달, variant 0개
+            : variantAxes.length === 0
+              ? "cva 는 쓰지만 variants 옵션을 선언하지 않았어요. 고정 클래스만 나가요."
+              : undefined
+        }
       >
         {doc.usesCva && variantAxes.length > 0 ? (
           <RefTable
@@ -105,7 +121,38 @@ export function ShadcnOfficialReference({ slug }: { slug: string; system: System
             rows={variantAxes.map(([axis, values]) => [axis, values.join(", "), doc.defaultVariants[axis] ?? "—"])}
           />
         ) : null}
+        {skippedBySubPart.size > 0 ? (
+          <p className="doc-note">
+            {Array.from(skippedBySubPart.entries)
+              .map(([part, axes]) => (
+                `위 표의 ${axes.join("·")} 옵션은 이 컴포넌트가 아니라 하위 part ${part} 것이라(실제 ` +
+                `설치본 cva 대조 측정) 이 데모엔 그 부분이 없어서 아래 그림엔 못 얹었어요.`
+              ))
+              .join(" ")}
+          </p>
+        ) : null}
       </Section>
+
+      {/* 그림은 축마다 섹션, 값마다 항목으로 표현. 표는 그대로 유지 */}
+      {renderableAxes.map(([axis, values]) => (
+        <Kids
+          key={axis}
+          axis={axis}
+          title="Variants"
+          note={
+            <>
+              실제 설치본(<code>app/src/components/ui/{slug}.tsx</code>)의 <code>{axis}</code> 축이에요.
+              기본값은 <code>{VARIANT_DEFAULTS[slug]?.[axis] ?? "—"}</code>예요.
+            </>
+          }
+        >
+          {values.map((value) => (
+            <Kid key={value} label={value}>
+              <ShadcnLive slug={slug} doc={doc} variant={{ axis, value }} />
+            </Kid>
+          ))}
+        </Kids>
+      ))}
 
       <Section
         title="Semantic Tokens"
