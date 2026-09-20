@@ -7,6 +7,8 @@ export interface ScreenProps {
   onNavigate?: (key: string) => void;
   selectedId?: string;
   onSelect?: (id: string) => void;
+  // 헤더 검색창 현재 값. 목록 필터링에 사용
+  query?: string;
 }
 
 export interface ScreenDefinition {
