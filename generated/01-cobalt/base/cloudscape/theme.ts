@@ -70,7 +70,11 @@ export const theme: Theme = {
   "colorBorderStatusWarning": "#f9d491",
   "colorBorderStatusInfo": "#547bbd",
   "borderRadiusButton": "8px",
-  "fontWeightButton": "500"
+  "fontWeightButton": "500",
+  "fontFamilyBase": "var(--base-font-family-sans)",
+  "fontFamilyHeading": "var(--base-font-family-sans)",
+  "fontFamilyDisplay": "var(--base-font-family-sans)",
+  "fontFamilyMonospace": "var(--base-font-family-mono)"
 },
 };
 
@@ -142,7 +146,11 @@ export const darkTheme: Theme = {
   "colorBorderStatusWarning": "#be9b59",
   "colorBorderStatusInfo": "#234784",
   "borderRadiusButton": "8px",
-  "fontWeightButton": "500"
+  "fontWeightButton": "500",
+  "fontFamilyBase": "var(--base-font-family-sans)",
+  "fontFamilyHeading": "var(--base-font-family-sans)",
+  "fontFamilyDisplay": "var(--base-font-family-sans)",
+  "fontFamilyMonospace": "var(--base-font-family-mono)"
 },
 };
 
@@ -214,7 +222,11 @@ export const highContrastTheme: Theme = {
   "colorBorderStatusWarning": "#977e47",
   "colorBorderStatusInfo": "#6882ac",
   "borderRadiusButton": "8px",
-  "fontWeightButton": "500"
+  "fontWeightButton": "500",
+  "fontFamilyBase": "var(--base-font-family-sans)",
+  "fontFamilyHeading": "var(--base-font-family-sans)",
+  "fontFamilyDisplay": "var(--base-font-family-sans)",
+  "fontFamilyMonospace": "var(--base-font-family-mono)"
 },
 };
 

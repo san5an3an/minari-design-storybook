@@ -110,7 +110,8 @@ export const theme: PrimeReactEntry = {
     "shade900": "#09080a",
     "borderRadius": "8px",
     "buttonPadding": "8px 16px",
-    "fontSize": "1rem"
+    "fontSize": "1rem",
+    "fontFamily": "var(--base-font-family-sans)"
   },
   "untouched": []
 };
@@ -215,7 +216,8 @@ export const darkTheme: PrimeReactEntry = {
     "shade900": "#f9f9fc",
     "borderRadius": "8px",
     "buttonPadding": "8px 16px",
-    "fontSize": "1rem"
+    "fontSize": "1rem",
+    "fontFamily": "var(--base-font-family-sans)"
   },
   "untouched": []
 };
@@ -320,7 +322,8 @@ export const highContrastTheme: PrimeReactEntry = {
     "shade900": "#f1f0f3",
     "borderRadius": "8px",
     "buttonPadding": "8px 16px",
-    "fontSize": "1rem"
+    "fontSize": "1rem",
+    "fontFamily": "var(--base-font-family-sans)"
   },
   "untouched": []
 };
