@@ -16,6 +16,7 @@ import { BootstrapUsage } from "./bootstrap/Dashboard";
 import { CarbonUsage } from "./carbon/Dashboard";
 import { ChakraUsage } from "./chakra/Dashboard";
 import { CloudscapeUsage } from "./cloudscape/Dashboard";
+import { CossUsage } from "./coss/Dashboard";
 import { DaisyuiUsage } from "./daisyui/Dashboard";
 import { FluentUsage } from "./fluent/Dashboard";
 import { FlowbiteUsage } from "./flowbite/Dashboard";
@@ -39,6 +40,7 @@ export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   carbon: CarbonUsage,
   chakra: ChakraUsage,
   cloudscape: CloudscapeUsage,
+  coss: CossUsage,
   daisyui: DaisyuiUsage,
   fluent: FluentUsage,
   flowbite: FlowbiteUsage,
