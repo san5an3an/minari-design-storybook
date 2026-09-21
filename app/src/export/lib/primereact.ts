@@ -8,7 +8,7 @@ export const PRIMEREACT: LibSpec = {
   title: "PrimeReact",
   packages: ["primereact", "primeicons"],
   themeDir: "primereact",
-  importFrom: "primereact",
+  importFrom: (component: string) => `primereact/${component}`,
   refDir: "primereactRef",
   parse: (json) => {
     const d = json as { slug?: string; title?: string };
