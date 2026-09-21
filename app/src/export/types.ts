@@ -96,6 +96,7 @@ export interface ExportResources {
   componentSource: string;
   // cx.ts 원문. 컴포넌트가 유일하게 호출하는 대상
   cxSource: string;
+  acceptsChildren?: boolean;
   // 화면 하나를 정적 마크업으로 표현. 내부에서 실제 컴포넌트 사용
   renderComponent(args: RenderArgs): string;
 
@@ -121,6 +122,8 @@ export interface LibResources {
   componentName: string;
   // 선택 가능한 prop. 공식 메타데이터에서 추출하기
   props: { prop: string; values: string[]; default: string | null }[];
+  acceptsChildren: boolean;
+  requiredProps: { prop: string; placeholder: string | null }[];
   dropped: string[];
 }
 

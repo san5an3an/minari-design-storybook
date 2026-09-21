@@ -88,7 +88,16 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       const rows = sheet.rows
         .map((row) => {
           const attrs = Object.entries(row.props).map(([k, v]) => attr(k, v)).join("");
-          return `      <${lib.componentName}${attrs}>${row.label}</${lib.componentName}>`;
+          const need = lib.requiredProps.filter((r) => !(r.prop in row.props));
+          const fill = need.map((r) =>
+            r.placeholder === null ? "" : ` ${r.prop}={${r.placeholder}}`).join("");
+          const todo = need.length
+            ? `      {/* 필수: ${need.map((r) => r.prop + (r.placeholder === null ? "(직접)" : "")).join(" · ")}, 자리표예요, 실제 값으로 바꿔 주세요 */}\n`
+            : "";
+          if (!lib.acceptsChildren) {
+            return `${todo}      {/* ${row.label} */}\n      <${lib.componentName}${attrs}${fill} />`;
+          }
+          return `${todo}      <${lib.componentName}${attrs}${fill}>${row.label}</${lib.componentName}>`;
         })
         .join("\n");
       return `      {/* ${sheet.title} */}\n${rows}`;
@@ -149,11 +158,14 @@ function readme(
     ? ""
     : `\n## 예시는 출발점이에요\n\n`
       + `\`${lib.componentName}.example.tsx\` 는 고르신 프롭 조합을 적어 둔 것이라,\n`
-      + `그 컴포넌트가 따로 요구하는 값까지는 채우지 못해요. 예를 들어 \`QRCode\` 는\n`
-      + `\`value\` 가 있어야 하고 안에 글자를 넣지 않습니다, 그런 컴포넌트는 예시를\n`
-      + `한 번 손봐 주셔야 합니다. 이 도구가 공식 메타에서 그걸 알아낼 방법이 없어서\n`
-      + `(문서 표에 children 이 안 적혀 있고, 받는 컴포넌트에도 안 적혀 있어요)\n`
-      + `추측하지 않고 그대로 말씀드립니다. \`theme.${lib.themeExt}\` 와 \`vars.css\` 는 영향 없어요.\n`;
+      + `그 컴포넌트가 따로 요구하는 값까지는 채우지 못해요, 예를 들어 \`QRCode\` 의\n`
+      + `\`value\` 처럼요. 그런 부분은 한 번 손봐 주셔야 합니다.\n`
+      + (lib.acceptsChildren
+        ? ""
+        : `\n이 컴포넌트는 안에 글자를 넣지 않습니다(설치본 타입에 \`children\` 이 없어요).\n`
+          + `그래서 예시가 \`<${lib.componentName} … />\` 꼴이고, 각 판이 무엇인지는 바로 위\n`
+          + `주석으로 적어 뒀습니다. 이 도구가 뺀 게 아니라 넣으면 타입 검사에서 막힙니다.\n`)
+      + `\n\`theme.${lib.themeExt}\` 와 \`vars.css\` 는 영향 없어요.\n`;
 
   return `# ${res.source.componentTitle}, ${res.source.systemName} · ${lib.title}
 

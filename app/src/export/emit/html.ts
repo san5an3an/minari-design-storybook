@@ -56,11 +56,16 @@ export function emitHtml(req: ExportRequest, res: ExportResources): ExportFile[]
 
      토큰은 이 컴포넌트가 실제로 읽는 것만 추렸습니다 (${tokens.used.length}개).
 
-     모드. 다크는 보는 사람의 OS 설정을 따라갑니다.
+     모드, 다크는 보는 사람의 OS 설정을 따라갑니다.
        고정하려면 <html> 에 속성을 주세요:
-         <html data-theme="dark">           어두운 패널로 못 박기
-         <html data-theme="high-contrast">  고대비 패널로 못 박기
-       속성이 없으면 라이트이고, OS 가 어두우면 어두운 패널이 걸립니다. -->
+         <html data-theme="dark">           어두운 판으로 못 박기
+         <html data-theme="high-contrast">  고대비 판으로 못 박기
+       속성이 없으면 라이트이고, OS 가 어두우면 어두운 판이 걸립니다.
+${res.acceptsChildren === false ? `
+     이 컴포넌트는 안에 글자를 넣지 않습니다. 그래서 아래 판들에는 라벨이 없고,
+        무엇이 다른지는 각 판의 제목으로만 보입니다. 이 도구가 뺀 게 아니라 그 컴포넌트가
+        자식을 못 받습니다 (예: 루트가 <hr> · <input> 이거나, 받은 속성을 안쪽 <input> 에
+        그대로 넘기는 모양). 넣으면 React 가 그 자리에서 터집니다.` : ""} -->
 <style>
 ${tokens.css}
 </style>
