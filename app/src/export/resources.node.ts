@@ -139,7 +139,7 @@ export async function loadResources(
             );
           })
         : text;
-    // Parts는 자체 요소 렌더링. root가 텍스트 못 받아도 문제 없음
+    // root가 자식을 못 받으면 하위 컴포넌트도 누락
     return renderToStaticMarkup(
       React.createElement(Root, props, acceptsChildren ? children : null),
     );

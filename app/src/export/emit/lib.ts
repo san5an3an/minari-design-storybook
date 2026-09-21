@@ -88,7 +88,7 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       const rows = sheet.rows
         .map((row) => {
           const attrs = Object.entries(row.props).map(([k, v]) => attr(k, v)).join("");
-          // children은 프롭 목록에서 제외해 따로 처리. 어트리뷰트로는 지정할 수 없음
+          // 필수 prop 미입력 시 tsc TS2741 오류. placeholder 채우기, children 별도 처리
           const need = lib.requiredProps.filter((r) => r.prop !== "children" && !(r.prop in row.props));
           const needsKids = !lib.acceptsChildren
             && lib.requiredProps.some((r) => r.prop === "children");
@@ -98,6 +98,7 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
             ? `      {/* 필수: ${need.map((r) => r.prop + (r.placeholder === null ? "(직접)" : "")).join(" · ")}, 자리표예요, 실제 값으로 바꿔 주세요 */}\n`
             : "";
           if (!lib.acceptsChildren) {
+            // 자식 필수 컴포넌트는 span 대신 내용만 표기. span 삽입 시 화면 깨질 수 있음
             const kidNote = needsKids
               ? `      {/* 이 컴포넌트는 자식이 필수인데 글자는 안 받아요, 공식 예제를 보고\n`
                 + `          알맞은 하위 컴포넌트를 넣어 주세요. 이 도구가 지어내면 컴파일은 되고 화면이 틀립니다. */}\n`

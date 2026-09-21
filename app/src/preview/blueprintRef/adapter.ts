@@ -44,7 +44,7 @@ function loadApiTables: Promise<Record<string, PropTable>> {
   return apiTables;
 }
 
-// 문서 slug로 컴포넌트 이름 도출. 규칙과 불일치 시 이름이 어긋나는 문제가 있음
+// slug를 export된 컴포넌트 이름으로 변환. export 배열 순서 유지
 function apiFor(slug: string, title: string, tables: Record<string, PropTable>): BaseRefDoc["api"] {
   const pascal = (x: string) => x.split(/[-_ ]+/).filter(Boolean)
     .map((w) => w[0].toUpperCase + w.slice(1)).join("");

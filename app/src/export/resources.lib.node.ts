@@ -79,7 +79,7 @@ export async function loadLibResources(
   const [vars, themeSource, refRaw] = await Promise.all([
     readFile(path.join(root, "generated", slug, "vars.css"), "utf8"),
     readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
-    // 경로 위치 통일. refJsonDir가 목록을 낸 디렉토리에서 읽어 목록과 본문 일치 보장
+    // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
     refJsonDir(spec.refDir).then((dir) => {
       if (!dir) throw new Error(`'${baseKey}' 의 참조 문서가 없어요.`);
       return readFile(path.join(dir, `${component}.json`), "utf8");
@@ -100,9 +100,10 @@ export async function loadLibResources(
     ? parsedProps
     : await unionPropsFor(baseKey, componentName);
 
+  // 텍스트 수용 여부는 설치 타입이 결정. 불명확하면 수용으로 간주, 아니면 정상 라벨이 누락
   const unions = await loadPropUnions(baseKey);
   const acceptsChildren = !unions?.noChildren?.includes(componentName);
-  // 필수 prop 미입력 시 tsc TS2741 오류. 타입이 필수 여부와 채울 값까지 전달
+  // 필수 prop 미입력 시 tsc TS2741 오류. 타입 정보를 그대로 전달
   const requiredProps = unions?.required?.[componentName] ?? [];
 
   const known = unions?.exported;
