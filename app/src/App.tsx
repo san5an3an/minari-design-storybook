@@ -42,6 +42,7 @@ import { daisyuiAdapter } from "./preview/daisyuiRef/adapter";
 import { cloudscapeAdapter } from "./preview/cloudscapeRef/adapter";
 import { herouiAdapter } from "./preview/herouiRef/adapter";
 import { primereactAdapter } from "./preview/primereactRef/adapter";
+import { mantineAdapter } from "./preview/mantineRef/adapter";
 import { COSS_INDEX, isCossSlug } from "./preview/cossRef/loader";
 import type { BaseRefAdapter } from "./preview/refContract";
 import { MODES, MODE_LABEL, type Mode } from "./preview/tokens";
@@ -81,6 +82,7 @@ const DaisyuiReference = baseReference("daisyui", daisyuiAdapter, "daisyUI");
 const CloudscapeReference = baseReference("cloudscape", cloudscapeAdapter, "Cloudscape");
 const HerouiReference = baseReference("heroui", herouiAdapter, "HeroUI");
 const PrimereactReference = baseReference("primereact", primereactAdapter, "PrimeReact");
+const MantineReference = baseReference("mantine", mantineAdapter, "Mantine");
 
 // 지연 로드 전 위치 표시
 function ReferenceLoading({ title }: { title: string }) {
@@ -368,6 +370,10 @@ const MIRRORS: Record<string, MirrorEntry> = {
   primereact: {
     isSlug: primereactAdapter.isSlug, INDEX: primereactAdapter.INDEX, GROUPS: primereactAdapter.GROUPS,
     TITLE: primereactAdapter.TITLE, Reference: PrimereactReference, noOurs: true,
+  },
+  mantine: {
+    isSlug: mantineAdapter.isSlug, INDEX: mantineAdapter.INDEX, GROUPS: mantineAdapter.GROUPS,
+    TITLE: mantineAdapter.TITLE, Reference: MantineReference, noOurs: true,
   },
 };
 
