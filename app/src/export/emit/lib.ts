@@ -88,14 +88,21 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       const rows = sheet.rows
         .map((row) => {
           const attrs = Object.entries(row.props).map(([k, v]) => attr(k, v)).join("");
-          const need = lib.requiredProps.filter((r) => !(r.prop in row.props));
+          // children은 프롭 목록에서 제외해 따로 처리. 어트리뷰트로는 지정할 수 없음
+          const need = lib.requiredProps.filter((r) => r.prop !== "children" && !(r.prop in row.props));
+          const needsKids = !lib.acceptsChildren
+            && lib.requiredProps.some((r) => r.prop === "children");
           const fill = need.map((r) =>
             r.placeholder === null ? "" : ` ${r.prop}={${r.placeholder}}`).join("");
           const todo = need.length
             ? `      {/* 필수: ${need.map((r) => r.prop + (r.placeholder === null ? "(직접)" : "")).join(" · ")}, 자리표예요, 실제 값으로 바꿔 주세요 */}\n`
             : "";
           if (!lib.acceptsChildren) {
-            return `${todo}      {/* ${row.label} */}\n      <${lib.componentName}${attrs}${fill} />`;
+            const kidNote = needsKids
+              ? `      {/* 이 컴포넌트는 자식이 필수인데 글자는 안 받아요, 공식 예제를 보고\n`
+                + `          알맞은 하위 컴포넌트를 넣어 주세요. 이 도구가 지어내면 컴파일은 되고 화면이 틀립니다. */}\n`
+              : "";
+            return `${todo}${kidNote}      {/* ${row.label} */}\n      <${lib.componentName}${attrs}${fill} />`;
           }
           return `${todo}      <${lib.componentName}${attrs}${fill}>${row.label}</${lib.componentName}>`;
         })
@@ -154,6 +161,16 @@ function readme(
       + `\n\n찾으시는 값이 여기 있다면 이 시스템의 걸러내기가 틀린 것이니 알려 주세요.\n`
     : "";
 
+  // import 실패 위치를 파일 표, 토큰보다 먼저 확인
+  const nameNote = lib.nameInEntry
+    ? ""
+    : `\n## 먼저 읽어 주세요, \`${lib.componentName}\` import 를 고쳐야 해요\n\n`
+      + `설치본 \`${lib.importFrom}\` 의 진입점에 \`${lib.componentName}\` 이라는 이름이 없어요\n`
+      + `(설치본 타입 전수로 확인했습니다). 그 문서 칸이 컴포넌트가 아니거나(API 네임스페이스·가이드),\n`
+      + `서브패스·다른 패키지에 있는 경우예요. 이 도구가 경로를 추측해서 바꾸지 않았습니다 , \n`
+      + `공식 문서의 import 줄을 확인해 \`${lib.componentName}.example.tsx\` 의 첫 import 만 고쳐 주세요.\n`
+      + `\`theme.${lib.themeExt}\` · \`vars.css\` · \`providers.tsx\` 는 그대로 쓰시면 됩니다.\n`;
+
   const exampleCaveat = themeOnly
     ? ""
     : `\n## 예시는 출발점이에요\n\n`
@@ -170,7 +187,7 @@ function readme(
   return `# ${res.source.componentTitle}, ${res.source.systemName} · ${lib.title}
 
 minari-design-storybook 에서 내보낸 묶음입니다.
-
+${nameNote}
 ## 설치
 
 \`\`\`

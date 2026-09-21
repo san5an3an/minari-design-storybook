@@ -124,6 +124,7 @@ export interface LibResources {
   props: { prop: string; values: string[]; default: string | null }[];
   acceptsChildren: boolean;
   requiredProps: { prop: string; placeholder: string | null }[];
+  nameInEntry: boolean;
   dropped: string[];
 }
 
