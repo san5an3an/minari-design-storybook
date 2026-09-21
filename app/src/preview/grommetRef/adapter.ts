@@ -22,6 +22,9 @@ const TITLE = new Map(INDEX.map((c) => [c.slug, c.title]));
 const SLUGS = new Set(INDEX.map((c) => c.slug));
 const manifest = MANIFEST as Manifest;
 
+// grommet 기본형 라벨. 소문자 비교로 찾기
+const MASTER_MARKS = ["basic", "simple", "default"] as const;
+
 function toDoc(raw: RawDoc): BaseRefDoc {
   const examples: BaseRefExample[] = raw.examples.map((ex) => ({
     key: ex.key,
@@ -39,12 +42,24 @@ function toDoc(raw: RawDoc): BaseRefDoc {
     args: null,
   }));
 
-  // Master 문서 순서 첫째 항목을 생성기가 못 만들면 둘째로 올리지 않고 사유만 표시
   let master = raw.master;
-  const genSkip = master.key ? manifest.slugs[raw.slug]?.skippedKeys?.[master.key] : undefined;
-  if (master.key && genSkip) {
-    const first = examples.find((e) => e.key === master.key);
-    master = { rule: master.rule, key: null, reason: `공식 문서 순서 첫 예제 「${first?.name ?? master.key}」를 세우지 못했어요.` };
+  const skippedKeys = manifest.slugs[raw.slug]?.skippedKeys ?? {};
+  const standable = (e: BaseRefExample) =>
+    e.kind === "example"
+    && !(e.key in skippedKeys)
+    && !RUNTIME_UNAVAILABLE[`${raw.slug}#${e.key.split("#").pop ?? e.key}`]
+    && !RUNTIME_UNAVAILABLE[`${raw.slug}#${e.key}`];
+  const marked = MASTER_MARKS
+    .map((want) => examples.find((e) => e.name.trim.toLowerCase === want && standable(e)))
+    .find((e) => e !== undefined);
+  if (marked) {
+    master = { rule: "official-mark", key: marked.key, reason: null };
+  } else {
+    const genSkip = master.key ? skippedKeys[master.key] : undefined;
+    if (master.key && genSkip) {
+      const first = examples.find((e) => e.key === master.key);
+      master = { rule: master.rule, key: null, reason: `공식 문서 순서 첫 예제 「${first?.name ?? master.key}」를 세우지 못했어요.` };
+    }
   }
 
   return {
