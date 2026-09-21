@@ -103,6 +103,11 @@ const ANTD: LibSpec = {
       why: "antd CSS 를 @layer 에 넣는다. 없으면 공식 예제가 antd 규칙에 특이도로 진다",
     },
     {
+      from: "app/src/bases/antdOverrides.css",
+      to: "antdOverrides.css",
+      why: "antdStyleLayer.tsx 가 직접 import 한다. 빠지면 묶음이 없는 파일을 부르며 빌드가 깨진다",
+    },
+    {
       from: "app/src/bases/antdButtonConfig.tsx",
       to: "antdButtonConfig.tsx",
       why: "<Button loading> 의 아이콘을 Lucide 로. antd 기본값은 LoadingOutlined 다",
