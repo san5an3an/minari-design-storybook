@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidComboBox, FluidComboBoxSkeleton } from '@carbon/react';
 import { AILabel, AILabelContent, AILabelActions } from '@carbon/react';
 import { IconButton } from '@carbon/react';

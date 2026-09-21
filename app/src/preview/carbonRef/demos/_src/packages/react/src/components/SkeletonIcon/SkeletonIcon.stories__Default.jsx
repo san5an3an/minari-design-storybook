@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SkeletonIcon } from '@carbon/react';
 import mdx from './SkeletonIcon.mdx';
 

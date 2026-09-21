@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AISkeletonIcon } from '@carbon/react';
 import mdx from './AISkeleton.mdx';
 

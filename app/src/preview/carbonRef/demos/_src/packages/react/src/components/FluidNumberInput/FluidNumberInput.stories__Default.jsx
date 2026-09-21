@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidNumberInput, FluidNumberInputSkeleton } from '@carbon/react';
 import { ToggletipLabel, Toggletip, ToggletipButton, ToggletipContent } from '@carbon/react';
 import { Information } from '@carbon/icons-react';

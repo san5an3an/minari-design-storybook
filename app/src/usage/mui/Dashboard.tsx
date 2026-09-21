@@ -10,6 +10,7 @@ import KingBedOutlined from "@mui/icons-material/KingBedOutlined";
 import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
 import type { UsageDashboardProps } from "../registry";
+import { LISTINGS } from "./listings";
 import { SCREENS } from "./screens";
 
 // 화면 이름 아래 네비게이션 아이콘. 좁은 위치에서는 아이콘부터 표시
@@ -25,9 +26,10 @@ export function MuiUsage({ system }: UsageDashboardProps) {
   const wide = useMediaQuery(theme.breakpoints.up("md"));
 
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
-  // 선택 매물과 예약 방문은 앱 셸에 저장. 화면에 두면 이동마다 초기화돼 반영되지 않음
-  const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
-  const [bookedIds, setBookedIds] = React.useState<readonly string[]>([]);
+  const [selectedId, setSelectedId] = React.useState<string | undefined>(LISTINGS[0]?.id);
+  const [bookedIds, setBookedIds] = React.useState<readonly string[]>( =>
+    [LISTINGS[2]?.id, LISTINGS[4]?.id].filter((id): id is string => Boolean(id)),
+  );
 
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
@@ -46,6 +48,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         boxShadow: "var(--semantic-shadow-raised)",
         display: "flex",
         flexDirection: "column",
+        height: "max(20rem, calc(100dvh - 9rem))",
         overflow: "hidden",
       }}
     >
@@ -53,7 +56,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         position="static"
         color="default"
         elevation={0}
-        sx={{ borderBottom: 1, borderColor: "divider" }}
+        sx={{ borderBottom: 1, borderColor: "divider", flexShrink: 0 }}
       >
         <Toolbar sx={{ flexWrap: "wrap", gap: 1.5, minHeight: "auto !important", py: 1 }}>
           <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
@@ -129,7 +132,8 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         ) : null}
       </AppBar>
 
-      <Box sx={{ minWidth: 0, p: { xs: 2, sm: 2.5 } }}>
+      {/* 내부 스크롤 영역. minHeight 0 없으면 오토스크롤이 동작하지 않음 */}
+      <Box sx={{ minWidth: 0, flex: 1, minHeight: 0, overflowY: "auto", p: { xs: 2, sm: 2.5 } }}>
         <Stack spacing={2}>
           <Stack spacing={0.25}>
             <Typography variant="h6" component="h2">{screen.label}</Typography>
@@ -151,7 +155,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
           value={screenKey}
           onChange={(_, v: string) => setScreenKey(v)}
           showLabels
-          sx={{ borderTop: 1, borderColor: "divider" }}
+          sx={{ borderTop: 1, borderColor: "divider", flexShrink: 0 }}
         >
           {SCREENS.map((s) => (
             <BottomNavigationAction

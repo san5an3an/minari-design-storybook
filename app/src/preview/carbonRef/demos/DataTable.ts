@@ -10,9 +10,19 @@ import * as m5 from "./_src/packages/react/src/components/DataTable/stories/Data
 import * as m6 from "./_src/packages/react/src/components/DataTable/stories/DataTable-ai-label.stories__FullTableAI.jsx";
 import * as m7 from "./_src/packages/react/src/components/DataTable/stories/DataTable-basic.stories__Default.jsx";
 import * as m8 from "./_src/packages/react/src/components/DataTable/stories/DataTable-basic.stories__XLWithTwoLines.jsx";
+import * as m9 from "./_src/packages/react/src/components/DataTable/stories/DataTable-batch-actions.stories__Default.jsx";
+import * as m10 from "./_src/packages/react/src/components/DataTable/stories/DataTable-filtering.stories__Default.jsx";
+import * as m11 from "./_src/packages/react/src/components/DataTable/stories/DataTable-pagination.stories__Default.jsx";
+import * as m12 from "./_src/packages/react/src/components/DataTable/stories/DataTable-selection.stories__Default.jsx";
 import * as m13 from "./_src/packages/react/src/components/DataTable/stories/DataTable-selection.stories__WithRadioSelection.jsx";
 import * as m14 from "./_src/packages/react/src/components/DataTable/stories/DataTable-selection.stories__WithSelectionAndSorting.jsx";
 import * as m15 from "./_src/packages/react/src/components/DataTable/stories/DataTable-sorting.stories__Default.jsx";
+import * as m16 from "./_src/packages/react/src/components/DataTable/stories/DataTable-toolbar.stories__Default.jsx";
+import * as m17 from "./_src/packages/react/src/components/DataTable/stories/DataTable-toolbar.stories__PersistentToolbar.jsx";
+import * as m18 from "./_src/packages/react/src/components/DataTable/stories/DataTable-toolbar.stories__SmallPersistentToolbar.jsx";
+import * as m19 from "./_src/packages/react/src/components/DataTable/stories/DataTable-toolbar.stories__WithOverflowMenu.jsx";
+import * as m20 from "./_src/packages/react/src/components/DataTable/stories/dynamic-content/DataTable-dynamic-content.stories__Default.jsx";
+import * as m21 from "./_src/packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories__Default.jsx";
 import * as m22 from "./_src/packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories__BatchExpansion.jsx";
 import * as m23 from "./_src/packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories__BatchExpansionMultipleTables.jsx";
 export const demos = {
@@ -25,21 +35,21 @@ export const demos = {
   "packages/react/src/components/DataTable/stories/DataTable-ai-label.stories.js#FullTableAI": composeStory(m6.default, m6["FullTableAI"], "FullTableAI"),
   "packages/react/src/components/DataTable/stories/DataTable-basic.stories.js#Default": composeStory(m7.default, m7["Default"], "Default"),
   "packages/react/src/components/DataTable/stories/DataTable-basic.stories.js#XLWithTwoLines": composeStory(m8.default, m8["XLWithTwoLines"], "XLWithTwoLines"),
+  "packages/react/src/components/DataTable/stories/DataTable-batch-actions.stories.js#Default": composeStory(m9.default, m9["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/DataTable-filtering.stories.js#Default": composeStory(m10.default, m10["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/DataTable-pagination.stories.js#Default": composeStory(m11.default, m11["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/DataTable-selection.stories.js#Default": composeStory(m12.default, m12["Default"], "Default"),
   "packages/react/src/components/DataTable/stories/DataTable-selection.stories.js#WithRadioSelection": composeStory(m13.default, m13["WithRadioSelection"], "WithRadioSelection"),
   "packages/react/src/components/DataTable/stories/DataTable-selection.stories.js#WithSelectionAndSorting": composeStory(m14.default, m14["WithSelectionAndSorting"], "WithSelectionAndSorting"),
   "packages/react/src/components/DataTable/stories/DataTable-sorting.stories.js#Default": composeStory(m15.default, m15["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#Default": composeStory(m16.default, m16["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#PersistentToolbar": composeStory(m17.default, m17["PersistentToolbar"], "PersistentToolbar"),
+  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#SmallPersistentToolbar": composeStory(m18.default, m18["SmallPersistentToolbar"], "SmallPersistentToolbar"),
+  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#WithOverflowMenu": composeStory(m19.default, m19["WithOverflowMenu"], "WithOverflowMenu"),
+  "packages/react/src/components/DataTable/stories/dynamic-content/DataTable-dynamic-content.stories.js#Default": composeStory(m20.default, m20["Default"], "Default"),
+  "packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories.js#Default": composeStory(m21.default, m21["Default"], "Default"),
   "packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories.js#BatchExpansion": composeStory(m22.default, m22["BatchExpansion"], "BatchExpansion"),
   "packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories.js#BatchExpansionMultipleTables": composeStory(m23.default, m23["BatchExpansionMultipleTables"], "BatchExpansionMultipleTables"),
 };
 export const skipped = {
-  "packages/react/src/components/DataTable/stories/DataTable-batch-actions.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-filtering.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-pagination.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-selection.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#PersistentToolbar": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#SmallPersistentToolbar": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/DataTable-toolbar.stories.js#WithOverflowMenu": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/dynamic-content/DataTable-dynamic-content.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
-  "packages/react/src/components/DataTable/stories/expansion/DataTable-expansion.stories.js#Default": {"code":"package-missing","detail":"storybook/actions"},
 };

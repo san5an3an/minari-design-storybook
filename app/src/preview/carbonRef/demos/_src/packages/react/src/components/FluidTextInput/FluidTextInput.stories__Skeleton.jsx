@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidTextInput } from '@carbon/react';
 import { FluidTextInputSkeleton } from '@carbon/react';
 import './test.scss';

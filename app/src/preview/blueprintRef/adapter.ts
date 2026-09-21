@@ -7,6 +7,22 @@ import { loadDemos as loadDemoModule, loadExamples } from "./demos/index";
 const SECTION_OF = new Map<string, string>;
 for (const [section, slugs] of Object.entries(GROUPS)) for (const s of slugs) SECTION_OF.set(s, section);
 
+function withDocsData(demos: Record<string, DemoValue>): Record<string, DemoValue> {
+  const out: Record<string, DemoValue> = {};
+  for (const [key, value] of Object.entries(demos)) {
+    if (typeof value !== "function") { out[key] = value; continue; }
+    const Orig = value as React.ComponentType<Record<string, unknown>>;
+    const Wrapped = (props: Record<string, unknown>) => {
+      const dark = typeof document !== "undefined"
+        && document.documentElement.getAttribute("data-theme") === "dark";
+      return React.createElement(Orig, { data: { themeName: dark ? "bp5-dark" : "" }, ...props });
+    };
+    Wrapped.displayName = `BlueprintDemo(${key})`;
+    out[key] = Wrapped as unknown as DemoValue;
+  }
+  return out;
+}
+
 // 제목은 mdx front-matter의 title 사용, fetcher 없으면 파일 이름 사용
 const TITLE = new Map(BLUEPRINT_INDEX.map((e) => [e.slug, e.title]));
 
@@ -49,29 +65,36 @@ export const blueprintAdapter: BaseRefAdapter = {
     const p = loadDemoModule(slug);
     if (!p) return null;
     return p.then((m) => ({
-      demos: m.DEMOS as Record<string, DemoValue>,
-      skipped: Object.fromEntries(
-        Object.entries(m.SKIPPED).map(([k, v]) => [k, { code: v.code as SkipCode, detail: v.detail }]),
-      ),
+      demos: withDocsData(m.DEMOS as Record<string, DemoValue>),
+      skipped: {
+        ...Object.fromEntries(
+          Object.entries(m.SKIPPED).map(([k, v]) => [k, { code: v.code as SkipCode, detail: v.detail }]),
+        ),
+        ...Object.fromEntries(
+          Object.entries(m.PENDING).map(([k, v]) => [k, {
+            code: (v.reason === "unresolved-local-module" ? "local-module-missing" : "not-an-example") as SkipCode,
+            detail: v.detail,
+          }]),
+        ),
+      },
     }));
   },
-  // 필드 8, div로 감싸 blueprint CSS 적용. 스코프용 DOM 필요하기 때문임
-  Provider: ({ children }) =>
-    React.createElement("div", { className: "blueprint-ref-scope" }, children),
+  // 필드 8, 대표 3종 모두 공급자 없음. 색은 CSS 변수라 공급자로 옮겨지지 않음
+  Provider: ({ children }) => children,
+  // mountTheme는 heroui와 동일 시간 스코프
   mountTheme(_system, _mode, doc) {
     let alive = true;
-    const nodes: (HTMLStyleElement | HTMLDivElement)[] = [];
-    import("./theme/blueprint-styles.json").then((mod) => {
+    let node: HTMLStyleElement | null = null;
+    import("./theme/blueprint-styles.json").then((m) => {
       if (!alive) return;
-      const style = doc.createElement("style");
-      style.dataset.baseMount = "blueprint:blueprint-styles";
-      style.textContent = String(mod.default);
-      doc.head.appendChild(style);
-      nodes.push(style);
-    }).catch( => { /* 못 실으면 blueprint가 기본 CSS 없이 렌더링 */ });
+      node = doc.createElement("style");
+      node.dataset.baseMount = "blueprint:blueprint-styles";
+      node.textContent = String(m.default);
+      doc.head.appendChild(node);
+    }).catch( => { /* 못 실으면 blueprint가 스타일 없이 즉시 렌더링 */ });
     return  => {
       alive = false;
-      for (const el of nodes) el.remove;
+      node?.remove;
     };
   },
 };

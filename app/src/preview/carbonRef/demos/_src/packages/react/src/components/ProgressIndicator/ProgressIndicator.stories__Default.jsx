@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ProgressIndicator, ProgressStep, ProgressIndicatorSkeleton } from '@carbon/react';
 import mdx from './ProgressIndicator.mdx';
 

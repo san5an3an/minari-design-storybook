@@ -4,6 +4,7 @@ import * as m001 from "./EditableTextDisabledExample";
 import * as m002 from "./EditableTextMultilineExample";
 import * as m003 from "./EditableTextIntentExample";
 import * as m004 from "./EditableTextSelectExample";
+import * as m005 from "./EditableTextPlaygroundExample";
 
 /** key → 공식 export 그대로. */
 export const DEMOS = {
@@ -12,11 +13,11 @@ export const DEMOS = {
   "EditableTextMultilineExample": m002.default,
   "EditableTextIntentExample": m003.default,
   "EditableTextSelectExample": m004.default,
+  "EditableTextPlaygroundExample": m005.EditableTextPlaygroundExample,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부 · `code` 는 선언 순서 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "EditableTextPlaygroundExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 /** ⏳ 판단 대기 — demos 도 skipped 도 아니다(U-3 등). */

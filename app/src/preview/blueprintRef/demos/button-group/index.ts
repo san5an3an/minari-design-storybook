@@ -9,6 +9,8 @@ import * as m006 from "./ButtonGroupIconsOnlyExample";
 import * as m007 from "./ButtonGroupIconsWithTooltipsExample";
 import * as m008 from "./ButtonGroupFlexExample";
 import * as m009 from "./ButtonGroupVerticalExample";
+import * as m010 from "./ButtonGroupPopoverExample";
+import * as m011 from "./ButtonGroupPlaygroundExample";
 
 /** key → 공식 export 그대로. */
 export const DEMOS = {
@@ -22,12 +24,12 @@ export const DEMOS = {
   "ButtonGroupIconsWithTooltipsExample": m007.default,
   "ButtonGroupFlexExample": m008.default,
   "ButtonGroupVerticalExample": m009.default,
+  "ButtonGroupPopoverExample": m010.ButtonGroupPopoverExample,
+  "ButtonGroupPlaygroundExample": m011.ButtonGroupPlaygroundExample,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부 · `code` 는 선언 순서 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "ButtonGroupPopoverExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "ButtonGroupPlaygroundExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 /** ⏳ 판단 대기 — demos 도 skipped 도 아니다(U-3 등). */

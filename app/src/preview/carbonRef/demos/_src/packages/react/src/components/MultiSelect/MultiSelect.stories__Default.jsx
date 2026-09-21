@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './MultiSelect.mdx';
 import { FilterableMultiSelect, MultiSelect } from '@carbon/react';
 

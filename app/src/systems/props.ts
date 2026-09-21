@@ -474,6 +474,8 @@ export interface ResizableProps extends Common {
   orientation?: string;
   // 첫 패널 차지 비율(%), 패널별 prop으로 전달
   defaultSize?: number;
+  // 첫 패널 최소 폭(px), 생략 시 기본값 12px 사용
+  minSize?: number;
   // 핸들 눈금 표시. 경계선은 값과 무관하게 항상 표시
   withHandle?: boolean;
   start?: ReactNode;
@@ -623,6 +625,8 @@ export interface SheetProps extends Common {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  // 포털 마운트 위치 지정. 미지정 시 document.body 전체 화면 사용
+  container?: HTMLElement | null;
 }
 
 // 드래그 여닫기 패널, 잡을 위치 표시

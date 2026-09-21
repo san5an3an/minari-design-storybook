@@ -4,7 +4,14 @@ import INDEX_JSON from "./index.json";
 // 템플릿 동적 import 금지. fetcher 생성 명시 목록만 호출
 import { DOCS } from "./_docs";
 import { LOAD } from "./demos/_load";
+import { loadPage } from "./demos/_pageLoad";
 import { THEMES } from "./_themes";
+
+// 경로 문자열에서 데모 페이지 슬러그만 추출
+function pageSlugOf(source: string): string | null {
+  const m = /:src\/pages\/([^/]+)\//.exec(source);
+  return m ? m[1] : null;
+}
 
 type RawExample = BaseRefExample & { skip: { code: SkipCode; detail: string } | null };
 type RawDoc = Omit<BaseRefDoc, "examples"> & { examples: RawExample[] };
@@ -64,9 +71,14 @@ export const cloudscapeAdapter: BaseRefAdapter = {
       const load = LOAD[slug];
       const built = load ? (await load).default : null;
       for (const ex of raw.examples) {
-        if (ex.skip) skipped[ex.key] = ex.skip;
-        else if (ex.stage === "inline" && built) demos[ex.key] = built;
-        else demos[ex.key] = IframePending;
+        if (ex.skip) { skipped[ex.key] = ex.skip; continue; }
+        if (ex.stage === "inline" && built) { demos[ex.key] = built; continue; }
+        const pageSlug = pageSlugOf(ex.source);
+        const loaded = pageSlug ? loadPage(pageSlug) : null;
+        demos[ex.key] = IframePending;
+        if (loaded) {
+          try { demos[ex.key] = (await loaded).default; } catch { /* IframePending 유지 */ }
+        }
       }
       return { demos, skipped };
     });

@@ -12,7 +12,7 @@ export const demos = {
   "packages/react/src/components/StructuredList/StructuredList.stories.js#Skeleton": composeStory(m6.default, m6["Skeleton"], "Skeleton"),
 };
 export const skipped = {
-  "packages/react/src/components/StructuredList/StructuredList.featureflag.stories.js#Selection": {"code":"package-missing","detail":"@storybook/addon-links/react"},
+  "packages/react/src/components/StructuredList/StructuredList.featureflag.stories.js#Selection": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
   "packages/react/src/components/StructuredList/StructuredList.featureflag.stories.js#WithBackgroundLayer": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
   "packages/react/src/components/StructuredList/StructuredList.stories.js#WithBackgroundLayer": {"code":"global-css","detail":"packages/react/.storybook/templates/Annotation/Annotation.scss: @keyframes (3)"},
 };

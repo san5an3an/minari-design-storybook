@@ -45,7 +45,8 @@ export function PrimereactUsage({ system }: UsageDashboardProps) {
         }
         style={{ borderRadius: 0, borderInline: "none", borderBlockStart: "none", flexShrink: 0 }}
       />
-      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1.25rem" }}>
+      {/* containerType: inline-size 지정. 뷰포트 대신 프레임 폭이 접힘 기준임 */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1.25rem", containerType: "inline-size", containerName: "pr1" }}>
         <div style={{ marginBlockEnd: "1rem" }}>
           <h2 style={{ margin: 0, fontSize: "1.1rem" }}>{screen.label}</h2>
           <p style={{ margin: "0.25rem 0 0", color: "var(--semantic-fg-neutral-subtle)", fontSize: "0.9rem" }}>

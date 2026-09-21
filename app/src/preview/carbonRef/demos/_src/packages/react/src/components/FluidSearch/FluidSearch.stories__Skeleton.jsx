@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidSearch, FluidSearchSkeleton } from '@carbon/react';
 import mdx from './FluidSearch.mdx';
 

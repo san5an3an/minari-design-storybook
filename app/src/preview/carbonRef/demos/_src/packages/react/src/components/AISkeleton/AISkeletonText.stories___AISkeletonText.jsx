@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AISkeletonText } from '@carbon/react';
 
 

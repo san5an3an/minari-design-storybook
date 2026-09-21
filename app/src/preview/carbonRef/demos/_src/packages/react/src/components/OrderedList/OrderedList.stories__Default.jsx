@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { OrderedList } from '@carbon/react';
 import { ListItem } from '@carbon/react';
 import mdx from './OrderedList.mdx';

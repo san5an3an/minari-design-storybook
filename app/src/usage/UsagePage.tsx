@@ -1,12 +1,18 @@
 import { BASES } from "../bases/registry";
 import type { Mode, SystemDefinition } from "../systems/types";
 import { NotReady } from "./NotReady";
-import { USAGE_DASHBOARDS } from "./registry";
+import { USAGE_DASHBOARDS as USAGE_1 } from "./registry";
+import { USAGE_DASHBOARDS as USAGE_2 } from "./registry2";
+import { USAGE_DASHBOARDS as USAGE_3 } from "./registry3";
 
-export function UsagePage({ system, active }: {
+const VARIANTS = { 1: USAGE_1, 2: USAGE_2, 3: USAGE_3 } as const;
+
+export function UsagePage({ system, active, variant }: {
   system: SystemDefinition;
   active: Mode;
+  variant: 1 | 2 | 3;
 }) {
+  const USAGE_DASHBOARDS = VARIANTS[variant];
   const Dashboard = USAGE_DASHBOARDS[system.baseKey];
 
   if (!Dashboard) {

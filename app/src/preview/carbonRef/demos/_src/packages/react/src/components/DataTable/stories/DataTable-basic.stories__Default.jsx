@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataTable } from '@carbon/react';
 import mdx from '../DataTable.mdx';
 import './datatable-story.scss';

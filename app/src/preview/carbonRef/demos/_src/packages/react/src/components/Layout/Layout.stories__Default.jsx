@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Accordion, AccordionItem } from '@carbon/react';
 import { Button } from '@carbon/react';
 import { Tag } from '@carbon/react';

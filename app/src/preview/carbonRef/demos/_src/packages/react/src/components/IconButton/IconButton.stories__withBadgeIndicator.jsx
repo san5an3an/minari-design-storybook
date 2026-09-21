@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Edit, Notification } from '@carbon/icons-react';
 import { IconButton } from '@carbon/react';
 import mdx from './IconButton.mdx';

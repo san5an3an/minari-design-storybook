@@ -28,7 +28,6 @@ export const daisyuiAdapter: BaseRefAdapter = {
         }))
       : null;
   },
-  // 공식 예제에 공급자 없음
+  // 공식 예제에 provider 없음. 색과 구조 CSS가 전역이라 스코프 div도 필요 없음
   Provider: ({ children }) => children,
-  // mountTheme 리더 공유 CSS 설계 대기
 };

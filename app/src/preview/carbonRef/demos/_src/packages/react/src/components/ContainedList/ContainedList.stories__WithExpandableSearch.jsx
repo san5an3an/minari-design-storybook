@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect } from 'react';
 import mdx from './ContainedList.mdx';
 import { ContainedList } from '@carbon/react';

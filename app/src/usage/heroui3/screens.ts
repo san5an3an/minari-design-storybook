@@ -1,13 +1,20 @@
 import type { ComponentType } from "react";
+import type { Rsvp } from "./data";
 import { HostsScreen } from "./screens/HostsScreen";
 import { MeetupsScreen } from "./screens/MeetupsScreen";
 import { RsvpsScreen } from "./screens/RsvpsScreen";
+
+export interface ScreenProps {
+  rsvps: readonly Rsvp[];
+  onRsvp: (meetupId: string) => void;
+  onCancelRsvp: (meetupId: string) => void;
+}
 
 export interface ScreenDefinition {
   key: string;
   label: string;
   lede: string;
-  Screen: ComponentType;
+  Screen: ComponentType<ScreenProps>;
 }
 
 export const SCREENS: ScreenDefinition[] = [

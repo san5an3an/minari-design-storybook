@@ -8,15 +8,17 @@ import * as m005 from "./with-disabled-options";
 import * as m006 from "./with-sections";
 import * as m007 from "./controlled";
 import * as m008 from "./controlled-input-value";
-import * as m009 from "./default-selected-key";
-import * as m010 from "./allows-custom-value";
-import * as m011 from "./custom-value";
-import * as m012 from "./custom-filtering";
-import * as m013 from "./render-function";
-import * as m014 from "./menu-trigger";
-import * as m015 from "./multiple-selection";
-import * as m016 from "./on-surface";
-import * as m017 from "./custom-styles";
+import * as m009 from "./asynchronous-loading";
+import * as m010 from "./default-selected-key";
+import * as m011 from "./allows-custom-value";
+import * as m012 from "./custom-indicator";
+import * as m013 from "./custom-value";
+import * as m014 from "./custom-filtering";
+import * as m015 from "./render-function";
+import * as m016 from "./menu-trigger";
+import * as m017 from "./multiple-selection";
+import * as m018 from "./on-surface";
+import * as m019 from "./custom-styles";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
 export const DEMOS = {
@@ -29,19 +31,19 @@ export const DEMOS = {
   "with-sections": m006.WithSections,
   "controlled": m007.Controlled,
   "controlled-input-value": m008.ControlledInputValue,
-  "default-selected-key": m009.DefaultSelectedKey,
-  "allows-custom-value": m010.AllowsCustomValue,
-  "custom-value": m011.CustomValue,
-  "custom-filtering": m012.CustomFiltering,
-  "render-function": m013.RenderFunction,
-  "menu-trigger": m014.MenuTrigger,
-  "multiple-selection": m015.MultipleSelection,
-  "on-surface": m016.OnSurface,
-  "custom-styles": m017.CustomStyles,
+  "asynchronous-loading": m009.AsynchronousLoading,
+  "default-selected-key": m010.DefaultSelectedKey,
+  "allows-custom-value": m011.AllowsCustomValue,
+  "custom-indicator": m012.CustomIndicator,
+  "custom-value": m013.CustomValue,
+  "custom-filtering": m014.CustomFiltering,
+  "render-function": m015.RenderFunction,
+  "menu-trigger": m016.MenuTrigger,
+  "multiple-selection": m017.MultipleSelection,
+  "on-surface": m018.OnSurface,
+  "custom-styles": m019.CustomStyles,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부(선언 순서) · `code` 는 그 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "asynchronous-loading": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @react-stately/data"},
-  "custom-indicator": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
 };

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MenuItem, MenuItemDivider } from '@carbon/react';
 import { CopyFile, Export } from '@carbon/icons-react';
 import { ComboButton } from '@carbon/react';

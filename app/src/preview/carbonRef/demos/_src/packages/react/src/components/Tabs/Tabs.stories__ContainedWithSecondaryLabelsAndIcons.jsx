@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Tabs, TabsVertical, TabList, TabListVertical, Tab, TabPanels, TabPanel } from '@carbon/react';
 import { TextInput } from '@carbon/react';
 import { Checkbox } from '@carbon/react';

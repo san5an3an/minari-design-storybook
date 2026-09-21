@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Dropdown, DropdownSkeleton } from '@carbon/react';
 import mdx from './Dropdown.mdx';
 

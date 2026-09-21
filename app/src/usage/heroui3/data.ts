@@ -6,8 +6,10 @@ export interface Meetup {
   location: string;
   host: string;
   seatsLeft: number;
+  capacity: number;
   description: string;
   colorToken: string;
+  image: string;
 }
 
 export const MEETUPS: Meetup[] = [
@@ -19,8 +21,10 @@ export const MEETUPS: Meetup[] = [
     location: "한강공원 반포지구",
     host: "박러너",
     seatsLeft: 4,
+    capacity: 20,
     description: "5km 완주 목표. 페이스는 6분/km 내외로 천천히 함께 뜁니다. 러닝화만 챙겨오세요.",
-    colorToken: "var(--semantic-bg-success-subtle, #dcfce7)",
+    colorToken: "var(--semantic-bg-success-subtle)",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m2",
@@ -30,8 +34,10 @@ export const MEETUPS: Meetup[] = [
     location: "합정 스터디룸",
     host: "김서재",
     seatsLeft: 2,
+    capacity: 15,
     description: "이번 달은 단편집 한 권을 같이 읽고 이야기합니다. 완독하지 않아도 참여 가능해요.",
-    colorToken: "var(--semantic-bg-brand-subtle, #ede9fe)",
+    colorToken: "var(--semantic-bg-brand-subtle)",
+    image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m3",
@@ -41,8 +47,10 @@ export const MEETUPS: Meetup[] = [
     location: "역삼 코워킹스페이스",
     host: "이빌더",
     seatsLeft: 0,
+    capacity: 25,
     description: "각자 만든 사이드 프로젝트를 5분씩 발표하고 피드백을 나눕니다. 마감되었습니다.",
-    colorToken: "var(--semantic-bg-info-subtle, #e0f2fe)",
+    colorToken: "var(--semantic-bg-brand-subtle)",
+    image: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=320&q=70",
   },
   {
     id: "m4",
@@ -52,8 +60,10 @@ export const MEETUPS: Meetup[] = [
     location: "성수 아틀리에",
     host: "최그림",
     seatsLeft: 6,
+    capacity: 10,
     description: "재료 전부 제공. 초보자도 부담 없이 참여할 수 있는 수채화 원데이 클래스입니다.",
-    colorToken: "var(--semantic-bg-warning-subtle, #fef3c7)",
+    colorToken: "var(--semantic-bg-warning-subtle)",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=320&q=70",
   },
 ];
 
@@ -73,11 +83,27 @@ export interface Host {
   bio: string;
   tags: string[];
   meetupCount: number;
+  rating: number;
+  reviewCount: number;
 }
 
 export const HOSTS: Host[] = [
-  { id: "h1", name: "박러너", bio: "5년째 새벽 러닝 클럽을 운영하고 있어요.", tags: ["운동", "아웃도어"], meetupCount: 42 },
-  { id: "h2", name: "김서재", bio: "매달 새 책을 고르는 독서모임 호스트.", tags: ["독서", "글쓰기"], meetupCount: 18 },
-  { id: "h3", name: "이빌더", bio: "개발자 커뮤니티 데모데이를 기획합니다.", tags: ["개발", "네트워킹"], meetupCount: 9 },
-  { id: "h4", name: "최그림", bio: "누구나 그릴 수 있다고 믿는 드로잉 강사.", tags: ["취미", "미술"], meetupCount: 27 },
+  { id: "h1", name: "박러너", bio: "5년째 새벽 러닝 클럽을 운영하고 있어요.", tags: ["운동", "아웃도어"], meetupCount: 42, rating: 4.8, reviewCount: 132 },
+  { id: "h2", name: "김서재", bio: "매달 새 책을 고르는 독서모임 호스트.", tags: ["독서", "글쓰기"], meetupCount: 18, rating: 4.9, reviewCount: 64 },
+  { id: "h3", name: "이빌더", bio: "개발자 커뮤니티 데모데이를 기획합니다.", tags: ["개발", "네트워킹"], meetupCount: 9, rating: 4.6, reviewCount: 21 },
+  { id: "h4", name: "최그림", bio: "누구나 그릴 수 있다고 믿는 드로잉 강사.", tags: ["취미", "미술"], meetupCount: 27, rating: 4.7, reviewCount: 88 },
+];
+
+// RsvpsScreen 참여 이력 표 전용, 종료 모임 기록, MY_RSVPS 와 별개
+export interface AttendanceRecord {
+  id: string;
+  title: string;
+  dateLabel: string;
+  myRating: number;
+}
+
+export const ATTENDANCE_HISTORY: AttendanceRecord[] = [
+  { id: "a1", title: "초보 러너 페이스 클리닉", dateLabel: "8월 30일", myRating: 5 },
+  { id: "a2", title: "여름밤 독서모임 특별판", dateLabel: "8월 12일", myRating: 4 },
+  { id: "a3", title: "사이드 프로젝트 스프린트 데이", dateLabel: "7월 20일", myRating: 5 },
 ];

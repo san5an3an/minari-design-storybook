@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Tabs, TabsVertical, TabList, TabListVertical, Tab, TabPanels, TabPanel } from '@carbon/react';
 import mdx from './Tabs.mdx';
 

@@ -9,6 +9,7 @@ import { loadDemos, type DemoModule, type ToneColor } from "./antdRef/demos";
 import { TokenTable } from "./TokenTable";
 import { loadKo, pick, type KoText } from "./antdRef/ko";
 import { parseColorTokens, type Mode } from "./tokens";
+import { componentGroups, resolveTokenGroup } from "./tokenGroups";
 import type { SystemDefinition } from "../systems/types";
 
 const ANTD_LINE_HEIGHT = antdTheme.getDesignToken.lineHeight;
@@ -288,8 +289,11 @@ export function AntdReference({ slug, system, active }: {
   const master = doc.examples[masterAt];
   const variants = doc.examples.filter((_, i) => i !== masterAt);
 
-  const ourTokens = parseColorTokens(system.vars)
-    .filter((t) => t.name.startsWith(`--component-${doc.slug}-`));
+  const availableGroups = componentGroups(system.vars);
+  const group = resolveTokenGroup(doc.slug, doc.title, availableGroups);
+  const ourTokens = group
+    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${group}-`))
+    : [];
 
   const stand = (ex: AntdExample) => {
     const Demo = mod ? mod.demos[ex.name] : undefined;
@@ -432,8 +436,9 @@ export function AntdReference({ slug, system, active }: {
         title="Tokens"
         count={ourTokens.length || undefined}
         note={<>
-          <code>--component-{doc.slug}-*</code> 는 이 컴포넌트만 쓰는 이름이에요.
+          <code>--component-{group}-*</code> 는 이 컴포넌트만 쓰는 이름이에요.
           값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.
+          {group === doc.slug ? null : <> 이름이 달라서 <b>같은 위치</b>로 이어 붙였어요.</>}
         </>}
       >
         {ourTokens.length === 0

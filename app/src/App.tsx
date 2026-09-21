@@ -27,6 +27,24 @@ import { UsagePage } from "./usage/UsagePage";
 import { ComponentPage } from "./preview/ComponentPage";
 import { ANTD_GROUPS, ANTD_INDEX, isAntdSlug } from "./preview/antdRef/loader";
 import { MUI_GROUPS, MUI_INDEX, isMuiSlug } from "./preview/muiRef/loader";
+// 13종 어댑터는 정적 로드, 라이브러리/CSS/화면은 지연 로드하기
+import { carbonAdapter } from "./preview/carbonRef/adapter";
+import { chakraAdapter } from "./preview/chakraRef/adapter";
+import { bootstrapAdapter } from "./preview/bootstrapRef/adapter";
+import { flowbiteAdapter } from "./preview/flowbiteRef/adapter";
+import { grommetAdapter } from "./preview/grommetRef/adapter";
+import { primerAdapter } from "./preview/primerRef/adapter";
+import { lightningAdapter } from "./preview/lightningRef/adapter";
+import { fluentAdapter } from "./preview/fluentRef/adapter";
+import { spectrumAdapter } from "./preview/spectrumRef/adapter";
+import { blueprintAdapter } from "./preview/blueprintRef/adapter";
+import { daisyuiAdapter } from "./preview/daisyuiRef/adapter";
+import { cloudscapeAdapter } from "./preview/cloudscapeRef/adapter";
+import { herouiAdapter } from "./preview/herouiRef/adapter";
+import { primereactAdapter } from "./preview/primereactRef/adapter";
+import { mantineAdapter } from "./preview/mantineRef/adapter";
+import { COSS_INDEX, isCossSlug } from "./preview/cossRef/loader";
+import type { BaseRefAdapter } from "./preview/refContract";
 import { MODES, MODE_LABEL, type Mode } from "./preview/tokens";
 import { DEFAULT_FONT, FONTS, fontByKey, loadFont } from "./preview/fonts";
 import { SYSTEMS, systemBySlug } from "./systems/registry";
@@ -39,6 +57,32 @@ const AntdReference = React.lazy( =>
   import("./preview/AntdReference").then((m) => ({ default: m.AntdReference })));
 const MuiReference = React.lazy( =>
   import("./preview/MuiReference").then((m) => ({ default: m.MuiReference })));
+// coss도 antd, mui와 같은 전용 화면 구조. 20번째 베이스로 신규 등록
+const CossReference = React.lazy( =>
+  import("./preview/CossReference").then((m) => ({ default: m.CossReference })));
+function baseReference(baseKey: string, adapter: BaseRefAdapter, baseTitle: string) {
+  return React.lazy( =>
+    import("./preview/BaseReference").then((m) => ({
+      default: (p: { slug: string; system: SystemDefinition; active: Mode }) => (
+        <m.BaseReference {...p} baseKey={baseKey} adapter={adapter} baseTitle={baseTitle} />
+      ),
+    })));
+}
+const CarbonReference = baseReference("carbon", carbonAdapter, "Carbon");
+const ChakraReference = baseReference("chakra", chakraAdapter, "Chakra UI");
+const BootstrapReference = baseReference("bootstrap", bootstrapAdapter, "React Bootstrap");
+const FlowbiteReference = baseReference("flowbite", flowbiteAdapter, "Flowbite React");
+const GrommetReference = baseReference("grommet", grommetAdapter, "Grommet");
+const PrimerReference = baseReference("primer", primerAdapter, "Primer");
+const LightningReference = baseReference("lightning", lightningAdapter, "Lightning");
+const FluentReference = baseReference("fluent", fluentAdapter, "Fluent UI");
+const SpectrumReference = baseReference("spectrum", spectrumAdapter, "React Spectrum");
+const BlueprintReference = baseReference("blueprint", blueprintAdapter, "Blueprint");
+const DaisyuiReference = baseReference("daisyui", daisyuiAdapter, "daisyUI");
+const CloudscapeReference = baseReference("cloudscape", cloudscapeAdapter, "Cloudscape");
+const HerouiReference = baseReference("heroui", herouiAdapter, "HeroUI");
+const PrimereactReference = baseReference("primereact", primereactAdapter, "PrimeReact");
+const MantineReference = baseReference("mantine", mantineAdapter, "Mantine");
 
 // 지연 로드 전 위치 표시
 function ReferenceLoading({ title }: { title: string }) {
@@ -55,10 +99,15 @@ const STYLE_ID = "ods-active-system";
 const COLORS = "__colors__";
 const TYPE = "__type__";
 
-const USAGE = "__usage__";
+const USAGE1 = "__usage__";
+const USAGE2 = "__usage2__";
+const USAGE3 = "__usage3__";
+const USAGE_VARIANT: Record<string, 1 | 2 | 3> = { [USAGE1]: 1, [USAGE2]: 2, [USAGE3]: 3 };
 
 const MAIN: { key: string; label: string }[] = [
-  { key: USAGE, label: "Usage" },
+  { key: USAGE1, label: "Usage 1" },
+  { key: USAGE2, label: "Usage 2" },
+  { key: USAGE3, label: "Usage 3" },
 ];
 
 const FOUNDATIONS: { key: string; label: string }[] = [
@@ -66,8 +115,15 @@ const FOUNDATIONS: { key: string; label: string }[] = [
   { key: TYPE, label: "Typography" },
 ];
 
-const ROUTE_ALIAS: Record<string, string> = { colors: COLORS, "type-scale": TYPE, usage: USAGE };
-const ROUTE_SLUG: Record<string, string> = { [COLORS]: "colors", [TYPE]: "type-scale", [USAGE]: "usage" };
+// 구 주소 usage를 usage1로 처리
+const ROUTE_ALIAS: Record<string, string> = {
+  colors: COLORS, "type-scale": TYPE,
+  usage: USAGE1, usage1: USAGE1, usage2: USAGE2, usage3: USAGE3,
+};
+const ROUTE_SLUG: Record<string, string> = {
+  [COLORS]: "colors", [TYPE]: "type-scale",
+  [USAGE1]: "usage1", [USAGE2]: "usage2", [USAGE3]: "usage3",
+};
 
 type Route = { base: string; slug: string; section: string };
 
@@ -125,6 +181,8 @@ function useTheme(mode: Mode) {
 
 function drawnCount(baseKey: string, impl: Record<string, unknown>): number {
   const mirror = MIRRORS[baseKey];
+  // 사이드바 렌더링 개수 계산
+  if (mirror?.noOurs && mirror.GROUPS) return Object.values(mirror.GROUPS).reduce((n, g) => n + g.length, 0);
   if (mirror) return mirror.INDEX.length;
   return Object.keys(impl).length;
 }
@@ -160,9 +218,9 @@ function BaseCard({
   );
 }
 
-const HIDDEN_BASES = ["chakra", "mantine"];
+const HIDDEN_BASES: string[] = [];
 
-const CARD_ORDER = ["shadcn", "antd", "mui", "standalone"];
+const CARD_ORDER = ["shadcn", "antd", "mui", "standalone", "blueprint"];
 const cardRank = (key: string) => {
   const i = CARD_ORDER.indexOf(key);
   return i < 0 ? CARD_ORDER.length : i; // 알 수 없는 베이스는 뒤로 정렬
@@ -246,11 +304,77 @@ type MirrorEntry = {
   Reference: React.LazyExoticComponent<
     React.ComponentType<React.ComponentProps<typeof AntdReference>>
   >;
+  // 13종, 어댑터 섹션 없는 미러라 사이드바 섹션 미표시
+  noOurs?: true;
 };
+
+// coss는 group 없어 GROUPS 미제공, flat 목록으로 처리
+const COSS_TITLE = new Map(COSS_INDEX.map((c) => [c.slug, c.title]));
 
 const MIRRORS: Record<string, MirrorEntry> = {
   antd: { isSlug: isAntdSlug, INDEX: ANTD_INDEX, GROUPS: ANTD_GROUPS, TITLE: ANTD_TITLE, Reference: AntdReference },
   mui: { isSlug: isMuiSlug, INDEX: MUI_INDEX, GROUPS: MUI_GROUPS, TITLE: MUI_TITLE, Reference: MuiReference },
+  coss: { isSlug: isCossSlug, INDEX: COSS_INDEX, TITLE: COSS_TITLE, Reference: CossReference, noOurs: true },
+  carbon: {
+    isSlug: carbonAdapter.isSlug, INDEX: carbonAdapter.INDEX, GROUPS: carbonAdapter.GROUPS,
+    TITLE: carbonAdapter.TITLE, Reference: CarbonReference, noOurs: true,
+  },
+  chakra: {
+    isSlug: chakraAdapter.isSlug, INDEX: chakraAdapter.INDEX, GROUPS: chakraAdapter.GROUPS,
+    TITLE: chakraAdapter.TITLE, Reference: ChakraReference, noOurs: true,
+  },
+  bootstrap: {
+    isSlug: bootstrapAdapter.isSlug, INDEX: bootstrapAdapter.INDEX, GROUPS: bootstrapAdapter.GROUPS,
+    TITLE: bootstrapAdapter.TITLE, Reference: BootstrapReference, noOurs: true,
+  },
+  flowbite: {
+    isSlug: flowbiteAdapter.isSlug, INDEX: flowbiteAdapter.INDEX, GROUPS: flowbiteAdapter.GROUPS,
+    TITLE: flowbiteAdapter.TITLE, Reference: FlowbiteReference, noOurs: true,
+  },
+  grommet: {
+    isSlug: grommetAdapter.isSlug, INDEX: grommetAdapter.INDEX, GROUPS: grommetAdapter.GROUPS,
+    TITLE: grommetAdapter.TITLE, Reference: GrommetReference, noOurs: true,
+  },
+  primer: {
+    isSlug: primerAdapter.isSlug, INDEX: primerAdapter.INDEX, GROUPS: primerAdapter.GROUPS,
+    TITLE: primerAdapter.TITLE, Reference: PrimerReference, noOurs: true,
+  },
+  lightning: {
+    isSlug: lightningAdapter.isSlug, INDEX: lightningAdapter.INDEX, GROUPS: lightningAdapter.GROUPS,
+    TITLE: lightningAdapter.TITLE, Reference: LightningReference, noOurs: true,
+  },
+  fluent: {
+    isSlug: fluentAdapter.isSlug, INDEX: fluentAdapter.INDEX, GROUPS: fluentAdapter.GROUPS,
+    TITLE: fluentAdapter.TITLE, Reference: FluentReference, noOurs: true,
+  },
+  spectrum: {
+    isSlug: spectrumAdapter.isSlug, INDEX: spectrumAdapter.INDEX, GROUPS: spectrumAdapter.GROUPS,
+    TITLE: spectrumAdapter.TITLE, Reference: SpectrumReference, noOurs: true,
+  },
+  blueprint: {
+    isSlug: blueprintAdapter.isSlug, INDEX: blueprintAdapter.INDEX, GROUPS: blueprintAdapter.GROUPS,
+    TITLE: blueprintAdapter.TITLE, Reference: BlueprintReference, noOurs: true,
+  },
+  daisyui: {
+    isSlug: daisyuiAdapter.isSlug, INDEX: daisyuiAdapter.INDEX, GROUPS: daisyuiAdapter.GROUPS,
+    TITLE: daisyuiAdapter.TITLE, Reference: DaisyuiReference, noOurs: true,
+  },
+  cloudscape: {
+    isSlug: cloudscapeAdapter.isSlug, INDEX: cloudscapeAdapter.INDEX, GROUPS: cloudscapeAdapter.GROUPS,
+    TITLE: cloudscapeAdapter.TITLE, Reference: CloudscapeReference, noOurs: true,
+  },
+  heroui: {
+    isSlug: herouiAdapter.isSlug, INDEX: herouiAdapter.INDEX, GROUPS: herouiAdapter.GROUPS,
+    TITLE: herouiAdapter.TITLE, Reference: HerouiReference, noOurs: true,
+  },
+  primereact: {
+    isSlug: primereactAdapter.isSlug, INDEX: primereactAdapter.INDEX, GROUPS: primereactAdapter.GROUPS,
+    TITLE: primereactAdapter.TITLE, Reference: PrimereactReference, noOurs: true,
+  },
+  mantine: {
+    isSlug: mantineAdapter.isSlug, INDEX: mantineAdapter.INDEX, GROUPS: mantineAdapter.GROUPS,
+    TITLE: mantineAdapter.TITLE, Reference: MantineReference, noOurs: true,
+  },
 };
 
 type NavItem = { key: string; label: string };
@@ -278,9 +402,12 @@ function NavGroup({ spec, section, onPick }: {
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        {spec.count ? `${spec.label} ${spec.items.length}` : spec.label}
-      </SidebarGroupLabel>
+      {/* 라벨이 빈 그룹은 헤더 생략 */}
+      {spec.label ? (
+        <SidebarGroupLabel>
+          {spec.count ? `${spec.label} ${spec.items.length}` : spec.label}
+        </SidebarGroupLabel>
+      ) : null}
       <SidebarGroupContent>
         <SidebarMenu>
           {spec.items.map((it) => (
@@ -297,6 +424,11 @@ function NavGroup({ spec, section, onPick }: {
       </SidebarGroupContent>
     </SidebarGroup>
   );
+}
+
+// 라벨 없는 그룹 하나, 순서는 INDEX 그대로 유지
+function officialFlatSpec(index: { slug: string; title: string }[]): NavSpec {
+  return { label: "", count: false, items: index.map(({ slug, title }) => ({ key: slug, label: title || slug })) };
 }
 
 // 공식 문서 목록을 그룹으로 이전, 이름과 순서는 공식 그대로 유지
@@ -339,10 +471,13 @@ function PageNav({
     { label: "Foundations", items: FOUNDATIONS.map((f) => ({ key: f.key, label: f.label })) },
     ...(mirror
       ? [
-          componentSpec(system, "이 어댑터"),
+          ...(mirror.noOurs ? [] : [componentSpec(system, "이 어댑터")]),
           ...(mirror.GROUPS && mirror.TITLE
             ? officialSpecs(mirror.GROUPS, mirror.TITLE)
-            : []),
+            // 공식 분류 없는 lightning 베이스는 INDEX 순서로 한 행 표시. 그룹명 임의 생성 방지 위해 라벨 제외
+            : mirror.noOurs
+              ? [officialFlatSpec(mirror.INDEX as { slug: string; title: string }[])]
+              : []),
         ]
       : [componentSpec(system, "Components")]),
   ];
@@ -533,7 +668,10 @@ export function App {
     setSection(nextSection);
   }, []);
 
-  // 베이스 변경해도 섹션 구성 유지. 컴포넌트 없으면 "아직 없어요" 표시
+  const pickBase = React.useCallback((nextBase: string) => {
+    setBase(nextBase);
+    setSection(USAGE1);
+  }, []);
 
   const mirror = MIRRORS[system.baseKey];
   // TITLE 없는 미러는 slug 그대로 표시. 제목 없는 출처는 bare로 대체되는 방식임
@@ -571,7 +709,7 @@ export function App {
               </span>
             </div>
           </div>
-          <BasePicker base={base} color={color} onPick={setBase} />
+          <BasePicker base={base} color={color} onPick={pickBase} />
 
           {/* 검색창은 헤더에 고정되어 목록과 함께 스크롤되지 않음 */}
           <div className="relative">
@@ -658,9 +796,9 @@ export function App {
 
         {/* 미리보기 영역 */}
         <div className="doc-page">
-          {section === USAGE ? (
+          {section in USAGE_VARIANT ? (
             // 이 경우 최우선 배치. __usage__는 계약에 없는 이름이라 잘못 표시되는 문제임
-            <UsagePage system={system} active={mode} />
+            <UsagePage system={system} active={mode} variant={USAGE_VARIANT[section]} />
           ) : section === COLORS ? (
             <>
               <p className="doc-lead">{system.tone}</p>

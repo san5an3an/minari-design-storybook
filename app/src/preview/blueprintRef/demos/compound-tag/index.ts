@@ -8,6 +8,7 @@ import * as m005 from "./CompoundTagRoundExample";
 import * as m006 from "./CompoundTagIconExample";
 import * as m007 from "./CompoundTagRemovableExample";
 import * as m008 from "./CompoundTagInteractiveExample";
+import * as m009 from "./CompoundTagPlaygroundExample";
 
 /** key → 공식 export 그대로. */
 export const DEMOS = {
@@ -20,11 +21,11 @@ export const DEMOS = {
   "CompoundTagIconExample": m006.default,
   "CompoundTagRemovableExample": m007.default,
   "CompoundTagInteractiveExample": m008.default,
+  "CompoundTagPlaygroundExample": m009.CompoundTagPlaygroundExample,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부 · `code` 는 선언 순서 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "CompoundTagPlaygroundExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 /** ⏳ 판단 대기 — demos 도 skipped 도 아니다(U-3 등). */

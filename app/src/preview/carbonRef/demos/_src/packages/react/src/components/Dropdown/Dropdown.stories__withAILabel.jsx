@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FolderOpen, Folders, Information, View } from '@carbon/icons-react';
 import { Dropdown, DropdownSkeleton } from '@carbon/react';
 import { Button } from '@carbon/react';

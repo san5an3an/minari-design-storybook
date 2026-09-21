@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 // 사이드바, 메뉴, 아바타 등 앱 셸 중복 요소 제거, 화면은 내용만 표시
-import { Settings2, TrendingDown, TrendingUp } from "lucide-react";
+import {
+  Activity, LineChart, Settings2, TrendingDown, TrendingUp, Users, Wallet,
+} from "lucide-react";
 import { Badge } from "../../../bases/shadcn/Badge";
 import { Button } from "../../../bases/shadcn/Button";
 import { Card } from "../../../bases/shadcn/Card";
@@ -15,6 +17,8 @@ import { Table } from "../../../bases/shadcn/Table";
 import { Tabs } from "../../../bases/shadcn/Tabs";
 import { useIsWide } from "../useIsWide";
 
+type CardTone = "brand" | "success" | "warning" | "danger";
+
 interface StatSpec {
   label: string;
   value: string;
@@ -22,6 +26,8 @@ interface StatSpec {
   up: boolean;
   headline: string;
   note: string;
+  tone: CardTone;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number }>;
 }
 
 // 카드 4장 구성 동일. 숫자, 증감, 두 줄 꼬리표 위치까지 같음
@@ -33,6 +39,8 @@ const STATS: readonly StatSpec[] = [
     up: true,
     headline: "이번 달 올라가는 중",
     note: "최근 6개월 방문자 기준",
+    tone: "brand",
+    icon: Wallet,
   },
   {
     label: "신규 고객",
@@ -41,6 +49,8 @@ const STATS: readonly StatSpec[] = [
     up: false,
     headline: "이번 기간 20% 내려감",
     note: "유입을 들여다볼 때",
+    tone: "danger",
+    icon: Users,
   },
   {
     label: "활성 계정",
@@ -49,6 +59,8 @@ const STATS: readonly StatSpec[] = [
     up: true,
     headline: "잔존이 탄탄함",
     note: "관여도가 목표를 넘음",
+    tone: "success",
+    icon: Activity,
   },
   {
     label: "성장률",
@@ -57,6 +69,8 @@ const STATS: readonly StatSpec[] = [
     up: true,
     headline: "꾸준히 오르는 중",
     note: "성장 전망에 부합",
+    tone: "warning",
+    icon: LineChart,
   },
 ];
 
@@ -142,11 +156,67 @@ const CELL: Record<ColumnName, (d: DocRow) => React.ReactNode> = {
   검토자: (d) => d.reviewer,
 };
 
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60";
+
+function DashboardHero {
+  return (
+    <div
+      className="flex flex-col justify-end gap-1 overflow-hidden p-5 sm:p-6"
+      style={{
+        minHeight: "9rem",
+        borderRadius: "var(--semantic-radius-container)",
+        boxShadow: "var(--semantic-shadow-raised)",
+        backgroundImage:
+          `linear-gradient(180deg, color-mix(in oklch, var(--semantic-bg-brand-default) 15%, transparent) 0%, ` +
+          `color-mix(in oklch, var(--semantic-bg-brand-default) 92%, black) 75%), url("${HERO_IMAGE}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <span
+        style={{
+          color: "var(--semantic-fg-on-brand-default)",
+          fontSize: "var(--semantic-text-heading-lg)",
+          letterSpacing: "var(--semantic-tracking-heading-lg)",
+          lineHeight: "var(--semantic-line-height-tight)",
+        }}
+      >
+        이번 주도 좋은 흐름이에요
+      </span>
+      <span
+        style={{ color: "var(--semantic-fg-on-brand-default)", opacity: 0.85 }}
+      >
+        아래 지표에서 최근 변화를 한눈에 확인해요.
+      </span>
+    </div>
+  );
+}
+
 function StatCard({ spec }: { spec: StatSpec }) {
   const Trend = spec.up ? TrendingUp : TrendingDown;
+  const Icon = spec.icon;
   return (
     <Card
-      title={spec.label}
+      className="relative"
+      title={
+        // min-w-0 없으면 flex 자식이 못 줄어 한글이 쪼개져 보일 수 있음
+        <span className="flex min-w-0 items-center gap-2">
+          {/* 카드 4개 구분 핸들 */}
+          <span
+            aria-hidden
+            className="flex size-7 shrink-0 items-center justify-center"
+            style={{
+              background: `var(--semantic-bg-${spec.tone}-subtle)`,
+              color: `var(--semantic-fg-${spec.tone}-default)`,
+              borderRadius: "var(--semantic-radius-control)",
+            }}
+          >
+            <Icon size={14} />
+          </span>
+          <span className="truncate">{spec.label}</span>
+        </span>
+      }
       action={
         <Badge variant="outline" tone="neutral" icon={<Trend size={14} aria-hidden />}>
           {spec.delta}
@@ -186,6 +256,18 @@ function StatCard({ spec }: { spec: StatSpec }) {
       >
         {spec.value}
       </span>
+      {/* 워터마크 아이콘 표시. overflow-hidden이라 안 새고 relative가 기준임 */}
+      <Icon
+        aria-hidden
+        size={72}
+        style={{
+          position: "absolute",
+          right: "-0.75rem",
+          bottom: "-0.75rem",
+          color: `var(--semantic-fg-${spec.tone}-default)`,
+          opacity: 0.08,
+        }}
+      />
     </Card>
   );
 }
@@ -351,6 +433,8 @@ export function DashboardScreen {
 
   return (
     <div className="flex flex-col gap-6">
+        <DashboardHero />
+
         {/* 지표 4개. 원본 기준 @xl은 2열, @5xl은 4열임 */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {STATS.map((s) => (

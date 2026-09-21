@@ -11,13 +11,49 @@ export interface UsageDashboardProps {
 export type UsageDashboard = ComponentType<UsageDashboardProps>;
 
 import { AntdUsage } from "./antd/Dashboard";
+import { BlueprintUsage } from "./blueprint/Dashboard";
+import { BootstrapUsage } from "./bootstrap/Dashboard";
+import { CarbonUsage } from "./carbon/Dashboard";
+import { ChakraUsage } from "./chakra/Dashboard";
+import { CloudscapeUsage } from "./cloudscape/Dashboard";
+import { CossUsage } from "./coss/Dashboard";
+import { DaisyuiUsage } from "./daisyui/Dashboard";
+import { FluentUsage } from "./fluent/Dashboard";
+import { FlowbiteUsage } from "./flowbite/Dashboard";
+import { GrommetUsage } from "./grommet/Dashboard";
+import { HeroUiUsage } from "./heroui/Dashboard";
+import { LightningUsage } from "./lightning/Dashboard";
+import { MantineUsage } from "./mantine/Dashboard";
 import { MuiUsage } from "./mui/Dashboard";
+import { PrimerUsage } from "./primer/Dashboard";
+import { PrimereactUsage } from "./primereact/Dashboard";
 import { ShadcnUsage } from "./shadcn/Dashboard";
+import { StandaloneUsage } from "./standalone/Dashboard";
+
+import dynamic from "next/dynamic";
+const SpectrumUsage = dynamic( => import("./spectrum/Dashboard").then((m) => m.SpectrumUsage), { ssr: false });
 
 export const USAGE_DASHBOARDS: Record<string, UsageDashboard> = {
   antd: AntdUsage,
+  blueprint: BlueprintUsage,
+  bootstrap: BootstrapUsage,
+  carbon: CarbonUsage,
+  chakra: ChakraUsage,
+  cloudscape: CloudscapeUsage,
+  coss: CossUsage,
+  daisyui: DaisyuiUsage,
+  fluent: FluentUsage,
+  flowbite: FlowbiteUsage,
+  grommet: GrommetUsage,
+  heroui: HeroUiUsage,
+  lightning: LightningUsage,
+  mantine: MantineUsage,
   mui: MuiUsage,
+  primer: PrimerUsage,
+  primereact: PrimereactUsage,
   shadcn: ShadcnUsage,
+  standalone: StandaloneUsage,
+  spectrum: SpectrumUsage,
 };
 
 // 대시보드 보유 여부

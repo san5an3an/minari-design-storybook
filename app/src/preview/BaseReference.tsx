@@ -2,6 +2,7 @@ import * as React from "react";
 import { Master, Kids, Kid } from "./Doc";
 import { TokenTable } from "./TokenTable";
 import { parseColorTokens, type Mode } from "./tokens";
+import { componentGroups, resolveTokenGroup } from "./tokenGroups";
 import type { SystemDefinition } from "../systems/types";
 import type {
   BaseRefAdapter, BaseRefDoc, BaseRefExample, DemoValue, Presence, SkipCode,
@@ -48,7 +49,9 @@ function groupVariants(examples: BaseRefExample[]): { axis: string | null; items
   return out;
 }
 
-export function BaseReference({ adapter, baseTitle, slug, system, active }: {
+export function BaseReference({ baseKey, adapter, baseTitle, slug, system, active }: {
+  // /demo?base= 쿼리 값. ADAPTERS 키와 동일한 문자열
+  baseKey: string;
   adapter: BaseRefAdapter;
   baseTitle: string;
   slug: string;
@@ -107,8 +110,11 @@ export function BaseReference({ adapter, baseTitle, slug, system, active }: {
     const p = axisProse.get(axis);
     return p ? <Prose text={p.text} format={p.format} docHref={doc.docHref} /> : undefined;
   };
-  const ourTokens = doc.tokenGroup
-    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${doc.tokenGroup}-`))
+  const availableGroups = componentGroups(system.vars);
+  const ownGroup = doc.tokenGroup && availableGroups.has(doc.tokenGroup) ? doc.tokenGroup : null;
+  const group = ownGroup ?? resolveTokenGroup(slug, doc.title, availableGroups);
+  const ourTokens = group
+    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${group}-`))
     : [];
 
   const stand = (ex: BaseRefExample) => {
@@ -116,10 +122,20 @@ export function BaseReference({ adapter, baseTitle, slug, system, active }: {
     const why = mod?.skipped[ex.key];
     if (Demo) {
       if (ex.stage === "iframe") {
+        // /demo 문서 재사용. 쿼리 계약은 readAsk 규칙과 정확히 일치
+        const src = `/demo?base=${encodeURIComponent(baseKey)}&system=${encodeURIComponent(system.slug)}` +
+          `&slug=${encodeURIComponent(slug)}&example=${encodeURIComponent(ex.key)}&mode=${encodeURIComponent(active)}` +
+          `&font=${encodeURIComponent(
+            getComputedStyle(document.documentElement).getPropertyValue("--base-font-family-sans").trim,
+          )}`;
         return (
-          <p className="doc-note" style={{ marginTop: 0 }}>
-            공식이 이 예제를 <b>따로 된 문서(iframe)</b>에 가둬요. 13종용 iframe 셀은 기본 구조가 아직 안 만들었어요.
-          </p>
+          <div style={FILL}>
+            <iframe
+              src={src}
+              title={ex.name}
+              style={{ width: "100%", height: "100%", minHeight: "12rem", border: "none" }}
+            />
+          </div>
         );
       }
       const body = "html" in Demo
@@ -241,8 +257,8 @@ export function BaseReference({ adapter, baseTitle, slug, system, active }: {
       <Section
         title="Tokens"
         count={ourTokens.length || undefined}
-        note={doc.tokenGroup
-          ? <><code>--component-{doc.tokenGroup}-*</code> 는 이 컴포넌트만 쓰는 이름이에요. 값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.</>
+        note={group
+          ? <><code>--component-{group}-*</code> 는 이 컴포넌트만 쓰는 이름이에요. 값은 semantic 층을 가리키고, 그 층이 <b>모드에 따라</b> 바뀌어요.{ownGroup ? null : <> 이름이 달라서 <b>같은 위치</b>로 이어 붙였어요.</>}</>
           : undefined}
       >
         {ourTokens.length === 0

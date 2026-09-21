@@ -1,0 +1,8 @@
+// @ts-nocheck
+import { SkeletonText } from "@chakra-ui/react"
+
+export const SkeletonForText = () => {
+  return <SkeletonText noOfLines={3} gap="4" />
+}
+
+export default SkeletonForText;

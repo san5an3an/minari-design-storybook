@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { Button } from '@carbon/react';
 import { InlineLoading } from '@carbon/react';

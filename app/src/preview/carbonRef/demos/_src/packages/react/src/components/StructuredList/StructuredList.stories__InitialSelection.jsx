@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './StructuredList.mdx';
 import { StructuredListWrapper, StructuredListHead, StructuredListBody, StructuredListRow, StructuredListInput, StructuredListCell } from '@carbon/react';
 import { CheckmarkFilled } from '@carbon/icons-react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mdx from './ContainedList.mdx';
 import { ContainedList } from '@carbon/react';
 import { default as ContainedListItem } from '@carbon/react/es/components/ContainedList/ContainedListItem/ContainedListItem.js';

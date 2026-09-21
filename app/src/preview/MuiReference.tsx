@@ -1,6 +1,7 @@
 import * as React from "react";
 import Markdown, { type Components } from "react-markdown";
 import { parseColorTokens } from "./tokens";
+import { componentGroups, resolveTokenGroup } from "./tokenGroups";
 import { Master, Kids, Kid } from "./Doc";
 // shadcn ComponentPage, antd와 동일 표 재사용. 값 어긋날 수 있음
 import { TokenTable } from "./TokenTable";
@@ -269,12 +270,11 @@ export function MuiReference({ slug, system, active }: {
   // 공식 해부도. shadcn 명세서 Parts 위치라 이름만 맞추고 내용은 공식 그대로 유지
   const anatomy = doc.sections.find((s) => s.title === "Anatomy");
 
-  const TOKEN_GROUP: Record<string, string> = {
-    "text-field": "input", breadcrumbs: "breadcrumb", snackbar: "toast",
-  };
-  const tokenGroup = TOKEN_GROUP[doc.slug] ?? doc.slug;
-  const ourTokens = parseColorTokens(system.vars)
-    .filter((t) => t.name.startsWith(`--component-${tokenGroup}-`));
+  const group = resolveTokenGroup(doc.slug, doc.title, componentGroups(system.vars));
+  const tokenGroup = group ?? doc.slug;
+  const ourTokens = group
+    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${group}-`))
+    : [];
 
   const one = (f: { axis: string; block: MuiBlock }) => (
     <Block block={f.block} doc={doc} mod={mod} Provider={Provider}
