@@ -4,6 +4,13 @@ import { PRIMEREACT } from "./primereact";
 import { HEROUI } from "./heroui";
 import { BLUEPRINT } from "./blueprint";
 import { FLUENT } from "./fluent";
+import { BOOTSTRAP } from "./bootstrap";
+import { CARBON } from "./carbon";
+import { CHAKRA } from "./chakra";
+import { FLOWBITE } from "./flowbite";
+import { MANTINE } from "./mantine";
+import { PRIMER } from "./primer";
+import { SPECTRUM } from "./spectrum";
 
 // 저장소 안 파일 하나를 그룹으로 그대로 옮기는 지시
 export interface LibExtra {
@@ -225,6 +232,13 @@ export const LIB_BASES: Readonly<Record<string, LibSpec>> = {
   heroui: HEROUI,
   blueprint: BLUEPRINT,
   fluent: FLUENT,
+  bootstrap: BOOTSTRAP,
+  carbon: CARBON,
+  chakra: CHAKRA,
+  flowbite: FLOWBITE,
+  mantine: MANTINE,
+  primer: PRIMER,
+  spectrum: SPECTRUM,
 };
 
 // 베이스의 라이브러리 export 경로 사용 여부
