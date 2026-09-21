@@ -18,6 +18,8 @@ type PropUnions = {
   required?: Record<string, { prop: string; placeholder: string | null }[]>;
   // 컴포넌트 on/off boolean 프롭, 상태 필드가 참조
   states?: Record<string, string[]>;
+  // 패키지 진입점이 내보내는 대문자 이름 전체, import { X } 가능 여부로 판별하기
+  exported?: string[];
 };
 const unionsCache = new Map<string, PropUnions | null>;
 
@@ -103,6 +105,9 @@ export async function loadLibResources(
   // 필수 prop 미입력 시 tsc TS2741 오류. 타입이 필수 여부와 채울 값까지 전달
   const requiredProps = unions?.required?.[componentName] ?? [];
 
+  const known = unions?.exported;
+  const nameInEntry = !known?.length || known.includes(componentName);
+
   // 이름에 쓸 수 있는 글자인지 확인
   const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
   if (typeof componentName !== "string" || !USABLE.test(componentName.trim)) {
@@ -170,6 +175,7 @@ export async function loadLibResources(
       dropped,
       acceptsChildren,
       requiredProps,
+      nameInEntry,
     },
   };
 }
