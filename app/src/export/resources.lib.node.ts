@@ -35,6 +35,13 @@ export async function loadLibResources(
     readFile(path.join(root, "app", "src", "preview", spec.refDir, `${component}.json`), "utf8"),
   ]);
 
+  if (spec.notComponents?.includes(component)) {
+    throw new Error(
+      `'${baseKey}' 의 '${component}' 는 공식 문서에는 있지만 컴포넌트가 아니에요: ` +
+        `내보낼 수 있는 것이 없어요.`,
+    );
+  }
+
   const ref = JSON.parse(refRaw) as { title?: string };
   const { componentName, props, dropped } = spec.parse(JSON.parse(refRaw));
 

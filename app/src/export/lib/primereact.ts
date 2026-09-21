@@ -10,6 +10,7 @@ export const PRIMEREACT: LibSpec = {
   themeDir: "primereact",
   importFrom: (component: string) => `primereact/${component}`,
   refDir: "primereactRef",
+  notComponents: ["inputgroup"],
   parse: (json) => {
     const d = json as { slug?: string; title?: string };
     const componentName = (d.title ?? "").trim.replace(/\s+/g, "") || pascal(d.slug ?? "");
