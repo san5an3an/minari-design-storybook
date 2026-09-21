@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ArrowRight } from '@carbon/icons-react';
 import { Link } from '@carbon/react';
 import mdx from './Link.mdx';

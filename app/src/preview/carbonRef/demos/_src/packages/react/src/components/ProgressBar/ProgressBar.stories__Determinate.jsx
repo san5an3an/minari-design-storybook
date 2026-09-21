@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import mdx from './ProgressBar.mdx';
 import { ProgressBar } from '@carbon/react';

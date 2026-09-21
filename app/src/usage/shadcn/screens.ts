@@ -19,6 +19,7 @@ export interface ScreenDefinition {
 
 export interface ScreenProps {
   onNavigate?: (key: string) => void;
+  brand?: string;
 }
 
 export const SCREENS: ScreenDefinition[] = [

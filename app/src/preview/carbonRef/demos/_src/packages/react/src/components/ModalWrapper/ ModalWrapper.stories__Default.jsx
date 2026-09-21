@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ModalWrapper } from '@carbon/react';
 
 

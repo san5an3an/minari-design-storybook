@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidPasswordInput } from '@carbon/react';
 import mdx from './FluidPasswordInput.mdx';
 import './test.scss';

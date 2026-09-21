@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { IdPrefix } from '@carbon/react';
 import { useIdPrefix } from '@carbon/react';
 import mdx from './IdPrefix.mdx';

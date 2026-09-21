@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PaginationNav } from '@carbon/react';
 import mdx from './PaginationNav.mdx';
 

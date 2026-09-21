@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './story.scss';
 import { Tooltip } from '@carbon/react';
 import mdx from './Tooltip.mdx';

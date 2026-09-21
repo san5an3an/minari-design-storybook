@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Slider, SliderSkeleton } from '@carbon/react';
 import mdx from './Slider.mdx';
 

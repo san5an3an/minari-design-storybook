@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './DataTable-expansion-story.scss';
 import React from 'react';
 import { DataTable, Table, TableBody, TableCell, TableContainer, TableExpandHeader, TableExpandRow, TableExpandedRow, TableHead, TableHeader, TableRow } from '@carbon/react';

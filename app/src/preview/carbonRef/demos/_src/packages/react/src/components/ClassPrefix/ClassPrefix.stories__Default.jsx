@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ClassPrefix } from '@carbon/react';
 import { usePrefix } from '@carbon/react';
 import mdx from './ClassPrefix.mdx';

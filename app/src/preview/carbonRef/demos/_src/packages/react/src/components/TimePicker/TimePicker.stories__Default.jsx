@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SelectItem } from '@carbon/react';
 import { TimePicker } from '@carbon/react';
 import { TimePickerSelect } from '@carbon/react';

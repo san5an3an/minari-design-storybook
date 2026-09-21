@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ComboBox } from '@carbon/react';
 import mdx from './ComboBox.mdx';
 

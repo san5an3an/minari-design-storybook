@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import { Loading } from '@carbon/react';
 import mdx from './Loading.mdx';

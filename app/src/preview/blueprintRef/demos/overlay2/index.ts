@@ -1,8 +1,10 @@
+import * as m000 from "./Overlay2Example";
+
 export const DEMOS = {
+  "Overlay2Example": m000.Overlay2Example,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "Overlay2Example": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { preview__ChatButton as ChatButton, preview__ChatButtonSkeleton as ChatButtonSkeleton } from '@carbon/react';
 import { Add } from '@carbon/icons-react';
 import './chat-button-story.scss';

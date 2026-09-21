@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Copyright IBM Corp. 2016, 2026
  *

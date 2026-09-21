@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FormLabel } from '@carbon/react';
 import { Information } from '@carbon/icons-react';
 import { ActionableNotification } from '@carbon/react';

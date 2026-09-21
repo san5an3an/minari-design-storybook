@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidMultiSelect, FluidMultiSelectSkeleton } from '@carbon/react';
 import { AILabel, AILabelContent, AILabelActions } from '@carbon/react';
 import { IconButton } from '@carbon/react';

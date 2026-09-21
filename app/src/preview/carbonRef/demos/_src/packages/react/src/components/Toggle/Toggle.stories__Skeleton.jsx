@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Toggle, ToggleSkeleton } from '@carbon/react';
 import mdx from './Toggle.mdx';
 

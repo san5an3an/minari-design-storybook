@@ -1,8 +1,12 @@
+import * as m000 from "./basic";
+import * as m001 from "./render-function";
+import * as m002 from "./custom-styles";
+
 export const DEMOS = {
+  "basic": m000.Basic,
+  "render-function": m001.RenderFunction,
+  "custom-styles": m002.CustomStyles,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "basic": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons, @iconify/react"},
-  "render-function": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons, @iconify/react"},
-  "custom-styles": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @gravity-ui/icons"},
 };

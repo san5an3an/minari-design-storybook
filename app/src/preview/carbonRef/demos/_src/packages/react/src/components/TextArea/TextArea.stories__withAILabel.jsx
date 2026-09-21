@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { View, FolderOpen, Folders, Information } from '@carbon/icons-react';
 import { Button } from '@carbon/react';
 import { AILabel, AILabelContent, AILabelActions } from '@carbon/react';

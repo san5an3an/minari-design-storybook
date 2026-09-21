@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './FlexGrid.stories.scss';
 import PropTypes from 'prop-types';
 import { FlexGrid, Row, Column } from '@carbon/react';

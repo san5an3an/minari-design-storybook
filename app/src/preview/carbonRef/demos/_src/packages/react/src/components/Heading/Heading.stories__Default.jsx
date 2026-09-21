@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Section, Heading } from '@carbon/react';
 import mdx from './Heading.mdx';
 

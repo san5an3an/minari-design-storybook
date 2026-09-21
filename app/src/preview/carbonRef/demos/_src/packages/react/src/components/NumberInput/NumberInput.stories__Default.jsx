@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { NumberInput } from '@carbon/react';
 import { NumberInputSkeleton } from '@carbon/react';

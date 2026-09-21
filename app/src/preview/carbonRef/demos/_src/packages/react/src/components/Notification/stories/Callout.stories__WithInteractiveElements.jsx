@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Callout } from '@carbon/react';
 import { Link } from '@carbon/react';
 import mdx from '../Notification.mdx';

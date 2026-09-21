@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CodeSnippet } from '@carbon/react';
 import mdx from './CodeSnippet.mdx';
 

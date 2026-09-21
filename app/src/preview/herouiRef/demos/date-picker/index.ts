@@ -4,9 +4,10 @@ import * as m002 from "./controlled";
 import * as m003 from "./with-validation";
 import * as m004 from "./format-options";
 import * as m005 from "./form-example";
-import * as m006 from "./render-function";
-import * as m007 from "./international-calendar";
-import * as m008 from "./custom-styles";
+import * as m006 from "./with-custom-indicator";
+import * as m007 from "./render-function";
+import * as m008 from "./international-calendar";
+import * as m009 from "./custom-styles";
 
 export const DEMOS = {
   "basic": m000.Basic,
@@ -15,11 +16,11 @@ export const DEMOS = {
   "with-validation": m003.WithValidation,
   "format-options": m004.FormatOptions,
   "form-example": m005.FormExample,
-  "render-function": m006.RenderFunction,
-  "international-calendar": m007.InternationalCalendar,
-  "custom-styles": m008.CustomStyles,
+  "with-custom-indicator": m006.WithCustomIndicator,
+  "render-function": m007.RenderFunction,
+  "international-calendar": m008.InternationalCalendar,
+  "custom-styles": m009.CustomStyles,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "with-custom-indicator": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @iconify/react"},
 };

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Tabs, TabsVertical, TabList, TabListVertical, Tab, TabPanels, TabPanel } from '@carbon/react';
 import { Button } from '@carbon/react';

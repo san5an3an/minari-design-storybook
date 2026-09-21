@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidTextArea } from '@carbon/react';
 import { FluidTextAreaSkeleton } from '@carbon/react';
 import mdx from './FluidTextArea.mdx';

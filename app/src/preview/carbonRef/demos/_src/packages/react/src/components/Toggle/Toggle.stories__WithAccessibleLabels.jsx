@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { VStack } from '@carbon/react';
 import { Toggle } from '@carbon/react';
 import mdx from './Toggle.mdx';

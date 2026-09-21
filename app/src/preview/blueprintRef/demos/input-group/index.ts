@@ -1,9 +1,12 @@
+import * as m000 from "./InputGroupExample";
+import * as m001 from "./SearchInputExample";
+
 export const DEMOS = {
+  "InputGroupExample": m000.InputGroupExample,
+  "SearchInputExample": m001.SearchInputExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "InputGroupExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
-  "SearchInputExample": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {

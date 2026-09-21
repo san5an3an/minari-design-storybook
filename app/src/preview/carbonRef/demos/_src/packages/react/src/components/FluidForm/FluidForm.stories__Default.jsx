@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FluidForm } from '@carbon/react';
 import { FluidDatePicker } from '@carbon/react';
 import { FluidDatePickerInput } from '@carbon/react';

@@ -1,11 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Navbar, Tag, Tree } from "@blueprintjs/core";
-import type { TreeNodeInfo } from "@blueprintjs/core";
+import { Breadcrumbs, Navbar, Tag, Tree } from "@blueprintjs/core";
+import type { BreadcrumbProps, TreeNodeInfo } from "@blueprintjs/core";
 import { blueprintAdapter } from "../../preview/blueprintRef/adapter";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1680992044138-ce4864c2b962?auto=format&fit=crop&w=960&q=60";
 
 export function BlueprintUsage({ system, active }: UsageDashboardProps) {
   React.useEffect(
@@ -42,9 +45,37 @@ export function BlueprintUsage({ system, active }: UsageDashboardProps) {
           <Navbar.Group>
             <Navbar.Heading>관제</Navbar.Heading>
             <Navbar.Divider />
+            {/* Breadcrumbs로 현재 위치 표시 */}
+            <Breadcrumbs items={[{ text: "관제" }, { text: screen.label, current: true } satisfies BreadcrumbProps]} />
+          </Navbar.Group>
+          {/* 베이스 라벨 오른쪽 배치. Navbar.Group이 내용 폭만 차지해 밀어낼 공간 없음 */}
+          <Navbar.Group align="right">
             <Tag minimal>{system.baseTitle}</Tag>
           </Navbar.Group>
         </Navbar>
+
+        {/* 히어로 배너 */}
+        <div
+          className="flex shrink-0 items-end"
+          style={{
+            blockSize: "8rem",
+            backgroundImage:
+              `linear-gradient(180deg, transparent 0%, transparent 40%, ` +
+              `color-mix(in oklch, var(--semantic-bg-danger-default) 25%, black) 100%), url("${HERO_IMAGE}")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="flex w-full items-center justify-between px-4 py-3">
+            <div className="flex flex-col gap-0.5" style={{ color: "var(--semantic-fg-on-brand-default)" }}>
+              <span style={{ fontSize: "0.75rem", opacity: 0.85 }}>인프라 상태</span>
+              <span style={{ fontSize: "1.125rem", fontWeight: 700 }}>전 서비스 정상 가동 중 · 노드 24/24</span>
+            </div>
+            <Tag intent="success" large style={{ color: "var(--semantic-fg-on-brand-default)" }}>
+              LIVE
+            </Tag>
+          </div>
+        </div>
 
         <div className="flex min-h-0 flex-1">
           {/* 왼쪽은 Tree 하나로 사이드바 메뉴 처리 */}

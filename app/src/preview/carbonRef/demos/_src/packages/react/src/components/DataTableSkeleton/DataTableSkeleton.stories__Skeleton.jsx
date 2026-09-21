@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataTableSkeleton } from '@carbon/react';
 import { headers } from '../DataTable/stories/shared';
 

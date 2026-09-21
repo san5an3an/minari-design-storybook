@@ -105,6 +105,19 @@ export function Prose({ text, format, docHref, inline }: {
   return <Markdown components={components}>{text.replace(/<br\s*\/?>/gi, "  \n")}</Markdown>;
 }
 
+// 셀 텍스트 안 강조만 굵게 표시. 표 셀 값은 원문 그대로 유지해 손실 방지
+export function CellText({ text }: { text: string }) {
+  if (!text.includes("**")) return <>{text}</>;
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((p, i) => (p.startsWith("**") && p.endsWith("**")
+        ? <strong key={i}>{p.slice(2, -2)}</strong>
+        : <React.Fragment key={i}>{p}</React.Fragment>))}
+    </>
+  );
+}
+
 // 공식 표 하나 사용. 열 구성은 공식 표 그대로이며 추가 없음
 export function RefTable({ columns, rows }: { columns: string[]; rows: string[][] }) {
   return (
@@ -117,8 +130,8 @@ export function RefTable({ columns, rows }: { columns: string[]; rows: string[][
           {rows.map((row, ri) => (
             <tr key={`${row[0]}-${ri}`}>
               {row.map((cell, i) => (i === 0
-                ? <th key={i} scope="row">{cell}</th>
-                : <td key={i}>{cell}</td>))}
+                ? <th key={i} scope="row"><CellText text={cell} /></th>
+                : <td key={i}><CellText text={cell} /></td>))}
             </tr>
           ))}
         </tbody>

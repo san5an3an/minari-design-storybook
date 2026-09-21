@@ -1,8 +1,10 @@
+import * as m000 from "./contextMenuExample-tsx__reactExample__1";
+
 export const DEMOS = {
+  "contextMenuExample-tsx__reactExample__1": m000.ContextMenuExample,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "contextMenuExample-tsx__reactExample__1": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: @blueprintjs/docs-theme"},
 };
 
 export const PENDING: Record<string, { reason: string; detail: string }> = {
