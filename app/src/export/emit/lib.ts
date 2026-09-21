@@ -1,3 +1,4 @@
+import { componentGroups, resolveTokenGroup } from "../../preview/tokenGroups";
 import { collectTokens } from "../tokens";
 import { sheetsFor } from "../rows";
 import { wantsThemeOnly, type ExportFile, type ExportRequest, type ExportResources } from "../types";
@@ -19,8 +20,25 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
   const files: ExportFile[] = [];
   const themeOnly = wantsThemeOnly(req.format);
 
-  const consumer = [lib.themeSource, ...lib.extras.map((e) => e.text)].join("\n");
-  const tokens = collectTokens(consumer, res.vars);
+  const consumer = [lib.themeSource, lib.providerSource, ...lib.extras.map((e) => e.text)].join("\n");
+
+  const BASE_LAYER = (name: string): boolean =>
+    name.startsWith("--semantic-") || name.startsWith("--base-font-");
+
+  const group = resolveTokenGroup(
+    req.component,
+    res.source.componentTitle,
+    componentGroups(res.vars),
+  );
+  const ownTokens = group
+    ? [...res.vars.matchAll(new RegExp(`(--component-${group}-[A-Za-z0-9_-]+)\\s*:`, "g"))]
+      .map((m) => m[1])
+    : [];
+
+  const tokens = collectTokens(consumer, res.vars, {
+    alwaysInclude: BASE_LAYER,
+    extraSeeds: ownTokens,
+  });
 
   files.push({
     path: "vars.css",
@@ -28,7 +46,12 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
     text:
       `/* ${lib.componentName}, ${res.source.systemName} · ${lib.title}\n`
       + ` * minari-design-storybook 내보내기 산출물.\n`
-      + ` * theme.ts 와 설정 파일이 실제로 읽는 토큰만 추렸습니다 (${tokens.used.length}개).\n`
+      + ` * 토큰 ${tokens.used.length}개, 세 종류가 들어 있습니다:\n`
+      + ` *   ① 시맨틱 층 전부 (--semantic-*) 와 글꼴 (--base-font-*), 색·글자 스타일의 바닥\n`
+      + (group
+        ? ` *   ② ${res.source.componentTitle} 전용 그룹 (--component-${group}-*)\n`
+        : ` *   ② 이 컴포넌트 전용 묶음은 없습니다, 이 시스템의 계약에 같은 이름이 없어요\n`)
+      + ` *   ③ theme.${lib.themeExt} 와 설정 파일이 실제로 부르는 이름 (사슬 끝까지)\n`
       + ` * 모드 블록(dark · high-contrast)은 원본 그대로입니다.\n`
       + (tokens.missing.length > 0
         ? ` *\n * 부른 이름 중 ${tokens.missing.length}개가 vars.css 에 없었습니다:\n`
@@ -38,9 +61,10 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       + ` */\n\n${tokens.css}\n`,
   });
 
+  // 확장자를 내용에 맞추기. 다르면 import가 되지 않음
   files.push({
-    path: "theme.ts",
-    type: "text/typescript",
+    path: `theme.${lib.themeExt}`,
+    type: lib.themeExt === "css" ? "text/css" : "text/typescript",
     text: lib.themeSource,
   });
 
@@ -129,11 +153,11 @@ function readme(
       + `\`value\` 가 있어야 하고 안에 글자를 넣지 않습니다, 그런 컴포넌트는 예시를\n`
       + `한 번 손봐 주셔야 합니다. 이 도구가 공식 메타에서 그걸 알아낼 방법이 없어서\n`
       + `(문서 표에 children 이 안 적혀 있고, 받는 컴포넌트에도 안 적혀 있어요)\n`
-      + `추측하지 않고 그대로 말씀드립니다. \`theme.ts\` 와 \`vars.css\` 는 영향 없어요.\n`;
+      + `추측하지 않고 그대로 말씀드립니다. \`theme.${lib.themeExt}\` 와 \`vars.css\` 는 영향 없어요.\n`;
 
   return `# ${res.source.componentTitle}, ${res.source.systemName} · ${lib.title}
 
-minari-design-storybook 에서 내보낸 그룹입니다.
+minari-design-storybook 에서 내보낸 묶음입니다.
 
 ## 설치
 
@@ -145,7 +169,7 @@ ${install}
 
 | 파일 | 하는 일 |
 |---|---|
-| \`theme.ts\` | ${lib.title} 테마. \`theme\` · \`darkTheme\` · \`highContrastTheme\` · \`byMode\` 를 냅니다 |
+| \`theme.${lib.themeExt}\` | ${lib.title} 테마. ${lib.themeExt === "css" ? "`:root` 아래 CSS 변수를 냅니다, `import \"./theme.css\"` 로 씁니다" : "`theme` · `darkTheme` · `highContrastTheme` · `byMode` 를 냅니다"} |
 | \`vars.css\` | 그 테마가 실제로 읽는 CSS 토큰 ${tokenCount}개. 없으면 테마가 빈 셸이 됩니다 |
 ${themeOnly ? "" : `| \`providers.tsx\` | 테마와 설정을 세우는 감싸개 |\n| \`${lib.componentName}.example.tsx\` | 고른 조합을 적어 둔 예시 |\n`}
 ## \`vars.css\` 를 빼지 마세요
