@@ -38,6 +38,8 @@ export async function GET(request: Request) {
       title: res.source.componentTitle,
       libTitle: res.lib!.title,
       props: res.lib!.props,
+      // 인터랙티브 열은 값 없이 켜고 끄는 prop. 창은 상태 축 기준으로 배치
+      states: res.stateNames,
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);

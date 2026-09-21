@@ -167,7 +167,7 @@ export function ExportDialog({
 
   const axes = React.useMemo<readonly Axis[]>( => {
     if (isLib) {
-      return (lib?.props ?? []).map((p) => ({
+      const valueAxes = (lib?.props ?? []).map((p) => ({
         key: p.prop,
         label: p.prop,
         // 설명은 필수 입력. 계약 항목엔 desc가 항상 있어 라이브러리만 비면 화면이 어색해 보임
@@ -177,6 +177,15 @@ export function ExportDialog({
           note: v === p.default ? "기본" : undefined,
         })),
       }));
+      const stateAxis = (lib?.states ?? []).length > 0
+        ? [{
+            key: STATES,
+            label: "상태",
+            desc: "값 없이 켜고 끄는 것. 켜면 그 상태의 패널도 함께 나가요.",
+            choices: (lib?.states ?? []).map((v) => ({ value: v })),
+          }]
+        : [];
+      return [...valueAxes, ...stateAxis];
     }
 
     const api = system.api[section];

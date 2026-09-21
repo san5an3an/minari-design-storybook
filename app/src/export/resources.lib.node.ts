@@ -16,6 +16,8 @@ type PropUnions = {
   noChildren?: string[];
   // 컴포넌트별 필수 프롭과 위치 매핑, null이면 타입에서 읽기 실패
   required?: Record<string, { prop: string; placeholder: string | null }[]>;
+  // 컴포넌트 on/off boolean 프롭, 상태 필드가 참조
+  states?: Record<string, string[]>;
 };
 const unionsCache = new Map<string, PropUnions | null>;
 
@@ -141,7 +143,7 @@ export async function loadLibResources(
     componentCss: "",
     axes,
     partNames: [],
-    stateNames: [],
+    stateNames: unions?.states?.[componentName] ?? [],
     exportName: componentName,
     componentSource: "",
     cxSource: "",
