@@ -157,9 +157,99 @@
     "rows": []
   },
   "api": {
-    "presence": "not-imported",
-    "reason": "공식 API 표는 storybook 이 빌드할 때 만드는 docgen(`__docgenInfo`)으로 그려져 저장소에 원천 파일이 없어요 — 타입 선언(d.ts)에서 뽑을지는 판정 대기예요.",
-    "tables": []
+    "presence": "derived",
+    "reason": "공식 문서에 표 원천이 없어서 **설치된 패키지의 타입 선언(.d.ts)** 에서 뽑았어요 (ADR-025). 그 컴포넌트가 상속받는 프롭까지 따라갑니다. 설명·기본값은 선언에 달린 JSDoc 이라 공식 산문과 문구가 다를 수 있고, `@default` 태그가 없는 프롭은 기본값 칸이 비어요 — 없는 게 아니라 타입이 안 적은 거예요. 타입이 선언하지 않는 것(문서에만 있는 프롭·런타임으로만 받는 값)은 여기 없어요.",
+    "tables": [
+      {
+        "name": "Field",
+        "columns": [
+          "프롭",
+          "타입",
+          "필수",
+          "기본값",
+          "설명"
+        ],
+        "rows": [
+          [
+            "label",
+            "WithSlotShorthandValue<Omit<ComponentProps<LabelSlots>, \"required\"> & { disabled?: boolean; required?: boolean | WithSlotShorthandValue<{ as?: \"span\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement …(잘림)",
+            "",
+            "",
+            "The label associated with the field."
+          ],
+          [
+            "as",
+            "\"div\"",
+            "",
+            "",
+            ""
+          ],
+          [
+            "hint",
+            "WithSlotShorthandValue<{ as?: \"div\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, \"children\"> & { children?: any; }>",
+            "",
+            "",
+            "Additional hint text below the field."
+          ],
+          [
+            "validationMessage",
+            "WithSlotShorthandValue<{ as?: \"div\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, \"children\"> & { children?: any; }>",
+            "",
+            "",
+            "A message about the validation state. By default, this is an error message, but it can be a success, warning, or custom message by setting `validationState`."
+          ],
+          [
+            "validationMessageIcon",
+            "WithSlotShorthandValue<{ as?: \"span\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, \"children\"> & { children?: any; }>",
+            "",
+            "",
+            "The icon associated with the `validationMessage`. This will only be displayed if `validationMessage` is set. The default depends on `validationState`: * error: `<ErrorCircle12Filled />` * warning: `<Warning12Filled />` * success: `<CheckmarkCircle12Filled />` * none: `null`"
+          ],
+          [
+            "children",
+            "React.ReactNode | ((props: FieldControlProps) => React.ReactNode)",
+            "",
+            "",
+            "The Field's child can be a single form control, or a render function that takes the props that should be spread on a form control. All form controls in this library can be used directly as children (such as `<Input>` or `<RadioGroup>`). For other controls, there are two options: 1. The child of Field can be a render function that is given the props that should be spread on the control. `<Field>{(props) => <MyInput {...props} />}</Field>` 2. The control itself can merge props from field with useFieldControlProps_unstable(). `props = useFieldControlProps_unstable(props);`"
+          ],
+          [
+            "orientation",
+            "\"horizontal\" | \"vertical\"",
+            "",
+            "vertical",
+            "The orientation of the label relative to the field component. This only affects the label, and not the validationMessage or hint (which always appear below the field component)."
+          ],
+          [
+            "validationState",
+            "\"none\" | \"success\" | \"warning\" | \"error\"",
+            "",
+            "error when validationMessage is set; none otherwise.",
+            "The `validationState` affects the display of the `validationMessage` and `validationMessageIcon`. * error: (default) The validation message has a red error icon and red text, with `role=\"alert\"` so it is announced by screen readers. Additionally, the control inside the field has `aria-invalid` set, which adds a red border to some field components (such as `Input`). * success: The validation message has a green checkmark icon and gray text. * warning: The validation message has a yellow exclamation icon and gray text, with `role=\"alert\"` so it is announced by screen readers. * none: The validation message has no icon and gray text."
+          ],
+          [
+            "required",
+            "boolean",
+            "",
+            "",
+            "Marks the Field as required. If `true`, an asterisk will be appended to the label, and `aria-required` will be set on the Field's child."
+          ],
+          [
+            "size",
+            "\"small\" | \"medium\" | \"large\"",
+            "",
+            "medium",
+            "The size of the Field's label."
+          ],
+          [
+            "ref",
+            "React.Ref<HTMLDivElement>",
+            "",
+            "",
+            ""
+          ]
+        ]
+      }
+    ]
   },
   "tokenGroup": "field"
 }

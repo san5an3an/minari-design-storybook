@@ -261,9 +261,78 @@
     "rows": []
   },
   "api": {
-    "presence": "not-imported",
-    "reason": "공식 API 표는 storybook 이 빌드할 때 만드는 docgen(`__docgenInfo`)으로 그려져 저장소에 원천 파일이 없어요 — 타입 선언(d.ts)에서 뽑을지는 판정 대기예요.",
-    "tables": []
+    "presence": "derived",
+    "reason": "공식 문서에 표 원천이 없어서 **설치된 패키지의 타입 선언(.d.ts)** 에서 뽑았어요 (ADR-025). 그 컴포넌트가 상속받는 프롭까지 따라갑니다. 설명·기본값은 선언에 달린 JSDoc 이라 공식 산문과 문구가 다를 수 있고, `@default` 태그가 없는 프롭은 기본값 칸이 비어요 — 없는 게 아니라 타입이 안 적은 거예요. 타입이 선언하지 않는 것(문서에만 있는 프롭·런타임으로만 받는 값)은 여기 없어요.",
+    "tables": [
+      {
+        "name": "Dialog",
+        "columns": [
+          "프롭",
+          "타입",
+          "필수",
+          "기본값",
+          "설명"
+        ],
+        "rows": [
+          [
+            "surfaceMotion",
+            "PresenceMotionSlotProps<ScaleParams>",
+            "",
+            "",
+            "For more information refer to the [Motion docs page](https://react.fluentui.dev/?path=/docs/motion-motion-slot--docs)."
+          ],
+          [
+            "modalType",
+            "DialogModalType",
+            "",
+            "modal",
+            "Dialog variations. `modal`: When this type of dialog is open, the rest of the page is dimmed out and cannot be interacted with. The tab sequence is kept within the dialog and moving the focus outside the dialog will imply closing it. This is the default type of the component. `non-modal`: When a non-modal dialog is open, the rest of the page is not dimmed out and users can interact with the rest of the page. This also implies that the tab focus can move outside the dialog when it reaches the last focusable element. `alert`: is a special type of modal dialogs that interrupts the user's workflow to communicate an important message or ask for a decision. Unlike a typical modal dialog, the user must take an action through the options given to dismiss the dialog, and it cannot be dismissed through the dimmed background."
+          ],
+          [
+            "open",
+            "boolean",
+            "",
+            "false",
+            "Controls the open state of the dialog"
+          ],
+          [
+            "defaultOpen",
+            "boolean",
+            "",
+            "false",
+            "Default value for the uncontrolled open state of the dialog."
+          ],
+          [
+            "onOpenChange",
+            "DialogOpenChangeEventHandler",
+            "",
+            "",
+            "Callback fired when the component changes value from open state."
+          ],
+          [
+            "children",
+            "JSXElement | [JSXElement, JSXElement]",
+            "필수",
+            "",
+            "Can contain two children including `DialogTrigger` and `DialogSurface`. Alternatively can only contain `DialogSurface` if using trigger outside dialog, or controlling state."
+          ],
+          [
+            "inertTrapFocus",
+            "boolean",
+            "",
+            "false",
+            "Enables standard behavior according to the [HTML dialog spec](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal) where the focus trap involves setting outside elements inert."
+          ],
+          [
+            "unmountOnClose",
+            "boolean",
+            "",
+            "true",
+            "Decides whether the dialog should be removed from the DOM tree when it is closed. This can be useful when dealing with components that may contain state that should not be reset when the dialog is closed."
+          ]
+        ]
+      }
+    ]
   },
   "tokenGroup": "dialog"
 }
