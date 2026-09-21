@@ -45,18 +45,20 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
     type: "text/css",
     text:
       `/* ${lib.componentName}, ${res.source.systemName} · ${lib.title}\n`
-      + ` * minari-design-storybook 내보내기 산출물.\n`
-      + ` * 토큰 ${tokens.used.length}개, 세 종류가 들어 있습니다:\n`
-      + ` *   ① 시맨틱 층 전부 (--semantic-*) 와 글꼴 (--base-font-*), 색·글자 스타일의 바닥\n`
+      + ` * minari-design-storybook 에서 내보낸 파일입니다.\n`
+      + ` *\n`
+      + ` * 색·크기 값 ${tokens.used.length}개가 들어 있고, 세 가지로 나뉩니다.\n`
+      + ` *   1. 색과 글꼴의 기본값 (--semantic-* · --base-font-*)\n`
       + (group
-        ? ` *   ② ${res.source.componentTitle} 전용 그룹 (--component-${group}-*)\n`
-        : ` *   ② 이 컴포넌트 전용 묶음은 없습니다, 이 시스템의 계약에 같은 이름이 없어요\n`)
-      + ` *   ③ theme.${lib.themeExt} 와 설정 파일이 실제로 부르는 이름 (사슬 끝까지)\n`
-      + ` * 모드 블록(dark · high-contrast)은 원본 그대로입니다.\n`
+        ? ` *   2. ${res.source.componentTitle} 에서만 쓰는 값 (--component-${group}-*)\n`
+        : ` *   2. 이 컴포넌트 전용 값은 없습니다\n`)
+      + ` *   3. theme.${lib.themeExt} 와 설정 파일이 실제로 참조하는 값\n`
+      + ` *\n`
+      + ` * 다크·고대비 모드 값도 원본 그대로 함께 들어 있습니다.\n`
       + (tokens.missing.length > 0
-        ? ` *\n * 부른 이름 중 ${tokens.missing.length}개가 vars.css 에 없었습니다:\n`
+        ? ` *\n * 아래 ${tokens.missing.length}개는 참조는 하는데 값을 찾지 못했습니다.\n`
+          + ` *    그 부분은 색이나 크기가 적용되지 않은 채로 보입니다.\n`
           + tokens.missing.map((n) => ` *      ${n}\n`).join("")
-          + ` *    그 위치는 값 없이 그려집니다.\n`
         : "")
       + ` */\n\n${tokens.css}\n`,
   });
@@ -88,7 +90,7 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       const rows = sheet.rows
         .map((row) => {
           const attrs = Object.entries(row.props).map(([k, v]) => attr(k, v)).join("");
-          // 필수 prop 미입력 시 tsc TS2741 오류. placeholder 채우기, children 별도 처리
+          // 필수 속성 미입력 시 tsc TS2741 오류. children은 속성으로 표기 불가해 별도 처리
           const need = lib.requiredProps.filter((r) => r.prop !== "children" && !(r.prop in row.props));
           const needsKids = !lib.acceptsChildren
             && lib.requiredProps.some((r) => r.prop === "children");
@@ -148,7 +150,7 @@ function readme(
 ): string {
   const lib = res.lib!;
   const install = lib.packages.map((p) => `  npm i ${p}`).join("\n");
-  // 개수를 문장에 직접 기재 금지. 같은 사실을 두 곳에 적으면 드리프트가 생기는 문제가 있음
+  // 개수를 문장에 직접 기재 금지. 배열이 늘면 문장이 거짓임
   const extras = lib.extras.length > 0
     ? `\n## 함께 들어 있는 설정 파일 ${lib.extras.length}개\n\n`
       + `테마 파일만으로는 바꿀 수 없는 부분이 있어서 따로 넣었습니다.\n`
