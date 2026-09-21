@@ -22,8 +22,8 @@ export const BLUEPRINT: LibSpec = {
       from: "app/src/preview/blueprintRef/theme/blueprint-styles.json",
       to: "blueprint-styles.json",
       why:
-        "radius 강제 override(JSON 문자열 모듈, heroui·carbon·primereact 와 같은 모양) + "
-        + "blueprint 공식 CSS 를 전역 오염 없이 스코프에 가둔 패널. 지우면 컴포넌트가 CSS 없이(모양 없이) 렌더링.",
+        "모서리 값을 맞추고, Blueprint 공식 CSS 가 페이지 전체에 번지지 않도록 이 영역 안에만 적용합니다. "
+        + "지우면 컴포넌트에 스타일이 하나도 안 입혀집니다.",
     },
   ],
   provider:  => `"use client";

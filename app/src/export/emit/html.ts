@@ -52,20 +52,19 @@ export function emitHtml(req: ExportRequest, res: ExportResources): ExportFile[]
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<!-- minari-design-storybook 에서 내보냄, ${escapeHtml(res.source.slug)} / ${escapeHtml(res.source.component)}
+<!-- minari-design-storybook 에서 내보낸 파일입니다, ${escapeHtml(res.source.slug)} / ${escapeHtml(res.source.component)}
 
-     토큰은 이 컴포넌트가 실제로 읽는 것만 추렸습니다 (${tokens.used.length}개).
+     이 컴포넌트가 실제로 쓰는 색·크기 값만 담았습니다 (${tokens.used.length}개).
 
-     모드, 다크는 보는 사람의 OS 설정을 따라갑니다.
-       고정하려면 <html> 에 속성을 주세요:
-         <html data-theme="dark">           어두운 판으로 못 박기
-         <html data-theme="high-contrast">  고대비 판으로 못 박기
-       속성이 없으면 라이트이고, OS 가 어두우면 어두운 판이 걸립니다.
+     라이트 / 다크 / 고대비
+       세 가지가 모두 들어 있습니다. 아무 설정도 안 하면 보는 사람의 OS 설정을 따라갑니다.
+       하나로 고정하려면 <html> 에 속성을 넣어 주세요.
+         <html data-theme="dark">           항상 어둡게
+         <html data-theme="high-contrast">  항상 고대비로
 ${res.acceptsChildren === false ? `
-     이 컴포넌트는 안에 글자를 넣지 않습니다. 그래서 아래 판들에는 라벨이 없고,
-        무엇이 다른지는 각 판의 제목으로만 보입니다. 이 도구가 뺀 게 아니라 그 컴포넌트가
-        자식을 못 받습니다 (예: 루트가 <hr> · <input> 이거나, 받은 속성을 안쪽 <input> 에
-        그대로 넘기는 모양). 넣으면 React 가 그 자리에서 터집니다.` : ""} -->
+     이 컴포넌트는 태그 사이에 글자를 넣을 수 없습니다.
+        그래서 아래 예시에는 라벨이 없고, 무엇이 다른지는 각 예시의 제목으로만 보입니다.
+        이 도구가 뺀 것이 아니라, 글자를 넣으면 화면을 그릴 때 에러가 납니다.` : ""} -->
 <style>
 ${tokens.css}
 </style>

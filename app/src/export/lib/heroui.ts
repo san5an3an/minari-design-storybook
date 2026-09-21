@@ -23,8 +23,8 @@ export const HEROUI: LibSpec = {
       from: "app/src/preview/herouiRef/theme/heroui-styles.json",
       to: "heroui-styles.json",
       why:
-        "radius·padding·타이포·색 강제 override(JSON 문자열 모듈, carbon·primereact 와 같은 모양). "
-        + "지우면 vendor 기본값(테두리 없음·공유 패딩 척도)으로 복귀.",
+        "모서리·여백·글꼴·색을 이 시스템의 값으로 맞춰 줍니다. "
+        + "지우면 HeroUI 기본값(테두리 없음, 다른 여백 크기)으로 돌아갑니다.",
     },
   ],
   provider:  => `"use client";

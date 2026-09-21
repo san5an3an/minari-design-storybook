@@ -21,8 +21,8 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const baseKey = url.searchParams.get("baseKey") ?? "";
   const component = url.searchParams.get("component") ?? "";
-  if (!/^[a-z0-9-]+$/.test(baseKey)) return bad("baseKey 가 없거나 모양이 아니에요.");
-  if (!isLibBase(baseKey)) return bad(`'${baseKey}' 는 라이브러리 길이 아니에요.`);
+  if (!/^[a-z0-9-]+$/.test(baseKey)) return bad("어떤 베이스인지가 빠졌어요.");
+  if (!isLibBase(baseKey)) return bad(`'${baseKey}' 는 공식 라이브러리 화면이 아니에요.`);
 
   const components = await allowedLibComponents(baseKey);
   if (!components.includes(component)) {
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json;
   } catch {
-    return bad("본문이 JSON 이 아니에요.");
+    return bad("요청 내용을 읽지 못했어요.");
   }
   if (typeof body !== "object" || body === null) return bad("본문이 객체가 아니에요.");
   const b = body as Record<string, unknown>;
@@ -64,12 +64,12 @@ export async function POST(request: Request) {
     return bad("baseKey 가 없거나 모양이 아니에요.");
   }
   if (typeof format !== "string" || !(FORMATS as readonly string[]).includes(format)) {
-    return bad(`format 은 ${FORMATS.join(" · ")} 중 하나여야 해요.`);
+    return bad(`내보내기 형식은 ${FORMATS.join(", ")} 중 하나여야 해요.`);
   }
 
   // 경로를 알려진 이름 목록으로 검사
   const slugs = await allowedSlugs;
-  if (!slugs.includes(slug)) return bad(`'${slug}' 이라는 색이 없어요.`);
+  if (!slugs.includes(slug)) return bad(`'${slug}' 이라는 색 테마가 없어요.`);
 
   // 라이브러리마다 다른 목록. antd, MUI의 component는 슬러그라 계약에 없음
   const lib = isLibBase(baseKey);
@@ -91,17 +91,17 @@ export async function POST(request: Request) {
 
   const parts = strings(b.parts);
   const states = strings(b.states);
-  if (!parts) return bad("parts 가 글자 배열이 아니에요.");
-  if (!states) return bad("states 가 글자 배열이 아니에요.");
+  if (!parts) return bad("고른 부품 목록의 모양이 올바르지 않아요.");
+  if (!states) return bad("고른 상태 목록의 모양이 올바르지 않아요.");
 
   const rawValues = b.values;
   if (typeof rawValues !== "object" || rawValues === null || Array.isArray(rawValues)) {
-    return bad("values 가 객체가 아니에요.");
+    return bad("고른 값 목록의 모양이 올바르지 않아요.");
   }
   const values: Record<string, string[]> = {};
   for (const [k, v] of Object.entries(rawValues as Record<string, unknown>)) {
     const list = strings(v);
-    if (!list) return bad(`values.${k} 가 글자 배열이 아니에요.`);
+    if (!list) return bad(`'${k}' 에서 고른 값의 모양이 올바르지 않아요.`);
     values[k] = list;
   }
 

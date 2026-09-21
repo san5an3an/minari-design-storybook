@@ -100,27 +100,28 @@ const ANTD: LibSpec = {
     {
       from: "app/src/bases/antdStyleLayer.tsx",
       to: "antdStyleLayer.tsx",
-      why: "antd CSS 를 @layer 에 넣는다. 없으면 공식 예제가 antd 규칙에 특이도로 진다",
+      why: "Ant Design 의 CSS 를 한 단계 낮은 우선순위로 내려 줍니다. "
+        + "없으면 이 시스템의 색·모양이 Ant Design 기본값에 밀립니다",
     },
     {
       from: "app/src/bases/antdOverrides.css",
       to: "antdOverrides.css",
-      why: "antdStyleLayer.tsx 가 직접 import 한다. 빠지면 묶음이 없는 파일을 부르며 빌드가 깨진다",
+      why: "위 antdStyleLayer.tsx 가 이 파일을 불러옵니다. 빠지면 없는 파일을 찾다가 빌드가 실패합니다",
     },
     {
       from: "app/src/bases/antdButtonConfig.tsx",
       to: "antdButtonConfig.tsx",
-      why: "<Button loading> 의 아이콘을 Lucide 로. antd 기본값은 LoadingOutlined 다",
+      why: "버튼의 로딩 아이콘을 이 도구가 쓰는 아이콘으로 바꿔 줍니다",
     },
     {
       from: "app/src/bases/antdAvatarConfig.tsx",
       to: "antdAvatarConfig.tsx",
-      why: "아바타 면·글자. 토큰으로는 못 닿는다, antd 의 mergeToken 이 덮는다",
+      why: "아바타의 배경과 글자색을 맞춰 줍니다. 테마 값만으로는 Ant Design 이 덮어써서 안 바뀝니다",
     },
     {
       from: "app/src/bases/antdSpinConfig.tsx",
       to: "antdSpinConfig.tsx",
-      why: "Spin 설명 글자. antd 가 이 자리에 색 토큰을 안 열어 뒀다",
+      why: "로딩 표시 아래 설명 글자의 색을 맞춰 줍니다. Ant Design 이 이 부분은 테마로 안 열어 뒀습니다",
     },
   ],
   provider:  => `"use client";
