@@ -37,8 +37,7 @@ export interface LibSpec {
   // generated/{slug}/base/{여기}/theme.{themeExt} 경로
   themeDir: string;
   themeExt?: "ts" | "css";
-  // 컴포넌트 임포트 예시: import { Button } from "antd"
-  importFrom: string;
+  importFrom: string | ((component: string) => string);
   // 공식 메타를 preview/{slug}.json에 저장하기
   refDir: string;
   // 함께 싣는 저장소 파일 목록

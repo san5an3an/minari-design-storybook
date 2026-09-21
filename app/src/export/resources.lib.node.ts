@@ -92,7 +92,10 @@ export async function loadLibResources(
     lib: {
       title: spec.title,
       packages: spec.packages,
-      importFrom: spec.importFrom,
+      // LibResources.importFrom 값을 항상 문자열로 통일 처리
+      importFrom: typeof spec.importFrom === "function"
+        ? spec.importFrom(component)
+        : spec.importFrom,
       themeSource,
       themeExt: spec.themeExt ?? "ts",
       providerSource: spec.provider,
