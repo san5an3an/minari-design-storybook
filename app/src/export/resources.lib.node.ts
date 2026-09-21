@@ -38,7 +38,9 @@ export async function loadLibResources(
   const ref = JSON.parse(refRaw) as { title?: string };
   const { componentName, props, dropped } = spec.parse(JSON.parse(refRaw));
 
-  if (typeof componentName !== "string" || !componentName.trim) {
+  // 이름에 쓸 수 있는 글자인지 확인
+  const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+  if (typeof componentName !== "string" || !USABLE.test(componentName.trim)) {
     throw new Error(
       `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
         `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
@@ -46,8 +48,10 @@ export async function loadLibResources(
   }
 
   // 첨부 파일 전체 텍스트로 읽기. 누락 시 색상만 조용히 달라지는 문제 있음
+  const wanted = [...spec.extras, ...(spec.compiledTheme?.(slug) ?? [])];
+
   const extras = await Promise.all(
-    spec.extras.map(async (e) => ({
+    wanted.map(async (e) => ({
       to: e.to,
       why: e.why,
       text: await readFile(path.join(root, e.from), "utf8"),
