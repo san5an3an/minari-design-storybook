@@ -11,9 +11,8 @@ export const PRIMEREACT: LibSpec = {
   importFrom: "primereact",
   refDir: "primereactRef",
   parse: (json) => {
-    const d = json as { slug?: string; title?: string };
-    const componentName = (d.title ?? "").trim || pascal(d.slug ?? "");
-    return { componentName, props: [], dropped: [] };
+    const d = json as { slug?: string };
+    return { componentName: pascal(d.slug ?? ""), props: [], dropped: [] };
   },
   extras: [],
   compiledTheme: (slug: string): LibExtra[] =>

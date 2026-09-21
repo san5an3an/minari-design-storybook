@@ -11,9 +11,8 @@ export const CLOUDSCAPE: LibSpec = {
   importFrom: "@cloudscape-design/components",
   refDir: "cloudscapeRef",
   parse: (json) => {
-    const d = json as { slug?: string; title?: string };
-    const componentName = (d.title ?? "").trim || pascal(d.slug ?? "");
-    return { componentName, props: [], dropped: [] };
+    const d = json as { slug?: string };
+    return { componentName: pascal(d.slug ?? ""), props: [], dropped: [] };
   },
   extras: [],
   provider:  => `"use client";

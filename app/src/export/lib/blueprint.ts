@@ -12,9 +12,8 @@ export const BLUEPRINT: LibSpec = {
   importFrom: "@blueprintjs/core",
   refDir: "blueprintRef",
   parse: (json) => {
-    const d = json as { slug?: string; title?: string };
-    const componentName = (d.title ?? "").trim || pascal(d.slug ?? "");
-    return { componentName, props: [], dropped: [] };
+    const d = json as { slug?: string };
+    return { componentName: pascal(d.slug ?? ""), props: [], dropped: [] };
   },
   extras: [],
   // slug 미사용. blueprint 공식 CSS는 스코프만 옮겨 시스템별 값 차이 없음
