@@ -116,6 +116,15 @@ export async function loadResources(
     throw new Error(`react/${slug}/components/${exportName}.tsx 에 '${exportName}' export 가 없어요.`);
   }
 
+  const acceptsChildren = (: boolean => {
+    try {
+      renderToStaticMarkup(React.createElement(Root, {}, "글자"));
+      return true;
+    } catch {
+      return false;
+    }
+  });
+
   const renderComponent = ({ props, parts, text }: RenderArgs): string => {
     const children =
       parts.length > 0
@@ -130,7 +139,10 @@ export async function loadResources(
             );
           })
         : text;
-    return renderToStaticMarkup(React.createElement(Root, props, children));
+    // Parts는 자체 요소 렌더링. root가 텍스트 못 받아도 문제 없음
+    return renderToStaticMarkup(
+      React.createElement(Root, props, acceptsChildren ? children : null),
+    );
   };
 
   return {
@@ -149,6 +161,7 @@ export async function loadResources(
     exportName,
     componentSource,
     cxSource,
+    acceptsChildren,
     renderComponent,
   };
 }
