@@ -81,7 +81,7 @@ export async function loadLibResources(
     readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
     // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
     refJsonDir(spec.refDir).then((dir) => {
-      if (!dir) throw new Error(`'${baseKey}' 의 참조 문서가 없어요.`);
+      if (!dir) throw new Error(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
       return readFile(path.join(dir, `${component}.json`), "utf8");
     }),
   ]);
