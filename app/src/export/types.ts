@@ -110,8 +110,9 @@ export interface LibResources {
   packages: string[];
   // 컴포넌트 임포트 출처: antd, @mui/material
   importFrom: string;
-  // generated/{slug}/base/{base}/theme.ts 원문 그대로 표시
+  // generated/{slug}/base/{base}/theme.{themeExt} 표시
   themeSource: string;
+  themeExt: "ts" | "css";
   // 공급자 파일 본문
   providerSource: string;
   // 함께 포함하는 저장소 파일 목록: { to, text, why }

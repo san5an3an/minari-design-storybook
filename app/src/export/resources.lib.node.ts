@@ -27,14 +27,23 @@ export async function loadLibResources(
   const spec = libSpecFor(baseKey);
   const root = await repoRoot;
 
+  const themeFile = `theme.${spec.themeExt ?? "ts"}`;
+
   const [vars, themeSource, refRaw] = await Promise.all([
     readFile(path.join(root, "generated", slug, "vars.css"), "utf8"),
-    readFile(path.join(root, "generated", slug, "base", spec.themeDir, "theme.ts"), "utf8"),
+    readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
     readFile(path.join(root, "app", "src", "preview", spec.refDir, `${component}.json`), "utf8"),
   ]);
 
   const ref = JSON.parse(refRaw) as { title?: string };
   const { componentName, props, dropped } = spec.parse(JSON.parse(refRaw));
+
+  if (typeof componentName !== "string" || !componentName.trim) {
+    throw new Error(
+      `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
+        `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
+    );
+  }
 
   // 첨부 파일 전체 텍스트로 읽기. 누락 시 색상만 조용히 달라지는 문제 있음
   const extras = await Promise.all(
@@ -81,6 +90,7 @@ export async function loadLibResources(
       packages: spec.packages,
       importFrom: spec.importFrom,
       themeSource,
+      themeExt: spec.themeExt ?? "ts",
       providerSource: spec.provider,
       extras,
       componentName,
