@@ -40,6 +40,7 @@ export interface LibSpec {
   importFrom: string | ((component: string) => string);
   // 공식 메타를 preview/{slug}.json에 저장하기
   refDir: string;
+  notComponents?: readonly string[];
   // 함께 싣는 저장소 파일 목록
   extras: LibExtra[];
   compiledTheme?: (slug: string) => LibExtra[];
