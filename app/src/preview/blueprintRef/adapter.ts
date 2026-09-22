@@ -7,15 +7,36 @@ import { loadDemos as loadDemoModule, loadExamples } from "./demos/index";
 const SECTION_OF = new Map<string, string>;
 for (const [section, slugs] of Object.entries(GROUPS)) for (const s of slugs) SECTION_OF.set(s, section);
 
+function rootVarsOf(shapeCss: string): string {
+  const m = shapeCss.match(/\.blueprint-ref-scope\s*\{([^}]*)\}/);
+  if (!m) return "";
+  const decls = m[1].split(";").map((d) => d.trim).filter(Boolean);
+  if (!decls.length || !decls.every((d) => d.startsWith("--"))) return "";
+  return `:root{${decls.join(";")}}`;
+}
+
+const BP_DEFAULT_FOREGROUND_FIX = `
+.blueprint-ref-scope .bp6-intent-default {
+  --bp-intent-default-foreground: var(--semantic-fg-on-neutral-default);
+}
+`;
+
+const BP_DARK = "bp6-dark";
+
+function isDarkSurface(mode?: string): boolean {
+  const m = mode ?? (typeof document !== "undefined"
+    ? document.documentElement.getAttribute("data-theme") ?? "light"
+    : "light");
+  return m !== "light";
+}
+
 function withDocsData(demos: Record<string, DemoValue>): Record<string, DemoValue> {
   const out: Record<string, DemoValue> = {};
   for (const [key, value] of Object.entries(demos)) {
     if (typeof value !== "function") { out[key] = value; continue; }
     const Orig = value as React.ComponentType<Record<string, unknown>>;
     const Wrapped = (props: Record<string, unknown>) => {
-      const dark = typeof document !== "undefined"
-        && document.documentElement.getAttribute("data-theme") === "dark";
-      return React.createElement(Orig, { data: { themeName: dark ? "bp5-dark" : "" }, ...props });
+      return React.createElement(Orig, { data: { themeName: isDarkSurface ? BP_DARK : "" }, ...props });
     };
     Wrapped.displayName = `BlueprintDemo(${key})`;
     out[key] = Wrapped as unknown as DemoValue;
@@ -116,22 +137,41 @@ export const blueprintAdapter: BaseRefAdapter = {
       },
     }));
   },
-  // 필드 8, 대표 3종 모두 공급자 없음. 색은 CSS 변수라 공급자로 옮겨지지 않음
-  Provider: ({ children }) => children,
-  // mountTheme는 heroui와 동일 시간 스코프
-  mountTheme(_system, _mode, doc) {
+  Provider: ({ mode, children }) =>
+    React.createElement(
+      "div",
+      { className: isDarkSurface(mode) ? `blueprint-ref-scope ${BP_DARK}` : "blueprint-ref-scope" },
+      children,
+    ),
+  mountTheme(system, _mode, doc) {
     let alive = true;
-    let node: HTMLStyleElement | null = null;
-    import("./theme/blueprint-styles.json").then((m) => {
+    const nodes: HTMLStyleElement[] = [];
+    Promise.all([
+      import("./theme/blueprint-styles.json"),
+      import(`../../systems/css/${system.slug}/_theme-blueprint.json`),
+    ]).then(([shape, theme]) => {
       if (!alive) return;
-      node = doc.createElement("style");
-      node.dataset.baseMount = "blueprint:blueprint-styles";
-      node.textContent = String(m.default);
-      doc.head.appendChild(node);
+      // 특정 줄만 예외 처리. 남은 선언이 다크 테마 크롬 규칙 16개와 계속 충돌
+      const themeCss = String(theme.default)
+        .replace(/^[^\S\n]*--bp-intent-default-foreground[^\n;]*;[^\S\n]*$\n?/m, "");
+      const scopedTheme = themeCss.replace(/:root\s*\{/, ".blueprint-ref-scope {")
+        + BP_DEFAULT_FOREGROUND_FIX;
+      for (const [id, css] of [
+        ["blueprint-styles", shape.default],
+        ["blueprint-vars-root", rootVarsOf(String(shape.default))],
+        // 시스템 색을 :root, 래퍼 양쪽에 적용, blueprint보다 뒤 순서임
+        ["blueprint-theme", `${themeCss}\n${scopedTheme}`],
+      ] as const) {
+        const el = doc.createElement("style");
+        el.dataset.baseMount = `blueprint:${id}`;
+        el.textContent = String(css);
+        doc.head.appendChild(el);
+        nodes.push(el);
+      }
     }).catch( => { /* 못 실으면 blueprint가 스타일 없이 즉시 렌더링 */ });
     return  => {
       alive = false;
-      node?.remove;
+      for (const el of nodes) el.remove;
     };
   },
 };
