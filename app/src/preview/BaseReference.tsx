@@ -232,7 +232,8 @@ export function BaseReference({ baseKey, adapter, baseTitle, slug, system, activ
       <Section
         title="Parts"
         count={doc.parts.presence === "official" ? doc.parts.rows.length : undefined}
-        note={PRESENCE_NOTE[doc.parts.presence] ?? undefined}
+        // API Reference 섹션과 규칙 동일. 한쪽만 고치면 내용이 어긋날 수 있음
+        note={doc.parts.reason?.trim || PRESENCE_NOTE[doc.parts.presence] || undefined}
       >
         {doc.parts.presence === "absent-in-official"
           ? <Absent what="Parts" />
@@ -242,7 +243,7 @@ export function BaseReference({ baseKey, adapter, baseTitle, slug, system, activ
       <Section
         title="API Reference"
         count={doc.api.tables.length || undefined}
-        note={PRESENCE_NOTE[doc.api.presence] ?? undefined}
+        note={doc.api.reason?.trim || PRESENCE_NOTE[doc.api.presence] || undefined}
       >
         {doc.api.presence === "absent-in-official"
           ? <Absent what="API" />
