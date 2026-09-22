@@ -1,6 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
-import { libSpecFor } from "./lib/registry";
+import { libSpecFor, type LibProp } from "./lib/registry";
 import { repoRoot } from "./resources.node";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
 
@@ -10,13 +10,60 @@ function systemNameOf(slug: string): string {
   return bare.charAt(0).toUpperCase + bare.slice(1);
 }
 
+type PropUnions = {
+  components?: Record<string, Record<string, string[]>>;
+  // children을 안 받는 컴포넌트 이름
+  noChildren?: string[];
+  // 컴포넌트별 필수 프롭과 위치 매핑, null이면 타입에서 읽기 실패
+  required?: Record<string, { prop: string; placeholder: string | null }[]>;
+  // 컴포넌트 on/off boolean 프롭, 상태 필드가 참조
+  states?: Record<string, string[]>;
+  // 패키지 진입점이 내보내는 대문자 이름 전체, import { X } 가능 여부로 판별하기
+  exported?: string[];
+};
+const unionsCache = new Map<string, PropUnions | null>;
+
+async function loadPropUnions(baseKey: string): Promise<PropUnions | null> {
+  if (unionsCache.has(baseKey)) return unionsCache.get(baseKey) ?? null;
+  let parsed: PropUnions | null = null;
+  try {
+    const p = path.join(await repoRoot, "app", "src", "vendor-types", "prop-unions", `${baseKey}.json`);
+    parsed = JSON.parse(await readFile(p, "utf8")) as PropUnions;
+  } catch {
+    parsed = null; // 미생성이거나 베이스 없으면 축을 빈 채로 유지
+  }
+  unionsCache.set(baseKey, parsed);
+  return parsed;
+}
+
+async function unionPropsFor(baseKey: string, componentName: string): Promise<LibProp[]> {
+  const u = await loadPropUnions(baseKey);
+  const axes = u?.components?.[componentName];
+  if (!axes) return [];
+  return Object.entries(axes)
+    .filter(([, values]) => values.length > 1)
+    // 기본값은 타입상 불명확해 null로 지정. 창에는 기본 표시가 붙지 않음
+    .map(([prop, values]) => ({ prop, values, default: null }));
+}
+
 export async function allowedLibComponents(baseKey: string): Promise<string[]> {
-  const spec = libSpecFor(baseKey);
-  const dir = path.join(await repoRoot, "app", "src", "preview", spec.refDir);
+  const dir = await refJsonDir(libSpecFor(baseKey).refDir);
+  if (!dir) return [];
   const entries = await readdir(dir, { withFileTypes: true });
   return entries
     .filter((e) => e.isFile && e.name.endsWith(".json"))
     .map((e) => e.name.slice(0, -".json".length));
+}
+
+async function refJsonDir(refDir: string): Promise<string | null> {
+  const base = path.join(await repoRoot, "app", "src", "preview", refDir);
+  for (const dir of [base, path.join(base, "contract")]) {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+      if (entries.some((e) => e.isFile && e.name.endsWith(".json"))) return dir;
+    } catch { /* 없는 디렉토리는 다음 후보로 전달 */ }
+  }
+  return null;
 }
 
 export async function loadLibResources(
@@ -27,18 +74,55 @@ export async function loadLibResources(
   const spec = libSpecFor(baseKey);
   const root = await repoRoot;
 
+  const themeFile = `theme.${spec.themeExt ?? "ts"}`;
+
   const [vars, themeSource, refRaw] = await Promise.all([
     readFile(path.join(root, "generated", slug, "vars.css"), "utf8"),
-    readFile(path.join(root, "generated", slug, "base", spec.themeDir, "theme.ts"), "utf8"),
-    readFile(path.join(root, "app", "src", "preview", spec.refDir, `${component}.json`), "utf8"),
+    readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
+    // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
+    refJsonDir(spec.refDir).then((dir) => {
+      if (!dir) throw new Error(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
+      return readFile(path.join(dir, `${component}.json`), "utf8");
+    }),
   ]);
 
+  if (spec.notComponents?.includes(component)) {
+    throw new Error(
+      `'${baseKey}' 의 '${component}' 는 공식 문서에는 있지만 컴포넌트가 아니에요: ` +
+        `내보낼 수 있는 것이 없어요.`,
+    );
+  }
+
   const ref = JSON.parse(refRaw) as { title?: string };
-  const { componentName, props, dropped } = spec.parse(JSON.parse(refRaw));
+  const { componentName, props: parsedProps, dropped } = spec.parse(JSON.parse(refRaw));
+
+  const props: LibProp[] = parsedProps.length > 0
+    ? parsedProps
+    : await unionPropsFor(baseKey, componentName);
+
+  // 텍스트 수용 여부는 설치 타입이 결정. 불명확하면 수용으로 간주, 아니면 정상 라벨이 누락
+  const unions = await loadPropUnions(baseKey);
+  const acceptsChildren = !unions?.noChildren?.includes(componentName);
+  // 필수 prop 미입력 시 tsc TS2741 오류. 타입 정보를 그대로 전달
+  const requiredProps = unions?.required?.[componentName] ?? [];
+
+  const known = unions?.exported;
+  const nameInEntry = !known?.length || known.includes(componentName);
+
+  // 이름에 쓸 수 있는 글자인지 확인
+  const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+  if (typeof componentName !== "string" || !USABLE.test(componentName.trim)) {
+    throw new Error(
+      `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
+        `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
+    );
+  }
 
   // 첨부 파일 전체 텍스트로 읽기. 누락 시 색상만 조용히 달라지는 문제 있음
+  const wanted = [...spec.extras, ...(spec.compiledTheme?.(slug) ?? [])];
+
   const extras = await Promise.all(
-    spec.extras.map(async (e) => ({
+    wanted.map(async (e) => ({
       to: e.to,
       why: e.why,
       text: await readFile(path.join(root, e.from), "utf8"),
@@ -65,7 +149,7 @@ export async function loadLibResources(
     componentCss: "",
     axes,
     partNames: [],
-    stateNames: [],
+    stateNames: unions?.states?.[componentName] ?? [],
     exportName: componentName,
     componentSource: "",
     cxSource: "",
@@ -79,13 +163,20 @@ export async function loadLibResources(
     lib: {
       title: spec.title,
       packages: spec.packages,
-      importFrom: spec.importFrom,
+      // LibResources.importFrom 값을 항상 문자열로 통일 처리
+      importFrom: typeof spec.importFrom === "function"
+        ? spec.importFrom(component)
+        : spec.importFrom,
       themeSource,
+      themeExt: spec.themeExt ?? "ts",
       providerSource: spec.provider,
       extras,
       componentName,
       props,
       dropped,
+      acceptsChildren,
+      requiredProps,
+      nameInEntry,
     },
   };
 }

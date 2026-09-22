@@ -11,11 +11,11 @@ function assertSelection(req: ExportRequest, res: ExportResources): void {
   for (const [prop, values] of Object.entries(req.values)) {
     const allowed = known.get(prop);
     if (!allowed) {
-      throw new Error(`'${res.source.component}' 에 '${prop}' 축이 없어요.`);
+      throw new Error(`'${res.source.component}' 에는 '${prop}' 라는 항목이 없어요.`);
     }
     for (const v of values) {
       if (!allowed.has(v)) {
-        throw new Error(`'${prop}' 축에 '${v}' 라는 값이 없어요.`);
+        throw new Error(`'${prop}' 에는 '${v}' 라는 값이 없어요.`);
       }
     }
   }

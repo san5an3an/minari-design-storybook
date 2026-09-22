@@ -7,6 +7,7 @@ import MANIFEST from "./demos/_manifest.json";
 import { DOCS } from "./_docs";
 import { LOAD } from "./demos/_load";
 
+import { fillApi } from "../derivedApi";
 type RawExample = Omit<BaseRefExample, "description" | "descFormat" | "iframeHeight" | "args" | "axis"> & {
   export?: string; file?: string; id?: string; code?: string;
   args: Record<string, unknown> | null;
@@ -104,7 +105,12 @@ export const grommetAdapter: BaseRefAdapter = {
   isSlug: (slug) => SLUGS.has(slug),
   loadDoc(slug) {
     const f = SLUGS.has(slug) ? DOCS[slug] : undefined;
-    return f ? f.then((m) => toDoc(m.default as RawDoc)) : null;
+    if (!f) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return f.then(async (m) => {
+      const doc = toDoc(m.default as RawDoc);
+      return { ...doc, api: await fillApi("grommet", doc.slug, doc.title, doc.api) };
+    });
   },
   loadDemos(slug) {
     // 템플릿 동적 import 금지, demos/_src는 명시 목록 LOAD만 호출

@@ -8,6 +8,7 @@ import { DOCS } from "./_docs";
 import { LOAD } from "./demos/_load";
 import { THEMES } from "./theme/_themes";
 
+import { fillApi } from "../derivedApi";
 type RawExample = Omit<BaseRefExample, "description" | "descFormat" | "iframeHeight"> & {
   // 예제 섹션 공식 설명 DocSectionText, 문단 문자열 배열
   prose: string[];
@@ -77,7 +78,12 @@ export const primereactAdapter: BaseRefAdapter = {
   isSlug: (slug) => SLUGS.has(slug),
   loadDoc(slug) {
     const f = SLUGS.has(slug) ? DOCS[slug] : undefined;
-    return f ? f.then((m) => toDoc(m.default as RawDoc)) : null;
+    if (!f) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return f.then(async (m) => {
+      const doc = toDoc(m.default as RawDoc);
+      return { ...doc, api: await fillApi("primereact", doc.slug, doc.title, doc.api) };
+    });
   },
   loadDemos(slug) {
     const f = SLUGS.has(slug) ? LOAD[slug] : undefined;

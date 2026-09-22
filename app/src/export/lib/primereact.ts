@@ -8,11 +8,12 @@ export const PRIMEREACT: LibSpec = {
   title: "PrimeReact",
   packages: ["primereact", "primeicons"],
   themeDir: "primereact",
-  importFrom: "primereact",
+  importFrom: (component: string) => `primereact/${component}`,
   refDir: "primereactRef",
+  notComponents: ["inputgroup"],
   parse: (json) => {
     const d = json as { slug?: string; title?: string };
-    const componentName = (d.title ?? "").trim || pascal(d.slug ?? "");
+    const componentName = (d.title ?? "").trim.replace(/\s+/g, "") || pascal(d.slug ?? "");
     return { componentName, props: [], dropped: [] };
   },
   extras: [],
@@ -21,8 +22,8 @@ export const PRIMEREACT: LibSpec = {
       from: `app/src/preview/primereactRef/theme/${slug}.${mode}.json`,
       to: `primereact-${mode}.json`,
       why:
-        "공식 SASS 를 그 시스템·모드로 미리 컴파일한 CSS(JSON 문자열 모듈). theme.ts(진입 변수 표)"
-        + "만으로는 색·모서리·글꼴 전부 미적용. 이 파일이 실제로 생성하는 쪽임.",
+        "이 색 테마·모드에 맞춰 미리 만들어 둔 CSS 입니다. "
+        + "theme.ts 만으로는 색·모서리·글꼴이 적용되지 않습니다. 실제로 화면에 입히는 것은 이 파일입니다.",
     })),
   provider:  => `"use client";
 

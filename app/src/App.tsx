@@ -102,12 +102,15 @@ const TYPE = "__type__";
 const USAGE1 = "__usage__";
 const USAGE2 = "__usage2__";
 const USAGE3 = "__usage3__";
-const USAGE_VARIANT: Record<string, 1 | 2 | 3> = { [USAGE1]: 1, [USAGE2]: 2, [USAGE3]: 3 };
+// 넷째 세트는 antd만 사용. 의도된 구성임
+const USAGE4 = "__usage4__";
+const USAGE_VARIANT: Record<string, 1 | 2 | 3 | 4> = { [USAGE1]: 1, [USAGE2]: 2, [USAGE3]: 3, [USAGE4]: 4 };
 
 const MAIN: { key: string; label: string }[] = [
   { key: USAGE1, label: "Usage 1" },
   { key: USAGE2, label: "Usage 2" },
   { key: USAGE3, label: "Usage 3" },
+  { key: USAGE4, label: "Usage 4" },
 ];
 
 const FOUNDATIONS: { key: string; label: string }[] = [
@@ -118,11 +121,11 @@ const FOUNDATIONS: { key: string; label: string }[] = [
 // 구 주소 usage를 usage1로 처리
 const ROUTE_ALIAS: Record<string, string> = {
   colors: COLORS, "type-scale": TYPE,
-  usage: USAGE1, usage1: USAGE1, usage2: USAGE2, usage3: USAGE3,
+  usage: USAGE1, usage1: USAGE1, usage2: USAGE2, usage3: USAGE3, usage4: USAGE4,
 };
 const ROUTE_SLUG: Record<string, string> = {
   [COLORS]: "colors", [TYPE]: "type-scale",
-  [USAGE1]: "usage1", [USAGE2]: "usage2", [USAGE3]: "usage3",
+  [USAGE1]: "usage1", [USAGE2]: "usage2", [USAGE3]: "usage3", [USAGE4]: "usage4",
 };
 
 type Route = { base: string; slug: string; section: string };

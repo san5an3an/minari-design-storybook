@@ -106,7 +106,9 @@ export function Prose({ text, format, docHref, inline }: {
 }
 
 // 셀 텍스트 안 강조만 굵게 표시. 표 셀 값은 원문 그대로 유지해 손실 방지
-export function CellText({ text }: { text: string }) {
+export function CellText({ text }: { text: string | null | undefined }) {
+  // 표 셀에 null 값 존재. .includes 호출 전 null 체크 추가
+  if (text == null || text === "") return null;
   if (!text.includes("**")) return <>{text}</>;
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return (

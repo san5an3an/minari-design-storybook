@@ -11,6 +11,7 @@ import { loadDemos, type DemoModule, type ToneColor } from "./muiRef/demos";
 import type { Mode } from "../systems/types";
 import type { SystemDefinition } from "../systems/types";
 
+import { fillMuiApi } from "./derivedApi";
 function officialHref(href: string | undefined, slug: string): string {
   if (!href) return "";
   if (/^[a-z]+:/i.test(href)) return href; // 이미 절대 URL인지 여부
@@ -245,7 +246,13 @@ export function MuiReference({ slug, system, active }: {
     setDoc(null); setErr(null);
     const p = loadMuiDoc(slug);
     if (!p) return; // 저장소가 다른 항목
-    p.then((d) => { if (alive) setDoc(d); })
+    // 표가 비면 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    p.then(async (d) => {
+      if (d.api.length > 0) return d;
+      const filled = await fillMuiApi(d.slug, d.title);
+      return filled ? { ...d, api: filled } : d;
+    })
+     .then((d) => { if (alive) setDoc(d); })
      .catch((e) => { if (alive) setErr(String(e)); });
     return  => { alive = false; };
   }, [slug]);

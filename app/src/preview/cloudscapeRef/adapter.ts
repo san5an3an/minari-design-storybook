@@ -7,6 +7,7 @@ import { LOAD } from "./demos/_load";
 import { loadPage } from "./demos/_pageLoad";
 import { THEMES } from "./_themes";
 
+import { fillApi } from "../derivedApi";
 // 경로 문자열에서 데모 페이지 슬러그만 추출
 function pageSlugOf(source: string): string | null {
   const m = /:src\/pages\/([^/]+)\//.exec(source);
@@ -59,7 +60,12 @@ export const cloudscapeAdapter: BaseRefAdapter = {
   isSlug: (slug) => SLUGS.has(slug),
   loadDoc(slug) {
     const f = SLUGS.has(slug) ? DOCS[slug] : undefined;
-    return f ? f.then((m) => toDoc(m.default as RawDoc)) : null;
+    if (!f) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return f.then(async (m) => {
+      const doc = toDoc(m.default as RawDoc);
+      return { ...doc, api: await fillApi("cloudscape", doc.slug, doc.title, doc.api) };
+    });
   },
   loadDemos(slug) {
     const f = SLUGS.has(slug) ? DOCS[slug] : undefined;

@@ -33,12 +33,12 @@ export function emitNext(req: ExportRequest, res: ExportResources): ExportFile[]
   // import에는 선택 항목만 추가. noUnusedLocals 미사용 시 타입 오류 있음
   const names = [res.exportName, ...parts].join(", ");
 
-  const text = `/* ${res.source.componentTitle}, ${res.source.systemName} 에서 고른 조합.
- * minari-design-storybook 내보내기 산출물. 짝 파일인 ${res.exportName}.tsx, styles.css와 함께 사용
+  const text = `/* ${res.source.componentTitle}, ${res.source.systemName} 에서 고른 조합입니다.
+ * minari-design-storybook에서 내보낸 파일. ${res.exportName}.tsx, styles.css와 함께 사용
  *
- * 고른 것
- *${sheets.map((s) => `\n *   ${s.title.padEnd(10)} ${s.rows.map((r) => r.label).join(" · ")}`).join("")}
- *${parts.length > 0 ? `\n *   부품       ${parts.join(" · ")}` : ""}
+ * 고르신 것
+ *${sheets.map((s) => `\n *   ${s.title.padEnd(10)} ${s.rows.map((r) => r.label).join(", ")}`).join("")}
+ *${parts.length > 0 ? `\n *   부품       ${parts.join(", ")}` : ""}
  */
 import { ${names} } from "./${res.exportName}";
 

@@ -1,5 +1,39 @@
 # minari-design-storybook
 
+> 처음 클론했을 때 진행 순서
+>
+> ```bash
+> `node -v` 20.9 이상 필요. Next 16.3.2 요구치이고 CI는 24로 실행
+> ulimit -n 65536 # 이 줄이 없으면 dev 서버가 뜨지 않음
+>
+> npm ci
+> `ls node_modules/.bin/next` 확인 필요, 없으면 `npm install` 재실행
+> npm run dev # http://localhost:3000
+> ```
+>
+> `ulimit` 줄을 빼면 `next dev`가 EMFILE로 동작하지 않음. `node_modules`가 370,612 파일임
+> 원인은 그 로그 파일이 아니라, 로그는 마지막에 열리려다 실패한 파일일 뿐임
+>
+> 동일 트리에서 fresh clone 후 `npm ci`, `next dev` 로 상한만 바꿔 측정
+>
+> | `ulimit -n` | dev 200 | EMFILE |
+> |---|---|---|
+> | 1024 (리눅스 기본) | ✗ | 13,239 |
+> | 2048 | ✗ | 10,060 |
+> | 4096 | ✗ | 4,102 |
+> | 8192 | ✗ | 4,786 |
+> | 16384 | 확인 (약 3초) | 0 |
+> | 65536 | ✓ (~3초) | 0 |
+>
+> 16384는 되고 8192는 안 된다까지만 말할 수 있음. 위 명령이 65536을 쓰는 것은 여유를 둔 값임
+>
+> `package.json` 에 `engines` 가 없음. node 버전이 낮아도 npm 이 막아주지 않으니 직접 확인할 것
+>
+> `.github/workflows/ci.yml`에서 npm ci 가 실행 파일 링크를 실제로 만들었는지 확인
+>
+> (darwin arm64, x64 / linux arm64, x64 각 gnu, musl / win32 arm64, x64), 대소문자만 다른 경로 충돌 0건
+> 심볼릭 링크 0, 윈도 금지문자, 예약어 0(최장 경로 165자), Git LFS 쓰지 않음
+
 > 이 프로젝트는 `Design System` 에서 이름이 바뀌었음
 > 옛 이름으로 남아 있는 것은 회사를 가리키는 위치뿐이고, 그 표현은 그대로 맞음.
 
@@ -44,6 +78,7 @@
 ### 미리보기 앱 (Next)
 
 ```bash
+ulimit -n 65536 # 처음 클론했다면 필수, 없으면 EMFILE 오류로 실행되지 않음 (맨 위 표 참고)
 npm install
 npm run dev # http://localhost:3000
 ```
@@ -80,12 +115,23 @@ done
 프레임워크는 Next (App Router) + TypeScript임
 
 ```bash
+ulimit -n 65536 # dev 한정으로 필수, 감시자가 fd 를 고갈시키는 문제가 있음 (맨 위 표 참고)
 npm install
 npm run dev # http://localhost:3000
 npm run typecheck
 npm run build
 npm run start # 빌드한 것을 그대로 띄움
 ```
+
+상한이 필요한 것은 dev 뿐임. ulimit -n 1024 에서 셋 다 따로 확인한 결과임
+
+| 명령 | rc | 걸린 시간 | EMFILE |
+|---|---|---|---|
+| `npm ci` | 0 | 36.5초 | 0 (`node_modules/.bin/next` 생성) |
+| `npm run build` | 0 | 49.3초 | 0 (`BUILD_ID` 생성) |
+| `npm run dev` | - | 안 뜸 | 13,239 |
+
+상한을 못 올리는 환경에서 화면만 봐야 한다면 `npm run build` 후 `npm run start` 가 대안임. 파일을 감시하지 않아 낮은 상한에서도 동작하지만, 고친 내용이 바로 반영되지 않아 다시 빌드해야 화면에 나타남
 
 next 를 터미널에 직접 실행하지 않음. 전역 명령이 아니라 node_modules/.bin/next 에 있는 명령이라 직접 실행하면 zsh: command not found: next 오류가 남는 구조임. npm run 이 그 폴더를 PATH 앞에 추가해줄 때만 이름이 정상적으로 인식되는 구조임
 

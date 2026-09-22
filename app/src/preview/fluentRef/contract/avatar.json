@@ -203,9 +203,120 @@
     "rows": []
   },
   "api": {
-    "presence": "not-imported",
-    "reason": "공식 API 표는 storybook 이 빌드할 때 만드는 docgen(`__docgenInfo`)으로 그려져 저장소에 원천 파일이 없어요 — 타입 선언(d.ts)에서 뽑을지는 판정 대기예요.",
-    "tables": []
+    "presence": "derived",
+    "reason": "공식 문서에 정리된 표가 없어서, 설치된 패키지에 들어 있는 타입 정의에서 뽑았어요 (ADR-025). 이 컴포넌트가 물려받는 속성까지 함께 담았습니다. 설명과 기본값은 그 타입 정의에 달린 주석에서 가져온 것이라 공식 문서의 표현과 다를 수 있고, 기본값이 주석에 안 적힌 속성은 기본값 칸이 비어 있어요 — 기본값이 없다는 뜻은 아닙니다. 타입 정의에 없는 것(문서에만 있거나 실행 중에만 받는 값)은 여기 없어요.",
+    "tables": [
+      {
+        "name": "Avatar",
+        "columns": [
+          "프롭",
+          "타입",
+          "필수",
+          "기본값",
+          "설명"
+        ],
+        "rows": [
+          [
+            "image",
+            "{ as?: \"img\"; } & Omit<React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>, \"children\"> & { children?: never; }",
+            "",
+            "",
+            "The Avatar's image. Usage e.g.: `image={{ src: '...' }}`"
+          ],
+          [
+            "children",
+            "any",
+            "",
+            "",
+            ""
+          ],
+          [
+            "as",
+            "\"span\"",
+            "",
+            "",
+            ""
+          ],
+          [
+            "icon",
+            "WithSlotShorthandValue<{ as?: \"span\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, \"children\"> & { children?: any; }>",
+            "",
+            "`PersonRegular` (the default icon's size depends on the Avatar's size)",
+            "Icon to be displayed when the avatar doesn't have an image or initials."
+          ],
+          [
+            "initials",
+            "WithSlotShorthandValue<{ as?: \"span\"; } & Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, \"children\"> & { children?: any; }>",
+            "",
+            "",
+            "(optional) Custom initials. It is usually not necessary to specify custom initials; by default they will be derived from the `name` prop, using the `getInitials` function. The initials are displayed when there is no image (including while the image is loading)."
+          ],
+          [
+            "badge",
+            "WithSlotShorthandValue<Omit<ComponentProps<Pick<BadgeSlots, \"root\" | \"icon\">>, \"color\"> & Pick<BadgeProps, \"size\"> & { status?: PresenceBadgeStatus; outOfOffice?: boolean; } & RefAttributes<HTMLDivElement>>",
+            "",
+            "",
+            "Badge to show the avatar's presence status."
+          ],
+          [
+            "active",
+            "\"active\" | \"inactive\" | \"unset\"",
+            "",
+            "unset",
+            "Optional activity indicator * active: the avatar will be decorated according to activeAppearance * inactive: the avatar will be reduced in size and partially transparent * unset: normal display"
+          ],
+          [
+            "activeAppearance",
+            "\"ring\" | \"shadow\" | \"ring-shadow\"",
+            "",
+            "ring",
+            "The appearance when `active=\"active\"`"
+          ],
+          [
+            "color",
+            "\"neutral\" | \"brand\" | \"colorful\" | AvatarNamedColor",
+            "",
+            "neutral",
+            "The color when displaying either an icon or initials. * neutral (default): gray * brand: color from the brand palette * colorful: picks a color from a set of pre-defined colors, based on a hash of the name (or idForColor if provided) * [AvatarNamedColor]: a specific color from the theme"
+          ],
+          [
+            "idForColor",
+            "string",
+            "",
+            "",
+            "Specify a string to be used instead of the name, to determine which color to use when color=\"colorful\". Use this when a name is not available, but there is another unique identifier that can be used instead."
+          ],
+          [
+            "name",
+            "string",
+            "",
+            "",
+            "The name of the person or entity represented by this Avatar. This should always be provided if it is available. The name is used to determine the initials displayed when there is no image. It is also provided to accessibility tools."
+          ],
+          [
+            "shape",
+            "AvatarShape",
+            "",
+            "circular",
+            "The avatar can have a circular or square shape."
+          ],
+          [
+            "size",
+            "AvatarSize",
+            "",
+            "32",
+            "Size of the avatar in pixels. Size is restricted to a limited set of supported values recommended for most uses (see `AvatarSizeValue`) and based on design guidelines for the Avatar control. Note: At size 16, if initials are displayed, only the first initial will be rendered. If a non-supported size is needed, set `size` to the next-smaller supported size, and set `width` and `height` to override the rendered size. For example, to set the avatar to 45px in size: `<Avatar size={40} style={{ width: '45px', height: '45px' }} />`"
+          ],
+          [
+            "ref",
+            "React.Ref<HTMLSpanElement>",
+            "",
+            "",
+            ""
+          ]
+        ]
+      }
+    ]
   },
   "tokenGroup": "avatar"
 }

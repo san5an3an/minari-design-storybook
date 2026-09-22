@@ -1,3 +1,4 @@
+import { componentGroups, resolveTokenGroup } from "../../preview/tokenGroups";
 import { collectTokens } from "../tokens";
 import { sheetsFor } from "../rows";
 import { wantsThemeOnly, type ExportFile, type ExportRequest, type ExportResources } from "../types";
@@ -12,35 +13,60 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
   // 자원 없으면 에러 처리, 빈 배열 반환 금지. 호출 자체가 배선 오류라는 뜻임
   if (!lib) {
     throw new Error(
-      "라이브러리 자원(res.lib)이 없어요. resources.lib.node.ts 가 채우는 값이에요.",
+      "이 컴포넌트의 라이브러리 정보를 못 읽었어요. 다시 시도해 주세요.",
     );
   }
 
   const files: ExportFile[] = [];
   const themeOnly = wantsThemeOnly(req.format);
 
-  const consumer = [lib.themeSource, ...lib.extras.map((e) => e.text)].join("\n");
-  const tokens = collectTokens(consumer, res.vars);
+  const consumer = [lib.themeSource, lib.providerSource, ...lib.extras.map((e) => e.text)].join("\n");
+
+  const BASE_LAYER = (name: string): boolean =>
+    name.startsWith("--semantic-") || name.startsWith("--base-font-");
+
+  const group = resolveTokenGroup(
+    req.component,
+    res.source.componentTitle,
+    componentGroups(res.vars),
+  );
+  const ownTokens = group
+    ? [...res.vars.matchAll(new RegExp(`(--component-${group}-[A-Za-z0-9_-]+)\\s*:`, "g"))]
+      .map((m) => m[1])
+    : [];
+
+  const tokens = collectTokens(consumer, res.vars, {
+    alwaysInclude: BASE_LAYER,
+    extraSeeds: ownTokens,
+  });
 
   files.push({
     path: "vars.css",
     type: "text/css",
     text:
       `/* ${lib.componentName}, ${res.source.systemName} · ${lib.title}\n`
-      + ` * minari-design-storybook 내보내기 산출물.\n`
-      + ` * theme.ts 와 설정 파일이 실제로 읽는 토큰만 추렸습니다 (${tokens.used.length}개).\n`
-      + ` * 모드 블록(dark · high-contrast)은 원본 그대로입니다.\n`
+      + ` * minari-design-storybook 에서 내보낸 파일입니다.\n`
+      + ` *\n`
+      + ` * 색·크기 값 ${tokens.used.length}개가 들어 있고, 세 가지로 나뉩니다.\n`
+      + ` *   1. 색과 글꼴의 기본값 (--semantic-* · --base-font-*)\n`
+      + (group
+        ? ` *   2. ${res.source.componentTitle} 에서만 쓰는 값 (--component-${group}-*)\n`
+        : ` *   2. 이 컴포넌트 전용 값은 없습니다\n`)
+      + ` *   3. theme.${lib.themeExt} 와 설정 파일이 실제로 참조하는 값\n`
+      + ` *\n`
+      + ` * 다크·고대비 모드 값도 원본 그대로 함께 들어 있습니다.\n`
       + (tokens.missing.length > 0
-        ? ` *\n * 부른 이름 중 ${tokens.missing.length}개가 vars.css 에 없었습니다:\n`
+        ? ` *\n * 아래 ${tokens.missing.length}개는 참조는 하는데 값을 찾지 못했습니다.\n`
+          + ` *    그 부분은 색이나 크기가 적용되지 않은 채로 보입니다.\n`
           + tokens.missing.map((n) => ` *      ${n}\n`).join("")
-          + ` *    그 위치는 값 없이 그려집니다.\n`
         : "")
       + ` */\n\n${tokens.css}\n`,
   });
 
+  // 확장자를 내용에 맞추기. 다르면 import가 되지 않음
   files.push({
-    path: "theme.ts",
-    type: "text/typescript",
+    path: `theme.${lib.themeExt}`,
+    type: lib.themeExt === "css" ? "text/css" : "text/typescript",
     text: lib.themeSource,
   });
 
@@ -64,7 +90,26 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
       const rows = sheet.rows
         .map((row) => {
           const attrs = Object.entries(row.props).map(([k, v]) => attr(k, v)).join("");
-          return `      <${lib.componentName}${attrs}>${row.label}</${lib.componentName}>`;
+          // 필수 속성 미입력 시 tsc TS2741 오류. children은 속성으로 표기 불가해 별도 처리
+          const need = lib.requiredProps.filter((r) => r.prop !== "children" && !(r.prop in row.props));
+          const needsKids = !lib.acceptsChildren
+            && lib.requiredProps.some((r) => r.prop === "children");
+          const fill = need.map((r) =>
+            r.placeholder === null ? "" : ` ${r.prop}={${r.placeholder}}`).join("");
+          const todo = need.length
+            ? `      {/* 아래 값은 임시로 넣어 둔 것입니다. 실제 값으로 바꿔 주세요: `
+              + `${need.map((r) => r.prop + (r.placeholder === null ? "(직접 채우셔야 해요)" : "")).join(", ")} */}\n`
+            : "";
+          if (!lib.acceptsChildren) {
+            // 자식 필수 컴포넌트는 span 대신 내용만 표기. span 삽입 시 화면 깨질 수 있음
+            const kidNote = needsKids
+              ? `      {/* 이 컴포넌트는 안에 내용이 반드시 있어야 하는데, 글자는 받지 않습니다.\n`
+                + `          공식 문서의 예제를 보고 알맞은 하위 컴포넌트를 넣어 주세요.\n`
+                + `          이 시스템이 임의로 넣으면 빌드는 되지만 화면이 잘못 나옵니다. */}\n`
+              : "";
+            return `${todo}${kidNote}      {/* ${row.label} */}\n      <${lib.componentName}${attrs}${fill} />`;
+          }
+          return `${todo}      <${lib.componentName}${attrs}${fill}>${row.label}</${lib.componentName}>`;
         })
         .join("\n");
       return `      {/* ${sheet.title} */}\n${rows}`;
@@ -105,62 +150,80 @@ function readme(
 ): string {
   const lib = res.lib!;
   const install = lib.packages.map((p) => `  npm i ${p}`).join("\n");
-  // 개수를 문장에 직접 기재 금지. 같은 사실을 두 곳에 적으면 드리프트가 생기는 문제가 있음
+  // 개수를 문장에 직접 기재 금지. 배열이 늘면 문장이 거짓임
   const extras = lib.extras.length > 0
-    ? `\n## 함께 실린 설정 파일\n\n`
-      + `이 ${lib.extras.length}개는 테마로는 못 닿는 자리예요. 지우면 그 자리만 ${lib.title} 기본값으로\n`
-      + `조용히 되돌아갑니다, 오류가 안 나므로 눈으로는 "색이 좀 다르네"로만 보여요.\n\n`
+    ? `\n## 함께 들어 있는 설정 파일 ${lib.extras.length}개\n\n`
+      + `테마 파일만으로는 바꿀 수 없는 부분이 있어서 따로 넣었습니다.\n`
+      + `지우셔도 에러는 안 나지만, 그 부분만 ${lib.title} 기본 모양으로 돌아갑니다.\n\n`
       + lib.extras.map((e) => `- \`${e.to}\`, ${e.why}`).join("\n") + "\n"
     : "";
 
   const dropped = lib.dropped.length > 0
-    ? `\n## 값이 아니라서 뺀 것\n\n`
-      + `공식 문서의 값 목록은 타입에서 뽑혀 있어 고를 수 없는 것이 섞여 있어요.\n`
-      + `아래는 그래서 뺀 것이고, 빠뜨린 게 아닙니다.\n\n`
+    ? `\n## 목록에서 제외한 항목\n\n`
+      + `공식 문서의 값 목록에는 실제로 고를 수 없는 것이 섞여 있어서 아래 항목은 뺐습니다.\n`
+      + `실수로 빠뜨린 것이 아닙니다.\n\n`
       + lib.dropped.map((d) => `- \`${d}\``).join("\n")
-      + `\n\n찾으시는 값이 여기 있다면 이 시스템의 걸러내기가 틀린 것이니 알려 주세요.\n`
+      + `\n\n혹시 찾으시는 값이 여기 있다면 이 도구가 잘못 뺀 것이니 알려 주세요.\n`
     : "";
+
+  // import 실패 위치를 파일 표, 토큰보다 먼저 확인
+  const nameNote = lib.nameInEntry
+    ? ""
+    : `\n## 먼저 읽어 주세요, import 줄을 한 번 고쳐야 합니다\n\n`
+      + `설치된 \`${lib.importFrom}\` 패키지가 \`${lib.componentName}\` 이라는 이름을 내보내지 않습니다.\n`
+      + `보통 둘 중 하나입니다.\n\n`
+      + `- 이 항목이 컴포넌트가 아니라 안내 문서인 경우 (아이콘 목록, 가이드, 분류 페이지 등)\n`
+      + `- 컴포넌트는 맞지만 다른 경로에 있는 경우 (\`${lib.importFrom}/experimental\` 같은 하위 경로,\n`
+      + `  또는 차트·달력처럼 아예 다른 패키지)\n\n`
+      + `이 도구가 경로를 짐작해서 바꾸지는 않았습니다. 공식 문서에서 이 컴포넌트의 import 줄을\n`
+      + `확인하신 뒤 \`${lib.componentName}.example.tsx\` 의 첫 줄만 바꿔 주세요.\n`
+      + `나머지 파일(\`theme.${lib.themeExt}\` · \`vars.css\` · \`providers.tsx\`)은 그대로 쓰시면 됩니다.\n`;
 
   const exampleCaveat = themeOnly
     ? ""
-    : `\n## 예시는 출발점이에요\n\n`
-      + `\`${lib.componentName}.example.tsx\` 는 고르신 프롭 조합을 적어 둔 것이라,\n`
-      + `그 컴포넌트가 따로 요구하는 값까지는 채우지 못해요. 예를 들어 \`QRCode\` 는\n`
-      + `\`value\` 가 있어야 하고 안에 글자를 넣지 않습니다, 그런 컴포넌트는 예시를\n`
-      + `한 번 손봐 주셔야 합니다. 이 도구가 공식 메타에서 그걸 알아낼 방법이 없어서\n`
-      + `(문서 표에 children 이 안 적혀 있고, 받는 컴포넌트에도 안 적혀 있어요)\n`
-      + `추측하지 않고 그대로 말씀드립니다. \`theme.ts\` 와 \`vars.css\` 는 영향 없어요.\n`;
+    : `\n## 예시 파일은 시작점입니다\n\n`
+      + `\`${lib.componentName}.example.tsx\` 에는 고르신 조합만 적어 두었습니다.\n`
+      + `그래서 이 컴포넌트가 따로 요구하는 값은 비어 있을 수 있습니다.\n`
+      + `(예를 들어 QR 코드 컴포넌트라면 표시할 내용을 직접 넣어 주셔야 합니다.)\n`
+      + `그런 위치는 파일 안에 주석으로 표시해 두었으니 한 번 채워 주세요.\n`
+      + (lib.acceptsChildren
+        ? ""
+        : `\n이 컴포넌트는 태그 사이에 글자를 넣을 수 없습니다.\n`
+          + `그래서 예시가 \`<${lib.componentName} … />\` 형태이고, 각 줄이 어떤 조합인지는\n`
+          + `바로 위에 주석으로 적어 두었습니다. 이 도구가 뺀 것이 아니라,\n`
+          + `글자를 넣으면 타입 검사에서 에러가 납니다.\n`)
+      + `\n\`theme.${lib.themeExt}\` 와 \`vars.css\` 는 이것과 관계없이 그대로 쓰시면 됩니다.\n`;
 
   return `# ${res.source.componentTitle}, ${res.source.systemName} · ${lib.title}
 
-minari-design-storybook 에서 내보낸 그룹입니다.
-
+minari-design-storybook 에서 내보낸 파일들입니다.
+${nameNote}
 ## 설치
 
 \`\`\`
 ${install}
 \`\`\`
 
-## 무엇이 들어 있나
+## 들어 있는 파일
 
 | 파일 | 하는 일 |
 |---|---|
-| \`theme.ts\` | ${lib.title} 테마. \`theme\` · \`darkTheme\` · \`highContrastTheme\` · \`byMode\` 를 냅니다 |
-| \`vars.css\` | 그 테마가 실제로 읽는 CSS 토큰 ${tokenCount}개. 없으면 테마가 빈 셸이 됩니다 |
-${themeOnly ? "" : `| \`providers.tsx\` | 테마와 설정을 세우는 감싸개 |\n| \`${lib.componentName}.example.tsx\` | 고른 조합을 적어 둔 예시 |\n`}
-## \`vars.css\` 를 빼지 마세요
+| \`theme.${lib.themeExt}\` | ${lib.title} 테마. ${lib.themeExt === "css" ? "`:root` 에 CSS 변수를 정의합니다. `import \"./theme.css\"` 로 불러 쓰세요" : "`theme` · `darkTheme` · `highContrastTheme` · `byMode` 를 내보냅니다"} |
+| \`vars.css\` | 테마가 사용하는 색·크기 값 ${tokenCount}개. 이 파일이 없으면 테마가 동작하지 않습니다 |
+${themeOnly ? "" : `| \`providers.tsx\` | 테마를 적용해 주는 감싸는 컴포넌트 |\n| \`${lib.componentName}.example.tsx\` | 고르신 조합으로 만든 예시 |\n`}
+## \`vars.css\` 는 꼭 함께 써 주세요
 
-테마 산출물은 \`#0052cc\` 같은 값이 아니라 \`var(--component-button-radius)\` 를 들고 있어요.
-그 파일이 없으면 이름이 전부 미해결이 되고, 오류는 안 나면서 색·모서리·글자만 죽습니다.
+테마 파일에는 \`#0052cc\` 같은 실제 색값이 아니라 \`var(--component-button-radius)\` 처럼
+* 이름만 들어 있고 실제 값은 `vars.css`에 있음
+이 파일을 빼면 에러는 안 나지만 색·모서리·글꼴이 적용되지 않습니다.
 
-## 모드는 \`data-theme\` 로 정해집니다
+## 라이트 / 다크 / 고대비 전환
 
-\`vars.css\` 안에 라이트·다크·고대비가 다 들어 있고, \`:root\` 에 \`data-theme\` 속성이
-* 값이 없으면 OS 설정(`prefers-color-scheme`)이 색을 결정함
-\`Providers\` 가 \`mode\` 를 받아 그 속성을 적어 줍니다.
+\`vars.css\` 에 세 가지가 모두 들어 있습니다. \`<html>\` 에 \`data-theme\` 속성이 없으면
+보는 사람의 OS 설정을 따라갑니다. \`Providers\` 에 \`mode\` 를 넘기면 그 속성을 대신 넣어 줍니다.
 ${extras}${dropped}${exampleCaveat}
 ---
 
-색 \`${req.slug}\` · 베이스 \`${req.baseKey}\` · 컴포넌트 \`${req.component}\`
+색 테마 \`${req.slug}\` · 베이스 \`${req.baseKey}\` · 컴포넌트 \`${req.component}\`
 `;
 }
