@@ -4,6 +4,7 @@ import type { BaseRefAdapter, BaseRefDoc, BaseRefExample, BaseRefProviderProps, 
 import { HEROUI_GROUPS, HEROUI_INDEX, HEROUI_SOURCE, isHerouiSlug, loadHerouiDoc, type HerouiDoc } from "./loader";
 import { loadDemos as loadHerouiDemos } from "./demos/index";
 
+import { fillApi } from "../derivedApi";
 const REPO = `heroui-inc/heroui@${HEROUI_SOURCE.ref}`;
 
 // 예제 섹션, Variants만 사용, 설명 글 없음
@@ -115,7 +116,12 @@ export const herouiAdapter: BaseRefAdapter = {
   isSlug: isHerouiSlug,
   loadDoc(slug) {
     const p = loadHerouiDoc(slug);
-    return p ? p.then(toDoc) : null;
+    if (!p) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return p.then(toDoc).then(async (doc) => ({
+      ...doc,
+      api: await fillApi("heroui", doc.slug, doc.title, doc.api),
+    }));
   },
   loadDemos(slug) {
     const p = isHerouiSlug(slug) ? loadHerouiDemos(slug) : null;

@@ -5,6 +5,7 @@ import type {
 import { CHAKRA_GROUPS, CHAKRA_INDEX, isChakraSlug, loadChakraDoc } from "./loader";
 import { loadDemos as loadChakraDemos } from "./demos/index";
 
+import { fillApi } from "../derivedApi";
 function ChakraRefProvider({ system, mode, children }: BaseRefProviderProps) {
   return React.createElement(system.Provider, { mode, children });
 }
@@ -21,7 +22,12 @@ export const chakraAdapter: BaseRefAdapter = {
   isSlug: isChakraSlug,
   loadDoc(slug) {
     const p = loadChakraDoc(slug);
-    return p ? (p as Promise<BaseRefDoc>) : null;
+    if (!p) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return (p as Promise<BaseRefDoc>).then(async (doc) => ({
+      ...doc,
+      api: await fillApi("chakra", doc.slug, doc.title, doc.api),
+    }));
   },
   loadDemos(slug) {
     const p = isChakraSlug(slug) ? loadChakraDemos(slug) : null;

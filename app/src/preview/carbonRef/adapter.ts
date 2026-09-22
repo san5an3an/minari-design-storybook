@@ -3,6 +3,7 @@ import { CARBON_INDEX, isCarbonSlug, loadCarbonDoc, type CarbonDoc } from "./loa
 // 생성기의 슬러그별 예제 목록. 동적 import는 폴더째 컴파일해 500 에러 발생 방식임
 import { LOAD } from "./demos/_load";
 
+import { fillApi } from "../derivedApi";
 // storybook title 첫 단어로 사이드바 분류
 const GROUPS: Record<string, string[]> = {};
 for (const e of CARBON_INDEX) {
@@ -100,7 +101,12 @@ export const carbonAdapter: BaseRefAdapter = {
   isSlug: isCarbonSlug,
   loadDoc(slug) {
     const p = loadCarbonDoc(slug);
-    return p ? p.then(toDoc) : null;
+    if (!p) return null;
+    // 표에 없는 필드는 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    return p.then(toDoc).then(async (doc) => ({
+      ...doc,
+      api: await fillApi("carbon", doc.slug, doc.title, doc.api),
+    }));
   },
   // scss 컴파일 후 렌더링 실패 예제 skip, 명시 목록 연결
   loadDemos(slug) {

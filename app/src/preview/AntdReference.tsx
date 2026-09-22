@@ -12,6 +12,7 @@ import { parseColorTokens, type Mode } from "./tokens";
 import { componentGroups, resolveTokenGroup } from "./tokenGroups";
 import type { SystemDefinition } from "../systems/types";
 
+import { fillAntdApi } from "./derivedApi";
 const ANTD_LINE_HEIGHT = antdTheme.getDesignToken.lineHeight;
 
 const KO_TABLE: Record<string, string> = {
@@ -277,7 +278,13 @@ export function AntdReference({ slug, system, active }: {
     setDoc(null); setErr(null);
     const p = loadAntdDoc(slug);
     if (!p) { setErr(`${slug} 참조 데이터가 없어요.`); return; }
-    p.then((d) => { if (alive) setDoc(d); })
+    // 표가 비면 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    p.then(async (d) => {
+      if (d.api.length > 0) return d;
+      const filled = await fillAntdApi(d.slug, d.title);
+      return filled ? { ...d, api: filled } : d;
+    })
+     .then((d) => { if (alive) setDoc(d); })
      .catch((e) => { if (alive) setErr(String(e)); });
     return  => { alive = false; };
   }, [slug]);
