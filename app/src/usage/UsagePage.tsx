@@ -4,13 +4,14 @@ import { NotReady } from "./NotReady";
 import { USAGE_DASHBOARDS as USAGE_1 } from "./registry";
 import { USAGE_DASHBOARDS as USAGE_2 } from "./registry2";
 import { USAGE_DASHBOARDS as USAGE_3 } from "./registry3";
+import { USAGE_DASHBOARDS as USAGE_4 } from "./registry4";
 
-const VARIANTS = { 1: USAGE_1, 2: USAGE_2, 3: USAGE_3 } as const;
+const VARIANTS = { 1: USAGE_1, 2: USAGE_2, 3: USAGE_3, 4: USAGE_4 } as const;
 
 export function UsagePage({ system, active, variant }: {
   system: SystemDefinition;
   active: Mode;
-  variant: 1 | 2 | 3;
+  variant: 1 | 2 | 3 | 4;
 }) {
   const USAGE_DASHBOARDS = VARIANTS[variant];
   const Dashboard = USAGE_DASHBOARDS[system.baseKey];
