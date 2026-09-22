@@ -7,6 +7,8 @@ export interface LibAxes {
   title: string;
   libTitle: string;
   props: LibResources["props"];
+  // 값 없이 켜고 끄는 상태 프롭
+  states: string[];
 }
 
 // 공식 선택지 수신. JSON 직접 import 시 앱이 베이스에 종속되는 문제 있음
