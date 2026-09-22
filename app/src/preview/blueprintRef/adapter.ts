@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { BaseRefAdapter, BaseRefDoc, BaseRefExample, DemoValue, SkipCode } from "../refContract";
+import { DERIVED_REASON, pickTable, type PropTable } from "../derivedApi";
 import { BLUEPRINT_INDEX, isBlueprintSlug, loadBlueprintDoc, type BlueprintDoc } from "./loader";
 import { GROUPS } from "./demos/groups";
 import { loadDemos as loadDemoModule, loadExamples } from "./demos/index";
@@ -54,7 +55,6 @@ const API_NOT_FOUND: BaseRefDoc["api"] = {
   tables: [],
 };
 
-type PropTable = { name: string; columns: string[]; rows: string[][] };
 let apiTables: Promise<Record<string, PropTable>> | null = null;
 
 // blueprint.json 한 번만 읽기. 없으면 빈 표로 처리, 생성기 안 돌린 트리임
@@ -65,25 +65,14 @@ function loadApiTables: Promise<Record<string, PropTable>> {
   return apiTables;
 }
 
-// slug를 export된 컴포넌트 이름으로 변환. export 배열 순서 유지
 function apiFor(slug: string, title: string, tables: Record<string, PropTable>): BaseRefDoc["api"] {
-  const pascal = (x: string) => x.split(/[-_ ]+/).filter(Boolean)
-    .map((w) => w[0].toUpperCase + w.slice(1)).join("");
-  const cands: string[] = [title, title.replace(/\s+/g, ""), pascal(slug), slug].filter(Boolean);
-  for (const c of cands) {
-    const t = tables[c];
-    if (t?.rows.length) {
-      return {
-        presence: "derived",
-        reason: "공식 문서에 정리된 표가 없어서, 설치된 패키지에 들어 있는 타입 정의에서 뽑았어요. "
-          + "이 컴포넌트가 물려받는 속성까지 함께 담았습니다. "
-          + "설명과 기본값은 그 타입 정의에 달린 주석에서 가져온 것이라 공식 문서의 표현과 다를 수 있고, 기본값이 주석에 안 적힌 속성은 기본값 열이 비어 있어요. 기본값이 없다는 뜻은 아닙니다. "
-          + "타입 정의에 없는 것(문서에만 있거나 실행 중에만 받는 값)은 여기 없어요.",
-        tables: [{ name: t.name, columns: t.columns, rows: t.rows }],
-      };
-    }
-  }
-  return API_NOT_FOUND;
+  const t = pickTable(tables, slug, title);
+  if (!t) return API_NOT_FOUND;
+  return {
+    presence: "derived",
+    reason: DERIVED_REASON,
+    tables: [{ name: t.name, columns: t.columns, rows: t.rows }],
+  };
 }
 
 function toDoc(raw: BlueprintDoc, examples: BaseRefExample[], master: BaseRefDoc["master"], docSource: string, api: BaseRefDoc["api"]): BaseRefDoc {

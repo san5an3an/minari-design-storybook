@@ -1,6 +1,6 @@
 import type { BaseRefDoc } from "./refContract";
 
-type PropTable = { name: string | null; columns: string[]; rows: string[][] };
+export type PropTable = { name: string | null; columns: string[]; rows: string[][] };
 type Baked = { components?: Record<string, PropTable> };
 
 export const DERIVED_REASON =
@@ -58,6 +58,15 @@ function widen(names: string[], comps: Record<string, PropTable>) {
   }
 }
 
+export function pickTable(
+  comps: Record<string, PropTable>, slug: string, title?: string | null,
+): PropTable | null {
+  const names = candidates(slug, title);
+  widen(names, comps);
+  for (const n of names) if (comps[n]?.rows?.length) return comps[n];
+  return null;
+}
+
 // 비어 있으면 타입에서 추출한 표로 채우고, 아니면 입력값 그대로 반환
 export async function fillApi(
   base: string,
@@ -73,28 +82,19 @@ export async function fillApi(
 
   const comps = (await load(base)).components;
   if (!comps) return current;
-  const names = candidates(slug, title);
-  widen(names, comps);
-  for (const name of names) {
-    const t = comps[name];
-    if (!t?.rows?.length) continue;
-    return {
-      presence: "derived",
-      reason: DERIVED_REASON,
-      tables: [{ name: t.name, columns: t.columns, rows: t.rows }],
-    };
-  }
-  return current;
+  const t = pickTable(comps, slug, title);
+  if (!t) return current;
+  return {
+    presence: "derived",
+    reason: DERIVED_REASON,
+    tables: [{ name: t.name, columns: t.columns, rows: t.rows }],
+  };
 }
 
 // 표 조회 후 반환. 없으면 null 반환
 async function findTable(base: string, slug: string, title?: string | null) {
   const comps = (await load(base)).components;
-  if (!comps) return null;
-  const names = candidates(slug, title);
-  widen(names, comps);
-  for (const n of names) if (comps[n]?.rows?.length) return comps[n];
-  return null;
+  return comps ? pickTable(comps, slug, title) : null;
 }
 
 // antd 데이터 형태 { name, columns, rows } 그대로 사용
