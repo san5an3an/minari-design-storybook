@@ -4,6 +4,7 @@ import * as m002 from "./radio-with-colors";
 import * as m003 from "./radio-with-sizes";
 import * as m004 from "./radio-with-variants";
 import * as m005 from "./radio-disabled";
+import * as m006 from "./radio-with-hook-form";
 
 export const DEMOS = {
   "radio-basic": m000.RadioBasic,
@@ -12,8 +13,9 @@ export const DEMOS = {
   "radio-with-sizes": m003.RadioWithSizes,
   "radio-with-variants": m004.RadioWithVariants,
   "radio-disabled": m005.RadioDisabled,
+  "radio-with-hook-form": m006.RadioWithHookForm,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "radio-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

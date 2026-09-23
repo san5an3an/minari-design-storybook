@@ -9,6 +9,7 @@ import * as m007 from "./splitter-min-max-constraints";
 import * as m008 from "./splitter-css-units";
 import * as m009 from "./splitter-resize-behavior";
 import * as m010 from "./splitter-nested";
+import * as m011 from "./splitter-with-storage";
 import * as m012 from "./splitter-disabled";
 import * as m013 from "./splitter-separator-only";
 import * as m014 from "./splitter-reset-on-double-click";
@@ -16,6 +17,7 @@ import * as m015 from "./splitter-resize-events";
 import * as m016 from "./splitter-keyboard-resize";
 import * as m017 from "./splitter-conditional-rendering";
 import * as m018 from "./splitter-dynamic-panel";
+import * as m019 from "./splitter-ide-layout";
 
 export const DEMOS = {
   "splitter-basic": m000.SplitterBasic,
@@ -29,6 +31,7 @@ export const DEMOS = {
   "splitter-css-units": m008.SplitterCssUnits,
   "splitter-resize-behavior": m009.SplitterResizeBehavior,
   "splitter-nested": m010.SplitterNested,
+  "splitter-with-storage": m011.SplitterWithStorage,
   "splitter-disabled": m012.SplitterDisabled,
   "splitter-separator-only": m013.SplitterSeparatorOnly,
   "splitter-reset-on-double-click": m014.SplitterResetOnDoubleClick,
@@ -36,9 +39,9 @@ export const DEMOS = {
   "splitter-keyboard-resize": m016.SplitterKeyboardResize,
   "splitter-conditional-rendering": m017.SplitterConditionalRendering,
   "splitter-dynamic-panel": m018.SplitterDynamicPanel,
+  "splitter-ide-layout": m019.SplitterIdeLayout,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "splitter-with-storage": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-use"},
-  "splitter-ide-layout": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: shiki"},
+
 };

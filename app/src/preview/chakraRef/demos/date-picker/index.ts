@@ -30,6 +30,7 @@ import * as m028 from "./date-picker-with-presets-sidebar";
 import * as m029 from "./date-picker-with-today-button";
 import * as m030 from "./date-picker-with-time";
 import * as m031 from "./date-picker-form";
+import * as m032 from "./date-picker-with-hook-form";
 import * as m033 from "./date-picker-fixed-weeks";
 import * as m034 from "./date-picker-open-on-click";
 import * as m035 from "./date-picker-with-field";
@@ -67,11 +68,12 @@ export const DEMOS = {
   "date-picker-with-today-button": m029.DatePickerWithTodayButton,
   "date-picker-with-time": m030.DatePickerWithTime,
   "date-picker-form": m031.DatePickerForm,
+  "date-picker-with-hook-form": m032.DatePickerWithHookForm,
   "date-picker-fixed-weeks": m033.DatePickerFixedWeeks,
   "date-picker-open-on-click": m034.DatePickerOpenOnClick,
   "date-picker-with-field": m035.DatePickerWithField,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "date-picker-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };
