@@ -48,7 +48,7 @@ import {
     handleNumberChange,
     handleValueChange,
 } from "@blueprintjs/docs-theme";
-import { FilmSelect } from "@blueprintjs/select/examples";
+import { FilmSelect } from "@blueprintjs/select/lib/esm/__examples__";
 
 type Boundary = "scrollParent" | "body" | "clippingParents";
 

@@ -19,7 +19,7 @@ import { useState } from "react";
 
 import { Button, Menu, MenuItem, PopoverNext, Text, TextArea } from "@blueprintjs/core";
 import { Example, type ExampleProps, handleStringChange } from "@blueprintjs/docs-theme";
-import { type Film, TOP_100_FILMS } from "@blueprintjs/select/examples";
+import { type Film, TOP_100_FILMS } from "@blueprintjs/select/lib/esm/__examples__";
 
 export const TextExample: React.FC<ExampleProps> = props => {
     const [textContent, setTextContent] = useState(
