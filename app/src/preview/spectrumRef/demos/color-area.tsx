@@ -63,9 +63,9 @@ export const demos = {
   "custom-size": Example5,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "value": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "labeling": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "rgba": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "hsla": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
-  "hsba": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "value": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/label \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "labeling": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/label \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "rgba": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/label \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "hsla": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/label \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
+  "hsba": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Label(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/label \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
 };
