@@ -10,7 +10,8 @@ import * as m008 from "./disabled";
 import * as m009 from "./social";
 import * as m010 from "./render-function";
 import * as m011 from "./custom-variants";
-import * as m012 from "./custom-styles";
+import * as m012 from "./ripple-effect";
+import * as m013 from "./custom-styles";
 
 export const DEMOS = {
   "basic": m000.Basic,
@@ -25,9 +26,9 @@ export const DEMOS = {
   "social": m009.Social,
   "render-function": m010.RenderFunction,
   "custom-variants": m011.CustomVariants,
-  "custom-styles": m012.CustomStyles,
+  "ripple-effect": m012.RippleEffect,
+  "custom-styles": m013.CustomStyles,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "ripple-effect": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: m3-ripple"},
 };

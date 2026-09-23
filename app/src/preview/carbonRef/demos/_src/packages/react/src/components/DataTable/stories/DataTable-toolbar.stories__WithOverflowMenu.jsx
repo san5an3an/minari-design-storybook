@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { Button } from '@carbon/react';
 import { OverflowMenu } from '@carbon/react';
 import { OverflowMenuItem } from '@carbon/react';

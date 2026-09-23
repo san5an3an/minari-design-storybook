@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { Modal } from '@carbon/react';
 import { Button } from '@carbon/react';
 import { Select } from '@carbon/react';

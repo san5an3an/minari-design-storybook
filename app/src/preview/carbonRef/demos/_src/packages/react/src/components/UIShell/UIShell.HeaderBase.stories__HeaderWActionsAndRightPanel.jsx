@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import cx from 'classnames';
 import { Content, Header, HeaderMenuButton, HeaderName, HeaderNavigation, HeaderMenuItem, HeaderGlobalBar, HeaderGlobalAction, HeaderPanel, HeaderSideNavItems, SkipToContent, SideNav, SideNavDivider, SideNavItems, SideNavLink, SideNavMenu, SideNavMenuItem, Switcher, SwitcherItem, SwitcherDivider } from '@carbon/react';
 import { HeaderMenu as HeaderMenuNative } from '@carbon/react';

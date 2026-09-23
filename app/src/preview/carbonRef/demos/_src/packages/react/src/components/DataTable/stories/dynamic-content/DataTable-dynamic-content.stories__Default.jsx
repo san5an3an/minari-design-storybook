@@ -2,7 +2,7 @@
 import './story.scss';
 import React from 'react';
 import { TrashCan, Save, Download } from '@carbon/icons-react';
-import { action } from '../../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { DataTable, Table, TableBatchAction, TableBatchActions, TableBody, TableCell, TableContainer, TableExpandHeader, TableExpandRow, TableExpandedRow, TableHead, TableHeader, TableRow, TableSelectAll, TableSelectRow, TableToolbar, TableToolbarAction, TableToolbarContent, TableToolbarSearch, TableToolbarMenu } from '@carbon/react';
 import {
   batchActionClick,
