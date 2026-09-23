@@ -4,6 +4,7 @@ import * as m001 from "./switch-with-sizes";
 import * as m002 from "./switch-with-variants";
 import * as m003 from "./switch-with-colors";
 import * as m004 from "./switch-controlled";
+import * as m005 from "./switch-with-hook-form";
 import * as m006 from "./switch-with-disabled";
 import * as m007 from "./switch-with-invalid";
 import * as m008 from "./switch-with-tooltip";
@@ -17,6 +18,7 @@ export const DEMOS = {
   "switch-with-variants": m002.SwitchWithVariants,
   "switch-with-colors": m003.SwitchWithColors,
   "switch-controlled": m004.SwitchControlled,
+  "switch-with-hook-form": m005.SwitchWithHookForm,
   "switch-with-disabled": m006.SwitchWithDisabled,
   "switch-with-invalid": m007.SwitchWithInvalid,
   "switch-with-tooltip": m008.SwitchWithTooltip,
@@ -26,5 +28,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "switch-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

@@ -3,12 +3,14 @@ import * as m000 from "./combobox-basic";
 import * as m001 from "./combobox-with-sizes";
 import * as m002 from "./combobox-with-variants";
 import * as m003 from "./combobox-with-multiple";
+import * as m004 from "./combobox-with-async-content";
 import * as m005 from "./combobox-with-highlight";
 import * as m006 from "./combobox-open-on-click";
 import * as m007 from "./combobox-with-custom-object";
 import * as m008 from "./combobox-min-character";
 import * as m009 from "./combobox-with-field";
 import * as m010 from "./combobox-with-form-submit";
+import * as m011 from "./combobox-with-hook-form";
 import * as m012 from "./combobox-with-disabled";
 import * as m013 from "./combobox-with-disabled-item";
 import * as m014 from "./combobox-with-input-group";
@@ -19,6 +21,7 @@ import * as m018 from "./combobox-open-controlled";
 import * as m019 from "./combobox-with-limit";
 import * as m020 from "./combobox-virtualized";
 import * as m021 from "./combobox-with-links";
+import * as m022 from "./combobox-rehydrate-value";
 import * as m023 from "./combobox-with-custom-item";
 import * as m024 from "./combobox-with-custom-filter";
 import * as m025 from "./combobox-with-custom-animation";
@@ -31,12 +34,14 @@ export const DEMOS = {
   "combobox-with-sizes": m001.ComboboxWithSizes,
   "combobox-with-variants": m002.ComboboxWithVariants,
   "combobox-with-multiple": m003.ComboboxWithMultiple,
+  "combobox-with-async-content": m004.ComboboxWithAsyncContent,
   "combobox-with-highlight": m005.ComboboxWithHighlight,
   "combobox-open-on-click": m006.ComboboxOpenOnClick,
   "combobox-with-custom-object": m007.ComboboxWithCustomObject,
   "combobox-min-character": m008.ComboboxMinCharacter,
   "combobox-with-field": m009.ComboboxWithField,
   "combobox-with-form-submit": m010.ComboboxWithFormSubmit,
+  "combobox-with-hook-form": m011.ComboboxWithHookForm,
   "combobox-with-disabled": m012.ComboboxWithDisabled,
   "combobox-with-disabled-item": m013.ComboboxWithDisabledItem,
   "combobox-with-input-group": m014.ComboboxWithInputGroup,
@@ -47,6 +52,7 @@ export const DEMOS = {
   "combobox-with-limit": m019.ComboboxWithLimit,
   "combobox-virtualized": m020.ComboboxVirtualized,
   "combobox-with-links": m021.ComboboxWithLinks,
+  "combobox-rehydrate-value": m022.ComboboxRehydrateValue,
   "combobox-with-custom-item": m023.ComboboxWithCustomItem,
   "combobox-with-custom-filter": m024.ComboboxWithCustomFilter,
   "combobox-with-custom-animation": m025.ComboboxWithCustomAnimation,
@@ -56,7 +62,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "combobox-with-async-content": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-use"},
-  "combobox-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
-  "combobox-rehydrate-value": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-use"},
+
 };

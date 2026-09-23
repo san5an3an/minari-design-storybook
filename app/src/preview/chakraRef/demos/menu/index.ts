@@ -17,6 +17,7 @@ import * as m014 from "./menu-with-anchor-rect";
 import * as m015 from "./menu-with-mixed-layout";
 import * as m016 from "./menu-with-overflow";
 import * as m017 from "./menu-with-hide-when-detached";
+import * as m018 from "./menu-open-from-dialog";
 import * as m019 from "./overlay-with-menu-item";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
@@ -39,10 +40,11 @@ export const DEMOS = {
   "menu-with-mixed-layout": m015.MenuWithMixedLayout,
   "menu-with-overflow": m016.MenuWithOverflow,
   "menu-with-hide-when-detached": m017.MenuWithHideWhenDetached,
+  "menu-open-from-dialog": m018.MenuOpenFromDialog,
   "overlay-with-menu-item": m019.OverlayWithMenuItem,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "menu-open-from-dialog": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-lorem-ipsum"},
+
 };

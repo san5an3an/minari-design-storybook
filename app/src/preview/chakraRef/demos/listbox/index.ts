@@ -17,6 +17,7 @@ import * as m014 from "./listbox-with-dialog";
 import * as m015 from "./listbox-virtualized";
 import * as m016 from "./listbox-image-explorer";
 import * as m017 from "./listbox-transfer-list";
+import * as m018 from "./listbox-with-emoji-grid";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
 export const DEMOS = {
@@ -38,9 +39,10 @@ export const DEMOS = {
   "listbox-virtualized": m015.ListboxVirtualized,
   "listbox-image-explorer": m016.ListboxImageExplorer,
   "listbox-transfer-list": m017.ListboxTransferList,
+  "listbox-with-emoji-grid": m018.ListboxWithEmojiGrid,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "listbox-with-emoji-grid": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: emojibase-data"},
+
 };

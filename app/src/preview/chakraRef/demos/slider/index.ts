@@ -11,6 +11,7 @@ import * as m008 from "./slider-customization";
 import * as m009 from "./slider-with-value-text";
 import * as m010 from "./slider-controlled";
 import * as m011 from "./slider-with-store";
+import * as m012 from "./slider-with-hook-form";
 import * as m013 from "./slider-disabled";
 import * as m014 from "./slider-change-end";
 import * as m015 from "./slider-with-step";
@@ -35,6 +36,7 @@ export const DEMOS = {
   "slider-with-value-text": m009.SliderWithValueText,
   "slider-controlled": m010.SliderControlled,
   "slider-with-store": m011.SliderWithStore,
+  "slider-with-hook-form": m012.SliderWithHookForm,
   "slider-disabled": m013.SliderDisabled,
   "slider-change-end": m014.SliderChangeEnd,
   "slider-with-step": m015.SliderWithStep,
@@ -48,5 +50,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "slider-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

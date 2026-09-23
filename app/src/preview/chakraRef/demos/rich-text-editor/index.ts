@@ -1,29 +1,46 @@
 /* 자동 생성 — tools/gen_chakra_demos.py. 손으로 고치지 말 것. */
-
+import * as m000 from "./rich-text-editor/rich-text-editor-basic";
+import * as m001 from "./rich-text-editor/rich-text-editor-with-mode";
+import * as m002 from "./rich-text-editor/rich-text-editor-controlled";
+import * as m003 from "./rich-text-editor/rich-text-editor-with-placeholder";
+import * as m004 from "./rich-text-editor/rich-text-editor-with-character-count";
+import * as m005 from "./rich-text-editor/rich-text-editor-with-preview";
+import * as m006 from "./rich-text-editor/rich-text-editor-with-highlight";
+import * as m007 from "./rich-text-editor/rich-text-editor-with-bubble-menu";
+import * as m008 from "./rich-text-editor/rich-text-editor-with-autosave";
+import * as m009 from "./rich-text-editor/rich-text-editor-with-task";
+import * as m010 from "./rich-text-editor/rich-text-editor-with-code";
+import * as m011 from "./rich-text-editor/rich-text-editor-with-drag-handle";
+import * as m012 from "./rich-text-editor/rich-text-editor-with-image";
+import * as m013 from "./rich-text-editor/rich-text-editor-with-hashtags";
+import * as m014 from "./rich-text-editor/rich-text-editor-with-mentions";
+import * as m015 from "./rich-text-editor/rich-text-editor-with-emoji";
+import * as m016 from "./rich-text-editor/rich-text-editor-with-slash-commands";
+import * as m017 from "./rich-text-editor/rich-text-editor-composition";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
 export const DEMOS = {
-
+  "rich-text-editor/rich-text-editor-basic": m000.RichTextEditorBasic,
+  "rich-text-editor/rich-text-editor-with-mode": m001.RichTextEditorWithMode,
+  "rich-text-editor/rich-text-editor-controlled": m002.RichTextEditorControlled,
+  "rich-text-editor/rich-text-editor-with-placeholder": m003.RichTextEditorWithPlaceholder,
+  "rich-text-editor/rich-text-editor-with-character-count": m004.RichTextEditorWithCharacterCount,
+  "rich-text-editor/rich-text-editor-with-preview": m005.RichTextEditorWithPreview,
+  "rich-text-editor/rich-text-editor-with-highlight": m006.RichTextEditorWithHighlight,
+  "rich-text-editor/rich-text-editor-with-bubble-menu": m007.RichTextEditorWithBubbleMenu,
+  "rich-text-editor/rich-text-editor-with-autosave": m008.RichTextEditorWithAutosave,
+  "rich-text-editor/rich-text-editor-with-task": m009.RichTextEditorWithTask,
+  "rich-text-editor/rich-text-editor-with-code": m010.RichTextEditorWithCode,
+  "rich-text-editor/rich-text-editor-with-drag-handle": m011.RichTextEditorWithDragHandle,
+  "rich-text-editor/rich-text-editor-with-image": m012.RichTextEditorWithImage,
+  "rich-text-editor/rich-text-editor-with-hashtags": m013.RichTextEditorWithHashtags,
+  "rich-text-editor/rich-text-editor-with-mentions": m014.RichTextEditorWithMentions,
+  "rich-text-editor/rich-text-editor-with-emoji": m015.RichTextEditorWithEmoji,
+  "rich-text-editor/rich-text-editor-with-slash-commands": m016.RichTextEditorWithSlashCommands,
+  "rich-text-editor/rich-text-editor-composition": m017.RichTextEditorComposition,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "rich-text-editor/rich-text-editor-basic": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-text-align, @tiptap/extension-text-style, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-mode": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-controlled": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-text-align, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-placeholder": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-placeholder, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-character-count": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-image, @tiptap/extensions, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-preview": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-text-align, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-highlight": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-highlight, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-bubble-menu": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-autosave": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-task": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-task-item, @tiptap/extension-task-list, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-code": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-code-block-lowlight, @tiptap/react, @tiptap/starter-kit, highlight.js, lowlight"},
-  "rich-text-editor/rich-text-editor-with-drag-handle": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-drag-handle-react, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-image": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-image, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-hashtags": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/core, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-mentions": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-mention, @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-text-align, @tiptap/extension-text-style, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-emoji": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-emoji, @tiptap/react, @tiptap/starter-kit"},
-  "rich-text-editor/rich-text-editor-with-slash-commands": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/core, @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-text-align, @tiptap/extension-text-style, @tiptap/pm, @tiptap/react, @tiptap/starter-kit, @tiptap/suggestion"},
-  "rich-text-editor/rich-text-editor-composition": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @tiptap/extension-color, @tiptap/extension-heading, @tiptap/extension-highlight, @tiptap/extension-image, @tiptap/extension-link, @tiptap/extension-subscript, @tiptap/extension-superscript, @tiptap/extension-task-item, @tiptap/extension-task-list, @tiptap/extension-text-align, @tiptap/extension-text-style, @tiptap/pm, @tiptap/react, @tiptap/starter-kit"},
+
 };

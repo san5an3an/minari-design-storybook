@@ -5,6 +5,7 @@ import * as m002 from "./input-with-sizes";
 import * as m003 from "./input-with-helper-text";
 import * as m004 from "./input-with-error-text";
 import * as m005 from "./input-with-field";
+import * as m006 from "./input-with-hook-form";
 import * as m007 from "./input-with-start-icon";
 import * as m008 from "./input-with-start-text";
 import * as m009 from "./input-with-start-and-end-text";
@@ -18,7 +19,10 @@ import * as m016 from "./input-with-end-button";
 import * as m017 from "./input-with-focus-error-color";
 import * as m018 from "./input-with-placeholder-style";
 import * as m019 from "./input-with-floating-label";
+import * as m020 from "./input-with-mask";
 import * as m021 from "./input-with-character-counter";
+import * as m022 from "./input-with-card-number";
+import * as m023 from "./input-with-card-details";
 import * as m024 from "./input-with-clear-button";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
@@ -29,6 +33,7 @@ export const DEMOS = {
   "input-with-helper-text": m003.InputWithHelperText,
   "input-with-error-text": m004.InputWithErrorText,
   "input-with-field": m005.InputWithField,
+  "input-with-hook-form": m006.InputWithHookForm,
   "input-with-start-icon": m007.InputWithStartIcon,
   "input-with-start-text": m008.InputWithStartText,
   "input-with-start-and-end-text": m009.InputWithStartAndEndText,
@@ -42,14 +47,14 @@ export const DEMOS = {
   "input-with-focus-error-color": m017.InputWithFocusErrorColor,
   "input-with-placeholder-style": m018.InputWithPlaceholderStyle,
   "input-with-floating-label": m019.InputWithFloatingLabel,
+  "input-with-mask": m020.InputWithMask,
   "input-with-character-counter": m021.InputWithCharacterCounter,
+  "input-with-card-number": m022.InputWithCardNumber,
+  "input-with-card-details": m023.InputWithCardDetails,
   "input-with-clear-button": m024.InputWithClearButton,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "input-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-hook-form"},
-  "input-with-mask": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: use-mask-input"},
-  "input-with-card-number": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-payment-inputs"},
-  "input-with-card-details": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-payment-inputs"},
+
 };
