@@ -6,8 +6,19 @@ import * as React from "react";
 import { ActionButton, Button, Checkbox, Flex, Item, Picker, Provider, Radio, RadioGroup, TextField, View, useProvider } from "@adobe/react-spectrum";
 import Light from '@spectrum-icons/workflow/Light';
 import Moon from '@spectrum-icons/workflow/Moon';
+import { theme } from '@react-spectrum/theme-default';
 
-function Example1() {
+function App() {
+  return (
+    <Provider theme={theme}>
+      <Button variant="accent">
+        Hello React Spectrum!
+      </Button>
+    </Provider>
+  );
+}
+
+function Example2() {
   return (
     <>
     <Flex direction="column" gap="size-100" alignItems="start">
@@ -59,12 +70,12 @@ function Example() {
 <Example />
 
 export const demos = {
-  "property-groups-1": Example1,
+  "example-1": App,
+  "property-groups-1": Example2,
   "property-groups-2": Register,
   "useprovider-1": Example,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "example-1": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 theme(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uace0 @react-spectrum/theme-default \uac00 \uc774 \ud2b8\ub9ac\uc5d0 \uc5c6\uc5b4\uc694)." },
   "application-provider-1": { code: "runtime-unavailable", detail: "공식 펜스가 문서 사이트의 `theme` 값에 기대요 — 설치본에는 그 이름이 없어요." },
   "application-provider-2": { code: "runtime-unavailable", detail: "공식 펜스가 문서 사이트의 `theme` 값에 기대요 — 설치본에는 그 이름이 없어요." },
 };
