@@ -4,7 +4,7 @@ import { Button } from '@carbon/react';
 import { AILabel, AILabelContent, AILabelActions } from '@carbon/react';
 import { IconButton } from '@carbon/react';
 import { View, FolderOpen, Folders } from '@carbon/icons-react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import mdx from './ComboBox.mdx';
 
 

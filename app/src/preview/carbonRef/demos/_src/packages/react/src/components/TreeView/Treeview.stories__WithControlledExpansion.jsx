@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { Document, Folder } from '@carbon/icons-react';
 import { TreeView, TreeNode } from '@carbon/react';
 import { Button } from '@carbon/react';

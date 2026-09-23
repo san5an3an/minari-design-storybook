@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { CodeSnippet } from '@carbon/react';
 import { UnorderedList } from '@carbon/react';
 import { ListItem } from '@carbon/react';

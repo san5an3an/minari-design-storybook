@@ -6,7 +6,7 @@ import { Button } from '@carbon/react';
 import { TextInput } from '@carbon/react';
 import { Select } from '@carbon/react';
 import { SelectItem } from '@carbon/react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import mdx from './Dialog.mdx';
 
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { InlineLoading } from '@carbon/react';
 import mdx from './InlineLoading.mdx';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 
 
 export default {

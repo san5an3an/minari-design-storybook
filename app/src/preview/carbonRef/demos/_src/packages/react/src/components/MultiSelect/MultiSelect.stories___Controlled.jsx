@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import mdx from './MultiSelect.mdx';
 import { FilterableMultiSelect, MultiSelect } from '@carbon/react';
 import { Button } from '@carbon/react';

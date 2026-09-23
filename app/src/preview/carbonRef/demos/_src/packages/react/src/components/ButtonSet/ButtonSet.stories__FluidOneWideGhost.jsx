@@ -6,7 +6,7 @@ import {
   fluidButtonMapping,
   fluidButtonOptions,
 } from '../Button/__story__/fluid-button-set-args';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 
 
 export default {

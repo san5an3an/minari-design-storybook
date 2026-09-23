@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { TrashCan, Save, Download, Add } from '@carbon/icons-react';
 import { Button } from '@carbon/react';
 import { DataTable, Table, TableBatchAction, TableBatchActions, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow, TableSelectAll, TableSelectRow, TableToolbar, TableToolbarAction, TableToolbarContent, TableToolbarSearch, TableToolbarMenu } from '@carbon/react';
