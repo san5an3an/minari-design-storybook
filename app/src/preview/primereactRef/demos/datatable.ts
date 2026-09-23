@@ -44,10 +44,11 @@ import d40 from "./datatable/resize_fitmode";
 import d41 from "./datatable/resize_expandmode";
 import d42 from "./datatable/reorder";
 import d43 from "./datatable/column_toggle";
-import d44 from "./datatable/contextmenu";
-import d45 from "./datatable/stateful";
-import d46 from "./datatable/customers";
-import d47 from "./datatable/dtproducts";
+import d44 from "./datatable/export";
+import d45 from "./datatable/contextmenu";
+import d46 from "./datatable/stateful";
+import d47 from "./datatable/customers";
+import d48 from "./datatable/dtproducts";
 export const demos = {
   "basic": d0,
   "dynamic_columns": d1,
@@ -93,12 +94,12 @@ export const demos = {
   "resize_expandmode": d41,
   "reorder": d42,
   "column_toggle": d43,
-  "contextmenu": d44,
-  "stateful": d45,
-  "customers": d46,
-  "dtproducts": d47,
+  "export": d44,
+  "contextmenu": d45,
+  "stateful": d46,
+  "customers": d47,
+  "dtproducts": d48,
 };
 export const skipped = {
   "lazy_load": {"code":"data-endpoint-missing","detail":"CustomerService.getCustomers 가 /api/data/customers 를 부른다(노트 칸 2)"},
-  "export": {"code":"package-missing","detail":"예제 코드가 부르는 file-saver · jspdf · jspdf-autotable · xlsx 가 설치돼 있지 않다"},
 };
