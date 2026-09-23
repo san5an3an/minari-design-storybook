@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { action } from '../../../_stub/storybookActions';
-import { GitPullRequestIcon } from '@primer/octicons-react';
+import {CopilotIcon, GitPullRequestIcon} from '@primer/octicons-react'
+import {action} from 'storybook/actions'
 import { Banner } from '@primer/react';
 import { Link } from '@primer/react';
 
@@ -11,7 +11,6 @@ const meta = {
 } satisfies Meta<typeof Banner>
 
 export default meta
-
 
 export const DismissibleWithHiddenTitleAndSecondaryAction = () => {
   return (
@@ -29,11 +28,7 @@ export const DismissibleWithHiddenTitleAndSecondaryAction = () => {
       }
       onDismiss={action('onDismiss')}
       variant="warning"
-      secondaryAction={
-        <Banner.SecondaryAction leadingVisual={GitPullRequestIcon}>
-          Button
-        </Banner.SecondaryAction>
-      }
+      secondaryAction={<Banner.SecondaryAction leadingVisual={GitPullRequestIcon}>Button</Banner.SecondaryAction>}
     />
   )
 }

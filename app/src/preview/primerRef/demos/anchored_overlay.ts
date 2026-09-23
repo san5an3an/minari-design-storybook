@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { composeStory } from "../../storybookCompose";
 import * as m0 from "./_src/src/AnchoredOverlay/AnchoredOverlay.stories__Default";
+import * as m1 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.stories__PortalInsideScrollingElement";
 import * as m2 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.stories__CustomAnchorId";
 import * as m3 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.stories__Height";
 import * as m4 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.stories__Width";
@@ -13,6 +14,7 @@ import * as m10 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.storie
 import * as m11 from "./_src/src/AnchoredOverlay/AnchoredOverlay.features.stories__OverlayPropsOverrides";
 export const demos = {
   "Default": composeStory(m0.default, m0["Default"], "Default"),
+  "PortalInsideScrollingElement": composeStory(m1.default, m1["PortalInsideScrollingElement"], "PortalInsideScrollingElement"),
   "CustomAnchorId": composeStory(m2.default, m2["CustomAnchorId"], "CustomAnchorId"),
   "Height": composeStory(m3.default, m3["Height"], "Height"),
   "Width": composeStory(m4.default, m4["Width"], "Width"),
@@ -25,5 +27,4 @@ export const demos = {
   "OverlayPropsOverrides": composeStory(m11.default, m11["OverlayPropsOverrides"], "OverlayPropsOverrides"),
 };
 export const skipped = {
-  "PortalInsideScrollingElement": {"code":"package-missing","detail":"storybook/actions"},
 };
