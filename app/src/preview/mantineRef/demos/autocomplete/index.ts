@@ -18,6 +18,7 @@ import * as m016 from "../_src/demos/core/Autocomplete/Autocomplete.demo.configu
 import * as m017 from "../_src/demos/core/Autocomplete/Autocomplete.demo.readOnly";
 import * as m018 from "../_src/demos/core/Autocomplete/Autocomplete.demo.disabled";
 import * as m019 from "../_src/demos/core/Autocomplete/Autocomplete.demo.error";
+import * as m020 from "../_src/demos/core/Autocomplete/Autocomplete.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -40,8 +41,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "readOnly": m017.readOnly,
   "disabled": m018.disabled,
   "error": m019.error,
+  "stylesApi": m020.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

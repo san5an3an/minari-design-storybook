@@ -13,6 +13,8 @@ import * as m011 from "../_src/demos/core/Input/Input.demo.defaultProps";
 import * as m012 from "../_src/demos/core/Input/Input.demo.sharedStyles";
 import * as m013 from "../_src/demos/core/Input/Input.demo.focusStyles";
 import * as m014 from "../_src/demos/core/Input/Input.demo.inputBase";
+import * as m015 from "../_src/demos/core/Input/Input.demo.stylesApi";
+import * as m016 from "../_src/demos/core/Input/Input.demo.wrapperStylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -30,9 +32,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "sharedStyles": m012.sharedStyles,
   "focusStyles": m013.focusStyles,
   "inputBase": m014.inputBase,
+  "stylesApi": m015.stylesApi,
+  "wrapperStylesApi": m016.wrapperStylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
-  "wrapperStylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

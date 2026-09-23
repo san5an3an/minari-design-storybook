@@ -14,6 +14,7 @@ import * as m012 from "../_src/demos/core/ColorInput/ColorInput.demo.sections";
 import * as m013 from "../_src/demos/core/ColorInput/ColorInput.demo.error";
 import * as m014 from "../_src/demos/core/ColorInput/ColorInput.demo.disabled";
 import * as m015 from "../_src/demos/core/ColorInput/ColorInput.demo.readOnly";
+import * as m016 from "../_src/demos/core/ColorInput/ColorInput.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -32,8 +33,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "error": m013.error,
   "disabled": m014.disabled,
   "readOnly": m015.readOnly,
+  "stylesApi": m016.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };
