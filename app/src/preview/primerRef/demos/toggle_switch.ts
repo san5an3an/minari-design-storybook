@@ -9,6 +9,7 @@ import * as m4 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__Chec
 import * as m5 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__CheckedDisabled";
 import * as m6 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__Loading";
 import * as m7 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__LabelEnd";
+import * as m8 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__Controlled";
 import * as m9 from "./_src/src/ToggleSwitch/ToggleSwitch.features.stories__WithCustomLabels";
 export const demos = {
   "Default": composeStory(m0.default, m0["Default"], "Default"),
@@ -19,8 +20,8 @@ export const demos = {
   "CheckedDisabled": composeStory(m5.default, m5["CheckedDisabled"], "CheckedDisabled"),
   "Loading": composeStory(m6.default, m6["Loading"], "Loading"),
   "LabelEnd": composeStory(m7.default, m7["LabelEnd"], "LabelEnd"),
+  "Controlled": composeStory(m8.default, m8["Controlled"], "Controlled"),
   "WithCustomLabels": composeStory(m9.default, m9["WithCustomLabels"], "WithCustomLabels"),
 };
 export const skipped = {
-  "Controlled": {"code":"package-missing","detail":"storybook/actions"},
 };

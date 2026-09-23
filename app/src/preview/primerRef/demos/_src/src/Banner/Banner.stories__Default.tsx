@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { action } from '../../../_stub/storybookActions';
-import { Banner } from '@primer/react';
 import { Link } from '@primer/react';
+import { Banner } from '@primer/react';
+import {action} from 'storybook/actions'
 
 
 const meta = {
@@ -10,7 +10,6 @@ const meta = {
 } satisfies Meta<typeof Banner>
 
 export default meta
-
 
 export const Default = () => {
   return (
