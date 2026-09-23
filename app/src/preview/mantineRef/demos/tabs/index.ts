@@ -11,7 +11,8 @@ import * as m006 from "../_src/demos/core/FloatingIndicator/FloatingIndicator.de
 import * as m007 from "../_src/demos/core/Tabs/Tabs.demo.disabled";
 import * as m008 from "../_src/demos/core/Tabs/Tabs.demo.keyboardActivation";
 import * as m009 from "../_src/demos/core/Tabs/Tabs.demo.deactivate";
-import * as m010 from "../_src/demos/core/Tabs/Tabs.demo.customize";
+import * as m010 from "../_src/demos/core/Tabs/Tabs.demo.stylesApi";
+import * as m011 from "../_src/demos/core/Tabs/Tabs.demo.customize";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -25,10 +26,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "disabled": m007.disabled,
   "keyboardActivation": m008.keyboardActivation,
   "deactivate": m009.deactivate,
-  "customize": m010.customize,
+  "stylesApi": m010.stylesApi,
+  "customize": m011.customize,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

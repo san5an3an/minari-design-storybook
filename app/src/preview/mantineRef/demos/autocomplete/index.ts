@@ -21,6 +21,7 @@ import * as m016 from "../_src/demos/core/Autocomplete/Autocomplete.demo.configu
 import * as m017 from "../_src/demos/core/Autocomplete/Autocomplete.demo.readOnly";
 import * as m018 from "../_src/demos/core/Autocomplete/Autocomplete.demo.disabled";
 import * as m019 from "../_src/demos/core/Autocomplete/Autocomplete.demo.error";
+import * as m020 from "../_src/demos/core/Autocomplete/Autocomplete.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -44,9 +45,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "readOnly": m017.readOnly,
   "disabled": m018.disabled,
   "error": m019.error,
+  "stylesApi": m020.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

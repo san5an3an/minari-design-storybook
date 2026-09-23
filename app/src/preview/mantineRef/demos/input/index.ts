@@ -16,6 +16,8 @@ import * as m011 from "../_src/demos/core/Input/Input.demo.defaultProps";
 import * as m012 from "../_src/demos/core/Input/Input.demo.sharedStyles";
 import * as m013 from "../_src/demos/core/Input/Input.demo.focusStyles";
 import * as m014 from "../_src/demos/core/Input/Input.demo.inputBase";
+import * as m015 from "../_src/demos/core/Input/Input.demo.stylesApi";
+import * as m016 from "../_src/demos/core/Input/Input.demo.wrapperStylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -34,10 +36,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "sharedStyles": m012.sharedStyles,
   "focusStyles": m013.focusStyles,
   "inputBase": m014.inputBase,
+  "stylesApi": m015.stylesApi,
+  "wrapperStylesApi": m016.wrapperStylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
-  "wrapperStylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

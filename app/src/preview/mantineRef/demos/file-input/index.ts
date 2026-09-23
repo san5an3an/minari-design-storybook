@@ -9,6 +9,7 @@ import * as m004 from "../_src/demos/core/FileInput/FileInput.demo.valueComponen
 import * as m005 from "../_src/demos/core/FileInput/FileInput.demo.error";
 import * as m006 from "../_src/demos/core/FileInput/FileInput.demo.disabled";
 import * as m007 from "../_src/demos/core/FileInput/FileInput.demo.sections";
+import * as m008 from "../_src/demos/core/FileInput/FileInput.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -20,9 +21,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "error": m005.error,
   "disabled": m006.disabled,
   "sections": m007.sections,
+  "stylesApi": m008.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

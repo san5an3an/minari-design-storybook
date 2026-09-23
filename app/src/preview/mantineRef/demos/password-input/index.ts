@@ -8,6 +8,7 @@ import * as m003 from "../_src/demos/core/PasswordInput/PasswordInput.demo.stren
 import * as m004 from "../_src/demos/core/PasswordInput/PasswordInput.demo.sections";
 import * as m005 from "../_src/demos/core/PasswordInput/PasswordInput.demo.error";
 import * as m006 from "../_src/demos/core/PasswordInput/PasswordInput.demo.disabled";
+import * as m007 from "../_src/demos/core/PasswordInput/PasswordInput.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -18,9 +19,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "sections": m004.sections,
   "error": m005.error,
   "disabled": m006.disabled,
+  "stylesApi": m007.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

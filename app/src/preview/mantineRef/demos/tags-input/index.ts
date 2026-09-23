@@ -27,6 +27,7 @@ import * as m022 from "../_src/demos/core/TagsInput/TagsInput.demo.configurator"
 import * as m023 from "../_src/demos/core/TagsInput/TagsInput.demo.readOnly";
 import * as m024 from "../_src/demos/core/TagsInput/TagsInput.demo.disabled";
 import * as m025 from "../_src/demos/core/TagsInput/TagsInput.demo.error";
+import * as m026 from "../_src/demos/core/TagsInput/TagsInput.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -56,9 +57,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "readOnly": m023.readOnly,
   "disabled": m024.disabled,
   "error": m025.error,
+  "stylesApi": m026.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };
