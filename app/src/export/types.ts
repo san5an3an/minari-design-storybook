@@ -118,6 +118,13 @@ export interface LibResources {
   providerSource: string;
   // 함께 포함하는 저장소 파일 목록: { to, text, why }
   extras: { to: string; text: string; why: string }[];
+  // 마크업 전용 베이스 예제, React 컴포넌트 없는 daisyUI, SLDS 계열에만 존재
+  markup?: {
+    examples: { key: string; html: string }[];
+    // index.html이 참조하는 경로. 비면 README에서 확인
+    vendorCss: string[];
+    note?: string;
+  };
   // 공식 컴포넌트가 실제로 쓰는 이름: Button
   componentName: string;
   // 선택 가능한 prop. 공식 메타데이터에서 추출하기

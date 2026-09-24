@@ -81,13 +81,15 @@ function render(stack: string[], lines: string[]): string {
   return body;
 }
 
+export const BASE_LAYER = (name: string): boolean =>
+  name.startsWith("--semantic-") || name.startsWith("--base-font-");
+
 export function collectTokens(
   componentCss: string,
   varsCss: string,
   opts: {
     alwaysInclude?: (name: string) => boolean;
-    // 참조 사슬 출발점에 추가할 이름
-    extraSeeds?: Iterable<string>;
+    extraSeeds?: readonly string[];
   } = {},
 ): { css: string; used: string[]; missing: string[] } {
   const decls = parseDecls(varsCss);

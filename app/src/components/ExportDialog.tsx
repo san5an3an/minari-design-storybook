@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { requestLibAxes, type LibAxes } from "@/export/client";
-import { isLibBase } from "@/export/lib/registry";
+import { isLibBase, isMarkupBase, libFormatsFor } from "@/export/lib/registry";
 import { type ExportRequest, type Format } from "@/export/types";
 import type { SystemDefinition } from "@/systems/types";
 
@@ -18,7 +18,6 @@ const FORMAT_LABEL: Record<Format, string> = {
   theme: "테마만",
 };
 
-const LIB_FORMATS: readonly Format[] = ["next", "theme"];
 const OURS_FORMATS: readonly Format[] = ["html", "next", "both"];
 
 // 축 저장용 특수 키 2개, prop 이름과 안 겹치게 밑줄로 감싸기
@@ -154,9 +153,12 @@ export function ExportDialog({
 
   // 라이브러리 경로 여부. 베이스 이름 나열 금지
   const isLib = isLibBase(system.baseKey);
-  const formats = isLib ? LIB_FORMATS : OURS_FORMATS;
+  // 마크업 전용 여부, daisyUI SLDS 같은 예제 마크업 전용 라이브러리용
+  const isMarkup = isLib && isMarkupBase(system.baseKey);
+  const formats = isLib ? libFormatsFor(system.baseKey) : OURS_FORMATS;
 
-  const [format, setFormat] = React.useState<Format>(isLib ? "next" : "html");
+  // 첫 셀에 이름 대신 값 사용. markup 전용은 next 없어 세그먼트 비활성 표시
+  const [format, setFormat] = React.useState<Format>(formats[0]);
 
   // 라이브러리 경로에서 선택할 값, 서버가 제공
   const [lib, setLib] = React.useState<LibAxes | null>(null);
@@ -333,7 +335,15 @@ export function ExportDialog({
               ))}
             </ToggleGroup>
             {/* 조건을 미리 안내하기 */}
-            {isLib ? (
+            {isMarkup ? (
+              // 이 계열 전용 컴포넌트 없음. 아래 라이브러리 문단 그대로 쓰면 오해 생길 수 있음
+              <p className="text-muted-foreground text-xs">
+                <b>{lib?.libTitle ?? system.baseTitle}</b> 의 <b>공식 예제 마크업</b>이 그대로
+                나가요. 이 계열은 React 컴포넌트가 없어서(공식 예제가 마크업이에요) 없는 이름을
+                지어내지 않아요. 이 시스템의 것은 <code>vars.css</code> · <code>theme.css</code> 로
+                함께 가고, 그게 없으면 색이 죽어요.
+              </p>
+            ) : isLib ? (
               <p className="text-muted-foreground text-xs">
                 <b>{lib?.libTitle ?? system.baseTitle}</b> 컴포넌트를 <b>그대로</b> 쓰는 코드가
                 나가요. 이 시스템의 것은 테마와 토큰으로 실려요. <code>vars.css</code> 가 함께 가고,
