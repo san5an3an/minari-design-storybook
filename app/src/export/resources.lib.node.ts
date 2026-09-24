@@ -1,5 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import { RequestError } from "./errors";
 import { libSpecFor, type LibProp } from "./lib/registry";
 import { repoRoot } from "./resources.node";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
@@ -106,12 +107,15 @@ async function loadMarkupExamples(
     .map(([key, v]) => ({ key, code: v?.code ?? "?", detail: v?.detail ?? "" }));
   if (out.length === 0) {
     const why = skipped.map((s) => `${s.key}: ${s.code}${s.detail ? ` (${s.detail})` : ""}`);
+    if (why.length > 0) {
+      throw new RequestError(
+        `'${slug}' 는 생성기가 예제를 못 구웠어요 (${why.slice(0, 2).join(" · ")}), `
+          + `내보낼 수 있는 것이 없어요.`,
+      );
+    }
     throw new Error(
-      why.length > 0
-        ? `'${slug}' 는 생성기가 예제를 못 구웠어요 (${why.slice(0, 2).join(" · ")}), `
-            + `내보낼 수 있는 것이 없어요.`
-        : `'${slug}' 의 demos 가 비었고 건너뛴 기록도 없어요. 생성기를 다시 돌려 주세요. `
-            + `지금은 내보낼 수 있는 것이 없어요.`,
+      `'${slug}' 의 demos 가 비었고 건너뛴 기록도 없어요. 생성기를 다시 돌려 주세요. `
+        + `지금은 내보낼 수 있는 것이 없어요.`,
     );
   }
   return { examples: out, skipped };
@@ -148,7 +152,7 @@ export async function loadLibResources(
   ]);
 
   if (spec.notComponents?.includes(component)) {
-    throw new Error(
+    throw new RequestError(
       `'${baseKey}' 의 '${component}' 는 공식 문서에는 있지만 컴포넌트가 아니에요: ` +
         `내보낼 수 있는 것이 없어요.`,
     );
@@ -179,7 +183,7 @@ export async function loadLibResources(
   // 이름에 쓸 수 있는 글자인지 확인
   const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
   if (!markupOnly && (typeof componentName !== "string" || !USABLE.test(componentName.trim))) {
-    throw new Error(
+    throw new RequestError(
       `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
         `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
     );
@@ -221,8 +225,8 @@ export async function loadLibResources(
     componentSource: "",
     cxSource: "",
     renderComponent: (_args: RenderArgs): string => {
-      // 라이브러리 경로 호출 시 예외 발생. impl 0인 React 미구현이라 렌더 수단이 없음
-      throw new Error(
+      // 호출 시 에러 발생. React 구현이 없어 렌더링 불가, 빈 문자열 반환은 정상처럼 보임
+      throw new RequestError(
         `'${baseKey}' 는 라이브러리 길이라 정적 렌더가 없어요. ` +
           `HTML 형식은 이 베이스에서 낼 수 없어요. 런타임이 없으면 토큰이 안 실려요.`,
       );

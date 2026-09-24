@@ -1,3 +1,4 @@
+import { RequestError } from "./errors";
 import { collectTokens } from "./tokens";
 import { emitterFor } from "./emit/registry";
 import {
@@ -7,26 +8,27 @@ import {
 
 // 선택값의 계약 포함 여부 확인
 function assertSelection(req: ExportRequest, res: ExportResources): void {
+  // 네 가지는 요청 오류로 정의. 계약 위반 여부만 확인해 RequestError로 던지기
   const known = new Map(res.axes.map((a) => [a.prop, new Set(a.values)]));
   for (const [prop, values] of Object.entries(req.values)) {
     const allowed = known.get(prop);
     if (!allowed) {
-      throw new Error(`'${res.source.component}' 에는 '${prop}' 라는 항목이 없어요.`);
+      throw new RequestError(`'${res.source.component}' 에는 '${prop}' 라는 항목이 없어요.`);
     }
     for (const v of values) {
       if (!allowed.has(v)) {
-        throw new Error(`'${prop}' 에는 '${v}' 라는 값이 없어요.`);
+        throw new RequestError(`'${prop}' 에는 '${v}' 라는 값이 없어요.`);
       }
     }
   }
   for (const p of req.parts) {
     if (!res.partNames.includes(p)) {
-      throw new Error(`'${res.source.component}' 에 '${p}' 부품이 없어요.`);
+      throw new RequestError(`'${res.source.component}' 에 '${p}' 부품이 없어요.`);
     }
   }
   for (const s of req.states) {
     if (!res.stateNames.includes(s)) {
-      throw new Error(`'${res.source.component}' 에 '${s}' 상태가 없어요.`);
+      throw new RequestError(`'${res.source.component}' 에 '${s}' 상태가 없어요.`);
     }
   }
 }
