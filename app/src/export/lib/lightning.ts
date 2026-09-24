@@ -8,8 +8,7 @@ export const LIGHTNING: LibSpec = {
   // 마크업 전용은 미사용 값, 타입 충족용. markup 있으면 importFrom 안 읽음
   importFrom: "@salesforce-ux/design-system",
   refDir: "lightningRef/contract",
-  // _nav.json은 사이드바 목록, 컴포넌트 아님. contract/ 포함 대상임
-  notComponents: ["_nav"],
+  notComponents: ["_meta", "_nav"],
   markup: {
     // 슬러그 모듈은 한 줄 JSON 형태로 자동 생성
     demosDir: "lightningRef/demos",
