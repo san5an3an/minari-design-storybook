@@ -70,7 +70,7 @@ async function loadMarkupExamples(
   demosDir: string,
   demosFormat: "json" | "ts-const",
   slug: string,
-): Promise<{ key: string; html: string }[]> {
+): Promise<{ examples: { key: string; html: string }[]; skipped: { key: string; code: string; detail: string }[] }> {
   const root = await repoRoot;
   const ext = demosFormat === "json" ? "json" : "ts";
   const file = path.join(root, "app", "src", "preview", demosDir, `${slug}.${ext}`);
@@ -102,9 +102,10 @@ async function loadMarkupExamples(
   const out = Object.entries(parsed.demos ?? {})
     .filter(([, v]) => typeof v?.html === "string" && v.html.length > 0)
     .map(([key, v]) => ({ key, html: v.html as string }));
+  const skipped = Object.entries(parsed.skipped ?? {})
+    .map(([key, v]) => ({ key, code: v?.code ?? "?", detail: v?.detail ?? "" }));
   if (out.length === 0) {
-    const why = Object.entries(parsed.skipped ?? {})
-      .map(([k, v]) => `${k}: ${v?.code ?? "?"}${v?.detail ? ` (${v.detail})` : ""}`);
+    const why = skipped.map((s) => `${s.key}: ${s.code}${s.detail ? ` (${s.detail})` : ""}`);
     throw new Error(
       why.length > 0
         ? `'${slug}' 는 생성기가 예제를 못 구웠어요 (${why.slice(0, 2).join(" · ")}), `
@@ -113,7 +114,7 @@ async function loadMarkupExamples(
             + `지금은 내보낼 수 있는 것이 없어요.`,
     );
   }
-  return out;
+  return { examples: out, skipped };
 }
 
 function sliceOneLineConst(raw: string, name: string): string | null {
@@ -230,7 +231,7 @@ export async function loadLibResources(
       // 마크업 전용이면 예제 포함. build.ts가 이 필드로 방출기 선택
       markup: spec.markup
         ? {
-            examples: await loadMarkupExamples(spec.markup.demosDir, spec.markup.demosFormat, component),
+            ...(await loadMarkupExamples(spec.markup.demosDir, spec.markup.demosFormat, component)),
             vendorCss: spec.markup.vendorCss,
             note: spec.markup.note,
           }

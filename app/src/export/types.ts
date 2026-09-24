@@ -121,6 +121,8 @@ export interface LibResources {
   // 마크업 전용 베이스 예제, React 컴포넌트 없는 daisyUI, SLDS 계열에만 존재
   markup?: {
     examples: { key: string; html: string }[];
+    // 생성 실패 예제 목록 필드. 산출물에서 빠진 항목을 알리는 용도임
+    skipped: { key: string; code: string; detail: string }[];
     // index.html이 참조하는 경로. 비면 README에서 확인
     vendorCss: string[];
     note?: string;

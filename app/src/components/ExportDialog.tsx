@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { requestLibAxes, type LibAxes } from "@/export/client";
-import { isLibBase, isMarkupBase, libFormatsFor } from "@/export/lib/registry";
+import { formatsFor, isLibBase, isMarkupBase } from "@/export/lib/registry";
 import { type ExportRequest, type Format } from "@/export/types";
 import type { SystemDefinition } from "@/systems/types";
 
@@ -17,8 +17,6 @@ const FORMAT_LABEL: Record<Format, string> = {
   both: "둘 다",
   theme: "테마만",
 };
-
-const OURS_FORMATS: readonly Format[] = ["html", "next", "both"];
 
 // 축 저장용 특수 키 2개, prop 이름과 안 겹치게 밑줄로 감싸기
 const PARTS = "__parts__";
@@ -155,7 +153,7 @@ export function ExportDialog({
   const isLib = isLibBase(system.baseKey);
   // 마크업 전용 여부, daisyUI SLDS 같은 예제 마크업 전용 라이브러리용
   const isMarkup = isLib && isMarkupBase(system.baseKey);
-  const formats = isLib ? libFormatsFor(system.baseKey) : OURS_FORMATS;
+  const formats = formatsFor(system.baseKey);
 
   // 첫 셀에 이름 대신 값 사용. markup 전용은 next 없어 세그먼트 비활성 표시
   const [format, setFormat] = React.useState<Format>(formats[0]);

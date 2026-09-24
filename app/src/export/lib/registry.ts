@@ -280,6 +280,13 @@ export function libFormatsFor(baseKey: string): readonly Format[] {
   return isMarkupBase(baseKey) ? MARKUP_FORMATS : LIB_FORMATS;
 }
 
+// CSS가 곧 테마라 theme 값 없음
+const CONTRACT_FORMATS: readonly Format[] = ["html", "next", "both"];
+
+export function formatsFor(baseKey: string): readonly Format[] {
+  return isLibBase(baseKey) ? libFormatsFor(baseKey) : CONTRACT_FORMATS;
+}
+
 // 명세 조회. 없으면 즉시 오류 발생
 export function libSpecFor(baseKey: string): LibSpec {
   const spec = LIB_BASES[baseKey];
