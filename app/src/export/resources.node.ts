@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { RequestError } from "./errors";
 import * as React from "react";
 import { partLabel } from "./rows";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
@@ -89,7 +90,7 @@ export async function loadResources(
   const contract = await readContract(slug);
   const api = contract[component];
   if (!api) {
-    throw new Error(`'${slug}' 의 계약에 '${component}' 가 없어요.`);
+    throw new RequestError(`'${slug}' 의 계약에 '${component}' 가 없어요.`);
   }
 
   const exportName = exportNameOf(component);
@@ -150,6 +151,7 @@ export async function loadResources(
       parts.length > 0
         ? parts.map((p, i) => {
             const Part = mod[p];
+            // 계약-모듈 드리프트 도달. assertSelection 검증 후 도달하는 내부 오류임
             if (!Part) throw new Error(`'${p}' 부품이 그 모듈에 없어요.`);
             // 본문은 rows.ts 공유해 Next 예시와 동일하게 사용
             return React.createElement(

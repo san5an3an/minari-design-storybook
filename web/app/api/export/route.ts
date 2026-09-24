@@ -1,4 +1,5 @@
 import { buildPayload } from "@/export/build";
+import { blameOf } from "@/export/errors";
 import { formatsFor, isLibBase, isMarkupBase } from "@/export/lib/registry";
 import { allowedLibComponents, loadLibResources } from "@/export/resources.lib.node";
 import { allowedBases, allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return bad(message, /없어요\.$/.test(message) ? 400 : 500);
+    return bad(message, blameOf(e) === "request" ? 400 : 500);
   }
 }
 
@@ -129,6 +130,6 @@ export async function POST(request: Request) {
   } catch (e) {
     // 없는 필드나 값 등 계약 위반 요청은 400, 파일 누락 등 서버 측 문제는 500 반환
     const message = e instanceof Error ? e.message : String(e);
-    return bad(message, /없어요\.$/.test(message) ? 400 : 500);
+    return bad(message, blameOf(e) === "request" ? 400 : 500);
   }
 }
