@@ -57,7 +57,18 @@ export function emitMarkup(_req: ExportRequest, res: ExportResources): ExportFil
     text: lib.themeSource,
   });
 
+  for (const e of lib.extras) {
+    files.push({
+      path: e.to,
+      type: e.to.endsWith(".css") ? "text/css" : "text/plain",
+      text: e.text,
+    });
+  }
+
+  const extraCss = lib.extras.filter((e) => e.to.endsWith(".css"))
+    .map((e) => `<link rel="stylesheet" href="./${e.to}" />`);
   const links = [`<link rel="stylesheet" href="./vars.css" />`]
+    .concat(extraCss)
     .concat(lib.themeExt === "css" ? [`<link rel="stylesheet" href="./theme.css" />`] : [])
     .concat(lib.markup.vendorCss.map((h) => `<link rel="stylesheet" href="${h}" />`))
     .map((l) => `    ${l}`)
@@ -88,7 +99,10 @@ export function emitMarkup(_req: ExportRequest, res: ExportResources): ExportFil
       + (lib.markup.skipped.length > 0 ? ` (공식 ${examples.length + lib.markup.skipped.length}개 중)` : "")
       + ` |\n`
       + `| \`vars.css\` | 이 예제가 읽는 이 시스템의 토큰 ${tokens.used.length}개 |\n`
-      + `| \`theme.${lib.themeExt}\` | ${lib.title} 를 이 시스템 위에 올리는 테마 |\n\n`
+      + `| \`theme.${lib.themeExt}\` | ${lib.title} 를 이 시스템 위에 올리는 테마 |\n`
+      // 필요 이유를 LibExtra.why 필드에 기록. 이유 없으면 받는 사람이 삭제할 수 있음
+      + lib.extras.map((e) => `| \`${e.to}\` | ${e.why} |\n`).join("")
+      + `\n`
       + (lib.markup.skipped.length > 0
         ? `## 빠진 예제 ${lib.markup.skipped.length}개\n\n`
           + `공식 문서에는 있지만 이 생성기가 HTML 로 생성하지 못한 예제입니다. `

@@ -24,7 +24,13 @@ export const DAISYUI: LibSpec = {
     const d = json as { slug?: string; title?: string };
     return { componentName: (d.title ?? d.slug ?? "").trim, props: [], dropped: [] };
   },
-  extras: [],
+  extras: [
+    {
+      from: "app/src/preview/daisyuiRef/daisyui-own-defaults.css",
+      to: "daisyui-defaults.css",
+      why: "daisyUI 가 themes:false 로 잃는 자기 토큰 8개. 지우면 Info 버튼과 버튼 그림자가 죽습니다.",
+    },
+  ],
   // 마크업 전용은 프로바이더 제외. 감쌀 React 트리가 없음
   provider:  => "",
 };
