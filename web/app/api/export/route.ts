@@ -1,8 +1,8 @@
 import { buildPayload } from "@/export/build";
-import { isLibBase } from "@/export/lib/registry";
+import { isLibBase, isMarkupBase, libFormatsFor } from "@/export/lib/registry";
 import { allowedLibComponents, loadLibResources } from "@/export/resources.lib.node";
 import { allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
-import { FORMATS, wantsHtml, type ExportRequest, type Format } from "@/export/types";
+import { FORMATS, type ExportRequest, type Format } from "@/export/types";
 
 // fs 사용이라 edge 아님. 명시 안 하면 기본값 변경 시 조용히 깨질 수 있음
 export const runtime = "nodejs";
@@ -82,11 +82,18 @@ export async function POST(request: Request) {
     );
   }
 
-  if (lib && wantsHtml(format as Format)) {
-    return bad(
-      `'${baseKey}' 는 HTML 로 내보낼 수 없어요. 정적 HTML 에는 그쪽 런타임이 없어서 ` +
-        `이 프로젝트 토큰이 안 실려요. 'next' 나 'theme' 로 골라 주세요.`,
-    );
+  if (lib) {
+    const allowed = libFormatsFor(baseKey);
+    if (!allowed.includes(format as Format)) {
+      const picks = allowed.map((f) => `'${f}'`).join(" 이나 ");
+      return bad(
+        isMarkupBase(baseKey)
+          ? `'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. 이 계열은 React 컴포넌트가 ` +
+              `없어서(공식 예제가 마크업이에요) 지어낼 이름이 없어요. ${picks} 로 골라 주세요.`
+          : `'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. 정적 HTML 에는 그쪽 런타임이 ` +
+              `없어서 이 프로젝트 토큰이 안 실려요. ${picks} 로 골라 주세요.`,
+      );
+    }
   }
 
   const parts = strings(b.parts);

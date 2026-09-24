@@ -1,3 +1,4 @@
+import type { Format } from "../types";
 import { GROMMET } from "./grommet";
 import { CLOUDSCAPE } from "./cloudscape";
 import { PRIMEREACT } from "./primereact";
@@ -11,6 +12,8 @@ import { FLOWBITE } from "./flowbite";
 import { MANTINE } from "./mantine";
 import { PRIMER } from "./primer";
 import { SPECTRUM } from "./spectrum";
+import { DAISYUI } from "./daisyui";
+import { LIGHTNING } from "./lightning";
 
 // 저장소 안 파일 하나를 그룹으로 그대로 옮기는 지시
 export interface LibExtra {
@@ -41,6 +44,14 @@ export interface LibSpec {
   // 공식 메타를 preview/{slug}.json에 저장하기
   refDir: string;
   notComponents?: readonly string[];
+  markup?: {
+    // app/src/preview/ 아래 예제 파일 위치
+    demosDir: string;
+    // json은 <slug>.json 전체, ts-const는 demos 한 줄 JSON
+    demosFormat: "json" | "ts-const";
+    vendorCss: string[];
+    note?: string;
+  };
   // 함께 싣는 저장소 파일 목록
   extras: LibExtra[];
   compiledTheme?: (slug: string) => LibExtra[];
@@ -245,11 +256,28 @@ export const LIB_BASES: Readonly<Record<string, LibSpec>> = {
   mantine: MANTINE,
   primer: PRIMER,
   spectrum: SPECTRUM,
+  // 마크업 전용. React 컴포넌트 없는 계열
+  daisyui: DAISYUI,
+  lightning: LIGHTNING,
 };
 
 // 베이스의 라이브러리 export 경로 사용 여부
 export function isLibBase(baseKey: string): boolean {
   return baseKey in LIB_BASES;
+}
+
+export function isMarkupBase(baseKey: string): boolean {
+  return Boolean(LIB_BASES[baseKey]?.markup);
+}
+
+// 일반 라이브러리 경로는 React만 사용, theme은 색상 적용 위치
+const LIB_FORMATS: readonly Format[] = ["next", "theme"];
+// 마크업 전용 예제, theme 미포함
+const MARKUP_FORMATS: readonly Format[] = ["html"];
+
+export function libFormatsFor(baseKey: string): readonly Format[] {
+  libSpecFor(baseKey); // 표에 없는 값이면 여기서 오류 발생
+  return isMarkupBase(baseKey) ? MARKUP_FORMATS : LIB_FORMATS;
 }
 
 // 명세 조회. 없으면 즉시 오류 발생

@@ -1,6 +1,7 @@
 import type { ExportFile, ExportRequest, ExportResources } from "../types";
 import { emitHtml } from "./html";
 import { emitLib } from "./lib";
+import { emitMarkup } from "./markup";
 import { emitNext } from "./next";
 
 export type Emitter = (req: ExportRequest, res: ExportResources) => ExportFile[];
@@ -9,6 +10,8 @@ export const EMITTERS: Readonly<Record<string, Emitter>> = {
   html: emitHtml,
   next: emitNext,
   lib: emitLib,
+  // markup도 형식 아닌 길이 값임. res.lib.markup 있으면 코어가 지정
+  markup: emitMarkup,
 };
 
 // 이름으로 조회 후 없으면 예외 처리

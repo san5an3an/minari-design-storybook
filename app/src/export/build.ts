@@ -47,7 +47,8 @@ export function buildPayload(req: ExportRequest, res: ExportResources): ExportPa
         parts: req.parts,
         states: req.states,
       },
-      files: emitterFor("lib")(req, res),
+      // 마크업 전용은 별도 방출기 처리. React 없어 lib.ts import 불가
+      files: emitterFor(res.lib.markup ? "markup" : "lib")(req, res),
     };
   }
 
