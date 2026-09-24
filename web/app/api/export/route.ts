@@ -1,5 +1,5 @@
 import { buildPayload } from "@/export/build";
-import { isLibBase, isMarkupBase, libFormatsFor } from "@/export/lib/registry";
+import { formatsFor, isLibBase, isMarkupBase } from "@/export/lib/registry";
 import { allowedLibComponents, loadLibResources } from "@/export/resources.lib.node";
 import { allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
 import { FORMATS, type ExportRequest, type Format } from "@/export/types";
@@ -82,18 +82,18 @@ export async function POST(request: Request) {
     );
   }
 
-  if (lib) {
-    const allowed = libFormatsFor(baseKey);
-    if (!allowed.includes(format as Format)) {
-      const picks = allowed.map((f) => `'${f}'`).join(" 이나 ");
-      return bad(
-        isMarkupBase(baseKey)
-          ? `'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. 이 계열은 React 컴포넌트가 ` +
-              `없어서(공식 예제가 마크업이에요) 지어낼 이름이 없어요. ${picks} 로 골라 주세요.`
-          : `'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. 정적 HTML 에는 그쪽 런타임이 ` +
-              `없어서 이 프로젝트 토큰이 안 실려요. ${picks} 로 골라 주세요.`,
-      );
-    }
+  const allowed = formatsFor(baseKey);
+  if (!allowed.includes(format as Format)) {
+    // 선택지는 조사 없이 나열. 붙이면 받침 따라 어법이 깨지고 하나면 이을 것도 없음
+    const picks = allowed.map((f) => `'${f}'`).join(" · ");
+    // both는 양쪽을 함께 내는 형식이라 한쪽만 근거로 거절하면 반쪽 진실임
+    const both = format === "both" ? "'both' 는 HTML 과 React 를 함께 내는데 " : "";
+    const why = !lib
+      ? "이 프로젝트의 계약 컴포넌트는 CSS 가 곧 테마라 테마만 따로 낼 것이 없어요"
+      : isMarkupBase(baseKey)
+        ? `${both}이 계열에는 React 컴포넌트가 없어요(공식 예제가 마크업이라 지어낼 이름이 없어요)`
+        : `${both}정적 HTML 에는 그쪽 런타임이 없어서 이 프로젝트 토큰이 안 실려요`;
+    return bad(`'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. ${why}. 이 중에서 골라 주세요: ${picks}`);
   }
 
   const parts = strings(b.parts);

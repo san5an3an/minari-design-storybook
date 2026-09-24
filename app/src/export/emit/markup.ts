@@ -83,9 +83,22 @@ export function emitMarkup(_req: ExportRequest, res: ExportResources): ExportFil
       + `없는 컴포넌트 이름을 지어내는 대신 마크업을 그대로 실었습니다.\n\n`
       + `## 담긴 것\n\n`
       + `| 파일 | 무엇 |\n|---|---|\n`
-      + `| \`index.html\` | 예제 ${examples.length}개 |\n`
+      // 분모와 함께 수치 표시. lightning은 1,295개 중 90개 빠져 오해 소지 있음
+      + `| \`index.html\` | 예제 ${examples.length}개`
+      + (lib.markup.skipped.length > 0 ? ` (공식 ${examples.length + lib.markup.skipped.length}개 중)` : "")
+      + ` |\n`
       + `| \`vars.css\` | 이 예제가 읽는 이 시스템의 토큰 ${tokens.used.length}개 |\n`
       + `| \`theme.${lib.themeExt}\` | ${lib.title} 를 이 시스템 위에 올리는 테마 |\n\n`
+      + (lib.markup.skipped.length > 0
+        ? `## 빠진 예제 ${lib.markup.skipped.length}개\n\n`
+          + `공식 문서에는 있지만 이 생성기가 HTML 로 생성하지 못한 예제입니다. `
+          + `이 도구가 고른 것이 아니라 못 실은 것입니다.\n\n`
+          + `| 예제 | 사유 |\n|---|---|\n`
+          + lib.markup.skipped
+            .map((s) => `| \`${s.key}\` | ${s.code}${s.detail ? `, ${s.detail}` : ""} |\n`)
+            .join("")
+          + `\n`
+        : "")
       + `## 설치\n\n\`\`\`\nnpm i ${lib.packages.join(" ")}\n\`\`\`\n\n`
       + `## 모드 바꾸기\n\n`
       + `\`index.html\` 의 \`<html data-theme="light">\` 를 \`dark\` 또는 \`high-contrast\` 로 `
