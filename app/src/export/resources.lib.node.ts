@@ -1,6 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
-import { RequestError } from "./errors";
+import { RequestError, WiringError } from "./errors";
 import { libSpecFor, type LibProp } from "./lib/registry";
 import { repoRoot } from "./resources.node";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
@@ -79,7 +79,7 @@ async function loadMarkupExamples(
   try {
     raw = await readFile(file, "utf8");
   } catch {
-    throw new Error(`'${slug}' 의 예제 파일을 못 찾았어요: ${demosDir}/${slug}.${ext}`);
+    throw new WiringError(`'${slug}' 의 예제 파일을 못 찾았어요: ${demosDir}/${slug}.${ext}`);
   }
   let blob: string;
   if (demosFormat === "json") {
@@ -89,7 +89,7 @@ async function loadMarkupExamples(
     const demos = sliceOneLineConst(raw, "demos");
     const skipped = sliceOneLineConst(raw, "skipped");
     if (!demos) {
-      throw new Error(`'${slug}' 의 예제 모듈에서 demos 객체를 못 떼어냈어요. 생성기 꼴이 바뀌었나요?`);
+      throw new WiringError(`'${slug}' 의 예제 모듈에서 demos 객체를 못 떼어냈어요. 생성기 꼴이 바뀌었나요?`);
     }
     blob = `{"demos":${demos}${skipped ? `,"skipped":${skipped}` : ""}}`;
   }
@@ -98,7 +98,7 @@ async function loadMarkupExamples(
   try {
     parsed = JSON.parse(blob) as typeof parsed;
   } catch (e) {
-    throw new Error(`'${slug}' 의 예제를 JSON 으로 못 읽었어요: ${String(e).slice(0, 80)}`);
+    throw new WiringError(`'${slug}' 의 예제를 JSON 으로 못 읽었어요: ${String(e).slice(0, 80)}`);
   }
   const out = Object.entries(parsed.demos ?? {})
     .filter(([, v]) => typeof v?.html === "string" && v.html.length > 0)
@@ -113,7 +113,7 @@ async function loadMarkupExamples(
           + `내보낼 수 있는 것이 없어요.`,
       );
     }
-    throw new Error(
+    throw new WiringError(
       `'${slug}' 의 demos 가 비었고 건너뛴 기록도 없어요. 생성기를 다시 돌려 주세요. `
         + `지금은 내보낼 수 있는 것이 없어요.`,
     );
@@ -146,7 +146,7 @@ export async function loadLibResources(
     readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
     // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
     refJsonDir(spec.refDir).then((dir) => {
-      if (!dir) throw new Error(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
+      if (!dir) throw new WiringError(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
       return readFile(path.join(dir, `${component}.json`), "utf8");
     }),
   ]);
