@@ -1,7 +1,7 @@
 import { buildPayload } from "@/export/build";
 import { formatsFor, isLibBase, isMarkupBase } from "@/export/lib/registry";
 import { allowedLibComponents, loadLibResources } from "@/export/resources.lib.node";
-import { allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
+import { allowedBases, allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
 import { FORMATS, type ExportRequest, type Format } from "@/export/types";
 
 // fs 사용이라 edge 아님. 명시 안 하면 기본값 변경 시 조용히 깨질 수 있음
@@ -70,6 +70,11 @@ export async function POST(request: Request) {
   // 경로를 알려진 이름 목록으로 검사
   const slugs = await allowedSlugs;
   if (!slugs.includes(slug)) return bad(`'${slug}' 이라는 색 테마가 없어요.`);
+
+  const bases = await allowedBases(slug);
+  if (!bases.includes(baseKey)) {
+    return bad(`'${baseKey}' 라는 베이스가 없어요. 이 중에서 골라 주세요: ${bases.join(" · ")}`);
+  }
 
   // 라이브러리마다 다른 목록. antd, MUI의 component는 슬러그라 계약에 없음
   const lib = isLibBase(baseKey);

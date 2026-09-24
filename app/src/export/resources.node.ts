@@ -63,6 +63,12 @@ export async function allowedComponents(slug: string): Promise<string[]> {
   return Object.keys(await readContract(slug));
 }
 
+export async function allowedBases(slug: string): Promise<string[]> {
+  const dir = path.join(await repoRoot, "generated", slug, "base");
+  const entries = await readdir(dir, { withFileTypes: true });
+  return [...entries.filter((e) => e.isDirectory).map((e) => e.name), "standalone"];
+}
+
 function systemNameOf(slug: string): string {
   const bare = slug.replace(/^\d+-/, "");
   return bare.charAt(0).toUpperCase + bare.slice(1);
@@ -125,6 +131,20 @@ export async function loadResources(
     }
   });
 
+  const partTakesText = new Map<string, boolean>(
+    partNames.map((name) => {
+      const Part = mod[name];
+      // 모듈에 없는 하위 컴포넌트는 판별 대상 아님. 선택 시 renderComponent에서 오류 발생
+      if (!Part) return [name, false] as const;
+      try {
+        renderToStaticMarkup(React.createElement(Part, {}, "글자"));
+        return [name, true] as const;
+      } catch {
+        return [name, false] as const;
+      }
+    }),
+  );
+
   const renderComponent = ({ props, parts, text }: RenderArgs): string => {
     const children =
       parts.length > 0
@@ -135,7 +155,8 @@ export async function loadResources(
             return React.createElement(
               Part,
               { key: i },
-              textless.has(p) ? null : partLabel(p, exportName),
+              // svg 비표시와 void 태그 렌더링 불가 두 이유가 겹쳐 있음
+              textless.has(p) || !partTakesText.get(p) ? null : partLabel(p, exportName),
             );
           })
         : text;
