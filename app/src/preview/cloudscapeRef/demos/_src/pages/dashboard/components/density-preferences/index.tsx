@@ -18,7 +18,10 @@ interface DensityPreferencesDialogProps {
 }
 
 export function DensityPreferencesDialog({ onDismiss }: DensityPreferencesDialogProps) {
-  const [value, setValue] = useState<Density>(currentDensity ?? 'comfortable');
+  /* ⚠️ `Density` 는 문자열 enum 이라 `Density.Comfortable === 'comfortable'` 이다(실측).
+     리터럴 그대로는 `Density | "comfortable"` 이 되어 TS2345 가 난다. 단언만 붙인다 —
+     `as` 는 emit 에서 지워지므로 나가는 JS 가 한 글자도 안 바뀐다(이 파일은 vendor 데모 사본이다). */
+  const [value, setValue] = useState<Density>(currentDensity ?? ('comfortable' as Density));
 
   const handleSubmit = () => {
     updateDensity(value);
