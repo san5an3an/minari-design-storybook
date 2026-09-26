@@ -14,6 +14,7 @@ import * as m012 from "../_src/demos/core/NumberInput/NumberInput.demo.hold";
 import * as m013 from "../_src/demos/core/NumberInput/NumberInput.demo.handlers";
 import * as m014 from "../_src/demos/core/NumberInput/NumberInput.demo.error";
 import * as m015 from "../_src/demos/core/NumberInput/NumberInput.demo.disabled";
+import * as m016 from "../_src/demos/core/NumberInput/NumberInput.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -32,8 +33,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "handlers": m013.handlers,
   "error": m014.error,
   "disabled": m015.disabled,
+  "stylesApi": m016.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

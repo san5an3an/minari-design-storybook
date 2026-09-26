@@ -9,8 +9,9 @@ import * as m007 from "../_src/demos/core/Stepper/Stepper.demo.stepColor";
 import * as m008 from "../_src/demos/core/Stepper/Stepper.demo.orientation";
 import * as m009 from "../_src/demos/core/Stepper/Stepper.demo.iconPosition";
 import * as m010 from "../_src/demos/core/Stepper/Stepper.demo.loading";
-import * as m011 from "../_src/demos/core/Stepper/Stepper.demo.stylesApi2";
-import * as m012 from "../_src/demos/core/Stepper/Stepper.demo.stylesApi3";
+import * as m011 from "../_src/demos/core/Stepper/Stepper.demo.stylesApi";
+import * as m012 from "../_src/demos/core/Stepper/Stepper.demo.stylesApi2";
+import * as m013 from "../_src/demos/core/Stepper/Stepper.demo.stylesApi3";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -24,10 +25,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "orientation": m008.orientation,
   "iconPosition": m009.iconPosition,
   "loading": m010.loading,
-  "stylesApi2": m011.stylesApi2,
-  "stylesApi3": m012.stylesApi3,
+  "stylesApi": m011.stylesApi,
+  "stylesApi2": m012.stylesApi2,
+  "stylesApi3": m013.stylesApi3,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

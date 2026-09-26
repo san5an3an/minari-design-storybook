@@ -18,7 +18,7 @@ interface DensityPreferencesDialogProps {
 }
 
 export function DensityPreferencesDialog({ onDismiss }: DensityPreferencesDialogProps) {
-  const [value, setValue] = useState<Density>(currentDensity ?? 'comfortable');
+  const [value, setValue] = useState<Density>(currentDensity ?? ('comfortable' as Density));
 
   const handleSubmit = () => {
     updateDensity(value);

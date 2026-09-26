@@ -33,7 +33,7 @@ function OperationalMetricsProvider({ children }: { children: React.ReactElement
   const [visibleContent, setVisibleContent] = useState<ReadonlyArray<Content>>(allContent);
   return (
     <OperationalWidgetContext.Provider value={{ visibleContent, openPreferences: () => setPreferencesVisible(true) }}>
-      {React.cloneElement(React.Children.only(children), {
+      {React.cloneElement(React.Children.only(children) as React.ReactElement<Record<string, unknown>>, {
         removeConfirmationText: 'Operational metrics',
         actions: [{ text: 'Preferences', onClick: () => setPreferencesVisible(true) }],
       })}

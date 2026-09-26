@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import './story.scss';
 import { Accordion, AccordionItem, AccordionSkeleton } from '@carbon/react';
 import { Button } from '@carbon/react';

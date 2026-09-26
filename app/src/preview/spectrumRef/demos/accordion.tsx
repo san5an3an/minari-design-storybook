@@ -1,5 +1,7 @@
 // @ts-nocheck
+import * as React from "react";
 import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from "@adobe/react-spectrum";
+import type { Key } from '@react-types/shared';
 
 function Example1() {
   return (
@@ -22,7 +24,31 @@ function Example1() {
   );
 }
 
-function Example2() {
+function ControlledExpansion() {
+  let [expandedKeys, setExpandedKeys] = React.useState<Set<Key>>(new Set(['personal']))
+
+  return (
+    <>
+      <Accordion expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys}>
+        <Disclosure id="personal">
+          <DisclosureTitle>Personal Information</DisclosureTitle>
+          <DisclosurePanel>
+            Personal information form here.
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure id="billing">
+          <DisclosureTitle>Billing Address</DisclosureTitle>
+          <DisclosurePanel>
+            Billing address form here.
+          </DisclosurePanel>
+        </Disclosure>
+      </Accordion>
+      <div style={{marginTop: '20px'}}>You have expanded: {expandedKeys}</div>
+    </>
+  )
+}
+
+function Example3() {
   return (
     <>
     <Accordion allowsMultipleExpanded defaultExpandedKeys={['personal', 'billing']}>
@@ -43,7 +69,7 @@ function Example2() {
   );
 }
 
-function Example3() {
+function Example4() {
   return (
     <>
     <Accordion isDisabled>
@@ -64,7 +90,7 @@ function Example3() {
   );
 }
 
-function Example4() {
+function Example5() {
   return (
     <>
     <Accordion isQuiet>
@@ -87,10 +113,11 @@ function Example4() {
 
 export const demos = {
   "example": Example1,
-  "expanded": Example2,
-  "disabled": Example3,
-  "quiet": Example4,
+  "events": ControlledExpansion,
+  "expanded": Example3,
+  "disabled": Example4,
+  "quiet": Example5,
 };
 export const skipped: Record<string, { code: string; detail: string }> = {
-  "events": { code: "other", detail: "\ubaa8\ub974\ub294 \uc774\ub984\uc744 \uac00\uc838\uc640\uc694 \u2014 Key(\uc124\uce58\ubcf8 export \ud45c\uc5d0 \uc5c6\uc5b4\uc694)." },
+
 };

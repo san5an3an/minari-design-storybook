@@ -8,6 +8,7 @@ import * as m006 from "./button-with-disabled-link";
 import * as m007 from "./button-with-loading";
 import * as m008 from "./button-with-loading-toggle";
 import * as m009 from "./button-with-spinner-placement";
+import * as m010 from "./button-with-custom-spinner";
 import * as m011 from "./button-with-group";
 import * as m012 from "./button-with-group-flushed";
 import * as m013 from "./button-with-split-menu";
@@ -26,6 +27,7 @@ export const DEMOS = {
   "button-with-loading": m007.ButtonWithLoading,
   "button-with-loading-toggle": m008.ButtonWithLoadingToggle,
   "button-with-spinner-placement": m009.ButtonWithSpinnerPlacement,
+  "button-with-custom-spinner": m010.ButtonWithCustomSpinner,
   "button-with-group": m011.ButtonWithGroup,
   "button-with-group-flushed": m012.ButtonWithGroupFlushed,
   "button-with-split-menu": m013.ButtonWithSplitMenu,
@@ -35,5 +37,5 @@ export const DEMOS = {
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "button-with-custom-spinner": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-spinners"},
+
 };

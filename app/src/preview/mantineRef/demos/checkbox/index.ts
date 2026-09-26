@@ -11,8 +11,9 @@ import * as m009 from "../_src/demos/core/Checkbox/Checkbox.demo.groupConfigurat
 import * as m010 from "../_src/demos/core/Checkbox/Checkbox.demo.indicator";
 import * as m011 from "../_src/demos/core/Checkbox/Checkbox.demo.card";
 import * as m012 from "../_src/demos/core/Checkbox/Checkbox.demo.cardGroup";
-import * as m013 from "../_src/demos/core/Table/Table.demo.rowSelection";
-import * as m014 from "../_src/demos/core/Checkbox/Checkbox.demo.customize";
+import * as m013 from "../_src/demos/core/Checkbox/Checkbox.demo.stylesApi";
+import * as m014 from "../_src/demos/core/Table/Table.demo.rowSelection";
+import * as m015 from "../_src/demos/core/Checkbox/Checkbox.demo.customize";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,
@@ -28,10 +29,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "indicator": m010.indicator,
   "card": m011.card,
   "cardGroup": m012.cardGroup,
-  "rowSelection": m013.rowSelection,
-  "customize": m014.customize,
+  "stylesApi": m013.stylesApi,
+  "rowSelection": m014.rowSelection,
+  "customize": m015.customize,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

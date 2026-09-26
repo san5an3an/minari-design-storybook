@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { ErrorBoundary, ErrorBoundaryContext } from '@carbon/react';
 import { Button } from '@carbon/react';
 import mdx from './ErrorBoundary.mdx';

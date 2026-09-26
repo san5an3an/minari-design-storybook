@@ -11,6 +11,7 @@ import * as m009 from "./number-input-with-invalid";
 import * as m010 from "./number-input-with-field";
 import * as m011 from "./number-input-with-element";
 import * as m012 from "./number-input-with-scrubber";
+import * as m013 from "./number-input-with-hook-form";
 
 export const DEMOS = {
   "number-input-basic": m000.NumberInputBasic,
@@ -26,8 +27,9 @@ export const DEMOS = {
   "number-input-with-field": m010.NumberInputWithField,
   "number-input-with-element": m011.NumberInputWithElement,
   "number-input-with-scrubber": m012.NumberInputWithScrubber,
+  "number-input-with-hook-form": m013.NumberInputWithHookForm,
 };
 
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "number-input-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

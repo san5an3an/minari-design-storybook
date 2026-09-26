@@ -1,5 +1,5 @@
 import { componentGroups, resolveTokenGroup } from "../../preview/tokenGroups";
-import { collectTokens } from "../tokens";
+import { BASE_LAYER, collectTokens } from "../tokens";
 import { sheetsFor } from "../rows";
 import { wantsThemeOnly, type ExportFile, type ExportRequest, type ExportResources } from "../types";
 
@@ -21,9 +21,6 @@ export function emitLib(req: ExportRequest, res: ExportResources): ExportFile[] 
   const themeOnly = wantsThemeOnly(req.format);
 
   const consumer = [lib.themeSource, lib.providerSource, ...lib.extras.map((e) => e.text)].join("\n");
-
-  const BASE_LAYER = (name: string): boolean =>
-    name.startsWith("--semantic-") || name.startsWith("--base-font-");
 
   const group = resolveTokenGroup(
     req.component,

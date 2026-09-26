@@ -5,6 +5,7 @@ import * as m003 from "../_src/demos/core/Switch/Switch.demo.thumbIcon";
 import * as m004 from "../_src/demos/core/Switch/Switch.demo.tooltip";
 import * as m005 from "../_src/demos/core/Switch/Switch.demo.groupConfigurator";
 import * as m006 from "../_src/demos/core/Switch/Switch.demo.styles";
+import * as m007 from "../_src/demos/core/Switch/Switch.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,
@@ -14,8 +15,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "tooltip": m004.tooltip,
   "groupConfigurator": m005.groupConfigurator,
   "styles": m006.styles,
+  "stylesApi": m007.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

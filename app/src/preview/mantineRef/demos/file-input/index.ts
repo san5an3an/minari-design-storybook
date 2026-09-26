@@ -6,6 +6,7 @@ import * as m004 from "../_src/demos/core/FileInput/FileInput.demo.valueComponen
 import * as m005 from "../_src/demos/core/FileInput/FileInput.demo.error";
 import * as m006 from "../_src/demos/core/FileInput/FileInput.demo.disabled";
 import * as m007 from "../_src/demos/core/FileInput/FileInput.demo.sections";
+import * as m008 from "../_src/demos/core/FileInput/FileInput.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -16,8 +17,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "error": m005.error,
   "disabled": m006.disabled,
   "sections": m007.sections,
+  "stylesApi": m008.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

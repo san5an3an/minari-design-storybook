@@ -24,6 +24,7 @@ import * as m022 from "../_src/demos/core/TagsInput/TagsInput.demo.configurator"
 import * as m023 from "../_src/demos/core/TagsInput/TagsInput.demo.readOnly";
 import * as m024 from "../_src/demos/core/TagsInput/TagsInput.demo.disabled";
 import * as m025 from "../_src/demos/core/TagsInput/TagsInput.demo.error";
+import * as m026 from "../_src/demos/core/TagsInput/TagsInput.demo.stylesApi";
 
 export const DEMOS: Record<string, { component: unknown }> = {
   "usage": m000.usage,
@@ -52,8 +53,8 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "readOnly": m023.readOnly,
   "disabled": m024.disabled,
   "error": m025.error,
+  "stylesApi": m026.stylesApi,
 };
 
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

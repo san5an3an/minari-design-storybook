@@ -1,8 +1,7 @@
 // @ts-nocheck
-import { action } from '../../../_stub/storybookActions';
-import { CopilotIcon } from '@primer/octicons-react';
+import {CopilotIcon, GitPullRequestIcon} from '@primer/octicons-react'
+import {action} from 'storybook/actions'
 import { Banner } from '@primer/react';
-import { Link } from '@primer/react';
 
 
 const meta = {
@@ -11,7 +10,6 @@ const meta = {
 } satisfies Meta<typeof Banner>
 
 export default meta
-
 
 export const CustomIcon = () => {
   return (

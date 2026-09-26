@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { MenuItem, MenuItemDivider } from '@carbon/react';
 import { ComboButton } from '@carbon/react';
 import mdx from './ComboButton.mdx';
