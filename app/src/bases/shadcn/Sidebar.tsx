@@ -10,13 +10,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { renderMenuItems } from "./internal/menuItems";
 import {
-  Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter, SidebarGroup,
-  SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader,
+  Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter as ShadcnSidebarFooter,
+  SidebarGroup as ShadcnSidebarGroup, SidebarGroupAction, SidebarGroupContent,
+  SidebarGroupLabel as ShadcnSidebarGroupLabel, SidebarHeader as ShadcnSidebarHeader,
   SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge,
-  SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton,
+  SidebarMenuButton as ShadcnSidebarMenuButton, SidebarMenuItem, SidebarMenuSub,
+  SidebarMenuSubButton as ShadcnSidebarMenuSubButton,
   SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarTrigger,
 } from "@/components/ui/sidebar";
 import type { SidebarImpl, SidebarProps } from "../../systems/props";
+import { withDims } from "./tone";
+
+// 이 파일 안의 조각에만 치수 지정. 앱 껍데기 사이드바(App.tsx)는 원본을 직접 써서 안 바뀜
+// 메뉴 버튼 세로 토큰(item-padding-block)은 연결 제외. shadcn 이 높이(h-8, h-7)로 세로를 고정함
+// 아이콘으로 접힌 상태는 shadcn 의 group-data-[collapsible=icon]:p-2! 유지. 강제 지정이라 토큰이 덮지 않음
+// sidebar-gap 토큰은 연결 제외. 메뉴 gap-0, Header gap-2 중 받을 요소가 분명하지 않음
+const SidebarHeader = withDims(ShadcnSidebarHeader, "p-(--component-sidebar-padding)");
+const SidebarFooter = withDims(ShadcnSidebarFooter, "p-(--component-sidebar-padding)");
+const SidebarGroup = withDims(ShadcnSidebarGroup, "p-(--component-sidebar-padding)");
+const SidebarGroupLabel = withDims(ShadcnSidebarGroupLabel, "px-(--component-sidebar-item-padding-inline)");
+const SidebarMenuButton = withDims(ShadcnSidebarMenuButton, "px-(--component-sidebar-item-padding-inline)");
+const SidebarMenuSubButton = withDims(ShadcnSidebarMenuSubButton, "px-(--component-sidebar-item-padding-inline)");
 
 type Item = NonNullable<SidebarProps["items"]>[number];
 

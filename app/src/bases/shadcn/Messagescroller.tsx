@@ -4,11 +4,12 @@ import {
   MessageScrollerViewport,
 } from "@/components/ui/message-scroller";
 import type { MessagescrollerImpl } from "../../systems/props";
+import { withDims } from "./tone";
 
 export const Messagescroller = Object.assign(ShadcnMessageScroller, {
   Provider: MessageScrollerProvider,
   Viewport: MessageScrollerViewport,
-  Content: MessageScrollerContent,
+  Content: withDims(MessageScrollerContent, "gap-(--component-messagescroller-gap)"),
   Item: MessageScrollerItem,
-  Button: MessageScrollerButton,
+  Button: withDims(MessageScrollerButton, "rounded-(--component-messagescroller-button-radius)"),
 }) as unknown as MessagescrollerImpl;

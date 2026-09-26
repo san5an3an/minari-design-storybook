@@ -3,6 +3,7 @@ import {
   Popover as ShadcnPopover, PopoverContent, PopoverDescription,
   PopoverHeader, PopoverTitle, PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import type { PopoverProps } from "../../systems/props";
 
 export function Popover({
@@ -16,7 +17,11 @@ export function Popover({
           ? <PopoverTrigger render={trigger as React.ReactElement} />
           : <PopoverTrigger>{trigger}</PopoverTrigger>
       ) : null}
-      <PopoverContent side={side} align={align} className={className}>
+      <PopoverContent
+        side={side}
+        align={align}
+        className={cn("gap-(--component-popover-gap) rounded-(--component-popover-radius) p-(--component-popover-padding)", className)}
+      >
         {title || description ? (
           <PopoverHeader>
             {title ? <PopoverTitle>{title}</PopoverTitle> : null}

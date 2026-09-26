@@ -3,6 +3,7 @@ import {
   Sheet as ShadcnSheet, SheetContent, SheetDescription, SheetFooter,
   SheetHeader, SheetTitle, SheetTrigger,
 } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import type { SheetProps } from "../../systems/props";
 
 export function Sheet({
@@ -16,15 +17,15 @@ export function Sheet({
           ? <SheetTrigger render={trigger as React.ReactElement} />
           : <SheetTrigger>{trigger}</SheetTrigger>
       ) : null}
-      <SheetContent side={side} className={className} container={container}>
+      <SheetContent side={side} className={cn("gap-(--component-sheet-gap)", className)} container={container}>
         {title || description ? (
-          <SheetHeader>
+          <SheetHeader className="p-(--component-sheet-padding)">
             {title ? <SheetTitle>{title}</SheetTitle> : null}
             {description ? <SheetDescription>{description}</SheetDescription> : null}
           </SheetHeader>
         ) : null}
         {children}
-        {footer ? <SheetFooter>{footer}</SheetFooter> : null}
+        {footer ? <SheetFooter className="p-(--component-sheet-padding)">{footer}</SheetFooter> : null}
       </SheetContent>
     </ShadcnSheet>
   );
