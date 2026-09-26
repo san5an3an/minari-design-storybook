@@ -57,11 +57,47 @@ export const theme: ThemeType = {
     },
     "spacing": "16px",
     "edgeSize": {
+      "none": "0px",
+      "xxsmall": "2px",
       "xsmall": "4px",
       "small": "8px",
       "medium": "16px",
       "large": "24px",
       "xlarge": "40px"
+    },
+    "radius": {
+      "none": "0px",
+      "hair": "0px",
+      "xxsmall": "6px",
+      "xsmall": "8px",
+      "small": "12px",
+      "medium": "16px",
+      "large": "20px",
+      "xlarge": "28px"
+    },
+    "breakpoints": {
+      "small": {
+        "edgeSize": {
+          "none": "0px",
+          "xxsmall": "2px",
+          "xsmall": "4px",
+          "small": "8px",
+          "medium": "16px",
+          "large": "24px",
+          "xlarge": "40px"
+        }
+      }
+    },
+    "drop": {
+      "border": {
+        "radius": "20px"
+      }
+    },
+    "input": {
+      "padding": {
+        "horizontal": "15px",
+        "vertical": "7px"
+      }
     }
   },
   "button": {
@@ -101,6 +137,121 @@ export const theme: ThemeType = {
           "horizontal": "24px"
         }
       }
+    }
+  },
+  "card": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "checkBox": {
+    "check": {
+      "radius": "6px"
+    },
+    "toggle": {
+      "radius": "9999px"
+    }
+  },
+  "layer": {
+    "border": {
+      "radius": "20px"
+    }
+  },
+  "notification": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "tip": {
+    "content": {
+      "round": "12px"
+    }
+  },
+  "toggleGroup": {
+    "container": {
+      "round": "16px"
+    },
+    "button": {
+      "pad": {
+        "horizontal": "16px",
+        "vertical": "4px"
+      }
+    }
+  },
+  "tag": {
+    "round": "9999px",
+    "pad": {
+      "horizontal": "16px"
+    },
+    "size": {
+      "xsmall": {
+        "pad": {
+          "horizontal": "4px"
+        }
+      },
+      "small": {
+        "pad": {
+          "horizontal": "8px"
+        }
+      },
+      "large": {
+        "pad": {
+          "horizontal": "24px"
+        }
+      },
+      "xlarge": {
+        "pad": {
+          "horizontal": "40px"
+        }
+      }
+    }
+  },
+  "pagination": {
+    "button": {
+      "size": {
+        "small": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "medium": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "large": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        }
+      }
+    }
+  },
+  "dateInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "dateTimeInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "timeInput": {
+    "container": {
+      "round": "12px"
     }
   },
   "text": {
@@ -206,11 +357,47 @@ export const darkTheme: ThemeType = {
     },
     "spacing": "16px",
     "edgeSize": {
+      "none": "0px",
+      "xxsmall": "2px",
       "xsmall": "4px",
       "small": "8px",
       "medium": "16px",
       "large": "24px",
       "xlarge": "40px"
+    },
+    "radius": {
+      "none": "0px",
+      "hair": "0px",
+      "xxsmall": "6px",
+      "xsmall": "8px",
+      "small": "12px",
+      "medium": "16px",
+      "large": "20px",
+      "xlarge": "28px"
+    },
+    "breakpoints": {
+      "small": {
+        "edgeSize": {
+          "none": "0px",
+          "xxsmall": "2px",
+          "xsmall": "4px",
+          "small": "8px",
+          "medium": "16px",
+          "large": "24px",
+          "xlarge": "40px"
+        }
+      }
+    },
+    "drop": {
+      "border": {
+        "radius": "20px"
+      }
+    },
+    "input": {
+      "padding": {
+        "horizontal": "15px",
+        "vertical": "7px"
+      }
     }
   },
   "button": {
@@ -250,6 +437,121 @@ export const darkTheme: ThemeType = {
           "horizontal": "24px"
         }
       }
+    }
+  },
+  "card": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "checkBox": {
+    "check": {
+      "radius": "6px"
+    },
+    "toggle": {
+      "radius": "9999px"
+    }
+  },
+  "layer": {
+    "border": {
+      "radius": "20px"
+    }
+  },
+  "notification": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "tip": {
+    "content": {
+      "round": "12px"
+    }
+  },
+  "toggleGroup": {
+    "container": {
+      "round": "16px"
+    },
+    "button": {
+      "pad": {
+        "horizontal": "16px",
+        "vertical": "4px"
+      }
+    }
+  },
+  "tag": {
+    "round": "9999px",
+    "pad": {
+      "horizontal": "16px"
+    },
+    "size": {
+      "xsmall": {
+        "pad": {
+          "horizontal": "4px"
+        }
+      },
+      "small": {
+        "pad": {
+          "horizontal": "8px"
+        }
+      },
+      "large": {
+        "pad": {
+          "horizontal": "24px"
+        }
+      },
+      "xlarge": {
+        "pad": {
+          "horizontal": "40px"
+        }
+      }
+    }
+  },
+  "pagination": {
+    "button": {
+      "size": {
+        "small": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "medium": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "large": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        }
+      }
+    }
+  },
+  "dateInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "dateTimeInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "timeInput": {
+    "container": {
+      "round": "12px"
     }
   },
   "text": {
@@ -355,11 +657,47 @@ export const highContrastTheme: ThemeType = {
     },
     "spacing": "16px",
     "edgeSize": {
+      "none": "0px",
+      "xxsmall": "2px",
       "xsmall": "4px",
       "small": "8px",
       "medium": "16px",
       "large": "24px",
       "xlarge": "40px"
+    },
+    "radius": {
+      "none": "0px",
+      "hair": "0px",
+      "xxsmall": "6px",
+      "xsmall": "8px",
+      "small": "12px",
+      "medium": "16px",
+      "large": "20px",
+      "xlarge": "28px"
+    },
+    "breakpoints": {
+      "small": {
+        "edgeSize": {
+          "none": "0px",
+          "xxsmall": "2px",
+          "xsmall": "4px",
+          "small": "8px",
+          "medium": "16px",
+          "large": "24px",
+          "xlarge": "40px"
+        }
+      }
+    },
+    "drop": {
+      "border": {
+        "radius": "20px"
+      }
+    },
+    "input": {
+      "padding": {
+        "horizontal": "14px",
+        "vertical": "6px"
+      }
     }
   },
   "button": {
@@ -399,6 +737,121 @@ export const highContrastTheme: ThemeType = {
           "horizontal": "24px"
         }
       }
+    }
+  },
+  "card": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "checkBox": {
+    "check": {
+      "radius": "6px"
+    },
+    "toggle": {
+      "radius": "9999px"
+    }
+  },
+  "layer": {
+    "border": {
+      "radius": "20px"
+    }
+  },
+  "notification": {
+    "container": {
+      "round": "16px"
+    }
+  },
+  "tip": {
+    "content": {
+      "round": "12px"
+    }
+  },
+  "toggleGroup": {
+    "container": {
+      "round": "16px"
+    },
+    "button": {
+      "pad": {
+        "horizontal": "16px",
+        "vertical": "4px"
+      }
+    }
+  },
+  "tag": {
+    "round": "9999px",
+    "pad": {
+      "horizontal": "16px"
+    },
+    "size": {
+      "xsmall": {
+        "pad": {
+          "horizontal": "4px"
+        }
+      },
+      "small": {
+        "pad": {
+          "horizontal": "8px"
+        }
+      },
+      "large": {
+        "pad": {
+          "horizontal": "24px"
+        }
+      },
+      "xlarge": {
+        "pad": {
+          "horizontal": "40px"
+        }
+      }
+    }
+  },
+  "pagination": {
+    "button": {
+      "size": {
+        "small": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "medium": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        },
+        "large": {
+          "border": {
+            "radius": "12px"
+          },
+          "pad": {
+            "vertical": "4px",
+            "horizontal": "4px"
+          }
+        }
+      }
+    }
+  },
+  "dateInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "dateTimeInput": {
+    "container": {
+      "round": "12px"
+    }
+  },
+  "timeInput": {
+    "container": {
+      "round": "12px"
     }
   },
   "text": {

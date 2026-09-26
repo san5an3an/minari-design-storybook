@@ -8,7 +8,9 @@ import * as m005 from "./checkbox-controlled";
 import * as m006 from "./checkbox-with-label-position";
 import * as m007 from "./checkbox-with-store";
 import * as m008 from "./checkbox-with-form";
+import * as m009 from "./checkbox-with-hook-form";
 import * as m010 from "./checkbox-with-group";
+import * as m011 from "./checkbox-with-group-hook-form";
 import * as m012 from "./checkbox-with-custom-icon";
 import * as m013 from "./checkbox-indeterminate";
 import * as m014 from "./checkbox-with-description";
@@ -25,7 +27,9 @@ export const DEMOS = {
   "checkbox-with-label-position": m006.CheckboxWithLabelPosition,
   "checkbox-with-store": m007.CheckboxWithStore,
   "checkbox-with-form": m008.CheckboxWithForm,
+  "checkbox-with-hook-form": m009.CheckboxWithHookForm,
   "checkbox-with-group": m010.CheckboxWithGroup,
+  "checkbox-with-group-hook-form": m011.CheckboxWithGroupHookForm,
   "checkbox-with-custom-icon": m012.CheckboxWithCustomIcon,
   "checkbox-indeterminate": m013.CheckboxIndeterminate,
   "checkbox-with-description": m014.CheckboxWithDescription,
@@ -34,6 +38,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "checkbox-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
-  "checkbox-with-group-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

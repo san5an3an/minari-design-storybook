@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogControls, DialogCloseButton, DialogBody, DialogHeader, DialogTitle } from '@carbon/react/es/components/Dialog/Dialog.js';
 import { Button } from '@carbon/react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import mdx from './Dialog.mdx';
 
 

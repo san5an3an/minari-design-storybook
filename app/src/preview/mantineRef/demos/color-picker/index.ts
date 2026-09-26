@@ -8,8 +8,9 @@ import * as m003 from "../_src/demos/core/ColorPicker/ColorPicker.demo.swatchesC
 import * as m004 from "../_src/demos/core/ColorPicker/ColorPicker.demo.swatchesOnly";
 import * as m005 from "../_src/demos/core/ColorPicker/ColorPicker.demo.sizeConfigurator";
 import * as m006 from "../_src/demos/core/ColorPicker/ColorPicker.demo.fullWidth";
-import * as m007 from "../_src/demos/core/ColorPicker/ColorPicker.demo.hueSlider";
-import * as m008 from "../_src/demos/core/ColorPicker/ColorPicker.demo.alphaSlider";
+import * as m007 from "../_src/demos/core/ColorPicker/ColorPicker.demo.stylesApi";
+import * as m008 from "../_src/demos/core/ColorPicker/ColorPicker.demo.hueSlider";
+import * as m009 from "../_src/demos/core/ColorPicker/ColorPicker.demo.alphaSlider";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -20,11 +21,11 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "swatchesOnly": m004.swatchesOnly,
   "sizeConfigurator": m005.sizeConfigurator,
   "fullWidth": m006.fullWidth,
-  "hueSlider": m007.hueSlider,
-  "alphaSlider": m008.alphaSlider,
+  "stylesApi": m007.stylesApi,
+  "hueSlider": m008.hueSlider,
+  "alphaSlider": m009.alphaSlider,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

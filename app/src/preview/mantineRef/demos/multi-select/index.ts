@@ -28,6 +28,7 @@ import * as m023 from "../_src/demos/core/MultiSelect/MultiSelect.demo.configura
 import * as m024 from "../_src/demos/core/MultiSelect/MultiSelect.demo.readOnly";
 import * as m025 from "../_src/demos/core/MultiSelect/MultiSelect.demo.disabled";
 import * as m026 from "../_src/demos/core/MultiSelect/MultiSelect.demo.error";
+import * as m027 from "../_src/demos/core/MultiSelect/MultiSelect.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -58,9 +59,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "readOnly": m024.readOnly,
   "disabled": m025.disabled,
   "error": m026.error,
+  "stylesApi": m027.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

@@ -13,12 +13,13 @@ import * as m008 from "../_src/demos/core/Button/Button.demo.disabledStyles";
 import * as m009 from "../_src/demos/core/Button/Button.demo.disabledTooltip";
 import * as m010 from "../_src/demos/core/Button/Button.demo.loading";
 import * as m011 from "../_src/demos/core/Button/Button.demo.loaderProps";
-import * as m012 from "../_src/demos/styles/Styles.demo.dataAttributes";
-import * as m013 from "../_src/demos/core/Button/Button.demo.customVariant";
-import * as m014 from "../_src/demos/theming/Theming.demo.variantColorsResolver";
-import * as m015 from "../_src/demos/core/Button/Button.demo.autoContrast";
-import * as m016 from "../_src/demos/core/Button/Button.demo.group";
-import * as m017 from "../_src/demos/core/Button/Button.demo.groupSection";
+import * as m012 from "../_src/demos/core/Button/Button.demo.stylesApi";
+import * as m013 from "../_src/demos/styles/Styles.demo.dataAttributes";
+import * as m014 from "../_src/demos/core/Button/Button.demo.customVariant";
+import * as m015 from "../_src/demos/theming/Theming.demo.variantColorsResolver";
+import * as m016 from "../_src/demos/core/Button/Button.demo.autoContrast";
+import * as m017 from "../_src/demos/core/Button/Button.demo.group";
+import * as m018 from "../_src/demos/core/Button/Button.demo.groupSection";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -34,15 +35,15 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "disabledTooltip": m009.disabledTooltip,
   "loading": m010.loading,
   "loaderProps": m011.loaderProps,
-  "dataAttributes": m012.dataAttributes,
-  "customVariant": m013.customVariant,
-  "variantColorsResolver": m014.variantColorsResolver,
-  "autoContrast": m015.autoContrast,
-  "group": m016.group,
-  "groupSection": m017.groupSection,
+  "stylesApi": m012.stylesApi,
+  "dataAttributes": m013.dataAttributes,
+  "customVariant": m014.customVariant,
+  "variantColorsResolver": m015.variantColorsResolver,
+  "autoContrast": m016.autoContrast,
+  "group": m017.group,
+  "groupSection": m018.groupSection,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

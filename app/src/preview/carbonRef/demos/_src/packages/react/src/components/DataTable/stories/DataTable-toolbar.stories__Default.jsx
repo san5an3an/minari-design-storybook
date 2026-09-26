@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import { Button } from '@carbon/react';
 import { DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, TableToolbar, TableToolbarAction, TableToolbarContent, TableToolbarSearch, TableToolbarMenu } from '@carbon/react';
 import mdx from '../DataTable.mdx';

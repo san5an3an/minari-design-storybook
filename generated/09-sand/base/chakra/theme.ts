@@ -141,11 +141,133 @@ export const config = defineConfig({
     },
     "tokens": {
       "radii": {
+        "xs": {
+          "value": "4px"
+        },
+        "sm": {
+          "value": "8px"
+        },
+        "md": {
+          "value": "12px"
+        },
+        "lg": {
+          "value": "12px"
+        },
+        "xl": {
+          "value": "16px"
+        },
+        "2xl": {
+          "value": "16px"
+        },
         "control": {
           "value": "8px"
         },
         "container": {
           "value": "12px"
+        }
+      },
+      "spacing": {
+        "0.5": {
+          "value": "0.1875rem"
+        },
+        "1": {
+          "value": "0.375rem"
+        },
+        "1.5": {
+          "value": "0.5625rem"
+        },
+        "2": {
+          "value": "0.75rem"
+        },
+        "2.5": {
+          "value": "0.9375rem"
+        },
+        "3": {
+          "value": "1.125rem"
+        },
+        "3.5": {
+          "value": "1.3125rem"
+        },
+        "4": {
+          "value": "1.5rem"
+        },
+        "4.5": {
+          "value": "1.6875rem"
+        },
+        "5": {
+          "value": "1.875rem"
+        },
+        "6": {
+          "value": "2.25rem"
+        },
+        "7": {
+          "value": "2.625rem"
+        },
+        "8": {
+          "value": "3.0rem"
+        },
+        "9": {
+          "value": "3.375rem"
+        },
+        "10": {
+          "value": "3.75rem"
+        },
+        "11": {
+          "value": "4.125rem"
+        },
+        "12": {
+          "value": "4.5rem"
+        },
+        "14": {
+          "value": "5.25rem"
+        },
+        "16": {
+          "value": "6.0rem"
+        },
+        "20": {
+          "value": "7.5rem"
+        },
+        "24": {
+          "value": "9.0rem"
+        },
+        "28": {
+          "value": "10.5rem"
+        },
+        "32": {
+          "value": "12.0rem"
+        },
+        "36": {
+          "value": "13.5rem"
+        },
+        "40": {
+          "value": "15.0rem"
+        },
+        "44": {
+          "value": "16.5rem"
+        },
+        "48": {
+          "value": "18.0rem"
+        },
+        "52": {
+          "value": "19.5rem"
+        },
+        "56": {
+          "value": "21.0rem"
+        },
+        "60": {
+          "value": "22.5rem"
+        },
+        "64": {
+          "value": "24.0rem"
+        },
+        "72": {
+          "value": "27.0rem"
+        },
+        "80": {
+          "value": "30.0rem"
+        },
+        "96": {
+          "value": "36.0rem"
         }
       }
     }
@@ -291,11 +413,133 @@ export const darkConfig = defineConfig({
     },
     "tokens": {
       "radii": {
+        "xs": {
+          "value": "4px"
+        },
+        "sm": {
+          "value": "8px"
+        },
+        "md": {
+          "value": "12px"
+        },
+        "lg": {
+          "value": "12px"
+        },
+        "xl": {
+          "value": "16px"
+        },
+        "2xl": {
+          "value": "16px"
+        },
         "control": {
           "value": "8px"
         },
         "container": {
           "value": "12px"
+        }
+      },
+      "spacing": {
+        "0.5": {
+          "value": "0.1875rem"
+        },
+        "1": {
+          "value": "0.375rem"
+        },
+        "1.5": {
+          "value": "0.5625rem"
+        },
+        "2": {
+          "value": "0.75rem"
+        },
+        "2.5": {
+          "value": "0.9375rem"
+        },
+        "3": {
+          "value": "1.125rem"
+        },
+        "3.5": {
+          "value": "1.3125rem"
+        },
+        "4": {
+          "value": "1.5rem"
+        },
+        "4.5": {
+          "value": "1.6875rem"
+        },
+        "5": {
+          "value": "1.875rem"
+        },
+        "6": {
+          "value": "2.25rem"
+        },
+        "7": {
+          "value": "2.625rem"
+        },
+        "8": {
+          "value": "3.0rem"
+        },
+        "9": {
+          "value": "3.375rem"
+        },
+        "10": {
+          "value": "3.75rem"
+        },
+        "11": {
+          "value": "4.125rem"
+        },
+        "12": {
+          "value": "4.5rem"
+        },
+        "14": {
+          "value": "5.25rem"
+        },
+        "16": {
+          "value": "6.0rem"
+        },
+        "20": {
+          "value": "7.5rem"
+        },
+        "24": {
+          "value": "9.0rem"
+        },
+        "28": {
+          "value": "10.5rem"
+        },
+        "32": {
+          "value": "12.0rem"
+        },
+        "36": {
+          "value": "13.5rem"
+        },
+        "40": {
+          "value": "15.0rem"
+        },
+        "44": {
+          "value": "16.5rem"
+        },
+        "48": {
+          "value": "18.0rem"
+        },
+        "52": {
+          "value": "19.5rem"
+        },
+        "56": {
+          "value": "21.0rem"
+        },
+        "60": {
+          "value": "22.5rem"
+        },
+        "64": {
+          "value": "24.0rem"
+        },
+        "72": {
+          "value": "27.0rem"
+        },
+        "80": {
+          "value": "30.0rem"
+        },
+        "96": {
+          "value": "36.0rem"
         }
       }
     }
@@ -441,11 +685,133 @@ export const highContrastConfig = defineConfig({
     },
     "tokens": {
       "radii": {
+        "xs": {
+          "value": "4px"
+        },
+        "sm": {
+          "value": "8px"
+        },
+        "md": {
+          "value": "12px"
+        },
+        "lg": {
+          "value": "12px"
+        },
+        "xl": {
+          "value": "16px"
+        },
+        "2xl": {
+          "value": "16px"
+        },
         "control": {
           "value": "8px"
         },
         "container": {
           "value": "12px"
+        }
+      },
+      "spacing": {
+        "0.5": {
+          "value": "0.1875rem"
+        },
+        "1": {
+          "value": "0.375rem"
+        },
+        "1.5": {
+          "value": "0.5625rem"
+        },
+        "2": {
+          "value": "0.75rem"
+        },
+        "2.5": {
+          "value": "0.9375rem"
+        },
+        "3": {
+          "value": "1.125rem"
+        },
+        "3.5": {
+          "value": "1.3125rem"
+        },
+        "4": {
+          "value": "1.5rem"
+        },
+        "4.5": {
+          "value": "1.6875rem"
+        },
+        "5": {
+          "value": "1.875rem"
+        },
+        "6": {
+          "value": "2.25rem"
+        },
+        "7": {
+          "value": "2.625rem"
+        },
+        "8": {
+          "value": "3.0rem"
+        },
+        "9": {
+          "value": "3.375rem"
+        },
+        "10": {
+          "value": "3.75rem"
+        },
+        "11": {
+          "value": "4.125rem"
+        },
+        "12": {
+          "value": "4.5rem"
+        },
+        "14": {
+          "value": "5.25rem"
+        },
+        "16": {
+          "value": "6.0rem"
+        },
+        "20": {
+          "value": "7.5rem"
+        },
+        "24": {
+          "value": "9.0rem"
+        },
+        "28": {
+          "value": "10.5rem"
+        },
+        "32": {
+          "value": "12.0rem"
+        },
+        "36": {
+          "value": "13.5rem"
+        },
+        "40": {
+          "value": "15.0rem"
+        },
+        "44": {
+          "value": "16.5rem"
+        },
+        "48": {
+          "value": "18.0rem"
+        },
+        "52": {
+          "value": "19.5rem"
+        },
+        "56": {
+          "value": "21.0rem"
+        },
+        "60": {
+          "value": "22.5rem"
+        },
+        "64": {
+          "value": "24.0rem"
+        },
+        "72": {
+          "value": "27.0rem"
+        },
+        "80": {
+          "value": "30.0rem"
+        },
+        "96": {
+          "value": "36.0rem"
         }
       }
     }

@@ -5,6 +5,7 @@ import * as m002 from "./pin-input-with-otp";
 import * as m003 from "./pin-input-with-mask";
 import * as m004 from "./pin-input-with-placeholder";
 import * as m005 from "./pin-input-with-field";
+import * as m006 from "./pin-input-with-hook-form";
 import * as m007 from "./pin-input-controlled";
 import * as m008 from "./pin-input-with-store";
 import * as m009 from "./pin-input-attached";
@@ -19,6 +20,7 @@ export const DEMOS = {
   "pin-input-with-mask": m003.PinInputWithMask,
   "pin-input-with-placeholder": m004.PinInputWithPlaceholder,
   "pin-input-with-field": m005.PinInputWithField,
+  "pin-input-with-hook-form": m006.PinInputWithHookForm,
   "pin-input-controlled": m007.PinInputControlled,
   "pin-input-with-store": m008.PinInputWithStore,
   "pin-input-attached": m009.PinInputAttached,
@@ -28,5 +30,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "pin-input-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

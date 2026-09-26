@@ -84,6 +84,19 @@ export const theme = createTheme({
     ]
   },
   "defaultRadius": "8px",
+  "radius": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "0.75rem",
+    "lg": "1rem"
+  },
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2.5rem"
+  },
   "fontSizes": {
     "md": "16px"
   }
@@ -171,6 +184,19 @@ export const darkTheme = createTheme({
     ]
   },
   "defaultRadius": "8px",
+  "radius": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "0.75rem",
+    "lg": "1rem"
+  },
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2.5rem"
+  },
   "fontSizes": {
     "md": "16px"
   }
@@ -258,6 +284,19 @@ export const highContrastTheme = createTheme({
     ]
   },
   "defaultRadius": "8px",
+  "radius": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "0.75rem",
+    "lg": "1rem"
+  },
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2.5rem"
+  },
   "fontSizes": {
     "md": "16px"
   }

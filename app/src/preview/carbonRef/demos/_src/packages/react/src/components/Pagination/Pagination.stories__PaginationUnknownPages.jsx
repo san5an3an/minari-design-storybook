@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Pagination } from '@carbon/react';
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import mdx from './Pagination.mdx';
 
 

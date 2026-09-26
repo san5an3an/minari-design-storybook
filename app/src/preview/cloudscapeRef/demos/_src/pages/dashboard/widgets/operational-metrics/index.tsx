@@ -33,7 +33,13 @@ function OperationalMetricsProvider({ children }: { children: React.ReactElement
   const [visibleContent, setVisibleContent] = useState<ReadonlyArray<Content>>(allContent);
   return (
     <OperationalWidgetContext.Provider value={{ visibleContent, openPreferences: () => setPreferencesVisible(true) }}>
-      {React.cloneElement(React.Children.only(children), {
+      {/* ⚠️ React 19 의 `@types/react` 에서 `ReactElement` 의 기본 프롭 타입이 `any` → `unknown` 이
+           되어 `cloneElement` 의 프롭이 `Partial<unknown> & Attributes` 로 좁혀졌다 — 임의 프롭이
+           TS2769 로 막힌다(이 파일은 React 18 시절 vendor 데모 사본이다).
+           ⛔ 시그니처를 넓히면 안 된다 — 아래 `WidgetConfig.provider` 계약이 `ReactElement<unknown>`
+              을 요구해서 오류가 등록부로 옮겨갈 뿐이다(실측). 그래서 **이 호출 자리에서만** 단언한다.
+           ⭐ `as` 는 emit 에서 지워지므로 나가는 JS 가 한 글자도 안 바뀐다. */}
+      {React.cloneElement(React.Children.only(children) as React.ReactElement<Record<string, unknown>>, {
         removeConfirmationText: 'Operational metrics',
         actions: [{ text: 'Preferences', onClick: () => setPreferencesVisible(true) }],
       })}

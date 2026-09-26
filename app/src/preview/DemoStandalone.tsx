@@ -8,6 +8,7 @@ import type { BaseRefAdapter, BaseRefDoc, DemoValue, SkipCode } from "./refContr
 import { blueprintAdapter } from "./blueprintRef/adapter";
 import { bootstrapAdapter } from "./bootstrapRef/adapter";
 import { carbonAdapter } from "./carbonRef/adapter";
+import { chakraAdapter } from "./chakraRef/adapter";
 import { cloudscapeAdapter } from "./cloudscapeRef/adapter";
 import { daisyuiAdapter } from "./daisyuiRef/adapter";
 import { fluentAdapter } from "./fluentRef/adapter";
@@ -15,6 +16,7 @@ import { flowbiteAdapter } from "./flowbiteRef/adapter";
 import { grommetAdapter } from "./grommetRef/adapter";
 import { herouiAdapter } from "./herouiRef/adapter";
 import { lightningAdapter } from "./lightningRef/adapter";
+import { mantineAdapter } from "./mantineRef/adapter";
 import { primerAdapter } from "./primerRef/adapter";
 import { primereactAdapter } from "./primereactRef/adapter";
 import { spectrumAdapter } from "./spectrumRef/adapter";
@@ -24,6 +26,7 @@ const ADAPTERS: Record<string, BaseRefAdapter> = {
   blueprint: blueprintAdapter,
   bootstrap: bootstrapAdapter,
   carbon: carbonAdapter,
+  chakra: chakraAdapter,
   cloudscape: cloudscapeAdapter,
   daisyui: daisyuiAdapter,
   fluent: fluentAdapter,
@@ -31,6 +34,7 @@ const ADAPTERS: Record<string, BaseRefAdapter> = {
   grommet: grommetAdapter,
   heroui: herouiAdapter,
   lightning: lightningAdapter,
+  mantine: mantineAdapter,
   primer: primerAdapter,
   primereact: primereactAdapter,
   spectrum: spectrumAdapter,

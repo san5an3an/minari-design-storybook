@@ -11,7 +11,8 @@ import * as m008 from "./disabled";
 import * as m009 from "./social";
 import * as m010 from "./render-function";
 import * as m011 from "./custom-variants";
-import * as m012 from "./custom-styles";
+import * as m012 from "./ripple-effect";
+import * as m013 from "./custom-styles";
 
 /** key(원천 파일 이름) → 공식 export 그대로. */
 export const DEMOS = {
@@ -27,10 +28,10 @@ export const DEMOS = {
   "social": m009.Social,
   "render-function": m010.RenderFunction,
   "custom-variants": m011.CustomVariants,
-  "custom-styles": m012.CustomStyles,
+  "ripple-effect": m012.RippleEffect,
+  "custom-styles": m013.CustomStyles,
 };
 
 /** 안 세운 것과 **그 까닭**. `codes` 는 걸린 코드 전부(선언 순서) · `code` 는 그 첫째. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "ripple-effect": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치: m3-ripple"},
 };

@@ -5,6 +5,8 @@ import * as m002 from "./select-with-variants";
 import * as m003 from "./select-with-color-palette";
 import * as m004 from "./select-with-option-group";
 import * as m005 from "./select-controlled";
+import * as m006 from "./select-async-loading";
+import * as m007 from "./select-with-hook-form";
 import * as m008 from "./select-with-disabled";
 import * as m009 from "./select-with-invalid";
 import * as m010 from "./select-with-multiple";
@@ -26,6 +28,8 @@ export const DEMOS = {
   "select-with-color-palette": m003.SelectWithColorPalette,
   "select-with-option-group": m004.SelectWithOptionGroup,
   "select-controlled": m005.SelectControlled,
+  "select-async-loading": m006.SelectAsyncLoading,
+  "select-with-hook-form": m007.SelectWithHookForm,
   "select-with-disabled": m008.SelectWithDisabled,
   "select-with-invalid": m009.SelectWithInvalid,
   "select-with-multiple": m010.SelectWithMultiple,
@@ -42,6 +46,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "select-async-loading": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-use"},
-  "select-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: @hookform/resolvers, react-hook-form"},
+
 };

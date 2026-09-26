@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { RequestError, WiringError } from "./errors";
 import * as React from "react";
 import { partLabel } from "./rows";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
@@ -22,7 +23,7 @@ export async function repoRoot: Promise<string> {
     if (up === dir) break;
     dir = up;
   }
-  throw new Error(
+  throw new WiringError(
     `저장소 뿌리를 못 찾았어요: '${process.cwd}' 위로 generated/ 와 app/src/contract/ 가 ` +
       `함께 있는 위치가 없어요.`,
   );
@@ -63,6 +64,12 @@ export async function allowedComponents(slug: string): Promise<string[]> {
   return Object.keys(await readContract(slug));
 }
 
+export async function allowedBases(slug: string): Promise<string[]> {
+  const dir = path.join(await repoRoot, "generated", slug, "base");
+  const entries = await readdir(dir, { withFileTypes: true });
+  return [...entries.filter((e) => e.isDirectory).map((e) => e.name), "standalone"];
+}
+
 function systemNameOf(slug: string): string {
   const bare = slug.replace(/^\d+-/, "");
   return bare.charAt(0).toUpperCase + bare.slice(1);
@@ -83,7 +90,7 @@ export async function loadResources(
   const contract = await readContract(slug);
   const api = contract[component];
   if (!api) {
-    throw new Error(`'${slug}' 의 계약에 '${component}' 가 없어요.`);
+    throw new RequestError(`'${slug}' 의 계약에 '${component}' 가 없어요.`);
   }
 
   const exportName = exportNameOf(component);
@@ -113,7 +120,8 @@ export async function loadResources(
 
   const Root = mod[exportName];
   if (!Root) {
-    throw new Error(`react/${slug}/components/${exportName}.tsx 에 '${exportName}' export 가 없어요.`);
+    // export 누락은 생성물 오류로 처리
+    throw new WiringError(`react/${slug}/components/${exportName}.tsx 에 '${exportName}' export 가 없어요.`);
   }
 
   const acceptsChildren = (: boolean => {
@@ -125,17 +133,33 @@ export async function loadResources(
     }
   });
 
+  const partTakesText = new Map<string, boolean>(
+    partNames.map((name) => {
+      const Part = mod[name];
+      // 모듈에 없는 하위 컴포넌트는 판별 대상 아님. 선택 시 renderComponent에서 오류 발생
+      if (!Part) return [name, false] as const;
+      try {
+        renderToStaticMarkup(React.createElement(Part, {}, "글자"));
+        return [name, true] as const;
+      } catch {
+        return [name, false] as const;
+      }
+    }),
+  );
+
   const renderComponent = ({ props, parts, text }: RenderArgs): string => {
     const children =
       parts.length > 0
         ? parts.map((p, i) => {
             const Part = mod[p];
-            if (!Part) throw new Error(`'${p}' 부품이 그 모듈에 없어요.`);
+            // 계약-모듈 드리프트 도달. assertSelection 검증 후 도달하는 내부 배선 오류임
+            if (!Part) throw new WiringError(`'${p}' 부품이 그 모듈에 없어요.`);
             // 본문은 rows.ts 공유해 Next 예시와 동일하게 사용
             return React.createElement(
               Part,
               { key: i },
-              textless.has(p) ? null : partLabel(p, exportName),
+              // svg 비표시와 void 태그 렌더링 불가 두 이유가 겹쳐 있음
+              textless.has(p) || !partTakesText.get(p) ? null : partLabel(p, exportName),
             );
           })
         : text;

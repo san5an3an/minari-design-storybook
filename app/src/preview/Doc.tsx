@@ -30,7 +30,7 @@ export function Master({ note, lead, children }: {
       <h2>Master</h2>
       {lead ? <div className="doc-note doc-prose" style={{ marginTop: 0 }}>{lead}</div> : null}
       <div className="doc-master">{children}</div>
-      {note ? <p className="doc-note">{note}</p> : null}
+      {note ? <div className="doc-note">{note}</div> : null}
     </section>
   );
 }
@@ -54,7 +54,7 @@ export function Kids({
       </h2>
       {lead ? <div className="doc-note doc-prose" style={{ marginTop: 0 }}>{lead}</div> : null}
       <div className="doc-kids">{children}</div>
-      {note ? <p className="doc-note">{note}</p> : null}
+      {note ? <div className="doc-note">{note}</div> : null}
     </section>
   );
 }

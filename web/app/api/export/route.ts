@@ -1,8 +1,9 @@
 import { buildPayload } from "@/export/build";
-import { isLibBase } from "@/export/lib/registry";
+import { blameOf } from "@/export/errors";
+import { formatsFor, isLibBase, isMarkupBase } from "@/export/lib/registry";
 import { allowedLibComponents, loadLibResources } from "@/export/resources.lib.node";
-import { allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
-import { FORMATS, wantsHtml, type ExportRequest, type Format } from "@/export/types";
+import { allowedBases, allowedComponents, allowedSlugs, loadResources } from "@/export/resources.node";
+import { FORMATS, type ExportRequest, type Format } from "@/export/types";
 
 // fs 사용이라 edge 아님. 명시 안 하면 기본값 변경 시 조용히 깨질 수 있음
 export const runtime = "nodejs";
@@ -24,12 +25,12 @@ export async function GET(request: Request) {
   if (!/^[a-z0-9-]+$/.test(baseKey)) return bad("어떤 베이스인지가 빠졌어요.");
   if (!isLibBase(baseKey)) return bad(`'${baseKey}' 는 공식 라이브러리 화면이 아니에요.`);
 
-  const components = await allowedLibComponents(baseKey);
-  if (!components.includes(component)) {
-    return bad(`'${baseKey}' 공식 목록에 '${component}' 가 없어요.`);
-  }
-
   try {
+    const components = await allowedLibComponents(baseKey);
+    if (!components.includes(component)) {
+      return bad(`'${baseKey}' 공식 목록에 '${component}' 가 없어요.`);
+    }
+
     // 축과 무관한 색상 prop 여부. 존재하는 색 하나로 경로 확인
     const slug = (await allowedSlugs)[0];
     const res = await loadLibResources(slug, baseKey, component);
@@ -43,7 +44,9 @@ export async function GET(request: Request) {
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return bad(message, /없어요\.$/.test(message) ? 400 : 500);
+    const blame = blameOf(e);
+    if (blame === "unknown") console.error("[export] 판별 없는 오류:", e);
+    return bad(message, blame === "request" ? 400 : 500);
   }
 }
 
@@ -67,49 +70,61 @@ export async function POST(request: Request) {
     return bad(`내보내기 형식은 ${FORMATS.join(", ")} 중 하나여야 해요.`);
   }
 
-  // 경로를 알려진 이름 목록으로 검사
-  const slugs = await allowedSlugs;
-  if (!slugs.includes(slug)) return bad(`'${slug}' 이라는 색 테마가 없어요.`);
-
-  // 라이브러리마다 다른 목록. antd, MUI의 component는 슬러그라 계약에 없음
-  const lib = isLibBase(baseKey);
-  const components = lib ? await allowedLibComponents(baseKey) : await allowedComponents(slug);
-  if (!components.includes(component)) {
-    return bad(
-      lib
-        ? `'${baseKey}' 공식 목록에 '${component}' 가 없어요.`
-        : `'${slug}' 에 '${component}' 라는 컴포넌트가 없어요.`,
-    );
-  }
-
-  if (lib && wantsHtml(format as Format)) {
-    return bad(
-      `'${baseKey}' 는 HTML 로 내보낼 수 없어요. 정적 HTML 에는 그쪽 런타임이 없어서 ` +
-        `이 프로젝트 토큰이 안 실려요. 'next' 나 'theme' 로 골라 주세요.`,
-    );
-  }
-
-  const parts = strings(b.parts);
-  const states = strings(b.states);
-  if (!parts) return bad("고른 부품 목록의 모양이 올바르지 않아요.");
-  if (!states) return bad("고른 상태 목록의 모양이 올바르지 않아요.");
-
-  const rawValues = b.values;
-  if (typeof rawValues !== "object" || rawValues === null || Array.isArray(rawValues)) {
-    return bad("고른 값 목록의 모양이 올바르지 않아요.");
-  }
-  const values: Record<string, string[]> = {};
-  for (const [k, v] of Object.entries(rawValues as Record<string, unknown>)) {
-    const list = strings(v);
-    if (!list) return bad(`'${k}' 에서 고른 값의 모양이 올바르지 않아요.`);
-    values[k] = list;
-  }
-
-  const req: ExportRequest = {
-    slug, baseKey, component, format: format as Format, values, parts, states,
-  };
-
   try {
+    // 경로를 알려진 이름 목록으로 검사
+    const slugs = await allowedSlugs;
+    if (!slugs.includes(slug)) return bad(`'${slug}' 이라는 색 테마가 없어요.`);
+
+    const bases = await allowedBases(slug);
+    if (!bases.includes(baseKey)) {
+      return bad(`'${baseKey}' 라는 베이스가 없어요. 이 중에서 골라 주세요: ${bases.join(" · ")}`);
+    }
+
+    // 라이브러리마다 다른 목록. antd, MUI의 component는 슬러그라 계약에 없음
+    const lib = isLibBase(baseKey);
+    const components = lib ? await allowedLibComponents(baseKey) : await allowedComponents(slug);
+    if (!components.includes(component)) {
+      return bad(
+        lib
+          ? `'${baseKey}' 공식 목록에 '${component}' 가 없어요.`
+          : `'${slug}' 에 '${component}' 라는 컴포넌트가 없어요.`,
+      );
+    }
+
+    const allowed = formatsFor(baseKey);
+    if (!allowed.includes(format as Format)) {
+      // 선택지는 조사 없이 나열. 붙이면 받침 따라 어법이 깨지고 하나면 이을 것도 없음
+      const picks = allowed.map((f) => `'${f}'`).join(" · ");
+      // both는 양쪽을 함께 내는 형식이라 한쪽만 근거로 거절하면 반쪽 진실임
+      const both = format === "both" ? "'both' 는 HTML 과 React 를 함께 내는데 " : "";
+      const why = !lib
+        ? "이 프로젝트의 계약 컴포넌트는 CSS 가 곧 테마라 테마만 따로 낼 것이 없어요"
+        : isMarkupBase(baseKey)
+          ? `${both}이 계열에는 React 컴포넌트가 없어요(공식 예제가 마크업이라 지어낼 이름이 없어요)`
+          : `${both}정적 HTML 에는 그쪽 런타임이 없어서 이 프로젝트 토큰이 안 실려요`;
+      return bad(`'${baseKey}' 는 '${format}' 으로 내보낼 수 없어요. ${why}. 이 중에서 골라 주세요: ${picks}`);
+    }
+
+    const parts = strings(b.parts);
+    const states = strings(b.states);
+    if (!parts) return bad("고른 부품 목록의 모양이 올바르지 않아요.");
+    if (!states) return bad("고른 상태 목록의 모양이 올바르지 않아요.");
+
+    const rawValues = b.values;
+    if (typeof rawValues !== "object" || rawValues === null || Array.isArray(rawValues)) {
+      return bad("고른 값 목록의 모양이 올바르지 않아요.");
+    }
+    const values: Record<string, string[]> = {};
+    for (const [k, v] of Object.entries(rawValues as Record<string, unknown>)) {
+      const list = strings(v);
+      if (!list) return bad(`'${k}' 에서 고른 값의 모양이 올바르지 않아요.`);
+      values[k] = list;
+    }
+
+    const req: ExportRequest = {
+      slug, baseKey, component, format: format as Format, values, parts, states,
+    };
+
     const res = lib
       ? await loadLibResources(slug, baseKey, component)
       : await loadResources(slug, baseKey, component);
@@ -117,6 +132,8 @@ export async function POST(request: Request) {
   } catch (e) {
     // 없는 필드나 값 등 계약 위반 요청은 400, 파일 누락 등 서버 측 문제는 500 반환
     const message = e instanceof Error ? e.message : String(e);
-    return bad(message, /없어요\.$/.test(message) ? 400 : 500);
+    const blame = blameOf(e);
+    if (blame === "unknown") console.error("[export] 판별 없는 오류:", e);
+    return bad(message, blame === "request" ? 400 : 500);
   }
 }

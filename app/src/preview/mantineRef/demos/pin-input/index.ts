@@ -3,14 +3,15 @@
  * `./_base`·`../../../shared` 가 원문 그대로 풀린다. 여기는 열쇠↔모듈 표만 둔다. */
 import * as m000 from "../_src/demos/core/PinInput/PinInput.demo.configurator";
 import * as m001 from "../_src/demos/core/PinInput/PinInput.demo.regexp";
+import * as m002 from "../_src/demos/core/PinInput/PinInput.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
   "configurator": m000.configurator,
   "regexp": m001.regexp,
+  "stylesApi": m002.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

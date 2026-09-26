@@ -10,13 +10,7 @@ import * as m5 from "./_src/src/DataTable/DataTable.features.stories__WithAction
 import * as m9 from "./_src/src/DataTable/DataTable.features.stories__WithCustomHeading";
 import * as m10 from "./_src/src/DataTable/DataTable.features.stories__WithNoContent";
 import * as m11 from "./_src/src/DataTable/DataTable.features.stories__WithLoading";
-import * as u0 from "./_src/src/DataTable/DataTable.features.stories__WithRowAction";
-import * as u1 from "./_src/src/DataTable/DataTable.features.stories__WithRowActions";
-import * as u2 from "./_src/src/DataTable/DataTable.features.stories__WithRowActionMenu";
 export const demos = {
-  "WithRowAction": composeStory(u0.default, u0["WithRowAction"], "WithRowAction"),
-  "WithRowActions": composeStory(u1.default, u1["WithRowActions"], "WithRowActions"),
-  "WithRowActionMenu": composeStory(u2.default, u2["WithRowActionMenu"], "WithRowActionMenu"),
   "Default": composeStory(m0.default, m0["Default"], "Default"),
   "WithTitle": composeStory(m1.default, m1["WithTitle"], "WithTitle"),
   "WithTitleAndSubtitle": composeStory(m2.default, m2["WithTitleAndSubtitle"], "WithTitleAndSubtitle"),
@@ -28,5 +22,8 @@ export const demos = {
   "WithLoading": composeStory(m11.default, m11["WithLoading"], "WithLoading"),
 };
 export const skipped = {
+  "WithRowAction": {"code":"private-api","detail":"default — 공개 진입점 넷에 같은 값 없음(_VisuallyHidden.js)"},
+  "WithRowActions": {"code":"private-api","detail":"default — 공개 진입점 넷에 같은 값 없음(_VisuallyHidden.js)"},
+  "WithRowActionMenu": {"code":"private-api","detail":"default — 공개 진입점 넷에 같은 값 없음(_VisuallyHidden.js)"},
   "WithPagination": {"code":"private-api","detail":"alphanumeric — 공개 진입점 넷에 같은 값 없음(DataTable/sorting.js)"},
 };

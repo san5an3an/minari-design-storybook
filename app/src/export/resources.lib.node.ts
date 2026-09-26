@@ -1,5 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import { RequestError, WiringError } from "./errors";
 import { libSpecFor, type LibProp } from "./lib/registry";
 import { repoRoot } from "./resources.node";
 import type { ExportAxis, ExportResources, RenderArgs } from "./types";
@@ -66,6 +67,70 @@ async function refJsonDir(refDir: string): Promise<string | null> {
   return null;
 }
 
+async function loadMarkupExamples(
+  demosDir: string,
+  demosFormat: "json" | "ts-const",
+  slug: string,
+): Promise<{ examples: { key: string; html: string }[]; skipped: { key: string; code: string; detail: string }[] }> {
+  const root = await repoRoot;
+  const ext = demosFormat === "json" ? "json" : "ts";
+  const file = path.join(root, "app", "src", "preview", demosDir, `${slug}.${ext}`);
+  let raw: string;
+  try {
+    raw = await readFile(file, "utf8");
+  } catch {
+    throw new WiringError(`'${slug}' 의 예제 파일을 못 찾았어요: ${demosDir}/${slug}.${ext}`);
+  }
+  let blob: string;
+  if (demosFormat === "json") {
+    blob = raw;
+  } else {
+    // demos, skipped 둘 다 분리. 예제 0개일 때 사유는 skipped에만 있음
+    const demos = sliceOneLineConst(raw, "demos");
+    const skipped = sliceOneLineConst(raw, "skipped");
+    if (!demos) {
+      throw new WiringError(`'${slug}' 의 예제 모듈에서 demos 객체를 못 떼어냈어요. 생성기 꼴이 바뀌었나요?`);
+    }
+    blob = `{"demos":${demos}${skipped ? `,"skipped":${skipped}` : ""}}`;
+  }
+  let parsed: { demos?: Record<string, { html?: string }>;
+                skipped?: Record<string, { code?: string; detail?: string }> };
+  try {
+    parsed = JSON.parse(blob) as typeof parsed;
+  } catch (e) {
+    throw new WiringError(`'${slug}' 의 예제를 JSON 으로 못 읽었어요: ${String(e).slice(0, 80)}`);
+  }
+  const out = Object.entries(parsed.demos ?? {})
+    .filter(([, v]) => typeof v?.html === "string" && v.html.length > 0)
+    .map(([key, v]) => ({ key, html: v.html as string }));
+  const skipped = Object.entries(parsed.skipped ?? {})
+    .map(([key, v]) => ({ key, code: v?.code ?? "?", detail: v?.detail ?? "" }));
+  if (out.length === 0) {
+    const why = skipped.map((s) => `${s.key}: ${s.code}${s.detail ? ` (${s.detail})` : ""}`);
+    if (why.length > 0) {
+      throw new RequestError(
+        `'${slug}' 는 생성기가 예제를 못 구웠어요 (${why.slice(0, 2).join(" · ")}), `
+          + `내보낼 수 있는 것이 없어요.`,
+      );
+    }
+    throw new WiringError(
+      `'${slug}' 의 demos 가 비었고 건너뛴 기록도 없어요. 생성기를 다시 돌려 주세요. `
+        + `지금은 내보낼 수 있는 것이 없어요.`,
+    );
+  }
+  return { examples: out, skipped };
+}
+
+function sliceOneLineConst(raw: string, name: string): string | null {
+  const line = raw.split("\n").find((l) => l.startsWith(`export const ${name}`));
+  if (!line) return null;
+  const eq = line.indexOf("=");
+  const open = eq < 0 ? -1 : line.indexOf("{", eq);
+  const close = line.lastIndexOf("}");
+  if (open < 0 || close <= open) return null;
+  return line.slice(open, close + 1);
+}
+
 export async function loadLibResources(
   slug: string,
   baseKey: string,
@@ -81,27 +146,33 @@ export async function loadLibResources(
     readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
     // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
     refJsonDir(spec.refDir).then((dir) => {
-      if (!dir) throw new Error(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
+      if (!dir) throw new WiringError(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
       return readFile(path.join(dir, `${component}.json`), "utf8");
     }),
   ]);
 
   if (spec.notComponents?.includes(component)) {
-    throw new Error(
+    throw new RequestError(
       `'${baseKey}' 의 '${component}' 는 공식 문서에는 있지만 컴포넌트가 아니에요: ` +
         `내보낼 수 있는 것이 없어요.`,
     );
   }
 
   const ref = JSON.parse(refRaw) as { title?: string };
-  const { componentName, props: parsedProps, dropped } = spec.parse(JSON.parse(refRaw));
+  const parsed = spec.parse(JSON.parse(refRaw));
+  const dropped = parsed.dropped;
 
-  const props: LibProp[] = parsedProps.length > 0
-    ? parsedProps
-    : await unionPropsFor(baseKey, componentName);
+  const markupOnly = Boolean(spec.markup);
+  const componentName = markupOnly ? "" : parsed.componentName;
+
+  const props: LibProp[] = markupOnly
+    ? [] // prop 선택 불가, 마크업에는 prop 개념 없음
+    : parsed.props.length > 0
+      ? parsed.props
+      : await unionPropsFor(baseKey, componentName);
 
   // 텍스트 수용 여부는 설치 타입이 결정. 불명확하면 수용으로 간주, 아니면 정상 라벨이 누락
-  const unions = await loadPropUnions(baseKey);
+  const unions = markupOnly ? null : await loadPropUnions(baseKey);
   const acceptsChildren = !unions?.noChildren?.includes(componentName);
   // 필수 prop 미입력 시 tsc TS2741 오류. 타입 정보를 그대로 전달
   const requiredProps = unions?.required?.[componentName] ?? [];
@@ -111,8 +182,8 @@ export async function loadLibResources(
 
   // 이름에 쓸 수 있는 글자인지 확인
   const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
-  if (typeof componentName !== "string" || !USABLE.test(componentName.trim)) {
-    throw new Error(
+  if (!markupOnly && (typeof componentName !== "string" || !USABLE.test(componentName.trim))) {
+    throw new RequestError(
       `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
         `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
     );
@@ -154,13 +225,21 @@ export async function loadLibResources(
     componentSource: "",
     cxSource: "",
     renderComponent: (_args: RenderArgs): string => {
-      // 라이브러리 경로 호출 시 예외 발생. impl 0인 React 미구현이라 렌더 수단이 없음
-      throw new Error(
+      // 호출 시 에러 발생. React 구현이 없어 렌더링 불가, 빈 문자열 반환은 정상처럼 보임
+      throw new RequestError(
         `'${baseKey}' 는 라이브러리 길이라 정적 렌더가 없어요. ` +
           `HTML 형식은 이 베이스에서 낼 수 없어요. 런타임이 없으면 토큰이 안 실려요.`,
       );
     },
     lib: {
+      // 마크업 전용이면 예제 포함. build.ts가 이 필드로 방출기 선택
+      markup: spec.markup
+        ? {
+            ...(await loadMarkupExamples(spec.markup.demosDir, spec.markup.demosFormat, component)),
+            vendorCss: spec.markup.vendorCss,
+            note: spec.markup.note,
+          }
+        : undefined,
       title: spec.title,
       packages: spec.packages,
       // LibResources.importFrom 값을 항상 문자열로 통일 처리

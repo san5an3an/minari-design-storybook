@@ -4,7 +4,7 @@ import React from 'react';
 import { DataTable, Table, TableBody, TableCell, TableContainer, TableExpandHeader, TableExpandRow, TableExpandedRow, TableHead, TableHeader, TableRow } from '@carbon/react';
 import { dataTableArgs, dataTableArgTypes, rows, headers } from '../shared';
 import mdx from '../../DataTable.mdx';
-import { action } from '../../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 
 
 export default {

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import './story.scss';
 import { Accordion, AccordionItem, AccordionSkeleton } from '@carbon/react';
 import mdx from './Accordion.mdx';

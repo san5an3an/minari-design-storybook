@@ -15,8 +15,9 @@ import * as m010 from "../_src/demos/core/Slider/Slider.demo.thumbSize";
 import * as m011 from "../_src/demos/core/Slider/Slider.demo.thumbChildren";
 import * as m012 from "../_src/demos/core/Slider/Slider.demo.scale";
 import * as m013 from "../_src/demos/core/Slider/Slider.demo.inverted";
-import * as m014 from "../_src/demos/core/Slider/Slider.demo.customize";
-import * as m015 from "../_src/demos/core/Slider/Slider.demo.customSlider";
+import * as m014 from "../_src/demos/core/Slider/Slider.demo.stylesApi";
+import * as m015 from "../_src/demos/core/Slider/Slider.demo.customize";
+import * as m016 from "../_src/demos/core/Slider/Slider.demo.customSlider";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -34,11 +35,11 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "thumbChildren": m011.thumbChildren,
   "scale": m012.scale,
   "inverted": m013.inverted,
-  "customize": m014.customize,
-  "customSlider": m015.customSlider,
+  "stylesApi": m014.stylesApi,
+  "customize": m015.customize,
+  "customSlider": m016.customSlider,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

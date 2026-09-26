@@ -16,6 +16,7 @@ import * as m011 from "../_src/demos/core/Combobox/Combobox.demo.hiddenDropdown"
 import * as m012 from "../_src/demos/core/Combobox/Combobox.demo.controlledDropdown";
 import * as m013 from "../_src/demos/core/Combobox/Combobox.demo.dropdownPosition";
 import * as m014 from "../_src/demos/core/Combobox/Combobox.demo.noDropdown";
+import * as m015 from "../_src/demos/core/Combobox/Combobox.demo.stylesApi";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -34,9 +35,9 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "controlledDropdown": m012.controlledDropdown,
   "dropdownPosition": m013.dropdownPosition,
   "noDropdown": m014.noDropdown,
+  "stylesApi": m015.stylesApi,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };

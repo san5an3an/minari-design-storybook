@@ -5,11 +5,15 @@ import * as m002 from "./dialog-with-cover";
 import * as m003 from "./dialog-with-fullscreen";
 import * as m004 from "./dialog-with-responsive-size";
 import * as m005 from "./dialog-with-placement";
+import * as m006 from "./dialog-controlled";
 import * as m007 from "./dialog-with-store";
 import * as m008 from "./dialog-with-context";
+import * as m009 from "./dialog-nested";
 import * as m010 from "./dialog-open-from-popover";
 import * as m011 from "./dialog-open-from-menu";
 import * as m012 from "./dialog-with-initial-focus";
+import * as m013 from "./dialog-with-inside-scroll";
+import * as m014 from "./dialog-with-outside-scroll";
 import * as m015 from "./dialog-with-motion-preset";
 import * as m016 from "./dialog-with-role";
 import * as m017 from "./dialog-with-close-outside";
@@ -24,11 +28,15 @@ export const DEMOS = {
   "dialog-with-fullscreen": m003.DialogWithFullscreen,
   "dialog-with-responsive-size": m004.DialogWithResponsiveSize,
   "dialog-with-placement": m005.DialogWithPlacement,
+  "dialog-controlled": m006.DialogControlled,
   "dialog-with-store": m007.DialogWithStore,
   "dialog-with-context": m008.DialogWithContext,
+  "dialog-nested": m009.DialogNested,
   "dialog-open-from-popover": m010.DialogOpenFromPopover,
   "dialog-open-from-menu": m011.DialogOpenFromMenu,
   "dialog-with-initial-focus": m012.DialogWithInitialFocus,
+  "dialog-with-inside-scroll": m013.DialogWithInsideScroll,
+  "dialog-with-outside-scroll": m014.DialogWithOutsideScroll,
   "dialog-with-motion-preset": m015.DialogWithMotionPreset,
   "dialog-with-role": m016.DialogWithRole,
   "dialog-with-close-outside": m017.DialogWithCloseOutside,
@@ -38,8 +46,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "dialog-controlled": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-lorem-ipsum"},
-  "dialog-nested": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-lorem-ipsum"},
-  "dialog-with-inside-scroll": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-lorem-ipsum"},
-  "dialog-with-outside-scroll": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-lorem-ipsum"},
+
 };

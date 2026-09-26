@@ -9,6 +9,7 @@ import * as m006 from "./color-picker-controlled";
 import * as m007 from "./color-picker-with-store";
 import * as m008 from "./color-picker-change-end";
 import * as m009 from "./color-picker-channel-slider-only";
+import * as m010 from "./color-picker-with-hook-form";
 import * as m011 from "./color-picker-inline";
 import * as m012 from "./color-picker-open-from-dialog";
 import * as m013 from "./color-picker-with-disabled";
@@ -30,6 +31,7 @@ export const DEMOS = {
   "color-picker-with-store": m007.ColorPickerWithStore,
   "color-picker-change-end": m008.ColorPickerChangeEnd,
   "color-picker-channel-slider-only": m009.ColorPickerChannelSliderOnly,
+  "color-picker-with-hook-form": m010.ColorPickerWithHookForm,
   "color-picker-inline": m011.ColorPickerInline,
   "color-picker-open-from-dialog": m012.ColorPickerOpenFromDialog,
   "color-picker-with-disabled": m013.ColorPickerWithDisabled,
@@ -42,5 +44,5 @@ export const DEMOS = {
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; codes: string[]; detail: string }> = {
-  "color-picker-with-hook-form": {"code": "package-missing", "codes": ["package-missing"], "detail": "미설치 패키지: react-hook-form"},
+
 };

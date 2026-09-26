@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { action } from '../../../../../../_doc-stubs/storybook-actions.js';
+import { action } from 'storybook/actions';
 import React, { useMemo, useState } from 'react';
 import { Button } from '@carbon/react';
 import { DataTable } from '@carbon/react';

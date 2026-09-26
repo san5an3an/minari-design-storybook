@@ -10,7 +10,8 @@ import * as m005 from "../_src/demos/core/Accordion/Accordion.demo.transitions";
 import * as m006 from "../_src/demos/core/Accordion/Accordion.demo.sideControls";
 import * as m007 from "../_src/demos/core/Accordion/Accordion.demo.disabled";
 import * as m008 from "../_src/demos/core/Accordion/Accordion.demo.unstyled";
-import * as m009 from "../_src/demos/core/Accordion/Accordion.demo.customize";
+import * as m009 from "../_src/demos/core/Accordion/Accordion.demo.stylesApi";
+import * as m010 from "../_src/demos/core/Accordion/Accordion.demo.customize";
 
 /** key(공식 `<Demo data={Group.name}>` 의 `.name`) → 공식 export `MantineDemo`. 어댑터가 `.component` 를 가리킨다. */
 export const DEMOS: Record<string, { component: unknown }> = {
@@ -23,10 +24,10 @@ export const DEMOS: Record<string, { component: unknown }> = {
   "sideControls": m006.sideControls,
   "disabled": m007.disabled,
   "unstyled": m008.unstyled,
-  "customize": m009.customize,
+  "stylesApi": m009.stylesApi,
+  "customize": m010.customize,
 };
 
 /** 안 세운 것과 그 까닭. */
 export const SKIPPED: Record<string, { code: string; detail: string }> = {
-  "stylesApi": {"code": "local-module-missing", "detail": "형제 모듈을 못 세움 — 미설치: @mantine/charts"},
 };
