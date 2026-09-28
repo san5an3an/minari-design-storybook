@@ -26,8 +26,8 @@ export function TransactionsListScreen({ transactions, onOpen, query }: ScreenPr
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
+    <div className="flex flex-col gap-(--semantic-space-md)">
+      <div className="flex items-center justify-between gap-(--semantic-space-sm)">
         <span style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-heading-md)" }}>거래 내역</span>
         <Select
           aria-label="카테고리 거르개"
@@ -67,7 +67,7 @@ export function TransactionsListScreen({ transactions, onOpen, query }: ScreenPr
               {rows.map((t) => (
                 <ClickableRow key={t.id} onClick={() => onOpen?.("detail", t.id)} className="cursor-pointer">
                   <Table.Cell>
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-(--semantic-space-sm)">
                       <span aria-hidden style={{ color: t.kind === "수입" ? "var(--semantic-fg-success-default)" : "var(--semantic-fg-neutral-subtle)" }}>
                         {t.kind === "수입" ? <ArrowDownLeft size={13} /> : <ArrowUpRight size={13} />}
                       </span>

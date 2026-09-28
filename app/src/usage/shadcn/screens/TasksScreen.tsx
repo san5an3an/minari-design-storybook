@@ -102,7 +102,7 @@ function Facet<K extends string>({
             <>
               <span
                 aria-hidden
-                className="mx-1 inline-block h-4 w-px"
+                className="mx-(--semantic-space-xs) inline-block h-4 w-px"
                 style={{ background: "var(--semantic-border-neutral-subtle)" }}
               />
               {picked.map((k) => (
@@ -116,14 +116,14 @@ function Facet<K extends string>({
       }
       align="start"
     >
-      <div className="flex min-w-44 flex-col gap-1">
+      <div className="flex min-w-44 flex-col gap-(--semantic-space-xs)">
         {keys.map((k) => {
           const { label, Icon } = options[k];
           const on = picked.includes(k);
           return (
             <label
               key={k}
-              className="flex cursor-pointer items-center gap-2 px-1 py-1.5"
+              className="flex cursor-pointer items-center gap-(--semantic-space-sm) px-(--semantic-space-xs) py-(--semantic-space-xs)"
               style={{
                 borderRadius: "var(--semantic-radius-control)",
                 fontSize: "var(--semantic-text-body-sm)",
@@ -215,10 +215,10 @@ export function TasksScreen() {
   const shown = columns.filter((c) => !hidden.includes(c));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-(--semantic-space-lg)">
       {/* 인사말과 사용자 정보 */}
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex min-w-0 flex-col gap-1">
+      <div className="flex flex-wrap items-start justify-between gap-(--semantic-space-sm)">
+        <div className="flex min-w-0 flex-col gap-(--semantic-space-xs)">
           <h3
             style={{
               color: "var(--semantic-fg-neutral-default)",
@@ -257,7 +257,7 @@ export function TasksScreen() {
       </div>
 
       {/* 툴바. 좁으면 접힘. 원본은 한 행 고정이지만 md 미만은 그리지 않아 접힐 수 있음 */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-(--semantic-space-sm)">
         <div className="min-w-40 flex-1">
           <Input
             placeholder="할 일 거르기…"
@@ -304,7 +304,7 @@ export function TasksScreen() {
           </Button>
         ) : null}
 
-        <div className="ms-auto flex items-center gap-2">
+        <div className="ms-auto flex items-center gap-(--semantic-space-sm)">
           {/* 열 감추기는 실제로 숨김 처리. 그림으로만 두면 클릭한 사람이 고장으로 오해하는 문제 있음 */}
           <Popover
             align="end"
@@ -315,11 +315,11 @@ export function TasksScreen() {
               </Button>
             }
           >
-            <div className="flex min-w-36 flex-col gap-1">
+            <div className="flex min-w-36 flex-col gap-(--semantic-space-xs)">
               {columns.map((c) => (
                 <label
                   key={c}
-                  className="flex cursor-pointer items-center gap-2 px-1 py-1.5"
+                  className="flex cursor-pointer items-center gap-(--semantic-space-sm) px-(--semantic-space-xs) py-(--semantic-space-xs)"
                   style={{
                     fontSize: "var(--semantic-text-body-sm)",
                     color: "var(--semantic-fg-neutral-default)",
@@ -421,7 +421,7 @@ export function TasksScreen() {
                     ) : null}
                     {shown.includes("제목") ? (
                       <Table.Cell>
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-(--semantic-space-sm)">
                           <Badge variant="outline" tone="neutral">
                             {LABELS[t.label]}
                           </Badge>
@@ -431,7 +431,7 @@ export function TasksScreen() {
                     ) : null}
                     {shown.includes("상태") ? (
                       <Table.Cell>
-                        <span className="flex items-center gap-2 whitespace-nowrap">
+                        <span className="flex items-center gap-(--semantic-space-sm) whitespace-nowrap">
                           <st.Icon size={14} aria-hidden />
                           {st.label}
                         </span>
@@ -439,7 +439,7 @@ export function TasksScreen() {
                     ) : null}
                     {shown.includes("우선순위") ? (
                       <Table.Cell>
-                        <span className="flex items-center gap-2 whitespace-nowrap">
+                        <span className="flex items-center gap-(--semantic-space-sm) whitespace-nowrap">
                           <pr.Icon size={14} aria-hidden />
                           {pr.label}
                         </span>
@@ -471,7 +471,7 @@ export function TasksScreen() {
       )}
 
       {/* 페이지 넘김. 처음, 이전, 다음, 끝 버튼 4개 유지 */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-(--semantic-space-sm)">
         <span
           style={{
             color: "var(--semantic-fg-neutral-subtle)",
@@ -480,9 +480,9 @@ export function TasksScreen() {
         >
           {rows.length}줄 가운데 {picked.length}줄 골랐어요
         </span>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-(--semantic-space-sm)">
           <label
-            className="flex items-center gap-2"
+            className="flex items-center gap-(--semantic-space-sm)"
             style={{
               color: "var(--semantic-fg-neutral-default)",
               fontSize: "var(--semantic-text-body-sm)",
@@ -509,7 +509,7 @@ export function TasksScreen() {
           >
             {safePage + 1} / {pageCount} 쪽
           </span>
-          <div className="flex gap-1">
+          <div className="flex gap-(--semantic-space-xs)">
             <Button variant="outline" aria-label="첫 쪽"
               disabled={safePage === 0} onClick={() => setPage(0)}>
               <ChevronsLeft size={14} aria-hidden />

@@ -37,7 +37,7 @@ function SidebarPromo() {
   return (
     <div
       aria-hidden
-      className="group-data-[collapsible=icon]:hidden flex flex-col justify-end gap-1 overflow-hidden p-3"
+      className="group-data-[collapsible=icon]:hidden flex flex-col justify-end gap-(--semantic-space-xs) overflow-hidden p-(--semantic-space-sm)"
       style={{
         borderRadius: "var(--semantic-radius-container)",
         minHeight: "6.5rem",
@@ -90,7 +90,7 @@ function UserBlock({ trailing }: { trailing?: React.ReactNode }) {
 // 메뉴 헤더 사용자 블록. heading 보통 한 라인이라 여백 여기서 조정
 function MenuUser() {
   return (
-    <span className="flex items-center gap-2 px-1 py-1.5">
+    <span className="flex items-center gap-(--semantic-space-sm) px-(--semantic-space-xs) py-(--semantic-space-xs)">
       <UserBlock />
     </span>
   );
@@ -98,7 +98,7 @@ function MenuUser() {
 
 function MenuLine({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <span className="flex items-center gap-2">
+    <span className="flex items-center gap-(--semantic-space-sm)">
       {icon}
       {children}
     </span>
@@ -178,7 +178,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
       {chromeless ? null : (
       <header
         // shrink-0, sticky 적용. 본문이 자체 스크롤되므로 상단바 고정이 필수임
-        className="flex shrink-0 flex-wrap items-center gap-3 px-4 py-3 sticky top-0 z-10"
+        className="flex shrink-0 flex-wrap items-center gap-(--semantic-space-sm) px-(--semantic-space-md) py-(--semantic-space-sm) sticky top-0 z-10"
         style={{
           borderBottom:
             "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
@@ -188,7 +188,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
         {/* 공식 SidebarTrigger 그대로 사용. 버튼 교체 시 폭 트랜지션 사라짐 문제 있음 */}
         {showNav ? <Sidebar.Trigger /> : null}
 
-        <div className="flex min-w-0 flex-col gap-0.5">
+        <div className="flex min-w-0 flex-col gap-(--semantic-space-xs)">
           <h3
             style={{
               color: "var(--semantic-fg-neutral-default)",
@@ -210,7 +210,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
           </code>
         </div>
 
-        <div className="ms-auto flex flex-wrap items-center gap-2">
+        <div className="ms-auto flex flex-wrap items-center gap-(--semantic-space-sm)">
           {/* 사이드바 없는 좁은 화면에서 선택기를 이 위치에 표시 */}
           {!wide ? (
             <Select
@@ -231,7 +231,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
       {/* 로그인 화면 fullBleed 렌더링. 여백 주면 구분선이 뜬 것처럼 보임 */}
       {/* fullBleed일 때 세로 flex 적용, min-h만으로는 아래 여백 남을 수 있음 */}
       <div
-        className={`flex-1 overflow-y-auto${screen.fullBleed ? " flex flex-col" : " p-4 sm:p-5"}`}
+        className={`flex-1 overflow-y-auto${screen.fullBleed ? " flex flex-col" : " p-(--semantic-space-md) sm:p-(--semantic-space-md)"}`}
       >
         {/* 화면 간 이동 경로 제공. 로그인 화면이 이걸로 대시보드로 복귀하기 */}
         <Screen onNavigate={setScreenKey} brand={system.name} />

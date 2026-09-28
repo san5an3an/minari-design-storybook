@@ -32,7 +32,7 @@ function SidebarPromo() {
   return (
     <div
       aria-hidden
-      className="group-data-[collapsible=icon]:hidden flex flex-col justify-end gap-1 overflow-hidden p-3"
+      className="group-data-[collapsible=icon]:hidden flex flex-col justify-end gap-(--semantic-space-xs) overflow-hidden p-(--semantic-space-sm)"
       style={{
         borderRadius: "var(--semantic-radius-container)",
         minHeight: "6.5rem",
@@ -142,15 +142,15 @@ function StatRow({ transactions }: { transactions: Transaction[] }) {
 
   return (
     <div
-      className="relative z-10 grid grid-cols-2 gap-3 px-4 lg:grid-cols-4 lg:px-5"
-      style={{ marginTop: "-2.75rem" }}
+      className="relative z-10 grid grid-cols-2 gap-(--semantic-space-sm) px-(--semantic-space-md) lg:grid-cols-4 lg:px-(--semantic-space-md)"
+      style={{ marginTop: "calc(var(--semantic-space-xl) * -1)" }}
     >
       {STATS.map((s) => {
         const Icon = s.icon;
         return (
           <div
             key={s.label}
-            className="flex flex-col gap-1.5"
+            className="flex flex-col gap-(--semantic-space-xs)"
             style={{
               background: "color-mix(in oklch, var(--component-card-bg) 88%, transparent)",
               backdropFilter: "blur(0.5rem)",
@@ -159,7 +159,7 @@ function StatRow({ transactions }: { transactions: Transaction[] }) {
               borderStyle: "solid",
               borderRadius: "var(--component-card-radius)",
               boxShadow: "var(--component-card-shadow)",
-              padding: "0.875rem",
+              padding: "var(--semantic-space-md)",
             }}
           >
             <div className="flex items-center justify-between">
@@ -209,7 +209,7 @@ function HeroBell({ transactions }: { transactions: Transaction[] }) {
           {urgent.length > 0 ? (
             <span
               aria-hidden
-              className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center px-1 tabular-nums"
+              className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center px-(--semantic-space-xs) tabular-nums"
               style={{ background: "var(--semantic-bg-danger-default)", color: "var(--semantic-fg-on-danger-default)", borderRadius: "9999px", fontSize: "0.625rem" }}
             >
               {urgent.length}
@@ -218,11 +218,11 @@ function HeroBell({ transactions }: { transactions: Transaction[] }) {
         </button>
       }
     >
-      <div className="flex flex-col gap-2" style={{ minWidth: "14rem" }}>
+      <div className="flex flex-col gap-(--semantic-space-sm)" style={{ minWidth: "14rem" }}>
         {urgent.length === 0 ? (
           <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>예산 초과·임박 카테고리가 없어요.</span>
         ) : urgent.map((u) => (
-          <div key={u.category} className="flex items-center justify-between gap-2">
+          <div key={u.category} className="flex items-center justify-between gap-(--semantic-space-sm)">
             <span style={{ fontSize: "var(--semantic-text-body-sm)" }}>{u.category}</span>
             <span style={{ color: u.pct >= 100 ? "var(--semantic-fg-danger-default)" : "var(--semantic-fg-warning-default)", fontSize: "var(--semantic-text-body-sm)" }}>{u.pct}%</span>
           </div>
@@ -260,7 +260,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
       {/* 상세 화면에서도 히어로, 통계카드 유지해 화면별 상단 영역 유무 차이 제거 */}
       {/* 히어로 구성: 배경 스크림, 좌측 인사말, 우측 검색/알림/아바타 */}
       <div
-        className="relative flex flex-wrap items-start justify-between gap-4 px-4 pb-14 pt-5 lg:px-5"
+        className="relative flex flex-wrap items-start justify-between gap-(--semantic-space-md) px-(--semantic-space-md) pb-(--semantic-space-xl) pt-(--semantic-space-md) lg:px-(--semantic-space-md)"
         style={{
           minHeight: "11rem",
           backgroundImage:
@@ -272,17 +272,17 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
           backgroundPosition: "center",
         }}
       >
-        <div className="flex min-w-0 flex-1 items-start gap-2">
+        <div className="flex min-w-0 flex-1 items-start gap-(--semantic-space-sm)">
           {/* span에 mt-1 shrink-0 적용해 여백 추가. 타입 제약으로 props 못 받음 */}
-          <span className="mt-1 shrink-0">
+          <span className="mt-(--semantic-space-xs) shrink-0">
             <Sidebar.Trigger />
           </span>
           {/* 텍스트 전용 유리 배경. 스크림에만 의존해 대비가 사진 밝기에 흔들리는 문제가 있음 */}
           <div
-            className="flex min-w-0 flex-col gap-1 rounded-[var(--semantic-radius-container)] px-3 py-2"
+            className="flex min-w-0 flex-col gap-(--semantic-space-xs) rounded-[var(--semantic-radius-container)] px-(--semantic-space-sm) py-(--semantic-space-sm)"
             style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 62%, transparent)", backdropFilter: "blur(0.375rem)" }}
           >
-            <span className="flex items-center gap-2" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-heading-md)" }}>
+            <span className="flex items-center gap-(--semantic-space-sm)" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-heading-md)" }}>
               {greeting}, {USER.name}님
             </span>
             <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>
@@ -290,7 +290,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
             </span>
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-(--semantic-space-sm)">
           <span className="relative flex items-center">
             <Search
               size={14}
@@ -303,7 +303,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
               placeholder="거래·카테고리 검색…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              style={{ width: "12rem", paddingLeft: "2rem", background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)" }}
+              style={{ width: "12rem", paddingLeft: "var(--semantic-space-lg)", background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)" }}
             />
           </span>
           <HeroBell transactions={transactions} />
@@ -314,7 +314,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
             trigger={
               <button
                 type="button"
-                className="flex items-center gap-1.5 rounded-[var(--semantic-radius-control)] p-1"
+                className="flex items-center gap-(--semantic-space-xs) rounded-[var(--semantic-radius-control)] p-(--semantic-space-xs)"
                 style={{ background: "color-mix(in oklch, var(--semantic-bg-neutral-surface) 70%, transparent)", boxShadow: "var(--component-card-shadow)" }}
               >
                 <Avatar size="sm" fallback={USER.initial} />
@@ -322,10 +322,10 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
               </button>
             }
             items={[
-              { heading: <span className="flex flex-col px-1 py-1"><span style={{ fontSize: "var(--semantic-text-body-sm)" }}>{USER.name}</span><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{USER.email}</span></span> },
+              { heading: <span className="flex flex-col px-(--semantic-space-xs) py-(--semantic-space-xs)"><span style={{ fontSize: "var(--semantic-text-body-sm)" }}>{USER.name}</span><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{USER.email}</span></span> },
               { separator: true },
-              { label: <span className="flex items-center gap-2"><Settings2 size={14} aria-hidden />설정</span> },
-              { label: <span className="flex items-center gap-2"><HeartPulse size={14} aria-hidden />예산 목표 관리</span>, onSelect: () => setScreenKey("budget") },
+              { label: <span className="flex items-center gap-(--semantic-space-sm)"><Settings2 size={14} aria-hidden />설정</span> },
+              { label: <span className="flex items-center gap-(--semantic-space-sm)"><HeartPulse size={14} aria-hidden />예산 목표 관리</span>, onSelect: () => setScreenKey("budget") },
             ]}
           />
         </div>
@@ -333,7 +333,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
 
       <StatRow transactions={transactions} />
 
-      <div className="flex-1 p-4 sm:p-5">
+      <div className="flex-1 p-(--semantic-space-md) sm:p-(--semantic-space-md)">
         {selectedId !== null ? (
           <TransactionDetailScreen
             itemId={selectedId}

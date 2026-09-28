@@ -32,14 +32,14 @@ export function TransactionDetailScreen({ itemId, onOpen, transactions }: Screen
   }, [t.id]);
 
   return (
-    <div className="flex flex-col gap-5" style={{ maxWidth: "32rem" }}>
+    <div className="flex flex-col gap-(--semantic-space-md)" style={{ maxWidth: "32rem" }}>
       <Button className="self-start" variant="plain" onClick={() => onOpen?.("overview", "")}>
         <ArrowLeft size={14} aria-hidden />
         대시보드로
       </Button>
 
       <div
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-(--semantic-space-sm)"
         style={{
           background: "var(--component-card-bg)",
           borderColor: "var(--component-card-border)",
@@ -67,7 +67,7 @@ export function TransactionDetailScreen({ itemId, onOpen, transactions }: Screen
           {t.kind === "수입" ? "+" : "-"}{won(t.amount)}
         </span>
 
-        <div className="flex flex-col gap-3" style={{ borderTop: "var(--semantic-border-width-default) solid var(--component-card-border)", paddingTop: "0.75rem" }}>
+        <div className="flex flex-col gap-(--semantic-space-sm)" style={{ borderTop: "var(--semantic-border-width-default) solid var(--component-card-border)", paddingTop: "var(--semantic-space-sm)" }}>
           {FIELD.map((f) => (
             <div key={f.label} className="flex items-center justify-between">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>
@@ -78,7 +78,7 @@ export function TransactionDetailScreen({ itemId, onOpen, transactions }: Screen
               </span>
             </div>
           ))}
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-(--semantic-space-sm)">
             <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>
               분류
             </span>
