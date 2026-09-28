@@ -21,44 +21,44 @@ import { berry } from "./20-berry";
 import type { SystemDefinition } from "./types";
 
 export const SYSTEMS: SystemDefinition[] = [
-  cobalt,
-  graphite,
-  ember,
-  jade,
-  plum,
-  slate,
-  emerald,
-  indigo,
-  sand,
-  teal,
-  crimson,
-  moss,
-  azure,
-  violet,
-  rust,
-  mint,
-  navy,
-  saffron,
-  fog,
-  berry,
+ cobalt,
+ graphite,
+ ember,
+ jade,
+ plum,
+ slate,
+ emerald,
+ indigo,
+ sand,
+ teal,
+ crimson,
+ moss,
+ azure,
+ violet,
+ rust,
+ mint,
+ navy,
+ saffron,
+ fog,
+ berry,
 ];
 
 // 베이스 이름별 사용 시스템 목록. 사이드바가 이 순서로 그룹화
 export const BY_BASE = SYSTEMS.reduce<Record<string, SystemDefinition[]>>(
-  (acc, s) => {
-    (acc[s.baseTitle] ??= []).push(s);
-    return acc;
-  },
-  {},
+ (acc, s) => {
+ (acc[s.baseTitle] ??= []).push(s);
+ return acc;
+ },
+ {},
 );
 
 export function systemBySlug(slug: string): SystemDefinition {
-  const found = SYSTEMS.find((s) => s.slug === slug);
-  if (!found) {
-    throw new Error(
-      `등록되지 않은 시스템 ${slug}. 시스템 명세에 추가 후 모듈을 다시 생성할 것. ` +
-        `현재: ${SYSTEMS.map((s) => s.slug).join(", ")}`,
-    );
-  }
-  return found;
+ const found = SYSTEMS.find((s) => s.slug === slug);
+ if (!found) {
+ throw new Error(
+ `등록되지 않은 시스템 ${slug}. 시스템 명세에 추가 후 모듈을 다시 생성할 것. ` +
+ `현재: ${SYSTEMS.map((s) => s.slug).join(", ")}`,
+ );
+ }
+ return found;
 }

@@ -23,20 +23,20 @@ import { byMode as s19 } from "../../../../generated/19-fog/base/fluent/theme";
 import { byMode as s20 } from "../../../../generated/20-berry/base/fluent/theme";
 
 const THEMES: Record<string, Record<string, Theme>> = {
-  "01-cobalt": s01, "02-graphite": s02, "03-ember": s03, "04-jade": s04, "05-plum": s05,
-  "06-slate": s06, "07-emerald": s07, "08-indigo": s08, "09-sand": s09, "10-teal": s10,
-  "11-crimson": s11, "12-moss": s12, "13-azure": s13, "14-violet": s14, "15-rust": s15,
-  "16-mint": s16, "17-navy": s17, "18-saffron": s18, "19-fog": s19, "20-berry": s20,
+ "01-cobalt": s01, "02-graphite": s02, "03-ember": s03, "04-jade": s04, "05-plum": s05,
+ "06-slate": s06, "07-emerald": s07, "08-indigo": s08, "09-sand": s09, "10-teal": s10,
+ "11-crimson": s11, "12-moss": s12, "13-azure": s13, "14-violet": s14, "15-rust": s15,
+ "16-mint": s16, "17-navy": s17, "18-saffron": s18, "19-fog": s19, "20-berry": s20,
 };
 
 export default function FluentRefProvider({ system, mode, children }: BaseRefProviderProps) {
-  const theme = THEMES[system.slug]?.[mode];
-  if (!theme) {
-    return (
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        <code>{system.slug}</code> · <code>{mode}</code> 의 fluent theme 생성물이 없어요.
-      </p>
-    );
-  }
-  return <FluentProvider theme={theme}>{children}</FluentProvider>;
+ const theme = THEMES[system.slug]?.[mode];
+ if (!theme) {
+ return (
+ <p className="doc-note" style={{ marginTop: 0 }}>
+ <code>{system.slug}</code> · <code>{mode}</code> 의 fluent theme 생성물이 없어요.
+ </p>
+ );
+ }
+ return <FluentProvider theme={theme}>{children}</FluentProvider>;
 }
