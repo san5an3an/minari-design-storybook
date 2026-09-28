@@ -24,28 +24,28 @@ import { byMode as s19 } from "../../../../generated/19-fog/base/grommet/theme";
 import { byMode as s20 } from "../../../../generated/20-berry/base/grommet/theme";
 
 const THEMES: Record<string, Record<string, ThemeType>> = {
-  "01-cobalt": s01, "02-graphite": s02, "03-ember": s03, "04-jade": s04, "05-plum": s05,
-  "06-slate": s06, "07-emerald": s07, "08-indigo": s08, "09-sand": s09, "10-teal": s10,
-  "11-crimson": s11, "12-moss": s12, "13-azure": s13, "14-violet": s14, "15-rust": s15,
-  "16-mint": s16, "17-navy": s17, "18-saffron": s18, "19-fog": s19, "20-berry": s20,
+ "01-cobalt": s01, "02-graphite": s02, "03-ember": s03, "04-jade": s04, "05-plum": s05,
+ "06-slate": s06, "07-emerald": s07, "08-indigo": s08, "09-sand": s09, "10-teal": s10,
+ "11-crimson": s11, "12-moss": s12, "13-azure": s13, "14-violet": s14, "15-rust": s15,
+ "16-mint": s16, "17-navy": s17, "18-saffron": s18, "19-fog": s19, "20-berry": s20,
 };
 
 const PROVIDER_ARG_KEYS = ["dir", "options"] as const;
 
 export default function GrommetProvider({ system, mode, children, providerProps }: BaseRefProviderProps) {
-  const theme = THEMES[system.slug]?.[mode];
-  if (!theme) {
-    return (
-      <p className="doc-note" style={{ marginTop: 0 }}>
-        <code>{system.slug}</code> · <code>{mode}</code> 의 grommet theme 생성물이 없어요.
-      </p>
-    );
-  }
-  const passed: Record<string, unknown> = {};
-  for (const k of PROVIDER_ARG_KEYS) if (providerProps && k in providerProps) passed[k] = providerProps[k];
-  return (
-    <Grommet theme={theme} {...passed}>
-      {children}
-    </Grommet>
-  );
+ const theme = THEMES[system.slug]?.[mode];
+ if (!theme) {
+ return (
+ <p className="doc-note" style={{ marginTop: 0 }}>
+ <code>{system.slug}</code> · <code>{mode}</code> 의 grommet theme 생성물이 없어요.
+ </p>
+ );
+ }
+ const passed: Record<string, unknown> = {};
+ for (const k of PROVIDER_ARG_KEYS) if (providerProps && k in providerProps) passed[k] = providerProps[k];
+ return (
+ <Grommet theme={theme} {...passed}>
+ {children}
+ </Grommet>
+ );
 }
