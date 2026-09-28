@@ -41,11 +41,11 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
 
   if (!restaurant) {
     return (
-      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, borderStyle: "dashed", p: 4, textAlign: "center" }}>
+      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, borderStyle: "dashed", p: "var(--semantic-space-md)", textAlign: "center" }}>
         <Typography variant="body2" color="text.secondary">
           가게를 먼저 골라 주세요. "가게" 탭에서 카드를 눌러 보세요.
         </Typography>
-        <Button size="small" sx={{ mt: 1.5 }} onClick={() => onNavigate?.("restaurants")}>가게 목록으로</Button>
+        <Button size="small" sx={{ mt: "var(--semantic-space-xs)" }} onClick={() => onNavigate?.("restaurants")}>가게 목록으로</Button>
       </Box>
     );
   }
@@ -59,17 +59,17 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
     : restaurant.rating;
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <Box
         sx={{
           alignItems: "flex-end", backgroundImage:
             `linear-gradient(180deg, transparent 0%, transparent 40%, color-mix(in oklch, var(--semantic-bg-neutral-default) 25%, black) 100%), url(${FOOD_IMAGE[restaurant.category] ?? FOOD_IMAGE["한식"]})`,
           backgroundPosition: "center", backgroundSize: "cover", borderRadius: 2,
-          display: "flex", justifyContent: "space-between", minHeight: "8rem", p: 2,
+          display: "flex", justifyContent: "space-between", minHeight: "8rem", p: "var(--semantic-space-sm)",
         }}
       >
-        <Stack spacing={0.5}>
-          <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+        <Stack spacing="var(--semantic-space-xs)">
+          <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Chip size="small" label={restaurant.category} sx={{ bgcolor: "var(--semantic-bg-neutral-surface)" }} />
             <Chip size="small" label={restaurant.status} color={STATUS_TONE[restaurant.status]} />
           </Stack>
@@ -93,7 +93,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       />
 
-      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
         <Rating value={avgReviewRating} precision={0.1} size="small" readOnly />
         <Typography variant="body2" color="text.secondary">
           {avgReviewRating.toFixed(1)} · 리뷰 {restaurantReviews.length}건
@@ -101,7 +101,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
       </Stack>
 
       {/* 배달 정보 통계 Grid로 여백 채우기 */}
-      <Grid container spacing={1.5}>
+      <Grid container spacing="var(--semantic-space-xs)">
         {[
           { icon: TimerOutlined, label: "배달 예상", value: `${restaurant.deliveryMin}분` },
           { icon: PaymentsOutlined, label: "최소 주문", value: `${restaurant.minOrder.toLocaleString("ko-KR")}원` },
@@ -110,7 +110,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
           const Icon = s.icon;
           return (
             <Grid key={s.label} size={4}>
-              <Card variant="outlined" sx={{ p: 1.5, textAlign: "center" }}>
+              <Card variant="outlined" sx={{ p: "var(--semantic-space-xs)", textAlign: "center" }}>
                 <Icon color="action" fontSize="small" />
                 <Typography variant="caption" color="text.secondary" component="p">{s.label}</Typography>
                 <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.value}</Typography>
@@ -121,11 +121,11 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
       </Grid>
 
       <Divider textAlign="left">메뉴</Divider>
-      <Stack spacing={1.25}>
+      <Stack spacing="var(--semantic-space-xs)">
         {restaurant.menu.map((m) => (
           <Stack key={m.name} direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
             <Typography variant="body2">{m.name}</Typography>
-            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
               <Typography variant="body2" sx={{ fontWeight: 600 }}>{m.price.toLocaleString("ko-KR")}원</Typography>
               <IconButton size="small" aria-label={`${m.name} 담기`} onClick={() => setPicked(m)}>
                 <AddShoppingCartOutlined fontSize="small" />
@@ -146,7 +146,7 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
                 </ListItemAvatar>
                 <ListItemText
                   primary={
-                    <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>{rv.author}</Typography>
                       <Rating value={rv.rating} size="small" readOnly />
                       <Typography variant="caption" color="text.secondary">{rv.dateLabel}</Typography>
@@ -161,8 +161,8 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
       )}
 
       <Divider textAlign="left">리뷰 쓰기</Divider>
-      <Stack spacing={1}>
-        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+      <Stack spacing="var(--semantic-space-xs)">
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Typography variant="caption" color="text.secondary">평점</Typography>
           <Rating value={draftRating} onChange={(_, v) => setDraftRating(v ?? draftRating)} size="small" />
         </Stack>

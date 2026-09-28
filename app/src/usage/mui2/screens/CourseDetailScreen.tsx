@@ -24,11 +24,11 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
 
   if (!course) {
     return (
-      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, borderStyle: "dashed", p: 4, textAlign: "center" }}>
+      <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, borderStyle: "dashed", p: "var(--semantic-space-md)", textAlign: "center" }}>
         <Typography variant="body2" color="text.secondary">
           강좌를 먼저 골라 주세요. "강좌" 탭에서 카드를 눌러 보세요.
         </Typography>
-        <Button size="small" sx={{ mt: 1.5 }} onClick={() => onNavigate?.("courses")}>강좌 목록으로</Button>
+        <Button size="small" sx={{ mt: "var(--semantic-space-xs)" }} onClick={() => onNavigate?.("courses")}>강좌 목록으로</Button>
       </Box>
     );
   }
@@ -47,7 +47,7 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
   }, [course.category, course.id, course.instructor, instructorOnly, relatedSort]);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <Breadcrumbs aria-label="이동 경로">
         <Link component="button" underline="hover" color="inherit" onClick={() => onNavigate?.("courses")}>
           강좌
@@ -55,13 +55,13 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
         <Typography color="text.primary">{course.title}</Typography>
       </Breadcrumbs>
 
-      <Stack spacing={0.5}>
-        <Stack direction="row" spacing={0.75}>
+      <Stack spacing="var(--semantic-space-xs)">
+        <Stack direction="row" spacing="var(--semantic-space-xs)">
           <Chip size="small" label={course.category} variant="outlined" />
           <Chip size="small" label={course.level} color="primary" variant="outlined" />
         </Stack>
         <Typography variant="h6">{course.title}</Typography>
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Rating value={course.rating} precision={0.1} size="small" readOnly />
           <Typography variant="body2" color="text.secondary">
             {course.rating} · 수강생 {course.students.toLocaleString("ko-KR")}명 · 총 {course.lessons.length}강 · {totalMin}분
@@ -69,9 +69,9 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
         </Stack>
       </Stack>
 
-      <Card variant="outlined" sx={{ p: 1.5 }}>
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", justifyContent: "space-between" }}>
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-xs)" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", justifyContent: "space-between" }}>
+          <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Avatar sx={{ height: 44, width: 44 }}>{course.instructor.slice(0, 1)}</Avatar>
             <Stack spacing={0}>
               <Typography variant="subtitle2">{course.instructor} 강사</Typography>
@@ -90,7 +90,7 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
       </Card>
 
       <Box>
-        <Stack direction="row" sx={{ justifyContent: "space-between", mb: 0.5 }}>
+        <Stack direction="row" sx={{ justifyContent: "space-between", mb: "var(--semantic-space-xs)" }}>
           <Typography variant="caption" color="text.secondary">진도</Typography>
           <Typography variant="caption" color="text.secondary">{doneCount}/{course.lessons.length}강</Typography>
         </Stack>
@@ -102,9 +102,9 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
           <Typography variant="subtitle2">커리큘럼 {course.lessons.length}강</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Stack spacing={1}>
+          <Stack spacing="var(--semantic-space-xs)">
             {course.lessons.map((l, i) => (
-              <Stack key={l.title} direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+              <Stack key={l.title} direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                 <Checkbox checked={l.done} size="small" disabled />
                 <Typography variant="body2" sx={{ flex: 1 }}>{i + 1}. {l.title}</Typography>
                 <Typography variant="caption" color="text.secondary">{l.minutes}분</Typography>
@@ -115,7 +115,7 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
       </Accordion>
 
       {(related.length > 0 || instructorOnly) && (
-        <Stack spacing={1}>
+        <Stack spacing="var(--semantic-space-xs)">
           <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
             <Typography variant="subtitle2">
               {instructorOnly ? `${course.instructor} 강사의 다른 강좌` : `${course.category} 카테고리의 다른 강좌`}
@@ -134,14 +134,14 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
               {course.instructor} 강사가 개설한 다른 강좌가 아직 없어요.
             </Typography>
           ) : (
-          <Box sx={{ display: "grid", gap: 1.25, gridTemplateColumns: { xs: "1fr", sm: `repeat(${Math.min(related.length, 3)}, minmax(0, 1fr))` } }}>
+          <Box sx={{ display: "grid", gap: "var(--semantic-space-xs)", gridTemplateColumns: { xs: "1fr", sm: `repeat(${Math.min(related.length, 3)}, minmax(0, 1fr))` } }}>
             {related.map((c) => (
               <Card key={c.id} variant="outlined">
-                <CardActionArea onClick={() => { onSelect?.(c.id); }} sx={{ p: 1.5 }}>
-                  <Stack spacing={0.5}>
+                <CardActionArea onClick={() => { onSelect?.(c.id); }} sx={{ p: "var(--semantic-space-xs)" }}>
+                  <Stack spacing="var(--semantic-space-xs)">
                     <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>{c.title}</Typography>
                     <Typography variant="caption" color="text.secondary">{c.instructor}</Typography>
-                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Rating value={c.rating} precision={0.1} size="small" readOnly />
                       <Typography variant="caption" color="text.secondary">{won(c.price)}</Typography>
                     </Stack>
@@ -165,7 +165,7 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
                 </ListItemAvatar>
                 <ListItemText
                   primary={
-                    <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>{rv.author}</Typography>
                       <Rating value={rv.rating} size="small" readOnly />
                       <Typography variant="caption" color="text.secondary">{rv.dateLabel}</Typography>
@@ -180,8 +180,8 @@ export function CourseDetailScreen({ selectedId, onNavigate, onSelect }: ScreenP
       )}
 
       <Divider textAlign="left">리뷰 쓰기</Divider>
-      <Stack spacing={1}>
-        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+      <Stack spacing="var(--semantic-space-xs)">
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Typography variant="caption" color="text.secondary">평점</Typography>
           <Rating value={draftRating} onChange={(_, v) => setDraftRating(v ?? draftRating)} size="small" />
         </Stack>

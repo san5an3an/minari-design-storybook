@@ -40,9 +40,9 @@ const COURSE_STATS: readonly CourseStat[] = [
 function CourseStatCard({ stat }: { stat: CourseStat }) {
   const Icon = stat.icon;
   return (
-    <Card variant="outlined" sx={{ p: 1.5 }}>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-xs)" }}>
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-        <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Box
             aria-hidden
             sx={{
@@ -81,12 +81,12 @@ function CoursesPromoCard() {
         borderColor: alpha(theme.palette.primary.main, 0.3),
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
-        gap: 1.5,
+        gap: "var(--semantic-space-xs)",
         justifyContent: "space-between",
-        p: 2,
+        p: "var(--semantic-space-sm)",
       }}
     >
-      <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
         <Box
           aria-hidden
           sx={{
@@ -112,14 +112,14 @@ function CoursesPromoCard() {
 // 수강 중인 강좌 진행률 바
 function EnrolledProgress() {
   return (
-    <Card variant="outlined" sx={{ p: 1.75 }}>
-      <Stack spacing={1.5}>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+      <Stack spacing="var(--semantic-space-xs)">
         <Typography variant="subtitle2">이어서 듣기</Typography>
         {ENROLLED.map((e) => {
           const course = COURSES.find((c) => c.id === e.courseId);
           if (!course) return null;
           return (
-            <Stack key={e.courseId} spacing={0.5}>
+            <Stack key={e.courseId} spacing="var(--semantic-space-xs)">
               <Stack direction="row" sx={{ alignItems: "baseline", justifyContent: "space-between" }}>
                 <Typography variant="body2" noWrap title={course.title}>{course.title}</Typography>
                 <Typography variant="caption" color="text.secondary">{e.progressPercent}%</Typography>
@@ -137,8 +137,8 @@ function EnrolledProgress() {
 // 미니 막대그래프 두 개. 카테고리, 레벨 분포 표시
 function MiniBarCard({ title, data }: { title: string; data: readonly { label: string; value: number }[] }) {
   return (
-    <Card variant="outlined" sx={{ p: 1.75 }}>
-      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>{title}</Typography>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+      <Typography variant="subtitle2" sx={{ mb: "var(--semantic-space-xs)" }}>{title}</Typography>
       <BarChart
         height={140}
         series={[{ data: data.map((d) => d.value), color: "var(--component-chart-series-1)" }]}
@@ -167,14 +167,14 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
   const byLevel = React.useMemo(() => countBy(COURSES.map((c) => c.level)), []);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <CoursesGreeting />
       <CoursesPromoCard />
 
       <Box
         sx={{
           display: "grid",
-          gap: 1.5,
+          gap: "var(--semantic-space-xs)",
           gridTemplateColumns: { xs: "1fr", sm: "repeat(3, minmax(0, 1fr))" },
         }}
       >
@@ -186,7 +186,7 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
       <Box
         sx={{
           display: "grid",
-          gap: 1.5,
+          gap: "var(--semantic-space-xs)",
           gridTemplateColumns: { xs: "1fr", md: "repeat(3, minmax(0, 1fr))" },
         }}
       >
@@ -198,7 +198,7 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
       <Box
         sx={{
           display: "grid",
-          gap: 2,
+          gap: "var(--semantic-space-sm)",
           gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
         }}
       >
@@ -207,8 +207,8 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
           const isTrailingOrphan = COURSES.length % 2 === 1 && i === COURSES.length - 1;
           return (
             <Card key={c.id} variant="outlined" sx={isTrailingOrphan ? { gridColumn: "1 / -1" } : undefined}>
-              <CardActionArea onClick={() => open(c.id)} sx={{ p: 2 }}>
-                <Stack spacing={1} direction={isTrailingOrphan ? "row" : "column"}>
+              <CardActionArea onClick={() => open(c.id)} sx={{ p: "var(--semantic-space-sm)" }}>
+                <Stack spacing="var(--semantic-space-xs)" direction={isTrailingOrphan ? "row" : "column"}>
                   <Box
                     aria-hidden
                     sx={{
@@ -221,14 +221,14 @@ export function CoursesScreen({ onNavigate, onSelect }: ScreenProps) {
                       width: isTrailingOrphan ? 160 : "auto",
                     }}
                   />
-                  <Stack spacing={1} sx={{ minWidth: 0 }}>
-                    <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+                  <Stack spacing="var(--semantic-space-xs)" sx={{ minWidth: 0 }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Chip size="small" label={c.category} variant="outlined" />
                       <Chip size="small" label={c.level} color="primary" variant="outlined" />
                     </Stack>
                     <Typography variant="subtitle2">{c.title}</Typography>
                     <Typography variant="body2" color="text.secondary">{c.instructor}</Typography>
-                    <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Rating value={c.rating} precision={0.1} size="small" readOnly />
                       <Typography variant="caption" color="text.secondary">
                         {c.rating} · 수강생 {c.students.toLocaleString("ko-KR")}명

@@ -73,7 +73,7 @@ function SearchHero() {
         borderRadius: 1,
         boxShadow: "var(--semantic-shadow-raised)",
         display: "flex",
-        gap: 0.5,
+        gap: "var(--semantic-space-xs)",
         flexDirection: "column",
         justifyContent: "flex-end",
         minHeight: 144,
@@ -151,9 +151,9 @@ function HomeStatCard({ stat }: { stat: HomeStat }) {
   const Trend = stat.up ? TrendingUp : TrendingDown;
   const trendColor = stat.up ? theme.palette.success.main : theme.palette.error.main;
   return (
-    <Card variant="outlined" sx={{ p: 1.75 }}>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
       <Stack direction="row" sx={{ alignItems: "flex-start", justifyContent: "space-between" }}>
-        <Stack spacing={1}>
+        <Stack spacing="var(--semantic-space-xs)">
           <Box
             aria-hidden
             sx={{
@@ -173,7 +173,7 @@ function HomeStatCard({ stat }: { stat: HomeStat }) {
           <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
           <Typography variant="h6" component="p">{stat.value}</Typography>
         </Stack>
-        <Stack spacing={0.5} sx={{ alignItems: "flex-end" }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "flex-end" }}>
           <Chip
             size="small"
             icon={<Trend fontSize="inherit" />}
@@ -205,11 +205,11 @@ function RankingList() {
     [],
   );
   return (
-    <Card variant="outlined" sx={{ p: 1.5 }}>
-      <Typography variant="subtitle2" sx={{ mb: 1 }}>이번 주 인기 매물</Typography>
-      <Stack spacing={1}>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-xs)" }}>
+      <Typography variant="subtitle2" sx={{ mb: "var(--semantic-space-xs)" }}>이번 주 인기 매물</Typography>
+      <Stack spacing="var(--semantic-space-xs)">
         {top.map((l, i) => (
-          <Stack key={l.id} direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <Stack key={l.id} direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Typography
               variant="caption"
               sx={{
@@ -301,7 +301,7 @@ export function ListingMap({ rows }: { rows: readonly Listing[] }) {
       {/* 지도 위 범례. 빈 항목 대신 의미 있는 내용으로 구성 */}
       <Stack
         direction="row"
-        spacing={1}
+        spacing="var(--semantic-space-xs)"
         sx={{
           alignItems: "center",
           bgcolor: alpha(theme.palette.background.paper, 0.92),
@@ -309,8 +309,8 @@ export function ListingMap({ rows }: { rows: readonly Listing[] }) {
           bottom: 8,
           left: 8,
           position: "absolute",
-          px: 1,
-          py: 0.5,
+          px: "var(--semantic-space-xs)",
+          py: "var(--semantic-space-xs)",
           right: 8,
         }}
       >
@@ -333,7 +333,7 @@ function QuickInsights() {
     [],
   );
   return (
-    <Card variant="outlined" sx={{ bgcolor: "action.hover", p: 1.5 }}>
+    <Card variant="outlined" sx={{ bgcolor: "action.hover", p: "var(--semantic-space-xs)" }}>
       <Typography variant="caption" color="text.secondary">
         💡 가장 저렴한 매물은 <strong>{cheapest.area}</strong>, 월 {won(monthlyTotal(cheapest))}이에요.
       </Typography>
@@ -364,10 +364,10 @@ function CardMenu({ title }: { title: string }) {
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={() => setAnchorEl(null)}>
-          <ShareOutlined fontSize="small" sx={{ mr: 1 }} /> 공유하기
+          <ShareOutlined fontSize="small" sx={{ mr: "var(--semantic-space-xs)" }} /> 공유하기
         </MenuItem>
         <MenuItem onClick={() => setAnchorEl(null)}>
-          <FlagOutlined fontSize="small" sx={{ mr: 1 }} /> 신고하기
+          <FlagOutlined fontSize="small" sx={{ mr: "var(--semantic-space-xs)" }} /> 신고하기
         </MenuItem>
       </Menu>
     </>
@@ -377,7 +377,7 @@ function CardMenu({ title }: { title: string }) {
 // 스펙 항목 하나, 아이콘과 값으로 구성. 넷이 한 행에서 줄바꿈 없이 고정
 function Spec({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", whiteSpace: "nowrap" }}>
+    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", whiteSpace: "nowrap" }}>
       <Box sx={{ color: "text.secondary", display: "flex" }}>{icon}</Box>
       <Typography variant="body2" color="text.secondary">{children}</Typography>
     </Stack>
@@ -409,13 +409,13 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <SearchHero />
 
       <Box
         sx={{
           display: "grid",
-          gap: 1.5,
+          gap: "var(--semantic-space-xs)",
           gridTemplateColumns: {
             xs: "1fr",
             sm: "repeat(2, minmax(0, 1fr))",
@@ -430,10 +430,10 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
 
       <Stack
         direction="row"
-        spacing={1.5}
-        sx={{ alignItems: "center", flexWrap: "wrap", rowGap: 1.5 }}
+        spacing="var(--semantic-space-xs)"
+        sx={{ alignItems: "center", flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}
       >
-        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <TuneOutlined fontSize="small" sx={{ color: "text.secondary" }} />
           <Typography variant="body2" color="text.secondary">방</Typography>
         </Stack>
@@ -451,7 +451,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
           ))}
         </ToggleButtonGroup>
 
-        <Box sx={{ minWidth: 180, px: 1 }}>
+        <Box sx={{ minWidth: 180, px: "var(--semantic-space-xs)" }}>
           <Typography variant="caption" color="text.secondary">
             월세 {won(maxRent)} 이하
           </Typography>
@@ -493,7 +493,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
 
       <Divider />
 
-      <Stack direction="row" spacing={1} sx={{ alignItems: "baseline", flexWrap: "wrap" }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "baseline", flexWrap: "wrap" }}>
         <Typography variant="subtitle1" component="h3">
           마포구 매물 {rows.length}곳
         </Typography>
@@ -502,12 +502,12 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
         </Typography>
       </Stack>
 
-      <Stack direction={wide ? "row" : "column"} spacing={2} sx={{ alignItems: "flex-start" }}>
+      <Stack direction={wide ? "row" : "column"} spacing="var(--semantic-space-sm)" sx={{ alignItems: "flex-start" }}>
         <Box
           sx={{
             display: "grid",
             flex: 1,
-            gap: 2,
+            gap: "var(--semantic-space-sm)",
             gridTemplateColumns: {
               xs: "1fr",
               sm: "repeat(2, minmax(0, 1fr))",
@@ -526,7 +526,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
                 borderRadius: 1,
                 borderStyle: "dashed",
                 gridColumn: "1 / -1",
-                p: 4,
+                p: "var(--semantic-space-md)",
                 textAlign: "center",
               }}
             >
@@ -568,16 +568,16 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
 
                 <CardActionArea onClick={() => open(l.id)}>
                   <ListingPhoto listing={l} />
-                  <Stack spacing={1} sx={{ p: 1.5 }}>
+                  <Stack spacing="var(--semantic-space-xs)" sx={{ p: "var(--semantic-space-xs)" }}>
                     {l.tags.length ? (
-                      <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", rowGap: 0.5 }}>
+                      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
                         {l.tags.map((t) => (
                           <Chip key={t} label={t} size="small" color="primary" variant="outlined" />
                         ))}
                       </Stack>
                     ) : null}
 
-                    <Stack direction="row" spacing={1} sx={{ alignItems: "baseline" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "baseline" }}>
                       <Typography variant="h6" component="p">
                         월 {won(l.rent)}
                       </Typography>
@@ -589,7 +589,7 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
                       보증금 {won(l.deposit)}
                     </Typography>
 
-                    <Stack direction="row" spacing={1.5} sx={{ flexWrap: "wrap", rowGap: 0.5 }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
                       <Spec icon={<SquareFootOutlined fontSize="inherit" />}>{l.size}㎡</Spec>
                       <Spec icon={<MeetingRoomOutlined fontSize="inherit" />}>방 {l.rooms}</Spec>
                       <Spec icon={<BathtubOutlined fontSize="inherit" />}>욕실 {l.baths}</Spec>
@@ -602,14 +602,14 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
                       {l.title}
                     </Typography>
 
-                    <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", flexWrap: "wrap" }}>
                       <Spec icon={<PlaceOutlined fontSize="inherit" />}>{l.area}</Spec>
                       <Spec icon={<DirectionsSubwayOutlined fontSize="inherit" />}>
                         도보 {l.walk}분
                       </Spec>
                     </Stack>
 
-                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                    <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                       <Rating value={l.rating} precision={0.1} size="small" readOnly />
                       <Typography variant="caption" color="text.secondary">
                         {l.rating.toFixed(1)}
@@ -623,12 +623,12 @@ export function SearchScreen({ onNavigate, onSelect }: ScreenProps) {
         </Box>
 
         {wide ? (
-          <Stack spacing={1.5} sx={{ flexShrink: 0, position: "sticky", top: 16, width: 300 }}>
+          <Stack spacing="var(--semantic-space-xs)" sx={{ flexShrink: 0, position: "sticky", top: 16, width: 300 }}>
           <Card
             variant="outlined"
           >
             <ListingMap rows={rows} />
-            <Stack spacing={0.5} sx={{ p: 1.5 }}>
+            <Stack spacing="var(--semantic-space-xs)" sx={{ p: "var(--semantic-space-xs)" }}>
               <Typography variant="body2">
                 지금 목록의 {rows.length}곳이 지도에 함께 표시됩니다.
               </Typography>

@@ -13,7 +13,7 @@ import type { ScreenProps } from "../screens";
 function RecommendedCard({ listing, onAdd }: { listing: Listing; onAdd: (id: string) => void }) {
   return (
     <Card variant="outlined">
-      <CardActionArea onClick={() => onAdd(listing.id)} sx={{ display: "flex", gap: 1.25, p: 1.25 }}>
+      <CardActionArea onClick={() => onAdd(listing.id)} sx={{ display: "flex", gap: "var(--semantic-space-xs)", p: "var(--semantic-space-xs)" }}>
         <Box
           component="img"
           src={listing.photo}
@@ -21,10 +21,10 @@ function RecommendedCard({ listing, onAdd }: { listing: Listing; onAdd: (id: str
           aria-hidden
           sx={{ borderRadius: 1, flexShrink: 0, height: 52, objectFit: "cover", width: 52 }}
         />
-        <Stack spacing={0.25} sx={{ flex: 1, minWidth: 0 }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ flex: 1, minWidth: 0 }}>
           <Typography variant="body2" noWrap title={listing.title}>{listing.title}</Typography>
           <Typography variant="caption" color="text.secondary">{listing.area} · 월 {won(listing.rent)}</Typography>
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+          <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Rating value={listing.rating} precision={0.1} size="small" readOnly />
             <Typography variant="caption" color="text.secondary">{listing.rating.toFixed(1)}</Typography>
           </Stack>
@@ -124,8 +124,8 @@ export function SavedScreen({ bookedIds, selectedId, onNavigate, onSelect, onBoo
 
   if (rows.length === 0) {
     return (
-      <Card variant="outlined" sx={{ p: 4, textAlign: "center" }}>
-        <Stack spacing={1.5} sx={{ alignItems: "center" }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-md)", textAlign: "center" }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <FavoriteBorderOutlined sx={{ color: "text.disabled" }} />
           <Typography variant="subtitle1">아직 모아 둔 매물이 없어요</Typography>
           <Typography variant="body2" color="text.secondary">
@@ -144,8 +144,8 @@ export function SavedScreen({ bookedIds, selectedId, onNavigate, onSelect, onBoo
   }
 
   return (
-    <Stack spacing={2}>
-      <Stack direction="row" spacing={1} sx={{ alignItems: "baseline", flexWrap: "wrap" }}>
+    <Stack spacing="var(--semantic-space-sm)">
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "baseline", flexWrap: "wrap" }}>
         <Typography variant="subtitle1" component="h3">모아 둔 매물 {rows.length}곳</Typography>
         <Typography variant="body2" color="text.secondary">
           열 이름을 누르면 그 기준으로 다시 렌더링됩니다.
@@ -169,7 +169,7 @@ export function SavedScreen({ bookedIds, selectedId, onNavigate, onSelect, onBoo
         />
       </Box>
 
-      <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap" }}>
         <Button
           variant="contained"
           startIcon={<CalendarMonthOutlined />}
@@ -183,9 +183,9 @@ export function SavedScreen({ bookedIds, selectedId, onNavigate, onSelect, onBoo
       </Stack>
 
       {recommended.length > 0 ? (
-        <Stack spacing={1}>
+        <Stack spacing="var(--semantic-space-xs)">
           <Typography variant="subtitle2">이런 매물은 어떠세요</Typography>
-          <Box sx={{ display: "grid", gap: 1.25, gridTemplateColumns: { xs: "1fr", sm: "repeat(3, minmax(0, 1fr))" } }}>
+          <Box sx={{ display: "grid", gap: "var(--semantic-space-xs)", gridTemplateColumns: { xs: "1fr", sm: "repeat(3, minmax(0, 1fr))" } }}>
             {recommended.map((l) => (
               <RecommendedCard key={l.id} listing={l} onAdd={(id) => onBook?.(id)} />
             ))}

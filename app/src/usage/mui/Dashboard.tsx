@@ -58,8 +58,8 @@ export function MuiUsage({ system }: UsageDashboardProps) {
         elevation={0}
         sx={{ borderBottom: 1, borderColor: "divider", flexShrink: 0 }}
       >
-        <Toolbar sx={{ flexWrap: "wrap", gap: 1.5, minHeight: "auto !important", py: 1 }}>
-          <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+        <Toolbar sx={{ flexWrap: "wrap", gap: "var(--semantic-space-xs)", minHeight: "auto !important", py: "var(--semantic-space-xs)" }}>
+          <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Box
               aria-hidden
               sx={{
@@ -84,7 +84,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
 
           <Stack
             direction="row"
-            spacing={1.25}
+            spacing="var(--semantic-space-xs)"
             sx={{ alignItems: "center", flexWrap: "wrap", ml: "auto" }}
           >
             <TextField
@@ -116,7 +116,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
             variant="scrollable"
             scrollButtons="auto"
             allowScrollButtonsMobile
-            sx={{ borderTop: 1, borderColor: "divider", minHeight: 0, px: 1 }}
+            sx={{ borderTop: 1, borderColor: "divider", minHeight: 0, px: "var(--semantic-space-xs)" }}
           >
             {SCREENS.map((s) => (
               <Tab
@@ -134,8 +134,8 @@ export function MuiUsage({ system }: UsageDashboardProps) {
 
       {/* 내부 스크롤 영역. minHeight 0 없으면 오토스크롤이 동작하지 않음 */}
       <Box sx={{ minWidth: 0, flex: 1, minHeight: 0, overflowY: "auto", p: { xs: 2, sm: 2.5 } }}>
-        <Stack spacing={2}>
-          <Stack spacing={0.25}>
+        <Stack spacing="var(--semantic-space-sm)">
+          <Stack spacing="var(--semantic-space-xs)">
             <Typography variant="h6" component="h2">{screen.label}</Typography>
             <Typography variant="body2" color="text.secondary">{screen.lede}</Typography>
           </Stack>
