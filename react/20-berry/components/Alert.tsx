@@ -22,7 +22,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 Alert.displayName = "Alert";
 
 // 종류를 색과 모양으로 함께 표시
-export const AlertIcon = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const AlertIcon = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-alert-icon", className)} {...rest}>
       {children}

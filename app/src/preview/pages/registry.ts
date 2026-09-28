@@ -11,6 +11,7 @@ import * as card from "./card";
 import * as carousel from "./carousel";
 import * as chart from "./chart";
 import * as checkbox from "./checkbox";
+import * as chip from "./chip";
 import * as dialog from "./dialog";
 import * as divider from "./divider";
 import * as field from "./field";
@@ -23,6 +24,7 @@ import * as link from "./link";
 import * as listrow from "./listrow";
 import * as marker from "./marker";
 import * as menu from "./menu";
+import * as meter from "./meter";
 import * as nativeselect from "./nativeselect";
 import * as message from "./message";
 import * as messagescroller from "./messagescroller";
@@ -34,6 +36,7 @@ import * as radio from "./radio";
 import * as select from "./select";
 import * as spinner from "./spinner";
 import * as stages from "./stages";
+import * as stat from "./stat";
 import * as stepper from "./stepper";
 import * as switchPage from "./switch";
 import * as tabs from "./tabs";
@@ -41,7 +44,9 @@ import * as toast from "./toast";
 import * as toggle from "./toggle";
 import * as tooltip from "./tooltip";
 import * as collapsible from "./collapsible";
+import * as colorpicker from "./colorpicker";
 import * as resizable from "./resizable";
+import * as ringcarousel from "./ringcarousel";
 import * as scrollarea from "./scrollarea";
 import * as avatar from "./avatar";
 import * as skeleton from "./skeleton";
@@ -77,7 +82,9 @@ export const PAGES: Record<string, PageModule> = {
   button,
   card,
   checkbox,
+  chip,
   collapsible,
+  colorpicker,
   dialog,
   divider,
   field,
@@ -89,15 +96,18 @@ export const PAGES: Record<string, PageModule> = {
   link,
   listrow,
   menu,
+  meter,
   pageheader,
   pagination,
   progress,
   radio,
   resizable,
+  ringcarousel,
   scrollarea,
   select,
   spinner,
   stages,
+  stat,
   stepper,
   // 키는 컴포넌트 이름 유지. switch는 예약어라 그 이름으로 import 불가능한 구조임
   switch: switchPage,

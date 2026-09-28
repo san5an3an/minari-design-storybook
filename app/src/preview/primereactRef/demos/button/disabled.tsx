@@ -1,0 +1,13 @@
+// @ts-nocheck
+
+import React from 'react'; 
+import { Button } from 'primereact/button';
+
+export default function DisabledDemo() {
+    return (
+        <div className="card flex justify-content-center">
+            <Button label="Submit" disabled />
+        </div>
+    )
+}
+        

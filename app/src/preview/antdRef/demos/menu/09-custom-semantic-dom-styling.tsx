@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/menu.json 의 examples[9] ("Custom semantic dom styling")
@@ -36,8 +37,8 @@ const items: Required<MenuProps>['items'] = [
         label: '항목 1',
         type: 'group',
         children: [
-          { key: '1', label: '항목 1' },
-          { key: '2', label: '항목 2' },
+          { key: '1', label: '선택지 1' },
+          { key: '2', label: '선택지 2' },
         ],
       },
     ],

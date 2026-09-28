@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/menu.json 의 examples[7] ("Sub-menu theme")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useState } from 'react';
-import { MailOutlined } from '../_icons';
+import { MailOutlined } from '@ant-design/icons';
 import type { MenuProps, MenuTheme } from 'antd';
 import { Menu, Switch } from 'antd';
 
@@ -35,9 +36,9 @@ const App: React.FC = () => {
       label: '메뉴 하나',
       theme: menuTheme,
       children: [
-        { key: '1', label: '항목 1' },
-        { key: '2', label: '항목 2' },
-        { key: '3', label: '항목 3' },
+        { key: '1', label: '선택지 1' },
+        { key: '2', label: '선택지 2' },
+        { key: '3', label: '선택지 3' },
       ],
     },
     { key: '5', label: '항목 5' },

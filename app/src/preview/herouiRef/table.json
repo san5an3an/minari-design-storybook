@@ -1,0 +1,808 @@
+{
+ "slug": "table",
+ "title": "Table",
+ "description": "Tables display structured data in rows and columns with support for sorting, selection, column resizing, and infinite scrolling.",
+ "group": "Data Display",
+ "links": {
+  "rac": "Table",
+  "sourceFile": "table/table.tsx",
+  "styles": "table.css",
+  "storybook": "Components/Data Display/Table"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { Table } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"table-basic\"\n  minHeight=\"320px\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:13"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport { Table } from '@heroui/react';\n\nexport default () => (\n  <Table>\n    <Table.ScrollContainer>\n      <Table.Content aria-label=\"Example table\">\n        <Table.Header>\n          <Table.Column>Name</Table.Column>\n          <Table.Column>Role</Table.Column>\n        </Table.Header>\n        <Table.Body>\n          <Table.Row>\n            <Table.Cell>Kate Moore</Table.Cell>\n            <Table.Cell>CEO</Table.Cell>\n          </Table.Row>\n        </Table.Body>\n      </Table.Content>\n    </Table.ScrollContainer>\n    <Table.Footer>{/* Optional footer content */}</Table.Footer>\n  </Table>\n);\n```",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:24"
+  },
+  {
+   "name": "Examples",
+   "body": "### Secondary Variant\n\n<ComponentPreview\n  name=\"table-secondary-variant\"\n  minHeight=\"320px\"\n/>\n\n### Async Loading\n\nUse `Table.LoadMore` for infinite scrolling. It renders a sentinel row that triggers `onLoadMore` when scrolled into view.\n\n<ComponentPreview\n  name=\"table-async-loading\"\n  minHeight=\"380px\"\n/>\n\n### Sorting\n\nColumns can be made sortable using the `allowsSorting` prop on `Table.Column`. Use `sortDescriptor` and `onSortChange` on `Table.Content` to manage sort state. Wrap the label in `Table.SortableColumnHeader` and forward the `sortDirection` from the column's render prop to render the default ascending/descending indicator.\n\n<ComponentPreview\n  name=\"table-sorting\"\n  minHeight=\"380px\"\n/>\n\n### Selection\n\nEnable row selection with `selectionMode` on `Table.Content`. Use `Checkbox` with `slot=\"selection\"` for select-all and per-row checkboxes.\n\n<ComponentPreview\n  name=\"table-selection\"\n  minHeight=\"380px\"\n/>\n\n### Expandable Rows\n\nRows can be nested to display hierarchical data. Use the `treeColumn` prop to designate a column, and render a `Button` with `slot=\"chevron\"` in that column’s cells so users can expand and collapse the row. Use the `expandedKeys` prop to control which rows are expanded.\n\n<ComponentPreview\n  name=\"table-expandable-rows\"\n  minHeight=\"420px\"\n/>\n\n### Pagination\n\nUse `Table.Footer` to add a pagination component below the table.\n\n<ComponentPreview\n  name=\"table-pagination\"\n  minHeight=\"400px\"\n/>\n\n### Column Resizing\n\nWrap the table in `Table.ResizableContainer` and add `Table.ColumnResizer` inside each resizable column.\n\n<ComponentPreview\n  name=\"table-column-resizing\"\n  minHeight=\"420px\"\n/>\n\n### Empty State\n\nUse `renderEmptyState` on `Table.Body` to display a custom message when the table has no data.\n\n<ComponentPreview\n  name=\"table-empty-state\"\n  minHeight=\"300px\"\n/>\n\n### Virtualization\n\nTable supports virtualization through [Virtualizer](https://react-aria.adobe.com/Virtualizer), enabling efficient rendering of large datasets by displaying only the rows visible within the viewport.\n\n<ComponentPreview\n  name=\"table-virtualization\"\n  minHeight=\"380px\"\n/>\n\n### TanStack Table\n\nHeroUI's Table works as a rendering layer on top of headless table libraries.\nThis example uses [TanStack Table](https://tanstack.com/table) for column\ndefinitions, sorting, and pagination — while HeroUI handles styling and\naccessibility.\n\n<ComponentPreview\n  name=\"table-tanstack-table\"\n  minHeight=\"420px\"\n/>\n\n### Custom Cells\n\n<ComponentPreview\n  name=\"table-custom-cells\"\n  minHeight=\"420px\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:50"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"table-custom-styles\" />\n\n### Global CSS\n\nTo customize the Table component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .table-root {\n    @apply relative grid w-full overflow-clip;\n  }\n\n  .table__header {\n    @apply bg-gray-100;\n  }\n\n  .table__column {\n    @apply px-4 py-2.5 text-left text-xs font-medium text-gray-600;\n  }\n\n  .table__row {\n    @apply bg-white border-b border-gray-200;\n  }\n\n  .table__cell {\n    @apply px-4 py-3 text-sm;\n  }\n\n  .table__footer {\n    @apply flex items-center px-4 py-2.5;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:150"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe Table component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/table.css)):\n\n#### Base Classes [!toc]\n- `.table-root` - Root container (named `table-root` instead of `table` because `table` is a built-in Tailwind CSS utility class for `display: table`)\n- `.table__scroll-container` - Horizontal scroll wrapper with custom scrollbar\n- `.table__content` - The `<table>` element\n- `.table__header` - Header row (`<thead>`)\n- `.table__column` - Column header cell (`<th>`)\n- `.table__body` - Body section (`<tbody>`)\n- `.table__row` - Row element (`<tr>`)\n- `.table__cell` - Data cell (`<td>`)\n- `.table__footer` - Footer container (outside table)\n\n#### Advanced Classes [!toc]\n- `.table__column-resizer` - Drag handle for column resizing\n- `.table__resizable-container` - Wrapper enabling column resizing\n- `.table__load-more` - Sentinel row for infinite scrolling\n- `.table__load-more-content` - Styled container for the loading indicator\n\n#### Variant Classes [!toc]\n- `.table-root--primary` - Gray background container with card-style body (default)\n- `.table-root--secondary` - No background, standalone rounded headers\n\n### Interactive States\n\nThe Table supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` (row background change)\n- **Selected**: `[data-selected=\"true\"]` (row highlight)\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` (inset focus ring on rows, columns, and cells)\n- **Disabled**: `:disabled` or `[aria-disabled=\"true\"]` (reduced opacity)\n- **Sortable**: `[data-allows-sorting=\"true\"]` (interactive cursor on columns)\n- **Dragging**: `[data-dragging=\"true\"]` (reduced opacity)\n- **Drop Target**: `[data-drop-target=\"true\"]` (accent background)",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:189"
+  },
+  {
+   "name": "API Reference",
+   "body": "### Table\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant. Primary has a gray background container; secondary is flat with transparent rows. |\n| `className` | `string` | - | Additional CSS classes for the root container |\n| `children` | `React.ReactNode` | - | Table content (ScrollContainer, Footer, etc.) |\n\n### Table.ScrollContainer\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Table.Content element |\n\n### Table.Content\n\nInherits from [React Aria Table](https://react-spectrum.adobe.com/react-aria/Table.html).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessible label for the table |\n| `selectionMode` | `\"none\" \\| \"single\" \\| \"multiple\"` | `\"none\"` | Selection behavior |\n| `selectedKeys` | `Selection` | - | Controlled selected keys |\n| `onSelectionChange` | `(keys: Selection) => void` | - | Selection change handler |\n| `sortDescriptor` | `SortDescriptor` | - | Current sort state |\n| `onSortChange` | `(descriptor: SortDescriptor) => void` | - | Sort change handler |\n| `className` | `string` | - | Additional CSS classes |\n\n### Table.Header\n\nInherits from [React Aria TableHeader](https://react-spectrum.adobe.com/react-aria/Table.html#tableheader).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `columns` | `T[]` | - | Dynamic column data for render prop pattern |\n| `children` | `React.ReactNode \\| (column: T) => React.ReactNode` | - | Static columns or render prop |\n\n### Table.Column\n\nInherits from [React Aria Column](https://react-spectrum.adobe.com/react-aria/Table.html#column).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `id` | `string` | - | Column identifier |\n| `allowsSorting` | `boolean` | `false` | Whether the column is sortable |\n| `isRowHeader` | `boolean` | `false` | Whether this column is a row header |\n| `defaultWidth` | `string \\| number` | - | Default width for resizable columns |\n| `minWidth` | `number` | - | Minimum width for resizable columns |\n| `children` | `React.ReactNode \\| (values: ColumnRenderProps) => React.ReactNode` | - | Column content or render prop with sort direction |\n\n### Table.Body\n\nInherits from [React Aria TableBody](https://react-spectrum.adobe.com/react-aria/Table.html#tablebody).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `items` | `T[]` | - | Dynamic row data for render prop pattern |\n| `renderEmptyState` | `() => React.ReactNode` | - | Content to display when the table is empty |\n| `children` | `React.ReactNode \\| (item: T) => React.ReactNode` | - | Static rows or render prop |\n\n### Table.Row\n\nInherits from [React Aria Row](https://react-spectrum.adobe.com/react-aria/Table.html#row).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `id` | `string \\| number` | - | Row identifier |\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Row cells |\n\n### Table.Cell\n\nInherits from [React Aria Cell](https://react-spectrum.adobe.com/react-aria/Table.html#cell).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Cell content |\n\n### Table.SortableColumnHeader\n\nRenders a sortable column label with an ascending/descending indicator. Use it inside a `Table.Column` render-prop callback and forward the `sortDirection` value.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `sortDirection` | `\"ascending\" \\| \"descending\"` | - | Current sort direction. Pass through from the `Table.Column` render prop. |\n| `showIndicator` | `boolean` | `true` | Whether to render the sort indicator icon when a direction is set. |\n| `indicator` | `React.ReactNode` | - | Custom indicator element. Overrides the default chevron and receives a `data-direction` attribute. |\n| `className` | `string` | - | Additional CSS classes for the wrapper. |\n| `children` | `React.ReactNode` | - | Column label content |\n\n### Table.Footer\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Footer content (e.g., pagination) |\n\n### Table.ColumnResizer\n\nInherits from [React Aria ColumnResizer](https://react-spectrum.adobe.com/react-aria/Table.html#columnresizer).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n\n### Table.ResizableContainer\n\nInherits from [React Aria ResizableTableContainer](https://react-spectrum.adobe.com/react-aria/Table.html#resizabletablecontainer).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Table.Content element |\n\n### Table.LoadMore\n\nInherits from [React Aria TableLoadMoreItem](https://react-spectrum.adobe.com/react-aria/Table.html).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isLoading` | `boolean` | `false` | Whether data is currently loading |\n| `onLoadMore` | `() => void` | - | Handler called when the sentinel row is visible |\n| `children` | `React.ReactNode` | - | Loading indicator content |\n\n### Table.LoadMoreContent\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `React.ReactNode` | - | Loading indicator content (e.g., Spinner) |\n\n### Table.Collection\n\nRe-exported from React Aria `Collection`. Used to render dynamic cells within rows alongside static cells (e.g., checkboxes).\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `items` | `T[]` | - | Collection items |\n| `children` | `(item: T) => React.ReactNode` | - | Render prop for each item |\n\n### TableLayout\n\n| Name | Type | Default | Description |\n|------|------|---------|-------------|\n| `rowHeight` | `number \\| undefined` | 48 | The fixed height of a row in px. |\n| `estimatedRowHeight` | `number \\| undefined` | — | The estimated height of a row, when row heights are variable. |\n| `headingHeight` | `number \\| undefined` | 48 | The fixed height of a section header in px. |\n| `estimatedHeadingHeight` | `number \\| undefined` | — | The estimated height of a section header, when the height is variable. |\n| `loaderHeight` | `number \\| undefined` | 48 | The fixed height of a loader element in px. This loader is specifically for \"load more\" elements rendered when loading more rows at the root level or inside nested row/sections. |\n| `dropIndicatorThickness` | `number \\| undefined` | 2 | The thickness of the drop indicator. |\n| `gap` | `number \\| undefined` | 0 | The gap between items. |\n| `padding` | `number \\| undefined` | 0 | The padding around the list. |",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:230"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"table\" />",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:387"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "table-basic",
+   "source": "apps/docs/src/demos/en/table/basic.tsx",
+   "code": "import {Table} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content aria-label=\"Team members\" className=\"min-w-[600px]\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Role</Table.Column>\n            <Table.Column>Status</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row>\n              <Table.Cell>Kate Moore</Table.Cell>\n              <Table.Cell>CEO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>kate@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>John Smith</Table.Cell>\n              <Table.Cell>CTO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>john@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Sara Johnson</Table.Cell>\n              <Table.Cell>CMO</Table.Cell>\n              <Table.Cell>On Leave</Table.Cell>\n              <Table.Cell>sara@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Michael Brown</Table.Cell>\n              <Table.Cell>CFO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>michael@acme.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Secondary Variant",
+   "section": "Examples",
+   "key": "table-secondary-variant",
+   "source": "apps/docs/src/demos/en/table/secondary-variant.tsx",
+   "code": "import {Table} from \"@heroui/react\";\n\nexport function SecondaryVariant() {\n  return (\n    <Table variant=\"secondary\">\n      <Table.ScrollContainer>\n        <Table.Content aria-label=\"Team members\" className=\"min-w-[600px]\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Role</Table.Column>\n            <Table.Column>Status</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row>\n              <Table.Cell>Kate Moore</Table.Cell>\n              <Table.Cell>CEO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>kate@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>John Smith</Table.Cell>\n              <Table.Cell>CTO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>john@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Sara Johnson</Table.Cell>\n              <Table.Cell>CMO</Table.Cell>\n              <Table.Cell>On Leave</Table.Cell>\n              <Table.Cell>sara@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Michael Brown</Table.Cell>\n              <Table.Cell>CFO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n              <Table.Cell>michael@acme.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Async Loading",
+   "section": "Examples",
+   "key": "table-async-loading",
+   "source": "apps/docs/src/demos/en/table/async-loading.tsx",
+   "code": "\"use client\";\n\nimport {Chip, Spinner, Table} from \"@heroui/react\";\nimport {useCallback, useRef, useState} from \"react\";\n\ninterface User {\n  id: number;\n  name: string;\n  role: string;\n  status: string;\n  email: string;\n}\n\nconst statusColorMap: Record<string, \"success\" | \"danger\" | \"warning\"> = {\n  Active: \"success\",\n  Inactive: \"danger\",\n  \"On Leave\": \"warning\",\n};\n\nconst allUsers: User[] = [\n  {email: \"kate@acme.com\", id: 1, name: \"Kate Moore\", role: \"CEO\", status: \"Active\"},\n  {email: \"john@acme.com\", id: 2, name: \"John Smith\", role: \"CTO\", status: \"Active\"},\n  {email: \"sara@acme.com\", id: 3, name: \"Sara Johnson\", role: \"CMO\", status: \"On Leave\"},\n  {email: \"michael@acme.com\", id: 4, name: \"Michael Brown\", role: \"CFO\", status: \"Active\"},\n  {\n    email: \"emily@acme.com\",\n    id: 5,\n    name: \"Emily Davis\",\n    role: \"Product Manager\",\n    status: \"Inactive\",\n  },\n  {email: \"davis@acme.com\", id: 6, name: \"Davis Wilson\", role: \"Lead Designer\", status: \"Active\"},\n  {\n    email: \"olivia@acme.com\",\n    id: 7,\n    name: \"Olivia Martinez\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n  {\n    email: \"james@acme.com\",\n    id: 8,\n    name: \"James Taylor\",\n    role: \"Backend Engineer\",\n    status: \"Active\",\n  },\n  {\n    email: \"sophia@acme.com\",\n    id: 9,\n    name: \"Sophia Anderson\",\n    role: \"QA Engineer\",\n    status: \"On Leave\",\n  },\n  {email: \"liam@acme.com\", id: 10, name: \"Liam Thomas\", role: \"DevOps Engineer\", status: \"Active\"},\n  {\n    email: \"lucas@acme.com\",\n    id: 11,\n    name: \"Lucas Martinez\",\n    role: \"Product Manager\",\n    status: \"Active\",\n  },\n  {\n    email: \"emma@acme.com\",\n    id: 12,\n    name: \"Emma Johnson\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n  {email: \"noah@acme.com\", id: 13, name: \"Noah Davis\", role: \"Backend Engineer\", status: \"Active\"},\n  {email: \"ava@acme.com\", id: 14, name: \"Ava Wilson\", role: \"Lead Designer\", status: \"Active\"},\n  {\n    email: \"oliver@acme.com\",\n    id: 15,\n    name: \"Oliver Martinez\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n  {\n    email: \"isabella@acme.com\",\n    id: 16,\n    name: \"Isabella Johnson\",\n    role: \"Backend Engineer\",\n    status: \"Active\",\n  },\n  {email: \"mia@acme.com\", id: 17, name: \"Mia Davis\", role: \"Lead Designer\", status: \"Active\"},\n  {\n    email: \"william@acme.com\",\n    id: 18,\n    name: \"William Wilson\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n];\n\nconst ITEMS_PER_PAGE = 6;\n\nconst columns = [\n  {id: \"name\", name: \"Name\"},\n  {id: \"role\", name: \"Role\"},\n  {id: \"status\", name: \"Status\"},\n  {id: \"email\", name: \"Email\"},\n];\n\nexport function AsyncLoading() {\n  const [items, setItems] = useState<User[]>(() => allUsers.slice(0, ITEMS_PER_PAGE));\n  const [isLoading, setIsLoading] = useState(false);\n  const isLoadingRef = useRef(false);\n  const hasMore = items.length < allUsers.length;\n\n  const loadMore = useCallback(() => {\n    if (!hasMore || isLoadingRef.current) return;\n    isLoadingRef.current = true;\n    setIsLoading(true);\n    setTimeout(() => {\n      setItems((prev) => allUsers.slice(0, prev.length + ITEMS_PER_PAGE));\n      setIsLoading(false);\n      requestAnimationFrame(() => {\n        isLoadingRef.current = false;\n      });\n    }, 1500);\n  }, [hasMore]);\n\n  return (\n    <Table>\n      <Table.ScrollContainer className=\"h-[280px] overflow-y-auto\">\n        <Table.Content aria-label=\"Async loading table\" className=\"min-w-[600px]\">\n          <Table.Header className=\"sticky top-0 z-10 bg-surface-secondary\">\n            {columns.map((col) => (\n              <Table.Column key={col.id} id={col.id} isRowHeader={col.id === \"name\"}>\n                {col.name}\n              </Table.Column>\n            ))}\n          </Table.Header>\n          <Table.Body>\n            <Table.Collection items={items}>\n              {(user) => (\n                <Table.Row>\n                  <Table.Cell>{user.name}</Table.Cell>\n                  <Table.Cell>{user.role}</Table.Cell>\n                  <Table.Cell>\n                    <Chip color={statusColorMap[user.status]} size=\"sm\" variant=\"soft\">\n                      {user.status}\n                    </Chip>\n                  </Table.Cell>\n                  <Table.Cell>{user.email}</Table.Cell>\n                </Table.Row>\n              )}\n            </Table.Collection>\n            {!!hasMore && (\n              <Table.LoadMore isLoading={isLoading} scrollOffset={0} onLoadMore={loadMore}>\n                <Table.LoadMoreContent>\n                  <Spinner size=\"md\" />\n                </Table.LoadMoreContent>\n              </Table.LoadMore>\n            )}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Sorting",
+   "section": "Examples",
+   "key": "table-sorting",
+   "source": "apps/docs/src/demos/en/table/sorting.tsx",
+   "code": "\"use client\";\n\nimport type {SortDescriptor} from \"@heroui/react\";\n\nimport {Table} from \"@heroui/react\";\nimport {useMemo, useState} from \"react\";\n\ninterface User {\n  id: number;\n  name: string;\n  role: string;\n  status: string;\n  email: string;\n}\n\nconst users: User[] = [\n  {email: \"kate@acme.com\", id: 1, name: \"Kate Moore\", role: \"CEO\", status: \"Active\"},\n  {email: \"john@acme.com\", id: 2, name: \"John Smith\", role: \"CTO\", status: \"Active\"},\n  {email: \"sara@acme.com\", id: 3, name: \"Sara Johnson\", role: \"CMO\", status: \"On Leave\"},\n  {email: \"michael@acme.com\", id: 4, name: \"Michael Brown\", role: \"CFO\", status: \"Active\"},\n  {\n    email: \"emily@acme.com\",\n    id: 5,\n    name: \"Emily Davis\",\n    role: \"Product Manager\",\n    status: \"Inactive\",\n  },\n];\n\nexport function Sorting() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: \"name\",\n    direction: \"ascending\",\n  });\n\n  const sortedUsers = useMemo(() => {\n    return [...users].sort((a, b) => {\n      const col = sortDescriptor.column as keyof User;\n      const first = String(a[col]);\n      const second = String(b[col]);\n      let cmp = first.localeCompare(second);\n\n      if (sortDescriptor.direction === \"descending\") {\n        cmp *= -1;\n      }\n\n      return cmp;\n    });\n  }, [sortDescriptor]);\n\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content\n          aria-label=\"Sortable table\"\n          className=\"min-w-[600px]\"\n          sortDescriptor={sortDescriptor}\n          onSortChange={setSortDescriptor}\n        >\n          <Table.Header>\n            <Table.Column allowsSorting isRowHeader id=\"name\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Name\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"role\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Role\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"status\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Status\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"email\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Email\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n          </Table.Header>\n          <Table.Body>\n            {sortedUsers.map((user) => (\n              <Table.Row key={user.id} id={user.id}>\n                <Table.Cell>{user.name}</Table.Cell>\n                <Table.Cell>{user.role}</Table.Cell>\n                <Table.Cell>{user.status}</Table.Cell>\n                <Table.Cell>{user.email}</Table.Cell>\n              </Table.Row>\n            ))}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Selection",
+   "section": "Examples",
+   "key": "table-selection",
+   "source": "apps/docs/src/demos/en/table/selection.tsx",
+   "code": "\"use client\";\n\nimport type {Selection} from \"@heroui/react\";\n\nimport {Checkbox, Table} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nconst users = [\n  {email: \"kate@acme.com\", id: 1, name: \"Kate Moore\", role: \"CEO\", status: \"Active\"},\n  {email: \"john@acme.com\", id: 2, name: \"John Smith\", role: \"CTO\", status: \"Active\"},\n  {email: \"sara@acme.com\", id: 3, name: \"Sara Johnson\", role: \"CMO\", status: \"On Leave\"},\n  {email: \"michael@acme.com\", id: 4, name: \"Michael Brown\", role: \"CFO\", status: \"Active\"},\n];\n\nexport function SelectionDemo() {\n  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());\n\n  return (\n    <div className=\"flex flex-col gap-3\">\n      <Table>\n        <Table.ScrollContainer>\n          <Table.Content\n            aria-label=\"Table with selection\"\n            className=\"min-w-[600px]\"\n            selectedKeys={selectedKeys}\n            selectionMode=\"multiple\"\n            onSelectionChange={setSelectedKeys}\n          >\n            <Table.Header>\n              <Table.Column className=\"pe-0\">\n                <Checkbox aria-label=\"Select all\" slot=\"selection\">\n                  <Checkbox.Content>\n                    <Checkbox.Control>\n                      <Checkbox.Indicator />\n                    </Checkbox.Control>\n                  </Checkbox.Content>\n                </Checkbox>\n              </Table.Column>\n              <Table.Column isRowHeader>Name</Table.Column>\n              <Table.Column>Role</Table.Column>\n              <Table.Column>Status</Table.Column>\n              <Table.Column>Email</Table.Column>\n            </Table.Header>\n            <Table.Body>\n              {users.map((user) => (\n                <Table.Row key={user.id} id={user.id}>\n                  <Table.Cell className=\"pe-0\">\n                    <Checkbox\n                      aria-label={`Select ${user.name}`}\n                      slot=\"selection\"\n                      variant=\"secondary\"\n                    >\n                      <Checkbox.Content>\n                        <Checkbox.Control>\n                          <Checkbox.Indicator />\n                        </Checkbox.Control>\n                      </Checkbox.Content>\n                    </Checkbox>\n                  </Table.Cell>\n                  <Table.Cell>{user.name}</Table.Cell>\n                  <Table.Cell>{user.role}</Table.Cell>\n                  <Table.Cell>{user.status}</Table.Cell>\n                  <Table.Cell>{user.email}</Table.Cell>\n                </Table.Row>\n              ))}\n            </Table.Body>\n          </Table.Content>\n        </Table.ScrollContainer>\n      </Table>\n      <p className=\"text-sm text-muted\">\n        Selected:{\" \"}\n        <span className=\"font-medium\">\n          {selectedKeys === \"all\"\n            ? \"All\"\n            : selectedKeys.size > 0\n              ? Array.from(selectedKeys).join(\", \")\n              : \"None\"}\n        </span>\n      </p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Expandable Rows",
+   "section": "Examples",
+   "key": "table-expandable-rows",
+   "source": "apps/docs/src/demos/en/table/expandable-rows.tsx",
+   "code": "\"use client\";\n\nimport type {Selection} from \"@heroui/react\";\n\nimport {Button, Table, cn} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport {useState} from \"react\";\n\nexport function ExpandableRows() {\n  type Row = {\n    children: Row[];\n    date: string;\n    id: string;\n    title: string;\n    type: string;\n  };\n\n  const data: Row[] = [\n    {\n      children: [\n        {\n          children: [\n            {children: [], date: \"7/10/2025\", id: \"3\", title: \"Weekly Report\", type: \"File\"},\n            {children: [], date: \"8/20/2025\", id: \"4\", title: \"Budget\", type: \"File\"},\n          ],\n          date: \"8/2/2025\",\n          id: \"2\",\n          title: \"Project\",\n          type: \"Directory\",\n        },\n      ],\n      date: \"10/20/2025\",\n      id: \"1\",\n      title: \"Documents\",\n      type: \"Directory\",\n    },\n    {\n      children: [\n        {children: [], date: \"1/23/2026\", id: \"6\", title: \"Image 1\", type: \"File\"},\n        {children: [], date: \"2/3/2026\", id: \"7\", title: \"Image 2\", type: \"File\"},\n      ],\n      date: \"2/3/2026\",\n      id: \"5\",\n      title: \"Photos\",\n      type: \"Directory\",\n    },\n  ];\n\n  const [expandedKeys, setExpandedKeys] = useState<Selection>(() => new Set([\"1\"]));\n\n  const renderExpandableRow = (item: Row) => {\n    return (\n      <Table.Row id={item.id} textValue={item.title}>\n        <Table.Cell textValue={item.title}>\n          {({hasChildItems, isDisabled, isExpanded, isTreeColumn}) => (\n            <span className=\"flex items-center gap-1\">\n              {hasChildItems && isTreeColumn ? (\n                <Button\n                  isIconOnly\n                  aria-label=\"Toggle row\"\n                  isDisabled={isDisabled}\n                  size=\"sm\"\n                  slot=\"chevron\"\n                  variant=\"ghost\"\n                >\n                  <Icon\n                    aria-hidden\n                    icon=\"gravity-ui:chevron-right\"\n                    className={cn(\n                      \"size-4 text-muted transition-transform duration-150\",\n                      isExpanded ? \"rotate-90\" : \"rtl:rotate-180\",\n                    )}\n                  />\n                </Button>\n              ) : null}\n              <span>{item.title}</span>\n            </span>\n          )}\n        </Table.Cell>\n        <Table.Cell>{item.type}</Table.Cell>\n        <Table.Cell>{item.date}</Table.Cell>\n        <Table.Collection items={item.children}>{renderExpandableRow}</Table.Collection>\n      </Table.Row>\n    );\n  };\n\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content\n          aria-label=\"Files\"\n          className=\"min-w-[520px]\"\n          expandedKeys={expandedKeys}\n          treeColumn=\"name\"\n          onExpandedChange={setExpandedKeys}\n        >\n          <Table.Header>\n            <Table.Column isRowHeader id=\"name\">\n              Name\n            </Table.Column>\n            <Table.Column id=\"type\">Type</Table.Column>\n            <Table.Column id=\"date\">Date Modified</Table.Column>\n          </Table.Header>\n          <Table.Body items={data}>{renderExpandableRow}</Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Pagination",
+   "section": "Examples",
+   "key": "table-pagination",
+   "source": "apps/docs/src/demos/en/table/pagination.tsx",
+   "code": "\"use client\";\n\nimport {Pagination, Table} from \"@heroui/react\";\nimport {useMemo, useState} from \"react\";\n\nconst columns = [\n  {id: \"name\", name: \"Name\"},\n  {id: \"role\", name: \"Role\"},\n  {id: \"status\", name: \"Status\"},\n  {id: \"email\", name: \"Email\"},\n];\n\nconst users = [\n  {email: \"kate@acme.com\", id: 1, name: \"Kate Moore\", role: \"CEO\", status: \"Active\"},\n  {email: \"john@acme.com\", id: 2, name: \"John Smith\", role: \"CTO\", status: \"Active\"},\n  {email: \"sara@acme.com\", id: 3, name: \"Sara Johnson\", role: \"CMO\", status: \"On Leave\"},\n  {email: \"michael@acme.com\", id: 4, name: \"Michael Brown\", role: \"CFO\", status: \"Active\"},\n  {\n    email: \"emily@acme.com\",\n    id: 5,\n    name: \"Emily Davis\",\n    role: \"Product Manager\",\n    status: \"Inactive\",\n  },\n  {email: \"davis@acme.com\", id: 6, name: \"Davis Wilson\", role: \"Lead Designer\", status: \"Active\"},\n  {\n    email: \"olivia@acme.com\",\n    id: 7,\n    name: \"Olivia Martinez\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n  {\n    email: \"james@acme.com\",\n    id: 8,\n    name: \"James Taylor\",\n    role: \"Backend Engineer\",\n    status: \"Active\",\n  },\n];\n\nconst ROWS_PER_PAGE = 4;\n\nexport function PaginationDemo() {\n  const [page, setPage] = useState(1);\n  const totalPages = Math.ceil(users.length / ROWS_PER_PAGE);\n  const pages = Array.from({length: totalPages}, (_, i) => i + 1);\n\n  const paginatedItems = useMemo(() => {\n    const start = (page - 1) * ROWS_PER_PAGE;\n\n    return users.slice(start, start + ROWS_PER_PAGE);\n  }, [page]);\n\n  const start = (page - 1) * ROWS_PER_PAGE + 1;\n  const end = Math.min(page * ROWS_PER_PAGE, users.length);\n\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content aria-label=\"Table with pagination\" className=\"min-w-[600px]\">\n          <Table.Header columns={columns}>\n            {(column) => (\n              <Table.Column isRowHeader={column.id === \"name\"}>{column.name}</Table.Column>\n            )}\n          </Table.Header>\n          <Table.Body items={paginatedItems}>\n            {(user) => (\n              <Table.Row>\n                <Table.Collection items={columns}>\n                  {(column) => <Table.Cell>{user[column.id as keyof typeof user]}</Table.Cell>}\n                </Table.Collection>\n              </Table.Row>\n            )}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n      <Table.Footer>\n        <Pagination size=\"sm\">\n          <Pagination.Summary>\n            {start} to {end} of {users.length} results\n          </Pagination.Summary>\n          <Pagination.Content>\n            <Pagination.Item>\n              <Pagination.Previous\n                isDisabled={page === 1}\n                onPress={() => setPage((p) => Math.max(1, p - 1))}\n              >\n                <Pagination.PreviousIcon />\n                Prev\n              </Pagination.Previous>\n            </Pagination.Item>\n            {pages.map((p) => (\n              <Pagination.Item key={p}>\n                <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>\n                  {p}\n                </Pagination.Link>\n              </Pagination.Item>\n            ))}\n            <Pagination.Item>\n              <Pagination.Next\n                isDisabled={page === totalPages}\n                onPress={() => setPage((p) => Math.min(totalPages, p + 1))}\n              >\n                Next\n                <Pagination.NextIcon />\n              </Pagination.Next>\n            </Pagination.Item>\n          </Pagination.Content>\n        </Pagination>\n      </Table.Footer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Column Resizing",
+   "section": "Examples",
+   "key": "table-column-resizing",
+   "source": "apps/docs/src/demos/en/table/column-resizing.tsx",
+   "code": "import {Chip, Table} from \"@heroui/react\";\n\nexport function ColumnResizing() {\n  return (\n    <Table>\n      <Table.ResizableContainer>\n        <Table.Content aria-label=\"Table with resizable columns\" className=\"min-w-[700px]\">\n          <Table.Header>\n            <Table.Column isRowHeader defaultWidth=\"1fr\" id=\"name\" minWidth={160}>\n              Name\n              <Table.ColumnResizer />\n            </Table.Column>\n            <Table.Column defaultWidth=\"1fr\" id=\"role\" minWidth={220}>\n              Role\n              <Table.ColumnResizer />\n            </Table.Column>\n            <Table.Column defaultWidth=\"1fr\" id=\"status\" minWidth={100}>\n              Status\n              <Table.ColumnResizer />\n            </Table.Column>\n            <Table.Column defaultWidth=\"1fr\" id=\"email\" minWidth={200}>\n              Email\n            </Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row>\n              <Table.Cell>Kate Moore</Table.Cell>\n              <Table.Cell>CEO</Table.Cell>\n              <Table.Cell>\n                <Chip color=\"success\" size=\"sm\" variant=\"soft\">\n                  Active\n                </Chip>\n              </Table.Cell>\n              <Table.Cell>kate@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>John Smith</Table.Cell>\n              <Table.Cell>CTO</Table.Cell>\n              <Table.Cell>\n                <Chip color=\"success\" size=\"sm\" variant=\"soft\">\n                  Active\n                </Chip>\n              </Table.Cell>\n              <Table.Cell>john@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Sara Johnson</Table.Cell>\n              <Table.Cell>CMO</Table.Cell>\n              <Table.Cell>\n                <Chip color=\"warning\" size=\"sm\" variant=\"soft\">\n                  On Leave\n                </Chip>\n              </Table.Cell>\n              <Table.Cell>sara@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Michael Brown</Table.Cell>\n              <Table.Cell>CFO</Table.Cell>\n              <Table.Cell>\n                <Chip color=\"success\" size=\"sm\" variant=\"soft\">\n                  Active\n                </Chip>\n              </Table.Cell>\n              <Table.Cell>michael@acme.com</Table.Cell>\n            </Table.Row>\n            <Table.Row>\n              <Table.Cell>Emily Davis</Table.Cell>\n              <Table.Cell>Product Manager</Table.Cell>\n              <Table.Cell>\n                <Chip color=\"danger\" size=\"sm\" variant=\"soft\">\n                  Inactive\n                </Chip>\n              </Table.Cell>\n              <Table.Cell>emily@acme.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Content>\n      </Table.ResizableContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Empty State",
+   "section": "Examples",
+   "key": "table-empty-state",
+   "source": "apps/docs/src/demos/en/table/empty-state.tsx",
+   "code": "\"use client\";\n\nimport {EmptyState, Table} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\n\nexport function EmptyStateDemo() {\n  return (\n    <Table className=\"min-h-[200px]\">\n      <Table.ScrollContainer>\n        <Table.Content aria-label=\"Empty table\" className=\"h-full min-w-[600px]\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Role</Table.Column>\n            <Table.Column>Status</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body\n            renderEmptyState={() => (\n              <EmptyState className=\"flex h-full w-full flex-col items-center justify-center gap-4 text-center\">\n                <Icon className=\"size-6 text-muted\" icon=\"gravity-ui:tray\" />\n                <span className=\"text-sm text-muted\">No results found</span>\n              </EmptyState>\n            )}\n          >\n            {[]}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Virtualization",
+   "section": "Examples",
+   "key": "table-virtualization",
+   "source": "apps/docs/src/demos/en/table/virtualization.tsx",
+   "code": "\"use client\";\n\nimport {Table, TableLayout, Virtualizer} from \"@heroui/react\";\n\ninterface User {\n  id: number;\n  name: string;\n  role: string;\n  email: string;\n}\n\nexport function Virtualization() {\n  const roles = [\n    \"Software Engineer\",\n    \"Senior Engineer\",\n    \"Staff Engineer\",\n    \"Product Manager\",\n    \"Designer\",\n    \"Data Analyst\",\n    \"QA Engineer\",\n    \"DevOps Engineer\",\n    \"Marketing Manager\",\n    \"Sales Representative\",\n  ];\n\n  const firstNames = [\n    \"Emma\",\n    \"Liam\",\n    \"Olivia\",\n    \"Noah\",\n    \"Ava\",\n    \"James\",\n    \"Sophia\",\n    \"Oliver\",\n    \"Isabella\",\n    \"Lucas\",\n    \"Mia\",\n    \"Ethan\",\n    \"Charlotte\",\n    \"Mason\",\n    \"Amelia\",\n    \"Logan\",\n    \"Harper\",\n    \"Alexander\",\n    \"Ella\",\n    \"Benjamin\",\n  ];\n\n  const lastNames = [\n    \"Smith\",\n    \"Johnson\",\n    \"Williams\",\n    \"Brown\",\n    \"Jones\",\n    \"Garcia\",\n    \"Miller\",\n    \"Davis\",\n    \"Rodriguez\",\n    \"Martinez\",\n    \"Anderson\",\n    \"Taylor\",\n    \"Thomas\",\n    \"Jackson\",\n    \"White\",\n    \"Harris\",\n    \"Clark\",\n    \"Lewis\",\n    \"Robinson\",\n    \"Walker\",\n  ];\n\n  function generateUsers(count: number): User[] {\n    const users: User[] = [];\n\n    for (let i = 0; i < count; i++) {\n      const firstName = firstNames[i % firstNames.length];\n      const lastName = lastNames[Math.floor(i / firstNames.length) % lastNames.length];\n      const name = `${firstName} ${lastName}`;\n\n      users.push({\n        email: `${firstName?.toLowerCase()}.${lastName?.toLowerCase()}@acme.com`,\n        id: i + 1,\n        name,\n        role: roles[i % roles.length] || \"\",\n      });\n    }\n\n    return users;\n  }\n\n  const virtualizedUsers = generateUsers(1000);\n\n  return (\n    <Virtualizer\n      layout={TableLayout}\n      layoutOptions={{\n        headingHeight: 42,\n        rowHeight: 42,\n      }}\n    >\n      <Table>\n        <Table.ScrollContainer>\n          <Table.Content\n            aria-label=\"Virtualized table with 1000 rows\"\n            className=\"h-[300px] min-w-[700px] overflow-auto\"\n          >\n            <Table.Header className=\"h-full w-full\">\n              <Table.Column isRowHeader id=\"name\" minWidth={160}>\n                Name\n              </Table.Column>\n              <Table.Column id=\"role\" minWidth={220}>\n                Role\n              </Table.Column>\n              <Table.Column id=\"email\" minWidth={240}>\n                Email\n              </Table.Column>\n            </Table.Header>\n            <Table.Body items={virtualizedUsers}>\n              {(user) => (\n                <Table.Row>\n                  <Table.Cell>{user.name}</Table.Cell>\n                  <Table.Cell>{user.role}</Table.Cell>\n                  <Table.Cell>{user.email}</Table.Cell>\n                </Table.Row>\n              )}\n            </Table.Body>\n          </Table.Content>\n        </Table.ScrollContainer>\n      </Table>\n    </Virtualizer>\n  );\n}\n"
+  },
+  {
+   "name": "TanStack Table",
+   "section": "Examples",
+   "key": "table-tanstack-table",
+   "source": "apps/docs/src/demos/en/table/tanstack-table.tsx",
+   "code": "\"use client\";\n\nimport type {SortDescriptor} from \"@heroui/react\";\nimport type {SortingState} from \"@tanstack/react-table\";\n\nimport {Chip, Pagination, Table} from \"@heroui/react\";\nimport {\n  createColumnHelper,\n  createPaginatedRowModel,\n  createSortedRowModel,\n  flexRender,\n  rowPaginationFeature,\n  rowSortingFeature,\n  sortFn_alphanumeric,\n  tableFeatures,\n  useTable,\n} from \"@tanstack/react-table\";\nimport {useMemo, useState} from \"react\";\n\n// --- Data -----------------------------------------------------------------\ninterface User {\n  id: number;\n  name: string;\n  role: string;\n  status: \"Active\" | \"Inactive\" | \"On Leave\";\n  email: string;\n}\n\nconst statusColorMap: Record<string, \"success\" | \"danger\" | \"warning\"> = {\n  Active: \"success\",\n  Inactive: \"danger\",\n  \"On Leave\": \"warning\",\n};\n\nconst users: User[] = [\n  {email: \"kate@acme.com\", id: 1, name: \"Kate Moore\", role: \"CEO\", status: \"Active\"},\n  {email: \"john@acme.com\", id: 2, name: \"John Smith\", role: \"CTO\", status: \"Active\"},\n  {email: \"sara@acme.com\", id: 3, name: \"Sara Johnson\", role: \"CMO\", status: \"On Leave\"},\n  {email: \"michael@acme.com\", id: 4, name: \"Michael Brown\", role: \"CFO\", status: \"Active\"},\n  {\n    email: \"emily@acme.com\",\n    id: 5,\n    name: \"Emily Davis\",\n    role: \"Product Manager\",\n    status: \"Inactive\",\n  },\n  {email: \"davis@acme.com\", id: 6, name: \"Davis Wilson\", role: \"Lead Designer\", status: \"Active\"},\n  {\n    email: \"olivia@acme.com\",\n    id: 7,\n    name: \"Olivia Martinez\",\n    role: \"Frontend Engineer\",\n    status: \"Active\",\n  },\n  {\n    email: \"james@acme.com\",\n    id: 8,\n    name: \"James Taylor\",\n    role: \"Backend Engineer\",\n    status: \"Active\",\n  },\n];\n\n// --- TanStack Features & Column Definitions -------------------------------\nconst features = tableFeatures({\n  paginatedRowModel: createPaginatedRowModel(),\n  rowPaginationFeature,\n  rowSortingFeature,\n  sortFns: {\n    alphanumeric: sortFn_alphanumeric,\n  },\n  sortedRowModel: createSortedRowModel(),\n});\n\nconst columnHelper = createColumnHelper<typeof features, User>();\n\nconst columns = columnHelper.columns([\n  columnHelper.accessor(\"name\", {header: \"Name\"}),\n  columnHelper.accessor(\"role\", {header: \"Role\"}),\n  columnHelper.accessor(\"status\", {\n    cell: (info) => (\n      <Chip color={statusColorMap[info.getValue()]} size=\"sm\" variant=\"soft\">\n        {info.getValue()}\n      </Chip>\n    ),\n    header: \"Status\",\n  }),\n  columnHelper.accessor(\"email\", {header: \"Email\"}),\n]);\n\n// --- Sorting Bridge -------------------------------------------------------\n// Convert TanStack SortingState → React Aria SortDescriptor\nfunction toSortDescriptor(sorting: SortingState): SortDescriptor | undefined {\n  const first = sorting[0];\n\n  if (!first) return undefined;\n\n  return {\n    column: first.id,\n    direction: first.desc ? \"descending\" : \"ascending\",\n  };\n}\n\n// Convert React Aria SortDescriptor → TanStack SortingState\nfunction toSortingState(descriptor: SortDescriptor): SortingState {\n  return [{desc: descriptor.direction === \"descending\", id: descriptor.column as string}];\n}\n\n// --- Component ------------------------------------------------------------\nconst PAGE_SIZE = 4;\n\nexport function TanstackTable() {\n  const [sorting, setSorting] = useState<SortingState>([]);\n\n  const table = useTable({\n    columns,\n    data: users,\n    features,\n    initialState: {pagination: {pageIndex: 0, pageSize: PAGE_SIZE}},\n    onSortingChange: setSorting,\n    state: {sorting},\n  });\n\n  const sortDescriptor = useMemo(() => toSortDescriptor(sorting), [sorting]);\n\n  const {pageIndex} = table.state.pagination;\n  const pageCount = table.getPageCount();\n  const pages = Array.from({length: pageCount}, (_, i) => i + 1);\n  const start = pageIndex * PAGE_SIZE + 1;\n  const end = Math.min((pageIndex + 1) * PAGE_SIZE, users.length);\n\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content\n          aria-label=\"TanStack Table example\"\n          className=\"min-w-[600px]\"\n          sortDescriptor={sortDescriptor}\n          onSortChange={(d) => setSorting(toSortingState(d))}\n        >\n          <Table.Header>\n            {table.getHeaderGroups()[0]?.headers.map((header) => (\n              <Table.Column\n                key={header.id}\n                allowsSorting={header.column.getCanSort()}\n                id={header.id}\n                isRowHeader={header.id === \"name\"}\n              >\n                {({sortDirection}) => (\n                  <Table.SortableColumnHeader sortDirection={sortDirection}>\n                    {flexRender(header.column.columnDef.header, header.getContext())}\n                  </Table.SortableColumnHeader>\n                )}\n              </Table.Column>\n            ))}\n          </Table.Header>\n          <Table.Body>\n            {table.getRowModel().rows.map((row) => (\n              <Table.Row key={row.id} id={row.id}>\n                {row.getAllCells().map((cell) => (\n                  <Table.Cell key={cell.id}>\n                    {flexRender(cell.column.columnDef.cell, cell.getContext())}\n                  </Table.Cell>\n                ))}\n              </Table.Row>\n            ))}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n      <Table.Footer>\n        <Pagination size=\"sm\">\n          <Pagination.Summary>\n            {start} to {end} of {users.length} results\n          </Pagination.Summary>\n          <Pagination.Content>\n            <Pagination.Item>\n              <Pagination.Previous\n                isDisabled={!table.getCanPreviousPage()}\n                onPress={() => table.previousPage()}\n              >\n                <Pagination.PreviousIcon />\n                Prev\n              </Pagination.Previous>\n            </Pagination.Item>\n            {pages.map((p) => (\n              <Pagination.Item key={p}>\n                <Pagination.Link\n                  isActive={p === pageIndex + 1}\n                  onPress={() => table.setPageIndex(p - 1)}\n                >\n                  {p}\n                </Pagination.Link>\n              </Pagination.Item>\n            ))}\n            <Pagination.Item>\n              <Pagination.Next\n                isDisabled={!table.getCanNextPage()}\n                onPress={() => table.nextPage()}\n              >\n                Next\n                <Pagination.NextIcon />\n              </Pagination.Next>\n            </Pagination.Item>\n          </Pagination.Content>\n        </Pagination>\n      </Table.Footer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Cells",
+   "section": "Examples",
+   "key": "table-custom-cells",
+   "source": "apps/docs/src/demos/en/table/custom-cells.tsx",
+   "code": "\"use client\";\n\nimport type {Selection, SortDescriptor} from \"@heroui/react\";\n\nimport {Avatar, Button, Checkbox, Chip, Table} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport {useMemo, useState} from \"react\";\n\ninterface User {\n  id: number;\n  name: string;\n  image_url: string;\n  role: string;\n  status: \"Active\" | \"Inactive\" | \"On Leave\";\n  email: string;\n}\n\nconst statusColorMap: Record<string, \"success\" | \"danger\" | \"warning\"> = {\n  Active: \"success\",\n  Inactive: \"danger\",\n  \"On Leave\": \"warning\",\n};\n\nconst users: User[] = [\n  {\n    email: \"kate@acme.com\",\n    id: 4586932,\n    image_url: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/red.jpg\",\n    name: \"Kate Moore\",\n    role: \"Chief Executive Officer\",\n    status: \"Active\",\n  },\n  {\n    email: \"john@acme.com\",\n    id: 5273849,\n    image_url: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/green.jpg\",\n    name: \"John Smith\",\n    role: \"Chief Technology Officer\",\n    status: \"Active\",\n  },\n  {\n    email: \"sara@acme.com\",\n    id: 7492836,\n    image_url: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg\",\n    name: \"Sara Johnson\",\n    role: \"Chief Marketing Officer\",\n    status: \"On Leave\",\n  },\n  {\n    email: \"michael@acme.com\",\n    id: 8293746,\n    image_url: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg\",\n    name: \"Michael Brown\",\n    role: \"Chief Financial Officer\",\n    status: \"Active\",\n  },\n  {\n    email: \"emily@acme.com\",\n    id: 1234567,\n    image_url: \"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg\",\n    name: \"Emily Davis\",\n    role: \"Product Manager\",\n    status: \"Inactive\",\n  },\n];\n\nexport function CustomCells() {\n  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: \"name\",\n    direction: \"ascending\",\n  });\n\n  const sortedUsers = useMemo(() => {\n    return [...users].sort((a, b) => {\n      const col = sortDescriptor.column as keyof User;\n      const first = String(a[col]);\n      const second = String(b[col]);\n      let cmp = first.localeCompare(second);\n\n      if (sortDescriptor.direction === \"descending\") {\n        cmp *= -1;\n      }\n\n      return cmp;\n    });\n  }, [sortDescriptor]);\n\n  return (\n    <Table>\n      <Table.ScrollContainer>\n        <Table.Content\n          aria-label=\"Table with custom cells\"\n          className=\"min-w-[800px]\"\n          selectedKeys={selectedKeys}\n          selectionMode=\"multiple\"\n          sortDescriptor={sortDescriptor}\n          onSelectionChange={setSelectedKeys}\n          onSortChange={setSortDescriptor}\n        >\n          <Table.Header>\n            <Table.Column className=\"pe-0\">\n              <Checkbox aria-label=\"Select all\" slot=\"selection\">\n                <Checkbox.Content>\n                  <Checkbox.Control>\n                    <Checkbox.Indicator />\n                  </Checkbox.Control>\n                </Checkbox.Content>\n              </Checkbox>\n            </Table.Column>\n            <Table.Column allowsSorting isRowHeader className=\"after:hidden\" id=\"id\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Worker ID\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"name\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Member\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"role\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Role\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column allowsSorting id=\"status\">\n              {({sortDirection}) => (\n                <Table.SortableColumnHeader sortDirection={sortDirection}>\n                  Status\n                </Table.SortableColumnHeader>\n              )}\n            </Table.Column>\n            <Table.Column className=\"text-end\">Actions</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            {sortedUsers.map((user) => (\n              <Table.Row key={user.id} id={user.id}>\n                <Table.Cell className=\"pe-0\">\n                  <Checkbox aria-label={`Select ${user.name}`} slot=\"selection\" variant=\"secondary\">\n                    <Checkbox.Content>\n                      <Checkbox.Control>\n                        <Checkbox.Indicator />\n                      </Checkbox.Control>\n                    </Checkbox.Content>\n                  </Checkbox>\n                </Table.Cell>\n                <Table.Cell className=\"font-medium\">\n                  <div className=\"flex items-center gap-2\">\n                    #{user.id.toString()}{\" \"}\n                    <Button isIconOnly aria-label={`Copy ID #${user.id}`} size=\"sm\" variant=\"ghost\">\n                      <Icon className=\"size-4 text-muted\" icon=\"gravity-ui:copy\" />\n                    </Button>\n                  </div>\n                </Table.Cell>\n                <Table.Cell>\n                  <div className=\"flex items-center gap-3\">\n                    <Avatar size=\"sm\">\n                      <Avatar.Image src={user.image_url} />\n                      <Avatar.Fallback>\n                        {user.name\n                          .split(\" \")\n                          .map((n) => n[0])\n                          .join(\"\")}\n                      </Avatar.Fallback>\n                    </Avatar>\n                    <div className=\"flex flex-col\">\n                      <span className=\"text-xs\">{user.name}</span>\n                      <span className=\"text-xs text-muted\">{user.email}</span>\n                    </div>\n                  </div>\n                </Table.Cell>\n                <Table.Cell className=\"min-w-52\">{user.role}</Table.Cell>\n                <Table.Cell className=\"min-w-25\">\n                  <Chip color={statusColorMap[user.status]} size=\"sm\" variant=\"soft\">\n                    {user.status}\n                  </Chip>\n                </Table.Cell>\n                <Table.Cell>\n                  <div className=\"flex items-center gap-1\">\n                    <Button\n                      isIconOnly\n                      aria-label={`View ${user.name}`}\n                      size=\"sm\"\n                      variant=\"tertiary\"\n                    >\n                      <Icon className=\"size-4\" icon=\"gravity-ui:eye\" />\n                    </Button>\n                    <Button\n                      isIconOnly\n                      aria-label={`Edit ${user.name}`}\n                      size=\"sm\"\n                      variant=\"tertiary\"\n                    >\n                      <Icon className=\"size-4\" icon=\"gravity-ui:pencil\" />\n                    </Button>\n                    <Button\n                      isIconOnly\n                      aria-label={`Delete ${user.name}`}\n                      size=\"sm\"\n                      variant=\"danger-soft\"\n                    >\n                      <Icon className=\"size-4\" icon=\"gravity-ui:trash-bin\" />\n                    </Button>\n                  </div>\n                </Table.Cell>\n              </Table.Row>\n            ))}\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "table-custom-styles",
+   "source": "apps/docs/src/demos/en/table/custom-styles.tsx",
+   "code": "import {Table} from \"@heroui/react\";\n\nconst headerCell =\n  \"text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400\";\n\nconst rowClass =\n  \"border-t border-border/60 transition-colors hover:bg-neutral-100/60 even:bg-neutral-50/50 dark:hover:bg-neutral-800/50 dark:even:bg-neutral-900/30\";\n\nexport function CustomStyles() {\n  return (\n    <Table className=\"w-full max-w-2xl overflow-hidden rounded-xl border border-border/80 shadow-sm ring-1 ring-black/5 dark:ring-white/10\">\n      <Table.ScrollContainer>\n        <Table.Content aria-label=\"Team members\" className=\"min-w-[600px]\">\n          <Table.Header className=\"bg-neutral-100/80 dark:bg-neutral-800/80\">\n            <Table.Column isRowHeader className={headerCell}>\n              Name\n            </Table.Column>\n            <Table.Column className={headerCell}>Role</Table.Column>\n            <Table.Column className={headerCell}>Status</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row className={rowClass}>\n              <Table.Cell className=\"font-medium text-neutral-900 dark:text-neutral-100\">\n                Kate Moore\n              </Table.Cell>\n              <Table.Cell>CEO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n            </Table.Row>\n            <Table.Row className={rowClass}>\n              <Table.Cell className=\"font-medium text-neutral-900 dark:text-neutral-100\">\n                John Smith\n              </Table.Cell>\n              <Table.Cell>CTO</Table.Cell>\n              <Table.Cell>Active</Table.Cell>\n            </Table.Row>\n            <Table.Row className={rowClass}>\n              <Table.Cell className=\"font-medium text-neutral-900 dark:text-neutral-100\">\n                Sara Johnson\n              </Table.Cell>\n              <Table.Cell>CMO</Table.Cell>\n              <Table.Cell>On leave</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Content>\n      </Table.ScrollContainer>\n    </Table>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "Table",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant. Primary has a gray background container; secondary is flat with transparent rows.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:236"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes for the root container",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:237"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Table content (ScrollContainer, Footer, etc.)",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:238"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:232",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.ScrollContainer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:244"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Table.Content element",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:245"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:240",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Content",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessible label for the table",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:253"
+    ],
+    [
+     "`selectionMode`",
+     "`\"none\" | \"single\" | \"multiple\"`",
+     "`\"none\"`",
+     "Selection behavior",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:254"
+    ],
+    [
+     "`selectedKeys`",
+     "`Selection`",
+     "-",
+     "Controlled selected keys",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:255"
+    ],
+    [
+     "`onSelectionChange`",
+     "`(keys: Selection) => void`",
+     "-",
+     "Selection change handler",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:256"
+    ],
+    [
+     "`sortDescriptor`",
+     "`SortDescriptor`",
+     "-",
+     "Current sort state",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:257"
+    ],
+    [
+     "`onSortChange`",
+     "`(descriptor: SortDescriptor) => void`",
+     "-",
+     "Sort change handler",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:258"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:259"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:247",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Header",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`columns`",
+     "`T[]`",
+     "-",
+     "Dynamic column data for render prop pattern",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:267"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode | (column: T) => React.ReactNode`",
+     "-",
+     "Static columns or render prop",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:268"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:261",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Column",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "Column identifier",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:276"
+    ],
+    [
+     "`allowsSorting`",
+     "`boolean`",
+     "`false`",
+     "Whether the column is sortable",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:277"
+    ],
+    [
+     "`isRowHeader`",
+     "`boolean`",
+     "`false`",
+     "Whether this column is a row header",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:278"
+    ],
+    [
+     "`defaultWidth`",
+     "`string | number`",
+     "-",
+     "Default width for resizable columns",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:279"
+    ],
+    [
+     "`minWidth`",
+     "`number`",
+     "-",
+     "Minimum width for resizable columns",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:280"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode | (values: ColumnRenderProps) => React.ReactNode`",
+     "-",
+     "Column content or render prop with sort direction",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:281"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:270",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Body",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`items`",
+     "`T[]`",
+     "-",
+     "Dynamic row data for render prop pattern",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:289"
+    ],
+    [
+     "`renderEmptyState`",
+     "`() => React.ReactNode`",
+     "-",
+     "Content to display when the table is empty",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:290"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode | (item: T) => React.ReactNode`",
+     "-",
+     "Static rows or render prop",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:291"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:283",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Row",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`id`",
+     "`string | number`",
+     "-",
+     "Row identifier",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:299"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:300"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Row cells",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:301"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:293",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Cell",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:309"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Cell content",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:310"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:303",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.SortableColumnHeader",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`sortDirection`",
+     "`\"ascending\" | \"descending\"`",
+     "-",
+     "Current sort direction. Pass through from the `Table.Column` render prop.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:318"
+    ],
+    [
+     "`showIndicator`",
+     "`boolean`",
+     "`true`",
+     "Whether to render the sort indicator icon when a direction is set.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:319"
+    ],
+    [
+     "`indicator`",
+     "`React.ReactNode`",
+     "-",
+     "Custom indicator element. Overrides the default chevron and receives a `data-direction` attribute.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:320"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes for the wrapper.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:321"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Column label content",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:322"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:312",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Footer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:328"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Footer content (e.g., pagination)",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:329"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:324",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.ColumnResizer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:337"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:331",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.ResizableContainer",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:345"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Table.Content element",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:346"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:339",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.LoadMore",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isLoading`",
+     "`boolean`",
+     "`false`",
+     "Whether data is currently loading",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:354"
+    ],
+    [
+     "`onLoadMore`",
+     "`() => void`",
+     "-",
+     "Handler called when the sentinel row is visible",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:355"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Loading indicator content",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:356"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:348",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.LoadMoreContent",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:362"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "Loading indicator content (e.g., Spinner)",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:363"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:358",
+   "section": "API Reference"
+  },
+  {
+   "name": "Table.Collection",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`items`",
+     "`T[]`",
+     "-",
+     "Collection items",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:371"
+    ],
+    [
+     "`children`",
+     "`(item: T) => React.ReactNode`",
+     "-",
+     "Render prop for each item",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:372"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:365",
+   "section": "API Reference"
+  },
+  {
+   "name": "TableLayout",
+   "columns": [
+    "Name",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`rowHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a row in px.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:378"
+    ],
+    [
+     "`estimatedRowHeight`",
+     "`number | undefined`",
+     "—",
+     "The estimated height of a row, when row heights are variable.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:379"
+    ],
+    [
+     "`headingHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a section header in px.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:380"
+    ],
+    [
+     "`estimatedHeadingHeight`",
+     "`number | undefined`",
+     "—",
+     "The estimated height of a section header, when the height is variable.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:381"
+    ],
+    [
+     "`loaderHeight`",
+     "`number | undefined`",
+     "48",
+     "The fixed height of a loader element in px. This loader is specifically for \"load more\" elements rendered when loading more rows at the root level or inside nested row/sections.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:382"
+    ],
+    [
+     "`dropIndicatorThickness`",
+     "`number | undefined`",
+     "2",
+     "The thickness of the drop indicator.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:383"
+    ],
+    [
+     "`gap`",
+     "`number | undefined`",
+     "0",
+     "The gap between items.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:384"
+    ],
+    [
+     "`padding`",
+     "`number | undefined`",
+     "0",
+     "The padding around the list.",
+     "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:385"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:374",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Table",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:236"
+  },
+  {
+   "name": "`selectionMode`",
+   "prop": "selectionMode",
+   "values": [
+    "none",
+    "single",
+    "multiple"
+   ],
+   "other": [],
+   "default": "`\"none\"`",
+   "owner": "Table.Content",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:254"
+  },
+  {
+   "name": "`defaultWidth`",
+   "prop": "defaultWidth",
+   "values": [
+    "string",
+    "number"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Table.Column",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:279"
+  },
+  {
+   "name": "`id`",
+   "prop": "id",
+   "values": [
+    "string",
+    "number"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Table.Row",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:299"
+  },
+  {
+   "name": "`sortDirection`",
+   "prop": "sortDirection",
+   "values": [
+    "ascending",
+    "descending"
+   ],
+   "other": [],
+   "default": "-",
+   "owner": "Table.SortableColumnHeader",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(data-display)/table.mdx:318"
+  }
+ ]
+}

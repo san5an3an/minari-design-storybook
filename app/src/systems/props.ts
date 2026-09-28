@@ -112,6 +112,48 @@ export interface BadgeProps extends Common {
   iconPosition?: "inline-start" | "inline-end";
 }
 
+type ChipBase = Common & { disabled?: boolean };
+export type ChipProps =
+  | (ChipBase & {
+      // 선택 상태
+      pressed?: boolean;
+      onClick?:  => void;
+      onRemove?: never;
+      removeLabel?: never;
+    })
+  | (ChipBase & {
+      // 지우기 속성. 지정 시 바깥 태그가 span임
+      onRemove:  => void;
+      removeLabel: string;
+      pressed?: never;
+      onClick?: never;
+    });
+
+export interface RingcarouselItem {
+  id: string;
+  label: string;
+}
+export interface RingcarouselProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  items: readonly RingcarouselItem[];
+}
+
+// 담아 둔 색 하나. value 가 곧 선택값이며 토큰이 아니라 데이터임
+export interface ColorPickerSwatch {
+  value: string;
+  label: string;
+}
+export interface ColorPickerProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onChange" | "defaultValue"> {
+  // 초기 색 목록, 추가 색 포함 최대 10개
+  swatches?: readonly ColorPickerSwatch[];
+  // 지금 고른 색, 투명도 있으면 8자리로 반환. 6자리만 내보내면 알파 변경이 전달되지 않음
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  onFull?:  => void;
+}
+
 export interface CardProps extends Common {
   interactive?: boolean;
   title?: ReactNode;
@@ -129,6 +171,7 @@ export interface AlertProps extends Common {
   // 종류 표시 여부
   icon?: boolean;
   action?: ReactNode;
+  closable?: boolean;
 }
 
 export interface ToastProps extends Common {
@@ -137,8 +180,10 @@ export interface ToastProps extends Common {
   type?: string;
 }
 export type ToastImpl = ComponentType<ToastProps> & {
-  // 토스트 표시 위치, 화면당 한 번만 배치. 중복 배치 시 토스트 중복 표시 문제 있음
-  Region: ComponentType;
+  Region: ComponentType<{
+    position?: "top-start" | "top-center" | "top-end"
+      | "bottom-start" | "bottom-center" | "bottom-end";
+  }>;
   // 토스트 실제 표시, toast.add 직접 호출하기
   show: (opts: {
     title?: string;
@@ -233,6 +278,26 @@ export interface ProgressProps {
   indeterminate?: boolean;
   label?: ReactNode;
   showValue?: boolean;
+}
+
+export interface MeterProps {
+  label?: ReactNode;
+  // 값을 글자 그대로 표시, 단위 병기 가능
+  value?: ReactNode;
+  // 표시 위치. 0~100
+  at: number;
+  // 저, 중, 고 구간 폭. 합계 100
+  bands?: readonly [number, number, number];
+}
+
+// 지표 하나. 값과 증감 함께 표시
+export interface StatProps {
+  label?: ReactNode;
+  value?: ReactNode;
+  // 변화량. 없으면 렌더링 생략
+  delta?: ReactNode;
+  // 오름차순, 내림차순 여부. delta 있을 때만 의미 있음
+  direction?: "up" | "down";
 }
 
 export interface PageHeaderProps extends Common {
@@ -409,6 +474,8 @@ export interface ResizableProps extends Common {
   orientation?: string;
   // 첫 패널 차지 비율(%), 패널별 prop으로 전달
   defaultSize?: number;
+  // 첫 패널 최소 폭(px), 생략 시 기본값 12px 사용
+  minSize?: number;
   // 핸들 눈금 표시. 경계선은 값과 무관하게 항상 표시
   withHandle?: boolean;
   start?: ReactNode;
@@ -558,6 +625,8 @@ export interface SheetProps extends Common {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  // 포털 마운트 위치 지정. 미지정 시 document.body 전체 화면 사용
+  container?: HTMLElement | null;
 }
 
 // 드래그 여닫기 패널, 잡을 위치 표시
@@ -575,6 +644,7 @@ export interface DrawerProps extends Common {
 
 export interface ActionItemSpec {
   label?: ReactNode;
+  onSelect?:  => void;
   // 단축키 같은 보조 정보
   hint?: string;
   danger?: boolean;
@@ -696,6 +766,7 @@ export interface SidebarProps extends Common {
     icon?: ReactNode;
     active?: boolean;
     href?: string;
+    onSelect?:  => void;
     // 줄 오른쪽 SidebarMenuAction 영역
     action?: ReactNode;
     // 클릭 시 열리는 드롭다운 목록

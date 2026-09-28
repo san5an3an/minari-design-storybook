@@ -32,7 +32,9 @@
 | 파이썬, 토큰, 검증, 테마 생성 담당 | 0개. 표준 라이브러리만 사용 |
 | `app/` (React 미리보기) | 여섯 베이스를 실제로 렌더링해 봐야 하므로 전부 설치 |
 
-미리보기의 셸(사이드바, 상단바)은 shadcn/ui 하나로 고정임. 그래서 `@base-ui/react`, `class-variance-authority`, `tailwind-merge`, `lucide-react`는 20종 중 무엇을 고르든 앱에 들어 있음. 셸의 의존성이지 산출물의 의존성이 아님
+미리보기의 셸(사이드바, 상단바)은 shadcn/ui 하나로 고정임
+
+가져오기 창의 단계 표시기(`ChromeSteps.tsx`)만 예외적으로 antd `Steps`를 사용, shadcn/ui에 해당 컴포넌트가 없기 때문임. 색이 크롬 팔레트에 고정돼 선택한 시스템과 무관하므로 규칙 위반은 아님. `@base-ui/react`, `class-variance-authority`, `tailwind-merge`, `lucide-react`도 마찬가지로 셸의 의존성이지 산출물의 의존성은 아님
 
 `package.json` 은 저장소 루트에 있음. 거기 적힌 것은 미리보기가 사용하는 것이고, 산출물을 가져다 쓰는 프로젝트는 표에서 선택한 시스템의 줄만 설치하면 되는 구조임
 

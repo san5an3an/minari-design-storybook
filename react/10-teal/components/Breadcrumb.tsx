@@ -19,7 +19,7 @@ export const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
 Breadcrumb.displayName = "Breadcrumb";
 
 // 셀 사이 구분자 표시, 첫 셀 앞은 제외
-export const BreadcrumbSeparator = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const BreadcrumbSeparator = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-breadcrumb-sep", className)} {...rest}>
       {children}
@@ -39,7 +39,7 @@ export const BreadcrumbEllipsis = React.forwardRef<HTMLSpanElement, React.HTMLAt
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
 
 // 첫 셀 홈 아이콘. 글자 대신 사용, 구분자 미배치
-export const BreadcrumbHome = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+export const BreadcrumbHome = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>(
   ({ className, children, ...rest }, ref) => (
     <svg ref={ref} className={cx("ods-breadcrumb-home", className)} {...rest}>
       {children}

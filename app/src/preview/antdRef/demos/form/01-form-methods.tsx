@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[1] ("Form methods")
@@ -27,13 +28,13 @@ const App: React.FC = () => {
   const onGenderChange = (value: string) => {
     switch (value) {
       case 'male':
-        form.setFieldsValue({ note: '안녕하세요, 여러분!' });
+        form.setFieldsValue({ note: '안녕하세요, 그대!' });
         break;
       case 'female':
         form.setFieldsValue({ note: '안녕하세요, 여러분!' });
         break;
       case 'other':
-        form.setFieldsValue({ note: '안녕하세요!' });
+        form.setFieldsValue({ note: '반가워요!' });
         break;
       default:
     }

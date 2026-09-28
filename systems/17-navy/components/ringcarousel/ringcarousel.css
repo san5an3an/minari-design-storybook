@@ -1,0 +1,54 @@
+
+.ods-ringcarousel {
+  position: relative; display: block; inline-size: 100%;
+  /* 최소값은 크게 잡지 않음. 작은 셀에서 라벨이 잘못 표시되는 문제 있음 */
+  block-size: 100%; min-block-size: 6rem;
+  background: var(--component-ringcarousel-page);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+/* 캔버스는 CSS px로 크기 지정, 해상도는 devicePixelRatio로 조정 */
+.ods-ringcarousel > canvas {
+  position: absolute; inset: 0;
+  inline-size: 100%; block-size: 100%;
+  display: block;
+}
+.ods-ringcarousel-label, .ods-ringcarousel-index {
+  position: absolute; z-index: 1;
+  font-family: var(--base-font-family-sans);
+  pointer-events: none;
+}
+.ods-ringcarousel-label {
+  inset-block-end: var(--component-ringcarousel-gap);
+  inset-inline-start: var(--component-ringcarousel-gap);
+  color: var(--component-ringcarousel-label-fg);
+  font-size: var(--component-ringcarousel-label-font-size);
+  letter-spacing: var(--component-ringcarousel-label-letter-spacing);
+  font-weight: var(--base-font-weight-medium);
+  line-height: var(--base-font-line-height-tight);
+}
+.ods-ringcarousel-index {
+  inset-block-start: var(--component-ringcarousel-gap);
+  inset-inline-end: var(--component-ringcarousel-gap);
+  color: var(--component-ringcarousel-index-fg);
+  font-size: var(--component-ringcarousel-index-font-size);
+  letter-spacing: var(--component-ringcarousel-index-letter-spacing);
+  font-family: var(--base-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+/* WebGL 미지원/모션 감소 시 대체 렌더링. Ring 뿐이라 없으면 화면 비어 보임 */
+.ods-ringcarousel-fallback {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: var(--component-ringcarousel-gap);
+  padding: var(--component-ringcarousel-gap);
+  background: var(--component-ringcarousel-page);
+  color: var(--component-ringcarousel-label-fg);
+  font-family: var(--base-font-family-sans);
+  font-size: var(--component-ringcarousel-label-font-size);
+  letter-spacing: var(--component-ringcarousel-label-letter-spacing);
+  overflow: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ods-ringcarousel > canvas { display: none; }
+}

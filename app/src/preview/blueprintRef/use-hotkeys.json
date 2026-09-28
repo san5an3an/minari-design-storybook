@@ -1,0 +1,119 @@
+{
+  "slug": "use-hotkeys",
+  "title": "useHotkeys",
+  "kind": "guide",
+  "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: useHotkeys\n---\n\n# useHotkeys\n\nThe `useHotkeys()` hook adds hotkey / keyboard shortcut interactions to your application using a custom React hook.\nThis works with function components and a corresponding [context provider](#core/context/hotkeys-provider) to allow\ncustomization of the hotkeys dialog.\n\nFocus on the piano below to try its hotkeys. The global hotkeys dialog can be shown using the <kbd>?</kbd> key.\n\n@reactExample UseHotkeysExample\n\nTry modifier key combinations too.\n\n@reactExample HotkeyModifierExample\n\n## Usage\n\nFirst, make sure [**HotkeysProvider**](#core/context/hotkeys-provider) is configured correctly at the root of your\nReact application.\n\nThen, to register hotkeys and generate the relevant event handlers, use the hook like so:\n\n```tsx\nimport { InputGroup, KeyComboTag, useHotkeys } from \"@blueprintjs/core\";\nimport React, { createRef, useCallback, useMemo } from \"react\";\n\nexport default function () {\n    const inputRef = createRef<HTMLInputElement>();\n    const handleRefresh = useCallback(() => console.info(\"Refreshing data...\"), []);\n    const handleFocus = useCallback(() => inputRef.current?.focus(), [inputRef]);\n\n    // important: hotkeys array must be memoized to avoid infinitely re-binding hotkeys\n    const hotkeys = useMemo(\n        () => [\n            {\n                combo: \"R\",\n                global: true,\n                label: \"Refresh data\",\n                onKeyDown: handleRefresh,\n            },\n            {\n                combo: \"F\",\n                group: \"Input\",\n                label: \"Focus text input\",\n                onKeyDown: handleFocus,\n            },\n        ],\n        [handleRefresh, handleFocus],\n    );\n    const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);\n\n    return (\n        <div tabIndex={0} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>\n            Press <KeyComboTag combo=\"R\" /> to refresh data, <KeyComboTag combo=\"F\" /> to focus the input...\n            <InputGroup inputRef={inputRef} />\n        </div>\n    );\n}\n```\n\n**Important**: the `hotkeys` array must be memoized, as shown above, to prevent the hook from re-binding\nhotkeys on every render.\n\nHotkeys must define a group, or be marked as global. The hook will automatically bind global event handlers\nand configure the <kbd>?</kbd> key to open the generated hotkeys dialog, but it is up to you to bind _local_\nevent handlers with the returned `handleKeyDown` and `handleKeyUp` functions. The hook takes an optional\nsecond parameter which can customize some of its default behavior.\n\n## Hook options\n\n@interface UseHotkeysOptions\n\n@method useHotkeys\n\n## Hotkey configuration\n\n@interface HotkeyConfig\n\n## Key combos\n\nEach hotkey must be assigned a key combo that will trigger its events. A key combo consists of zero or more modifier\nkeys (`alt`, `ctrl`, `shift`, `meta`/`cmd`) and exactly one action key, such as `A`, `return`, or `up`.\n\nThe configured keyboard layout is respected for letter keys by using `event.key`, so hotkeys work correctly\nif the keyboard is configured to a different layout than is physically on the keys (e.g., a QWERTY keyboard\nconfigured as AZERTY).\n\n**Key detection behavior:**\n\n- **Letters (a-z)**: Uses the character produced by the key to respect keyboard layout (QWERTY vs AZERTY)\n- **Digits (0-9)**: Uses the physical key position to avoid shifted symbols (Shift+1 is detected as `shift+1`, not `!`)\n- **Symbols**: Uses the character produced, with special handling for shift combinations (Shift+[ is detected as `shift+[`, not `{`)\n- **Alt combinations**: Uses physical key position to avoid Alt-transformed characters (Alt+c on macOS is detected as `alt+c`, not `alt+ç`)\n\nSome key combos have aliases. For example, `cmd` is equal to `meta`, and `return` is equal to `enter`. Alphabetic\ncharacters are case-insensitive, so `X` is equivalent to `x`.\n\nExamples of valid key combos:\n\n- `cmd+plus`\n- `shift+1` (note: `!` is not supported)\n- `return` or, equivalently `enter`\n- `alt + shift + x`\n- `ctrl + left`\n\nNote that spaces are ignored.\n\n### Named keys\n\n- `plus`\n- `minus`\n- `backspace`\n- `tab`\n- `enter`\n- `capslock`\n- `esc`\n- `space`\n- `pageup`\n- `pagedown`\n- `end`\n- `home`\n- `left`\n- `up`\n- `right`\n- `down`\n- `ins`\n- `del`\n\n### Aliased keys\n\n- `option` &rarr; `alt`\n- `cmd` &rarr; `meta`\n- `command` &rarr; `meta`\n- `return` &rarr; `enter`\n- `escape` &rarr; `esc`\n- `win` &rarr; `meta`\n\nThe special modifier `mod` will choose the OS-preferred modifier key: `cmd` for macOS and iOS, or `ctrl` for Windows\nand Linux.\n\n## Key combo tester\n\nBelow is a little widget to quickly help you try out hotkey combos and see how they will appear in the dialog. See the\n[Key combos section](#core/hooks/use-hotkeys.key-combos) above for more info.\n\n@reactExample HotkeyTesterExample\n",
+  "lines": 150,
+  "frontMatter": {
+    "title": "useHotkeys"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "useHotkeys",
+      "at": 27,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:5",
+      "name": "useHotkeys"
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 530,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:19",
+      "name": "Usage"
+    },
+    {
+      "level": 2,
+      "text": "Hook options",
+      "at": 2548,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:72",
+      "name": "Hook options"
+    },
+    {
+      "level": 2,
+      "text": "Hotkey configuration",
+      "at": 2615,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:78",
+      "name": "Hotkey configuration"
+    },
+    {
+      "level": 2,
+      "text": "Key combos",
+      "at": 2665,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:82",
+      "name": "Key combos"
+    },
+    {
+      "level": 3,
+      "text": "Named keys",
+      "at": 4037,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:111",
+      "name": "Named keys"
+    },
+    {
+      "level": 3,
+      "text": "Aliased keys",
+      "at": 4228,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:132",
+      "name": "Aliased keys"
+    },
+    {
+      "level": 2,
+      "text": "Key combo tester",
+      "at": 4520,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:144",
+      "name": "Key combo tester"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "tsx",
+      "code": "import { InputGroup, KeyComboTag, useHotkeys } from \"@blueprintjs/core\";\nimport React, { createRef, useCallback, useMemo } from \"react\";\n\nexport default function () {\n    const inputRef = createRef<HTMLInputElement>();\n    const handleRefresh = useCallback(() => console.info(\"Refreshing data...\"), []);\n    const handleFocus = useCallback(() => inputRef.current?.focus(), [inputRef]);\n\n    // important: hotkeys array must be memoized to avoid infinitely re-binding hotkeys\n    const hotkeys = useMemo(\n        () => [\n            {\n                combo: \"R\",\n                global: true,\n                label: \"Refresh data\",\n                onKeyDown: handleRefresh,\n            },\n            {\n                combo: \"F\",\n                group: \"Input\",\n                label: \"Focus text input\",\n                onKeyDown: handleFocus,\n            },\n        ],\n        [handleRefresh, handleFocus],\n    );\n    const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);\n\n    return (\n        <div tabIndex={0} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>\n            Press <KeyComboTag combo=\"R\" /> to refresh data, <KeyComboTag combo=\"F\" /> to focus the input...\n            <InputGroup inputRef={inputRef} />\n        </div>\n    );\n}\n",
+      "at": 773,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:27",
+      "name": "import { InputGroup, KeyComboTag, useHotkeys } from \"@blueprintjs/core\";"
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "UseHotkeysExample",
+      "at": 424,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:13"
+    },
+    {
+      "name": "reactExample",
+      "arg": "HotkeyModifierExample",
+      "at": 493,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:17"
+    },
+    {
+      "name": "interface",
+      "arg": "UseHotkeysOptions",
+      "at": 2565,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:74"
+    },
+    {
+      "name": "method",
+      "arg": "useHotkeys",
+      "at": 2595,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:76"
+    },
+    {
+      "name": "interface",
+      "arg": "HotkeyConfig",
+      "at": 2640,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:80"
+    },
+    {
+      "name": "reactExample",
+      "arg": "HotkeyTesterExample",
+      "at": 4739,
+      "source": "node_modules/@blueprintjs/core/src/hooks/hotkeys/use-hotkeys.mdx:149"
+    }
+  ]
+}

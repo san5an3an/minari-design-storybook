@@ -1,0 +1,169 @@
+{
+  "slug": "icon",
+  "title": "Icon",
+  "kind": "component",
+  "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: Icon\n---\n\n# Icon\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nSee the [**Icons package**](#icons) for a searchable list of all available UI icons.\n\n</div>\n\n## Usage\n\n```ts copy\nimport { Icon } from \"@blueprintjs/core\";\n```\n\n```tsx\n<Icon icon=\"buggy\" size={30} />\n```\n\nBlueprint provides icons in two formats (SVG and fonts). It's easy to change their color\nor apply effects like text shadows via standard SVG or CSS properties.\n\nThis section describes two ways of using Blueprint's UI icons:\nvia the `Icon` component to render SVG images or via CSS classes to use the icon font.\n\nMany Blueprint components provide an `icon` prop which accepts an icon name\n(such as `\"history\"`) or a JSX element to use as the icon. When you specify\nthe name as a string, these components render `<Icon icon=\"...\" />` under the hood.\n\n@reactExample IconExample\n\n## Examples\n\n### Basic\n\nUse the `<Icon>` component to easily render **SVG icons** in React. The `icon`\nprop is typed such that editors can offer autocomplete for known icon names. The\noptional `size` prop determines the exact width and height of the icon\nimage; the icon element itself can be also be sized using CSS.\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nIcons may be configured to load in various ways, see [\"Loading icons\"](#icons/loading-icons).\n\n</div>\n\nThe HTML element rendered by `<Icon>` can be customized with the `tagName` prop\n(defaults to `span`), and additional props are passed to this element.\n\nData files in the **@blueprintjs/icons** package provide SVG path information\nfor Blueprint's 500+ icons for 16px and 20px grids. The `icon` prop specifies\nwhich SVG is rendered and the `size` prop determines which pixel grid is used:\n`size >= 20` will use the 20px grid and smaller icons will use the 16px grid.\n\nIf `title` is _not_ provided to an `<Icon>`, `aria-hidden` will be set to true as\nit will be assumed that the icon is decorative since it is unlabeled.\n\n```tsx\nimport { Icon, IconSize } from \"@blueprintjs/core\";\n\n// icon name string literals are type checked\n<Icon icon=\"cross\" />\n<Icon icon=\"globe\" size={20} />\n\n// constants are provided for standard sizes\n<Icon icon=\"graph\" size={IconSize.LARGE} intent=\"primary\" />\n\n// you can also pass all valid HTML props\n<Icon icon=\"add\" onClick={this.handleAdd} onKeyDown={this.handleAddKeys} />\n```\n\nCustom sizes are supported. The following React element:\n\n```tsx\n<Icon icon=\"globe\" size={30} />\n```\n\n...renders this HTML markup:\n\n```xml\n<span class=\"@ns-icon @ns-icon-globe\" aria-hidden=\"true\">\n    <svg data-icon=\"globe\" width=\"30\" height=\"30\" viewBox=\"0 0 20 20\" role=\"img\">\n        <path d=\"...\"></path>\n    </svg>\n</span>\n```\n\n### Usage with other components\n\nMany Blueprint components accept an `icon` prop which can be specified as either a string icon name (e.g. `\"refresh\"`) or a JSX element such as a dynamically-loaded `<Icon>` component.\n\n@reactCodeExample IconUsageExample\n\n## Props interface\n\n@interface DefaultIconProps\n\n## DOM attributes\n\nThe `<Icon>` component forwards extra HTML attributes to its root DOM element. By default,\nthe root element is a `<span>` wrapper around the icon `<svg>`. The tag name of this element\nmay be customized via the `tagName` prop as either:\n\n- a custom HTML tag name (for example `<div>` instead of the default `<span>` wrapper), or\n- `null`, which makes the component omit the wrapper element and only render the `<svg>` as its root element\n\nBy default, `<Icon>` supports a limited set of DOM attributes which are assignable to _all_ HTML and SVG\nelements. In some cases, you may want to use more specific attributes which are only available on HTML elements\nor SVG elements. The `<Icon>` component has a generic type which allows for this more advanced usage. You can\nspecify a type parameter on the component opening tag to (for example) set an HTML-only attribute:\n\n```tsx\nimport { Icon } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction Example() {\n    const [isDraggable, setIsDraggable] = React.useState();\n    // explicitly declare type of the root element so that we can set the \"draggable\" DOM attribute\n    return <Icon<HTMLSpanElement> icon=\"drag-handle-horizontal\" draggable={isDraggable} />;\n}\n```\n\nAnother use case for this type parameter API may be to get the correct type definition for an event handler\non the root element when _omitting_ the icon wrapper element:\n\n```tsx\nimport { Icon } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction Example() {\n    const handleClick: React.MouseEventHandler<SVGSVGElement> = () => {\n        /* ... */\n    };\n    // explicitly declare type of the root element so that we can narrow the type of the event handler\n    return <Icon<SVGSVGElement> icon=\"add\" onClick={handleClick} tagName={null} />;\n}\n```\n\n## Static components\n\nThe `<Icon>` component loads icon paths via dynamic module imports by default. An alternative API\nis available in the **@blueprintjs/icons** package which provides static imports of each icon as\na React component. The example below uses the `<CalendarIcon>` component.\n\nNote that some `<Icon>` props are not yet supported for these components, such as `intent`.\n\n@reactExample IconGeneratedComponentExample\n\n@interface DefaultSVGIconProps\n\n## CSS API\n\nThe CSS-only icons API uses the **icon fonts** from the **@blueprintjs/icons** package.\nNote that _none of Blueprint's React components use the icon font_; it is only provided\nfor convenience to Blueprint consumers for rare situations where an icon font may be\npreferred over icon SVGs.\n\nTo use Blueprint UI icons via CSS, you must apply two classes to a `<span>` element:\n\n- a **sizing class**, either `@ns-icon-standard` (16px) or `@ns-icon-large` (20px)\n- an **icon name class**, such as `@ns-icon-projects`\n\nIcon classes also support the four `.@ns-intent-*` modifiers to color the image.\n\n```html\n<span class=\"@ns-icon-{{size}} @ns-icon-{{name}}\"></span>\n\n<span class=\"@ns-icon-standard @ns-icon-projects\"></span>\n<span class=\"@ns-icon-large @ns-icon-geosearch @ns-intent-success\"></span>\n```\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Non-standard sizes</h5>\n\nGenerally, font icons should only be used at either 16px or 20px. However, if a non-standard size is\nnecessary, set a `font-size` that is whole multiple of 16 or 20 with the relevant size class.\nYou can instead use the class `@ns-icon` to make the icon inherit its size from surrounding text.\n\n</div>\n",
+  "lines": 183,
+  "frontMatter": {
+    "title": "Icon"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Icon",
+      "at": 21,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:5",
+      "name": "Icon"
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 188,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:13",
+      "name": "Usage"
+    },
+    {
+      "level": 2,
+      "text": "Examples",
+      "at": 876,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:35",
+      "name": "Examples"
+    },
+    {
+      "level": 3,
+      "text": "Basic",
+      "at": 889,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:37",
+      "name": "Basic"
+    },
+    {
+      "level": 3,
+      "text": "Usage with other components",
+      "at": 2706,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:91",
+      "name": "Usage with other components"
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 2961,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:97",
+      "name": "Props interface"
+    },
+    {
+      "level": 2,
+      "text": "DOM attributes",
+      "at": 3010,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:101",
+      "name": "DOM attributes"
+    },
+    {
+      "level": 2,
+      "text": "Static components",
+      "at": 4821,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:142",
+      "name": "Static components"
+    },
+    {
+      "level": 2,
+      "text": "CSS API",
+      "at": 5283,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:154",
+      "name": "CSS API"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { Icon } from \"@blueprintjs/core\";\n",
+      "at": 209,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:16",
+      "name": "import { Icon } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "<Icon icon=\"buggy\" size={30} />\n",
+      "at": 263,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:20",
+      "name": "<Icon icon=\"buggy\" size={30} />"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Icon, IconSize } from \"@blueprintjs/core\";\n\n// icon name string literals are type checked\n<Icon icon=\"cross\" />\n<Icon icon=\"globe\" size={20} />\n\n// constants are provided for standard sizes\n<Icon icon=\"graph\" size={IconSize.LARGE} intent=\"primary\" />\n\n// you can also pass all valid HTML props\n<Icon icon=\"add\" onClick={this.handleAdd} onKeyDown={this.handleAddKeys} />\n",
+      "at": 1989,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:62",
+      "name": "import { Icon, IconSize } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "<Icon icon=\"globe\" size={30} />\n",
+      "at": 2438,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:78",
+      "name": "<Icon icon=\"globe\" size={30} />"
+    },
+    {
+      "lang": "xml",
+      "code": "<span class=\"@ns-icon @ns-icon-globe\" aria-hidden=\"true\">\n    <svg data-icon=\"globe\" width=\"30\" height=\"30\" viewBox=\"0 0 20 20\" role=\"img\">\n        <path d=\"...\"></path>\n    </svg>\n</span>\n",
+      "at": 2512,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:84",
+      "name": "<span class=\"@ns-icon @ns-icon-globe\" aria-hidden=\"true\">"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Icon } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction Example() {\n    const [isDraggable, setIsDraggable] = React.useState();\n    // explicitly declare type of the root element so that we can set the \"draggable\" DOM attribute\n    return <Icon<HTMLSpanElement> icon=\"drag-handle-horizontal\" draggable={isDraggable} />;\n}\n",
+      "at": 3901,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:116",
+      "name": "import { Icon } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Icon } from \"@blueprintjs/core\";\nimport * as React from \"react\";\n\nfunction Example() {\n    const handleClick: React.MouseEventHandler<SVGSVGElement> = () => {\n        /* ... */\n    };\n    // explicitly declare type of the root element so that we can narrow the type of the event handler\n    return <Icon<SVGSVGElement> icon=\"add\" onClick={handleClick} tagName={null} />;\n}\n",
+      "at": 4434,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:130",
+      "name": "import { Icon } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "html",
+      "code": "<span class=\"@ns-icon-{{size}} @ns-icon-{{name}}\"></span>\n\n<span class=\"@ns-icon-standard @ns-icon-projects\"></span>\n<span class=\"@ns-icon-large @ns-icon-geosearch @ns-intent-success\"></span>\n",
+      "at": 5897,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:169",
+      "name": "<span class=\"@ns-icon-{{size}} @ns-icon-{{name}}\"></span>"
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "IconExample",
+      "at": 849,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:33"
+    },
+    {
+      "name": "reactCodeExample",
+      "arg": "IconUsageExample",
+      "at": 2925,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:95"
+    },
+    {
+      "name": "interface",
+      "arg": "DefaultIconProps",
+      "at": 2981,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:99"
+    },
+    {
+      "name": "reactExample",
+      "arg": "IconGeneratedComponentExample",
+      "at": 5206,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:150"
+    },
+    {
+      "name": "interface",
+      "arg": "DefaultSVGIconProps",
+      "at": 5251,
+      "source": "node_modules/@blueprintjs/core/src/components/icon/icon.mdx:152"
+    }
+  ]
+}

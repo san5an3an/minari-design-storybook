@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/carousel.json 의 examples[1] ("Position")
@@ -36,7 +37,7 @@ const App: React.FC = () => {
       <Radio.Group onChange={handlePositionChange} value={dotPlacement} style={{ marginBottom: 8 }}>
         <Radio.Button value="top">위</Radio.Button>
         <Radio.Button value="bottom">아래</Radio.Button>
-        <Radio.Button value="start">시작</Radio.Button>
+        <Radio.Button value="start">시작하기</Radio.Button>
         <Radio.Button value="end">끝</Radio.Button>
       </Radio.Group>
       <Carousel dotPlacement={dotPlacement}>

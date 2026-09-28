@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[13] ("Path Prefix")
@@ -49,7 +50,7 @@ const App: React.FC = () => {
     <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
       <MyFormItemGroup prefix={['user']}>
         <MyFormItemGroup prefix={['name']}>
-          <MyFormItem name="firstName" label="이름">
+          <MyFormItem name="firstName" label="이름(성 빼고)">
             <Input />
           </MyFormItem>
           <MyFormItem name="lastName" label="성">

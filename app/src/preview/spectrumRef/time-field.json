@@ -1,0 +1,93 @@
+{
+  "slug": "time-field",
+  "title": "TimeField",
+  "group": "Date and Time",
+  "heading": "TimeField",
+  "description": null,
+  "sharedImports": "import {TimeField} from '@react-spectrum/datepicker';\nimport {Flex} from '@react-spectrum/layout';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<TimeField label=\"Event time\" />"
+    },
+    {
+      "name": "Value",
+      "code": "import {Time} from '@internationalized/date';\n\nfunction Example() {\n  let [value, setValue] = React.useState(new Time(11, 45));\n\n  return (\n    <Flex gap=\"size-150\" wrap>\n      <TimeField\n        label=\"Time (uncontrolled)\"\n        defaultValue={new Time(11, 45)} />\n      <TimeField\n        label=\"Time (controlled)\"\n        value={value}\n        onChange={setValue} />\n    </Flex>\n  );\n}"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseZonedDateTime} from '@internationalized/date';\n\n<TimeField\n  label=\"Event time\"\n  defaultValue={parseZonedDateTime('2022-11-07T00:45[America/Los_Angeles]')} />"
+    },
+    {
+      "name": "Time zones",
+      "code": "import {parseAbsoluteToLocal} from '@internationalized/date';\n\n<TimeField\n  label=\"Event time\"\n  defaultValue={parseAbsoluteToLocal('2021-11-07T07:45:00Z')}\n/>"
+    },
+    {
+      "name": "Granularity",
+      "code": "<TimeField\n  label=\"Event time\"\n  granularity=\"second\"\n  defaultValue={parseAbsoluteToLocal('2021-04-07T18:45:22Z')} />"
+    },
+    {
+      "name": "HTML forms",
+      "code": "<TimeField label=\"Meeting time\" name=\"meetingTime\" />"
+    },
+    {
+      "name": "Labeling",
+      "code": "<Flex gap=\"size-150\" wrap>\n  <TimeField label=\"Event time\" />\n  <TimeField label=\"Event time\" isRequired necessityIndicator=\"icon\" />\n  <TimeField label=\"Event time\" isRequired necessityIndicator=\"label\" />\n  <TimeField label=\"Event time\" necessityIndicator=\"label\" />\n</Flex>"
+    },
+    {
+      "name": "Events",
+      "code": "import {useDateFormatter} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [date, setDate] = React.useState(parseAbsoluteToLocal('2021-04-07T18:45:22Z'));\n  let formatter = useDateFormatter({dateStyle: 'long', timeStyle: 'long'});\n\n  return (\n    <>\n      <TimeField label=\"Time\" value={date} onChange={setDate} />\n      <p>Selected date and time: {(date?.toDate && formatter.format(date.toDate())) || (date && date.toString()) || '--'}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Validation",
+      "code": "import {Form, ButtonGroup, Button} from '@adobe/react-spectrum';\n\n<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  {/*- begin highlight -*/}\n  <TimeField label=\"Meeting time\" name=\"time\" isRequired />\n  {/*- end highlight -*/}\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Minimum and maximum values",
+      "code": "<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  <TimeField\n    label=\"Meeting time\"\n    /*- begin highlight -*/\n    minValue={new Time(9)}\n    maxValue={new Time(17)}\n    /*- end highlight -*/\n    defaultValue={new Time(8)} />\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Custom validation",
+      "code": "<Form validationBehavior=\"native\" maxWidth=\"size-3000\">\n  <TimeField\n    label=\"Meeting time\"\n    /*- begin highlight -*/\n    validate={time => time?.minute % 15 !== 0 ? 'Meetings start every 15 minutes.' : null}\n    /*- end highlight -*/\n    defaultValue={new Time(9, 25)} />\n  <ButtonGroup>\n    <Button type=\"submit\" variant=\"primary\">Submit</Button>\n    <Button type=\"reset\" variant=\"secondary\">Reset</Button>\n  </ButtonGroup>\n</Form>"
+    },
+    {
+      "name": "Quiet",
+      "code": "<TimeField label=\"Event time\" isQuiet />"
+    },
+    {
+      "name": "Disabled",
+      "code": "<TimeField label=\"Event time\" isDisabled />"
+    },
+    {
+      "name": "Read only",
+      "code": "<TimeField label=\"Event time\" value={new Time(11)} isReadOnly />"
+    },
+    {
+      "name": "Label alignment and position",
+      "code": "<TimeField label=\"Event time\" labelPosition=\"side\" labelAlign=\"end\" />"
+    },
+    {
+      "name": "Help text",
+      "code": "<Flex gap=\"size-100\" wrap>\n  <TimeField label=\"Time\" defaultValue={new Time(9)} validationState=\"valid\" description=\"Select a meeting time.\" />\n  <TimeField label=\"Time\" validationState=\"invalid\" errorMessage=\"Empty input is not allowed.\" />\n</Flex>"
+    },
+    {
+      "name": "Contextual help",
+      "code": "import {Content, ContextualHelp, Heading} from '@adobe/react-spectrum';\n\n<TimeField\n  label=\"Appointment time\"\n  contextualHelp={\n    <ContextualHelp variant=\"info\">\n      <Heading>Appointment changes</Heading>\n      <Content>Your appointment time cannot be changed once it is scheduled.</Content>\n    </ContextualHelp>\n  } />"
+    },
+    {
+      "name": "Placeholder value",
+      "code": "<TimeField label=\"Appointment time\" placeholderValue={new Time(9)} />"
+    },
+    {
+      "name": "Hide time zone",
+      "code": "<TimeField\n  label=\"Appointment time\"\n  defaultValue={parseZonedDateTime('2022-11-07T10:45[America/Los_Angeles]')}\n  hideTimeZone />"
+    },
+    {
+      "name": "Hour cycle",
+      "code": "<TimeField\n  label=\"Appointment time\"\n  hourCycle={24} />"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/datepicker/TimeField.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/TimeField.html"
+}

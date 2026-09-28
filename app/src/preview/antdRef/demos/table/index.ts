@@ -17,24 +17,30 @@ import D13 from "./14-expandable-row";
 import D14 from "./15-order-specific-column";
 import D15 from "./16-colspan-and-rowspan";
 import D16 from "./17-tree-data";
-import D17 from "./19-auto-height";
-import D18 from "./23-hidden-columns";
-import D19 from "./25-editable-cells";
-import D20 from "./26-editable-rows";
-import D21 from "./27-nested-tables";
-import D22 from "./28-drag-sorting";
-import D23 from "./29-drag-column-sorting";
-import D24 from "./30-drag-sorting-with-handler";
-import D25 from "./31-ellipsis-column";
-import D26 from "./32-shared-column-props";
-import D27 from "./33-ellipsis-column-custom-tooltip";
-import D28 from "./34-custom-empty";
-import D29 from "./36-virtual-list";
-import D30 from "./37-responsive";
-import D31 from "./38-pagination-settings";
-import D32 from "./39-fixed-header-and-scroll-bar-with-the-page";
-import D33 from "./40-dynamic-settings";
-import D34 from "./41-custom-semantic-dom-styling";
+import D17 from "./18-fixed-header";
+import D18 from "./19-auto-height";
+import D19 from "./20-fixed-columns";
+import D20 from "./21-stack-fixed-columns";
+import D21 from "./22-fixed-columns-and-header";
+import D22 from "./23-hidden-columns";
+import D23 from "./24-grouping-table-head";
+import D24 from "./25-editable-cells";
+import D25 from "./26-editable-rows";
+import D26 from "./27-nested-tables";
+import D27 from "./28-drag-sorting";
+import D28 from "./29-drag-column-sorting";
+import D29 from "./30-drag-sorting-with-handler";
+import D30 from "./31-ellipsis-column";
+import D31 from "./32-shared-column-props";
+import D32 from "./33-ellipsis-column-custom-tooltip";
+import D33 from "./34-custom-empty";
+import D34 from "./35-summary";
+import D35 from "./36-virtual-list";
+import D36 from "./37-responsive";
+import D37 from "./38-pagination-settings";
+import D38 from "./39-fixed-header-and-scroll-bar-with-the-page";
+import D39 from "./40-dynamic-settings";
+import D40 from "./41-custom-semantic-dom-styling";
 
 export const DEMOS: DemoSet = {
   "Basic Usage": D0,
@@ -54,33 +60,33 @@ export const DEMOS: DemoSet = {
   "Order Specific Column": D14,
   "colSpan and rowSpan": D15,
   "Tree data": D16,
-  "Auto height": D17,
-  "Hidden Columns": D18,
-  "Editable Cells": D19,
-  "Editable Rows": D20,
-  "Nested tables": D21,
-  "Drag sorting": D22,
-  "Drag Column sorting": D23,
-  "Drag sorting with handler": D24,
-  "ellipsis column": D25,
-  "Shared column props": D26,
-  "ellipsis column custom tooltip": D27,
-  "Custom empty": D28,
-  "Virtual list": D29,
-  "Responsive": D30,
-  "Pagination Settings": D31,
-  "Fixed header and scroll bar with the page": D32,
-  "Dynamic Settings": D33,
-  "Custom semantic dom styling": D34,
+  "Fixed Header": D17,
+  "Auto height": D18,
+  "Fixed Columns": D19,
+  "Stack Fixed Columns": D20,
+  "Fixed Columns and Header": D21,
+  "Hidden Columns": D22,
+  "Grouping table head": D23,
+  "Editable Cells": D24,
+  "Editable Rows": D25,
+  "Nested tables": D26,
+  "Drag sorting": D27,
+  "Drag Column sorting": D28,
+  "Drag sorting with handler": D29,
+  "ellipsis column": D30,
+  "Shared column props": D31,
+  "ellipsis column custom tooltip": D32,
+  "Custom empty": D33,
+  "Summary": D34,
+  "Virtual list": D35,
+  "Responsive": D36,
+  "Pagination Settings": D37,
+  "Fixed header and scroll bar with the page": D38,
+  "Dynamic Settings": D39,
+  "Custom semantic dom styling": D40,
 };
 
 /** 못 세운 예제와 **그 까닭**. 화면이 이 말을 그대로 적는다. */
 export const SKIPPED: Record<string, string> = {
   "Customized filter panel": "이 예제는 우리가 안 가진 패키지(react-highlight-words)를 불러요.",
-  "Fixed Header": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
-  "Fixed Columns": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
-  "Stack Fixed Columns": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
-  "Fixed Columns and Header": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
-  "Grouping table head": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
-  "Summary": "공식 예제가 `token.antCls` 를 읽는데, antd-style 이 그 이름을 타입으로 내보내지 않아요.",
 };

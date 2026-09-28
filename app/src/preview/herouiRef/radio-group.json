@@ -1,0 +1,424 @@
+{
+ "slug": "radio-group",
+ "title": "RadioGroup",
+ "description": "Radio group for selecting a single option from a list",
+ "group": "Forms",
+ "links": {
+  "rac": "RadioField",
+  "sourceFile": "radio-group/radio-group.tsx",
+  "styles": "radio-group.css",
+  "storybook": "Components/Forms/RadioGroup"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { RadioGroup, Radio } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"radio-group-basic\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:12"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {RadioGroup, Radio, Label, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <RadioGroup>\n    <Label />\n    <Description />\n    <Radio value=\"option1\">\n      <Radio.Content> {/* The clickable area: control + label */}\n        <Radio.Control>\n          <Radio.Indicator>\n            <span>✓</span> {/* Custom indicator (optional) */}\n          </Radio.Indicator>\n        </Radio.Control>\n        Label {/* plain text — the clickable label */}\n      </Radio.Content>\n      <Description /> {/* Sibling — stays outside the button (announced via aria-describedby) */}\n      <FieldError /> {/* Optional — per-radio validation message */}\n    </Radio>\n    <FieldError /> {/* Optional — group-level validation */}\n  </RadioGroup>\n)\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:22"
+  },
+  {
+   "name": "Examples",
+   "body": "### Horizontal Orientation\n\n<ComponentPreview\n  name=\"radio-group-horizontal\"\n/>\n\n### Variants\n\nThe RadioGroup component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with default background, suitable for most use cases\n- **`secondary`** - Lower emphasis variant, suitable for use in Surface components\n\n<ComponentPreview name=\"radio-group-variants\" />\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview\n  name=\"radio-group-on-surface\"\n/>\n\n### Disabled\n\n<ComponentPreview\n  name=\"radio-group-disabled\"\n/>\n\n### Controlled\n\n<ComponentPreview\n  name=\"radio-group-controlled\"\n/>\n\n### Uncontrolled\n\nCombine `defaultValue` with `onChange` when you only need to react to updates.\n\n<ComponentPreview\n  name=\"radio-group-uncontrolled\"\n/>\n\n### Validation\n\n<ComponentPreview\n  name=\"radio-group-validation\"\n/>\n\n### Delivery & Payment\n\n<ComponentPreview\n  isBgSolid\n  align=\"start\"\n  name=\"radio-group-delivery-and-payment\"\n/>\n\n### Custom Indicator\n\n<ComponentPreview\n  name=\"radio-group-custom-indicator\"\n/>\n\n### Render Function\n\n<ComponentPreview\n  name=\"radio-group-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:48"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"radio-group-custom-styles\" />\n\n### Global CSS\n\nTo customize the RadioGroup component classes, you can use the `@layer components` directive.\n[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .radio-group {\n    @apply gap-2;\n  }\n\n  .radio {\n    @apply gap-4 rounded-lg border border-border p-3 hover:bg-surface-hovered;\n  }\n\n  .radio__control {\n    @apply border-2 border-accent;\n  }\n\n  .radio__indicator {\n    @apply bg-primary;\n  }\n\n  .radio__content {\n    @apply gap-1;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:119"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe RadioGroup component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/radio-group.css)):\n\n#### Base Classes [!toc]\n\n- `.radio-group` - Base radio group container\n- `.radio` - Individual radio item\n- `.radio__content` - Radio button (RAC label wrapper for control + label text)\n- `.radio__control` - Radio control (circular button)\n- `.radio__indicator` - Radio indicator (inner dot)\n\n#### Modifier Classes [!toc]\n\n- `.radio--disabled` - Disabled radio state\n\n### Interactive States\n\nThe radio supports both CSS pseudo-classes and data attributes for flexibility:\n\n- **Selected**: `[aria-checked=\"true\"]` or `[data-selected=\"true\"]` (indicator appears)\n- **Hover**: `:hover` or `[data-hovered=\"true\"]` (border color changes)\n- **Focus**: `:focus-visible` or `[data-focus-visible=\"true\"]` (shows focus ring)\n- **Pressed**: `:active` or `[data-pressed=\"true\"]` (scale transform)\n- **Disabled**: `:disabled` or `[aria-disabled=\"true\"]` (reduced opacity, no pointer events)\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` (error border color)",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:154"
+  },
+  {
+   "name": "API Reference",
+   "body": "### RadioGroup\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `string` | - | The current value (controlled) |\n| `defaultValue` | `string` | - | The default value (uncontrolled) |\n| `onChange` | `(value: string) => void` | - | Handler called when the value changes |\n| `isDisabled` | `boolean` | `false` | Whether the radio group is disabled |\n| `isRequired` | `boolean` | `false` | Whether the radio group is required |\n| `isReadOnly` | `boolean` | `false` | Whether the radio group is read only |\n| `isInvalid` | `boolean` | `false` | Whether the radio group is in an invalid state |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `name` | `string` | - | The name of the radio group, used when submitting an HTML form |\n| `orientation` | `'horizontal' \\| 'vertical'` | `'vertical'` | The orientation of the radio group |\n| `children` | `React.ReactNode \\| (values: RadioGroupRenderProps) => React.ReactNode` | - | Radio group content or render prop |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, RadioGroupRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Radio\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `string` | - | The value of the radio button |\n| `isDisabled` | `boolean` | `false` | Whether the radio button is disabled |\n| `name` | `string` | - | The name of the radio button, used when submitting an HTML form |\n| `children` | `React.ReactNode \\| (values: RadioFieldRenderProps) => React.ReactNode` | - | Radio content or field render prop |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, RadioFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n### Radio.Control\n\nExtends `React.HTMLAttributes<HTMLSpanElement>`.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | - | The content to render inside the control wrapper (typically Radio.Indicator) |\n\n### Radio.Indicator\n\nExtends `React.HTMLAttributes<HTMLSpanElement>`.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: RadioButtonRenderProps) => React.ReactNode` | - | Optional content or render prop that receives the current radio button state. |\n\n### Radio.Content\n\nThe clickable area of the radio (the `<label>` wrapping the hidden input). Place `Radio.Control` and the `Label` inside it. `className` accepts a render function that receives `RadioButtonRenderProps`.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: RadioButtonRenderProps) => React.ReactNode` | - | The clickable content (typically Radio.Control and Label) |\n\n### RadioFieldRenderProps\n\nWhen using a render prop on the root `Radio`, these field-level values are provided:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isSelected` | `boolean` | Whether the radio is currently selected |\n| `isDisabled` | `boolean` | Whether the radio is disabled |\n| `isReadOnly` | `boolean` | Whether the radio is read only |\n| `isInvalid` | `boolean` | Whether the radio is in an invalid state |\n| `isRequired` | `boolean` | Whether the radio is required |\n\n### RadioButtonRenderProps\n\n`Radio.Control` and `Radio.Indicator` use button-level render props (`isHovered`, `isPressed`, `isFocusVisible`, etc.). Pass a function as `Radio.Control` children or to `Radio.Indicator` to access them.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:185"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"RadioGroup\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:254"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"radiogroup\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:258"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "radio-group-basic",
+   "source": "apps/docs/src/demos/en/radio-group/basic.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <RadioGroup defaultValue=\"premium\" name=\"plan\">\n      <Label>Plan selection</Label>\n      <Description>Choose the plan that suits you best</Description>\n      <Radio value=\"basic\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Basic Plan\n        </Radio.Content>\n        <Description>Includes 100 messages per month</Description>\n      </Radio>\n      <Radio value=\"premium\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Premium Plan\n        </Radio.Content>\n        <Description>Includes 200 messages per month</Description>\n      </Radio>\n      <Radio value=\"business\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Business Plan\n        </Radio.Content>\n        <Description>Unlimited messages</Description>\n      </Radio>\n    </RadioGroup>\n  );\n}\n"
+  },
+  {
+   "name": "Horizontal Orientation",
+   "section": "Examples",
+   "key": "radio-group-horizontal",
+   "source": "apps/docs/src/demos/en/radio-group/horizontal.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function Horizontal() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <Label>Subscription plan</Label>\n      <RadioGroup defaultValue=\"pro\" name=\"plan-orientation\" orientation=\"horizontal\">\n        <Radio value=\"starter\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Starter\n          </Radio.Content>\n          <Description>For side projects</Description>\n        </Radio>\n        <Radio value=\"pro\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Pro\n          </Radio.Content>\n          <Description>Advanced reporting</Description>\n        </Radio>\n        <Radio value=\"teams\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Teams\n          </Radio.Content>\n          <Description>Up to 10 teammates</Description>\n        </Radio>\n      </RadioGroup>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "radio-group-variants",
+   "source": "apps/docs/src/demos/en/radio-group/variants.tsx",
+   "code": "import {Description, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-8\">\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Primary variant</p>\n        <RadioGroup defaultValue=\"option1\" name=\"primary-plan\" variant=\"primary\">\n          <Radio value=\"option1\">\n            <Radio.Content>\n              <Radio.Control>\n                <Radio.Indicator />\n              </Radio.Control>\n              Option 1\n            </Radio.Content>\n            <Description>Standard styling with default background</Description>\n          </Radio>\n          <Radio value=\"option2\">\n            <Radio.Content>\n              <Radio.Control>\n                <Radio.Indicator />\n              </Radio.Control>\n              Option 2\n            </Radio.Content>\n            <Description>Another option with primary styling</Description>\n          </Radio>\n        </RadioGroup>\n      </div>\n      <div className=\"flex flex-col gap-2\">\n        <p className=\"text-sm font-medium text-muted\">Secondary variant</p>\n        <RadioGroup defaultValue=\"option1\" name=\"secondary-plan\" variant=\"secondary\">\n          <Radio value=\"option1\">\n            <Radio.Content>\n              <Radio.Control>\n                <Radio.Indicator />\n              </Radio.Control>\n              Option 1\n            </Radio.Content>\n            <Description>Lower emphasis variant for use in surfaces</Description>\n          </Radio>\n          <Radio value=\"option2\">\n            <Radio.Content>\n              <Radio.Control>\n                <Radio.Indicator />\n              </Radio.Control>\n              Option 2\n            </Radio.Content>\n            <Description>Another option with secondary styling</Description>\n          </Radio>\n        </RadioGroup>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "radio-group-on-surface",
+   "source": "apps/docs/src/demos/en/radio-group/on-surface.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"w-full rounded-3xl p-6\">\n      <RadioGroup defaultValue=\"premium\" name=\"plan-on-surface\" variant=\"secondary\">\n        <Label>Plan selection</Label>\n        <Description>Choose the plan that suits you best</Description>\n        <Radio value=\"basic\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Basic Plan\n          </Radio.Content>\n          <Description>Includes 100 messages per month</Description>\n        </Radio>\n        <Radio value=\"premium\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Premium Plan\n          </Radio.Content>\n          <Description>Includes 200 messages per month</Description>\n        </Radio>\n        <Radio value=\"business\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Business Plan\n          </Radio.Content>\n          <Description>Unlimited messages</Description>\n        </Radio>\n      </RadioGroup>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled",
+   "section": "Examples",
+   "key": "radio-group-disabled",
+   "source": "apps/docs/src/demos/en/radio-group/disabled.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <RadioGroup isDisabled defaultValue=\"pro\" name=\"plan-disabled\">\n      <Label>Subscription plan</Label>\n      <Description>Plan changes are temporarily paused while we roll out updates.</Description>\n      <Radio value=\"starter\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Starter\n        </Radio.Content>\n        <Description>For side projects and small teams</Description>\n      </Radio>\n      <Radio value=\"pro\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Pro\n        </Radio.Content>\n        <Description>Advanced reporting and analytics</Description>\n      </Radio>\n      <Radio value=\"teams\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Teams\n        </Radio.Content>\n        <Description>Share access with up to 10 teammates</Description>\n      </Radio>\n    </RadioGroup>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "radio-group-controlled",
+   "source": "apps/docs/src/demos/en/radio-group/controlled.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = React.useState(\"pro\");\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <RadioGroup name=\"plan-controlled\" value={value} onChange={setValue}>\n        <Label>Subscription plan</Label>\n        <Radio value=\"starter\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Starter\n          </Radio.Content>\n          <Description>For side projects and small teams</Description>\n        </Radio>\n        <Radio value=\"pro\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Pro\n          </Radio.Content>\n          <Description>Advanced reporting and analytics</Description>\n        </Radio>\n        <Radio value=\"teams\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Teams\n          </Radio.Content>\n          <Description>Share access with up to 10 teammates</Description>\n        </Radio>\n      </RadioGroup>\n      <p className=\"text-sm text-muted\">\n        Selected plan: <span className=\"font-medium\">{value}</span>\n      </p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Uncontrolled",
+   "section": "Examples",
+   "key": "radio-group-uncontrolled",
+   "source": "apps/docs/src/demos/en/radio-group/uncontrolled.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Uncontrolled() {\n  const [selection, setSelection] = React.useState(\"pro\");\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <RadioGroup\n        defaultValue=\"pro\"\n        name=\"plan-uncontrolled\"\n        onChange={(nextValue) => setSelection(nextValue)}\n      >\n        <Label>Subscription plan</Label>\n        <Radio value=\"starter\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Starter\n          </Radio.Content>\n          <Description>For side projects and small teams</Description>\n        </Radio>\n        <Radio value=\"pro\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Pro\n          </Radio.Content>\n          <Description>Advanced reporting and analytics</Description>\n        </Radio>\n        <Radio value=\"teams\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Teams\n          </Radio.Content>\n          <Description>Share access with up to 10 teammates</Description>\n        </Radio>\n      </RadioGroup>\n      <p className=\"text-sm text-muted\">\n        Last chosen plan: <span className=\"font-medium\">{selection}</span>\n      </p>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "radio-group-validation",
+   "source": "apps/docs/src/demos/en/radio-group/validation.tsx",
+   "code": "\"use client\";\n\nimport {Button, Description, FieldError, Form, Label, Radio, RadioGroup} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Validation() {\n  const [message, setMessage] = React.useState<string | null>(null);\n\n  return (\n    <Form\n      className=\"flex flex-col gap-4\"\n      onSubmit={(e) => {\n        e.preventDefault();\n\n        const formData = new FormData(e.currentTarget);\n        const value = formData.get(\"plan-validation\");\n\n        setMessage(`Your chosen plan is: ${value}`);\n      }}\n    >\n      <RadioGroup isRequired name=\"plan-validation\">\n        <Label>Subscription plan</Label>\n        <Radio value=\"starter\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Starter\n          </Radio.Content>\n          <Description>For side projects and small teams</Description>\n        </Radio>\n        <Radio value=\"pro\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Pro\n          </Radio.Content>\n          <Description>Advanced reporting and analytics</Description>\n        </Radio>\n        <Radio value=\"teams\">\n          <Radio.Content>\n            <Radio.Control>\n              <Radio.Indicator />\n            </Radio.Control>\n            Teams\n          </Radio.Content>\n          <Description>Share access with up to 10 teammates</Description>\n        </Radio>\n        <FieldError>Choose a subscription before continuing.</FieldError>\n      </RadioGroup>\n      <Button className=\"mt-2 w-fit\" type=\"submit\">\n        Submit\n      </Button>\n      {!!message && <p className=\"text-sm text-muted\">{message}</p>}\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "Delivery & Payment",
+   "section": "Examples",
+   "key": "radio-group-delivery-and-payment",
+   "source": "apps/docs/src/demos/en/radio-group/delivery-and-payment.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\nimport {Icon} from \"@iconify/react\";\nimport clsx from \"clsx\";\n\nexport function DeliveryAndPayment() {\n  const deliveryOptions = [\n    {\n      description: \"4-10 business days\",\n      price: \"$5.00\",\n      title: \"Standard\",\n      value: \"standard\",\n    },\n    {\n      description: \"2-5 business days\",\n      price: \"$16.00\",\n      title: \"Express\",\n      value: \"express\",\n    },\n    {\n      description: \"1 business day\",\n      price: \"$25.00\",\n      title: \"Super Fast\",\n      value: \"super-fast\",\n    },\n  ];\n\n  const paymentOptions = [\n    {\n      description: \"Exp. on 01/2026\",\n      icon: \"uim:master-card\",\n      title: \"**** 8304\",\n      value: \"mastercard\",\n    },\n    {\n      description: \"Exp. on 01/2026\",\n      icon: \"streamline-logos:visa-logo-solid\",\n      title: \"**** 0123\",\n      value: \"visa\",\n    },\n    {\n      description: \"Pay with PayPal\",\n      icon: \"ic:baseline-paypal\",\n      title: \"PayPal\",\n      value: \"paypal\",\n    },\n  ];\n\n  return (\n    <div\n      className=\"flex w-full flex-col items-center gap-10\"\n      style={{\n        // @ts-expect-error - Overrides default variables\n        \"--accent\": \"#006FEE\",\n        \"--accent-foreground\": \"#fff\",\n        \"--accent-hover\": \"#006FEE\",\n        \"--border-width\": \"2px\",\n        \"--border-width-field\": \"2px\",\n        \"--focus\": \"#006FEE\",\n      }}\n    >\n      <section className=\"flex w-full max-w-lg flex-col gap-4\">\n        <RadioGroup defaultValue=\"express\" name=\"delivery\" variant=\"secondary\">\n          <Label>Delivery method</Label>\n          <div className=\"grid gap-x-4 md:grid-cols-3\">\n            {deliveryOptions.map((option) => (\n              <Radio key={option.value} value={option.value}>\n                <Radio.Content\n                  className={clsx(\n                    \"group relative flex w-full flex-col gap-6 rounded-xl border border-transparent bg-surface px-5 py-4 transition-all data-[selected=true]:border-accent data-[selected=true]:bg-accent/10\",\n                    \"data-[focus-visible=true]:border-accent data-[focus-visible=true]:bg-accent/10\",\n                  )}\n                >\n                  <Radio.Control className=\"absolute end-4 top-3 size-5\">\n                    <Radio.Indicator />\n                  </Radio.Control>\n                  <div className=\"flex flex-col gap-1\">\n                    <span>{option.title}</span>\n                    <Description>{option.description}</Description>\n                  </div>\n                  <span className=\"text-sm font-semibold\">{option.price}</span>\n                </Radio.Content>\n              </Radio>\n            ))}\n          </div>\n        </RadioGroup>\n      </section>\n      <section className=\"flex w-full max-w-lg flex-col gap-4\">\n        <RadioGroup defaultValue=\"visa\" name=\"payment\" variant=\"secondary\">\n          <div className=\"flex flex-wrap items-center justify-between gap-4\">\n            <Label>Payment method</Label>\n          </div>\n          <div className=\"grid gap-x-4 md:grid-cols-2\">\n            {paymentOptions.map((option) => (\n              <Radio key={option.value} value={option.value}>\n                <Radio.Content\n                  className={clsx(\n                    \"group relative flex w-full flex-row items-start justify-start gap-4 rounded-xl border border-transparent bg-surface px-5 py-4 transition-all\",\n                    \"data-[selected=true]:border-accent data-[selected=true]:bg-accent/10\",\n                  )}\n                >\n                  <Radio.Control className=\"absolute end-4 top-3 size-5\">\n                    <Radio.Indicator />\n                  </Radio.Control>\n                  <Icon className=\"size-6\" icon={option.icon} />\n                  <div className=\"flex flex-col gap-1\">\n                    <span>{option.title}</span>\n                    <Description>{option.description}</Description>\n                  </div>\n                </Radio.Content>\n              </Radio>\n            ))}\n          </div>\n        </RadioGroup>\n      </section>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Indicator",
+   "section": "Examples",
+   "key": "radio-group-custom-indicator",
+   "source": "apps/docs/src/demos/en/radio-group/custom-indicator.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function CustomIndicator() {\n  return (\n    <RadioGroup defaultValue=\"premium\" name=\"plan-custom-indicator\">\n      <Label>Plan selection</Label>\n      <Description>Choose the plan that suits you best</Description>\n      <Radio value=\"basic\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator>\n              {({isSelected}) =>\n                isSelected ? <span className=\"text-xs leading-none text-background\">✓</span> : null\n              }\n            </Radio.Indicator>\n          </Radio.Control>\n          Basic Plan\n        </Radio.Content>\n        <Description>Includes 100 messages per month</Description>\n      </Radio>\n      <Radio value=\"premium\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator>\n              {({isSelected}) =>\n                isSelected ? <span className=\"text-xs leading-none text-background\">✓</span> : null\n              }\n            </Radio.Indicator>\n          </Radio.Control>\n          Premium Plan\n        </Radio.Content>\n        <Description>Includes 200 messages per month</Description>\n      </Radio>\n      <Radio value=\"business\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator>\n              {({isSelected}) =>\n                isSelected ? <span className=\"text-xs leading-none text-background\">✓</span> : null\n              }\n            </Radio.Indicator>\n          </Radio.Control>\n          Business Plan\n        </Radio.Content>\n        <Description>Unlimited messages</Description>\n      </Radio>\n    </RadioGroup>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "radio-group-render-function",
+   "source": "apps/docs/src/demos/en/radio-group/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <RadioGroup\n      defaultValue=\"premium\"\n      name=\"plan-custom-render\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>Plan selection</Label>\n      <Description>Choose the plan that suits you best</Description>\n      <Radio value=\"basic\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Basic Plan\n        </Radio.Content>\n        <Description>Includes 100 messages per month</Description>\n      </Radio>\n      <Radio value=\"premium\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Premium Plan\n        </Radio.Content>\n        <Description>Includes 200 messages per month</Description>\n      </Radio>\n      <Radio value=\"business\">\n        <Radio.Content>\n          <Radio.Control>\n            <Radio.Indicator />\n          </Radio.Control>\n          Business Plan\n        </Radio.Content>\n        <Description>Unlimited messages</Description>\n      </Radio>\n    </RadioGroup>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "radio-group-custom-styles",
+   "source": "apps/docs/src/demos/en/radio-group/custom-styles.tsx",
+   "code": "import {Description, Label, Radio, RadioGroup} from \"@heroui/react\";\n\nconst options = [\n  {description: \"$12 billed every month\", label: \"Monthly\", value: \"monthly\"},\n  {description: \"$120 billed once a year\", label: \"Yearly\", value: \"yearly\"},\n] as const;\n\nconst contentClassName =\n  \"group flex w-full items-start gap-3 rounded-xl border border-success/10 bg-success-soft/30 px-4 py-3 transition-colors data-[focus-visible=true]:ring-2 data-[focus-visible=true]:ring-success/15 data-[hovered=true]:bg-success-soft-hover data-[selected=true]:border-success/30 data-[selected=true]:bg-success-soft data-[selected=true]:data-[hovered=true]:bg-success-soft-hover\";\n\nconst controlClassName =\n  \"mt-0.5 size-5 shrink-0 rounded-full border border-border bg-default shadow-none group-data-[pressed=true]:scale-95 group-data-[selected=true]:border-transparent group-data-[selected=true]:bg-success group-data-[selected=true]:group-data-[pressed=true]:bg-success-hover\";\n\nconst indicatorClassName =\n  \"before:rounded-full before:bg-default group-data-[selected=true]:before:scale-50 group-data-[selected=true]:before:bg-success-foreground group-data-[selected=true]:group-data-[pressed=true]:before:scale-[0.57]\";\n\nexport function CustomStyles() {\n  return (\n    <RadioGroup\n      className=\"w-full max-w-sm gap-3 **:data-[slot=radio]:mt-0\"\n      defaultValue=\"yearly\"\n      name=\"billing\"\n      variant=\"secondary\"\n    >\n      <Label className=\"font-medium text-foreground\">Billing cycle</Label>\n      <Description>Choose how often you are charged.</Description>\n      {options.map(({description, label, value}) => (\n        <Radio key={value} value={value}>\n          <Radio.Content className={contentClassName}>\n            <Radio.Control className={controlClassName}>\n              <Radio.Indicator className={indicatorClassName} />\n            </Radio.Control>\n            <div className=\"flex flex-col gap-0.5\">\n              <span className=\"font-medium text-foreground group-data-[selected=true]:text-success-soft-foreground\">\n                {label}\n              </span>\n              <Description className=\"group-data-[selected=true]:text-success-soft-foreground/80\">\n                {description}\n              </Description>\n            </div>\n          </Radio.Content>\n        </Radio>\n      ))}\n    </RadioGroup>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "RadioGroup",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "The current value (controlled)",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:191"
+    ],
+    [
+     "`defaultValue`",
+     "`string`",
+     "-",
+     "The default value (uncontrolled)",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:192"
+    ],
+    [
+     "`onChange`",
+     "`(value: string) => void`",
+     "-",
+     "Handler called when the value changes",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:193"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether the radio group is disabled",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:194"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether the radio group is required",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:195"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "`false`",
+     "Whether the radio group is read only",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:196"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "`false`",
+     "Whether the radio group is in an invalid state",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:197"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:198"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "The name of the radio group, used when submitting an HTML form",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:199"
+    ],
+    [
+     "`orientation`",
+     "`'horizontal' | 'vertical'`",
+     "`'vertical'`",
+     "The orientation of the radio group",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:200"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode | (values: RadioGroupRenderProps) => React.ReactNode`",
+     "-",
+     "Radio group content or render prop",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:201"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, RadioGroupRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:202"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:187",
+   "section": "API Reference"
+  },
+  {
+   "name": "Radio",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`string`",
+     "-",
+     "The value of the radio button",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:208"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "`false`",
+     "Whether the radio button is disabled",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:209"
+    ],
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "The name of the radio button, used when submitting an HTML form",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:210"
+    ],
+    [
+     "`children`",
+     "`React.ReactNode | (values: RadioFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Radio content or field render prop",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:211"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, RadioFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:212"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:204",
+   "section": "API Reference"
+  },
+  {
+   "name": "Radio.Control",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "-",
+     "The content to render inside the control wrapper (typically Radio.Indicator)",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:220"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:214",
+   "section": "API Reference"
+  },
+  {
+   "name": "Radio.Indicator",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: RadioButtonRenderProps) => React.ReactNode`",
+     "-",
+     "Optional content or render prop that receives the current radio button state.",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:228"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:222",
+   "section": "API Reference"
+  },
+  {
+   "name": "Radio.Content",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: RadioButtonRenderProps) => React.ReactNode`",
+     "-",
+     "The clickable content (typically Radio.Control and Label)",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:236"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:230",
+   "section": "API Reference"
+  },
+  {
+   "name": "RadioFieldRenderProps",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isSelected`",
+     "`boolean`",
+     "Whether the radio is currently selected",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:244"
+    ],
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the radio is disabled",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:245"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the radio is read only",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:246"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the radio is in an invalid state",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:247"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the radio is required",
+     "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:248"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:238",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "RadioGroup",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:198"
+  },
+  {
+   "name": "`orientation`",
+   "prop": "orientation",
+   "values": [
+    "horizontal",
+    "vertical"
+   ],
+   "other": [],
+   "default": "`'vertical'`",
+   "owner": "RadioGroup",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/radio-group.mdx:200"
+  }
+ ]
+}

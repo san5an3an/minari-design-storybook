@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/table.json 의 examples[1] ("JSX style API")
@@ -26,7 +27,7 @@ interface DataType {
 const data: DataType[] = [
   {
     key: '1',
-    firstName: '민준',
+    firstName: '준호',
     lastName: '갈색',
     age: 32,
     address: '인천 호수공원 1번지',
@@ -53,7 +54,7 @@ const data: DataType[] = [
 const App: React.FC = () => (
   <Table<DataType> dataSource={data}>
     <ColumnGroup title="이름">
-      <Column title="이름" dataIndex="firstName" key="firstName" />
+      <Column title="이름(성 빼고)" dataIndex="firstName" key="firstName" />
       <Column title="성" dataIndex="lastName" key="lastName" />
     </ColumnGroup>
     <Column title="나이" dataIndex="age" key="age" />

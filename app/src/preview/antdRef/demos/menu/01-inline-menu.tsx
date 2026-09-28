@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/menu.json 의 examples[1] ("Inline menu")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '../_icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
@@ -26,8 +27,8 @@ const items: MenuItem[] = [
         label: '항목 1',
         type: 'group',
         children: [
-          { key: '1', label: '항목 1' },
-          { key: '2', label: '항목 2' },
+          { key: '1', label: '선택지 1' },
+          { key: '2', label: '선택지 2' },
         ],
       },
       {
@@ -35,7 +36,7 @@ const items: MenuItem[] = [
         label: '항목 2',
         type: 'group',
         children: [
-          { key: '3', label: '항목 3' },
+          { key: '3', label: '선택지 3' },
           { key: '4', label: '항목 4' },
         ],
       },

@@ -1,0 +1,130 @@
+{
+ "slug": "input",
+ "title": "Input",
+ "docs": [
+  {
+   "repoPath": "ui/components/input/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/input/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/input/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/input/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/input/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Text inputs are used for freeform data entry\n *\n * @base\n * @name input\n * @selector .slds-input\n * @support dev-ready\n * @category base\n * @type data-entry\n * @layout responsive\n * @lwc\n */\n"
+   },
+   {
+    "source": "scss/components/input/base/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n.slds-input-has-icon {\n\n  .slds-input__icon {\n    /* @Todo - we need to be sure this is deprecated since the color sems to be the correct gray I see in specs */\n    @include deprecate('4.0.0', 'Use .slds-icon-text-default on the SVG icon instead') {\n      fill: var(--slds-g-color-neutral-base-50, #{$color-text-input-icon});\n    }\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/input/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n\n/**\n * @summary Initializes text input\n *\n * @name base\n * @selector .slds-input\n * @restrict input\n * @support dev-ready\n * @variant\n */\n.slds-input {\n  @include input;\n  display: inline-block;\n\n  &:focus,\n  &:active {\n    @include input-focus-active;\n  }\n\n  &:focus {\n    --slds-c-input-shadow: var(--slds-c-input-shadow-focus, var(--slds-g-shadow-outline-focus-1, #{$shadow-button-focus}));\n    --slds-c-input-color-border: inherit;\n    outline: 0;\n  }\n\n  &[disabled],\n  &.slds-is-disabled {\n    @include input-disabled;\n  }\n\n  /**\n   * @selector [readonly]\n   * @restrict .slds-input\n   */\n  &[readonly] {\n    /*! @css-var-fallback padding-left */\n    --slds-c-input-spacing-inline-start: 0;\n\n    /*! @css-var-fallback border-color */\n    --slds-c-input-color-border: transparent;\n\n    /*! @css-var-fallback background-color */\n    --slds-c-input-color-background: transparent;\n\n    font-size: $input-static-font-size;\n    // TODO: This is a plain readonly input. It should not have the text treatment that static has.\n    font-weight: $input-readonly-font-weight;\n  }\n\n  &[type='search']::-ms-clear {\n    display: none;\n    width: 0;\n    height: 0;\n  }\n\n  // Hide extra UI added by the browser—specifically the close icon—for Search inputs\n  &[type=\"search\"]::-webkit-search-decoration,\n  &[type=\"search\"]::-webkit-search-cancel-button,\n  &[type=\"search\"]::-webkit-search-results-button,\n  &[type=\"search\"]::-webkit-search-results-decoration {\n    display: none;\n  }\n\n  /**\n   * Prevents certain input types from switching to RTL layout.\n   */\n  &[type='url'],\n  &[type='tel'],\n  &[type='email'] {\n    direction: ltr;\n    text-align: left;\n  }\n}\n\n/**\n  * Removes aesthetic nature from an input\n  *\n  * @selector .slds-input_bare\n  * @restrict .slds-input, input, textarea\n  * @modifier\n  */\n\n.slds-input_bare,\n.slds-input--bare {\n  /*! @css-var-fallback background-color */\n  --slds-c-input-color-background: transparent;\n\n  /*! @css-var-fallback padding-right */\n  --slds-c-input-spacing-inline-end: 0;\n\n  /*! @css-var-fallback padding-left */\n  --slds-c-input-spacing-inline-start: #{$spacing-small};\n\n  /*! @css-var-fallback color */\n  --slds-c-input-text-color: var(--slds-g-color-neutral-base-10, #{$color-text-default});\n  border: 0;\n\n  &:focus,\n  &:active {\n    /*! @css-var-fallback box-shadow */\n    --slds-c-input-shadow-focus: none;\n  }\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-inset-inverse-focus-1, #{$shadow-button-focus});\n    outline: 0;\n  }\n}\n\n/**\n  * Used to apply an input size to another element thats a non input\n  * Because sometimes I need elements the same height as inputs\n  *\n  * @selector .slds-input_height\n  * @restrict .slds-input\n  */\n.slds-input_height,\n.slds-input--height {\n  min-height: calc(#{$height-input} + (#{$border-width-thin} * 2)); // For IE\n}\n\n/**\n * @summary Adds aesthetic nature of input to non-form element, such as within a select-only combobox\n *\n * @selector .slds-input_faux\n * @restrict button\n */\n.slds-input_faux {\n  @include input;\n  display: inline-flex;\n  flex: 1 1 auto;\n  text-align: left;\n\n  &.slds-is-disabled {\n    @include input-disabled;\n  }\n\n  > span:before {\n    content: '';\n    display: inline-block;\n  }\n}\n\n/**\n * @summary Modifier to allow a [readonly] input to have borders\n *\n * @selector .slds-input_borders\n * @restrict .slds-input\n */\n.slds-input_borders[readonly] {\n  /*! @css-var-fallback padding-right */\n  --slds-c-input-spacing-inline-start: #{$spacing-small};\n\n  /*! @css-var-fallback border-color */\n  --slds-c-input-color-border: var(--slds-g-color-border-base-4, #{$color-border-input});\n}\n\n/**\n * @summary Modifier if text input has svg icon adjacent to input\n *\n * @selector .slds-input-has-icon\n * @restrict .slds-form-element div\n */\n.slds-input-has-icon {\n  position: relative;\n\n  /**\n   * @summary Hook for .slds-input-has-icon\n   *\n   * @selector .slds-input__icon\n   * @restrict .slds-input-has-icon svg, .slds-input-has-icon button, .slds-input-has-icon span\n   */\n  .slds-input__icon {\n    @include square($square-icon-medium-content-alt);\n    position: absolute;\n    top: 50%;\n    margin-top: (($square-icon-medium-content-alt * 0.5) * -1);\n    line-height: 1;\n    border: 0; // Re-aligns icons to center\n    z-index: 2;\n  }\n\n  .slds-input__icon:not(button) {\n    pointer-events: none;\n  }\n\n  /* WCAG 2.5.8: grow interactive icon buttons to a 24x24 hit target. @W-20979053 */\n  .slds-button.slds-input__icon {\n    min-width: $square-tappable-x-small;\n    min-height: $square-tappable-x-small;\n    margin-top: 0;\n    transform: translateY(-50%);\n  }\n}\n\n/**\n  * @summary Positions .slds-input__icon to the left of the text input\n  *\n  * @selector .slds-input-has-icon_left\n  * @restrict .slds-input-has-icon\n  */\n.slds-input-has-icon_left,\n.slds-input-has-icon--left {\n\n  .slds-input__icon {\n    left: $spacing-small;\n  }\n\n  .slds-input,\n  .slds-input_faux,\n  .slds-input_bare,\n  .slds-input--bare {\n    /*! @css-var-fallback padding-left */\n    --slds-c-input-spacing-inline-start: #{$spacing-x-large};\n  }\n}\n\n/**\n  * @summary Positions .slds-input__icon to the right of the text input\n  *\n  * @selector .slds-input-has-icon_right\n  * @restrict .slds-input-has-icon\n  */\n.slds-input-has-icon_right,\n.slds-input-has-icon--right {\n\n  .slds-input__icon {\n    right: $spacing-small;\n  }\n\n  .slds-input,\n  .slds-input_faux,\n  .slds-input_bare,\n  .slds-input--bare {\n    /*! @css-var-fallback padding-right */\n    --slds-c-input-spacing-inline-end: #{$spacing-x-large};\n  }\n}\n\n/**\n  * @summary Positions .slds-input__icon_left to the left of the text input and .slds-input__icon_right to the right of the text input\n  *\n  * @selector .slds-input-has-icon_left-right\n  * @restrict .slds-input-has-icon\n  */\n.slds-input-has-icon_left-right,\n.slds-input-has-icon--left-right {\n  /**\n    * @summary Hook for .slds-input-has-icon--left-right\n    *\n    * @selector .slds-input__icon_left\n    * @restrict .slds-input__icon\n    */\n  .slds-input__icon_left,\n  .slds-input__icon--left {\n    left: $spacing-small;\n  }\n\n  /**\n    * @summary Hook for .slds-input-has-icon_left-right\n    *\n    * @selector .slds-input__icon_right\n    * @restrict .slds-input__icon\n    */\n  .slds-input__icon_right,\n  .slds-input__icon--right {\n    right: $spacing-small;\n  }\n\n  .slds-input,\n  .slds-input_faux,\n  .slds-input_bare,\n  .slds-input--bare {\n    /*! @css-var-fallback padding-left */\n    --slds-c-input-spacing-inline-start: #{$spacing-x-large};\n\n    /*! @css-var-fallback padding-right */\n    --slds-c-input-spacing-inline-end: #{$spacing-x-large};\n  }\n}\n\n/**\n* @selector .slds-input-has-icon_group-right\n* @restrict .slds-input-has-icon\n*/\n.slds-input-has-icon_group-right {\n\n  .slds-input,\n  .slds-input_faux,\n  .slds-input_bare,\n  .slds-input--bare {\n    /*! @css-var-fallback padding-right */\n    --slds-c-input-spacing-inline-end: calc(#{$spacing-xx-large} + #{$spacing-x-small});\n  }\n}\n\n/**\n * @summary Positions two items (icons and/or spinners) on one side or the other of the input\n *\n * @selector .slds-input__icon-group\n * @restrict .slds-input-has-icon div\n */\n.slds-input__icon-group {\n  position: absolute;\n  height: $square-icon-medium-content;\n  margin-top: (($square-icon-medium-content * 0.5) * -1);\n}\n\n/**\n * @summary Positions the close icon and spinner on the right side of the input while searching\n *\n * @selector .slds-input__icon-group_right\n * @restrict .slds-input__icon-group\n */\n.slds-input__icon-group_right {\n  right: 0;\n  top: 50%;\n\n  .slds-input__icon_right,\n  .slds-input__icon--right {\n    right: $spacing-x-small;\n  }\n\n  .slds-input__spinner {\n    right: $spacing-large;\n    left: auto;\n  }\n}\n\n/**\n * @summary Use on input container to let it know there is fixed text to the left or right of the input\n *\n * @selector .slds-input-has-fixed-addon\n * @restrict .slds-form-element .slds-form-element__control\n */\n.slds-input-has-fixed-addon {\n  display: flex;\n}\n\n.slds-has-error .slds-input {\n  /*! @css-var-fallback border-color */\n  --slds-c-input-color-border: var(--slds-g-color-error-base-40, #{$color-border-error});\n\n  /*! @css-var-fallback box-shadow */\n  --slds-c-input-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 #{$border-width-thin} inset;\n\n  /*! @css-var-fallback background-color */\n  --slds-c-input-color-background: var(--sds-c-input-color-background, var(--sds-c-input-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-input})));\n\n  /*! @css-var-fallback color */\n  --slds-c-input-text-color: var(--slds-c-input-text-color, var(--sds-c-input-text-color));\n  background-clip: padding-box;\n\n  &:focus,\n  &:active {\n    /*! @css-var-fallback border-color */\n    --slds-c-input-color-border-focus: var(--slds-g-color-error-base-40, #{$color-border-error});\n\n    /*! @css-var-fallback box-shadow */\n    --slds-c-input-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 #{$border-width-thin} inset, #{$shadow-button-focus};\n  }\n\n  &:focus {\n    --slds-c-input-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 #{$border-width-thin} inset, var(--slds-g-shadow-outline-focus-1, #{$shadow-button-focus});\n    --slds-c-input-color-border: var(--slds-g-color-error-base-40, #{$color-border-error});\n    outline: 0;\n  }\n}\n\n.slds-has-error .slds-input__icon {\n  fill: var(--slds-g-color-error-base-40, #{$color-text-error});\n  color: var(--slds-g-color-error-base-40, #{$color-text-error});\n}\n"
+   },
+   {
+    "source": "scss/components/input/base/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n.slds-input,\n.slds-input_faux {\n  line-height: border-box-line-height($height-tappable);\n}\n\n.slds-input {\n  line-height: border-box-line-height($height-tappable);\n\n  &[readonly] {\n    font-size: $font-size-5;\n  }\n\n  /*\n   * It's important to keep these selectors scoped tightly because certain input types have\n   * platform-native styles we don't want to override such as search. In the past, we have\n   * not overridden the appearance property so tread carefully.\n   *\n   * These are considered safe because they fall under '-webkit-appearance: textfield' by Webkit\n   * which primarily renders a platform-native inner gradient.\n   */\n  &[type='text'],\n  &[type='email'],\n  &[type='url'],\n  &[type='tel'] {\n    // stylelint-disable property-no-vendor-prefix\n    -webkit-appearance: none; // Remove Webkit insertion of gradient from -webkit-appearance: textfield\n    // stylelint-enable property-no-vendor-prefix\n  }\n\n  // Temporary fix for misaligned selection for datepickers in Android\n  &[type='date'],\n  &[type='datetime'],\n  &[type='datetime-local'],\n  &[type='time'],\n  &[type='week'],\n  &[type='month'] {\n    display: inline-flex;\n  }\n\n  /**\n   * Platform-native styled inputs using 'appearance' CSS property set their own min-height and our line-height isn't recognized\n   * until a value is selected (e.x. date input). For mobile devices, this causes height discrepancies before and after selecting\n   * a value. We need to set an explicit height to keep it consistent.\n   */\n  &[type='date'],\n  &[type='datetime-local'],\n  &[type='month'],\n  &[type='time'] {\n    height: $height-tappable;\n  }\n\n  &[type='date'],\n  &[type='datetime-local'] {\n    white-space: nowrap;\n    padding: 0;\n  }\n}\n\n.slds-input-has-icon {\n\n  .slds-input__icon {\n    @include square($square-icon-medium-content);\n    margin-top: (($square-icon-medium-content * 0.5) * -1);\n  }\n\n  /* WCAG 2.5.8: keep interactive icon buttons at 24x24 on touch too. @W-20979053 */\n  .slds-button.slds-input__icon {\n    min-width: $square-tappable-x-small;\n    min-height: $square-tappable-x-small;\n    margin-top: 0;\n    transform: translateY(-50%);\n  }\n}\n\n.slds-input__icon_left,\n.slds-input__icon--left {\n\n  .slds-input__icon {\n    left: $spacing-x-small;\n  }\n}\n\n.slds-input__icon_right,\n.slds-input__icon--right {\n\n  .slds-input__icon {\n    right: $spacing-x-small;\n  }\n}\n\n.slds-input__icon_left-right,\n.slds-input__icon--left-right {\n\n  .slds-input__icon_left,\n  .slds-input__icon--left {\n    left: $spacing-x-small;\n  }\n\n  .slds-input__icon_right,\n  .slds-input__icon--right {\n    right: $spacing-x-small;\n  }\n}\n\n.slds-input__icon-group_right {\n\n  .slds-input__spinner {\n    right: calc(#{$spacing-large} + #{$spacing-xx-small});\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/input"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-input-spacing-inline-end",
+    "1rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-spacing-inline-start",
+    "0.75rem",
+    "Spacing",
+    "Dimension",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-radius-border",
+    "0.25rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-text-color",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-shadow",
+    "",
+    "Box Shadow",
+    "String",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-color-border-focus",
+    "60, rgb(27, 150, 255)",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-color-background-focus",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-text-color-focus",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/input/styling-hooks.json"
+   ],
+   [
+    "--slds-c-input-shadow-focus",
+    "1, 0 0 3px #0176d3",
+    "Box Shadow",
+    "String",
+    "metadata/components/input/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/input/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

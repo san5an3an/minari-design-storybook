@@ -1,0 +1,97 @@
+{
+ "slug": "confirmationdialog",
+ "title": "ConfirmationDialog",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/ConfirmationDialog",
+  "id": "confirmationdialog",
+  "docsId": "confirmationdialog",
+  "name": "ConfirmationDialog",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "importPath": "@primer/react",
+  "stories": [
+   {
+    "id": "components-confirmationdialog--default",
+    "code": "() => {\n  const [isOpen, setIsOpen] = useState(false)\n  const buttonRef = useRef<HTMLButtonElement>(null)\n  const onDialogClose = useCallback(() => setIsOpen(false), [])\n  return (\n    <>\n      <Button ref={buttonRef} onClick={() => setIsOpen(!isOpen)}>\n        Show dialog\n      </Button>\n      {isOpen && (\n        <ConfirmationDialog\n          title=\"Delete universe?\"\n          onClose={onDialogClose}\n          confirmButtonContent=\"Delete it!\"\n          confirmButtonType=\"danger\"\n        >\n          Deleting the universe could have disastrous effects, including but not\n          limited to destroying all life on Earth.\n        </ConfirmationDialog>\n      )}\n    </>\n  )\n}"
+   },
+   {
+    "id": "components-confirmationdialog-features--shorthand-hook",
+    "code": "() => {\n  const confirm = useConfirm()\n  const onButtonClick = useCallback(\n    async (event: React.MouseEvent) => {\n      if (\n        (await confirm({\n          title: 'Are you sure?',\n          content: 'Do you really want to turn this button green?',\n        })) &&\n        event.target instanceof HTMLElement\n      ) {\n        event.target.style.color = 'var(--fgColor-success)'\n        event.target.textContent = \"I'm green!\"\n      }\n    },\n    [confirm],\n  )\n  return (\n    <div className={classes.ButtonContainer}>\n      <Button onClick={onButtonClick} className={classes.TurnGreenButton}>\n        Turn me green!\n      </Button>\n      <Button onClick={onButtonClick} className={classes.TurnGreenButton}>\n        Turn me green!\n      </Button>\n      <Button onClick={onButtonClick} className={classes.TurnGreenButton}>\n        Turn me green!\n      </Button>\n      <Button onClick={onButtonClick} className={classes.TurnGreenButton}>\n        Turn me green!\n      </Button>\n    </div>\n  )\n}"
+   },
+   {
+    "id": "components-confirmationdialog-features--shorthand-hook-from-action-menu",
+    "code": "() => {\n  const confirm = useConfirm()\n  const [text, setText] = useState('open me')\n  const onButtonClick = useCallback(async () => {\n    if (\n      await confirm({\n        title: 'Are you sure?',\n        content: 'Do you really want to do a trick?',\n      })\n    ) {\n      setText('tada!')\n    }\n  }, [confirm])\n  return (\n    <div className={classes.ButtonContainer}>\n      <ActionMenu>\n        <ActionMenu.Button>{text}</ActionMenu.Button>\n        <ActionMenu.Overlay>\n          <ActionList>\n            <ActionList.Item onSelect={onButtonClick}>\n              Do a trick!\n            </ActionList.Item>\n          </ActionList>\n        </ActionMenu.Overlay>\n      </ActionMenu>\n    </div>\n  )\n}"
+   },
+   {
+    "id": "components-confirmationdialog-features--loading-states",
+    "code": "() => {\n  const [isOpen, setIsOpen] = useState(false)\n  const [isConfirmLoading, setIsConfirmLoading] = useState(false)\n  const [isCancelLoading, setIsCancelLoading] = useState(false)\n  const handleConfirm = useCallback(() => {\n    setIsConfirmLoading(true)\n    // Simulate async operation\n    setTimeout(() => {\n      setIsConfirmLoading(false)\n      setIsOpen(false)\n    }, 2000)\n  }, [])\n  const handleCancel = useCallback(() => {\n    setIsCancelLoading(true)\n    // Simulate async operation\n    setTimeout(() => {\n      setIsCancelLoading(false)\n      setIsOpen(false)\n    }, 1500)\n  }, [])\n  const handleClose = useCallback(\n    (gesture: 'confirm' | 'close-button' | 'cancel' | 'escape') => {\n      if (gesture === 'confirm') {\n        handleConfirm()\n      } else if (gesture === 'cancel') {\n        handleCancel()\n      } else {\n        setIsOpen(false)\n      }\n    },\n    [handleConfirm, handleCancel],\n  )\n  return (\n    <div className={classes.ButtonContainer}>\n      <Button onClick={() => setIsOpen(true)}>Show Loading Dialog</Button>\n      {isOpen && (\n        <ConfirmationDialog\n          title=\"Delete this file?\"\n          confirmButtonType=\"danger\"\n          confirmButtonContent=\"Delete\"\n          confirmButtonLoading={isConfirmLoading}\n          cancelButtonLoading={isCancelLoading}\n          onClose={handleClose}\n        >\n          This action cannot be undone. The file will be permanently deleted\n          from your repository.\n        </ConfirmationDialog>\n      )}\n    </div>\n  )\n}"
+   }
+  ],
+  "props": [
+   {
+    "name": "onClose",
+    "type": "(gesture: 'confirm' | 'close-button' | 'cancel' | 'escape') => void",
+    "required": true,
+    "description": "This callback is invoked when a gesture to close the dialog is performed. The first argument indicates the gesture."
+   },
+   {
+    "name": "title",
+    "type": "React.ReactNode",
+    "required": true,
+    "description": "The title of the ConfirmationDialog. This is usually a brief question."
+   },
+   {
+    "name": "cancelButtonContent",
+    "type": "React.ReactNode",
+    "defaultValue": "Cancel",
+    "description": "The text to use for the cancel button."
+   },
+   {
+    "name": "confirmButtonContent",
+    "type": "React.ReactNode",
+    "defaultValue": "OK",
+    "description": "The text to use for the confirm button."
+   },
+   {
+    "name": "confirmButtonType",
+    "type": "'normal' | 'primary' | 'danger'",
+    "defaultValue": "normal",
+    "description": "The type of button to use for the confirm button."
+   },
+   {
+    "name": "overrideButtonFocus",
+    "type": "'confirm' | 'cancel'",
+    "description": "The button that should be initially focused when the dialog is opened. By default, the initial button focus is the confirm button, unless the confirm button is dangerous, in which case the cancel button is focused. This prop should be used rarely, as it can allow dangerous actions to be taken accidentally."
+   },
+   {
+    "name": "className",
+    "type": "string",
+    "description": "Additional class names to apply to the dialog."
+   },
+   {
+    "name": "width",
+    "type": "'small' | 'medium' | 'large' | 'xlarge'",
+    "defaultValue": "medium",
+    "description": "The width of the dialog.\nsmall: 296px\nmedium: 320px\nlarge: 480px\nxlarge: 640px"
+   },
+   {
+    "name": "height",
+    "type": "'small' | 'large' | 'auto'",
+    "description": "The height of the dialog.\nsmall: 480px\nlarge: 640px\nauto: variable based on contents"
+   }
+  ]
+ },
+ "source": "generated/components.json:2557",
+ "name": "confirmationdialog",
+ "sourceKey": "$.components.confirmationdialog",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "ActionList",
+  "ActionMenu",
+  "Button",
+  "ConfirmationDialog",
+  "HTMLButtonElement"
+ ]
+}

@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/space.json 의 examples[6] ("Compact Mode for form component")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { CopyOutlined } from '../_icons';
+import { CopyOutlined } from '@ant-design/icons';
 import {
   AutoComplete,
   Button,
@@ -60,7 +61,7 @@ const App: React.FC = () => (
           { label: 'Jiangsu', value: 'Jiangsu' },
         ]}
       />
-      <Input style={{ width: '50%' }} defaultValue="서울 강남구" />
+      <Input style={{ width: '50%' }} defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -73,7 +74,7 @@ const App: React.FC = () => (
           { label: 'Jiangsu', value: 'Jiangsu' },
         ]}
       />
-      <Input style={{ width: '50%' }} defaultValue="서울 강남구" />
+      <Input style={{ width: '50%' }} defaultValue="서울 서초구" />
     </Space.Compact>
     <Space.Compact block>
       <Input.Search style={{ width: '30%' }} defaultValue="0571" />

@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/tag.json 의 examples[5] ("Icon")
@@ -15,7 +16,7 @@ import {
   LinkedinOutlined,
   TwitterOutlined,
   YoutubeOutlined,
-} from '../_icons';
+} from '@ant-design/icons';
 import { Divider, Flex, Tag } from 'antd';
 
 // Icons from third-party libraries render as a bare `<svg>` rather than an `.anticon` wrapper.

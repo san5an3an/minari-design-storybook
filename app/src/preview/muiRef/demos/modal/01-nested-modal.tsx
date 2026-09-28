@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/modal/NestedModal.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -37,7 +42,7 @@ function ChildModal() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Button onClick={handleOpen}>자식 모달 열기</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -45,11 +50,11 @@ function ChildModal() {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Text in a child modal</h2>
+          <h2 id="child-modal-title">자식 모달 안의 글</h2>
           <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            표본 글이에요, 자리를 대신 채우고 있어요.
           </p>
-          <Button onClick={handleClose}>Close Child Modal</Button>
+          <Button onClick={handleClose}>자식 모달 닫기</Button>
         </Box>
       </Modal>
     </React.Fragment>
@@ -67,7 +72,7 @@ export default function NestedModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>모달 열기</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -75,9 +80,9 @@ export default function NestedModal() {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: 400 }}>
-          <h2 id="parent-modal-title">Text in a modal</h2>
+          <h2 id="parent-modal-title">모달 안의 글</h2>
           <p id="parent-modal-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            짧은 표본 문장이에요. 한 줄이 안 넘칠 때의 모습을 보려고 넣었어요.
           </p>
           <ChildModal />
         </Box>

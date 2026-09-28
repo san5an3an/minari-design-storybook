@@ -1,0 +1,86 @@
+{
+  "slug": "panel-stack",
+  "title": "Panel stack",
+  "kind": "component",
+  "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: Panel stack\n---\n\n# Panel stack\n\n**PanelStack** manages a stack of panels and displays only the topmost panel.\n\nEach panel appears with a header containing a \"back\" button to return to the previous panel. The bottom-most\n`initialPanel` cannot be closed or removed from the stack. Panels use\n[**CSSTransition**](http://reactcommunity.org/react-transition-group/css-transition) for seamless transitions.\n\nBy default, only the currently active panel is rendered to the DOM. This means that other panels are unmounted and can\nlose their component state as a user transitions between the panels. You can notice this in the example below as the\nnumeric counter is reset. To render all panels to the DOM and keep their React trees mounted, change the\n`renderActivePanelOnly` prop.\n\n## Import\n\n```ts copy\nimport { PanelStack } from \"@blueprintjs/core\";\n```\n\n@reactExample PanelStackExample\n\n## Panels\n\nPanels are supplied as `Panel<T>` objects, where `renderPanel` and `props` are\nused to render the panel element and `title` will appear in the header and back button.\nThis breakdown allows the component to avoid cloning elements.\nNote that each panel is only mounted when it is atop the stack and is unmounted when\nit is closed or when a panel opens above it.\n\n`PanelStack` injects panel action callbacks into each panel renderer in addition to\nthe `props` defined by `Panel<T>`. These allow you to close the current panel or open a\nnew one on top of it during the panel's lifecycle. For example:\n\n```tsx\nimport { Button, PanelProps } from \"@blueprintjs/core\";\n\ntype SettingsPanelInfo = {\n    /* ...  */\n};\ntype AccountSettingsPanelInfo = {\n    /* ...  */\n};\ntype NotificationSettingsPanelInfo = {\n    /* ...  */\n};\n\nconst AccountSettingsPanel: React.FC<PanelProps<AccountSettingsPanelInfo>> = props => {\n    // implementation\n};\n\nconst NotificationSettingsPanel: React.FC<PanelProps<NotificationSettingsPanelInfo>> = props => {\n    // implementation\n};\n\nconst SettingsPanel: React.FC<PanelProps<SettingsPanelInfo>> = props => {\n    const { openPanel, closePanel, ...info } = props;\n\n    const openAccountSettings = () =>\n        openPanel({\n            props: {\n                /* ... */\n            },\n            renderPanel: AccountSettingsPanel,\n            title: \"Account settings\",\n        });\n    const openNotificationSettings = () =>\n        openPanel({\n            props: {\n                /* ... */\n            },\n            renderPanel: NotificationSettingsPanel,\n            title: \"Notification settings\",\n        });\n\n    return (\n        <>\n            <Button onClick={openAccountSettings} text=\"Account settings\" />\n            <Button onClick={openNotificationSettings} text=\"Notification settings\" />\n        </>\n    );\n};\n```\n\n@interface Panel\n\n@interface PanelActions\n\n## Props interface\n\n**PanelStack** can be operated as a controlled or uncontrolled component.\n\nIf controlled, panels should be added to and removed from the _end_ of the `stack` array.\n\n@interface PanelStackProps\n",
+  "lines": 99,
+  "frontMatter": {
+    "title": "Panel stack"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Panel stack",
+      "at": 28,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:5",
+      "name": "Panel stack"
+    },
+    {
+      "level": 2,
+      "text": "Import",
+      "at": 785,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:18",
+      "name": "Import"
+    },
+    {
+      "level": 2,
+      "text": "Panels",
+      "at": 893,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:26",
+      "name": "Panels"
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 2798,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:92",
+      "name": "Props interface"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { PanelStack } from \"@blueprintjs/core\";\n",
+      "at": 807,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:21",
+      "name": "import { PanelStack } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button, PanelProps } from \"@blueprintjs/core\";\n\ntype SettingsPanelInfo = {\n    /* ...  */\n};\ntype AccountSettingsPanelInfo = {\n    /* ...  */\n};\ntype NotificationSettingsPanelInfo = {\n    /* ...  */\n};\n\nconst AccountSettingsPanel: React.FC<PanelProps<AccountSettingsPanelInfo>> = props => {\n    // implementation\n};\n\nconst NotificationSettingsPanel: React.FC<PanelProps<NotificationSettingsPanelInfo>> = props => {\n    // implementation\n};\n\nconst SettingsPanel: React.FC<PanelProps<SettingsPanelInfo>> = props => {\n    const { openPanel, closePanel, ...info } = props;\n\n    const openAccountSettings = () =>\n        openPanel({\n            props: {\n                /* ... */\n            },\n            renderPanel: AccountSettingsPanel,\n            title: \"Account settings\",\n        });\n    const openNotificationSettings = () =>\n        openPanel({\n            props: {\n                /* ... */\n            },\n            renderPanel: NotificationSettingsPanel,\n            title: \"Notification settings\",\n        });\n\n    return (\n        <>\n            <Button onClick={openAccountSettings} text=\"Account settings\" />\n            <Button onClick={openNotificationSettings} text=\"Notification settings\" />\n        </>\n    );\n};\n",
+      "at": 1509,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:39",
+      "name": "import { Button, PanelProps } from \"@blueprintjs/core\";"
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "PanelStackExample",
+      "at": 860,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:24"
+    },
+    {
+      "name": "interface",
+      "arg": "Panel",
+      "at": 2755,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:88"
+    },
+    {
+      "name": "interface",
+      "arg": "PanelActions",
+      "at": 2773,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:90"
+    },
+    {
+      "name": "interface",
+      "arg": "PanelStackProps",
+      "at": 2984,
+      "source": "node_modules/@blueprintjs/core/src/components/panel-stack/panel-stack.mdx:98"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+ "slug": "ProgressBar",
+ "title": "ProgressBar",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as ProgressBarStories from './ProgressBar.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# ProgressBar\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ProgressBar)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/progress-bar/usage)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/progress-bar/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\n<Canvas\n  of={ProgressBarStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ProgressBarStories.Default),\n    },\n  ]}\n/>\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ProgressBar/ProgressBar.mdx).\n",
+   "source": "packages/react/src/components/ProgressBar/ProgressBar.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/ProgressBar/ProgressBar.mdx:17"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/ProgressBar/ProgressBar.mdx:25"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/ProgressBar/ProgressBar.mdx:37"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/ProgressBar/ProgressBar.mdx:41"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-progressbar--default',\n    },\n    {\n      label: 'Example',\n      variant: 'components-progressbar--example',\n    },\n    {\n      label: 'Indeterminate',\n      variant: 'components-progressbar--indeterminate',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ProgressBar/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/ProgressBar/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => <ProgressBar {...args} />;\n\nDefault.args = {\n  ...sharedArgs,\n};\n\nDefault.argTypes = {\n  ...sharedArgTypes,\n};\n",
+   "source": "packages/react/src/components/ProgressBar/ProgressBar.stories.js:66"
+  },
+  {
+   "name": "Indeterminate",
+   "description": null,
+   "code": "export const Indeterminate = (args) => <ProgressBar {...args} />;\n\nIndeterminate.args = {\n  ...sharedArgs,\n  helperText: 'Preparing files...',\n  label: 'Preparing upload',\n  value: undefined,\n};\n\nIndeterminate.argTypes = {\n  ...sharedArgTypes,\n  status: {\n    table: { readonly: true },\n  },\n  value: {\n    control: false,\n    table: { readonly: true },\n  },\n};\n\nIndeterminate.parameters = {\n  controls: {\n    include: ['helperText', 'hideLabel', 'label', 'size', 'status', 'type'],\n  },\n};\n",
+   "source": "packages/react/src/components/ProgressBar/ProgressBar.stories.js:76"
+  },
+  {
+   "name": "Determinate",
+   "description": null,
+   "code": "export const Determinate = ({ hideLabel, label, size: barSize, type }) => {\n  const size = 728;\n  const [progress, setProgress] = useState(0);\n\n  useEffect(() => {\n    setTimeout(() => {\n      const interval = setInterval(() => {\n        setProgress((currentProgress) => {\n          const advancement = Math.random() * 8;\n          if (currentProgress + advancement < size) {\n            return currentProgress + advancement;\n          } else {\n            clearInterval(interval);\n            return size;\n          }\n        });\n      }, 50);\n    }, 3000);\n  }, []);\n\n  const running = progress > 0;\n\n  let helperText = running\n    ? `${progress.toFixed(1)}MB of ${size}MB`\n    : 'Fetching assets...';\n  if (progress >= size) {\n    helperText = 'Done';\n  }\n\n  return (\n    <ProgressBar\n      value={running ? progress : null}\n      max={size}\n      status={progress === size ? 'finished' : 'active'}\n      hideLabel={hideLabel}\n      label={label}\n      helperText={helperText}\n      size={barSize}\n      type={type}\n    />\n  );\n};\n\nDeterminate.args = {\n  ...sharedArgs,\n  helperText: 'Fetching assets...',\n  label: 'Exporting data',\n  max: 728,\n  status: 'active',\n  value: undefined,\n};\n\nDeterminate.argTypes = {\n  ...sharedArgTypes,\n  helperText: {\n    control: false,\n    table: { readonly: true },\n  },\n  max: {\n    control: false,\n    table: { readonly: true },\n  },\n  status: {\n    control: false,\n    table: { readonly: true },\n  },\n  value: {\n    control: false,\n    table: { readonly: true },\n  },\n};\n\nDeterminate.parameters = {\n  controls: {\n    include: ['hideLabel', 'label', 'size', 'type'],\n  },\n};\n",
+   "source": "packages/react/src/components/ProgressBar/ProgressBar.stories.js:102"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = (args) => (\n  <WithLayer>\n    <ProgressBar {...args} />\n  </WithLayer>\n);\n\n_WithLayer.args = {\n  ...sharedArgs,\n  helperText: '42 MB of 100 MB',\n  value: 42,\n};\n\n_WithLayer.argTypes = {\n  ...sharedArgTypes,\n};\n",
+   "source": "packages/react/src/components/ProgressBar/ProgressBar.stories.js:180"
+  }
+ ],
+ "props": {
+  "name": "ProgressBar.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "className",
+    "PropTypes.string",
+    "Additional CSS class names.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:185"
+   ],
+   [
+    "helperText",
+    "PropTypes.string",
+    "The current progress as a textual representation.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:190"
+   ],
+   [
+    "hideLabel",
+    "PropTypes.bool",
+    "Whether the label should be visually hidden.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:195"
+   ],
+   [
+    "label",
+    "PropTypes.string.isRequired",
+    "A label describing the progress bar.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:200"
+   ],
+   [
+    "max",
+    "PropTypes.number",
+    "The maximum value.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:205"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['small', 'big'])",
+    "Specify the size of the ProgressBar.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:210"
+   ],
+   [
+    "status",
+    "PropTypes.oneOf(['active', 'finished', 'error'])",
+    "Specify the status.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:215"
+   ],
+   [
+    "type",
+    "PropTypes.oneOf(['default', 'inline', 'indented'])",
+    "Defines the alignment variant of the progress bar.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:220"
+   ],
+   [
+    "value",
+    "PropTypes.number",
+    "The current value.",
+    "packages/react/src/components/ProgressBar/ProgressBar.tsx:225"
+   ]
+  ],
+  "source": "packages/react/src/components/ProgressBar/ProgressBar.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

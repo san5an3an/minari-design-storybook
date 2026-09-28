@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/time-picker.json 의 examples[7] ("Addon")
@@ -21,7 +22,7 @@ const App: React.FC = () => {
       onOpenChange={setOpen}
       renderExtraFooter={() => (
         <Button size="small" type="primary" onClick={() => setOpen(false)}>
-          확인
+          좋아요
         </Button>
       )}
     />

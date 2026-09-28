@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/steppers/HorizontalNonLinearStepper.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -70,7 +75,7 @@ export default function HorizontalNonLinearStepper() {
     previousCompletedRef.current = completed;
 
     if (allStepsCompleted) {
-      // If the user has completed all steps and hits "Finish", focus the "Reset" button.
+      // If the user has completed all steps and hits "Finish", focus the "처음으로" button.
       resetButtonRef.current!.focus();
       return;
     }
@@ -79,7 +84,7 @@ export default function HorizontalNonLinearStepper() {
       Object.keys(completed).length === 0 &&
       Object.keys(previousCompleted).length !== 0
     ) {
-      // If the user has completed all steps and hits "Reset", focus the "Next" button.
+      // If the user has completed all steps and hits "처음으로", focus the "다음" button.
       nextButtonRef.current!.focus();
     }
   }, [completed, allStepsCompleted]);
@@ -87,7 +92,7 @@ export default function HorizontalNonLinearStepper() {
   // Manage focus when the active step changes.
   React.useEffect(() => {
     if (activeStep === 0 && previousActiveStepRef.current === 1) {
-      // If the user navigated to first step via "Back" button, focus the "Next" button.
+      // If the user navigated to first step via "뒤로" button, focus the "다음" button.
       nextButtonRef.current!.focus();
     }
 
@@ -113,19 +118,19 @@ export default function HorizontalNonLinearStepper() {
         {allStepsCompleted ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
+              모든 단계를 마쳤어요 — 끝났어요
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleReset} ref={resetButtonRef}>
-                Reset
+                처음으로
               </Button>
             </Box>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-              Step {activeStep + 1}
+              단계 {activeStep + 1}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button
@@ -134,16 +139,16 @@ export default function HorizontalNonLinearStepper() {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                뒤로
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleNext} sx={{ mr: 1 }} ref={nextButtonRef}>
-                Next
+                다음
               </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
                   <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                    Step {activeStep + 1} already completed
+                    단계 {activeStep + 1} already completed
                   </Typography>
                 ) : (
                   <Button onClick={handleComplete}>

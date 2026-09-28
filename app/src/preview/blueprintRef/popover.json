@@ -1,0 +1,300 @@
+{
+  "slug": "popover",
+  "title": "Popover",
+  "kind": "component",
+  "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx",
+  "package": "@blueprintjs/core",
+  "version": "6.18.0",
+  "license": "Apache-2.0",
+  "code": "---\ntitle: Popover\ntag: deprecated\n---\n\n\n# Popover\n\n<div class=\"@ns-callout @ns-intent-danger @ns-icon-error @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">\n\nDeprecated: use [**PopoverNext**](#core/components/popover-next)\n\n</h5>\n\nThis component is **deprecated** in favor of the new **PopoverNext** component which is built on the modern Floating UI library instead of Popper.js. You should migrate to the new API which will become the standard in a future major version of Blueprint.\n\n</div>\n\nPopovers display floating content next to a target element.\n\nThe **Popover** component is built on top of the [**Popper.js**](https://popper.js.org) library.\nPopper.js is a small library that offers a powerful, customizable, and performant positioning engine.\n\n## Import\n\n```ts copy\nimport { Popover } from \"@blueprintjs/core\";\n```\n\n@reactExample PopoverExample\n\n## Usage\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">\n\n[OverlaysProvider](#core/context/overlays-provider) recommended\n\n</h5>\n\nThis component renders an **Overlay2** which works best inside a React tree which includes an\n**OverlaysProvider**. Blueprint v5.x includes a backwards-compatibile shim which allows this context\nto be optional, but it will be required in a future major version. See the full\n[migration guide](https://github.com/palantir/blueprint/wiki/Overlay2-migration) on the wiki.\n\n</div>\n\n**Popover** supports controlled and uncontrolled usage through `isOpen` and `defaultIsOpen`, respectively.\nUse `onInteraction` in controlled mode to respond to changes in the `isOpen` state.\n\nSupported user interactions are dictated by the `interactionKind` prop.\n\nThis component is quite powerful and has a wide range of features. Explore the\n[**Concepts**](#core/components/popover.concepts) section below for more advanced\nusage guides.\n\n## Props interface\n\n@interface PopoverProps\n\n## Concepts\n\n### Structure\n\nWhen creating a popover, you must specify both its **content** (via the `content` prop) and\nits **target** (via the `renderTarget` prop or a single child element).\n\nThe **target** is rendered at the location of the Popover component in the React component tree. It acts\nas the trigger for the popover; user interaction will show the popover based on the `interactionKind` prop.\nIn Popper.js terms, this is the popper \"reference\". There are two ways to render a Popover target, resulting\nin different DOM layout depending on your application's needs:\n\n- The simplest way to specify a target is via `children`. Provide a single React child to\n  `<Popover>` and the component will render that child wrapped in a `@ns-popover-target` HTML element.\n  This wrapper is configured with event handling logic necessary for the Popover to function. Its tag name\n  (e.g. `div`, `span`) and props can be customized with the `targetTagName` and `targetProps` props, respectively.\n\n- A more advanced API is available through the `renderTarget` prop. Here, Popover provides you with all the\n  information necessary to render a functional popover with a [render prop](https://reactjs.org/docs/render-props.html).\n  You are responsible for then propogating that information with an\n  [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#spread_in_object_literals)\n  to the `React.JSX.Element` returned from `renderTarget`.\n    - If the rendered element is _not_ a native HTML element, you must ensure that it supports the\n      `className`, `ref`, and `tabIndex` props (i.e. renders them out to the DOM).\n\n    - The benefit to this approach is a simplified DOM structure without an extra wrapper element around\n      your popover target.\n\nThe **content** will be shown inside the popover itself. When opened, the popover will always be\npositioned on the page next to the target; the `placement` prop determines its relative placement (on\nwhich side of the target).\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Button targets</h5>\n\nButtons make great popover targets, but the `disabled` attribute on a `<button>` blocks all\nevents, which interferes with the popover functioning. If you need to disable a button which\ntriggers a popover, you should use [`AnchorButton`](#core/components/button.anchor-button) instead.\nSee the [callout here](#core/components/button.props) for more details.\n\n</div>\n\n```tsx\nimport { Button, Classes, Popover } from \"@blueprintjs/core\";\n\nexport class PopoverExample extends React.PureComponent {\n    public render() {\n        // popover content gets no padding by default; add the \"@ns-popover-content-sizing\"\n        // class to the popover to set nice padding between its border and content.\n        return (\n            <Popover\n                interactionKind=\"click\"\n                popoverClassName={Classes.POPOVER_CONTENT_SIZING}\n                placement=\"bottom\"\n                content={\n                    <div>\n                        <h5>Popover title</h5>\n                        <p>...</p>\n                        <Button className={Classes.POPOVER_DISMISS} text=\"Dismiss\" />\n                    </div>\n                }\n                renderTarget={({ isOpen, ...targetProps }) => (\n                    <Button {...targetProps} intent=\"primary\" text=\"Popover target\" />\n                )}\n            />\n        );\n    }\n}\n```\n\n### Placement\n\nThe `placement` prop controls the popover's position relative to the target. Popover passes this prop directly\nto Popper.js; it uses the same semantics and supported values\n[as shown here in the docs](https://popper.js.org/docs/v2/constructors/#options).\n\n`import { PopperPlacements } from \"@blueprintjs/core\"` defines the full set of supported values.\nThere are straightforward base placements (`\"top\"`, `\"bottom\"`, `\"left\"`, `\"right\"`) and their variations, which\neach consist of two attributes:\n\n- Which <span class=\"docs-popover-placement-label-side\">**side**</span> of the target the popover should render on.\n- The popover's <span class=\"docs-popover-placement-label-alignment\">**alignment**</span> relative to the target.\n\nThese two attributes can be expressed with a single value having the following structure:\n\n<pre class=\"docs-popover-placement-value-code-block\">\n    <span class=\"docs-popover-placement-label-side\">[SIDE]</span>-\n    <span class=\"docs-popover-placement-label-alignment\">[ALIGNMENT]</span>\n</pre>\n\nThe following example shows all supported `Position` values and how each behaves in practice.\nNote that if <strong><code>\\-<span class=\"docs-popover-position-label-alignment\">[ALIGNMENT]</span></code></strong> is ommitted,\nthe popover will align to the **center** of the target.\n\n@reactExample PopoverPlacementExample\n\n#### Automatic placement\n\nLastly, there is an `\"auto\"` placement which picks the side with the best available space.\nSee the [popper.js docs](https://popper.js.org/docs/v2/constructors/#options) for more info.\n\nThe Popover's `placement` can also be chosen _automatically_ by specifying `\"auto\"`, `\"auto-start\"`, or `\"auto-end\"`.\nAll of these options choose and continually update the <span class=\"docs-popover-placement-label-side\">**side**</span>\nfor you to avoid overflowing the boundary element (when scrolling within it, for instance).\nThe options differ in how they handle <span class=\"docs-popover-placement-label-alignment\">**alignment**</span>:\n\n- In `\"auto\"` mode (the default value for the `placement` prop), the Popover will align itself to the center of the target as it flips sides.\n- In `\"auto-start\"` mode, the Popover will align itself to the `start` of the target (i.e., the top edge when the popover is on the left or right, or the left edge when the popover is on the top or bottom).\n- In `\"auto-end\"` mode, the Popover will align itself to the `end` of the target (i.e., the bottom edge when the popover is on the left or right, or the right edge when the popover is on the top or bottom).\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nYou can also specify a specific initial placement (e.g. `\"left\"`, `\"bottom-start\"`) and still update the Popover's position\nautomatically by enabling the modifiers `flip` and `preventOverflow`.\n[See below](#core/components/popover.modifiers) for information about modifiers.\n\n</div>\n\n### Modifiers\n\nModifiers allow us to customize Popper.js's positioning behavior. **Popover** configures several of Popper.js's built-in\nmodifiers to handle things such as flipping, preventing overflow from a boundary element, and positioning the arrow.\n\nYou may override the default modifiers with the `modifiers` prop, which is an object with key-value pairs representing\nthe modifier name and its options object, respectively. See the\n[Popper.js modifiers docs page](https://popper.js.org/docs/v2/modifiers/) for more info.\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Auto placement requires flip modifier</h5>\n\nBe careful when disabling the \"flip\" modifier, since the default \"auto\" placement relies on it. If you _do_ decide\nto disable this modifier, be sure to also specify a placement which is not \"auto\".\n\n</div>\n\nYou may also add custom modifiers using the `modifiersCustom` prop. See the\n[Popper.js custom modifiers documentation](https://popper.js.org/docs/v2/modifiers/#custom-modifiers) for more info.\n\n### Controlled mode\n\nIf you prefer to have more control over your popover's behavior, you can specify the `isOpen`\nproperty to use the component in **controlled mode**. You are now in charge of the component's\nopen state.\n\nProviding a non-null value for `isOpen` disables all automatic interaction and instead invokes\nthe `onInteraction` callback prop any time the opened state _would have changed_ in response to\nuser interaction under the current `interactionKind`.\n\nNote that there are cases where `onInteraction` is invoked with an unchanged open state.\nIt is important to pay attention to the value of the `nextOpenState` parameter and determine\nin your application logic whether you should care about a particular invocation (for instance,\nif the `nextOpenState` is not the same as the **Popover**'s current state).\n\n<div class=\"@ns-callout @ns-intent-warning @ns-icon-warning-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Disabling controlled popovers</h5>\n\nIf `disabled={true}`, a controlled popover will remain closed even if `isOpen={true}`.\nThe popover will re-open when `disabled` is set to `false`.\n\n</div>\n\n#### Example controlled usage\n\n```tsx\nimport { Button, Classes, Popover } from \"@blueprintjs/core\";\n\nexport class ControlledPopoverExample extends React.Component<{}, { isOpen: boolean }> {\n    public state = { isOpen: false };\n\n    public render() {\n        return (\n            <Popover\n                content={\n                    <div>\n                        <h5>Popover Title</h5>\n                        <p>...</p>\n                        <Button className={Classes.POPOVER_DISMISS} text=\"Close popover\" />\n                    </div>\n                }\n                interactionKind=\"click\"\n                isOpen={this.state.isOpen}\n                onInteraction={state => this.handleInteraction(state)}\n                placement=\"right\"\n            >\n                <Button intent=\"primary\" text=\"Popover target\" />\n            </Popover>\n        );\n    }\n\n    private handleInteraction(nextOpenState: boolean) {\n        this.setState({ isOpen: nextOpenState });\n    }\n}\n```\n\n### Interactions\n\nThe `interactionKind` prop governs how the popover should open and close in response to user interactions.\nThe supported values are:\n\n- `HOVER`\n    - **Opens when:** the target is hovered\n    - **Closes when:** the cursor is no longer inside the target _or_ the popover\n- `HOVER_TARGET_ONLY`:\n    - **Opens when:** the target is hovered\n    - **Closes when:** the cursor is no longer inside the target\n- `CLICK`:\n    - **Opens when:** the target is clicked, or when Enter or Shift key are pressed while target is focused\n    - **Closes when:** the user clicks anywhere outside of the popover (including the target)\n- `CLICK_TARGET_ONLY`:\n    - **Opens when:** the target is clicked, or when Enter or Shift key are pressed while target is focused\n    - **Closes when:** the target is clicked\n\nThe following example demonstrates the various interaction kinds (note: these Popovers contain\n[MenuItem](#core/components/menu.menu-item)s with `shouldDismissPopover={false}`, for clarity):\n\n@reactExample PopoverInteractionKindExample\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Conditionally styling popover targets</h5>\n\nWhen a popover is open, `Classes.POPOVER_OPEN` is applied to the target.\nYou can use this to style the target differently when the popover is open.\n\n</div>\n\n### Closing on click\n\nSometimes it is desirable for an element inside a Popover's content to close the popover on click. Popover supports a\npair of CSS classes, `Classes.POPOVER_DISMISS` and `Classes.POPOVER_DISMISS_OVERRIDE`, which can be added to elements to\ndescribe whether click events should dismiss the enclosing popover.\n\nTo mark an element (and its children) as \"dismiss elements\", you may add the class `Classes.POPOVER_DISMISS`.\nFor example, the **Cancel** and **Delete** buttons in the top-level [Popover example](#core/components/popover) have\nthis class, and all MenuItems receive this class by default (see `shouldDismissPopover` prop). To enable this behavior\non the entire popover body, pass `popoverClassName={Classes.POPOVER_DISMISS}`.\n\nCancel the dismiss behavior on subtrees by nesting `Classes.POPOVER_DISMISS_OVERRIDE` inside `Classes.POPOVER_DISMISS`.\nClicks originating inside disabled elements (either via the `disabled` attribute or `Classes.DISABLED`) will never\ndismiss a popover.\n\nAdditionally, the prop `captureDismiss` (disabled by default) will prevent click events from dismissing _ancestor_\npopovers (not the Popover immediately containing the dismiss element). MenuItem disables this feature such that clicking\nany submenu item will close all submenus, which is desirable behavior for a menu tree.\n\n```tsx\n<div className={Classes.POPOVER_DISMISS}>\n    <button>Click me to dismiss</button>\n    <button disabled={true}>I will not dismiss</button>\n    <div className={Classes.POPOVER_DISMISS_OVERRIDE}>\n        <button>I too shall not dismiss</button>\n    </div>\n</div>\n```\n\n@reactExample PopoverDismissExample\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nDismiss elements won't have any effect in a popover with `interactionKind=\"hover-target\"` because there is no way to\ninteract with the popover content itself: the popover is dismissed the moment the user mouses away from the target.\n\n</div>\n\n### Backdrop\n\nThe `hasBackdrop` prop governs whether a backdrop appears while the popover is open. When `true`:\n\n- **A transparent backdrop will render beneath the popover**. This backdrop\n  covers the entire viewport and prevents interaction with the document until\n  the popover is closed. This is useful for preventing stray clicks or hovers in\n  your app when the user tries to close a popover.\n- **The popover will receive focus when opened**, allowing for better keyboard accessibility.\n\nClicking the backdrop will:\n\n- _in uncontrolled mode_, close the popover.\n- _in controlled mode_, invoke the `onInteraction` callback with an argument of `false`.\n\nThis backdrop behavior is only available for popovers with `interactionKind=\"click\"`.\nAn error is thrown if used otherwise.\n\n#### Styling the backdrop\n\nBy default, the popover backdrop is invisible, but you can easily add your own styles to\n`.@ns-popover-backdrop` to customize the appearance of the backdrop (for example, you could give it\na translucent background color, like the backdrop for the [`Dialog`](#core/components/dialog) component).\n\nThe backdrop element has the same opacity-fade transition as the `Dialog` backdrop.\n\n<div class=\"@ns-callout @ns-intent-danger @ns-icon-error @ns-callout-has-body-content\">\n    <h5 class=\"@ns-heading\">Dangerous edge case</h5>\n\nRendering a `<Popover isOpen={true} hasBackdrop={true}>` outside the viewport bounds can easily break your application\nby covering the UI with an invisible non-interactive backdrop. This edge case must be handled by your application code\nor (if possible) avoided entirely.\n\n</div>\n\n### Portal rendering\n\nBy default, popover contents are rendered in a [**Portal**](#core/components/portal) appended to `document.body`. This\nallows the popover contents to \"escape\" the application DOM tree to avoid incompatible styles on ancestor elements.\n(Incompatible styles typically include hidden `overflow` or complex `position` logic.) It also ensures that the popover\nwill appear above all other content, as its container element appears after the application container in the DOM.\n\nDisable the `usePortal` prop to render popover contents in the normal document flow as a sibling of the target.\nThis behavior can be desirable to inherit CSS styles from surrounding elements, and can result in smoother performance\nwhen scrolling. Not using a **Portal** works well for most layouts, because popovers style themselves to appear above\neverything else on the page without needing to manually adjust z-indices, and Popper.js will keep them nicely positioned.\n\n@reactExample PopoverPortalExample\n\n## Style\n\n### Dark theme\n\n**Popover** automatically detects whether its trigger is nested inside a `.@ns-dark` container and applies the\nsame class to itself. You can also explicitly apply the dark theme to the React component by providing the prop\n`popoverClassName=\"@ns-dark\"`.\n\nAs a result, any component that you place inside a **Popover** (such as a `Menu`) automatically inherits the dark theme\nstyles. Note that [`Tooltip`](#core/components/tooltip) uses **Popover** internally, so it also benefits from this\nbehavior.\n\nThis behavior can be disabled (if the **Popover** uses a **Portal**) via the `inheritDarkTheme` prop.\n\n### Sizing\n\nPopovers by default have a `max-width` but no `max-height`. To constrain the height of a popover and make its content\nscrollable, add a custom class to your popover content element and attach styles to that class:\n\n```tsx\n<Popover content={<div className=\"custom-class\">...</div>}>...</Popover>\n```\n\n```scss\n.custom-class {\n    max-height: $pt-grid-size * 15;\n    overflow-y: auto;\n}\n```\n\n@reactExample PopoverSizingExample\n\n### Minimal style\n\nYou can create a minimal popover by setting `minimal={true}`.\nThis removes the arrow from the popover and makes the transitions more subtle.\n\n@reactExample PopoverMinimalExample\n\nThis minimal style is recommended for popovers that are not triggered by an obvious action like the\nuser clicking or hovering over something. For example, a minimal popover is useful for making\ntypeahead menus where the menu appears almost instantly after the user starts typing.\n\nMinimal popovers are also useful for context menus that require quick enter and leave animations to\nsupport fast workflows. You can see an example in the [context menus](#core/components/context-menu)\ndocumentation.\n\n## Testing\n\n<div class=\"@ns-callout @ns-intent-primary @ns-icon-info-sign\">\n\nYour best resource for strategies in popover testing is\n[its own unit test suite.](https://github.com/palantir/blueprint/blob/develop/packages/core/test/popover/popoverTests.tsx)\n\n</div>\n\n#### Animation delays\n\n**Popover** can be difficult to test because it uses **Portal** to inject its contents elsewhere in the DOM (outside the\nusual flow); this can be simplified by setting `usePortal={false}` in tests. Hover interactions can also be tricky due\nto delays and transitions; this can be resolved by zeroing the default hover delays.\n\n```tsx\n<Popover {...yourProps} usePortal={false} hoverCloseDelay={0} hoverOpenDelay={0}>\n    {yourTarget}\n</Popover>\n```\n\n#### Rendering delays\n\n**Popover** delays rendering updates triggered on `mouseleave`, because the mouse might have moved from the popover to\nthe target, which may require special handling depending on the current\n[`interactionKind`](#core/components/popover.interactions). Popper.js also throttles rendering updates to improve\nperformance. If your components are not updating in a synchronous fashion as expected, you may need to introduce a\n`setTimeout` to wait for asynchronous Popover rendering to catch up:\n\n```tsx\nimport { Classes, Overlay2, Popover } from \"@blueprintjs/core\";\nimport { assert } from \"chai\";\nimport { mount } from \"enzyme\";\nimport { Target } from \"react-popper\";\n\nwrapper = mount(\n    <Popover usePortal={false} interactionKind=\"hover\" content={<div>Content</div>}>\n        <div>Target</div>\n    </Popover>,\n);\n\nwrapper.find(Target).simulate(\"mouseenter\");\n\n// hostNodes() is an Enzyme 3 helper that retains only native-HTML nodes.\nwrapper.find(`.${Classes.POPOVER}`).hostNodes().simulate(\"mouseenter\");\nwrapper.find(`.${Classes.POPOVER}`).hostNodes().simulate(\"mouseleave\");\n\nsetTimeout(() => {\n    // Popover delays closing using setTimeout, so need to defer this check too.\n    const isOpen = wrapper.find(Overlay2).prop(\"isOpen\");\n    assert.equal(isOpen, false);\n});\n```\n\n#### Element refs\n\nIf `usePortal={false}` rendering is not an option, **Popover** instances expose `popoverElement` and `targetElement`\nrefs of the actual DOM elements. Importantly, `popoverElement` points to the `.@ns-popover` element inside the\n**Portal** so you can use it to easily query popover contents without knowing precisely where they are in the DOM.\nThese properties exist primarily to simplify testing; do not rely on them for feature work.\n\n```tsx\n// using mount() from enzyme\nconst wrapper = mount(<Popover content={<div className=\"test\">test</div>} />);\nconst { popoverElement } = wrapper.instance();\n// popoverElement is the parent element of .@ns-popover\npopoverElement.querySelector(\".test\").textContent; // \"test\"\n```\n",
+  "lines": 490,
+  "frontMatter": {
+    "title": "Popover",
+    "tag": "deprecated"
+  },
+  "headings": [
+    {
+      "level": 1,
+      "text": "Popover",
+      "at": 41,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:7",
+      "name": "Popover"
+    },
+    {
+      "level": 2,
+      "text": "Import",
+      "at": 768,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:25",
+      "name": "Import"
+    },
+    {
+      "level": 2,
+      "text": "Usage",
+      "at": 870,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:33",
+      "name": "Usage"
+    },
+    {
+      "level": 2,
+      "text": "Props interface",
+      "at": 1897,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:58",
+      "name": "Props interface"
+    },
+    {
+      "level": 2,
+      "text": "Concepts",
+      "at": 1942,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:62",
+      "name": "Concepts"
+    },
+    {
+      "level": 3,
+      "text": "Structure",
+      "at": 1955,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:64",
+      "name": "Structure"
+    },
+    {
+      "level": 3,
+      "text": "Placement",
+      "at": 5461,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:132",
+      "name": "Placement"
+    },
+    {
+      "level": 4,
+      "text": "Automatic placement",
+      "at": 6821,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:158",
+      "name": "Automatic placement"
+    },
+    {
+      "level": 3,
+      "text": "Modifiers",
+      "at": 8381,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:180",
+      "name": "Modifiers"
+    },
+    {
+      "level": 3,
+      "text": "Controlled mode",
+      "at": 9477,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:200",
+      "name": "Controlled mode"
+    },
+    {
+      "level": 4,
+      "text": "Example controlled usage",
+      "at": 10616,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:223",
+      "name": "Example controlled usage"
+    },
+    {
+      "level": 3,
+      "text": "Interactions",
+      "at": 11604,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:257",
+      "name": "Interactions"
+    },
+    {
+      "level": 3,
+      "text": "Closing on click",
+      "at": 12973,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:288",
+      "name": "Closing on click"
+    },
+    {
+      "level": 3,
+      "text": "Backdrop",
+      "at": 14925,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:326",
+      "name": "Backdrop"
+    },
+    {
+      "level": 4,
+      "text": "Styling the backdrop",
+      "at": 15708,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:344",
+      "name": "Styling the backdrop"
+    },
+    {
+      "level": 3,
+      "text": "Portal rendering",
+      "at": 16540,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:361",
+      "name": "Portal rendering"
+    },
+    {
+      "level": 2,
+      "text": "Style",
+      "at": 17540,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:375",
+      "name": "Style"
+    },
+    {
+      "level": 3,
+      "text": "Dark theme",
+      "at": 17550,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:377",
+      "name": "Dark theme"
+    },
+    {
+      "level": 3,
+      "text": "Sizing",
+      "at": 18170,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:389",
+      "name": "Sizing"
+    },
+    {
+      "level": 3,
+      "text": "Minimal style",
+      "at": 18607,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:407",
+      "name": "Minimal style"
+    },
+    {
+      "level": 2,
+      "text": "Testing",
+      "at": 19303,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:422",
+      "name": "Testing"
+    },
+    {
+      "level": 4,
+      "text": "Animation delays",
+      "at": 19568,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:431",
+      "name": "Animation delays"
+    },
+    {
+      "level": 4,
+      "text": "Rendering delays",
+      "at": 20039,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:443",
+      "name": "Rendering delays"
+    },
+    {
+      "level": 4,
+      "text": "Element refs",
+      "at": 21339,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:476",
+      "name": "Element refs"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "lang": "ts",
+      "code": "import { Popover } from \"@blueprintjs/core\";\n",
+      "at": 790,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:28",
+      "name": "import { Popover } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button, Classes, Popover } from \"@blueprintjs/core\";\n\nexport class PopoverExample extends React.PureComponent {\n    public render() {\n        // popover content gets no padding by default; add the \"@ns-popover-content-sizing\"\n        // class to the popover to set nice padding between its border and content.\n        return (\n            <Popover\n                interactionKind=\"click\"\n                popoverClassName={Classes.POPOVER_CONTENT_SIZING}\n                placement=\"bottom\"\n                content={\n                    <div>\n                        <h5>Popover title</h5>\n                        <p>...</p>\n                        <Button className={Classes.POPOVER_DISMISS} text=\"Dismiss\" />\n                    </div>\n                }\n                renderTarget={({ isOpen, ...targetProps }) => (\n                    <Button {...targetProps} intent=\"primary\" text=\"Popover target\" />\n                )}\n            />\n        );\n    }\n}\n",
+      "at": 4489,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:105",
+      "name": "import { Button, Classes, Popover } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Button, Classes, Popover } from \"@blueprintjs/core\";\n\nexport class ControlledPopoverExample extends React.Component<{}, { isOpen: boolean }> {\n    public state = { isOpen: false };\n\n    public render() {\n        return (\n            <Popover\n                content={\n                    <div>\n                        <h5>Popover Title</h5>\n                        <p>...</p>\n                        <Button className={Classes.POPOVER_DISMISS} text=\"Close popover\" />\n                    </div>\n                }\n                interactionKind=\"click\"\n                isOpen={this.state.isOpen}\n                onInteraction={state => this.handleInteraction(state)}\n                placement=\"right\"\n            >\n                <Button intent=\"primary\" text=\"Popover target\" />\n            </Popover>\n        );\n    }\n\n    private handleInteraction(nextOpenState: boolean) {\n        this.setState({ isOpen: nextOpenState });\n    }\n}\n",
+      "at": 10654,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:226",
+      "name": "import { Button, Classes, Popover } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "<div className={Classes.POPOVER_DISMISS}>\n    <button>Click me to dismiss</button>\n    <button disabled={true}>I will not dismiss</button>\n    <div className={Classes.POPOVER_DISMISS_OVERRIDE}>\n        <button>I too shall not dismiss</button>\n    </div>\n</div>\n",
+      "at": 14315,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:308",
+      "name": "<div className={Classes.POPOVER_DISMISS}>"
+    },
+    {
+      "lang": "tsx",
+      "code": "<Popover content={<div className=\"custom-class\">...</div>}>...</Popover>\n",
+      "at": 18404,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:395",
+      "name": "<Popover content={<div className=\"custom-class\">...</div>}>...</Popover>"
+    },
+    {
+      "lang": "scss",
+      "code": ".custom-class {\n    max-height: $pt-grid-size * 15;\n    overflow-y: auto;\n}\n",
+      "at": 18490,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:399",
+      "name": ".custom-class {"
+    },
+    {
+      "lang": "tsx",
+      "code": "<Popover {...yourProps} usePortal={false} hoverCloseDelay={0} hoverOpenDelay={0}>\n    {yourTarget}\n</Popover>\n",
+      "at": 19924,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:438",
+      "name": "<Popover {...yourProps} usePortal={false} hoverCloseDelay={0} hoverOpenDelay={0}>"
+    },
+    {
+      "lang": "tsx",
+      "code": "import { Classes, Overlay2, Popover } from \"@blueprintjs/core\";\nimport { assert } from \"chai\";\nimport { mount } from \"enzyme\";\nimport { Target } from \"react-popper\";\n\nwrapper = mount(\n    <Popover usePortal={false} interactionKind=\"hover\" content={<div>Content</div>}>\n        <div>Target</div>\n    </Popover>,\n);\n\nwrapper.find(Target).simulate(\"mouseenter\");\n\n// hostNodes() is an Enzyme 3 helper that retains only native-HTML nodes.\nwrapper.find(`.${Classes.POPOVER}`).hostNodes().simulate(\"mouseenter\");\nwrapper.find(`.${Classes.POPOVER}`).hostNodes().simulate(\"mouseleave\");\n\nsetTimeout(() => {\n    // Popover delays closing using setTimeout, so need to defer this check too.\n    const isOpen = wrapper.find(Overlay2).prop(\"isOpen\");\n    assert.equal(isOpen, false);\n});\n",
+      "at": 20559,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:452",
+      "name": "import { Classes, Overlay2, Popover } from \"@blueprintjs/core\";"
+    },
+    {
+      "lang": "tsx",
+      "code": "// using mount() from enzyme\nconst wrapper = mount(<Popover content={<div className=\"test\">test</div>} />);\nconst { popoverElement } = wrapper.instance();\n// popoverElement is the parent element of .@ns-popover\npopoverElement.querySelector(\".test\").textContent; // \"test\"\n",
+      "at": 21801,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:484",
+      "name": "// using mount() from enzyme"
+    }
+  ],
+  "exampleRefs": [
+    {
+      "name": "reactExample",
+      "arg": "PopoverExample",
+      "at": 840,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:31"
+    },
+    {
+      "name": "interface",
+      "arg": "PopoverProps",
+      "at": 1917,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:60"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverPlacementExample",
+      "at": 6782,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:156"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverInteractionKindExample",
+      "at": 12606,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:278"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverDismissExample",
+      "at": 14581,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:317"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverPortalExample",
+      "at": 17504,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:373"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverSizingExample",
+      "at": 18571,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:405"
+    },
+    {
+      "name": "reactExample",
+      "arg": "PopoverMinimalExample",
+      "at": 18768,
+      "source": "node_modules/@blueprintjs/core/src/components/popover/popover.mdx:412"
+    }
+  ]
+}

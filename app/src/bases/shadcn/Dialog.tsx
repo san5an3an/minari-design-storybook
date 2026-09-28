@@ -10,12 +10,13 @@ export interface ShadcnDialogProps {
   onClose:  => void;
   title: React.ReactNode;
   children?: React.ReactNode;
+  body?: React.ReactNode;
   actions?: React.ReactNode;
   stacked?: boolean;
 }
 
 export function Dialog({
-  trigger, open, onClose, title, children, actions, stacked,
+  trigger, open, onClose, title, children, body, actions, stacked,
 }: ShadcnDialogProps) {
   return (
     <ShadcnDialog open={open} onOpenChange={(next: boolean) => { if (!next) onClose; }}>
@@ -29,6 +30,7 @@ export function Dialog({
           <DialogTitle>{title}</DialogTitle>
           {children ? <DialogDescription>{children}</DialogDescription> : null}
         </DialogHeader>
+        {body}
         {actions ? (
           <DialogFooter className={stacked ? "sm:flex-col-reverse" : undefined}>
             {actions}

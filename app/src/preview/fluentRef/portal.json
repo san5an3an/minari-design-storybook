@@ -1,0 +1,17 @@
+{
+  "slug": "portal",
+  "title": "Portal",
+  "group": "Components/Portal/Portal",
+  "package": "react-portal",
+  "description": "A portal renders content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by `\"overflow: hidden\"` CSS rules and keeps it on the top without using `z-index` rules. This is useful for example in `Menu` and `Tooltip` scenarios, where the content should always overlay everything else.\n\n`Portal` component is a thin wrapper around React's [`ReactDOM.createPortal()`](https://reactjs.org/docs/portals.html) that propagates Fluent styling (allows to use `tokens`) and text-direction handling to the content. You can identify DOM created by `Portal` by looking for the `data-portal-node` attribute.",
+  "bestPractices": null,
+  "a11y": null,
+  "stories": [
+    {
+      "name": "Default",
+      "file": "packages/react-components/react-portal/stories/src/Portal/PortalDefault.stories.tsx",
+      "code": "import * as React from 'react';\nimport type { JSXElement } from '@fluentui/react-components';\nimport { ToggleButton, makeStyles, tokens, Portal, typographyStyles } from '@fluentui/react-components';\n\nconst useStyles = makeStyles({\n  container: {\n    display: 'flex',\n    gap: '8px',\n  },\n  controls: {\n    display: 'flex',\n    flexDirection: 'column',\n    justifyContent: 'space-between',\n    minWidth: '200px',\n  },\n  state: {\n    fontFamily: tokens.fontFamilyMonospace,\n    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,\n    padding: '4px',\n    textAlign: 'center',\n  },\n  clippingContainer: {\n    ...typographyStyles.subtitle2,\n\n    backgroundColor: tokens.colorNeutralBackground1,\n    color: tokens.colorNeutralForeground1,\n    border: `${tokens.strokeWidthThick} solid ${tokens.colorNeutralStroke1}`,\n    padding: '24px 8px',\n\n    overflow: 'hidden',\n  },\n  portalContent: {\n    ...typographyStyles.subtitle1,\n\n    backgroundColor: tokens.colorBrandBackground2,\n    color: tokens.colorBrandForeground2,\n    border: `${tokens.strokeWidthThick} dashed ${tokens.colorBrandStroke2}`,\n    padding: '12px 6px',\n  },\n});\n\nexport const Default = (): JSXElement => {\n  const styles = useStyles();\n\n  const [mountNode, setMountNode] = React.useState<HTMLElement | null>(null);\n  const [open, setOpen] = React.useState(false);\n\n  return (\n    <>\n      <div className={styles.container}>\n        <div className={styles.clippingContainer}>\n          <span>Clipping parent container</span>\n\n          {open && mountNode && (\n            <Portal mountNode={mountNode}>\n              <div className={styles.portalContent}>Portal content</div>\n            </Portal>\n          )}\n        </div>\n\n        <div className={styles.controls}>\n          <ToggleButton checked={open} onClick={() => setOpen(!open)}>\n            Toggle portal\n          </ToggleButton>\n\n          <code className={styles.state}>{JSON.stringify({ open }, null, 2)}</code>\n        </div>\n      </div>\n\n      <div ref={setMountNode} />\n    </>\n  );\n};"
+    }
+  ],
+  "docHref": "https://react.fluentui.dev/?path=/docs/components-portal--docs"
+}

@@ -1,0 +1,666 @@
+{
+ "slug": "app-shell",
+ "title": "AppShell",
+ "lead": "Responsive shell for your application with header, navbar, aside and footer",
+ "leadFormat": "text",
+ "group": "layout",
+ "docHref": "https://mantine.dev/core/app-shell",
+ "docSource": "mantinedev/mantine@7.17.6:apps/mantine.dev/src/pages/core/app-shell.mdx",
+ "examples": [],
+ "emptyReason": "official-none",
+ "master": {
+ "rule": "doc-order-first",
+ "key": null,
+ "reason": "공식에 예제가 없어요."
+ },
+ "prose": [
+ {
+ "title": "Examples",
+ "text": "This page includes only documentation. Since all associated `AppShell` components have fixed\nposition, it is not possible to include demos on this page.\n\n link=\"/app-shell?e=BasicAppShell\"\n label=\"Open AppShell examples page\"\n/>",
+ "format": "md"
+ },
+ {
+ "title": "Usage",
+ "text": "`AppShell` is a layout component. It can be used to implement a common Header – Navbar – Footer – Aside\nlayout pattern. All `AppShell` components have `position: fixed` style – they are not scrolled with\nthe page.\n\n[Basic AppShell example](/app-shell?e=BasicAppShell) with header and navbar.\nNavbar is hidden on mobile by default and toggled with the burger button.",
+ "format": "md"
+ },
+ {
+ "title": "AppShell components",
+ "text": "- `AppShell` – root component, it is required to wrap all other components, used to configure layout properties\n- `AppShell.Header` – header section rendered at the top of the page, has fixed position, its height and collapsed state are controlled by the AppShell `header` prop\n- `AppShell.Navbar` – navbar section rendered at the left side of the page, has fixed position, its width and collapsed state are controlled by the AppShell `navbar` prop\n- `AppShell.Aside` – aside section rendered at the right side of the page, has fixed position, its width and collapsed state are controlled by the AppShell `aside` prop\n- `AppShell.Footer` – footer section rendered at the bottom of the page, has fixed position, its height and collapsed state are controlled by the AppShell `footer` prop\n- `AppShell.Main` – main section rendered at the center of the page, has static position, all other sections are offset by its padding\n- `AppShell.Section` – utility component that can be used to render group of content inside `AppShell.Navbar` and `AppShell.Aside`, can be used to create areas with custom scrollbars",
+ "format": "md"
+ },
+ {
+ "title": "Configuration",
+ "text": "`AppShell` component accepts, `header`, `footer`, `navbar` and `aside` props to configure\ncorresponding sections. It is required to set these props if you want to use corresponding\ncomponents. For example, if you want to use `AppShell.Header` component, you need to set `header`\nprop on the `AppShell` component.\n\n`header` and `footer` configuration objects are the same and have the following properties:\n\n`navbar` and `aside` configuration objects are the same as well and have the following properties:",
+ "format": "md"
+ },
+ {
+ "title": "layout prop",
+ "text": "`layout` prop controls how `AppShell.Header`/`AppShell.Footer` and `AppShell.Navbar`/`AppShell.Aside`\nare positioned relative to each other. It accepts `alt` and `default` values:\n\n- `alt` – `AppShell.Navbar`/`AppShell.Aside` height is equal to viewport height, `AppShell.Header`/`AppShell.Footer` width is equal to viewport width - `AppShell.Navbar` and `AppShell.Aside` width ([example](/app-shell?e=AltLayout))\n- `default` – `AppShell.Navbar`/`AppShell.Aside` height is equal to viewport height - `AppShell.Header`/`AppShell.Footer` height, `AppShell.Header`/`AppShell.Footer` width is equal to viewport width ([example](/app-shell?e=FullLayout))",
+ "format": "md"
+ },
+ {
+ "title": "Height configuration",
+ "text": "`height` property in `header` and `footer` configuration objects works the following way:\n\n- If you pass a number, the value will be converted to [rem](/styles/rem) and used as\n height at all viewport sizes.\n- To change height based on viewport width, use object with breakpoints as keys and height as\n values. It works the same way as [style props](/styles/style-props#responsive-styles).\n\nExamples:",
+ "format": "md"
+ },
+ {
+ "title": "Width configuration",
+ "text": "`width` property in `navbar` and `aside` configuration objects works the following way:\n\n- If you pass a number, the value will be converted to [rem](/styles/rem) and used as\n width when the viewport is larger than `breakpoint`.\n- To change width based on viewport width, use object with breakpoints as keys and width as\n values. It works the same way as [style props](/styles/style-props#responsive-styles).\n Note that width is always 100% when the viewport is smaller than `breakpoint`.\n\nExamples:",
+ "format": "md"
+ },
+ {
+ "title": "padding prop",
+ "text": "`padding` prop controls the padding of the `AppShell.Main` component. It is important to use it\ninstead of setting padding on the `AppShell.Main` directly because padding of the `AppShell.Main` is\nalso used to offset `AppShell.Header`, `AppShell.Navbar`, `AppShell.Aside` and `AppShell.Footer` components.\n\n`padding` prop works the same way as [style props](/styles/style-props#responsive-styles) and\naccepts numbers, strings and objects with breakpoints as keys and padding as values. You can\nreference `theme.spacing` values or use any valid CSS values.",
+ "format": "md"
+ },
+ {
+ "title": "Header offset configuration",
+ "text": "`header` prop has `offset` property which allows removing `AppShell.Header` offset from `AppShell.Main` component.\nIt is useful when you want to collapse `AppShell.Header` based on the scroll position. For example, you can use\n[use-headroom](/hooks/use-headroom) hook to collapse header when user scrolls down and expand it when user scrolls up ([example](/app-shell?e=Headroom)).",
+ "format": "md"
+ },
+ {
+ "title": "Collapsed navbar/aside configuration",
+ "text": "`navbar` and `aside` props have `collapsed` property. The property accepts an object\n`{ mobile: boolean; desktop: boolean }` which allows to configure collapsed state\ndepending on the viewport width.\n\n[Example](/app-shell?e=CollapseDesktop) with separate collapsed state for mobile and desktop:",
+ "format": "md"
+ },
+ {
+ "title": "withBorder prop",
+ "text": "`withBorder` prop is available on `AppShell` and associated sections: `AppShell.Header`, `AppShell.Navbar`, `AppShell.Aside` and `AppShell.Footer`.\nBy default, `withBorder` prop is `true` – all components have a border on the side that is adjacent to the `AppShell.Main` component.\nFor example, `AppShell.Header` is located at the top of the page – it has a border on the bottom side,\n`AppShell.Navbar` is located on the left side of the page – it has a border on the right side.\n\nTo remove the border from all components, set `withBorder={false}` on the `AppShell`:\n\nTo remove the border from a specific component, set `withBorder={false}` on that component:",
+ "format": "md"
+ },
+ {
+ "title": "zIndex prop",
+ "text": "`zIndex` prop is available on `AppShell` and associated sections: `AppShell.Header`, `AppShell.Navbar`, `AppShell.Aside` and `AppShell.Footer`.\nBy default, all sections `z-index` is `100`.\n\nTo change `z-index` of all sections, set `zIndex` prop on the `AppShell`:\n\nTo change `z-index` of a specific section, set `zIndex` prop on that section:",
+ "format": "md"
+ },
+ {
+ "title": "Control transitions",
+ "text": "Set `transitionDuration` and `transitionTimingFunction` props on the `AppShell` to control transitions:",
+ "format": "md"
+ },
+ {
+ "title": "disabled prop",
+ "text": "Set `disabled` prop on the `AppShell` to prevent all sections except `AppShell.Main` from rendering.\nIt is useful when you want to hide the shell on some pages of your application.",
+ "format": "md"
+ },
+ {
+ "title": "AppShell.Section component",
+ "text": "`AppShell.Section` component can be used to create scrollable areas inside `AppShell.Navbar` and `AppShell.Aside`.\nRoot elements of `AppShell.Navbar` and `AppShell.Aside` are flexbox containers with `flex-direction: column`,\n`AppShell.Section` with `grow` attribute will take all available space and will be scrollable if `component={ScrollArea}`\nis set.\n\nIn the following example:\n\n- First and last sections (header and footer) will take as much space as they need to render `children`\n- Second section will take all available space and will be scrollable if content height exceeds available space",
+ "format": "md"
+ },
+ {
+ "title": "Semantic elements",
+ "text": "- `AppShell.Header` root element is `header`\n- `AppShell.Navbar` root element is `nav`\n- `AppShell.Aside` root element is `aside`\n- `AppShell.Footer` root element is `footer`\n- `AppShell.Main` root element is `main` – **!important:** do not use `main` element inside `AppShell.Main` component",
+ "format": "md"
+ },
+ {
+ "title": "CSS variables",
+ "text": "You can use the following CSS variables in all components used inside `AppShell`:\n\n- `--app-shell-navbar-width` – width of the `AppShell.Navbar`\n- `--app-shell-navbar-offset` – offset of the `AppShell.Navbar`\n- `--app-shell-aside-width` – width of the `AppShell.Aside`\n- `--app-shell-aside-offset` – offset of the `AppShell.Aside`\n- `--app-shell-header-height` – height of the `AppShell.Header`\n- `--app-shell-header-offset` – offset of the `AppShell.Header`\n- `--app-shell-footer-height` – height of the `AppShell.Footer`\n- `--app-shell-footer-offset` – offset of the `AppShell.Footer`\n\nExample of using CSS variables in styles:",
+ "format": "md"
+ }
+ ],
+ "parts": {
+ "presence": "absent-in-official",
+ "columns": [],
+ "rows": []
+ },
+ "api": {
+ "presence": "derived",
+ "reason": "공식 문서에 정리된 표가 없어서, 설치된 패키지에 들어 있는 타입 정의에서 뽑았어요. 이 컴포넌트가 물려받는 속성까지 함께 담았습니다. 설명과 기본값은 그 타입 정의에 달린 주석에서 가져온 것이라 공식 문서의 표현과 다를 수 있고, 기본값이 주석에 안 적힌 속성은 기본값 칸이 비어 있어요 — 기본값이 없다는 뜻은 아닙니다. 타입 정의에 없는 것(문서에만 있거나 실행 중에만 받는 값)은 여기 없어요.",
+ "tables": [
+ {
+ "name": "AppShell",
+ "columns": [
+ "프롭",
+ "타입",
+ "필수",
+ "기본값",
+ "설명"
+ ],
+ "rows": [
+ [
+ "withBorder",
+ "boolean",
+ "",
+ "",
+ "Determines whether associated components should have a border, `true` by default"
+ ],
+ [
+ "padding",
+ "MantineSpacing | AppShellResponsiveSize",
+ "",
+ "",
+ "Controls padding of the main section, `0` by default. !important!: use `padding` prop instead of `p`."
+ ],
+ [
+ "navbar",
+ "AppShellNavbarConfiguration",
+ "",
+ "",
+ "AppShell.Navbar configuration, controls width, breakpoints and collapsed state. Required if you use AppShell.Navbar component."
+ ],
+ [
+ "aside",
+ "AppShellAsideConfiguration",
+ "",
+ "",
+ "AppShell.Aside configuration, controls width, breakpoints and collapsed state. Required if you use AppShell.Aside component."
+ ],
+ [
+ "header",
+ "AppShellHeaderConfiguration",
+ "",
+ "",
+ "AppShell.Header configuration, controls height, offset and collapsed state. Required if you use AppShell.Header component."
+ ],
+ [
+ "footer",
+ "AppShellFooterConfiguration",
+ "",
+ "",
+ "AppShell.Footer configuration, controls height, offset and collapsed state. Required if you use AppShell.Footer component."
+ ],
+ [
+ "transitionDuration",
+ "number",
+ "",
+ "",
+ "Duration of all transitions in ms, `200` by default"
+ ],
+ [
+ "transitionTimingFunction",
+ "Property.TransitionTimingFunction",
+ "",
+ "",
+ "Timing function of all transitions, `ease` by default"
+ ],
+ [
+ "zIndex",
+ "string | number",
+ "",
+ "",
+ "`z-index` of all associated elements, `100` by default"
+ ],
+ [
+ "layout",
+ "\"default\" | \"alt\"",
+ "",
+ "",
+ "Determines how Navbar/Aside are arranged relative to Header/Footer, `default` by default"
+ ],
+ [
+ "disabled",
+ "boolean",
+ "",
+ "",
+ "If set, Navbar, Aside, Header and Footer components be hidden"
+ ],
+ [
+ "offsetScrollbars",
+ "boolean",
+ "",
+ "",
+ "Determines whether Header and Footer components should include styles to offset scrollbars. Based on `react-remove-scroll`. `true` by default for `layout=\"default\"`, `false` for `layout=\"alt\"`"
+ ],
+ [
+ "className",
+ "string",
+ "",
+ "",
+ "Class added to the root element, if applicable"
+ ],
+ [
+ "style",
+ "MantineStyleProp",
+ "",
+ "",
+ "Inline style added to root component element, can subscribe to theme defined on MantineProvider"
+ ],
+ [
+ "__vars",
+ "CssVarsProp",
+ "",
+ "",
+ "CSS variables defined on root component element"
+ ],
+ [
+ "__size",
+ "string",
+ "",
+ "",
+ "`size` property passed down the HTML element"
+ ],
+ [
+ "hiddenFrom",
+ "MantineBreakpoint",
+ "",
+ "",
+ "Breakpoint above which the component is hidden with `display: none`"
+ ],
+ [
+ "visibleFrom",
+ "MantineBreakpoint",
+ "",
+ "",
+ "Breakpoint below which the component is hidden with `display: none`"
+ ],
+ [
+ "lightHidden",
+ "boolean",
+ "",
+ "",
+ "Determines whether component should be hidden in light color scheme with `display: none`"
+ ],
+ [
+ "darkHidden",
+ "boolean",
+ "",
+ "",
+ "Determines whether component should be hidden in dark color scheme with `display: none`"
+ ],
+ [
+ "mod",
+ "BoxMod",
+ "",
+ "",
+ "Element modifiers transformed into `data-` attributes, for example, `{ 'data-size': 'xl' }`, falsy values are removed"
+ ],
+ [
+ "m",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "Margin, theme key: theme.spacing"
+ ],
+ [
+ "my",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginBlock, theme key: theme.spacing"
+ ],
+ [
+ "mx",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginInline, theme key: theme.spacing"
+ ],
+ [
+ "mt",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginTop, theme key: theme.spacing"
+ ],
+ [
+ "mb",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginBottom, theme key: theme.spacing"
+ ],
+ [
+ "ms",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginInlineStart, theme key: theme.spacing"
+ ],
+ [
+ "me",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginInlineEnd, theme key: theme.spacing"
+ ],
+ [
+ "ml",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginLeft, theme key: theme.spacing"
+ ],
+ [
+ "mr",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "MarginRight, theme key: theme.spacing"
+ ],
+ [
+ "p",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "Padding, theme key: theme.spacing"
+ ],
+ [
+ "py",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingBlock, theme key: theme.spacing"
+ ],
+ [
+ "px",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingInline, theme key: theme.spacing"
+ ],
+ [
+ "pt",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingTop, theme key: theme.spacing"
+ ],
+ [
+ "pb",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingBottom, theme key: theme.spacing"
+ ],
+ [
+ "ps",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingInlineStart, theme key: theme.spacing"
+ ],
+ [
+ "pe",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingInlineEnd, theme key: theme.spacing"
+ ],
+ [
+ "pl",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingLeft, theme key: theme.spacing"
+ ],
+ [
+ "pr",
+ "StyleProp<MantineSpacing>",
+ "",
+ "",
+ "PaddingRight, theme key: theme.spacing"
+ ],
+ [
+ "bd",
+ "StyleProp<Property.Border<string | number>>",
+ "",
+ "",
+ "Border"
+ ],
+ [
+ "bg",
+ "StyleProp<DefaultMantineColor>",
+ "",
+ "",
+ "Background, theme key: theme.colors"
+ ],
+ [
+ "c",
+ "StyleProp<DefaultMantineColor>",
+ "",
+ "",
+ "Color"
+ ],
+ [
+ "opacity",
+ "StyleProp<Property.Opacity>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "ff",
+ "StyleProp<\"text\" | (string & {}) | \"monospace\" | \"heading\">",
+ "",
+ "",
+ "FontFamily"
+ ],
+ [
+ "fz",
+ "StyleProp<number | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | MantineFontSize>",
+ "",
+ "",
+ "FontSize, theme key: theme.fontSizes"
+ ],
+ [
+ "fw",
+ "StyleProp<Property.FontWeight>",
+ "",
+ "",
+ "FontWeight"
+ ],
+ [
+ "lts",
+ "StyleProp<Property.LetterSpacing<string | number>>",
+ "",
+ "",
+ "LetterSpacing"
+ ],
+ [
+ "ta",
+ "StyleProp<Property.TextAlign>",
+ "",
+ "",
+ "TextAlign"
+ ],
+ [
+ "lh",
+ "StyleProp<number | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | MantineLineHeight>",
+ "",
+ "",
+ "LineHeight, theme key: lineHeights"
+ ],
+ [
+ "fs",
+ "StyleProp<Property.FontStyle>",
+ "",
+ "",
+ "FontStyle"
+ ],
+ [
+ "tt",
+ "StyleProp<Property.TextTransform>",
+ "",
+ "",
+ "TextTransform"
+ ],
+ [
+ "td",
+ "StyleProp<Property.TextDecoration<string | number>>",
+ "",
+ "",
+ "TextDecoration"
+ ],
+ [
+ "w",
+ "StyleProp<Property.Width<string | number>>",
+ "",
+ "",
+ "Width, theme key: theme.spacing"
+ ],
+ [
+ "miw",
+ "StyleProp<Property.MinWidth<string | number>>",
+ "",
+ "",
+ "MinWidth, theme key: theme.spacing"
+ ],
+ [
+ "maw",
+ "StyleProp<Property.MaxWidth<string | number>>",
+ "",
+ "",
+ "MaxWidth, theme key: theme.spacing"
+ ],
+ [
+ "h",
+ "StyleProp<Property.Height<string | number>>",
+ "",
+ "",
+ "Height, theme key: theme.spacing"
+ ],
+ [
+ "mih",
+ "StyleProp<Property.MinHeight<string | number>>",
+ "",
+ "",
+ "MinHeight, theme key: theme.spacing"
+ ],
+ [
+ "mah",
+ "StyleProp<Property.MaxHeight<string | number>>",
+ "",
+ "",
+ "MaxHeight, theme key: theme.spacing"
+ ],
+ [
+ "bgsz",
+ "StyleProp<Property.BackgroundSize<string | number>>",
+ "",
+ "",
+ "BackgroundSize"
+ ],
+ [
+ "bgp",
+ "StyleProp<Property.BackgroundPosition<string | number>>",
+ "",
+ "",
+ "BackgroundPosition"
+ ],
+ [
+ "bgr",
+ "StyleProp<Property.BackgroundRepeat>",
+ "",
+ "",
+ "BackgroundRepeat"
+ ],
+ [
+ "bga",
+ "StyleProp<Property.BackgroundAttachment>",
+ "",
+ "",
+ "BackgroundAttachment"
+ ],
+ [
+ "pos",
+ "StyleProp<Property.Position>",
+ "",
+ "",
+ "Position"
+ ],
+ [
+ "top",
+ "StyleProp<Property.Top<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "left",
+ "StyleProp<Property.Left<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "bottom",
+ "StyleProp<Property.Bottom<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "right",
+ "StyleProp<Property.Right<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "inset",
+ "StyleProp<Property.Inset<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "display",
+ "StyleProp<Property.Display>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "flex",
+ "StyleProp<Property.Flex<string | number>>",
+ "",
+ "",
+ ""
+ ],
+ [
+ "unstyled",
+ "boolean",
+ "",
+ "",
+ ""
+ ],
+ [
+ "variant",
+ "string",
+ "",
+ "",
+ ""
+ ],
+ [
+ "classNames",
+ "Partial<Record<AppShellStylesNames, string>> | ((theme: MantineTheme, props: AppShellProps, ctx: unknown) => Partial<Record<AppShellStylesNames, string>>)",
+ "",
+ "",
+ ""
+ ],
+ [
+ "styles",
+ "Partial<Record<AppShellStylesNames, CSSProperties>> | ((theme: MantineTheme, props: AppShellProps, ctx: unknown) => Partial<Record<AppShellStylesNames, CSSProperties>>)",
+ "",
+ "",
+ ""
+ ],
+ [
+ "vars",
+ "PartialVarsResolver<{ props: AppShellProps; ref: HTMLDivElement; stylesNames: AppShellStylesNames; vars: AppShellCssVariables; staticComponents: { Navbar: MantineComponent<{ props: AppShellNavbarProps; ref: HTMLElement; …(잘림)",
+ "",
+ "",
+ ""
+ ],
+ [
+ "component",
+ "any",
+ "",
+ "",
+ ""
+ ],
+ [
+ "renderRoot",
+ "(props: Record<string, any>) => React.ReactNode",
+ "",
+ "",
+ ""
+ ]
+ ]
+ }
+ ]
+ },
+ "tokenGroup": null
+}

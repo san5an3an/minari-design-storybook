@@ -1,0 +1,115 @@
+{
+ "slug": "select",
+ "title": "Select",
+ "docs": [
+  {
+   "repoPath": "ui/components/select/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/select/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/select/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/select/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/select/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Select element presents a menu of options. For selecting multiple options, see Dueling Picklist.\n *\n * @base\n * @name select\n * @selector .slds-select, .slds-select_container\n * @support dev-ready\n * @category base\n * @type data-entry\n * @role listbox\n * @layout responsive\n * @styling-hooks\n */\n"
+   },
+   {
+    "source": "scss/components/select/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Initializes select\n *\n * @name base\n * @selector .slds-select\n * @restrict select\n * @support dev-ready\n * @variant\n */\n.slds-select {\n  height: calc(#{$height-input} + (#{$border-width-thin} * 2));\n  width: 100%;\n  border: $border-width-thin solid var(--slds-c-select-color-border,\n    var(--sds-c-select-color-border, var(--slds-g-color-border-base-4, #{$color-border-input})));\n  border-radius: var(--slds-c-select-radius-border, var(--sds-c-select-radius-border, $border-radius-medium));\n  background-color: var(--slds-c-select-color-background, var(--sds-c-select-color-background, var(--slds-g-color-neutral-base-100, #{$color-background-input})));\n  color: var(--slds-c-select-text-color, var(--sds-c-select-text-color));\n  box-shadow: var(--slds-c-select-shadow, var(--sds-c-select-shadow));\n  transition: border $duration-quickly linear, background-color $duration-quickly linear;\n\n  &:required {\n    box-shadow: none;\n  }\n\n  &:focus,\n  &:active {\n    outline: 0;\n    border-color: var(--slds-c-select-color-border-focus, var(--sds-c-select-color-border-focus, var(--slds-g-color-brand-base-60, #{$color-border-input-active})));\n    background-color: var(--slds-c-select-color-background-focus, var(--sds-c-select-color-background-focus, var(--slds-g-color-neutral-base-100, #{$color-background-input-active})));\n    color: var(--slds-c-select-text-color-focus, var(--sds-c-select-text-color-focus));\n    box-shadow: var(--slds-c-select-shadow-focus, var(--sds-c-select-shadow-focus, $shadow-button-focus));\n  }\n\n  &:focus {\n    border-color: var(--slds-g-color-border-base-4, #{$color-border-input});\n    box-shadow: var(--slds-c-select-shadow-focus, var(--sds-c-select-shadow-focus,\n      var(--slds-g-shadow-outline-focus-1, #{$shadow-button-focus})));\n  }\n\n  &[disabled],\n  &.slds-is-disabled {\n    background-color: var(--slds-g-color-neutral-base-95, #{$color-background-input-disabled});\n    border-color: var(--slds-g-color-border-base-1, #{$color-border-input-disabled});\n    color: var(--slds-g-color-neutral-base-50, #{$color-text-input-disabled});\n    cursor: not-allowed;\n    user-select: none;\n    opacity: 1;\n\n    &:focus,\n    &:active {\n      box-shadow: none;\n    }\n  }\n\n  &[size],\n  &[multiple] {\n    appearance: base-select;\n    min-height: calc(#{$height-input} + (#{$border-width-thin} * 2));\n    height: inherit;\n\n    option {\n      padding: $spacing-x-small;\n    }\n\n    /* Overrides to align with SLDS light blue, instead of OS overrides */\n    option:hover {\n      background-color: var(--slds-c-listbox-option-color-background-hover, var(--slds-g-color-neutral-base-95, #{$color-background-row-hover}));\n    }\n  }\n}\n\n/**\n* Initializes select container for custom styling\n*\n* @selector .slds-select_container\n* @restrict div\n*/\n.slds-select_container {\n  position: relative;\n  color: var(--sds-c-select-text-color);\n\n  // Normalize the <select> appearance in various browsers\n  // See https://github.com/salesforce-ux/design-system/issues/122\n  .slds-select {\n    // stylelint-disable property-no-vendor-prefix\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    // stylelint-enable property-no-vendor-prefix\n    padding: {\n      left: $spacing-x-small;\n      right: $spacing-large;\n    }\n\n    &::-ms-expand {\n      display: none;\n    }\n  }\n\n  &:before,\n  &:after {\n    position: absolute;\n    content: '';\n    display: block;\n    right: $spacing-x-small;\n    width: 0;\n    height: 0;\n    border-left: 3px solid transparent;\n    border-right: 3px solid transparent;\n    pointer-events: none;\n  }\n\n  &:before {\n    border-bottom: 5px solid currentColor;\n    top: calc((#{$line-height-button-small} / 2) - 6px);\n  }\n\n  &:after {\n    border-top: 5px solid currentColor;\n    bottom: calc((#{$line-height-button-small} / 2) - 6px);\n  }\n}\n\n.slds-has-error {\n\n  .slds-select {\n    border-color: var(--slds-g-color-error-base-40, #{$color-border-error});\n    box-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 $border-width-thin inset;\n    background-clip: padding-box;\n\n    &:active {\n      box-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 $border-width-thin inset, $shadow-button-focus;\n    }\n\n    &:focus {\n      box-shadow: var(--slds-g-color-error-base-40, #{$color-border-error}) 0 0 0 $border-width-thin inset,\n        var(--slds-g-shadow-outline-focus-1, #{$shadow-button-focus});\n    }\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/select"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-select-color-border",
+    "4, rgb(201, 201, 201)",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-radius-border",
+    "0.25rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-color-background",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-text-color",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-shadow",
+    "",
+    "Box Shadow",
+    "String",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-color-border-focus",
+    "60, rgb(27, 150, 255)",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-color-background-focus",
+    "100, rgb(255, 255, 255)",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-text-color-focus",
+    "",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-select-shadow-focus",
+    "1, 0 0 3px #0176d3",
+    "Box Shadow",
+    "String",
+    "metadata/components/select/styling-hooks.json"
+   ],
+   [
+    "--slds-c-listbox-option-color-background-hover",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/select/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/select/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/floating-action-button/FloatingActionButtonZoom.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -15,9 +20,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
-import { Add as AddIcon } from '../_icons';
-import { Edit as EditIcon } from '../_icons';
-import { KeyboardArrowUp as UpIcon } from '../_icons';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import { SxProps } from '@mui/system';
@@ -85,13 +90,13 @@ export default function FloatingActionButtonZoom() {
       color: 'primary' as const,
       sx: fabStyle as SxProps,
       icon: <AddIcon />,
-      label: 'Add',
+      label: '더하기',
     },
     {
       color: 'secondary' as const,
       sx: fabStyle as SxProps,
       icon: <EditIcon />,
-      label: 'Edit',
+      label: '고치기',
     },
     {
       color: 'inherit' as const,
@@ -119,19 +124,19 @@ export default function FloatingActionButtonZoom() {
           variant="fullWidth"
           aria-label="action tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="항목 하나" {...a11yProps(0)} />
+          <Tab label="항목 둘" {...a11yProps(1)} />
+          <Tab label="항목 셋" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
-        Item One
+        항목 하나
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        Item Two
+        항목 둘
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        Item Three
+        항목 셋
       </TabPanel>
       {fabs.map((fab, index) => (
         <Zoom

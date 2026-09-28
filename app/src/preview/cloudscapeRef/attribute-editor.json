@@ -1,0 +1,190 @@
+{
+ "slug": "attribute-editor",
+ "title": "Attribute Editor",
+ "lead": null,
+ "leadFormat": null,
+ "group": null,
+ "docHref": null,
+ "docSource": "cloudscape-design/components@3.0.1365",
+ "examples": [
+  {
+   "key": "form",
+   "name": "Single page create",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  },
+  {
+   "key": "form-validation",
+   "name": "Form validation",
+   "axis": null,
+   "kind": "example",
+   "description": null,
+   "descFormat": null,
+   "source": "cloudscape-design/demos@fbe25a13ca14c03f1065657e53d810139295490c:src/pages/form-validation/index.tsx",
+   "stage": "iframe",
+   "iframeHeight": null,
+   "providerProps": null,
+   "args": null,
+   "skip": null
+  }
+ ],
+ "emptyReason": null,
+ "master": {
+  "rule": "doc-order-first",
+  "key": "form",
+  "reason": null
+ },
+ "prose": [],
+ "parts": {
+  "presence": "absent-in-official",
+  "reason": null,
+  "columns": [],
+  "rows": []
+ },
+ "api": {
+  "presence": "derived",
+  "reason": null,
+  "tables": [
+   {
+    "name": "AttributeEditorProps",
+    "columns": [
+     "이름",
+     "타입",
+     "필수",
+     "설명",
+     "출처"
+    ],
+    "rows": [
+     [
+      "empty",
+      "React.ReactNode",
+      "아니오",
+      "Displayed when there are no items to display.",
+      "src/attribute-editor/interfaces.ts:104"
+     ],
+     [
+      "additionalInfo",
+      "React.ReactNode",
+      "아니오",
+      "Displayed below the add button. Use it for additional information related to the attribute editor.",
+      "src/attribute-editor/interfaces.ts:109"
+     ],
+     [
+      "addButtonText",
+      "string",
+      "예",
+      "Specifies the text that's displayed in the add button.",
+      "src/attribute-editor/interfaces.ts:114"
+     ],
+     [
+      "removeButtonText",
+      "string",
+      "아니오",
+      "Specifies the text that's displayed in the remove button. @i18n",
+      "src/attribute-editor/interfaces.ts:120"
+     ],
+     [
+      "removeButtonAriaLabel",
+      "(item: T) => string",
+      "아니오",
+      "Adds an `aria-label` to the remove button.",
+      "src/attribute-editor/interfaces.ts:125"
+     ],
+     [
+      "items",
+      "ReadonlyArray<T>",
+      "아니오",
+      "Specifies the items that serve as the data source for all rows. The display of a row is handled by the `definition` property.",
+      "src/attribute-editor/interfaces.ts:131"
+     ],
+     [
+      "isItemRemovable",
+      "AttributeEditorProps.IsItemRemovableFunction<T>",
+      "아니오",
+      "Function that determines whether an item is removable. When this function returns `false`, the remove button is not rendered and the user can't remove the item. By default, all items are removable.",
+      "src/attribute-editor/interfaces.ts:138"
+     ],
+     [
+      "disableAddButton",
+      "boolean",
+      "아니오",
+      "Determines whether the add button is disabled.",
+      "src/attribute-editor/interfaces.ts:143"
+     ],
+     [
+      "hideAddButton",
+      "boolean",
+      "아니오",
+      "Determines whether the add button is hidden",
+      "src/attribute-editor/interfaces.ts:148"
+     ],
+     [
+      "additionalActions",
+      "React.ReactNode",
+      "아니오",
+      "Specifies additional actions displayed next to the add-button (or instead of the add-button if hidden).",
+      "src/attribute-editor/interfaces.ts:153"
+     ],
+     [
+      "addButtonVariant",
+      "AttributeEditorProps.AddButtonVariant",
+      "아니오",
+      "Specifies the variant to use for the add button. By default a normal button is used. Use `inline-link` when using an attribute editor nested inside complex attribute editing with expandable sections.",
+      "src/attribute-editor/interfaces.ts:160"
+     ],
+     [
+      "definition",
+      "ReadonlyArray<AttributeEditorProps.FieldDefinition<T>>",
+      "예",
+      "Defines the editor configuration. Each object in the array represents one form field in the row. If more than 6 attributes are specified, a `gridLayout` must be provided. * `label` (ReactNode) - Text label for the form field. * `description` (ReactNode) - Additional description for the form field. * `info` (ReactNode) - Info link for the form field. * `errorText` ((item, itemIndex) => ReactNode) - Error message text to display as a control validation message. It renders the form field as invalid if the returned value is not `null` or `undefined`. * `warningText` ((item, itemIndex) => ReactNode) - Warning message text to display as a control validation message. It renders the form field in a warning state if the returned value is not `null` or `undefined`. * `constraintText` ((item, itemIndex) => ReactNode) - Text to display as a constraint message below the field. * `control` ((item, itemIndex) => ReactNode) - A control to use as the input for the field.",
+      "src/attribute-editor/interfaces.ts:176"
+     ],
+     [
+      "gridLayout",
+      "ReadonlyArray<AttributeEditorProps.GridLayout>",
+      "아니오",
+      "Optionally specifies the layout of the attributes. By default, all attributes will be equally spaced and wrapped into multiple rows on smaller viewports. A `gridLayout` is an array of breakpoint definitions. Each definition consists of: - `rows` (`number[][]`): the rows in which to display the attributes. Each row consists of a list of numbers indicating the relative width of each attribute. For example, `[[1, 1, 1, 1]]` is a single row of four evenly-spaced attributes, or `[[1, 2], [1, 1, 1]]` splits five attributes onto two rows. - `breakpoint` (`string`): optionally specifies that the given entry should only be used when at least that much width is available. - `removeButton`: optionally configures the remove (or row action) button placement. If this is not provided, the button will be placed at the end of a single row, or below if multiple rows are present. The `removeButton` property supports contains two properties: - `ownRow` (`boolean`): forces the remove button onto its own row. - `width` (`number | 'auto'`): a number indicating the relative width (equivalent to a `rows` entry), or 'auto' to fit to the button width.",
+      "src/attribute-editor/interfaces.ts:192"
+     ],
+     [
+      "customRowActions",
+      "(props: AttributeEditorProps.RowActionsProps<T>) => React.ReactNode",
+      "아니오",
+      "Specifies a custom action trigger for each row, in place of the remove button. Only button and button dropdown components are supported. If you provide this, `removeButtonText`, `removeButtonAriaLabel`, and `onRemoveButtonClick` will be ignored. The trigger must be given the provided `ref` in order for `focusRemoveButton` to work. The function receives the following properties: - `item`: The item being rendered in the current row. - `itemIndex` (`number`): The index of the item. - `ref` (`ReactRef`): A React ref that should be passed to the rendered button. - `breakpoint` (`Breakpoint`): The current breakpoint, for responsive behavior. - `ownRow` (`boolean`): Whether the button is rendered on its own row.",
+      "src/attribute-editor/interfaces.ts:208"
+     ],
+     [
+      "onAddButtonClick",
+      "NonCancelableEventHandler",
+      "아니오",
+      "Called when add button is clicked.",
+      "src/attribute-editor/interfaces.ts:213"
+     ],
+     [
+      "onRemoveButtonClick",
+      "NonCancelableEventHandler<AttributeEditorProps.RemoveButtonClickDetail>",
+      "아니오",
+      "Called when remove button is clicked. The event `detail` contains the index of the corresponding item.",
+      "src/attribute-editor/interfaces.ts:219"
+     ],
+     [
+      "i18nStrings",
+      "AttributeEditorProps.I18nStrings<T>",
+      "아니오",
+      "An object containing all the necessary localized strings required by the component. @i18n",
+      "src/attribute-editor/interfaces.ts:225"
+     ]
+    ]
+   }
+  ]
+ },
+ "tokenGroup": null
+}

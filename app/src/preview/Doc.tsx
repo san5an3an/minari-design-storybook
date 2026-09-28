@@ -19,24 +19,32 @@ export function compound<T>(system: SystemDefinition, name: string): T {
   return impl<never>(system, name) as unknown as T;
 }
 
-export function Master({ note, children }: { note?: ReactNode; children: ReactNode }) {
+export function Master({ note, lead, children }: {
+  note?: ReactNode;
+  // 제목 아래 본문 위 소개 문구. 여러 문단일 수 있어 p 대신 div로 감싸는 구조임
+  lead?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <section className="doc-section">
       <h2>Master</h2>
+      {lead ? <div className="doc-note doc-prose" style={{ marginTop: 0 }}>{lead}</div> : null}
       <div className="doc-master">{children}</div>
-      {note ? <p className="doc-note">{note}</p> : null}
+      {note ? <div className="doc-note">{note}</div> : null}
     </section>
   );
 }
 
 export function Kids({
-  axis, title, note, children,
+  axis, title, note, lead, children,
 }: {
   // 구분 기준 이름, size, variant, tone 등 prop 이름 그대로 사용
   axis: string;
   // 축 이름 대신 표시할 문구
   title?: string;
   note?: ReactNode;
+  // 제목 아래 본문 위 소개 문구
+  lead?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -44,8 +52,9 @@ export function Kids({
       <h2>
         Variants <span className="doc-axis">{title ?? axis}</span>
       </h2>
+      {lead ? <div className="doc-note doc-prose" style={{ marginTop: 0 }}>{lead}</div> : null}
       <div className="doc-kids">{children}</div>
-      {note ? <p className="doc-note">{note}</p> : null}
+      {note ? <div className="doc-note">{note}</div> : null}
     </section>
   );
 }

@@ -1,0 +1,41 @@
+{
+ "slug": "Layout",
+ "title": "Layout",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Meta, Canvas } from '@storybook/addon-docs/blocks';\nimport * as LayoutStories from './Layout.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# Layout\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/Layout)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [LayoutConstraint](#layoutconstraint)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nThe `Layout` component provides a way to set layout contexts for specific parts\nof a web application. It uses Carbon's experimental `layout` sass module\n(exported from `@carbon/styles`) to control layout-related settings like size\nand density of all components within a layout context.\n\nAll children components that support it will react to the `size` and `density`\nyou pass in the `Layout` props. Note that not all components support the entire\nspectrum of options available. In these cases, a component will typically cap\nout at the maximum or minimum size it supports in order to still best suit the\nlayout context's intent.\n\nIf a component is outside a layout context or `props.size` / `props.density`\nisn't set, it will fall back to its default rendering.\n\nComponents that are explicitly passed a `size` to are unaffected by the layout\ncontext. Example:\n\n```jsx\n<div>\n  {/* This text input is always lg */}\n  <TextInput size=\"lg\" />\n\n  {/* This text input will render with its default size (md) */}\n  <TextInput />\n\n  <Layout size=\"sm\">\n    {/* This text input will still be lg */}\n    <TextInput size=\"lg\" />\n\n    {/* This text input will be sm */}\n    <TextInput />\n  </Layout>\n</div>\n```\n\n<Canvas\n  of={LayoutStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(LayoutStories.Default),\n    },\n  ]}\n/>\n\n### LayoutConstraint\n\nIn order to apply specific constraints to children components that might differ\nfrom their own preference, the `<LayoutConstraint>` utility component can be\nused.\n\nAn example of this use case is the icon-only content switcher. It uses\n`IconButton` under the hood which supports all sizes and defaults to `lg`. The\n`ContentSwitcher` though only supports `sm`->`lg` and defaults to `md`.\n\n```jsx\n<div>\n  <LayoutConstraint size={{ default: 'md', min: 'sm', max: 'lg' }}>\n    {/* IconButton is now locked to the sizes sm->lg and defaults to md */}\n    <IconButton … />\n  </LayoutConstraint>\n</div>\n```\n\nThe constraints for a group (`size` and `density`) must be passed as an object\nwith any of these keys:\n\n- `min`\n- `default`\n- `max`\n\nExample: `size={{ min: 'sm', max: 'lg }}`<br /> Example:\n`density={{ default: 'condensed' }}`\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/Layout/Layout.mdx).\n",
+   "source": "packages/react/src/components/Layout/Layout.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/Layout/Layout.mdx:13"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/Layout/Layout.mdx:22"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/Layout/Layout.mdx:98"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/Layout/Layout.mdx:102"
+    }
+   ]
+  }
+ ],
+ "group": "Preview",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  return (\n    <VStack gap={10}>\n      <h1>Layout demo</h1>\n      <div>\n        <h2>Outside of &lt;Layout&gt;</h2>\n        <br />\n        <Demo />\n      </div>\n      <div>\n        <h2>Inside of &lt;Layout&gt;</h2>\n        <br />\n        <Layout {...args}>\n          <Demo />\n        </Layout>\n      </div>\n    </VStack>\n  );\n};\n",
+   "source": "packages/react/src/components/Layout/Layout.stories.js:60"
+  }
+ ],
+ "props": null,
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

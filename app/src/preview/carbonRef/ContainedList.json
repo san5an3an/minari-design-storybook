@@ -1,0 +1,164 @@
+{
+ "slug": "ContainedList",
+ "title": "ContainedList",
+ "docs": [
+  {
+   "markdown": "import { ArgTypes, Story, Canvas, Meta } from '@storybook/addon-docs/blocks';\nimport * as ContainedListStories from './ContainedList.stories.js';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# ContainedList\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/ContainedList)\n&nbsp;|&nbsp;\n[Usage guidelines](https://carbondesignsystem.com/components/contained-list/usage/)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [Search](#search)\n    - [Expandable Search](#expandable-search)\n    - [Persistent Search](#persistent-search)\n    - [Usage Examples](#usage-examples)\n    - [Disclosed](#disclosed)\n    - [With Actions](#with-actions)\n    - [With Icons](#with-icons)\n    - [With Interactive Items](#with-interactive-items)\n    - [With Interactive Items and Actions](#with-interactive-items-and-actions)\n    - [With List Title Decorators](#with-list-title-decorators)\n    - [With Layer](#with-layer)\n- [Component API](#component-api)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\n<Canvas\n  of={ContainedListStories.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContainedListStories.Default),\n    },\n  ]}\n/>\n\n### Search\n\n#### Expandable Search\n\nWithin the Contained List you can pass in an `ExpandableSearch` component within\nthe `action` prop as seen below. The `ExpandableSearch` will give you the\ncapability to expand and collapse the search bar within the title. However, we\ndo not support passing in the `ExpandableSearch` within the title action prop\nwhile passing in the `Search` component as a child at the same time. If this\nhappens, the `ExpandableSearch` in the title will override any other `Search`\npassed in as a child. To prevent this potential conflict, we have added\nfunctionality to support both designs and both use cases. Please see\n[Persistent Search](#persistent-search) docs below.\n\n```js\nexport const WithExpandableSearch = () => {\n  const [searchTerm, setSearchTerm] = useState('');\n  const [searchResults, setSearchResults] = useState([]);\n  const handleChange = (event) => {\n    setSearchTerm(event.target.value);\n  };\n\n  useEffect(() => {\n    const listItems = [\n      'List item 1',\n      'List item 2',\n      'List item 3',\n      'List item 4',\n    ];\n\n    const results = listItems.filter((listItem) =>\n      listItem.toLowerCase().includes(searchTerm.toLowerCase())\n    );\n    setSearchResults(results);\n  }, [searchTerm]);\n\n  return (\n    <ContainedList\n      label=\"List title\"\n      kind=\"on-page\"\n      action={\n        <ExpandableSearch\n          placeholder=\"Filterable search\"\n          value={searchTerm}\n          onChange={handleChange}\n          closeButtonLabelText=\"Clear search input\"\n          size=\"lg\"\n        />\n      }>\n      {searchResults.map((listItem, key) => (\n        <ContainedListItem key={key}>{listItem}</ContainedListItem>\n      ))}\n    </ContainedList>\n  );\n};\n```\n\n<Canvas\n  of={ContainedListStories.WithExpandableSearch}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ContainedListStories.WithExpandableSearch),\n    },\n  ]}\n/>\n\n#### Persistent Search\n\nWe have added in the capability to pass down the `Search` component as a child\nof `ContainedList`. The `Search` component itself is not a prop but does render\nwith specific styling such that the `Search` bar appears below the Contained\nList title as opposed to rendering inline. If you would like the Search to\nrender inline to the Contained List title, please see the\n[Expandable Search](#expandable-search) docs above The `Search` component will\nalso remain persistent under the title, so that it remains visible on scroll,\nwhen there are many list items passed in.\n\n```js\nexport const WithPersistentSearch = () => {\n  const [searchTerm, setSearchTerm] = useState('');\n  const [searchResults, setSearchResults] = useState([]);\n  const handleChange = (event) => {\n    setSearchTerm(event.target.value);\n  };\n\n  useEffect(() => {\n    const listItems = [\n      'List item 1',\n      'List item 2',\n      'List item 3',\n      'List item 4',\n    ];\n\n    const results = listItems.filter((listItem) =>\n      listItem.toLowerCase().includes(searchTerm.toLowerCase())\n    );\n    setSearchResults(results);\n  }, [searchTerm]);\n\n  return (\n    <ContainedList label=\"List title\" kind=\"on-page\" action={''}>\n      <Search\n        placeholder=\"Filterable search\"\n        value={searchTerm}\n        onChange={handleChange}\n        closeButtonLabelText=\"Clear search input\"\n        size=\"lg\"\n      />\n      {searchResults.map((listItem, key) => (\n        <ContainedListItem key={key}>{listItem}</ContainedListItem>\n      ))}\n    </ContainedList>\n  );\n};\n```\n\n`ContainedList.ContainedListItem` is deprecated, use\n`import { ContainedListItem } from '@carbon/react` import instead.\n\n<Canvas\n  of={ContainedListStories.WithPersistentSearch}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ContainedListStories.WithPersistentSearch),\n    },\n  ]}\n/>\n\n#### Usage Examples\n\n<Canvas\n  of={ContainedListStories.UsageExamples}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ContainedListStories.UsageExamples),\n    },\n  ]}\n/>\n\n#### Disclosed\n\n<Canvas\n  of={ContainedListStories.Disclosed}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContainedListStories.Disclosed),\n    },\n  ]}\n/>\n\n#### With Actions\n\n<Canvas\n  of={ContainedListStories.WithActions}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContainedListStories.WithActions),\n    },\n  ]}\n/>\n\n#### With Icons\n\n<Canvas\n  of={ContainedListStories.WithIcons}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(ContainedListStories.WithIcons),\n    },\n  ]}\n/>\n\n#### With Interactive Items\n\n<Canvas\n  of={ContainedListStories.WithInteractiveItems}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ContainedListStories.WithInteractiveItems),\n    },\n  ]}\n/>\n\n#### With Interactive Items and Actions\n\n<Canvas\n  of={ContainedListStories.WithInteractiveItemsAndActions}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(\n          ContainedListStories.WithInteractiveItemsAndActions\n        ),\n    },\n  ]}\n/>\n\n#### With List Title Decorators\n\n<Canvas\n  of={ContainedListStories.WithListTitleDecorators}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(ContainedListStories.WithListTitleDecorators),\n    },\n  ]}\n/>\n\n#### With Layer\n\n<Canvas of={ContainedListStories._WithLayer} />\n\n## Component API\n\n<ArgTypes />\n\n## Feedback\n\nHelp us improve this component by providing feedback through, asking questions\non Slack, or updating this file on GitHub\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/ContainedList/ContainedList.mdx).\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/ContainedList/ContainedList.mdx:15"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/ContainedList/ContainedList.mdx:34"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/ContainedList/ContainedList.mdx:272"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/ContainedList/ContainedList.mdx:276"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  wide\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-containedlist--default',\n    },\n    {\n      label: 'Disclosed',\n      variant: 'components-containedlist--disclosed',\n    },\n    {\n      label: 'With Actions',\n      variant: 'components-containedlist--with-actions',\n    },\n    {\n      label: 'With Icons',\n      variant: 'components-containedlist--with-icons',\n    },\n    {\n      label: 'With Interactive Items',\n      variant: 'components-containedlist--with-interactive-items',\n    },\n    {\n      label: 'With Interactive Items and Actions',\n      variant: 'components-containedlist--with-interactive-items-and-actions',\n    },\n    {\n      label: 'With List Title Decorators',\n      variant: 'components-containedlist--with-list-title-decorators',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/ContainedList/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/ContainedList/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = DefaultStory.bind({});\n\nDefault.args = {\n  ...sharedArgs,\n};\nDefault.argTypes = sharedArgTypes;\nDefault.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:96"
+  },
+  {
+   "name": "Disclosed",
+   "description": null,
+   "code": "export const Disclosed = (args) => {\n  return (\n    <>\n      <ContainedList {...args} kind=\"disclosed\">\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n      </ContainedList>\n      <ContainedList {...args} kind=\"disclosed\">\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n      </ContainedList>\n    </>\n  );\n};\n\nDisclosed.args = {\n  ...sharedArgs,\n  kind: 'disclosed',\n};\nDisclosed.argTypes = {\n  ...sharedArgTypes,\n  kind: {\n    ...sharedArgTypes.kind,\n    table: { readonly: true },\n  },\n};\nDisclosed.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:104"
+  },
+  {
+   "name": "WithInteractiveItems",
+   "description": null,
+   "code": "export const WithInteractiveItems = (args) => {\n  const onClick = action('onClick (ContainedListItem)');\n\n  return (\n    <ContainedList {...args}>\n      <ContainedListItem onClick={onClick}>List item</ContainedListItem>\n      <ContainedListItem onClick={onClick} disabled>\n        List item\n      </ContainedListItem>\n      <ContainedListItem onClick={onClick}>List item</ContainedListItem>\n      <ContainedListItem onClick={onClick}>List item</ContainedListItem>\n    </ContainedList>\n  );\n};\n\nWithInteractiveItems.args = { ...sharedArgs };\nWithInteractiveItems.argTypes = sharedArgTypes;\nWithInteractiveItems.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:136"
+  },
+  {
+   "name": "WithActions",
+   "description": null,
+   "code": "export const WithActions = (args) => {\n  const itemAction = (\n    <Button\n      kind=\"ghost\"\n      iconDescription=\"Dismiss\"\n      hasIconOnly\n      renderIcon={Close}\n      aria-label=\"Dismiss\"\n    />\n  );\n\n  return (\n    <ContainedList {...args} action={''}>\n      <ContainedListItem action={itemAction}>List item</ContainedListItem>\n      <ContainedListItem action={itemAction} disabled>\n        List item\n      </ContainedListItem>\n      <ContainedListItem action={itemAction}>List item</ContainedListItem>\n      <ContainedListItem action={itemAction}>List item</ContainedListItem>\n    </ContainedList>\n  );\n};\n\nWithActions.args = { ...sharedArgs };\nWithActions.argTypes = sharedArgTypes;\nWithActions.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:155"
+  },
+  {
+   "name": "WithExpandableSearch",
+   "description": null,
+   "code": "export const WithExpandableSearch = (args) => {\n  const [searchTerm, setSearchTerm] = React.useState('');\n  const [searchResults, setSearchResults] = React.useState([]);\n  const handleChange = (event) => {\n    setSearchTerm(event.target.value);\n  };\n\n  React.useEffect(() => {\n    const listItems = [\n      'List item 1',\n      'List item 2',\n      'List item 3',\n      'List item 4',\n    ];\n\n    const results = listItems.filter((listItem) =>\n      listItem.toLowerCase().includes(searchTerm.toLowerCase())\n    );\n    setSearchResults(results);\n  }, [searchTerm]);\n\n  return (\n    <ContainedList\n      {...args}\n      action={\n        <ExpandableSearch\n          placeholder=\"Filter\"\n          labelText=\"Search\"\n          value={searchTerm}\n          onChange={handleChange}\n          closeButtonLabelText=\"Clear search input\"\n          size=\"lg\"\n        />\n      }>\n      {searchResults.map((listItem, key) => (\n        <ContainedListItem key={key}>{listItem}</ContainedListItem>\n      ))}\n    </ContainedList>\n  );\n};\n\nWithExpandableSearch.args = { ...sharedArgs };\nWithExpandableSearch.argTypes = sharedArgTypes;\nWithExpandableSearch.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:182"
+  },
+  {
+   "name": "WithPersistentSearch",
+   "description": null,
+   "code": "export const WithPersistentSearch = (args) => {\n  const [searchTerm, setSearchTerm] = React.useState('');\n  const [searchResults, setSearchResults] = React.useState([]);\n  const handleChange = (event) => {\n    setSearchTerm(event.target.value);\n  };\n\n  React.useEffect(() => {\n    const listItems = [\n      'List item 1',\n      'List item 2',\n      'List item 3',\n      'List item 4',\n    ];\n\n    const results = listItems.filter((listItem) =>\n      listItem.toLowerCase().includes(searchTerm.toLowerCase())\n    );\n    setSearchResults(results);\n  }, [searchTerm]);\n\n  return (\n    <ContainedList {...args} action={''}>\n      <Search\n        placeholder=\"Filter\"\n        value={searchTerm}\n        onChange={handleChange}\n        closeButtonLabelText=\"Clear search input\"\n        size=\"lg\"\n        labelText=\"Filter search\"\n      />\n      {searchResults.map((listItem, key) => (\n        <ContainedListItem key={key}>{listItem}</ContainedListItem>\n      ))}\n    </ContainedList>\n  );\n};\n\nWithPersistentSearch.args = { ...sharedArgs };\nWithPersistentSearch.argTypes = sharedArgTypes;\nWithPersistentSearch.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:227"
+  },
+  {
+   "name": "WithInteractiveItemsAndActions",
+   "description": null,
+   "code": "export const WithInteractiveItemsAndActions = (args) => {\n  const onClick = action('onClick (ContainedListItem)');\n  const itemAction = (\n    <Button\n      kind=\"ghost\"\n      iconDescription=\"Dismiss\"\n      hasIconOnly\n      renderIcon={Close}\n      aria-label=\"Dismiss\"\n    />\n  );\n\n  return (\n    <ContainedList {...args} action={''}>\n      <ContainedListItem action={itemAction} onClick={onClick}>\n        List item\n      </ContainedListItem>\n      <ContainedListItem action={itemAction} onClick={onClick}>\n        List item\n      </ContainedListItem>\n      <ContainedListItem action={itemAction} onClick={onClick}>\n        List item\n      </ContainedListItem>\n      <ContainedListItem action={itemAction} onClick={onClick}>\n        List item\n      </ContainedListItem>\n    </ContainedList>\n  );\n};\n\nWithInteractiveItemsAndActions.args = { ...sharedArgs };\nWithInteractiveItemsAndActions.argTypes = sharedArgTypes;\nWithInteractiveItemsAndActions.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:269"
+  },
+  {
+   "name": "WithListTitleDecorators",
+   "description": null,
+   "code": "export const WithListTitleDecorators = (args) => {\n  return (\n    <ContainedList\n      {...args}\n      label={\n        <div\n          style={{\n            display: 'flex',\n            alignItems: 'center',\n            justifyContent: 'space-between',\n          }}>\n          <span>List title</span>\n          <Tag size=\"sm\" role=\"status\" aria-label=\"4 items in list\">\n            4\n          </Tag>\n        </div>\n      }>\n      <ContainedListItem>List item</ContainedListItem>\n      <ContainedListItem>List item</ContainedListItem>\n      <ContainedListItem>List item</ContainedListItem>\n      <ContainedListItem>List item</ContainedListItem>\n    </ContainedList>\n  );\n};\n\nWithListTitleDecorators.args = { ...sharedArgs };\nWithListTitleDecorators.argTypes = sharedArgTypes;\nWithListTitleDecorators.parameters = customLabelParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:303"
+  },
+  {
+   "name": "WithIcons",
+   "description": null,
+   "code": "export const WithIcons = (args) => {\n  return (\n    <ContainedList {...args}>\n      <ContainedListItem renderIcon={Apple}>List item</ContainedListItem>\n      <ContainedListItem renderIcon={Wheat}>List item</ContainedListItem>\n      <ContainedListItem renderIcon={Strawberry}>List item</ContainedListItem>\n      <ContainedListItem renderIcon={Fish}>List item</ContainedListItem>\n    </ContainedList>\n  );\n};\n\nWithIcons.args = { ...sharedArgs };\nWithIcons.argTypes = sharedArgTypes;\nWithIcons.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:332"
+  },
+  {
+   "name": "_WithLayer",
+   "description": null,
+   "code": "export const _WithLayer = (args) => {\n  return (\n    <WithLayer>\n      <ContainedList {...args}>\n        <ContainedListItem>List item</ContainedListItem>\n        <ContainedListItem>List item</ContainedListItem>\n      </ContainedList>\n    </WithLayer>\n  );\n};\n\n_WithLayer.args = { ...sharedArgs };\n_WithLayer.argTypes = sharedArgTypes;\n_WithLayer.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:347"
+  },
+  {
+   "name": "UsageExamples",
+   "description": null,
+   "code": "export const UsageExamples = (args) => {\n  const prefix = 'cds';\n\n  return (\n    <>\n      <ContainedList\n        {...args}\n        action={\n          <Button\n            hasIconOnly\n            iconDescription=\"Add\"\n            renderIcon={Add}\n            tooltipPosition=\"left\"\n          />\n        }>\n        {[...Array(3)].map((_, i) => (\n          <ContainedListItem\n            key={i}\n            action={\n              <OverflowMenu flipped size=\"lg\" ariaLabel=\"List item options\">\n                <OverflowMenuItem itemText=\"View details\" />\n                <OverflowMenuItem itemText=\"Edit\" />\n                <OverflowMenuItem itemText=\"Remove\" isDelete hasDivider />\n              </OverflowMenu>\n            }>\n            List item\n          </ContainedListItem>\n        ))}\n      </ContainedList>\n      <ContainedList\n        {...args}\n        action={\n          <Button\n            hasIconOnly\n            iconDescription=\"Add\"\n            renderIcon={Add}\n            tooltipPosition=\"left\"\n            kind=\"ghost\"\n          />\n        }>\n        {[...Array(3)].map((_, i) => (\n          <ContainedListItem key={i}>\n            List item\n            <br />\n            <span className={`${prefix}--label ${prefix}--label--no-margin`}>\n              Description text\n            </span>\n          </ContainedListItem>\n        ))}\n      </ContainedList>\n      <ContainedList {...args}>\n        {[...Array(3)].map((_, i) => (\n          <ContainedListItem key={i}>\n            <div\n              style={{\n                display: 'grid',\n                gridTemplateColumns: 'repeat(3, 1fr)',\n                columnGap: '1rem',\n              }}>\n              <span>List item</span>\n              <span>List item details</span>\n              <span>List item details</span>\n            </div>\n          </ContainedListItem>\n        ))}\n      </ContainedList>\n    </>\n  );\n};\n\nUsageExamples.args = { ...sharedArgs };\nUsageExamples.argTypes = sharedArgTypes;\nUsageExamples.parameters = sharedParameters;\n",
+   "source": "packages/react/src/components/ContainedList/ContainedList.stories.js:362"
+  }
+ ],
+ "props": {
+  "name": "ContainedList.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "action",
+    "PropTypes.node",
+    "A slot for a possible interactive element to render.",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:138"
+   ],
+   [
+    "children",
+    "PropTypes.node",
+    "A collection of ContainedListItems to be rendered in the ContainedList",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:143"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Additional CSS class names.",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:148"
+   ],
+   [
+    "isInset",
+    "PropTypes.bool",
+    "Specify whether the dividing lines in between list items should be inset.",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:153"
+   ],
+   [
+    "kind",
+    "PropTypes.oneOf(variants)",
+    "The kind of ContainedList you want to display",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:158"
+   ],
+   [
+    "label",
+    "PropTypes.oneOfType([PropTypes.string, PropTypes.node])",
+    "A label describing the contained list.",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:163"
+   ],
+   [
+    "size",
+    "PropTypes.oneOf(['sm', 'md', 'lg', 'xl'])",
+    "Specify the size of the contained list.",
+    "packages/react/src/components/ContainedList/ContainedList.tsx:168"
+   ]
+  ],
+  "source": "packages/react/src/components/ContainedList/ContainedList.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

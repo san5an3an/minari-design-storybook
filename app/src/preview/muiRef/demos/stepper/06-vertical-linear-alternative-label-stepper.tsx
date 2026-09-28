@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/steppers/VerticalLinearAlternativeLabelStepper.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -61,7 +66,7 @@ export default function VerticalLinearAlternativeLabelStepper() {
             <StepLabel
               optional={
                 index === steps.length - 1 ? (
-                  <Typography variant="caption">Last step</Typography>
+                  <Typography variant="caption">마지막 단계</Typography>
                 ) : null
               }
             >
@@ -82,7 +87,7 @@ export default function VerticalLinearAlternativeLabelStepper() {
                   onClick={handleBack}
                   sx={{ mt: 1, mr: 1 }}
                 >
-                  Back
+                  뒤로
                 </Button>
               </Box>
             </StepContent>
@@ -91,9 +96,9 @@ export default function VerticalLinearAlternativeLabelStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>모든 단계를 마쳤어요 — 끝났어요</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
+            처음으로
           </Button>
         </Paper>
       )}

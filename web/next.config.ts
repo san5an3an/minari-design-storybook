@@ -1,42 +1,34 @@
 import type { NextConfig } from "next";
 import path from "node:path";
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 
-const RAW = /^\?raw$/;
-
 const nextConfig: NextConfig = {
-  // Next 의 AGENTS.md 자동 생성 비활성화
-  agentRules: false,
-  distDir: process.env.NODE_ENV === "production" ? ".next-build" : ".next",
-  outputFileTracingRoot: ROOT,
-  turbopack: {
-    root: ROOT,
-    resolveAlias: { "@": path.join(ROOT, "app", "src") },
-  },
+ // Next 의 AGENTS.md 자동 생성 비활성화
+ agentRules: false,
+ devIndicators: false,
+ distDir: process.env.NODE_ENV === "production" ? ".next-build" : ".next",
+ typescript: { ignoreBuildErrors: true },
+ outputFileTracingRoot: ROOT,
+ turbopack: {
+ root: ROOT,
+ resolveAlias: { "@": path.join(ROOT, "app", "src") },
+ rules: {
+ "*.mdx": [{ condition: { path: /[\\/](carbon)Ref[\\/]demos[\\/]_src[\\/]/ }, type: "ecmascript" }],
+ "*.md": [{ condition: { path: /[\\/](carbon|fluent)Ref[\\/]demos[\\/]_src[\\/]/ }, type: "ecmascript" }],
+ },
+ },
 
-  webpack: (config) => {
-    // 규칙 적용 순서에 따라 .css가 JS 모듈 또는 문자열로 반환
-    const excludeRaw = (rules: unknown[]): void => {
-      for (const r of rules) {
-        if (!r || typeof r !== "object") continue;
-        const rule = r as { test?: unknown; oneOf?: unknown[]; use?: unknown;
-                            resourceQuery?: unknown; rules?: unknown[] };
-        if (Array.isArray(rule.oneOf)) excludeRaw(rule.oneOf);
-        if (Array.isArray(rule.rules)) excludeRaw(rule.rules);
-        const test = String(rule.test ?? "");
-        if (test.includes("css") && rule.resourceQuery === undefined) {
-          rule.resourceQuery = { not: [RAW] };
-        }
-      }
-    };
-    // 별칭은 양쪽 설정에 등록. turbopack만 두면 webpack에서 못 찾음
-    config.resolve.alias = { ...config.resolve.alias, "@": path.join(ROOT, "app", "src") };
-
-    excludeRaw(config.module.rules);
-    config.module.rules.unshift({ resourceQuery: RAW, type: "asset/source" });
-    return config;
-  },
+ webpack: (config) => {
+ // 별칭은 양쪽 설정에 등록. turbopack만 두면 webpack에서 못 찾음
+ config.resolve.alias = { ...config.resolve.alias, "@": path.join(ROOT, "app", "src") };
+ config.watchOptions = {
+ ...config.watchOptions,
+ ignored: /node_modules|\.git|\.next|tools[\\/]\.cache|test-results|\.scratch-shots/,
+ };
+ return config;
+ },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);

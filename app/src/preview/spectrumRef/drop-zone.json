@@ -1,0 +1,45 @@
+{
+  "slug": "drop-zone",
+  "title": "DropZone",
+  "group": "Drag and drop",
+  "heading": "DropZone",
+  "description": null,
+  "sharedImports": "import {DropZone} from '@react-spectrum/dropzone';\nimport {Heading} from '@react-spectrum/text';\nimport {Content} from '@react-spectrum/view';\nimport {IllustratedMessage} from '@react-spectrum/illustratedmessage';\nimport {Button} from '@react-spectrum/button';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "import Upload from '@spectrum-icons/illustrations/Upload';\n\nfunction Example() {\n  let [isFilled, setIsFilled] = React.useState(false);\n\n  return (\n    <>\n      <Draggable />\n      <DropZone\n        maxWidth=\"size-3000\"\n        isFilled={isFilled}\n        onDrop={() => setIsFilled(true)}>\n        <IllustratedMessage>\n          <Upload />\n          <Heading>\n            {isFilled ? 'You dropped something!' : 'Drag and drop your file'}\n          </Heading>\n        </IllustratedMessage>\n      </DropZone>\n    </>\n  )\n}"
+    },
+    {
+      "name": "Example",
+      "code": "import {useDrag} from '@react-aria/dnd';\n\nfunction Draggable() {\n  let {dragProps, isDragging} = useDrag({\n    getItems() {\n      return [{\n        'text/plain': 'hello world',\n        'my-app-custom-type': JSON.stringify({message: 'hello world'})\n      }];\n    }\n  });\n\n  return (\n    <div {...dragProps} role=\"button\" tabIndex={0} className={`draggable ${isDragging ? 'dragging' : ''}`}>\n      Drag me\n    </div>\n  );\n}"
+    },
+    {
+      "name": "Content",
+      "code": "import {FileTrigger} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [isFilled, setIsFilled] = React.useState(false);\n\n  return (\n    <>\n      <Draggable />\n      <DropZone\n        maxWidth=\"size-3000\"\n        isFilled={isFilled}\n        onDrop={() => setIsFilled(true)}>\n        <IllustratedMessage>\n          <Upload />\n          <Heading>\n            {isFilled ? 'You dropped something!' : 'Drag and drop here'}\n          </Heading>\n          <Content>\n            <FileTrigger\n              onSelect={()=> setIsFilled(true)}>\n              <Button variant=\"primary\">Browse</Button>\n            </FileTrigger>\n          </Content>\n        </IllustratedMessage>\n      </DropZone>\n    </>\n  )\n}"
+    },
+    {
+      "name": "Events",
+      "code": "import File from '@spectrum-icons/illustrations/File';\nimport {Flex} from '@react-spectrum/layout';\n\nfunction Example() {\n  let [filledSrc, setFilledSrc] = React.useState(null);\n\n  return (\n    <>\n      <Draggable />\n      <DropZone\n        maxWidth=\"size-3000\"\n        isFilled={!!filledSrc}\n        onDrop={async (e) => {\n          e.items.find(async (item) => {\n            if (item.kind === 'file') {\n              setFilledSrc(item.name);\n\n            } else if (item.kind === 'text' && item.types.has('text/plain')) {\n              setFilledSrc(await item.getText('text/plain'));\n            }\n          });\n        }}>\n        {filledSrc\n          ? (\n            <Flex direction=\"column\" alignItems=\"center\" justifyContent=\"center\" gap=\"size-100\">\n              <File />\n              {filledSrc}\n            </Flex>\n          )\n          : (\n            <IllustratedMessage>\n              <Upload />\n              <Heading>\n                Drag and drop here\n              </Heading>\n            </IllustratedMessage>\n          )}\n      </DropZone>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Filled state",
+      "code": "function Example() {\n  let [filledSrc, setFilledSrc] = React.useState(null);\n\n  return (\n    <>\n      <DraggableImage />\n      <DropZone\n        isFilled={!!filledSrc}\n        maxWidth=\"size-3000\"\n        height=\"size-2400\"\n        getDropOperation={(types) =>  (types.has('image/png') || types.has('image/jpeg')) ? 'copy' : 'cancel'}\n        onDrop={async (e) => {\n          e.items.find(async (item) => {\n            if (item.kind === 'file') {\n              if (item.type === 'image/jpeg' || item.type === 'image/png') {\n                setFilledSrc(URL.createObjectURL(await item.getFile()));\n              }\n            } else if (item.kind === 'text') {\n              setFilledSrc(await item.getText('image/jpeg'));\n            }\n          });\n        }}>\n        {filledSrc\n          ? <img className=\"images\" alt=\"\" src={filledSrc} />\n          : (\n            <IllustratedMessage>\n              <Upload />\n              <Heading>\n                Drag and drop photos\n              </Heading>\n            </IllustratedMessage>\n          )}\n      </DropZone>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Filled state",
+      "code": "function DraggableImage() {\n  let {dragProps, isDragging} = useDrag({\n    getItems() {\n      return [\n        {\n          'image/jpeg': 'https://i.imgur.com/Z7AzH2c.jpg'\n        }\n      ];\n    }\n  });\n\n  return (\n    <div\n      {...dragProps}\n      role=\"button\"\n      tabIndex={0}\n      className={`draggable ${isDragging ? 'dragging' : ''}`} >\n      <img\n        width=\"150px\"\n        height=\"100px\"\n        alt=\"Traditional Roof\"\n        src=\"https://i.imgur.com/Z7AzH2c.jpg\"/>\n    </div>\n  );\n}"
+    },
+    {
+      "name": "Replace message",
+      "code": "function Example() {\n  let [isFilled, setIsFilled] = React.useState(false);\n\n  return (\n    <>\n      <Draggable />\n      <DropZone\n        isFilled={isFilled}\n        maxWidth=\"size-3000\"\n        replaceMessage=\"This is a custom message\"\n        onDrop={() => setIsFilled(true)}>\n        <IllustratedMessage>\n          <Upload />\n          <Heading>\n            {isFilled ? 'You dropped something!' : 'Drag and drop here'}\n          </Heading>\n        </IllustratedMessage>\n      </DropZone>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Visual feedback",
+      "code": "import {FileTrigger} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [filledSrc, setFilledSrc] = React.useState(null);\n\n  return (\n    <>\n      <Draggable />\n      <DraggableImage />\n      <DropZone\n        maxWidth=\"size-3000\"\n        isFilled={!!filledSrc}\n        getDropOperation={(types) => types.has('image/jpeg') ? 'copy' : 'cancel'}\n        onDrop={async (e) => {\n          e.items.find(async (item) => {\n            if (item.kind === 'file') {\n              if (item.type === 'image/jpeg') {\n                let file = await item.getFile();\n                setFilledSrc({\n                  type: file.type,\n                  name: file.name\n                })\n              }\n            } else if (item.kind === 'text') {\n              let file = await item.getText('image/jpeg');\n              setFilledSrc({\n                type: 'image/jpeg',\n                name: file\n              })\n            }\n          });\n        }}>\n        <IllustratedMessage>\n          <Upload />\n          <Heading>\n            {filledSrc ? `${filledSrc.type} ${filledSrc.name}` : 'Drag and drop here'}\n          </Heading>\n          <Content>\n            <FileTrigger\n              acceptedFileTypes={['image/jpeg']}\n              onSelect={(e) => {\n                let file = (Array.from(e)).find((file) => file.type === \"image/jpeg\")\n                if (file) {\n                  setFilledSrc({\n                    type: file.type,\n                    name: file.name\n                  })\n                }\n              }}>\n              <Button variant=\"primary\">Browse</Button>\n            </FileTrigger>\n          </Content>\n        </IllustratedMessage>\n      </DropZone>\n    </>\n  );\n}"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/dropzone/DropZone.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/DropZone.html"
+}

@@ -3,8 +3,13 @@
  * 출처: mui/material-ui 의 docs/data/material/components/dialogs/FormDialog.tsx
  *       tools/fetch_mui_reference.py 가 공식 저장소에서 받아 온 것이다.
  *
- * ⚠️ 본문은 공식 원본에서 **한 가지만** 바꾼 것이다 —
- *    아이콘: `@mui/icons-material` → `../_icons`(Lucide). 이름은 그대로다.
+ * ⚠️ 본문은 공식 원본에서 **두 가지만** 바꾼 것이다 —
+ *    ① 화면에 보이는 영어 문구 → 한글 (`tools/mui_demo_ko.py` 의 사전).
+ *       ⚠️ 사전에 있는 것만 바뀐다. API 값은 영어 그대로다.
+ *    ② 그림 주소 `"/static/…"` → 그쪽 사이트 절대 주소.
+ *
+ * ⚠️ **아이콘은 안 바꿨다** — `@mui/icons-material` 을 그대로 부른다.
+ *    MUI 베이스는 Lucide 전역 규칙의 **예외**다.
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import * as React from 'react';
@@ -39,14 +44,13 @@ export default function FormDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+        양식 대화상자 열기
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>구독</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            이 사이트를 구독하려면 여기에 이메일 주소를 넣어 주세요. 가끔 새 소식을 보내 드려요.
           </DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
@@ -55,7 +59,7 @@ export default function FormDialog() {
               margin="dense"
               id="name"
               name="email"
-              label="Email Address"
+              label="이메일 주소"
               type="email"
               fullWidth
               variant="standard"
@@ -63,9 +67,9 @@ export default function FormDialog() {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>취소</Button>
           <Button type="submit" form="subscription-form">
-            Subscribe
+            구독
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/tree.json 의 examples[7] ("directory")
@@ -38,7 +39,7 @@ const treeData: TreeDataNode[] = [
 
 const App: React.FC = () => {
   const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
-    console.log('고르기', keys, info);
+    console.log('골라서 열기', keys, info);
   };
 
   const onExpand: DirectoryTreeProps['onExpand'] = (keys, info) => {

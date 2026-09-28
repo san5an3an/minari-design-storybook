@@ -1,0 +1,91 @@
+// @ts-nocheck
+import { DataTable, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow, TableSelectAll, TableSelectRow } from '@carbon/react';
+import { dataTableArgs, dataTableArgTypes, rows, headers } from './shared';
+import mdx from '../DataTable.mdx';
+import { action } from 'storybook/actions';
+
+
+export default {
+  title: 'Components/DataTable/Selection',
+  component: DataTable,
+  args: { ...dataTableArgs, radio: false },
+  argTypes: {
+    ...dataTableArgTypes,
+    radio: {
+      control: 'boolean',
+      description: 'Use radio selection instead of multi-selection.',
+    },
+  },
+  subcomponents: {
+    TableSelectAll,
+    TableSelectRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableHeader,
+    TableRow,
+  },
+  parameters: {
+    docs: {
+      page: mdx,
+    },
+  },
+};
+
+export const Default = (args) => (
+  <DataTable rows={rows} headers={headers} {...args}>
+    {({
+      rows,
+      headers,
+      getHeaderProps,
+      getRowProps,
+      getSelectionProps,
+      getTableProps,
+      getTableContainerProps,
+      getCellProps,
+    }) => (
+      <TableContainer
+        title="DataTable"
+        description="With selection"
+        {...getTableContainerProps()}>
+        <Table {...getTableProps()} aria-label="sample table">
+          <TableHead>
+            <TableRow>
+              {args.radio ? (
+                <th scope="col" />
+              ) : (
+                <TableSelectAll {...getSelectionProps()} />
+              )}
+              {headers.map((header, i) => (
+                <TableHeader key={i} {...getHeaderProps({ header })}>
+                  {header.header}
+                </TableHeader>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                {...getRowProps({ row })}
+                onClick={(evt) => {
+                  action('TableRow onClick')(evt);
+                }}>
+                <TableSelectRow
+                  {...getSelectionProps({ row })}
+                  onChange={action('TableSelectRow - onChange')}
+                />
+                {row.cells.map((cell) => (
+                  <TableCell {...getCellProps({ cell })}>
+                    {cell.value}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )}
+  </DataTable>
+);

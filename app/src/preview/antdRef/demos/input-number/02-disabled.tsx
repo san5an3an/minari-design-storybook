@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/input-number.json 의 examples[2] ("Disabled")
@@ -24,7 +25,7 @@ const App: React.FC = () => {
       <InputNumber min={1} max={10} disabled={disabled} defaultValue={3} />
       <div style={{ marginTop: 20 }}>
         <Button onClick={toggle} type="primary">
-          못 쓰게 바꾸기
+          {disabled ? '쓸 수 있게 바꾸기' : '못 쓰게 바꾸기'}
         </Button>
       </div>
     </>

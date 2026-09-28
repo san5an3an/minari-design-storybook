@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/modal.json 의 examples[14] ("Static confirmation")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React from 'react';
-import { ExclamationCircleFilled } from '../_icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button, Modal, Space } from 'antd';
 
 const { confirm } = Modal;
@@ -21,7 +22,7 @@ const showConfirm = () => {
     icon: <ExclamationCircleFilled />,
     content: '설명이 들어가요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');
@@ -52,7 +53,7 @@ const showDeleteConfirm = () => {
     okType: 'danger',
     cancelText: '아니요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');
@@ -72,7 +73,7 @@ const showPropsConfirm = () => {
     },
     cancelText: '아니요',
     onOk() {
-      console.log('확인');
+      console.log('좋아요');
     },
     onCancel() {
       console.log('취소');

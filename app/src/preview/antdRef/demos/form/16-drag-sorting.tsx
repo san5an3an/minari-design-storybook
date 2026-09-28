@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[16] ("Drag sorting")
@@ -10,7 +11,7 @@
  * ⚠️ 고칠 일이 생기면 여기가 아니라 생성기나 _overrides/ 를 고친다.
  */
 import React, { useContext, useMemo } from 'react';
-import { HolderOutlined, MinusCircleOutlined, PlusOutlined } from '../_icons';
+import { HolderOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type { DragEndEvent, DraggableAttributes, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -122,7 +123,7 @@ const App: React.FC = () => {
                         name={[name, '첫째']}
                         rules={[{ required: true, message: '이름이 없어요' }]}
                       >
-                        <Input placeholder="이름" />
+                        <Input placeholder="이름(성 빼고)" />
                       </Form.Item>
                       <Form.Item
                         {...restField}

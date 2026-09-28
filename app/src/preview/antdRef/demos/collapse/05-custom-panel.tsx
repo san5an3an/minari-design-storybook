@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/collapse.json 의 examples[5] ("Custom Panel")
@@ -11,7 +12,7 @@
  */
 import type { CSSProperties } from 'react';
 import React from 'react';
-import { CaretRightOutlined } from '../_icons';
+import { CaretRightOutlined } from '@ant-design/icons';
 import type { CollapseProps } from 'antd';
 import { Collapse, theme } from 'antd';
 

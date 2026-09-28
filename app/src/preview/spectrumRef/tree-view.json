@@ -1,0 +1,73 @@
+{
+  "slug": "tree-view",
+  "title": "TreeView",
+  "group": "Collections",
+  "heading": "TreeView",
+  "description": null,
+  "sharedImports": "import Folder from '@spectrum-icons/workflow/Folder';\nimport {Flex} from '@react-spectrum/layout';\nimport FileTxt from '@spectrum-icons/workflow/FileTxt';\nimport GlobeOutline from '@spectrum-icons/workflow/GlobeOutline';\nimport Image from '@spectrum-icons/workflow/Image';\nimport Edit from '@spectrum-icons/workflow/Edit';\nimport Delete from '@spectrum-icons/workflow/Delete';\nimport {Text} from '@react-spectrum/text';\nimport {Collection, TreeView, TreeViewItem, TreeViewItemContent} from '@react-spectrum/tree';\nimport {JSX} from \"react\";\nimport {Key} from \"@react-types/shared\";\nimport {ActionGroup, Item} from '@react-spectrum/actiongroup';\nimport {ActionMenu} from '@react-spectrum/menu';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<TreeView aria-label=\"Example tree with static contents\" defaultExpandedKeys={['documents', 'photos']} height=\"size-4600\" maxWidth=\"size-6000\">\n  <TreeViewItem id=\"documents\" textValue=\"Documents\">\n    <TreeViewItemContent>\n      <Text>Documents</Text>\n      <Folder />\n    </TreeViewItemContent>\n    <TreeViewItem id=\"project-a\" textValue=\"Project A\">\n      <TreeViewItemContent>\n        <Text>Project A</Text>\n        <Folder />\n      </TreeViewItemContent>\n      <TreeViewItem id=\"weekly-report\" textValue=\"Weekly-Report\">\n        <TreeViewItemContent>\n          <Text>Weekly Report</Text>\n          <FileTxt />\n        </TreeViewItemContent>\n      </TreeViewItem>\n    </TreeViewItem>\n    <TreeViewItem id=\"document-1\" textValue=\"Document 1\">\n      <TreeViewItemContent>\n        <Text>Document 1</Text>\n        <FileTxt />\n      </TreeViewItemContent>\n    </TreeViewItem>\n    <TreeViewItem id=\"document-2\" textValue=\"Document 2\">\n      <TreeViewItemContent>\n        <Text>Document 2</Text>\n        <FileTxt />\n      </TreeViewItemContent>\n    </TreeViewItem>\n  </TreeViewItem>\n  <TreeViewItem id=\"photos\" textValue=\"Photos\">\n    <TreeViewItemContent>\n      <Text>Photos</Text>\n      <Folder />\n    </TreeViewItemContent>\n    <TreeViewItem id=\"image-1\" textValue=\"Image 1\">\n      <TreeViewItemContent>\n        <Text>Image 1</Text>\n        <Image />\n      </TreeViewItemContent>\n    </TreeViewItem>\n    <TreeViewItem id=\"image-2\" textValue=\"Image 2\">\n      <TreeViewItemContent>\n        <Text>Image 2</Text>\n        <Image />\n      </TreeViewItemContent>\n    </TreeViewItem>\n    <TreeViewItem id=\"image-3\" textValue=\"Image 3\">\n      <TreeViewItemContent>\n        <Text>Image 3</Text>\n        <Image />\n      </TreeViewItemContent>\n    </TreeViewItem>\n  </TreeViewItem>\n</TreeView>"
+    },
+    {
+      "name": "Content",
+      "code": "type MyItem = {\n  id: string,\n  name: string,\n  icon: JSX.Element,\n  childItems?: MyItem[]\n};\n\nlet items: MyItem[] = [\n  {id: 'projects', name: 'Projects', icon: <Folder />, childItems: [\n    {id: 'project-1', name: 'Project 1', icon: <FileTxt />},\n    {id: 'project-2', name: 'Project 2', icon: <Folder />, childItems: [\n      {id: 'document-a', name: 'Document A', icon: <FileTxt />},\n      {id: 'document-b', name: 'Document B', icon: <FileTxt />},\n    ]}\n  ]},\n  {id: 'reports', name: 'Reports', icon: <Folder />, childItems: [\n    {id: 'report-1', name: 'Reports 1', icon: <FileTxt />}\n  ]}\n];\n\nconst DynamicTreeItem = (props) => {\n  return (\n    <>\n      <TreeViewItem id={props.id} textValue={props.name}>\n        <TreeViewItemContent>\n          <Text>{props.name}</Text>\n          {props.icon}\n        </TreeViewItemContent>\n        <Collection items={props.childItems}>\n          {(item: any) => (\n            <DynamicTreeItem\n              id={item.id}\n              icon={item.icon}\n              childItems={item.childItems}\n              textValue={item.name}\n              name={item.name}>\n              {item.name}\n            </DynamicTreeItem>\n          )}\n        </Collection>\n      </TreeViewItem>\n    </>\n  );\n};\n\nfunction ExampleTree(props) {\n  return (\n    <TreeView aria-label=\"Example tree with dynamic content\" height=\"size-3000\" maxWidth=\"size-6000\" items={items} {...props}>\n      {(item: MyItem) => (\n        <DynamicTreeItem\n          id={item.id}\n          icon={item.icon}\n          childItems={item.childItems}\n          textValue={item.name}\n          name={item.name} />\n      )}\n    </TreeView>\n  );\n}"
+    },
+    {
+      "name": "Expansion",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with default expanded items\"\n  /*- begin highlight -*/\n  defaultExpandedKeys={['projects', 'reports']}\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Controlled expansion",
+      "code": "function ControlledExpansion() {\n  let [expandedKeys, setExpandedKeys] = React.useState<Set<Key>>(new Set(['projects', 'reports']));\n\n  return (\n    <ExampleTree\n      aria-label=\"Example tree with controlled expanded items\"\n      /*- begin highlight -*/\n      expandedKeys={expandedKeys}\n      onExpandedChange={setExpandedKeys}\n      /*- end highlight -*/\n    />\n  );\n}"
+    },
+    {
+      "name": "Selection",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with selection\"\n  defaultExpandedKeys={['projects', 'project-2']}\n  /*- begin highlight -*/\n  selectionMode=\"multiple\"\n  defaultSelectedKeys={['document-a', 'document-b']}\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Controlled selection",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction ControlledSelection() {\n  let [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set(['document-a', 'document-b']));\n\n  return (\n    <ExampleTree\n      aria-label=\"Example tree with controlled selection\"\n      defaultExpandedKeys={['projects', 'project-2']}\n      /*- begin highlight -*/\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n      /*- end highlight -*/\n    />\n  );\n}"
+    },
+    {
+      "name": "Single selection",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with single selection\"\n  defaultExpandedKeys={['projects', 'project-2']}\n  /*- begin highlight -*/\n  selectionMode=\"single\"\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Disallow empty selection",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with disallowed empty selection\"\n  defaultExpandedKeys={['projects', 'project-2']}\n  selectionMode=\"single\"\n  defaultSelectedKeys={['document-a']}\n  /*- begin highlight -*/\n  disallowEmptySelection\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Disabled items",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with disabled items\"\n  defaultExpandedKeys={['projects', 'project-2']}\n  selectionMode=\"single\"\n  /*- begin highlight -*/\n  disabledKeys={['document-a', 'document-b']}\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Highlight selection",
+      "code": "<ExampleTree\n  aria-label=\"Example tree with highlight selection\"\n  defaultExpandedKeys={['projects', 'project-2']}\n  selectionMode=\"multiple\"\n  defaultSelectedKeys={['document-a', 'document-b']}\n  /*- begin highlight -*/\n  selectionStyle=\"highlight\"\n  /*- end highlight -*/\n/>"
+    },
+    {
+      "name": "Item actions",
+      "code": "<Flex direction=\"column\" gap=\"size-300\">\n  <ExampleTree\n    aria-label=\"Example tree with item actions and checkbox selection\"\n    defaultExpandedKeys={['projects', 'project-2']}\n    /*- begin highlight -*/\n    selectionMode=\"multiple\"\n    onAction={key => alert(`Opening item ${key}...`)}\n    /*- end highlight -*/\n  />\n  <ExampleTree\n    aria-label=\"Example tree with item actions and highlight selection\"\n    defaultExpandedKeys={['projects', 'project-2']}\n    /*- begin highlight -*/\n    selectionMode=\"multiple\"\n    selectionStyle=\"highlight\"\n    onAction={key => alert(`Opening item ${key}...`)}\n    /*- end highlight -*/\n  />\n</Flex>"
+    },
+    {
+      "name": "Links",
+      "code": "<TreeView aria-label=\"Example tree with links\" defaultExpandedKeys={new Set(['bookmarks'])} height=\"size-2000\" maxWidth=\"size-6000\">\n  <TreeViewItem id=\"bookmarks\" textValue=\"Bookmarks\">\n    <TreeViewItemContent>\n      <Text>Bookmarks</Text>\n      <Folder />\n    </TreeViewItemContent>\n    <TreeViewItem href=\"https://adobe.com/\" target=\"_blank\" id=\"adobe\" textValue=\"Adobe\">\n      <TreeViewItemContent>\n        <Text>Adobe</Text>\n        <GlobeOutline />\n      </TreeViewItemContent>\n    </TreeViewItem>\n    <TreeViewItem href=\"https://google.com/\" target=\"_blank\" id=\"google\" textValue=\"Google\">\n      <TreeViewItemContent>\n        <Text>Google</Text>\n        <GlobeOutline />\n      </TreeViewItemContent>\n    </TreeViewItem>\n    <TreeViewItem href=\"https://nytimes.com/\" target=\"_blank\" id=\"nytimes\" textValue=\"New York Times\">\n      <TreeViewItemContent>\n        <Text>New York Times</Text>\n        <GlobeOutline />\n      </TreeViewItemContent>\n    </TreeViewItem>\n  </TreeViewItem>\n</TreeView>"
+    },
+    {
+      "name": "With action groups",
+      "code": "<TreeView aria-label=\"Example tree with action groups\" height=\"size-3000\" maxWidth=\"size-6000\" items={items}>\n  {function renderItem(item: MyItem) {\n    return (\n      <TreeViewItem textValue={item.name}>\n        <TreeViewItemContent>\n          <Text>{item.name}</Text>\n          {item.icon}\n          <ActionGroup onAction={(key) => alert(`Item: ${item.id}, Action: ${key}`)}>\n            <Item key=\"edit\" textValue=\"Edit\">\n              <Edit />\n              <Text>Edit</Text>\n            </Item>\n            <Item key=\"delete\" textValue=\"Delete\">\n              <Delete />\n              <Text>Delete</Text>\n            </Item>\n          </ActionGroup>\n        </TreeViewItemContent>\n        <Collection items={item.childItems}>\n          {renderItem}\n        </Collection>\n      </TreeViewItem>\n    )\n  }}\n</TreeView>"
+    },
+    {
+      "name": "With action menus",
+      "code": "import {Collection} from '@adobe/react-spectrum';\n\n<TreeView aria-label=\"Example tree with action menus\" height=\"size-3000\" maxWidth=\"size-6000\" items={items}>\n  {function renderItem(item: MyItem) {\n    return (\n      <TreeViewItem textValue={item.name}>\n        <TreeViewItemContent>\n          <Text>{item.name}</Text>\n          {item.icon}\n          <ActionMenu onAction={(key) => alert(`Item: ${item.id}, Action: ${key}`)}>\n            <Item key=\"edit\" textValue=\"Edit\">\n              <Edit />\n              <Text>Edit</Text>\n            </Item>\n            <Item key=\"delete\" textValue=\"Delete\">\n              <Delete />\n              <Text>Delete</Text>\n            </Item>\n          </ActionMenu>\n        </TreeViewItemContent>\n        <Collection items={item.childItems}>\n          {renderItem}\n        </Collection>\n      </TreeViewItem>\n    )\n  }}\n</TreeView>"
+    },
+    {
+      "name": "Empty state",
+      "code": "import {Content} from '@react-spectrum/view';\nimport {IllustratedMessage} from '@react-spectrum/illustratedmessage';\nimport NotFound from '@spectrum-icons/illustrations/NotFound';\nimport {Heading} from '@react-spectrum/text';\n\nfunction renderEmptyState() {\n  return (\n    <IllustratedMessage>\n      <NotFound />\n      <Heading>No results</Heading>\n      <Content>No results found</Content>\n    </IllustratedMessage>\n  );\n}\n\n<TreeView aria-label=\"Example tree for empty state\" height=\"size-2400\" maxWidth=\"size-6000\" renderEmptyState={renderEmptyState}>\n  {[]}\n</TreeView>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/tree-view/",
+  "source": "packages/@adobe/react-spectrum/docs/tree/TreeView.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/TreeView.html"
+}

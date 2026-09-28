@@ -1,0 +1,241 @@
+// @ts-nocheck
+import { View, FolderOpen, Folders, Information } from '@carbon/icons-react';
+import mdx from './MultiSelect.mdx';
+import { FilterableMultiSelect, MultiSelect } from '@carbon/react';
+import { Button } from '@carbon/react';
+import { AILabel, AILabelContent, AILabelActions } from '@carbon/react';
+import { IconButton } from '@carbon/react';
+
+
+export default {
+  title: 'Components/MultiSelect',
+  component: MultiSelect,
+  subcomponents: {
+    FilterableMultiSelect,
+  },
+  argTypes: {
+    size: {
+      options: ['xs', 'sm', 'md', 'lg'],
+      control: { type: 'select' },
+    },
+    light: {
+      table: {
+        disable: true,
+      },
+    },
+    selectionFeedback: {
+      options: ['top', 'fixed', 'top-after-reopen'],
+      control: { type: 'select' },
+    },
+    direction: {
+      options: ['top', 'bottom'],
+      control: { type: 'radio' },
+    },
+    type: {
+      options: ['inline', 'default'],
+      control: { type: 'radio' },
+    },
+    titleText: {
+      control: {
+        type: 'text',
+      },
+    },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    hideLabel: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    helperText: {
+      control: {
+        type: 'text',
+      },
+    },
+    invalid: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    warn: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    warnText: {
+      control: {
+        type: 'text',
+      },
+    },
+    invalidText: {
+      control: {
+        type: 'text',
+      },
+    },
+    label: {
+      control: {
+        type: 'text',
+      },
+    },
+    clearSelectionDescription: {
+      control: {
+        type: 'text',
+      },
+    },
+    useTitleInItem: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    clearSelectionText: {
+      control: {
+        type: 'text',
+      },
+    },
+    readOnly: {
+      control: { type: 'boolean' },
+    },
+  },
+  parameters: {
+    docs: {
+      page: mdx,
+    },
+    controls: {
+      exclude: [
+        'filterItems',
+        'translateWithId',
+        'titleText',
+        'open',
+        'selectedItems',
+        'itemToString',
+        'itemToElement',
+        'locale',
+        'items',
+        'id',
+        'initialSelectedItems',
+        'sortItems',
+        'compareItems',
+        'downshiftProps',
+      ],
+    },
+  },
+};
+
+const items = [
+  {
+    id: 'downshift-1-item-0',
+    text: 'Option 1',
+  },
+  {
+    id: 'downshift-1-item-1',
+    text: 'Option 2',
+  },
+  {
+    id: 'downshift-1-item-2',
+    text: 'Option 3 - a disabled item',
+    disabled: true,
+  },
+  {
+    id: 'downshift-1-item-3',
+    text: 'Option 4',
+  },
+  {
+    id: 'downshift-1-item-4',
+    text: 'An example option that is really long to show what should be done to handle long text',
+  },
+  {
+    id: 'downshift-1-item-5',
+    text: 'Option 5',
+  },
+];
+
+const sharedArgs = {
+  size: 'md',
+  autoAlign: false,
+  type: 'default',
+  titleText: 'Label',
+  disabled: false,
+  hideLabel: false,
+  invalid: false,
+  warn: false,
+  open: false,
+  helperText: 'This is helper text',
+  warnText: 'Warning message goes here',
+  invalidText: 'Error message goes here',
+  label: 'This is a label',
+  clearSelectionDescription: 'Total items selected: ',
+  useTitleInItem: false,
+  clearSelectionText: 'To clear selection, press Delete or Backspace,',
+};
+
+const filterableArgTypes = {
+  placeholder: {
+    control: {
+      type: 'text',
+    },
+    description:
+      'Generic `placeholder` that will be used as the textual representation of what this field is for',
+    table: {
+      type: { summary: 'string' },
+    },
+  },
+};
+
+const aiLabel = (
+  <AILabel className="ai-label-container">
+    <AILabelContent>
+      <div>
+        <p className="secondary">AI Explained</p>
+        <h2 className="ai-label-heading">84%</h2>
+        <p className="secondary bold">Confidence score</p>
+        <p className="secondary">
+          Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.
+        </p>
+        <hr />
+        <p className="secondary">Model type</p>
+        <p className="bold">Foundation model</p>
+      </div>
+      <AILabelActions>
+        <IconButton kind="ghost" label="View">
+          <View />
+        </IconButton>
+        <IconButton kind="ghost" label="Open Folder">
+          <FolderOpen />
+        </IconButton>
+        <IconButton kind="ghost" label="Folders">
+          <Folders />
+        </IconButton>
+        <Button>View details</Button>
+      </AILabelActions>
+    </AILabelContent>
+  </AILabel>
+);
+export const FilterableWithAILabel = (args) => (
+  <div style={{ width: 400 }}>
+    <FilterableMultiSelect
+      label="Multiselect Label"
+      id="carbon-multiselect-example"
+      titleText="Multiselect title"
+      helperText="This is helper text"
+      items={items}
+      itemToString={(item) => (item ? item.text : '')}
+      selectionFeedback="top-after-reopen"
+      decorator={aiLabel}
+      {...args}
+    />
+  </div>
+);
+
+FilterableWithAILabel.args = { ...sharedArgs };
+FilterableWithAILabel.argTypes = {
+  ...filterableArgTypes,
+};
+FilterableWithAILabel.parameters = {
+  controls: {
+    exclude: ['label'],
+  },
+};

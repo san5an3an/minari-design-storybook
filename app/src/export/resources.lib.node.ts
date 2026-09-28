@@ -1,0 +1,261 @@
+import { readFile, readdir } from "node:fs/promises";
+import path from "node:path";
+import { RequestError, WiringError } from "./errors";
+import { libSpecFor, type LibProp } from "./lib/registry";
+import { repoRoot } from "./resources.node";
+import type { ExportAxis, ExportResources, RenderArgs } from "./types";
+
+// 01-cobalt를 Cobalt로 변환. 같은 명명 규칙 적용
+function systemNameOf(slug: string): string {
+  const bare = slug.replace(/^\d+-/, "");
+  return bare.charAt(0).toUpperCase + bare.slice(1);
+}
+
+type PropUnions = {
+  components?: Record<string, Record<string, string[]>>;
+  // children을 안 받는 컴포넌트 이름
+  noChildren?: string[];
+  // 컴포넌트별 필수 프롭과 위치 매핑, null이면 타입에서 읽기 실패
+  required?: Record<string, { prop: string; placeholder: string | null }[]>;
+  // 컴포넌트 on/off boolean 프롭, 상태 필드가 참조
+  states?: Record<string, string[]>;
+  // 패키지 진입점이 내보내는 대문자 이름 전체, import { X } 가능 여부로 판별하기
+  exported?: string[];
+};
+const unionsCache = new Map<string, PropUnions | null>;
+
+async function loadPropUnions(baseKey: string): Promise<PropUnions | null> {
+  if (unionsCache.has(baseKey)) return unionsCache.get(baseKey) ?? null;
+  let parsed: PropUnions | null = null;
+  try {
+    const p = path.join(await repoRoot, "app", "src", "vendor-types", "prop-unions", `${baseKey}.json`);
+    parsed = JSON.parse(await readFile(p, "utf8")) as PropUnions;
+  } catch {
+    parsed = null; // 미생성이거나 베이스 없으면 축을 빈 채로 유지
+  }
+  unionsCache.set(baseKey, parsed);
+  return parsed;
+}
+
+async function unionPropsFor(baseKey: string, componentName: string): Promise<LibProp[]> {
+  const u = await loadPropUnions(baseKey);
+  const axes = u?.components?.[componentName];
+  if (!axes) return [];
+  return Object.entries(axes)
+    .filter(([, values]) => values.length > 1)
+    // 기본값은 타입상 불명확해 null로 지정. 창에는 기본 표시가 붙지 않음
+    .map(([prop, values]) => ({ prop, values, default: null }));
+}
+
+export async function allowedLibComponents(baseKey: string): Promise<string[]> {
+  const dir = await refJsonDir(libSpecFor(baseKey).refDir);
+  if (!dir) return [];
+  const entries = await readdir(dir, { withFileTypes: true });
+  return entries
+    .filter((e) => e.isFile && e.name.endsWith(".json"))
+    .map((e) => e.name.slice(0, -".json".length));
+}
+
+async function refJsonDir(refDir: string): Promise<string | null> {
+  const base = path.join(await repoRoot, "app", "src", "preview", refDir);
+  for (const dir of [base, path.join(base, "contract")]) {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+      if (entries.some((e) => e.isFile && e.name.endsWith(".json"))) return dir;
+    } catch { /* 없는 디렉토리는 다음 후보로 전달 */ }
+  }
+  return null;
+}
+
+async function loadMarkupExamples(
+  demosDir: string,
+  demosFormat: "json" | "ts-const",
+  slug: string,
+): Promise<{ examples: { key: string; html: string }[]; skipped: { key: string; code: string; detail: string }[] }> {
+  const root = await repoRoot;
+  const ext = demosFormat === "json" ? "json" : "ts";
+  const file = path.join(root, "app", "src", "preview", demosDir, `${slug}.${ext}`);
+  let raw: string;
+  try {
+    raw = await readFile(file, "utf8");
+  } catch {
+    throw new WiringError(`'${slug}' 의 예제 파일을 못 찾았어요: ${demosDir}/${slug}.${ext}`);
+  }
+  let blob: string;
+  if (demosFormat === "json") {
+    blob = raw;
+  } else {
+    // demos, skipped 둘 다 분리. 예제 0개일 때 사유는 skipped에만 있음
+    const demos = sliceOneLineConst(raw, "demos");
+    const skipped = sliceOneLineConst(raw, "skipped");
+    if (!demos) {
+      throw new WiringError(`'${slug}' 의 예제 모듈에서 demos 객체를 못 떼어냈어요. 생성기 꼴이 바뀌었나요?`);
+    }
+    blob = `{"demos":${demos}${skipped ? `,"skipped":${skipped}` : ""}}`;
+  }
+  let parsed: { demos?: Record<string, { html?: string }>;
+                skipped?: Record<string, { code?: string; detail?: string }> };
+  try {
+    parsed = JSON.parse(blob) as typeof parsed;
+  } catch (e) {
+    throw new WiringError(`'${slug}' 의 예제를 JSON 으로 못 읽었어요: ${String(e).slice(0, 80)}`);
+  }
+  const out = Object.entries(parsed.demos ?? {})
+    .filter(([, v]) => typeof v?.html === "string" && v.html.length > 0)
+    .map(([key, v]) => ({ key, html: v.html as string }));
+  const skipped = Object.entries(parsed.skipped ?? {})
+    .map(([key, v]) => ({ key, code: v?.code ?? "?", detail: v?.detail ?? "" }));
+  if (out.length === 0) {
+    const why = skipped.map((s) => `${s.key}: ${s.code}${s.detail ? ` (${s.detail})` : ""}`);
+    if (why.length > 0) {
+      throw new RequestError(
+        `'${slug}' 는 생성기가 예제를 못 구웠어요 (${why.slice(0, 2).join(" · ")}), `
+          + `내보낼 수 있는 것이 없어요.`,
+      );
+    }
+    throw new WiringError(
+      `'${slug}' 의 demos 가 비었고 건너뛴 기록도 없어요. 생성기를 다시 돌려 주세요. `
+        + `지금은 내보낼 수 있는 것이 없어요.`,
+    );
+  }
+  return { examples: out, skipped };
+}
+
+function sliceOneLineConst(raw: string, name: string): string | null {
+  const line = raw.split("\n").find((l) => l.startsWith(`export const ${name}`));
+  if (!line) return null;
+  const eq = line.indexOf("=");
+  const open = eq < 0 ? -1 : line.indexOf("{", eq);
+  const close = line.lastIndexOf("}");
+  if (open < 0 || close <= open) return null;
+  return line.slice(open, close + 1);
+}
+
+export async function loadLibResources(
+  slug: string,
+  baseKey: string,
+  component: string,
+): Promise<ExportResources> {
+  const spec = libSpecFor(baseKey);
+  const root = await repoRoot;
+
+  const themeFile = `theme.${spec.themeExt ?? "ts"}`;
+
+  const [vars, themeSource, refRaw] = await Promise.all([
+    readFile(path.join(root, "generated", slug, "vars.css"), "utf8"),
+    readFile(path.join(root, "generated", slug, "base", spec.themeDir, themeFile), "utf8"),
+    // 경로를 별도로 만들지 않음. 목록을 낸 디렉토리에서 읽어야 서로 어긋나지 않음
+    refJsonDir(spec.refDir).then((dir) => {
+      if (!dir) throw new WiringError(`'${baseKey}' 의 공식 문서 데이터를 찾지 못했어요.`);
+      return readFile(path.join(dir, `${component}.json`), "utf8");
+    }),
+  ]);
+
+  if (spec.notComponents?.includes(component)) {
+    throw new RequestError(
+      `'${baseKey}' 의 '${component}' 는 공식 문서에는 있지만 컴포넌트가 아니에요: ` +
+        `내보낼 수 있는 것이 없어요.`,
+    );
+  }
+
+  const ref = JSON.parse(refRaw) as { title?: string };
+  const parsed = spec.parse(JSON.parse(refRaw));
+  const dropped = parsed.dropped;
+
+  const markupOnly = Boolean(spec.markup);
+  const componentName = markupOnly ? "" : parsed.componentName;
+
+  const props: LibProp[] = markupOnly
+    ? [] // prop 선택 불가, 마크업에는 prop 개념 없음
+    : parsed.props.length > 0
+      ? parsed.props
+      : await unionPropsFor(baseKey, componentName);
+
+  // 텍스트 수용 여부는 설치 타입이 결정. 불명확하면 수용으로 간주, 아니면 정상 라벨이 누락
+  const unions = markupOnly ? null : await loadPropUnions(baseKey);
+  const acceptsChildren = !unions?.noChildren?.includes(componentName);
+  // 필수 prop 미입력 시 tsc TS2741 오류. 타입 정보를 그대로 전달
+  const requiredProps = unions?.required?.[componentName] ?? [];
+
+  const known = unions?.exported;
+  const nameInEntry = !known?.length || known.includes(componentName);
+
+  // 이름에 쓸 수 있는 글자인지 확인
+  const USABLE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+  if (!markupOnly && (typeof componentName !== "string" || !USABLE.test(componentName.trim))) {
+    throw new RequestError(
+      `'${baseKey}' 의 '${component}' 는 컴포넌트 이름을 못 찾았어요: ` +
+        `공식 메타가 컴포넌트 문서가 아닌 것 같아요(예: 목록 페이지). 내보낼 수 있는 이름이 없어요.`,
+    );
+  }
+
+  // 첨부 파일 전체 텍스트로 읽기. 누락 시 색상만 조용히 달라지는 문제 있음
+  const wanted = [...spec.extras, ...(spec.compiledTheme?.(slug) ?? [])];
+
+  const extras = await Promise.all(
+    wanted.map(async (e) => ({
+      to: e.to,
+      why: e.why,
+      text: await readFile(path.join(root, e.from), "utf8"),
+    })),
+  );
+
+  const axes: ExportAxis[] = props.map((p) => ({
+    prop: p.prop,
+    kind: "variant",
+    values: p.values,
+    default: p.default,
+  }));
+
+  return {
+    source: {
+      slug,
+      systemName: systemNameOf(slug),
+      baseKey,
+      component,
+      componentTitle: ref.title ?? componentName,
+    },
+    vars,
+    // 구조에는 있으나 라이브러리에 없는 값은 빈 문자열 처리
+    componentCss: "",
+    axes,
+    partNames: [],
+    stateNames: unions?.states?.[componentName] ?? [],
+    exportName: componentName,
+    componentSource: "",
+    cxSource: "",
+    renderComponent: (_args: RenderArgs): string => {
+      // 호출 시 에러 발생. React 구현이 없어 렌더링 불가, 빈 문자열 반환은 정상처럼 보임
+      throw new RequestError(
+        `'${baseKey}' 는 라이브러리 길이라 정적 렌더가 없어요. ` +
+          `HTML 형식은 이 베이스에서 낼 수 없어요. 런타임이 없으면 토큰이 안 실려요.`,
+      );
+    },
+    lib: {
+      // 마크업 전용이면 예제 포함. build.ts가 이 필드로 방출기 선택
+      markup: spec.markup
+        ? {
+            ...(await loadMarkupExamples(spec.markup.demosDir, spec.markup.demosFormat, component)),
+            vendorCss: spec.markup.vendorCss,
+            note: spec.markup.note,
+          }
+        : undefined,
+      title: spec.title,
+      packages: spec.packages,
+      // LibResources.importFrom 값을 항상 문자열로 통일 처리
+      importFrom: typeof spec.importFrom === "function"
+        ? spec.importFrom(component)
+        : spec.importFrom,
+      themeSource,
+      themeExt: spec.themeExt ?? "ts",
+      providerSource: spec.provider,
+      extras,
+      componentName,
+      props,
+      dropped,
+      acceptsChildren,
+      requiredProps,
+      nameInEntry,
+    },
+  };
+}

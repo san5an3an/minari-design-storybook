@@ -1,0 +1,38 @@
+{
+ "slug": "split-view",
+ "title": "Split View",
+ "docs": [
+  {
+   "repoPath": "ui/components/split-view/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/split-view/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/split-view/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/split-view/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/split-view/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary Split view is used to navigate between records in a list while staying on the same screen.\n *\n * @base\n * @name split-view\n * @selector .slds-split-view_container\n * @support dev-ready\n * @category feature\n * @type navigation\n * @role expandable-panel\n * @s1 false\n * @scroller\n */\n"
+   },
+   {
+    "source": "scss/components/split-view/base/_deprecate.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@include deprecate('4.0.0', 'Please use [aria-current=\"page\"] instead') {\n\n  .slds-split-view__list-item-action[aria-selected='true'] {\n    box-shadow: inset 4px 0 0 $brand-accessible;\n\n    &:focus {\n      box-shadow: inset 4px 0 0 $brand-accessible,\n        inset 0 0 0 1px $brand-accessible;\n    }\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/split-view/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@import 'deprecate';\n\n/**\n * @summary Wrapper of split view\n *\n * @name base\n * @selector .slds-split-view_container\n * @restrict div\n * @support dev-ready\n * @variant\n */\n.slds-split-view_container {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n\n  /**\n   * @summary Modifier to rotate the left arrow icon on close\n   * @selector .slds-is-closed\n   * @restrict .slds-split-view_container, .slds-split-view__toggle-button\n   * @modifier\n   * @group toggle\n   */\n  &.slds-is-closed {\n\n    .slds-split-view {\n      display: none;\n    }\n\n    .slds-split-view__toggle-button .slds-button__icon {\n      transform: rotate(180deg);\n    }\n  }\n\n  /**\n   * @summary Toggles open/close state of split view container\n   * @selector .slds-is-open\n   * @restrict .slds-split-view_container, .slds-split-view__toggle-button\n   * @modifier\n   * @group toggle\n   */\n  &.slds-is-open {\n    flex: 1 1 auto;\n\n    .slds-split-view {\n      display: inherit;\n    }\n\n    .slds-split-view__toggle-button .slds-button__icon {\n      transform: rotate(0);\n    }\n  }\n}\n\n/**\n * @selector .slds-split-view\n * @restrict .slds-split-view_container article\n */\n.slds-split-view {\n  background: var(--slds-g-color-neutral-base-95, #{$split-view-color-background});\n  color: var(--slds-g-color-neutral-base-30, #{$color-text-weak});\n}\n\n/**\n * @summary Header of split view\n * @selector .slds-split-view__header\n * @restrict .slds-split-view header\n * @notes Contains elements such as the list filter, view switcher and refresh button\n */\n.slds-split-view__header {\n  padding: $var-spacing-vertical-medium $var-spacing-horizontal-medium $spacing-x-small $var-spacing-horizontal-large;\n}\n\n/**\n * @summary Column headers\n * @selector .slds-split-view__list-header\n * @restrict .slds-split-view div\n */\n.slds-split-view__list-header {\n  @include text-title;\n  line-height: $line-height-heading;\n  border: {\n    top: $border-width-thin solid var(--slds-g-color-border-base-1, #{$split-view-color-border});\n    bottom: $border-width-thin solid var(--slds-g-color-border-base-1, #{$split-view-color-border});\n  }\n  padding: $spacing-x-small $spacing-medium $spacing-x-small $spacing-large;\n}\n\n/**\n * @summary Each row of the list of split view\n * @selector .slds-split-view__list-item\n * @restrict .slds-split-view li\n */\n.slds-split-view__list-item {\n  display: flex;\n  position: relative;\n  border-bottom: $border-width-thin solid var(--slds-g-color-border-base-1, #{$split-view-color-border});\n  font-size: $font-size-2;\n\n  &:hover,\n  &:focus {\n    background: var(--slds-g-color-neutral-base-100, #{$split-view-color-background-row-hover});\n  }\n\n  .slds-indicator_unread,\n  .slds-indicator--unread {\n    background: var(--slds-g-color-brand-base-50, #{$color-brand});\n  }\n}\n\n/**\n * @summary Unread states\n * @selector .slds-indicator_unread\n * @restrict .slds-split-view__list-item abbr\n */\n.slds-indicator_unread,\n.slds-indicator--unread {\n  @include square(8px);\n  position: absolute;\n  top: $spacing-medium;\n  left: $spacing-x-small;\n  display: block;\n  border-radius: $border-radius-circle;\n  background: var(--slds-g-color-error-base-40, #{$color-background-notification-badge});\n}\n\n/**\n * @summary Actionable row of split view\n * @selector .slds-split-view__list-item-action\n * @restrict .slds-split-view__list-item a\n */\n.slds-split-view__list-item-action {\n  color: currentColor;\n  padding: $var-spacing-vertical-small $var-spacing-horizontal-medium $var-spacing-vertical-small $var-spacing-horizontal-large;\n\n  &:hover,\n  &:focus {\n    outline: none;\n    background: var(--slds-g-color-neutral-base-100, #{$split-view-color-background-row-hover});\n    color: currentColor;\n    text-decoration: none;\n  }\n\n  &:focus {\n    box-shadow: var(--slds-g-shadow-inset-focus-1, #{$shadow-button-focus}); \n  }\n\n  &[aria-current=\"page\"] {\n    box-shadow: inset 4px 0 0 $brand-accessible;\n\n    &:focus {\n      box-shadow: inset 4px 0 0 $brand-accessible,\n        0 0 0 2px var(--slds-g-color-brand-base-40, #{$palette-blue-40}) inset,\n        0 0 0 4px var(--slds-g-color-neutral-base-100, #{$palette-neutral-100}) inset;\n    }\n  }\n}\n\n/**\n * @summary Expand/Collapse button to toggle open/close state of split view\n * @selector .slds-split-view__toggle-button\n * @restrict .slds-split-view_container button\n */\n.slds-split-view__toggle-button {\n  position: absolute;\n  right: (0.75rem * -1);\n  height: 100%;\n  width: 0.75rem;\n  background: var(--slds-g-color-neutral-base-100, #{$color-background-alt});\n  border-radius: 0;\n  border: $border-width-thin solid var(--slds-g-color-neutral-base-50, #{$color-border});\n\n  &:hover,\n  &:focus {\n    background: var(--slds-g-color-neutral-base-100, #{$split-view-color-background-row-hover});\n  }\n\n  &.slds-is-closed .slds-button__icon {\n    transform: rotate(180deg);\n  }\n\n  &:focus {\n    z-index: 1;\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/split-view"
+ },
+ "stylingHooks": null,
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

@@ -1,0 +1,411 @@
+{
+ "slug": "nav_list",
+ "title": "NavList",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/NavList",
+  "id": "nav_list",
+  "name": "NavList",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-navlist--default",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Item href=\"#\" aria-current=\"page\">\n          Item 1\n        </NavList.Item>\n        <NavList.Item href=\"#\">Item 2</NavList.Item>\n        <NavList.Item href=\"#\">Item 3</NavList.Item>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--expand-with-custom-items",
+    "code": "() => {\n  const items: {\n    href: string\n    text: string\n    'aria-current'?: 'page'\n  }[] = [\n    {\n      href: '#',\n      text: 'Item 4',\n      'aria-current': 'page',\n    },\n    {\n      href: '#',\n      text: 'Item 5',\n    },\n    {\n      href: '#',\n      text: 'Item 6',\n    },\n    {\n      href: '#',\n      text: 'Item 7',\n    },\n    {\n      href: '#',\n      text: 'Item 8',\n    },\n    {\n      href: '#',\n      text: 'Item 9',\n    },\n  ]\n  const Item = ({\n    leadingVisual,\n    text,\n    trailingVisual,\n    ...rest\n  }: CustomItemProps) => {\n    return (\n      <NavList.Item key={text} onClick={() => {}} href=\"#\" {...rest}>\n        {leadingVisual ? (\n          <NavList.LeadingVisual>\n            <Octicon icon={leadingVisual} />\n          </NavList.LeadingVisual>\n        ) : null}\n        {text}\n\n        {trailingVisual ? (\n          <NavList.TrailingVisual>\n            {typeof trailingVisual === 'string' ? (\n              trailingVisual\n            ) : (\n              <Octicon icon={trailingVisual as React.ElementType} />\n            )}\n            <VisuallyHidden>results</VisuallyHidden>\n          </NavList.TrailingVisual>\n        ) : null}\n      </NavList.Item>\n    )\n  }\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item href=\"#\">Item 1</NavList.Item>\n          <NavList.Item href=\"#\">Item 2</NavList.Item>\n          <NavList.Item href=\"#\">Item 3</NavList.Item>\n          <NavList.GroupExpand\n            label=\"Show more\"\n            items={items}\n            renderItem={Item}\n          />\n        </NavList>\n      </PageLayout.Pane>\n      <PageLayout.Content></PageLayout.Content>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--expand-with-pages",
+    "code": "() => {\n  const items = [\n    {\n      href: '#',\n      text: 'Item 4',\n    },\n    {\n      href: '#',\n      text: 'Item 5',\n    },\n    {\n      href: '#',\n      text: 'Item 6',\n    },\n    {\n      href: '#',\n      text: 'Item 7',\n    },\n    {\n      href: '#',\n      text: 'Item 8',\n    },\n    {\n      href: '#',\n      text: 'Item 9',\n    },\n  ]\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item href=\"#\" aria-current=\"page\">\n            Item 1\n          </NavList.Item>\n          <NavList.Item href=\"#\">Item 2</NavList.Item>\n          <NavList.Item href=\"#\">Item 3</NavList.Item>\n          <NavList.GroupExpand pages={2} label=\"Show more\" items={items} />\n        </NavList>\n      </PageLayout.Pane>\n      <PageLayout.Content></PageLayout.Content>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--group-with-expand-and-custom-items",
+    "code": "() => {\n  const Item = ({\n    leadingVisual: LeadingVisual,\n    text,\n    trailingVisual: TrailingVisual,\n    ...rest\n  }: CustomItemProps) => {\n    return (\n      <NavList.Item onClick={() => {}} href=\"#\" {...rest} key={text}>\n        {LeadingVisual ? (\n          <NavList.LeadingVisual>\n            <LeadingVisual />\n          </NavList.LeadingVisual>\n        ) : null}\n        {text}\n\n        {TrailingVisual ? (\n          <NavList.TrailingVisual>\n            {typeof TrailingVisual === 'string' ? (\n              TrailingVisual\n            ) : (\n              <TrailingVisual />\n            )}\n            <VisuallyHidden>results</VisuallyHidden>\n          </NavList.TrailingVisual>\n        ) : null}\n      </NavList.Item>\n    )\n  }\n  const items = [\n    {\n      href: '#',\n      text: 'Commits',\n      leadingVisual: GitCommitIcon,\n      trailingVisual: '32k',\n    },\n    {\n      href: '#',\n      text: 'Packages',\n      leadingVisual: PackageIcon,\n      trailingVisual: '1k',\n    },\n    {\n      href: '#',\n      text: 'Wikis',\n      leadingVisual: BookIcon,\n      trailingVisual: '121',\n    },\n    {\n      href: '#',\n      text: 'Topics',\n      leadingVisual: MilestoneIcon,\n      trailingVisual: '12k',\n    },\n    {\n      href: '#',\n      text: 'Marketplace',\n      leadingVisual: TelescopeIcon,\n      trailingVisual: ArrowRightIcon,\n    },\n  ]\n  return (\n    <NavList>\n      <NavList.Group>\n        <NavList.Item aria-current=\"page\">\n          <NavList.LeadingVisual>\n            <CodeIcon />\n          </NavList.LeadingVisual>\n          Code\n          <NavList.TrailingVisual>3k</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.Item>\n          <NavList.LeadingVisual>\n            <RepoIcon />\n          </NavList.LeadingVisual>\n          Repositories\n          <NavList.TrailingVisual>713</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.Item>\n          <NavList.LeadingVisual>\n            <IssueOpenedIcon />\n          </NavList.LeadingVisual>\n          Issues\n          <NavList.TrailingVisual>6k</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.Item>\n          <NavList.LeadingVisual>\n            <GitPullRequestIcon />\n          </NavList.LeadingVisual>\n          Pull requests\n          <NavList.TrailingVisual>4k</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.Item>\n          <NavList.LeadingVisual>\n            <CommentDiscussionIcon />\n          </NavList.LeadingVisual>\n          Discussions\n          <NavList.TrailingVisual>236</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.Item>\n          <NavList.LeadingVisual>\n            <PeopleIcon />\n          </NavList.LeadingVisual>\n          Users\n          <NavList.TrailingVisual>10k</NavList.TrailingVisual>\n        </NavList.Item>\n        <NavList.GroupExpand items={items} renderItem={Item} />\n      </NavList.Group>\n    </NavList>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-description",
+    "code": "() => (\n  <NavList>\n    <NavList.Item href=\"#\" aria-current=\"page\">\n      <NavList.LeadingVisual>\n        <RepoIcon />\n      </NavList.LeadingVisual>\n      Main Repository\n      <NavList.Description>Primary project repository</NavList.Description>\n    </NavList.Item>\n    <NavList.Item href=\"#\">\n      <NavList.LeadingVisual>\n        <BookIcon />\n      </NavList.LeadingVisual>\n      Documentation\n      <NavList.Description>\n        User guides and API documentation\n      </NavList.Description>\n    </NavList.Item>\n    <NavList.Item href=\"#\">\n      <NavList.LeadingVisual>\n        <IssueOpenedIcon />\n      </NavList.LeadingVisual>\n      Bug Reports\n      <NavList.Description variant=\"block\">\n        Submit and track bug reports for the project. Include detailed steps to\n        reproduce, expected behavior, and system information.\n      </NavList.Description>\n    </NavList.Item>\n    <NavList.Item href=\"#\">\n      <NavList.LeadingVisual>\n        <PeopleIcon />\n      </NavList.LeadingVisual>\n      Community\n      <NavList.Description variant=\"block\">\n        Connect with other developers, share ideas, and collaborate on features\n        and improvements.\n      </NavList.Description>\n    </NavList.Item>\n    <NavList.Item href=\"#\">\n      <NavList.LeadingVisual>\n        <GitCommitIcon />\n      </NavList.LeadingVisual>\n      Recent Changes\n      <NavList.Description>Latest commits and releases</NavList.Description>\n    </NavList.Item>\n  </NavList>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-expand",
+    "code": "() => {\n  const items = [\n    {\n      href: '#',\n      text: 'Item 4',\n    },\n    {\n      href: '#',\n      text: 'Item 5',\n    },\n    {\n      href: '#',\n      text: 'Item 6',\n    },\n    {\n      href: '#',\n      text: 'Item 7',\n    },\n    {\n      href: '#',\n      text: 'Item 8',\n    },\n    {\n      href: '#',\n      text: 'Item 9',\n    },\n  ]\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item href=\"#\" aria-current=\"page\">\n            Item 1\n          </NavList.Item>\n          <NavList.Item href=\"#\">Item 2</NavList.Item>\n          <NavList.Item href=\"#\">Item 3</NavList.Item>\n          <NavList.GroupExpand label=\"Show more\" items={items} />\n        </NavList>\n      </PageLayout.Pane>\n      <PageLayout.Content></PageLayout.Content>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-expand-and-icons",
+    "code": "() => {\n  const items = [\n    {\n      href: '#',\n      text: 'Item 4',\n    },\n    {\n      href: '#',\n      text: 'Item 5',\n    },\n    {\n      href: '#',\n      text: 'Item 6',\n    },\n    {\n      href: '#',\n      text: 'Item 7',\n    },\n    {\n      href: '#',\n      text: 'Item 8',\n    },\n    {\n      href: '#',\n      text: 'Item 9',\n    },\n  ]\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item href=\"#\" aria-current=\"page\">\n            Item 1\n          </NavList.Item>\n          <NavList.Item href=\"#\">Item 2</NavList.Item>\n          <NavList.Item href=\"#\">Item 3</NavList.Item>\n          <NavList.GroupExpand label=\"Show more\" items={items} />\n        </NavList>\n      </PageLayout.Pane>\n      <PageLayout.Content></PageLayout.Content>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-group",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Group title=\"Group 1\">\n          <NavList.Item aria-current=\"true\" href=\"#\">\n            Item 1A\n          </NavList.Item>\n          <NavList.Item href=\"#\">Item 1B</NavList.Item>\n          <NavList.Item href=\"#\">Item 1C</NavList.Item>\n        </NavList.Group>\n        <NavList.Group title=\"Group 2\">\n          <NavList.Item href=\"#\">Item 2A</NavList.Item>\n          <NavList.Item href=\"#\">Item 2B</NavList.Item>\n          <NavList.Item href=\"#\">Item 2C</NavList.Item>\n        </NavList.Group>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-group-expand",
+    "code": "() => {\n  const items1 = [\n    {\n      href: '#',\n      text: 'Item 1D',\n    },\n    {\n      href: '#',\n      text: 'Item 1E',\n      trailingAction: {\n        label: 'Some action',\n        icon: ArrowRightIcon,\n      },\n    },\n  ]\n  const items2 = [\n    {\n      href: '#',\n      text: 'Item 2D',\n      trailingVisual: BookIcon,\n    },\n    {\n      href: '#',\n      text: 'Item 2E',\n      trailingVisual: FileDirectoryIcon,\n    },\n  ]\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Group title=\"Group 1\">\n            <NavList.Item aria-current=\"true\" href=\"#\">\n              Item 1A\n            </NavList.Item>\n            <NavList.Item href=\"#\">Item 1B</NavList.Item>\n            <NavList.Item href=\"#\">Item 1C</NavList.Item>\n            <NavList.GroupExpand label=\"More\" items={items1} />\n          </NavList.Group>\n          <NavList.Group title=\"Group 2\">\n            <NavList.Item href=\"#\">Item 2A</NavList.Item>\n            <NavList.Item href=\"#\">Item 2B</NavList.Item>\n            <NavList.Item href=\"#\">Item 2C</NavList.Item>\n            <NavList.GroupExpand label=\"Show\" items={items2} />\n          </NavList.Group>\n        </NavList>\n      </PageLayout.Pane>\n      <PageLayout.Content></PageLayout.Content>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-group-heading-links",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Group>\n          <NavList.GroupHeading>\n            <a href=\"#group-1\">Group 1</a>\n          </NavList.GroupHeading>\n          <NavList.Item aria-current=\"true\" href=\"#\">\n            Item 1A\n          </NavList.Item>\n          <NavList.Item href=\"#\">Item 1B</NavList.Item>\n          <NavList.Item href=\"#\">Item 1C</NavList.Item>\n        </NavList.Group>\n        <NavList.Group>\n          <NavList.GroupHeading>\n            <a href=\"#group-2\">Group 2</a>\n          </NavList.GroupHeading>\n          <NavList.Item href=\"#\">Item 2A</NavList.Item>\n          <NavList.Item href=\"#\">Item 2B</NavList.Item>\n          <NavList.Item href=\"#\">Item 2C</NavList.Item>\n        </NavList.Group>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-inactive-items",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Item href=\"#\" inactiveText=\"Unavailable due to an outage\">\n          Item 1\n        </NavList.Item>\n        <NavList.Item>\n          Item 2\n          <NavList.SubNav>\n            <NavList.Item href=\"#\" aria-current=\"page\">\n              Sub item 1\n            </NavList.Item>\n            <NavList.Item href=\"#\" inactiveText=\"Unavailable due to an outage\">\n              Sub item 2\n            </NavList.Item>\n          </NavList.SubNav>\n        </NavList.Item>\n        <NavList.Item href=\"#\">Item 3</NavList.Item>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-nested-sub-items",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Item defaultOpen={true} href=\"#\">\n          Item 1\n          <NavList.SubNav>\n            <NavList.Item href=\"#\">Sub item 1</NavList.Item>\n          </NavList.SubNav>\n        </NavList.Item>\n        <NavList.Item href=\"#\">\n          Item 2{/* NOTE: Don't nest SubNavs. For testing purposes only */}\n          <NavList.SubNav>\n            <NavList.Item href=\"#\">\n              Sub item 1\n              <NavList.SubNav>\n                <NavList.Item href=\"#\">\n                  Sub item 1.1\n                  <NavList.SubNav>\n                    <NavList.Item href=\"#\">Sub item 1.1.1</NavList.Item>\n                    <NavList.Item href=\"#\">\n                      Sub item 1.1.2\n                      <NavList.SubNav>\n                        <NavList.Item href=\"#\">Sub item 1.1.2.1</NavList.Item>\n                        <NavList.Item href=\"#\" aria-current=\"page\">\n                          Sub item 1.1.2.2\n                        </NavList.Item>\n                      </NavList.SubNav>\n                    </NavList.Item>\n                  </NavList.SubNav>\n                </NavList.Item>\n                <NavList.Item href=\"#\">Sub item 1.2</NavList.Item>\n              </NavList.SubNav>\n            </NavList.Item>\n            <NavList.Item href=\"#\">Sub item 2</NavList.Item>\n          </NavList.SubNav>\n        </NavList.Item>\n        <NavList.Item href=\"#\">Item 3</NavList.Item>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-next-js-link",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NextJSLikeLink href=\"#\">\n          <NavList.Item aria-current=\"page\">Item 1</NavList.Item>\n        </NextJSLikeLink>\n        <NextJSLikeLink href=\"#\">\n          <NavList.Item>Item 2</NavList.Item>\n        </NextJSLikeLink>\n        <NextJSLikeLink href=\"#\">\n          <NavList.Item>Item 3</NavList.Item>\n        </NextJSLikeLink>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-react-router-link",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Item as={ReactRouterLikeLink} to=\"#\" aria-current=\"page\">\n          Item 1\n        </NavList.Item>\n        <NavList.Item as={ReactRouterLikeLink} to=\"#\">\n          Item 2\n        </NavList.Item>\n        <NavList.Item as={ReactRouterLikeLink} to=\"#\">\n          Item 3\n        </NavList.Item>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-reloads",
+    "code": "() => {\n  // eslint-disable-next-line ssr-friendly/no-dom-globals-in-react-fc\n  const location = window.location\n  const storyId = new URLSearchParams(location.search).get('id')\n  const urlBase = `${location.origin + location.pathname}?id=${storyId}`\n  const itemId = new URLSearchParams(location.search).get('itemId')\n  return (\n    <>\n      <PageLayout>\n        <PageLayout.Pane position=\"start\">\n          <NavList>\n            <NavList.Item\n              href={`${urlBase}&itemId=1`}\n              aria-current={itemId === '1' ? 'page' : 'false'}\n            >\n              Item 1\n            </NavList.Item>\n            <NavList.Item>\n              Item 2\n              <NavList.SubNav>\n                <NavList.Item\n                  href={`${urlBase}&itemId=2.1`}\n                  aria-current={itemId === '2.1' ? 'page' : 'false'}\n                >\n                  Sub item 2.1\n                </NavList.Item>\n                <NavList.Item\n                  href={`${urlBase}&itemId=2.2`}\n                  aria-current={itemId === '2.2' ? 'page' : 'false'}\n                >\n                  Sub item 2.2\n                </NavList.Item>\n              </NavList.SubNav>\n            </NavList.Item>\n            <NavList.Item>\n              Item 3\n              <NavList.SubNav>\n                <NavList.Item\n                  href={`${urlBase}&itemId=3.1`}\n                  aria-current={itemId === '3.1' ? 'page' : 'false'}\n                >\n                  Sub item 3.1\n                </NavList.Item>\n                <NavList.Item\n                  href={`${urlBase}&itemId=3.2`}\n                  aria-current={itemId === '3.2' ? 'page' : 'false'}\n                >\n                  Sub item 3.2\n                </NavList.Item>\n              </NavList.SubNav>\n            </NavList.Item>\n          </NavList>\n        </PageLayout.Pane>\n        <PageLayout.Content></PageLayout.Content>\n      </PageLayout>\n    </>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-sub-items",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Pane position=\"start\">\n      <NavList>\n        <NavList.Item href=\"#\">Item 1</NavList.Item>\n        <NavList.Item>\n          Item 2\n          <NavList.SubNav>\n            <NavList.Item href=\"#\" aria-current=\"page\">\n              Sub item 1\n            </NavList.Item>\n            <NavList.Item href=\"#\">Sub item 2</NavList.Item>\n          </NavList.SubNav>\n        </NavList.Item>\n        <NavList.Item href=\"#\">Item 3</NavList.Item>\n      </NavList>\n    </PageLayout.Pane>\n    <PageLayout.Content></PageLayout.Content>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-navlist-features--with-trailing-action",
+    "code": "() => {\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item>\n            <NavList.LeadingVisual>\n              <FileDirectoryIcon />\n            </NavList.LeadingVisual>\n            Item 1\n            <NavList.TrailingAction\n              label=\"Expand sidebar\"\n              icon={ArrowLeftIcon}\n            />\n          </NavList.Item>\n          <NavList.Item>\n            Item 2\n            <NavList.TrailingAction\n              as=\"a\"\n              href=\"#\"\n              label=\"Some action\"\n              icon={ArrowRightIcon}\n            />\n          </NavList.Item>\n        </NavList>\n      </PageLayout.Pane>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-navlist-features--with-trailing-action-in-sub-item",
+    "code": "() => {\n  return (\n    <PageLayout>\n      <PageLayout.Pane position=\"start\">\n        <NavList>\n          <NavList.Item>\n            <NavList.LeadingVisual>\n              <FileDirectoryIcon />\n            </NavList.LeadingVisual>\n            Item 1\n            <NavList.TrailingAction\n              label=\"Expand sidebar\"\n              icon={ArrowLeftIcon}\n            />\n          </NavList.Item>\n          <NavList.Item>\n            Item 2\n            <NavList.TrailingAction\n              as=\"a\"\n              href=\"#\"\n              label=\"Some action\"\n              icon={ArrowRightIcon}\n            />\n          </NavList.Item>\n          <NavList.Item>\n            Item 3\n            <NavList.SubNav>\n              <NavList.Item href=\"#\">\n                Sub item 1\n                <NavList.TrailingAction\n                  label=\"Another action\"\n                  icon={BookIcon}\n                />\n              </NavList.Item>\n            </NavList.SubNav>\n          </NavList.Item>\n        </NavList>\n      </PageLayout.Pane>\n    </PageLayout>\n  )\n}"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "aria-label",
+    "type": "string",
+    "defaultValue": "",
+    "description": ""
+   },
+   {
+    "name": "aria-labelledby",
+    "type": "string",
+    "defaultValue": "",
+    "description": ""
+   },
+   {
+    "name": "ref",
+    "type": "React.RefObject<HTMLElement>"
+   },
+   {
+    "name": "as",
+    "type": "React.ElementType",
+    "defaultValue": "\"nav\""
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "NavList.Heading",
+    "props": [
+     {
+      "name": "as",
+      "type": "'h2' | 'h3'",
+      "defaultValue": "\"h2\"",
+      "required": false,
+      "description": "Semantic heading level for the NavList. Also sets the default level for child group headings, which render one level deeper (h3 under an h2, h4 under an h3). Constrained to h2/h3 so the hierarchy stays shallow."
+     },
+     {
+      "name": "visuallyHidden",
+      "type": "boolean",
+      "defaultValue": "false",
+      "required": false,
+      "description": "Visually hide the heading while keeping it available to assistive technology and as the accessible name for the `nav` landmark."
+     },
+     {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The text rendered as the NavList's heading."
+     },
+     {
+      "name": "id",
+      "type": "string",
+      "description": "Custom id for the heading element. When set, it is used as the `aria-labelledby` target that names the `nav` landmark; otherwise a generated id is used."
+     },
+     {
+      "name": "className",
+      "type": "string",
+      "description": "Custom CSS class name."
+     },
+     {
+      "name": "style",
+      "type": "React.CSSProperties",
+      "description": "Custom CSS styles."
+     }
+    ]
+   },
+   {
+    "name": "NavList.Item",
+    "props": [
+     {
+      "name": "href",
+      "type": "string",
+      "defaultValue": "",
+      "description": "The URL that the item navigates to. `href` is passed to the underlying `<a>` element. If `as` is specified, the component may need different props. If the item contains a sub-nav, the item is rendered as a `<button>` and `href` is ignored."
+     },
+     {
+      "name": "aria-current",
+      "type": "| 'page' | 'step' | 'location' | 'date' | 'time' | true | false",
+      "defaultValue": "false",
+      "description": "Set `aria-current` to `\"page\"` to indicate that the item represents the current page. Set `aria-current` to `\"location\"` to indicate that the item represents the current location on a page. For more information about `aria-current`, see [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current)."
+     },
+     {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "description": "The open state of the item when it is initially rendered if the item has a SubNav."
+     },
+     {
+      "name": "inactiveText",
+      "type": "string",
+      "description": "Text to explain why this item is currently inactive and cannot be activated.",
+      "defaultValue": ""
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLAnchorElement>"
+     },
+     {
+      "name": "as",
+      "type": "React.ElementType",
+      "defaultValue": "\"a\""
+     }
+    ],
+    "passthrough": {
+     "element": "a",
+     "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#Attributes"
+    }
+   },
+   {
+    "name": "NavList.Description",
+    "props": [
+     {
+      "name": "variant",
+      "type": "'inline' | 'block'",
+      "defaultValue": "'inline'",
+      "description": "`inline` descriptions are positioned beside primary text. `block` descriptions are positioned below primary text."
+     },
+     {
+      "name": "truncate",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether the inline description should truncate the text on overflow."
+     },
+     {
+      "name": "className",
+      "type": "string",
+      "description": "Custom CSS class name."
+     },
+     {
+      "name": "style",
+      "type": "React.CSSProperties",
+      "description": "Custom CSS styles."
+     }
+    ]
+   },
+   {
+    "name": "NavList.LeadingVisual",
+    "props": [
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     }
+    ]
+   },
+   {
+    "name": "NavList.TrailingVisual",
+    "props": [
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     }
+    ]
+   },
+   {
+    "name": "NavList.SubNav",
+    "props": [
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     }
+    ]
+   },
+   {
+    "name": "NavList.Group",
+    "props": [
+     {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "A related set of NavList.Items",
+      "defaultValue": ""
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "description": "The text that gets rendered as the group's heading. Alternatively, you can pass the `NavList.GroupHeading` component as a child of `NavList.Group`.\nIf both `title` and `NavList.GroupHeading` are passed, `NavList.GroupHeading` will be rendered as the heading."
+     },
+     {
+      "name": "hideDivider",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether to hide the divider that is rendered before the group."
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     }
+    ]
+   },
+   {
+    "name": "NavList.GroupHeading",
+    "props": [
+     {
+      "name": "auxiliaryText",
+      "type": "string",
+      "required": false,
+      "description": "Secondary text which provides additional information about a `Group`.",
+      "defaultValue": ""
+     },
+     {
+      "name": "variant",
+      "type": "'subtle' | 'filled'",
+      "required": false,
+      "description": "Style variations. Usage is discretionary.\n\n- `\"filled\"` - Superimposed on a background, offset from nearby content\n- `\"subtle\"` - Relatively less offset from nearby content",
+      "defaultValue": ""
+     },
+     {
+      "name": "visuallyHidden",
+      "type": "boolean",
+      "required": false,
+      "description": "",
+      "defaultValue": ""
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     },
+     {
+      "name": "as",
+      "description": "Heading level for the group heading. Sets the semantic heading tag. Defaults to one level below a `NavList.Heading` (h3 under an h2, h4 under an h3), or `h3` when there is no `NavList.Heading`.",
+      "required": false,
+      "type": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
+     }
+    ]
+   },
+   {
+    "name": "NavList.Divider",
+    "props": [
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLElement>"
+     }
+    ]
+   },
+   {
+    "name": "NavList.TrailingAction",
+    "props": [
+     {
+      "name": "as",
+      "type": "a | button",
+      "defaultValue": "button",
+      "required": false,
+      "description": "HTML element to render as."
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "defaultValue": "",
+      "required": true,
+      "description": "Accessible name for the control."
+     },
+     {
+      "name": "icon",
+      "type": "string",
+      "defaultValue": "",
+      "required": true,
+      "description": "Octicon to pass into IconButton. When this is not set, TrailingAction renders as a `Button` instead of an `IconButton`."
+     },
+     {
+      "name": "href",
+      "type": "string",
+      "description": "href when the TrailingAction is rendered as a link."
+     }
+    ]
+   },
+   {
+    "name": "NavList.GroupExpand",
+    "props": [
+     {
+      "name": "label",
+      "type": "string",
+      "defaultValue": "",
+      "required": true,
+      "description": "Accessible name for the control."
+     },
+     {
+      "name": "pages",
+      "type": "number",
+      "defaultValue": "0",
+      "required": false,
+      "description": "The total number of pages, used to calculate the number of items to show at a given time."
+     },
+     {
+      "name": "items",
+      "type": "Array<GroupItems>",
+      "required": true,
+      "description": "The NavList.Items to render in the group."
+     },
+     {
+      "name": "renderItem",
+      "type": "(item: {text: string}) => React.ReactNode",
+      "required": false,
+      "description": "A function that returns a ReactNode to render in the group. If this is not provided, the group will only render the items in the array."
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLButtonElement>"
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:4096",
+ "name": "nav_list",
+ "sourceKey": "$.components.nav_list",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "ArrowLeftIcon",
+  "ArrowRightIcon",
+  "BookIcon",
+  "CodeIcon",
+  "CommentDiscussionIcon",
+  "FileDirectoryIcon",
+  "GitCommitIcon",
+  "GitPullRequestIcon",
+  "IssueOpenedIcon",
+  "LeadingVisual",
+  "NavList",
+  "NextJSLikeLink",
+  "Octicon",
+  "PageLayout",
+  "PeopleIcon",
+  "ReactRouterLikeLink",
+  "RepoIcon",
+  "TrailingVisual",
+  "VisuallyHidden"
+ ]
+}

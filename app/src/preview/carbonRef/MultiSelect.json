@@ -1,0 +1,376 @@
+{
+ "slug": "MultiSelect",
+ "title": "Dynamically set floating styles",
+ "docs": [
+  {
+   "markdown": "import { Meta } from '@storybook/addon-docs/blocks';\n\n<Meta title=\"Components/MultiSelect/Feature Flag\" name=\"Flag details\" />\n\n# Dynamically set floating styles\n\nComponents with `autoAlign` use the\n[`floating-ui`](https://github.com/floating-ui/floating-ui) library to handle\nthe dynamic positioning of floating elements relative to their trigger / anchor\nelement. This also includes collision detection that repositions the floating\nelement as necessary to keep it visible within the viewport. In the majority of\ncases, the styling from the `floating-ui` 'fixed' positioning strategy prevents\nthe floating element from being\n[clipped](https://floating-ui.com/docs/misc#clipping) by an ancestor element.\n\nThe `enable-v12-dynamic-floating-styles` flag enables this dynamic styling\nwithout the collision detection.\n\n**Note**: The flag has no effect when used with `autoAlign` because `autoAlign`\nincludes both the dynamic positioning styles and collision detection.\n\nTo use `autoAlign` your project needs to be using React v17+, see\nhttps://github.com/carbon-design-system/carbon/issues/18714.\n\n## Enable dynamic setting of floating styles\n\n```js\n<FeatureFlags enableV12DynamicFloatingStyles>\n  <MultiSelect\n    label=\"Multiselect Label\"\n    id=\"carbon-multiselect-example\"\n    titleText=\"Multiselect title\"\n    helperText=\"This is helper text\"\n    items={comboBoxItems}\n    direction={args.direction}\n    itemToString={(item) => (item ? item.text : '')}\n    selectionFeedback=\"top-after-reopen\"\n  />\n</FeatureFlags>\n```\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.DynamicStyles.featureflag.mdx",
+   "sections": [
+    {
+     "name": "Enable dynamic setting of floating styles",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.DynamicStyles.featureflag.mdx:25"
+    }
+   ]
+  },
+  {
+   "markdown": "import { ArgTypes, Canvas, Story, Meta } from '@storybook/addon-docs/blocks';\n\nimport * as MultiSelect from './MultiSelect.stories';\nimport { Filterable } from './MultiSelect.stories';\nimport { stackblitzPrefillConfig } from '../../../previewer/codePreviewer';\n\n<Meta isTemplate />\n\n# MultiSelect\n\n[Source code](https://github.com/carbon-design-system/carbon/tree/main/packages/react/src/components/MultiSelect)\n&nbsp;|&nbsp;\n[Usage guidelines](https://www.carbondesignsystem.com/components/dropdown/usage#multiselect)\n&nbsp;|&nbsp;\n[Accessibility](https://www.carbondesignsystem.com/components/dropdown/accessibility)\n\n{/* <!-- START doctoc generated TOC please keep comment here to allow auto update --> <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE --> */}\n\n## Table of Contents\n\n- [Overview](#overview)\n  - [With initial selected items](#with-initial-selected-items)\n  - [Select all](#select-all)\n  - [Filtering](#filtering)\n  - [With layer](#with-layer)\n- [Component API](#component-api)\n  - [`downshiftProps`](#downshiftprops)\n- [`inputProps`](#inputprops)\n  - [Using `maxLength`](#using-maxlength)\n- [Feedback](#feedback)\n\n{/* <!-- END doctoc generated TOC please keep comment here to allow auto update --> */}\n\n## Overview\n\nThe `MultiSelect` component is a variant of the `Dropdown` component that allows\nfor multiple items to be selected. `MultiSelect` stays open while items are\nbeing selected.\n\n<Canvas\n  of={MultiSelect.Default}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(MultiSelect.Default),\n    },\n  ]}\n/>\n\n### With initial selected items\n\nBy passing items into the `initialSelectedItems` prop, they can be pre-selected.\n\n<Canvas\n  of={MultiSelect.WithInitialSelectedItems}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () =>\n        stackblitzPrefillConfig(MultiSelect.WithInitialSelectedItems),\n    },\n  ]}\n/>\n\n### Select all\n\nThe MultiSelect component includes a \"Select All\" feature, allowing users to\neasily select or deselect all options with a single action.\n\nTo implement the \"Select All\" feature in your MultiSelect component, add a new\noption to your options array with these properties:\n\n- `id`: A unique identifier (e.g., 'select-all')\n- `text`: The label for the option\n- `isSelectAll`: Set to `true`\n\n```\nconst options = [\n  {\n    id: 'select-all',\n    text: 'All roles',\n    isSelectAll: true,\n  },\n  // ... other options\n];\n```\n\n### Filtering\n\nThe `FilterableMultiSelect` component allows for filtering the list of\nselectable items to a subset.\n\n<Canvas\n  of={Filterable}\n  additionalActions={[\n    {\n      title: 'Open in Stackblitz',\n      onClick: () => stackblitzPrefillConfig(Filterable),\n    },\n  ]}\n/>\n\n### With layer\n\n<Canvas of={MultiSelect.WithLayerMultiSelect} />\n\n## Component API\n\n### `downshiftProps`\n\nThis component utilizes [Downshift](https://www.downshift-js.com/) under the\nhood to help provide complex yet accessible custom dropdown components. We\nprovide access to the built in Downshift features with this prop.\n\nUse with caution: anything you define here overrides the components' internal\nhandling of that prop. Downshift internals are subject to change, and in some\ncases they can not be shimmed to shield you from potentially breaking changes.\n\nFor more information, checkout the Downshift prop\n[documentation](https://www.downshift-js.com/downshift#props-used-in-examples)\n\n<ArgTypes />\n\n## `inputProps`\n\nUse `inputProps` to specify native input attributes to place on the `<input>`.\nThese are passed to\n[Downshift's `getInputProps()`](https://github.com/downshift-js/downshift?tab=readme-ov-file#getinputprops)\nand will override the internal input props.\n\n### Using `maxLength`\n\nThe native `maxLength` attribute can be included in `inputProps` to define the\nmaximum string length that the user can enter into the input.\n\nWhen using `maxLength`, ensure the limit is communicated to the user through\nboth `helperText` and `invalidText`/`warnText`.\n\n```jsx\n<FilterableMultiSelect\n  inputProps={{ maxLength: 5 }}\n  id=\"test-combo\"\n  items={[{ label: 'Item 1' }]}\n  titleText=\"Abbreviation\"\n  helperText=\"Provide an abbreviation that is 5 characters or less\"\n  invalidText=\"Abbreviations must be 5 characters or less\"\n  warnText=\"Abbreviations must be 5 characters or less\"\n/>\n```\n\n## Feedback\n\nHelp us improve this component by providing feedback, asking questions on Slack,\nor updating this file on\n[GitHub](https://github.com/carbon-design-system/carbon/edit/main/packages/react/src/components/MultiSelect/MultiSelect.mdx).\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx",
+   "sections": [
+    {
+     "name": "Table of Contents",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx:19"
+    },
+    {
+     "name": "Overview",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx:34"
+    },
+    {
+     "name": "Component API",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx:107"
+    },
+    {
+     "name": "`inputProps`",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx:124"
+    },
+    {
+     "name": "Feedback",
+     "source": "packages/react/src/components/MultiSelect/MultiSelect.mdx:151"
+    }
+   ]
+  },
+  {
+   "markdown": "## Live demo\n\n<StorybookDemo\n  themeSelector\n  url=\"https://react.carbondesignsystem.com\"\n  variants={[\n    {\n      label: 'Default',\n      variant: 'components-multiselect--default',\n    },\n    {\n      label: 'Filterable',\n      variant: 'components-multiselect--filterable',\n    },\n    {\n      label: 'With initial selected items',\n      variant: 'components-multiselect--with-initial-selected-items',\n    },\n    {\n      label: 'Fluid (unstable)',\n      variant: 'experimental-unstable-fluidmultiselect--default',\n    },\n    {\n      label: 'Fluid Condensed (unstable)',\n      variant: 'experimental-unstable-fluidmultiselect--condensed',\n    },\n  ]}\n/>\n",
+   "source": "packages/react/src/components/MultiSelect/docs/overview.mdx",
+   "sections": [
+    {
+     "name": "Live demo",
+     "source": "packages/react/src/components/MultiSelect/docs/overview.mdx:1"
+    }
+   ]
+  }
+ ],
+ "group": "Components",
+ "examples": [
+  {
+   "name": "FloatingStyles",
+   "description": null,
+   "code": "export const FloatingStyles = (args) => (\n  <MultiSelect\n    id=\"carbon-multiselect-example\"\n    items={comboBoxItems}\n    itemToString={(item) => (item ? item.text : '')}\n    selectionFeedback=\"top-after-reopen\"\n    {...args}\n  />\n);\n\nFloatingStyles.args = {\n  ...sharedArgs,\n  direction: 'bottom',\n};\n\nFloatingStyles.argTypes = {\n  direction: {\n    options: ['top', 'bottom'],\n    control: {\n      type: 'radio',\n    },\n  },\n};\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.featureflag.stories.js:131"
+  },
+  {
+   "name": "Default",
+   "description": null,
+   "code": "export const Default = (args) => {\n  const items = [\n    {\n      id: 'downshift-1-item-0',\n      text: 'Option 1',\n    },\n    {\n      id: 'downshift-1-item-1',\n      text: 'Option 2',\n    },\n    {\n      id: 'downshift-1-item-2',\n      text: 'Option 3 - a disabled item',\n      disabled: true,\n    },\n    {\n      id: 'downshift-1-item-3',\n      text: 'Option 4',\n    },\n    {\n      id: 'downshift-1-item-4',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'downshift-1-item-5',\n      text: 'Option 5',\n    },\n  ];\n  return (\n    <div\n      style={{\n        width: 300,\n      }}>\n      <MultiSelect\n        label=\"Multiselect Label\"\n        id=\"carbon-multiselect-example\"\n        titleText=\"Multiselect title\"\n        helperText=\"This is helper text\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nDefault.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:227"
+  },
+  {
+   "name": "WithInitialSelectedItems",
+   "description": null,
+   "code": "export const WithInitialSelectedItems = (args) => {\n  const items = [\n    {\n      id: 'downshift-1-item-0',\n      text: 'Option 1',\n    },\n    {\n      id: 'downshift-1-item-1',\n      text: 'Option 2',\n    },\n    {\n      id: 'downshift-1-item-2',\n      text: 'Option 3 - a disabled item',\n      disabled: true,\n    },\n    {\n      id: 'downshift-1-item-3',\n      text: 'Option 4',\n    },\n    {\n      id: 'downshift-1-item-4',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'downshift-1-item-5',\n      text: 'Option 5',\n    },\n  ];\n  return (\n    <div\n      style={{\n        width: 300,\n      }}>\n      <MultiSelect\n        label=\"Multiselect Label\"\n        id=\"carbon-multiselect-example-2\"\n        titleText=\"Multiselect title\"\n        helperText=\"This is helper text\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        initialSelectedItems={[items[0], items[1]]}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nWithInitialSelectedItems.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:276"
+  },
+  {
+   "name": "Filterable",
+   "description": null,
+   "code": "export const Filterable = (args) => {\n  const items = [\n    {\n      id: 'downshift-1-item-0',\n      text: 'Option 1',\n    },\n    {\n      id: 'downshift-1-item-1',\n      text: 'Option 2',\n    },\n    {\n      id: 'downshift-1-item-2',\n      text: 'Option 3 - a disabled item',\n      disabled: true,\n    },\n    {\n      id: 'downshift-1-item-3',\n      text: 'Option 4',\n    },\n    {\n      id: 'downshift-1-item-4',\n      text: 'An example option that is really long to show what should be done to handle long text',\n    },\n    {\n      id: 'downshift-1-item-5',\n      text: 'Option 5',\n    },\n  ];\n\n  return (\n    <div\n      style={{\n        width: 300,\n      }}>\n      <FilterableMultiSelect\n        id=\"carbon-multiselect-example-3\"\n        titleText=\"FilterableMultiSelect title\"\n        helperText=\"This is helper text\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nFilterable.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:326"
+  },
+  {
+   "name": "FilterableWithSelectAll",
+   "description": null,
+   "code": "export const FilterableWithSelectAll = (args) => {\n  return (\n    <div\n      style={{\n        width: 300,\n      }}>\n      <FilterableMultiSelect\n        id=\"carbon-multiselect-example-3\"\n        titleText=\"FilterableMultiSelect title\"\n        helperText=\"This is helper text\"\n        items={itemsWithSelectAll}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nFilterableWithSelectAll.args = { ...sharedArgs };\n\nFilterableWithSelectAll.argTypes = {\n  ...filterableArgTypes,\n};\nFilterableWithSelectAll.parameters = {\n  controls: {\n    exclude: ['label'],\n  },\n};\nFilterable.argTypes = {\n  ...filterableArgTypes,\n  onChange: {\n    action: 'onChange',\n  },\n  onMenuChange: {\n    action: 'onMenuChange',\n  },\n};\nFilterable.parameters = {\n  controls: {\n    exclude: ['label'],\n  },\n};\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:375"
+  },
+  {
+   "name": "FilterableWithCustomSearch",
+   "description": null,
+   "code": "export const FilterableWithCustomSearch = (args) => {\n  const [searchResults, setSearchResults] = useState(customSearchItems);\n\n  function handleInputValueChange(changes) {\n    action('onInputValueChange')(changes);\n    const query = changes.inputValue?.trim().toLocaleLowerCase();\n\n    setSearchResults(\n      query\n        ? customSearchItems.filter((item) => {\n            return item.searchTerms.some((term) => term.includes(query));\n          })\n        : customSearchItems\n    );\n  }\n\n  return (\n    <div style={{ width: 300 }}>\n      <FilterableMultiSelect\n        {...args}\n        id=\"carbon-multiselect-custom-search\"\n        titleText=\"Filter by category or color\"\n        helperText='Try searching for \"fruit\" or \"green\"'\n        items={searchResults}\n        itemToString={(item) => (item ? item.text : '')}\n        filterItems={preserveCustomSearchResults}\n        onInputValueChange={handleInputValueChange}\n      />\n    </div>\n  );\n};\n\nFilterableWithCustomSearch.args = { ...sharedArgs };\nFilterableWithCustomSearch.argTypes = {\n  ...filterableArgTypes,\n};\nFilterableWithCustomSearch.parameters = {\n  controls: {\n    exclude: ['label'],\n  },\n};\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:419"
+  },
+  {
+   "name": "WithLayerMultiSelect",
+   "description": null,
+   "code": "export const WithLayerMultiSelect = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <div style={{ width: 300 }}>\n        <MultiSelect\n          label=\"Multiselect Label\"\n          id={`carbon-multiselect-example-${layer}`}\n          titleText=\"Multiselect title\"\n          helperText=\"This is helper text\"\n          items={items}\n          itemToString={(item) => (item ? item.text : '')}\n          selectionFeedback=\"top-after-reopen\"\n          {...args}\n        />\n      </div>\n    )}\n  </WithLayer>\n);\nWithLayerMultiSelect.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:461"
+  },
+  {
+   "name": "_FilterableWithLayer",
+   "description": null,
+   "code": "export const _FilterableWithLayer = (args) => (\n  <WithLayer>\n    {(layer) => (\n      <div style={{ width: 300 }}>\n        <FilterableMultiSelect\n          id={`carbon-multiselect-example-${layer}`}\n          titleText=\"Multiselect title\"\n          helperText=\"This is helper text\"\n          items={items}\n          itemToString={(item) => (item ? item.text : '')}\n          selectionFeedback=\"top-after-reopen\"\n          {...args}\n        />\n      </div>\n    )}\n  </WithLayer>\n);\n\n_FilterableWithLayer.args = { ...sharedArgs };\n\n_FilterableWithLayer.argTypes = {\n  ...filterableArgTypes,\n};\n_FilterableWithLayer.parameters = {\n  controls: {\n    exclude: ['label'],\n  },\n};\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:480"
+  },
+  {
+   "name": "_Controlled",
+   "description": null,
+   "code": "export const _Controlled = (args) => {\n  const [selectedItems, setSelectedItems] = useState(\n    items.filter((item) => item.id === 'downshift-1-item-0')\n  );\n\n  const onSelectionChanged = (value) => {\n    action('changed items')(value);\n    setSelectedItems(value);\n  };\n\n  return (\n    <div style={{ width: 300 }}>\n      <MultiSelect\n        id=\"carbon-multiselect-example-controlled\"\n        titleText=\"Multiselect title\"\n        label=\"Multiselect label\"\n        items={items}\n        selectedItems={selectedItems}\n        onChange={(data) => onSelectionChanged(data.selectedItems)}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n      <br />\n      <ButtonSet>\n        <Button\n          id=\"all\"\n          onClick={() =>\n            setSelectedItems(items.filter((item) => !item.disabled))\n          }>\n          Select all\n        </Button>\n        <Button\n          id=\"clear\"\n          kind=\"secondary\"\n          onClick={() => setSelectedItems([])}>\n          Clear\n        </Button>\n      </ButtonSet>\n    </div>\n  );\n};\n\n_Controlled.args = { ...sharedArgs };\nconst itemsWithSelectAll = [\n  {\n    id: 'downshift-1-item-0',\n    text: 'Editor',\n  },\n  {\n    id: 'downshift-1-item-1',\n    text: 'Owner',\n  },\n  {\n    id: 'downshift-1-item-2',\n    text: 'Uploader',\n  },\n  {\n    id: 'downshift-1-item-3',\n    text: 'Reader - a disabled item',\n    disabled: true,\n  },\n  {\n    id: 'select-all',\n    text: 'All roles',\n    isSelectAll: true,\n  },\n];\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:508"
+  },
+  {
+   "name": "SelectAll",
+   "description": null,
+   "code": "export const SelectAll = (args) => {\n  const [label, setLabel] = useState('Choose options');\n\n  const onChange = (value) => {\n    if (value.selectedItems.length == 1) {\n      setLabel('Option selected');\n    } else if (value.selectedItems.length > 1) {\n      setLabel('Options selected');\n    } else {\n      setLabel('Choose options');\n    }\n  };\n\n  return (\n    <div style={{ width: 300 }}>\n      <MultiSelect\n        label={label}\n        id=\"carbon-multiselect-example\"\n        titleText=\"Multiselect title\"\n        helperText=\"This is helper text\"\n        items={itemsWithSelectAll}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        onChange={onChange}\n        {...args}\n      />\n    </div>\n  );\n};\n\nSelectAll.args = { ...sharedArgs };\n\nconst aiLabel = (\n  <AILabel className=\"ai-label-container\">\n    <AILabelContent>\n      <div>\n        <p className=\"secondary\">AI Explained</p>\n        <h2 className=\"ai-label-heading\">84%</h2>\n        <p className=\"secondary bold\">Confidence score</p>\n        <p className=\"secondary\">\n          Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed do\n          eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.\n        </p>\n        <hr />\n        <p className=\"secondary\">Model type</p>\n        <p className=\"bold\">Foundation model</p>\n      </div>\n      <AILabelActions>\n        <IconButton kind=\"ghost\" label=\"View\">\n          <View />\n        </IconButton>\n        <IconButton kind=\"ghost\" label=\"Open Folder\">\n          <FolderOpen />\n        </IconButton>\n        <IconButton kind=\"ghost\" label=\"Folders\">\n          <Folders />\n        </IconButton>\n        <Button>View details</Button>\n      </AILabelActions>\n    </AILabelContent>\n  </AILabel>\n);\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:577"
+  },
+  {
+   "name": "withAILabel",
+   "description": null,
+   "code": "export const withAILabel = (args) => (\n  <div style={{ width: 400 }}>\n    <MultiSelect\n      label=\"Multiselect Label\"\n      id=\"carbon-multiselect-example\"\n      titleText=\"Multiselect title\"\n      helperText=\"This is helper text\"\n      items={items}\n      itemToString={(item) => (item ? item.text : '')}\n      selectionFeedback=\"top-after-reopen\"\n      decorator={aiLabel}\n      {...args}\n    />\n  </div>\n);\n\nwithAILabel.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:640"
+  },
+  {
+   "name": "FilterableWithAILabel",
+   "description": null,
+   "code": "export const FilterableWithAILabel = (args) => (\n  <div style={{ width: 400 }}>\n    <FilterableMultiSelect\n      label=\"Multiselect Label\"\n      id=\"carbon-multiselect-example\"\n      titleText=\"Multiselect title\"\n      helperText=\"This is helper text\"\n      items={items}\n      itemToString={(item) => (item ? item.text : '')}\n      selectionFeedback=\"top-after-reopen\"\n      decorator={aiLabel}\n      {...args}\n    />\n  </div>\n);\n\nFilterableWithAILabel.args = { ...sharedArgs };\nFilterableWithAILabel.argTypes = {\n  ...filterableArgTypes,\n};\nFilterableWithAILabel.parameters = {\n  controls: {\n    exclude: ['label'],\n  },\n};\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:657"
+  },
+  {
+   "name": "ExperimentalAutoAlign",
+   "description": null,
+   "code": "export const ExperimentalAutoAlign = (args) => {\n  const ref = useRef();\n  useEffect(() => {\n    ref?.current?.scrollIntoView({ block: 'center', inline: 'center' });\n  });\n  return (\n    <div style={{ width: '5000px', height: '5000px' }}>\n      <div\n        style={{\n          position: 'absolute',\n          top: '2500px',\n          left: '2500px',\n          width: 300,\n        }}>\n        <MultiSelect\n          label=\"Multiselect Label\"\n          id=\"carbon-multiselect-example\"\n          titleText=\"Multiselect title\"\n          helperText=\"This is helper text\"\n          items={items}\n          itemToString={(item) => (item ? item.text : '')}\n          selectionFeedback=\"top-after-reopen\"\n          ref={ref}\n          autoAlign\n          {...args}\n        />\n      </div>\n    </div>\n  );\n};\n\nExperimentalAutoAlign.argTypes = {\n  autoAlign: {\n    control: false,\n  },\n};\n\nExperimentalAutoAlign.args = { ...sharedArgs, autoAlign: true };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:682"
+  },
+  {
+   "name": "withToggletipLabel",
+   "description": null,
+   "code": "export const withToggletipLabel = (args) => {\n  return (\n    <div>\n      <MultiSelect\n        label=\"Multiselect Label\"\n        id=\"carbon-multiselect-example\"\n        titleText={\n          <div style={{ display: 'flex', alignItems: 'center' }}>\n            <ToggletipLabel>Multiselect title</ToggletipLabel>\n            <Toggletip>\n              <ToggletipButton label=\"Show information\">\n                <Information />\n              </ToggletipButton>\n              <ToggletipContent>\n                <p>\n                  Lorem ipsum dolor sit amet, di os consectetur adipiscing elit,\n                  sed do eiusmod tempor incididunt ut fsil labore et dolore\n                  magna aliqua.\n                </p>\n                <ToggletipActions>\n                  <Link href=\"#\">Link action</Link>\n                  <Button size=\"sm\">Button</Button>\n                </ToggletipActions>\n              </ToggletipContent>\n            </Toggletip>\n          </div>\n        }\n        helperText=\"This is helper text\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        {...args}\n      />\n    </div>\n  );\n};\n\nwithToggletipLabel.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:720"
+  },
+  {
+   "name": "SelectAllWithDynamicItems",
+   "description": null,
+   "code": "export const SelectAllWithDynamicItems = (args) => {\n  const [label, setLabel] = useState('Choose options');\n  const [items, setItems] = useState(itemsWithSelectAll);\n\n  const onChange = (value) => {\n    if (value.selectedItems.length == 1) {\n      setLabel('Option selected');\n    } else if (value.selectedItems.length > 1) {\n      setLabel('Options selected');\n    } else {\n      setLabel('Choose options');\n    }\n  };\n\n  function addItems() {\n    setItems((prevItems) => {\n      const now = Date.now();\n      return [\n        ...prevItems,\n        {\n          id: `item-added-via-button-1${now}`,\n          text: `item-added-via-button-1${now}`,\n        },\n        {\n          id: `item-added-via-button-2${now}`,\n          text: `item-added-via-button-2${now}`,\n        },\n      ];\n    });\n  }\n\n  return (\n    <div style={{ width: 300 }}>\n      <MultiSelect\n        label={label}\n        id=\"carbon-multiselect-example\"\n        titleText=\"Multiselect title\"\n        helperText=\"This is helper text\"\n        items={items}\n        itemToString={(item) => (item ? item.text : '')}\n        selectionFeedback=\"top-after-reopen\"\n        onChange={onChange}\n        {...args}\n      />\n      <Button onClick={addItems}>Add 2 items to the list</Button>\n    </div>\n  );\n};\n\nSelectAllWithDynamicItems.args = { ...sharedArgs };\n",
+   "source": "packages/react/src/components/MultiSelect/MultiSelect.stories.js:759"
+  }
+ ],
+ "props": {
+  "name": "MultiSelect.propTypes",
+  "columns": [
+   "이름",
+   "타입",
+   "설명",
+   "출처"
+  ],
+  "rows": [
+   [
+    "autoAlign",
+    "PropTypes.bool",
+    "**Experimental**: Will attempt to automatically align the floating element to avoid collisions with the viewport and being clipped by ancestor elements. Requires React v17+ @see https://github.com/carbon-design-system/carbon/issues/18714",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:925"
+   ],
+   [
+    "className",
+    "PropTypes.string",
+    "Provide a custom class name to be added to the outermost node in the component",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:931"
+   ],
+   [
+    "clearSelectionDescription",
+    "PropTypes.string",
+    "Specify the text that should be read for screen readers that describes total items selected",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:936"
+   ],
+   [
+    "clearSelectionText",
+    "PropTypes.string",
+    "Specify the text that should be read for screen readers to clear selection.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:941"
+   ],
+   [
+    "compareItems",
+    "PropTypes.func",
+    "Provide a compare function that is used to determine the ordering of options. See 'sortItems' for more control. Consider declaring function with `useCallback` to prevent unnecessary re-renders.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:948"
+   ],
+   [
+    "decorator",
+    "PropTypes.node",
+    "**Experimental**: Provide a decorator component to be rendered inside the `MultiSelect` component",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:953"
+   ],
+   [
+    "direction",
+    "PropTypes.oneOf(['top', 'bottom'])",
+    "Specify the direction of the multiselect dropdown. Can be either top or bottom.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:958"
+   ],
+   [
+    "disabled",
+    "PropTypes.bool",
+    "Disable the control",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:963"
+   ],
+   [
+    "downshiftProps",
+    "PropTypes.object as PropTypes.Validator<",
+    "Additional props passed to Downshift. **Use with caution:** anything you define here overrides the components' internal handling of that prop. Downshift APIs and internals are subject to change, and in some cases they can not be shimmed by Carbon to shield you from potentially breaking changes.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:973"
+   ],
+   [
+    "helperText",
+    "PropTypes.node",
+    "Provide helper text that is used alongside the control label for additional help",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:981"
+   ],
+   [
+    "hideLabel",
+    "PropTypes.bool",
+    "Specify whether the title text should be hidden or not",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:986"
+   ],
+   [
+    "id",
+    "PropTypes.string.isRequired",
+    "Specify a custom `id`",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:991"
+   ],
+   [
+    "initialSelectedItems",
+    "PropTypes.array",
+    "Allow users to pass in arbitrary items from their collection that are pre-selected",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:997"
+   ],
+   [
+    "invalid",
+    "PropTypes.bool",
+    "Is the current selection invalid?",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1002"
+   ],
+   [
+    "invalidText",
+    "PropTypes.node",
+    "If invalid, what is the error?",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1007"
+   ],
+   [
+    "itemToElement",
+    "PropTypes.func",
+    "Renders an item as a custom React node instead of a string.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1012"
+   ],
+   [
+    "itemToString",
+    "PropTypes.func",
+    "Helper function passed to downshift that allows the library to render a given item to a string label. By default, it extracts the `label` field from a given item to serve as the item label in the list. Consider declaring function with `useCallback` to prevent unnecessary re-renders.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1020"
+   ],
+   [
+    "items",
+    "PropTypes.array.isRequired",
+    "We try to stay as generic as possible here to allow individuals to pass in a collection of whatever kind of data structure they prefer",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1026"
+   ],
+   [
+    "label",
+    "PropTypes.node.isRequired",
+    "Generic `label` that will be used as the textual representation of what this field is for",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1032"
+   ],
+   [
+    "light",
+    "deprecate(",
+    "`true` to use the light version.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1037"
+   ],
+   [
+    "locale",
+    "PropTypes.string",
+    "Specify the locale of the control. Used for the default `compareItems` used for sorting the list of items in the control.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1047"
+   ],
+   [
+    "onChange",
+    "PropTypes.func",
+    "`onChange` is a utility for this controlled component to communicate to a consuming component what kind of internal state changes are occurring.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1053"
+   ],
+   [
+    "onMenuChange",
+    "PropTypes.func",
+    "`onMenuChange` is a utility for this controlled component to communicate to a consuming component that the menu was open(`true`)/closed(`false`).",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1059"
+   ],
+   [
+    "open",
+    "PropTypes.bool",
+    "Initialize the component with an open(`true`)/closed(`false`) menu.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1064"
+   ],
+   [
+    "readOnly",
+    "PropTypes.bool",
+    "Whether or not the Dropdown is readonly",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1069"
+   ],
+   [
+    "selectedItems",
+    "PropTypes.array",
+    "For full control of the selected items",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1074"
+   ],
+   [
+    "selectionFeedback",
+    "PropTypes.oneOf(['top', 'fixed', 'top-after-reopen'])",
+    "Specify feedback (mode) of the selection. `top`: selected item jumps to top `fixed`: selected item stays at it's position `top-after-reopen`: selected item jump to top after reopen dropdown",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1082"
+   ],
+   [
+    "size",
+    "ListBoxSizePropType",
+    "Specify the size of the ListBox. Currently supports either `xs`, `sm`, `md` or `lg` as an option.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1087"
+   ],
+   [
+    "slug",
+    "deprecate(",
+    "",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1089"
+   ],
+   [
+    "sortItems",
+    "PropTypes.func",
+    "Provide a method that sorts all options in the control. Overriding this prop means that you also have to handle the sort logic for selected versus un-selected items. If you just want to control ordering, consider the `compareItems` prop instead. The return value should be a number whose sign indicates the relative order of the two elements: negative if a is less than b, positive if a is greater than b, and zero if they are equal. sortItems : (items: Array<Item>, { selectedItems: Array<Item>, itemToString: Item => string, compareItems: (itemA: string, itemB: string, { locale: string }) => number, locale: string, }) => Array<Item>",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1114"
+   ],
+   [
+    "titleText",
+    "PropTypes.node",
+    "Provide text to be used in a `<label>` element that is tied to the multiselect via ARIA attributes.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1120"
+   ],
+   [
+    "translateWithId",
+    "PropTypes.func",
+    "Translates component strings using your i18n tool.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1125"
+   ],
+   [
+    "type",
+    "ListBoxTypePropType",
+    "Specify 'inline' to create an inline multi-select.",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1130"
+   ],
+   [
+    "useTitleInItem",
+    "PropTypes.bool",
+    "Specify title to show title on hover",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1135"
+   ],
+   [
+    "warn",
+    "PropTypes.bool",
+    "Specify whether the control is currently in warning state",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1140"
+   ],
+   [
+    "warnText",
+    "PropTypes.node",
+    "Provide the text that is displayed when the control is in warning state",
+    "packages/react/src/components/MultiSelect/MultiSelect.tsx:1145"
+   ]
+  ],
+  "source": "packages/react/src/components/MultiSelect/MultiSelect.tsx"
+ },
+ "version": "1.115.0",
+ "tag": "v11.115.0",
+ "sourceRepo": "https://github.com/carbon-design-system/carbon/tree/v11.115.0"
+}

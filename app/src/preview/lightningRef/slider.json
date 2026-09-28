@@ -1,0 +1,112 @@
+{
+ "slug": "slider",
+ "title": "Slider",
+ "docs": [
+  {
+   "repoPath": "ui/components/slider/docs.mdx",
+   "bundled": "__internal/chunked/docs/./ui/components/slider/docs.mdx.js",
+   "bundleExists": true
+  }
+ ],
+ "examples": [
+  {
+   "repoPath": "ui/components/slider/base/example.jsx",
+   "bundled": "__internal/chunked/showcase/./ui/components/slider/base/example.jsx.js",
+   "bundleExists": true
+  }
+ ],
+ "scss": {
+  "files": [
+   {
+    "source": "scss/components/slider/_doc.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n/**\n * @summary An input range slider lets the user specify a numeric value which must be between two specified values.\n *\n * @base\n * @name slider\n * @selector .slds-slider\n * @category base\n * @type user-input\n * @support dev-ready\n * @lwc\n * @styling-hooks\n */\n"
+   },
+   {
+    "source": "scss/components/slider/base/_index.scss",
+    "code": "// Lightning Design System 2.264.1\n// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved\n// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license\n\n@mixin range-thumb {\n  @include appearance(none);\n  width: $slider-handle-size;\n  height: $slider-handle-size;\n  border-radius: var(--slds-c-slider-thumb-radius-border, var(--sds-c-slider-thumb-radius-border, $border-radius-circle));\n  background: none; // Reset underlying styles\n  background-color: var(--slds-c-slider-thumb-color-foreground, var(--sds-c-slider-thumb-color-foreground, $brand-accessible));\n  border: 0;\n  box-shadow: var(--slds-c-slider-thumb-shadow, var(--sds-c-slider-thumb-shadow, var(--slds-g-color-neutral-base-10, #{$slider-handle-shadow})));\n  cursor: pointer;\n  transition: background 0.15s ease-in-out;\n\n  &:hover {\n    // @todo re-evaluate Styling Hooks reassignment\n    background-color: var(--slds-c-slider-thumb-color-foreground-hover, var(--sds-c-slider-thumb-color-foreground-hover, $brand-accessible-active));\n  }\n}\n\n@mixin range-track {\n  width: 100%;\n  height: $slider-track-height;\n  cursor: pointer;\n  background: none; // Reset underlying styles\n  background-color: var(--slds-c-slider-track-color-background, var(--sds-c-slider-track-color-background, var(--slds-g-color-neutral-base-95, #{$slider-track-color-background})));\n  border-radius: var(--slds-c-slider-track-radius-border, var(--sds-c-slider-track-radius-border, $border-radius-small));\n}\n\n/**\n * @summary Initializes slider component\n *\n * @name base\n * @selector .slds-slider\n * @restrict div\n * @support dev-ready\n * @variant\n */\n.slds-slider {\n  display: flex;\n  position: relative;\n}\n\n/**\n * @summary Range track for slider\n *\n * @selector .slds-slider__range\n * @restrict .slds-slider input\n */\n.slds-slider__range {\n  @include appearance(none);\n  width: 100%;\n  background: none; // Reset underlying styles\n  background-color: transparent;\n  border-radius: $border-radius-small;\n\n  &:focus {\n    outline: 0;\n  }\n\n  // Webkit\n  &::-webkit-slider-thumb {\n    @include range-thumb;\n    margin-top: calc(((#{$slider-handle-size} / 2) - (#{$slider-track-height} / 2)) * -1);\n  }\n\n  &::-webkit-slider-runnable-track {\n    @include range-track;\n  }\n\n  // Firefox\n  &::-moz-range-thumb {\n    @include range-thumb;\n  }\n\n  &::-moz-range-track {\n    @include range-track;\n  }\n\n  // IE/Edge\n  &::-ms-track {\n    @include range-track;\n    border-color: transparent;\n    color: transparent;\n    cursor: pointer;\n  }\n\n  &::-ms-thumb {\n    @include range-thumb;\n    margin-top: calc(#{$slider-track-height} / 4);\n  }\n\n  &:focus::-webkit-slider-thumb {\n    background-color: var(--slds-c-slider-thumb-color-foreground-focus, var(--sds-c-slider-thumb-color-foreground-focus, $brand-accessible-active));\n    box-shadow: var(--slds-c-slider-thumb-shadow-focus,\n      var(--sds-c-slider-thumb-shadow-focus, var(--slds-g-shadow-outset-focus-1, #{$shadow-button-focus})));\n  }\n\n  &:active::-webkit-slider-thumb {\n    background-color: var(--slds-c-slider-thumb-color-foreground-active, var(--sds-c-slider-thumb-color-foreground-active, $brand-accessible-active));\n  }\n\n  &:focus::-moz-range-thumb {\n    background-color: var(--slds-c-slider-thumb-color-foreground-focus, var(--sds-c-slider-thumb-color-foreground-focus, $brand-accessible-active));\n    box-shadow: var(--slds-c-slider-thumb-shadow-focus, var(--sds-c-slider-thumb-shadow-focus, $shadow-button-focus));\n  }\n\n  &:active::-moz-range-thumb {\n    background-color: var(--slds-c-slider-thumb-color-foreground-active, var(--sds-c-slider-thumb-color-foreground-active, $brand-accessible-active));\n  }\n\n  &[disabled] {\n\n    &::-webkit-slider-thumb {\n      background-color: var(--slds-g-color-neutral-base-80, #{$slider-color-background-disabled});\n      cursor: default;\n    }\n\n    &::-webkit-slider-runnable-track {\n      background-color: var(--slds-g-color-neutral-base-95, #{$slider-color-background-disabled});\n      cursor: default;\n    }\n\n    &::-moz-range-thumb {\n      background-color: var(--slds-g-color-neutral-base-80, #{$slider-color-background-disabled});\n      cursor: default;\n    }\n\n    &::-moz-range-track {\n      background-color: var(--slds-g-color-neutral-base-95, #{$slider-color-background-disabled});\n    }\n\n    &::-ms-thumb {\n      background-color: var(--slds-g-color-neutral-base-80, #{$slider-color-background-disabled});\n      cursor: default;\n    }\n\n    &::-ms-track {\n      background-color: var(--slds-g-color-neutral-base-95, #{$slider-color-background-disabled});\n      cursor: default;\n    }\n  }\n}\n\n/**\n * @summary Element that contains value of input range\n *\n * @selector .slds-slider__value\n * @restrict .slds-slider span\n */\n.slds-slider__value {\n  padding: 0 $spacing-x-small;\n}\n\n/**\n * @summary Contains the label and range for the slider label - not required\n *\n * @selector .slds-slider-label\n * @restrict .slds-form-element span\n */\n.slds-slider-label {\n  // Hook for adding a11y class if needed to hide\n}\n\n/**\n * @summary Contains the label for the slider and adds a hook for adding `.slds-assistive-text` class to visually hide the label, but not the range\n *\n * @selector .slds-slider-label__label\n * @restrict .slds-slider-label span\n */\n.slds-slider-label__label {\n  display: block;\n}\n\n/**\n * @summary Contains the range for the slider\n *\n * @selector .slds-slider-label__range\n * @restrict .slds-slider-label span\n */\n.slds-slider-label__range {\n  // Hook for adding a11y class to hide\n}\n\n/**\n * @summary Modifier that makes the slider vertical\n *\n * @selector .slds-slider_vertical\n * @restrict .slds-slider\n * @modifier\n */\n.slds-slider_vertical {\n  height: ($size-x-small + $height-input);\n\n  .slds-slider__range {\n    width: $size-x-small;\n    height: $slider-handle-size;\n    transform: rotate(-90deg);\n    transform-origin: ($size-x-small * 0.5) ($size-x-small * 0.5);\n  }\n\n  .slds-slider__value {\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    padding: 0;\n  }\n}\n"
+   },
+   {
+    "source": "scss/components/slider/base/_touch.scss",
+    "code": "// Lightning Design System 2.264.1\n@mixin range-thumb-touch {\n  height: $height-tappable-small;\n  width: $height-tappable-small;\n}\n\n.slds-slider {\n  align-items: center;\n  margin-top: $spacing-x-small;\n  min-height: $height-tappable-small; // Make container as large as slider thumb\n}\n\n.slds-slider__range {\n  // Webkit\n  &::-webkit-slider-thumb {\n    @include range-thumb-touch;\n    margin-top: calc(((#{$height-tappable-small} / 2) - (#{$slider-track-height} / 2)) * -1);\n  }\n\n  // Firefox\n  &::-moz-range-thumb {\n    @include range-thumb-touch;\n  }\n\n  // IE/Edge\n  &::-ms-thumb {\n    @include range-thumb-touch;\n  }\n}\n\n.slds-slider_vertical {\n  align-items: initial; // We don't want to mess with the transform rotation going on below\n\n  .slds-slider__range {\n    /* We nudge the range over instead of increasing the height so we can align the text value by the same amount,\n       the transform rotation makes centering via conventional means impractical */\n    margin-left: calc((#{$height-tappable-small} - #{$slider-handle-size}) / 2);\n  }\n\n  .slds-slider__value {\n    left: calc((#{$height-tappable-small} - #{$slider-handle-size}) / 2);\n  }\n}\n"
+   }
+  ],
+  "source": "scss/components/slider"
+ },
+ "stylingHooks": {
+  "columns": [
+   "훅",
+   "fallback",
+   "범주",
+   "값타입",
+   "출처"
+  ],
+  "rows": [
+   [
+    "--slds-c-slider-thumb-radius-border",
+    "50%",
+    "Radius",
+    "Dimension",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-color-foreground",
+    "rgb(1, 118, 211)",
+    "Color",
+    "Color",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-shadow",
+    "10, rgba(0, 0, 0, 0.16) 0 2px 3px",
+    "Box Shadow",
+    "String",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-color-foreground-hover",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-track-color-background",
+    "95, rgb(243, 243, 243)",
+    "Color",
+    "Color",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-track-radius-border",
+    "0.125rem",
+    "Radius",
+    "Dimension",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-color-foreground-focus",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-shadow-focus",
+    "0 0 3px #0176d3",
+    "Box Shadow",
+    "String",
+    "metadata/components/slider/styling-hooks.json"
+   ],
+   [
+    "--slds-c-slider-thumb-color-foreground-active",
+    "rgb(1, 68, 134)",
+    "Color",
+    "Color",
+    "metadata/components/slider/styling-hooks.json"
+   ]
+  ],
+  "source": "metadata/components/slider/styling-hooks.json"
+ },
+ "version": "2.264.1",
+ "packageSource": "node_modules/@salesforce-ux/design-system"
+}

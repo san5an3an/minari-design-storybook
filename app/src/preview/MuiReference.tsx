@@ -1,11 +1,17 @@
 import * as React from "react";
 import Markdown, { type Components } from "react-markdown";
 import { parseColorTokens } from "./tokens";
+import { componentGroups, resolveTokenGroup } from "./tokenGroups";
+import { Master, Kids, Kid } from "./Doc";
+// shadcn ComponentPage, antd와 동일 표 재사용. 값 어긋날 수 있음
+import { TokenTable } from "./TokenTable";
+import { loadKo, pick, type KoText } from "./muiRef/ko";
 import { loadMuiDoc, muiEntry, type MuiBlock, type MuiDoc } from "./muiRef/loader";
 import { loadDemos, type DemoModule, type ToneColor } from "./muiRef/demos";
 import type { Mode } from "../systems/types";
 import type { SystemDefinition } from "../systems/types";
 
+import { fillMuiApi } from "./derivedApi";
 function officialHref(href: string | undefined, slug: string): string {
   if (!href) return "";
   if (/^[a-z]+:/i.test(href)) return href; // 이미 절대 URL인지 여부
@@ -27,8 +33,42 @@ function undirective(text: string): string {
   });
 }
 
-function Prose({ text, slug }: { text: string; slug: string }) {
-  const md = React.useMemo( => undirective(text), [text]);
+const HTML_TO_MD: [RegExp, string][] = [
+  [/<\/?(?:ul|p)>/gi, "\n\n"],
+  [/<li>/gi, "\n- "],
+  [/<\/li>/gi, ""],
+  [/<br\s*\/?>/gi, "  \n"], // 마크다운의 강제 줄바꿈
+  [/<code>([\s\S]*?)<\/code>/gi, "`$1`"],
+  [/<strong>([\s\S]*?)<\/strong>/gi, "**$1**"],
+  [/<em>([\s\S]*?)<\/em>/gi, "*$1*"],
+  [/<a\s+[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)"],
+];
+
+const ENTITY = /&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]{1,31});/g;
+const entityCache = new Map<string, string>;
+
+function decodeEntities(s: string): string {
+  if (!s.includes("&") || typeof document === "undefined") return s;
+  return s.replace(ENTITY, (tok) => {
+    let got = entityCache.get(tok);
+    if (got === undefined) {
+      const el = document.createElement("textarea");
+      el.innerHTML = tok;
+      got = el.value;
+      entityCache.set(tok, got);
+    }
+    return got;
+  });
+}
+
+function htmlToMarkdown(s: string): string {
+  return decodeEntities(HTML_TO_MD.reduce((acc, [re, to]) => acc.replace(re, to), s));
+}
+
+// @param html HTML 원문 여부, md 본문에는 비적용
+function Prose({ text, slug, html }: { text: string; slug: string; html?: boolean }) {
+  const md = React.useMemo(
+     => undirective(html ? htmlToMarkdown(text) : text), [text, html]);
   const components = React.useMemo<Components>( => ({
     a: ({ href, children }) => (
       <a href={officialHref(href, slug)} target="_blank" rel="noreferrer">{children}</a>
@@ -40,6 +80,7 @@ function Prose({ text, slug }: { text: string; slug: string }) {
         style={{ maxWidth: "100%", height: "auto", borderRadius: ".375rem" }}
       />
     ),
+    pre:  => null,
   }), [slug]);
   return <div className="doc-prose"><Markdown components={components}>{md}</Markdown></div>;
 }
@@ -66,48 +107,59 @@ class DemoBoundary extends React.Component<
   }
 }
 
-const BREAKS_OUT = /position=["']fixed["']|position:\s*["']fixed["']|100vh/;
+function docId(title: string): string {
+  return title.trim.toLowerCase.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 
-function Section({ level, title, children }: {
-  level: number; title: string; children: React.ReactNode;
+// 명세서 섹션. 제목, 개수, 설명 표시
+function Section({ title, count, note, children }: {
+  title: string; count?: number; note?: React.ReactNode; children?: React.ReactNode;
 }) {
-  const id = title
-    ? title.toLowerCase.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
-    : undefined;
   return (
-    <section className="doc-section" id={id}>
-      {level === 2 ? <h2>{title}</h2> : level === 3 ? <h3 className="doc-h3">{title}</h3> : null}
+    <section className="doc-section" id={docId(title)}>
+      <h2>{title}{count === undefined ? null : <span className="doc-axis">{count}</span>}</h2>
+      {note ? <p className="doc-note" style={{ marginTop: 0 }}>{note}</p> : null}
       {children}
     </section>
   );
 }
 
-function Block({ block, doc, mod, Provider, active, tones }: {
+function josa(word: string): string {
+  const last = word.trim.slice(-1).charCodeAt(0);
+  const hangul = last >= 0xac00 && last <= 0xd7a3;
+  return hangul && (last - 0xac00) % 28 !== 0 ? "이" : "가";
+}
+
+// 공식에 해당 섹션이 없을 때. 빈 화면으로 두지 않음
+function Absent({ what }: { what: string }) {
+  // 보충 설명 문구 생략
+  return (
+    <p className="doc-note" style={{ marginTop: 0 }}>
+      공식 문서에 <b>{what}{josa(what)} 없어요.</b>
+    </p>
+  );
+}
+
+function Block({ block, doc, mod, Provider, active, tones, ko }: {
   block: MuiBlock;
   doc: MuiDoc;
   mod: DemoModule | null;
   Provider: SystemDefinition["Provider"];
   active: Mode;
   tones: ToneColor[];
+  ko: KoText | null;
 }) {
-  if (block.kind === "prose") return <Prose text={block.text} slug={doc.slug} />;
+  // 번역 우선 사용, 없으면 원문. 코드 블록은 공식 삽입 콘텐츠라 제외
+  if (block.kind === "prose") return <Prose text={pick(ko, block.text)} slug={doc.slug} />;
 
-  if (block.kind === "code") {
-    // 코드는 예제 아닌 본문임. 공식 글 속에 끼워진 부분이라 빼면 문장이 끊어지는 문제 있음
-    return (
-      <pre className="doc-code"><code>{block.text.replace(/\n+$/, "")}</code></pre>
-    );
-  }
+  if (block.kind === "code") return null;
 
   const Demo = mod ? mod.demos[block.name] : undefined;
   const why = mod ? mod.skipped[block.name] : undefined;
 
   if (Demo) {
     return (
-      <div
-        className={"doc-demo-stage"
-          + (BREAKS_OUT.test(block.code) ? " doc-demo-stage--contain" : "")}
-      >
+      <div className="doc-demo-contain">
         <DemoBoundary name={block.name}>
           <Provider mode={active}><Demo tones={tones} /></Provider>
         </DemoBoundary>
@@ -182,12 +234,25 @@ export function MuiReference({ slug, system, active }: {
     return  => { alive = false; };
   }, [slug]);
 
+  const [ko, setKo] = React.useState<KoText | null>(null);
+  React.useEffect( => {
+    let alive = true;
+    loadKo.then((k) => { if (alive) setKo(k); }).catch( => {});
+    return  => { alive = false; };
+  }, []);
+
   React.useEffect( => {
     let alive = true; // 빠른 전환 시 늦게 도착한 응답의 화면 덮어쓰기 방지
     setDoc(null); setErr(null);
     const p = loadMuiDoc(slug);
     if (!p) return; // 저장소가 다른 항목
-    p.then((d) => { if (alive) setDoc(d); })
+    // 표가 비면 설치된 패키지 타입에서 채우기. 규칙은 derivedApi.ts에 있음
+    p.then(async (d) => {
+      if (d.api.length > 0) return d;
+      const filled = await fillMuiApi(d.slug, d.title);
+      return filled ? { ...d, api: filled } : d;
+    })
+     .then((d) => { if (alive) setDoc(d); })
      .catch((e) => { if (alive) setErr(String(e)); });
     return  => { alive = false; };
   }, [slug]);
@@ -196,44 +261,94 @@ export function MuiReference({ slug, system, active }: {
   if (err) return <p className="doc-note">{err}</p>;
   if (!doc) return <p className="doc-note">불러오는 중…</p>;
 
-  const demos = doc.sections.reduce(
-    (n, s) => n + s.blocks.filter((b) => b.kind === "demo").length, 0);
+  const flat = doc.sections.flatMap((sec) =>
+    sec.blocks.filter((b) => b.kind === "demo").map((block) => ({ axis: sec.title, block })));
+  const introAt = flat.findIndex((f) => f.axis === "Introduction");
+  const masterAt = introAt >= 0 ? introAt : 0;
+  const master = flat[masterAt];
+  const variants = flat.filter((_, i) => i !== masterAt);
+
+  const byAxis: [string, typeof variants][] = [];
+  for (const v of variants) {
+    const cur = byAxis.find(([axis]) => axis === v.axis);
+    if (cur) cur[1].push(v); else byAxis.push([v.axis, [v]]);
+  }
+
+  // 공식 해부도. shadcn 명세서 Parts 위치라 이름만 맞추고 내용은 공식 그대로 유지
+  const anatomy = doc.sections.find((s) => s.title === "Anatomy");
+
+  const group = resolveTokenGroup(doc.slug, doc.title, componentGroups(system.vars));
+  const tokenGroup = group ?? doc.slug;
+  const ourTokens = group
+    ? parseColorTokens(system.vars).filter((t) => t.name.startsWith(`--component-${group}-`))
+    : [];
+
+  const one = (f: { axis: string; block: MuiBlock }) => (
+    <Block block={f.block} doc={doc} mod={mod} Provider={Provider}
+           active={active} tones={tones} ko={ko} />
+  );
 
   return (
     <>
       <header className="doc-head">
         <h2 className="doc-h2">{doc.title}</h2>
         {doc.description ? (
-          <p className="doc-lead">{doc.description}</p>
+          <p className="doc-lead">{ko?.lead[doc.slug] || doc.description}</p>
         ) : null}
         <p className="doc-note" style={{ marginTop: ".25rem" }}>
-          <b>{doc.group}</b> · 공식 문서를 절 순서까지 그대로 옮긴 참조예요.{" "}
-          <b>MUI 를 골랐을 때만</b> 보여요. 예제 {demos}개는 <b>공식 원본 코드</b>를
-          이 시스템의 테마 안에서 세운 거예요. 바꾼 건 <b>아이콘을 부르는 위치 하나</b>
-          뿐이에요(이 프로젝트는 Lucide 밖의 아이콘을 화면에 올리지 않아요).{" "}
+          <b>{doc.group}</b> · 공식 문서의 예제를 <b>그대로</b> 세운 명세서예요.{" "}
+          <b>MUI 를 골랐을 때만</b> 보여요.{" "}
           <a href={doc.docHref} target="_blank" rel="noreferrer">공식 문서</a>
         </p>
       </header>
 
-      {doc.sections.map((sec, si) => (
-        <Section key={si} level={sec.level} title={sec.title}>
-          {sec.blocks.map((b, bi) => (
-            <Block
-              key={bi}
-              block={b}
-              doc={doc}
-              mod={mod}
-              Provider={Provider}
-              active={active}
-              tones={tones}
-            />
-          ))}
-        </Section>
-      ))}
+      <Master
+        note={<>공식 문서가 맨 앞에 두는 기본형이에요{introAt >= 0
+          ? <>, <b>Introduction</b> 바로 아래 그것이에요.</>
+          : <>. 이 컴포넌트엔 <b>Introduction 절이 없어서</b> 문서 순서의 첫 예제예요.</>}{" "}
+          {/* 뒷문장은 antd 화면 문구와 동일하게 유지 */}
+          색·모서리·글자는 <b>이 시스템 토큰</b>을 사용해요. 아래 <b>Tokens</b>을 참고해주세요.</>}
+      >
+        {master ? one(master) : <Absent what="예제" />}
+      </Master>
 
+      {/* 축마다 섹션 구성, 이름을 h2 제목으로 표시 */}
+      {variants.length === 0 ? (
+        <Section title="Variants">
+          <Absent what="기본형 말고 다른 예제" />
+        </Section>
+      ) : (
+        byAxis.map(([axis, list]) => (
+          <Kids key={axis} axis={axis || "기타"}>
+            {/* 왼쪽 라벨은 공식 예제 이름 사용, 임의 이름은 문서에서 못 찾음 */}
+            {list.map((f, i) => (
+              <Kid key={i} label={f.block.name}>{one(f)}</Kid>
+            ))}
+          </Kids>
+        ))
+      )}
+
+      <Section title="Parts">
+        {anatomy
+          ? anatomy.blocks.map((b, bi) => (
+              <Block key={bi} block={b} doc={doc} mod={mod} Provider={Provider}
+                     active={active} tones={tones} ko={ko} />
+            ))
+          : <Absent what="Anatomy" />}
+      </Section>
+
+      <Section
+        title="API Reference"
+        count={doc.api.length || undefined}
+        note={<>공식 문서의 API 절을 <b>그대로</b> 가져온 거예요.</>}
+      >
+        {doc.api.length === 0 ? <Absent what="API" /> : null}
+
+      {/* 표를 같은 섹션 안에 배치, 별도 섹션 분리 없이 유지 */}
       {doc.api.map((api) => (
-        <Section key={api.name} level={2} title={`${api.name} API`}>
-          {api.description ? <Prose text={api.description} slug={doc.slug} /> : null}
+        <div key={api.name} className="doc-api-block">
+          <h3 className="doc-h3">{api.name}</h3>
+          {/* api.description 미표시, 소스 설명문에 산문과 예제, 경고 상자까지 포함되어 있음 */}
           <div style={{ overflowX: "auto" }}>
             <table className="doc-props doc-ref-table">
               <thead>
@@ -246,14 +361,13 @@ export function MuiReference({ slug, system, active }: {
                       <code>{p.prop}</code>
                       {p.required ? <i className="doc-req-mark">필수</i> : null}
                     </th>
-                    {/* Type 값은 문서 HTML 그대로 유지. 마크다운 렌더링 시 표시가 글자로 보임 */}
-                    <td><code>{p.type.replace(/<br\s*\/?>/gi, " ")
-                      .replace(/&#124;/g, "|").replace(/&nbsp;/g, " ")}</code></td>
+                    {/* Type 값은 공식 문서 HTML 그대로 유지. 이 위치는 마크다운을 거치지 않음 */}
+                    <td><code>{decodeEntities(p.type.replace(/<br\s*\/?>/gi, " "))}</code></td>
                     <td>{p.default ? <code>{p.default}</code>
                       : <span className="doc-dim">—</span>}</td>
                     <td>
                       {p.deprecated ? <b>(deprecated) </b> : null}
-                      {p.desc ? <Prose text={p.desc} slug={doc.slug} />
+                      {p.desc ? <Prose html text={pick(ko, p.desc)} slug={doc.slug} />
                         : <span className="doc-dim">—</span>}
                     </td>
                   </tr>
@@ -261,8 +375,27 @@ export function MuiReference({ slug, system, active }: {
               </tbody>
             </table>
           </div>
-        </Section>
+        </div>
       ))}
+      </Section>
+
+      {/* 컬러는 예외 없이 자체 값 사용, 화면에 렌더링된 공식 컴포넌트 값 그대로 기록 */}
+      <Section
+        title="Tokens"
+        count={ourTokens.length || undefined}
+        note={ourTokens.length
+          ? <><code>--component-{tokenGroup}-*</code> 는 이 컴포넌트만 쓰는 이름이에요.
+              값은 semantic 층을 가리키고, 그 층이 모드에 따라 바뀌어요.</>
+          : undefined}
+      >
+        {ourTokens.length
+          ? <TokenTable tokens={ourTokens} active={active} />
+          : <p className="doc-note" style={{ marginTop: 0 }}>
+              이 컴포넌트는 <b>이 프로젝트 계약에 없어요.</b> 그래서 전용 토큰
+              (<code>--component-{tokenGroup}-*</code>)도 없어요. 빠뜨린 게 아니라
+              아직 이 프로젝트 것으로 안 들인 컴포넌트예요. 화면의 색은 시스템 팔레트를 탑니다.
+            </p>}
+      </Section>
     </>
   );
 }

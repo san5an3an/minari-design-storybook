@@ -1,0 +1,65 @@
+{
+  "slug": "menu",
+  "title": "Menu",
+  "group": "Collections",
+  "heading": "Menu",
+  "description": null,
+  "sharedImports": "import {ActionButton} from '@react-spectrum/button'\nimport Copy from '@spectrum-icons/workflow/Copy';\nimport Cut from '@spectrum-icons/workflow/Cut';\nimport {Item, Menu, MenuTrigger, Section} from '@react-spectrum/menu';\nimport Paste from '@spectrum-icons/workflow/Paste';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "<MenuTrigger>\n  <ActionButton>\n    Edit\n  </ActionButton>\n  <Menu onAction={(key) => alert(key)}>\n    <Item key=\"cut\">Cut</Item>\n    <Item key=\"copy\">Copy</Item>\n    <Item key=\"paste\">Paste</Item>\n    <Item key=\"replace\">Replace</Item>\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Content",
+      "code": "function Example() {\n  let menuItems = [\n    {name: 'Cut'},\n    {name: 'Copy'},\n    {name: 'Paste'},\n    {name: 'Replace'}\n  ];\n\n  return (\n    <MenuTrigger>\n      <ActionButton>\n        Edit\n      </ActionButton>\n      <Menu items={menuItems}>\n        {item => <Item key={item.name}>{item.name}</Item>}\n      </Menu>\n    </MenuTrigger>\n  );\n}"
+    },
+    {
+      "name": "Events",
+      "code": "function Example() {\n  let [action, setAction] = React.useState(null);\n\n  return (\n    <>\n      <MenuTrigger>\n        <ActionButton>\n          Edit\n        </ActionButton>\n        <Menu onAction={setAction}>\n          <Item key=\"cut\">Cut</Item>\n          <Item key=\"copy\">Copy</Item>\n          <Item key=\"paste\">Paste</Item>\n        </Menu>\n      </MenuTrigger>\n      <p>Action: {action}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Selection",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set(['middle']));\n\n  return (\n    <>\n      <MenuTrigger>\n        <ActionButton>\n          Align\n        </ActionButton>\n        <Menu selectionMode=\"single\" selectedKeys={selected} onSelectionChange={setSelected}>\n          <Item key=\"left\">Left</Item>\n          <Item key=\"middle\">Middle</Item>\n          <Item key=\"right\">Right</Item>\n        </Menu>\n      </MenuTrigger>\n      <p>Current selection (controlled): {[...selected]}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Selection",
+      "code": "function Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set(['Sidebar', 'Console']));\n\n  return (\n    <>\n      <MenuTrigger closeOnSelect={false}>\n        <ActionButton>\n          Show\n        </ActionButton>\n        <Menu selectionMode=\"multiple\" selectedKeys={selected} onSelectionChange={setSelected}>\n          <Item key='Sidebar'>Sidebar</Item>\n          <Item key='Searchbar'>Searchbar</Item>\n          <Item key='Tools'>Tools</Item>\n          <Item key='Console'>Console</Item>\n        </Menu>\n      </MenuTrigger>\n      <p>Current selection (controlled): {selected === 'all' ? 'all' : [...selected].join(', ')}</p>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Links",
+      "code": "<MenuTrigger>\n  <ActionButton>Links</ActionButton>\n  <Menu>\n    <Item href=\"https://adobe.com/\" target=\"_blank\">Adobe</Item>\n    <Item href=\"https://apple.com/\" target=\"_blank\">Apple</Item>\n    <Item href=\"https://google.com/\" target=\"_blank\">Google</Item>\n    <Item href=\"https://microsoft.com/\" target=\"_blank\">Microsoft</Item>\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Static Items",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set(['bold', 'left']));\n\n  return (\n    <MenuTrigger>\n      <ActionButton>\n        Edit\n      </ActionButton>\n      <Menu selectionMode=\"multiple\" selectedKeys={selected} onSelectionChange={setSelected}>\n        <Section title=\"Styles\">\n          <Item key=\"bold\">Bold</Item>\n          <Item key=\"underline\">Underline</Item>\n        </Section>\n        <Section title=\"Align\">\n          <Item key=\"left\">Left</Item>\n          <Item key=\"middle\">Middle</Item>\n          <Item key=\"right\">Right</Item>\n        </Section>\n      </Menu>\n    </MenuTrigger>\n  );\n}"
+    },
+    {
+      "name": "Dynamic Items",
+      "code": "import type {Selection} from '@adobe/react-spectrum';\n\nfunction Example() {\n  let [selected, setSelected] = React.useState<Selection>(new Set([1,3]));\n  let openWindows = [\n    {\n      name: 'Left Panel',\n      id: 'left',\n      children: [\n        {id: 1, name: 'Final Copy (1)'}\n      ]\n    },\n    {\n      name: 'Right Panel',\n      id: 'right',\n      children: [\n        {id: 2, name: 'index.ts'},\n        {id: 3, name: 'package.json'},\n        {id: 4, name: 'license.txt'}\n      ]\n    }\n  ];\n\n  return (\n    <MenuTrigger>\n      <ActionButton>\n        Window\n      </ActionButton>\n      <Menu\n        items={openWindows}\n        selectionMode=\"multiple\"\n        selectedKeys={selected}\n        onSelectionChange={setSelected}>\n        {item => (\n          <Section items={item.children} title={item.name}>\n            {item => <Item>{item.name}</Item>}\n          </Section>\n        )}\n      </Menu>\n    </MenuTrigger>\n  );\n}"
+    },
+    {
+      "name": "Complex Menu Items",
+      "code": "import {Keyboard, Text} from '@react-spectrum/text';\n<MenuTrigger>\n  <ActionButton>\n    Edit\n  </ActionButton>\n  <Menu>\n    <Item key=\"cut\" textValue=\"cut\">\n      <Cut />\n      <Text>Cut</Text>\n      <Keyboard>⌘X</Keyboard>\n    </Item>\n    <Item key=\"copy\" textValue=\"copy\">\n      <Copy />\n      <Text>Copy</Text>\n      <Keyboard>⌘C</Keyboard>\n    </Item>\n    <Item key=\"paste\" textValue=\"paste\">\n      <Paste />\n      <Text>Paste</Text>\n      <Keyboard>⌘V</Keyboard>\n    </Item>\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Unavailable Items",
+      "code": "import {Content, Dialog, Heading} from '@adobe/react-spectrum';\nimport {ContextualHelpTrigger} from '@react-spectrum/menu';\n\n<MenuTrigger>\n  <ActionButton>Edit</ActionButton>\n  <Menu>\n    <Item key=\"undo\">Undo</Item>\n    <Item key=\"redo\">Redo</Item>\n    <ContextualHelpTrigger isUnavailable>\n      <Item key=\"cut\">Cut</Item>\n      <Dialog>\n        <Heading>Cut</Heading>\n        <Content>Please select text for 'Cut' to be enabled.</Content>\n      </Dialog>\n    </ContextualHelpTrigger>\n    <ContextualHelpTrigger isUnavailable>\n      <Item key=\"copy\">Copy</Item>\n      <Dialog>\n        <Heading>Copy</Heading>\n        <Content>Please select text for 'Copy' to be enabled.</Content>\n      </Dialog>\n    </ContextualHelpTrigger>\n    <ContextualHelpTrigger>\n      <Item key=\"paste\">Paste</Item>\n      <Dialog>\n        <Heading>Paste</Heading>\n        <Content>You have nothing to 'Paste'.</Content>\n      </Dialog>\n    </ContextualHelpTrigger>\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Static",
+      "code": "import {SubmenuTrigger} from '@react-spectrum/menu';\n\n<MenuTrigger>\n  <ActionButton>Actions</ActionButton>\n  <Menu onAction={(key) => alert(`Root menu ${key} action`)}>\n    <Item key=\"Copy\">Copy</Item>\n    <Item key=\"Cut\">Cut</Item>\n    <Item key=\"Paste\">Paste</Item>\n      <SubmenuTrigger>\n        <Item key=\"Share\">Share</Item>\n        <Menu onAction={(key) => alert(`Share menu ${key} action`)}>\n          <Item key=\"Copy Link\">Copy Link</Item>\n          <SubmenuTrigger>\n            <Item key=\"Email\">Email</Item>\n            <Menu onAction={(key) => alert(`Email menu ${key} action`)}>\n              <Item key=\"Attachment\">Email as Attachment</Item>\n              <Item key=\"Link\">Email as Link</Item>\n            </Menu>\n          </SubmenuTrigger>\n          <Item key=\"SMS\">SMS</Item>\n        </Menu>\n      </SubmenuTrigger>\n    <Item key=\"Delete\">Delete</Item>\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Dynamic",
+      "code": "import {SubmenuTrigger} from '@react-spectrum/menu';\n\nlet items = [\n  {name: 'Copy'},\n  {name: 'Cut'},\n  {name: 'Paste'},\n  {name: 'Share', children: [\n    {name: 'Copy Link'},\n    {name: 'Email', children: [\n      {name: 'Email as Attachment'},\n      {name: 'Email as Link'},\n    ]},\n    {name: 'SMS'},\n  ]},\n  {name: 'Delete'}\n];\n\n<MenuTrigger>\n  <ActionButton>Actions</ActionButton>\n  <Menu items={items}>\n    {function renderSubmenu(item) {\n      if (item.children) {\n        return (\n          <SubmenuTrigger>\n            <Item key={item.name}>{item.name}</Item>\n            <Menu items={item.children}>\n              {(item) => renderSubmenu(item)}\n            </Menu>\n          </SubmenuTrigger>\n        );\n      } else {\n        return <Item key={item.name}>{item.name}</Item>;\n      }\n    }}\n  </Menu>\n</MenuTrigger>"
+    },
+    {
+      "name": "Disabled",
+      "code": "<MenuTrigger>\n  <ActionButton>\n    Filter\n  </ActionButton>\n  <Menu\n    items={[\n      {name: 'tiff', id: 'a1b2c3'},\n      {name: 'png', id: 'g5h1j9'},\n      {name: 'jpg', id: 'p8k3i4'},\n      {name: 'PDF', id: 'j7i3a0'}\n    ]}\n    disabledKeys={['a1b2c3', 'p8k3i4']}>\n    {item => <Item>{item.name}</Item>}\n  </Menu>\n</MenuTrigger>"
+    }
+  ],
+  "spectrumHref": "https://spectrum.adobe.com/page/menu/",
+  "source": "packages/@adobe/react-spectrum/docs/menu/Menu.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/Menu.html"
+}

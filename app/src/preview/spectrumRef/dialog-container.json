@@ -1,0 +1,29 @@
+{
+  "slug": "dialog-container",
+  "title": "DialogContainer",
+  "group": "Overlays",
+  "heading": "DialogContainer",
+  "description": null,
+  "sharedImports": "import {Content} from '@react-spectrum/view';\nimport {Form} from '@react-spectrum/form';\nimport {Heading, Text} from '@react-spectrum/text';\nimport {TextField} from '@react-spectrum/textfield';\nimport {Divider} from '@react-spectrum/divider';\nimport {DialogContainer, Dialog, AlertDialog} from '@react-spectrum/dialog';\nimport {ActionButton, Button} from '@react-spectrum/button';\nimport {ButtonGroup} from '@react-spectrum/buttongroup';\nimport {MenuTrigger, Menu, Item} from '@react-spectrum/menu';\nimport More from '@spectrum-icons/workflow/More';\nimport Delete from '@spectrum-icons/workflow/Delete';\nimport Edit from '@spectrum-icons/workflow/Edit';",
+  "examples": [
+    {
+      "name": "Example",
+      "code": "function Example(props) {\n  let [isOpen, setOpen] = React.useState(false);\n\n  return (\n    <>\n      <ActionButton onPress={() => setOpen(true)}>\n        <Delete />\n        <Text>Delete</Text>\n      </ActionButton>\n      <DialogContainer onDismiss={() => setOpen(false)} {...props}>\n        {isOpen &&\n          <AlertDialog\n            title=\"Delete\"\n            variant=\"destructive\"\n            primaryActionLabel=\"Delete\">\n            Are you sure you want to delete this item?\n          </AlertDialog>\n        }\n      </DialogContainer>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Dialog triggered by a menu item",
+      "code": "import {useDialogContainer} from '@react-spectrum/dialog';\n\nfunction Example() {\n  let [dialog, setDialog] = React.useState(null);\n\n  return (\n    <>\n      <MenuTrigger>\n        <ActionButton aria-label=\"Actions\"><More /></ActionButton>\n        <Menu onAction={setDialog}>\n          <Item key=\"edit\">Edit...</Item>\n          <Item key=\"delete\">Delete...</Item>\n        </Menu>\n      </MenuTrigger>\n      <DialogContainer onDismiss={() => setDialog(null)}>\n        {dialog === 'edit' &&\n          <EditDialog />\n        }\n        {dialog === 'delete' &&\n          <AlertDialog\n            title=\"Delete\"\n            variant=\"destructive\"\n            primaryActionLabel=\"Delete\">\n            Are you sure you want to delete this item?\n          </AlertDialog>\n        }\n      </DialogContainer>\n    </>\n  );\n}\n\nfunction EditDialog() {\n  // This hook allows us to dismiss the dialog when the user\n  // presses one of the buttons (below).\n  let dialog = useDialogContainer();\n\n  return (\n    <Dialog>\n      <Heading>Edit</Heading>\n      <Divider />\n      <Content>\n        <Form labelPosition=\"side\" width=\"100%\">\n          <TextField autoFocus label=\"First Name\" defaultValue=\"John\" />\n          <TextField label=\"Last Name\" defaultValue=\"Smith\" />\n        </Form>\n      </Content>\n      <ButtonGroup>\n        <Button variant=\"secondary\" onPress={dialog.dismiss}>Cancel</Button>\n        <Button variant=\"accent\" onPress={dialog.dismiss}>Save</Button>\n      </ButtonGroup>\n    </Dialog>\n  );\n}"
+    },
+    {
+      "name": "Full screen",
+      "code": "function Example(props) {\n  let [isOpen, setOpen] = React.useState(false);\n\n  return (\n    <>\n      <ActionButton onPress={() => setOpen(true)}>\n        <Edit />\n        <Text>Edit</Text>\n      </ActionButton>\n      <DialogContainer type=\"fullscreen\" onDismiss={() => setOpen(false)} {...props}>\n        {isOpen &&\n          <EditDialog />\n        }\n      </DialogContainer>\n    </>\n  );\n}"
+    },
+    {
+      "name": "Full screen takeover",
+      "code": "function Example(props) {\n  let [isOpen, setOpen] = React.useState(false);\n\n  return (\n    <>\n      <ActionButton onPress={() => setOpen(true)}>\n        <Edit />\n        <Text>Edit</Text>\n      </ActionButton>\n      <DialogContainer type=\"fullscreenTakeover\" onDismiss={() => setOpen(false)} {...props}>\n        {isOpen &&\n          <EditDialog />\n        }\n      </DialogContainer>\n    </>\n  );\n}"
+    }
+  ],
+  "spectrumHref": null,
+  "source": "packages/@adobe/react-spectrum/docs/dialog/DialogContainer.mdx",
+  "docHref": "https://react-spectrum.adobe.com/react-spectrum/DialogContainer.html"
+}

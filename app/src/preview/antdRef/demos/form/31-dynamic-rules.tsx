@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/form.json 의 examples[31] ("Dynamic Rules")
@@ -63,7 +64,7 @@ const App: React.FC = () => {
       </Form.Item>
       <Form.Item {...formTailLayout}>
         <Checkbox checked={checkNick} onChange={onCheckboxChange}>
-          별명을 넣어 주세요
+          별명은 반드시 넣어야 해요
         </Checkbox>
       </Form.Item>
       <Form.Item {...formTailLayout}>

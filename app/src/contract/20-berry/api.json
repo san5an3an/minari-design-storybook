@@ -685,10 +685,31 @@
     "values": [
      "success",
      "danger",
-     "warning"
+     "warning",
+     "info"
     ],
     "default": null,
-    "desc": "알리는 종류, 이 시스템이 가진 팔레트만"
+    "desc": "알리는 종류, 이 시스템 팔레트만, 다만 info 는 척도가 없어 neutral 에서 가져옴"
+   },
+   {
+    "prop": "leaving",
+    "kind": "flag",
+    "values": [
+     "true",
+     "false"
+    ],
+    "default": "false",
+    "desc": "나가는 중, 지우기 전에 붙이고 움직임이 끝나면 그때 지움, 먼저 지우면 나가는 모습이 재생될 틈이 없음"
+   },
+   {
+    "prop": "collapsing",
+    "kind": "flag",
+    "values": [
+     "true",
+     "false"
+    ],
+    "default": "false",
+    "desc": "나가면서 남은 공간도 접힘, leaving과 함께 사용, 높이 없으면 공간이 살짝 남은 채 닫힘"
    }
   ],
   "parts": [
@@ -703,14 +724,74 @@
     "name": "ToastRegion",
     "cls": "ods-toast-region",
     "tag": "div",
-    "desc": "떠 있는 영역, role=\"status\"를 여기 붙임",
-    "props": []
+    "desc": "떠 있는 영역, role=\"status\" 부착, 화면 어디에 놓일지는 이 영역이 결정, 알림 개별이 아님",
+    "props": [
+     {
+      "prop": "position",
+      "kind": "variant",
+      "values": [
+       "top-start",
+       "top-center",
+       "top-end",
+       "bottom-start",
+       "bottom-center",
+       "bottom-end"
+      ],
+      "default": "bottom-end",
+      "desc": "화면에서 알림이 나타나는 위치, 기본은 오른쪽 아래로 읽던 위치를 가장 덜 가림"
+     },
+     {
+      "prop": "shifting",
+      "kind": "flag",
+      "values": [
+       "true",
+       "false"
+      ],
+      "default": "false",
+      "desc": "알림이 더해지거나 빠지는 프레임 표시, 붙였다 떼는 처리는 쓰는 쪽 몫"
+     }
+    ]
    },
    {
     "name": "ToastAction",
     "cls": "ods-toast-action",
     "tag": "button",
     "desc": "되돌리기 같은 동작, 하나까지",
+    "props": []
+   },
+   {
+    "name": "ToastContent",
+    "cls": "ods-toast-content",
+    "tag": "div",
+    "desc": "제목과 본문이 세로로 쌓이는 영역, 없으면 아이콘 옆에 개별 배치",
+    "props": []
+   },
+   {
+    "name": "ToastTitle",
+    "cls": "ods-toast-title",
+    "tag": "div",
+    "desc": "무슨 일인지 한 마디, 본문보다 크고 굵음, 크기만 같고 굵기만 다르면 훑을 때 위계가 안 보임",
+    "props": []
+   },
+   {
+    "name": "ToastBody",
+    "cls": "ods-toast-body",
+    "tag": "div",
+    "desc": "한 줄 설명, 제목만으로 부족할 때만 사용, 없으면 제목이 통째로 메시지",
+    "props": []
+   },
+   {
+    "name": "ToastClose",
+    "cls": "ods-toast-close",
+    "tag": "button",
+    "desc": "지금 닫음, 스스로 사라져도 필요함, 기다리지 않고 치우고 싶을 때 이 길이 없으면 화면이 막힘",
+    "props": []
+   },
+   {
+    "name": "ToastProgress",
+    "cls": "ods-toast-progress",
+    "tag": "div",
+    "desc": "남은 시간 띠, 사라짐 예고용, aria-hidden으로 매 프레임 낭독 방지",
     "props": []
    }
   ]
@@ -1429,6 +1510,226 @@
     "cls": "ods-collapsible-content",
     "tag": "div",
     "desc": "펴지면 나오는 내용",
+    "props": []
+   }
+  ]
+ },
+ "colorpicker": {
+  "name": "colorpicker",
+  "title": "ColorPicker",
+  "summary": "색을 공간에서 집음, 담은 항목만 아래에 유지, 스와치는 쌓이는 위치이지 주어진 목록 아님",
+  "root": "div",
+  "base": "ods-colorpicker",
+  "props": [],
+  "parts": [
+   {
+    "name": "ColorPickerArea",
+    "cls": "ods-colorpicker-area",
+    "tag": "div",
+    "desc": "채도, 명도 면, 가로가 채도, 세로가 명도, 겹친 그라디언트 둘이 전부임",
+    "props": []
+   },
+   {
+    "name": "ColorPickerThumb",
+    "cls": "ods-colorpicker-thumb",
+    "tag": "div",
+    "desc": "면 위의 핸들, 속을 비워 아래 색을 가리지 않음",
+    "props": []
+   },
+   {
+    "name": "ColorPickerHue",
+    "cls": "ods-colorpicker-hue",
+    "tag": "input",
+    "desc": "색상 띠, 끝없이 도는 값이라 양 끝 색이 같음",
+    "props": []
+   },
+   {
+    "name": "ColorPickerAlpha",
+    "cls": "ods-colorpicker-alpha",
+    "tag": "input",
+    "desc": "투명도 띠, 격자를 깔아 비침을 드러냄",
+    "props": []
+   },
+   {
+    "name": "ColorPickerPreview",
+    "cls": "ods-colorpicker-preview",
+    "tag": "div",
+    "desc": "지금 색을 보이는 줄, 왼쪽에 색, 글자, 오른쪽 끝에 스포이드",
+    "props": []
+   },
+   {
+    "name": "ColorPickerCurrent",
+    "cls": "ods-colorpicker-current",
+    "tag": "button",
+    "desc": "지금 고른 색, 보여 주는 동시에 담는 버튼임, 눌러야 스와치에 남음, 투명도가 보이도록 뒤에 격자를 깖",
+    "props": []
+   },
+   {
+    "name": "ColorPickerCurrentMark",
+    "cls": "ods-colorpicker-current-mark",
+    "tag": "span",
+    "desc": "담기(+) 표시, 평소엔 숨고 hover, focus에만 노출, 어둠 한 겹으로 가독성 확보",
+    "props": []
+   },
+   {
+    "name": "ColorPickerHex",
+    "cls": "ods-colorpicker-hex",
+    "tag": "span",
+    "desc": "지금 색의 글자 표기, 등폭이라 자릿수 고정, 화면 못 보는 사람에겐 유일한 정보",
+    "props": []
+   },
+   {
+    "name": "ColorPickerPipette",
+    "cls": "ods-colorpicker-pipette",
+    "tag": "button",
+    "desc": "화면에서 색을 집음, 브라우저 지원 시에만 렌더링",
+    "props": []
+   },
+   {
+    "name": "ColorPickerRow",
+    "cls": "ods-colorpicker-row",
+    "tag": "div",
+    "desc": "값을 읽고 넣는 영역, 형식, 값, 투명도를 한 줄에 모으고 넘치면 값 셀이 다음 줄로 내려감",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFormatSlot",
+    "cls": "ods-colorpicker-format-slot",
+    "tag": "div",
+    "desc": "형식 버튼과 목록이 함께 있는 위치, button 중첩 불가로 목록 기준을 이 상자가 대신 줌",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFormat",
+    "cls": "ods-colorpicker-format",
+    "tag": "button",
+    "desc": "값 형식을 고르는 버튼, 누르면 아래로 목록이 열리고 저장값은 형식과 무관하게 언제나 hex임",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFormatMenu",
+    "cls": "ods-colorpicker-format-menu",
+    "tag": "div",
+    "desc": "형식 목록, role=listbox이고 바깥을 누르면 닫힘",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFormatOption",
+    "cls": "ods-colorpicker-format-option",
+    "tag": "button",
+    "desc": "형식 하나, role=option, aria-selected, 고른 것만 색이 다름",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFields",
+    "cls": "ods-colorpicker-fields",
+    "tag": "div",
+    "desc": "값 필드들이 있는 영역, 형식에 따라 개수가 바뀜, HEX는 하나, RGB, HSL, LAB은 셋",
+    "props": []
+   },
+   {
+    "name": "ColorPickerField",
+    "cls": "ods-colorpicker-field",
+    "tag": "div",
+    "desc": "셀 하나. 붙박이 글자와 입력을 함께 담는 상자",
+    "props": [
+     {
+      "prop": "num",
+      "kind": "flag",
+      "values": [
+       "true",
+       "false"
+      ],
+      "default": "false",
+      "desc": "숫자 셀, 줄에 맞춰 늘고 줄며 셋의 폭이 같아야 들쭉날쭉하지 않음"
+     },
+     {
+      "prop": "alpha",
+      "kind": "flag",
+      "values": [
+       "true",
+       "false"
+      ],
+      "default": "false",
+      "desc": "투명도 필드, 폭 고정. 함께 줄이면 100%가 잘려 90%와 구별되지 않음"
+     }
+    ]
+   },
+   {
+    "name": "ColorPickerFieldLabel",
+    "cls": "ods-colorpicker-field-label",
+    "tag": "span",
+    "desc": "셀이 무슨 채널인지 알리는 글자(R, G, B). 셀 안에 있음. 밖에 두면 셀 셋이 여섯 부분으로 보임",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFieldAffix",
+    "cls": "ods-colorpicker-field-affix",
+    "tag": "span",
+    "desc": "#, % 같은 붙박이 기호, 입력값이 아니라 필드가 가진 값이라 지워지지 않음",
+    "props": []
+   },
+   {
+    "name": "ColorPickerFieldInput",
+    "cls": "ods-colorpicker-field-input",
+    "tag": "input",
+    "desc": "실제로 치는 위치, 붙박이와 라벨을 뺀 숫자, 글자만 듦",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatches",
+    "cls": "ods-colorpicker-swatches",
+    "tag": "div",
+    "desc": "담아 둔 색이 표시되는 위치, 맨 아래임, 쌓인 결과임, 상한 10개",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatchesHead",
+    "cls": "ods-colorpicker-swatches-head",
+    "tag": "div",
+    "desc": "이름과 수가 놓이는 줄. 몇 개까지 담기는지 글자로 표시",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatchesCount",
+    "cls": "ods-colorpicker-swatches-count",
+    "tag": "span",
+    "desc": "3/10 꼴, 상한을 화면에서 세지 않아도 되는 표기",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatchGrid",
+    "cls": "ods-colorpicker-swatch-grid",
+    "tag": "div",
+    "desc": "스와치들이 흐르는 영역, 담긴 순서대로 흐름",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatchSlot",
+    "cls": "ods-colorpicker-swatch-slot",
+    "tag": "div",
+    "desc": "스와치와 빼기 표적이 함께 있는 위치, button 중첩 불가로 형제 구조 필요",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatch",
+    "cls": "ods-colorpicker-swatch",
+    "tag": "div",
+    "desc": "색 하나, 누를 수 없는 표시 전용 요소, button 아닌 div",
+    "props": []
+   },
+   {
+    "name": "ColorPickerSwatchRemove",
+    "cls": "ods-colorpicker-swatch-remove",
+    "tag": "button",
+    "desc": "스와치 하나를 빼는 위치, 이곳의 동작이 빼기뿐이라 표적이 곧 스와치임",
+    "props": []
+   },
+   {
+    "name": "ColorPickerIcon",
+    "cls": "ods-colorpicker-icon",
+    "tag": "svg",
+    "desc": "Lucide 아이콘, 윤곽선 형태만 사용, 면 채우면 아래 색을 가리는 문제 있음",
     "props": []
    }
   ]
@@ -2550,6 +2851,48 @@
       "desc": "잡는 눈금 표시"
      }
     ]
+   }
+  ]
+ },
+ "ringcarousel": {
+  "name": "ringcarousel",
+  "title": "RingCarousel",
+  "summary": "점성체처럼 붙었다 떨어지는 링, 버튼으로 넘기는 Carousel과 다른 컴포넌트임",
+  "root": "div",
+  "base": "ods-ringcarousel",
+  "props": [
+   {
+    "prop": "aria-busy",
+    "kind": "attr",
+    "values": [
+     "true",
+     "false"
+    ],
+    "default": "false",
+    "desc": "셰이더가 아직 렌더링되지 않은 동안"
+   }
+  ],
+  "parts": [
+   {
+    "name": "RingCarouselFallback",
+    "cls": "ods-ringcarousel-fallback",
+    "tag": "div",
+    "desc": "WebGL 없을 때의 대체 목록",
+    "props": []
+   },
+   {
+    "name": "RingCarouselLabel",
+    "cls": "ods-ringcarousel-label",
+    "tag": "span",
+    "desc": "지금 앞에 온 항목의 이름",
+    "props": []
+   },
+   {
+    "name": "RingCarouselIndex",
+    "cls": "ods-ringcarousel-index",
+    "tag": "span",
+    "desc": "몇 번째 / 전체",
+    "props": []
    }
   ]
  },

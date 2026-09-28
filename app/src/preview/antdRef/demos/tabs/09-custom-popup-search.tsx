@@ -1,3 +1,4 @@
+// @ts-nocheck — 아래는 antd 공식 예제 원본이다. 위 주석 참고.
 /* 자동 생성 — tools/gen_antd_demos.py. 손으로 고치지 말 것.
  *
  * 출처: app/src/preview/antdRef/tabs.json 의 examples[9] ("Custom Popup Search")
@@ -11,7 +12,7 @@
  */
 import React, { useMemo, useRef, useState } from 'react';
 import { Input, Menu, Tabs } from 'antd';
-import { SearchOutlined } from '../_icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { TabsProps } from 'antd';
 

@@ -1,0 +1,96 @@
+{
+ "slug": "field-error",
+ "title": "FieldError",
+ "description": "Displays validation error messages for form fields",
+ "group": "Forms",
+ "links": {
+  "rac": "FieldError",
+  "sourceFile": "field-error/field-error.tsx",
+  "styles": "field-error.css"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { FieldError } from '@heroui/react';\n```\n\n<ComponentPreview\n  name=\"field-error-basic\"\n/>\n\nThe FieldError component displays validation error messages for form fields. It automatically appears when the parent field is marked as invalid and provides smooth opacity transitions.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:10"
+  },
+  {
+   "name": "Examples",
+   "body": "### Basic Validation\n\n```tsx\nexport function Basic() {\n  const [value, setValue] = useState(\"\");\n  const isInvalid = value.length > 0 && value.length < 3;\n\n  return (\n    <TextField className=\"w-64\" isInvalid={isInvalid}>\n      <Label htmlFor=\"username\">Username</Label>\n      <Input\n        id=\"username\"\n        placeholder=\"Enter username\"\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n      />\n      <FieldError>Username must be at least 3 characters</FieldError>\n    </TextField>\n  );\n}\n```\n\n### With Dynamic Messages\n\n```tsx\n<TextField isInvalid={errors.length > 0}>\n  <Label>Password</Label>\n  <Input type=\"password\" />\n  <FieldError>\n    {(validation) => validation.validationErrors.join(', ')}\n  </FieldError>\n</TextField>\n```\n\n### Custom Validation Logic\n\n```tsx\nfunction EmailField() {\n  const [email, setEmail] = useState('');\n  const isInvalid = email.length > 0 && !email.includes('@');\n\n  return (\n    <TextField isInvalid={isInvalid}>\n      <Label>Email</Label>\n      <Input\n        type=\"email\"\n        value={email}\n        onChange={(e) => setEmail(e.target.value)}\n      />\n      <FieldError>Email must include @ symbol</FieldError>\n    </TextField>\n  );\n}\n```\n\n### Multiple Error Messages\n\n```tsx\n<TextField isInvalid={hasErrors}>\n  <Label>Username</Label>\n  <Input />\n  <FieldError>\n    {errors.map((error, i) => (\n      <div key={i}>{error}</div>\n    ))}\n  </FieldError>\n</TextField>\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:22"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"field-error-custom-styles\" />\n\n### Global CSS\n\nTo customize the FieldError component classes, you can use the `@layer components` directive. [Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).\n\n```css\n@layer components {\n  .field-error {\n    @apply font-medium text-danger;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:93"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\nThe FieldError component uses these CSS classes ([View source styles](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/components/field-error.css)):\n\n#### Base Classes [!toc]\n\n- `.field-error` - Base error styles with danger color\n- Only shows when the `data-visible` attribute is present\n- Text is truncated with ellipsis for long messages",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:111"
+  },
+  {
+   "name": "API Reference",
+   "body": "### FieldError\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | Additional CSS classes |\n| `children` | `ReactNode \\| ((validation: ValidationResult) => ReactNode)` | - | Error message content or render function |",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:125"
+  },
+  {
+   "name": "Accessibility",
+   "body": "The FieldError component ensures accessibility by:\n\n- Using proper ARIA attributes for error announcement\n- Supporting screen readers with semantic HTML\n- Providing visual and programmatic error indication\n- Automatically managing visibility based on validation state",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:134"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"fielderror\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:143"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "field-error-basic",
+   "source": "apps/docs/src/demos/en/field-error/basic.tsx",
+   "code": "\"use client\";\n\nimport {FieldError, Input, Label, TextField} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function Basic() {\n  const [value, setValue] = useState(\"jr\");\n  const isInvalid = value.length > 0 && value.length < 3;\n\n  return (\n    <TextField className=\"w-64\" isInvalid={isInvalid}>\n      <Label htmlFor=\"username\">Username</Label>\n      <Input\n        id=\"username\"\n        placeholder=\"Enter username\"\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n      />\n      <FieldError>Username must be at least 3 characters</FieldError>\n    </TextField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "field-error-custom-styles",
+   "source": "apps/docs/src/demos/en/field-error/custom-styles.tsx",
+   "code": "\"use client\";\n\nimport {FieldError, Input, Label, TextField} from \"@heroui/react\";\nimport {useState} from \"react\";\n\nexport function CustomStyles() {\n  const [value, setValue] = useState(\"jr\");\n  const isInvalid = value.length > 0 && value.length < 3;\n\n  return (\n    <TextField className=\"w-64\" isInvalid={isInvalid}>\n      <Label htmlFor=\"handle\">Handle</Label>\n      <Input\n        className=\"bg-field font-mono\"\n        id=\"handle\"\n        placeholder=\"min. 3 characters\"\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n      />\n      <FieldError className=\"font-medium\">Handle must be at least 3 characters</FieldError>\n    </TextField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "FieldError",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "Additional CSS classes",
+     "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:131"
+    ],
+    [
+     "`children`",
+     "`ReactNode | ((validation: ValidationResult) => ReactNode)`",
+     "-",
+     "Error message content or render function",
+     "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:132"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/field-error.mdx:127",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": []
+}

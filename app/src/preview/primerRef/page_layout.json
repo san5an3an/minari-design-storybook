@@ -1,0 +1,447 @@
+{
+ "slug": "page_layout",
+ "title": "PageLayout",
+ "official": {
+  "source": "https://github.com/primer/react/tree/main/packages/react/src/PageLayout",
+  "id": "page_layout",
+  "name": "PageLayout",
+  "status": "alpha",
+  "a11yReviewed": "2025-01-08",
+  "stories": [
+   {
+    "id": "components-pagelayout--default",
+    "code": "(args) => (\n  <PageLayout\n    containerWidth={args.containerWidth}\n    padding={args.padding}\n    rowGap={args.rowGap}\n    columnGap={args.columnGap}\n  >\n    {args['Render header?'] ? (\n      <PageLayout.Header\n        padding={args['Header.padding']}\n        divider={{\n          narrow: args['Header.divider.narrow'],\n          regular: args['Header.divider.regular'],\n          wide: args['Header.divider.wide'],\n        }}\n        hidden={{\n          narrow: args['Header.hidden.narrow'],\n          regular: args['Header.hidden.regular'],\n          wide: args['Header.hidden.wide'],\n        }}\n      >\n        <Placeholder\n          height={args['Header placeholder height']}\n          label=\"Header\"\n        />\n      </PageLayout.Header>\n    ) : null}\n    <PageLayout.Content\n      width={args['Content.width']}\n      padding={args['Content.padding']}\n      hidden={{\n        narrow: args['Content.hidden.narrow'],\n        regular: args['Content.hidden.regular'],\n        wide: args['Content.hidden.wide'],\n      }}\n    >\n      <Placeholder\n        height={args['Content placeholder height']}\n        label=\"Content\"\n      />\n    </PageLayout.Content>\n    {args['Render pane?'] ? (\n      <PageLayout.Pane\n        position={{\n          narrow: args['Pane.position.narrow'],\n          regular: args['Pane.position.regular'],\n          wide: args['Pane.position.wide'],\n        }}\n        width={args['Pane.width']}\n        minWidth={args['Pane.minWidth']}\n        sticky={args['Pane.sticky']}\n        resizable={args['Pane.resizable']}\n        padding={args['Pane.padding']}\n        divider={{\n          narrow: args['Pane.divider.narrow'],\n          regular: args['Pane.divider.regular'],\n          wide: args['Pane.divider.wide'],\n        }}\n        hidden={{\n          narrow: args['Pane.hidden.narrow'],\n          regular: args['Pane.hidden.regular'],\n          wide: args['Pane.hidden.wide'],\n        }}\n      >\n        <Placeholder height={args['Pane placeholder height']} label=\"Pane\" />\n      </PageLayout.Pane>\n    ) : null}\n    {args['Render footer?'] ? (\n      <PageLayout.Footer\n        padding={args['Footer.padding']}\n        divider={{\n          narrow: args['Footer.divider.narrow'],\n          regular: args['Footer.divider.regular'],\n          wide: args['Footer.divider.wide'],\n        }}\n        hidden={{\n          narrow: args['Footer.hidden.narrow'],\n          regular: args['Footer.hidden.regular'],\n          wide: args['Footer.hidden.wide'],\n        }}\n      >\n        <Placeholder\n          height={args['Footer placeholder height']}\n          label=\"Footer\"\n        />\n      </PageLayout.Footer>\n    ) : null}\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--pull-request-page",
+    "code": "() => (\n  <PageLayout>\n    <PageLayout.Header>\n      <div className={classes.HeaderStack}>\n        <div>\n          <Heading as=\"h1\" className={classes.TitleHeading}>\n            Input validation styles{' '}\n            <Text className={classes.TitleSubdued}>#1831</Text>\n          </Heading>\n          <div className={classes.StatusRow}>\n            <StateLabel status=\"pullOpened\">Open</StateLabel>\n            <Text className={classes.StatusMeta}>\n              <Link href=\"#\" muted className={classes.BoldMetaLink}>\n                mperrotti\n              </Link>{' '}\n              wants to merge 3 commits into{' '}\n              <BranchName href=\"#\">main</BranchName> from{' '}\n              <BranchName href=\"#\">mp/validation-styles</BranchName>\n            </Text>\n          </div>\n        </div>\n        <TabNav>\n          <TabNav.Link href=\"#\" selected>\n            Conversation\n          </TabNav.Link>\n          <TabNav.Link href=\"#\">Commits</TabNav.Link>\n          <TabNav.Link href=\"#\">Checks</TabNav.Link>\n          <TabNav.Link href=\"#\">Files changed</TabNav.Link>\n        </TabNav>\n      </div>\n    </PageLayout.Header>\n    <PageLayout.Content>\n      <div className={classes.ContentBox}></div>\n      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}\n      <div className={classes.ScrollBox} tabIndex={0}>\n        This box has really long content. If it is too long, it will cause x\n        overflow and should show a scrollbar. When this overflows, it should not\n        break to overall page layout!\n      </div>\n    </PageLayout.Content>\n    <PageLayout.Pane aria-label=\"Side pane\">\n      <div className={classes.PaneStack}>\n        <div>\n          <Text className={classes.PaneSectionHeading}>Assignees</Text>\n          <Text className={classes.PaneMetaText}>\n            No one –{' '}\n            <Link href=\"#\" muted>\n              assign yourself\n            </Link>\n          </Text>\n        </div>\n        <div role=\"separator\" className={classes.PaneSeparator}></div>\n        <div>\n          <Text className={classes.PaneSectionHeading}>Labels</Text>\n          <Text className={classes.PaneMetaText}>None yet</Text>\n        </div>\n      </div>\n    </PageLayout.Pane>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--sticky-pane",
+    "code": "(args) => (\n  <PageLayout\n    rowGap=\"none\"\n    columnGap=\"none\"\n    padding=\"none\"\n    containerWidth=\"full\"\n  >\n    <PageLayout.Header padding=\"normal\" divider=\"line\">\n      <Placeholder label=\"Header\" height={64} />\n    </PageLayout.Header>\n    <PageLayout.Content padding=\"normal\" width=\"large\">\n      <div className={classes.ContentGrid}>\n        {Array.from({\n          length: args.numParagraphsInContent,\n        }).map((_, i) => {\n          const testId = `content${i}`\n          return (\n            <p key={i} className={classes.Paragraph}>\n              <span data-testid={testId}>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at\n                enim id lorem tempus egestas a non ipsum. Maecenas imperdiet\n                ante quam, at varius lorem molestie vel. Sed at eros consequat,\n                varius tellus et, auctor felis. Donec pulvinar lacinia urna nec\n                commodo. Phasellus at imperdiet risus. Donec sit amet massa\n                purus. Nunc sem lectus, bibendum a sapien nec, tristique tempus\n                felis. Ut porttitor auctor tellus in imperdiet. Ut blandit\n                tincidunt augue, quis fringilla nunc tincidunt sed. Vestibulum\n                auctor euismod nisi. Nullam tincidunt est in mi tincidunt\n                dictum. Sed consectetur aliquet velit ut ornare.\n              </span>\n            </p>\n          )\n        })}\n      </div>\n    </PageLayout.Content>\n    <PageLayout.Pane\n      position=\"start\"\n      resizable\n      padding=\"normal\"\n      divider=\"line\"\n      sticky={args.sticky}\n      aria-label=\"Side pane\"\n    >\n      <div className={classes.ContentGrid}>\n        {Array.from({\n          length: args.numParagraphsInPane,\n        }).map((_, i) => {\n          const testId = `paragraph${i}`\n          return (\n            <p key={i} className={classes.Paragraph}>\n              <span data-testid={testId}>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at\n                enim id lorem tempus egestas a non ipsum. Maecenas imperdiet\n                ante quam, at varius lorem molestie vel. Sed at eros consequat,\n                varius tellus et, auctor felis. Donec pulvinar lacinia urna nec\n                commodo. Phasellus at imperdiet risus. Donec sit amet massa\n                purus.\n              </span>\n            </p>\n          )\n        })}\n        <p>\n          Donec sit amet massa purus.{' '}\n          <Link inline href=\"#foo\">\n            Plura de lorem Ispum.\n          </Link>\n        </p>\n      </div>\n    </PageLayout.Pane>\n    <PageLayout.Footer padding=\"normal\" divider=\"line\">\n      <Placeholder label=\"Footer\" height={64} />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--nested-scroll-container",
+    "code": "(args) => (\n  <div className={classes.NestedScrollContainer}>\n    <Placeholder label=\"Above scroll container\" height={120} />\n    <div className={classes.OverflowAuto}>\n      <PageLayout\n        rowGap=\"none\"\n        columnGap=\"none\"\n        padding=\"none\"\n        containerWidth=\"full\"\n      >\n        <PageLayout.Header padding=\"normal\" divider=\"line\">\n          <Placeholder label=\"Header\" height={64} />\n        </PageLayout.Header>\n        <PageLayout.Content padding=\"normal\" width=\"large\">\n          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}\n          <div\n            className={classes.ContentGrid}\n            tabIndex={0}\n            role=\"region\"\n            aria-label=\"Page content\"\n          >\n            {Array.from({\n              length: args.numParagraphsInContent,\n            }).map((_, i) => (\n              <p key={i} className={classes.Paragraph}>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at\n                enim id lorem tempus egestas a non ipsum. Maecenas imperdiet\n                ante quam, at varius lorem molestie vel. Sed at eros consequat,\n                varius tellus et, auctor felis. Donec pulvinar lacinia urna nec\n                commodo. Phasellus at imperdiet risus. Donec sit amet massa\n                purus. Nunc sem lectus, bibendum a sapien nec, tristique tempus\n                felis. Ut porttitor auctor tellus in imperdiet. Ut blandit\n                tincidunt augue, quis fringilla nunc tincidunt sed. Vestibulum\n                auctor euismod nisi. Nullam tincidunt est in mi tincidunt\n                dictum. Sed consectetur aliquet velit ut ornare.\n              </p>\n            ))}\n          </div>\n        </PageLayout.Content>\n        <PageLayout.Pane\n          position=\"start\"\n          padding=\"normal\"\n          divider=\"line\"\n          sticky\n          aria-label=\"Side pane\"\n        >\n          <div className={classes.ContentGrid}>\n            {Array.from({\n              length: args.numParagraphsInPane,\n            }).map((_, i) => (\n              <p key={i} className={classes.Paragraph}>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam at\n                enim id lorem tempus egestas a non ipsum. Maecenas imperdiet\n                ante quam, at varius lorem molestie vel. Sed at eros consequat,\n                varius tellus et, auctor felis. Donec pulvinar lacinia urna nec\n                commodo. Phasellus at imperdiet risus. Donec sit amet massa\n                purus.\n              </p>\n            ))}\n          </div>\n        </PageLayout.Pane>\n        <PageLayout.Footer padding=\"normal\" divider=\"line\">\n          <Placeholder label=\"Footer\" height={64} />\n        </PageLayout.Footer>\n      </PageLayout>\n    </div>\n    <Placeholder label=\"Below scroll container\" height={120} />\n  </div>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--custom-sticky-header",
+    "code": "(args) => (\n  // a box to create a sticky top element that will be on the consumer side and outside of the PageLayout component\n  <div data-testid=\"story-window\">\n    <header\n      data-testid=\"sticky-header\"\n      className={classes.StickyHeader}\n      style={{\n        height: args.offsetHeader,\n      }}\n    >\n      Custom sticky header\n    </header>\n    <PageLayout\n      rowGap=\"none\"\n      columnGap=\"none\"\n      padding=\"none\"\n      containerWidth=\"full\"\n    >\n      <PageLayout.Content padding=\"normal\" width=\"large\">\n        <div className={classes.ContentGrid} data-testid=\"scrollContainer\">\n          {Array.from({\n            length: args.numParagraphsInContent,\n          }).map((_, i) => {\n            const testId = `content${i}`\n            return (\n              <p key={i} className={classes.Paragraph}>\n                <span data-testid={testId}>\n                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin\n                  vitae orci et magna consectetur ullamcorper eget ac purus. Nam\n                  at enim id lorem tempus egestas a non ipsum. Maecenas\n                  imperdiet ante quam, at varius lorem molestie vel. Sed at eros\n                  consequat, varius tellus et, auctor felis. Donec pulvinar\n                  lacinia urna nec commodo. Phasellus at imperdiet risus. Donec\n                  sit amet massa purus. Nunc sem lectus, bibendum a sapien nec,\n                  tristique tempus felis. Ut porttitor auctor tellus in\n                  imperdiet. Ut blandit tincidunt augue, quis fringilla nunc\n                  tincidunt sed. Vestibulum auctor euismod nisi. Nullam\n                  tincidunt est in mi tincidunt dictum. Sed consectetur aliquet\n                  velit ut ornare.\n                </span>\n              </p>\n            )\n          })}\n        </div>\n      </PageLayout.Content>\n      <PageLayout.Pane\n        position=\"start\"\n        padding=\"normal\"\n        divider=\"line\"\n        aria-label=\"Aside pane\"\n        sticky\n        offsetHeader={args.offsetHeader}\n      >\n        <div className={classes.ContentGrid}>\n          {Array.from({\n            length: args.numParagraphsInPane,\n          }).map((_, i) => {\n            const testId = `paragraph${i}`\n            return (\n              <p key={i} className={classes.Paragraph}>\n                <span data-testid={testId}>\n                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam\n                  at enim id lorem tempus egestas a non ipsum. Maecenas\n                  imperdiet ante quam, at varius lorem molestie vel. Sed at eros\n                  consequat, varius tellus et, auctor felis. Donec pulvinar\n                  lacinia urna nec commodo. Phasellus at imperdiet risus. Donec\n                  sit amet massa purus.\n                </span>\n              </p>\n            )\n          })}\n        </div>\n      </PageLayout.Pane>\n      <PageLayout.Footer padding=\"normal\" divider=\"line\">\n        <Placeholder label=\"Footer\" height={64} />\n      </PageLayout.Footer>\n    </PageLayout>\n  </div>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-pane",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Pane resizable position=\"start\" aria-label=\"Side pane\">\n      <Placeholder height={320} label=\"Pane\" />\n    </PageLayout.Pane>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--scroll-container-within-page-layout-pane",
+    "code": "() => (\n  <div className={classes.NestedScrollContainer}>\n    <div className={classes.OverflowAuto}>\n      <Placeholder label=\"Above inner scroll container\" height={120} />\n      <PageLayout\n        rowGap=\"none\"\n        columnGap=\"none\"\n        padding=\"none\"\n        containerWidth=\"full\"\n      >\n        <PageLayout.Pane\n          position=\"start\"\n          padding=\"normal\"\n          divider=\"line\"\n          sticky\n          aria-label=\"Sticky pane\"\n        >\n          <div className={classes.OverflowAuto}>\n            <PageLayout.Pane padding=\"normal\" aria-label=\"Side pane\">\n              <Placeholder label=\"Inner scroll container\" height={800} />\n            </PageLayout.Pane>\n          </div>\n        </PageLayout.Pane>\n        <PageLayout.Content padding=\"normal\" width=\"large\">\n          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}\n          <div\n            className={classes.ContentGrid}\n            tabIndex={0}\n            role=\"region\"\n            aria-label=\"Page content\"\n          >\n            <Placeholder label=\"Page content\" height={1600} />\n          </div>\n        </PageLayout.Content>\n      </PageLayout>\n      <Placeholder label=\"Beneath inner scroll container\" height={120} />\n    </div>\n  </div>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--custom-pane-widths",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Pane\n      resizable\n      width={{\n        min: '200px',\n        default: '300px',\n        max: '400px',\n      }}\n      aria-label=\"Side pane\"\n    >\n      <Placeholder height={320} label=\"Pane\" />\n    </PageLayout.Pane>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--with-custom-pane-heading",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Pane resizable position=\"start\" aria-label=\"Side pane\">\n      <Heading as=\"h2\" className={classes.PaneHeading} id=\"pane-heading\">\n        Pane Heading\n      </Heading>\n      <Placeholder height={320} label=\"Pane\" />\n    </PageLayout.Pane>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-pane-without-persistence",
+    "code": "() => {\n  const [currentWidth, setCurrentWidth] = React.useState<number>(\n    defaultPaneWidth.medium,\n  )\n  return (\n    <PageLayout>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Pane\n        resizable\n        currentWidth={currentWidth}\n        onResizeEnd={setCurrentWidth}\n        aria-label=\"Side pane\"\n      >\n        <Placeholder\n          height={320}\n          label={`Pane (resizable, not persisted, width: ${currentWidth}px)`}\n        />\n      </PageLayout.Pane>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-pane-with-custom-persistence",
+    "code": "() => {\n  const key = 'page-layout-features-stories-custom-persistence-pane-width'\n\n  // Read initial width from localStorage (CSR only), falling back to medium preset\n  const getInitialWidth = (): number => {\n    if (typeof window !== 'undefined') {\n      const storedWidth = localStorage.getItem(key)\n      if (storedWidth !== null) {\n        const parsed = parseFloat(storedWidth)\n        if (!isNaN(parsed) && parsed > 0) {\n          return parsed\n        }\n      }\n    }\n    return defaultPaneWidth.medium\n  }\n  const [currentWidth, setCurrentWidth] =\n    React.useState<number>(getInitialWidth)\n  useIsomorphicLayoutEffect(() => {\n    setCurrentWidth(getInitialWidth())\n  }, [])\n  const handleWidthChange = (width: number) => {\n    setCurrentWidth(width)\n    localStorage.setItem(key, width.toString())\n  }\n  return (\n    <PageLayout>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Pane\n        width={{\n          min: '256px',\n          default: `${defaultPaneWidth.medium}px`,\n          max: '600px',\n        }}\n        resizable\n        currentWidth={currentWidth}\n        onResizeEnd={handleWidthChange}\n        aria-label=\"Side pane\"\n      >\n        <Placeholder height={320} label={`Pane (width: ${currentWidth}px)`} />\n      </PageLayout.Pane>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-pane-with-number-width",
+    "code": "() => {\n  const key = 'page-layout-features-stories-number-width'\n\n  // Read initial width from localStorage (CSR only), falling back to medium preset\n  const getInitialWidth = (): number => {\n    if (typeof window !== 'undefined') {\n      const storedWidth = localStorage.getItem(key)\n      if (storedWidth !== null) {\n        const parsed = parseInt(storedWidth, 10)\n        if (!isNaN(parsed) && parsed > 0) {\n          return parsed\n        }\n      }\n    }\n    return defaultPaneWidth.medium\n  }\n  const [currentWidth, setCurrentWidth] =\n    React.useState<number>(getInitialWidth)\n  const handleWidthChange = (newWidth: number) => {\n    setCurrentWidth(newWidth)\n    localStorage.setItem(key, newWidth.toString())\n  }\n  return (\n    <PageLayout>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Pane\n        width=\"medium\"\n        resizable\n        currentWidth={currentWidth}\n        onResizeEnd={handleWidthChange}\n        aria-label=\"Side pane\"\n      >\n        <Placeholder height={320} label={`Pane (width: ${currentWidth}px)`} />\n      </PageLayout.Pane>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-pane-with-controlled-width",
+    "code": "() => {\n  const key = 'page-layout-features-stories-controlled-width'\n\n  // Read initial width from localStorage (CSR only), falling back to medium preset\n  const getInitialWidth = (): number => {\n    if (typeof window !== 'undefined') {\n      const storedWidth = localStorage.getItem(key)\n      if (storedWidth !== null) {\n        const parsed = parseInt(storedWidth, 10)\n        if (!isNaN(parsed) && parsed > 0) {\n          return parsed\n        }\n      }\n    }\n    return defaultPaneWidth.medium\n  }\n  const [currentWidth, setCurrentWidth] =\n    React.useState<number>(getInitialWidth)\n  const handleWidthChange = (newWidth: number) => {\n    setCurrentWidth(newWidth)\n    localStorage.setItem(key, newWidth.toString())\n  }\n  return (\n    <PageLayout>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Pane\n        width={{\n          min: '256px',\n          default: '296px',\n          max: '600px',\n        }}\n        resizable\n        currentWidth={currentWidth}\n        onResizeEnd={handleWidthChange}\n        aria-label=\"Side pane\"\n      >\n        <Placeholder height={320} label={`Pane (current: ${currentWidth}px)`} />\n      </PageLayout.Pane>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--sidebar-start",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar position=\"start\" aria-label=\"Navigation sidebar\">\n      <Placeholder height={800} label=\"Sidebar (Start)\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--sidebar-end",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar position=\"end\" aria-label=\"Inspector sidebar\">\n      <Placeholder height={800} label=\"Sidebar (End)\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-sidebar",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar\n      resizable\n      position=\"end\"\n      aria-label=\"Resizable sidebar\"\n      style={{\n        height: 'auto',\n      }}\n      width={{\n        min: '200px',\n        default: '300px',\n        max: '2000px',\n      }}\n    >\n      <Placeholder height=\"100%\" label=\"Resizable Sidebar\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Pane position=\"start\" aria-label=\"Side pane\">\n      <Placeholder height={320} label=\"Pane\" />\n    </PageLayout.Pane>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-sidebar-without-persistence",
+    "code": "() => {\n  const [currentWidth, setCurrentWidth] = React.useState<number>(300)\n  return (\n    <PageLayout containerWidth=\"full\">\n      <PageLayout.Sidebar\n        resizable\n        position=\"start\"\n        currentWidth={currentWidth}\n        onResizeEnd={setCurrentWidth}\n        aria-label=\"Resizable sidebar (controlled)\"\n        style={{\n          height: 'auto',\n        }}\n        width={{\n          min: '200px',\n          default: '300px',\n          max: '600px',\n        }}\n      >\n        <Placeholder\n          height=\"100%\"\n          label={`Sidebar (controlled, width: ${currentWidth}px)`}\n        />\n      </PageLayout.Sidebar>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--resizable-sidebar-with-custom-persistence",
+    "code": "() => {\n  const key = 'page-layout-features-stories-custom-persistence-sidebar-width'\n\n  // Read initial width from localStorage (CSR only), falling back to medium preset\n  const getInitialWidth = (): number => {\n    if (typeof window !== 'undefined') {\n      const storedWidth = localStorage.getItem(key)\n      if (storedWidth !== null) {\n        const parsed = parseFloat(storedWidth)\n        if (!isNaN(parsed) && parsed > 0) {\n          return parsed\n        }\n      }\n    }\n    return defaultPaneWidth.medium\n  }\n  const [currentWidth, setCurrentWidth] =\n    React.useState<number>(getInitialWidth)\n  useIsomorphicLayoutEffect(() => {\n    setCurrentWidth(getInitialWidth())\n  }, [])\n  const handleWidthChange = (width: number) => {\n    setCurrentWidth(width)\n    localStorage.setItem(key, width.toString())\n  }\n  return (\n    <PageLayout containerWidth=\"full\">\n      <PageLayout.Sidebar\n        resizable\n        position=\"start\"\n        currentWidth={currentWidth}\n        onResizeEnd={handleWidthChange}\n        aria-label=\"Resizable sidebar (custom persistence)\"\n        style={{\n          height: 'auto',\n        }}\n        width={{\n          min: '200px',\n          default: `${defaultPaneWidth.medium}px`,\n          max: '600px',\n        }}\n      >\n        <Placeholder\n          height=\"100%\"\n          label={`Sidebar (width: ${currentWidth}px)`}\n        />\n      </PageLayout.Sidebar>\n      <PageLayout.Header>\n        <Placeholder height={64} label=\"Header\" />\n      </PageLayout.Header>\n      <PageLayout.Content>\n        <Placeholder height={640} label=\"Content\" />\n      </PageLayout.Content>\n      <PageLayout.Footer>\n        <Placeholder height={64} label=\"Footer\" />\n      </PageLayout.Footer>\n    </PageLayout>\n  )\n}"
+   },
+   {
+    "id": "components-pagelayout-features--sidebar-with-pane-resizable",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar\n      style={{\n        height: 'auto',\n      }}\n      resizable\n      position=\"end\"\n      aria-label=\"Navigation sidebar\"\n      width={{\n        min: '200px',\n        default: '300px',\n        max: '2000px',\n      }}\n    >\n      <Placeholder height=\"100%\" label=\"Resizable Sidebar\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Pane resizable position=\"start\" aria-label=\"Side pane\">\n      <Placeholder height={320} label=\"Resizable Pane\" />\n    </PageLayout.Pane>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--sticky-sidebar",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar sticky position=\"start\" aria-label=\"Sticky sidebar\">\n      <Placeholder height={200} label=\"Sticky Sidebar\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Content>\n      <Placeholder height={2000} label=\"Tall Content (scroll to test sticky)\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   },
+   {
+    "id": "components-pagelayout-features--sidebar-fullscreen-responsive-variant",
+    "code": "() => (\n  <PageLayout containerWidth=\"full\">\n    <PageLayout.Sidebar\n      position=\"start\"\n      responsiveVariant=\"fullscreen\"\n      aria-label=\"Fullscreen sidebar\"\n    >\n      <Placeholder height={800} label=\"Sidebar (fullscreen at narrow)\" />\n    </PageLayout.Sidebar>\n    <PageLayout.Header>\n      <Placeholder height={64} label=\"Header\" />\n    </PageLayout.Header>\n    <PageLayout.Content>\n      <Placeholder height={640} label=\"Content\" />\n    </PageLayout.Content>\n    <PageLayout.Footer>\n      <Placeholder height={64} label=\"Footer\" />\n    </PageLayout.Footer>\n  </PageLayout>\n)"
+   }
+  ],
+  "importPath": "@primer/react",
+  "props": [
+   {
+    "name": "containerWidth",
+    "type": "| 'full' | 'medium' | 'large' | 'xlarge'",
+    "defaultValue": "'xlarge'",
+    "description": "The maximum width of the page container."
+   },
+   {
+    "name": "padding",
+    "type": "| 'none' | 'condensed' | 'normal'",
+    "defaultValue": "'normal'",
+    "description": "The spacing between the outer edges of the page container and the viewport"
+   },
+   {
+    "name": "columnGap",
+    "type": "| 'none' | 'condensed' | 'normal'",
+    "defaultValue": "'normal'",
+    "description": ""
+   },
+   {
+    "name": "rowGap",
+    "type": "| 'none' | 'condensed' | 'normal'",
+    "defaultValue": "'normal'",
+    "description": ""
+   }
+  ],
+  "subcomponents": [
+   {
+    "name": "PageLayout.Header",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string | undefined",
+      "defaultValue": "",
+      "description": "A unique label for the rendered banner landmark"
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string | undefined",
+      "defaultValue": "",
+      "description": "An id to an element which uniquely labels the rendered banner landmark"
+     },
+     {
+      "name": "padding",
+      "type": "| 'none' | 'condensed' | 'normal'",
+      "defaultValue": "'none'",
+      "description": "The amount of padding inside the header."
+     },
+     {
+      "name": "divider",
+      "type": "| 'none' | 'line' | { narrow?: | 'none' | 'line' | 'filled' regular?: | 'none' | 'line' wide?: | 'none' | 'line' }",
+      "defaultValue": "'none'",
+      "description": ""
+     },
+     {
+      "name": "dividerWhenNarrow",
+      "type": "| 'inherit' | 'none' | 'line' | 'filled'",
+      "defaultValue": "'inherit'",
+      "deprecated": true,
+      "description": "Use the divider prop with a responsive value instead."
+     },
+     {
+      "name": "hidden",
+      "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+      "defaultValue": "false",
+      "description": "Whether the header is hidden."
+     }
+    ]
+   },
+   {
+    "name": "PageLayout.Content",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string",
+      "description": "A unique label for the rendered main landmark",
+      "defaultValue": ""
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string",
+      "description": "An id to an element which uniquely labels the rendered main landmark",
+      "defaultValue": ""
+     },
+     {
+      "name": "as",
+      "type": "React.ElementType",
+      "defaultValue": "'main'",
+      "description": "Change the root node to another HTML element or custom component."
+     },
+     {
+      "name": "width",
+      "type": "| 'full' | 'medium' | 'large' | 'xlarge'",
+      "defaultValue": "'full'",
+      "description": "The maximum width of the content region."
+     },
+     {
+      "name": "padding",
+      "type": "| 'none' | 'condensed' | 'normal'",
+      "defaultValue": "'none'",
+      "description": "The amount of padding inside the content."
+     },
+     {
+      "name": "hidden",
+      "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+      "defaultValue": "false",
+      "description": "Whether the content is hidden."
+     }
+    ]
+   },
+   {
+    "name": "PageLayout.Pane",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string | undefined",
+      "description": "Label for the pane. Required if the pane overflows and doesn't have aria-labelledby."
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string | undefined",
+      "description": "Id of an element that acts as a label for the pane. Required if the pane overflows and doesn't have aria-label."
+     },
+     {
+      "name": "width",
+      "type": "| 'small' | 'medium' | 'large' | { min: string max: string default: string }",
+      "defaultValue": "'medium'",
+      "description": "The width of the pane. If using custom widths, provide an object with keys 'min', 'max' and 'default'."
+     },
+     {
+      "name": "minWidth",
+      "type": "number",
+      "defaultValue": "256",
+      "description": "The minimum width of the pane."
+     },
+     {
+      "name": "resizable",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "When true, the pane may be resized by the user. Uses localStorage persistence by default. Note: with default persistence in SSR, the server-rendered width may differ from the stored client width, causing a brief layout shift on hydration. Use `onResizeEnd` with server-aware storage to avoid this."
+     },
+     {
+      "name": "currentWidth",
+      "type": "number | undefined",
+      "description": "Current/controlled width value in pixels. Required when `onResizeEnd` is provided. Pass `undefined` when the persisted value has not loaded yet. The `width` prop still defines the default used when resetting (e.g., double-click)."
+     },
+     {
+      "name": "onResizeEnd",
+      "type": "(width: number) => void",
+      "description": "Callback fired when a resize operation ends (drag release or keyboard key up). When provided, replaces localStorage persistence. Requires `currentWidth`."
+     },
+     {
+      "name": "widthStorageKey",
+      "type": "string",
+      "defaultValue": "'paneWidth'",
+      "description": "localStorage key used to persist the pane width across sessions. Only applies when `resizable` is `true` and no `onResizeEnd` callback is provided."
+     },
+     {
+      "name": "sticky",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether the pane should stick to the top of the screen while the content scrolls."
+     },
+     {
+      "name": "offsetHeader",
+      "type": "number | string",
+      "defaultValue": "0",
+      "description": "Use offsetHeader along with the sticky prop to push the sticky pane down to make room for a sticky header if necessary. Use the type `string` to specify the height with a unit i.e. 5rem; otherwise the type `number` will be taken as px."
+     },
+     {
+      "name": "padding",
+      "type": "| 'none' | 'condensed' | 'normal'",
+      "defaultValue": "'none'",
+      "description": "The amount of padding inside the pane."
+     },
+     {
+      "name": "divider",
+      "type": "| 'none' | 'line' | { narrow?: | 'none' | 'line' | 'filled' regular?: | 'none' | 'line' wide?: | 'none' | 'line' }",
+      "defaultValue": "'none'",
+      "description": ""
+     },
+     {
+      "name": "dividerWhenNarrow",
+      "type": "| 'inherit' | 'none' | 'line' | 'filled'",
+      "defaultValue": "'inherit'",
+      "deprecated": true,
+      "description": "Use the divider prop with a responsive value instead."
+     },
+     {
+      "name": "hidden",
+      "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+      "defaultValue": "false",
+      "description": "Whether the pane is hidden."
+     },
+     {
+      "name": "position",
+      "type": "'end' | 'start' | { narrow?: 'end' | 'start'; regular?: 'end' | 'start'; wide?: 'end' | 'start'; }",
+      "description": "Which side of the page the pane should be on. Can be changed for different viewport widths.",
+      "defaultValue": ""
+     },
+     {
+      "name": "ref",
+      "type": "React.RefObject<HTMLDivElement>"
+     }
+    ]
+   },
+   {
+    "name": "PageLayout.Sidebar",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string | undefined",
+      "description": "A unique label for the sidebar region."
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string | undefined",
+      "description": "An id to an element which uniquely labels the sidebar region."
+     },
+     {
+      "name": "position",
+      "type": "'start' | 'end'",
+      "defaultValue": "'start'",
+      "description": "Position of the sidebar relative to the page layout. The sidebar spans the full height of the layout, adjacent to the header, content, and footer."
+     },
+     {
+      "name": "width",
+      "type": "| 'small' | 'medium' | 'large' | { min: string max: string default: string }",
+      "defaultValue": "'medium'",
+      "description": "The width of the sidebar. If using custom widths, provide an object with keys 'min', 'max' and 'default'."
+     },
+     {
+      "name": "minWidth",
+      "type": "number",
+      "defaultValue": "256",
+      "description": "Minimum width of the sidebar when resizable."
+     },
+     {
+      "name": "resizable",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "When true, the sidebar may be resized by the user. By default no persistence is applied; pass `widthStorageKey` to persist via localStorage, or use `onResizeEnd` + `currentWidth` for fully controlled persistence."
+     },
+     {
+      "name": "currentWidth",
+      "type": "number | undefined",
+      "description": "Current/controlled width value in pixels. Required when `onResizeEnd` is provided. Pass `undefined` when the persisted value has not loaded yet. The `width` prop still defines the default used when resetting (e.g., double-click)."
+     },
+     {
+      "name": "onResizeEnd",
+      "type": "(width: number) => void",
+      "description": "Callback fired when a resize operation ends (drag release or keyboard key up). When provided, replaces localStorage persistence. Requires `currentWidth`."
+     },
+     {
+      "name": "widthStorageKey",
+      "type": "string",
+      "description": "localStorage key used to persist the sidebar width across sessions. Only applies when `resizable` is `true` and no `onResizeEnd` callback is provided. When omitted, localStorage is not used."
+     },
+     {
+      "name": "padding",
+      "type": "| 'none' | 'condensed' | 'normal'",
+      "defaultValue": "'none'",
+      "description": "The amount of padding inside the sidebar."
+     },
+     {
+      "name": "divider",
+      "type": "| 'none' | 'line'",
+      "defaultValue": "'none'",
+      "description": "Divider style between the sidebar and the rest of the layout."
+     },
+     {
+      "name": "sticky",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "Whether the sidebar sticks to the viewport when scrolling. When enabled, the sidebar uses position: sticky with top: 0 and height: 100vh."
+     },
+     {
+      "name": "responsiveVariant",
+      "type": "| 'default' | 'fullscreen'",
+      "defaultValue": "'default'",
+      "description": "Controls sidebar behavior at narrow viewport widths (below 768px). 'default' retains its normal inline layout. 'fullscreen' expands to cover the full viewport like a dialog overlay."
+     },
+     {
+      "name": "hidden",
+      "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+      "defaultValue": "false",
+      "description": "Whether the sidebar is hidden."
+     }
+    ]
+   },
+   {
+    "name": "PageLayout.Footer",
+    "props": [
+     {
+      "name": "aria-label",
+      "type": "string | undefined",
+      "defaultValue": "",
+      "description": "A unique label for the rendered contentinfo landmark"
+     },
+     {
+      "name": "aria-labelledby",
+      "type": "string | undefined",
+      "defaultValue": "",
+      "description": "An id to an element which uniquely labels the rendered contentinfo landmark"
+     },
+     {
+      "name": "padding",
+      "type": "| 'none' | 'condensed' | 'normal'",
+      "defaultValue": "'none'",
+      "description": "The amount of padding inside the footer."
+     },
+     {
+      "name": "divider",
+      "type": "| 'none' | 'line' | { narrow?: | 'none' | 'line' | 'filled' regular?: | 'none' | 'line' wide?: | 'none' | 'line' }",
+      "defaultValue": "'none'",
+      "description": ""
+     },
+     {
+      "name": "dividerWhenNarrow",
+      "type": "| 'inherit' | 'none' | 'line' | 'filled'",
+      "defaultValue": "'inherit'",
+      "deprecated": true,
+      "description": "Use the divider prop with a responsive value instead."
+     },
+     {
+      "name": "hidden",
+      "type": "| boolean | { narrow?: boolean regular?: boolean wide?: boolean }",
+      "defaultValue": "false",
+      "description": "Whether the footer is hidden."
+     }
+    ]
+   }
+  ]
+ },
+ "source": "generated/components.json:5057",
+ "name": "page_layout",
+ "sourceKey": "$.components.page_layout",
+ "version": "38.38.0",
+ "packageSource": "node_modules/@primer/react",
+ "standsAlone": false,
+ "freeIdentifiers": [
+  "BranchName",
+  "Heading",
+  "Link",
+  "PageLayout",
+  "Placeholder",
+  "StateLabel",
+  "TabNav",
+  "Text"
+ ]
+}

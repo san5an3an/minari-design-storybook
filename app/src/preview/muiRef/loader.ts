@@ -57,8 +57,18 @@ export interface MuiIndexEntry {
   external: boolean;
 }
 
-export const MUI_GROUPS: Record<string, string[]> = index.groups;
-export const MUI_INDEX: MuiIndexEntry[] = index.components as MuiIndexEntry[];
+const NOT_A_COMPONENT_HERE: Record<string, string> = {
+  typography: "활자는 이 저장소에서 Foundations예요. 컴포넌트 목록에 두지 않아요.",
+};
+
+export const MUI_GROUPS: Record<string, string[]> = Object.fromEntries(
+  Object.entries(index.groups as Record<string, string[]>)
+    .map(([g, s]) => [g, s.filter((x) => !(x in NOT_A_COMPONENT_HERE))] as const)
+    // 빈 그룹은 전체 제외
+    .filter(([, s]) => s.length > 0),
+);
+export const MUI_INDEX: MuiIndexEntry[] = (index.components as MuiIndexEntry[])
+  .filter((c) => !(c.slug in NOT_A_COMPONENT_HERE));
 const BY_SLUG = new Map(MUI_INDEX.map((c) => [c.slug, c]));
 
 // 이름의 MUI 공식 컴포넌트 여부. 라우팅에서 MUI 화면 구분에 사용

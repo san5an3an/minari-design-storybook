@@ -2,6 +2,9 @@
 
 import { theme as antdTheme, type ThemeConfig } from "antd";
 
+type Rem<T> = { [K in keyof T]: T[K] | string };
+type Token = Rem<NonNullable<ThemeConfig["token"]>>;
+
 const antdDefault = antdTheme.getDesignToken;
 const button = {
   controlHeight: antdDefault.controlHeight,
@@ -14,36 +17,162 @@ const button = {
 
 const components = { ...{
   "Modal": {
-    "borderRadiusLG": 32
+    "borderRadiusLG": "2rem"
   },
   "Drawer": {
-    "borderRadiusLG": 32
+    "borderRadiusLG": "2rem"
   },
   "Notification": {
-    "borderRadiusLG": 32
+    "borderRadiusLG": "2rem"
   },
   "Message": {
-    "borderRadiusLG": 32
+    "borderRadiusLG": "2rem"
   },
   "Popover": {
-    "borderRadiusLG": 32
+    "borderRadiusLG": "2rem"
   },
   "Tooltip": {
-    "borderRadius": 8
+    "borderRadius": "0.5rem"
   },
   "Card": {
-    "borderRadiusLG": 24
+    "borderRadiusLG": "1.5rem"
   },
   "Collapse": {
-    "borderRadiusLG": 24
+    "borderRadiusLG": "1.5rem"
   },
   "Table": {
-    "borderRadiusLG": 24
+    "borderRadiusLG": "1.5rem"
   },
   "Alert": {
-    "borderRadiusLG": 24
+    "borderRadiusLG": "1.5rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#335551",
+    "subMenuItemSelectedColor": "#335551",
+    "horizontalItemSelectedColor": "#335551",
+    "horizontalItemHoverColor": "#335551"
+  },
+  "Tabs": {
+    "itemColor": "#6a6d6c",
+    "itemSelectedColor": "#070808",
+    "itemHoverColor": "#070808",
+    "itemActiveColor": "#070808"
+  },
+  "Pagination": {
+    "itemActiveBg": "#71bbb1",
+    "itemActiveColor": "#000000",
+    "itemActiveColorHover": "#000000"
+  },
+  "Calendar": {
+    "itemActiveBg": "#71bbb1"
   }
-}, Button: button } satisfies ThemeConfig["components"];
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const darkComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "2rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "2rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "2rem"
+  },
+  "Message": {
+    "borderRadiusLG": "2rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "2rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.5rem"
+  },
+  "Card": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Table": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#91b7b1",
+    "subMenuItemSelectedColor": "#91b7b1",
+    "horizontalItemSelectedColor": "#91b7b1",
+    "horizontalItemHoverColor": "#91b7b1"
+  },
+  "Tabs": {
+    "itemColor": "#969a98",
+    "itemSelectedColor": "#f7faf9",
+    "itemHoverColor": "#f7faf9",
+    "itemActiveColor": "#f7faf9"
+  },
+  "Pagination": {
+    "itemActiveBg": "#418b82",
+    "itemActiveColor": "#051815",
+    "itemActiveColorHover": "#051815"
+  },
+  "Calendar": {
+    "itemActiveBg": "#418b82"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
+
+const highContrastComponents = { ...{
+  "Modal": {
+    "borderRadiusLG": "2rem"
+  },
+  "Drawer": {
+    "borderRadiusLG": "2rem"
+  },
+  "Notification": {
+    "borderRadiusLG": "2rem"
+  },
+  "Message": {
+    "borderRadiusLG": "2rem"
+  },
+  "Popover": {
+    "borderRadiusLG": "2rem"
+  },
+  "Tooltip": {
+    "borderRadius": "0.5rem"
+  },
+  "Card": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Collapse": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Table": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Alert": {
+    "borderRadiusLG": "1.5rem"
+  },
+  "Menu": {
+    "itemSelectedColor": "#d3f6f1",
+    "subMenuItemSelectedColor": "#d3f6f1",
+    "horizontalItemSelectedColor": "#d3f6f1",
+    "horizontalItemHoverColor": "#d3f6f1"
+  },
+  "Tabs": {
+    "itemColor": "#e2e6e4",
+    "itemSelectedColor": "#eff1f0",
+    "itemHoverColor": "#eff1f0",
+    "itemActiveColor": "#eff1f0"
+  },
+  "Pagination": {
+    "itemActiveBg": "#94d6cc",
+    "itemActiveColor": "#000000",
+    "itemActiveColorHover": "#000000"
+  },
+  "Calendar": {
+    "itemActiveBg": "#94d6cc"
+  }
+}, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
 // 모드별 값 하나. 색은 토큰이 보유, 알고리즘은 밝기만 구분
 const themeSeed = {
@@ -53,16 +182,27 @@ const themeSeed = {
   "colorWarning": "#daa500",
   "colorInfo": "#71bbb1",
   "colorLink": "#3d776f",
+  "colorErrorText": "#9e3d35",
+  "colorSuccessText": "#1c7d3e",
+  "colorWarningText": "#8b6700",
+  "colorErrorTextHover": "#7b3c35",
+  "colorErrorTextActive": "#7b3c35",
+  "colorSuccessTextHover": "#225932",
+  "colorSuccessTextActive": "#225932",
+  "colorWarningTextHover": "#654a00",
+  "colorWarningTextActive": "#654a00",
   "colorTextBase": "#070808",
   "colorBgBase": "#f7f8f8",
   "fontSize": 16,
-  "borderRadius": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
+  "borderRadius": "1rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 44
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const themeOverrides = {
   "colorBgContainer": "#f7f8f8",
   "colorBgElevated": "#f7f8f8",
@@ -72,6 +212,7 @@ const themeOverrides = {
   "colorText": "#070808",
   "colorTextSecondary": "#6a6d6c",
   "colorTextTertiary": "#6a6d6c",
+  "colorTextLightSolid": "#000000",
   "colorBorder": "#c8cac9",
   "colorBorderSecondary": "#d5d7d6",
   "colorPrimaryBg": "#e8f3f1",
@@ -82,26 +223,26 @@ const themeOverrides = {
   "colorErrorBorder": "#feb4aa",
   "colorSuccessBorder": "#a1dbac",
   "colorWarningBorder": "#e4c687",
-  "borderRadiusSM": 8,
-  "borderRadiusLG": 24,
+  "borderRadiusSM": "0.5rem",
+  "borderRadiusLG": "1.5rem",
   "controlInteractiveSize": 24,
   "fontSizeSM": 15,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 30,
-  "fontSizeHeading2": 25,
-  "fontSizeHeading3": 21,
-  "fontSizeHeading4": 19,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "1.875rem",
+  "fontSizeHeading2": "1.5625rem",
+  "fontSizeHeading3": "1.3125rem",
+  "fontSizeHeading4": "1.1875rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 36,
   "controlHeightLG": 53,
   "boxShadow": "none",
   "boxShadowSecondary": "none"
-} satisfies ThemeConfig["token"];
-export const theme: ThemeConfig = {
+} satisfies Token;
+export const theme = {
   algorithm: [antdTheme.defaultAlgorithm],
   token: { ...themeSeed, ...themeOverrides },
-  components,
-};
+  components: components,
+} as unknown as ThemeConfig;
 
 const darkThemeSeed = {
   "colorPrimary": "#418b82",
@@ -110,16 +251,27 @@ const darkThemeSeed = {
   "colorWarning": "#a07800",
   "colorInfo": "#418b82",
   "colorLink": "#6aa49c",
+  "colorErrorText": "#e47c6f",
+  "colorSuccessText": "#51ab68",
+  "colorWarningText": "#bf9221",
+  "colorErrorTextHover": "#e39c92",
+  "colorErrorTextActive": "#e39c92",
+  "colorSuccessTextHover": "#84bd8f",
+  "colorSuccessTextActive": "#84bd8f",
+  "colorWarningTextHover": "#c8ab6c",
+  "colorWarningTextActive": "#c8ab6c",
   "colorTextBase": "#f7faf9",
   "colorBgBase": "#181919",
   "fontSize": 16,
-  "borderRadius": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
+  "borderRadius": "1rem",
   "lineWidth": 1,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 44
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const darkThemeOverrides = {
   "colorBgContainer": "#181919",
   "colorBgElevated": "#181919",
@@ -129,6 +281,7 @@ const darkThemeOverrides = {
   "colorText": "#f7faf9",
   "colorTextSecondary": "#969a98",
   "colorTextTertiary": "#969a98",
+  "colorTextLightSolid": "#051815",
   "colorBorder": "#464847",
   "colorBorderSecondary": "#393a3a",
   "colorPrimaryBg": "#1c2423",
@@ -139,26 +292,26 @@ const darkThemeOverrides = {
   "colorErrorBorder": "#6f322b",
   "colorSuccessBorder": "#1c542c",
   "colorWarningBorder": "#5b4300",
-  "borderRadiusSM": 8,
-  "borderRadiusLG": 24,
+  "borderRadiusSM": "0.5rem",
+  "borderRadiusLG": "1.5rem",
   "controlInteractiveSize": 24,
   "fontSizeSM": 15,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 30,
-  "fontSizeHeading2": 25,
-  "fontSizeHeading3": 21,
-  "fontSizeHeading4": 19,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "1.875rem",
+  "fontSizeHeading2": "1.5625rem",
+  "fontSizeHeading3": "1.3125rem",
+  "fontSizeHeading4": "1.1875rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 36,
   "controlHeightLG": 53,
   "boxShadow": "none",
   "boxShadowSecondary": "none"
-} satisfies ThemeConfig["token"];
-export const darkTheme: ThemeConfig = {
+} satisfies Token;
+export const darkTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...darkThemeSeed, ...darkThemeOverrides },
-  components,
-};
+  components: darkComponents,
+} as unknown as ThemeConfig;
 
 const highContrastThemeSeed = {
   "colorPrimary": "#94d6cc",
@@ -167,16 +320,27 @@ const highContrastThemeSeed = {
   "colorWarning": "#f5c24b",
   "colorInfo": "#94d6cc",
   "colorLink": "#baefe7",
+  "colorErrorText": "#ffe0db",
+  "colorSuccessText": "#a5f6b5",
+  "colorWarningText": "#ffe2a5",
+  "colorErrorTextHover": "#ffefed",
+  "colorErrorTextActive": "#ffefed",
+  "colorSuccessTextHover": "#c6facf",
+  "colorSuccessTextActive": "#c6facf",
+  "colorWarningTextHover": "#ffefcf",
+  "colorWarningTextActive": "#ffefcf",
   "colorTextBase": "#eff1f0",
   "colorBgBase": "#020202",
   "fontSize": 16,
-  "borderRadius": 16,
+  "fontFamily": "var(--base-font-family-sans, Pretendard, system-ui, sans-serif)",
+  "fontFamilyCode": "var(--base-font-family-mono, \"JetBrains Mono\", ui-monospace, monospace)",
+  "borderRadius": "1rem",
   "lineWidth": 2,
-  "sizeUnit": 8,
-  "sizeStep": 8,
+  "sizeUnit": 4,
+  "sizeStep": 4,
   "wireframe": false,
   "controlHeight": 46
-} satisfies ThemeConfig["token"];
+} satisfies Token;
 const highContrastThemeOverrides = {
   "colorBgContainer": "#020202",
   "colorBgElevated": "#020202",
@@ -186,6 +350,7 @@ const highContrastThemeOverrides = {
   "colorText": "#eff1f0",
   "colorTextSecondary": "#e2e6e4",
   "colorTextTertiary": "#e2e6e4",
+  "colorTextLightSolid": "#000000",
   "colorBorder": "#7f8280",
   "colorBorderSecondary": "#686a69",
   "colorPrimaryBg": "#040a09",
@@ -196,26 +361,26 @@ const highContrastThemeOverrides = {
   "colorErrorBorder": "#ae7168",
   "colorSuccessBorder": "#5c8d66",
   "colorWarningBorder": "#977e47",
-  "borderRadiusSM": 8,
-  "borderRadiusLG": 24,
+  "borderRadiusSM": "0.5rem",
+  "borderRadiusLG": "1.5rem",
   "controlInteractiveSize": 24,
   "fontSizeSM": 15,
   "fontSizeLG": 18,
-  "fontSizeHeading1": 30,
-  "fontSizeHeading2": 25,
-  "fontSizeHeading3": 21,
-  "fontSizeHeading4": 19,
-  "fontSizeHeading5": 18,
+  "fontSizeHeading1": "1.875rem",
+  "fontSizeHeading2": "1.5625rem",
+  "fontSizeHeading3": "1.3125rem",
+  "fontSizeHeading4": "1.1875rem",
+  "fontSizeHeading5": "1.125rem",
   "controlHeightSM": 38,
   "controlHeightLG": 55,
   "boxShadow": "none",
   "boxShadowSecondary": "none"
-} satisfies ThemeConfig["token"];
-export const highContrastTheme: ThemeConfig = {
+} satisfies Token;
+export const highContrastTheme = {
   algorithm: [antdTheme.darkAlgorithm],
   token: { ...highContrastThemeSeed, ...highContrastThemeOverrides },
-  components,
-};
+  components: highContrastComponents,
+} as unknown as ThemeConfig;
 
 // 모드-테마 매핑 표. 화면은 이 표만 참조
 export const byMode = {

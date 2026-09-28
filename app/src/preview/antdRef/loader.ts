@@ -8,7 +8,9 @@ export interface AntdExample {
 }
 export interface AntdVariant {
   prop: string;
+  // 실제 렌더링 가능한 리터럴 값, AntdLive 전용 사용
   values: string[];
+  other: string[];
   default: string;
   owner: string;
   // type은 Type 열의 리터럴 합집합, desc는 설명문 options 목록
@@ -40,8 +42,18 @@ export interface AntdIndexEntry {
   semanticParts: number; hasWhenToUse: boolean; hasSemanticDom: boolean;
 }
 
-export const ANTD_GROUPS: Record<string, string[]> = index.groups;
-export const ANTD_INDEX: AntdIndexEntry[] = index.components as AntdIndexEntry[];
+const NOT_A_COMPONENT_HERE: Record<string, string> = {
+  typography: "활자는 이 저장소에서 Foundations예요. 컴포넌트 목록에 두지 않아요.",
+};
+
+export const ANTD_GROUPS: Record<string, string[]> = Object.fromEntries(
+  Object.entries(index.groups as Record<string, string[]>)
+    .map(([g, slugs]) => [g, slugs.filter((s) => !(s in NOT_A_COMPONENT_HERE))])
+    // 필터 후 빈 그룹은 제외. 안 빼면 사이드바에 이름만 있고 항목 없는 영역이 남아 고장처럼 보임
+    .filter(([, slugs]) => slugs.length > 0),
+);
+export const ANTD_INDEX: AntdIndexEntry[] = (index.components as AntdIndexEntry[])
+  .filter((c) => !(c.slug in NOT_A_COMPONENT_HERE));
 const BY_SLUG = new Map(ANTD_INDEX.map((c) => [c.slug, c]));
 
 // 이름의 antd 공식 컴포넌트 여부. 라우팅에서 antd 화면 구분에 사용

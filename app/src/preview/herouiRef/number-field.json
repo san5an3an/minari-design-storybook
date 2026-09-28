@@ -1,0 +1,733 @@
+{
+ "slug": "number-field",
+ "title": "NumberField",
+ "description": "Number input fields with increment/decrement buttons, validation, and internationalized formatting",
+ "group": "Forms",
+ "links": {
+  "rac": "NumberField",
+  "sourceFile": "number-field/number-field.tsx",
+  "styles": "number-field.css",
+  "storybook": "Components/Forms/NumberField",
+  "figma": "true"
+ },
+ "sections": [
+  {
+   "name": "Usage",
+   "body": "```tsx\nimport { NumberField } from '@heroui/react';\n```\n\n<ComponentPreview name=\"number-field-basic\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:13"
+  },
+  {
+   "name": "Anatomy",
+   "body": "```tsx\nimport {NumberField, Label, Description, FieldError} from '@heroui/react';\n\nexport default () => (\n  <NumberField>\n    <Label />\n    <NumberField.Group>\n      <NumberField.DecrementButton />\n      <NumberField.Input />\n      <NumberField.IncrementButton />\n    </NumberField.Group>\n    <Description />\n    <FieldError />\n  </NumberField>\n)\n```\n\n> **NumberField** allows users to enter numeric values with optional increment/decrement buttons. It supports internationalized formatting, validation, and keyboard navigation.",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:21"
+  },
+  {
+   "name": "Examples",
+   "body": "### Variants\n\nThe NumberField component supports two visual variants:\n\n- **`primary`** (default) - Standard styling with shadow, suitable for most use cases\n- **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components\n\n<ComponentPreview name=\"number-field-variants\" />\n\n### In Surface\n\nWhen used inside a [Surface](/docs/components/surface) component, use `variant=\"secondary\"` to apply the lower emphasis variant suitable for surface backgrounds.\n\n<ComponentPreview name=\"number-field-on-surface\" />\n\n### With Description\n\n<ComponentPreview name=\"number-field-with-description\" />\n\n### Required Field\n\n<ComponentPreview name=\"number-field-required\" />\n\n### Disabled State\n\n<ComponentPreview name=\"number-field-disabled\" />\n\n### Full Width\n\n<ComponentPreview name=\"number-field-full-width\" />\n\n### Validation\n\nUse `isInvalid` together with `FieldError` to surface validation messages.\n\n<ComponentPreview name=\"number-field-validation\" />\n\n### Controlled\n\nControl the value to synchronize with other components or perform custom formatting.\n\n<ComponentPreview name=\"number-field-controlled\" />\n\n### Step Values\n\nConfigure increment/decrement step values for precise control.\n\n<ComponentPreview name=\"number-field-with-step\" />\n\n### Format Options\n\nFormat numbers as currency, percentages, decimals, or units with internationalization support.\n\n<ComponentPreview name=\"number-field-with-format-options\" />\n\n### Form Example\n\nComplete form integration with validation and submission handling.\n\n<ComponentPreview name=\"number-field-form-example\" />\n\n### With Validation\n\nImplement custom validation logic with controlled values.\n\n<ComponentPreview name=\"number-field-with-validation\" />\n\n### Custom Icons\n\nCustomize the increment and decrement button icons.\n\n<ComponentPreview name=\"number-field-custom-icons\" />\n\n### With Chevrons\n\nUse chevron icons in a vertical layout for a different visual style.\n\n<ComponentPreview name=\"number-field-with-chevrons\" />\n\n### Render Function\n\n<ComponentPreview\n  name=\"number-field-render-function\"\n/>",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:42"
+  },
+  {
+   "name": "Customization",
+   "body": "### Tailwind CSS\n\n<ComponentPreview name=\"number-field-custom-styles\" />\n\n### Global CSS\n\nNumberField uses CSS classes that can be customized. Override the component classes to match your design system.\n\n```css\n@layer components {\n  .number-field {\n    @apply flex flex-col gap-1;\n  }\n\n  /* When invalid, the description is hidden automatically */\n  .number-field[data-invalid=\"true\"] [data-slot=\"description\"],\n  .number-field[aria-invalid=\"true\"] [data-slot=\"description\"] {\n    @apply hidden;\n  }\n\n  .number-field__group {\n    @apply bg-field text-field-foreground shadow-field rounded-field inline-flex h-9 items-center overflow-hidden border;\n  }\n\n  .number-field__input {\n    @apply flex-1 rounded-none border-0 bg-transparent px-3 py-2 tabular-nums;\n  }\n\n  .number-field__increment-button,\n  .number-field__decrement-button {\n    @apply flex h-full w-10 items-center justify-center rounded-none bg-transparent;\n  }\n}\n```",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:129"
+  },
+  {
+   "name": "Styling Reference",
+   "body": "HeroUI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.\n\n### CSS Classes\n\n#### Base Classes [!toc]\n\n- `.number-field` – Root container with minimal styling (`flex flex-col gap-1`)\n- `.number-field__group` – Container for input and buttons with border and background styling\n- `.number-field__input` – The numeric input field\n- `.number-field__increment-button` – Button to increment the value\n- `.number-field__decrement-button` – Button to decrement the value\n\n#### Variant Classes [!toc]\n\n- `.number-field--primary` – Primary variant with shadow (default)\n- `.number-field--secondary` – Secondary variant without shadow, suitable for use in surfaces\n\n> **Note:** Child components ([Label](/docs/components/label), [Description](/docs/components/description), [FieldError](/docs/components/field-error)) have their own CSS classes and styling. See their respective documentation for customization options.\n\n### Interactive States\n\nNumberField automatically manages these data attributes based on its state:\n\n- **Invalid**: `[data-invalid=\"true\"]` or `[aria-invalid=\"true\"]` - Automatically hides the description slot when invalid\n- **Disabled**: `[data-disabled=\"true\"]` - Applied when `isDisabled` is true\n- **Focus Within**: `[data-focus-within=\"true\"]` - Applied when the input or buttons are focused\n- **Focus Visible**: `[data-focus-visible=\"true\"]` - Applied when focus is visible (keyboard navigation)\n- **Hovered**: `[data-hovered=\"true\"]` - Applied when hovering over buttons\n\nAdditional attributes are available through render props (see NumberFieldRenderProps below).",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:166"
+  },
+  {
+   "name": "API Reference",
+   "body": "### NumberField\n\nNumberField inherits all props from React Aria's [NumberField](https://react-spectrum.adobe.com/react-aria/NumberField.html) component.\n\n#### Base Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: NumberFieldRenderProps) => React.ReactNode` | - | Child components (Label, Group, Input, etc.) or render function. |\n| `className` | `string \\| (values: NumberFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |\n| `style` | `React.CSSProperties \\| (values: NumberFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |\n| `fullWidth` | `boolean` | `false` | Whether the number field should take full width of its container |\n| `id` | `string` | - | The element's unique identifier. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n| `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, NumberFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|\n\n#### Value Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `value` | `number` | - | Current value (controlled). |\n| `defaultValue` | `number` | - | Default value (uncontrolled). |\n| `onChange` | `(value: number \\| undefined) => void` | - | Handler called when the value changes. |\n\n#### Formatting Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `formatOptions` | `Intl.NumberFormatOptions` | - | Options for formatting numbers (currency, percent, decimal, unit). |\n| `locale` | `string` | - | Locale for number formatting. |\n\n#### Validation Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isRequired` | `boolean` | `false` | Whether user input is required before form submission. |\n| `isInvalid` | `boolean` | - | Whether the value is invalid. |\n| `validate` | `(value: number) => ValidationError \\| true \\| null \\| undefined` | - | Custom validation function. |\n| `validationBehavior` | `'native' \\| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |\n| `validationErrors` | `string[]` | - | Server-side validation errors. |\n\n#### Range Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `minValue` | `number` | - | Minimum allowed value. |\n| `maxValue` | `number` | - | Maximum allowed value. |\n| `step` | `number` | `1` | Step value for increment/decrement operations. |\n\n#### State Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `isDisabled` | `boolean` | - | Whether the input is disabled. |\n| `isReadOnly` | `boolean` | - | Whether the input can be selected but not changed. |\n\n#### Form Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `name` | `string` | - | Name of the input element, for HTML form submission. |\n| `autoFocus` | `boolean` | - | Whether the element should receive focus on render. |\n\n#### Accessibility Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `aria-label` | `string` | - | Accessibility label when no visible label is present. |\n| `aria-labelledby` | `string` | - | ID of elements that label this field. |\n| `aria-describedby` | `string` | - | ID of elements that describe this field. |\n| `aria-details` | `string` | - | ID of elements with additional details. |\n\n### Composition Components\n\nNumberField works with these separate components that should be imported and used directly:\n\n- **NumberField.Group** - Container for input and buttons\n- **NumberField.Input** - The numeric input field\n- **NumberField.IncrementButton** - Button to increment the value\n- **NumberField.DecrementButton** - Button to decrement the value\n- **Label** - Field label component from `@heroui/react`\n- **Description** - Helper text component from `@heroui/react`\n- **FieldError** - Validation error message from `@heroui/react`\n\nEach of these components has its own props API. Use them directly within NumberField for composition:\n\n```tsx\n<NumberField isRequired isInvalid={hasError} minValue={0} maxValue={100}>\n  <Label>Quantity</Label>\n  <NumberField.Group>\n    <NumberField.DecrementButton />\n    <NumberField.Input />\n    <NumberField.IncrementButton />\n  </NumberField.Group>\n  <Description>Enter a value between 0 and 100</Description>\n  <FieldError>Value must be between 0 and 100</FieldError>\n</NumberField>\n```\n\n#### NumberField.Group Props\n\nNumberField.Group inherits props from React Aria's [Group](https://react-spectrum.adobe.com/react-aria/Group.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode \\| (values: GroupRenderProps) => React.ReactNode` | - | Child components (Input, Buttons) or render function. |\n| `className` | `string \\| (values: GroupRenderProps) => string` | - | CSS classes for styling. |\n\n#### NumberField.Input Props\n\nNumberField.Input inherits props from React Aria's [Input](https://react-spectrum.adobe.com/react-aria/Input.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `className` | `string` | - | CSS classes for styling. |\n| `variant` | `\"primary\" \\| \"secondary\"` | `\"primary\"` | Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |\n\n#### NumberField.IncrementButton Props\n\nNumberField.IncrementButton inherits props from React Aria's [Button](https://react-spectrum.adobe.com/react-aria/Button.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | `<IconPlus />` | Icon or content for the button. Defaults to plus icon. |\n| `className` | `string` | - | CSS classes for styling. |\n| `slot` | `\"increment\"` | `\"increment\"` | Must be set to \"increment\" (automatically set). |\n\n#### NumberField.DecrementButton Props\n\nNumberField.DecrementButton inherits props from React Aria's [Button](https://react-spectrum.adobe.com/react-aria/Button.html) component.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `React.ReactNode` | `<IconMinus />` | Icon or content for the button. Defaults to minus icon. |\n| `className` | `string` | - | CSS classes for styling. |\n| `slot` | `\"decrement\"` | `\"decrement\"` | Must be set to \"decrement\" (automatically set). |\n\n### Render Props\n\nWhen using render props with `className`, `style`, or `children`, these values are available:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `isDisabled` | `boolean` | Whether the field is disabled. |\n| `isInvalid` | `boolean` | Whether the field is currently invalid. |\n| `isReadOnly` | `boolean` | Whether the field is read-only. |\n| `isRequired` | `boolean` | Whether the field is required. |\n| `isFocused` | `boolean` | Whether the field is currently focused (DEPRECATED - use `isFocusWithin`). |\n| `isFocusWithin` | `boolean` | Whether any child element is focused. |\n| `isFocusVisible` | `boolean` | Whether focus is visible (keyboard navigation). |\n| `value` | `number \\| undefined` | Current value. |\n| `minValue` | `number \\| undefined` | Minimum allowed value. |\n| `maxValue` | `number \\| undefined` | Maximum allowed value. |\n| `step` | `number` | Step value for increment/decrement. |",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:199"
+  },
+  {
+   "name": "Related Showcases",
+   "body": "<RelatedShowcases component=\"NumberField\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:356"
+  },
+  {
+   "name": "Related Components",
+   "body": "<RelatedComponents component=\"numberfield\" />",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:360"
+  }
+ ],
+ "examples": [
+  {
+   "name": "Usage",
+   "section": "Usage",
+   "key": "number-field-basic",
+   "source": "apps/docs/src/demos/en/number-field/basic.tsx",
+   "code": "import {Label, NumberField} from \"@heroui/react\";\n\nexport function Basic() {\n  return (\n    <NumberField className=\"w-full max-w-64\" defaultValue={1024} minValue={0} name=\"width\">\n      <Label>Width</Label>\n      <NumberField.Group>\n        <NumberField.DecrementButton />\n        <NumberField.Input className=\"w-[120px]\" />\n        <NumberField.IncrementButton />\n      </NumberField.Group>\n    </NumberField>\n  );\n}\n"
+  },
+  {
+   "name": "Variants",
+   "section": "Examples",
+   "key": "number-field-variants",
+   "source": "apps/docs/src/demos/en/number-field/variants.tsx",
+   "code": "import {Label, NumberField} from \"@heroui/react\";\n\nexport function Variants() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <NumberField defaultValue={100} minValue={0} name=\"primary-width\" variant=\"primary\">\n        <Label>Primary variant</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n      </NumberField>\n      <NumberField defaultValue={100} minValue={0} name=\"secondary-width\" variant=\"secondary\">\n        <Label>Secondary variant</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "In Surface",
+   "section": "Examples",
+   "key": "number-field-on-surface",
+   "source": "apps/docs/src/demos/en/number-field/on-surface.tsx",
+   "code": "import {Description, Label, NumberField, Surface} from \"@heroui/react\";\n\nexport function OnSurface() {\n  return (\n    <Surface className=\"flex w-full max-w-[280px] flex-col gap-4 rounded-3xl p-6\">\n      <NumberField defaultValue={1024} minValue={0} name=\"width\" variant=\"secondary\">\n        <Label>Width</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-full\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Enter the width in pixels</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={0.5}\n        formatOptions={{style: \"percent\"}}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.1}\n        variant=\"secondary\"\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-full\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Value must be between 0 and 100</Description>\n      </NumberField>\n    </Surface>\n  );\n}\n"
+  },
+  {
+   "name": "With Description",
+   "section": "Examples",
+   "key": "number-field-with-description",
+   "source": "apps/docs/src/demos/en/number-field/with-description.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function WithDescription() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField defaultValue={1024} minValue={0} name=\"width\">\n        <Label>Width</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Enter the width in pixels</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={0.5}\n        formatOptions={{style: \"percent\"}}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.1}\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Value must be between 0 and 100</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Required Field",
+   "section": "Examples",
+   "key": "number-field-required",
+   "source": "apps/docs/src/demos/en/number-field/required.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function Required() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField isRequired minValue={0} name=\"quantity\">\n        <Label>Quantity</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n      </NumberField>\n      <NumberField isRequired defaultValue={1} maxValue={10} minValue={1} name=\"rating\">\n        <Label>Rating</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Rate from 1 to 10</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Disabled State",
+   "section": "Examples",
+   "key": "number-field-disabled",
+   "source": "apps/docs/src/demos/en/number-field/disabled.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function Disabled() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField isDisabled defaultValue={1024} minValue={0} name=\"width\">\n        <Label>Width</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Enter the width in pixels</Description>\n      </NumberField>\n      <NumberField\n        isDisabled\n        defaultValue={0.5}\n        formatOptions={{style: \"percent\"}}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.1}\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Value must be between 0 and 100</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Full Width",
+   "section": "Examples",
+   "key": "number-field-full-width",
+   "source": "apps/docs/src/demos/en/number-field/full-width.tsx",
+   "code": "import {Label, NumberField} from \"@heroui/react\";\n\nexport function FullWidth() {\n  return (\n    <div className=\"w-[400px] space-y-4\">\n      <NumberField fullWidth defaultValue={1024} minValue={0} name=\"width\">\n        <Label>Width</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Validation",
+   "section": "Examples",
+   "key": "number-field-validation",
+   "source": "apps/docs/src/demos/en/number-field/validation.tsx",
+   "code": "import {FieldError, Label, NumberField} from \"@heroui/react\";\n\nexport function Validation() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField isInvalid isRequired minValue={0} name=\"quantity\" value={-5}>\n        <Label>Quantity</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <FieldError>Quantity must be greater than or equal to 0</FieldError>\n      </NumberField>\n      <NumberField\n        isInvalid\n        formatOptions={{style: \"percent\"}}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.1}\n        value={1.5}\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <FieldError>Percentage must be between 0 and 100</FieldError>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Controlled",
+   "section": "Examples",
+   "key": "number-field-controlled",
+   "source": "apps/docs/src/demos/en/number-field/controlled.tsx",
+   "code": "\"use client\";\n\nimport {Button, Description, Label, NumberField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function Controlled() {\n  const [value, setValue] = React.useState(1024);\n\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField minValue={0} name=\"width\" value={value} onChange={setValue}>\n        <Label>Width</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Current value: {value}</Description>\n      </NumberField>\n      <div className=\"flex gap-2\">\n        <Button variant=\"tertiary\" onPress={() => setValue(0)}>\n          Reset to 0\n        </Button>\n        <Button variant=\"tertiary\" onPress={() => setValue(2048)}>\n          Set to 2048\n        </Button>\n      </div>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Step Values",
+   "section": "Examples",
+   "key": "number-field-with-step",
+   "source": "apps/docs/src/demos/en/number-field/with-step.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function WithStep() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField defaultValue={0} maxValue={100} minValue={0} name=\"step1\" step={1}>\n        <Label>Step: 1</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Increments by 1</Description>\n      </NumberField>\n      <NumberField defaultValue={0} maxValue={100} minValue={0} name=\"step5\" step={5}>\n        <Label>Step: 5</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Increments by 5</Description>\n      </NumberField>\n      <NumberField defaultValue={0} maxValue={100} minValue={0} name=\"step10\" step={10}>\n        <Label>Step: 10</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Increments by 10</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Format Options",
+   "section": "Examples",
+   "key": "number-field-with-format-options",
+   "source": "apps/docs/src/demos/en/number-field/with-format-options.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function WithFormatOptions() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField\n        defaultValue={99}\n        minValue={0}\n        name=\"currency-eur\"\n        formatOptions={{\n          currency: \"EUR\",\n          currencySign: \"accounting\",\n          style: \"currency\",\n        }}\n      >\n        <Label>Currency (EUR - Accounting)</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Accounting format with EUR currency</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={99.99}\n        minValue={0}\n        name=\"currency-usd\"\n        formatOptions={{\n          currency: \"USD\",\n          style: \"currency\",\n        }}\n      >\n        <Label>Currency (USD)</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Standard USD currency format</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={0.5}\n        formatOptions={{style: \"percent\"}}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.01}\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Percentage format (0-1, where 0.5 = 50%)</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={1234.56}\n        minValue={0}\n        name=\"decimal\"\n        formatOptions={{\n          maximumFractionDigits: 2,\n          minimumFractionDigits: 2,\n          style: \"decimal\",\n        }}\n      >\n        <Label>Decimal (2 decimal places)</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Decimal format with 2 decimal places</Description>\n      </NumberField>\n      <NumberField\n        defaultValue={1000}\n        minValue={0}\n        name=\"unit\"\n        formatOptions={{\n          style: \"unit\",\n          unit: \"kilogram\",\n          unitDisplay: \"short\",\n        }}\n      >\n        <Label>Unit (Kilograms)</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        <Description>Unit format with kilograms</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Form Example",
+   "section": "Examples",
+   "key": "number-field-form-example",
+   "source": "apps/docs/src/demos/en/number-field/form-example.tsx",
+   "code": "\"use client\";\n\nimport {Button, Description, FieldError, Form, Label, NumberField, Spinner} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function FormExample() {\n  const [value, setValue] = React.useState<number | undefined>(undefined);\n  const [isSubmitting, setIsSubmitting] = React.useState(false);\n  const STOCK_AVAILABLE = 3;\n  const isOutOfStock = value !== undefined && value > STOCK_AVAILABLE;\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n\n    if (value === undefined || value === null || value < 1 || value > STOCK_AVAILABLE) {\n      return;\n    }\n\n    setIsSubmitting(true);\n\n    // Simulate API call\n    setTimeout(() => {\n      console.log(\"Order submitted:\", {quantity: value});\n      setValue(undefined);\n      setIsSubmitting(false);\n    }, 1500);\n  };\n\n  return (\n    <Form className=\"flex w-[280px] flex-col gap-4\" onSubmit={handleSubmit}>\n      <NumberField\n        isRequired\n        isInvalid={isOutOfStock}\n        maxValue={5}\n        minValue={1}\n        name=\"quantity\"\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Order quantity</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        {isOutOfStock ? (\n          <FieldError>Only {STOCK_AVAILABLE} items left in stock</FieldError>\n        ) : (\n          <Description>Only {STOCK_AVAILABLE} items available</Description>\n        )}\n      </NumberField>\n      <Button\n        className=\"w-full\"\n        isDisabled={value === undefined || value < 1 || value > STOCK_AVAILABLE}\n        isPending={isSubmitting}\n        type=\"submit\"\n        variant=\"primary\"\n      >\n        {isSubmitting ? (\n          <>\n            <Spinner color=\"current\" size=\"sm\" />\n            Processing...\n          </>\n        ) : (\n          \"Place Order\"\n        )}\n      </Button>\n    </Form>\n  );\n}\n"
+  },
+  {
+   "name": "With Validation",
+   "section": "Examples",
+   "key": "number-field-with-validation",
+   "source": "apps/docs/src/demos/en/number-field/with-validation.tsx",
+   "code": "\"use client\";\n\nimport {Description, FieldError, Label, NumberField} from \"@heroui/react\";\nimport React from \"react\";\n\nexport function WithValidation() {\n  const [value, setValue] = React.useState<number | undefined>(undefined);\n  const isInvalid = value !== undefined && (value < 0 || value > 100);\n\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField\n        isRequired\n        formatOptions={{style: \"percent\"}}\n        isInvalid={isInvalid}\n        maxValue={1}\n        minValue={0}\n        name=\"percentage\"\n        step={0.1}\n        value={value}\n        onChange={setValue}\n      >\n        <Label>Percentage</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton />\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton />\n        </NumberField.Group>\n        {isInvalid ? (\n          <FieldError>Percentage must be between 0 and 100</FieldError>\n        ) : (\n          <Description>Enter a value between 0 and 100</Description>\n        )}\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "Custom Icons",
+   "section": "Examples",
+   "key": "number-field-custom-icons",
+   "source": "apps/docs/src/demos/en/number-field/custom-icons.tsx",
+   "code": "import {Description, Label, NumberField} from \"@heroui/react\";\n\nexport function CustomIcons() {\n  return (\n    <div className=\"flex w-full max-w-64 flex-col gap-4\">\n      <NumberField defaultValue={1024} minValue={0} name=\"width\">\n        <Label>Width (Custom Icons)</Label>\n        <NumberField.Group>\n          <NumberField.DecrementButton>\n            <svg height=\"16\" viewBox=\"0 0 16 16\" width=\"16\" xmlns=\"http://www.w3.org/2000/svg\">\n              <path\n                clipRule=\"evenodd\"\n                d=\"M6.75 11a4.25 4.25 0 1 0 0-8.5a4.25 4.25 0 0 0 0 8.5m0 1.5a5.73 5.73 0 0 0 3.501-1.188l2.719 2.718a.75.75 0 1 0 1.06-1.06l-2.718-2.719A5.75 5.75 0 1 0 6.75 12.5m-2-6.5a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5z\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </NumberField.DecrementButton>\n          <NumberField.Input className=\"w-[120px]\" />\n          <NumberField.IncrementButton>\n            <svg height=\"16\" viewBox=\"0 0 16 16\" width=\"16\" xmlns=\"http://www.w3.org/2000/svg\">\n              <path\n                clipRule=\"evenodd\"\n                d=\"M6.75 11a4.25 4.25 0 1 0 0-8.5a4.25 4.25 0 0 0 0 8.5m0 1.5a5.73 5.73 0 0 0 3.501-1.188l2.719 2.718a.75.75 0 1 0 1.06-1.06l-2.718-2.719A5.75 5.75 0 1 0 6.75 12.5m.75-7.75a.75.75 0 0 0-1.5 0V6H4.75a.75.75 0 0 0 0 1.5H6v1.25a.75.75 0 0 0 1.5 0V7.5h1.25a.75.75 0 0 0 0-1.5H7.5z\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </NumberField.IncrementButton>\n        </NumberField.Group>\n        <Description>Custom icon children</Description>\n      </NumberField>\n    </div>\n  );\n}\n"
+  },
+  {
+   "name": "With Chevrons",
+   "section": "Examples",
+   "key": "number-field-with-chevrons",
+   "source": "apps/docs/src/demos/en/number-field/with-chevrons.tsx",
+   "code": "import {Label, NumberField} from \"@heroui/react\";\n\nexport function WithChevrons() {\n  return (\n    <NumberField\n      className=\"w-full max-w-64\"\n      defaultValue={99}\n      minValue={0}\n      name=\"amount\"\n      formatOptions={{\n        currency: \"EUR\",\n        currencySign: \"accounting\",\n        style: \"currency\",\n      }}\n    >\n      <Label>Number field with chevrons</Label>\n      <NumberField.Group className=\"flex\">\n        <NumberField.Input className=\"flex-1\" />\n        <div className=\"flex h-full flex-col border-s border-field-placeholder/15\">\n          <NumberField.IncrementButton className=\"flex h-1/2 w-6 items-center justify-center rounded-none border-0 pt-0.5 text-sm\">\n            <svg\n              aria-hidden=\"true\"\n              height=\"11\"\n              viewBox=\"0 0 16 16\"\n              width=\"11\"\n              xmlns=\"http://www.w3.org/2000/svg\"\n            >\n              <path\n                clipRule=\"evenodd\"\n                d=\"M13.03 10.53a.75.75 0 0 1-1.06 0L8 6.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l4.5-4.5a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1 0 1.06\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </NumberField.IncrementButton>\n          <NumberField.DecrementButton className=\"flex h-1/2 w-6 items-center justify-center rounded-none border-0 pb-0.5 text-sm\">\n            <svg\n              aria-hidden=\"true\"\n              height=\"11\"\n              viewBox=\"0 0 16 16\"\n              width=\"11\"\n              xmlns=\"http://www.w3.org/2000/svg\"\n            >\n              <path\n                clipRule=\"evenodd\"\n                d=\"M2.97 5.47a.75.75 0 0 1 1.06 0L8 9.44l3.97-3.97a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 0 1 0-1.06\"\n                fill=\"currentColor\"\n                fillRule=\"evenodd\"\n              />\n            </svg>\n          </NumberField.DecrementButton>\n        </div>\n      </NumberField.Group>\n    </NumberField>\n  );\n}\n"
+  },
+  {
+   "name": "Render Function",
+   "section": "Examples",
+   "key": "number-field-render-function",
+   "source": "apps/docs/src/demos/en/number-field/render-function.tsx",
+   "code": "\"use client\";\n\nimport {Label, NumberField} from \"@heroui/react\";\n\nexport function RenderFunction() {\n  return (\n    <NumberField\n      className=\"w-full max-w-64\"\n      defaultValue={1024}\n      minValue={0}\n      name=\"width\"\n      render={(props) => <div {...props} data-custom=\"foo\" />}\n    >\n      <Label>Width</Label>\n      <NumberField.Group>\n        <NumberField.DecrementButton />\n        <NumberField.Input className=\"w-[120px]\" />\n        <NumberField.IncrementButton />\n      </NumberField.Group>\n    </NumberField>\n  );\n}\n"
+  },
+  {
+   "name": "Tailwind CSS",
+   "section": "Customization",
+   "key": "number-field-custom-styles",
+   "source": "apps/docs/src/demos/en/number-field/custom-styles.tsx",
+   "code": "import {Label, NumberField} from \"@heroui/react\";\n\nexport function CustomStyles() {\n  return (\n    <NumberField\n      className=\"w-full max-w-48\"\n      defaultValue={2}\n      minValue={1}\n      name=\"guests\"\n      variant=\"secondary\"\n    >\n      <Label className=\"font-medium text-foreground\">Guests</Label>\n      <NumberField.Group className=\"rounded-xl bg-default\">\n        <NumberField.DecrementButton className=\"text-muted hover:text-foreground\" />\n        <NumberField.Input className=\"text-center tabular-nums\" />\n        <NumberField.IncrementButton className=\"text-muted hover:text-foreground\" />\n      </NumberField.Group>\n    </NumberField>\n  );\n}\n"
+  }
+ ],
+ "tables": [
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: NumberFieldRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Label, Group, Input, etc.) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:209"
+    ],
+    [
+     "`className`",
+     "`string | (values: NumberFieldRenderProps) => string`",
+     "-",
+     "CSS classes for styling, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:210"
+    ],
+    [
+     "`style`",
+     "`React.CSSProperties | (values: NumberFieldRenderProps) => React.CSSProperties`",
+     "-",
+     "Inline styles, supports render props.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:211"
+    ],
+    [
+     "`fullWidth`",
+     "`boolean`",
+     "`false`",
+     "Whether the number field should take full width of its container",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:212"
+    ],
+    [
+     "`id`",
+     "`string`",
+     "-",
+     "The element's unique identifier.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:213"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:214"
+    ],
+    [
+     "`render`",
+     "`DOMRenderFunction<keyof React.JSX.IntrinsicElements, NumberFieldRenderProps>`",
+     "-",
+     "Overrides the default DOM element with a custom render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:215"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`value`",
+     "`number`",
+     "-",
+     "Current value (controlled).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:221"
+    ],
+    [
+     "`defaultValue`",
+     "`number`",
+     "-",
+     "Default value (uncontrolled).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:222"
+    ],
+    [
+     "`onChange`",
+     "`(value: number | undefined) => void`",
+     "-",
+     "Handler called when the value changes.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:223"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`formatOptions`",
+     "`Intl.NumberFormatOptions`",
+     "-",
+     "Options for formatting numbers (currency, percent, decimal, unit).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:229"
+    ],
+    [
+     "`locale`",
+     "`string`",
+     "-",
+     "Locale for number formatting.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:230"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isRequired`",
+     "`boolean`",
+     "`false`",
+     "Whether user input is required before form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:236"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "-",
+     "Whether the value is invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:237"
+    ],
+    [
+     "`validate`",
+     "`(value: number) => ValidationError | true | null | undefined`",
+     "-",
+     "Custom validation function.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:238"
+    ],
+    [
+     "`validationBehavior`",
+     "`'native' | 'aria'`",
+     "`'native'`",
+     "Whether to use native HTML form validation or ARIA attributes.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:239"
+    ],
+    [
+     "`validationErrors`",
+     "`string[]`",
+     "-",
+     "Server-side validation errors.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:240"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`minValue`",
+     "`number`",
+     "-",
+     "Minimum allowed value.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:246"
+    ],
+    [
+     "`maxValue`",
+     "`number`",
+     "-",
+     "Maximum allowed value.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:247"
+    ],
+    [
+     "`step`",
+     "`number`",
+     "`1`",
+     "Step value for increment/decrement operations.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:248"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "-",
+     "Whether the input is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:254"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "-",
+     "Whether the input can be selected but not changed.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:255"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`name`",
+     "`string`",
+     "-",
+     "Name of the input element, for HTML form submission.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:261"
+    ],
+    [
+     "`autoFocus`",
+     "`boolean`",
+     "-",
+     "Whether the element should receive focus on render.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:262"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "NumberField",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`aria-label`",
+     "`string`",
+     "-",
+     "Accessibility label when no visible label is present.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:268"
+    ],
+    [
+     "`aria-labelledby`",
+     "`string`",
+     "-",
+     "ID of elements that label this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:269"
+    ],
+    [
+     "`aria-describedby`",
+     "`string`",
+     "-",
+     "ID of elements that describe this field.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:270"
+    ],
+    [
+     "`aria-details`",
+     "`string`",
+     "-",
+     "ID of elements with additional details.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:271"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:201",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode | (values: GroupRenderProps) => React.ReactNode`",
+     "-",
+     "Child components (Input, Buttons) or render function.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:306"
+    ],
+    [
+     "`className`",
+     "`string | (values: GroupRenderProps) => string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:307"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:273",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:315"
+    ],
+    [
+     "`variant`",
+     "`\"primary\" | \"secondary\"`",
+     "`\"primary\"`",
+     "Visual variant of the input. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:316"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:273",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "`<IconPlus />`",
+     "Icon or content for the button. Defaults to plus icon.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:324"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:325"
+    ],
+    [
+     "`slot`",
+     "`\"increment\"`",
+     "`\"increment\"`",
+     "Must be set to \"increment\" (automatically set).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:326"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:273",
+   "section": "API Reference"
+  },
+  {
+   "name": "Composition Components",
+   "columns": [
+    "Prop",
+    "Type",
+    "Default",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`children`",
+     "`React.ReactNode`",
+     "`<IconMinus />`",
+     "Icon or content for the button. Defaults to minus icon.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:334"
+    ],
+    [
+     "`className`",
+     "`string`",
+     "-",
+     "CSS classes for styling.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:335"
+    ],
+    [
+     "`slot`",
+     "`\"decrement\"`",
+     "`\"decrement\"`",
+     "Must be set to \"decrement\" (automatically set).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:336"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:273",
+   "section": "API Reference"
+  },
+  {
+   "name": "Render Props",
+   "columns": [
+    "Prop",
+    "Type",
+    "Description",
+    "출처"
+   ],
+   "rows": [
+    [
+     "`isDisabled`",
+     "`boolean`",
+     "Whether the field is disabled.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:344"
+    ],
+    [
+     "`isInvalid`",
+     "`boolean`",
+     "Whether the field is currently invalid.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:345"
+    ],
+    [
+     "`isReadOnly`",
+     "`boolean`",
+     "Whether the field is read-only.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:346"
+    ],
+    [
+     "`isRequired`",
+     "`boolean`",
+     "Whether the field is required.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:347"
+    ],
+    [
+     "`isFocused`",
+     "`boolean`",
+     "Whether the field is currently focused (DEPRECATED - use `isFocusWithin`).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:348"
+    ],
+    [
+     "`isFocusWithin`",
+     "`boolean`",
+     "Whether any child element is focused.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:349"
+    ],
+    [
+     "`isFocusVisible`",
+     "`boolean`",
+     "Whether focus is visible (keyboard navigation).",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:350"
+    ],
+    [
+     "`value`",
+     "`number | undefined`",
+     "Current value.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:351"
+    ],
+    [
+     "`minValue`",
+     "`number | undefined`",
+     "Minimum allowed value.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:352"
+    ],
+    [
+     "`maxValue`",
+     "`number | undefined`",
+     "Maximum allowed value.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:353"
+    ],
+    [
+     "`step`",
+     "`number`",
+     "Step value for increment/decrement.",
+     "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:354"
+    ]
+   ],
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:338",
+   "section": "API Reference"
+  }
+ ],
+ "propsTable": 0,
+ "variants": [
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "NumberField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:214"
+  },
+  {
+   "name": "`validationBehavior`",
+   "prop": "validationBehavior",
+   "values": [
+    "native",
+    "aria"
+   ],
+   "other": [],
+   "default": "`'native'`",
+   "owner": "NumberField",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:239"
+  },
+  {
+   "name": "`variant`",
+   "prop": "variant",
+   "values": [
+    "primary",
+    "secondary"
+   ],
+   "other": [],
+   "default": "`\"primary\"`",
+   "owner": "Composition Components",
+   "derivedFrom": "type",
+   "source": "apps/docs/content/docs/en/react/components/(forms)/number-field.mdx:316"
+  }
+ ]
+}
