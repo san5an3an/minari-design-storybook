@@ -16,3 +16,208 @@
     color: var(--semantic-fg-brand-default);
   }
 }
+
+/* 컴포넌트별 치수 토큰 연결. 테마 토큰으로 닿지 않는 여백, 간격, 모서리만 CSS 로 지정함 */
+@layer overrides {
+  /* Button 아이콘과 글자 사이 간격 지정. 크기 구분 없는 토큰이라 기본 크기에만 적용하고 가로 여백은 테마 paddingInline 이 맡음 */
+  .ant-btn:where(:not(.ant-btn-sm):not(.ant-btn-lg)) {
+    gap: var(--component-button-gap);
+  }
+
+  /* Input 접두, 접미 간격 지정. antd 가 스타일 함수 내부값(paddingXXS)으로 정해 테마로 닿지 않음 */
+  .ant-input-affix-wrapper:where(:not(.ant-input-affix-wrapper-sm):not(.ant-input-affix-wrapper-lg))
+    > .ant-input-prefix {
+    margin-inline-end: var(--component-input-gap);
+  }
+  .ant-input-affix-wrapper:where(:not(.ant-input-affix-wrapper-sm):not(.ant-input-affix-wrapper-lg))
+    > .ant-input-suffix {
+    margin-inline-start: var(--component-input-gap);
+  }
+  /* Input.OTP 칸 사이 간격 지정 */
+  .ant-otp:where(:not(.ant-otp-sm):not(.ant-otp-lg)) {
+    column-gap: var(--component-inputotp-gap);
+  }
+
+  /* Select 트리거 가로 여백 지정. 공개 토큰이 없어 --ant-select-padding-horizontal 을 덮고 auto-complete 규칙은 뒤에 둬야 함 */
+  .ant-select:where(:not(.ant-select-sm):not(.ant-select-lg)) {
+    --ant-select-padding-horizontal: var(--component-select-md-padding-inline);
+  }
+  .ant-select-sm {
+    --ant-select-padding-horizontal: var(--component-select-sm-padding-inline);
+  }
+  .ant-select-auto-complete:where(:not(.ant-select-sm):not(.ant-select-lg)) {
+    --ant-select-padding-horizontal: var(--component-combobox-input-padding-inline);
+  }
+
+  /* DatePicker, TimePicker, RangePicker 트리거 접미 아이콘 간격 지정 */
+  .ant-picker:where(:not(.ant-picker-small):not(.ant-picker-large)) .ant-picker-suffix {
+    margin-inline-start: var(--component-datepicker-trigger-gap);
+  }
+  /* 날짜 판 가로 여백 지정. 팝업과 카드형 달력에만 적용하고 전체 화면 달력은 antd 값 유지함 */
+  :where(.ant-picker-dropdown, .ant-picker-calendar-mini) .ant-picker-date-panel .ant-picker-body {
+    padding-inline: var(--component-calendar-padding);
+  }
+  /* 팝업 날짜 판 너비를 칸 너비 7개와 가로 여백으로 다시 계산. 안 바꾸면 여백이 넉넉한 시스템에서 판이 넘침 */
+  :where(.ant-picker-dropdown)
+    :is(
+      .ant-picker-decade-panel,
+      .ant-picker-year-panel,
+      .ant-picker-quarter-panel,
+      .ant-picker-month-panel,
+      .ant-picker-week-panel,
+      .ant-picker-date-panel,
+      .ant-picker-time-panel
+    ) {
+    width: calc(var(--ant-date-picker-cell-width) * 7 + var(--component-calendar-padding) * 2);
+  }
+  /* 날짜 칸, 오늘 표시, 범위 양끝, 주 띠 모서리 지정. 전체 화면 달력 칸은 antd 가 모서리 0 으로 둬서 제외함 */
+  .ant-picker-cell .ant-picker-cell-inner:where(:not(.ant-picker-calendar-full *)) {
+    border-radius: var(--component-calendar-cell-radius);
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-today
+    .ant-picker-cell-inner:where(:not(.ant-picker-calendar-full *))::before {
+    border-radius: var(--component-calendar-cell-radius);
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-end) .ant-picker-cell-inner {
+    border-start-start-radius: var(--component-calendar-cell-radius);
+    border-end-start-radius: var(--component-calendar-cell-radius);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-start) .ant-picker-cell-inner {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: var(--component-calendar-cell-radius);
+    border-end-end-radius: var(--component-calendar-cell-radius);
+  }
+  .ant-picker-week-panel-row td:first-child::before {
+    border-start-start-radius: var(--component-calendar-cell-radius);
+    border-end-start-radius: var(--component-calendar-cell-radius);
+  }
+  .ant-picker-week-panel-row td:last-child::before {
+    border-start-end-radius: var(--component-calendar-cell-radius);
+    border-end-end-radius: var(--component-calendar-cell-radius);
+  }
+
+  /* Modal Footer 버튼 간격과 Modal.confirm 제목, 본문 간격 지정. 별칭 토큰은 좁은 화면 바깥 margin 까지 바꿔 CSS 로 줌 */
+  .ant-modal-footer > .ant-btn + .ant-btn,
+  .ant-modal-confirm-btns .ant-btn + .ant-btn {
+    margin-inline-start: var(--component-dialog-actions-gap);
+  }
+  .ant-modal-confirm-paragraph {
+    row-gap: var(--component-alertdialog-gap);
+  }
+
+  /* Tooltip 최소 높이 해제. antd 의 minHeight: controlHeight 때문에 토큰 세로 여백보다 높아져 아래가 벌어짐 */
+  .ant-tooltip-container,
+  .ant-tooltip-unique-container {
+    min-height: 0;
+  }
+
+  /* Dropdown 메뉴 아이콘과 글자 사이 간격 지정 */
+  .ant-dropdown-menu-item-icon {
+    margin-inline-end: var(--component-menu-item-gap);
+  }
+
+  /* Collapse 펼침 아이콘 간격 지정. 기본 크기에만 적용함 */
+  .ant-collapse:where(:not(.ant-collapse-small):not(.ant-collapse-large)) .ant-collapse-expand-icon {
+    margin-inline-end: var(--component-accordion-head-gap);
+  }
+
+  /* Alert 아이콘 간격 지정. 설명 있는 Alert 도 같은 alert-gap 사용함 */
+  .ant-alert .ant-alert-icon {
+    margin-inline-end: var(--component-alert-gap);
+  }
+
+  /* Segmented 항목 가로 여백 지정. 기본 크기에만 적용하고 트랙 여백은 라벨 높이 계산에 들어가 연결 제외함 */
+  .ant-segmented:where(:not(.ant-segmented-sm):not(.ant-segmented-lg)) .ant-segmented-item-label {
+    padding-inline: var(--component-segmented-item-padding-inline);
+  }
+
+  /* Pagination 항목 간격 지정. small, mini, large 는 antd 값 유지하고 표 안 페이지 넘김도 같이 바뀜 */
+  .ant-pagination:where(:not(.ant-pagination-small):not(.ant-pagination-mini):not(.ant-pagination-large)) {
+    --ant-pagination-item-spacing-actual: var(--component-pagination-gap);
+  }
+
+  /* Checkbox 상자와 글자 사이 간격 지정. 라벨 없는 Table 선택 칸, Transfer 에는 닿지 않음 */
+  .ant-checkbox-wrapper .ant-checkbox-label {
+    padding-inline-start: var(--component-checkbox-gap);
+  }
+
+  /* Radio 점과 글자 사이 간격, 세로 묶음 간격 지정. 버튼형 묶음은 antd 가 간격 0 을 둬서 제외함 */
+  .ant-radio-wrapper .ant-radio-label {
+    padding-inline-start: var(--component-radio-gap);
+  }
+  .ant-radio-group-vertical:where(
+      :not(:has(> .ant-radio-button-wrapper, > .ant-badge > .ant-radio-button-wrapper))
+    ) {
+    row-gap: var(--component-radio-group-gap);
+  }
+
+  /* Progress 막대와 글자 사이 간격 지정. 선형 기본 크기에만 적용함 */
+  .ant-progress-line:where(:not(.ant-progress-small)) .ant-progress-body {
+    gap: var(--component-progress-gap);
+  }
+
+  /* Spin 그림과 설명 사이 간격 지정. 기본 크기에만 적용함 */
+  .ant-spin.ant-spin-section:where(:not(.ant-spin-sm):not(.ant-spin-lg)),
+  .ant-spin:where(:not(.ant-spin-sm):not(.ant-spin-lg)) > .ant-spin-section {
+    gap: var(--component-spinner-gap);
+  }
+
+  /* Skeleton 이미지, 버튼, 입력 모양 모서리와 줄 사이 간격 지정. antd 가 borderRadiusSM 과 margin 으로 직접 정해 CSS 로 줌 */
+  .ant-skeleton-image:where(:not(.ant-skeleton-image-circle)),
+  .ant-skeleton-node {
+    border-radius: var(--component-skeleton-radius-block);
+  }
+  .ant-skeleton-button:where(
+      :not(.ant-skeleton-button-sm):not(.ant-skeleton-button-lg):not(.ant-skeleton-button-round):not(
+          .ant-skeleton-button-circle
+        )
+    ),
+  .ant-skeleton-input:where(:not(.ant-skeleton-input-sm):not(.ant-skeleton-input-lg)) {
+    border-radius: var(--component-skeleton-radius);
+  }
+  .ant-skeleton-paragraph > li + li,
+  .ant-skeleton-title + .ant-skeleton-paragraph {
+    margin-block-start: var(--component-skeleton-gap);
+  }
+
+  /* Avatar 기본 모양(circle), 기본 크기 모서리 지정. antd 가 50% 로 고정해 토큰이 없고 남은 인원 아바타도 같은 클래스임 */
+  .ant-avatar-circle:where(:not(.ant-avatar-sm):not(.ant-avatar-lg)) {
+    border-radius: var(--component-avatar-radius);
+  }
+
+  /* Divider 가로 구분선 위아래 여백 지정. 기본 크기에만 적용하고 예제의 인라인 margin 은 그대로 우선함 */
+  .ant-divider-horizontal:where(:not(.ant-divider-sm):not(.ant-divider-md)) {
+    margin-block: var(--component-divider-space);
+  }
+
+  /* List 테두리형 가로 여백과 아바타 간격 지정. 기본 크기에만 적용함 */
+  .ant-list-bordered:where(:not(.ant-list-sm):not(.ant-list-lg))
+    :is(.ant-list-item, .ant-list-header, .ant-list-footer) {
+    padding-inline: var(--component-listrow-padding-inline);
+  }
+  .ant-list:where(:not(.ant-list-sm):not(.ant-list-lg)) .ant-list-item-meta-avatar {
+    margin-inline-end: var(--component-listrow-gap);
+  }
+
+  /* Notification, Message 아이콘과 내용 간격, 제목과 설명 간격, 닫기 버튼 위치 지정 */
+  .ant-notification-notice-wrapper {
+    gap: var(--component-toast-gap);
+  }
+  .ant-notification-notice-section {
+    gap: var(--component-toast-content-gap);
+  }
+  .ant-notification-notice-close {
+    inset-inline-end: var(--component-toast-padding-inline);
+  }
+  .ant-message-notice-wrapper {
+    gap: var(--component-toast-gap);
+  }
+
+  /* Statistic 제목과 값 사이 간격 지정 */
+  .ant-statistic-header {
+    padding-bottom: var(--component-stat-gap);
+  }
+}

@@ -55,7 +55,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
     return hits.map((j) => ({
       value: j.value,
       label: (
-        <Flex align="center" justify="space-between" gap={12}>
+        <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
           <Typography.Text ellipsis>{j.label}</Typography.Text>
           <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, whiteSpace: "nowrap" }}>
             {j.hint}
@@ -94,17 +94,17 @@ export function AntdUsage({ system }: UsageDashboardProps) {
               display: "flex",
               alignItems: "center",
               flexWrap: "wrap",
-              gap: 12,
-              paddingInline: 16,
+              gap: "var(--semantic-space-sm)",
+              paddingInline: "var(--semantic-space-md)",
               height: "auto",
               lineHeight: "normal",
-              paddingBlock: 12,
+              paddingBlock: "var(--semantic-space-sm)",
               background: token.colorBgContainer,
               borderBlockEnd: `1px solid ${token.colorBorderSecondary}`,
             }}
           >
             {/* 제목 영역은 Typography, Space로 구성. antd v5엔 PageHeader 없음 */}
-            <Space size={10}>
+            <Space style={{ gap: "var(--semantic-space-sm)" }}>
               <span
                 aria-hidden
                 style={{
@@ -120,7 +120,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
               </Typography.Text>
             </Space>
 
-            <Space size={10} wrap style={{ marginInlineStart: "auto" }}>
+            <Space wrap style={{ gap: "var(--semantic-space-sm)", marginInlineStart: "auto" }}>
               {/* 고정폭 180px 대신 가변 폭 지정. 좁은 화면에서 안 접히고 밀어내는 문제 있음 */}
               <AutoComplete
                 value={query}
@@ -144,7 +144,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                 open={noticeOpen}
                 onOpenChange={setNoticeOpen}
                 title={
-                  <Flex align="center" justify="space-between" gap={16}>
+                  <Flex align="center" justify="space-between" gap="var(--semantic-space-md)">
                     <span>알림</span>
                     <Button
                       type="link"
@@ -157,7 +157,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                   </Flex>
                 }
                 content={
-                  <Flex vertical gap={4} style={{ inlineSize: 280 }}>
+                  <Flex vertical gap="var(--semantic-space-xs)" style={{ inlineSize: 280 }}>
                     {NOTICES.map((n) => {
                       const isNew = unread.includes(n.id);
                       return (
@@ -170,9 +170,9 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                             go(n.screen, n.focusId);
                             setNoticeOpen(false);
                           }}
-                          style={{ blockSize: "auto", paddingBlock: 8, textAlign: "start" }}
+                          style={{ blockSize: "auto", paddingBlock: "var(--semantic-space-sm)", textAlign: "start" }}
                         >
-                          <Flex align="flex-start" gap={10} style={{ inlineSize: "100%", minInlineSize: 0 }}>
+                          <Flex align="flex-start" gap="var(--semantic-space-sm)" style={{ inlineSize: "100%", minInlineSize: 0 }}>
                             <Badge dot={isNew} color={token.colorPrimary} offset={[0, 8]}>
                               <span aria-hidden style={{ display: "inline-block", inlineSize: 4 }} />
                             </Badge>
@@ -248,10 +248,10 @@ export function AntdUsage({ system }: UsageDashboardProps) {
               </Layout.Sider>
             ) : null}
 
-            <Layout.Content style={{ padding: 20, minInlineSize: 0, overflowY: "auto" }}>
-              <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+            <Layout.Content style={{ padding: "var(--semantic-space-md)", minInlineSize: 0, overflowY: "auto" }}>
+              <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
                 {/* 빵부스러기 사용 금지 */}
-                <Space orientation="vertical" size={2} style={{ display: "flex", minInlineSize: 0 }}>
+                <Space orientation="vertical" style={{ gap: "var(--semantic-space-xs)", display: "flex", minInlineSize: 0 }}>
                   <Typography.Title level={3} style={{ margin: 0 }}>
                     {screen.label}
                   </Typography.Title>
@@ -268,8 +268,8 @@ export function AntdUsage({ system }: UsageDashboardProps) {
             style={{
               background: token.colorBgContainer,
               borderBlockStart: `1px solid ${token.colorBorderSecondary}`,
-              paddingBlock: 12,
-              paddingInline: 20,
+              paddingBlock: "var(--semantic-space-sm)",
+              paddingInline: "var(--semantic-space-md)",
             }}
           >
             <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>

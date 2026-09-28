@@ -52,7 +52,7 @@ function EmployeeDrawer({ employee, onClose }: { employee: Employee | null; onCl
       size={460}
       title={employee ? `${employee.id} · 구성원 상세` : "구성원 상세"}
       footer={
-        <Flex justify="flex-end" gap={8}>
+        <Flex justify="flex-end" gap="var(--semantic-space-sm)">
           <Button onClick={onClose}>닫기</Button>
           <Button
             type="primary"
@@ -67,14 +67,14 @@ function EmployeeDrawer({ employee, onClose }: { employee: Employee | null; onCl
       }
     >
       {employee ? (
-        <Space orientation="vertical" size={20} style={{ display: "flex" }}>
-          <Flex gap={12} align="center" justify="space-between">
+        <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
+          <Flex gap="var(--semantic-space-sm)" align="center" justify="space-between">
             <PersonCell name={employee.name} sub={`${employee.role} · ${employee.department}`} size={48} />
             <StatusTag tone={STATUS_TONE[employee.status]}>{employee.status}</StatusTag>
           </Flex>
 
           {/* 3개라 3셀 고정, 드로어 폭 항상 동일. 셀 약 130px라 값 글자 크기 한 단계 조정 */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "var(--semantic-space-sm)" }}>
             <Card size="small">
               <Statistic title="근속" value={tenureLabel(employee.joined)} styles={{ content: { fontSize: token.fontSizeLG } }} />
             </Card>
@@ -109,7 +109,7 @@ function EmployeeDrawer({ employee, onClose }: { employee: Employee | null; onCl
 
           {onboarding ? (
             <div>
-              <Flex justify="space-between" align="baseline" style={{ marginBlockEnd: 12 }}>
+              <Flex justify="space-between" align="baseline" style={{ marginBlockEnd: "var(--semantic-space-sm)" }}>
                 <Typography.Text strong>온보딩 진행</Typography.Text>
                 <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>
                   {Math.min(employee.onboardingStep + 1, ONBOARDING_STEPS.length)} / {ONBOARDING_STEPS.length}단계
@@ -128,7 +128,7 @@ function EmployeeDrawer({ employee, onClose }: { employee: Employee | null; onCl
           ) : null}
 
           <div>
-            <Typography.Text strong style={{ display: "block", marginBlockEnd: 12 }}>
+            <Typography.Text strong style={{ display: "block", marginBlockEnd: "var(--semantic-space-sm)" }}>
               휴가 요청 {leaves.length}건
             </Typography.Text>
             {leaves.length === 0 ? (
@@ -140,7 +140,7 @@ function EmployeeDrawer({ employee, onClose }: { employee: Employee | null; onCl
                   key: l.id,
                   color: l.status === "승인" ? "green" : l.status === "대기" ? "blue" : "gray",
                   content: (
-                    <Flex justify="space-between" gap={8} align="flex-start">
+                    <Flex justify="space-between" gap="var(--semantic-space-sm)" align="flex-start">
                       <span>
                         <Typography.Text style={{ display: "block" }}>
                           {l.type} · {leaveRangeLabel(l)} ({leaveDays(l)}일)
@@ -226,7 +226,7 @@ function AddEmployeeModal({ open, onClose }: { open: boolean; onClose: () => voi
         onFinish={submit}
         initialValues={{ employment: "정규직", location: "서울", joined: today(), manager: "황보람" }}
       >
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="name" label="이름" rules={[{ required: true, message: "이름을 적어 주세요." }]} style={{ flex: 1 }}>
             <Input placeholder="예: 홍지우" />
           </Form.Item>
@@ -239,7 +239,7 @@ function AddEmployeeModal({ open, onClose }: { open: boolean; onClose: () => voi
             <Input placeholder="jiwoo.hong@example.com" />
           </Form.Item>
         </Flex>
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="role" label="직무" rules={[{ required: true, message: "직무를 적어 주세요." }]} style={{ flex: 1 }}>
             <Input placeholder="예: 백엔드 엔지니어" />
           </Form.Item>
@@ -247,7 +247,7 @@ function AddEmployeeModal({ open, onClose }: { open: boolean; onClose: () => voi
             <Select placeholder="부서 고르기" options={DEPARTMENTS.map((d) => ({ value: d, label: d }))} />
           </Form.Item>
         </Flex>
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="joined" label="입사일" rules={[{ required: true, message: "입사일을 골라 주세요." }]} style={{ flex: 1 }}>
             <DatePicker style={{ inlineSize: "100%" }} />
           </Form.Item>
@@ -255,7 +255,7 @@ function AddEmployeeModal({ open, onClose }: { open: boolean; onClose: () => voi
             <Select options={state.employees.filter((e) => e.status === "재직").map((e) => ({ value: e.name, label: `${e.name} · ${e.role}` }))} />
           </Form.Item>
         </Flex>
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="location" label="근무지" style={{ flex: 1 }}>
             <Select options={LOCATIONS.map((l) => ({ value: l, label: l }))} />
           </Form.Item>
@@ -322,7 +322,7 @@ export function PeopleScreen() {
   };
 
   return (
-    <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+    <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
       <div className="hr-toolbar">
         <Segmented<StatusFilter>
           value={status}
@@ -551,9 +551,9 @@ export function PeopleScreen() {
           title="부서별 인원"
           extra={<Typography.Text type="secondary">전체 {employees.length}명</Typography.Text>}
         >
-          <Space orientation="vertical" size={10} style={{ display: "flex" }}>
+          <Space orientation="vertical" style={{ gap: "var(--semantic-space-sm)", display: "flex" }}>
             {byDepartment.map((d) => (
-              <Flex key={d.department} align="center" gap={12}>
+              <Flex key={d.department} align="center" gap="var(--semantic-space-sm)">
                 <Button
                   type="link"
                   size="small"

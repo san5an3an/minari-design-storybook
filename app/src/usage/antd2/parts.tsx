@@ -51,8 +51,8 @@ export function StatCard({ icon, tone, label, value, suffix, note }: StatCardPro
   const { token } = theme.useToken();
   const colors = useToneColors()[tone];
   return (
-    <Card size="small" styles={{ body: { padding: 14 } }}>
-      <Flex gap={12} align="flex-start">
+    <Card size="small" styles={{ body: { padding: "var(--semantic-space-md)" } }}>
+      <Flex gap="var(--semantic-space-sm)" align="flex-start">
         <span
           aria-hidden
           style={{
@@ -85,7 +85,7 @@ export function StatCard({ icon, tone, label, value, suffix, note }: StatCardPro
 export function PersonCell({ name, sub, size = 32 }: { name: string; sub?: React.ReactNode; size?: number }) {
   const { token } = theme.useToken();
   return (
-    <Flex gap={10} align="center" style={{ minWidth: 0 }}>
+    <Flex gap="var(--semantic-space-sm)" align="center" style={{ minWidth: 0 }}>
       <Avatar size={size} style={{ flex: "0 0 auto" }}>{name.slice(0, 1)}</Avatar>
       <div style={{ minWidth: 0, lineHeight: 1.35 }}>
         <Typography.Text strong ellipsis style={{ display: "block" }}>{name}</Typography.Text>

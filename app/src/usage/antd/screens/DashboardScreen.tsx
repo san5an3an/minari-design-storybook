@@ -272,7 +272,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
       title: "고객",
       dataIndex: "customer",
       render: (v: string) => (
-        <Flex align="center" gap={8} style={{ whiteSpace: "nowrap" }}>
+        <Flex align="center" gap="var(--semantic-space-sm)" style={{ whiteSpace: "nowrap" }}>
           <Avatar size="small">{v.slice(0, 1)}</Avatar>
           {v}
         </Flex>
@@ -329,7 +329,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
                 value={h.value}
                 styles={{ content: { fontSize: token.fontSizeHeading3 } }}
               />
-              <Flex align="center" gap={6} wrap style={{ marginBlockStart: 8 }}>
+              <Flex align="center" gap="var(--semantic-space-xs)" wrap style={{ marginBlockStart: "var(--semantic-space-sm)" }}>
                 {/* 텍스트 색 지정 */}
                 <Text
                   style={{
@@ -350,7 +350,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
         <Card
           size="small"
           title={
-            <Flex align="baseline" gap={8}>
+            <Flex align="baseline" gap="var(--semantic-space-sm)">
               <span>매출</span>
               <Text type="secondary" style={{ fontSize: token.fontSizeSM, fontWeight: "normal" }}>단위: 백만원</Text>
             </Flex>
@@ -370,11 +370,11 @@ export function DashboardScreen({ focusId }: ScreenProps) {
               border: `1px solid ${token.colorBorderSecondary}`,
               borderRadius: token.borderRadius,
               display: "grid",
-              gap: 8,
+              gap: "var(--semantic-space-sm)",
               gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              marginBlockEnd: 16,
-              paddingBlock: 12,
-              paddingInline: 8,
+              marginBlockEnd: "var(--semantic-space-md)",
+              paddingBlock: "var(--semantic-space-sm)",
+              paddingInline: "var(--semantic-space-sm)",
               textAlign: "center",
             }}
           >
@@ -411,8 +411,8 @@ export function DashboardScreen({ focusId }: ScreenProps) {
       </div>
 
       <Card size="small" style={{ background: token.colorPrimaryBg, borderColor: "transparent" }}>
-        <Flex align="center" justify="space-between" gap={16} wrap>
-          <Flex vertical gap={2}>
+        <Flex align="center" justify="space-between" gap="var(--semantic-space-md)" wrap>
+          <Flex vertical gap="var(--semantic-space-xs)">
             <Text strong>
               {plan === "starter" ? "더 팔고 싶으세요?" : `${currentPlan.name} 요금제를 쓰고 있어요`}
             </Text>
@@ -439,7 +439,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
           />
         }
       >
-        <Flex align="center" gap={8} wrap style={{ marginBlockEnd: 12 }}>
+        <Flex align="center" gap="var(--semantic-space-sm)" wrap style={{ marginBlockEnd: "var(--semantic-space-sm)" }}>
           <Input.Search
             allowClear
             placeholder="주문번호·고객·상품"
@@ -465,7 +465,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
             결제 확인{payable.length ? ` ${payable.length}건` : ""}
           </Button>
         </Flex>
-        <Text type="secondary" style={{ display: "block", fontSize: token.fontSizeSM, marginBlockEnd: 8 }}>
+        <Text type="secondary" style={{ display: "block", fontSize: token.fontSizeSM, marginBlockEnd: "var(--semantic-space-sm)" }}>
           {shownOrders.length}건 · 합계 {won(shownTotal)} · 결제 대기 {shownUnpaid}건
         </Text>
         <Table<Order>
@@ -502,11 +502,11 @@ export function DashboardScreen({ focusId }: ScreenProps) {
                 </div>
               }
             >
-              <Flex vertical gap={4} style={{ minInlineSize: 0 }}>
+              <Flex vertical gap="var(--semantic-space-xs)" style={{ minInlineSize: 0 }}>
                 <Text strong ellipsis>{p.name}</Text>
-                <Flex justify="space-between" align="center" gap={8} wrap>
+                <Flex justify="space-between" align="center" gap="var(--semantic-space-sm)" wrap>
                   <Text style={{ whiteSpace: "nowrap" }}>{won(p.price)}</Text>
-                  <Flex align="center" gap={4} style={{ whiteSpace: "nowrap" }}>
+                  <Flex align="center" gap="var(--semantic-space-xs)" style={{ whiteSpace: "nowrap" }}>
                     <Rate disabled count={1} value={1} style={{ fontSize: 12 }} />
                     <Text type="secondary">{p.rate}</Text>
                   </Flex>
@@ -521,9 +521,9 @@ export function DashboardScreen({ focusId }: ScreenProps) {
       <div className="a1d-pair">
         <Card size="small" title="분류별 매출" extra={<Text type="secondary">이번 달</Text>}>
           {/* Lizant 방사형 대신 막대 진행도 사용. 반지름 비례라 안쪽 고리 짧아 보임 */}
-          <Flex vertical gap={12}>
+          <Flex vertical gap="var(--semantic-space-sm)">
             {CATEGORIES.map((c) => (
-              <Flex key={c.name} vertical gap={2}>
+              <Flex key={c.name} vertical gap="var(--semantic-space-xs)">
                 <Flex justify="space-between">
                   <Text>{c.name}</Text>
                   <Text type="secondary">{c.pct}%</Text>
@@ -544,10 +544,10 @@ export function DashboardScreen({ focusId }: ScreenProps) {
           title="배송 현황"
           extra={<Button type="link" onClick={() => setDeliveriesOpen(true)}>전체 보기</Button>}
         >
-          <Flex vertical gap={12}>
+          <Flex vertical gap="var(--semantic-space-sm)">
             {DELIVERIES.slice(0, 6).map((d) => (
-              <Flex key={d.id} align="center" justify="space-between" gap={12}>
-                <Flex align="center" gap={10} style={{ minInlineSize: 0 }}>
+              <Flex key={d.id} align="center" justify="space-between" gap="var(--semantic-space-sm)">
+                <Flex align="center" gap="var(--semantic-space-sm)" style={{ minInlineSize: 0 }}>
                   <Avatar shape="square" size="small">{d.name.slice(0, 1)}</Avatar>
                   <Flex vertical style={{ minInlineSize: 0 }}>
                     <Text ellipsis>{d.name}</Text>
@@ -581,7 +581,7 @@ export function DashboardScreen({ focusId }: ScreenProps) {
           </Button>
         }
       >
-        <Text type="secondary" style={{ display: "block", fontSize: token.fontSizeSM, marginBlockEnd: 8 }}>
+        <Text type="secondary" style={{ display: "block", fontSize: token.fontSizeSM, marginBlockEnd: "var(--semantic-space-sm)" }}>
           {STOCK.length}개 품목 · 재고 부족 {lowStock}개 · 품절 {soldOut}개
         </Text>
         <Table<Stock>
@@ -627,12 +627,12 @@ export function DashboardScreen({ focusId }: ScreenProps) {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <Flex vertical gap={4}>
+          <Flex vertical gap="var(--semantic-space-xs)">
             <Text type="secondary">전체 이용자</Text>
             <Title level={4} style={{ margin: 0 }}>1,874,210명</Title>
-            <Text type="secondary" style={{ marginBlockStart: 12 }}>지금 활동</Text>
+            <Text type="secondary" style={{ marginBlockStart: "var(--semantic-space-sm)" }}>지금 활동</Text>
             {ACTIVITY.map((a) => (
-              <Flex key={a.name} justify="space-between" gap={8}>
+              <Flex key={a.name} justify="space-between" gap="var(--semantic-space-sm)">
                 <Text>{a.name}</Text>
                 <Text type="secondary">{a.pct}%</Text>
               </Flex>
@@ -675,7 +675,7 @@ function PlanModal({
       onCancel={onClose}
     >
       <Radio.Group value={draft} onChange={(e) => setDraft(e.target.value)} style={{ display: "block" }}>
-        <Flex vertical gap={8}>
+        <Flex vertical gap="var(--semantic-space-sm)">
           {PLANS.map((p) => (
             <Radio
               key={p.key}
@@ -684,11 +684,11 @@ function PlanModal({
                 border: `1px solid ${draft === p.key ? token.colorPrimary : token.colorBorderSecondary}`,
                 borderRadius: token.borderRadiusLG,
                 marginInlineEnd: 0,
-                padding: 12,
+                padding: "var(--semantic-space-sm)",
               }}
             >
               <Flex vertical>
-                <Flex align="baseline" gap={8} wrap>
+                <Flex align="baseline" gap="var(--semantic-space-sm)" wrap>
                   <Text strong>{p.name}</Text>
                   <Text type="secondary">{p.price}</Text>
                   {p.key === current ? <Tag style={{ marginInlineEnd: 0 }}>지금 요금제</Tag> : null}
@@ -713,7 +713,7 @@ function DeliveryDrawer({
 
   return (
     <Drawer open={open} onClose={onClose} title={`배송 현황 · ${DELIVERIES.length}건`} size={420}>
-      <Flex vertical gap={16}>
+      <Flex vertical gap="var(--semantic-space-md)">
         <Segmented
           block
           value={filter}
@@ -733,13 +733,13 @@ function DeliveryDrawer({
             extra: stateTag(d.state),
             children: (
               <Timeline
-                style={{ marginBlockStart: 8 }}
+                style={{ marginBlockStart: "var(--semantic-space-sm)" }}
                 items={DELIVERY_STEPS.map((step, i) => {
                   const done = i < d.at.length;
                   return {
                     color: done ? token.colorPrimary : token.colorTextQuaternary,
                     content: (
-                      <Flex justify="space-between" gap={12}>
+                      <Flex justify="space-between" gap="var(--semantic-space-sm)">
                         <Text type={done ? undefined : "secondary"}>{step}</Text>
                         <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>{done ? d.at[i] : "예정"}</Text>
                       </Flex>

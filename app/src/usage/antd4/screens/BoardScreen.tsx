@@ -24,14 +24,14 @@ function PostRow({ post, active, onOpen }: { post: Post; active: boolean; onOpen
       style={{
         cursor: "pointer",
         listStyle: "none",
-        paddingInline: 12,
-        paddingBlock: 10,
+        paddingInline: "var(--semantic-space-sm)",
+        paddingBlock: "var(--semantic-space-sm)",
         borderRadius: 8,
         background: active ? "var(--semantic-bg-brand-subtlest)" : undefined,
       }}
     >
-      <Flex vertical gap={4} style={{ inlineSize: "100%", minWidth: 0 }}>
-        <Flex gap={6} align="center" wrap>
+      <Flex vertical gap="var(--semantic-space-xs)" style={{ inlineSize: "100%", minWidth: 0 }}>
+        <Flex gap="var(--semantic-space-xs)" align="center" wrap>
           <Tag color={KIND_COLOR[post.kind]} style={{ marginInlineEnd: 0 }}>{post.kind}</Tag>
           {post.pinned && <Tag style={{ marginInlineEnd: 0 }}>고정</Tag>}
           {post.photo && <Typography.Text type="secondary" style={{ fontSize: 11 }}>사진</Typography.Text>}
@@ -63,10 +63,10 @@ export function BoardScreen() {
   const open = rows.find((p) => p.id === openId) ?? null;
 
   return (
-    <Flex vertical gap={16}>
+    <Flex vertical gap="var(--semantic-space-md)">
       <style>{BOARD_LAYOUT_CSS}</style>
 
-      <Flex justify="space-between" align="center" gap={8} wrap>
+      <Flex justify="space-between" align="center" gap="var(--semantic-space-sm)" wrap>
         <Segmented
           value={kind}
           onChange={(v) => setKind(v as "전체" | PostKind)}
@@ -82,7 +82,7 @@ export function BoardScreen() {
           source={`${rows.length}개 / 전체 ${POSTS.length}개`}
         >
           {rows.length > 0 ? (
-            <ul style={{ margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+            <ul style={{ margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "var(--semantic-space-xs)" }}>
               {rows.map((p) => (
                 <PostRow key={p.id} post={p} active={p.id === open?.id} onOpen={() => setOpenId(p.id)} />
               ))}
@@ -100,7 +100,7 @@ export function BoardScreen() {
             source={`${open.id} · 조회 ${fmt(open.views)} · 댓글 ${open.comments}`}
             action={<Tag color={KIND_COLOR[open.kind]} style={{ marginInlineEnd: 0 }}>{open.kind}</Tag>}
           >
-            <Flex vertical gap={14}>
+            <Flex vertical gap="var(--semantic-space-md)">
               {open.photo && (
                 // 상세에서도 이미지 비율 고정. 글마다 비율이 다르면 카드 높이가 튀어 옆 목록과 어긋나고 읽기 흐름이 방해되는 문제가 있음
                 <img
@@ -117,7 +117,7 @@ export function BoardScreen() {
                 </Typography.Paragraph>
               ))}
 
-              <Flex gap={8} align="center" style={{ paddingBlockStart: 10, borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)" }}>
+              <Flex gap="var(--semantic-space-sm)" align="center" style={{ paddingBlockStart: "var(--semantic-space-sm)", borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)" }}>
                 <Avatar size="small">{open.author.slice(-2, -1)}</Avatar>
                 <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                   {open.comments > 0 ? `댓글 ${open.comments}건이 달려 있습니다` : "아직 댓글이 없습니다"}

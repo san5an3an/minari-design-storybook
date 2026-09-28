@@ -137,7 +137,7 @@ export function ChatScreen({ focusId }: ScreenProps) {
         overflow: "hidden",
       }}
     >
-      <div style={{ padding: 12, borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
+      <div style={{ padding: "var(--semantic-space-sm)", borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
         <Input.Search
           allowClear
           placeholder="사람 찾기"
@@ -149,7 +149,7 @@ export function ChatScreen({ focusId }: ScreenProps) {
       {/* 목록만 스크롤. 페이지 전체가 아닌 이 영역 내부 */}
       <div style={{ overflowY: "auto", flex: 1 }}>
         {people.length === 0 ? (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="찾는 사람이 없어요" style={{ marginBlock: 32 }} />
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="찾는 사람이 없어요" style={{ marginBlock: "var(--semantic-space-lg)" }} />
         ) : null}
         {people.map((p) => {
           const on = p.id === person?.id;
@@ -165,9 +165,9 @@ export function ChatScreen({ focusId }: ScreenProps) {
                 border: 0,
                 cursor: "pointer",
                 display: "flex",
-                gap: 10,
+                gap: "var(--semantic-space-sm)",
                 inlineSize: "100%",
-                padding: "10px 12px",
+                padding: "var(--semantic-space-sm) var(--semantic-space-sm)",
                 textAlign: "start",
               }}
             >
@@ -176,13 +176,13 @@ export function ChatScreen({ focusId }: ScreenProps) {
                 <Avatar>{p.name.slice(0, 1)}</Avatar>
               </Badge>
               <Flex vertical style={{ minInlineSize: 0, flex: 1 }}>
-                <Flex justify="space-between" gap={8}>
+                <Flex justify="space-between" gap="var(--semantic-space-sm)">
                   <Text strong ellipsis>{p.name}</Text>
                   <Text type="secondary" style={{ fontSize: token.fontSizeSM, whiteSpace: "nowrap" }}>
                     {last?.at}
                   </Text>
                 </Flex>
-                <Flex justify="space-between" gap={8}>
+                <Flex justify="space-between" gap="var(--semantic-space-sm)">
                   <Text type="secondary" ellipsis style={{ fontSize: token.fontSizeSM }}>
                     {last ? `${last.who === "me" ? "나: " : ""}${last.text}` : p.role}
                   </Text>
@@ -211,8 +211,8 @@ export function ChatScreen({ focusId }: ScreenProps) {
     >
       <Flex
         align="center"
-        gap={10}
-        style={{ padding: 12, borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}
+        gap="var(--semantic-space-sm)"
+        style={{ padding: "var(--semantic-space-sm)", borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}
       >
         {!wide ? (
           <Button
@@ -231,20 +231,20 @@ export function ChatScreen({ focusId }: ScreenProps) {
         </Flex>
       </Flex>
 
-      <Flex vertical gap={10} style={{ flex: 1, overflowY: "auto", padding: 12 }}>
+      <Flex vertical gap="var(--semantic-space-sm)" style={{ flex: 1, overflowY: "auto", padding: "var(--semantic-space-sm)" }}>
         {lines.map((l, i) => {
           const mine = l.who === "me";
           return (
             <Flex key={i} justify={mine ? "flex-end" : "flex-start"}>
               <Flex
                 vertical
-                gap={2}
+                gap="var(--semantic-space-xs)"
                 style={{
                   background: mine ? token.colorPrimary : token.colorFillSecondary,
                   borderRadius: token.borderRadiusLG,
                   color: mine ? token.colorTextLightSolid : token.colorText,
                   maxInlineSize: "min(80%, 26rem)",
-                  padding: "8px 12px",
+                  padding: "var(--semantic-space-sm) var(--semantic-space-sm)",
                 }}
               >
                 <span>{l.text}</span>
@@ -264,7 +264,7 @@ export function ChatScreen({ focusId }: ScreenProps) {
         <div ref={endRef} />
       </Flex>
 
-      <Flex gap={8} style={{ padding: 12, borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
+      <Flex gap="var(--semantic-space-sm)" style={{ padding: "var(--semantic-space-sm)", borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
         <Input
           placeholder="메시지를 쓰세요"
           aria-label="메시지"
@@ -280,7 +280,7 @@ export function ChatScreen({ focusId }: ScreenProps) {
   if (!wide) {
     return (
       <div ref={rootRef}>
-        <Flex vertical gap={12}>
+        <Flex vertical gap="var(--semantic-space-sm)">
           <Title level={5} style={{ margin: 0 }}>대화</Title>
           {person ? thread : list}
         </Flex>
@@ -290,7 +290,7 @@ export function ChatScreen({ focusId }: ScreenProps) {
 
   return (
     <div ref={rootRef}>
-      <Flex gap={16} align="stretch">
+      <Flex gap="var(--semantic-space-md)" align="stretch">
         <div style={{ inlineSize: 280, flexShrink: 0 }}>{list}</div>
         <div style={{ flex: 1, minInlineSize: 0 }}>{thread}</div>
       </Flex>

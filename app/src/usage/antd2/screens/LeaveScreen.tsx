@@ -178,9 +178,9 @@ export function LeaveScreen() {
   const listed = leaves.filter((l) => l.status === tab);
 
   return (
-    <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+    <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
       <div className="hr-toolbar">
-        <Space size={12} wrap>
+        <Space wrap style={{ gap: "var(--semantic-space-sm)" }}>
           {LEAVE_TYPES.map((t) => (
             <Badge key={t} color={TYPE_DOT[t]} text={t} />
           ))}
@@ -227,7 +227,7 @@ export function LeaveScreen() {
       </div>
 
       <div className="hr-split">
-        <Card size="small" title={selected.format("YYYY년 M월")} styles={{ body: { padding: 8 } }}>
+        <Card size="small" title={selected.format("YYYY년 M월")} styles={{ body: { padding: "var(--semantic-space-sm)" } }}>
           <Calendar
             fullscreen={false}
             value={selected}
@@ -241,7 +241,7 @@ export function LeaveScreen() {
                 <Tooltip
                   title={onDay.length ? onDay.map((l) => `${nameOf(l.employeeId)} · ${l.type}${l.status === "대기" ? "(대기)" : ""}`).join(", ") : undefined}
                 >
-                  <Flex justify="center" align="center" gap={2} style={{ blockSize: 8 }}>
+                  <Flex justify="center" align="center" gap="var(--semantic-space-xs)" style={{ blockSize: 8 }}>
                     {onDay.slice(0, 3).map((l) => (
                       <span
                         key={l.id}
@@ -266,7 +266,7 @@ export function LeaveScreen() {
           />
         </Card>
 
-        <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+        <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
           <Card
             size="small"
             title={dayLabel(selectedIso)}
@@ -278,9 +278,9 @@ export function LeaveScreen() {
                 description={selectedIsWeekend ? "주말이에요." : "이날 자리를 비우는 사람이 없어요."}
               />
             ) : (
-              <Space orientation="vertical" size={12} style={{ display: "flex" }}>
+              <Space orientation="vertical" style={{ gap: "var(--semantic-space-sm)", display: "flex" }}>
                 {selectedLeaves.map((l) => (
-                  <Flex key={l.id} justify="space-between" align="center" gap={8}>
+                  <Flex key={l.id} justify="space-between" align="center" gap="var(--semantic-space-sm)">
                     <PersonCell name={nameOf(l.employeeId)} sub={`${leaveRangeLabel(l)} · ${l.status}`} />
                     <TypeTag type={l.type} />
                   </Flex>
@@ -290,7 +290,7 @@ export function LeaveScreen() {
           </Card>
 
           <Card size="small" title="잔여 연차가 적은 순" extra={<Typography.Text type="secondary">재직자 {lowest.length}명</Typography.Text>}>
-            <Space orientation="vertical" size={10} style={{ display: "flex" }}>
+            <Space orientation="vertical" style={{ gap: "var(--semantic-space-sm)", display: "flex" }}>
               {lowest.map((e) => (
                 <div key={e.id}>
                   <Flex justify="space-between" align="baseline">
@@ -328,7 +328,7 @@ export function LeaveScreen() {
         }
       >
         {listed.length === 0 ? (
-          <div style={{ padding: 24 }}>
+          <div style={{ padding: "var(--semantic-space-lg)" }}>
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={`${tab} 상태인 요청이 없어요.`} />
           </div>
         ) : (
@@ -339,15 +339,15 @@ export function LeaveScreen() {
                 key={item.id}
                 align="center"
                 justify="space-between"
-                gap={12}
+                gap="var(--semantic-space-sm)"
                 wrap
                 style={{
-                  paddingBlock: 12,
-                  paddingInline: 16,
+                  paddingBlock: "var(--semantic-space-sm)",
+                  paddingInline: "var(--semantic-space-md)",
                   borderBlockStart: i === 0 ? "none" : `1px solid ${token.colorBorderSecondary}`,
                 }}
               >
-                <Flex align="center" gap={12} style={{ minWidth: 0, flex: "1 1 18rem" }}>
+                <Flex align="center" gap="var(--semantic-space-sm)" style={{ minWidth: 0, flex: "1 1 18rem" }}>
                   <PersonCell
                     name={nameOf(item.employeeId)}
                     sub={employee ? `${employee.department} · 잔여 ${leaveLeft(employee)}일` : undefined}
@@ -363,7 +363,7 @@ export function LeaveScreen() {
                   </Typography.Text>
                 </div>
                 {item.status === "대기" ? (
-                  <Space size={8}>
+                  <Space style={{ gap: "var(--semantic-space-sm)" }}>
                     <Popconfirm
                       title={`${shortDayLabel(item.start)}부터 ${leaveDays(item)}일, 승인할까요?`}
                       okText="승인"

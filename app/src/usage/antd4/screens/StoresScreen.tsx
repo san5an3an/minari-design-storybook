@@ -67,10 +67,10 @@ export function StoresScreen() {
   ];
 
   return (
-    <Flex vertical gap={16}>
+    <Flex vertical gap="var(--semantic-space-md)">
       <style>{STORES_LAYOUT_CSS}</style>
 
-      <Flex gap={8} wrap align="center" justify="space-between">
+      <Flex gap="var(--semantic-space-sm)" wrap align="center" justify="space-between">
         <Segmented
           value={status}
           onChange={(v) => setStatus(v as "전체" | StoreStatus)}
@@ -111,7 +111,7 @@ export function StoresScreen() {
             source={`${open.id} · ${open.opened} 개점`}
             action={<Tag color={STATUS_COLOR[open.status]} style={{ marginInlineEnd: 0 }}>{open.status}</Tag>}
           >
-            <Flex vertical gap={12}>
+            <Flex vertical gap="var(--semantic-space-sm)">
               {/* 사진은 비율 고정. 원본 비율에 맡기면 매장마다 카드 높이가 달라져 오른쪽 열이 목록과 어긋나는 문제가 있음 */}
               <img
                 src={open.photo}
@@ -120,7 +120,7 @@ export function StoresScreen() {
                 style={{ inlineSize: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderRadius: 8, display: "block" }}
               />
 
-              <Flex gap={8} wrap>
+              <Flex gap="var(--semantic-space-sm)" wrap>
                 <div style={{ flex: "1 1 8rem", minInlineSize: 0 }}>
                   <StatTile label="월매출" value={fmt(open.monthly)} unit="만원" />
                 </div>
@@ -141,7 +141,7 @@ export function StoresScreen() {
                     label: "켠 채널",
                     children:
                       open.channels.length > 0 ? (
-                        <Flex gap={4} wrap>
+                        <Flex gap="var(--semantic-space-xs)" wrap>
                           {open.channels.map((c) => <Tag key={c} style={{ marginInlineEnd: 0 }}>{channelLabel(c)}</Tag>)}
                         </Flex>
                       ) : (
