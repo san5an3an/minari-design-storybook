@@ -47,18 +47,24 @@ const components = { ...{
   "Popover": {
     "borderRadiusLG": "var(--component-popover-radius)",
     "innerPadding": "var(--component-popover-padding)",
-    "titleMarginBottom": "var(--component-popover-gap)"
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
     "borderRadius": "var(--component-tooltip-radius)",
     "paddingXS": "var(--component-tooltip-padding-inline)",
-    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)"
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Dropdown": {
     "paddingBlock": "var(--component-menu-item-padding-block)",
     "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
     "paddingXXS": "var(--component-menu-padding)",
-    "borderRadiusLG": "var(--component-menu-radius)"
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
     "borderRadiusLG": "0.75rem",
@@ -92,7 +98,13 @@ const components = { ...{
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
-    "paddingInline": "var(--component-datepicker-trigger-padding-inline)"
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Radio": {
     "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
@@ -175,18 +187,24 @@ const darkComponents = { ...{
   "Popover": {
     "borderRadiusLG": "var(--component-popover-radius)",
     "innerPadding": "var(--component-popover-padding)",
-    "titleMarginBottom": "var(--component-popover-gap)"
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
     "borderRadius": "var(--component-tooltip-radius)",
     "paddingXS": "var(--component-tooltip-padding-inline)",
-    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)"
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Dropdown": {
     "paddingBlock": "var(--component-menu-item-padding-block)",
     "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
     "paddingXXS": "var(--component-menu-padding)",
-    "borderRadiusLG": "var(--component-menu-radius)"
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
     "borderRadiusLG": "0.75rem",
@@ -220,7 +238,13 @@ const darkComponents = { ...{
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
-    "paddingInline": "var(--component-datepicker-trigger-padding-inline)"
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Radio": {
     "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
@@ -303,18 +327,24 @@ const highContrastComponents = { ...{
   "Popover": {
     "borderRadiusLG": "var(--component-popover-radius)",
     "innerPadding": "var(--component-popover-padding)",
-    "titleMarginBottom": "var(--component-popover-gap)"
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
     "borderRadius": "var(--component-tooltip-radius)",
     "paddingXS": "var(--component-tooltip-padding-inline)",
-    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)"
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Dropdown": {
     "paddingBlock": "var(--component-menu-item-padding-block)",
     "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
     "paddingXXS": "var(--component-menu-padding)",
-    "borderRadiusLG": "var(--component-menu-radius)"
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
     "borderRadiusLG": "0.75rem",
@@ -348,7 +378,13 @@ const highContrastComponents = { ...{
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
-    "paddingInline": "var(--component-datepicker-trigger-padding-inline)"
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Radio": {
     "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
