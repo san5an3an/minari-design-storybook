@@ -118,7 +118,6 @@ const components = { ...{
     "titleMarginBottom": "var(--component-listrow-main-gap)"
   },
   "Listy": {
-    "itemPaddingBlock": "var(--component-listrow-padding-block)",
     "itemPaddingInline": "var(--component-listrow-padding-inline)"
   },
   "Form": {
@@ -247,7 +246,6 @@ const darkComponents = { ...{
     "titleMarginBottom": "var(--component-listrow-main-gap)"
   },
   "Listy": {
-    "itemPaddingBlock": "var(--component-listrow-padding-block)",
     "itemPaddingInline": "var(--component-listrow-padding-inline)"
   },
   "Form": {
@@ -376,7 +374,6 @@ const highContrastComponents = { ...{
     "titleMarginBottom": "var(--component-listrow-main-gap)"
   },
   "Listy": {
-    "itemPaddingBlock": "var(--component-listrow-padding-block)",
     "itemPaddingInline": "var(--component-listrow-padding-inline)"
   },
   "Form": {
