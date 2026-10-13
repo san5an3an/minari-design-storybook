@@ -126,7 +126,10 @@ export function AttendeesScreen({ selectedId }: ScreenProps) {
                   <Checkbox
                     size="xs"
                     checked={selected.includes(a.id)}
-                    onChange={(e) => setSelected((prev) => (e.currentTarget.checked ? [...prev, a.id] : prev.filter((id) => id !== a.id)))}
+                    onChange={(e) => {
+                      const v = e.currentTarget.checked;
+                      setSelected((prev) => (v ? [...prev, a.id] : prev.filter((id) => id !== a.id)));
+                    }}
                     aria-label={`${a.name} 선택`}
                   />
                 </Table.Td>
