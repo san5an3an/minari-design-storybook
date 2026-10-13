@@ -35,7 +35,7 @@ export function WaitlistScreen() {
     confirmPopup({
       target: e.currentTarget as HTMLElement,
       message: `${name}님을 호출할까요? 대기 명단에서 빠져요.`,
-      icon: "pi pi-phone",
+      icon: (o) => <PhoneCall className={o.iconProps.className} size="1.5rem" aria-hidden />,
       acceptLabel: "호출",
       rejectLabel: "취소",
       accept: () => call(name),

@@ -14,7 +14,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { InputSwitch } from "primereact/inputswitch";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import { Users, UserCheck, AlertTriangle, Ban } from "lucide-react";
+import { Users, UserCheck, AlertTriangle, Ban, Search } from "lucide-react";
 
 type Status = "활성" | "만료 임박" | "정지";
 interface Member {
@@ -60,7 +60,7 @@ export function MembersScreen() {
       confirmDialog({
         message: `${selected.name}님의 이용을 정지할까요? 정지하면 예약·결제가 모두 제한돼요.`,
         header: "회원 정지",
-        icon: "pi pi-exclamation-triangle",
+        icon: (o) => <AlertTriangle className={o.iconProps.className} size="2rem" aria-hidden />,
         acceptClassName: "p-button-danger",
         acceptLabel: "정지",
         rejectLabel: "취소",
@@ -102,7 +102,7 @@ export function MembersScreen() {
             <span style={{ fontSize: "0.85rem" }}>자동 결제</span>
           </label>
           {selected.status !== "정지" ? (
-            <Button label="회원 정지" icon="pi pi-ban" size="small" severity="danger" outlined onClick={suspend} />
+            <Button label="회원 정지" icon={(o) => <Ban className={o.iconProps.className} size="1rem" aria-hidden />} size="small" severity="danger" outlined onClick={suspend} />
           ) : (
             <span style={{ fontSize: "0.82rem", color: "var(--semantic-fg-danger-default)" }}>이용이 정지된 회원이에요.</span>
           )}
@@ -158,7 +158,7 @@ export function MembersScreen() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.6rem" }}>
         <SelectButton value={statusFilter} onChange={(e) => { if (e.value !== null) setStatusFilter(e.value); }} options={[...STATUS_OPTIONS]} />
         <IconField iconPosition="left">
-          <InputIcon className="pi pi-search" />
+          <InputIcon><Search size="1rem" aria-hidden /></InputIcon>
           <InputText value={search} onChange={(e) => setSearch(e.target.value)} placeholder="이름·이용권 검색" aria-label="회원 검색" style={{ width: "min(14rem, 100%)" }} />
         </IconField>
       </div>
