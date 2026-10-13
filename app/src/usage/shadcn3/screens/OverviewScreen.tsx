@@ -16,11 +16,11 @@ import { CATEGORY_BUDGET } from "../data";
 import type { Transaction } from "../data";
 import type { ScreenProps } from "../screens";
 
-function won(n: number): string {
+export function won(n: number): string {
   return `${n < 0 ? "-" : ""}₩${Math.abs(n).toLocaleString("ko-KR")}`;
 }
 
-const CATEGORY_STYLE: Record<string, { icon: typeof Wallet; tone: "brand" | "success" | "warning" | "danger" | "neutral" }> = {
+export const CATEGORY_STYLE: Record<string, { icon: typeof Wallet; tone: "brand" | "success" | "warning" | "danger" | "neutral" }> = {
   급여: { icon: Wallet, tone: "success" },
   부수입: { icon: PiggyBank, tone: "success" },
   식비: { icon: Utensils, tone: "warning" },
@@ -28,8 +28,8 @@ const CATEGORY_STYLE: Record<string, { icon: typeof Wallet; tone: "brand" | "suc
   구독: { icon: Repeat, tone: "danger" },
   의료: { icon: HeartPulse, tone: "neutral" },
 };
-const DEFAULT_CATEGORY_STYLE = { icon: Wallet, tone: "neutral" as const };
-const TONE_CHART_COLOR: Record<string, string> = {
+export const DEFAULT_CATEGORY_STYLE = { icon: Wallet, tone: "neutral" as const };
+export const TONE_CHART_COLOR: Record<string, string> = {
   brand: "var(--component-chart-series-1)",
   success: "var(--component-chart-series-3)",
   warning: "var(--component-chart-series-4)",
@@ -37,7 +37,7 @@ const TONE_CHART_COLOR: Record<string, string> = {
   neutral: "var(--component-chart-series-1)",
 };
 
-const PERIOD_ITEMS = { all: "최근 5일 전체", recent3: "최근 3일" } as const;
+export const PERIOD_ITEMS = { all: "최근 5일 전체", recent3: "최근 3일" } as const;
 
 function Panel({
   title, action, children, className,
@@ -65,7 +65,7 @@ function Panel({
   );
 }
 
-function AlertRow({
+export function AlertRow({
   tone, icon, title, detail,
 }: { tone: "danger" | "warning" | "brand" | "success"; icon: React.ReactNode; title: string; detail: string }) {
   return (
@@ -93,8 +93,8 @@ function AlertRow({
   );
 }
 
-const CATEGORY_OPTIONS = Object.keys(CATEGORY_STYLE);
-const KIND_ITEMS = [{ value: "지출", label: "지출" }, { value: "수입", label: "수입" }];
+export const CATEGORY_OPTIONS = Object.keys(CATEGORY_STYLE);
+export const KIND_ITEMS = [{ value: "지출", label: "지출" }, { value: "수입", label: "수입" }];
 
 // onAdd 호출로 거래 추가, 상태 실제 반영
 function AddTransactionButton({ onAdd, methods }: { onAdd: (t: Transaction) => void; methods: string[] }) {

@@ -5,7 +5,9 @@ import { Popover } from "../../bases/shadcn/Popover";
 import { Sheet } from "../../bases/shadcn/Sheet";
 import type { UsageDashboardProps } from "../registry";
 import { ARTICLES, COLLECTIONS } from "./data";
+import { Shadcn2Mobile } from "./mobile/Shadcn2Mobile";
 import { SCREENS } from "./screens";
+import { useIsWide } from "../shadcn/useIsWide";
 
 const SHELL_HEIGHT = "max(20rem, calc(100dvh - 9rem))";
 
@@ -16,6 +18,7 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
   const [itemId, setItemId] = React.useState<string>("");
   const [searchOpen, setSearchOpen] = React.useState(false);
   const frameRef = React.useRef<HTMLDivElement>(null);
+  const wide = useIsWide(768);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
 
@@ -23,6 +26,11 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
     setScreenKey(nextKey);
     setItemId(nextItemId);
   };
+
+  // 뷰포트 768 미만이면 앱 바와 하단 Tab bar 를 갖춘 모바일 판 표시. 훅 호출 뒤의 조기 반환이라 훅 개수가 달라지지 않음
+  if (!wide) {
+    return <Shadcn2Mobile system={system} screenKey={screenKey} itemId={itemId} onOpen={onOpen} />;
+  }
 
   return (
     <div
