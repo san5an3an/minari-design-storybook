@@ -19,7 +19,7 @@ import { Tooltip } from "../../../bases/shadcn/Tooltip";
 import { ARTICLES, TAG_IMAGE, TAG_TONE } from "../data";
 import type { ScreenProps } from "../screens";
 
-const COMMENTS = [
+export const COMMENTS = [
   {
     id: "cm1",
     name: "민서",

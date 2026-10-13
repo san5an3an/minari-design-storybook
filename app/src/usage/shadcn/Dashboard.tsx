@@ -10,6 +10,7 @@ import { Menu } from "../../bases/shadcn/Menu";
 import { Select } from "../../bases/shadcn/Select";
 import { Sidebar } from "../../bases/shadcn/Sidebar";
 import type { UsageDashboardProps } from "../registry";
+import { ShadcnMobile } from "./mobile/ShadcnMobile";
 import { SCREENS } from "./screens";
 import { useIsWide } from "./useIsWide";
 
@@ -105,6 +106,21 @@ function MenuLine({ icon, children }: { icon: React.ReactNode; children: React.R
   );
 }
 
+// 사이드바 바닥과 모바일 앱 바 아바타가 같이 쓰는 계정 메뉴 항목 정의. 갈 곳이 없는 항목은 눌린 것처럼 보이지 않게 콜백을 안 걸었음
+function accountItems(onSignOut: () => void) {
+  return [
+    { heading: <MenuUser /> },
+    { separator: true },
+    { label: <MenuLine icon={<Sparkles size={16} />}>프로로 올리기</MenuLine> },
+    { separator: true },
+    { label: <MenuLine icon={<BadgeCheck size={16} />}>계정</MenuLine> },
+    { label: <MenuLine icon={<CreditCard size={16} />}>결제</MenuLine> },
+    { label: <MenuLine icon={<Bell size={16} />}>알림</MenuLine> },
+    { separator: true },
+    { label: <MenuLine icon={<LogOut size={16} />}>나가기</MenuLine>, onSelect: onSignOut },
+  ];
+}
+
 const DECOR_GROUPS = [
   {
     label: "문서",
@@ -172,6 +188,20 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
 
   const chromeless = screen.fullBleed === true;
   const showNav = wide && !chromeless;
+
+  // 뷰포트 768 미만이면 앱 바와 하단 Tab bar 를 갖춘 모바일 판 표시. 훅 호출 뒤의 조기 반환이라 훅 개수가 달라지지 않음
+  if (!wide) {
+    return (
+      <ShadcnMobile
+        system={system}
+        screenKey={screenKey}
+        onNavigate={setScreenKey}
+        icons={SCREEN_ICON}
+        avatar={<Avatar size="sm" fallback={USER.initial} />}
+        accountItems={accountItems(() => setScreenKey(AUTH_KEY))}
+      />
+    );
+  }
 
   const body = (
     <>
@@ -327,20 +357,7 @@ export function ShadcnUsage({ system }: UsageDashboardProps) {
                   </Sidebar.MenuButton>
                 }
                 minWidth="14rem"
-                items={[
-                  { heading: <MenuUser /> },
-                  { separator: true },
-                  { label: <MenuLine icon={<Sparkles size={16} />}>프로로 올리기</MenuLine> },
-                  { separator: true },
-                  { label: <MenuLine icon={<BadgeCheck size={16} />}>계정</MenuLine> },
-                  { label: <MenuLine icon={<CreditCard size={16} />}>결제</MenuLine> },
-                  { label: <MenuLine icon={<Bell size={16} />}>알림</MenuLine> },
-                  { separator: true },
-                  {
-                    label: <MenuLine icon={<LogOut size={16} />}>나가기</MenuLine>,
-                    onSelect: () => setScreenKey(AUTH_KEY),
-                  },
-                ]}
+                items={accountItems(() => setScreenKey(AUTH_KEY))}
               />
             </Sidebar.MenuItem>
           </Sidebar.Menu>

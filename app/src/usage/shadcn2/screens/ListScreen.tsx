@@ -28,27 +28,27 @@ const ClickableRow = Table.Row as React.ComponentType<
   React.ComponentProps<"tr"> & { onClick?: () => void }
 >;
 
-const MAX_TAG_COUNT = Math.max(...COLLECTIONS.map((c) => ARTICLES.filter((a) => a.tag === c.tag).length), 1);
+export const MAX_TAG_COUNT = Math.max(...COLLECTIONS.map((c) => ARTICLES.filter((a) => a.tag === c.tag).length), 1);
 
 const TOTAL_MINUTES = ARTICLES.reduce((sum, a) => sum + a.minutes, 0);
 const AVG_MINUTES = Math.round(TOTAL_MINUTES / ARTICLES.length);
 const SOURCE_COUNT = new Set(ARTICLES.map((a) => a.source)).size;
 
 // 태그별 분포 차트. 막대 목록과 같은 데이터를 다른 형태로 표시
-const TAG_RADAR_DATA = COLLECTIONS.map((c) => ({
+export const TAG_RADAR_DATA = COLLECTIONS.map((c) => ({
   tag: c.label,
   count: ARTICLES.filter((a) => a.tag === c.tag).length,
 }));
-const TAG_RADAR_CONFIG = { count: { label: "저장 수", color: "var(--semantic-bg-brand-default)" } };
+export const TAG_RADAR_CONFIG = { count: { label: "저장 수", color: "var(--semantic-bg-brand-default)" } };
 
-const STAT_CHIPS = [
+export const STAT_CHIPS = [
   { label: "저장한 글", value: `${ARTICLES.length}개`, icon: BookMarked },
   { label: "평균 읽기 시간", value: `${AVG_MINUTES}분`, icon: Clock },
   { label: "컬렉션", value: `${COLLECTIONS.length}개`, icon: Layers },
   { label: "출처", value: `${SOURCE_COUNT}곳`, icon: BookOpen },
 ] as const;
 
-function StatChip({ spec }: { spec: (typeof STAT_CHIPS)[number] }) {
+export function StatChip({ spec }: { spec: (typeof STAT_CHIPS)[number] }) {
   const Icon = spec.icon;
   return (
     <div

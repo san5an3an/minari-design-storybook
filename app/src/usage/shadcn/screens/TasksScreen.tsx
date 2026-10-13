@@ -16,27 +16,27 @@ import { Popover } from "../../../bases/shadcn/Popover";
 import { Select } from "../../../bases/shadcn/Select";
 import { Table } from "../../../bases/shadcn/Table";
 
-const LABELS = { bug: "버그", feature: "기능", docs: "문서" } as const;
-type LabelKey = keyof typeof LABELS;
+export const LABELS = { bug: "버그", feature: "기능", docs: "문서" } as const;
+export type LabelKey = keyof typeof LABELS;
 
 // data/data.tsx의 다섯 상태. 아이콘이 상태 표시 역할이라 색으로만 구분하지 않음
-const STATUSES = {
+export const STATUSES = {
   backlog: { label: "대기", Icon: CircleHelp },
   todo: { label: "할 일", Icon: Circle },
   doing: { label: "진행 중", Icon: Timer },
   done: { label: "완료", Icon: CircleCheck },
   canceled: { label: "취소", Icon: CircleOff },
 } as const;
-type StatusKey = keyof typeof STATUSES;
+export type StatusKey = keyof typeof STATUSES;
 
-const PRIORITIES = {
+export const PRIORITIES = {
   low: { label: "낮음", Icon: ArrowDown },
   medium: { label: "보통", Icon: ArrowRight },
   high: { label: "높음", Icon: ArrowUp },
 } as const;
-type PriorityKey = keyof typeof PRIORITIES;
+export type PriorityKey = keyof typeof PRIORITIES;
 
-interface Task {
+export interface Task {
   id: string;
   label: LabelKey;
   title: string;
@@ -45,7 +45,7 @@ interface Task {
 }
 
 // 고정값 데이터
-const TASKS: readonly Task[] = [
+export const TASKS: readonly Task[] = [
   { id: "TASK-8782", label: "docs", title: "SMTP 다운스트림 데이터 흐름을 다시 재 봐야 함", status: "doing", priority: "medium" },
   { id: "TASK-7878", label: "docs", title: "AGP 인터페이스를 우회하는 경로를 정리", status: "backlog", priority: "medium" },
   { id: "TASK-7839", label: "bug", title: "SAS 회로가 끊겨 재부팅이 필요함", status: "todo", priority: "high" },
@@ -68,7 +68,7 @@ const TASKS: readonly Task[] = [
   { id: "TASK-3216", label: "docs", title: "SMS 인터페이스를 우회하는 임시 경로", status: "backlog", priority: "medium" },
 ];
 
-const PAGE_SIZES = { "10": "10", "20": "20", "30": "30" } as const;
+export const PAGE_SIZES = { "10": "10", "20": "20", "30": "30" } as const;
 
 // 다중 값 선택 필터 필드
 function Facet<K extends string>({
