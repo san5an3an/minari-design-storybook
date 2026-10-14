@@ -7,9 +7,9 @@ import { AlertTriangle, Boxes, PackageCheck, PackageX, Search, Warehouse } from 
 import { PRODUCTS, WAREHOUSES, type Product } from "../data";
 import type { ScreenProps } from "../screens";
 
-const PAGE_SIZE = 8;
-const STATUS_COLOR: Record<Product["status"], string> = { 재고충분: "success", 재고부족: "warning", 품절: "danger" };
-const CATEGORIES = ["전체", "전자제품", "의류", "식품", "가구"] as const;
+export const PAGE_SIZE = 8;
+export const STATUS_COLOR: Record<Product["status"], string> = { 재고충분: "success", 재고부족: "warning", 품절: "danger" };
+export const CATEGORIES = ["전체", "전자제품", "의류", "식품", "가구"] as const;
 
 export function StockScreen({ onNavigate, onSelect }: ScreenProps) {
   const [category, setCategory] = React.useState<(typeof CATEGORIES)[number]>("전체");

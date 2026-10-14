@@ -7,8 +7,8 @@ import { CheckCircle2, MoreHorizontal, Search, Send, Trash2, UserCheck, Users } 
 import { ATTENDEES, EVENTS, type Attendee } from "../data";
 import type { ScreenProps } from "../screens";
 
-const PAGE_SIZE = 6;
-const STATUS_COLOR: Record<Attendee["status"], string> = { 확정: "success", 대기: "warning", 취소: "danger" };
+export const PAGE_SIZE = 6;
+export const STATUS_COLOR: Record<Attendee["status"], string> = { 확정: "success", 대기: "warning", 취소: "danger" };
 
 export function AttendeesScreen({ selectedId }: ScreenProps) {
   const [eventId, setEventId] = React.useState(selectedId && EVENTS.some((e) => e.id === selectedId) ? selectedId : EVENTS[0].id);

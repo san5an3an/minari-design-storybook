@@ -23,14 +23,14 @@ function Sparkline({ data, up }: { data: readonly number[]; up: boolean }) {
 interface HomeStat {
   label: string; value: string; delta: string; up: boolean; icon: typeof Wallet; trend: readonly number[];
 }
-const STATS: readonly HomeStat[] = [
+export const STATS: readonly HomeStat[] = [
   { label: "총 예약 여정", value: `${DESTINATIONS.length + 8}건`, delta: "+3건", up: true, icon: Plane, trend: [4, 5, 5, 6, 7, 7, 8] },
   { label: "이번달 지출", value: `${SPEND_TREND[SPEND_TREND.length - 1]}만원`, delta: "-10%", up: false, icon: Wallet, trend: [...SPEND_TREND] },
   { label: "마일리지", value: "42,300", delta: "+1,200", up: true, icon: Sparkles, trend: [30, 33, 36, 38, 40, 41, 42] },
   { label: "평균 평점", value: "4.8", delta: "+0.1", up: true, icon: CloudSun, trend: [4.5, 4.6, 4.6, 4.7, 4.7, 4.8, 4.8] },
 ];
 
-function HomeStatCard({ stat }: { stat: HomeStat }) {
+export function HomeStatCard({ stat }: { stat: HomeStat }) {
   const Icon = stat.icon;
   const DeltaIcon = stat.up ? TrendingUp : TrendingDown;
   return (
@@ -102,7 +102,7 @@ function TripHero() {
 }
 
 // 3단 왼쪽 지출 추이 라인차트
-function SpendTrendChart() {
+export function SpendTrendChart() {
   const w = 100;
   const h = 56;
   const min = Math.min(...SPEND_TREND);
@@ -130,7 +130,7 @@ function SpendTrendChart() {
 }
 
 // 3단 가운데 실시간 지도 패널. 위경도 대신 상대 좌표(mapX/mapY)로 점 배치 구현, 지도 SDK 미사용
-function LiveMapPanel() {
+export function LiveMapPanel() {
   const trip = DESTINATIONS.find((d) => d.id === CURRENT_TRIP.destinationId) ?? DESTINATIONS[0];
   return (
     <Card withBorder radius="md" padding="md" style={{ flex: 1, minWidth: 0 }}>
@@ -187,7 +187,7 @@ function LiveMapPanel() {
 }
 
 // 3단 오른쪽 인기 목적지 랭킹
-function PopularRankingList() {
+export function PopularRankingList() {
   const top = [...DESTINATIONS].sort((a, b) => b.bookings - a.bookings).slice(0, 5);
   return (
     <Card withBorder radius="md" padding="md" style={{ flex: 1, minWidth: 0 }}>
