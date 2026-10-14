@@ -1,9 +1,9 @@
 import * as React from "react";
 import { MessageCircle, PenLine, ThumbsUp } from "lucide-react";
 
-interface Activity { id: string; type: "글" | "댓글"; title: string; time: string; likes: number }
+export interface Activity { id: string; type: "글" | "댓글"; title: string; time: string; likes: number }
 
-const ACTIVITY: Activity[] = [
+export const ACTIVITY: Activity[] = [
   { id: "a1", type: "글", title: "커스텀 테마 만드는 법 공유합니다", time: "1일 전", likes: 18 },
   { id: "a2", type: "댓글", title: "다음 릴리즈에 다크모드 넣어주세요, 저도 원해요 +1", time: "2시간 전", likes: 3 },
   { id: "a3", type: "글", title: "단축키 정리해봤어요", time: "3일 전", likes: 21 },
@@ -13,8 +13,8 @@ const ACTIVITY: Activity[] = [
   { id: "a7", type: "댓글", title: "첨부파일 업로드가 자꾸 실패해요, 저도 같은 문제 겪었어요", time: "6시간 전", likes: 1 },
 ];
 
-type Filter = "전체" | "글" | "댓글";
-const FILTERS: Filter[] = ["전체", "글", "댓글"];
+export type Filter = "전체" | "글" | "댓글";
+export const FILTERS: Filter[] = ["전체", "글", "댓글"];
 
 export function MyActivityScreen() {
   const [filter, setFilter] = React.useState<Filter>("전체");

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ArrowDown, ArrowUp, ArrowUpDown, Award, Boxes, Package, Plus } from "lucide-react";
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   category: string;
@@ -11,7 +11,7 @@ interface Product {
   desc: string;
 }
 
-const INITIAL_PRODUCTS: Product[] = [
+export const INITIAL_PRODUCTS: Product[] = [
   { id: "p1", name: "무선 이어버드 Pro", category: "전자기기", price: 129000, stock: 42, sold: 312, desc: "능동 소음 차단, 최대 24시간 재생. 색상 3종." },
   { id: "p2", name: "캔버스 백팩", category: "가방", price: 58000, stock: 12, sold: 187, desc: "15인치 노트북 수납 가능, 발수 원단." },
   { id: "p3", name: "세라믹 머그컵 세트", category: "리빙", price: 24000, stock: 0, sold: 96, desc: "2인 세트, 전자레인지·식기세척기 사용 가능." },
@@ -22,16 +22,16 @@ const INITIAL_PRODUCTS: Product[] = [
   { id: "p8", name: "코튼 니트 담요", category: "리빙", price: 38000, stock: 24, sold: 71, desc: "150x200cm, 세탁기 사용 가능." },
 ];
 
-const CATEGORIES = ["전체", "전자기기", "가방", "리빙", "스포츠"] as const;
-type SortKey = "price" | "stock" | "sold";
+export const CATEGORIES = ["전체", "전자기기", "가방", "리빙", "스포츠"] as const;
+export type SortKey = "price" | "stock" | "sold";
 
-interface Draft {
+export interface Draft {
   name: string;
   category: string;
   price: string;
   stock: string;
 }
-const EMPTY_DRAFT: Draft = { name: "", category: "리빙", price: "", stock: "" };
+export const EMPTY_DRAFT: Draft = { name: "", category: "리빙", price: "", stock: "" };
 
 export function ProductsScreen() {
   const [products, setProducts] = React.useState<Product[]>(INITIAL_PRODUCTS);

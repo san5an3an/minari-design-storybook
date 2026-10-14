@@ -1,9 +1,9 @@
 import * as React from "react";
 import { MessageCircle } from "lucide-react";
 
-interface Review { id: string; product: string; author: string; rating: number; comment: string; reply?: string }
+export interface Review { id: string; product: string; author: string; rating: number; comment: string; reply?: string }
 
-const INITIAL_REVIEWS: Review[] = [
+export const INITIAL_REVIEWS: Review[] = [
   { id: "r1", product: "무선 이어버드 Pro", author: "김서연", rating: 5, comment: "음질도 좋고 배터리도 오래가요." },
   { id: "r2", product: "캔버스 백팩", author: "박도윤", rating: 4, comment: "수납은 넉넉한데 어깨끈이 조금 얇아요." },
   { id: "r3", product: "미니멀 데스크 램프", author: "이하은", rating: 5, comment: "밝기 조절이 세밀해서 만족스러워요." },
@@ -12,8 +12,8 @@ const INITIAL_REVIEWS: Review[] = [
   { id: "r6", product: "폴딩 요가매트", author: "오세준", rating: 4, comment: "두께가 적당하고 냄새도 거의 없어요." },
 ];
 
-const STARS = [5, 4, 3, 2, 1] as const;
-type SortMode = "최신순" | "평점 높은순";
+export const STARS = [5, 4, 3, 2, 1] as const;
+export type SortMode = "최신순" | "평점 높은순";
 
 export function ReviewsScreen() {
   const [reviews, setReviews] = React.useState<Review[]>(INITIAL_REVIEWS);
