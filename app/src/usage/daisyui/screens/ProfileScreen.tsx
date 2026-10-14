@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Calendar, Clock, CreditCard, Laptop, LogOut, Mail, MessageSquare, Smartphone, Tablet, Terminal } from "lucide-react";
 
-const SUMMARY = [
+export const SUMMARY = [
   { label: "요금제", value: "Pro", icon: CreditCard, tone: "text-primary" },
   { label: "가입일", value: "2026-03-12", icon: Calendar, tone: "text-neutral" },
   { label: "최근 로그인", value: "10분 전", icon: Clock, tone: "text-success" },
 ] as const;
 
-interface Device {
+export interface Device {
   name: string;
   location: string;
   time: string;
@@ -15,7 +15,7 @@ interface Device {
   current: boolean;
 }
 
-const DEVICES: Device[] = [
+export const DEVICES: Device[] = [
   { name: "MacBook Pro · Chrome", location: "서울, 대한민국", time: "지금", icon: Laptop, current: true },
   { name: "iPhone 16 · Safari", location: "서울, 대한민국", time: "10분 전", icon: Smartphone, current: false },
   { name: "iPad Air · Safari", location: "부산, 대한민국", time: "어제", icon: Tablet, current: false },
@@ -30,7 +30,7 @@ interface AppIntegration {
   defaultOn: boolean;
 }
 
-const APPS: AppIntegration[] = [
+export const APPS: AppIntegration[] = [
   { id: "cli", name: "Cobalt CLI", desc: "터미널에서 배포·로그 확인", icon: Terminal, defaultOn: true },
   { id: "chat", name: "팀 채팅 알림", desc: "빌드·배포 결과를 채팅방으로 전송", icon: MessageSquare, defaultOn: true },
   { id: "digest", name: "주간 이메일 다이제스트", desc: "매주 월요일 활동 요약 발송", icon: Mail, defaultOn: false },

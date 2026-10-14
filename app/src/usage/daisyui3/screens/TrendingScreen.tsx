@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ArrowDown, ArrowUp, Flame, Minus, Sparkles } from "lucide-react";
 
-interface Trend {
+export interface Trend {
   id: string;
   title: string;
   category: string;
@@ -10,7 +10,7 @@ interface Trend {
   likesTotal: number;
 }
 
-const TRENDING: Trend[] = [
+export const TRENDING: Trend[] = [
   { id: "t1", title: "다음 릴리즈에 다크모드 넣어주세요", category: "기능 제안", excerpt: "밤에 작업할 때 눈이 덜 피로할 것 같아요.", likesWeek: 24, likesTotal: 61 },
   { id: "t2", title: "커스텀 테마 만드는 법 공유합니다", category: "팁 공유", excerpt: "색상 토큰 세 개만 바꿔도 완전히 다른 느낌이 나요.", likesWeek: 18, likesTotal: 55 },
   { id: "t3", title: "모바일 앱 알림이 너무 늦게 와요", category: "버그 신고", excerpt: "iOS 에서 새 댓글 알림이 10분 넘게 지연돼요.", likesWeek: 9, likesTotal: 12 },
@@ -21,11 +21,11 @@ const TRENDING: Trend[] = [
   { id: "t8", title: "첨부파일 업로드가 자꾸 실패해요", category: "버그 신고", excerpt: "10MB 넘는 파일에서 자주 재현돼요.", likesWeek: 4, likesTotal: 30 },
 ];
 
-const CATEGORIES = ["기능 제안", "팁 공유", "버그 신고", "질문"] as const;
-const ACTIVE_USERS = 230;
+export const CATEGORIES = ["기능 제안", "팁 공유", "버그 신고", "질문"] as const;
+export const ACTIVE_USERS = 230;
 
 // likesWeek/likesTotal 내림차순 순위. 등수는 정렬로만 계산
-function rankBy(items: readonly Trend[], key: "likesWeek" | "likesTotal"): Map<string, number> {
+export function rankBy(items: readonly Trend[], key: "likesWeek" | "likesTotal"): Map<string, number> {
   const sorted = [...items].sort((a, b) => b[key] - a[key]);
   return new Map(sorted.map((t, i) => [t.id, i + 1]));
 }
