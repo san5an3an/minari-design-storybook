@@ -8,7 +8,7 @@ import { MOVEMENTS, PRODUCTS } from "../data";
 import type { ScreenProps } from "../screens";
 
 const STATUS_COLOR: Record<string, string> = { 재고충분: "success", 재고부족: "warning", 품절: "danger" };
-const SUPPLIERS = ["대한전자", "뷰텍코리아", "키클릭", "파워랩", "웜라인", "베이직코", "런핏", "빈스로드", "고향식품", "청량음료", "우드마루", "시트콤"];
+export const SUPPLIERS = ["대한전자", "뷰텍코리아", "키클릭", "파워랩", "웜라인", "베이직코", "런핏", "빈스로드", "고향식품", "청량음료", "우드마루", "시트콤"];
 
 export function ProductDetailScreen({ selectedId }: ScreenProps) {
   const product = PRODUCTS.find((p) => p.id === selectedId) ?? PRODUCTS[0];
