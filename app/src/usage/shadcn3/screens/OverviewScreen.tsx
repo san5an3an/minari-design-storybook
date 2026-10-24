@@ -54,7 +54,7 @@ function Panel({
         padding: "var(--component-card-padding)",
       }}
     >
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-(--semantic-space-sm)">
         <span style={{ color: "var(--component-card-title-fg)", fontSize: "var(--component-card-title-font-size)" }}>
           {title}
         </span>
@@ -69,7 +69,7 @@ function AlertRow({
   tone, icon, title, detail,
 }: { tone: "danger" | "warning" | "brand" | "success"; icon: React.ReactNode; title: string; detail: string }) {
   return (
-    <div className="flex items-start gap-2.5">
+    <div className="flex items-start gap-(--semantic-space-sm)">
       <span
         aria-hidden
         className="flex size-7 shrink-0 items-center justify-center"
@@ -144,7 +144,7 @@ function AddTransactionButton({ onAdd, methods }: { onAdd: (t: Transaction) => v
         </>
       }
       body={
-        <div className="flex flex-col gap-3 px-6" style={{ minWidth: "20rem" }}>
+        <div className="flex flex-col gap-(--semantic-space-sm) px-(--semantic-space-lg)" style={{ minWidth: "20rem" }}>
           <Field label="제목" htmlFor="new-tx-title">
             <Input id="new-tx-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="예: 저녁 약속" />
           </Field>
@@ -155,7 +155,7 @@ function AddTransactionButton({ onAdd, methods }: { onAdd: (t: Transaction) => v
           >
             {KIND_ITEMS.map((k) => <Segmented.Item key={k.value} value={k.value}>{k.label}</Segmented.Item>)}
           </Segmented>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-(--semantic-space-sm)">
             <Field label="금액" htmlFor="new-tx-amount">
               <Input id="new-tx-amount" type="number" min={0} value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0" />
             </Field>
@@ -238,7 +238,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-(--semantic-space-md)">
       {/* lg:, md: 대신 sc3-* 컨테이너 클래스 사용, 630px 액자엔 안 맞음 */}
       <div className="sc3-split">
         {/* 좌측 2/3 실시간 지출 피드 패널 위치 */}
@@ -246,7 +246,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
           className="sc3-panel"
           title="실시간 지출 피드"
           action={
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-(--semantic-space-sm)">
               <Select
                 aria-label="기간"
                 value={period}
@@ -259,7 +259,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
           }
         >
           <div className="sc3-feed flex-1">
-            <div className="sc3-feed-list flex flex-col gap-1.5">
+            <div className="sc3-feed-list flex flex-col gap-(--semantic-space-xs)">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
                 주요 거래(금액순)
               </span>
@@ -272,7 +272,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
                     key={t.id}
                     type="button"
                     onClick={() => onOpen?.("detail", t.id)}
-                    className="flex items-center gap-2 rounded-[var(--semantic-radius-control)] px-1.5 py-1 text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
+                    className="flex items-center gap-(--semantic-space-sm) rounded-[var(--semantic-radius-control)] px-(--semantic-space-xs) py-(--semantic-space-xs) text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
                   >
                     <span
                       aria-hidden
@@ -315,18 +315,18 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
 
           {/* 기간 요약 줄로 패널 하단 여백 채우기 */}
           <div
-            className="mt-auto flex items-center justify-around gap-3 pt-2"
+            className="mt-auto flex items-center justify-around gap-(--semantic-space-sm) pt-(--semantic-space-sm)"
             style={{ borderTop: "var(--semantic-border-width-default) solid var(--component-card-border)" }}
           >
-            <div className="flex flex-col items-center gap-0.5">
+            <div className="flex flex-col items-center gap-(--semantic-space-xs)">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>기간 수입</span>
               <span className="tabular-nums" style={{ color: "var(--semantic-fg-success-default)", fontSize: "var(--semantic-text-body)" }}>{won(periodIncome)}</span>
             </div>
-            <div className="flex flex-col items-center gap-0.5">
+            <div className="flex flex-col items-center gap-(--semantic-space-xs)">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>기간 지출</span>
               <span className="tabular-nums" style={{ color: "var(--semantic-fg-danger-default)", fontSize: "var(--semantic-text-body)" }}>{won(periodExpense)}</span>
             </div>
-            <div className="flex flex-col items-center gap-0.5">
+            <div className="flex flex-col items-center gap-(--semantic-space-xs)">
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>기간 순증감</span>
               <span className="tabular-nums" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-body)" }}>{won(periodIncome - periodExpense)}</span>
             </div>
@@ -336,12 +336,12 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
         {/* 우측 레일 폭, 컨테이너 폭 기준으로 가로세로 전환 처리 */}
         <div className="sc3-rail">
           <Panel title="예산 알림">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-(--semantic-space-sm)">
               {alerts.map((a) => <AlertRow key={a.title} {...a} />)}
             </div>
           </Panel>
           <Panel title="카테고리 지출 TOP">
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-(--semantic-space-sm)">
               {categoryTop.map((c, i) => {
                 const { icon: CategoryIcon, tone } = CATEGORY_STYLE[c.category] ?? DEFAULT_CATEGORY_STYLE;
                 const topInCategory = [...c.items].filter((t) => t.kind === "지출").sort((a, b) => b.amount - a.amount)[0];
@@ -350,7 +350,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
                     key={c.category}
                     type="button"
                     onClick={() => topInCategory ? onOpen?.("detail", topInCategory.id) : undefined}
-                    className="flex items-center gap-2.5 rounded-[var(--semantic-radius-control)] px-1 py-1 text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
+                    className="flex items-center gap-(--semantic-space-sm) rounded-[var(--semantic-radius-control)] px-(--semantic-space-xs) py-(--semantic-space-xs) text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
                   >
                     <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)", width: "1rem" }}>
                       {i + 1}
@@ -379,7 +379,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
       </div>
 
       {/* 하단 3분할: 막대그래프, 라인그래프, 최근 활동 타임라인 */}
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="flex flex-col gap-(--semantic-space-md) lg:flex-row">
         <Panel title="카테고리별 지출">
           <Chart config={categoryChartConfig} className="aspect-auto h-40 w-full">
             <BarChart data={categoryTop.map((c) => ({ category: c.category, [c.category]: c.expenseTotal })) as unknown as Record<string, unknown>[]}>
@@ -403,7 +403,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
           </Chart>
         </Panel>
         <Panel title="최근 활동">
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-(--semantic-space-sm)">
             {recentTransactions.length === 0 ? (
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-body-sm)" }}>검색 결과 없음</span>
             ) : recentTransactions.map((t) => (
@@ -411,7 +411,7 @@ export function OverviewScreen({ transactions, onOpen, onAdd, query }: ScreenPro
                 key={t.id}
                 type="button"
                 onClick={() => onOpen?.("detail", t.id)}
-                className="flex items-center gap-2 rounded-[var(--semantic-radius-control)] px-1.5 py-1 text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
+                className="flex items-center gap-(--semantic-space-sm) rounded-[var(--semantic-radius-control)] px-(--semantic-space-xs) py-(--semantic-space-xs) text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
               >
                 <span aria-hidden style={{ color: t.kind === "수입" ? "var(--semantic-fg-success-default)" : "var(--semantic-fg-neutral-subtle)" }}>
                   {t.kind === "수입" ? <ArrowDownLeft size={13} /> : <ArrowUpRight size={13} />}

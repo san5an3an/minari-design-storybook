@@ -59,8 +59,8 @@ function Knob({
 }) {
   const id = React.useId();
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col gap-(--semantic-space-sm)">
+      <div className="flex items-center justify-between gap-(--semantic-space-sm)">
         {/* 이름 위 마우스 올리면 변경 대상 핸들 표시 */}
         <Hovercard
           trigger={
@@ -121,9 +121,9 @@ export function PlaygroundScreen() {
   const [topP, setTopP] = React.useState(0.9);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-(--semantic-space-lg)">
       {/* 헤더. 좁으면 두 행으로 접힘, md:h-16 원본은 한 행 고정 */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-(--semantic-space-sm)">
         <h3
           style={{
             color: "var(--semantic-fg-neutral-default)",
@@ -133,7 +133,7 @@ export function PlaygroundScreen() {
         >
           Playground
         </h3>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-(--semantic-space-sm)">
           <Select
             aria-label="사전설정 고르기"
             size="sm"
@@ -164,9 +164,9 @@ export function PlaygroundScreen() {
       <Divider />
 
       {/* 본문 레이아웃. 넓으면 설정 오른쪽, 좁으면 위로 이동 고정 */}
-      <div className="grid gap-6 md:grid-cols-[1fr_15rem]">
-        <div className="flex flex-col gap-4 md:order-2">
-          <div className="flex flex-col gap-3">
+      <div className="grid gap-(--semantic-space-lg) md:grid-cols-[1fr_15rem]">
+        <div className="flex flex-col gap-(--semantic-space-md) md:order-2">
+          <div className="flex flex-col gap-(--semantic-space-sm)">
             <Hovercard
               trigger={
                 <span
@@ -251,7 +251,7 @@ export function PlaygroundScreen() {
           />
         </div>
 
-        <div className="flex min-w-0 flex-col gap-4 md:order-1">
+        <div className="flex min-w-0 flex-col gap-(--semantic-space-md) md:order-1">
           {mode === "complete" ? (
             <Input
               multiline
@@ -263,7 +263,7 @@ export function PlaygroundScreen() {
 
           {mode === "insert" ? (
             // 앞뒤를 지정하고 사이를 채움. 원본은 [insert] 플레이스홀더 사용
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className="grid gap-(--semantic-space-md) lg:grid-cols-2">
               <Input
                 multiline
                 aria-label="앞뒤 글"
@@ -271,7 +271,7 @@ export function PlaygroundScreen() {
                 className="min-h-64"
               />
               <div
-                className="min-h-64 p-4"
+                className="min-h-64 p-(--semantic-space-md)"
                 style={{
                   background: "var(--semantic-bg-neutral-subtlest)",
                   border:
@@ -288,8 +288,8 @@ export function PlaygroundScreen() {
 
           {mode === "edit" ? (
             // 텍스트와 지시사항을 따로 전달받기. 위아래 두 영역으로 정렬
-            <div className="grid gap-4 lg:grid-cols-2">
-              <div className="flex flex-col gap-4">
+            <div className="grid gap-(--semantic-space-md) lg:grid-cols-2">
+              <div className="flex flex-col gap-(--semantic-space-md)">
                 <Input
                   multiline
                   aria-label="고칠 글"
@@ -304,7 +304,7 @@ export function PlaygroundScreen() {
                 />
               </div>
               <div
-                className="min-h-64 p-4"
+                className="min-h-64 p-(--semantic-space-md)"
                 style={{
                   background: "var(--semantic-bg-neutral-subtlest)",
                   border:
@@ -319,7 +319,7 @@ export function PlaygroundScreen() {
             </div>
           ) : null}
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-(--semantic-space-sm)">
             <Button variant="solid" tone="brand">보내기</Button>
             <Button variant="plain">지난 것 보기</Button>
           </div>

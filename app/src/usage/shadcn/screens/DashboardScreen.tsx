@@ -162,7 +162,7 @@ const HERO_IMAGE =
 function DashboardHero() {
   return (
     <div
-      className="flex flex-col justify-end gap-1 overflow-hidden p-5 sm:p-6"
+      className="flex flex-col justify-end gap-(--semantic-space-xs) overflow-hidden p-(--semantic-space-md) sm:p-(--semantic-space-lg)"
       style={{
         minHeight: "9rem",
         borderRadius: "var(--semantic-radius-container)",
@@ -201,7 +201,7 @@ function StatCard({ spec }: { spec: StatSpec }) {
       className="relative"
       title={
         // min-w-0 없으면 flex 자식이 못 줄어 한글이 쪼개져 보일 수 있음
-        <span className="flex min-w-0 items-center gap-2">
+        <span className="flex min-w-0 items-center gap-(--semantic-space-sm)">
           {/* 카드 4개 구분 핸들 */}
           <span
             aria-hidden
@@ -223,9 +223,9 @@ function StatCard({ spec }: { spec: StatSpec }) {
         </Badge>
       }
       footer={
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-(--semantic-space-xs)">
           <span
-            className="flex items-center gap-2"
+            className="flex items-center gap-(--semantic-space-sm)"
             style={{
               color: "var(--semantic-fg-neutral-default)",
               fontSize: "var(--semantic-text-body-sm)",
@@ -352,7 +352,7 @@ function DocsTable({ shown }: { shown: readonly string[] }) {
   const allOn = picked.length === DOCS.length;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-(--semantic-space-sm)">
       <div className="overflow-x-auto">
         <Table>
           <Table.Header>
@@ -395,7 +395,7 @@ function DocsTable({ shown }: { shown: readonly string[] }) {
         </Table>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-(--semantic-space-sm)">
         <span
           style={{
             color: "var(--semantic-fg-neutral-subtle)",
@@ -432,11 +432,11 @@ export function DashboardScreen() {
   const shown = COLUMNS.filter((c) => !hidden.includes(c));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-(--semantic-space-lg)">
         <DashboardHero />
 
         {/* 지표 4개. 원본 기준 @xl은 2열, @5xl은 4열임 */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-(--semantic-space-md) sm:grid-cols-2 xl:grid-cols-4">
           {STATS.map((s) => (
             <StatCard key={s.label} spec={s} />
           ))}
@@ -444,8 +444,8 @@ export function DashboardScreen() {
 
         <VisitsCard />
 
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-col gap-(--semantic-space-sm)">
+          <div className="flex flex-wrap items-center justify-between gap-(--semantic-space-sm)">
             {/* ActionItemSpec은 checked 표시만, 클릭값 반환 불가. Menu 미사용 */}
             <Popover
               align="start"
@@ -456,11 +456,11 @@ export function DashboardScreen() {
                 </Button>
               }
             >
-              <div className="flex min-w-40 flex-col gap-1">
+              <div className="flex min-w-40 flex-col gap-(--semantic-space-xs)">
                 {COLUMNS.map((c) => (
                   <label
                     key={c}
-                    className="flex cursor-pointer items-center gap-2 px-1 py-1.5"
+                    className="flex cursor-pointer items-center gap-(--semantic-space-sm) px-(--semantic-space-xs) py-(--semantic-space-xs)"
                     style={{
                       fontSize: "var(--semantic-text-body-sm)",
                       color: "var(--semantic-fg-neutral-default)",
@@ -492,7 +492,7 @@ export function DashboardScreen() {
               {
                 value: "past",
                 label: (
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-(--semantic-space-sm)">
                     지난 성과
                     <Badge variant="subtle" tone="neutral">3</Badge>
                   </span>
@@ -502,7 +502,7 @@ export function DashboardScreen() {
               {
                 value: "people",
                 label: (
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-(--semantic-space-sm)">
                     핵심 인력
                     <Badge variant="subtle" tone="neutral">2</Badge>
                   </span>

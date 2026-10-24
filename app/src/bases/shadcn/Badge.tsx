@@ -11,6 +11,7 @@ export function Badge({
   return (
     <ShadcnBadge
       variant={VARIANT[variant as keyof typeof VARIANT] ?? "default"}
+      // 여백 토큰(badge-padding-*)은 연결 제외. 여백이 넉넉한 시스템에서 배지가 과하게 커져 원본 치수를 유지함
       className={className}
       // CSS로만 시각 순서 반전, 마크업 순서 유지로 스크린리더 순서 영향 없음
       data-icon={icon === undefined ? undefined : iconPosition}

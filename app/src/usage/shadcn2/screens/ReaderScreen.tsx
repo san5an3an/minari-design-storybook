@@ -44,8 +44,8 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
   const [surveyDone, setSurveyDone] = React.useState(false);
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between gap-3">
+    <div className="flex flex-col gap-(--semantic-space-md)">
+      <div className="flex items-center justify-between gap-(--semantic-space-sm)">
         <Tooltip content="목록으로 돌아가기">
           <Button variant="plain" onClick={() => onOpen?.("list", "")}>
             <ArrowLeft size={14} aria-hidden />
@@ -57,7 +57,7 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
         </Toggle>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-(--semantic-space-sm)">
         <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
           글자 크기
         </span>
@@ -80,11 +80,11 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
         style={{ height: "10rem", borderRadius: "var(--semantic-radius-container)" }}
       />
 
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-(--semantic-space-sm)">
+        <div className="flex items-center gap-(--semantic-space-sm)">
           <Badge variant="subtle" tone={TAG_TONE[article.tag] ?? "neutral"}>{article.tag}</Badge>
           <span
-            className="flex items-center gap-1"
+            className="flex items-center gap-(--semantic-space-xs)"
             style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}
           >
             <Clock size={12} aria-hidden />
@@ -110,7 +110,7 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
         minSize={500}
         style={{ height: "18rem" }}
         start={
-          <div className="h-full overflow-y-auto pe-3">
+          <div className="h-full overflow-y-auto pe-(--semantic-space-sm)">
             <Prose>
               {article.body.map((p, i) => (
                 <React.Fragment key={i}>
@@ -135,7 +135,7 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
           </div>
         }
         end={
-          <div className="flex h-full flex-col gap-2 overflow-y-auto ps-3">
+          <div className="flex h-full flex-col gap-(--semantic-space-sm) overflow-y-auto ps-(--semantic-space-sm)">
             <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
               내 노트
             </span>
@@ -169,14 +169,14 @@ export function ReaderScreen({ itemId, onOpen }: ScreenProps) {
       )}
 
       {/* 댓글. 목록이 늘어나는 동안 스크롤 위치를 유지하는 Messagescroller 안에 배치 */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-(--semantic-space-sm)">
         <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
           댓글 {COMMENTS.length}
         </span>
         <Messagescroller.Provider>
           <Messagescroller className="relative h-56 rounded-[var(--semantic-radius-container)] border border-[var(--semantic-border-neutral-subtle)]">
             <Messagescroller.Viewport>
-              <Messagescroller.Content className="flex flex-col gap-3 p-3">
+              <Messagescroller.Content className="flex flex-col gap-(--semantic-space-sm) p-(--semantic-space-sm)">
                 {COMMENTS.map((c) => (
                   <Messagescroller.Item key={c.id} messageId={c.id}>
                     <Message.Group>

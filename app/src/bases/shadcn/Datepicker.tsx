@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CALENDAR_COMPONENTS } from "../calendarDropdown";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import type { DatepickerProps } from "../../systems/props";
 
 const FMT = new Intl.DateTimeFormat("ko-KR", {
@@ -19,7 +20,10 @@ export function Datepicker({
           <Button
             variant="outline"
             data-empty={!value}
-            className="justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+            className={cn(
+              "justify-start text-left font-normal data-[empty=true]:text-muted-foreground",
+              "gap-(--component-datepicker-trigger-gap) rounded-(--component-datepicker-trigger-radius) px-(--component-datepicker-trigger-padding-inline)",
+            )}
           />
         }
       >

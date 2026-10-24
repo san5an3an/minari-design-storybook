@@ -4,8 +4,9 @@ import { createColumnHelper, useTable } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table, TableBody, TableHeader, TableRow,
 } from "@/components/ui/table";
+import { TableCell, TableHead } from "./Table";
 import { features, type DataTableFeatures } from "./datatable-features";
 import type { DatatableProps } from "../../systems/props";
 
@@ -50,7 +51,7 @@ export function Datatable({
   return (
     <div className={className} style={{ display: "grid", gap: "var(--component-datatable-gap, .75rem)" }}>
       {filterKey ? (
-        <div style={{ display: "flex", gap: ".5rem" }}>
+        <div style={{ display: "flex", gap: "var(--component-datatable-toolbar-gap)" }}>
           <Input
             placeholder={filterPlaceholder}
             value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
@@ -121,11 +122,11 @@ export function Datatable({
       </Table>
 
       {pageSize ? (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: ".5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--component-datatable-toolbar-gap)" }}>
           <span style={{ color: "var(--component-datatable-status-fg)", fontSize: ".8125rem" }}>
             {table.getRowModel().rows.length}줄 보여요
           </span>
-          <div style={{ display: "flex", gap: ".5rem" }}>
+          <div style={{ display: "flex", gap: "var(--component-datatable-toolbar-gap)" }}>
             <Button variant="outline" size="sm"
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.previousPage()}>이전</Button>

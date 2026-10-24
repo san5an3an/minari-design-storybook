@@ -30,20 +30,20 @@ export function CollectionsScreen() {
   const emptyCount = withCount.filter((c) => c.count === 0).length;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-(--semantic-space-md)">
       {emptyCount > 0 ? (
         <Alert tone="warning" title="빈 컬렉션이 있어요">
           아직 저장한 글이 없는 컬렉션이 {emptyCount}개예요.
         </Alert>
       ) : null}
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-(--semantic-space-sm)">
         {/* 라벨은 두 드롭다운 위에 하나만 배치. Select label prop 쓰면 높이 안 맞음 */}
         <div className="flex flex-col" style={{ gap: "var(--component-input-label-gap)" }}>
           <span style={{ color: "var(--component-input-label-fg)", fontSize: "var(--component-input-label-font-size)" }}>
             정렬
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-(--semantic-space-sm)">
             <Select
               items={SORTS}
               value={sort}
@@ -59,7 +59,7 @@ export function CollectionsScreen() {
             </Nativeselect>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-(--semantic-space-sm)">
           <Switch id="hide-empty" checked={hideEmpty} onCheckedChange={setHideEmpty} />
           <label
             htmlFor="hide-empty"
@@ -69,14 +69,14 @@ export function CollectionsScreen() {
           </label>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-(--semantic-space-md) sm:grid-cols-2 xl:grid-cols-3">
       {shown.map((c) => {
         const count = c.count;
         const tone = TAG_TONE[c.tag] ?? "brand";
         return (
           <div
             key={c.id}
-            className="relative flex flex-col justify-end gap-1 overflow-hidden p-3"
+            className="relative flex flex-col justify-end gap-(--semantic-space-xs) overflow-hidden p-(--semantic-space-sm)"
             style={{
               // 상단 65% 유지, 하단 35% 어둡게 처리
               minHeight: "9rem",
@@ -128,7 +128,7 @@ export function CollectionsScreen() {
         </Table>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-(--semantic-space-sm)">
         <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
           컬렉션별 요약
         </span>

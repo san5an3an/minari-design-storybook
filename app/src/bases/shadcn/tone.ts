@@ -1,4 +1,12 @@
-import type { CSSProperties } from "react";
+import { createElement, type ComponentType, type CSSProperties } from "react";
+import { cn } from "@/lib/utils";
+
+// shadcn 컴포넌트에 치수 클래스 부착. inline style 대신 클래스라서 shadcn 의 상태·변형 규칙(has-, group-data-)이 계속 우선함
+export function withDims<P extends { className?: string }>(C: ComponentType<P>, dims: string): ComponentType<P> {
+  const W = (props: P) => createElement(C, { ...props, className: cn(dims, props.className) });
+  W.displayName = `withDims(${C.displayName ?? C.name ?? "Component"})`;
+  return W;
+}
 
 // 기본 행간 snug 1.3 적용. 본문 행간 1.5면 한 줄 컨트롤 높이가 커지는 문제 있음
 export function sizeVars(comp: string, size?: string, lh = "snug"): CSSProperties {

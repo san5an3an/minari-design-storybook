@@ -3,6 +3,7 @@ import {
   Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemGroup,
   ItemHeader, ItemMedia, ItemTitle,
 } from "@/components/ui/item";
+import { cn } from "@/lib/utils";
 import type { ListRowImpl, ListRowProps } from "../../systems/props";
 
 function ListRowRoot({
@@ -10,15 +11,18 @@ function ListRowRoot({
 }: ListRowProps) {
   return (
     <Item
-      className={className}
+      className={cn(
+        "gap-(--component-listrow-gap) px-(--component-listrow-padding-inline) py-(--component-listrow-padding-block)",
+        className,
+      )}
       // 클릭 가능한 행만 포커스 지정. 전체 포커스 시 Tab 이동이 과도해지는 문제 있음
       tabIndex={interactive ? 0 : undefined}
       data-interactive={interactive ? "true" : undefined}
     >
       {/* 헤더, 푸터 슬롯. 날짜, 태그 등을 넣을 위치 */}
       {header === undefined ? null : <ItemHeader>{header}</ItemHeader>}
-      {lead === undefined ? null : <ItemMedia variant="icon">{lead}</ItemMedia>}
-      <ItemContent>
+      {lead === undefined ? null : <ItemMedia variant="icon" className="rounded-(--component-listrow-lead-radius)">{lead}</ItemMedia>}
+      <ItemContent className="gap-(--component-listrow-main-gap)">
         <ItemTitle>{title}</ItemTitle>
         {sub === undefined ? null : <ItemDescription>{sub}</ItemDescription>}
       </ItemContent>

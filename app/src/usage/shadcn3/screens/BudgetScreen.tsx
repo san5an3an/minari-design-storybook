@@ -25,9 +25,9 @@ export function BudgetScreen({ transactions, onOpen }: ScreenProps) {
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-(--semantic-space-md)">
       <div
-        className="flex items-center justify-between gap-3"
+        className="flex items-center justify-between gap-(--semantic-space-sm)"
         style={{
           background: "var(--component-card-bg)",
           borderColor: "var(--component-card-border)",
@@ -45,13 +45,13 @@ export function BudgetScreen({ transactions, onOpen }: ScreenProps) {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-(--semantic-space-md) md:grid-cols-2">
         {rows.map((r) => {
           const Icon = CATEGORY_ICON[r.category] ?? Wallet;
           return (
             <div
               key={r.category}
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-(--semantic-space-sm)"
               style={{
                 background: "var(--component-card-bg)",
                 borderColor: "var(--component-card-border)",
@@ -62,7 +62,7 @@ export function BudgetScreen({ transactions, onOpen }: ScreenProps) {
               }}
             >
               <div className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-(--semantic-space-sm)">
                   <span
                     aria-hidden
                     className="flex size-7 shrink-0 items-center justify-center"
@@ -79,13 +79,13 @@ export function BudgetScreen({ transactions, onOpen }: ScreenProps) {
                 {r.over ? <Badge variant="subtle" tone="danger">초과</Badge> : <Badge variant="subtle" tone="brand">{r.pct}%</Badge>}
               </div>
               <Progress value={r.pct} label={`${won(r.spent)} / ${won(r.budget)}`} showValue={false} />
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-(--semantic-space-xs)">
                 {r.items.slice(0, 3).map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => onOpen?.("detail", t.id)}
-                    className="flex items-center justify-between rounded-[var(--semantic-radius-control)] px-1.5 py-1 text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
+                    className="flex items-center justify-between rounded-[var(--semantic-radius-control)] px-(--semantic-space-xs) py-(--semantic-space-xs) text-start transition-colors hover:bg-[var(--component-card-bg-hover)]"
                   >
                     <span className="truncate" style={{ fontSize: "var(--semantic-text-caption)" }}>{t.title}</span>
                     <span className="shrink-0 tabular-nums" style={{ fontSize: "var(--semantic-text-caption)", color: "var(--semantic-fg-neutral-subtle)" }}>{won(t.amount)}</span>

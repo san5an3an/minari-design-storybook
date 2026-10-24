@@ -9,7 +9,7 @@ import type { ScreenProps } from "../screens";
 function Brand({ name, size = 24 }: { name: string; size?: number }) {
   return (
     <span
-      className="flex items-center gap-2"
+      className="flex items-center gap-(--semantic-space-sm)"
       style={{
         color: "var(--semantic-fg-brand-strong)",
         fontSize: "var(--semantic-text-body-lg)",
@@ -57,7 +57,7 @@ export function AuthenticationScreen({ onNavigate, brand }: ScreenProps) {
 
       {/* 브랜드 영역. 넓으면 왼쪽 배치, 좁으면 위쪽 한 행 배치 */}
       <div
-        className="relative hidden flex-col justify-between p-10 lg:flex"
+        className="relative hidden flex-col justify-between p-(--semantic-space-xl) lg:flex"
         style={{
           background: "var(--semantic-bg-brand-subtlest)",
           borderInlineEnd:
@@ -75,7 +75,7 @@ export function AuthenticationScreen({ onNavigate, brand }: ScreenProps) {
           “이 라이브러리 덕에 셀 수 없이 많은 시간을 아꼈고, 고객에게 훨씬 빨리 좋은 화면을
           내놓을 수 있었습니다.”
           <footer
-            className="mt-2"
+            className="mt-(--semantic-space-sm)"
             style={{
               color: "var(--semantic-fg-neutral-subtle)",
               fontSize: "var(--semantic-text-body-sm)",
@@ -86,14 +86,14 @@ export function AuthenticationScreen({ onNavigate, brand }: ScreenProps) {
         </blockquote>
       </div>
 
-      <div className="flex items-center justify-center p-6 sm:p-10">
-        <div className="flex w-full max-w-[21.875rem] flex-col gap-6">
+      <div className="flex items-center justify-center p-(--semantic-space-lg) sm:p-(--semantic-space-xl)">
+        <div className="flex w-full max-w-[21.875rem] flex-col gap-(--semantic-space-lg)">
           {/* 좁은 화면 전용 브랜드 표시 위치 */}
           <div className="flex justify-center lg:hidden">
             <Brand name={brandName} size={20} />
           </div>
 
-          <div className="flex flex-col gap-2 text-center">
+          <div className="flex flex-col gap-(--semantic-space-sm) text-center">
             <h3
               style={{
                 color: "var(--semantic-fg-neutral-default)",

@@ -52,7 +52,7 @@ function StatChip({ spec }: { spec: (typeof STAT_CHIPS)[number] }) {
   const Icon = spec.icon;
   return (
     <div
-      className="flex items-center gap-3"
+      className="flex items-center gap-(--semantic-space-sm)"
       style={{
         background: "var(--component-card-bg)",
         borderColor: "var(--component-card-border)",
@@ -108,7 +108,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
   const quickReads = [...ARTICLES].sort((a, b) => a.minutes - b.minutes).slice(0, 3);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-(--semantic-space-md)">
       <Pageheader
         title="읽기 게시판"
         lede={`${ARTICLES.length}개의 읽을거리를 ${COLLECTIONS.length}개 주제로 정리했어요.`}
@@ -144,14 +144,14 @@ export function ListScreen({ onOpen }: ScreenProps) {
       />
 
       <div
-        className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center sm:justify-between"
+        className="flex flex-col gap-(--semantic-space-sm) p-(--semantic-space-sm) sm:flex-row sm:items-center sm:justify-between"
         style={{
           background: "var(--semantic-bg-brand-subtle)",
           border: "var(--semantic-border-width-default) solid var(--semantic-border-brand-subtle)",
           borderRadius: "var(--semantic-radius-container)",
         }}
       >
-        <span className="flex items-center gap-2" style={{ color: "var(--semantic-fg-brand-default)", fontSize: "var(--semantic-text-body-sm)" }}>
+        <span className="flex items-center gap-(--semantic-space-sm)" style={{ color: "var(--semantic-fg-brand-default)", fontSize: "var(--semantic-text-body-sm)" }}>
           <BookOpen size={15} aria-hidden />
           공지 · 관심 있는 글을 저장하고, 컬렉션으로 다시 찾아보세요.
         </span>
@@ -159,11 +159,11 @@ export function ListScreen({ onOpen }: ScreenProps) {
       </div>
 
       {/* 목록 상단에 태그별 표지 사진 띠 추가 */}
-      <div className="flex gap-3 overflow-x-auto pb-1">
+      <div className="flex gap-(--semantic-space-sm) overflow-x-auto pb-(--semantic-space-xs)">
         {COLLECTIONS.map((c) => (
           <div
             key={c.id}
-            className="relative flex shrink-0 flex-col justify-end overflow-hidden p-3"
+            className="relative flex shrink-0 flex-col justify-end overflow-hidden p-(--semantic-space-sm)"
             style={{
               width: "10rem",
               height: "8rem",
@@ -186,14 +186,14 @@ export function ListScreen({ onOpen }: ScreenProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-(--semantic-space-sm) sm:grid-cols-4">
         {STAT_CHIPS.map((s) => (
           <StatChip key={s.label} spec={s} />
         ))}
       </div>
 
       {/* 이번 주 추천 글 3건 슬라이드 전환 표시 */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-(--semantic-space-sm)">
         <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
           이번 주 추천 · 짧게 읽기
         </span>
@@ -204,7 +204,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
                 <button
                   type="button"
                   onClick={() => onOpen?.("reader", a.id)}
-                  className="flex w-full flex-col gap-2 overflow-hidden text-start"
+                  className="flex w-full flex-col gap-(--semantic-space-sm) overflow-hidden text-start"
                   style={{
                     background: "var(--component-card-bg)",
                     borderColor: "var(--component-card-border)",
@@ -219,7 +219,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
                     aria-hidden
                     className="h-20 w-full object-cover"
                   />
-                  <div className="flex flex-col gap-1 px-3 pb-3">
+                  <div className="flex flex-col gap-(--semantic-space-xs) px-(--semantic-space-sm) pb-(--semantic-space-sm)">
                     <span className="truncate" style={{ fontSize: "var(--semantic-text-body-sm)", color: "var(--semantic-fg-neutral-default)" }}>
                       {a.title}
                     </span>
@@ -234,7 +234,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
         </Carousel>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-(--semantic-space-sm)">
         <Segmented value={filter} onValueChange={(v) => setFilter(v.length ? v : ["전체"])}>
           <Segmented.Item value="전체">전체 {ARTICLES.length}</Segmented.Item>
           {COLLECTIONS.map((c) => {
@@ -252,15 +252,15 @@ export function ListScreen({ onOpen }: ScreenProps) {
           onValueChange={(v) => setSortOrder(v as typeof sortOrder)}
           className="ml-auto w-auto grid-flow-col items-center"
         >
-          <label className="inline-flex items-center gap-1">
+          <label className="inline-flex items-center gap-(--semantic-space-xs)">
             <Radio value="default" id="sort-default" />
             <span style={{ fontSize: "var(--semantic-text-body-sm)", color: "var(--semantic-fg-neutral-default)" }}>저장순</span>
           </label>
-          <label className="inline-flex items-center gap-1">
+          <label className="inline-flex items-center gap-(--semantic-space-xs)">
             <Radio value="short" id="sort-short" />
             <span style={{ fontSize: "var(--semantic-text-body-sm)", color: "var(--semantic-fg-neutral-default)" }}>짧은 순</span>
           </label>
-          <label className="inline-flex items-center gap-1">
+          <label className="inline-flex items-center gap-(--semantic-space-xs)">
             <Radio value="long" id="sort-long" />
             <span style={{ fontSize: "var(--semantic-text-body-sm)", color: "var(--semantic-fg-neutral-default)" }}>긴 순</span>
           </label>
@@ -294,7 +294,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
                 <Table.Cell>
                   <Contextmenu
                     trigger={
-                      <div className="flex min-w-0 items-center gap-2">
+                      <div className="flex min-w-0 items-center gap-(--semantic-space-sm)">
                         <img
                           src={TAG_IMAGE[a.tag]}
                           alt=""
@@ -317,7 +317,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
                   />
                 </Table.Cell>
                 <Table.Cell>
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-(--semantic-space-xs)">
                     <span>{a.source}</span>
                     {showExcerpt ? <span className="line-clamp-1" style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{a.excerpt}</span> : null}
                   </div>
@@ -330,7 +330,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
             ))}
           </Table.Body>
         </Table>
-      </div> : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      </div> : <div className="grid grid-cols-1 gap-(--semantic-space-sm) sm:grid-cols-2 xl:grid-cols-3">
         {rows.map((a) => (
           <button
             key={a.id}
@@ -344,8 +344,8 @@ export function ListScreen({ onOpen }: ScreenProps) {
             }}
           >
             <img src={TAG_IMAGE[a.tag]} alt="" aria-hidden className="w-24 shrink-0 object-cover" />
-            <span className="flex min-w-0 flex-col gap-2 p-3">
-              <span className="flex items-center gap-2"><Badge variant="subtle" tone={TAG_TONE[a.tag] ?? "neutral"}>{a.tag}</Badge><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{a.savedAt}</span></span>
+            <span className="flex min-w-0 flex-col gap-(--semantic-space-sm) p-(--semantic-space-sm)">
+              <span className="flex items-center gap-(--semantic-space-sm)"><Badge variant="subtle" tone={TAG_TONE[a.tag] ?? "neutral"}>{a.tag}</Badge><span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{a.savedAt}</span></span>
               <span className="line-clamp-2" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-body-sm)" }}>{a.title}</span>
               {showExcerpt ? <span className="line-clamp-2" style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{a.excerpt}</span> : null}
               <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>{a.source} · {a.minutes}분</span>
@@ -357,7 +357,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
       <Pagination page={page} total={3} onPage={setPage} />
 
       {/* 더 불러오기 버튼. 누르는 동안 스피너 표시, 아래는 스켈레톤으로 다음 행 모양 미리 표시 */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-(--semantic-space-sm)">
         <button
           type="button"
           onClick={() => {
@@ -365,7 +365,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
             window.setTimeout(() => setLoadingMore(false), 900);
           }}
           disabled={loadingMore}
-          className="inline-flex w-fit items-center gap-2 self-center px-3 py-1.5"
+          className="inline-flex w-fit items-center gap-(--semantic-space-sm) self-center px-(--semantic-space-sm) py-(--semantic-space-xs)"
           style={{
             color: "var(--semantic-fg-neutral-subtle)",
             fontSize: "var(--semantic-text-body-sm)",
@@ -376,16 +376,16 @@ export function ListScreen({ onOpen }: ScreenProps) {
           {loadingMore ? <Spinner label="불러오는 중" /> : "더 불러오기"}
         </button>
         {loadingMore ? (
-          <div className="flex flex-col gap-2 px-1">
+          <div className="flex flex-col gap-(--semantic-space-sm) px-(--semantic-space-xs)">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-3/4" />
           </div>
         ) : null}
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <div className="flex flex-col gap-(--semantic-space-md) sm:flex-row">
         <div
-          className="flex flex-1 flex-col gap-3"
+          className="flex flex-1 flex-col gap-(--semantic-space-sm)"
           style={{
             background: "var(--component-card-bg)",
             borderColor: "var(--component-card-border)",
@@ -398,11 +398,11 @@ export function ListScreen({ onOpen }: ScreenProps) {
           <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "var(--semantic-text-caption)" }}>
             태그별 저장 비율
           </span>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-(--semantic-space-sm)">
             {COLLECTIONS.map((c) => {
               const count = ARTICLES.filter((a) => a.tag === c.tag).length;
               return (
-                <div key={c.id} className="flex items-center gap-2">
+                <div key={c.id} className="flex items-center gap-(--semantic-space-sm)">
                   <span className="w-14 shrink-0 truncate" style={{ fontSize: "var(--semantic-text-caption)", color: "var(--semantic-fg-neutral-default)" }}>
                     {c.label}
                   </span>
@@ -426,7 +426,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
         </div>
 
         <div
-          className="flex flex-1 flex-col gap-3"
+          className="flex flex-1 flex-col gap-(--semantic-space-sm)"
           style={{
             background: "var(--component-card-bg)",
             borderColor: "var(--component-card-border)",
@@ -457,7 +457,7 @@ export function ListScreen({ onOpen }: ScreenProps) {
         </div>
 
         <div
-          className="flex flex-1 flex-col gap-3"
+          className="flex flex-1 flex-col gap-(--semantic-space-sm)"
           style={{
             background: "var(--component-card-bg)",
             borderColor: "var(--component-card-border)",

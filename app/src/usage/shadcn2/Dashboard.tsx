@@ -41,13 +41,13 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
       }}
     >
       <header
-        className="flex shrink-0 flex-wrap items-center gap-4 px-4 py-3 sticky top-0 z-10"
+        className="flex shrink-0 flex-wrap items-center gap-(--semantic-space-md) px-(--semantic-space-md) py-(--semantic-space-sm) sticky top-0 z-10"
         style={{
           borderBottom: "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
           background: "var(--semantic-bg-neutral-surface)",
         }}
       >
-        <span className="flex shrink-0 items-center gap-2">
+        <span className="flex shrink-0 items-center gap-(--semantic-space-sm)">
           <span
             aria-hidden
             className="flex size-7 items-center justify-center"
@@ -64,13 +64,13 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
           </span>
         </span>
 
-        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
+        <nav className="flex min-w-0 items-center gap-(--semantic-space-xs) overflow-x-auto">
           {NAV_SCREENS.map((s) => (
             <button
               key={s.key}
               type="button"
               onClick={() => onOpen(s.key, "")}
-              className="px-3 py-1.5 transition-colors"
+              className="px-(--semantic-space-sm) py-(--semantic-space-xs) transition-colors"
               style={{
                 borderRadius: "var(--semantic-radius-control)",
                 fontSize: "var(--semantic-text-body-sm)",
@@ -94,7 +94,7 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
           trigger={
             <button
               type="button"
-              className="ms-auto flex items-center gap-2 px-3 py-1.5"
+              className="ms-auto flex items-center gap-(--semantic-space-sm) px-(--semantic-space-sm) py-(--semantic-space-xs)"
               style={{
                 color: "var(--semantic-fg-neutral-subtle)",
                 fontSize: "var(--semantic-text-body-sm)",
@@ -150,9 +150,9 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
           side="bottom"
           align="end"
         >
-          <div className="flex w-64 flex-col gap-2">
+          <div className="flex w-64 flex-col gap-(--semantic-space-sm)">
             {ARTICLES.slice(0, 3).map((a) => (
-              <div key={a.id} className="flex flex-col gap-0.5">
+              <div key={a.id} className="flex flex-col gap-(--semantic-space-xs)">
                 <span className="truncate" style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-body-sm)" }}>
                   {a.title}
                 </span>
@@ -177,8 +177,8 @@ export function ShadcnUsage2({ system }: UsageDashboardProps) {
         />
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 sm:p-5">
-        <div className="mb-4 flex flex-col gap-1">
+      <div className="flex-1 overflow-y-auto p-(--semantic-space-md) sm:p-(--semantic-space-md)">
+        <div className="mb-(--semantic-space-md) flex flex-col gap-(--semantic-space-xs)">
           <h3 style={{ color: "var(--semantic-fg-neutral-default)", fontSize: "var(--semantic-text-body)" }}>
             {screen.label}
           </h3>
