@@ -8,7 +8,7 @@ const ONLINE_TREND = [
   { t: "목", online: 6 }, { t: "금", online: 6 }, { t: "토", online: 4 }, { t: "일", online: 5 },
 ] as const;
 
-interface Device {
+export interface Device {
   name: string;
   id: string;
   status: "정상" | "경고" | "오프라인";
@@ -16,18 +16,18 @@ interface Device {
 }
 
 // type은 하위 태그 유니온이라 못 뽑음. carbon 색 라벨 값을 그대로 쓴 것임
-type TagColor =
+export type TagColor =
   | "red" | "magenta" | "purple" | "blue" | "cyan" | "teal" | "green" | "gray"
   | "cool-gray" | "warm-gray" | "high-contrast" | "outline";
 
-const STATUS_TAG: Record<Device["status"], TagColor> = {
+export const STATUS_TAG: Record<Device["status"], TagColor> = {
   정상: "green",
   경고: "magenta",
   오프라인: "gray",
 };
 
 // 행별 OverflowMenu 메뉴 구조
-const DEVICES: Device[] = [
+export const DEVICES: Device[] = [
   { name: "냉장 창고 센서 A1", id: "DEV-1001", status: "정상", battery: "92%" },
   { name: "냉장 창고 센서 A2", id: "DEV-1002", status: "경고", battery: "18%" },
   { name: "출입 게이트웨이 B1", id: "DEV-2001", status: "정상", battery: "76%" },
@@ -40,7 +40,9 @@ const DEVICES: Device[] = [
   { name: "냉장 창고 센서 A4", id: "DEV-1004", status: "오프라인", battery: "—" },
 ];
 
-export function DevicesScreen() {
+import type { ScreenProps } from "../screens";
+
+export function DevicesScreen({ onSelect, onNavigate }: ScreenProps) {
   const [query, setQuery] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<"전체" | Device["status"]>("전체");
   const counts = {
@@ -123,7 +125,11 @@ export function DevicesScreen() {
 
     <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fill, minmax(14rem, 1fr))" }}>
       {filtered.map((d) => (
-        <Tile key={d.id}>
+        <Tile
+          key={d.id}
+          style={{ cursor: "pointer" }}
+          onClick={() => { onSelect?.(d.id); onNavigate?.("detail"); }}
+        >
           <div className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <span style={{ fontWeight: 600 }}>{d.name}</span>
@@ -131,12 +137,14 @@ export function DevicesScreen() {
                 <Tag size="sm" type={STATUS_TAG[d.status]}>
                   {d.status}
                 </Tag>
-                {/* 행별 메뉴: 재부팅, 점검 요청 */}
-                <OverflowMenu size="sm" flipped aria-label={`${d.name} 메뉴`}>
-                  <OverflowMenuItem itemText="재부팅" />
-                  <OverflowMenuItem itemText="점검 요청" />
-                  <OverflowMenuItem itemText="비활성화" isDelete hasDivider />
-                </OverflowMenu>
+                {/* 행별 메뉴: 재부팅, 점검 요청. 메뉴 클릭이 타일의 상세 화면 이동으로 번지지 않게 이벤트 전파 차단 */}
+                <div onClick={(e) => e.stopPropagation()}>
+                  <OverflowMenu size="sm" flipped aria-label={`${d.name} 메뉴`}>
+                    <OverflowMenuItem itemText="재부팅" />
+                    <OverflowMenuItem itemText="점검 요청" />
+                    <OverflowMenuItem itemText="비활성화" isDelete hasDivider />
+                  </OverflowMenu>
+                </div>
               </div>
             </div>
             <code style={{ fontSize: "0.75rem", opacity: 0.7 }}>{d.id}</code>

@@ -8,6 +8,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { Panel } from "primereact/panel";
 import { Toast } from "primereact/toast";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip as RTooltip, XAxis } from "recharts";
+import { Download } from "lucide-react";
 
 interface Payment { member: string; item: string; amountNum: number; amount: string; date: string; status: "결제 완료" | "환불"; method: string; orderId: string; refundReason?: string }
 
@@ -74,7 +75,7 @@ export function PaymentsScreen() {
           ) : null}
         </div>
         <Button
-          label="영수증 다운로드" icon="pi pi-download" text size="small" style={{ width: "fit-content", paddingInline: 0 }}
+          label="영수증 다운로드" icon={(o) => <Download className={o.iconProps.className} size="1rem" aria-hidden />} text size="small" style={{ width: "fit-content", paddingInline: 0 }}
           onClick={() => toast.current?.show({ severity: "success", summary: "영수증을 내려받았어요", detail: selected.orderId, life: 2000 })}
         />
       </div>

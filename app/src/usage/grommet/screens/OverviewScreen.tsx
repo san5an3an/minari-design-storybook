@@ -92,6 +92,7 @@ const LAYOUT_CSS = `
 `;
 
 export function OverviewScreen() {
+  const [deadlineTab, setDeadlineTab] = React.useState(0);
   return (
     <>
     {/* <style>은 문자열 gap을 쓰는 Box 밖에 배치 */}
@@ -132,7 +133,8 @@ export function OverviewScreen() {
             </Box>
             {/* Tabs 로 진행 중과 완료 표시 */}
             {/* activeIndex 명시 지정. 안 주면 밑줄과 내용 탭이 어긋나는 문제임 */}
-            <Tabs activeIndex={0}>
+            {/* activeIndex 를 넘기면 제어 컴포넌트가 되어 onActive 로 고른 탭 갱신 */}
+            <Tabs activeIndex={deadlineTab} onActive={setDeadlineTab}>
               <Tab title="진행 중">
                 {DEADLINES.filter((d) => d.status !== "완료").map((d, i) => (
                   <Box

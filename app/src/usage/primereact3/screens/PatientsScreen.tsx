@@ -7,7 +7,7 @@ import { Divider } from "primereact/divider";
 import { RadioButton } from "primereact/radiobutton";
 import { Chip } from "primereact/chip";
 import { Timeline } from "primereact/timeline";
-import { CalendarClock, ClipboardList, Stethoscope, Users } from "lucide-react";
+import { CalendarClock, ClipboardList, FileText, Stethoscope, Users } from "lucide-react";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?auto=format&fit=crop&w=1200&q=60";
@@ -65,7 +65,7 @@ export function PatientsScreen() {
             ))}
           </div>
           <Divider />
-          <Button label="처방전 발급" icon="pi pi-file" size="small" />
+          <Button label="처방전 발급" icon={(o) => <FileText className={o.iconProps.className} size="1rem" aria-hidden />} size="small" />
         </Card>
       </div>
     );

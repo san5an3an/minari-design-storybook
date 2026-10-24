@@ -12,7 +12,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Avatar } from "primereact/avatar";
 import { Panel } from "primereact/panel";
 import { Toast } from "primereact/toast";
-import { Inbox, Flame, CheckCircle2, Layers } from "lucide-react";
+import { Inbox, Flame, CheckCircle2, Layers, Plus, Search } from "lucide-react";
 import { AGENTS, TICKETS, type Ticket, type TicketCategory, type TicketPriority, type TicketStatus } from "../data";
 
 const STATUS_COLOR: Record<Ticket["status"], string> = {
@@ -152,7 +152,7 @@ export function TicketsScreen() {
 
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         {!composing ? (
-          <Button label="새 티켓 등록" icon="pi pi-plus" size="small" onClick={() => setComposing(true)} />
+          <Button label="새 티켓 등록" icon={(o) => <Plus className={o.iconProps.className} size="1rem" aria-hidden />} size="small" onClick={() => setComposing(true)} />
         ) : null}
       </div>
 
@@ -216,7 +216,7 @@ export function TicketsScreen() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.6rem" }}>
         <SelectButton value={statusFilter} onChange={(e) => { if (e.value !== null) setStatusFilter(e.value); }} options={[...STATUS_OPTIONS]} />
         <IconField iconPosition="left">
-          <InputIcon className="pi pi-search" />
+          <InputIcon><Search size="1rem" aria-hidden /></InputIcon>
           <InputText value={search} onChange={(e) => setSearch(e.target.value)} placeholder="제목·고객·담당자 검색" aria-label="티켓 검색" style={{ width: "min(14rem, 100%)" }} />
         </IconField>
       </div>

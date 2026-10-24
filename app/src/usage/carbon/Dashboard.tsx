@@ -38,6 +38,7 @@ export function CarbonUsage({ system, active }: UsageDashboardProps) {
   );
 
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
+  const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
 
@@ -117,7 +118,7 @@ export function CarbonUsage({ system, active }: UsageDashboardProps) {
                 {screen.lede}
               </p>
             </div>
-            <Screen />
+            <Screen onNavigate={setScreenKey} selectedId={selectedId} onSelect={setSelectedId} />
           </div>
         </Content>
       </div>

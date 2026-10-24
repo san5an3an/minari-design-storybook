@@ -135,6 +135,8 @@ export function HeroUiUsage2({ system, active }: UsageDashboardProps) {
           className="flex shrink-0 items-stretch"
           aria-label="화면 고르기"
           style={{
+            // 탭 터치 영역 확보를 위해 MUI BottomNavigation 과 같은 56px 높이 지정
+            height: "3.5rem",
             borderTop: "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
           }}
         >
@@ -145,7 +147,7 @@ export function HeroUiUsage2({ system, active }: UsageDashboardProps) {
                 key={s.key}
                 type="button"
                 onClick={() => setScreenKey(s.key)}
-                className="relative flex flex-1 items-center justify-center gap-1 py-2.5 text-sm"
+                className="relative flex flex-1 items-center justify-center gap-1 text-sm"
                 style={{
                   color: isActive
                     ? "var(--semantic-fg-brand-default)"
@@ -156,10 +158,13 @@ export function HeroUiUsage2({ system, active }: UsageDashboardProps) {
                   cursor: "pointer",
                 }}
               >
-                {s.label}
-                {s.key === "cart" && cartCount > 0 ? (
-                  <Badge color="danger" size="sm">{cartCount}</Badge>
-                ) : null}
+                {/* 장바구니 개수 Badge 를 글자 바로 오른쪽 위에 올려 탭바 안에 표시. 좌우 여백은 Badge 가 글자를 가리지 않게 함 */}
+                <Badge.Anchor className="px-3">
+                  {s.label}
+                  {s.key === "cart" && cartCount > 0 ? (
+                    <Badge color="danger" size="sm" className="-translate-y-[0.625rem]">{cartCount}</Badge>
+                  ) : null}
+                </Badge.Anchor>
               </button>
             );
           })}
