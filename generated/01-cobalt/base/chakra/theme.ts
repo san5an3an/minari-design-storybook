@@ -329,7 +329,8 @@ export const config = defineConfig({
             "gap": "0.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
@@ -360,7 +361,8 @@ export const config = defineConfig({
             "pb": "1.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
@@ -815,7 +817,8 @@ export const darkConfig = defineConfig({
             "gap": "0.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
@@ -846,7 +849,8 @@ export const darkConfig = defineConfig({
             "pb": "1.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
@@ -1301,7 +1305,8 @@ export const highContrastConfig = defineConfig({
             "gap": "0.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
@@ -1332,7 +1337,8 @@ export const highContrastConfig = defineConfig({
             "pb": "1.5rem"
           },
           "closeTrigger": {
-            "insetEnd": "1.5rem"
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
           }
         }
       },
