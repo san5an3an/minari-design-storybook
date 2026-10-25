@@ -5,9 +5,9 @@ import {
 import { ArrowDownCircle, ArrowUpCircle, RefreshCcw, Search } from "lucide-react";
 import { MOVEMENTS, NET_MOVEMENT_BY_DAY, PRODUCTS, WAREHOUSES } from "../data";
 
-const PAGE_SIZE = 8;
+export const PAGE_SIZE = 8;
 
-function NetMovementChart() {
+export function NetMovementChart() {
   const max = Math.max(...NET_MOVEMENT_BY_DAY.map((d) => Math.abs(d.value))) || 1;
   return (
     <Card withBorder radius="md" padding="md" style={{ flex: 1, minWidth: 0 }}>

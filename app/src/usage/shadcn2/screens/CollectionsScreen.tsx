@@ -8,7 +8,7 @@ import { Switch } from "../../../bases/shadcn/Switch";
 import { Table } from "../../../bases/shadcn/Table";
 import { ARTICLES, COLLECTIONS, TAG_IMAGE, TAG_TONE } from "../data";
 
-const SORTS = { name: "이름순", count: "저장 많은 순" } as const;
+export const SORTS = { name: "이름순", count: "저장 많은 순" } as const;
 
 export function CollectionsScreen() {
   const [sort, setSort] = React.useState<keyof typeof SORTS>("name");

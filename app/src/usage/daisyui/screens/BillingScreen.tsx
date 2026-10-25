@@ -3,7 +3,7 @@ import { AlertTriangle, CalendarClock, CreditCard, Gauge, Plus, Wallet } from "l
 
 interface Invoice { id: string; amount: number; status: "결제 완료" | "환불" | "결제 실패" }
 
-const INVOICES: Invoice[] = [
+export const INVOICES: Invoice[] = [
   { id: "INV-2026-09", amount: 49000, status: "결제 완료" },
   { id: "INV-2026-08", amount: 49000, status: "결제 완료" },
   { id: "INV-2026-07", amount: 39000, status: "환불" },
@@ -20,25 +20,25 @@ const INVOICES: Invoice[] = [
   { id: "INV-2025-08", amount: 19000, status: "결제 완료" },
 ] as const;
 
-const STATUS_BADGE: Record<Invoice["status"], string> = {
+export const STATUS_BADGE: Record<Invoice["status"], string> = {
   "결제 완료": "d-badge-success",
   "환불": "d-badge-warning",
   "결제 실패": "d-badge-error",
 };
 
-const USAGE = [
+export const USAGE = [
   { label: "API 호출", used: 8200, total: 10000 },
   { label: "저장 공간", used: 42, total: 100 },
   { label: "팀 시트", used: 6, total: 10 },
 ] as const;
 
-interface Card { id: string; brand: string; last4: string; expiry: string }
-const INITIAL_CARDS: Card[] = [
+export interface Card { id: string; brand: string; last4: string; expiry: string }
+export const INITIAL_CARDS: Card[] = [
   { id: "c1", brand: "신한카드", last4: "4242", expiry: "09/28" },
   { id: "c2", brand: "삼성카드", last4: "8810", expiry: "03/27" },
 ];
 
-const PAGE_SIZE = 10;
+export const PAGE_SIZE = 10;
 
 export function BillingScreen() {
   const [page, setPage] = React.useState(1);

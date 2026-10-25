@@ -1,11 +1,17 @@
 import * as React from "react";
 import type { UsageDashboardProps } from "../registry";
+import { useIsWide } from "../mobile/useIsWide";
+import { Daisyui3Mobile } from "./mobile/Daisyui3Mobile";
 import { SCREENS } from "./screens";
 
 export function DaisyuiUsage3({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
+  const wide = useIsWide();
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
+
+  // 뷰포트 폭 768 미만이면 모바일 판 표시. 훅을 모두 부른 뒤에 분기해야 함
+  if (!wide) return <Daisyui3Mobile system={system} screenKey={screenKey} onNavigate={setScreenKey} />;
 
   return (
     <div

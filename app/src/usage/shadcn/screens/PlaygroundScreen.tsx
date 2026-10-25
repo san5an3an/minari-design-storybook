@@ -10,7 +10,7 @@ import { Select } from "../../../bases/shadcn/Select";
 import { Slider } from "../../../bases/shadcn/Slider";
 
 // 원본 프리셋 이름 목록
-const PRESETS = {
+export const PRESETS = {
   grammar: "문법 고치기",
   summarize: "2학년도 알아듣게 요약",
   parse: "비정형 자료를 표로",
@@ -19,7 +19,7 @@ const PRESETS = {
 } as const;
 
 // data/models.ts의 두 그룹 구조 유지, 이름만 현재 모델로 변경
-const MODEL_GROUPS = [
+export const MODEL_GROUPS = [
   {
     label: "Opus",
     items: { "opus-5": "claude-opus-5", "opus-5-1m": "claude-opus-5[1m]" },
@@ -30,12 +30,12 @@ const MODEL_GROUPS = [
   },
 ] as const;
 
-const MODES = {
+export const MODES = {
   complete: { label: "이어 쓰기", Icon: Rows3 },
   insert: { label: "사이에 넣기", Icon: PanelRightOpen },
   edit: { label: "고쳐 쓰기", Icon: Braces },
 } as const;
-type ModeKey = keyof typeof MODES;
+export type ModeKey = keyof typeof MODES;
 
 // 라벨, 현재 값, 슬라이더 세트
 function Knob({

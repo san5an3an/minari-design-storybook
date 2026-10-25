@@ -6,7 +6,7 @@ import { Input } from "../../../bases/shadcn/Input";
 import { Link } from "../../../bases/shadcn/Link";
 import type { ScreenProps } from "../screens";
 
-function Brand({ name, size = 24 }: { name: string; size?: number }) {
+export function Brand({ name, size = 24 }: { name: string; size?: number }) {
   return (
     <span
       className="flex items-center gap-(--semantic-space-sm)"
@@ -31,7 +31,7 @@ function Brand({ name, size = 24 }: { name: string; size?: number }) {
 }
 
 // brand 못 받는 단독 화면 기본값. 저장소 기본 이름이라 목업과 어긋나지 않음
-const FALLBACK_BRAND = "Cobalt";
+export const FALLBACK_BRAND = "Cobalt";
 
 export function AuthenticationScreen({ onNavigate, brand }: ScreenProps) {
   const brandName = brand ?? FALLBACK_BRAND;

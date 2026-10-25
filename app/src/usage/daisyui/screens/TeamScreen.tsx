@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Shield, UserCheck, UserPlus, Users } from "lucide-react";
 
-interface Member {
+export interface Member {
   name: string;
   role: string;
   status: "활성" | "초대됨";
 }
 
-const INITIAL_MEMBERS: Member[] = [
+export const INITIAL_MEMBERS: Member[] = [
   { name: "한지우", role: "관리자", status: "활성" },
   { name: "김서연", role: "편집자", status: "활성" },
   { name: "박도윤", role: "편집자", status: "초대됨" },
@@ -18,7 +18,7 @@ const INITIAL_MEMBERS: Member[] = [
   { name: "윤새별", role: "뷰어", status: "초대됨" },
 ];
 
-const ROLES = ["관리자", "편집자", "뷰어"] as const;
+export const ROLES = ["관리자", "편집자", "뷰어"] as const;
 
 export function TeamScreen() {
   const [members, setMembers] = React.useState<Member[]>(INITIAL_MEMBERS);

@@ -6,12 +6,15 @@ import {
 import type { SelectProps } from "../../systems/props";
 import { fieldVars, sizeVars } from "./tone";
 import { SELECT_ALIGN_UNCLAMP } from "../selectAlign";
+import { usePopupSafeArea } from "./internal/popupCollision";
 
 export function Select({
   size = "md", items, groups, disabledItems, value, onValueChange,
   placeholder = "고르세요", label, description, alignItemWithTrigger = true,
   separators, ...rest
 }: SelectProps) {
+  // 상위에서 받은 safe area 값을 props보다 우선 적용. 값이 없으면 기존 props 사용함
+  const safe = usePopupSafeArea();
   const invalid = rest["aria-invalid"] === true || rest["aria-invalid"] === "true";
   const locked = new Set(disabledItems ?? []);
   // items는 값-표시명 변환용, 트리거 코드 노출 방지
@@ -37,7 +40,8 @@ export function Select({
       </SelectTrigger>
       {/* 목록 길면 팝업 잘리는 문제 있음 */}
       <SelectContent
-        alignItemWithTrigger={alignItemWithTrigger}
+        alignItemWithTrigger={safe?.alignItemWithTrigger ?? alignItemWithTrigger}
+        collisionPadding={safe?.collisionPadding}
         className={SELECT_ALIGN_UNCLAMP}
       >
         {list.map((g, i) => (

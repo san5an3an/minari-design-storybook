@@ -19,7 +19,7 @@ import { useIsWide } from "../useIsWide";
 
 type CardTone = "brand" | "success" | "warning" | "danger";
 
-interface StatSpec {
+export interface StatSpec {
   label: string;
   value: string;
   delta: string;
@@ -31,7 +31,7 @@ interface StatSpec {
 }
 
 // 카드 4장 구성 동일. 숫자, 증감, 두 줄 꼬리표 위치까지 같음
-const STATS: readonly StatSpec[] = [
+export const STATS: readonly StatSpec[] = [
   {
     label: "총 매출",
     value: "₩1,250,000",
@@ -114,7 +114,7 @@ const CHART_CONFIG = {
   모바일: { label: "모바일", color: "var(--component-chart-series-2)" },
 };
 
-interface DocRow {
+export interface DocRow {
   title: string;
   kind: string;
   status: "진행 중" | "완료";
@@ -124,7 +124,7 @@ interface DocRow {
 }
 
 // data.json 앞 8줄의 상태, 목표, 한도, 검토자 4축, 원본과 일치
-const DOCS: readonly DocRow[] = [
+export const DOCS: readonly DocRow[] = [
   { title: "표지", kind: "표지", status: "진행 중", target: 18, limit: 5, reviewer: "김도현" },
   { title: "목차", kind: "목차", status: "완료", target: 29, limit: 24, reviewer: "김도현" },
   { title: "요약", kind: "서술", status: "완료", target: 10, limit: 13, reviewer: "김도현" },
@@ -135,11 +135,11 @@ const DOCS: readonly DocRow[] = [
   { title: "혁신과 강점", kind: "서술", status: "완료", target: 25, limit: 26, reviewer: "미배정" },
 ];
 
-const COLUMNS = ["헤더", "구획 유형", "상태", "목표", "한도", "검토자"] as const;
-type ColumnName = (typeof COLUMNS)[number];
+export const COLUMNS = ["헤더", "구획 유형", "상태", "목표", "한도", "검토자"] as const;
+export type ColumnName = (typeof COLUMNS)[number];
 
 // 열 이름별 렌더링 내용 매핑 테이블
-const CELL: Record<ColumnName, (d: DocRow) => React.ReactNode> = {
+export const CELL: Record<ColumnName, (d: DocRow) => React.ReactNode> = {
   헤더: (d) => d.title,
   "구획 유형": (d) => (
     <Badge variant="outline" tone="neutral">
@@ -156,7 +156,7 @@ const CELL: Record<ColumnName, (d: DocRow) => React.ReactNode> = {
   검토자: (d) => d.reviewer,
 };
 
-const HERO_IMAGE =
+export const HERO_IMAGE =
   "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60";
 
 function DashboardHero() {
@@ -273,7 +273,7 @@ function StatCard({ spec }: { spec: StatSpec }) {
 }
 
 // 기간 선택기가 있는 면적 그래프. 넓으면 Segmented, 좁으면 Select
-function VisitsCard() {
+export function VisitsCard() {
   const [range, setRange] = React.useState("90d");
   const wide = useIsWide(1024);
   const rows = VISITS.slice(-RANGES[range].take);
@@ -411,7 +411,7 @@ function DocsTable({ shown }: { shown: readonly string[] }) {
 }
 
 // 미구현 탭 위치, 고장과 구분 위해 플레이스홀더 추가
-function Placeholder() {
+export function Placeholder() {
   return (
     <div
       className="flex min-h-40 items-center justify-center"

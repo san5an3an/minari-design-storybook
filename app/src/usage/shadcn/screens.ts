@@ -1,5 +1,9 @@
 import type { ComponentType } from "react";
 import { AuthenticationScreen } from "./screens/AuthenticationScreen";
+import { AuthenticationMobile } from "./mobile/AuthenticationMobile";
+import { DashboardMobile } from "./mobile/DashboardMobile";
+import { PlaygroundMobile } from "./mobile/PlaygroundMobile";
+import { TasksMobile } from "./mobile/TasksMobile";
 import { DashboardScreen } from "./screens/DashboardScreen";
 import { PlaygroundScreen } from "./screens/PlaygroundScreen";
 import { TasksScreen } from "./screens/TasksScreen";
@@ -15,6 +19,8 @@ export interface ScreenDefinition {
   // 앱 셸 없이 전체 렌더링 여부, 로그인 화면이 해당
   fullBleed?: boolean;
   Screen: ComponentType<ScreenProps>;
+  // 뷰포트 768 미만에서 쓸 모바일 화면 지정. 없으면 Screen 을 그대로 사용함
+  MobileScreen?: ComponentType<ScreenProps>;
 }
 
 export interface ScreenProps {
@@ -29,6 +35,7 @@ export const SCREENS: ScreenDefinition[] = [
     lede: "지표 넷과 그림 하나, 그리고 표. 자기 사이드바를 가진 유일한 화면임.",
     source: "examples/dashboard",
     Screen: DashboardScreen,
+    MobileScreen: DashboardMobile,
   },
   {
     key: "tasks",
@@ -36,6 +43,7 @@ export const SCREENS: ScreenDefinition[] = [
     lede: "필터 두 개가 실제로 걸러내는 지점. 조건이 겹칠 때 어떻게 되는지를 보여주는 화면",
     source: "examples/tasks",
     Screen: TasksScreen,
+    MobileScreen: TasksMobile,
   },
   {
     key: "playground",
@@ -43,6 +51,7 @@ export const SCREENS: ScreenDefinition[] = [
     lede: "핸들이 값을 바꾸는 위치. 설정은 오른쪽, 만드는 곳은 왼쪽임.",
     source: "examples/playground",
     Screen: PlaygroundScreen,
+    MobileScreen: PlaygroundMobile,
   },
   {
     key: "authentication",
@@ -51,5 +60,6 @@ export const SCREENS: ScreenDefinition[] = [
     source: "examples/authentication",
     fullBleed: true,
     Screen: AuthenticationScreen,
+    MobileScreen: AuthenticationMobile,
   },
 ];

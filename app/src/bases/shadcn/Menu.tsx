@@ -7,9 +7,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { renderMenuItems } from "./internal/menuItems";
+import { usePopupSafeArea } from "./internal/popupCollision";
 import type { MenuProps } from "../../systems/props";
 
 export function Menu({ trigger, items, side, align, minWidth }: MenuProps) {
+  // 상위에서 받은 safe area 안에서만 목록이 열리도록 collisionPadding 적용. 값이 없으면 기존 동작 유지함
+  const safe = usePopupSafeArea();
   return (
     <DropdownMenu>
       {/* 트리거가 클릭 대상이면 render 전달, span 감싸면 초점 링이 엉뚱한 요소에 붙음 */}
@@ -21,6 +24,7 @@ export function Menu({ trigger, items, side, align, minWidth }: MenuProps) {
       <DropdownMenuContent
         side={side}
         align={align}
+        collisionPadding={safe?.collisionPadding}
         style={{
           width: "fit-content",
           maxWidth: "var(--available-width)",

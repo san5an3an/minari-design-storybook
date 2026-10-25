@@ -9,8 +9,10 @@ import { Menu } from "../../bases/shadcn/Menu";
 import { Popover } from "../../bases/shadcn/Popover";
 import { Sidebar } from "../../bases/shadcn/Sidebar";
 import type { UsageDashboardProps } from "../registry";
+import { useIsWide } from "../shadcn/useIsWide";
 import { CATEGORY_BUDGET, MONTHLY_BUDGET, TRANSACTIONS } from "./data";
 import type { Transaction } from "./data";
+import { Shadcn3Mobile } from "./mobile/Shadcn3Mobile";
 import { SCREENS } from "./screens";
 import { TransactionDetailScreen } from "./screens/TransactionDetailScreen";
 
@@ -237,6 +239,7 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [transactions, setTransactions] = React.useState<Transaction[]>(() => [...TRANSACTIONS]);
   const [query, setQuery] = React.useState("");
+  const wide = useIsWide();
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
 
@@ -254,6 +257,29 @@ export function ShadcnUsage3({ system }: UsageDashboardProps) {
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "좋은 아침이에요" : hour < 18 ? "좋은 오후예요" : "좋은 저녁이에요";
+
+  // 뷰포트 768 미만이면 앱 바와 하단 Tab bar 를 갖춘 모바일 판 표시. Dashboard.tsx 의 값은 순환 import 를 피하려고 props 로 넘김
+  if (!wide) {
+    return (
+      <Shadcn3Mobile
+        system={system}
+        screenKey={screenKey}
+        selectedId={selectedId}
+        transactions={transactions}
+        query={query}
+        icons={NAV_ICON}
+        user={USER}
+        heroImage={HERO_IMAGE}
+        greeting={greeting}
+        statRow={<StatRow transactions={transactions} />}
+        onNavigate={(key) => { setScreenKey(key); setSelectedId(null); }}
+        onOpen={openDetail}
+        onBack={() => setSelectedId(null)}
+        onAdd={addTransaction}
+        onQueryChange={setQuery}
+      />
+    );
+  }
 
   const body = (
     <>

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { CircleDollarSign, MoreVertical, PackageCheck, ShoppingBag, Truck } from "lucide-react";
 
-const HERO_IMAGE =
+export const HERO_IMAGE =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=60";
 
-interface Order {
+export interface Order {
   id: string;
   item: string;
   amount: string;
@@ -13,7 +13,7 @@ interface Order {
   address: string;
 }
 
-const ORDERS: Order[] = [
+export const ORDERS: Order[] = [
   { id: "#8821", item: "무선 이어버드 Pro", amount: "129,000원", status: "배송 준비", recipient: "김서연", address: "서울 마포구 연남동 12-3" },
   { id: "#8820", item: "캔버스 백팩", amount: "58,000원", status: "배송 중", recipient: "박도윤", address: "경기 성남시 분당구 정자동 45" },
   { id: "#8819", item: "미니멀 데스크 램프", amount: "42,000원", status: "배송 중", recipient: "이하은", address: "서울 강남구 역삼동 890" },
@@ -22,9 +22,9 @@ const ORDERS: Order[] = [
   { id: "#8815", item: "세라믹 머그컵 세트", amount: "24,000원", status: "배송 완료", recipient: "오세준", address: "인천 연수구 송도동 220" },
 ];
 
-const STAGES = ["배송 준비", "배송 중", "배송 완료"] as const;
+export const STAGES = ["배송 준비", "배송 중", "배송 완료"] as const;
 
-const STATS = [
+export const STATS = [
   { label: "오늘 주문", value: "34건", delta: "+6", icon: ShoppingBag },
   { label: "오늘 매출", value: "₩2,180,000", delta: "+12%", icon: CircleDollarSign },
   { label: "배송 중", value: "9건", delta: "+2", icon: Truck },
@@ -33,7 +33,7 @@ const STATS = [
 
 const TREND = [12, 18, 15, 22, 28, 24, 34];
 
-function TrendChart() {
+export function TrendChart() {
   const w = 320, h = 80, max = Math.max(...TREND);
   const pts = TREND.map((v, i) => {
     const x = (i / (TREND.length - 1)) * w;

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { MessageSquare, PenLine, Search, ThumbsUp, TrendingUp, Users } from "lucide-react";
 
-const HERO_IMAGE =
+export const HERO_IMAGE =
   "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=60";
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   author: string;
@@ -14,7 +14,7 @@ interface Post {
   comments: { author: string; text: string }[];
 }
 
-const INITIAL_POSTS: Post[] = [
+export const INITIAL_POSTS: Post[] = [
   {
     id: "1",
     title: "다음 릴리즈에 다크모드 넣어주세요",
@@ -56,18 +56,18 @@ const INITIAL_POSTS: Post[] = [
   },
 ];
 
-const ACTIVITY_FEED = [
+export const ACTIVITY_FEED = [
   { text: "이하은 님이 새 글을 올렸어요", detail: "다음 릴리즈에 다크모드 넣어주세요", time: "2시간 전" },
   { text: "정서준 님이 댓글을 남겼어요", detail: "저도 원해요 +1", time: "1시간 전" },
   { text: "운영자 님이 댓글을 남겼어요", detail: "다음 분기 로드맵에 반영했습니다", time: "40분 전" },
   { text: "박도윤 님이 댓글을 남겼어요", detail: "저는 안드로이드인데 괜찮습니다", time: "10분 전" },
 ];
 
-interface Draft {
+export interface Draft {
   title: string;
   body: string;
 }
-const EMPTY_DRAFT: Draft = { title: "", body: "" };
+export const EMPTY_DRAFT: Draft = { title: "", body: "" };
 
 export function PostsScreen() {
   const [posts, setPosts] = React.useState<Post[]>(INITIAL_POSTS);
