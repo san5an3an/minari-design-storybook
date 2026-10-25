@@ -63,13 +63,13 @@ export function OverviewScreen() {
   ];
 
   return (
-    <Flex vertical gap={24}>
+    <Flex vertical gap="var(--semantic-space-lg)">
       <div className="rp-axes">
 
         {/* 축 1, 매출 점유 */}
         <section className="rp-axis">
           <Typography.Title level={4} style={{ marginBlock: 0 }}>브랜드별 매출 점유</Typography.Title>
-          <Typography.Paragraph type="secondary" style={{ marginBlockStart: 4, marginBlockEnd: 12, fontSize: 13 }}>
+          <Typography.Paragraph type="secondary" style={{ marginBlockStart: "var(--semantic-space-xs)", marginBlockEnd: "var(--semantic-space-sm)", fontSize: 13 }}>
             매출을 공개한 여섯 브랜드 안에서의 비중입니다. 시장 전체가 아닙니다.
           </Typography.Paragraph>
 
@@ -141,7 +141,7 @@ export function OverviewScreen() {
                           <Typography.Text type="secondary" style={{ fontSize: 11 }}>{a.label}</Typography.Text>
                         </th>
                       ))}
-                      <th style={{ textAlign: "end", paddingInlineStart: 8 }}>
+                      <th style={{ textAlign: "end", paddingInlineStart: "var(--semantic-space-sm)" }}>
                         <Typography.Text type="secondary" style={{ fontSize: 11 }}>총점</Typography.Text>
                       </th>
                     </tr>
@@ -160,7 +160,7 @@ export function OverviewScreen() {
                             <HeatCell value={SCORES[b.id][a.id]} max={AXIS_MAX} title={`${b.name} · ${a.label} ${SCORES[b.id][a.id]}/${AXIS_MAX}`} />
                           </td>
                         ))}
-                        <td style={{ textAlign: "end", paddingInlineStart: 8, fontVariantNumeric: "tabular-nums", fontSize: 12.5 }}>
+                        <td style={{ textAlign: "end", paddingInlineStart: "var(--semantic-space-sm)", fontVariantNumeric: "tabular-nums", fontSize: 12.5 }}>
                           {totalScore(b.id)}
                         </td>
                       </tr>
@@ -169,7 +169,7 @@ export function OverviewScreen() {
                 </table>
               </div>
 
-              <Flex justify="space-between" align="center" gap={12} wrap style={{ marginBlockStart: 12 }}>
+              <Flex justify="space-between" align="center" gap="var(--semantic-space-sm)" wrap style={{ marginBlockStart: "var(--semantic-space-sm)" }}>
                 <HeatLegend max={AXIS_MAX} />
                 <Typography.Text type="secondary" style={{ fontSize: 11 }}>
                   총점은 100점 대비라 셀 색과 다른 자입니다. 더하거나 견주지 않습니다.
@@ -182,7 +182,7 @@ export function OverviewScreen() {
         {/* 축 2, 채널 도입률 */}
         <section className="rp-axis">
           <Typography.Title level={4} style={{ marginBlock: 0 }}>주문 채널 도입률</Typography.Title>
-          <Typography.Paragraph type="secondary" style={{ marginBlockStart: 4, marginBlockEnd: 12, fontSize: 13 }}>
+          <Typography.Paragraph type="secondary" style={{ marginBlockStart: "var(--semantic-space-xs)", marginBlockEnd: "var(--semantic-space-sm)", fontSize: 13 }}>
             매장 수를 분모로 한 값입니다. 한 매장이 여러 채널을 동시에 씁니다.
           </Typography.Paragraph>
 
@@ -225,7 +225,7 @@ export function OverviewScreen() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <Flex gap={12} wrap style={{ marginBlockStart: 10 }}>
+              <Flex gap="var(--semantic-space-sm)" wrap style={{ marginBlockStart: "var(--semantic-space-sm)" }}>
                 {CHANNELS.map((c, i) => (
                   <LegendItem key={c.id} color={barColor(i)} label={c.label} value={`${pct1(c.rate)}%`} />
                 ))}
@@ -247,20 +247,20 @@ export function OverviewScreen() {
         </section>
       </div>
 
-      <section style={{ borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)", paddingBlockStart: 16 }}>
+      <section style={{ borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)", paddingBlockStart: "var(--semantic-space-md)" }}>
         <Typography.Text strong style={{ fontSize: 13 }}>이 수치를 읽는 법</Typography.Text>
         <div
           style={{
-            marginBlockStart: 10,
+            marginBlockStart: "var(--semantic-space-sm)",
             display: "grid",
-            gap: "0.75rem 1.25rem",
+            gap: "var(--semantic-space-sm) var(--semantic-space-md)",
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 16rem), 1fr))",
           }}
         >
           {FOOTNOTES.map((f) => (
             <div key={f.title} style={{ minWidth: 0 }}>
               <Typography.Text strong style={{ fontSize: 12.5 }}>{f.title}</Typography.Text>
-              <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: 2, fontSize: 12, lineHeight: 1.7 }}>
+              <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12, lineHeight: 1.7 }}>
                 {f.body}
               </Typography.Paragraph>
             </div>

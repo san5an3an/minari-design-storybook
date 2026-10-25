@@ -38,7 +38,7 @@ function SpecCell({
   label: string;
 }) {
   return (
-    <Stack spacing={0.5} sx={{ alignItems: "center", py: 1.5 }}>
+    <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", py: "var(--semantic-space-xs)" }}>
       <Box sx={{ color: "text.secondary", display: "flex" }}>{icon}</Box>
       <Typography variant="subtitle1" component="p">{value}</Typography>
       <Typography variant="caption" color="text.secondary">{label}</Typography>
@@ -58,8 +58,8 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
 
   if (!listing) {
     return (
-      <Card variant="outlined" sx={{ p: 4, textAlign: "center" }}>
-        <Stack spacing={1.5} sx={{ alignItems: "center" }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-md)", textAlign: "center" }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Typography variant="subtitle1">아직 고른 매물이 없어요</Typography>
           <Typography variant="body2" color="text.secondary">
             탐색에서 카드를 누르면 그 매물이 여기 열립니다.
@@ -79,7 +79,7 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
   const booked = bookedIds?.includes(listing.id) ?? false;
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <Button
         size="small"
         startIcon={<ArrowBackOutlined />}
@@ -102,27 +102,27 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
         ))}
       </ImageList>
 
-      <Stack direction={wide ? "row" : "column"} spacing={2} sx={{ alignItems: "flex-start" }}>
-        <Stack spacing={2} sx={{ flex: 1, minWidth: 0, width: "100%" }}>
-          <Stack spacing={1}>
-            <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", rowGap: 0.5 }}>
+      <Stack direction={wide ? "row" : "column"} spacing="var(--semantic-space-sm)" sx={{ alignItems: "flex-start" }}>
+        <Stack spacing="var(--semantic-space-sm)" sx={{ flex: 1, minWidth: 0, width: "100%" }}>
+          <Stack spacing="var(--semantic-space-xs)">
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
               {listing.tags.map((t) => (
                 <Chip key={t} label={t} size="small" color="primary" variant="outlined" />
               ))}
             </Stack>
             <Typography variant="h6" component="h3">{listing.title}</Typography>
-            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", flexWrap: "wrap" }}>
-              <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", flexWrap: "wrap" }}>
+              <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                 <PlaceOutlined fontSize="small" sx={{ color: "text.secondary" }} />
                 <Typography variant="body2" color="text.secondary">{listing.area}</Typography>
               </Stack>
-              <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+              <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                 <DirectionsSubwayOutlined fontSize="small" sx={{ color: "text.secondary" }} />
                 <Typography variant="body2" color="text.secondary">
                   역까지 도보 {listing.walk}분
                 </Typography>
               </Stack>
-              <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+              <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                 <Rating value={listing.rating} precision={0.1} size="small" readOnly />
                 <Typography variant="caption" color="text.secondary">
                   {listing.rating.toFixed(1)}
@@ -162,9 +162,9 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
             </Box>
           </Card>
 
-          <Stack spacing={1}>
+          <Stack spacing="var(--semantic-space-xs)">
             <Typography variant="subtitle2">편의시설</Typography>
-            <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", rowGap: 0.75 }}>
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
               {listing.amenities.map((a) => (
                 <Chip
                   key={a}
@@ -177,12 +177,12 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
             </Stack>
           </Stack>
 
-          <Stack spacing={1}>
+          <Stack spacing="var(--semantic-space-xs)">
             <Typography variant="subtitle2">위치</Typography>
             <Card variant="outlined" sx={{ overflow: "hidden" }}>
               <ListingMap rows={[listing]} />
             </Card>
-            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
               <PlaceOutlined fontSize="small" sx={{ color: "text.secondary" }} />
               <Typography variant="body2" color="text.secondary">
                 {listing.area} · 지하철역까지 도보 {listing.walk}분
@@ -195,14 +195,14 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
           variant="outlined"
           sx={{
             flexShrink: 0,
-            p: 2,
+            p: "var(--semantic-space-sm)",
             position: wide ? "sticky" : "static",
             top: 16,
             width: wide ? 280 : "100%",
           }}
         >
-          <Stack spacing={1.5}>
-            <Stack spacing={0.25}>
+          <Stack spacing="var(--semantic-space-xs)">
+            <Stack spacing="var(--semantic-space-xs)">
               <Typography variant="h5" component="p">월 {won(listing.rent)}</Typography>
               <Typography variant="body2" color="text.secondary">
                 관리비 {won(listing.fee)} · 보증금 {won(listing.deposit)}
@@ -258,7 +258,7 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
       <Dialog open={inquiryOpen} onClose={() => setInquiryOpen(false)} fullWidth maxWidth="xs">
         <DialogTitle>{listing.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ mb: 1.5 }}>
+          <DialogContentText sx={{ mb: "var(--semantic-space-xs)" }}>
             집주인에게 궁금한 점을 남겨 보세요. 보통 몇 시간 안에 답이 와요.
           </DialogContentText>
           <TextField

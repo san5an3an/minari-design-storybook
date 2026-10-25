@@ -202,7 +202,7 @@ export function ReportsScreen() {
           title={`주간 생성·완료 과업 · 최근 ${span}주`}
           extra={<Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>전체 기준</Typography.Text>}
         >
-          <Flex gap={16} style={{ marginBlockEnd: 8 }}>
+          <Flex gap="var(--semantic-space-md)" style={{ marginBlockEnd: "var(--semantic-space-sm)" }}>
             <LegendItem color={SERIES.first} label="생성" />
             <LegendItem color={SERIES.third} label="완료" />
           </Flex>
@@ -226,7 +226,7 @@ export function ReportsScreen() {
           {tasks.length === 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="과업이 없어요" />
           ) : (
-            <Flex vertical gap={12} align="center">
+            <Flex vertical gap="var(--semantic-space-sm)" align="center">
               <div style={{ position: "relative", inlineSize: 160, blockSize: 160 }}>
                 <ResponsiveContainer>
                   <PieChart>
@@ -258,7 +258,7 @@ export function ReportsScreen() {
                   <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>과업</Typography.Text>
                 </Flex>
               </div>
-              <Flex vertical gap={6} style={{ inlineSize: "100%" }}>
+              <Flex vertical gap="var(--semantic-space-xs)" style={{ inlineSize: "100%" }}>
                 {statusCounts.map((s) => (
                   <LegendItem
                     key={s.status}
@@ -291,7 +291,7 @@ export function ReportsScreen() {
           {risks.length === 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="지금은 위험 신호가 없어요" />
           ) : (
-            <Flex vertical gap={8}>
+            <Flex vertical gap="var(--semantic-space-sm)">
               {risks.map(({ project, status, progress }) => (
                 <Alert
                   key={project.id}
@@ -315,9 +315,9 @@ export function ReportsScreen() {
           {withStatus
             .sort((a, b) => Number(a.status === "완료") - Number(b.status === "완료") || a.project.dueInDays - b.project.dueInDays)
             .map(({ project, status, progress }) => (
-              <Flex key={project.id} vertical gap={6} style={{ minWidth: 0 }}>
-                <Flex align="center" justify="space-between" gap={8}>
-                  <Flex align="center" gap={8} style={{ minWidth: 0 }}>
+              <Flex key={project.id} vertical gap="var(--semantic-space-xs)" style={{ minWidth: 0 }}>
+                <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
+                  <Flex align="center" gap="var(--semantic-space-sm)" style={{ minWidth: 0 }}>
                     <Typography.Text ellipsis>{project.name}</Typography.Text>
                     <ToneTag tone={PROJECT_TONE[status]}>{status}</ToneTag>
                   </Flex>
@@ -331,7 +331,7 @@ export function ReportsScreen() {
                   status={status === "지연" ? "exception" : status === "완료" ? "success" : "active"}
                   style={{ margin: 0 }}
                 />
-                <Flex align="center" justify="space-between" gap={8}>
+                <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
                   <MemberLine id={project.ownerId} />
                   <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, flex: "0 0 auto" }}>
                     {project.team} · 과업 {doneCount(project.tasks)}/{project.tasks.length}

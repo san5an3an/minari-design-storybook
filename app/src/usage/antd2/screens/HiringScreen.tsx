@@ -75,7 +75,7 @@ function CandidateDrawer({
       title={candidate ? `${candidate.id} · 후보자 상세` : "후보자 상세"}
       footer={
         candidate && isActive(candidate) ? (
-          <Flex justify="space-between" gap={8}>
+          <Flex justify="space-between" gap="var(--semantic-space-sm)">
             <Button danger onClick={() => onReject(candidate)}>탈락 처리</Button>
             <Space>
               <Button onClick={onClose}>닫기</Button>
@@ -90,13 +90,13 @@ function CandidateDrawer({
       }
     >
       {candidate ? (
-        <Space orientation="vertical" size={20} style={{ display: "flex" }}>
-          <Flex gap={12} align="center" justify="space-between">
+        <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
+          <Flex gap="var(--semantic-space-sm)" align="center" justify="space-between">
             <PersonCell name={candidate.name} sub={position?.title ?? candidate.positionId} size={48} />
             <StageTag candidate={candidate} />
           </Flex>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 8 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "var(--semantic-space-sm)" }}>
             <Card size="small">
               <Statistic title="경력" value={candidate.experienceYears} suffix="년" styles={{ content: { fontSize: token.fontSizeLG } }} />
             </Card>
@@ -117,9 +117,9 @@ function CandidateDrawer({
             <Card
               size="small"
               style={{ background: token.colorPrimaryBg, borderColor: token.colorPrimaryBorder }}
-              styles={{ body: { padding: 12 } }}
+              styles={{ body: { padding: "var(--semantic-space-sm)" } }}
             >
-              <Flex align="center" gap={10}>
+              <Flex align="center" gap="var(--semantic-space-sm)">
                 {candidate.next.mode === "화상" ? <VideoCameraOutlined /> : <CalendarOutlined />}
                 <span style={{ lineHeight: 1.35 }}>
                   <Typography.Text strong style={{ display: "block" }}>{candidate.next.label}</Typography.Text>
@@ -146,7 +146,7 @@ function CandidateDrawer({
           />
 
           <div>
-            <Typography.Text strong style={{ display: "block", marginBlockEnd: 12 }}>전형 단계</Typography.Text>
+            <Typography.Text strong style={{ display: "block", marginBlockEnd: "var(--semantic-space-sm)" }}>전형 단계</Typography.Text>
             <Steps
               size="small"
               orientation="vertical"
@@ -160,7 +160,7 @@ function CandidateDrawer({
           </div>
 
           <div>
-            <Typography.Text strong style={{ display: "block", marginBlockEnd: 12 }}>
+            <Typography.Text strong style={{ display: "block", marginBlockEnd: "var(--semantic-space-sm)" }}>
               면접관 메모 {candidate.notes.length}건
             </Typography.Text>
             {candidate.notes.length === 0 ? (
@@ -246,7 +246,7 @@ function AddCandidateModal({ open, onClose }: { open: boolean; onClose: () => vo
         onFinish={submit}
         initialValues={{ source: "직접 지원", experienceYears: 3 }}
       >
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="name" label="이름" rules={[{ required: true, message: "이름을 적어 주세요." }]} style={{ flex: 1 }}>
             <Input placeholder="예: 홍지우" />
           </Form.Item>
@@ -257,7 +257,7 @@ function AddCandidateModal({ open, onClose }: { open: boolean; onClose: () => vo
         <Form.Item name="positionId" label="지원 공고" rules={[{ required: true, message: "공고를 골라 주세요." }]}>
           <Select placeholder="공고 고르기" options={POSITIONS.map((p) => ({ value: p.id, label: `${p.id} · ${p.title}` }))} />
         </Form.Item>
-        <Flex gap={12}>
+        <Flex gap="var(--semantic-space-sm)">
           <Form.Item name="experienceYears" label="경력(년)" style={{ flex: 1 }}>
             <InputNumber min={0} max={40} style={{ inlineSize: "100%" }} />
           </Form.Item>
@@ -336,7 +336,7 @@ export function HiringScreen() {
   const weekly = weeklyApplicants(candidates);
 
   return (
-    <Space orientation="vertical" size={16} style={{ display: "flex" }}>
+    <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
       <div className="hr-toolbar">
         <div className="hr-toolbar-group">
           <Select<string>
@@ -371,7 +371,7 @@ export function HiringScreen() {
       </div>
 
       {/* 단계 막대는 필터. 선택만 process, 나머지 wait 로 위치 전달 */}
-      <Card size="small" styles={{ body: { padding: "12px 16px" } }}>
+      <Card size="small" styles={{ body: { padding: "var(--semantic-space-sm) var(--semantic-space-md)" } }}>
         <Steps
           type="navigation"
           size="small"
@@ -514,7 +514,7 @@ export function HiringScreen() {
           size="small"
           title="다가오는 7일 면접"
           extra={<Typography.Text type="secondary">{upcomingInterviews.length}건</Typography.Text>}
-          styles={{ body: { padding: upcomingInterviews.length ? 0 : 16 } }}
+          styles={{ body: { padding: upcomingInterviews.length ? 0 : "var(--semantic-space-md)" } }}
         >
           {upcomingInterviews.length === 0 ? (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="이번 주에 잡힌 면접이 없어요." />
@@ -523,8 +523,8 @@ export function HiringScreen() {
               <Flex
                 key={c.id}
                 align="center"
-                gap={12}
-                style={{ paddingBlock: 10, paddingInline: 14, borderBlockStart: i === 0 ? "none" : `1px solid ${token.colorBorderSecondary}`, cursor: "pointer" }}
+                gap="var(--semantic-space-sm)"
+                style={{ paddingBlock: "var(--semantic-space-sm)", paddingInline: "var(--semantic-space-md)", borderBlockStart: i === 0 ? "none" : `1px solid ${token.colorBorderSecondary}`, cursor: "pointer" }}
                 onClick={() => setOpenId(c.id)}
               >
                 <span
@@ -533,7 +533,7 @@ export function HiringScreen() {
                     inlineSize: "3.25rem",
                     textAlign: "center",
                     lineHeight: 1.2,
-                    paddingBlock: 4,
+                    paddingBlock: "var(--semantic-space-xs)",
                     borderRadius: token.borderRadius,
                     background: token.colorPrimaryBg,
                     color: token.colorPrimary,

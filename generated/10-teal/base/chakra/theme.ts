@@ -293,6 +293,225 @@ export const config = defineConfig({
           "value": "24.0rem"
         }
       }
+    },
+    "recipes": {
+      "button": {
+        "base": {
+          "borderRadius": "0.5rem"
+        },
+        "variants": {
+          "size": {
+            "sm": {
+              "px": "0.5rem",
+              "py": "0.25rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "md": {
+              "px": "1rem",
+              "py": "0.5rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "lg": {
+              "px": "1.5rem",
+              "py": "0.75rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            }
+          }
+        }
+      }
+    },
+    "slotRecipes": {
+      "dialog": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          },
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem",
+            "gap": "0.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "drawer": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "popover": {
+        "slots": [
+          "arrow",
+          "arrowTip",
+          "anchor",
+          "trigger",
+          "indicator",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "content": {
+                "--popover-padding": "1rem"
+              }
+            }
+          }
+        }
+      },
+      "table": {
+        "slots": [
+          "root",
+          "header",
+          "body",
+          "row",
+          "columnHeader",
+          "cell",
+          "footer",
+          "caption"
+        ],
+        "variants": {
+          "size": {
+            "md": {
+              "cell": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              },
+              "columnHeader": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              }
+            }
+          }
+        }
+      },
+      "accordion": {
+        "slots": [
+          "root",
+          "item",
+          "itemTrigger",
+          "itemContent",
+          "itemIndicator",
+          "itemBody"
+        ],
+        "base": {
+          "root": {
+            "--accordion-radius": "0.75rem"
+          },
+          "itemTrigger": {
+            "gap": "0.5rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "root": {
+                "--accordion-padding-x": "calc(1rem - 0.125rem)",
+                "--accordion-padding-y": "calc(1rem - 0.125rem)"
+              },
+              "itemBody": {
+                "pb": "calc(1rem - 0.125rem)"
+              }
+            }
+          }
+        }
+      },
+      "avatar": {
+        "slots": [
+          "root",
+          "image",
+          "fallback"
+        ],
+        "variants": {
+          "shape": {
+            "full": {
+              "root": {
+                "--avatar-radius": "0.75rem"
+              }
+            }
+          }
+        }
+      },
+      "tooltip": {
+        "slots": [
+          "trigger",
+          "arrow",
+          "arrowTip",
+          "positioner",
+          "content"
+        ],
+        "base": {
+          "content": {
+            "px": "0.5rem",
+            "py": "0.25rem",
+            "borderRadius": "0.5rem"
+          }
+        }
+      }
     }
   }
 });
@@ -588,6 +807,225 @@ export const darkConfig = defineConfig({
           "value": "24.0rem"
         }
       }
+    },
+    "recipes": {
+      "button": {
+        "base": {
+          "borderRadius": "0.5rem"
+        },
+        "variants": {
+          "size": {
+            "sm": {
+              "px": "0.5rem",
+              "py": "0.25rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "md": {
+              "px": "1rem",
+              "py": "0.5rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "lg": {
+              "px": "1.5rem",
+              "py": "0.75rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            }
+          }
+        }
+      }
+    },
+    "slotRecipes": {
+      "dialog": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          },
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem",
+            "gap": "0.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "drawer": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "popover": {
+        "slots": [
+          "arrow",
+          "arrowTip",
+          "anchor",
+          "trigger",
+          "indicator",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "content": {
+                "--popover-padding": "1rem"
+              }
+            }
+          }
+        }
+      },
+      "table": {
+        "slots": [
+          "root",
+          "header",
+          "body",
+          "row",
+          "columnHeader",
+          "cell",
+          "footer",
+          "caption"
+        ],
+        "variants": {
+          "size": {
+            "md": {
+              "cell": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              },
+              "columnHeader": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              }
+            }
+          }
+        }
+      },
+      "accordion": {
+        "slots": [
+          "root",
+          "item",
+          "itemTrigger",
+          "itemContent",
+          "itemIndicator",
+          "itemBody"
+        ],
+        "base": {
+          "root": {
+            "--accordion-radius": "0.75rem"
+          },
+          "itemTrigger": {
+            "gap": "0.5rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "root": {
+                "--accordion-padding-x": "calc(1rem - 0.125rem)",
+                "--accordion-padding-y": "calc(1rem - 0.125rem)"
+              },
+              "itemBody": {
+                "pb": "calc(1rem - 0.125rem)"
+              }
+            }
+          }
+        }
+      },
+      "avatar": {
+        "slots": [
+          "root",
+          "image",
+          "fallback"
+        ],
+        "variants": {
+          "shape": {
+            "full": {
+              "root": {
+                "--avatar-radius": "0.75rem"
+              }
+            }
+          }
+        }
+      },
+      "tooltip": {
+        "slots": [
+          "trigger",
+          "arrow",
+          "arrowTip",
+          "positioner",
+          "content"
+        ],
+        "base": {
+          "content": {
+            "px": "0.5rem",
+            "py": "0.25rem",
+            "borderRadius": "0.5rem"
+          }
+        }
+      }
     }
   }
 });
@@ -881,6 +1319,225 @@ export const highContrastConfig = defineConfig({
         },
         "96": {
           "value": "24.0rem"
+        }
+      }
+    },
+    "recipes": {
+      "button": {
+        "base": {
+          "borderRadius": "0.5rem"
+        },
+        "variants": {
+          "size": {
+            "sm": {
+              "px": "0.5rem",
+              "py": "0.25rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "md": {
+              "px": "1rem",
+              "py": "0.5rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            },
+            "lg": {
+              "px": "1.5rem",
+              "py": "0.75rem",
+              "h": "auto",
+              "gap": "0.25rem"
+            }
+          }
+        }
+      }
+    },
+    "slotRecipes": {
+      "dialog": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          },
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem",
+            "gap": "0.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "drawer": {
+        "slots": [
+          "trigger",
+          "backdrop",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer",
+          "backdrop"
+        ],
+        "base": {
+          "header": {
+            "px": "1.5rem",
+            "pt": "1.5rem"
+          },
+          "body": {
+            "px": "1.5rem"
+          },
+          "footer": {
+            "px": "1.5rem",
+            "pb": "1.5rem"
+          },
+          "closeTrigger": {
+            "insetEnd": "1.5rem",
+            "top": "calc(1.5rem + 0.3125rem)"
+          }
+        }
+      },
+      "popover": {
+        "slots": [
+          "arrow",
+          "arrowTip",
+          "anchor",
+          "trigger",
+          "indicator",
+          "positioner",
+          "content",
+          "title",
+          "description",
+          "closeTrigger",
+          "header",
+          "body",
+          "footer"
+        ],
+        "base": {
+          "content": {
+            "borderRadius": "1rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "content": {
+                "--popover-padding": "1rem"
+              }
+            }
+          }
+        }
+      },
+      "table": {
+        "slots": [
+          "root",
+          "header",
+          "body",
+          "row",
+          "columnHeader",
+          "cell",
+          "footer",
+          "caption"
+        ],
+        "variants": {
+          "size": {
+            "md": {
+              "cell": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              },
+              "columnHeader": {
+                "px": "0.5rem",
+                "py": "0.5rem"
+              }
+            }
+          }
+        }
+      },
+      "accordion": {
+        "slots": [
+          "root",
+          "item",
+          "itemTrigger",
+          "itemContent",
+          "itemIndicator",
+          "itemBody"
+        ],
+        "base": {
+          "root": {
+            "--accordion-radius": "0.75rem"
+          },
+          "itemTrigger": {
+            "gap": "0.5rem"
+          }
+        },
+        "variants": {
+          "size": {
+            "md": {
+              "root": {
+                "--accordion-padding-x": "calc(1rem - 0.125rem)",
+                "--accordion-padding-y": "calc(1rem - 0.125rem)"
+              },
+              "itemBody": {
+                "pb": "calc(1rem - 0.125rem)"
+              }
+            }
+          }
+        }
+      },
+      "avatar": {
+        "slots": [
+          "root",
+          "image",
+          "fallback"
+        ],
+        "variants": {
+          "shape": {
+            "full": {
+              "root": {
+                "--avatar-radius": "0.75rem"
+              }
+            }
+          }
+        }
+      },
+      "tooltip": {
+        "slots": [
+          "trigger",
+          "arrow",
+          "arrowTip",
+          "positioner",
+          "content"
+        ],
+        "base": {
+          "content": {
+            "px": "0.5rem",
+            "py": "0.25rem",
+            "borderRadius": "0.5rem"
+          }
         }
       }
     }

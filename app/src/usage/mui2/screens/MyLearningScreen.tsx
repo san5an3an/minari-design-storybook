@@ -67,8 +67,8 @@ export function MyLearningScreen() {
   );
 
   return (
-    <Stack spacing={3}>
-      <Box sx={{ display: "grid", gap: 1.5, gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
+    <Stack spacing="var(--semantic-space-sm)">
+      <Box sx={{ display: "grid", gap: "var(--semantic-space-xs)", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         {stats.map((s) => {
           const Icon = s.icon;
           return (
@@ -76,7 +76,7 @@ export function MyLearningScreen() {
               key={s.label}
               variant="outlined"
               onClick={s.onClick}
-              sx={{ p: 1.5, textAlign: "center", cursor: s.onClick ? "pointer" : "default" }}
+              sx={{ p: "var(--semantic-space-xs)", textAlign: "center", cursor: s.onClick ? "pointer" : "default" }}
             >
               <Icon color="action" fontSize="small" />
               <Typography variant="caption" color="text.secondary" component="p">{s.label}</Typography>
@@ -90,9 +90,9 @@ export function MyLearningScreen() {
       </Box>
 
       {/* 결제수단별 파이차트 렌더링. CoursesScreen BarChart 두 개와 다른 종류 */}
-      <Card variant="outlined" sx={{ p: 1.75 }}>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: "center" }}>
-          <Stack spacing={0.25} sx={{ flexShrink: 0 }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing="var(--semantic-space-sm)" sx={{ alignItems: "center" }}>
+          <Stack spacing="var(--semantic-space-xs)" sx={{ flexShrink: 0 }}>
             <Typography variant="subtitle2">결제수단별 비중</Typography>
             <Typography variant="caption" color="text.secondary">
               누적 {won(totalSpent)} · {byMethod.length}개 수단
@@ -122,7 +122,7 @@ export function MyLearningScreen() {
         onClose={() => setPopoverAnchor(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       >
-        <Stack spacing={1} sx={{ p: 1.5, minWidth: 180 }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ p: "var(--semantic-space-xs)", minWidth: 180 }}>
           <Typography variant="caption" color="text.secondary">결제수단별 누적</Typography>
           {byMethod.map(([method, amount]) => (
             <Stack key={method} direction="row" sx={{ justifyContent: "space-between" }}>
@@ -133,7 +133,7 @@ export function MyLearningScreen() {
         </Stack>
       </Popover>
 
-      <Stack spacing={1.5}>
+      <Stack spacing="var(--semantic-space-xs)">
         <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Typography variant="subtitle1">수강 중</Typography>
           <ButtonGroup size="small" variant="outlined">
@@ -155,23 +155,23 @@ export function MyLearningScreen() {
           const course = COURSES.find((c) => c.id === e.courseId);
           if (!course) return null;
           return (
-            <Card key={e.courseId} variant="outlined" sx={{ p: 1.5 }}>
-              <Stack direction="row" sx={{ justifyContent: "space-between", mb: 0.5 }}>
+            <Card key={e.courseId} variant="outlined" sx={{ p: "var(--semantic-space-xs)" }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", mb: "var(--semantic-space-xs)" }}>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>{course.title}</Typography>
                 <Typography variant="caption" color="text.secondary">{e.lastWatchedLabel} 시청</Typography>
               </Stack>
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", mb: 0.5 }}>
+              <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", mb: "var(--semantic-space-xs)" }}>
                 <Rating value={course.rating} precision={0.1} size="small" readOnly />
                 <Typography variant="caption" color="text.secondary">{course.instructor}</Typography>
               </Stack>
-              <LinearProgress variant="determinate" value={e.progressPercent} sx={{ mb: 0.5 }} />
+              <LinearProgress variant="determinate" value={e.progressPercent} sx={{ mb: "var(--semantic-space-xs)" }} />
               <Typography variant="caption" color="text.secondary">{e.progressPercent}% 완료</Typography>
             </Card>
           );
         })}
       </Stack>
 
-      <Stack spacing={1}>
+      <Stack spacing="var(--semantic-space-xs)">
         <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Typography variant="subtitle1">결제 내역</Typography>
           <Select

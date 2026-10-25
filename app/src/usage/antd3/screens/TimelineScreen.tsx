@@ -77,14 +77,14 @@ export function TimelineScreen() {
       color: tone.solid,
       icon: <span style={{ color: tone.solid, fontSize: 14 }}>{KIND_ICON[e.kind]}</span>,
       content: (
-        <Flex vertical gap={2} style={{ paddingBlockEnd: 4 }}>
-          <Flex align="center" gap={8} wrap>
+        <Flex vertical gap="var(--semantic-space-xs)" style={{ paddingBlockEnd: "var(--semantic-space-xs)" }}>
+          <Flex align="center" gap="var(--semantic-space-sm)" wrap>
             <Typography.Text strong style={{ fontSize: token.fontSizeSM }}>{PROJECT_NAME.get(e.projectId) ?? e.projectId}</Typography.Text>
             <ToneTag tone={EVENT_TONE[e.kind]}>{e.kind}</ToneTag>
             <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, marginInlineStart: "auto" }}>{e.timeLabel}</Typography.Text>
           </Flex>
           <Typography.Text style={{ fontSize: token.fontSizeSM }}>{e.text}</Typography.Text>
-          <Flex align="center" gap={6}>
+          <Flex align="center" gap="var(--semantic-space-xs)">
             <MemberAvatar id={e.actorId} />
             <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>
               {memberOf(e.actorId).name} · {memberOf(e.actorId).role}
@@ -108,7 +108,7 @@ export function TimelineScreen() {
               ...PROJECTS.map((p) => ({ value: p.id, label: `${p.name} · ${p.id}` })),
             ]}
           />
-          <Flex align="center" gap={4} wrap>
+          <Flex align="center" gap="var(--semantic-space-xs)" wrap>
             {EVENT_KINDS.map((k) => {
               const n = TIMELINE_EVENTS.filter((e) => e.kind === k && (projectId === "all" || e.projectId === projectId)).length;
               return (
@@ -142,7 +142,7 @@ export function TimelineScreen() {
           )}
           {visible.map(({ group, events }) => (
             <Card key={group} size="small" title={group} extra={<Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>{events.length}건</Typography.Text>}>
-              <Timeline style={{ marginBlockStart: 4 }} items={events.map(renderEvent)} />
+              <Timeline style={{ marginBlockStart: "var(--semantic-space-xs)" }} items={events.map(renderEvent)} />
             </Card>
           ))}
           {hiddenCount > 0 && (
@@ -163,7 +163,7 @@ export function TimelineScreen() {
               dataSource={UPCOMING}
               renderItem={({ project, milestone, status }) => (
                 <List.Item style={{ paddingInline: 0 }}>
-                  <Flex align="center" justify="space-between" gap={8} style={{ inlineSize: "100%" }}>
+                  <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)" style={{ inlineSize: "100%" }}>
                     <Flex vertical style={{ minWidth: 0 }}>
                       <Typography.Text ellipsis>{milestone.label}</Typography.Text>
                       <Typography.Text type="secondary" ellipsis style={{ fontSize: token.fontSizeSM }}>{project.name}</Typography.Text>
@@ -179,12 +179,12 @@ export function TimelineScreen() {
             {byActor.length === 0 ? (
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="활동이 없어요" />
             ) : (
-              <Flex vertical gap={10}>
+              <Flex vertical gap="var(--semantic-space-sm)">
                 {byActor.map(({ member, count }) => (
-                  <Flex key={member.id} align="center" gap={8}>
+                  <Flex key={member.id} align="center" gap="var(--semantic-space-sm)">
                     <MemberAvatar id={member.id} />
                     <Flex vertical style={{ flex: 1, minWidth: 0 }}>
-                      <Flex align="center" justify="space-between" gap={8}>
+                      <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
                         <Typography.Text ellipsis style={{ fontSize: token.fontSizeSM }}>{member.name}</Typography.Text>
                         <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, flex: "0 0 auto" }}>{count}건</Typography.Text>
                       </Flex>
@@ -197,7 +197,7 @@ export function TimelineScreen() {
           </Card>
 
           <Card size="small" title="유형별">
-            <Flex vertical gap={8}>
+            <Flex vertical gap="var(--semantic-space-sm)">
               {byKind.map(({ kind, count }) => (
                 <LegendItem key={kind} color={tones[EVENT_TONE[kind]].solid} label={kind} value={`${count}건`} />
               ))}

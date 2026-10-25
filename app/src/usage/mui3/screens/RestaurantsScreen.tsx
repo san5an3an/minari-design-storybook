@@ -33,9 +33,9 @@ function OrderStatCard({ stat }: { stat: OrderStat }) {
   const Trend = stat.up ? TrendingUp : TrendingDown;
   const trendColor = stat.up ? theme.palette.success.main : theme.palette.error.main;
   return (
-    <Card variant="outlined" sx={{ p: 1.75 }}>
+    <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
       <Stack direction="row" sx={{ alignItems: "flex-start", justifyContent: "space-between" }}>
-        <Stack spacing={1}>
+        <Stack spacing="var(--semantic-space-xs)">
           <Box
             aria-hidden
             sx={{
@@ -75,12 +75,12 @@ function DeliveryPromoCard() {
         borderColor: alpha(theme.palette.primary.main, 0.3),
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
-        gap: 1.5,
+        gap: "var(--semantic-space-xs)",
         justifyContent: "space-between",
-        p: 2,
+        p: "var(--semantic-space-sm)",
       }}
     >
-      <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
         <Box
           aria-hidden
           sx={{
@@ -144,7 +144,7 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
     {
       field: "name", headerName: "가게", flex: 1.4, minWidth: 160,
       renderCell: (p) => (
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center", height: "100%" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", height: "100%" }}>
           <Avatar sx={{ height: 28, width: 28, fontSize: 13 }}>{p.row.name.slice(0, 1)}</Avatar>
           <Typography variant="body2" noWrap>{p.row.name}</Typography>
         </Stack>
@@ -166,13 +166,13 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
   ];
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing="var(--semantic-space-sm)">
       <DeliveryPromoCard />
 
       <Box
         sx={{
           display: "grid",
-          gap: 1.5,
+          gap: "var(--semantic-space-xs)",
           gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))", lg: "repeat(4, minmax(0, 1fr))" },
         }}
       >
@@ -181,9 +181,9 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
         ))}
       </Box>
 
-      <Card variant="outlined" sx={{ p: 1.75 }}>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: "center" }}>
-          <Stack spacing={0.25} sx={{ flexShrink: 0 }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing="var(--semantic-space-sm)" sx={{ alignItems: "center" }}>
+          <Stack spacing="var(--semantic-space-xs)" sx={{ flexShrink: 0 }}>
             <Typography variant="subtitle2">카테고리별 가게 분포</Typography>
             <Typography variant="caption" color="text.secondary">
               지금 {RESTAURANTS.length}곳 · {CATEGORY_PIE_DATA.length}개 카테고리
@@ -206,8 +206,8 @@ export function RestaurantsScreen({ onNavigate, onSelect }: ScreenProps) {
         </Stack>
       </Card>
 
-      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", flexWrap: "wrap", rowGap: 1 }}>
-        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", rowGap: 1 }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
           {CATEGORIES.map((c) => {
             const count = c === "전체" ? RESTAURANTS.length : RESTAURANTS.filter((r) => r.category === c).length;
             return (

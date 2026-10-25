@@ -48,8 +48,8 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
 
   if (!listing) {
     return (
-      <Card variant="outlined" sx={{ p: 4, textAlign: "center" }}>
-        <Stack spacing={1.5} sx={{ alignItems: "center" }}>
+      <Card variant="outlined" sx={{ p: "var(--semantic-space-md)", textAlign: "center" }}>
+        <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
           <Typography variant="subtitle1">어느 집을 보러 갈까요</Typography>
           <Typography variant="body2" color="text.secondary">
             매물을 먼저 고르면 그 집의 방문 가능한 날짜가 여기 열립니다.
@@ -69,8 +69,8 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
   const already = bookedIds?.includes(listing.id) ?? false;
 
   return (
-    <Stack spacing={2}>
-      <Stepper activeStep={step} alternativeLabel={!wide} sx={{ pb: 1 }}>
+    <Stack spacing="var(--semantic-space-sm)">
+      <Stepper activeStep={step} alternativeLabel={!wide} sx={{ pb: "var(--semantic-space-xs)" }}>
         {STEPS.map((s) => (
           <Step key={s}>
             <StepLabel>{s}</StepLabel>
@@ -78,7 +78,7 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
         ))}
       </Stepper>
 
-      <Stack direction={wide ? "row" : "column"} spacing={2} sx={{ alignItems: "flex-start" }}>
+      <Stack direction={wide ? "row" : "column"} spacing="var(--semantic-space-sm)" sx={{ alignItems: "flex-start" }}>
         <Card variant="outlined" sx={{ flexShrink: 0, width: wide ? "auto" : "100%" }}>
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
             <DateCalendar
@@ -97,12 +97,12 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
           </LocalizationProvider>
         </Card>
 
-        <Stack spacing={2} sx={{ flex: 1, minWidth: 0, width: "100%" }}>
-          <Card variant="outlined" sx={{ p: 2 }}>
-            <Stack spacing={1.5}>
-              <Stack spacing={0.25}>
+        <Stack spacing="var(--semantic-space-sm)" sx={{ flex: 1, minWidth: 0, width: "100%" }}>
+          <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+            <Stack spacing="var(--semantic-space-xs)">
+              <Stack spacing="var(--semantic-space-xs)">
                 <Typography variant="subtitle2">{listing.title}</Typography>
-                <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
                   <PlaceOutlined fontSize="small" sx={{ color: "text.secondary" }} />
                   <Typography variant="body2" color="text.secondary">
                     {listing.area} · 월 {won(listing.rent)}
@@ -112,7 +112,7 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
 
               <Divider />
 
-              <Stack spacing={1}>
+              <Stack spacing="var(--semantic-space-xs)">
                 <Typography variant="body2" color="text.secondary">
                   {date
                     ? `${date.toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "short" })} 방문 가능한 시간`
@@ -127,7 +127,7 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
                     setDone(false);
                   }}
                   aria-label="방문 시간"
-                  sx={{ flexWrap: "wrap", gap: 1, "& .MuiToggleButtonGroup-grouped": { border: 1, borderRadius: 1 } }}
+                  sx={{ flexWrap: "wrap", gap: "var(--semantic-space-xs)", "& .MuiToggleButtonGroup-grouped": { border: 1, borderRadius: 1 } }}
                 >
                   {SLOTS.map((s) => (
                     <ToggleButton
@@ -182,7 +182,7 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
               잡혔습니다.
             </Alert>
           ) : (
-            <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap" }}>
+            <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", flexWrap: "wrap" }}>
               <Button
                 variant="contained"
                 disabled={date === null || slot === null}

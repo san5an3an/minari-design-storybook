@@ -124,7 +124,7 @@ export function ApiKeyScreen() {
       dataIndex: "name",
       render: (v: string, row: KeyRow) => (
         <Flex vertical style={{ minInlineSize: 0 }}>
-          <Flex align="center" gap={8}>
+          <Flex align="center" gap="var(--semantic-space-sm)">
             <Text strong style={{ whiteSpace: "nowrap" }}>{v}</Text>
             {!row.live ? (
               <Tag style={{ color: token.colorTextTertiary, marginInlineEnd: 0 }}>정지</Tag>
@@ -140,7 +140,7 @@ export function ApiKeyScreen() {
       render: (v: string, row: KeyRow) => {
         const open = shown.includes(row.key);
         return (
-          <Flex align="center" gap={4}>
+          <Flex align="center" gap="var(--semantic-space-xs)">
             {/* 등폭 글꼴 사용 */}
             <Text code style={{ whiteSpace: "nowrap" }}>{open ? v : mask(v)}</Text>
             <Tooltip title={open ? "가리기" : "드러내기"}>
@@ -214,7 +214,7 @@ export function ApiKeyScreen() {
         <Card size="small"><Statistic title="전체" value={rows.length} suffix="개" /></Card>
       </div>
 
-      <Flex align="center" justify="flex-end" gap={12} wrap>
+      <Flex align="center" justify="flex-end" gap="var(--semantic-space-sm)" wrap>
         <Button type="primary" icon={<PlusOutlined />} onClick={() => setCreating(true)}>키 만들기</Button>
       </Flex>
 
@@ -256,7 +256,7 @@ export function ApiKeyScreen() {
           form={form}
           layout="vertical"
           initialValues={{ env: "live", scopes: ["주문 읽기"] }}
-          style={{ marginBlockStart: 16 }}
+          style={{ marginBlockStart: "var(--semantic-space-md)" }}
         >
           <Form.Item name="name" label="이름" rules={[{ required: true, message: "어디서 쓸 키인지 적어 주세요" }]}>
             <Input placeholder="예: 정산 배치, 파트너 앱" maxLength={24} showCount />
@@ -286,7 +286,7 @@ export function ApiKeyScreen() {
         onOk={() => { if (minted) void copy(minted); setMinted(null); }}
         onCancel={() => setMinted(null)}
       >
-        <Flex vertical gap={12} style={{ marginBlockStart: 8 }}>
+        <Flex vertical gap="var(--semantic-space-sm)" style={{ marginBlockStart: "var(--semantic-space-sm)" }}>
           <Text>이 값은 <Text strong>지금 한 번만</Text> 보여요. 닫고 나면 표에는 가려진 값만 남아요.</Text>
           <Text code copyable style={{ fontSize: token.fontSize }}>{minted?.secret}</Text>
           <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>

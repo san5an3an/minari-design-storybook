@@ -80,10 +80,10 @@ function ProjectCard({ row, onOpen, onCopyLink }: { row: Row; onOpen: () => void
       size="small"
       onClick={onOpen}
       style={{ cursor: "pointer", height: "100%" }}
-      styles={{ body: { display: "flex", flexDirection: "column", gap: 10, height: "100%" } }}
+      styles={{ body: { display: "flex", flexDirection: "column", gap: "var(--semantic-space-sm)", height: "100%" } }}
     >
-      <Flex align="center" justify="space-between" gap={8}>
-        <Flex align="center" gap={6} style={{ minWidth: 0 }}>
+      <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
+        <Flex align="center" gap="var(--semantic-space-xs)" style={{ minWidth: 0 }}>
           <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, fontFamily: token.fontFamilyCode }}>
             {project.id}
           </Typography.Text>
@@ -93,7 +93,7 @@ function ProjectCard({ row, onOpen, onCopyLink }: { row: Row; onOpen: () => void
             </Tooltip>
           )}
         </Flex>
-        <Flex align="center" gap={4} style={{ flex: "0 0 auto" }}>
+        <Flex align="center" gap="var(--semantic-space-xs)" style={{ flex: "0 0 auto" }}>
           <ToneTag tone={PROJECT_TONE[status]}>{status}</ToneTag>
           <Dropdown menu={menu} trigger={["click"]}>
             <Button
@@ -107,14 +107,14 @@ function ProjectCard({ row, onOpen, onCopyLink }: { row: Row; onOpen: () => void
         </Flex>
       </Flex>
 
-      <Flex vertical gap={2}>
+      <Flex vertical gap="var(--semantic-space-xs)">
         <Typography.Text strong ellipsis>{project.name}</Typography.Text>
         <Typography.Paragraph type="secondary" ellipsis={{ rows: 2 }} style={{ margin: 0, fontSize: token.fontSizeSM }}>
           {project.summary}
         </Typography.Paragraph>
       </Flex>
 
-      <Flex align="center" gap={8} style={{ marginBlockStart: "auto" }}>
+      <Flex align="center" gap="var(--semantic-space-sm)" style={{ marginBlockStart: "auto" }}>
         <Progress
           percent={progress}
           size="small"
@@ -125,7 +125,7 @@ function ProjectCard({ row, onOpen, onCopyLink }: { row: Row; onOpen: () => void
         <Typography.Text strong style={{ fontSize: token.fontSizeSM, flex: "0 0 auto" }}>{progress}%</Typography.Text>
       </Flex>
 
-      <Flex align="center" justify="space-between" gap={8}>
+      <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
         <MemberStack ids={project.memberIds} />
         <Typography.Text type="secondary" ellipsis style={{ fontSize: token.fontSizeSM, textAlign: "end" }}>
           과업 {done}/{tasks.length} · {dueBadge(project, status)}
@@ -363,14 +363,14 @@ export function ProjectsScreen() {
               dataSource={upcoming}
               renderItem={(r) => (
                 <List.Item style={{ paddingInline: 0, cursor: "pointer" }} onClick={() => setSelectedId(r.project.id)}>
-                  <Flex vertical gap={6} style={{ inlineSize: "100%" }}>
-                    <Flex align="center" justify="space-between" gap={8}>
+                  <Flex vertical gap="var(--semantic-space-xs)" style={{ inlineSize: "100%" }}>
+                    <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
                       <Typography.Text ellipsis style={{ minWidth: 0 }}>{r.project.name}</Typography.Text>
                       <ToneTag tone={r.status === "지연" ? "danger" : r.project.dueInDays <= DUE_SOON_DAYS ? "warning" : "neutral"}>
                         {dueBadge(r.project, r.status)}
                       </ToneTag>
                     </Flex>
-                    <Flex align="center" gap={8}>
+                    <Flex align="center" gap="var(--semantic-space-sm)">
                       <Progress percent={r.progress} size="small" showInfo={false} status={r.status === "지연" ? "exception" : undefined} style={{ flex: 1, margin: 0 }} />
                       <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, flex: "0 0 auto" }}>
                         {r.project.dueLabel}
@@ -391,7 +391,7 @@ export function ProjectsScreen() {
                 dataSource={reviewQueue}
                 renderItem={({ task, project }) => (
                   <List.Item style={{ paddingInline: 0, cursor: "pointer" }} onClick={() => setSelectedId(project.id)}>
-                    <Flex align="center" justify="space-between" gap={8} style={{ inlineSize: "100%" }}>
+                    <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)" style={{ inlineSize: "100%" }}>
                       <Flex vertical style={{ minWidth: 0 }}>
                         <Typography.Text ellipsis>{task.title}</Typography.Text>
                         <Typography.Text type="secondary" ellipsis style={{ fontSize: token.fontSizeSM }}>
@@ -408,7 +408,7 @@ export function ProjectsScreen() {
 
           <Card size="small" title="최근 활동" extra={<CheckCircleOutlined style={{ color: token.colorTextTertiary }} />}>
             <Timeline
-              style={{ marginBlockStart: 4 }}
+              style={{ marginBlockStart: "var(--semantic-space-xs)" }}
               items={TIMELINE_EVENTS.slice(0, 5).map((e) => {
                 const project = projects.find((p) => p.id === e.projectId);
                 return {

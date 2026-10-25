@@ -37,11 +37,11 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
           <Flex
             align="center"
             justify="space-between"
-            gap={12}
+            gap="var(--semantic-space-sm)"
             wrap
             style={{
-              paddingInline: 20,
-              paddingBlock: 10,
+              paddingInline: "var(--semantic-space-md)",
+              paddingBlock: "var(--semantic-space-sm)",
               borderBlockEnd: "1px solid var(--semantic-border-neutral-subtle)",
             }}
           >
@@ -58,7 +58,7 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
             />
           </Flex>
 
-          <div style={{ paddingInline: 20, paddingBlockStart: 18, paddingBlockEnd: 14 }}>
+          <div style={{ paddingInline: "var(--semantic-space-md)", paddingBlockStart: "var(--semantic-space-md)", paddingBlockEnd: "var(--semantic-space-md)" }}>
             <Typography.Text
               style={{
                 fontSize: 11,
@@ -70,17 +70,17 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
             >
               분석 리포트
             </Typography.Text>
-            <Typography.Title level={3} style={{ marginBlock: "6px 0" }}>
+            <Typography.Title level={3} style={{ marginBlock: "var(--semantic-space-xs) 0" }}>
               {system.name} Insight
             </Typography.Title>
             <Typography.Paragraph
               type="secondary"
-              style={{ marginBlockStart: 6, marginBlockEnd: 0, maxInlineSize: "46rem", fontSize: 13.5, lineHeight: 1.7 }}
+              style={{ marginBlockStart: "var(--semantic-space-xs)", marginBlockEnd: 0, maxInlineSize: "46rem", fontSize: 13.5, lineHeight: 1.7 }}
             >
               {screen.lede} <strong>{periodLabel}</strong> 기준입니다.
             </Typography.Paragraph>
 
-            <div style={{ marginBlockStart: 14 }}>
+            <div style={{ marginBlockStart: "var(--semantic-space-md)" }}>
               <Segmented
                 value={screenKey}
                 onChange={(v) => setScreenKey(String(v))}
@@ -95,12 +95,12 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
               flex: 1,
               minBlockSize: 0,
               overflowY: "auto",
-              paddingInline: 20,
-              paddingBlockEnd: 20,
+              paddingInline: "var(--semantic-space-md)",
+              paddingBlockEnd: "var(--semantic-space-md)",
               background: "var(--semantic-bg-neutral-subtlest)",
             }}
           >
-            <div style={{ paddingBlockStart: 16 }}>
+            <div style={{ paddingBlockStart: "var(--semantic-space-md)" }}>
               <Screen />
             </div>
           </div>
@@ -108,11 +108,11 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
           <Flex
             align="center"
             justify="space-between"
-            gap={8}
+            gap="var(--semantic-space-sm)"
             wrap
             style={{
-              paddingInline: 20,
-              paddingBlock: 8,
+              paddingInline: "var(--semantic-space-md)",
+              paddingBlock: "var(--semantic-space-sm)",
               borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)",
               fontSize: 11,
             }}

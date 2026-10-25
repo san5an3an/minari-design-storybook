@@ -54,12 +54,12 @@ export function OrdersScreen() {
   const rows = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <Stack spacing={2}>
-      <Box sx={{ display: "grid", gap: 1.5, gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
+    <Stack spacing="var(--semantic-space-sm)">
+      <Box sx={{ display: "grid", gap: "var(--semantic-space-xs)", gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}>
         {stats.map((s) => {
           const Icon = s.icon;
           return (
-            <Card key={s.label} variant="outlined" sx={{ p: 1.5, textAlign: "center" }}>
+            <Card key={s.label} variant="outlined" sx={{ p: "var(--semantic-space-xs)", textAlign: "center" }}>
               <Icon color="action" fontSize="small" />
               <Typography variant="caption" color="text.secondary" component="p">{s.label}</Typography>
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.value}</Typography>
@@ -72,8 +72,8 @@ export function OrdersScreen() {
       </Box>
 
       {inProgress ? (
-        <Card variant="outlined" sx={{ p: 1.75 }}>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>{inProgress.restaurantName} 배달 현황</Typography>
+        <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
+          <Typography variant="subtitle2" sx={{ mb: "var(--semantic-space-xs)" }}>{inProgress.restaurantName} 배달 현황</Typography>
           <Timeline sx={{ p: 0, m: 0, "& .MuiTimelineItem-root:before": { flex: 0, padding: 0 } }}>
             {DELIVERY_STEPS.map((step, i) => (
               <TimelineItem key={step.label}>
@@ -93,8 +93,8 @@ export function OrdersScreen() {
         </Card>
       ) : null}
 
-      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", flexWrap: "wrap", justifyContent: "space-between", rowGap: 1 }}>
-        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", rowGap: 1 }}>
+      <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center", flexWrap: "wrap", justifyContent: "space-between", rowGap: "var(--semantic-space-xs)" }}>
+        <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ flexWrap: "wrap", rowGap: "var(--semantic-space-xs)" }}>
           {FILTERS.map((f) => (
             <Chip
               key={f}
@@ -117,17 +117,17 @@ export function OrdersScreen() {
         </Select>
       </Stack>
 
-      <Stack spacing={1.5}>
+      <Stack spacing="var(--semantic-space-xs)">
         {rows.map((o) => (
-          <Card key={o.id} variant="outlined" sx={{ p: 1.5 }}>
+          <Card key={o.id} variant="outlined" sx={{ p: "var(--semantic-space-xs)" }}>
             <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start" }}>
               <Stack>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>{o.restaurantName}</Typography>
                 <Typography variant="caption" color="text.secondary">{o.itemsLabel}</Typography>
                 <Typography variant="caption" color="text.secondary">{o.timeLabel}</Typography>
               </Stack>
-              <Stack direction="row" spacing={0.5} sx={{ alignItems: "flex-start" }}>
-                <Stack spacing={0.5} sx={{ alignItems: "flex-end" }}>
+              <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "flex-start" }}>
+                <Stack spacing="var(--semantic-space-xs)" sx={{ alignItems: "flex-end" }}>
                   <Chip size="small" label={o.status} color={STATUS_COLOR[o.status]} />
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>{o.total.toLocaleString("ko-KR")}원</Typography>
                 </Stack>

@@ -13,38 +13,128 @@ const button = {
   contentFontSize: antdDefault.fontSize,
   contentFontSizeSM: antdDefault.fontSize,
   contentFontSizeLG: antdDefault.fontSizeLG,
+  paddingInline: "var(--component-button-md-padding-inline)",
+  paddingInlineSM: "var(--component-button-sm-padding-inline)",
+  paddingInlineLG: "var(--component-button-lg-padding-inline)",
 };
 
 const components = { ...{
   "Modal": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "contentPadding": "var(--component-dialog-padding)",
+    "headerMarginBottom": "var(--component-dialog-gap)",
+    "footerMarginTop": "var(--component-dialog-actions-margin-top)",
+    "confirmBtnsMarginTop": "var(--component-dialog-actions-margin-top)"
   },
   "Drawer": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "padding": "var(--component-sheet-padding)",
+    "paddingLG": "var(--component-sheet-padding)",
+    "footerPaddingBlock": "var(--component-sheet-padding)",
+    "footerPaddingInline": "var(--component-sheet-padding)"
   },
   "Notification": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "paddingMD": "var(--component-toast-padding-block)",
+    "paddingContentHorizontalLG": "var(--component-toast-padding-inline)",
+    "margin": "var(--component-toast-stack-gap)",
+    "marginLG": "var(--component-toast-region-inset)"
   },
   "Message": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "contentPadding": "var(--component-toast-padding-block) var(--component-toast-padding-inline)"
   },
   "Popover": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-popover-radius)",
+    "innerPadding": "var(--component-popover-padding)",
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
-    "borderRadius": "0.5rem"
+    "borderRadius": "var(--component-tooltip-radius)",
+    "paddingXS": "var(--component-tooltip-padding-inline)",
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Dropdown": {
+    "paddingBlock": "var(--component-menu-item-padding-block)",
+    "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
+    "paddingXXS": "var(--component-menu-padding)",
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "bodyPadding": "var(--component-card-padding)",
+    "headerPadding": "var(--component-card-padding)",
+    "paddingLG": "var(--component-card-padding)"
   },
   "Collapse": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "headerPadding": "var(--component-accordion-head-padding-block) var(--component-accordion-head-padding-inline)",
+    "contentPadding": "var(--component-accordion-body-padding-block-end) var(--component-accordion-body-padding-inline)",
+    "borderlessContentPadding": "0 var(--component-accordion-body-padding-inline) var(--component-accordion-body-padding-block-end)"
   },
   "Table": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "cellPaddingBlock": "var(--component-table-cell-padding-block)",
+    "cellPaddingInline": "var(--component-table-cell-padding-inline)"
   },
   "Alert": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "defaultPadding": "var(--component-alert-padding)",
+    "withDescriptionPadding": "var(--component-alert-padding)"
+  },
+  "Input": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "InputNumber": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "Mentions": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "DatePicker": {
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Radio": {
+    "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
+  },
+  "Slider": {
+    "borderRadiusXS": "var(--component-slider-track-radius)"
+  },
+  "Progress": {
+    "lineBorderRadius": "var(--component-progress-radius)"
+  },
+  "Skeleton": {
+    "blockRadius": "var(--component-skeleton-radius)"
+  },
+  "Breadcrumb": {
+    "separatorMargin": "var(--component-breadcrumb-gap)",
+    "paddingXXS": "var(--component-breadcrumb-tap-padding-inline)"
+  },
+  "Divider": {
+    "textPaddingInline": "var(--component-divider-label-gap)"
+  },
+  "List": {
+    "itemPadding": "var(--component-listrow-padding-block) 0",
+    "titleMarginBottom": "var(--component-listrow-main-gap)"
+  },
+  "Listy": {
+    "itemPaddingInline": "var(--component-listrow-padding-inline)"
+  },
+  "Form": {
+    "itemMarginBottom": "var(--component-field-group-gap)",
+    "verticalLabelPadding": "0 0 var(--component-field-gap)"
   },
   "Menu": {
     "itemSelectedColor": "#4f2e86",
@@ -70,34 +160,121 @@ const components = { ...{
 
 const darkComponents = { ...{
   "Modal": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "contentPadding": "var(--component-dialog-padding)",
+    "headerMarginBottom": "var(--component-dialog-gap)",
+    "footerMarginTop": "var(--component-dialog-actions-margin-top)",
+    "confirmBtnsMarginTop": "var(--component-dialog-actions-margin-top)"
   },
   "Drawer": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "padding": "var(--component-sheet-padding)",
+    "paddingLG": "var(--component-sheet-padding)",
+    "footerPaddingBlock": "var(--component-sheet-padding)",
+    "footerPaddingInline": "var(--component-sheet-padding)"
   },
   "Notification": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "paddingMD": "var(--component-toast-padding-block)",
+    "paddingContentHorizontalLG": "var(--component-toast-padding-inline)",
+    "margin": "var(--component-toast-stack-gap)",
+    "marginLG": "var(--component-toast-region-inset)"
   },
   "Message": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "contentPadding": "var(--component-toast-padding-block) var(--component-toast-padding-inline)"
   },
   "Popover": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-popover-radius)",
+    "innerPadding": "var(--component-popover-padding)",
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
-    "borderRadius": "0.5rem"
+    "borderRadius": "var(--component-tooltip-radius)",
+    "paddingXS": "var(--component-tooltip-padding-inline)",
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Dropdown": {
+    "paddingBlock": "var(--component-menu-item-padding-block)",
+    "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
+    "paddingXXS": "var(--component-menu-padding)",
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "bodyPadding": "var(--component-card-padding)",
+    "headerPadding": "var(--component-card-padding)",
+    "paddingLG": "var(--component-card-padding)"
   },
   "Collapse": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "headerPadding": "var(--component-accordion-head-padding-block) var(--component-accordion-head-padding-inline)",
+    "contentPadding": "var(--component-accordion-body-padding-block-end) var(--component-accordion-body-padding-inline)",
+    "borderlessContentPadding": "0 var(--component-accordion-body-padding-inline) var(--component-accordion-body-padding-block-end)"
   },
   "Table": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "cellPaddingBlock": "var(--component-table-cell-padding-block)",
+    "cellPaddingInline": "var(--component-table-cell-padding-inline)"
   },
   "Alert": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "defaultPadding": "var(--component-alert-padding)",
+    "withDescriptionPadding": "var(--component-alert-padding)"
+  },
+  "Input": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "InputNumber": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "Mentions": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "DatePicker": {
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Radio": {
+    "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
+  },
+  "Slider": {
+    "borderRadiusXS": "var(--component-slider-track-radius)"
+  },
+  "Progress": {
+    "lineBorderRadius": "var(--component-progress-radius)"
+  },
+  "Skeleton": {
+    "blockRadius": "var(--component-skeleton-radius)"
+  },
+  "Breadcrumb": {
+    "separatorMargin": "var(--component-breadcrumb-gap)",
+    "paddingXXS": "var(--component-breadcrumb-tap-padding-inline)"
+  },
+  "Divider": {
+    "textPaddingInline": "var(--component-divider-label-gap)"
+  },
+  "List": {
+    "itemPadding": "var(--component-listrow-padding-block) 0",
+    "titleMarginBottom": "var(--component-listrow-main-gap)"
+  },
+  "Listy": {
+    "itemPaddingInline": "var(--component-listrow-padding-inline)"
+  },
+  "Form": {
+    "itemMarginBottom": "var(--component-field-group-gap)",
+    "verticalLabelPadding": "0 0 var(--component-field-gap)"
   },
   "Menu": {
     "itemSelectedColor": "#bea6ff",
@@ -123,34 +300,121 @@ const darkComponents = { ...{
 
 const highContrastComponents = { ...{
   "Modal": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "contentPadding": "var(--component-dialog-padding)",
+    "headerMarginBottom": "var(--component-dialog-gap)",
+    "footerMarginTop": "var(--component-dialog-actions-margin-top)",
+    "confirmBtnsMarginTop": "var(--component-dialog-actions-margin-top)"
   },
   "Drawer": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "2rem",
+    "padding": "var(--component-sheet-padding)",
+    "paddingLG": "var(--component-sheet-padding)",
+    "footerPaddingBlock": "var(--component-sheet-padding)",
+    "footerPaddingInline": "var(--component-sheet-padding)"
   },
   "Notification": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "paddingMD": "var(--component-toast-padding-block)",
+    "paddingContentHorizontalLG": "var(--component-toast-padding-inline)",
+    "margin": "var(--component-toast-stack-gap)",
+    "marginLG": "var(--component-toast-region-inset)"
   },
   "Message": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-toast-radius)",
+    "contentPadding": "var(--component-toast-padding-block) var(--component-toast-padding-inline)"
   },
   "Popover": {
-    "borderRadiusLG": "2rem"
+    "borderRadiusLG": "var(--component-popover-radius)",
+    "innerPadding": "var(--component-popover-padding)",
+    "titleMarginBottom": "var(--component-popover-gap)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Tooltip": {
-    "borderRadius": "0.5rem"
+    "borderRadius": "var(--component-tooltip-radius)",
+    "paddingXS": "var(--component-tooltip-padding-inline)",
+    "paddingSM": "calc(var(--component-tooltip-padding-block) * 2)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Dropdown": {
+    "paddingBlock": "var(--component-menu-item-padding-block)",
+    "controlPaddingHorizontal": "var(--component-menu-item-padding-inline)",
+    "paddingXXS": "var(--component-menu-padding)",
+    "borderRadiusLG": "var(--component-menu-radius)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
   },
   "Card": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "bodyPadding": "var(--component-card-padding)",
+    "headerPadding": "var(--component-card-padding)",
+    "paddingLG": "var(--component-card-padding)"
   },
   "Collapse": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "headerPadding": "var(--component-accordion-head-padding-block) var(--component-accordion-head-padding-inline)",
+    "contentPadding": "var(--component-accordion-body-padding-block-end) var(--component-accordion-body-padding-inline)",
+    "borderlessContentPadding": "0 var(--component-accordion-body-padding-inline) var(--component-accordion-body-padding-block-end)"
   },
   "Table": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "cellPaddingBlock": "var(--component-table-cell-padding-block)",
+    "cellPaddingInline": "var(--component-table-cell-padding-inline)"
   },
   "Alert": {
-    "borderRadiusLG": "1.5rem"
+    "borderRadiusLG": "1.5rem",
+    "defaultPadding": "var(--component-alert-padding)",
+    "withDescriptionPadding": "var(--component-alert-padding)"
+  },
+  "Input": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "InputNumber": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "Mentions": {
+    "paddingInline": "var(--component-input-padding-inline)"
+  },
+  "DatePicker": {
+    "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Tour": {
+    "borderRadiusXS": 2,
+    "borderRadiusOuter": 6
+  },
+  "Radio": {
+    "wrapperMarginInlineEnd": "var(--component-radio-group-gap)"
+  },
+  "Slider": {
+    "borderRadiusXS": "var(--component-slider-track-radius)"
+  },
+  "Progress": {
+    "lineBorderRadius": "var(--component-progress-radius)"
+  },
+  "Skeleton": {
+    "blockRadius": "var(--component-skeleton-radius)"
+  },
+  "Breadcrumb": {
+    "separatorMargin": "var(--component-breadcrumb-gap)",
+    "paddingXXS": "var(--component-breadcrumb-tap-padding-inline)"
+  },
+  "Divider": {
+    "textPaddingInline": "var(--component-divider-label-gap)"
+  },
+  "List": {
+    "itemPadding": "var(--component-listrow-padding-block) 0",
+    "titleMarginBottom": "var(--component-listrow-main-gap)"
+  },
+  "Listy": {
+    "itemPaddingInline": "var(--component-listrow-padding-inline)"
+  },
+  "Form": {
+    "itemMarginBottom": "var(--component-field-group-gap)",
+    "verticalLabelPadding": "0 0 var(--component-field-gap)"
   },
   "Menu": {
     "itemSelectedColor": "#f4f1ff",

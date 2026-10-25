@@ -36,9 +36,9 @@ function AlertBell() {
         ALERTS.length === 0 ? (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="지금은 없어요" />
         ) : (
-          <Flex vertical gap={10} style={{ inlineSize: 260 }}>
+          <Flex vertical gap="var(--semantic-space-sm)" style={{ inlineSize: 260 }}>
             {ALERTS.map(({ project, status }) => (
-              <Flex key={project.id} align="center" justify="space-between" gap={8}>
+              <Flex key={project.id} align="center" justify="space-between" gap="var(--semantic-space-sm)">
                 <Flex vertical style={{ minWidth: 0 }}>
                   <Typography.Text ellipsis>{project.name}</Typography.Text>
                   <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>
@@ -98,7 +98,7 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  paddingBlock: 14,
+                  paddingBlock: "var(--semantic-space-md)",
                 }}
               >
                 <span
@@ -142,23 +142,23 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  gap: 12,
-                  paddingInline: 20,
-                  paddingBlock: 8,
+                  gap: "var(--semantic-space-sm)",
+                  paddingInline: "var(--semantic-space-md)",
+                  paddingBlock: "var(--semantic-space-sm)",
                   background: token.colorBgContainer,
                   borderBlockEnd: `1px solid ${token.colorBorderSecondary}`,
                 }}
               >
-                <Flex align="baseline" gap={8} style={{ minWidth: 0 }}>
+                <Flex align="baseline" gap="var(--semantic-space-sm)" style={{ minWidth: 0 }}>
                   <Typography.Text strong ellipsis>{system.name} Board</Typography.Text>
                   <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, flex: "0 0 auto" }}>
                     Ant Design
                   </Typography.Text>
                 </Flex>
                 {/* 상단 바 알림 건수와 현재 사용자 표시 */}
-                <Flex align="center" gap={8} style={{ flex: "0 0 auto" }}>
+                <Flex align="center" gap="var(--semantic-space-sm)" style={{ flex: "0 0 auto" }}>
                   <AlertBell />
-                  <Flex align="center" gap={8}>
+                  <Flex align="center" gap="var(--semantic-space-sm)">
                     <Avatar size="small">{me.name.slice(0, 1)}</Avatar>
                     <Typography.Text style={{ fontSize: token.fontSizeSM }}>
                       {me.name} <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>· {me.role}</Typography.Text>
@@ -166,7 +166,7 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
                   </Flex>
                 </Flex>
               </div>
-              <div style={{ padding: 20, overflowY: "auto", flex: 1, minBlockSize: 0, background: token.colorBgLayout }}>
+              <div style={{ padding: "var(--semantic-space-md)", overflowY: "auto", flex: 1, minBlockSize: 0, background: token.colorBgLayout }}>
                 <div className={PAGE_CLASS}>
                   <div>
                     <Typography.Title level={4} style={{ margin: 0 }}>{screen.label}</Typography.Title>

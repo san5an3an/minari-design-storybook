@@ -40,13 +40,13 @@ export function StatTile({
   tone?: "up" | "down";
 }) {
   return (
-    <Card size="small" style={{ blockSize: "100%" }} styles={{ body: { padding: "0.875rem 1rem" } }}>
+    <Card size="small" style={{ blockSize: "100%" }} styles={{ body: { padding: "var(--semantic-space-md) var(--semantic-space-md)" } }}>
       <Typography.Text type="secondary" style={{ fontSize: 12, letterSpacing: "0.02em" }}>
         {label}
       </Typography.Text>
       <div
         style={{
-          marginBlockStart: 6,
+          marginBlockStart: "var(--semantic-space-xs)",
           fontSize: 24,
           fontWeight: 700,
           lineHeight: 1.1,
@@ -59,13 +59,13 @@ export function StatTile({
       >
         {value}
         {unit && (
-          <span style={{ marginInlineStart: 4, fontSize: 13, fontWeight: 400, color: "var(--semantic-fg-neutral-subtle)" }}>
+          <span style={{ marginInlineStart: "var(--semantic-space-xs)", fontSize: 13, fontWeight: 400, color: "var(--semantic-fg-neutral-subtle)" }}>
             {unit}
           </span>
         )}
       </div>
       {sub && (
-        <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: 6, fontSize: 12, lineHeight: 1.5 }}>
+        <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12, lineHeight: 1.5 }}>
           {sub}
         </Typography.Paragraph>
       )}
@@ -90,23 +90,23 @@ export function Figure({
       style={{ blockSize: "100%", display: "flex", flexDirection: "column" }}
       styles={{ body: { padding: 0, flex: 1, display: "flex", flexDirection: "column", minBlockSize: 0 } }}
     >
-      <div style={{ padding: "0.75rem 1rem", borderBlockEnd: "1px solid var(--semantic-border-neutral-subtle)" }}>
-        <Flex align="center" justify="space-between" gap={8} wrap style={{ minWidth: 0 }}>
+      <div style={{ padding: "var(--semantic-space-sm) var(--semantic-space-md)", borderBlockEnd: "1px solid var(--semantic-border-neutral-subtle)" }}>
+        <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)" wrap style={{ minWidth: 0 }}>
           <Typography.Text strong style={{ minWidth: 0, fontSize: 14 }}>{title}</Typography.Text>
           {action}
         </Flex>
         {caption && (
-          <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: 4, fontSize: 12.5, lineHeight: 1.6 }}>
+          <Typography.Paragraph type="secondary" style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12.5, lineHeight: 1.6 }}>
             {caption}
           </Typography.Paragraph>
         )}
       </div>
-      <div style={{ padding: "1rem", flex: 1, minBlockSize: 0 }}>{children}</div>
+      <div style={{ padding: "var(--semantic-space-md)", flex: 1, minBlockSize: 0 }}>{children}</div>
       {source && (
         <div
           style={{
             marginBlockStart: "auto",
-            padding: "0.5rem 1rem",
+            padding: "var(--semantic-space-sm) var(--semantic-space-md)",
             borderBlockStart: "1px solid var(--semantic-border-neutral-subtle)",
             fontSize: 11,
             fontFamily: "var(--base-font-family-mono)",
@@ -132,12 +132,12 @@ export function Note({ tone, title, children }: { tone: "info" | "warn" | "stop"
     : tone === "warn" ? "var(--semantic-bg-warning-subtlest)"
     : "var(--semantic-bg-neutral-subtlest)";
   return (
-    <div style={{ border: `1px solid ${border}`, background: bg, borderRadius: 8, padding: "0.75rem 0.875rem" }}>
-      <Flex gap={10} align="flex-start">
+    <div style={{ border: `1px solid ${border}`, background: bg, borderRadius: 8, padding: "var(--semantic-space-sm) var(--semantic-space-md)" }}>
+      <Flex gap="var(--semantic-space-sm)" align="flex-start">
         <span aria-hidden style={{ flex: "0 0 auto", fontSize: 13, lineHeight: "1.5rem" }}>{mark}</span>
         <div style={{ minWidth: 0 }}>
           <Typography.Text strong style={{ fontSize: 13 }}>{title}</Typography.Text>
-          <Typography.Paragraph style={{ marginBlockEnd: 0, marginBlockStart: 4, fontSize: 12.5, lineHeight: 1.65 }} type="secondary">
+          <Typography.Paragraph style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12.5, lineHeight: 1.65 }} type="secondary">
             {children}
           </Typography.Paragraph>
         </div>
@@ -172,7 +172,7 @@ export function HeatCell({ value, max, title }: { value: number; max: number; ti
         background: step.bg,
         color: step.fg,
         borderRadius: 6,
-        paddingBlock: 6,
+        paddingBlock: "var(--semantic-space-xs)",
         textAlign: "center",
         fontSize: 12.5,
         fontWeight: 600,
@@ -188,9 +188,9 @@ export function HeatCell({ value, max, title }: { value: number; max: number; ti
 // 범례 순서로 방향 지정. 0단계부터 4단계까지 나열하면 모든 모드에 적용
 export function HeatLegend({ max }: { max: number }) {
   return (
-    <Flex align="center" gap={8} wrap>
+    <Flex align="center" gap="var(--semantic-space-sm)" wrap>
       <Typography.Text type="secondary" style={{ fontSize: 11 }}>0점</Typography.Text>
-      <Flex gap={3}>
+      <Flex gap="var(--semantic-space-xs)">
         {HEAT_STEPS.map((s, i) => (
           <span
             key={i}
@@ -237,7 +237,7 @@ export const CHART = {
 // 범례 항목 렌더링. recharts Legend가 색 견본 크기와 글자 토큰 미지원임
 export function LegendItem({ color, label, value }: { color: string; label: string; value?: React.ReactNode }) {
   return (
-    <Flex align="center" gap={6} style={{ minWidth: 0 }}>
+    <Flex align="center" gap="var(--semantic-space-xs)" style={{ minWidth: 0 }}>
       <span
         aria-hidden
         style={{

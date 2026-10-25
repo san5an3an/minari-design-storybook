@@ -124,7 +124,7 @@ export function KanbanScreen({ focusId }: ScreenProps) {
     <div className="a1k">
       <style>{LAYOUT_CSS}</style>
 
-      <Flex align="center" gap={8} wrap>
+      <Flex align="center" gap="var(--semantic-space-sm)" wrap>
         <Select<CardItem["who"]>
           allowClear
           placeholder="담당자 전체"
@@ -153,15 +153,15 @@ export function KanbanScreen({ focusId }: ScreenProps) {
             <Flex
               key={lane.key}
               vertical
-              gap={12}
+              gap="var(--semantic-space-sm)"
               style={{
                 background: token.colorFillQuaternary,
                 borderRadius: token.borderRadiusLG,
-                padding: 12,
+                padding: "var(--semantic-space-sm)",
               }}
             >
               <Flex align="center" justify="space-between">
-                <Flex align="center" gap={8}>
+                <Flex align="center" gap="var(--semantic-space-sm)">
                   <span
                     aria-hidden
                     style={{
@@ -183,7 +183,7 @@ export function KanbanScreen({ focusId }: ScreenProps) {
                     border: `1px dashed ${token.colorBorderSecondary}`,
                     borderRadius: token.borderRadius,
                     color: token.colorTextTertiary,
-                    padding: "20px 12px",
+                    padding: "var(--semantic-space-md) var(--semantic-space-sm)",
                     textAlign: "center",
                   }}
                 >
@@ -198,8 +198,8 @@ export function KanbanScreen({ focusId }: ScreenProps) {
                   size="small"
                   style={focusId === it.id ? { borderColor: token.colorPrimary } : undefined}
                 >
-                  <Flex vertical gap={8}>
-                    <Flex align="flex-start" justify="space-between" gap={8}>
+                  <Flex vertical gap="var(--semantic-space-sm)">
+                    <Flex align="flex-start" justify="space-between" gap="var(--semantic-space-sm)">
                       <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>
                         {it.id}
                       </Text>
@@ -231,7 +231,7 @@ export function KanbanScreen({ focusId }: ScreenProps) {
                     <div>
                       <Tag style={{ marginInlineEnd: 0 }}>{it.tag}</Tag>
                     </div>
-                    <Flex align="center" justify="space-between" gap={8}>
+                    <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)">
                       <Text type="secondary" style={{ fontSize: token.fontSizeSM, whiteSpace: "nowrap" }}>
                         <CalendarOutlined /> {it.due}
                       </Text>
@@ -280,16 +280,16 @@ export function KanbanScreen({ focusId }: ScreenProps) {
         </Card>
 
         <Card size="small" title="마감 임박" extra={<Text type="secondary">완료 제외</Text>}>
-          <Flex vertical gap={10}>
+          <Flex vertical gap="var(--semantic-space-sm)">
             {dueSoon.map((it) => {
               const lane = LANES.find((l) => l.key === it.lane) ?? LANES[0];
               return (
-                <Flex key={it.id} align="center" justify="space-between" gap={12}>
+                <Flex key={it.id} align="center" justify="space-between" gap="var(--semantic-space-sm)">
                   <Flex vertical style={{ minInlineSize: 0 }}>
                     <Text ellipsis>{it.title}</Text>
                     <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>{it.id} · {it.who}</Text>
                   </Flex>
-                  <Flex align="center" gap={8} style={{ whiteSpace: "nowrap" }}>
+                  <Flex align="center" gap="var(--semantic-space-sm)" style={{ whiteSpace: "nowrap" }}>
                     <Tag style={{ color: laneColor(lane.tone), borderColor: laneColor(lane.tone), background: "transparent", marginInlineEnd: 0 }}>
                       {lane.label}
                     </Tag>
@@ -315,25 +315,25 @@ export function KanbanScreen({ focusId }: ScreenProps) {
           form={form}
           layout="vertical"
           initialValues={{ tag: "기능", who: PEOPLE[0], lane: "backlog" }}
-          style={{ marginBlockStart: 16 }}
+          style={{ marginBlockStart: "var(--semantic-space-md)" }}
         >
           <Form.Item name="title" label="제목" rules={[{ required: true, message: "제목을 적어 주세요" }]}>
             <Input placeholder="무엇을 할지 한 줄로" maxLength={60} showCount />
           </Form.Item>
-          <Flex gap={12} wrap>
-            <Form.Item name="tag" label="분류" style={{ flex: "1 1 8rem", marginBlockEnd: 12 }}>
+          <Flex gap="var(--semantic-space-sm)" wrap>
+            <Form.Item name="tag" label="분류" style={{ flex: "1 1 8rem", marginBlockEnd: "var(--semantic-space-sm)" }}>
               <Select options={TAGS.map((t) => ({ value: t, label: t }))} />
             </Form.Item>
-            <Form.Item name="who" label="담당자" style={{ flex: "1 1 8rem", marginBlockEnd: 12 }}>
+            <Form.Item name="who" label="담당자" style={{ flex: "1 1 8rem", marginBlockEnd: "var(--semantic-space-sm)" }}>
               <Select options={PEOPLE.map((p) => ({ value: p, label: p }))} />
             </Form.Item>
           </Flex>
-          <Flex gap={12} wrap>
-            <Form.Item name="due" label="마감" rules={[{ required: true, message: "마감일을 골라 주세요" }]} style={{ flex: "1 1 8rem", marginBlockEnd: 12 }}>
+          <Flex gap="var(--semantic-space-sm)" wrap>
+            <Form.Item name="due" label="마감" rules={[{ required: true, message: "마감일을 골라 주세요" }]} style={{ flex: "1 1 8rem", marginBlockEnd: "var(--semantic-space-sm)" }}>
               {/* 달력 텍스트는 ConfigProvider locale 로 한국어 지정 */}
               <DatePicker style={{ inlineSize: "100%" }} format="M/D" placeholder="날짜 고르기" />
             </Form.Item>
-            <Form.Item name="lane" label="줄" style={{ flex: "1 1 8rem", marginBlockEnd: 12 }}>
+            <Form.Item name="lane" label="줄" style={{ flex: "1 1 8rem", marginBlockEnd: "var(--semantic-space-sm)" }}>
               <Select options={LANES.map((l) => ({ value: l.key, label: l.label }))} />
             </Form.Item>
           </Flex>

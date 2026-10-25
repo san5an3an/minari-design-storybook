@@ -47,6 +47,7 @@ export const theme = createTheme({
     "MuiAlert": {
       "styleOverrides": {
         "root": {
+          "padding": "var(--component-alert-padding)",
           "borderRadius": "var(--component-alert-radius)",
           "fontSize": "var(--component-alert-font-size)",
           "letterSpacing": "var(--component-alert-letter-spacing)"
@@ -126,14 +127,20 @@ export const theme = createTheme({
           }
         },
         "sizeSmall": {
+          "paddingInline": "var(--component-button-sm-padding-inline)",
+          "paddingBlock": "var(--component-button-sm-padding-block)",
           "fontSize": "var(--component-button-sm-font-size)",
           "letterSpacing": "var(--component-button-sm-letter-spacing)"
         },
         "sizeMedium": {
+          "paddingInline": "var(--component-button-md-padding-inline)",
+          "paddingBlock": "var(--component-button-md-padding-block)",
           "fontSize": "var(--component-button-md-font-size)",
           "letterSpacing": "var(--component-button-md-letter-spacing)"
         },
         "sizeLarge": {
+          "paddingInline": "var(--component-button-lg-padding-inline)",
+          "paddingBlock": "var(--component-button-lg-padding-block)",
           "fontSize": "var(--component-button-lg-font-size)",
           "letterSpacing": "var(--component-button-lg-letter-spacing)"
         }
@@ -217,6 +224,9 @@ export const theme = createTheme({
     },
     "MuiChip": {
       "styleOverrides": {
+        "label": {
+          "paddingInline": "var(--component-chip-padding-inline)"
+        },
         "root": {
           "borderRadius": "var(--component-chip-radius)",
           "fontSize": "var(--component-chip-font-size)",
@@ -238,6 +248,8 @@ export const theme = createTheme({
     "MuiTooltip": {
       "styleOverrides": {
         "tooltip": {
+          "paddingInline": "var(--component-tooltip-padding-inline)",
+          "paddingBlock": "var(--component-tooltip-padding-block)",
           "borderRadius": "var(--component-tooltip-radius)",
           "fontSize": "var(--component-tooltip-font-size)",
           "backgroundColor": "var(--component-tooltip-bg)",
@@ -295,10 +307,62 @@ export const theme = createTheme({
     },
     "MuiAvatar": {
       "styleOverrides": {
+        "circular": {
+          "borderRadius": "var(--component-avatar-radius)"
+        },
         "root": {
           "fontSize": "var(--component-avatar-font-size)",
           "backgroundColor": "var(--component-avatar-bg)",
           "color": "var(--component-avatar-fg)"
+        }
+      }
+    },
+    "MuiCardContent": {
+      "styleOverrides": {
+        "root": {
+          "padding": "var(--component-card-padding)",
+          "&:last-child": {
+            "paddingBottom": "var(--component-card-padding)"
+          }
+        }
+      }
+    },
+    "MuiDialogTitle": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingTop": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiDialogActions": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingBottom": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiMenuItem": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-menu-item-padding-inline)",
+          "paddingBlock": "var(--component-menu-item-padding-block)"
+        }
+      }
+    },
+    "MuiAccordionSummary": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-head-padding-inline)"
+        }
+      }
+    },
+    "MuiAccordionDetails": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-body-padding-inline)",
+          "paddingBottom": "var(--component-accordion-body-padding-block-end)"
         }
       }
     },
@@ -312,6 +376,7 @@ export const theme = createTheme({
     "MuiTab": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-tabs-padding-inline)",
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
         },
@@ -332,6 +397,10 @@ export const theme = createTheme({
     },
     "MuiTableCell": {
       "styleOverrides": {
+        "sizeMedium": {
+          "paddingInline": "var(--component-table-cell-padding-inline)",
+          "paddingBlock": "var(--component-table-cell-padding-block)"
+        },
         "head": {
           "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
@@ -347,6 +416,8 @@ export const theme = createTheme({
     "MuiSnackbarContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-toast-padding-inline)",
+          "paddingBlock": "var(--component-toast-padding-block)",
           "borderRadius": "var(--component-toast-radius)"
         }
       }
@@ -482,6 +553,7 @@ export const theme = createTheme({
     "MuiDialogContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-dialog-padding)",
           "scrollbarWidth": "thin",
           "&::-webkit-scrollbar": {
             "width": "0.5rem",
@@ -554,6 +626,7 @@ export const darkTheme = createTheme({
     "MuiAlert": {
       "styleOverrides": {
         "root": {
+          "padding": "var(--component-alert-padding)",
           "borderRadius": "var(--component-alert-radius)",
           "fontSize": "var(--component-alert-font-size)",
           "letterSpacing": "var(--component-alert-letter-spacing)"
@@ -633,14 +706,20 @@ export const darkTheme = createTheme({
           }
         },
         "sizeSmall": {
+          "paddingInline": "var(--component-button-sm-padding-inline)",
+          "paddingBlock": "var(--component-button-sm-padding-block)",
           "fontSize": "var(--component-button-sm-font-size)",
           "letterSpacing": "var(--component-button-sm-letter-spacing)"
         },
         "sizeMedium": {
+          "paddingInline": "var(--component-button-md-padding-inline)",
+          "paddingBlock": "var(--component-button-md-padding-block)",
           "fontSize": "var(--component-button-md-font-size)",
           "letterSpacing": "var(--component-button-md-letter-spacing)"
         },
         "sizeLarge": {
+          "paddingInline": "var(--component-button-lg-padding-inline)",
+          "paddingBlock": "var(--component-button-lg-padding-block)",
           "fontSize": "var(--component-button-lg-font-size)",
           "letterSpacing": "var(--component-button-lg-letter-spacing)"
         }
@@ -724,6 +803,9 @@ export const darkTheme = createTheme({
     },
     "MuiChip": {
       "styleOverrides": {
+        "label": {
+          "paddingInline": "var(--component-chip-padding-inline)"
+        },
         "root": {
           "borderRadius": "var(--component-chip-radius)",
           "fontSize": "var(--component-chip-font-size)",
@@ -745,6 +827,8 @@ export const darkTheme = createTheme({
     "MuiTooltip": {
       "styleOverrides": {
         "tooltip": {
+          "paddingInline": "var(--component-tooltip-padding-inline)",
+          "paddingBlock": "var(--component-tooltip-padding-block)",
           "borderRadius": "var(--component-tooltip-radius)",
           "fontSize": "var(--component-tooltip-font-size)",
           "backgroundColor": "var(--component-tooltip-bg)",
@@ -802,10 +886,62 @@ export const darkTheme = createTheme({
     },
     "MuiAvatar": {
       "styleOverrides": {
+        "circular": {
+          "borderRadius": "var(--component-avatar-radius)"
+        },
         "root": {
           "fontSize": "var(--component-avatar-font-size)",
           "backgroundColor": "var(--component-avatar-bg)",
           "color": "var(--component-avatar-fg)"
+        }
+      }
+    },
+    "MuiCardContent": {
+      "styleOverrides": {
+        "root": {
+          "padding": "var(--component-card-padding)",
+          "&:last-child": {
+            "paddingBottom": "var(--component-card-padding)"
+          }
+        }
+      }
+    },
+    "MuiDialogTitle": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingTop": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiDialogActions": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingBottom": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiMenuItem": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-menu-item-padding-inline)",
+          "paddingBlock": "var(--component-menu-item-padding-block)"
+        }
+      }
+    },
+    "MuiAccordionSummary": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-head-padding-inline)"
+        }
+      }
+    },
+    "MuiAccordionDetails": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-body-padding-inline)",
+          "paddingBottom": "var(--component-accordion-body-padding-block-end)"
         }
       }
     },
@@ -819,6 +955,7 @@ export const darkTheme = createTheme({
     "MuiTab": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-tabs-padding-inline)",
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
         },
@@ -839,6 +976,10 @@ export const darkTheme = createTheme({
     },
     "MuiTableCell": {
       "styleOverrides": {
+        "sizeMedium": {
+          "paddingInline": "var(--component-table-cell-padding-inline)",
+          "paddingBlock": "var(--component-table-cell-padding-block)"
+        },
         "head": {
           "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
@@ -854,6 +995,8 @@ export const darkTheme = createTheme({
     "MuiSnackbarContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-toast-padding-inline)",
+          "paddingBlock": "var(--component-toast-padding-block)",
           "borderRadius": "var(--component-toast-radius)"
         }
       }
@@ -989,6 +1132,7 @@ export const darkTheme = createTheme({
     "MuiDialogContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-dialog-padding)",
           "scrollbarWidth": "thin",
           "&::-webkit-scrollbar": {
             "width": "0.5rem",
@@ -1061,6 +1205,7 @@ export const highContrastTheme = createTheme({
     "MuiAlert": {
       "styleOverrides": {
         "root": {
+          "padding": "var(--component-alert-padding)",
           "borderRadius": "var(--component-alert-radius)",
           "fontSize": "var(--component-alert-font-size)",
           "letterSpacing": "var(--component-alert-letter-spacing)"
@@ -1140,14 +1285,20 @@ export const highContrastTheme = createTheme({
           }
         },
         "sizeSmall": {
+          "paddingInline": "var(--component-button-sm-padding-inline)",
+          "paddingBlock": "var(--component-button-sm-padding-block)",
           "fontSize": "var(--component-button-sm-font-size)",
           "letterSpacing": "var(--component-button-sm-letter-spacing)"
         },
         "sizeMedium": {
+          "paddingInline": "var(--component-button-md-padding-inline)",
+          "paddingBlock": "var(--component-button-md-padding-block)",
           "fontSize": "var(--component-button-md-font-size)",
           "letterSpacing": "var(--component-button-md-letter-spacing)"
         },
         "sizeLarge": {
+          "paddingInline": "var(--component-button-lg-padding-inline)",
+          "paddingBlock": "var(--component-button-lg-padding-block)",
           "fontSize": "var(--component-button-lg-font-size)",
           "letterSpacing": "var(--component-button-lg-letter-spacing)"
         }
@@ -1231,6 +1382,9 @@ export const highContrastTheme = createTheme({
     },
     "MuiChip": {
       "styleOverrides": {
+        "label": {
+          "paddingInline": "var(--component-chip-padding-inline)"
+        },
         "root": {
           "borderRadius": "var(--component-chip-radius)",
           "fontSize": "var(--component-chip-font-size)",
@@ -1252,6 +1406,8 @@ export const highContrastTheme = createTheme({
     "MuiTooltip": {
       "styleOverrides": {
         "tooltip": {
+          "paddingInline": "var(--component-tooltip-padding-inline)",
+          "paddingBlock": "var(--component-tooltip-padding-block)",
           "borderRadius": "var(--component-tooltip-radius)",
           "fontSize": "var(--component-tooltip-font-size)",
           "backgroundColor": "var(--component-tooltip-bg)",
@@ -1309,10 +1465,62 @@ export const highContrastTheme = createTheme({
     },
     "MuiAvatar": {
       "styleOverrides": {
+        "circular": {
+          "borderRadius": "var(--component-avatar-radius)"
+        },
         "root": {
           "fontSize": "var(--component-avatar-font-size)",
           "backgroundColor": "var(--component-avatar-bg)",
           "color": "var(--component-avatar-fg)"
+        }
+      }
+    },
+    "MuiCardContent": {
+      "styleOverrides": {
+        "root": {
+          "padding": "var(--component-card-padding)",
+          "&:last-child": {
+            "paddingBottom": "var(--component-card-padding)"
+          }
+        }
+      }
+    },
+    "MuiDialogTitle": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingTop": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiDialogActions": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-dialog-padding)",
+          "paddingBottom": "var(--component-dialog-padding)"
+        }
+      }
+    },
+    "MuiMenuItem": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-menu-item-padding-inline)",
+          "paddingBlock": "var(--component-menu-item-padding-block)"
+        }
+      }
+    },
+    "MuiAccordionSummary": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-head-padding-inline)"
+        }
+      }
+    },
+    "MuiAccordionDetails": {
+      "styleOverrides": {
+        "root": {
+          "paddingInline": "var(--component-accordion-body-padding-inline)",
+          "paddingBottom": "var(--component-accordion-body-padding-block-end)"
         }
       }
     },
@@ -1326,6 +1534,7 @@ export const highContrastTheme = createTheme({
     "MuiTab": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-tabs-padding-inline)",
           "fontSize": "var(--component-tabs-font-size)",
           "letterSpacing": "var(--component-tabs-letter-spacing)"
         },
@@ -1346,6 +1555,10 @@ export const highContrastTheme = createTheme({
     },
     "MuiTableCell": {
       "styleOverrides": {
+        "sizeMedium": {
+          "paddingInline": "var(--component-table-cell-padding-inline)",
+          "paddingBlock": "var(--component-table-cell-padding-block)"
+        },
         "head": {
           "fontSize": "var(--component-table-cell-font-size)",
           "letterSpacing": "var(--component-table-head-letter-spacing)",
@@ -1361,6 +1574,8 @@ export const highContrastTheme = createTheme({
     "MuiSnackbarContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-toast-padding-inline)",
+          "paddingBlock": "var(--component-toast-padding-block)",
           "borderRadius": "var(--component-toast-radius)"
         }
       }
@@ -1496,6 +1711,7 @@ export const highContrastTheme = createTheme({
     "MuiDialogContent": {
       "styleOverrides": {
         "root": {
+          "paddingInline": "var(--component-dialog-padding)",
           "scrollbarWidth": "thin",
           "&::-webkit-scrollbar": {
             "width": "0.5rem",

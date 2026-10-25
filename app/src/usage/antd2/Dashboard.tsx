@@ -72,7 +72,7 @@ function NoticeBell() {
           }}
           style={{
             blockSize: "auto",
-            paddingBlock: 10,
+            paddingBlock: "var(--semantic-space-sm)",
             justifyContent: "flex-start",
             textAlign: "start",
             whiteSpace: "normal",
@@ -128,7 +128,7 @@ function PeopleSearch() {
         keywords: `${e.name} ${e.department} ${e.role} ${e.id}`.toLowerCase(),
       }))}
       optionRender={(option) => (
-        <Flex justify="space-between" gap={8}>
+        <Flex justify="space-between" gap="var(--semantic-space-sm)">
           <span>{option.data.label}</span>
           <Typography.Text type="secondary" ellipsis style={{ fontSize: token.fontSizeSM }}>
             {option.data.sub}
@@ -179,14 +179,14 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
           display: "flex",
           alignItems: "center",
           flexWrap: "wrap",
-          gap: 12,
-          paddingInline: 20,
-          paddingBlock: 12,
+          gap: "var(--semantic-space-sm)",
+          paddingInline: "var(--semantic-space-md)",
+          paddingBlock: "var(--semantic-space-sm)",
           background: token.colorBgContainer,
           borderBlockEnd: `1px solid ${token.colorBorderSecondary}`,
         }}
       >
-        <Space size={10}>
+        <Space style={{ gap: "var(--semantic-space-sm)" }}>
           <span
             aria-hidden
             style={{
@@ -210,10 +210,10 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
             {system.baseTitle}
           </Tag>
         </Space>
-        <Flex align="center" gap={8} wrap style={{ marginInlineStart: "auto" }}>
+        <Flex align="center" gap="var(--semantic-space-sm)" wrap style={{ marginInlineStart: "auto" }}>
           <PeopleSearch />
           <NoticeBell />
-          <Flex align="center" gap={8}>
+          <Flex align="center" gap="var(--semantic-space-sm)">
             <Avatar size="small">황</Avatar>
             <span style={{ lineHeight: 1.25 }}>
               <Typography.Text strong style={{ display: "block", fontSize: token.fontSizeSM }}>황보람</Typography.Text>
@@ -225,7 +225,7 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
         </Flex>
       </div>
 
-      <div style={{ paddingInline: 20, paddingBlockStart: 8, background: token.colorBgContainer }}>
+      <div style={{ paddingInline: "var(--semantic-space-md)", paddingBlockStart: "var(--semantic-space-sm)", background: token.colorBgContainer }}>
         <Tabs
           activeKey={screenKey}
           onChange={onScreenChange}
@@ -234,7 +234,7 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
             return {
               key: s.key,
               label: (
-                <Space size={6}>
+                <Space style={{ gap: "var(--semantic-space-xs)" }}>
                   {s.label}
                   <Badge
                     count={counts[s.key] ?? 0}
@@ -255,9 +255,9 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
         />
       </div>
 
-      <div className="hr-scroll" style={{ padding: 20, overflowY: "auto", flex: 1, minBlockSize: 0 }}>
-        <Space orientation="vertical" size={16} style={{ display: "flex" }}>
-          <Space orientation="vertical" size={2} style={{ display: "flex" }}>
+      <div className="hr-scroll" style={{ padding: "var(--semantic-space-md)", overflowY: "auto", flex: 1, minBlockSize: 0 }}>
+        <Space orientation="vertical" style={{ gap: "var(--semantic-space-md)", display: "flex" }}>
+          <Space orientation="vertical" style={{ gap: "var(--semantic-space-xs)", display: "flex" }}>
             <Typography.Title level={4} style={{ margin: 0 }}>{screen.label}</Typography.Title>
             <Typography.Text type="secondary">{screen.lede}</Typography.Text>
           </Space>
@@ -269,8 +269,8 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
         style={{
           background: token.colorBgContainer,
           borderBlockStart: `1px solid ${token.colorBorderSecondary}`,
-          paddingBlock: 10,
-          paddingInline: 20,
+          paddingBlock: "var(--semantic-space-sm)",
+          paddingInline: "var(--semantic-space-md)",
         }}
       >
         <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>

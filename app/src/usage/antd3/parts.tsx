@@ -99,7 +99,7 @@ export function MemberStack({ ids, max = 3 }: { ids: readonly string[]; max?: nu
 export function MemberLine({ id, withRole = false }: { id: string; withRole?: boolean }) {
   const m = memberOf(id);
   return (
-    <Flex align="center" gap={8} style={{ minWidth: 0 }}>
+    <Flex align="center" gap="var(--semantic-space-sm)" style={{ minWidth: 0 }}>
       <Avatar size="small" style={{ flex: "0 0 auto" }}>{m.name.slice(0, 1)}</Avatar>
       <Typography.Text ellipsis style={{ minWidth: 0 }}>
         {m.name}
@@ -125,8 +125,8 @@ export function StatTile({ tone, icon, label, value, suffix, note, footer }: Sta
   const { token } = theme.useToken();
   const t = useTones()[tone];
   return (
-    <Card size="small" styles={{ body: { display: "flex", flexDirection: "column", gap: 8, height: "100%" } }} style={{ height: "100%" }}>
-      <Flex align="center" gap={12} style={{ minWidth: 0 }}>
+    <Card size="small" styles={{ body: { display: "flex", flexDirection: "column", gap: "var(--semantic-space-sm)", height: "100%" } }} style={{ height: "100%" }}>
+      <Flex align="center" gap="var(--semantic-space-sm)" style={{ minWidth: 0 }}>
         <span
           aria-hidden
           style={{
@@ -202,7 +202,7 @@ export const CHART = {
 // 범례 항목 렌더링. recharts Legend가 색 견본 크기와 글자 토큰 미지원임
 export function LegendItem({ color, label, value }: { color: string; label: string; value?: React.ReactNode }) {
   return (
-    <Flex align="center" gap={6} style={{ minWidth: 0 }}>
+    <Flex align="center" gap="var(--semantic-space-xs)" style={{ minWidth: 0 }}>
       <span
         aria-hidden
         style={{

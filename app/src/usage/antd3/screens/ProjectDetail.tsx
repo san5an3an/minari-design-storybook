@@ -88,7 +88,7 @@ export function ProjectDetail({
 
   return (
     <>
-      <Flex align="center" justify="space-between" gap={12} wrap>
+      <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)" wrap>
         <Breadcrumb
           items={[
             { title: <Typography.Link onClick={onBack}>프로젝트</Typography.Link> },
@@ -99,9 +99,9 @@ export function ProjectDetail({
       </Flex>
 
       <Card size="small">
-        <Flex vertical gap={12}>
-          <Flex align="center" justify="space-between" gap={12} wrap>
-            <Flex align="center" gap={8} wrap style={{ minWidth: 0 }}>
+        <Flex vertical gap="var(--semantic-space-sm)">
+          <Flex align="center" justify="space-between" gap="var(--semantic-space-sm)" wrap>
+            <Flex align="center" gap="var(--semantic-space-sm)" wrap style={{ minWidth: 0 }}>
               <Typography.Title level={4} style={{ margin: 0 }}>{project.name}</Typography.Title>
               <ToneTag tone={PROJECT_TONE[status]}>{status}</ToneTag>
               <ToneTag tone={PRIORITY_TONE[project.priority]} icon={<FlagOutlined />}>우선순위 {project.priority}</ToneTag>
@@ -111,7 +111,7 @@ export function ProjectDetail({
             </Typography.Text>
           </Flex>
           <Typography.Text type="secondary">{project.summary}</Typography.Text>
-          <Flex align="center" gap={12}>
+          <Flex align="center" gap="var(--semantic-space-sm)">
             <Progress
               percent={progress}
               status={status === "지연" ? "exception" : undefined}
@@ -200,13 +200,13 @@ export function ProjectDetail({
           </Card>
 
           <Card size="small" title={`구성원 ${project.memberIds.length}명`}>
-            <Flex vertical gap={10}>
+            <Flex vertical gap="var(--semantic-space-sm)">
               {project.memberIds.map((id) => {
                 const m = memberOf(id);
                 const open = openByMember(id);
                 return (
-                  <Flex key={id} align="center" justify="space-between" gap={8}>
-                    <Flex align="center" gap={8} style={{ minWidth: 0 }}>
+                  <Flex key={id} align="center" justify="space-between" gap="var(--semantic-space-sm)">
+                    <Flex align="center" gap="var(--semantic-space-sm)" style={{ minWidth: 0 }}>
                       <MemberAvatar id={id} />
                       <Flex vertical style={{ minWidth: 0 }}>
                         <Typography.Text ellipsis>{m.name}</Typography.Text>
@@ -227,7 +227,7 @@ export function ProjectDetail({
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="아직 기록된 활동이 없어요" />
             ) : (
               <Timeline
-                style={{ marginBlockStart: 4 }}
+                style={{ marginBlockStart: "var(--semantic-space-xs)" }}
                 items={events.slice(0, 5).map((e) => ({
                   color: tones[EVENT_TONE[e.kind]].solid,
                   content: (
