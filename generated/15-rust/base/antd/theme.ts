@@ -290,8 +290,8 @@ const darkComponents = { ...{
   },
   "Pagination": {
     "itemActiveBg": "#a7715c",
-    "itemActiveColor": "#1e100a",
-    "itemActiveColorHover": "#1e100a"
+    "itemActiveColor": "#ffffff",
+    "itemActiveColorHover": "#ffffff"
   },
   "Calendar": {
     "itemActiveBg": "#a7715c"
@@ -545,7 +545,7 @@ const darkThemeOverrides = {
   "colorText": "#fff8f5",
   "colorTextSecondary": "#a39792",
   "colorTextTertiary": "#a39792",
-  "colorTextLightSolid": "#1e100a",
+  "colorTextLightSolid": "#ffffff",
   "colorBorder": "#4d4542",
   "colorBorderSecondary": "#3e3936",
   "colorPrimaryBg": "#27201e",

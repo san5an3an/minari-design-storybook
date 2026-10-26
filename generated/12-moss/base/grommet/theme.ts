@@ -310,7 +310,7 @@ export const darkTheme: ThemeType = {
       "focus": "#34665d",
       "selected": "#438b7e",
       "selected-background": "#438b7e",
-      "selected-text": "#051814",
+      "selected-text": "#ffffff",
       "active-background": "#1c2422",
       "active-text": "#6ba499",
       "background": "#222221",

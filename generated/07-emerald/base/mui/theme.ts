@@ -586,11 +586,11 @@ export const darkTheme = createTheme({
     "mode": "dark",
     "primary": {
       "main": "#00925f",
-      "contrastText": "#001a0d"
+      "contrastText": "#ffffff"
     },
     "error": {
       "main": "#d25450",
-      "contrastText": "#260908"
+      "contrastText": "#ffffff"
     },
     "background": {
       "default": "#181918",
@@ -603,15 +603,15 @@ export const darkTheme = createTheme({
     "divider": "#373b39",
     "info": {
       "main": "#00925f",
-      "contrastText": "#001a0d"
+      "contrastText": "#ffffff"
     },
     "success": {
       "main": "#009342",
-      "contrastText": "#011a07"
+      "contrastText": "#ffffff"
     },
     "warning": {
       "main": "#a07800",
-      "contrastText": "#1c1200"
+      "contrastText": "#ffffff"
     }
   },
   "shape": {
