@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { UsageDashboardProps } from "../registry";
+import { DAISYUI_USAGE_COLOR_BRIDGE } from "../../bases/daisyuiColorBridge";
 import { useIsWide } from "../mobile/useIsWide";
 import { Daisyui2Mobile } from "./mobile/Daisyui2Mobile";
 import { SCREENS } from "./screens";
@@ -16,6 +17,7 @@ export function DaisyuiUsage2({ system }: UsageDashboardProps) {
   return (
     <div
       style={{
+        ...DAISYUI_USAGE_COLOR_BRIDGE,
         display: "flex",
         flexDirection: "column",
         height: "max(20rem, calc(100dvh - 9rem))",

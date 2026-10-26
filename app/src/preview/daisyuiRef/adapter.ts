@@ -1,7 +1,9 @@
+import * as React from "react";
 import type { BaseRefAdapter, BaseRefDoc, DemoValue, SkipCode } from "../refContract";
 import { DAISYUI_GROUPS, DAISYUI_INDEX, DAISYUI_TITLE_ENTRIES } from "./nav";
 import { loadDaisyuiDocJson } from "./docs/index";
 import { loadDaisyuiDemoJson } from "./demos/index";
+import { DAISYUI_COLOR_BRIDGE } from "../../bases/daisyuiColorBridge";
 
 const SLUGS = new Set(DAISYUI_INDEX.map((e) => e.slug));
 
@@ -28,6 +30,7 @@ export const daisyuiAdapter: BaseRefAdapter = {
         }))
       : null;
   },
-  // 공식 예제에 provider 없음. 색과 구조 CSS가 전역이라 스코프 div도 필요 없음
-  Provider: ({ children }) => children,
+  // 공식 예제에 provider 없음. 색 연결만 감싼 div 에 지정하고 display contents 로 배치에는 영향 없게 함
+  Provider: ({ children }) =>
+    React.createElement("div", { style: { display: "contents", ...DAISYUI_COLOR_BRIDGE } }, children),
 };
