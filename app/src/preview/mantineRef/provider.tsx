@@ -1,5 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import type { MantineThemeOverride } from "@mantine/core";
+import { mantineVariantColors } from "../../bases/mantineVariantColors";
 import type { BaseRefProviderProps } from "../refContract";
 import { byMode as s01 } from "../../../../generated/01-cobalt/base/mantine/theme";
 import { byMode as s02 } from "../../../../generated/02-graphite/base/mantine/theme";
@@ -39,7 +40,7 @@ export default function MantineRefProvider({ system, mode, children }: BaseRefPr
     );
   }
   return (
-    <MantineProvider theme={theme} forceColorScheme={mode === "light" ? "light" : "dark"}>
+    <MantineProvider theme={theme} cssVariablesResolver={mantineVariantColors} forceColorScheme={mode === "light" ? "light" : "dark"}>
       {children}
     </MantineProvider>
   );

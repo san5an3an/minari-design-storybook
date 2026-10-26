@@ -4,6 +4,7 @@ import { Dialog } from "../bases/mantine/Dialog";
 import { MantineProvider } from "@mantine/core";
 import { byMode } from "../../../generated/07-emerald/base/mantine/theme";
 import "@mantine/core/styles.layer.css";
+import { mantineVariantColors } from "../bases/mantineVariantColors";
 import type { ComponentImpl, ProviderProps, SystemDefinition } from "./types";
 import vars from "./css/07-emerald/_vars.json";
 import refs from "../../../generated/07-emerald/mapping.json";
@@ -16,6 +17,7 @@ type Impl = ComponentImpl;
 const Provider = ({ mode, children }: ProviderProps) => (
   <MantineProvider
     theme={byMode[mode]}
+    cssVariablesResolver={mantineVariantColors}
     forceColorScheme={mode === "light" ? "light" : "dark"}
   >
     {children}
