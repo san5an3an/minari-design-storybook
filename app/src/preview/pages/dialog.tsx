@@ -3,6 +3,9 @@ import { Kid, Kids, Master, impl } from "../Doc";
 import type { Condition } from "../PropsTable";
 import type { DialogProps } from "../../systems/types";
 import type { PageProps } from "./types";
+import { cn } from "@/lib/utils";
+// shadcn Dialog 와 같은 치수 클래스 사용. 이 페이지는 공식 예시를 원본 컴포넌트로 그려 감싼 Dialog 의 치수가 안 닿음
+import { DIALOG_CONTENT, DIALOG_FOOTER } from "../../bases/shadcn/Dialog";
 
 import { Button as UiButton } from "@/components/ui/button";
 import {
@@ -35,7 +38,7 @@ function OfficialUsage() {
       {/* <form>이 Dialog 전체를 감쌈. 하나의 폼이어야 submit에 의미 있음 */}
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger render={<UiButton variant="outline" />}>창 열기</DialogTrigger>
-        <DialogContent className="sm:max-w-sm">
+        <DialogContent className={cn(DIALOG_CONTENT, "sm:max-w-sm")}>
           <DialogHeader>
             <DialogTitle>프로필 수정</DialogTitle>
             <DialogDescription>
@@ -52,7 +55,7 @@ function OfficialUsage() {
               <Input id="ods-dialog-username" name="username" defaultValue="@yushin" />
             </Field>
           </FieldGroup>
-          <DialogFooter>
+          <DialogFooter className={DIALOG_FOOTER}>
             <DialogClose data-cancel="true" render={<UiButton variant="outline" />}>
               취소
             </DialogClose>
@@ -69,7 +72,7 @@ function OfficialCustomClose() {
   return (
     <UiDialog>
       <DialogTrigger render={<UiButton variant="outline" />}>공유</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className={cn(DIALOG_CONTENT, "sm:max-w-md")}>
         <DialogHeader>
           <DialogTitle>링크 공유</DialogTitle>
           <DialogDescription>이 링크를 가진 사람은 누구나 볼 수 있어요.</DialogDescription>
@@ -85,7 +88,7 @@ function OfficialCustomClose() {
           </div>
         </div>
         {/* 표시 부착 금지. 이 그룹은 닫기 버튼만 있어 확인 우측 정렬 규칙 예외임 */}
-        <DialogFooter className="sm:justify-start">
+        <DialogFooter className={cn(DIALOG_FOOTER, "sm:justify-start")}>
           <DialogClose render={<UiButton type="button" />}>닫기</DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -98,7 +101,7 @@ function OfficialNoClose() {
   return (
     <UiDialog>
       <DialogTrigger render={<UiButton variant="outline" />}>X 없는 창</DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent showCloseButton={false} className={DIALOG_CONTENT}>
         <DialogHeader>
           <DialogTitle>닫기 버튼이 없어요</DialogTitle>
           <DialogDescription>
@@ -115,7 +118,7 @@ function OfficialStickyFooter() {
   return (
     <UiDialog>
       <DialogTrigger render={<UiButton variant="outline" />}>붙는 푸터</DialogTrigger>
-      <DialogContent>
+      <DialogContent className={DIALOG_CONTENT}>
         <DialogHeader>
           <DialogTitle>푸터가 붙어 있어요</DialogTitle>
           <DialogDescription>
@@ -123,7 +126,7 @@ function OfficialStickyFooter() {
           </DialogDescription>
         </DialogHeader>
         <LongBody />
-        <DialogFooter>
+        <DialogFooter className={DIALOG_FOOTER}>
           <DialogClose render={<UiButton variant="outline" />}>닫기</DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -136,7 +139,7 @@ function OfficialScrollable() {
   return (
     <UiDialog>
       <DialogTrigger render={<UiButton variant="outline" />}>흐르는 본문</DialogTrigger>
-      <DialogContent>
+      <DialogContent className={DIALOG_CONTENT}>
         <DialogHeader>
           <DialogTitle>본문이 흘러요</DialogTitle>
           <DialogDescription>창이 아니라 본문이 움직여요.</DialogDescription>
