@@ -10,6 +10,7 @@ export type PrimeReactEntry = {
   untouched: string[];
 };
 
+// 표 줄무늬 행 바탕은 lara 에 색이 직접 박혀 shade 를 안 따라가 모드마다 bg.neutral.subtlest 로 지정
 export const theme: PrimeReactEntry = {
   "base": "lara-light",
   "vars": {
@@ -84,6 +85,8 @@ export const theme: PrimeReactEntry = {
     "shade700": "#0c0805",
     "shade800": "#736b64",
     "shade900": "#0c0805",
+    "tableBodyRowEvenBg": "#f8f7f7",
+    "panelContentEvenRowBg": "#f8f7f7",
     "borderRadius": "8px",
     "dockBorderRadius": "12px",
     "inputPadding": "0.75rem 1.5rem",
@@ -155,6 +158,7 @@ export const theme: PrimeReactEntry = {
   ]
 };
 
+// 다크·고대비 shade 는 lara-dark 역할로 지정. lara-dark 는 000 이 글자, 800 이 패널 바탕이라 라이트 역할로 이으면 패널이 밝고 글자가 어두워짐
 export const darkTheme: PrimeReactEntry = {
   "base": "lara-dark",
   "vars": {
@@ -219,16 +223,15 @@ export const darkTheme: PrimeReactEntry = {
     "errorMessageTextColor": "#de7f6c",
     "errorMessageIconColor": "#de7f6c",
     "errorColor": "#de7f6c",
-    "shade000": "#232221",
-    "shade100": "#191918",
-    "shade200": "#232221",
-    "shade300": "#3d3936",
-    "shade400": "#4b4641",
+    "shade000": "#fef8f2",
+    "shade100": "#9f9890",
     "shade500": "#776f65",
-    "shade600": "#9f9890",
-    "shade700": "#fef8f2",
-    "shade800": "#9f9890",
-    "shade900": "#fef8f2",
+    "shade600": "#4b4641",
+    "shade700": "#232221",
+    "shade800": "#232221",
+    "shade900": "#191918",
+    "tableBodyRowEvenBg": "#191918",
+    "panelContentEvenRowBg": "#191918",
     "borderRadius": "8px",
     "dockBorderRadius": "12px",
     "inputPadding": "0.75rem 1.5rem",
@@ -364,16 +367,15 @@ export const highContrastTheme: PrimeReactEntry = {
     "errorMessageTextColor": "#ffe0db",
     "errorMessageIconColor": "#ffe0db",
     "errorColor": "#ffe0db",
-    "shade000": "#090807",
-    "shade100": "#020202",
-    "shade200": "#090807",
-    "shade300": "#6d6966",
-    "shade400": "#85817c",
+    "shade000": "#f5f0ea",
+    "shade100": "#ebe4dc",
     "shade500": "#ebe4dc",
-    "shade600": "#ebe4dc",
-    "shade700": "#f5f0ea",
-    "shade800": "#ebe4dc",
-    "shade900": "#f5f0ea",
+    "shade600": "#85817c",
+    "shade700": "#090807",
+    "shade800": "#090807",
+    "shade900": "#020202",
+    "tableBodyRowEvenBg": "#020202",
+    "panelContentEvenRowBg": "#020202",
     "borderRadius": "8px",
     "dockBorderRadius": "12px",
     "inputPadding": "0.75rem 1.5rem",
