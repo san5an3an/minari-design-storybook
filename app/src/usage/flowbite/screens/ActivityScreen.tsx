@@ -30,8 +30,8 @@ function PipelineStats() {
   return (
     <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))" }}>
       {items.map((it) => (
-        <div key={it.label} style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{it.label}</span>
+        <div key={it.label} style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{it.label}</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{it.value}</div>
         </div>
       ))}
@@ -44,7 +44,7 @@ function PipelineBreakdown() {
   const counts = stageCounts();
   const max = Math.max(...Array.from(counts.values()), 1);
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
         <span style={{ fontSize: "13px", fontWeight: 600 }}>단계별 이동 비중</span>
         {/* Tooltip보다 긴 설명용 오버레이 */}
@@ -58,7 +58,7 @@ function PipelineBreakdown() {
           )}
         >
           <span tabIndex={0} role="button" aria-label="단계별 이동 비중 설명" style={{ display: "inline-flex", cursor: "pointer" }}>
-            <Info size={13} color="var(--color-gray-400)" />
+            <Info size={13} color="var(--semantic-fg-neutral-subtle)" />
           </span>
         </Popover>
       </div>
@@ -66,9 +66,9 @@ function PipelineBreakdown() {
         const count = counts.get(stage) ?? 0;
         return (
           <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "12px", width: "64px", flexShrink: 0, color: "var(--color-gray-600)" }}>{stage}</span>
+            <span style={{ fontSize: "12px", width: "64px", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)" }}>{stage}</span>
             <Progress progress={(count / max) * 100} color={stage === "해지" ? "red" : "default"} size="sm" className="flex-1" />
-            <span style={{ fontSize: "12px", width: "20px", textAlign: "right", flexShrink: 0, color: "var(--color-gray-500)" }}>{count}</span>
+            <span style={{ fontSize: "12px", width: "20px", textAlign: "right", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)" }}>{count}</span>
           </div>
         );
       })}
@@ -91,11 +91,11 @@ function OutcomeDonut() {
   const circumference = 2 * Math.PI * r;
   let offset = 0;
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>이동 결과 비중</span>
       <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
         <svg width="68" height="68" viewBox="0 0 68 68" role="img" aria-label="이동 결과 비중 도넛 차트">
-          <circle cx="34" cy="34" r={r} fill="none" stroke="var(--color-gray-100)" strokeWidth="9" />
+          <circle cx="34" cy="34" r={r} fill="none" stroke="var(--semantic-border-neutral-subtle)" strokeWidth="9" />
           {slices.map((s) => {
             const frac = s.count / total;
             const dash = frac * circumference;
@@ -123,7 +123,7 @@ function OutcomeDonut() {
           {slices.map((s) => (
             <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px" }}>
               <span aria-hidden style={{ width: "8px", height: "8px", borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-              <span style={{ color: "var(--color-gray-600)" }}>{s.label}</span>
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{s.label}</span>
               <span style={{ fontWeight: 600 }}>{s.count}건</span>
             </div>
           ))}
@@ -157,7 +157,7 @@ export function ActivityScreen() {
           <PipelineBreakdown />
         </div>
         <OutcomeDonut />
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>필터</span>
           <div className="flex flex-col gap-3">
             <Select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)} sizing="sm" disabled={churnOnly}>
@@ -190,7 +190,7 @@ export function ActivityScreen() {
               <TimelineTime>{item.timeLabel}</TimelineTime>
               <TimelineTitle>{item.customer}</TimelineTitle>
               <TimelineBody>
-                <span style={{ color: "var(--color-gray-500)" }}>{item.actor}</span>
+                <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{item.actor}</span>
                 {", "}
                 <Badge color="gray" className="inline-flex">{item.fromStage}</Badge>
                 {" → "}
@@ -200,7 +200,7 @@ export function ActivityScreen() {
           </TimelineItem>
         ))}
         {rows.length === 0 && (
-          <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>조건에 맞는 활동이 없어요.</span>
+          <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>조건에 맞는 활동이 없어요.</span>
         )}
       </Timeline>
     </div>

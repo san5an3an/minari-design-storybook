@@ -10,7 +10,7 @@ import type { ScreenProps } from "../screens";
 const ROLE_TONE: Record<User["role"], { bg: string; fg: string }> = {
   관리자: { bg: "var(--color-primary-50)", fg: "var(--color-primary-700)" },
   편집자: { bg: "var(--color-yellow-50)", fg: "var(--color-yellow-700)" },
-  뷰어: { bg: "var(--color-gray-100)", fg: "var(--color-gray-700)" },
+  뷰어: { bg: "var(--semantic-bg-neutral-subtle)", fg: "var(--semantic-fg-neutral-default)" },
 };
 const ROLE_SERIES: Record<User["role"], string> = {
   관리자: "var(--component-chart-series-1)",
@@ -34,8 +34,8 @@ function GreetingLine() {
 // 스파크라인 없는 작은 통계 카드
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "10px 12px" }}>
-      <div style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{label}</div>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "10px 12px" }}>
+      <div style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{label}</div>
       <div style={{ fontSize: "16px", fontWeight: 600 }}>{value}</div>
     </div>
   );
@@ -45,14 +45,14 @@ function MiniStat({ label, value }: { label: string; value: string }) {
 function MiniBarChart({ title, data }: { title: string; data: { label: string; count: number; color: string }[] }) {
   const max = Math.max(...data.map((d) => d.count), 1);
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
-      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-gray-600)" }}>{title}</span>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
+      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>{title}</span>
       <div style={{ display: "flex", alignItems: "flex-end", gap: "10px", height: "56px", marginTop: "8px" }}>
         {data.map((d) => (
           <div key={d.label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: 1 }}>
-            <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{d.count}</span>
+            <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{d.count}</span>
             <div style={{ width: "100%", height: `${Math.max((d.count / max) * 40, 4)}px`, background: d.color, borderRadius: "3px" }} />
-            <span style={{ fontSize: "10px", color: "var(--color-gray-500)" }}>{d.label}</span>
+            <span style={{ fontSize: "10px", color: "var(--semantic-fg-neutral-subtle)" }}>{d.label}</span>
           </div>
         ))}
       </div>
@@ -71,15 +71,15 @@ function UserCard({ user, onOpen }: { user: User; onOpen: () => void }) {
       onClick={onOpen}
       onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
       style={{
-        display: "flex", alignItems: "center", gap: "10px", border: "1px solid var(--color-gray-200)",
-        borderRadius: "8px", padding: "12px", cursor: "pointer", background: "var(--color-gray-50)",
+        display: "flex", alignItems: "center", gap: "10px", border: "1px solid var(--semantic-border-neutral-subtle)",
+        borderRadius: "8px", padding: "12px", cursor: "pointer", background: "var(--semantic-bg-neutral-subtlest)",
       }}
     >
-      <GripVertical size={16} color="var(--color-gray-400)" aria-hidden />
+      <GripVertical size={16} color="var(--semantic-fg-neutral-subtle)" aria-hidden />
       <Avatar rounded size="sm" placeholderInitials={user.name[0]} />
       <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
         <span style={{ fontSize: "13px", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.name}</span>
-        <span style={{ fontSize: "11px", color: "var(--color-gray-500)", display: "flex", alignItems: "center", gap: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)", display: "flex", alignItems: "center", gap: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           <Mail size={11} aria-hidden />{user.email}
         </span>
       </div>
@@ -88,8 +88,8 @@ function UserCard({ user, onOpen }: { user: User; onOpen: () => void }) {
       </span>
       <Badge color={STATUS_COLOR[user.status]} className="flex-shrink-0">{user.status}</Badge>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "2px", width: "72px", flexShrink: 0 }}>
-        <span style={{ fontSize: "10px", color: "var(--color-gray-500)" }}>권한 {completeness}%</span>
-        <div style={{ width: "100%", height: "5px", borderRadius: "999px", background: "var(--color-gray-200)" }}>
+        <span style={{ fontSize: "10px", color: "var(--semantic-fg-neutral-subtle)" }}>권한 {completeness}%</span>
+        <div style={{ width: "100%", height: "5px", borderRadius: "999px", background: "var(--semantic-bg-neutral-subtle)" }}>
           <div style={{ width: `${completeness}%`, height: "100%", borderRadius: "999px", background: "var(--color-primary-500)" }} />
         </div>
       </div>
@@ -104,11 +104,11 @@ function StatusDonut({ data }: { data: { label: string; count: number; color: st
   const circumference = 2 * Math.PI * r;
   let offset = 0;
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
-      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-gray-600)" }}>상태별 인원</span>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
+      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>상태별 인원</span>
       <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px" }}>
         <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="상태별 인원 도넛 차트">
-          <circle cx="30" cy="30" r={r} fill="none" stroke="var(--color-gray-100)" strokeWidth="8" />
+          <circle cx="30" cy="30" r={r} fill="none" stroke="var(--semantic-border-neutral-subtle)" strokeWidth="8" />
           {data.map((d) => {
             const frac = d.count / total;
             const dash = frac * circumference;
@@ -136,7 +136,7 @@ function StatusDonut({ data }: { data: { label: string; count: number; color: st
           {data.map((d) => (
             <div key={d.label} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px" }}>
               <span aria-hidden style={{ width: "7px", height: "7px", borderRadius: "50%", background: d.color, flexShrink: 0 }} />
-              <span style={{ color: "var(--color-gray-600)" }}>{d.label}</span>
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{d.label}</span>
               <span style={{ fontWeight: 600 }}>{d.count}명</span>
             </div>
           ))}
@@ -242,7 +242,7 @@ export function UsersScreen({ onNavigate, onSelect, users: usersProp, onInviteUs
         <StatusDonut data={statusData} />
       </div>
 
-      <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+      <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
         <div className="flex flex-wrap items-center gap-3">
           <Select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value as User["role"] | "전체")} sizing="sm" className="max-w-[140px]">
             <option value="전체">역할 전체</option>
@@ -265,14 +265,14 @@ export function UsersScreen({ onNavigate, onSelect, users: usersProp, onInviteUs
           </label>
           <div className="ml-auto flex items-center gap-2">
             {/* 카드, 표 보기 ToggleSwitch로 전환 */}
-            <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>표로 보기</span>
+            <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>표로 보기</span>
             <ToggleSwitch checked={cardView} onChange={setCardView} label="카드로 보기" />
           </div>
         </div>
         {/* FileInput으로 CSV 일괄 가져오기 */}
-        <div className="mt-3 flex items-end gap-2" style={{ borderTop: "1px solid var(--color-gray-100)", paddingTop: "12px" }}>
+        <div className="mt-3 flex items-end gap-2" style={{ borderTop: "1px solid var(--semantic-border-neutral-subtle)", paddingTop: "12px" }}>
           <div className="flex-1">
-            <span style={{ fontSize: "12px", color: "var(--color-gray-500)", marginBottom: "4px", display: "block" }}>
+            <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)", marginBottom: "4px", display: "block" }}>
               사용자 일괄 가져오기(CSV)
             </span>
             <FileInput accept=".csv" onChange={(e) => setImportFile(e.target.files?.[0]?.name ?? null)} sizing="sm" />
@@ -284,7 +284,7 @@ export function UsersScreen({ onNavigate, onSelect, users: usersProp, onInviteUs
       {cardView ? (
         <div className="flex flex-col gap-2">
           {rows.map((u) => <UserCard key={u.id} user={u} onOpen={() => open(u.id)} />)}
-          {rows.length === 0 && <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>조건에 맞는 사용자가 없어요.</span>}
+          {rows.length === 0 && <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>조건에 맞는 사용자가 없어요.</span>}
         </div>
       ) : (
         <div className="overflow-x-auto">

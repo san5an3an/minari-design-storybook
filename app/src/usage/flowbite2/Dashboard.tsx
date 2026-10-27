@@ -51,13 +51,13 @@ export function FlowbiteUsage2({ system }: UsageDashboardProps) {
             type="search"
             placeholder="사용자 검색"
             aria-label="사용자 검색"
-            style={{ width: "min(200px, 38vw)", borderRadius: "8px", border: "1px solid var(--color-gray-300)", padding: "6px 10px", fontSize: "14px" }}
+            style={{ width: "min(200px, 38vw)", borderRadius: "8px", border: "1px solid var(--semantic-border-neutral-default)", padding: "6px 10px", fontSize: "14px" }}
           />
           {/* 헤더 3요소: 검색, 알림, 아바타 */}
           <button
             type="button"
             aria-label="알림 2건"
-            style={{ position: "relative", display: "flex", color: "var(--color-gray-500)", background: "none", border: "none", cursor: "pointer" }}
+            style={{ position: "relative", display: "flex", color: "var(--semantic-fg-neutral-subtle)", background: "none", border: "none", cursor: "pointer" }}
           >
             <Bell size={18} />
             <span
@@ -89,7 +89,7 @@ export function FlowbiteUsage2({ system }: UsageDashboardProps) {
             {/* 그룹 헤딩 2개와 배지 카운트 체크리스트. 프로모 카드 없는 단순 구조 유지, 그룹핑 추가 */}
             <span
               aria-hidden
-              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--color-gray-400)", textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               계정 관리
             </span>
@@ -109,10 +109,10 @@ export function FlowbiteUsage2({ system }: UsageDashboardProps) {
                 </SidebarItem>
               ))}
             </SidebarItemGroup>
-            <div aria-hidden style={{ borderTop: "1px solid var(--color-gray-200)", margin: "10px 12px" }} />
+            <div aria-hidden style={{ borderTop: "1px solid var(--semantic-border-neutral-subtle)", margin: "10px 12px" }} />
             <span
               aria-hidden
-              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--color-gray-400)", textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               보안
             </span>
@@ -138,7 +138,7 @@ export function FlowbiteUsage2({ system }: UsageDashboardProps) {
         <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "16px" }}>
             <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>{screen.label}</h2>
-            <p style={{ margin: 0, fontSize: "14px", color: "var(--color-gray-500)" }}>{screen.lede}</p>
+            <p style={{ margin: 0, fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{screen.lede}</p>
           </div>
           <Screen
             onNavigate={setScreenKey}

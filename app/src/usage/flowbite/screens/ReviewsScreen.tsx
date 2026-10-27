@@ -21,8 +21,8 @@ function ReviewSummaryStats({ avg }: { avg: number }) {
   return (
     <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))" }}>
       {items.map((it) => (
-        <div key={it.label} style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{it.label}</span>
+        <div key={it.label} style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{it.label}</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{it.value}</div>
         </div>
       ))}
@@ -34,13 +34,13 @@ function ReviewSummaryStats({ avg }: { avg: number }) {
 function RatingDistribution({ distribution }: { distribution: { score: number; count: number }[] }) {
   const max = Math.max(...distribution.map((d) => d.count), 1);
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
       <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "4px" }}>별점 분포</span>
       {distribution.map((d) => (
         <div key={d.score} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ fontSize: "12px", width: "28px", flexShrink: 0, color: "var(--color-gray-600)" }}>{d.score}점</span>
+          <span style={{ fontSize: "12px", width: "28px", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)" }}>{d.score}점</span>
           <Progress progress={(d.count / max) * 100} color="yellow" size="sm" className="flex-1" />
-          <span style={{ fontSize: "12px", width: "20px", textAlign: "right", flexShrink: 0, color: "var(--color-gray-500)" }}>{d.count}</span>
+          <span style={{ fontSize: "12px", width: "20px", textAlign: "right", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)" }}>{d.count}</span>
         </div>
       ))}
     </div>
@@ -52,7 +52,7 @@ function BestReviewCarousel() {
   const best = REVIEWS.filter((r) => r.score === 5);
   if (best.length === 0) return null;
   return (
-    <div style={{ height: "140px", border: "1px solid var(--color-gray-200)", borderRadius: "8px", overflow: "hidden" }}>
+    <div style={{ height: "140px", border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", overflow: "hidden" }}>
       <Carousel slideInterval={5000} indicators={best.length > 1}>
         {best.map((r) => (
           <div
@@ -61,7 +61,7 @@ function BestReviewCarousel() {
           >
             <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-primary-700)" }}>베스트 리뷰</span>
             <Blockquote style={{ fontSize: "15px", fontWeight: 600 }}>{r.comment}</Blockquote>
-            <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{r.customer}</span>
+            <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{r.customer}</span>
           </div>
         ))}
       </Carousel>
@@ -87,7 +87,7 @@ export function ReviewsScreen() {
         <div style={{ flex: 1, minWidth: 0 }}>
           <RatingDistribution distribution={distribution} />
         </div>
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>필터·정렬</span>
           <div className="flex flex-col gap-3">
             <Select
@@ -121,15 +121,15 @@ export function ReviewsScreen() {
                 <RatingStar key={i} filled={i < r.score} />
               ))}
             </Rating>
-            <Blockquote className="font-normal" style={{ color: "var(--color-gray-700)" }}>{r.comment}</Blockquote>
-            <div className="flex items-center justify-between" style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>
+            <Blockquote className="font-normal" style={{ color: "var(--semantic-fg-neutral-default)" }}>{r.comment}</Blockquote>
+            <div className="flex items-center justify-between" style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>
               <span>{r.customer}</span>
               <span>{r.dateLabel}</span>
             </div>
           </Card>
         ))}
         {rows.length === 0 && (
-          <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>조건에 맞는 리뷰가 없어요.</span>
+          <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>조건에 맞는 리뷰가 없어요.</span>
         )}
       </div>
     </div>

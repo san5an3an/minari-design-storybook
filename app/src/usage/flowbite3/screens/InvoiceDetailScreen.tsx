@@ -17,8 +17,8 @@ export function InvoiceDetailScreen({ selectedId, onNavigate, onSelect, invoices
 
   if (!invoice) {
     return (
-      <div style={{ border: "1px dashed var(--color-gray-300)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
-        <span style={{ color: "var(--color-gray-500)", fontSize: "14px" }}>
+      <div style={{ border: "1px dashed var(--semantic-border-neutral-default)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
+        <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "14px" }}>
           인보이스를 먼저 골라 주세요. "인보이스" 탭에서 행을 눌러 보세요.
         </span>
         <div style={{ marginTop: "12px" }}>
@@ -41,10 +41,10 @@ export function InvoiceDetailScreen({ selectedId, onNavigate, onSelect, invoices
             <Badge color={STATUS_COLOR[invoice.status]}>{invoice.status}</Badge>
           </Tooltip>
         </div>
-        <span style={{ fontSize: "14px", color: "var(--color-gray-500)" }}>{invoice.customer} · {invoice.issuedLabel}</span>
+        <span style={{ fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{invoice.customer} · {invoice.issuedLabel}</span>
       </div>
       <div>
-        <List unstyled className="divide-y" style={{ borderTop: "1px solid var(--color-gray-200)" }}>
+        <List unstyled className="divide-y" style={{ borderTop: "1px solid var(--semantic-border-neutral-subtle)" }}>
           {invoice.lines.map((l) => (
             <ListItem key={l.label} className="flex items-center justify-between" style={{ padding: "8px 0" }}>
               <span style={{ fontSize: "14px" }}>{l.label}</span>
@@ -59,12 +59,12 @@ export function InvoiceDetailScreen({ selectedId, onNavigate, onSelect, invoices
       </div>
 
       {/* 같은 고객의 다른 인보이스, CustomersScreen 관련 항목 패턴과 동일 */}
-      <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+      <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
         <span style={{ fontSize: "13px", fontWeight: 600 }}>{invoice.customer}의 다른 인보이스</span>
         {(() => {
           const related = invoices.filter((i) => i.customer === invoice.customer && i.id !== invoice.id);
           if (related.length === 0) {
-            return <span style={{ fontSize: "13px", color: "var(--color-gray-500)", display: "block", marginTop: "8px" }}>없음</span>;
+            return <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)", display: "block", marginTop: "8px" }}>없음</span>;
           }
           return (
             <div className="mt-2 flex flex-col gap-2">
@@ -79,7 +79,7 @@ export function InvoiceDetailScreen({ selectedId, onNavigate, onSelect, invoices
                   }}
                 >
                   <span style={{ fontSize: "13px", color: "var(--color-primary-600)" }}>{i.number}</span>
-                  <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{i.issuedLabel}</span>
+                  <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{i.issuedLabel}</span>
                   <Badge color={STATUS_COLOR[i.status]}>{i.status}</Badge>
                   <span style={{ fontSize: "13px", fontWeight: 600 }}>{won(i.total)}</span>
                 </button>

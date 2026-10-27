@@ -43,13 +43,13 @@ export function FlowbiteUsage3({ system }: UsageDashboardProps) {
             type="search"
             placeholder="인보이스 검색"
             aria-label="인보이스 검색"
-            style={{ width: "min(200px, 38vw)", borderRadius: "8px", border: "1px solid var(--color-gray-300)", padding: "6px 10px", fontSize: "14px" }}
+            style={{ width: "min(200px, 38vw)", borderRadius: "8px", border: "1px solid var(--semantic-border-neutral-default)", padding: "6px 10px", fontSize: "14px" }}
           />
           {/* 헤더 3요소: 검색, 알림, 아바타 */}
           <button
             type="button"
             aria-label="알림 1건"
-            style={{ position: "relative", display: "flex", color: "var(--color-gray-500)", background: "none", border: "none", cursor: "pointer" }}
+            style={{ position: "relative", display: "flex", color: "var(--semantic-fg-neutral-subtle)", background: "none", border: "none", cursor: "pointer" }}
           >
             <Bell size={18} />
             <span
@@ -64,11 +64,11 @@ export function FlowbiteUsage3({ system }: UsageDashboardProps) {
             </span>
           </button>
           {/* 사이드바 없는 레이아웃의 상단 유저 블록, 아바타와 이름/역할 표시 */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", paddingInlineStart: "6px", borderInlineStart: "1px solid var(--color-gray-200)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", paddingInlineStart: "6px", borderInlineStart: "1px solid var(--semantic-border-neutral-subtle)" }}>
             <Avatar rounded size="sm" placeholderInitials="하" />
             <div className="hidden sm:flex sm:flex-col">
               <span style={{ fontSize: "12px", fontWeight: 600, lineHeight: 1.2 }}>하늘 매니저</span>
-              <span style={{ fontSize: "11px", color: "var(--color-gray-500)", lineHeight: 1.2 }}>결제팀</span>
+              <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)", lineHeight: 1.2 }}>결제팀</span>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export function FlowbiteUsage3({ system }: UsageDashboardProps) {
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "16px" }}>
           <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>{screen.label}</h2>
-          <p style={{ margin: 0, fontSize: "14px", color: "var(--color-gray-500)" }}>{screen.lede}</p>
+          <p style={{ margin: 0, fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{screen.lede}</p>
         </div>
         <Screen
           onNavigate={setScreenKey}

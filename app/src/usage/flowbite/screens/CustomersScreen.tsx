@@ -95,7 +95,7 @@ function CrmStatCard({ stat }: { stat: CrmStat }) {
   return (
     <div
       style={{
-        border: "1px solid var(--color-gray-200)",
+        border: "1px solid var(--semantic-border-neutral-subtle)",
         borderRadius: "8px",
         padding: "14px",
       }}
@@ -111,7 +111,7 @@ function CrmStatCard({ stat }: { stat: CrmStat }) {
           >
             <Icon size={15} strokeWidth={2} />
           </span>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{stat.label}</span>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{stat.label}</span>
           <span style={{ fontSize: "18px", fontWeight: 600 }}>{stat.value}</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
@@ -135,7 +135,7 @@ function MrrTrendChart() {
   const points = trend.map((v, i) => `${(i / (trend.length - 1)) * w},${h - ((v - min) / span) * h}`).join(" ");
   const areaPoints = `0,${h} ${points} ${w},${h}`;
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
         <span style={{ fontSize: "13px", fontWeight: 600 }}>{range} MRR 추이</span>
         <div className="flex items-center gap-2">
@@ -151,7 +151,7 @@ function MrrTrendChart() {
         <polygon points={areaPoints} fill="var(--color-primary-100)" />
         <polyline points={points} fill="none" stroke="var(--color-primary-600)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "var(--color-gray-500)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>
         <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span>
       </div>
     </div>
@@ -176,11 +176,11 @@ function PlanMixDonut() {
   let offset = 0;
 
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>요금제별 매출 비중</span>
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <svg width="72" height="72" viewBox="0 0 72 72" role="img" aria-label="요금제별 매출 비중 도넛 차트">
-          <circle cx="36" cy="36" r={r} fill="none" stroke="var(--color-gray-100)" strokeWidth="10" />
+          <circle cx="36" cy="36" r={r} fill="none" stroke="var(--semantic-border-neutral-subtle)" strokeWidth="10" />
           {byPlan.map((p) => {
             const frac = p.total / grandTotal;
             const dash = frac * circumference;
@@ -208,7 +208,7 @@ function PlanMixDonut() {
           {byPlan.map((p) => (
             <div key={p.plan} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px" }}>
               <span aria-hidden style={{ width: "8px", height: "8px", borderRadius: "50%", background: COLOR[p.plan], flexShrink: 0 }} />
-              <span style={{ color: "var(--color-gray-600)", flex: 1 }}>{p.plan}</span>
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)", flex: 1 }}>{p.plan}</span>
               <span style={{ fontWeight: 600 }}>{Math.round((p.total / grandTotal) * 100)}%</span>
             </div>
           ))}
@@ -223,7 +223,7 @@ const CHANNEL_ICON: Record<UpcomingMeeting["channel"], typeof Video> = { 화상:
 // 2단 오른쪽, 예정 미팅 예약 리스트
 function UpcomingMeetingsList() {
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <span style={{ fontSize: "13px", fontWeight: 600 }}>다가오는 미팅</span>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" }}>
         {UPCOMING_MEETINGS.map((m) => {
@@ -242,16 +242,16 @@ function UpcomingMeetingsList() {
               </span>
               <div style={{ display: "flex", flexDirection: "column", minWidth: 0, flex: 1 }}>
                 <span style={{ fontSize: "13px", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.customer}</span>
-                <span style={{ fontSize: "12px", color: "var(--color-gray-500)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.topic}</span>
+                <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.topic}</span>
               </div>
-              <span style={{ fontSize: "12px", color: "var(--color-gray-500)", flexShrink: 0 }}>{m.timeLabel}</span>
+              <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)", flexShrink: 0 }}>{m.timeLabel}</span>
             </div>
           );
         })}
       </div>
       {/* Datepicker로 미팅 예약일 선택하기 */}
-      <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid var(--color-gray-100)" }}>
-        <span style={{ fontSize: "12px", color: "var(--color-gray-500)", marginBottom: "6px", display: "block" }}>새 미팅 예약</span>
+      <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid var(--semantic-border-neutral-subtle)" }}>
+        <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)", marginBottom: "6px", display: "block" }}>새 미팅 예약</span>
         <div className="flex items-center gap-2">
           <Datepicker language="ko-KR" labelTodayButton="오늘" labelClearButton="지우기" className="flex-1" />
           <Button size="sm">예약</Button>

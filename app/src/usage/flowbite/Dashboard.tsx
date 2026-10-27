@@ -67,7 +67,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
             style={{
               width: "min(200px, 38vw)",
               borderRadius: "8px",
-              border: "1px solid var(--color-gray-300)",
+              border: "1px solid var(--semantic-border-neutral-default)",
               padding: "6px 10px",
               fontSize: "14px",
             }}
@@ -76,7 +76,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
           <button
             type="button"
             aria-label="알림 3건"
-            style={{ position: "relative", display: "flex", color: "var(--color-gray-500)", background: "none", border: "none", cursor: "pointer" }}
+            style={{ position: "relative", display: "flex", color: "var(--semantic-fg-neutral-subtle)", background: "none", border: "none", cursor: "pointer" }}
           >
             <Bell size={18} />
             <span
@@ -108,7 +108,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
             {/* 그룹 헤딩 2개와 배지 카운트로 구성된 체크리스트. 영업과 고객 경험으로 구분 */}
             <span
               aria-hidden
-              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--color-gray-400)", textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               영업
             </span>
@@ -128,10 +128,10 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
                 </SidebarItem>
               ))}
             </SidebarItemGroup>
-            <div aria-hidden style={{ borderTop: "1px solid var(--color-gray-200)", margin: "10px 12px" }} />
+            <div aria-hidden style={{ borderTop: "1px solid var(--semantic-border-neutral-subtle)", margin: "10px 12px" }} />
             <span
               aria-hidden
-              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--color-gray-400)", textTransform: "uppercase", letterSpacing: "0.04em" }}
+              style={{ display: "block", padding: "0 12px", marginBottom: "6px", fontSize: "11px", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}
             >
               고객 경험
             </span>
@@ -157,16 +157,16 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <Badge color="success" className="w-fit">신규</Badge>
               <span style={{ fontSize: "13px", fontWeight: 600 }}>Growth 플랜 체험</span>
-              <span style={{ fontSize: "12px", color: "var(--color-gray-600)" }}>
+              <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>
                 딜 자동 분류 기능을 14일 무료로 써 보세요.
               </span>
             </div>
           </SidebarCTA>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "16px", paddingTop: "12px", borderTop: "1px solid var(--color-gray-200)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "16px", paddingTop: "12px", borderTop: "1px solid var(--semantic-border-neutral-subtle)" }}>
             <Avatar rounded size="sm" placeholderInitials="하" />
             <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
               <span style={{ fontSize: "13px", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>하늘 매니저</span>
-              <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>영업팀</span>
+              <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>영업팀</span>
             </div>
           </div>
         </Sidebar>
@@ -175,7 +175,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
         <div style={{ flex: 1, minWidth: 0, minHeight: 0, overflowY: "auto", padding: "20px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "16px" }}>
             <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>{screen.label}</h2>
-            <p style={{ margin: 0, fontSize: "14px", color: "var(--color-gray-500)" }}>{screen.lede}</p>
+            <p style={{ margin: 0, fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{screen.lede}</p>
           </div>
           <Screen
             onNavigate={setScreenKey}

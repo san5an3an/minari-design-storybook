@@ -10,15 +10,15 @@ const ANNUAL_DISCOUNT = 0.8;
 function PlanPriceBar({ cycle, plans }: { cycle: "월간" | "연간"; plans: Plan[] }) {
   const max = Math.max(...plans.map((p) => p.monthlyPrice), 1);
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px" }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px" }}>
       <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>요금제별 월 비용 비교</span>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {plans.map((p) => {
           const price = cycle === "연간" ? Math.round(p.monthlyPrice * ANNUAL_DISCOUNT) : p.monthlyPrice;
           return (
             <div key={p.id} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ fontSize: "12px", width: "80px", flexShrink: 0, color: "var(--color-gray-600)", fontWeight: p.current ? 700 : 400 }}>{p.name}</span>
-              <div style={{ flex: 1, height: "10px", borderRadius: "999px", background: "var(--color-gray-100)" }}>
+              <span style={{ fontSize: "12px", width: "80px", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)", fontWeight: p.current ? 700 : 400 }}>{p.name}</span>
+              <div style={{ flex: 1, height: "10px", borderRadius: "999px", background: "var(--semantic-bg-neutral-subtle)" }}>
                 <div
                   style={{
                     width: `${Math.max((price / max) * 100, 4)}%`, height: "100%", borderRadius: "999px",
@@ -26,7 +26,7 @@ function PlanPriceBar({ cycle, plans }: { cycle: "월간" | "연간"; plans: Pla
                   }}
                 />
               </div>
-              <span style={{ fontSize: "12px", width: "84px", textAlign: "right", flexShrink: 0, color: "var(--color-gray-500)" }}>{won(price)}</span>
+              <span style={{ fontSize: "12px", width: "84px", textAlign: "right", flexShrink: 0, color: "var(--semantic-fg-neutral-subtle)" }}>{won(price)}</span>
             </div>
           );
         })}
@@ -52,7 +52,7 @@ export function PlansScreen() {
   return (
     <div className="flex flex-col gap-4" style={{ position: "relative" }}>
       <div className="flex items-center gap-2">
-        <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>청구 주기</span>
+        <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>청구 주기</span>
         <ButtonGroup>
           <Button size="xs" color={cycle === "월간" ? "default" : "light"} onClick={() => setCycle("월간")}>월간</Button>
           <Button size="xs" color={cycle === "연간" ? "default" : "light"} onClick={() => setCycle("연간")}>연간 (20% 할인)</Button>
@@ -70,8 +70,8 @@ export function PlansScreen() {
                 <span style={{ fontWeight: 700, fontSize: "16px" }}>{p.name}</span>
                 {p.current ? <Badge color="success">현재 요금제</Badge> : null}
               </div>
-              <span style={{ fontSize: "20px", fontWeight: 700 }}>{won(price)}<span style={{ fontSize: "13px", fontWeight: 400, color: "var(--color-gray-500)" }}> /월{cycle === "연간" ? " · 연 결제" : ""}</span></span>
-              <ul style={{ margin: 0, paddingInlineStart: "18px", fontSize: "14px", color: "var(--color-gray-700)" }}>
+              <span style={{ fontSize: "20px", fontWeight: 700 }}>{won(price)}<span style={{ fontSize: "13px", fontWeight: 400, color: "var(--semantic-fg-neutral-subtle)" }}> /월{cycle === "연간" ? " · 연 결제" : ""}</span></span>
+              <ul style={{ margin: 0, paddingInlineStart: "18px", fontSize: "14px", color: "var(--semantic-fg-neutral-default)" }}>
                 {p.features.map((f) => <li key={f}>{f}</li>)}
               </ul>
               {!p.current ? <Button size="sm" onClick={() => switchTo(p.id)}>이 요금제로 바꾸기</Button> : null}
