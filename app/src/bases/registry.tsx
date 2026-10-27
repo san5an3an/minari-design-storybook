@@ -12,6 +12,7 @@ import "grommet/es6/contexts/ThemeContext/ThemeContext";
 import { Grommet } from "grommet";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.layer.css";
+import { mantineVariantColors } from "./mantineVariantColors";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect } from "react";
@@ -1768,6 +1769,7 @@ function mantineProvider({ slug, mode, children }: BaseProviderProps) {
   return (
     <MantineProvider
       theme={pick(MANTINE_THEME, slug, "mantine")[mode]}
+      cssVariablesResolver={mantineVariantColors}
       forceColorScheme={mode === "light" ? "light" : "dark"}
     >
       {children}

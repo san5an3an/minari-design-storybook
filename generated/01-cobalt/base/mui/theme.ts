@@ -590,7 +590,7 @@ export const darkTheme = createTheme({
     },
     "error": {
       "main": "#d25549",
-      "contrastText": "#260907"
+      "contrastText": "#ffffff"
     },
     "background": {
       "default": "#181919",
@@ -607,7 +607,7 @@ export const darkTheme = createTheme({
     },
     "success": {
       "main": "#009342",
-      "contrastText": "#011a07"
+      "contrastText": "#ffffff"
     },
     "warning": {
       "main": "#ffbb00",

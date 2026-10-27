@@ -534,7 +534,7 @@ export const darkConfig = defineConfig({
             "value": "#161a12"
           },
           "contrast": {
-            "value": "#0c1801"
+            "value": "#ffffff"
           },
           "fg": {
             "value": "#96ba75"
@@ -603,7 +603,7 @@ export const darkConfig = defineConfig({
             "value": "#131b15"
           },
           "contrast": {
-            "value": "#011a07"
+            "value": "#ffffff"
           },
           "fg": {
             "value": "#7cbf8a"
@@ -626,7 +626,7 @@ export const darkConfig = defineConfig({
             "value": "#1c1810"
           },
           "contrast": {
-            "value": "#1c1200"
+            "value": "#ffffff"
           },
           "fg": {
             "value": "#cdaa60"

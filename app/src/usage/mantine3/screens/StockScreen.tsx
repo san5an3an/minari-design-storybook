@@ -38,7 +38,7 @@ export function StockScreen({ onNavigate, onSelect }: ScreenProps) {
       <Chip.Group multiple={false} value={category} onChange={(v) => { setCategory(v as (typeof CATEGORIES)[number]); setPage(1); }}>
         <Group gap="0.5rem" wrap="wrap">
           {CATEGORIES.map((c) => (
-            <Chip key={c} value={c} variant="filled" color="brand" size="sm">
+            <Chip key={c} value={c} variant="light" color="brand" size="sm">
               {c} ({c === "전체" ? PRODUCTS.length : PRODUCTS.filter((p) => p.category === c).length})
             </Chip>
           ))}

@@ -15,7 +15,14 @@ export const MANTINE: LibSpec = {
     const componentName = (d.title ?? "").trim() || pascal(d.slug ?? "");
     return { componentName, props: [], dropped: [] };
   },
-  extras: [],
+  extras: [
+    {
+      from: "app/src/bases/mantineVariantColors.ts",
+      to: "mantineVariantColors.ts",
+      why: "light·subtle 변형 글자색을 이 시스템 글자 토큰으로 잇습니다. "
+        + "없으면 다크 모드에서 Badge·현재 메뉴 같은 옅은 변형 글자가 바탕에 묻힙니다",
+    },
+  ],
   provider: () => `"use client";
 
 import * as React from "react";
@@ -23,6 +30,7 @@ import { MantineProvider } from "@mantine/core";
 
 import "@mantine/core/styles.css";
 import { byMode } from "./theme";
+import { mantineVariantColors } from "./mantineVariantColors";
 
 export type Mode = "light" | "dark" | "high-contrast";
 
@@ -41,6 +49,7 @@ export function Providers({
   return (
     <MantineProvider
       theme={byMode[mode]}
+      cssVariablesResolver={mantineVariantColors}
       forceColorScheme={mode === "light" ? "light" : "dark"}
     >
       {children}
