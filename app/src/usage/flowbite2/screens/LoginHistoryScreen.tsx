@@ -22,8 +22,8 @@ function LoginStats() {
   return (
     <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))" }}>
       {items.map((it) => (
-        <div key={it.label} style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "10px 12px" }}>
-          <div style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{it.label}</div>
+        <div key={it.label} style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "10px 12px" }}>
+          <div style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{it.label}</div>
           <div style={{ fontSize: "16px", fontWeight: 600 }}>{it.value}</div>
         </div>
       ))}
@@ -36,14 +36,14 @@ function WeekdayBarChart() {
   const counts = DAYS.map((d) => LOGIN_HISTORY.filter((e) => e.dayLabel === d).length);
   const max = Math.max(...counts, 1);
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
-      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-gray-600)" }}>요일별 로그인 시도</span>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
+      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>요일별 로그인 시도</span>
       <div style={{ display: "flex", alignItems: "flex-end", gap: "10px", height: "56px", marginTop: "8px" }}>
         {DAYS.map((d, i) => (
           <div key={d} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px", flex: 1 }}>
-            <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{counts[i]}</span>
+            <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{counts[i]}</span>
             <div style={{ width: "100%", height: `${Math.max((counts[i] / max) * 40, 4)}px`, background: "var(--color-primary-400)", borderRadius: "3px" }} />
-            <span style={{ fontSize: "10px", color: "var(--color-gray-500)" }}>{d}</span>
+            <span style={{ fontSize: "10px", color: "var(--semantic-fg-neutral-subtle)" }}>{d}</span>
           </div>
         ))}
       </div>
@@ -64,11 +64,11 @@ function ResultDonut() {
   const circumference = 2 * Math.PI * r;
   let offset = 0;
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
-      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-gray-600)" }}>로그인 결과 비중</span>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px", flex: 1, minWidth: 0 }}>
+      <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>로그인 결과 비중</span>
       <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "8px" }}>
         <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="로그인 결과 비중 도넛 차트">
-          <circle cx="30" cy="30" r={r} fill="none" stroke="var(--color-gray-100)" strokeWidth="8" />
+          <circle cx="30" cy="30" r={r} fill="none" stroke="var(--semantic-border-neutral-subtle)" strokeWidth="8" />
           {slices.map((s) => {
             const frac = s.count / total;
             const dash = frac * circumference;
@@ -96,7 +96,7 @@ function ResultDonut() {
           {slices.map((s) => (
             <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px" }}>
               <span aria-hidden style={{ width: "7px", height: "7px", borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-              <span style={{ color: "var(--color-gray-600)" }}>{s.label}</span>
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{s.label}</span>
               <span style={{ fontWeight: 600 }}>{s.count}건 ({Math.round((s.count / total) * 100)}%)</span>
             </div>
           ))}
@@ -134,7 +134,7 @@ export function LoginHistoryScreen() {
         <ResultDonut />
       </div>
 
-      <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+      <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
         <div className="flex flex-wrap items-center gap-3">
           <Select value={resultFilter} onChange={(e) => setResultFilter(e.target.value as LoginEvent["result"] | "전체")} sizing="sm" className="max-w-[120px]">
             <option value="전체">결과 전체</option>
@@ -163,13 +163,13 @@ export function LoginHistoryScreen() {
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1, minWidth: 0 }}>
                 <span style={{ fontWeight: 600 }}>{e.user}</span>
-                <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{e.device} · {e.location} · {e.timeLabel}</span>
+                <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{e.device} · {e.location} · {e.timeLabel}</span>
               </div>
               <Badge color={RESULT_COLOR[e.result]}>{e.result}</Badge>
             </div>
           </Card>
         ))}
-        {rows.length === 0 && <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>조건에 맞는 로그인 기록이 없어요.</span>}
+        {rows.length === 0 && <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>조건에 맞는 로그인 기록이 없어요.</span>}
       </div>
 
       {/* 긴 목록에 Pagination 적용 */}

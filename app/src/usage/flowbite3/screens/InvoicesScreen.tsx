@@ -37,8 +37,8 @@ const TONE_HEX: Record<StatTone, string> = {
 
 function InvoiceStatCard({ stat }: { stat: InvoiceStat }) {
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-      <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{stat.label}</span>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+      <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{stat.label}</span>
       <div style={{ fontSize: "18px", fontWeight: 600, color: TONE_HEX[stat.tone] }}>{stat.value}</div>
     </div>
   );
@@ -86,11 +86,11 @@ function StatusAmountDonut({ invoices }: { invoices: readonly Invoice[] }) {
   const circumference = 2 * Math.PI * r;
   let offset = 0;
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "10px", display: "block" }}>상태별 금액 비중</span>
       <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
         <svg width="72" height="72" viewBox="0 0 72 72" role="img" aria-label="상태별 금액 비중 도넛 차트">
-          <circle cx="36" cy="36" r={r} fill="none" stroke="var(--color-gray-100)" strokeWidth="10" />
+          <circle cx="36" cy="36" r={r} fill="none" stroke="var(--semantic-border-neutral-subtle)" strokeWidth="10" />
           {slices.map((s) => {
             const frac = s.total / grandTotal;
             const dash = frac * circumference;
@@ -118,7 +118,7 @@ function StatusAmountDonut({ invoices }: { invoices: readonly Invoice[] }) {
           {slices.map((s) => (
             <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px" }}>
               <span aria-hidden style={{ width: "8px", height: "8px", borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-              <span style={{ color: "var(--color-gray-600)", flex: 1 }}>{s.label}</span>
+              <span style={{ color: "var(--semantic-fg-neutral-subtle)", flex: 1 }}>{s.label}</span>
               <span style={{ fontWeight: 600 }}>{Math.round((s.total / grandTotal) * 100)}%</span>
             </div>
           ))}
@@ -167,10 +167,10 @@ function MonthlyRevenueBar({ invoices }: { invoices: readonly Invoice[] }) {
   const barW = Math.max(Math.min(slot - 36, 56), 10);
 
   return (
-    <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
+    <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "16px", flex: 1, minWidth: 0 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "10px" }}>
         <span style={{ fontSize: "13px", fontWeight: 600 }}>월별 청구 금액</span>
-        <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>단위: 만원</span>
+        <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>단위: 만원</span>
       </div>
       <svg width="100%" viewBox={`0 0 ${w} ${h}`} role="img" aria-label="월별 청구 금액 막대그래프" style={{ display: "block" }}>
         {ticks.map((v) => {
@@ -182,16 +182,16 @@ function MonthlyRevenueBar({ invoices }: { invoices: readonly Invoice[] }) {
                 y1={y}
                 x2={w}
                 y2={y}
-                stroke={v === 0 ? "var(--color-gray-300)" : "var(--color-gray-200)"}
+                stroke={v === 0 ? "var(--semantic-border-neutral-default)" : "var(--semantic-border-neutral-subtle)"}
                 strokeWidth={v === 0 ? 1 : 0.5}
               />
-              <text x={padLeft - 5} y={y + 3} fontSize="9" textAnchor="end" fill="var(--color-gray-500)">
+              <text x={padLeft - 5} y={y + 3} fontSize="9" textAnchor="end" fill="var(--semantic-fg-neutral-subtle)">
                 {v.toLocaleString("ko-KR")}
               </text>
             </g>
           );
         })}
-        <line x1={padLeft} y1={padTop} x2={padLeft} y2={padTop + plotH} stroke="var(--color-gray-300)" strokeWidth={1} />
+        <line x1={padLeft} y1={padTop} x2={padLeft} y2={padTop + plotH} stroke="var(--semantic-border-neutral-default)" strokeWidth={1} />
         {data.map((d, i) => {
           const barH = Math.max((d.value / top) * plotH, 2);
           const x = padLeft + i * slot + (slot - barW) / 2;
@@ -201,10 +201,10 @@ function MonthlyRevenueBar({ invoices }: { invoices: readonly Invoice[] }) {
               <rect x={x} y={barTop} width={barW} height={barH} rx={3} fill="var(--color-primary-500)">
                 <title>{`${d.label} ${d.value.toLocaleString("ko-KR")}만원`}</title>
               </rect>
-              <text x={x + barW / 2} y={barTop - 4} fontSize="9.5" textAnchor="middle" fill="var(--color-gray-700)">
+              <text x={x + barW / 2} y={barTop - 4} fontSize="9.5" textAnchor="middle" fill="var(--semantic-fg-neutral-default)">
                 {d.value.toLocaleString("ko-KR")}
               </text>
-              <text x={x + barW / 2} y={h - 5} fontSize="10" textAnchor="middle" fill="var(--color-gray-500)">
+              <text x={x + barW / 2} y={h - 5} fontSize="10" textAnchor="middle" fill="var(--semantic-fg-neutral-subtle)">
                 {d.label}
               </text>
             </g>
@@ -278,8 +278,8 @@ export function InvoicesScreen({ onNavigate, onSelect, invoices: invoicesProp, o
                 onClick={() => setStatus(s)}
                 className="rounded-full px-3 py-1 text-xs font-medium"
                 style={{
-                  background: status === s ? "var(--color-primary-600)" : "var(--color-gray-100)",
-                  color: status === s ? "white" : "var(--color-gray-700)",
+                  background: status === s ? "var(--color-primary-600)" : "var(--semantic-bg-neutral-subtle)",
+                  color: status === s ? "white" : "var(--semantic-fg-neutral-default)",
                 }}
               >
                 {s} {count}
@@ -297,7 +297,7 @@ export function InvoicesScreen({ onNavigate, onSelect, invoices: invoicesProp, o
           <option value="amount">금액 순</option>
         </Select>
         {/* Kbd로 검색 단축키 힌트 표시 */}
-        <span style={{ fontSize: "12px", color: "var(--color-gray-500)", display: "flex", alignItems: "center", gap: "4px" }}>
+        <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)", display: "flex", alignItems: "center", gap: "4px" }}>
           <Kbd>⌘</Kbd><Kbd>K</Kbd> 로 인보이스 번호 검색
         </span>
       </div>

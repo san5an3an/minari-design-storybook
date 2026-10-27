@@ -45,8 +45,8 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
 
   if (!user) {
     return (
-      <div style={{ border: "1px dashed var(--color-gray-300)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
-        <span style={{ color: "var(--color-gray-500)", fontSize: "14px" }}>
+      <div style={{ border: "1px dashed var(--semantic-border-neutral-default)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
+        <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "14px" }}>
           사용자를 먼저 골라 주세요. "사용자" 탭에서 카드나 행을 눌러 보세요.
         </span>
         <div style={{ marginTop: "12px" }}>
@@ -78,7 +78,7 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
             <span style={{ fontWeight: 600, fontSize: "18px" }}>{user.name}</span>
             <Badge color={STATUS_COLOR[user.status]}>{user.status}</Badge>
           </div>
-          <span style={{ fontSize: "14px", color: "var(--color-gray-500)" }}>{user.email} · {user.role}</span>
+          <span style={{ fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{user.email} · {user.role}</span>
         </div>
         <div className="ml-auto flex items-center gap-2">
           {/* Drawer로 감사 로그 슬라이드 표시 */}
@@ -98,23 +98,23 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
 
       {/* 스파크라인 없는 작은 통계 카드 */}
       <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))" }}>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "10px 12px" }}>
-          <div style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>마지막 로그인</div>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "10px 12px" }}>
+          <div style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>마지막 로그인</div>
           <div style={{ fontSize: "15px", fontWeight: 600 }}>{user.lastLoginLabel}</div>
         </div>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "10px 12px" }}>
-          <div style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>보유 권한</div>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "10px 12px" }}>
+          <div style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>보유 권한</div>
           <div style={{ fontSize: "15px", fontWeight: 600 }}>{perms.size}개</div>
         </div>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "10px 12px" }}>
-          <div style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>같은 역할 동료</div>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "10px 12px" }}>
+          <div style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>같은 역할 동료</div>
           <div style={{ fontSize: "15px", fontWeight: 600 }}>{related.length}명</div>
         </div>
       </div>
 
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--color-gray-500)" }}>권한 완성도</span>
+          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>권한 완성도</span>
           <Button size="xs" color="light" onClick={() => setEditing(true)}>일괄 편집</Button>
         </div>
         <Progress progress={completeness} color={completeness >= 75 ? "default" : completeness === 0 ? "gray" : "yellow"} textLabel={`${completeness}%`} textLabelPosition="outside" labelText size="lg" />
@@ -132,7 +132,7 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
                 {group.permissions.map((p) => (
                   <div key={p} className="flex items-center justify-between">
                     <span style={{ fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
-                      <KeyRound size={13} aria-hidden color="var(--color-gray-400)" />
+                      <KeyRound size={13} aria-hidden color="var(--semantic-fg-neutral-subtle)" />
                       {p}
                     </span>
                     <ToggleSwitch checked={perms.has(p)} onChange={() => togglePerm(p)} label={`${p} 권한`} />
@@ -145,29 +145,29 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
       </Accordion>
 
       <div className="flex flex-col gap-3 md:flex-row">
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
             <Clock3 size={14} aria-hidden />최근 활동
           </span>
           {activity.length === 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--color-gray-500)", display: "block", marginTop: "8px" }}>기록 없음</span>
+            <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)", display: "block", marginTop: "8px" }}>기록 없음</span>
           ) : (
             <ListGroup className="mt-2">
               {activity.map((a) => (
                 <ListGroupItem key={a.id}>
                   <span className="flex w-full items-center justify-between">
                     <span style={{ fontSize: "13px" }}>{a.label}</span>
-                    <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{a.timeLabel}</span>
+                    <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{a.timeLabel}</span>
                   </span>
                 </ListGroupItem>
               ))}
             </ListGroup>
           )}
         </div>
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600 }}>같은 역할의 다른 사용자</span>
           {related.length === 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--color-gray-500)", display: "block", marginTop: "8px" }}>없음</span>
+            <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)", display: "block", marginTop: "8px" }}>없음</span>
           ) : (
             <div className="mt-2 flex flex-col gap-2">
               {related.map((u) => (
@@ -223,14 +223,14 @@ export function UserDetailScreen({ selectedId, onNavigate, users: usersProp }: S
         <DrawerHeader title={`${user.name} 감사 로그`} />
         <DrawerItems>
           {activity.length === 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>기록 없음</span>
+            <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>기록 없음</span>
           ) : (
             <ListGroup>
               {activity.map((a) => (
                 <ListGroupItem key={a.id}>
                   <span className="flex w-full items-center justify-between">
                     <span style={{ fontSize: "13px" }}>{a.label}</span>
-                    <span style={{ fontSize: "11px", color: "var(--color-gray-500)" }}>{a.timeLabel}</span>
+                    <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)" }}>{a.timeLabel}</span>
                   </span>
                 </ListGroupItem>
               ))}

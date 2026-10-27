@@ -32,8 +32,8 @@ export function CustomerDetailScreen({ selectedId, onNavigate, customers: custom
 
   if (!customer) {
     return (
-      <div style={{ border: "1px dashed var(--color-gray-300)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
-        <span style={{ color: "var(--color-gray-500)", fontSize: "14px" }}>
+      <div style={{ border: "1px dashed var(--semantic-border-neutral-default)", borderRadius: "8px", padding: "32px", textAlign: "center" }}>
+        <span style={{ color: "var(--semantic-fg-neutral-subtle)", fontSize: "14px" }}>
           고객을 먼저 골라 주세요. "고객" 탭에서 표의 행을 눌러 보세요.
         </span>
         <div style={{ marginTop: "12px" }}>
@@ -63,25 +63,25 @@ export function CustomerDetailScreen({ selectedId, onNavigate, customers: custom
             <span style={{ fontWeight: 600, fontSize: "18px" }}>{customer.name}</span>
             <Badge color={badge.color}>{badge.label}</Badge>
           </div>
-          <span style={{ fontSize: "14px", color: "var(--color-gray-500)" }}>{customer.company} · {customer.plan}</span>
+          <span style={{ fontSize: "14px", color: "var(--semantic-fg-neutral-subtle)" }}>{customer.company} · {customer.plan}</span>
         </div>
       </div>
 
       <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))" }}>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>월 매출</span>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>월 매출</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{won(customer.mrr)}</div>
         </div>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>예정된 미팅</span>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>예정된 미팅</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{relatedMeetings.length}건</div>
         </div>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>남긴 리뷰</span>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>남긴 리뷰</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{relatedReviews.length}건</div>
         </div>
-        <div style={{ border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
-          <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>딜 이동 이력</span>
+        <div style={{ border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
+          <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>딜 이동 이력</span>
           <div style={{ fontSize: "18px", fontWeight: 600 }}>{relatedActivity.length}건</div>
         </div>
       </div>
@@ -101,10 +101,10 @@ export function CustomerDetailScreen({ selectedId, onNavigate, customers: custom
       </div>
 
       <div className="flex flex-col gap-3 md:flex-row">
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600 }}>다가오는 미팅</span>
           {relatedMeetings.length === 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--color-gray-500)", display: "block", marginTop: "8px" }}>예정된 미팅 없음</span>
+            <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)", display: "block", marginTop: "8px" }}>예정된 미팅 없음</span>
           ) : (
             <div className="mt-2 flex flex-col gap-2">
               {relatedMeetings.map((m) => {
@@ -113,17 +113,17 @@ export function CustomerDetailScreen({ selectedId, onNavigate, customers: custom
                   <div key={m.id} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <Icon size={13} color="var(--color-primary-600)" aria-hidden />
                     <span style={{ fontSize: "13px", flex: 1 }}>{m.topic}</span>
-                    <span style={{ fontSize: "12px", color: "var(--color-gray-500)" }}>{m.timeLabel}</span>
+                    <span style={{ fontSize: "12px", color: "var(--semantic-fg-neutral-subtle)" }}>{m.timeLabel}</span>
                   </div>
                 );
               })}
             </div>
           )}
         </div>
-        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--color-gray-200)", borderRadius: "8px", padding: "14px" }}>
+        <div style={{ flex: 1, minWidth: 0, border: "1px solid var(--semantic-border-neutral-subtle)", borderRadius: "8px", padding: "14px" }}>
           <span style={{ fontSize: "13px", fontWeight: 600 }}>같은 요금제({customer.plan})의 다른 고객</span>
           {related.length === 0 ? (
-            <span style={{ fontSize: "13px", color: "var(--color-gray-500)", display: "block", marginTop: "8px" }}>없음</span>
+            <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)", display: "block", marginTop: "8px" }}>없음</span>
           ) : (
             <div className="mt-2 flex flex-col gap-2">
               {related.map((c) => (
@@ -141,14 +141,14 @@ export function CustomerDetailScreen({ selectedId, onNavigate, customers: custom
       <div>
         <span style={{ fontSize: "13px", fontWeight: 600, marginBottom: "8px", display: "block" }}>남긴 리뷰</span>
         {relatedReviews.length === 0 ? (
-          <span style={{ fontSize: "13px", color: "var(--color-gray-500)" }}>아직 리뷰가 없어요.</span>
+          <span style={{ fontSize: "13px", color: "var(--semantic-fg-neutral-subtle)" }}>아직 리뷰가 없어요.</span>
         ) : (
           <ListGroup>
             {relatedReviews.map((r) => (
               <ListGroupItem key={r.id}>
                 <span className="flex w-full items-center justify-between">
                   <span style={{ fontSize: "13px" }}>{r.comment}</span>
-                  <span style={{ fontSize: "11px", color: "var(--color-gray-500)", flexShrink: 0, marginLeft: "8px" }}>{r.score}점 · {r.dateLabel}</span>
+                  <span style={{ fontSize: "11px", color: "var(--semantic-fg-neutral-subtle)", flexShrink: 0, marginLeft: "8px" }}>{r.score}점 · {r.dateLabel}</span>
                 </span>
               </ListGroupItem>
             ))}
