@@ -6,7 +6,7 @@ export const theme = createTheme({
   "palette": {
     "mode": "light",
     "primary": {
-      "main": "#26a5e4",
+      "main": "#1c9ad6",
       "contrastText": "#ffffff"
     },
     "error": {
@@ -585,7 +585,7 @@ export const darkTheme = createTheme({
   "palette": {
     "mode": "dark",
     "primary": {
-      "main": "#26a5e4",
+      "main": "#4898c6",
       "contrastText": "#ffffff"
     },
     "error": {

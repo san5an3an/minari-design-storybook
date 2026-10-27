@@ -8,10 +8,10 @@ export const config = defineConfig({
       "colors": {
         "brand": {
           "solid": {
-            "value": "#f38020"
+            "value": "#e57616"
           },
           "emphasized": {
-            "value": "#e57616"
+            "value": "#a25000"
           },
           "muted": {
             "value": "#f6e2d6"
@@ -499,10 +499,10 @@ export const darkConfig = defineConfig({
       "colors": {
         "brand": {
           "solid": {
-            "value": "#f38020"
+            "value": "#d58146"
           },
           "emphasized": {
-            "value": "#ff964c"
+            "value": "#f38020"
           },
           "muted": {
             "value": "#3b2c23"

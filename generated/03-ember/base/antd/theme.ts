@@ -149,12 +149,12 @@ const components = { ...{
     "itemActiveColor": "#0c0806"
   },
   "Pagination": {
-    "itemActiveBg": "#f38020",
+    "itemActiveBg": "#e57616",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
   },
   "Calendar": {
-    "itemActiveBg": "#f38020"
+    "itemActiveBg": "#e57616"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -289,12 +289,12 @@ const darkComponents = { ...{
     "itemActiveColor": "#fef8f4"
   },
   "Pagination": {
-    "itemActiveBg": "#f38020",
+    "itemActiveBg": "#d58146",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
   },
   "Calendar": {
-    "itemActiveBg": "#f38020"
+    "itemActiveBg": "#d58146"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -440,11 +440,11 @@ const highContrastComponents = { ...{
 
 // 모드별 값 하나. 색은 토큰이 보유, 알고리즘은 밝기만 구분
 const themeSeed = {
-  "colorPrimary": "#f38020",
+  "colorPrimary": "#e57616",
   "colorError": "#991b1b",
   "colorSuccess": "#35ca68",
   "colorWarning": "#daa500",
-  "colorInfo": "#f38020",
+  "colorInfo": "#e57616",
   "colorLink": "#a25000",
   "colorErrorText": "#710e0f",
   "colorSuccessText": "#007e38",
@@ -509,11 +509,11 @@ export const theme = {
 } as unknown as ThemeConfig;
 
 const darkThemeSeed = {
-  "colorPrimary": "#f38020",
+  "colorPrimary": "#d58146",
   "colorError": "#991b1b",
   "colorSuccess": "#009342",
   "colorWarning": "#a07800",
-  "colorInfo": "#f38020",
+  "colorInfo": "#d58146",
   "colorLink": "#ffa86f",
   "colorErrorText": "#e57c71",
   "colorSuccessText": "#3fae60",
