@@ -10,6 +10,7 @@ export type PrimeReactEntry = {
   untouched: string[];
 };
 
+// 표 줄무늬 행 바탕은 lara 에 색이 직접 박혀 shade 를 안 따라가 모드마다 bg.neutral.subtlest 로 지정
 export const theme: PrimeReactEntry = {
   "base": "lara-light",
   "vars": {
@@ -98,6 +99,8 @@ export const theme: PrimeReactEntry = {
     "shade700": "#07080a",
     "shade800": "#595d60",
     "shade900": "#07080a",
+    "tableBodyRowEvenBg": "#f7f8f8",
+    "panelContentEvenRowBg": "#f7f8f8",
     "borderRadius": "4px",
     "dockBorderRadius": "6px",
     "inputPadding": "0.375rem 0.75rem",
@@ -253,6 +256,8 @@ export const darkTheme: PrimeReactEntry = {
     "shade700": "#222223",
     "shade800": "#222223",
     "shade900": "#181919",
+    "tableBodyRowEvenBg": "#181919",
+    "panelContentEvenRowBg": "#181919",
     "borderRadius": "4px",
     "dockBorderRadius": "6px",
     "inputPadding": "0.375rem 0.75rem",
@@ -407,6 +412,8 @@ export const highContrastTheme: PrimeReactEntry = {
     "shade700": "#080809",
     "shade800": "#080809",
     "shade900": "#020202",
+    "tableBodyRowEvenBg": "#020202",
+    "panelContentEvenRowBg": "#020202",
     "borderRadius": "4px",
     "dockBorderRadius": "6px",
     "inputPadding": "0.375rem 0.75rem",
