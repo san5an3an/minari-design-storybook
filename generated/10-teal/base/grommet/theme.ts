@@ -5,11 +5,11 @@ import type { ThemeType } from "grommet";
 export const theme: ThemeType = {
   "global": {
     "colors": {
-      "brand": "#26a5e4",
-      "control": "#26a5e4",
+      "brand": "#1c9ad6",
+      "control": "#1c9ad6",
       "focus": "#5faedd",
-      "selected": "#26a5e4",
-      "selected-background": "#26a5e4",
+      "selected": "#1c9ad6",
+      "selected-background": "#1c9ad6",
       "selected-text": "#ffffff",
       "active-background": "#d6e6f1",
       "active-text": "#006c9a",
@@ -305,11 +305,11 @@ export const theme: ThemeType = {
 export const darkTheme: ThemeType = {
   "global": {
     "colors": {
-      "brand": "#26a5e4",
-      "control": "#26a5e4",
+      "brand": "#4898c6",
+      "control": "#4898c6",
       "focus": "#4898c6",
-      "selected": "#26a5e4",
-      "selected-background": "#26a5e4",
+      "selected": "#4898c6",
+      "selected-background": "#4898c6",
       "selected-text": "#ffffff",
       "active-background": "#233038",
       "active-text": "#68c1f5",

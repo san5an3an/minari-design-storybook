@@ -149,12 +149,12 @@ const components = { ...{
     "itemActiveColor": "#060909"
   },
   "Pagination": {
-    "itemActiveBg": "#26a5e4",
+    "itemActiveBg": "#1c9ad6",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
   },
   "Calendar": {
-    "itemActiveBg": "#26a5e4"
+    "itemActiveBg": "#1c9ad6"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -289,12 +289,12 @@ const darkComponents = { ...{
     "itemActiveColor": "#f6fafa"
   },
   "Pagination": {
-    "itemActiveBg": "#26a5e4",
+    "itemActiveBg": "#4898c6",
     "itemActiveColor": "#ffffff",
     "itemActiveColorHover": "#ffffff"
   },
   "Calendar": {
-    "itemActiveBg": "#26a5e4"
+    "itemActiveBg": "#4898c6"
   }
 }, Button: button } satisfies Record<string, Rem<Record<string, unknown>>>;
 
@@ -440,7 +440,7 @@ const highContrastComponents = { ...{
 
 // 모드별 값 하나. 색은 토큰이 보유, 알고리즘은 밝기만 구분
 const themeSeed = {
-  "colorPrimary": "#26a5e4",
+  "colorPrimary": "#1c9ad6",
   "colorError": "#c84d42",
   "colorSuccess": "#51c672",
   "colorWarning": "#daa500",
@@ -509,7 +509,7 @@ export const theme = {
 } as unknown as ThemeConfig;
 
 const darkThemeSeed = {
-  "colorPrimary": "#26a5e4",
+  "colorPrimary": "#4898c6",
   "colorError": "#d25549",
   "colorSuccess": "#009342",
   "colorWarning": "#a07800",

@@ -17,10 +17,10 @@ export const theme = createTheme({
       "#f6e2d6",
       "#f6e2d6",
       "#f6e2d6",
-      "#f38020",
       "#e57616",
-      "#e57616",
-      "#e57616"
+      "#a25000",
+      "#a25000",
+      "#a25000"
     ],
     "danger": [
       "#efe2e0",
@@ -93,10 +93,10 @@ export const darkTheme = createTheme({
       "#3b2c23",
       "#3b2c23",
       "#3b2c23",
+      "#d58146",
       "#f38020",
-      "#ff964c",
-      "#ff964c",
-      "#ff964c"
+      "#f38020",
+      "#f38020"
     ],
     "danger": [
       "#1b1311",

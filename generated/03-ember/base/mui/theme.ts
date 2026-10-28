@@ -6,7 +6,7 @@ export const theme = createTheme({
   "palette": {
     "mode": "light",
     "primary": {
-      "main": "#f38020",
+      "main": "#e57616",
       "contrastText": "#ffffff"
     },
     "error": {
@@ -23,7 +23,7 @@ export const theme = createTheme({
     },
     "divider": "#dad6d3",
     "info": {
-      "main": "#f38020",
+      "main": "#e57616",
       "contrastText": "#ffffff"
     },
     "success": {
@@ -585,7 +585,7 @@ export const darkTheme = createTheme({
   "palette": {
     "mode": "dark",
     "primary": {
-      "main": "#f38020",
+      "main": "#d58146",
       "contrastText": "#ffffff"
     },
     "error": {
@@ -602,7 +602,7 @@ export const darkTheme = createTheme({
     },
     "divider": "#3c3937",
     "info": {
-      "main": "#f38020",
+      "main": "#d58146",
       "contrastText": "#ffffff"
     },
     "success": {

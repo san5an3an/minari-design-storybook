@@ -4,8 +4,8 @@ import type { Theme } from "@cloudscape-design/components/theming";
 
 export const theme: Theme = {
   tokens: {
-  "colorBackgroundButtonPrimaryDefault": "#f38020",
-  "colorBackgroundButtonPrimaryHover": "#e57616",
+  "colorBackgroundButtonPrimaryDefault": "#e57616",
+  "colorBackgroundButtonPrimaryHover": "#a25000",
   "colorBackgroundButtonPrimaryActive": "#a25000",
   "colorBackgroundButtonPrimaryDisabled": "#f1f0ef",
   "colorBackgroundButtonNormalDefault": "#fdfdfc",
@@ -14,8 +14,8 @@ export const theme: Theme = {
   "colorBackgroundButtonNormalDisabled": "#f1f0ef",
   "colorBackgroundButtonLinkHover": "#fbefe8",
   "colorBackgroundButtonLinkActive": "#f6e2d6",
-  "colorBorderButtonPrimaryDefault": "#f38020",
-  "colorBorderButtonPrimaryHover": "#e57616",
+  "colorBorderButtonPrimaryDefault": "#e57616",
+  "colorBorderButtonPrimaryHover": "#a25000",
   "colorBorderButtonPrimaryActive": "#a25000",
   "colorBorderButtonNormalDefault": "#cec9c5",
   "colorBorderButtonNormalHover": "#bbb4af",
@@ -36,7 +36,7 @@ export const theme: Theme = {
   "colorBackgroundInputDefault": "#fdfdfc",
   "colorBackgroundInputDisabled": "#f1f0ef",
   "colorBackgroundItemSelected": "#f6e2d6",
-  "colorBackgroundControlChecked": "#f38020",
+  "colorBackgroundControlChecked": "#e57616",
   "colorBackgroundControlDefault": "#fdfdfc",
   "colorBackgroundControlDisabled": "#f1f0ef",
   "colorForegroundControlDefault": "#ffffff",
@@ -120,8 +120,8 @@ export const theme: Theme = {
 
 export const darkTheme: Theme = {
   tokens: {
-  "colorBackgroundButtonPrimaryDefault": "#f38020",
-  "colorBackgroundButtonPrimaryHover": "#ff964c",
+  "colorBackgroundButtonPrimaryDefault": "#d58146",
+  "colorBackgroundButtonPrimaryHover": "#f38020",
   "colorBackgroundButtonPrimaryActive": "#ffa86f",
   "colorBackgroundButtonPrimaryDisabled": "#232221",
   "colorBackgroundButtonNormalDefault": "#232221",
@@ -130,8 +130,8 @@ export const darkTheme: Theme = {
   "colorBackgroundButtonNormalDisabled": "#232221",
   "colorBackgroundButtonLinkHover": "#241c17",
   "colorBackgroundButtonLinkActive": "#3b2c23",
-  "colorBorderButtonPrimaryDefault": "#f38020",
-  "colorBorderButtonPrimaryHover": "#ff964c",
+  "colorBorderButtonPrimaryDefault": "#d58146",
+  "colorBorderButtonPrimaryHover": "#f38020",
   "colorBorderButtonPrimaryActive": "#ffa86f",
   "colorBorderButtonNormalDefault": "#4a4643",
   "colorBorderButtonNormalHover": "#605a56",
@@ -152,7 +152,7 @@ export const darkTheme: Theme = {
   "colorBackgroundInputDefault": "#232221",
   "colorBackgroundInputDisabled": "#232221",
   "colorBackgroundItemSelected": "#3b2c23",
-  "colorBackgroundControlChecked": "#f38020",
+  "colorBackgroundControlChecked": "#d58146",
   "colorBackgroundControlDefault": "#232221",
   "colorBackgroundControlDisabled": "#232221",
   "colorForegroundControlDefault": "#ffffff",

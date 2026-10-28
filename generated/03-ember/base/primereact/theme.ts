@@ -14,13 +14,13 @@ export type PrimeReactEntry = {
 export const theme: PrimeReactEntry = {
   "base": "lara-light",
   "vars": {
-    "primaryColor": "#f38020",
+    "primaryColor": "#e57616",
     "primaryTextColor": "#ffffff",
     "highlightBg": "#f6e2d6",
     "highlightTextColor": "#a25000",
     "highlightFocusBg": "#fbefe8",
     "primaryLightColor": "#f6e2d6",
-    "primaryDarkColor": "#e57616",
+    "primaryDarkColor": "#a25000",
     "primaryDarkerColor": "#723a10",
     "secondaryButtonBg": "#b5aca6",
     "secondaryButtonTextColor": "#000000",
@@ -162,12 +162,12 @@ export const theme: PrimeReactEntry = {
 export const darkTheme: PrimeReactEntry = {
   "base": "lara-dark",
   "vars": {
-    "primaryColor": "#f38020",
+    "primaryColor": "#d58146",
     "primaryTextColor": "#ffffff",
     "highlightBg": "#3b2c23",
     "highlightTextColor": "#ffa86f",
     "highlightFocusBg": "#241c17",
-    "primaryLightColor": "#ff964c",
+    "primaryLightColor": "#f38020",
     "primaryLighterColor": "#3b2c23",
     "primaryLightestColor": "#241c17",
     "secondaryButtonBg": "#857d76",
