@@ -29,10 +29,10 @@ function invoiceStats(invoices: readonly Invoice[]): readonly InvoiceStat[] {
   ];
 }
 const TONE_HEX: Record<StatTone, string> = {
-  primary: "var(--color-primary-600)",
-  green: "var(--color-green-600)",
-  yellow: "var(--color-yellow-600)",
-  red: "var(--color-red-600)",
+  primary: "var(--semantic-fg-brand-default)",
+  green: "var(--semantic-fg-success-default)",
+  yellow: "var(--semantic-fg-warning-default)",
+  red: "var(--semantic-fg-danger-default)",
 };
 
 function InvoiceStatCard({ stat }: { stat: InvoiceStat }) {
