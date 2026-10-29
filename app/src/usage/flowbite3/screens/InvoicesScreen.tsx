@@ -51,8 +51,8 @@ function CurrentPlanBanner() {
     <div
       style={{
         alignItems: "center",
-        background: "var(--color-primary-50)",
-        border: "1px solid var(--color-primary-200)",
+        background: "var(--semantic-bg-brand-subtlest)",
+        border: "1px solid var(--semantic-border-brand-default)",
         borderRadius: "8px",
         display: "flex",
         justifyContent: "space-between",

@@ -8,8 +8,8 @@ import { USERS, type User } from "../data";
 import type { ScreenProps } from "../screens";
 
 const ROLE_TONE: Record<User["role"], { bg: string; fg: string }> = {
-  관리자: { bg: "var(--color-primary-50)", fg: "var(--color-primary-700)" },
-  편집자: { bg: "var(--color-yellow-50)", fg: "var(--color-yellow-700)" },
+  관리자: { bg: "var(--semantic-bg-brand-subtle)", fg: "var(--semantic-fg-brand-default)" },
+  편집자: { bg: "var(--semantic-bg-warning-subtle)", fg: "var(--semantic-fg-warning-default)" },
   뷰어: { bg: "var(--semantic-bg-neutral-subtle)", fg: "var(--semantic-fg-neutral-default)" },
 };
 const ROLE_SERIES: Record<User["role"], string> = {
@@ -154,14 +154,14 @@ function SuspendedBanner({ count, onDismiss }: { count: number; onDismiss: () =>
       <div
         style={{
           display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px",
-          background: "var(--color-yellow-50)", border: "1px solid var(--color-yellow-200)",
+          background: "var(--semantic-bg-warning-subtlest)", border: "1px solid var(--semantic-border-warning-default)",
           borderRadius: "8px", padding: "10px 14px",
         }}
       >
-        <span style={{ fontSize: "13px", color: "var(--color-yellow-700)" }}>
+        <span style={{ fontSize: "13px", color: "var(--semantic-fg-warning-default)" }}>
           정지된 사용자 {count}명이 있어요. 계정 상태를 확인해 주세요.
         </span>
-        <button type="button" aria-label="배너 닫기" onClick={onDismiss} style={{ display: "flex", color: "var(--color-yellow-700)" }}>
+        <button type="button" aria-label="배너 닫기" onClick={onDismiss} style={{ display: "flex", color: "var(--semantic-fg-warning-default)" }}>
           <X size={14} />
         </button>
       </div>

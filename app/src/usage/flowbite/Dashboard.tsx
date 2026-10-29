@@ -153,7 +153,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
             </SidebarItemGroup>
           </SidebarItems>
           {/* color="warning" 사용. blue 없고 primary 키도 없어 대체값임 */}
-          <SidebarCTA color="warning">
+          <SidebarCTA color="warning" style={{ background: "var(--semantic-bg-warning-subtlest)" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <Badge color="success" className="w-fit">신규</Badge>
               <span style={{ fontSize: "13px", fontWeight: 600 }}>Growth 플랜 체험</span>
