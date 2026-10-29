@@ -81,14 +81,13 @@ export function SpectrumUsage({ system, active: mode }: UsageDashboardProps) {
           ))}
           <View flexGrow={1} />
           <View
-            backgroundColor="gray-50"
             borderRadius="medium"
             padding="size-150"
-            UNSAFE_style={{ backgroundImage: "linear-gradient(135deg, color-mix(in oklch, var(--semantic-bg-brand-strong) 85%, black), var(--semantic-bg-brand-default))", color: "white" }}
+            UNSAFE_style={{ background: "var(--semantic-bg-brand-default)", color: "var(--semantic-fg-on-brand-default)" }}
           >
             <Text UNSAFE_style={{ fontSize: "0.75rem", fontWeight: 600, display: "block", marginBottom: "0.25rem" }}>더 빠른 리뷰가 필요하신가요?</Text>
-            <Text UNSAFE_style={{ fontSize: "0.7rem", opacity: 0.85, display: "block", marginBottom: "0.5rem" }}>자동 태깅 플러그인을 켜보세요.</Text>
-            <ActionButton staticColor="white" UNSAFE_style={{ width: "100%" }}>자세히 보기</ActionButton>
+            <Text UNSAFE_style={{ fontSize: "0.7rem", display: "block", marginBottom: "0.5rem" }}>자동 태깅 플러그인을 켜보세요.</Text>
+            <ActionButton UNSAFE_style={{ width: "100%", background: "var(--semantic-bg-neutral-surface)", color: "var(--semantic-fg-brand-default)" }}>자세히 보기</ActionButton>
           </View>
           <Divider size="S" />
           <Flex alignItems="center" gap="size-100" UNSAFE_style={{ padding: "0.375rem 0.5rem" }}>

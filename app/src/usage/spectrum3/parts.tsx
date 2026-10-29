@@ -248,13 +248,13 @@ export function PromoCard({ title, body, cta }: { title: string; body: string; c
     <div
       style={{
         borderRadius: "var(--semantic-radius-container)",
-        background: "linear-gradient(140deg, var(--semantic-bg-brand-strong), var(--semantic-bg-brand-default))",
+        background: "var(--semantic-bg-brand-default)",
         color: "var(--semantic-fg-on-brand-default)",
         padding: "1rem", display: "flex", flexDirection: "column", gap: "0.45rem",
       }}
     >
       <Text UNSAFE_style={{ fontSize: "0.85rem", fontWeight: 700, color: "inherit" }}>{title}</Text>
-      <Text UNSAFE_style={{ fontSize: "0.7rem", color: "inherit", opacity: 0.9, lineHeight: 1.45 }}>{body}</Text>
+      <Text UNSAFE_style={{ fontSize: "0.7rem", color: "inherit", lineHeight: 1.45 }}>{body}</Text>
       <span
         style={{
           marginTop: "0.2rem", alignSelf: "flex-start",
