@@ -23,7 +23,14 @@ const LAYOUT_CSS = `
 }
 `;
 
-export function SpectrumUsage({ system }: UsageDashboardProps) {
+// 다크·고대비에서 공급자 라이트 색이 의미 토큰 바탕 위에 남지 않도록 모드를 따르고 공급자 글자·바탕을 의미 토큰으로 이음
+const PROVIDER_TOKENS = {
+  "--spectrum-alias-text-color": "var(--semantic-fg-neutral-default)",
+  "--spectrum-body-text-color": "var(--semantic-fg-neutral-default)",
+  "--spectrum-alias-background-color-default": "var(--semantic-bg-neutral-subtlest)",
+} as React.CSSProperties;
+
+export function SpectrumUsage({ system, active: mode }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
 
@@ -31,7 +38,7 @@ export function SpectrumUsage({ system }: UsageDashboardProps) {
   const Screen = screen.Screen;
 
   return (
-    <Provider theme={defaultTheme} colorScheme="light">
+    <Provider theme={defaultTheme} colorScheme={mode === "light" ? "light" : "dark"} UNSAFE_style={PROVIDER_TOKENS}>
       <style>{LAYOUT_CSS}</style>
       <div
         style={{
