@@ -84,7 +84,7 @@ export function FlowbiteUsage2({ system }: UsageDashboardProps) {
       </div>
 
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", overflow: "hidden" }}>
-        <Sidebar aria-label="관리자 콘솔 사이드바" style={{ width: "176px", flexShrink: 0 }}>
+        <Sidebar aria-label="관리자 콘솔 사이드바" style={{ width: "max(176px, calc(var(--spacing) * 44))", flexShrink: 0 }}>
           <SidebarItems>
             {/* 그룹 헤딩 2개와 배지 카운트 체크리스트. 프로모 카드 없는 단순 구조 유지, 그룹핑 추가 */}
             <span

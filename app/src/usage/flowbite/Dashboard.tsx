@@ -103,7 +103,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
       </div>
 
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", overflow: "hidden" }}>
-        <Sidebar aria-label="영업 CRM 사이드바" style={{ width: "192px", flexShrink: 0 }}>
+        <Sidebar aria-label="영업 CRM 사이드바" style={{ width: "max(192px, calc(var(--spacing) * 48))", flexShrink: 0 }}>
           <SidebarItems>
             {/* 그룹 헤딩 2개와 배지 카운트로 구성된 체크리스트. 영업과 고객 경험으로 구분 */}
             <span
