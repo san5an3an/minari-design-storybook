@@ -52,13 +52,13 @@ function UsageTrendCard() {
               </linearGradient>
             </defs>
             <CartesianGrid stroke="var(--semantic-border-neutral-subtle)" strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="month" tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtlest)" }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtle)" }} axisLine={false} tickLine={false} />
             {/* domain, ticks 직접 지정. 자동이면 눈금 순서 뒤섞임 */}
             <YAxis
               domain={[1200, 2400]}
               ticks={[1200, 1600, 2000, 2400]}
               tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}k`}
-              tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtlest)" }}
+              tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtle)" }}
               axisLine={false}
               tickLine={false}
               width={34}
@@ -178,8 +178,8 @@ function RecentChangesCard() {
               <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-subtle)" }}>{a.action}</Text>
             </Flex>
             <Flex direction="column" alignItems="end" gap="size-10" UNSAFE_style={{ flexShrink: 0 }}>
-              <Text UNSAFE_style={{ fontSize: "0.66rem", color: "var(--semantic-fg-neutral-subtlest)", whiteSpace: "nowrap" }}>{a.when}</Text>
-              <Text UNSAFE_style={{ fontSize: "0.64rem", color: "var(--semantic-fg-neutral-subtlest)", whiteSpace: "nowrap" }}>{a.who}</Text>
+              <Text UNSAFE_style={{ fontSize: "0.66rem", color: "var(--semantic-fg-neutral-subtle)", whiteSpace: "nowrap" }}>{a.when}</Text>
+              <Text UNSAFE_style={{ fontSize: "0.64rem", color: "var(--semantic-fg-neutral-subtle)", whiteSpace: "nowrap" }}>{a.who}</Text>
             </Flex>
           </Flex>
         ))}
@@ -212,10 +212,10 @@ function IssueFeedCard({ onNavigate }: { onNavigate?: (key: string) => void }) {
             <Flex direction="column" gap="size-10" UNSAFE_style={{ minWidth: 0, flex: 1 }}>
               <Flex justifyContent="space-between" gap="size-75" alignItems="baseline">
                 <Text UNSAFE_style={{ fontSize: "0.75rem", fontWeight: 600 }}>{i.token}</Text>
-                <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)", whiteSpace: "nowrap" }}>{i.when}</Text>
+                <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)", whiteSpace: "nowrap" }}>{i.when}</Text>
               </Flex>
               <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-subtle)", lineHeight: 1.35 }}>{i.detail}</Text>
-              <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{i.id}</Text>
+              <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtle)" }}>{i.id}</Text>
             </Flex>
           </Flex>
         ))}
@@ -367,7 +367,7 @@ export function PaletteScreen({ onSelect, onNavigate, query = "" }: ScreenProps)
                   <Cell>
                     <Flex direction="column" gap="size-10">
                       <Text UNSAFE_style={{ fontSize: "0.78rem", fontWeight: 600 }}>{t.name}</Text>
-                      <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)", fontVariantNumeric: "tabular-nums" }}>{t.hex.toUpperCase()}</Text>
+                      <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)", fontVariantNumeric: "tabular-nums" }}>{t.hex.toUpperCase()}</Text>
                     </Flex>
                   </Cell>
                   <Cell><Pill tone={CATEGORY_TONE[t.category]}>{t.category}</Pill></Cell>

@@ -66,7 +66,7 @@ export function ProjectDetailScreen({ selectedId, onNavigate }: ScreenProps) {
           <Flex justifyContent="space-between" alignItems="start" gap="size-150" wrap>
             <Flex direction="column" gap="size-75" UNSAFE_style={{ minWidth: 0 }}>
               <Flex alignItems="center" gap="size-100" wrap>
-                <Text UNSAFE_style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtlest)" }}>{project.code}</Text>
+                <Text UNSAFE_style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)" }}>{project.code}</Text>
                 <StatusChip status={project.status} />
                 <Chip>{project.category}</Chip>
                 <Chip>{project.sprint}</Chip>
@@ -153,7 +153,7 @@ export function ProjectDetailScreen({ selectedId, onNavigate }: ScreenProps) {
                         onChange={(v) => setDone((prev) => ({ ...prev, [t.id]: v }))}
                         aria-label={`${t.code} ${t.title}`}
                       />
-                      <Text UNSAFE_style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtlest)", flexShrink: 0 }}>{t.code}</Text>
+                      <Text UNSAFE_style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", flexShrink: 0 }}>{t.code}</Text>
                       <Text
                         UNSAFE_style={{
                           fontSize: "0.8rem", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",

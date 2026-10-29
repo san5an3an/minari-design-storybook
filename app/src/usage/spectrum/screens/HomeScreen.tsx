@@ -38,9 +38,9 @@ function Hero() {
       }}
     >
       <Flex direction="column" gap="size-50">
-        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-subtle)" }}>좋은 아침이에요 👋</Text>
+        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-default)" }}>좋은 아침이에요 👋</Text>
         <Heading level={3} margin={0}>오늘 검토할 자산이 {ASSETS.filter((a) => a.status === "검토 대기").length}건 있어요</Heading>
-        <Text UNSAFE_style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-subtle)" }}>마감 임박 자산부터 확인해 주세요.</Text>
+        <Text UNSAFE_style={{ fontSize: "0.85rem", color: "var(--semantic-fg-neutral-default)" }}>마감 임박 자산부터 확인해 주세요.</Text>
       </Flex>
       <svg width="140" height="48" viewBox="0 0 140 48" aria-hidden>
         <polyline
@@ -87,7 +87,7 @@ function LineChartCard() {
       </svg>
       <Flex justifyContent="space-between" marginTop="size-50">
         {WEEKLY_LABELS.filter((_, i) => i % 2 === 0).map((l) => (
-          <Text key={l} UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{l}</Text>
+          <Text key={l} UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)" }}>{l}</Text>
         ))}
       </Flex>
     </View>

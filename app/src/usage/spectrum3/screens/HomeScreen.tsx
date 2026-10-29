@@ -39,19 +39,19 @@ function Hero() {
     >
       <Flex direction="column" gap="size-75" UNSAFE_style={{ minWidth: "14rem" }}>
         <Flex alignItems="center" gap="size-100">
-          <Text UNSAFE_style={{ fontSize: "0.78rem", color: "var(--semantic-fg-neutral-subtle)" }}>안녕하세요, 한지우님 👋</Text>
+          <Text UNSAFE_style={{ fontSize: "0.78rem", color: "var(--semantic-fg-neutral-default)" }}>안녕하세요, 한지우님 👋</Text>
           <Chip>Sprint 25 · D-9</Chip>
         </Flex>
         <Text UNSAFE_style={{ fontSize: "1.35rem", fontWeight: 700, lineHeight: 1.25 }}>
           진행 중인 프로젝트 {active}개, 2주 안 마감 {dueSoon}건이에요
         </Text>
-        <Text UNSAFE_style={{ fontSize: "0.78rem", color: "var(--semantic-fg-neutral-subtle)" }}>
+        <Text UNSAFE_style={{ fontSize: "0.78rem", color: "var(--semantic-fg-neutral-default)" }}>
           PRJ-098 브랜드 가이드가 D-2 예요. 검토부터 끝내는 게 좋아요.
         </Text>
       </Flex>
       <Flex direction="column" gap="size-50" UNSAFE_style={{ minWidth: "11rem", flex: "0 1 14rem" }}>
         <Flex justifyContent="space-between">
-          <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-subtle)" }}>PRJ-114 진행 추이</Text>
+          <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-default)" }}>PRJ-114 진행 추이</Text>
           <Text UNSAFE_style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--semantic-fg-brand-default)" }}>68%</Text>
         </Flex>
         <div style={{ width: "100%", height: "3.2rem" }}>
@@ -182,7 +182,7 @@ function ProjectCard({ id, onSelect }: { id: string; onSelect: () => void }) {
       }}
     >
       <Flex justifyContent="space-between" alignItems="center" gap="size-75">
-        <Text UNSAFE_style={{ fontSize: "0.66rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtlest)", letterSpacing: "0.02em" }}>{p.code}</Text>
+        <Text UNSAFE_style={{ fontSize: "0.66rem", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", letterSpacing: "0.02em" }}>{p.code}</Text>
         <StatusChip status={p.status} />
       </Flex>
       <Flex direction="column" gap="size-25">

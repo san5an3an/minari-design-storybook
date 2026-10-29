@@ -170,7 +170,7 @@ export function StatCard({ s }: { s: StatSpec }) {
           <Text UNSAFE_style={{ fontSize: "1.45rem", fontWeight: 700, lineHeight: 1.15, whiteSpace: "nowrap" }}>{s.value}</Text>
           <Text
             UNSAFE_style={{
-              fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)",
+              fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)",
               minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
             }}
           >
@@ -236,7 +236,7 @@ export function ActivityRow({ memberId, action, target, at }: { memberId: string
           <span style={{ color: "var(--semantic-fg-neutral-subtle)" }}> · {action}</span>
         </Text>
         <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-subtle)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{target}</Text>
-        <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{at}</Text>
+        <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtle)" }}>{at}</Text>
       </Flex>
     </Flex>
   );

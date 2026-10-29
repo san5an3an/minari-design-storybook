@@ -338,7 +338,7 @@ export function PageBand({
       <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem", minWidth: 0 }}>
         <Text UNSAFE_style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--semantic-fg-brand-default)", letterSpacing: "0.02em" }}>{eyebrow}</Text>
         <Text UNSAFE_style={{ fontSize: "1.25rem", fontWeight: 700, lineHeight: 1.25 }}>{title}</Text>
-        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-subtle)" }}>{description}</Text>
+        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-default)" }}>{description}</Text>
       </div>
       {actions ? <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>{actions}</div> : null}
     </div>
