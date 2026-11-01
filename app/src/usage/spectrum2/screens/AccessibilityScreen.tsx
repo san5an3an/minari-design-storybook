@@ -85,9 +85,9 @@ export function AccessibilityScreen({ onSelect, onNavigate }: ScreenProps) {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={byCategory} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
                     <CartesianGrid stroke="var(--semantic-border-neutral-subtle)" strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="category" tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtlest)" }} axisLine={false} tickLine={false} />
+                    <XAxis dataKey="category" tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtle)" }} axisLine={false} tickLine={false} />
                     {/* 눈금 수동 지정. 자동 눈금이 뒤섞여 찍히는 문제 있음 */}
-                    <YAxis domain={[0, 6]} ticks={[0, 2, 4, 6]} allowDecimals={false} tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtlest)" }} axisLine={false} tickLine={false} width={28} />
+                    <YAxis domain={[0, 6]} ticks={[0, 2, 4, 6]} allowDecimals={false} tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtle)" }} axisLine={false} tickLine={false} width={28} />
                     <Tooltip
                       cursor={{ fill: "var(--semantic-bg-neutral-subtle)" }}
                       contentStyle={{
@@ -113,8 +113,8 @@ export function AccessibilityScreen({ onSelect, onNavigate }: ScreenProps) {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={contrastBars} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
                     <CartesianGrid stroke="var(--semantic-border-neutral-subtle)" strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="name" tick={{ fontSize: 9, fill: "var(--semantic-fg-neutral-subtlest)" }} axisLine={false} tickLine={false} interval={0} angle={-30} textAnchor="end" height={44} />
-                    <YAxis domain={[0, 20]} ticks={[0, 5, 10, 15, 20]} tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtlest)" }} axisLine={false} tickLine={false} width={28} />
+                    <XAxis dataKey="name" tick={{ fontSize: 9, fill: "var(--semantic-fg-neutral-subtle)" }} axisLine={false} tickLine={false} interval={0} angle={-30} textAnchor="end" height={44} />
+                    <YAxis domain={[0, 20]} ticks={[0, 5, 10, 15, 20]} tick={{ fontSize: 10, fill: "var(--semantic-fg-neutral-subtle)" }} axisLine={false} tickLine={false} width={28} />
                     <Tooltip
                       cursor={{ fill: "var(--semantic-bg-neutral-subtle)" }}
                       contentStyle={{
@@ -161,10 +161,10 @@ export function AccessibilityScreen({ onSelect, onNavigate }: ScreenProps) {
                     <Flex direction="column" gap="size-10" UNSAFE_style={{ minWidth: 0, flex: 1 }}>
                       <Flex justifyContent="space-between" gap="size-75" alignItems="baseline">
                         <Text UNSAFE_style={{ fontSize: "0.75rem", fontWeight: 600 }}>{i.token}</Text>
-                        <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)", whiteSpace: "nowrap" }}>{i.when}</Text>
+                        <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)", whiteSpace: "nowrap" }}>{i.when}</Text>
                       </Flex>
                       <Text UNSAFE_style={{ fontSize: "0.68rem", color: "var(--semantic-fg-neutral-subtle)", lineHeight: 1.35 }}>{i.detail}</Text>
-                      <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{i.id}</Text>
+                      <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtle)" }}>{i.id}</Text>
                     </Flex>
                   </Flex>
                 ))}
@@ -177,7 +177,7 @@ export function AccessibilityScreen({ onSelect, onNavigate }: ScreenProps) {
                   <Flex key={t.label} justifyContent="space-between" alignItems="center" gap="size-100">
                     <Flex direction="column" gap="size-10" UNSAFE_style={{ minWidth: 0 }}>
                       <Text UNSAFE_style={{ fontSize: "0.73rem", fontWeight: 600 }}>{t.label}</Text>
-                      <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{t.note}</Text>
+                      <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtle)" }}>{t.note}</Text>
                     </Flex>
                     <Pill tone="neutral">{t.value}</Pill>
                   </Flex>
@@ -230,7 +230,7 @@ export function AccessibilityScreen({ onSelect, onNavigate }: ScreenProps) {
                 <Cell>
                   <Flex direction="column" gap="size-10">
                     <Text UNSAFE_style={{ fontSize: "0.78rem", fontWeight: 600 }}>{r.name}</Text>
-                    <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtlest)", fontVariantNumeric: "tabular-nums" }}>{r.hex.toUpperCase()} · {r.usageCount}건 사용</Text>
+                    <Text UNSAFE_style={{ fontSize: "0.65rem", color: "var(--semantic-fg-neutral-subtle)", fontVariantNumeric: "tabular-nums" }}>{r.hex.toUpperCase()} · {r.usageCount}건 사용</Text>
                   </Flex>
                 </Cell>
                 <Cell><Pill tone="neutral">{r.category}</Pill></Cell>

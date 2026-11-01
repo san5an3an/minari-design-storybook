@@ -67,7 +67,7 @@ export function TokenDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPr
               <Pill tone={pass ? "success" : "danger"}>{pass ? "AA 통과" : "AA 미달"}</Pill>
               <Pill tone="neutral">{token.category}</Pill>
             </Flex>
-            <Text UNSAFE_style={{ fontSize: "0.75rem", color: "var(--semantic-fg-neutral-subtle)" }}>
+            <Text UNSAFE_style={{ fontSize: "0.75rem", color: "var(--semantic-fg-neutral-default)" }}>
               {token.hex.toUpperCase()} · 등록 {token.addedDate} · 담당 {token.owner} · 최근 변경 {TOKEN_HISTORY[0].commit}
             </Text>
           </Flex>
@@ -171,13 +171,13 @@ export function TokenDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPr
               </Flex>
               <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "0.4rem 0.5rem", alignItems: "center", marginTop: "0.2rem" }}>
                 <span />
-                <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtlest)", textAlign: "center" }}>흰</Text>
-                <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtlest)", textAlign: "center" }}>검정</Text>
+                <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtle)", textAlign: "center" }}>흰</Text>
+                <Text UNSAFE_style={{ fontSize: "0.62rem", color: "var(--semantic-fg-neutral-subtle)", textAlign: "center" }}>검정</Text>
                 {CRITERIA.map((c) => (
                   <React.Fragment key={c.label}>
                     <Flex direction="column" gap="size-10" UNSAFE_style={{ minWidth: 0 }}>
                       <Text UNSAFE_style={{ fontSize: "0.7rem" }}>{c.label}</Text>
-                      <Text UNSAFE_style={{ fontSize: "0.6rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{c.note}</Text>
+                      <Text UNSAFE_style={{ fontSize: "0.6rem", color: "var(--semantic-fg-neutral-subtle)" }}>{c.note}</Text>
                     </Flex>
                     <Verdict ok={token.contrastOnWhite >= c.threshold} />
                     <Verdict ok={token.contrastOnBlack >= c.threshold} />
@@ -207,7 +207,7 @@ export function TokenDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPr
                     </Flex>
                     <Flex direction="column" gap="size-10" UNSAFE_style={{ minWidth: 0, paddingBottom: "0.15rem" }}>
                       <Text UNSAFE_style={{ fontSize: "0.72rem", fontWeight: 600, lineHeight: 1.35 }}>{h.label}</Text>
-                      <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtlest)", fontVariantNumeric: "tabular-nums" }}>
+                      <Text UNSAFE_style={{ fontSize: "0.63rem", color: "var(--semantic-fg-neutral-subtle)", fontVariantNumeric: "tabular-nums" }}>
                         {h.date} · {h.by} · {h.commit}
                       </Text>
                     </Flex>
@@ -246,7 +246,7 @@ export function TokenDetailScreen({ selectedId, onSelect, onNavigate }: ScreenPr
       >
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1.2fr auto", gap: "0.5rem 0.75rem", alignItems: "center" }}>
           {["위치", "제품", "비중", "건수"].map((h) => (
-            <Text key={h} UNSAFE_style={{ fontSize: "0.66rem", fontWeight: 600, color: "var(--semantic-fg-neutral-subtlest)" }}>{h}</Text>
+            <Text key={h} UNSAFE_style={{ fontSize: "0.66rem", fontWeight: 600, color: "var(--semantic-fg-neutral-subtle)" }}>{h}</Text>
           ))}
           {usage.map((u) => (
             <React.Fragment key={`${u.base}-${u.screen}`}>

@@ -275,7 +275,7 @@ export function PromoCard({
       style={{
         borderRadius: "var(--semantic-radius-container)",
         padding: "1rem",
-        background: "linear-gradient(140deg, var(--semantic-bg-brand-default), var(--semantic-bg-brand-strong))",
+        background: "var(--semantic-bg-brand-default)",
         color: "var(--semantic-fg-on-brand-default)",
         display: "flex",
         flexDirection: "column",
@@ -291,7 +291,7 @@ export function PromoCard({
       <p
         style={{
           margin: 0, fontSize: "0.7rem", lineHeight: 1.5,
-          color: "var(--semantic-fg-on-brand-default)", opacity: 0.88,
+          color: "var(--semantic-fg-on-brand-default)",
           whiteSpace: "normal", overflow: "visible", textOverflow: "clip",
         }}
       >
@@ -338,7 +338,7 @@ export function PageBand({
       <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem", minWidth: 0 }}>
         <Text UNSAFE_style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--semantic-fg-brand-default)", letterSpacing: "0.02em" }}>{eyebrow}</Text>
         <Text UNSAFE_style={{ fontSize: "1.25rem", fontWeight: 700, lineHeight: 1.25 }}>{title}</Text>
-        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-subtle)" }}>{description}</Text>
+        <Text UNSAFE_style={{ fontSize: "0.8rem", color: "var(--semantic-fg-neutral-default)" }}>{description}</Text>
       </div>
       {actions ? <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>{actions}</div> : null}
     </div>
