@@ -9,6 +9,9 @@ import type { UsageDashboardProps } from "../registry";
 import { CUSTOMERS, DEAL_ACTIVITY, REVIEWS, type CustomerItem } from "./data";
 import { SCREENS } from "./screens";
 
+// 활성 pills 를 시스템 브랜드 채움 바탕·글자 토큰 짝으로 지정함. 기본 primary-600 위 흰 글자는 밝은 브랜드 시스템과 고대비에서 대비가 부족함
+const PILLS_THEME = { tablist: { tabitem: { variant: { pills: { active: { on: "rounded-lg bg-[color:var(--semantic-bg-brand-default)] text-[color:var(--semantic-fg-on-brand-default)]" } } } } } };
+
 export function FlowbiteUsage({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
@@ -95,7 +98,7 @@ export function FlowbiteUsage({ system }: UsageDashboardProps) {
       </Navbar>
 
       <div style={{ flexShrink: 0, paddingInline: "16px", paddingTop: "10px" }}>
-        <Tabs ref={tabsRef} variant="pills" onActiveTabChange={(i) => setScreenKey(SCREENS[i]?.key ?? SCREENS[0].key)}>
+        <Tabs ref={tabsRef} variant="pills" theme={PILLS_THEME} onActiveTabChange={(i) => setScreenKey(SCREENS[i]?.key ?? SCREENS[0].key)}>
           {SCREENS.map((s) => (
             <TabItem key={s.key} title={s.label} active={s.key === screenKey} />
           ))}

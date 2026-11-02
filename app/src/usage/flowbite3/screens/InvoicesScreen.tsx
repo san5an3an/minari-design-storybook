@@ -65,7 +65,7 @@ function CurrentPlanBanner() {
       <span
         style={{
           fontSize: "12px", fontWeight: 600, padding: "3px 10px", borderRadius: "999px",
-          background: "var(--color-primary-600)", color: "var(--semantic-fg-on-brand-default)",
+          background: "var(--semantic-bg-brand-default)", color: "var(--semantic-fg-on-brand-default)",
         }}
       >
         구독 중
@@ -278,8 +278,8 @@ export function InvoicesScreen({ onNavigate, onSelect, invoices: invoicesProp, o
                 onClick={() => setStatus(s)}
                 className="rounded-full px-3 py-1 text-xs font-medium"
                 style={{
-                  background: status === s ? "var(--color-primary-600)" : "var(--semantic-bg-neutral-subtle)",
-                  color: status === s ? "white" : "var(--semantic-fg-neutral-default)",
+                  background: status === s ? "var(--semantic-bg-brand-default)" : "var(--semantic-bg-neutral-subtle)",
+                  color: status === s ? "var(--semantic-fg-on-brand-default)" : "var(--semantic-fg-neutral-default)",
                 }}
               >
                 {s} {count}
