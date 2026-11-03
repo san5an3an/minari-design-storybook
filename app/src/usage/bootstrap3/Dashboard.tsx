@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { bootstrapAdapter } from "../../preview/bootstrapRef/adapter";
+import { BOOTSTRAP_USAGE_SCOPE, mountBootstrapUsageBridge } from "../bootstrapUsageBridge";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -13,6 +14,8 @@ export function BootstrapUsage3({ system, active }: UsageDashboardProps) {
     () => bootstrapAdapter.mountTheme?.(system, active, document),
     [system, active],
   );
+  // 카탈로그 어댑터가 스코프 안까지 못 거는 모드 값과 글자색을 사용 화면 감싸개에만 연결
+  React.useEffect(() => mountBootstrapUsageBridge(system, document), [system]);
 
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [selectedId, setSelectedId] = React.useState<string | undefined>(undefined);
@@ -22,7 +25,7 @@ export function BootstrapUsage3({ system, active }: UsageDashboardProps) {
   return (
     <bootstrapAdapter.Provider system={system} mode={active}>
       <div
-        className="d-flex flex-column overflow-hidden"
+        className={`${BOOTSTRAP_USAGE_SCOPE} d-flex flex-column overflow-hidden`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:
