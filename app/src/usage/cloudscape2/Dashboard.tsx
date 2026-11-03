@@ -4,6 +4,7 @@ import Icon from "@cloudscape-design/components/icon";
 import Input from "@cloudscape-design/components/input";
 import SideNavigation, { type SideNavigationProps } from "@cloudscape-design/components/side-navigation";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
+import { useCloudscapeUsageMode } from "../cloudscapeUsageMode";
 import type { UsageDashboardProps } from "../registry";
 import { BUCKETS } from "./screens/BucketsScreen";
 import { POLICIES } from "./screens/PoliciesScreen";
@@ -29,7 +30,8 @@ const NAV_ICON: Record<string, React.ReactNode> = {
   policies: <Icon name="security" />,
 };
 
-export function CloudscapeUsage2({ system }: UsageDashboardProps) {
+export function CloudscapeUsage2({ system, active }: UsageDashboardProps) {
+  useCloudscapeUsageMode(active);
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [region, setRegion] = React.useState<(typeof REGIONS)[number]>(REGIONS[0]);
   const [search, setSearch] = React.useState("");
