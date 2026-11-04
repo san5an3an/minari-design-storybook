@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Check } from "lucide-react";
+import { BOX_TODO_PILL, buttonText, SURFACE_TABS, SURFACE_WEAK_TEXT } from "../../lightningUsageColors";
 import { FEATURED_REQUEST, REQUESTS } from "../data";
 
 const won = (n: number | null) => (n == null ? "—" : `${n.toLocaleString()}원`);
@@ -47,10 +48,10 @@ export function RequestDetailScreen() {
             <p className="slds-text-heading_medium" style={{ fontWeight: 600 }}>{FEATURED_REQUEST.type}</p>
             <span className={"slds-badge " + STATUS_VARIANT[FEATURED_REQUEST.status]}>{FEATURED_REQUEST.status}</span>
           </div>
-          <p className="slds-text-body_small slds-text-color_weak">{FEATURED_REQUEST.id} · {FEATURED_REQUEST.requester} 요청 · {won(FEATURED_REQUEST.amount)}</p>
+          <p className="slds-text-body_small slds-text-color_weak" style={SURFACE_WEAK_TEXT}>{FEATURED_REQUEST.id} · {FEATURED_REQUEST.requester} 요청 · {won(FEATURED_REQUEST.amount)}</p>
         </div>
         <div className="slds-grid" style={{ gap: "0.5rem" }}>
-          <button className="slds-button slds-button_neutral">반려</button>
+          <button className="slds-button slds-button_neutral" style={buttonText("var(--semantic-fg-brand-default)")}>반려</button>
           <button className="slds-button slds-button_brand">승인</button>
         </div>
       </div>
@@ -73,7 +74,7 @@ export function RequestDetailScreen() {
               <li key={step}>
                 <span
                   className={"slds-pill slds-pill_bare " + (state === "current" ? "slds-theme_success" : state === "done" ? "slds-theme_shade" : "")}
-                  style={state === "todo" ? { opacity: 0.55 } : undefined}
+                  style={state === "todo" ? BOX_TODO_PILL : undefined}
                   aria-current={state === "current" ? "step" : undefined}
                 >
                   <span className="slds-pill__label" style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
@@ -91,7 +92,7 @@ export function RequestDetailScreen() {
       </div>
 
       {/* 탭: 세부, 관련 요청, 코멘트 */}
-      <div className="slds-tabs_default">
+      <div className="slds-tabs_default" style={SURFACE_TABS}>
         <ul className="slds-tabs_default__nav" role="tablist">
           {TABS.map((t) => (
             <li key={t.key} className={"slds-tabs_default__item" + (t.key === tab ? " slds-is-active" : "")} title={t.label} role="presentation">

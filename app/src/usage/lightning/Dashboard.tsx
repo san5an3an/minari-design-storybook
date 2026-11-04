@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Bell, Search } from "lucide-react";
 import { lightningAdapter } from "../../preview/lightningRef/adapter";
+import { SURFACE_WEAK_TEXT } from "../lightningUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -45,12 +46,13 @@ export function LightningUsage({ system, active }: UsageDashboardProps) {
         >
           {/* 그룹 제목과 항목 라벨을 다르게 표시. 같으면 클릭 안 되는 h2가 겹쳐 동작하지 않음 */}
           <div className="slds-nav-vertical__section">
-            <h2 id="lightning-usage-nav-title" className="slds-nav-vertical__title slds-text-title_caps">영업 콘솔</h2>
+            <h2 id="lightning-usage-nav-title" className="slds-nav-vertical__title slds-text-title_caps" style={SURFACE_WEAK_TEXT}>영업 콘솔</h2>
             <ul aria-describedby="lightning-usage-nav-title">
               {SCREENS.map((s) => (
                 <li key={s.key} className={"slds-nav-vertical__item" + (s.key === screenKey ? " slds-is-active" : "")}>
                   <a
                     href="#" className="slds-nav-vertical__action"
+                    style={{ color: s.key === screenKey ? "var(--semantic-fg-neutral-default)" : "var(--semantic-fg-neutral-subtle)" }}
                     aria-current={s.key === screenKey ? "true" : undefined}
                     onClick={(e) => { e.preventDefault(); setScreenKey(s.key); }}
                   >
@@ -90,7 +92,7 @@ export function LightningUsage({ system, active }: UsageDashboardProps) {
           <div className="lds1-scroll" style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
             <div style={{ marginBottom: "0.75rem" }}>
               <h2 className="slds-text-heading_small">{screen.label}</h2>
-              <p className="slds-text-body_small slds-text-color_weak">{screen.lede}</p>
+              <p className="slds-text-body_small slds-text-color_weak" style={SURFACE_WEAK_TEXT}>{screen.lede}</p>
             </div>
             <Screen />
           </div>

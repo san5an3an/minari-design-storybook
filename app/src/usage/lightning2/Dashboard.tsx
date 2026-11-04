@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Bell, Search } from "lucide-react";
 import { lightningAdapter } from "../../preview/lightningRef/adapter";
+import { SURFACE_TABS, SURFACE_WEAK_TEXT } from "../lightningUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -63,7 +64,7 @@ export function Lightning2Usage({ system, active }: UsageDashboardProps) {
           </div>
         </header>
 
-        <div className="slds-tabs_default" style={{ flexShrink: 0, padding: "0 1rem" }}>
+        <div className="slds-tabs_default" style={{ flexShrink: 0, padding: "0 1rem", ...SURFACE_TABS }}>
           <ul className="slds-tabs_default__nav" role="tablist">
             {SCREENS.map((s) => (
               <li
@@ -84,7 +85,7 @@ export function Lightning2Usage({ system, active }: UsageDashboardProps) {
         </div>
 
         <div className="lds2-scroll" style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
-          <p className="slds-text-body_small slds-text-color_weak" style={{ marginBottom: "0.75rem" }}>{screen.lede}</p>
+          <p className="slds-text-body_small slds-text-color_weak" style={{ marginBottom: "0.75rem", ...SURFACE_WEAK_TEXT }}>{screen.lede}</p>
           <Screen />
         </div>
       </div>

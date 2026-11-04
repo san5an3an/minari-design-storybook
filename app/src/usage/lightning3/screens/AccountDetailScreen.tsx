@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Check } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { SURFACE_DONE_PILL, SURFACE_TABS, SURFACE_WEAK_TEXT } from "../../lightningUsageColors";
 import { ARR_TREND, CONTACTS, FEATURED_ACCOUNT, type Account } from "../data";
 
 const won = (n: number) => `${Math.round(n / 10000).toLocaleString()}만원`;
@@ -40,7 +41,7 @@ export function AccountDetailScreen() {
       <div className="slds-grid slds-wrap slds-grid_align-spread" style={{ alignItems: "center" }}>
         <div>
           <p className="slds-text-heading_medium" style={{ fontWeight: 600 }}>{FEATURED_ACCOUNT.name}</p>
-          <p className="slds-text-body_small slds-text-color_weak">{FEATURED_ACCOUNT.industry} · {FEATURED_ACCOUNT.tier} · 담당 {FEATURED_ACCOUNT.owner}</p>
+          <p className="slds-text-body_small slds-text-color_weak" style={SURFACE_WEAK_TEXT}>{FEATURED_ACCOUNT.industry} · {FEATURED_ACCOUNT.tier} · 담당 {FEATURED_ACCOUNT.owner}</p>
         </div>
         <button className="slds-button slds-button_brand">활동 기록</button>
       </div>
@@ -61,7 +62,7 @@ export function AccountDetailScreen() {
             <li key={tier}>
               <span
                 className={"slds-pill slds-pill_bare " + (state === "current" ? "slds-theme_success" : state === "done" ? "slds-theme_shade" : "")}
-                style={state === "todo" ? { opacity: 0.55 } : undefined}
+                style={state === "todo" ? { opacity: 0.55 } : state === "done" ? SURFACE_DONE_PILL : undefined}
                 aria-current={state === "current" ? "step" : undefined}
               >
                 <span className="slds-pill__label" style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
@@ -75,7 +76,7 @@ export function AccountDetailScreen() {
       </ul>
 
       {/* 탭: 세부, 연락처, 활동 */}
-      <div className="slds-tabs_default">
+      <div className="slds-tabs_default" style={SURFACE_TABS}>
         <ul className="slds-tabs_default__nav" role="tablist">
           {TABS.map((t) => (
             <li key={t.key} className={"slds-tabs_default__item" + (t.key === tab ? " slds-is-active" : "")} title={t.label} role="presentation">

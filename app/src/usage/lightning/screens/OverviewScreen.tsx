@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import {
   Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
+import { BOX_TODO_PILL } from "../../lightningUsageColors";
 import { DEALS, FEATURED_DEAL, STAGES, STAGE_SHARE, WEEKLY_PIPELINE } from "../data";
 
 const DONUT_COLORS = [
@@ -34,11 +35,11 @@ export function OverviewScreen() {
   return (
     <div className="slds-grid slds-grid_vertical slds-grid_vertical-stretch" style={{ gap: "1rem" }}>
       {/* slds-wrap의 flex-start가 stretch 덮어써 내용 폭 좁아지는 원인임 */}
-      {/* 히어로 */}
+      {/* 히어로. on-brand 글자와 짝이 맞게 brand 단색 */}
       <div
         className="slds-box"
         style={{
-          background: "linear-gradient(135deg, var(--semantic-bg-brand-strong), var(--semantic-bg-brand-default))",
+          background: "var(--semantic-bg-brand-default)",
           color: "var(--semantic-fg-on-brand-default)",
           borderRadius: "var(--semantic-radius-container)",
           padding: "1.5rem",
@@ -47,7 +48,7 @@ export function OverviewScreen() {
         <p className="slds-text-heading_medium" style={{ color: "inherit" }}>
           이번 달 파이프라인 {won(totalAmount)}, {closingThisMonth}건이 이번 달 마감 예정이에요
         </p>
-        <p className="slds-text-body_regular" style={{ color: "inherit", opacity: 0.85 }}>
+        <p className="slds-text-body_regular" style={{ color: "inherit" }}>
           가장 유력한 딜부터 확인해 보세요.
         </p>
       </div>
@@ -72,7 +73,7 @@ export function OverviewScreen() {
               <li key={stage}>
                 <span
                   className={"slds-pill slds-pill_bare " + (state === "current" ? "slds-theme_success" : state === "done" ? "slds-theme_shade" : "")}
-                  style={state === "todo" ? { opacity: 0.55 } : undefined}
+                  style={state === "todo" ? BOX_TODO_PILL : undefined}
                   aria-current={state === "current" ? "step" : undefined}
                 >
                   <span className="slds-pill__label" style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
