@@ -4,6 +4,7 @@ import Icon from "@cloudscape-design/components/icon";
 import Input from "@cloudscape-design/components/input";
 import SideNavigation, { type SideNavigationProps } from "@cloudscape-design/components/side-navigation";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
+import { useCloudscapeUsageMode } from "../cloudscapeUsageMode";
 import type { UsageDashboardProps } from "../registry";
 import { GROUPS } from "./screens/GroupsScreen";
 import { ROLES } from "./screens/RolesScreen";
@@ -30,7 +31,8 @@ const NAV_ICON: Record<string, React.ReactNode> = {
   groups: <Icon name="group" />,
 };
 
-export function CloudscapeUsage3({ system }: UsageDashboardProps) {
+export function CloudscapeUsage3({ system, active }: UsageDashboardProps) {
+  useCloudscapeUsageMode(active);
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [region, setRegion] = React.useState<(typeof REGIONS)[number]>(REGIONS[0]);
   const [search, setSearch] = React.useState("");
