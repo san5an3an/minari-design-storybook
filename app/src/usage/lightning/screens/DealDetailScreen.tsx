@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Check } from "lucide-react";
+import { SURFACE_DONE_PILL, SURFACE_TABS, SURFACE_WEAK_TEXT } from "../../lightningUsageColors";
 import { DEALS, FEATURED_DEAL, STAGES } from "../data";
 
 const won = (n: number) => `${Math.round(n / 10000).toLocaleString()}만원`;
@@ -38,7 +39,7 @@ export function DealDetailScreen() {
       <div className="slds-grid slds-wrap slds-grid_align-spread" style={{ alignItems: "center" }}>
         <div>
           <p className="slds-text-heading_medium" style={{ fontWeight: 600 }}>{FEATURED_DEAL.account}</p>
-          <p className="slds-text-body_small slds-text-color_weak">{FEATURED_DEAL.id} · 담당 {FEATURED_DEAL.owner}</p>
+          <p className="slds-text-body_small slds-text-color_weak" style={SURFACE_WEAK_TEXT}>{FEATURED_DEAL.id} · 담당 {FEATURED_DEAL.owner}</p>
         </div>
         <button className="slds-button slds-button_brand">딜 편집</button>
       </div>
@@ -58,7 +59,7 @@ export function DealDetailScreen() {
             <li key={stage}>
               <span
                 className={"slds-pill slds-pill_bare " + (state === "current" ? "slds-theme_success" : state === "done" ? "slds-theme_shade" : "")}
-                style={state === "todo" ? { opacity: 0.55 } : undefined}
+                style={state === "todo" ? { opacity: 0.55 } : state === "done" ? SURFACE_DONE_PILL : undefined}
                 aria-current={state === "current" ? "step" : undefined}
               >
                 <span className="slds-pill__label" style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
@@ -72,7 +73,7 @@ export function DealDetailScreen() {
       </ul>
 
       {/* 탭: 세부, 관련 딜, 활동 */}
-      <div className="slds-tabs_default">
+      <div className="slds-tabs_default" style={SURFACE_TABS}>
         <ul className="slds-tabs_default__nav" role="tablist">
           {TABS.map((t) => (
             <li key={t.key} className={"slds-tabs_default__item" + (t.key === tab ? " slds-is-active" : "")} title={t.label} role="presentation">

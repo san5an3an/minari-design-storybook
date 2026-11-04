@@ -1,3 +1,4 @@
+import { SURFACE_WEAK_TEXT } from "../../lightningUsageColors";
 import { ACCOUNTS } from "../data";
 
 const won = (n: number) => `${Math.round(n / 10000).toLocaleString()}만원`;
@@ -37,7 +38,7 @@ export function AccountsScreen() {
         </div>
       </div>
 
-      <p className="slds-text-body_small slds-text-color_weak">Enterprise {enterpriseCount}곳 포함, 전체 {ACCOUNTS.length}곳</p>
+      <p className="slds-text-body_small slds-text-color_weak" style={SURFACE_WEAK_TEXT}>Enterprise {enterpriseCount}곳 포함, 전체 {ACCOUNTS.length}곳</p>
 
       <div className="slds-grid slds-wrap" style={{ gap: "0.75rem" }}>
         {ACCOUNTS.map((a) => (

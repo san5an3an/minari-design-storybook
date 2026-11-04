@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Bell, Search } from "lucide-react";
 import { lightningAdapter } from "../../preview/lightningRef/adapter";
+import { buttonText, SURFACE_WEAK_TEXT } from "../lightningUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -51,7 +52,9 @@ export function Lightning3Usage({ system, active }: UsageDashboardProps) {
                   key={s.key}
                   href="#"
                   className={"slds-button slds-button_neutral" + (s.key === screenKey ? " slds-is-selected" : "")}
-                  style={s.key === screenKey ? { background: "var(--semantic-bg-brand-subtle)" } : undefined}
+                  style={s.key === screenKey
+                    ? { background: "var(--semantic-bg-brand-subtle)", ...buttonText("var(--semantic-fg-on-brand-subtle)") }
+                    : buttonText("var(--semantic-fg-brand-default)")}
                   onClick={(e) => { e.preventDefault(); setScreenKey(s.key); }}
                 >
                   {s.label}
@@ -79,7 +82,7 @@ export function Lightning3Usage({ system, active }: UsageDashboardProps) {
         </header>
 
         <div className="lds3-scroll" style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
-          <p className="slds-text-body_small slds-text-color_weak" style={{ marginBottom: "0.75rem" }}>{screen.lede}</p>
+          <p className="slds-text-body_small slds-text-color_weak" style={{ marginBottom: "0.75rem", ...SURFACE_WEAK_TEXT }}>{screen.lede}</p>
           <Screen />
         </div>
       </div>

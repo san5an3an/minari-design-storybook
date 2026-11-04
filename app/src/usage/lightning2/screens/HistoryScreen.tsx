@@ -27,7 +27,8 @@ export function HistoryScreen() {
                 <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ style: { fontSize: 11 } }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ style: { fontSize: 11 } }} width={24} />
                 <Tooltip />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                {/* 범례 글자 기본값은 계열색이라 흰 상자 글자색으로 */}
+                <Legend wrapperStyle={{ fontSize: 11 }} formatter={(value) => <span style={{ color: "var(--slds-g-color-neutral-base-10)" }}>{value}</span>} />
                 <Bar dataKey="approved" name="승인" fill="var(--component-chart-series-1)" radius={[3, 3, 0, 0]} isAnimationActive={false} />
                 <Bar dataKey="rejected" name="반려" fill="var(--component-chart-series-4)" radius={[3, 3, 0, 0]} isAnimationActive={false} />
               </BarChart>
