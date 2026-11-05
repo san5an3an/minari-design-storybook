@@ -178,7 +178,11 @@ export function BudgetScreen() {
               <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ style: { fontSize: 11 } }} />
               <YAxis hide />
               <Tooltip formatter={(v) => won(Number(v))} />
-              <Legend wrapperStyle={{ fontSize: "0.6875rem" }} />
+              {/* 범례 글자를 본문 글자색으로 표시. 계열 색 글자는 밝은 브랜드와 다크 카드에서 대비가 모자람 */}
+              <Legend
+                wrapperStyle={{ fontSize: "0.6875rem" }}
+                formatter={(value) => <span style={{ color: "var(--semantic-fg-neutral-default)" }}>{value}</span>}
+              />
               <Bar dataKey="사용액" fill="var(--component-chart-series-1)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
               <Bar dataKey="한도" fill="var(--component-chart-series-2)" radius={[4, 4, 0, 0]} isAnimationActive={false} />
             </BarChart>

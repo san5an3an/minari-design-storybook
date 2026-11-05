@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Menu, MenuItem, Tag } from "@blueprintjs/core";
 import { blueprintAdapter } from "../../preview/blueprintRef/adapter";
+import { BLUEPRINT_USAGE_CSS, BLUEPRINT_USAGE_SCOPE } from "../blueprintUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -21,8 +22,9 @@ export function BlueprintUsage3({ system, active }: UsageDashboardProps) {
 
   return (
     <blueprintAdapter.Provider system={system} mode={active}>
+      <style>{BLUEPRINT_USAGE_CSS}</style>
       <div
-        className="flex overflow-hidden"
+        className={`flex overflow-hidden ${BLUEPRINT_USAGE_SCOPE}`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:
