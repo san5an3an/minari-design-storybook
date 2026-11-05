@@ -18,6 +18,7 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../bases/coss-ui/table";
 import { Tabs, TabsList, TabsTab } from "../../../bases/coss-ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "../../../bases/coss-ui/toggle-group";
+import { TABS_LIST_TEXT } from "../../cossUsageClasses";
 import { responseCountOf, type Survey, type SurveyStatus } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -188,7 +189,7 @@ export function SurveyListScreen({ surveys, onSelect, onNavigate, onCreateSurvey
 
       <div className="flex flex-wrap items-center justify-between gap-2.5">
         <Tabs value={statusFilter} onValueChange={(v) => setStatusFilter(v as StatusFilter)}>
-          <TabsList>
+          <TabsList className={TABS_LIST_TEXT}>
             <TabsTab value="all">전체 {surveys.length}</TabsTab>
             <TabsTab value="진행중">진행중 {activeCount}</TabsTab>
             <TabsTab value="마감">마감 {surveys.filter((s) => s.status === "마감").length}</TabsTab>

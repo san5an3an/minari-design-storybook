@@ -4,6 +4,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "../../bases/coss-ui/avatar";
 import { Badge } from "../../bases/coss-ui/badge";
+import { DESTRUCTIVE_BADGE_TEXT } from "../cossUsageClasses";
 import { Button } from "../../bases/coss-ui/button";
 import { Card } from "../../bases/coss-ui/card";
 import { Combobox, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxPopup } from "../../bases/coss-ui/combobox";
@@ -241,7 +242,7 @@ function ShellChrome({
                   <Button variant="ghost" size="icon-sm" aria-label={`알림 ${unreadCount}건`}>
                     <Bell size={15} />
                     {unreadCount > 0 && (
-                      <Badge size="sm" variant="destructive" style={{ position: "absolute", top: "-0.125rem", insetInlineEnd: "-0.125rem" }}>{unreadCount}</Badge>
+                      <Badge size="sm" variant="destructive" className={DESTRUCTIVE_BADGE_TEXT} style={{ position: "absolute", top: "-0.125rem", insetInlineEnd: "-0.125rem" }}>{unreadCount}</Badge>
                     )}
                   </Button>
                 )}
@@ -260,7 +261,7 @@ function ShellChrome({
                       <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
                         <span style={{ fontSize: "var(--semantic-text-body-sm)", fontWeight: n.read ? 400 : 600 }}>{n.title}</span>
                         <span style={{ fontSize: "var(--semantic-text-caption)", color: "var(--semantic-fg-neutral-subtle)" }}>{n.body}</span>
-                        <span style={{ fontSize: "var(--semantic-text-caption)", color: "var(--semantic-fg-neutral-subtlest)" }}>{n.timeLabel}</span>
+                        <span style={{ fontSize: "var(--semantic-text-caption)", color: "var(--semantic-fg-neutral-subtle)" }}>{n.timeLabel}</span>
                       </div>
                     </div>
                   ))}

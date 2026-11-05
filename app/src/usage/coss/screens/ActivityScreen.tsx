@@ -163,7 +163,7 @@ export function ActivityScreen({ activity, onNavigate, onSelect }: ScreenProps) 
             return (
               <div key={bucket}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.375rem" }}>
-                  <span style={{ fontSize: "var(--semantic-text-caption)", fontWeight: 700, color: "var(--semantic-fg-neutral-subtlest)", textTransform: "uppercase", letterSpacing: "0.04em" }}>{bucket}</span>
+                  <span style={{ fontSize: "var(--semantic-text-caption)", fontWeight: 700, color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}>{bucket}</span>
                   <Badge variant="outline" size="sm">{items.length}</Badge>
                 </div>
                 <Card style={{ padding: "0 0.875rem" }}>

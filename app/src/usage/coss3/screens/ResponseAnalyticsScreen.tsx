@@ -20,6 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Tabs, TabsList, TabsPanel, TabsTab } from "../../../bases/coss-ui/tabs";
 import { Tooltip, TooltipPopup, TooltipProvider, TooltipTrigger } from "../../../bases/coss-ui/tooltip";
 import { ToastProvider, toastManager } from "../../../bases/coss-ui/toast";
+import { TABS_LIST_TEXT } from "../../cossUsageClasses";
 import {
   EXTRA_RESPONSES_BY_SURVEY, RESPONSES_BY_SURVEY, formatDaysAgo, formatDuration, surveyById,
   type Question, type Response as SurveyResponse, type Survey,
@@ -322,7 +323,7 @@ export function ResponseAnalyticsScreen({ surveys, selectedId, onSelect, onOpenS
             </Card>
 
             <Tabs defaultValue="questions">
-              <TabsList>
+              <TabsList className={TABS_LIST_TEXT}>
                 <TabsTab value="questions">문항별 분석</TabsTab>
                 <TabsTab value="rows">개별 응답</TabsTab>
               </TabsList>

@@ -13,6 +13,7 @@ import { Popover, PopoverPopup, PopoverTitle, PopoverTrigger } from "../../bases
 import { Tabs, TabsList, TabsTab } from "../../bases/coss-ui/tabs";
 import { ToastProvider } from "../../bases/coss-ui/toast";
 import { TooltipProvider } from "../../bases/coss-ui/tooltip";
+import { TABS_LIST_TEXT } from "../cossUsageClasses";
 import type { UsageDashboardProps } from "../registry";
 import { CURRENT_USER, DATES, INITIAL_BOOKINGS, ROOMS, draftToBooking, type Booking, type NewBookingDraft } from "./data";
 import { SCREENS, type BookingSelection } from "./screens";
@@ -174,7 +175,7 @@ export function CossUsage2({ system }: UsageDashboardProps) {
 
           <div style={{ flexShrink: 0, padding: "0.5rem 1rem", borderBottom: "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)" }}>
             <Tabs value={screenKey} onValueChange={(v) => { if (v) setScreenKey(v as string); }}>
-              <TabsList>
+              <TabsList className={TABS_LIST_TEXT}>
                 {SCREENS.map((s) => (
                   <TabsTab key={s.key} value={s.key}>
                     {NAV_ICON[s.key]}
