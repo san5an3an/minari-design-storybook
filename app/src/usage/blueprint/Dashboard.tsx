@@ -4,6 +4,7 @@ import * as React from "react";
 import { Breadcrumbs, Navbar, Tag, Tree } from "@blueprintjs/core";
 import type { BreadcrumbProps, TreeNodeInfo } from "@blueprintjs/core";
 import { blueprintAdapter } from "../../preview/blueprintRef/adapter";
+import { BLUEPRINT_USAGE_CSS, BLUEPRINT_USAGE_SCOPE } from "../blueprintUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -29,8 +30,9 @@ export function BlueprintUsage({ system, active }: UsageDashboardProps) {
 
   return (
     <blueprintAdapter.Provider system={system} mode={active}>
+      <style>{BLUEPRINT_USAGE_CSS}</style>
       <div
-        className="flex flex-col overflow-hidden"
+        className={`flex flex-col overflow-hidden ${BLUEPRINT_USAGE_SCOPE}`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:
@@ -71,7 +73,7 @@ export function BlueprintUsage({ system, active }: UsageDashboardProps) {
               <span style={{ fontSize: "0.75rem", opacity: 0.85 }}>인프라 상태</span>
               <span style={{ fontSize: "1.125rem", fontWeight: 700 }}>전 서비스 정상 가동 중 · 노드 24/24</span>
             </div>
-            <Tag intent="success" large style={{ color: "var(--semantic-fg-on-brand-default)" }}>
+            <Tag intent="success" large style={{ color: "var(--semantic-fg-on-success-default)" }}>
               LIVE
             </Tag>
           </div>
