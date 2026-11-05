@@ -6,6 +6,7 @@ import { Card } from "../../../bases/coss-ui/card";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../../../bases/coss-ui/empty";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../../../bases/coss-ui/pagination";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "../../../bases/coss-ui/tabs";
+import { TABS_LIST_TEXT } from "../../cossUsageClasses";
 import { CURRENT_USER, DATES, ROOM_MAP, type BookingStatus } from "../data";
 import { StatTile } from "../StatTile";
 import { StatusBadge, type Tone } from "../StatusBadge";
@@ -52,7 +53,7 @@ export function MyBookingsScreen({ bookings, onOpenDetail, onStartNew }: ScreenP
       </div>
 
       <Tabs value={status} onValueChange={(v) => changeTab(v as BookingStatus)}>
-        <TabsList>
+        <TabsList className={TABS_LIST_TEXT}>
           {TABS.map((t) => (
             <TabsTab key={t} value={t} className="gap-1.5">
               {t}

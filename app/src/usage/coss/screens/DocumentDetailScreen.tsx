@@ -35,6 +35,7 @@ import { Textarea } from "../../../bases/coss-ui/textarea";
 import { toastManager } from "../../../bases/coss-ui/toast";
 import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator } from "../../../bases/coss-ui/toolbar";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../../../bases/coss-ui/tooltip";
+import { GROUP_TEXT_TEXT, TABS_LIST_TEXT } from "../../cossUsageClasses";
 import type { CommentItem, DocItem, DocStatus } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -233,7 +234,7 @@ export function DocumentDetailScreen({
       <div className="coss-split">
         <div style={{ flex: 1, minWidth: 0 }}>
           <Tabs value={tab} onValueChange={(v: unknown) => setTab(v as "body" | "comments" | "history")}>
-            <TabsList>
+            <TabsList className={TABS_LIST_TEXT}>
               <TabsTab value="body">본문</TabsTab>
               <TabsTab value="comments">댓글</TabsTab>
               <TabsTab value="history">기록</TabsTab>
@@ -401,7 +402,7 @@ export function DocumentDetailScreen({
       <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5rem" }}>
         <Group>
           <Button variant="outline" size="sm" disabled={index <= 0} onClick={() => onSelect?.(docs[index - 1].id)}><ArrowLeft size={14} />이전 문서</Button>
-          <GroupText>{index + 1} / {docs.length}</GroupText>
+          <GroupText className={GROUP_TEXT_TEXT}>{index + 1} / {docs.length}</GroupText>
           <Button variant="outline" size="sm" disabled={index >= docs.length - 1} onClick={() => onSelect?.(docs[index + 1].id)}>다음 문서<ArrowRight size={14} /></Button>
         </Group>
       </div>

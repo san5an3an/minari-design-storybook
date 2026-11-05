@@ -31,6 +31,7 @@ import { Switch } from "../../../bases/coss-ui/switch";
 import { Textarea } from "../../../bases/coss-ui/textarea";
 import { Toolbar, ToolbarButton, ToolbarSeparator } from "../../../bases/coss-ui/toolbar";
 import { Tooltip, TooltipPopup, TooltipProvider, TooltipTrigger } from "../../../bases/coss-ui/tooltip";
+import { DESTRUCTIVE_BADGE_TEXT, GROUP_TEXT_TEXT } from "../../cossUsageClasses";
 import {
   QUESTION_TYPE_META, createDefaultQuestion, surveyById,
   type Question, type QuestionType,
@@ -108,7 +109,7 @@ function QuestionEditorItem({ question, index, total, onChange, onRemove, onDupl
           <span className="flex min-w-0 flex-1 items-center gap-2">
             <Icon size={14} />
             <span className="truncate font-medium">{index + 1}. {question.title || "제목 없는 문항"}</span>
-            {question.required ? <Badge variant="destructive" size="sm">필수</Badge> : null}
+            {question.required ? <Badge variant="destructive" size="sm" className={DESTRUCTIVE_BADGE_TEXT}>필수</Badge> : null}
             <Badge variant="secondary" size="sm">{meta?.label}</Badge>
           </span>
         </AccordionTrigger>
@@ -292,14 +293,14 @@ function Canvas({ questions }: { questions: Question[] }) {
       <Fieldset className="flex flex-col gap-2 rounded-xl border p-4">
         <FieldsetLegend className="flex items-center gap-2">
           {q.title || "제목 없는 문항"}
-          {q.required ? <Badge variant="destructive" size="sm">필수</Badge> : null}
+          {q.required ? <Badge variant="destructive" size="sm" className={DESTRUCTIVE_BADGE_TEXT}>필수</Badge> : null}
         </FieldsetLegend>
         {q.description ? <span className="text-muted-foreground" style={{ fontSize: "var(--semantic-text-caption)" }}>{q.description}</span> : null}
         <div className="mt-1"><CanvasField key={q.id} question={q} /></div>
       </Fieldset>
       <Group className="self-center">
         <Button variant="outline" disabled={safeActive === 0} onClick={() => setActive((a) => Math.max(0, a - 1))}><ChevronLeft size={14} />이전</Button>
-        <GroupText>{safeActive + 1} / {questions.length}</GroupText>
+        <GroupText className={GROUP_TEXT_TEXT}>{safeActive + 1} / {questions.length}</GroupText>
         <Button variant="outline" disabled={safeActive === questions.length - 1} onClick={() => setActive((a) => Math.min(questions.length - 1, a + 1))}>다음<ChevronRight size={14} /></Button>
       </Group>
     </div>
