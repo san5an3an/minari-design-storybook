@@ -3,6 +3,7 @@ import {
   Accordion, AccordionPanel, Box, Button, Card, CardBody, Heading, Layer, Meter, Pagination, Table,
   TableBody, TableCell, TableHeader, TableRow, Tag, Text,
 } from "grommet";
+import { ON_FILL } from "../../grommetUsageTheme";
 
 interface Ticket { event: string; date: string; seat: string; price: number; status: "확정" | "취소됨" }
 
@@ -19,6 +20,10 @@ const INITIAL_TICKETS: Ticket[] = [
 ];
 
 const MONTHLY_BUDGET = 250000;
+
+// 확정 태그 글자를 성공 채움 짝 글자색으로 표시. 생성 테마 글자색이 채움 바탕을 따라 바뀌지 않음
+const statusValue = (status: Ticket["status"]) =>
+  status === "확정" ? <span style={{ color: ON_FILL.ok }}>{status}</span> : status;
 
 // 스캔 불가 고정 9×9 QR 모양 패턴, 파인더 흉내만
 const QR_PATTERN: readonly number[][] = [
@@ -106,7 +111,7 @@ export function TicketsScreen() {
                     <TableCell><Text size="small">{t.price.toLocaleString()}원</Text></TableCell>
                     <TableCell>
                       {/* 배경과 글자 대비 검증. 취소 상태만 대비 기준 미달 문제가 있음 */}
-                      <Tag value={t.status} size="small" background={t.status === "확정" ? "status-ok" : "background-contrast"} />
+                      <Tag value={statusValue(t.status)} size="small" background={t.status === "확정" ? "status-ok" : "background-contrast"} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -152,7 +157,7 @@ export function TicketsScreen() {
                 <Text weight="bold" size="large">{selected.event}</Text>
                 <Text size="small" color="text-weak">10월 {selected.date.split("-")[1]}일 · {selected.seat}</Text>
               </Box>
-              <Tag value={selected.status} size="small" background={selected.status === "확정" ? "status-ok" : "background-contrast"} />
+              <Tag value={statusValue(selected.status)} size="small" background={selected.status === "확정" ? "status-ok" : "background-contrast"} />
             </Box>
 
             <Box align="center" gap="xsmall" pad="medium" round="small" background="background-back">

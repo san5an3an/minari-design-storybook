@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Anchor, Box, Card, CardBody, DataChart, Heading, Notification, Paragraph, Tabs, Tab, Text } from "grommet";
 import { AlertTriangle, Bot, CalendarClock, CheckCircle2, Clock3 } from "lucide-react";
+import { STATUS_TEXT } from "../../grommetUsageTheme";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60";
@@ -20,8 +21,8 @@ const DEADLINES: Deadline[] = [
   { name: "권한 체계 정리", owner: "정서준", due: "09-27", status: "진행 중" },
 ];
 const STATUS_COLOR: Record<Deadline["status"], string> = {
-  "진행 중": "status-ok",
-  지연: "status-warning",
+  "진행 중": STATUS_TEXT.ok,
+  지연: STATUS_TEXT.warning,
   완료: "text-weak",
 };
 
@@ -58,7 +59,7 @@ function SparkStat({ spec }: { spec: (typeof STATS)[number] }) {
             <Icon size={16} />
             <Text color="text-weak" size="small">{spec.label}</Text>
           </Box>
-          <Text size="small" color={spec.delta.startsWith("+") ? "status-ok" : "status-critical"}>
+          <Text size="small" color={spec.delta.startsWith("+") ? STATUS_TEXT.ok : STATUS_TEXT.critical}>
             {spec.delta}
           </Text>
         </Box>
