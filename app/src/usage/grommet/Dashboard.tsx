@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Box, Button, Heading, Nav, Text } from "grommet";
+import { Box, Button, Heading, Nav, Text, ThemeContext } from "grommet";
 import { LayoutDashboard, ListTodo, Users } from "lucide-react";
+import { GROMMET_USAGE_THEME } from "../grommetUsageTheme";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -10,7 +11,16 @@ const SCREEN_ICON: Record<string, React.ComponentType<{ size?: number }>> = {
   team: Users,
 };
 
-export function GrommetUsage({ system }: UsageDashboardProps) {
+// 사용 화면 안에서만 Grommet 테마 글자색을 덮음. 카탈로그 Provider 테마는 그대로 둠
+export function GrommetUsage(props: UsageDashboardProps) {
+  return (
+    <ThemeContext.Extend value={GROMMET_USAGE_THEME}>
+      <GrommetUsageBody {...props} />
+    </ThemeContext.Extend>
+  );
+}
+
+function GrommetUsageBody({ system }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;

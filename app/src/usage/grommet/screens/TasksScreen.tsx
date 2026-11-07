@@ -4,6 +4,7 @@ import {
   Form, FormField, Heading, RadioButton, RadioButtonGroup, Select, Text, TextArea, TextInput,
 } from "grommet";
 import { AlertTriangle, ListTodo } from "lucide-react";
+import { STATUS_TEXT } from "../../grommetUsageTheme";
 
 interface Task {
   id: string;
@@ -23,8 +24,8 @@ const INITIAL: Task[] = [
 ];
 
 const PRIORITY_COLOR: Record<Task["priority"], string> = {
-  높음: "status-critical",
-  보통: "status-warning",
+  높음: STATUS_TEXT.critical,
+  보통: STATUS_TEXT.warning,
   낮음: "text-weak",
 };
 

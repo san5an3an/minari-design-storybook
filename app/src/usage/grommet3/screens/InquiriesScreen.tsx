@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Avatar, Box, Button, Card, CardBody, CheckBox, Stepper, Tag, Text, Tip } from "grommet";
+import { ON_FILL } from "../../grommetUsageTheme";
 
 interface Inquiry {
   title: string;
@@ -78,7 +79,11 @@ export function InquiriesScreen() {
                 <Text weight="bold">{q.title}</Text>
                 <Text size="small" color="text-weak">9월 {q.date.split("-")[1]}일 문의</Text>
               </Box>
-              <Tag value={q.status} size="small" background={q.status === "답변 완료" ? "status-ok" : "status-warning"} />
+              <Tag
+                value={<span style={{ color: q.status === "답변 완료" ? ON_FILL.ok : ON_FILL.warning }}>{q.status}</span>}
+                size="small"
+                background={q.status === "답변 완료" ? "status-ok" : "status-warning"}
+              />
             </Box>
             <Stepper
               steps={stepsFor(q.status)}
@@ -87,7 +92,9 @@ export function InquiriesScreen() {
             />
             <Box direction="row" align="center" gap="xsmall">
               <Tip content={`담당 중개사: ${q.agent}`}>
-                <Avatar size="small" background="brand">{q.agent.slice(0, 1)}</Avatar>
+                <Avatar size="small" background="brand">
+                  <Text size="medium" color={ON_FILL.brand}>{q.agent.slice(0, 1)}</Text>
+                </Avatar>
               </Tip>
               <Text size="xsmall" color="text-weak">{q.agent} 중개사가 담당하고 있어요.</Text>
             </Box>

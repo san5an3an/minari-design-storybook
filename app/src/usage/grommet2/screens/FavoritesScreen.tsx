@@ -4,6 +4,7 @@ import {
   RangeInput, Tag, Text,
 } from "grommet";
 import { Bell, Heart, Sparkles } from "lucide-react";
+import { ON_FILL } from "../../grommetUsageTheme";
 
 interface Favorite { title: string; venue: string; date: string; isoDate: string; price: string }
 
@@ -58,7 +59,7 @@ export function FavoritesScreen() {
               primaryKey="title"
               secondaryKey="venue"
               action={(item: Favorite) => (booked.includes(item.title) ? (
-                <Tag value="예매 완료" size="small" background="status-ok" />
+                <Tag value={<span style={{ color: ON_FILL.ok }}>예매 완료</span>} size="small" background="status-ok" />
               ) : (
                 <Button
                   size="small"
