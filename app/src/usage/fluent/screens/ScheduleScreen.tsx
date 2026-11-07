@@ -6,6 +6,7 @@ import {
 import { CalendarLtrRegular, ClockRegular, InfoRegular, PeopleRegular } from "@fluentui/react-icons";
 import { MEETINGS, type MeetingItem } from "../data";
 import { MiniBarChart } from "../miniBarChart";
+import { AVATAR_INITIALS } from "../../fluentUsageTheme";
 
 const COLOR_VAR: Record<MeetingItem["color"], string> = {
   brand: "var(--colorBrandBackground)",
@@ -152,7 +153,7 @@ function MeetingRow({ meeting }: { meeting: MeetingItem }) {
         ))}
         {/* color="colorful" 금지. +N은 집계 표시라 neutral 사용 */}
         {meeting.attendees > 3 ? (
-          <Avatar name={`+${meeting.attendees - 3}`} size={24} color="neutral" />
+          <Avatar name={`+${meeting.attendees - 3}`} size={24} color="neutral" initials={AVATAR_INITIALS} />
         ) : null}
       </AvatarGroup>
     </div>

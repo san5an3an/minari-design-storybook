@@ -5,6 +5,7 @@ import {
   useToastController,
 } from "@fluentui/react-components";
 import { ASSETS, REQUESTS, type AssetRequest } from "../data";
+import { FILLED_BADGE_TEXT } from "../../fluentUsageTheme";
 
 const STATUS_COLOR: Record<AssetRequest["status"], "warning" | "success" | "danger"> = {
   대기: "warning",
@@ -122,7 +123,7 @@ export function RequestsScreen() {
                   <Body1 style={{ fontWeight: 600 }}>{r.reason}</Body1>
                   <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>{r.requestedLabel}</Caption1>
                 </div>
-                <Badge color={STATUS_COLOR[r.status]} appearance="filled">{r.status}</Badge>
+                <Badge color={STATUS_COLOR[r.status]} appearance="filled" style={FILLED_BADGE_TEXT[STATUS_COLOR[r.status]]}>{r.status}</Badge>
               </div>
             </Card>
           ))}

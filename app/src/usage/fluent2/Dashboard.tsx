@@ -9,6 +9,7 @@ import { AlertRegular, BookQuestionMarkRegular, RocketRegular, TicketDiagonalReg
 import type { UsageDashboardProps } from "../registry";
 import { TICKETS, type Ticket } from "./data";
 import { SCREENS } from "./screens";
+import { FILLED_BADGE_TEXT, fluentUsageVars } from "../fluentUsageTheme";
 
 import { byMode as s01 } from "../../../../generated/01-cobalt/base/fluent/theme";
 import { byMode as s02 } from "../../../../generated/02-graphite/base/fluent/theme";
@@ -58,7 +59,7 @@ function NotificationBell() {
               count={count}
               size="small"
               color="danger"
-              style={{ position: "absolute", top: -2, right: -2, pointerEvents: "none" }}
+              style={{ ...FILLED_BADGE_TEXT.danger, position: "absolute", top: -2, right: -2, pointerEvents: "none" }}
             />
           ) : null}
         </span>
@@ -109,7 +110,7 @@ export function FluentUsage2({ system, active }: UsageDashboardProps) {
   }
 
   return (
-    <FluentProvider theme={theme}>
+    <FluentProvider theme={theme} style={fluentUsageVars(active)}>
       <div
         style={{
           display: "flex",

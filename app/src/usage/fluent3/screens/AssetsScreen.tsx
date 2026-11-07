@@ -10,6 +10,7 @@ import {
 } from "@fluentui/react-icons";
 import { ASSETS, REQUESTS, type Asset } from "../data";
 import type { ScreenProps } from "../screens";
+import { FILLED_BADGE_TEXT } from "../../fluentUsageTheme";
 
 // informative 금지, 시맨틱 톤 5종뿐 info 없음
 const STATUS_COLOR: Record<Asset["status"], "success" | "brand" | "warning"> = {
@@ -240,7 +241,7 @@ export function AssetsScreen({ onNavigate, onSelect }: ScreenProps) {
     createTableColumn<Asset>({
       columnId: "status",
       renderHeaderCell: () => "상태",
-      renderCell: (a) => <Badge color={STATUS_COLOR[a.status]} appearance="filled">{a.status}</Badge>,
+      renderCell: (a) => <Badge color={STATUS_COLOR[a.status]} appearance="filled" style={FILLED_BADGE_TEXT[STATUS_COLOR[a.status]]}>{a.status}</Badge>,
     }),
   ];
 
