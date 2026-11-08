@@ -10,6 +10,7 @@ import {
 } from "@fluentui/react-components";
 import { elapsedHours, KB_ARTICLES, SLA_HOURS, TICKETS, type Ticket } from "../data";
 import type { ScreenProps } from "../screens";
+import { AVATAR_INITIALS, FILLED_BADGE_TEXT } from "../../fluentUsageTheme";
 
 const STATUS_COLOR: Record<Ticket["status"], "danger" | "warning" | "success"> = {
   열림: "danger",
@@ -97,7 +98,7 @@ export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsPro
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <Body1 style={{ fontWeight: 600, fontSize: "18px" }}>{ticket.subject}</Body1>
-              <Badge color={STATUS_COLOR[ticket.status]} appearance="filled">{ticket.status}</Badge>
+              <Badge color={STATUS_COLOR[ticket.status]} appearance="filled" style={FILLED_BADGE_TEXT[STATUS_COLOR[ticket.status]]}>{ticket.status}</Badge>
             </div>
             <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>
               {ticket.requester} · {ticket.category} · {ticket.createdLabel} 접수 ·{" "}
@@ -129,7 +130,7 @@ export function TicketDetailScreen({ selectedId, onNavigate, tickets: ticketsPro
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {ticket.messages.map((m, i) => (
               <div key={i} style={{ display: "flex", gap: "8px" }}>
-                <Avatar name={m.author} size={24} />
+                <Avatar name={m.author} size={24} initials={AVATAR_INITIALS} />
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                   <Caption1 style={{ fontWeight: 600 }}>{m.author} · {m.timeLabel}</Caption1>
                   <Body1>{m.text}</Body1>

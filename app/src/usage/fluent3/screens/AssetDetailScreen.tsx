@@ -7,6 +7,7 @@ import {
 } from "@fluentui/react-components";
 import { ASSETS, REQUESTS, type Asset } from "../data";
 import type { ScreenProps } from "../screens";
+import { FILLED_BADGE_TEXT } from "../../fluentUsageTheme";
 
 const HOLDERS = ["김하늘", "박서준", "최유진", "한소율"];
 
@@ -98,7 +99,7 @@ export function AssetDetailScreen({ selectedId, onNavigate }: ScreenProps) {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <Body1 style={{ fontWeight: 600, fontSize: "18px" }}>{asset.name}</Body1>
-                <Badge color={STATUS_COLOR[asset.status]} appearance="filled">{asset.status}</Badge>
+                <Badge color={STATUS_COLOR[asset.status]} appearance="filled" style={FILLED_BADGE_TEXT[STATUS_COLOR[asset.status]]}>{asset.status}</Badge>
               </div>
               <Caption1 style={{ color: "var(--colorNeutralForeground3)" }}>
                 {asset.serial} · {asset.category} · 현재 보유자 {asset.currentHolder ?? "없음"}

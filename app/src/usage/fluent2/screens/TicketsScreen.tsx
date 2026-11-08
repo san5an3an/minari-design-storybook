@@ -14,6 +14,7 @@ import {
 } from "@fluentui/react-icons";
 import { elapsedHours, SLA_HOURS, TICKETS, type Ticket } from "../data";
 import type { ScreenProps } from "../screens";
+import { FILLED_BADGE_TEXT } from "../../fluentUsageTheme";
 
 // informative 금지, brand 변경, appearance="tint"로 조정
 const PRIORITY_COLOR: Record<Ticket["priority"], "danger" | "warning" | "brand"> = {
@@ -364,7 +365,7 @@ export function TicketsScreen({ onNavigate, onSelect, tickets: ticketsProp, onCr
     createTableColumn<Ticket>({
       columnId: "status",
       renderHeaderCell: () => "상태",
-      renderCell: (t) => <Badge color={STATUS_COLOR[t.status]} appearance="filled">{t.status}</Badge>,
+      renderCell: (t) => <Badge color={STATUS_COLOR[t.status]} appearance="filled" style={FILLED_BADGE_TEXT[STATUS_COLOR[t.status]]}>{t.status}</Badge>,
     }),
     createTableColumn<Ticket>({
       columnId: "createdLabel",
