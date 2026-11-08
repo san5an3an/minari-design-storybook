@@ -3,6 +3,7 @@ import { Menubar } from "primereact/menubar";
 import type { MenuItem } from "primereact/menuitem";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
+import { primereactUsageCss } from "../primereactUsageStyle";
 
 const FONT_OVERRIDE_CSS = `
 .primereact-usage-root {
@@ -10,7 +11,7 @@ const FONT_OVERRIDE_CSS = `
 }
 `;
 
-export function PrimereactUsage({ system }: UsageDashboardProps) {
+export function PrimereactUsage({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
@@ -34,7 +35,7 @@ export function PrimereactUsage({ system }: UsageDashboardProps) {
         boxShadow: "var(--semantic-shadow-raised)",
       }}
     >
-      <style>{FONT_OVERRIDE_CSS}</style>
+      <style>{FONT_OVERRIDE_CSS + primereactUsageCss("primereact-usage-root", active)}</style>
       <Menubar
         start={<span style={{ fontWeight: 700, marginInlineEnd: "1rem" }}>{system.name} 지원팀</span>}
         model={items}

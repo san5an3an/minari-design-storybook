@@ -8,6 +8,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { ProgressBar } from "primereact/progressbar";
 import { Rating } from "primereact/rating";
 import { Tooltip } from "primereact/tooltip";
+import { USAGE_PORTAL_CLASS } from "../../primereactUsageStyle";
 import { AGENTS, type Agent } from "../data";
 
 const TEAMS = Array.from(new Set(AGENTS.map((a) => a.team)));
@@ -32,7 +33,7 @@ export function AgentsScreen() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <Tooltip target="[data-pr-tooltip]" />
+      <Tooltip target="[data-pr-tooltip]" className={USAGE_PORTAL_CLASS} />
       <OverlayPanel ref={overlay}>
         {detailAgent ? (
           <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", minWidth: "12rem" }}>
