@@ -15,6 +15,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { Users, UserCheck, AlertTriangle, Ban, Search } from "lucide-react";
+import { USAGE_PORTAL_CLASS } from "../../primereactUsageStyle";
 
 type Status = "활성" | "만료 임박" | "정지";
 interface Member {
@@ -74,7 +75,7 @@ export function MembersScreen() {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <Toast ref={toast} />
-        <ConfirmDialog />
+        <ConfirmDialog className={USAGE_PORTAL_CLASS} />
         <Button label="← 목록으로" text onClick={() => setSelectedId(null)} style={{ width: "fit-content", padding: 0 }} />
         <Card>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBlockEnd: "1rem", flexWrap: "wrap" }}>
@@ -187,7 +188,7 @@ export function MembersScreen() {
             <div style={{ width: "4.5rem" }}><ProgressBar value={(m.sessionsLeft / m.sessionsTotal) * 100} showValue={false} style={{ height: "0.35rem" }} /></div>
             <span style={{ fontSize: "0.75rem", color: "var(--semantic-fg-neutral-subtle)" }}>{m.sessionsLeft}/{m.sessionsTotal}</span>
           </div>
-        ) : <span style={{ fontSize: "0.75rem", color: "var(--semantic-fg-neutral-subtlest)" }}>—</span>} />
+        ) : <span style={{ fontSize: "0.75rem", color: "var(--semantic-fg-neutral-subtle)" }}>—</span>} />
         <Column field="status" header="상태" sortable body={(m: Member) => <Tag value={m.status} severity={STATUS_SEVERITY[m.status]} />} />
       </DataTable>
     </div>

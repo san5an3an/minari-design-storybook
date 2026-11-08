@@ -7,6 +7,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { Toast } from "primereact/toast";
 import { Users, Timer, Hourglass, PhoneCall } from "lucide-react";
+import { USAGE_PORTAL_CLASS } from "../../primereactUsageStyle";
 
 const INITIAL_WAITLIST = [
   { name: "윤도경", reason: "정기 검진", requested: "09-15", waitMin: 22 },
@@ -55,7 +56,7 @@ export function WaitlistScreen() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
       <Toast ref={toast} />
-      <ConfirmPopup />
+      <ConfirmPopup className={USAGE_PORTAL_CLASS} />
 
       <div className="pr3-waitlist-stats" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "0.75rem" }}>
         {/* 4열 카드 최소폭 11rem 유지, 48rem 이상만 4열 적용 */}
