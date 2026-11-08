@@ -2,6 +2,7 @@ import * as React from "react";
 import { ActionIcon, Avatar, Divider, Group, Indicator, NavLink, Stack, Switch, Text, TextInput } from "@mantine/core";
 import { Bell, Compass, Home, PlaneTakeoff, Search } from "lucide-react";
 import type { UsageDashboardProps } from "../registry";
+import { MANTINE_USAGE_VARS } from "../mantineUsageStyle";
 import { useIsWide } from "../mobile/useIsWide";
 import { MantineMobile } from "./mobile/MantineMobile";
 import { SCREENS } from "./screens";
@@ -39,6 +40,7 @@ export function MantineUsage({ system }: UsageDashboardProps) {
   return (
     <div
       style={{
+        ...MANTINE_USAGE_VARS,
         display: "flex",
         flexDirection: "column",
         height: "max(20rem, calc(100dvh - 9rem))",
@@ -80,7 +82,7 @@ export function MantineUsage({ system }: UsageDashboardProps) {
 
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", overflow: "hidden" }}>
         <Stack gap="0.25rem" py="0.75rem" px="0.5rem" style={{ width: "10.5rem", flexShrink: 0, borderInlineEnd: "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)", overflowY: "auto" }} visibleFrom="sm">
-          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtlest)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
             메뉴
           </Text>
           {SCREENS.map((s) => (
@@ -97,7 +99,7 @@ export function MantineUsage({ system }: UsageDashboardProps) {
           ))}
           <Divider my="0.5rem" />
           {/* SETTINGS 섹션 구분 표시. 가짜 버튼이 아니라 실제 값 변경 스위치임 */}
-          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtlest)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
             설정
           </Text>
           <Group justify="space-between" px="0.5rem" wrap="nowrap">
