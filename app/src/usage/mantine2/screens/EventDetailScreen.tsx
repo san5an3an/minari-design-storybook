@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { EVENTS } from "../data";
 import type { ScreenProps } from "../screens";
+import { SLIDER_MARK_STYLES } from "../../mantineUsageStyle";
 
 const BRAND_TOKEN = "--semantic-bg-brand-default";
 
@@ -89,7 +90,7 @@ export function EventDetailScreen({ selectedId }: ScreenProps) {
               <NumberInput label="티켓 가격 (원)" min={0} step={1000} value={price} onChange={(v) => setPrice(Number(v) || 0)} />
               <Stack gap="0.25rem">
                 <Text size="sm" fw={500}>얼리버드 할인율</Text>
-                <Slider value={earlyBirdPct} onChange={setEarlyBirdPct} min={0} max={50} step={5} color="brand" label={(v) => `${v}%`} marks={[{ value: 0, label: "0%" }, { value: 25, label: "25%" }, { value: 50, label: "50%" }]} />
+                <Slider value={earlyBirdPct} onChange={setEarlyBirdPct} min={0} max={50} step={5} color="brand" label={(v) => `${v}%`} marks={[{ value: 0, label: "0%" }, { value: 25, label: "25%" }, { value: 50, label: "50%" }]} styles={SLIDER_MARK_STYLES} />
               </Stack>
               <Switch label="대기자 명단 운영" checked={waitlist} onChange={(e) => setWaitlist(e.currentTarget.checked)} />
               <Card withBorder radius="md" padding="0.75rem">

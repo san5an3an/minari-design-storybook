@@ -122,7 +122,7 @@ export function SpendTrendChart() {
       </svg>
       <Group justify="space-between" mt="0.25rem">
         {SPEND_TREND_LABELS.map((l) => (
-          <Text key={l} size="0.625rem" style={{ color: "var(--semantic-fg-neutral-subtlest)" }}>{l}</Text>
+          <Text key={l} size="0.625rem" style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{l}</Text>
         ))}
       </Group>
     </Card>
@@ -195,7 +195,7 @@ export function PopularRankingList() {
       <Stack gap="0.625rem">
         {top.map((d, i) => (
           <Group key={d.id} gap="0.5rem" wrap="nowrap">
-            <Text size="xs" fw={700} style={{ width: "1rem", color: "var(--semantic-fg-neutral-subtlest)" }}>{i + 1}</Text>
+            <Text size="xs" fw={700} style={{ width: "1rem", color: "var(--semantic-fg-neutral-subtle)" }}>{i + 1}</Text>
             <Avatar src={d.image} radius="sm" size="1.75rem" />
             <Stack gap={0} style={{ minWidth: 0, flex: 1 }}>
               <Text size="xs" fw={600} truncate>{d.name}</Text>

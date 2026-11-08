@@ -6,6 +6,7 @@ import {
 import { CalendarCheck, CreditCard, Luggage, MessageSquare, PlaneTakeoff, ShieldCheck, Star } from "lucide-react";
 import { DEFAULT_PASSENGER, DESTINATIONS, TRIP_REVIEWS, type PassengerDraft } from "../data";
 import type { ScreenProps } from "../screens";
+import { NEUTRAL_AVATAR_STYLES } from "../../mantineUsageStyle";
 
 const SEAT_CLASSES = [
   { value: "economy", label: "이코노미" },
@@ -180,7 +181,7 @@ export function BookingScreen({ selectedId }: ScreenProps) {
           <Stack gap="0.625rem">
             {TRIP_REVIEWS.map((r) => (
               <Group key={r.id} gap="0.625rem" wrap="nowrap" align="flex-start">
-                <Avatar radius="xl" size="2rem">{r.author[0]}</Avatar>
+                <Avatar radius="xl" size="2rem" styles={NEUTRAL_AVATAR_STYLES}>{r.author[0]}</Avatar>
                 <Stack gap="0.125rem" style={{ flex: 1 }}>
                   <Group gap="0.375rem"><Text size="sm" fw={600}>{r.author}</Text><Rating value={r.rating} readOnly size="0.65rem" /></Group>
                   <Text size="sm" style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{r.comment}</Text>

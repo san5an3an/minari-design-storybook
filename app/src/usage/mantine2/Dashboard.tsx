@@ -2,6 +2,7 @@ import * as React from "react";
 import { ActionIcon, Avatar, Divider, Group, Indicator, NavLink, Stack, Text, TextInput } from "@mantine/core";
 import { CalendarDays, IdCard, Search, Settings, Users } from "lucide-react";
 import type { UsageDashboardProps } from "../registry";
+import { MANTINE_USAGE_VARS } from "../mantineUsageStyle";
 import { useIsWide } from "../mobile/useIsWide";
 import { ATTENDEES, EVENTS } from "./data";
 import { Mantine2Mobile } from "./mobile/Mantine2Mobile";
@@ -42,6 +43,7 @@ export function MantineUsage2({ system }: UsageDashboardProps) {
   return (
     <div
       style={{
+        ...MANTINE_USAGE_VARS,
         display: "flex",
         flexDirection: "column",
         height: "max(20rem, calc(100dvh - 9rem))",
@@ -76,7 +78,7 @@ export function MantineUsage2({ system }: UsageDashboardProps) {
 
       <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: "flex", overflow: "hidden" }}>
         <Stack gap="0.25rem" py="0.75rem" px="0.5rem" style={{ width: "10rem", flexShrink: 0, borderInlineEnd: "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)", overflowY: "auto" }} visibleFrom="sm">
-          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtlest)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
             운영
           </Text>
           {SCREENS.filter((s) => s.key !== "detail").map((s) => (
@@ -84,7 +86,7 @@ export function MantineUsage2({ system }: UsageDashboardProps) {
               key={s.key}
               label={s.label}
               leftSection={NAV_ICON[s.key]}
-              rightSection={NAV_COUNT[s.key] !== undefined ? <Text size="0.625rem" style={{ color: "var(--semantic-fg-neutral-subtle)" }}>{NAV_COUNT[s.key]}</Text> : undefined}
+              rightSection={NAV_COUNT[s.key] !== undefined ? <Text size="0.625rem" style={{ color: s.key === screenKey ? "var(--semantic-fg-neutral-default)" : "var(--semantic-fg-neutral-subtle)" }}>{NAV_COUNT[s.key]}</Text> : undefined}
               active={s.key === screenKey}
               color="brand"
               variant="light"
@@ -93,7 +95,7 @@ export function MantineUsage2({ system }: UsageDashboardProps) {
             />
           ))}
           <Divider my="0.5rem" />
-          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtlest)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <Text size="0.625rem" fw={700} px="0.5rem" style={{ color: "var(--semantic-fg-neutral-subtle)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
             구성
           </Text>
           {SCREENS.filter((s) => s.key === "detail").map((s) => (

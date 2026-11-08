@@ -6,6 +6,7 @@ import {
 import { CheckCircle2, MoreHorizontal, Search, Send, Trash2, UserCheck, Users } from "lucide-react";
 import { ATTENDEES, EVENTS, type Attendee } from "../data";
 import type { ScreenProps } from "../screens";
+import { MANTINE_USAGE_VARS } from "../../mantineUsageStyle";
 
 export const PAGE_SIZE = 6;
 export const STATUS_COLOR: Record<Attendee["status"], string> = { 확정: "success", 대기: "warning", 취소: "danger" };
@@ -158,7 +159,7 @@ export function AttendeesScreen({ selectedId }: ScreenProps) {
                     <Menu.Target>
                       <Button size="xs" variant="subtle" p="0.25rem" aria-label={`${a.name} 더보기`}><MoreHorizontal size={14} /></Button>
                     </Menu.Target>
-                    <Menu.Dropdown>
+                    <Menu.Dropdown style={MANTINE_USAGE_VARS}>
                       <Menu.Item leftSection={<Send size={12} />}>메일 보내기</Menu.Item>
                       <Menu.Item leftSection={<Trash2 size={12} />} color="danger">명단에서 제외</Menu.Item>
                     </Menu.Dropdown>

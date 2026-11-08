@@ -2,6 +2,7 @@ import * as React from "react";
 import { ActionIcon, Avatar, Box, Group, Indicator, Tabs, Text, TextInput } from "@mantine/core";
 import { Boxes, History, Info, Search } from "lucide-react";
 import type { UsageDashboardProps } from "../registry";
+import { MANTINE_USAGE_VARS } from "../mantineUsageStyle";
 import { useIsWide } from "../mobile/useIsWide";
 import { Mantine3Mobile } from "./mobile/Mantine3Mobile";
 import { SCREENS } from "./screens";
@@ -36,6 +37,7 @@ export function MantineUsage3({ system }: UsageDashboardProps) {
   return (
     <div
       style={{
+        ...MANTINE_USAGE_VARS,
         display: "flex",
         flexDirection: "column",
         height: "max(20rem, calc(100dvh - 9rem))",
