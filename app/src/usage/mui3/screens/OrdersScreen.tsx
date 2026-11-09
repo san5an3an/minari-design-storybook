@@ -11,6 +11,7 @@ import DeliveryDiningOutlined from "@mui/icons-material/DeliveryDiningOutlined";
 import MoreVertOutlined from "@mui/icons-material/MoreVertOutlined";
 import PaymentsOutlined from "@mui/icons-material/PaymentsOutlined";
 import ReceiptLongOutlined from "@mui/icons-material/ReceiptLongOutlined";
+import { trendTextColor } from "../../muiUsageColors";
 import { ORDERS, type Order } from "../data";
 
 const DELIVERY_STEPS = [
@@ -63,7 +64,7 @@ export function OrdersScreen() {
               <Icon color="action" fontSize="small" />
               <Typography variant="caption" color="text.secondary" component="p">{s.label}</Typography>
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.value}</Typography>
-              <Typography variant="caption" sx={{ color: s.up ? "success.main" : "error.main", fontWeight: 600 }}>
+              <Typography variant="caption" sx={{ color: trendTextColor(s.up), fontWeight: 600 }}>
                 {s.delta} 지난달 대비
               </Typography>
             </Card>

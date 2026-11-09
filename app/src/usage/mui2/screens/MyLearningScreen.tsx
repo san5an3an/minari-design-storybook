@@ -8,6 +8,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import CheckCircleOutlined from "@mui/icons-material/CheckCircleOutlined";
 import PaymentsOutlined from "@mui/icons-material/PaymentsOutlined";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
+import { trendTextColor } from "../../muiUsageColors";
 import { COURSES, ENROLLED, PAYMENTS } from "../data";
 
 const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
@@ -81,7 +82,7 @@ export function MyLearningScreen() {
               <Icon color="action" fontSize="small" />
               <Typography variant="caption" color="text.secondary" component="p">{s.label}</Typography>
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.value}</Typography>
-              <Typography variant="caption" sx={{ color: s.up ? "success.main" : "error.main", fontWeight: 600 }}>
+              <Typography variant="caption" sx={{ color: trendTextColor(s.up), fontWeight: 600 }}>
                 {s.delta}
               </Typography>
             </Card>

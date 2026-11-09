@@ -14,6 +14,7 @@ import MeetingRoomOutlined from "@mui/icons-material/MeetingRoomOutlined";
 import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
 import QuestionAnswerOutlined from "@mui/icons-material/QuestionAnswerOutlined";
 import SquareFootOutlined from "@mui/icons-material/SquareFootOutlined";
+import { PLACEHOLDER_SX, SUCCESS_OUTLINED_BUTTON_SX } from "../../muiUsageColors";
 import { LISTINGS, monthlyTotal, won } from "../listings";
 import type { ScreenProps } from "../screens";
 import { ListingMap } from "./SearchScreen";
@@ -227,6 +228,7 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
                 color="success"
                 startIcon={<CheckCircleOutlined />}
                 onClick={() => onNavigate?.("saved")}
+                sx={SUCCESS_OUTLINED_BUTTON_SX}
               >
                 방문 예약됨 · 찜에서 보기
               </Button>
@@ -269,6 +271,7 @@ export function ListingScreen({ selectedId, onNavigate, onBook, bookedIds }: Scr
             placeholder="예: 반려동물과 함께 입주할 수 있나요?"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            sx={PLACEHOLDER_SX}
           />
         </DialogContent>
         <DialogActions>

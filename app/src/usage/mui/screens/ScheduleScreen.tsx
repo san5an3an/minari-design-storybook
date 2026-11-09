@@ -13,6 +13,7 @@ import CheckCircleOutlined from "@mui/icons-material/CheckCircleOutlined";
 import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
 import SmartphoneOutlined from "@mui/icons-material/SmartphoneOutlined";
 import VpnKeyOutlined from "@mui/icons-material/VpnKeyOutlined";
+import { inactiveStepIconSx } from "../../muiUsageColors";
 import { LISTINGS, won } from "../listings";
 import type { ScreenProps } from "../screens";
 
@@ -70,7 +71,7 @@ export function ScheduleScreen({ selectedId, onNavigate, bookedIds, onBook }: Sc
 
   return (
     <Stack spacing="var(--semantic-space-sm)">
-      <Stepper activeStep={step} alternativeLabel={!wide} sx={{ pb: "var(--semantic-space-xs)" }}>
+      <Stepper activeStep={step} alternativeLabel={!wide} sx={[{ pb: "var(--semantic-space-xs)" }, inactiveStepIconSx]}>
         {STEPS.map((s) => (
           <Step key={s}>
             <StepLabel>{s}</StepLabel>

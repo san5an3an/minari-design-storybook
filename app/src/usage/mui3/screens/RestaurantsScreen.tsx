@@ -11,6 +11,7 @@ import StarOutlined from "@mui/icons-material/StarOutlined";
 import TimerOutlined from "@mui/icons-material/TimerOutlined";
 import TrendingDown from "@mui/icons-material/TrendingDown";
 import TrendingUp from "@mui/icons-material/TrendingUp";
+import { trendChipSx } from "../../muiUsageColors";
 import { ORDERS, RESTAURANTS, type Restaurant } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -28,10 +29,8 @@ const ORDER_STATS: readonly OrderStat[] = [
 ];
 
 function OrderStatCard({ stat }: { stat: OrderStat }) {
-  const theme = useTheme();
   const Icon = stat.icon;
   const Trend = stat.up ? TrendingUp : TrendingDown;
-  const trendColor = stat.up ? theme.palette.success.main : theme.palette.error.main;
   return (
     <Card variant="outlined" sx={{ p: "var(--semantic-space-sm)" }}>
       <Stack direction="row" sx={{ alignItems: "flex-start", justifyContent: "space-between" }}>
@@ -53,11 +52,7 @@ function OrderStatCard({ stat }: { stat: OrderStat }) {
           size="small"
           icon={<Trend fontSize="inherit" />}
           label={stat.delta}
-          sx={{
-            bgcolor: alpha(trendColor, 0.12),
-            color: trendColor,
-            "& .MuiChip-icon": { color: trendColor },
-          }}
+          sx={trendChipSx(stat.up)}
         />
       </Stack>
     </Card>

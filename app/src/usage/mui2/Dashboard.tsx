@@ -8,6 +8,7 @@ import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
 import TrendingUpOutlined from "@mui/icons-material/TrendingUpOutlined";
+import { PLACEHOLDER_SX } from "../muiUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { ENROLLED } from "./data";
 import { SCREENS } from "./screens";
@@ -63,7 +64,7 @@ export function MuiUsage2({ system }: UsageDashboardProps) {
                   ),
                 },
               }}
-              sx={{ inlineSize: "min(200px, 46vw)" }}
+              sx={{ inlineSize: "min(200px, 46vw)", ...PLACEHOLDER_SX }}
             />
             {/* 알림 배지로 수강 중인 강좌 수 표시 */}
             <IconButton size="small" aria-label="알림">

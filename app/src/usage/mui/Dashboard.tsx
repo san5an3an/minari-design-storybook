@@ -9,6 +9,7 @@ import FavoriteBorderOutlined from "@mui/icons-material/FavoriteBorderOutlined";
 import KingBedOutlined from "@mui/icons-material/KingBedOutlined";
 import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
+import { PLACEHOLDER_SX } from "../muiUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { LISTINGS } from "./listings";
 import { SCREENS } from "./screens";
@@ -100,7 +101,7 @@ export function MuiUsage({ system }: UsageDashboardProps) {
                   ),
                 },
               }}
-              sx={{ inlineSize: "min(200px, 46vw)" }}
+              sx={{ inlineSize: "min(200px, 46vw)", ...PLACEHOLDER_SX }}
             />
             <Badge badgeContent={bookedIds.length} color="primary" showZero={false}>
               <FavoriteBorderOutlined fontSize="small" />
