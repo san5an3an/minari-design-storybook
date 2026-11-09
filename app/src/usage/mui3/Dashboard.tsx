@@ -8,6 +8,7 @@ import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import RestaurantOutlined from "@mui/icons-material/RestaurantOutlined";
 import RoomServiceOutlined from "@mui/icons-material/RoomServiceOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
+import { PLACEHOLDER_SX } from "../muiUsageColors";
 import type { UsageDashboardProps } from "../registry";
 import { ORDERS, RESTAURANTS } from "./data";
 import { SCREENS } from "./screens";
@@ -61,7 +62,7 @@ export function MuiUsage3({ system }: UsageDashboardProps) {
                   setScreenKey("detail");
                 }
               }}
-              sx={{ inlineSize: "min(220px, 46vw)" }}
+              sx={{ inlineSize: "min(220px, 46vw)", ...PLACEHOLDER_SX }}
               renderInput={(params) => (
                 <TextField
                   {...params}

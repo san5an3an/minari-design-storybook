@@ -7,6 +7,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import CheckCircleOutlined from "@mui/icons-material/CheckCircleOutlined";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import TimelapseOutlined from "@mui/icons-material/TimelapseOutlined";
+import { trendTextColor } from "../../muiUsageColors";
 import { COURSES, ENROLLED } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -60,7 +61,7 @@ function CourseStatCard({ stat }: { stat: CourseStat }) {
         </Stack>
         <Typography
           variant="caption"
-          sx={{ color: stat.up ? "success.main" : "error.main", fontWeight: 700, flexShrink: 0 }}
+          sx={{ color: trendTextColor(stat.up), fontWeight: 700, flexShrink: 0 }}
         >
           {stat.delta}
         </Typography>

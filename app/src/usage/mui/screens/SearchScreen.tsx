@@ -24,6 +24,7 @@ import TimerOutlined from "@mui/icons-material/TimerOutlined";
 import TrendingDown from "@mui/icons-material/TrendingDown";
 import TrendingUp from "@mui/icons-material/TrendingUp";
 import TuneOutlined from "@mui/icons-material/TuneOutlined";
+import { trendChipSx } from "../../muiUsageColors";
 import { LISTINGS, monthlyTotal, won, type Listing } from "../listings";
 import type { ScreenProps } from "../screens";
 
@@ -178,11 +179,7 @@ function HomeStatCard({ stat }: { stat: HomeStat }) {
             size="small"
             icon={<Trend fontSize="inherit" />}
             label={stat.delta}
-            sx={{
-              bgcolor: alpha(trendColor, 0.12),
-              color: trendColor,
-              "& .MuiChip-icon": { color: trendColor },
-            }}
+            sx={trendChipSx(stat.up)}
           />
           <SparkLineChart
             data={[...stat.trend]}

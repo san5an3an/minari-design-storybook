@@ -9,6 +9,7 @@ import DeliveryDiningOutlined from "@mui/icons-material/DeliveryDiningOutlined";
 import PaymentsOutlined from "@mui/icons-material/PaymentsOutlined";
 import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import TimerOutlined from "@mui/icons-material/TimerOutlined";
+import { PHOTO_DEFAULT_CHIP_SX } from "../../muiUsageColors";
 import { REVIEWS, RESTAURANTS, type Review } from "../data";
 import type { ScreenProps } from "../screens";
 
@@ -71,7 +72,12 @@ export function RestaurantDetailScreen({ selectedId, onNavigate }: ScreenProps) 
         <Stack spacing="var(--semantic-space-xs)">
           <Stack direction="row" spacing="var(--semantic-space-xs)" sx={{ alignItems: "center" }}>
             <Chip size="small" label={restaurant.category} sx={{ bgcolor: "var(--semantic-bg-neutral-surface)" }} />
-            <Chip size="small" label={restaurant.status} color={STATUS_TONE[restaurant.status]} />
+            <Chip
+              size="small"
+              label={restaurant.status}
+              color={STATUS_TONE[restaurant.status]}
+              sx={STATUS_TONE[restaurant.status] === "default" ? PHOTO_DEFAULT_CHIP_SX : undefined}
+            />
           </Stack>
           <Typography variant="h6" sx={{ color: "common.white", fontWeight: 700 }}>{restaurant.name}</Typography>
         </Stack>
