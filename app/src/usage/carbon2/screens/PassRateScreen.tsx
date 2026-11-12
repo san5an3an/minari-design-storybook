@@ -1,6 +1,7 @@
 import * as React from "react";
 import { InlineNotification, Slider, Tile } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { PASS_RATE } from "../data";
 
 // Tile 목록에 합격률 기준 Slider, 추이 라인 차트 추가
@@ -43,9 +44,9 @@ export function PassRateScreen() {
         <div style={{ inlineSize: "100%", blockSize: 160 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
-              <YAxis domain={[80, 100]} tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={32} />
-              <Tooltip />
+              <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+              <YAxis domain={[80, 100]} tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} width={32} />
+              <Tooltip {...CHART_TOOLTIP_PROPS} />
               {/* 폭 확정 후 차트 렌더링. 늦으면 선 일부만 그려지는 문제 있음 */}
               <Line type="monotone" dataKey="rate" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
             </LineChart>

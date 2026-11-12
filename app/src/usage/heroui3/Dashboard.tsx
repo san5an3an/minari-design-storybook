@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { herouiAdapter } from "../../preview/herouiRef/adapter";
+import { HEROUI_USAGE_ROOT, herouiUsageCss, navCountColor } from "../herouiUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { MY_RSVPS, type Rsvp } from "./data";
 import { SCREENS } from "./screens";
@@ -29,8 +30,9 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
 
   return (
     <herouiAdapter.Provider system={system} mode={active}>
+      <style>{herouiUsageCss(active)}</style>
       <div
-        className="flex overflow-hidden"
+        className={`${HEROUI_USAGE_ROOT} flex overflow-hidden`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:
@@ -76,7 +78,7 @@ export function HeroUiUsage3({ system, active }: UsageDashboardProps) {
                 {s.key === "rsvps" && rsvps.length > 0 ? (
                   <span
                     className="ms-1.5 text-xs"
-                    style={{ color: "var(--semantic-fg-neutral-subtle)" }}
+                    style={{ color: navCountColor(isActive) }}
                   >
                     {rsvps.length}
                   </span>

@@ -4,6 +4,7 @@ import {
   StructuredListRow, StructuredListWrapper, Tile,
 } from "@carbon/react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { DEFECT_TYPES } from "../data";
 
 // 정렬 기준 RadioButtonGroup과 미니 막대그래프 추가
@@ -41,8 +42,8 @@ export function DefectsScreen() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11 }} />
-              <Tooltip />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={72} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+              <Tooltip {...CHART_TOOLTIP_PROPS} />
               <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Tag } from "@carbon/react";
 import { carbonAdapter } from "../../preview/carbonRef/adapter";
+import { CARBON_USAGE_ROOT, carbonUsageCss } from "../carbonUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -17,7 +18,7 @@ export function CarbonUsage3({ system, active }: UsageDashboardProps) {
   return (
     <carbonAdapter.Provider system={system} mode={active}>
       <div
-        className="flex flex-col overflow-hidden"
+        className={`${CARBON_USAGE_ROOT} flex flex-col overflow-hidden`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:
@@ -27,6 +28,7 @@ export function CarbonUsage3({ system, active }: UsageDashboardProps) {
           height: "max(20rem, calc(100dvh - 9rem))",
         }}
       >
+        <style>{carbonUsageCss(active)}</style>
         <div
           className="flex shrink-0 items-center gap-3 px-4 py-3"
           style={{

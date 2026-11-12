@@ -1,6 +1,7 @@
 import * as React from "react";
 import { OverflowMenu, OverflowMenuItem, Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 
 // 통계카드 4개, 라인차트, 배터리 랭킹 추가. 지도 라이브러리 부재로 대체임
 const ONLINE_TREND = [
@@ -101,10 +102,10 @@ export function DevicesScreen({ onSelect, onNavigate }: ScreenProps) {
           <div style={{ inlineSize: "100%", blockSize: 160 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={ONLINE_TREND as unknown as Record<string, unknown>[]}>
-                <XAxis dataKey="t" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+                <XAxis dataKey="t" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} />
                 {/* 기기 대수는 정수 필수. 아니면 소수 눈금 생겨 width 24에 안 맞음 */}
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={28} allowDecimals={false} />
-                <Tooltip />
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} width={28} allowDecimals={false} />
+                <Tooltip {...CHART_TOOLTIP_PROPS} />
                 <Line type="monotone" dataKey="online" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>

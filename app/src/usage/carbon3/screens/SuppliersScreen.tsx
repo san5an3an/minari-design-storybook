@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dropdown, OverflowMenu, OverflowMenuItem, Search, Tag, Tile } from "@carbon/react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { SUPPLIERS } from "../data";
 
 // Tile 목록에 검색 Search, 카테고리 필터, 통계카드, 리드타임 차트 추가
@@ -68,8 +69,8 @@ export function SuppliersScreen() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={leadTimeData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={80} tick={{ fontSize: 11 }} />
-              <Tooltip />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={80} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+              <Tooltip {...CHART_TOOLTIP_PROPS} />
               <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>

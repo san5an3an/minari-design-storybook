@@ -6,6 +6,7 @@ import {
   SideNav, SideNavItems, Tag,
 } from "@carbon/react";
 import { carbonAdapter } from "../../preview/carbonRef/adapter";
+import { CARBON_USAGE_ROOT, carbonUsageCss } from "../carbonUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -70,7 +71,7 @@ export function CarbonUsage2({ system, active }: UsageDashboardProps) {
   return (
     <carbonAdapter.Provider system={system} mode={active}>
       <div
-        className={`${SHELL} overflow-hidden`}
+        className={`${SHELL} ${CARBON_USAGE_ROOT} overflow-hidden`}
         style={{
           border:
             "var(--semantic-border-width-default) solid var(--semantic-border-neutral-subtle)",
@@ -80,7 +81,7 @@ export function CarbonUsage2({ system, active }: UsageDashboardProps) {
           ["--cb2-shell-height" as string]: SHELL_HEIGHT,
         }}
       >
-        <style>{SHELL_CSS}</style>
+        <style>{SHELL_CSS + carbonUsageCss(active)}</style>
 
         <Header aria-label="품질관리">
           <HeaderMenuButton

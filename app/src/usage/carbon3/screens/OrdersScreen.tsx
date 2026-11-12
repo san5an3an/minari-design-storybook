@@ -2,6 +2,7 @@ import * as React from "react";
 import { Breadcrumb, BreadcrumbItem, Button, Select, SelectItem, Tag, TextInput, Tile } from "@carbon/react";
 import { ArrowLeft } from "@carbon/icons-react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { PURCHASE_ORDERS, type PurchaseOrder } from "../data";
 
 // 발주번호/품목 검색 TextInput과 공급업체 필터 Select 추가
@@ -109,8 +110,8 @@ export function OrdersScreen() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={STATUS_ORDER.map((s) => ({ name: s, value: PURCHASE_ORDERS.filter((o) => o.status === s).length }))} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
-                <Tooltip />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+                <Tooltip {...CHART_TOOLTIP_PROPS} />
                 <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
@@ -122,8 +123,8 @@ export function OrdersScreen() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={bySupplier} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={64} tick={{ fontSize: 11 }} />
-                <Tooltip />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={64} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+                <Tooltip {...CHART_TOOLTIP_PROPS} />
                 <Bar dataKey="value" fill="var(--component-chart-series-2)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>

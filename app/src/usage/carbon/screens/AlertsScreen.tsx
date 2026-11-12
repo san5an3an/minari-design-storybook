@@ -4,6 +4,7 @@ import {
   StructuredListRow, StructuredListWrapper, Tag, Tile, Toggle,
 } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 
 // 통계카드, 심각도 필터, 담당자 지정 드롭다운, 자동 알림 토글, 추이차트로 구성
 const ASSIGNEES = ["미지정", "정민아", "오태윤", "한소율"];
@@ -118,10 +119,10 @@ export function AlertsScreen() {
         <div style={{ inlineSize: "100%", blockSize: 140 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={ALERT_TREND as unknown as Record<string, unknown>[]}>
-              <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+              <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} />
               {/* y축 눈금 잘림 방지 */}
-              <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={28} allowDecimals={false} />
-              <Tooltip />
+              <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} width={28} allowDecimals={false} />
+              <Tooltip {...CHART_TOOLTIP_PROPS} />
               {/* 금토일 점이 선에서 떨어져 보이는 문제 방지. 이전 path 길이 기반 계산 때문임 */}
               <Line type="monotone" dataKey="count" stroke="var(--semantic-fg-danger-default)" strokeWidth={2} dot isAnimationActive={false} />
             </LineChart>

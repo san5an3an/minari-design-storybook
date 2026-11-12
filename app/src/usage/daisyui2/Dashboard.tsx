@@ -1,11 +1,12 @@
 import * as React from "react";
 import type { UsageDashboardProps } from "../registry";
 import { DAISYUI_USAGE_COLOR_BRIDGE } from "../../bases/daisyuiColorBridge";
+import { DAISYUI_USAGE_ROOT, daisyuiUsageCss } from "../daisyuiUsageStyle";
 import { useIsWide } from "../mobile/useIsWide";
 import { Daisyui2Mobile } from "./mobile/Daisyui2Mobile";
 import { SCREENS } from "./screens";
 
-export function DaisyuiUsage2({ system }: UsageDashboardProps) {
+export function DaisyuiUsage2({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const wide = useIsWide();
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
@@ -16,6 +17,7 @@ export function DaisyuiUsage2({ system }: UsageDashboardProps) {
 
   return (
     <div
+      className={DAISYUI_USAGE_ROOT}
       style={{
         ...DAISYUI_USAGE_COLOR_BRIDGE,
         display: "flex",
@@ -27,6 +29,7 @@ export function DaisyuiUsage2({ system }: UsageDashboardProps) {
         boxShadow: "var(--semantic-shadow-raised)",
       }}
     >
+      <style>{daisyuiUsageCss(active)}</style>
       <div
         style={{
           display: "flex",

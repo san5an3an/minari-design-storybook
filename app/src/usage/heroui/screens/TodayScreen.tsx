@@ -5,6 +5,7 @@ import {
   Button, Card, Checkbox, Input, Label, Modal, ProgressBar, ProgressCircle, TextArea, TextField,
 } from "@heroui/react";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { Plus } from "lucide-react";
 
 interface Habit {
@@ -179,10 +180,10 @@ export function TodayScreen() {
                   tickLine={false}
                   axisLine={false}
                   interval={0}
-                  tick={{ style: { fontSize: 10 } }}
+                  tick={{ style: { fontSize: 10 }, fill: CHART_TICK_FILL }}
                 />
                 <YAxis hide domain={[0, 100]} />
-                <RechartsTooltip formatter={(v) => [`${v}%`, "달성률"]} />
+                <RechartsTooltip {...CHART_TOOLTIP_PROPS} formatter={(v) => [`${v}%`, "달성률"]} />
                 <Bar dataKey="value" radius={[4, 4, 0, 0]} isAnimationActive={false}>
                   {weekChartData.map((d) => (
                     <Cell
