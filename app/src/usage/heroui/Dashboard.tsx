@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Avatar, Tabs } from "@heroui/react";
 import { herouiAdapter } from "../../preview/herouiRef/adapter";
+import { HEROUI_USAGE_ROOT, herouiUsageCss } from "../herouiUsageStyle";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 
@@ -14,8 +15,9 @@ export function HeroUiUsage({ system, active }: UsageDashboardProps) {
 
   return (
     <herouiAdapter.Provider system={system} mode={active}>
+      <style>{herouiUsageCss(active)}</style>
       <div
-        className="flex flex-col overflow-hidden"
+        className={`${HEROUI_USAGE_ROOT} flex flex-col overflow-hidden`}
         style={{
           background: "var(--semantic-bg-neutral-surface)",
           border:

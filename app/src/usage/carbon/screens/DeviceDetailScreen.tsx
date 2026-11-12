@@ -3,6 +3,7 @@ import {
   Breadcrumb, BreadcrumbItem, Button, InlineNotification, Tag, TextArea, Tile,
 } from "@carbon/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import type { ScreenProps } from "../screens";
 import { DEVICES, STATUS_TAG } from "./DevicesScreen";
 
@@ -49,9 +50,9 @@ export function DeviceDetailScreen({ selectedId, onNavigate }: ScreenProps) {
           <div style={{ inlineSize: "100%", blockSize: 160 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={BATTERY_HISTORY as unknown as Record<string, unknown>[]}>
-                <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12 }} width={28} unit="%" />
-                <Tooltip />
+                <XAxis dataKey="day" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: CHART_TICK_FILL }} width={28} unit="%" />
+                <Tooltip {...CHART_TOOLTIP_PROPS} />
                 {/* 처음 그릴 때 점이 선에서 떨어져 보이는 문제 방지 */}
                 <Line type="monotone" dataKey="pct" stroke="var(--component-chart-series-1)" strokeWidth={2} dot isAnimationActive={false} />
               </LineChart>

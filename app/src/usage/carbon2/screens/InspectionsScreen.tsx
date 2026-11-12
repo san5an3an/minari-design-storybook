@@ -2,6 +2,7 @@ import * as React from "react";
 import { Breadcrumb, BreadcrumbItem, Button, Select, SelectItem, Tag, Tile, Toggle } from "@carbon/react";
 import { ArrowLeft } from "@carbon/icons-react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { INSPECTIONS, type Inspection } from "../data";
 
 // 검사자 필터 Select와 재검사만 보기 Toggle 추가
@@ -137,8 +138,8 @@ export function InspectionsScreen() {
               layout="vertical" margin={{ left: 8 }}
             >
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11 }} />
-              <Tooltip />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ fontSize: 11, fill: CHART_TICK_FILL }} />
+              <Tooltip {...CHART_TOOLTIP_PROPS} />
               <Bar dataKey="value" fill="var(--component-chart-series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>

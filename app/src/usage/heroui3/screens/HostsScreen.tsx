@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Avatar, Button, Card, Chip, Modal, Radio, RadioGroup } from "@heroui/react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from "recharts";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import { HOSTS, MEETUPS, type Host } from "../data";
 
 function HostProfileModal({ host, isOpen, onOpenChange }: { host: Host | null; isOpen: boolean; onOpenChange: (open: boolean) => void }) {
@@ -93,8 +94,8 @@ export function HostsScreen() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ style: { fontSize: 11 } }} />
-              <RechartsTooltip formatter={(v) => [`${v}회`, "진행 모임"]} />
+              <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={56} tick={{ style: { fontSize: 11 }, fill: CHART_TICK_FILL }} />
+              <RechartsTooltip {...CHART_TOOLTIP_PROPS} formatter={(v) => [`${v}회`, "진행 모임"]} />
               <Bar dataKey="value" fill="var(--semantic-bg-brand-default)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>

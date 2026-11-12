@@ -2,6 +2,8 @@
 import * as React from "react";
 import { Chip, Label, ListBox, Pagination, Select, Table } from "@heroui/react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { NOT_DONE_MARK_STYLE } from "../../herouiUsageStyle";
+import { CHART_TICK_FILL, CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 
 const DAYS = ["월", "화", "수", "목", "금", "토", "일"];
 
@@ -80,7 +82,7 @@ export function HistoryScreen() {
                   <Table.Cell>{row.habit}</Table.Cell>
                   {row.done.map((ok, i) => (
                     <Table.Cell key={DAYS[i]}>
-                      <span aria-label={ok ? "완료" : "미완료"} className={ok ? "" : "opacity-30"}>
+                      <span aria-label={ok ? "완료" : "미완료"} style={ok ? undefined : NOT_DONE_MARK_STYLE}>
                         {ok ? "✓" : "–"}
                       </span>
                     </Table.Cell>
@@ -124,8 +126,8 @@ export function HistoryScreen() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical" margin={{ left: 8 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
-                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={110} tick={{ style: { fontSize: 11 } }} />
-                <Tooltip />
+                <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={110} tick={{ style: { fontSize: 11 }, fill: CHART_TICK_FILL }} />
+                <Tooltip {...CHART_TOOLTIP_PROPS} />
                 <Bar dataKey="value" fill="var(--semantic-bg-brand-default)" radius={[0, 4, 4, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
