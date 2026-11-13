@@ -12,7 +12,7 @@ if (!existsSync(SRC)) {
 }
 
 const version = JSON.parse(await readFile(`${SRC}/package.json`, "utf8")).version;
-const done = existsSync(STAMP) ? (await readFile(STAMP, "utf8")).trim : "";
+const done = existsSync(STAMP) ? (await readFile(STAMP, "utf8")).trim() : "";
 if (done === version) process.exit(0);
 
 await mkdir(DEST, { recursive: true });
