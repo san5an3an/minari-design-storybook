@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import {
   HIRING_STAGES, POSITIONS, TODAY, daysUntil, ddayLabel, isActive, nextStage, positionOf, stageCount, today,
   weeklyApplicants, type Candidate, type CandidateSource, type HiringStage,
@@ -123,7 +124,7 @@ function CandidateDrawer({
                 {candidate.next.mode === "화상" ? <VideoCameraOutlined /> : <CalendarOutlined />}
                 <span style={{ lineHeight: 1.35 }}>
                   <Typography.Text strong style={{ display: "block" }}>{candidate.next.label}</Typography.Text>
-                  <Typography.Text type="secondary" style={{ display: "block", fontSize: token.fontSizeSM }}>
+                  <Typography.Text style={{ display: "block", fontSize: token.fontSizeSM }}>
                     {eventLabel(candidate)}
                   </Typography.Text>
                 </span>
@@ -536,7 +537,8 @@ export function HiringScreen() {
                     paddingBlock: "var(--semantic-space-xs)",
                     borderRadius: token.borderRadius,
                     background: token.colorPrimaryBg,
-                    color: token.colorPrimary,
+                    // interview date box가 colorPrimary fill token을 colorPrimaryBg background 위 text로 써 light mode와 dark mode에서 low contrast라 on-brand-subtle token으로 connect
+                    color: "var(--semantic-fg-on-brand-subtle)",
                   }}
                 >
                   <Typography.Text style={{ display: "block", color: "inherit", fontSize: token.fontSizeSM }}>
@@ -568,6 +570,8 @@ export function HiringScreen() {
                 <YAxis allowDecimals={false} tickLine={false} axisLine={false} width={24} tick={{ fill: token.colorTextSecondary, style: { fontSize: 12 } }} />
                 <Tooltip
                   cursor={{ fill: "var(--semantic-bg-neutral-subtle)" }}
+                  itemStyle={CHART_TOOLTIP_PROPS.itemStyle}
+                  labelStyle={CHART_TOOLTIP_PROPS.labelStyle}
                   formatter={(value) => [`${value}명`, "지원"]}
                   labelFormatter={(label) => `${label} 주`}
                   contentStyle={{

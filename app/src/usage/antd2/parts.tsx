@@ -20,7 +20,8 @@ export type Tone = "brand" | "success" | "warning" | "danger" | "neutral";
 export function useToneColors(): Record<Tone, { bg: string; fg: string }> {
   const { token } = theme.useToken();
   return {
-    brand: { bg: token.colorPrimaryBg, fg: token.colorPrimary },
+    // brand tone fg가 colorPrimary fill token이라 colorPrimaryBg background 위 light mode와 dark mode에서 low contrast라 on-brand-subtle token으로 connect
+    brand: { bg: token.colorPrimaryBg, fg: "var(--semantic-fg-on-brand-subtle)" },
     success: { bg: token.colorSuccessBg, fg: token.colorSuccessText },
     warning: { bg: token.colorWarningBg, fg: token.colorWarningText },
     danger: { bg: token.colorErrorBg, fg: token.colorErrorText },

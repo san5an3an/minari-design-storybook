@@ -7,6 +7,7 @@ import { ArrowDownOutlined, ArrowUpOutlined, DownloadOutlined, FileTextOutlined 
 import {
   Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
+import { CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import type { ScreenProps } from "../screens";
 
 const { Text, Title } = Typography;
@@ -159,6 +160,19 @@ function downloadCsv(filename: string, rows: readonly (readonly (string | number
   URL.revokeObjectURL(url);
 }
 
+// state Tag가 transparent background에 fg token text만 써 선택 행 brand tint background 위에서 light mode와 dark mode와 high-contrast mode에서 low contrast라 tone별 subtle background와 그 on token pair로 set
+const STATE_TONE = {
+  success: { background: "var(--semantic-bg-success-subtle)", color: "var(--semantic-fg-on-success-subtle)" },
+  danger: { background: "var(--semantic-bg-danger-subtle)", color: "var(--semantic-fg-on-danger-subtle)" },
+  warning: { background: "var(--semantic-bg-warning-subtle)", color: "var(--semantic-fg-on-warning-subtle)" },
+};
+const stateTone = (s: string) =>
+  s === "결제" || s === "도착" || s === "재고 있음"
+    ? STATE_TONE.success
+    : s === "미결제" || s === "품절"
+      ? STATE_TONE.danger
+      : STATE_TONE.warning;
+
 export function DashboardScreen({ focusId }: ScreenProps) {
   const { token } = theme.useToken();
   const { message } = App.useApp();
@@ -180,19 +194,8 @@ export function DashboardScreen({ focusId }: ScreenProps) {
     setOrderStatus(undefined);
   }, [focusId]);
 
-  const stateColor = (s: string) =>
-    s === "결제" || s === "도착" || s === "재고 있음"
-      ? "var(--semantic-fg-success-default)"
-      : s === "미결제" || s === "품절"
-        ? "var(--semantic-fg-danger-default)"
-        : "var(--semantic-fg-warning-default)";
   const stateTag = (s: string) => (
-    <Tag
-      style={{
-        color: stateColor(s), borderColor: stateColor(s), background: "transparent",
-        marginInlineEnd: 0, whiteSpace: "nowrap",
-      }}
-    >
+    <Tag style={{ ...stateTone(s), borderColor: "transparent", marginInlineEnd: 0, whiteSpace: "nowrap" }}>
       {s}
     </Tag>
   );
@@ -395,6 +398,8 @@ export function DashboardScreen({ focusId }: ScreenProps) {
                 <YAxis tickLine={false} axisLine={false} tick={tick} width={36} />
                 <Tooltip
                   cursor={{ fill: token.colorFillSecondary }}
+                  itemStyle={CHART_TOOLTIP_PROPS.itemStyle}
+                  labelStyle={CHART_TOOLTIP_PROPS.labelStyle}
                   contentStyle={tooltipStyle}
                   formatter={(v) => [`${v}백만원`, "매출"]}
                 />
@@ -620,6 +625,8 @@ export function DashboardScreen({ focusId }: ScreenProps) {
                 <YAxis type="category" dataKey="name" tickLine={false} axisLine={false} width={48} tick={tick} />
                 <Tooltip
                   cursor={{ fill: token.colorFillSecondary }}
+                  itemStyle={CHART_TOOLTIP_PROPS.itemStyle}
+                  labelStyle={CHART_TOOLTIP_PROPS.labelStyle}
                   contentStyle={tooltipStyle}
                   formatter={(v) => [`${v}백만원`, "매출"]}
                 />

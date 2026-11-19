@@ -6,6 +6,7 @@ import {
 } from "antd";
 import koKR from "antd/locale/ko_KR";
 import { BellOutlined } from "@ant-design/icons";
+import { ANTD_USAGE_PORTAL, ANTD_USAGE_ROOT, antdUsageConfig, antdUsageCss } from "../antdUsageTheme";
 import type { UsageDashboardProps } from "../registry";
 import { SCREENS } from "./screens";
 import { useContainerWidth } from "./useContainerWidth";
@@ -30,7 +31,7 @@ const NOTICES: Notice[] = [
   { id: "n3", title: "결제를 기다리는 주문이 있어요", detail: "#TB010335 애플 헤드폰 · 미결제", at: "1시간 전", screen: "dashboard", focusId: "#TB010335" },
 ];
 
-export function AntdUsage({ system }: UsageDashboardProps) {
+export function AntdUsage({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
@@ -67,13 +68,14 @@ export function AntdUsage({ system }: UsageDashboardProps) {
 
   return (
     <>
-      {/* ConfigProvider는 로케일만 적용. 테마 적용은 UsagePage에서 처리 */}
-      <ConfigProvider locale={koKR}>
+      {/* inner ConfigProvider는 locale과 mode별 usage contrast component token과 portal classNames를 apply하고 base theme은 UsagePage가 apply */}
+      <ConfigProvider locale={koKR} {...antdUsageConfig(active)}>
       <App>
+      <style>{antdUsageCss(active)}</style>
       {/* 바깥 테두리와 모서리는 저장소 자체 토큰 사용 */}
       <div
         ref={frameRef}
-        className="overflow-hidden"
+        className={`${ANTD_USAGE_ROOT} overflow-hidden`}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -141,6 +143,7 @@ export function AntdUsage({ system }: UsageDashboardProps) {
               <Popover
                 trigger="click"
                 placement="bottomRight"
+                classNames={{ root: ANTD_USAGE_PORTAL }}
                 open={noticeOpen}
                 onOpenChange={setNoticeOpen}
                 title={
@@ -192,7 +195,8 @@ export function AntdUsage({ system }: UsageDashboardProps) {
                   </Flex>
                 }
               >
-                <Badge count={unread.length} size="small">
+                {/* bell Badge count가 colorTextLightSolid를 colorError fill background 위 text로 써 light mode와 dark mode에서 low contrast라 badge solid danger fg token으로 connect */}
+                <Badge count={unread.length} size="small" styles={{ indicator: { color: "var(--component-badge-solid-danger-fg)" } }}>
                   <Button
                     type="text"
                     icon={<BellOutlined />}

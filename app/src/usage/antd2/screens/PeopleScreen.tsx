@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import dayjs, { type Dayjs } from "dayjs";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import {
   DEPARTMENTS, EMPLOYMENT_TYPES, LOCATIONS, ONBOARDING_STEPS,
   leaveDays, leaveLeft, leaveRangeLabel, onboardingPercent, tenureLabel, today,
@@ -594,6 +595,8 @@ export function PeopleScreen() {
                 <YAxis allowDecimals={false} tickLine={false} axisLine={false} width={24} tick={{ fill: token.colorTextSecondary, style: { fontSize: 12 } }} />
                 <Tooltip
                   cursor={{ fill: "var(--semantic-bg-neutral-subtle)" }}
+                  itemStyle={CHART_TOOLTIP_PROPS.itemStyle}
+                  labelStyle={CHART_TOOLTIP_PROPS.labelStyle}
                   formatter={(value) => [`${value}명`, "입사"]}
                   contentStyle={{
                     background: token.colorBgElevated,

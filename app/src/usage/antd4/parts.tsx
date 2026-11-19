@@ -137,7 +137,7 @@ export function Note({ tone, title, children }: { tone: "info" | "warn" | "stop"
         <span aria-hidden style={{ flex: "0 0 auto", fontSize: 13, lineHeight: "1.5rem" }}>{mark}</span>
         <div style={{ minWidth: 0 }}>
           <Typography.Text strong style={{ fontSize: 13 }}>{title}</Typography.Text>
-          <Typography.Paragraph style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12.5, lineHeight: 1.65 }} type="secondary">
+          <Typography.Paragraph style={{ marginBlockEnd: 0, marginBlockStart: "var(--semantic-space-xs)", fontSize: 12.5, lineHeight: 1.65 }} type={tone === "info" ? "secondary" : undefined}>
             {children}
           </Typography.Paragraph>
         </div>
@@ -151,7 +151,8 @@ export const HEAT_STEPS = [
   { bg: "var(--semantic-bg-brand-subtlest)", fg: "var(--semantic-fg-neutral-default)" },
   { bg: "var(--semantic-bg-brand-subtle)", fg: "var(--semantic-fg-neutral-default)" },
   { bg: "var(--semantic-bg-brand-default)", fg: "var(--semantic-fg-on-brand-default)" },
-  { bg: "var(--semantic-bg-brand-strong)", fg: "var(--semantic-fg-on-neutral-default)" },
+  // 마지막 step의 bg-brand-strong 위에서는 어떤 fg token도 light mode와 dark mode를 통과하지 못해 on-brand-subtle과 bg-brand-subtle pair를 뒤집어 background와 text로 set
+  { bg: "var(--semantic-fg-on-brand-subtle)", fg: "var(--semantic-bg-brand-subtle)" },
 ] as const;
 
 // 0~1 비율을 5단계 중 하나로 매핑. 경계 >= 적용해 만점을 마지막 단계로 지정

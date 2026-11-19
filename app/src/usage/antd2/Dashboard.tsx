@@ -4,6 +4,7 @@ import {
 } from "antd";
 import koKR from "antd/locale/ko_KR";
 import { BellOutlined, SearchOutlined } from "@ant-design/icons";
+import { ANTD_USAGE_ROOT, antdUsageConfig, antdUsageCss } from "../antdUsageTheme";
 import type { UsageDashboardProps } from "../registry";
 import { ONBOARDING_STEPS, ddayLabel, isActive, leaveDays } from "./data";
 import { HR_LAYOUT_CSS } from "./parts";
@@ -100,7 +101,8 @@ function NoticeBell() {
       title={`알림 ${notices.length}건`}
       content={content}
     >
-      <Badge count={notices.length} size="small">
+      {/* bell Badge count가 colorTextLightSolid를 colorError fill background 위 text로 써 light mode와 dark mode에서 low contrast라 badge solid danger fg token으로 connect */}
+      <Badge count={notices.length} size="small" styles={{ indicator: { color: "var(--component-badge-solid-danger-fg)" } }}>
         <Button type="text" shape="circle" aria-label={`알림 ${notices.length}건`} icon={<BellOutlined />} />
       </Badge>
     </Popover>
@@ -161,7 +163,7 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
 
   return (
     <div
-      className="overflow-hidden"
+      className={`${ANTD_USAGE_ROOT} overflow-hidden`}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -242,8 +244,9 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
                     size="small"
                     styles={{
                       indicator: {
-                        background: active ? token.colorPrimaryBg : "var(--semantic-bg-neutral-subtle)",
-                        color: active ? token.colorPrimary : token.colorTextSecondary,
+                        // 활성 tab Badge가 colorPrimary fill token을 colorPrimaryBg background 위 text로 써 light mode와 dark mode에서 low contrast라 badge subtle brand component token pair로 connect
+                        background: active ? "var(--component-badge-subtle-brand-bg)" : "var(--semantic-bg-neutral-subtle)",
+                        color: active ? "var(--component-badge-subtle-brand-fg)" : token.colorTextSecondary,
                         boxShadow: "none",
                       },
                     }}
@@ -284,8 +287,9 @@ function Shell({ system, screenKey, onScreenChange }: UsageDashboardProps & {
 export function Antd2Usage(props: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   return (
-    <ConfigProvider locale={koKR}>
+    <ConfigProvider locale={koKR} {...antdUsageConfig(props.active)}>
       <App>
+        <style>{antdUsageCss(props.active)}</style>
         <HrProvider navigate={setScreenKey}>
           <Shell {...props} screenKey={screenKey} onScreenChange={setScreenKey} />
         </HrProvider>
