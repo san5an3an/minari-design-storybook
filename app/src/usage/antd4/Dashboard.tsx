@@ -1,6 +1,7 @@
 import * as React from "react";
 import { App, Breadcrumb, ConfigProvider, Flex, Segmented, Select, Typography } from "antd";
 import koKR from "antd/locale/ko_KR";
+import { ANTD_USAGE_ROOT, antdUsageConfig, antdUsageCss } from "../antdUsageTheme";
 import type { UsageDashboardProps } from "../registry";
 import { REPORT_LAYOUT_CSS } from "./parts";
 import { SCREENS } from "./screens";
@@ -11,7 +12,7 @@ const PERIODS = [
   { value: "2026-Q1", label: "2026 1분기" },
 ];
 
-export function Antd4Usage({ system }: UsageDashboardProps) {
+export function Antd4Usage({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const [period, setPeriod] = React.useState(PERIODS[0].value);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
@@ -19,11 +20,12 @@ export function Antd4Usage({ system }: UsageDashboardProps) {
   const periodLabel = PERIODS.find((p) => p.value === period)?.label ?? period;
 
   return (
-    <ConfigProvider locale={koKR}>
+    <ConfigProvider locale={koKR} {...antdUsageConfig(active)}>
       <App>
+        <style>{antdUsageCss(active)}</style>
         <style>{REPORT_LAYOUT_CSS}</style>
         <div
-          className="overflow-hidden"
+          className={`${ANTD_USAGE_ROOT} overflow-hidden`}
           style={{
             display: "flex",
             flexDirection: "column",

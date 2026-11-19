@@ -5,6 +5,7 @@ import {
 import koKR from "antd/locale/ko_KR";
 import "dayjs/locale/ko";
 import { BarChartOutlined, BellOutlined, ClockCircleOutlined, ProjectOutlined } from "@ant-design/icons";
+import { ANTD_USAGE_ROOT, antdUsageConfig, antdUsageCss } from "../antdUsageTheme";
 import type { UsageDashboardProps } from "../registry";
 import {
   CURRENT_USER_ID, DUE_SOON_DAYS, PROJECTS, dueBadge, memberOf, statusOf,
@@ -52,14 +53,15 @@ function AlertBell() {
         )
       }
     >
-      <Badge count={ALERTS.length} size="small" offset={[-4, 4]}>
+      {/* bell Badge count가 colorTextLightSolid를 colorError fill background 위 text로 써 light mode와 dark mode에서 low contrast라 badge solid danger fg token으로 connect */}
+      <Badge count={ALERTS.length} size="small" offset={[-4, 4]} styles={{ indicator: { color: "var(--component-badge-solid-danger-fg)" } }}>
         <Button type="text" shape="circle" icon={<BellOutlined />} aria-label={`알림 ${ALERTS.length}건`} />
       </Badge>
     </Popover>
   );
 }
 
-export function Antd3Usage({ system }: UsageDashboardProps) {
+export function Antd3Usage({ system, active }: UsageDashboardProps) {
   const [screenKey, setScreenKey] = React.useState(SCREENS[0].key);
   const screen = SCREENS.find((s) => s.key === screenKey) ?? SCREENS[0];
   const Screen = screen.Screen;
@@ -69,11 +71,12 @@ export function Antd3Usage({ system }: UsageDashboardProps) {
   const me = memberOf(CURRENT_USER_ID);
 
   return (
-    <ConfigProvider locale={koKR}>
+    <ConfigProvider locale={koKR} {...antdUsageConfig(active)}>
       <App>
+        <style>{antdUsageCss(active)}</style>
         <style>{LAYOUT_CSS}</style>
         <div
-          className="overflow-hidden"
+          className={`${ANTD_USAGE_ROOT} overflow-hidden`}
           style={{
             display: "flex",
             flexDirection: "column",
