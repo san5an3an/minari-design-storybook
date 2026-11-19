@@ -34,7 +34,7 @@ function PostRow({ post, active, onOpen }: { post: Post; active: boolean; onOpen
         <Flex gap="var(--semantic-space-xs)" align="center" wrap>
           <Tag color={KIND_COLOR[post.kind]} style={{ marginInlineEnd: 0 }}>{post.kind}</Tag>
           {post.pinned && <Tag style={{ marginInlineEnd: 0 }}>고정</Tag>}
-          {post.photo && <Typography.Text type="secondary" style={{ fontSize: 11 }}>사진</Typography.Text>}
+          {post.photo && <Typography.Text type={active ? undefined : "secondary"} style={{ fontSize: 11 }}>사진</Typography.Text>}
         </Flex>
         <Typography.Text
           strong
@@ -42,7 +42,7 @@ function PostRow({ post, active, onOpen }: { post: Post; active: boolean; onOpen
         >
           {post.title}
         </Typography.Text>
-        <Typography.Text type="secondary" style={{ fontSize: 11 }}>
+        <Typography.Text type={active ? undefined : "secondary"} style={{ fontSize: 11 }}>
           {post.author} · {post.date} · 조회 {fmt(post.views)} · 댓글 {post.comments}
         </Typography.Text>
       </Flex>

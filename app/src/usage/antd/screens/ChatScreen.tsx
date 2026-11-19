@@ -251,7 +251,6 @@ export function ChatScreen({ focusId }: ScreenProps) {
                 <span
                   style={{
                     fontSize: token.fontSizeSM,
-                    opacity: 0.75,
                     textAlign: mine ? "end" : "start",
                   }}
                 >

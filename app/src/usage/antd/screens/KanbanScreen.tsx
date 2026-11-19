@@ -8,6 +8,7 @@ import type { Dayjs } from "dayjs";
 import "dayjs/locale/ko";
 // recharts Tooltip, antd와 이름 충돌해 ChartTooltip으로 받기
 import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip as ChartTooltip, XAxis, YAxis } from "recharts";
+import { CHART_TOOLTIP_PROPS } from "../../rechartsUsageProps";
 import type { ScreenProps } from "../screens";
 
 const { Text, Title } = Typography;
@@ -80,6 +81,13 @@ export function KanbanScreen({ focusId }: ScreenProps) {
       : tone === "warning" ? token.colorWarning
         : tone === "brand" ? token.colorPrimary
           : token.colorTextSecondary;
+
+  // laneColor는 lane dot용 fill token이라 Card background 위 Tag text와 border로 쓰면 light mode와 dark mode에서 low contrast라 Tag용 fg token을 따로 return
+  const laneTextColor = (tone: string) =>
+    tone === "success" ? "var(--semantic-fg-success-default)"
+      : tone === "warning" ? "var(--semantic-fg-warning-default)"
+        : tone === "brand" ? "var(--semantic-fg-brand-default)"
+          : "var(--semantic-fg-neutral-subtle)";
 
   const move = (id: string, lane: Lane) =>
     setItems((prev) => prev.map((it) => (it.id === id ? { ...it, lane } : it)));
@@ -262,6 +270,8 @@ export function KanbanScreen({ focusId }: ScreenProps) {
                 />
                 <ChartTooltip
                   cursor={{ fill: token.colorFillSecondary }}
+                  itemStyle={CHART_TOOLTIP_PROPS.itemStyle}
+                  labelStyle={CHART_TOOLTIP_PROPS.labelStyle}
                   contentStyle={{
                     background: token.colorBgElevated,
                     border: `1px solid ${token.colorBorderSecondary}`,
@@ -290,7 +300,7 @@ export function KanbanScreen({ focusId }: ScreenProps) {
                     <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>{it.id} · {it.who}</Text>
                   </Flex>
                   <Flex align="center" gap="var(--semantic-space-sm)" style={{ whiteSpace: "nowrap" }}>
-                    <Tag style={{ color: laneColor(lane.tone), borderColor: laneColor(lane.tone), background: "transparent", marginInlineEnd: 0 }}>
+                    <Tag style={{ color: laneTextColor(lane.tone), borderColor: laneTextColor(lane.tone), background: "transparent", marginInlineEnd: 0 }}>
                       {lane.label}
                     </Tag>
                     <Text type="secondary" style={{ fontSize: token.fontSizeSM }}>{it.due}</Text>
