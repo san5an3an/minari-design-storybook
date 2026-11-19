@@ -46,6 +46,22 @@ const components = { ...{
   "Alert": {
     "borderRadiusLG": "1.5rem"
   },
+  // generator가 colorTextPlaceholder를 넘기지 않아 antd 기본 25% alpha로 남던 placeholder 글자를 component placeholder token 값으로 add
+  "Select": {
+    "colorTextPlaceholder": "#6a6d6f"
+  },
+  "Input": {
+    "colorTextPlaceholder": "#6a6d6f"
+  },
+  "InputNumber": {
+    "colorTextPlaceholder": "#6a6d6f"
+  },
+  "Mentions": {
+    "colorTextPlaceholder": "#6a6d6f"
+  },
+  "DatePicker": {
+    "colorTextPlaceholder": "#6a6d6f"
+  },
   "Menu": {
     "itemSelectedColor": "#114380",
     "subMenuItemSelectedColor": "#114380",
@@ -99,6 +115,21 @@ const darkComponents = { ...{
   "Alert": {
     "borderRadiusLG": "1.5rem"
   },
+  "Select": {
+    "colorTextPlaceholder": "#969a9b"
+  },
+  "Input": {
+    "colorTextPlaceholder": "#969a9b"
+  },
+  "InputNumber": {
+    "colorTextPlaceholder": "#969a9b"
+  },
+  "Mentions": {
+    "colorTextPlaceholder": "#969a9b"
+  },
+  "DatePicker": {
+    "colorTextPlaceholder": "#969a9b"
+  },
   "Menu": {
     "itemSelectedColor": "#86baff",
     "subMenuItemSelectedColor": "#86baff",
@@ -151,6 +182,21 @@ const highContrastComponents = { ...{
   },
   "Alert": {
     "borderRadiusLG": "1.5rem"
+  },
+  "Select": {
+    "colorTextPlaceholder": "#e2e5e7"
+  },
+  "Input": {
+    "colorTextPlaceholder": "#e2e5e7"
+  },
+  "InputNumber": {
+    "colorTextPlaceholder": "#e2e5e7"
+  },
+  "Mentions": {
+    "colorTextPlaceholder": "#e2e5e7"
+  },
+  "DatePicker": {
+    "colorTextPlaceholder": "#e2e5e7"
   },
   "Menu": {
     "itemSelectedColor": "#e8f2ff",

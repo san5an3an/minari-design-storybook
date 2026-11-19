@@ -88,16 +88,24 @@ const components = { ...{
     "defaultPadding": "var(--component-alert-padding)",
     "withDescriptionPadding": "var(--component-alert-padding)"
   },
+  // generator가 colorTextPlaceholder를 넘기지 않아 antd 기본 25% alpha로 남던 placeholder 글자를 component placeholder token 값으로 add
+  "Select": {
+    "colorTextPlaceholder": "#5a5d61"
+  },
   "Input": {
+    "colorTextPlaceholder": "#5a5d61",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "InputNumber": {
+    "colorTextPlaceholder": "#5a5d61",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "Mentions": {
+    "colorTextPlaceholder": "#5a5d61",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
+    "colorTextPlaceholder": "#5a5d61",
     "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
     "borderRadiusXS": 2,
     "borderRadiusOuter": 6
@@ -228,16 +236,23 @@ const darkComponents = { ...{
     "defaultPadding": "var(--component-alert-padding)",
     "withDescriptionPadding": "var(--component-alert-padding)"
   },
+  "Select": {
+    "colorTextPlaceholder": "#979a9f"
+  },
   "Input": {
+    "colorTextPlaceholder": "#979a9f",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "InputNumber": {
+    "colorTextPlaceholder": "#979a9f",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "Mentions": {
+    "colorTextPlaceholder": "#979a9f",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
+    "colorTextPlaceholder": "#979a9f",
     "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
     "borderRadiusXS": 2,
     "borderRadiusOuter": 6
@@ -368,16 +383,23 @@ const highContrastComponents = { ...{
     "defaultPadding": "var(--component-alert-padding)",
     "withDescriptionPadding": "var(--component-alert-padding)"
   },
+  "Select": {
+    "colorTextPlaceholder": "#e3e5ea"
+  },
   "Input": {
+    "colorTextPlaceholder": "#e3e5ea",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "InputNumber": {
+    "colorTextPlaceholder": "#e3e5ea",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "Mentions": {
+    "colorTextPlaceholder": "#e3e5ea",
     "paddingInline": "var(--component-input-padding-inline)"
   },
   "DatePicker": {
+    "colorTextPlaceholder": "#e3e5ea",
     "paddingInline": "var(--component-datepicker-trigger-padding-inline)",
     "borderRadiusXS": 2,
     "borderRadiusOuter": 6
